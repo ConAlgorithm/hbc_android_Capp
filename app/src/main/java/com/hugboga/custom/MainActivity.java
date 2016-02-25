@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity
 
     private void startFragment(){
         FgTest fg = FgTest.newInstance("a","b");
-        getSupportFragmentManager().beginTransaction().add(R.id.drawer_layout,fg).commit();
+        getSupportFragmentManager().beginTransaction().addToBackStack("").add(R.id.drawer_layout,fg).commit();
 
     }
 
