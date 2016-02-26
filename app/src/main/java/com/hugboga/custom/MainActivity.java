@@ -13,9 +13,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.huangbaoche.hbcframe.activity.BaseFragmentActivity;
 import com.hugboga.custom.fragment.FgTest;
 
-public class MainActivity extends AppCompatActivity
+public class MainActivity extends BaseFragmentActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     @Override
@@ -101,8 +102,8 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    private void startFragment(){
-        FgTest fg = FgTest.newInstance("a","b");
+    public void startFragment(){
+        FgTest fg = new FgTest();
         getSupportFragmentManager().beginTransaction().addToBackStack("").add(R.id.drawer_layout,fg).commit();
 
     }

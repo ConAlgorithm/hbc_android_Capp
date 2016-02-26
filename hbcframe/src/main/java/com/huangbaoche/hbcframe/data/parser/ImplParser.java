@@ -13,7 +13,7 @@ import java.lang.reflect.Type;
 public abstract class ImplParser implements InterfaceParser{
 
     // 服务端返回的标准格式解析器
-    private ServerParser serverParser;
+    private ImplParser serverParser ;
 
     /**
      * 检查请求相应头等处理
@@ -57,16 +57,22 @@ public abstract class ImplParser implements InterfaceParser{
         return  string;
     }
 
-    public ServerParser getServerParser() {
+    public ImplParser getServerParser() {
         if(serverParser==null){
-            serverParser = new ServerParser();
+            try {
+                serverParser = (ImplParser) ParserConfig.parser.newInstance();
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
         }
         return serverParser;
     }
 
 
     //自定义 服务端返回的标准格式解析器
-    public void setServerParser(ServerParser serverParser) {
+    public void setServerParser(ImplParser serverParser) {
         this.serverParser = serverParser;
     }
 
