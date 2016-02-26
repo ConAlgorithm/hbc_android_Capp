@@ -26,12 +26,9 @@ public class FgTest extends BaseFragment implements View.OnTouchListener {
     @ViewInject(R.id.fg_test_text)
     private TextView text;
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-        }
     }
 
 
