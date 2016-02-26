@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.huangbaoche.hbcframe.fragment.BaseFragment;
 
 import org.xutils.common.util.LogUtil;
+import org.xutils.x;
 
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.ArrayList;
@@ -17,11 +18,12 @@ import java.util.ArrayList;
 public class BaseFragmentActivity extends AppCompatActivity  {
 
     private ArrayList<BaseFragment> mFragmentList = new ArrayList<>();
-    private int contentId;
+    protected int contentId = -1;
 
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
+        x.view().inject(this);
 //		addErrorProcess();
     }
     @Override
@@ -128,6 +130,8 @@ public class BaseFragmentActivity extends AppCompatActivity  {
             LogUtil.e("startFragment fragment is null");
             return;
         }
+        if(contentId ==-1)
+            throw new RuntimeException("BaseFragmentActivity ContentId not null, BaseFragment.setContentId(int)");
         if(bundle!=null)fragment.setArguments(bundle);
         getSupportFragmentManager().beginTransaction().add(contentId, fragment).addToBackStack(null).commit();
     }

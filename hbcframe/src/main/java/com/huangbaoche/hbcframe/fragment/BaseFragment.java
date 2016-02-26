@@ -26,12 +26,13 @@ import java.util.ArrayList;
 public abstract class BaseFragment extends Fragment implements HttpRequestListener {
 
     public boolean needHttpRequest = true;
+    protected int contentId = -1;
 
     private boolean injected = false;
     private ErrorHandler errorHandler;
     private Fragment mTargetFragment;
     private ArrayList<EditText> editTextArray = new ArrayList<EditText>();
-    private int contentId = -1;
+
 
 
     @Override
@@ -46,6 +47,9 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
         if (!injected) {
             x.view().inject(this, this.getView());
         }
+        initHeader();
+        initView();
+
     }
 
     @Override

@@ -3,6 +3,11 @@ package com.hugboga.custom;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -14,34 +19,45 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.huangbaoche.hbcframe.activity.BaseFragmentActivity;
+import com.hugboga.custom.fragment.BaseFragment;
 import com.hugboga.custom.fragment.FgTest;
 
+import org.xutils.view.annotation.ContentView;
+import org.xutils.view.annotation.ViewInject;
+
+@ContentView(R.layout.activity_main)
 public class MainActivity extends BaseFragmentActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    @ViewInject(R.id.container)
+    private ViewPager mViewPager;
+
+//    @ViewInject(R.id.toolbar)
+//    private Toolbar toolbar;
+
+    @ViewInject(R.id.tabs)
+    private TabLayout tabLayout;
+
+    @ViewInject(R.id.nav_view)
+    private NavigationView navigationView;
+
+    private SectionsPagerAdapter mSectionsPagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+//        setSupportActionBar(toolbar);
+        contentId = R.id.drawer_layout;
+        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        mViewPager.setAdapter(mSectionsPagerAdapter);
+        tabLayout.setupWithViewPager(mViewPager);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+     /*   DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
-        toggle.syncState();
+        toggle.syncState();*/
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
 
@@ -86,7 +102,7 @@ public class MainActivity extends BaseFragmentActivity
         if (id == R.id.nav_camera) {
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
-            startFragment();
+            startFragment(getTestFragment("ceshi"));
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {
@@ -102,10 +118,61 @@ public class MainActivity extends BaseFragmentActivity
         return true;
     }
 
-    public void startFragment(){
-        FgTest fg = new FgTest();
-        getSupportFragmentManager().beginTransaction().addToBackStack("").add(R.id.drawer_layout,fg).commit();
-
+    @Override
+    public int getContentId() {
+        return contentId;
     }
 
+    public BaseFragment getTestFragment(String name){
+        FgTest fg = new FgTest();
+        Bundle bundle = new Bundle();
+        bundle.putString(FgTest.KEY_NAME,name);
+        fg.setArguments(bundle);
+        return fg;
+    }
+
+    /**
+     * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
+     * one of the sections/tabs/pages.
+     */
+    public class SectionsPagerAdapter extends FragmentPagerAdapter {
+
+        public SectionsPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            switch (position) {
+                case 0: {
+                    return getTestFragment("aaaa");
+                }
+                case 1: {
+                    return getTestFragment("bbb");
+                }
+                case 2: {
+                    return getTestFragment("ccc");
+                }
+            }
+            return null;
+        }
+
+        @Override
+        public int getCount() {
+            return 3;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            switch (position) {
+                case 0:
+                    return "发现";
+                case 1:
+                    return "私聊";
+                case 2:
+                    return "行程";
+            }
+            return null;
+        }
+    }
 }

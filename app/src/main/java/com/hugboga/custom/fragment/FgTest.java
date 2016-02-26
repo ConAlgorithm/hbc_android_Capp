@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
@@ -15,11 +16,15 @@ import com.hugboga.custom.data.request.RequestTest2;
 import org.xutils.common.util.LogUtil;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
+import org.xutils.view.annotation.ViewInject;
 
 @ContentView(R.layout.fragment_fg_test)
 public class FgTest extends BaseFragment implements View.OnTouchListener {
 
+    public static final String KEY_NAME="name";
 
+    @ViewInject(R.id.fg_test_text)
+    private TextView text;
 
 
     @Override
@@ -51,7 +56,9 @@ public class FgTest extends BaseFragment implements View.OnTouchListener {
 
     @Override
     protected void initView() {
-
+        String tmpName = getArguments().getString(KEY_NAME);
+        if(tmpName!=null)
+        text.setText(tmpName);
     }
 
     @Override
