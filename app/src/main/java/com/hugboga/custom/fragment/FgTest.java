@@ -31,7 +31,6 @@ public class FgTest extends BaseFragment implements View.OnTouchListener {
         super.onCreate(savedInstanceState);
     }
 
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -74,8 +73,6 @@ public class FgTest extends BaseFragment implements View.OnTouchListener {
             case R.id.fg_test_btn2:
                 requestTest2();
                 break;
-
-
         }
     }
 
