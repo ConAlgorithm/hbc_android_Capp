@@ -15,8 +15,10 @@ import com.huangbaoche.hbcframe.activity.BaseFragmentActivity;
 import com.huangbaoche.hbcframe.data.net.ErrorHandler;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
+import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 
+import org.xutils.common.Callback;
 import org.xutils.common.util.LogUtil;
 import org.xutils.x;
 
@@ -26,6 +28,7 @@ import java.util.ArrayList;
 public abstract class BaseFragment extends Fragment implements HttpRequestListener {
 
     public boolean needHttpRequest = true;
+    public Callback.Cancelable cancelable;
     protected int contentId = -1;
 
     private boolean injected = false;
@@ -57,7 +60,7 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
         super.onStart();
         LogUtil.i(this + " onStart");
         if(needHttpRequest){
-            requestDate();
+            cancelable = requestData();
         }
 
     }
@@ -96,6 +99,9 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
     public void onDestroy() {
         super.onDestroy();
         LogUtil.i(this + " onDestroy");
+        if(cancelable!=null){
+            cancelable.cancel();
+        }
     }
 
 
@@ -139,7 +145,14 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
     /**
      * 请求方法 会在加载完成是调用
      */
-    protected abstract void requestDate();
+    protected abstract Callback.Cancelable requestData();
+    /**
+     * 请求方法 会在加载完成是调用
+     */
+    protected Callback.Cancelable requestData(BaseRequest request){
+        cancelable = HttpRequestUtils.request(request, this);
+       return cancelable;
+    }
 
     public void setErrorHandler(ErrorHandler errorHandler) {
         this.errorHandler = errorHandler;
@@ -198,6 +211,8 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
      */
     public boolean onBackPressed(){
         LogUtil.e(this + "onBackPressed");
+        if(cancelable!=null)
+            cancelable.cancel();
         return false;
     }
 

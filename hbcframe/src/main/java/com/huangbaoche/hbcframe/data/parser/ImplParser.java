@@ -1,5 +1,7 @@
 package com.huangbaoche.hbcframe.data.parser;
 
+import com.huangbaoche.hbcframe.HbcConfig;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.xutils.http.request.UriRequest;
@@ -60,7 +62,7 @@ public abstract class ImplParser implements InterfaceParser{
     public ImplParser getServerParser() {
         if(serverParser==null){
             try {
-                serverParser = (ImplParser) ParserConfig.parser.newInstance();
+                serverParser = (ImplParser) HbcConfig.parser.newInstance();
             } catch (InstantiationException e) {
                 e.printStackTrace();
             } catch (IllegalAccessException e) {

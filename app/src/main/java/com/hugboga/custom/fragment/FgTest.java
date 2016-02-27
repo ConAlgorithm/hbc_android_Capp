@@ -7,12 +7,16 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
+import com.hugboga.custom.data.bean.TestBean;
 import com.hugboga.custom.data.request.RequestTest;
 import com.hugboga.custom.data.request.RequestTest2;
+import com.hugboga.custom.data.request.RequestTest3;
 
+import org.xutils.common.Callback;
 import org.xutils.common.util.LogUtil;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
@@ -59,44 +63,44 @@ public class FgTest extends BaseFragment implements View.OnTouchListener {
     }
 
     @Override
-    protected void requestDate() {
-
+    protected Callback.Cancelable requestData() {
+        return null;
     }
 
 
-    @Event(value = {R.id.fg_test_btn,R.id.fg_test_btn2},type = View.OnClickListener.class)
+    @Event(value = {R.id.fg_test_btn,R.id.fg_test_btn2,R.id.fg_test_btn3},type = View.OnClickListener.class)
     private void onClickView(View view){
-        LogUtil.e("onClickView "+view);
+        LogUtil.e("onClickView " + view);
         switch (view.getId()){
             case R.id.fg_test_btn:
-                requestTest();
+                RequestTest request = new RequestTest();
+                requestData(request);
                 break;
             case R.id.fg_test_btn2:
-                requestTest2();
+                RequestTest2 request2 = new RequestTest2();
+                requestData(request2);
                 break;
-
-
+            case R.id.fg_test_btn3:
+                RequestTest3 request3 = new RequestTest3();
+                requestData(request3);
+                break;
         }
     }
 
-
-    private void requestTest() {
-        RequestTest request = new RequestTest();
-        HttpRequestUtils.request(request, this);
-
-    }
-    private void requestTest2() {
-        RequestTest2 request = new RequestTest2();
-        HttpRequestUtils.request(request, this);
-    }
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
         if(request instanceof  RequestTest){
             RequestTest mRequest = (RequestTest)request;
+            TestBean bean =mRequest.getData();
           Toast.makeText(getActivity(), mRequest.getData().toString(), Toast.LENGTH_LONG).show();
         }else if(request instanceof  RequestTest2){
             RequestTest2 mRequest = (RequestTest2)request;
           Toast.makeText(getActivity(), mRequest.getData().toString(), Toast.LENGTH_LONG).show();
         }
+    }
+
+    @Override
+    public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+        super.onDataRequestError(errorInfo, request);
     }
 }
