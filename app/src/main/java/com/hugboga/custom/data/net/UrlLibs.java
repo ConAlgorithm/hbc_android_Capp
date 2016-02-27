@@ -1,4 +1,4 @@
-package com.huangbaoche.hbcframe.data.net;
+package com.hugboga.custom.data.net;
 
 
 public class UrlLibs {

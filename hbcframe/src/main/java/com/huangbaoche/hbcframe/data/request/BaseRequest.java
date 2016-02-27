@@ -11,10 +11,10 @@ import org.xutils.http.app.DefaultParamsBuilder;
  * Created by admin on 2016/2/25.
  */
 
-public class BaseRequest extends RequestParams implements InterfaceRequest {
+public class BaseRequest<T> extends RequestParams implements InterfaceRequest {
 
     private ImplParser parser;
-    private Object data;
+    private T data;
 
     @Override
     public HttpMethod getHttpMethod() {
@@ -30,11 +30,11 @@ public class BaseRequest extends RequestParams implements InterfaceRequest {
         this.parser = parser;
     }
 
-    public Object getData() {
+    public T getData() {
         return data;
     }
 
-    public void setData(Object data) {
+    public void setData(T data) {
         this.data = data;
     }
 }

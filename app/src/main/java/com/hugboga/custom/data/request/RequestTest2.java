@@ -16,7 +16,7 @@ import org.xutils.http.app.DefaultParamsBuilder;
         host = "http://api.test.hbc.tech/",
         path = "reflash/v1.0/checkAppVersion?",
         builder = DefaultParamsBuilder.class/*可选参数, 控制参数构建过程, 定义参数签名, SSL证书等*/)
-public class RequestTest2 extends BaseRequest {
+public class RequestTest2 extends BaseRequest<String> {
 
         public RequestTest2(){
                 this.addHeader("ak","9eca5a3cd3e9f37aa70488b92163f479");
@@ -34,4 +34,6 @@ public class RequestTest2 extends BaseRequest {
         public ImplParser getParser() {
                 return new ParserTest();
         }
+
+
 }

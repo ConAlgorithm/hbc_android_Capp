@@ -12,17 +12,23 @@
         android:layout_height="wrap_content"
         android:text="@string/hello_blank_fragment" />
 
-
-    <Button
-        android:id="@+id/fg_test_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="服务器返回错误示例"
-        />
     <Button
         android:id="@+id/fg_test_btn2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="请求版本更新"
         />
+    <Button
+        android:id="@+id/fg_test_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="服务器返回错误示例1"
+        />
+    <Button
+        android:id="@+id/fg_test_btn3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="返回错误示例404"
+        />
+
 </LinearLayout>

@@ -1,6 +1,7 @@
 package com.hugboga.custom.data.parser;
 
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
+import com.hugboga.custom.data.bean.TestBean;
 
 import org.json.JSONObject;
 
@@ -12,6 +13,6 @@ public class ParserTest extends ImplParser{
     public Object parseObject(JSONObject obj) throws Throwable {
 
 
-        return obj.toString();
+        return new TestBean();
     }
 }
