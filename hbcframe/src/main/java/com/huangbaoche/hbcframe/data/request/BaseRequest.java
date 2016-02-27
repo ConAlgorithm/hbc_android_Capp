@@ -4,9 +4,6 @@ import com.huangbaoche.hbcframe.data.parser.ImplParser;
 
 import org.xutils.http.HttpMethod;
 import org.xutils.http.RequestParams;
-import org.xutils.http.annotation.HttpRequest;
-import org.xutils.http.app.DefaultParamsBuilder;
-
 /**
  * Created by admin on 2016/2/25.
  */

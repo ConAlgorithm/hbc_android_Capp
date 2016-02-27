@@ -1,6 +1,7 @@
 package com.hugboga.custom.data.request;
 
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
+import com.huangbaoche.hbcframe.data.request.HbcParamsBuilder;
 
 import org.xutils.http.HttpMethod;
 import org.xutils.http.annotation.HttpRequest;
@@ -11,9 +12,8 @@ import org.xutils.http.app.DefaultParamsBuilder;
  */
 
 @HttpRequest(
-        host = "http://api.test.hbc.tech1/",
         path = "reflash/v1.0/checkAppVersion?",
-        builder = DefaultParamsBuilder.class/*可选参数, 控制参数构建过程, 定义参数签名, SSL证书等*/)
+        builder = HbcParamsBuilder.class)
 public class RequestTest3 extends BaseRequest {
 
         @Override

@@ -9,4 +9,5 @@ public class HbcConfig {
 
     /*** 设置服务端返回格式解析器*/
     public static  Class parser = ServerParser.class;
+    public static  String serverHost = "";
 }
