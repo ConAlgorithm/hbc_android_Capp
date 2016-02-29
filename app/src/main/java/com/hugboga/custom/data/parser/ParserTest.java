@@ -11,8 +11,13 @@ import org.json.JSONObject;
 public class ParserTest extends ImplParser{
     @Override
     public Object parseObject(JSONObject obj) throws Throwable {
-
-
-        return new TestBean();
+        TestBean bean =  new TestBean();
+        bean.content = obj.optString("releaseNote");
+        bean.url = obj.optString("appDownloadLink");
+        bean.force = obj.optString("forceUpdate");
+        bean.appVersion = obj.optString("appVersion");
+        bean.dbDownloadLink = obj.optString("dbDownloadLink");
+        bean.dbVersion = obj.optInt("dbVersion");
+        return bean;
     }
 }

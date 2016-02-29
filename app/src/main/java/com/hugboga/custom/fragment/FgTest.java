@@ -72,15 +72,15 @@ public class FgTest extends BaseFragment implements View.OnTouchListener {
         LogUtil.e("onClickView " + view);
         switch (view.getId()){
             case R.id.fg_test_btn:
-                RequestTest request = new RequestTest();
-                requestData(request);
-                break;
-            case R.id.fg_test_btn2:
-                RequestTest2 request2 = new RequestTest2();
+                RequestTest2 request2 = new RequestTest2(getActivity());
                 requestData(request2);
                 break;
+            case R.id.fg_test_btn2:
+                RequestTest request = new RequestTest(getActivity());
+                requestData(request);
+                break;
             case R.id.fg_test_btn3:
-                RequestTest3 request3 = new RequestTest3();
+                RequestTest3 request3 = new RequestTest3(getActivity());
                 requestData(request3);
                 break;
         }
@@ -91,10 +91,11 @@ public class FgTest extends BaseFragment implements View.OnTouchListener {
         if(request instanceof  RequestTest){
             RequestTest mRequest = (RequestTest)request;
             TestBean bean =mRequest.getData();
-          Toast.makeText(getActivity(), mRequest.getData().toString(), Toast.LENGTH_LONG).show();
+          Toast.makeText(getActivity(), bean.content, Toast.LENGTH_LONG).show();
         }else if(request instanceof  RequestTest2){
             RequestTest2 mRequest = (RequestTest2)request;
-          Toast.makeText(getActivity(), mRequest.getData().toString(), Toast.LENGTH_LONG).show();
+            TestBean bean =mRequest.getData();
+          Toast.makeText(getActivity(), bean.content, Toast.LENGTH_LONG).show();
         }
     }
 

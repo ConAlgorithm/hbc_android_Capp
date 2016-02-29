@@ -3,9 +3,10 @@ package com.hugboga.custom;
 
 import android.util.Log;
 
-import com.huangbaoche.hbcframe.*;
-import com.huangbaoche.hbcframe.BuildConfig;
+import com.huangbaoche.hbcframe.HbcApplication;
+import com.huangbaoche.hbcframe.HbcConfig;
 import com.hugboga.custom.data.net.UrlLibs;
+import com.hugboga.custom.data.request.RequestAccessKey;
 
 import org.xutils.x;
 
@@ -25,5 +26,11 @@ public class MyApplication extends HbcApplication {
 
     private void initConfig(){
         HbcConfig.serverHost= UrlLibs.SERVER_IP_HOST_PUBLIC;
+        HbcConfig.accessKeyRequest = RequestAccessKey.class;
+        HbcConfig.PACKAGE_NAME = BuildConfig.APPLICATION_ID;
+        HbcConfig.VERSION_NAME = BuildConfig.VERSION_NAME;
+        HbcConfig.VERSION_CODE = BuildConfig.VERSION_CODE;
+        HbcConfig.APP_NAME = getString(R.string.app_name);
+        HbcConfig.APP_NAME = "皇包车";
     }
 }
