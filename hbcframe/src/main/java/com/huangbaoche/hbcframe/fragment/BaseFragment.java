@@ -26,6 +26,7 @@ import java.util.ArrayList;
 
 
 public abstract class BaseFragment extends Fragment implements HttpRequestListener {
+    public static String KEY_FRAGMENT_NAME = "key_fragment_name";
 
     public boolean needHttpRequest = true;
     public Callback.Cancelable cancelable;
@@ -150,7 +151,7 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
      * 请求方法 会在加载完成是调用
      */
     protected Callback.Cancelable requestData(BaseRequest request){
-        cancelable = HttpRequestUtils.request(request, this);
+        cancelable = HttpRequestUtils.request(getActivity(),request, this,null);
        return cancelable;
     }
 
@@ -199,7 +200,26 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
         }
         ((BaseFragmentActivity) getActivity()).removeFragment(this);
     }
+    /**
+     * 回传数据使用，启动fragment 在 onFragmentResult中接收数据
+     *
+     * @param bundle 参数
+     */
+    public void finishForResult(Bundle bundle) {
 
+        collapseSoftInputMethod();
+        finish();
+        Bundle mBundle = new Bundle();
+        if(getArguments()!=null) mBundle.putAll(getArguments());
+        if (bundle != null )mBundle.putAll(bundle);
+        mBundle.putString(KEY_FRAGMENT_NAME, this.getClass().getSimpleName());
+        Fragment fragment = this.getTarget();
+        if (fragment != null && fragment instanceof BaseFragment) {
+            ((BaseFragment) fragment).onFragmentResult(mBundle);
+        }
+        LogUtil.i(this + " finishForResult " + fragment);
+
+    }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
