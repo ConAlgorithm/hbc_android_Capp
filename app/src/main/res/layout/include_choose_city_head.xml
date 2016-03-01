@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:id="@+id/choose_city_head_layout"
+    android:visibility="gone"
+    >
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="您已选定的城市:(最多可选10个)"
+    android:paddingLeft="20dp"
+    android:layout_margin="5dp"
+    />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/basic_gray"
+        />
+    <TextView
+        android:id="@+id/city_choose_head_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:paddingLeft="20dp"
+        android:layout_margin="5dp"
+        />
+</LinearLayout>
