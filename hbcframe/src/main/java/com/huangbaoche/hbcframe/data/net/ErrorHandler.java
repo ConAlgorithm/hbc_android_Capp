@@ -46,7 +46,7 @@ public  class ErrorHandler implements HttpRequestListener{
 //                    mDialogUtil.showSettingDialog();
                 break;
             case ExceptionErrorCode.ERROR_CODE_NET_TIMEOUT:
-                // errState = "数据加载超时";
+                 errState = "数据加载超时";
                 errorInfo.exception = null;
 //                if (mDialogUtil != null)
 //                    mDialogUtil.showOvertimeDialog(new HttpRequestUtils(mContext, this.getParser(), callback));

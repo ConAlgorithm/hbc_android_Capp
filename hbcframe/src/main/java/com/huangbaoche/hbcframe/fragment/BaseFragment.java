@@ -62,8 +62,10 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
         LogUtil.i(this + " onStart");
         if(needHttpRequest){
             cancelable = requestData();
+            needHttpRequest = false;
+        }else {
+            inflateContent();
         }
-
     }
 
     @Override
@@ -144,9 +146,13 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
     protected abstract void initView();
 
     /**
-     * 请求方法 会在加载完成是调用
+     * 请求方法 会在加载时调用
      */
     protected abstract Callback.Cancelable requestData();
+    /**
+     * 填充内容，在执行onRestart的时候调用
+     */
+    protected abstract void inflateContent();
     /**
      * 请求方法 会在加载完成是调用
      */
@@ -155,6 +161,10 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
        return cancelable;
     }
 
+    /**
+     * 设置 错误处理
+     * @param errorHandler
+     */
     public void setErrorHandler(ErrorHandler errorHandler) {
         this.errorHandler = errorHandler;
     }

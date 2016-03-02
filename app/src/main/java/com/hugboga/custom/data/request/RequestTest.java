@@ -2,6 +2,7 @@ package com.hugboga.custom.data.request;
 
 import android.content.Context;
 
+import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.data.request.HbcParamsBuilder;
 import com.hugboga.custom.data.bean.TestBean;
@@ -27,6 +28,11 @@ public class RequestTest extends BaseRequest<TestBean> {
 
     @Override
     public Map<String, Object> getDataMap() {
+        return null;
+    }
+
+    @Override
+    public ImplParser getParser() {
         return null;
     }
 

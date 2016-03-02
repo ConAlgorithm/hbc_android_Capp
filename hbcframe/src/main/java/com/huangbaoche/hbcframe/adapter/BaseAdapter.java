@@ -1,5 +1,6 @@
 package com.huangbaoche.hbcframe.adapter;
 
+import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -11,6 +12,12 @@ import java.util.List;
  * Created by liwei on 2016/2/24.
  */
 public abstract class BaseAdapter<T> extends android.widget.BaseAdapter {
+    public  Context mContext;
+
+    public BaseAdapter(Context context){
+        this.mContext = context;
+    }
+
     private List<T> dataList;
 
     public void setList(List<T> list){

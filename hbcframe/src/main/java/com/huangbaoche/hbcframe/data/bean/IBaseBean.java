@@ -10,12 +10,4 @@ import java.io.Serializable;
  */
 
 public interface IBaseBean extends Serializable {
-	/**
-	 * 
-	  * @Title parser
-	  * @Description bean 的解析，json格式
-	  * @param jsonObj    参数
-	  * @date 2013-12-25 下午05:29:00
-	 */
-	public void parser(JSONObject jsonObj) throws JSONException;
 }

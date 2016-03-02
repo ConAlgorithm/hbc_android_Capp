@@ -7,8 +7,4 @@ import org.json.JSONObject;
  * Created by admin on 2016/2/25.
  */
 public class ADemoBean implements IBaseBean {
-    @Override
-    public void parser(JSONObject jsonObj) throws JSONException {
-
-    }
 }

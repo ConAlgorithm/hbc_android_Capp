@@ -76,7 +76,6 @@ public class HttpRequestUtils {
 
             @Override
             public void onFinished() {
-                LogUtil.e("onFinished=");
             }
         });
         return cancelable;

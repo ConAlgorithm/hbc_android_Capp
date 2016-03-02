@@ -30,7 +30,7 @@ public class HbcParamsBuilder implements ParamsBuilder {
     @Override
     public String buildUri(RequestParams params, HttpRequest httpRequest) {
         String url = getHost(httpRequest.host());
-        url += "/" + httpRequest.path();
+        url += httpRequest.path();
         return url;
     }
 
@@ -48,12 +48,13 @@ public class HbcParamsBuilder implements ParamsBuilder {
     public void buildParams(RequestParams params) {
         // 添加公共参数
         if(params instanceof BaseRequest){
-            LogUtil.e("buildParams= "+params);
+            LogUtil.e("buildParams= "+params.getUri());
             BaseRequest request = (BaseRequest)params;
             Context context = request.getContext();
             params.setHeader(KEY_HEADER_AK, UserEntity.getUser().getAccessKey(context));
             params.setHeader(KEY_HEADER_UT, UserEntity.getUser().getUserToken(context));
             Map<String,Object> map = request.getDataMap();
+            request.setMethod(request.getHttpMethod());
             if(map!=null) {
                 if (request.getHttpMethod() == HttpMethod.GET) {
                     for (Map.Entry<String, Object> entity : map.entrySet()) {

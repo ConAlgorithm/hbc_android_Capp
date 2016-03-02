@@ -33,7 +33,7 @@ public class UrlLibs {
 	public static final String SERVER_IP_CHECK_APP_VERSION = "reflash/v1.0/checkAppVersion?";
 
 	//首页
-	public static final String SERVER_IP_HOME = "trade/v1.0/c/order/home?";
+	public static final String SERVER_IP_HOME = "basicdata/v1.0/p/home/citys/contents?";
 
 
 	//-------个人信息--------

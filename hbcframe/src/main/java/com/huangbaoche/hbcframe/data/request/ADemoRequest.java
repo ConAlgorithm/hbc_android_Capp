@@ -16,7 +16,6 @@ import java.util.Map;
 
 
 @HttpRequest(
-        host = " ",
         path = "a")
 public class ADemoRequest extends BaseRequest {
 
@@ -27,6 +26,11 @@ public class ADemoRequest extends BaseRequest {
 
         @Override
         public Map getDataMap() {
+                return null;
+        }
+
+        @Override
+        public ImplParser getParser() {
                 return null;
         }
 }
