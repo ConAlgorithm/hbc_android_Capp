@@ -19,11 +19,6 @@ public abstract class BaseFragment extends com.huangbaoche.hbcframe.fragment.Bas
     public static String KEY_GOODS_TYPE = "key_goods_type";
 
 
-    @ViewInject(R.id.header_left_btn)
-    protected View leftBtn;
-    @ViewInject(R.id.header_right_btn)
-    protected View rightBtn;
-
     protected int mBusinessType = -1;//业务类型 1接机2送机3包车4次租
 
     @Override

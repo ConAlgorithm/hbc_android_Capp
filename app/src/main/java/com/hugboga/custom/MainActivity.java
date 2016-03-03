@@ -28,6 +28,10 @@ import org.xutils.view.annotation.ViewInject;
 public class MainActivity extends BaseFragmentActivity
         implements NavigationView.OnNavigationItemSelectedListener, ViewPager.OnPageChangeListener {
 
+
+    @ViewInject(R.id.drawer_layout)
+    private DrawerLayout drawer;
+
     @ViewInject(R.id.container)
     private ViewPager mViewPager;
 
@@ -60,9 +64,17 @@ public class MainActivity extends BaseFragmentActivity
         tabMenu[0].setSelected(true);
     }
 
+    /**
+     * 打开左侧菜单
+     */
+    public void openDrawer(){
+        if (!drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.openDrawer(GravityCompat.START);
+        }
+    }
+
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -111,8 +123,6 @@ public class MainActivity extends BaseFragmentActivity
         } else if (id == R.id.nav_send) {
 
         }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
@@ -143,7 +153,6 @@ public class MainActivity extends BaseFragmentActivity
                 mViewPager.setCurrentItem(2);
                 break;
         }
-
     }
 
     @Override
@@ -179,7 +188,6 @@ public class MainActivity extends BaseFragmentActivity
             switch (position) {
                 case 0: {
                     return new FgHome();
-//                    return getTestFragment("aaa");
                 }
                 case 1: {
                     return getTestFragment("bbb");

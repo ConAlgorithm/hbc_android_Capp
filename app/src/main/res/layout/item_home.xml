@@ -7,7 +7,8 @@
         android:id="@+id/item_home_img"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@mipmap/sku_bg"
+        android:src="@mipmap/img_undertext"
+        android:scaleType="fitXY"
         />
     <LinearLayout
         android:layout_width="wrap_content"
@@ -15,15 +16,15 @@
         android:layout_centerInParent="true"
         android:gravity="center_horizontal"
         android:orientation="vertical">
-       <TextView
-        android:id="@+id/item_home_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="26dp"
-        android:textColor="@android:color/black"
-        />
+           <TextView
+            android:id="@+id/item_home_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="26dp"
+            android:textColor="@android:color/white"
+            />
         <View
-            android:layout_width="300dp"
+            android:layout_width="250dp"
             android:layout_height="1dp"
             android:background="#aaffffff"
             />
@@ -32,7 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="17dp"
-            android:textColor="@android:color/black"
+            android:textColor="@android:color/white"
             />
     </LinearLayout>
 
