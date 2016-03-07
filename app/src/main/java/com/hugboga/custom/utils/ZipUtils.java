@@ -1,5 +1,7 @@
 package com.hugboga.custom.utils;
 
+import com.huangbaoche.hbcframe.util.MLog;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;

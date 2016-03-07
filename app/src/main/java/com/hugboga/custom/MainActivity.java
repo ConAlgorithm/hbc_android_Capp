@@ -1,5 +1,6 @@
 package com.hugboga.custom;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -17,9 +18,11 @@ import android.widget.TextView;
 import com.huangbaoche.hbcframe.activity.BaseFragmentActivity;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.fragment.BaseFragment;
+import com.hugboga.custom.fragment.FgChooseCity;
 import com.hugboga.custom.fragment.FgHome;
 import com.hugboga.custom.fragment.FgTest;
 import com.hugboga.custom.service.LogService;
+import com.hugboga.custom.utils.UpdateResources;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
@@ -147,6 +150,15 @@ public class MainActivity extends BaseFragmentActivity
         fg.setArguments(bundle);
         return fg;
     }
+    private BaseFragment getFgChooseCityFragment() {
+        FgChooseCity fgChooseCity = new FgChooseCity();
+        String KEY_FROM = "key_from";
+        Bundle bundle = new Bundle();
+        bundle.putString(KEY_FROM, "startAddress");
+        fgChooseCity.setArguments(bundle);
+        return fgChooseCity;
+    }
+
 
     @Event({R.id.tab_text_1,R.id.tab_text_2,R.id.tab_text_3})
     private void onClickView(View view){
