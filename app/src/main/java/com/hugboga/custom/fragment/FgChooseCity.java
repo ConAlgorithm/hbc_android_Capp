@@ -63,11 +63,9 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
     private TextView cityHeadText;
     @ViewInject(R.id.city_choose_btn)
     private View chooseBtn;
-
-
     private CityAdapter adapter;
     private long t = 0;
-    private List<CityBean> sourceDateList;
+    private List<CityBean> sourceDateList;//全部城市数据
     private int chooseType = KEY_TYPE_SINGLE;
     private int cityId = -1;
     private int groupId = -1;
@@ -125,8 +123,12 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
         sortListView.setOnItemClickListener(this);
 
 //		findCityList(groupId, null);
-        MLog.e("adapter= "+adapter);
-        adapter = new CityAdapter(getActivity(), sourceDateList);
+        MLog.e("adapter= " + adapter);
+        //测试代码开始
+        setBusinessType(3);
+        //测试代码结束
+        adapter = new CityAdapter(getActivity(), this, sourceDateList, String.valueOf(getBusinessType()));
+        adapter.setChooseType(chooseType);
         sortListView.setAdapter(adapter);
         sortListView.setEmptyView(emptyView);
         sideBar.setVisibility(View.VISIBLE);
@@ -261,7 +263,7 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
         } catch (DbException e) {
             e.printStackTrace();
         }
-        selector.where("1","=",1);
+        selector.where("1","=","1");
         if(!TextUtils.isEmpty(keyword)) {
             WhereBuilder whereBuilder = WhereBuilder.b();
             whereBuilder.and("cn_name", "LIKE", "%" + keyword + "%").or("place_name", "LIKE", "%" + keyword + "%");
@@ -282,7 +284,7 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
         }
         selector.orderBy("initial");
         try {
-            sourceDateList =mDbManager.findAll(CityBean.class);
+            sourceDateList =selector.findAll();
         } catch (DbException e) {
             e.printStackTrace();
         }
@@ -301,7 +303,7 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
         } catch (DbException e) {
             e.printStackTrace();
         }
-        selector.where("is_hot","=",1);
+        selector.where("is_hot", "=", 1);
         if(orderType==Constants.BUSINESS_TYPE_DAILY){
             if(groupId==-1) {
                 selector.and("group_id", "<>", null);
@@ -317,15 +319,18 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
         // 修改热门城市排序
         selector.orderBy("hot_weight", true);
 //        selector.orderBy("hot_weight");
-        selector.limit(3);
+        selector.limit(30);
         try {
-            List<CityBean> hotCityDate = mDbManager.findAll(CityBean.class);
+            List<CityBean> hotCityDate = selector.findAll();
             for(CityBean bean:hotCityDate){
                 bean.firstLetter = "热门城市";
             }
             if(hotCityDate!=null&&hotCityDate.size()>0&&hotCityDate.get(0)!=null){
                 hotCityDate.get(0).isFirst= true;
-                sourceDateList.addAll(0,hotCityDate);
+//                sourceDateList.addAll(0,hotCityDate);
+                sourceDateList.add(0,hotCityDate.get(0));
+                adapter.setHotCityList(hotCityDate);
+                adapter.setIsFirstAccessHotCity(false);
             }
         } catch (DbException e) {
             e.printStackTrace();
@@ -345,6 +350,9 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
                 cityHistory.add(city);
             }
         }
+        if(cityHistory.size() == 0){
+            return;
+        }
         Selector selector = null;
         try {
             selector = mDbManager.selector(CityBean.class);
@@ -352,7 +360,9 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
             e.printStackTrace();
         }
         WhereBuilder where = WhereBuilder.b();
-        where.and("city_id", "IN", cityHistory);
+        if(cityHistory.size()>0) {
+            where.and("city_id", "IN", cityHistory);
+        }
         selector.where(where);
         if(orderType==Constants.BUSINESS_TYPE_DAILY){
             if(groupId==-1) {
@@ -367,7 +377,7 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
             selector.and("is_city_code","=",1);
         }
         try {
-            List<CityBean> tmpHistoryCityDate = mDbManager.findAll(CityBean.class);
+            List<CityBean> tmpHistoryCityDate = selector.findAll();
             ArrayList<CityBean> historyCityDate = new ArrayList<CityBean>();
             for(String historyId:cityHistory) {
                 for (CityBean bean : tmpHistoryCityDate) {
@@ -381,6 +391,7 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
                 historyCityDate.get(0).isFirst= true;
             }
             sourceDateList.addAll(0,historyCityDate);
+            adapter.setSearchHistoryCount(historyCityDate.size());
         } catch (DbException e) {
             e.printStackTrace();
         }
@@ -391,7 +402,7 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
             case R.id.head_text_right:
                 String keyword = editSearch.getText().toString().trim();
                 if(TextUtils.isEmpty(keyword))return;
-                requestDate(getBusinessType(), groupId, keyword); //进行点击搜索
+                requestDataByKeyword(getBusinessType(), groupId, keyword, false); //进行点击搜索
                 break;
             default:
                 break;
@@ -418,7 +429,6 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
         if (position != -1) {
             sortListView.setSelection(position);
         }
-
     }
 
     @Override
@@ -426,6 +436,9 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
                             int position, long id) {
         Bundle bundle = new Bundle(getArguments());
         CityBean cityBean = sourceDateList.get(position);
+        if(cityBean.firstLetter.equals("nationality")){
+            return;
+        }
         if (chooseType == KEY_TYPE_SINGLE) {
             saveHistoryDate(cityBean);
             bundle.putSerializable(KEY_CITY, cityBean);
@@ -457,14 +470,14 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
      * 存储历史
      * @param cityBean
      */
-    private void saveHistoryDate(CityBean cityBean) {
+    public void saveHistoryDate(CityBean cityBean) {
         if(cityHistory==null)cityHistory = new ArrayList<String>();
         cityHistory.remove(String.valueOf(cityBean.cityId));//排重
         cityHistory.add(0, String.valueOf(cityBean.cityId));
         for(int i=cityHistory.size()-1;i>2;i--){
             cityHistory.remove(i);
         }
-        sharedPer.saveStringValue(mBusinessType+SharedPre.RESOURCES_CITY_HISTORY, TextUtils.join(",", cityHistory));
+        sharedPer.saveStringValue(mBusinessType + SharedPre.RESOURCES_CITY_HISTORY, TextUtils.join(",", cityHistory));
     }
 
     private void finishResult() {
@@ -477,7 +490,7 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
     @Override
     public boolean onKey(View v, int keyCode, KeyEvent event) {
         if (event.getAction() == KeyEvent.ACTION_UP && (keyCode == KeyEvent.KEYCODE_SEARCH || keyCode == KeyEvent.KEYCODE_ENTER)) {
-            requestDate(getBusinessType(),groupId, editSearch.getText().toString().trim());
+            requestDataByKeyword(getBusinessType(), groupId, editSearch.getText().toString().trim(),false);
             return true;
         }
         return false;
@@ -496,10 +509,135 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
     @Override
     public void afterTextChanged(Editable s) {
         if(TextUtils.isEmpty(s)) {
+            sourceDateList.clear();
             requestData();
         }else{
-            requestDate(getBusinessType(),groupId, editSearch.getText().toString().trim());
+            sourceDateList.clear();
+            adapter.getHotCityList().clear();
+            List<CityBean> dataList = requestDataByKeyword(getBusinessType(), groupId, editSearch.getText().toString().trim(), false);
+            if(dataList.size() > 0){
+                sourceDateList.addAll(dataList);
+            }
+            if(sourceDateList.size() >= 10){
+                adapter.notifyDataSetChanged();
+            }else{
+                List<CityBean> dataList2 = requestDataByKeyword(getBusinessType(),groupId, editSearch.getText().toString().trim(), true);
+                if(dataList2.size() > 0){
+                    sourceDateList.addAll(dataList2);
+                }
+                if(sourceDateList.size() >= 10){
+                    adapter.notifyDataSetChanged();
+                }else{
+                    List<CityBean> finalList = requestCountryDataByKeyword(getBusinessType(), groupId,editSearch.getText().toString().trim());
+                    if(finalList.size() > 0){
+                        sourceDateList.addAll(finalList);
+                    }
+                    adapter.notifyDataSetChanged();
+                }
+            }
+
+
         }
 
+    }
+
+    /**
+     * 按关键词搜索
+     * @param orderType 业务类型(BUSINESS_TYPE)
+     * @param groupId 群组关系
+     * @param keyword 关键词
+     * @param isNeedMore 是否需要更多结果(%keyword%的),第一次调置为false
+     */
+    protected List<CityBean> requestDataByKeyword(int orderType,int groupId, String keyword, boolean isNeedMore) {
+//        Selector selector = Selector.from(CityBean.class);
+        List<CityBean> dataList = new ArrayList<CityBean>();
+        Selector selector = null;
+        try {
+            selector = mDbManager.selector(CityBean.class);
+        } catch (DbException e) {
+            e.printStackTrace();
+        }
+        selector.where("1","=","1");
+        if(!TextUtils.isEmpty(keyword)) {
+            WhereBuilder whereBuilder = WhereBuilder.b();
+            if(isNeedMore){
+                whereBuilder.and("cn_name", "LIKE", "%" + keyword + "%");
+            }else{
+                whereBuilder.and("cn_name", "LIKE", keyword + "%");
+            }
+            selector.and(whereBuilder);
+        }
+        if(orderType==Constants.BUSINESS_TYPE_DAILY){
+            if(groupId==-1) {
+                selector.and("group_id", "<>", null);
+                selector.and("is_daily","=",1);
+            }else {
+                selector.and("group_id", "=", groupId);
+            }
+            //条件加不加？？？？
+        }else if(orderType==Constants.BUSINESS_TYPE_RENT){
+            selector.and("is_single","=",1);
+        }else if(orderType==Constants.BUSINESS_TYPE_PICK||orderType==Constants.BUSINESS_TYPE_SEND){
+            selector.and("is_city_code","=",1);
+        }
+        try {
+            dataList = selector.findAll();
+        } catch (DbException e) {
+            e.printStackTrace();
+        }
+        return dataList;
+    }
+
+    /**
+     * 查询国家
+     * @param orderType
+     * @param groupId
+     * @param keyword
+     */
+    protected List<CityBean> requestCountryDataByKeyword(int orderType,int groupId, String keyword) {
+        List<CityBean> CountryDateList = new ArrayList<CityBean>();
+        Selector selector = null;
+        try {
+            selector = mDbManager.selector(CityBean.class);
+        } catch (DbException e) {
+            e.printStackTrace();
+        }
+        selector.where("1","=","1");
+        if(!TextUtils.isEmpty(keyword)) {
+            WhereBuilder whereBuilder = WhereBuilder.b();
+            whereBuilder.and("place_name", "LIKE", keyword + "%")
+                .and("place_name", "!=", "中国");
+            selector.and(whereBuilder);
+        }
+        if(orderType==Constants.BUSINESS_TYPE_DAILY){
+            if(groupId==-1) {
+                selector.and("group_id", "<>", null);
+                selector.and("is_daily","=",1);
+            }else {
+                selector.and("group_id", "=", groupId);
+            }
+            //条件加不加？？？？
+        }else if(orderType==Constants.BUSINESS_TYPE_RENT){
+            selector.and("is_single","=",1);
+        }else if(orderType==Constants.BUSINESS_TYPE_PICK||orderType==Constants.BUSINESS_TYPE_SEND){
+            selector.and("is_city_code","=",1);
+        }
+        selector.orderBy("guide_count", true);
+        selector.limit(4);
+        try {
+            CountryDateList = selector.findAll();
+        } catch (DbException e) {
+            e.printStackTrace();
+        }
+        if(CountryDateList.size() > 0){
+            for(CityBean bc : CountryDateList){
+                bc.name = "相关城市，" + bc.name;
+            }
+            CityBean onlyForDisplayCityBean = new CityBean();
+            onlyForDisplayCityBean.name = CountryDateList.get(0).placeName + " - 该地点为国家";
+            onlyForDisplayCityBean.firstLetter = "nationality";
+            CountryDateList.add(0, onlyForDisplayCityBean);
+        }
+        return CountryDateList;
     }
 }

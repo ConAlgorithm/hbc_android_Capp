@@ -20,7 +20,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/journey_sorry"
+            android:src="@mipmap/search__city_no_result"
             android:layout_marginTop="50dip"
             />
         <TextView

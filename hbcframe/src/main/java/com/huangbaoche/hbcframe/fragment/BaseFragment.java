@@ -151,7 +151,7 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
      * 请求方法 会在加载完成是调用
      */
     protected Callback.Cancelable requestData(BaseRequest request){
-        cancelable = HttpRequestUtils.request(getActivity(),request, this,null);
+//        cancelable = HttpRequestUtils.request(getActivity(),request, this,null);
        return cancelable;
     }
 

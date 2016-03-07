@@ -20,7 +20,9 @@ import android.view.MenuItem;
 
 import com.huangbaoche.hbcframe.activity.BaseFragmentActivity;
 import com.hugboga.custom.fragment.BaseFragment;
+import com.hugboga.custom.fragment.FgChooseCity;
 import com.hugboga.custom.fragment.FgTest;
+import com.hugboga.custom.utils.UpdateResources;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
@@ -59,6 +61,8 @@ public class MainActivity extends BaseFragmentActivity
         toggle.syncState();*/
 
         navigationView.setNavigationItemSelectedListener(this);
+
+        UpdateResources.checkLocalDB(this);
     }
 
     @Override
@@ -104,7 +108,7 @@ public class MainActivity extends BaseFragmentActivity
         } else if (id == R.id.nav_gallery) {
             startFragment(getTestFragment("ceshi"));
         } else if (id == R.id.nav_slideshow) {
-
+            startFragment(getFgChooseCityFragment());
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {
@@ -118,10 +122,20 @@ public class MainActivity extends BaseFragmentActivity
         return true;
     }
 
+    private BaseFragment getFgChooseCityFragment() {
+        FgChooseCity fgChooseCity = new FgChooseCity();
+        String KEY_FROM = "key_from";
+        Bundle bundle = new Bundle();
+        bundle.putString(KEY_FROM, "startAddress");
+        fgChooseCity.setArguments(bundle);
+        return fgChooseCity;
+    }
+
     @Override
     public int getContentId() {
         return contentId;
     }
+
 
     public BaseFragment getTestFragment(String name){
         FgTest fg = new FgTest();
