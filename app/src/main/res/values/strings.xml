@@ -186,4 +186,7 @@
     <string name="empty_text">没有结果</string>
     <string name="empty_city_text">该城市暂未开通服务</string>
 
+    <!-- sku-->
+    <string name="sku_item_guide_number">%s位中文司导开车带你玩</string>
+
 </resources>

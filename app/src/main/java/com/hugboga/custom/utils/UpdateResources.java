@@ -1,17 +1,14 @@
 package com.hugboga.custom.utils;
 
 import android.content.Context;
-import android.text.TextUtils;
 
-import com.hugboga.custom.constants.ResourcesConstants;
 //import com.hugboga.custom.data.bean.ResourcesBean;
 //import com.hugboga.custom.data.parser.ParserCheckVersion;
 //import com.lidroid.xutils.HttpUtils;
 //import com.lidroid.xutils.exception.HttpException;
 //import com.lidroid.xutils.http.ResponseInfo;
 //import com.lidroid.xutils.http.callback.RequestCallBack;
-
-import java.io.File;
+import com.huangbaoche.hbcframe.util.MLog;
 
 /**
  *

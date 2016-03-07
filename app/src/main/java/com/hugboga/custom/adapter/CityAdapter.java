@@ -18,7 +18,6 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.fragment.FgChooseCity;
 import com.hugboga.custom.utils.DBHelper;
-import com.hugboga.custom.utils.MLog;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.widget.NoScrollGridView;
 

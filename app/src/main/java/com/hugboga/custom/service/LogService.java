@@ -65,7 +65,7 @@ public class LogService extends Service {
                         MLog.i("DEBUG 调试模式停止");
                     }
                     LogUtil.e("logService upload log " + UserEntity.getUser().logBuilder.length() + " UserEntity =" + UserEntity.getUser());
-                    String cmd ="logcat -d "+MLog.TAG+":e *:S";
+                    String cmd ="logcat -d "+MLog.TAG+":i *:S";
                     String cmdCancel = "logcat -c";
                     MLog.e("cmd = " + cmd);
                     Process logcatProcess = Runtime.getRuntime().exec(cmd);
@@ -93,6 +93,7 @@ public class LogService extends Service {
         @Override
         public void onDataRequestSucceed(BaseRequest request) {
            MLog.e(request.getData().toString());
+            thread.isRunning = false;
         }
 
         @Override
