@@ -37,7 +37,7 @@ import java.util.ArrayList;
  */
 
 @ContentView(R.layout.fg_home)
-public class FgHome extends BaseFragment implements AdapterView.OnItemClickListener {
+public class FgHome extends BaseFragment implements AdapterView.OnItemClickListener, View.OnClickListener {
 
 
     @ViewInject(android.R.id.list)
@@ -60,6 +60,7 @@ public class FgHome extends BaseFragment implements AdapterView.OnItemClickListe
         adapter = new HomeAdapter(getActivity());
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);
+        getView().findViewById(R.id.fg_home_menu3).setOnClickListener(this);
     }
 
 
@@ -86,6 +87,7 @@ public class FgHome extends BaseFragment implements AdapterView.OnItemClickListe
 
     @Event({R.id.header_left_btn, R.id.header_right_btn, R.id.fg_home_menu1, R.id.fg_home_menu2, R.id.fg_home_menu3})
     private void onClickView(View view) {
+        MLog.e("onClickView="+view);
         switch (view.getId()) {
             case R.id.header_left_btn://左侧按钮
                 ((MainActivity) getActivity()).openDrawer();
@@ -100,7 +102,8 @@ public class FgHome extends BaseFragment implements AdapterView.OnItemClickListe
 
                 break;
             case R.id.fg_home_menu3://单次接送
-
+                MLog.e("FgSingle");
+                startFragment(new FgSingle());
                 break;
 
         }
@@ -114,5 +117,23 @@ public class FgHome extends BaseFragment implements AdapterView.OnItemClickListe
         Bundle bundle = new Bundle();
         bundle.putString(FgSkuList.KEY_CITY_ID,dataList.get(position-1).cityId);
         startFragment(fg,bundle);
+    }
+
+    @Override
+    public void onClick(View v) {
+        MLog.e("onClick="+v);
+        switch (v.getId()) {
+            case R.id.fg_home_menu1://中文接送机
+
+                break;
+            case R.id.fg_home_menu2://按天包车
+
+                break;
+            case R.id.fg_home_menu3://单次接送
+                MLog.e("FgSingle");
+                startFragment(new FgSingle());
+                break;
+
+        }
     }
 }
