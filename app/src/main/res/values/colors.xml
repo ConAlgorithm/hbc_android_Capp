@@ -35,6 +35,8 @@
     <color name="allbg_white">#FFFFFF</color>
     <color name="allbg_gray">#f9f9f9</color>
 
+    <color name="all_bg_yellow">#fbd003</color>
+
     <!--city-->
     <color name="item_title_bg">#E9E9E9</color>
 

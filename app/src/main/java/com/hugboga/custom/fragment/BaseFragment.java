@@ -4,9 +4,10 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.TextView;
 
+import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
-import com.hugboga.custom.utils.MLog;
 
 import org.xutils.view.annotation.ViewInject;
 
@@ -20,6 +21,10 @@ public abstract class BaseFragment extends com.huangbaoche.hbcframe.fragment.Bas
 
 
     protected int mBusinessType = -1;//业务类型 1接机2送机3包车4次租
+
+
+    @ViewInject(R.id.header_title)
+    protected TextView fgTitle; //标题
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

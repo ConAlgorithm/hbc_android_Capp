@@ -1,4 +1,4 @@
-package com.huangbaoche.hbcframe.data.request;
+package com.huangbaoche.hbcframe.data.net;
 
 import android.content.Context;
 import android.content.Entity;
@@ -6,8 +6,9 @@ import android.text.TextUtils;
 
 import com.huangbaoche.hbcframe.HbcConfig;
 import com.huangbaoche.hbcframe.data.bean.UserEntity;
+import com.huangbaoche.hbcframe.data.request.BaseRequest;
+import com.huangbaoche.hbcframe.util.MLog;
 
-import org.xutils.common.util.LogUtil;
 import org.xutils.http.HttpMethod;
 import org.xutils.http.RequestParams;
 import org.xutils.http.annotation.HttpRequest;
@@ -48,7 +49,7 @@ public class HbcParamsBuilder implements ParamsBuilder {
     public void buildParams(RequestParams params) {
         // 添加公共参数
         if(params instanceof BaseRequest){
-            LogUtil.e("buildParams= "+params.getUri());
+
             BaseRequest request = (BaseRequest)params;
             Context context = request.getContext();
             params.setHeader(KEY_HEADER_AK, UserEntity.getUser().getAccessKey(context));
@@ -68,6 +69,7 @@ public class HbcParamsBuilder implements ParamsBuilder {
                     }
                 }
             }
+            MLog.e("buildParams url= " + params.getUri());
         }else{
             throw new RuntimeException("params must instanceof BaseRequest");
         }

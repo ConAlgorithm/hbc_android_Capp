@@ -15,7 +15,7 @@ import java.util.Map;
 
 public abstract class BaseRequest<T> extends RequestParams implements InterfaceRequest {
 
-    protected Context mContext;
+    private Context mContext;
 
     private T data;
 

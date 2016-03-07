@@ -37,7 +37,7 @@ public abstract class BaseAdapter<T> extends android.widget.BaseAdapter {
         return dataList==null?0:this.dataList.size();
     }
 
-    public Object getItem(int position) {
+    public T getItem(int position) {
         return dataList.get(position);
     }
 

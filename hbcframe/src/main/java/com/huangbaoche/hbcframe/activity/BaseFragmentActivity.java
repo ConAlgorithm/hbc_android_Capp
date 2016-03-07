@@ -4,8 +4,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import com.huangbaoche.hbcframe.fragment.BaseFragment;
+import com.huangbaoche.hbcframe.util.MLog;
 
-import org.xutils.common.util.LogUtil;
 import org.xutils.x;
 
 import java.lang.Thread.UncaughtExceptionHandler;
@@ -32,7 +32,7 @@ public class BaseFragmentActivity extends AppCompatActivity  {
             for(int i=mFragmentList.size()-1;i>0;i--) {
                 BaseFragment fragment = (BaseFragment) mFragmentList.get(i);
                 if (fragment != null) {//取最后非空
-                    LogUtil.i("fragment = " + fragment);
+                    MLog.i("fragment = " + fragment);
                     if(!fragment.onBackPressed()){//子类不处理
                         fragment.finish();
                     }
@@ -47,7 +47,7 @@ public class BaseFragmentActivity extends AppCompatActivity  {
      * @Title addErrorProcess
      * @Description 添加未捕获异常处理，将错误提交服务器，并退出程序，
      */
-    private void addErrorProcess() {
+    protected void addErrorProcess() {
         Thread.currentThread().setUncaughtExceptionHandler(mUncaughtExceptionHandlernew);
         Thread.setDefaultUncaughtExceptionHandler(mUncaughtExceptionHandlernew);
     }
@@ -63,31 +63,31 @@ public class BaseFragmentActivity extends AppCompatActivity  {
     @Override
     protected void onStart() {
         super.onStart();
-        LogUtil.i("onStart" + this);
+        MLog.i("onStart" + this);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        LogUtil.i("onResume" + this);
+        MLog.i("onResume" + this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        LogUtil.i("onPause" + this);
+        MLog.i("onPause" + this);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        LogUtil.i("onStop" + this);
+        MLog.i("onStop" + this);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        LogUtil.i("onDestroy" + this);
+        MLog.i("onDestroy" + this);
     }
 
     /**
@@ -127,7 +127,7 @@ public class BaseFragmentActivity extends AppCompatActivity  {
 
     public void startFragment(BaseFragment fragment,Bundle bundle){
         if(fragment ==null){
-            LogUtil.e("startFragment fragment is null");
+            MLog.e("startFragment fragment is null");
             return;
         }
         if(contentId ==-1)

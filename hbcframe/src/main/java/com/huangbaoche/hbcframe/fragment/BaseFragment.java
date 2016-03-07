@@ -17,9 +17,9 @@ import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
+import com.huangbaoche.hbcframe.util.MLog;
 
 import org.xutils.common.Callback;
-import org.xutils.common.util.LogUtil;
 import org.xutils.x;
 
 import java.util.ArrayList;
@@ -59,7 +59,7 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
     @Override
     public void onStart() {
         super.onStart();
-        LogUtil.i(this + " onStart");
+        MLog.i(this + " onStart");
         if(needHttpRequest){
             cancelable = requestData();
             needHttpRequest = false;
@@ -71,37 +71,37 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
     @Override
     public void onResume() {
         super.onResume();
-        LogUtil.i(this + " onResume");
+        MLog.i(this + " onResume");
     }
 
     @Override
     public void onViewStateRestored(Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
-        LogUtil.i(this + " onViewStateRestored");
+        MLog.i(this + " onViewStateRestored");
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        LogUtil.i(this + " onSaveInstanceState");
+        MLog.i(this + " onSaveInstanceState");
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        LogUtil.i(this + " onPause");
+        MLog.i(this + " onPause");
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        LogUtil.i(this + " onStop");
+        MLog.i(this + " onStop");
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        LogUtil.i(this + " onDestroy");
+        MLog.i(this + " onDestroy");
         if(cancelable!=null){
             cancelable.cancel();
         }
@@ -227,7 +227,7 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
         if (fragment != null && fragment instanceof BaseFragment) {
             ((BaseFragment) fragment).onFragmentResult(mBundle);
         }
-        LogUtil.i(this + " finishForResult " + fragment);
+        MLog.i(this + " finishForResult " + fragment);
 
     }
     @Override
@@ -240,7 +240,7 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
      * @return
      */
     public boolean onBackPressed(){
-        LogUtil.e(this + "onBackPressed");
+        MLog.e(this + "onBackPressed");
         if(cancelable!=null)
             cancelable.cancel();
         return false;

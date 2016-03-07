@@ -16,7 +16,7 @@ import org.xutils.x;
 /**
  * Created by admin on 2016/3/2.
  */
-public class HomeAdapter extends BaseAdapter {
+public class HomeAdapter extends BaseAdapter<HomeBean> {
 
     public HomeAdapter(Context context) {
         super(context);
@@ -35,7 +35,7 @@ public class HomeAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) view.getTag();
         }
-        HomeBean bean = (HomeBean) getItem(position);
+        HomeBean bean = getItem(position);
         if(bean!=null){
             viewHolder.tvTitle.setText(bean.mainTitle);
             viewHolder.tvSubTitle.setText(bean.subTitle);

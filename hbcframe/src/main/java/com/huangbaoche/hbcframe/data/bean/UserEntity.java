@@ -11,6 +11,8 @@ import com.huangbaoche.hbcframe.util.SharedPre;
  */
 public class UserEntity {
 
+    public StringBuilder logBuilder;
+
     private static UserEntity user = new UserEntity();
 
     private String accessKey;//="85862151eaed9bbc8b94373243e687cf";//token
@@ -18,6 +20,7 @@ public class UserEntity {
 
 
     private UserEntity() {
+        logBuilder = new StringBuilder();
     }
 
     public static UserEntity getUser() {
@@ -60,6 +63,14 @@ public class UserEntity {
         SharedPre shared = new SharedPre(active);
         shared.saveStringValue(SharedPre.USERTOKEN, userToken);
         this.userToken = userToken;
+    }
+
+    public void saveLog(String log){
+        logBuilder.append(log);
+    }
+
+    public StringBuilder getLog(){
+        return logBuilder;
     }
 
 }

@@ -31,6 +31,6 @@ public class MyApplication extends HbcApplication {
         HbcConfig.VERSION_NAME = BuildConfig.VERSION_NAME;
         HbcConfig.VERSION_CODE = BuildConfig.VERSION_CODE;
         HbcConfig.APP_NAME = getString(R.string.app_name);
-        HbcConfig.APP_NAME = "皇包车";
+        HbcConfig.IS_DEBUG=true;
     }
 }

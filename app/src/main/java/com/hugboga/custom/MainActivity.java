@@ -1,5 +1,6 @@
 package com.hugboga.custom;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -15,11 +16,13 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.activity.BaseFragmentActivity;
+import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.fragment.BaseFragment;
 import com.hugboga.custom.fragment.FgHome;
 import com.hugboga.custom.fragment.FgTest;
-import com.hugboga.custom.utils.MLog;
+import com.hugboga.custom.service.LogService;
 
+import org.xutils.common.util.LogUtil;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
@@ -55,6 +58,7 @@ public class MainActivity extends BaseFragmentActivity
         mViewPager.addOnPageChangeListener(this);
         navigationView.setNavigationItemSelectedListener(this);
         initBottomView();
+        addErrorProcess();
     }
 
     private void initBottomView() {
@@ -112,14 +116,21 @@ public class MainActivity extends BaseFragmentActivity
 
         if (id == R.id.nav_camera) {
             // Handle the camera action
+            Intent intent = new Intent(this, LogService.class);
+            intent.putExtra(LogService.KEY_IS_RUNNING,true);
+            startService(intent);
         } else if (id == R.id.nav_gallery) {
             startFragment(getTestFragment("ceshi"));
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {
-
+            //crash
+            String a=null;
+            a.toString();
         } else if (id == R.id.nav_share) {
-
+            Intent intent = new Intent(this, LogService.class);
+            intent.putExtra(LogService.KEY_IS_RUNNING,false);
+            startService(intent);
         } else if (id == R.id.nav_send) {
 
         }
@@ -161,7 +172,7 @@ public class MainActivity extends BaseFragmentActivity
 
     @Override
     public void onPageSelected(int position) {
-        MLog.e("onPageSelected = "+position);
+        MLog.e("onPageSelected = " + position);
         for (int i=0;i<tabMenu.length;i++) {
             tabMenu[i].setSelected(position == i);
         }
@@ -217,4 +228,26 @@ public class MainActivity extends BaseFragmentActivity
             return null;
         }
     }
+    /**
+     * @return void    返回类型
+     * @Title addErrorProcess
+     * @Description 添加未捕获异常处理，将错误提交服务器，并退出程序，
+     */
+    protected void addErrorProcess() {
+        Thread.currentThread().setUncaughtExceptionHandler(mUncaughtExceptionHandlernew);
+        Thread.setDefaultUncaughtExceptionHandler(mUncaughtExceptionHandlernew);
+    }
+
+    Thread.UncaughtExceptionHandler mUncaughtExceptionHandlernew = new Thread.UncaughtExceptionHandler() {
+        @Override
+        public void uncaughtException(Thread thread, Throwable ex) {
+            MLog.e("崩溃退出", ex);
+            Intent intent = new Intent(MainActivity.this, LogService.class);
+            intent.putExtra(LogService.KEY_IS_RUNNING,false);
+            startService(intent);
+            LogUtil.e("startService LogService");
+            exitApp();
+        }
+    };
+
 }

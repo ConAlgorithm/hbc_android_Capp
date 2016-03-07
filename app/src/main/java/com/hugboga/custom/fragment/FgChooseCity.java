@@ -14,12 +14,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
+import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.CityAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.utils.DBHelper;
-import com.hugboga.custom.utils.MLog;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.widget.SideBar;
 
@@ -125,7 +125,7 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
         sortListView.setOnItemClickListener(this);
 
 //		findCityList(groupId, null);
-        MLog.e("adapter= "+adapter);
+        MLog.e("adapter= " + adapter);
         adapter = new CityAdapter(getActivity(), sourceDateList);
         sortListView.setAdapter(adapter);
         sortListView.setEmptyView(emptyView);

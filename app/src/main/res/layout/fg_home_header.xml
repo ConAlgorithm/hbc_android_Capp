@@ -22,11 +22,15 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_centerHorizontal="true"
+        android:gravity="center_vertical"
         android:layout_marginTop="0dp"
-        >，
+        >
         <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:src="@mipmap/home_left_icon"
+            android:layout_marginRight="5dp"
+            />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -36,7 +40,10 @@
             />
         <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:src="@mipmap/home_right_icon"
+            android:layout_marginLeft="5dp"
+            />
     </LinearLayout>
     <LinearLayout
         android:id="@+id/home_menu_layout"

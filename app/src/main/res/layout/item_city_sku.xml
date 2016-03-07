@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<ImageView
+    android:id="@+id/item_city_sku_img"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:scaleType="fitXY"
+    android:src="@mipmap/img_notext"
+    />
+<TextView
+    android:id="@+id/item_sku_title"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/item_city_sku_img"
+    />
+<TextView
+    android:id="@+id/item_sku_label"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/item_sku_title"
+    />
+<TextView
+    android:id="@+id/item_sku_guide_number"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/item_sku_label"
+    />
+<TextView
+    android:id="@+id/item_sku_amount"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/item_city_sku_img"
+    android:layout_alignParentRight="true"
+    />
+<TextView
+    android:id="@+id/item_sku_sale"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/item_sku_amount"
+    android:layout_alignParentRight="true"
+    />
+
+</RelativeLayout>

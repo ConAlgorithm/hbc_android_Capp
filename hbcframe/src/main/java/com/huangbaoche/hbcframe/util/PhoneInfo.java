@@ -20,7 +20,6 @@ import android.view.Display;
 import com.huangbaoche.hbcframe.BuildConfig;
 import com.huangbaoche.hbcframe.HbcConfig;
 
-import org.xutils.common.util.LogUtil;
 
 
 /**
@@ -208,7 +207,7 @@ public class PhoneInfo {
 					ctx.getPackageName(), 0);
 			version = packageInfo.versionName;
 		} catch (Exception e) {
-			LogUtil.e(e.toString());
+			MLog.e(e.toString());
 		}
 		return version;
 	}
@@ -225,7 +224,7 @@ public class PhoneInfo {
 					ctx.getPackageName(), 0);
 			version = packageInfo.versionCode;
 		} catch (Exception e) {
-			LogUtil.e(e.toString());
+			MLog.e(e.toString());
 		}
 		return version;
 	}

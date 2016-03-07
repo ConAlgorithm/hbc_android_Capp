@@ -16,13 +16,13 @@ public interface HttpRequestListener {
 	void onDataRequestSucceed(BaseRequest request);
 
 	/**
+	 * 请求 被取消
+	 * */
+	void onDataRequestCancel(BaseRequest request);
+	/**
 	 * 请求失败
 	 * 如果 实现自己的错误处理 重写 相应的错误，其他的 调用
 	 * */
 	void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request);
-	/**
-	 * 请求 被取消
-	 * */
-	void onDataRequestCancel(BaseRequest request);
 
 }
