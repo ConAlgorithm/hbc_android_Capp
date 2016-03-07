@@ -2,7 +2,6 @@ package com.hugboga.custom;
 
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
