@@ -66,6 +66,11 @@ public class FgTest extends BaseFragment implements View.OnTouchListener {
         return null;
     }
 
+    @Override
+    protected void inflateContent() {
+
+    }
+
 
     @Event(value = {R.id.fg_test_btn,R.id.fg_test_btn2,R.id.fg_test_btn3},type = View.OnClickListener.class)
     private void onClickView(View view){

@@ -17,7 +17,6 @@ public abstract class BaseRequest<T> extends RequestParams implements InterfaceR
 
     protected Context mContext;
 
-    private ImplParser parser;
     private T data;
 
 
@@ -31,19 +30,13 @@ public abstract class BaseRequest<T> extends RequestParams implements InterfaceR
 
     public abstract Map<String,Object> getDataMap();
 
+    public abstract ImplParser getParser() ;
+
     @Override
     public HttpMethod getHttpMethod() {
         return HttpMethod.GET;
     }
 
-
-    public ImplParser getParser() {
-        return parser;
-    }
-
-    public void setParser(ImplParser parser) {
-        this.parser = parser;
-    }
 
     public T getData() {
         return data;

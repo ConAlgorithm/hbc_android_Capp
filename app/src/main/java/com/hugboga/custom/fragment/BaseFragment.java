@@ -3,9 +3,12 @@ package com.hugboga.custom.fragment;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.View;
+import android.widget.ListView;
 
 import com.hugboga.custom.R;
 import com.hugboga.custom.utils.MLog;
+
+import org.xutils.view.annotation.ViewInject;
 
 
 public abstract class BaseFragment extends com.huangbaoche.hbcframe.fragment.BaseFragment{
@@ -14,6 +17,7 @@ public abstract class BaseFragment extends com.huangbaoche.hbcframe.fragment.Bas
     public static String KEY_FRAGMENT_NAME = "key_fragment_name";
     public static String KEY_BUSINESS_TYPE = "key_business_Type";
     public static String KEY_GOODS_TYPE = "key_goods_type";
+
 
     protected int mBusinessType = -1;//业务类型 1接机2送机3包车4次租
 

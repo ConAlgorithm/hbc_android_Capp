@@ -63,6 +63,14 @@
     <string name="title_commend">线路包车</string>
     <string name="title_other">订单详情</string>
 
+    <!-- tab-->
+    <string name="tab_find">发现</string>
+    <string name="tab_chat">私聊</string>
+    <string name="tab_journey">行程</string>
+    <!--首页-->
+    <string name="home_main_title">全球10万华人朋友</string>
+    <string name="home_sub_title">开车带你玩</string>
+
     <!-- Search address -->
     <string name="search_hint_pick">搜索送达目的地</string>
     <string name="search_hint_send">搜索出发地点</string>
