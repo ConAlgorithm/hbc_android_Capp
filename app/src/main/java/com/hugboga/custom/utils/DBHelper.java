@@ -47,14 +47,14 @@ public class DBHelper extends SQLiteOpenHelper {
         this.myContext = context;
     }
 
-//    public DbUtils getDbUtils() {
-//        int dbVersion = new SharedPre(myContext).getIntValue(SharedPre.RESOURCES_DB_VERSION, ResourcesConstants.RESOURCES_DB_VERSION_DEFAULT);
-//        MLog.e("dbVersion=" + dbVersion);
-//        DbUtils db = DbUtils.create(myContext, DB_PATH, DB_NAME,dbVersion,null);
-//        MLog.e("dbVersion2=" + db.getDatabase().getVersion());
-//        db.configDebug(Config.DEBUG_ENABLE);
-//        return db;
-//    }
+    /*public DbUtils getDbUtils() {
+        int dbVersion = new SharedPre(myContext).getIntValue(SharedPre.RESOURCES_DB_VERSION, ResourcesConstants.RESOURCES_DB_VERSION_DEFAULT);
+        MLog.e("dbVersion=" + dbVersion);
+        DbUtils db = DbUtils.create(myContext, DB_PATH, DB_NAME,dbVersion,null);
+        MLog.e("dbVersion2=" + db.getDatabase().getVersion());
+        db.configDebug(Config.DEBUG_ENABLE);
+        return db;
+    }*/
 
     public DbManager getDbManager(){
         DbManager db = x.getDb(DaoConfig.getInstance(myContext));
