@@ -2,8 +2,9 @@ package com.huangbaoche.hbcframe.data.net;
 
 import android.content.Context;
 
+import com.huangbaoche.hbcframe.util.MLog;
+
 import org.apache.http.conn.ssl.SSLSocketFactory;
-import org.xutils.common.util.LogUtil;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -41,14 +42,14 @@ public class DefaultSSLSocketFactory extends SSLSocketFactory {
                     trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
                     InputStream ins = context.getResources().getAssets().open("client.keystore"); // 下载的证书放到项目中的assets目录中
                     trustStore.load(ins, keystorepw.toCharArray());
-                    LogUtil.e("trustStore load time = "+(System.currentTimeMillis()-time));
+                    MLog.e("trustStore load time = " + (System.currentTimeMillis() - time));
                 } catch (Throwable var1) {
-                    LogUtil.e(var1.getMessage(), var1);
+                    MLog.e(var1.getMessage(), var1);
                 }
 
                 instance = new DefaultSSLSocketFactory();
             } catch (Throwable var1) {
-                LogUtil.e(var1.getMessage(), var1);
+                MLog.e(var1.getMessage(), var1);
             }
         }
 
@@ -65,7 +66,7 @@ public class DefaultSSLSocketFactory extends SSLSocketFactory {
         trustmanagerfactory.init(trustStore);
         TrustManager[] atrustmanager = trustmanagerfactory.getTrustManagers();
         sslContext.init(akeymanager, atrustmanager, new java.security.SecureRandom());
-        LogUtil.e("sslContext.init  time = " + (System.currentTimeMillis() - time));
+        MLog.e("sslContext.init  time = " + (System.currentTimeMillis() - time));
 //        this.setHostnameVerifier(SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
     }
 

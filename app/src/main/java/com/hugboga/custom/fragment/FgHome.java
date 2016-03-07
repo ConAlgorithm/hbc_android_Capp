@@ -5,17 +5,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
+import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.HomeAdapter;
 import com.hugboga.custom.data.bean.HomeBean;
 import com.hugboga.custom.data.request.RequestHome;
-import com.hugboga.custom.utils.MLog;
 import com.manuelpeinado.fadingactionbar.FadingActionBarHelper;
 
 import org.xutils.common.Callback;
@@ -36,17 +37,12 @@ import java.util.ArrayList;
  */
 
 @ContentView(R.layout.fg_home)
-public class FgHome extends BaseFragment {
+public class FgHome extends BaseFragment implements AdapterView.OnItemClickListener {
 
 
     @ViewInject(android.R.id.list)
     ListView listView;
 
-
-    @ViewInject(R.id.header_left_btn)
-    protected View leftBtn;
-    @ViewInject(R.id.header_right_btn)
-    protected View rightBtn;
 
 
     private ArrayList<HomeBean> dataList;
@@ -63,15 +59,9 @@ public class FgHome extends BaseFragment {
     protected void initView() {
         adapter = new HomeAdapter(getActivity());
         listView.setAdapter(adapter);
+        listView.setOnItemClickListener(this);
     }
 
-    private ArrayList<String> loadItems() {
-        ArrayList<String> countries = new ArrayList<String>();
-        for (int i = 0; i < 20; i++) {
-            countries.add("index = " + i);
-        }
-        return countries;
-    }
 
     @Override
     protected Callback.Cancelable requestData() {
@@ -117,4 +107,12 @@ public class FgHome extends BaseFragment {
 
     }
 
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        if(position==0)return;
+        FgSkuList fg = new FgSkuList();
+        Bundle bundle = new Bundle();
+        bundle.putString(FgSkuList.KEY_CITY_ID,dataList.get(position-1).cityId);
+        startFragment(fg,bundle);
+    }
 }

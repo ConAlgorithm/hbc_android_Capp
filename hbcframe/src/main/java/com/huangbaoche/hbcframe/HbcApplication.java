@@ -1,6 +1,7 @@
 package com.huangbaoche.hbcframe;
 
 import android.app.Application;
+import android.content.Context;
 import android.util.Log;
 
 import org.xutils.x;
@@ -10,6 +11,7 @@ import org.xutils.x;
  */
 public class HbcApplication extends Application {
 
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -17,4 +19,7 @@ public class HbcApplication extends Application {
         x.Ext.setDebug(BuildConfig.DEBUG);
         Log.e("hbcApplication", "debug " + BuildConfig.DEBUG);
     }
+
+
+
 }

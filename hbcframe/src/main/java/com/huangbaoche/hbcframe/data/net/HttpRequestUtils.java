@@ -8,12 +8,12 @@ import com.huangbaoche.hbcframe.HbcConfig;
 import com.huangbaoche.hbcframe.data.bean.UserEntity;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
+import com.huangbaoche.hbcframe.util.MLog;
 import com.huangbaoche.hbcframe.util.NetWork;
 
 import org.apache.http.conn.ConnectTimeoutException;
 import org.json.JSONObject;
 import org.xutils.common.Callback;
-import org.xutils.common.util.LogUtil;
 import org.xutils.x;
 
 import java.lang.reflect.Constructor;
@@ -48,7 +48,7 @@ public class HttpRequestUtils {
         Callback.Cancelable cancelable = x.http().request(request.getHttpMethod(), request, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                LogUtil.e("onSuccess result=" + result);
+                MLog.e("onSuccess result=" + result);
                 try {
                     ImplParser parser = request.getParser();
                     if(parser==null) parser= new DefaultParser();
@@ -64,13 +64,13 @@ public class HttpRequestUtils {
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                LogUtil.e("onError="+ex.toString());
+                MLog.e("onError",ex);
                 listener.onDataRequestError(handleException(ex),request);
             }
 
             @Override
             public void onCancelled(CancelledException cex) {
-                LogUtil.e("onCancelled="+cex.toString());
+                MLog.e("onCancelled="+cex.toString());
                 listener.onDataRequestCancel(request);
             }
 
@@ -104,8 +104,8 @@ public class HttpRequestUtils {
         } else if(error instanceof  ServerException){
             ServerException serverException = (ServerException)error;
             result = new ExceptionInfo(ExceptionErrorCode.ERROR_CODE_SERVER, serverException);
-//        } else if (error.getCode() == 404) {
-//            result = new ExceptionInfo(ExceptionErrorCode.ERROR_CODE_NET_NOTFOUND, null);
+        }else{
+             result = new ExceptionInfo(ExceptionErrorCode.ERROR_CODE_OTHER, null);
         }
         return result;
     }
@@ -141,7 +141,7 @@ public class HttpRequestUtils {
                 public void onDataRequestSucceed(BaseRequest request) {
                     UserEntity.getUser().setAccessKey(mContext, (String) request.getData());
                     String accessKey = UserEntity.getUser().getAccessKey(mContext);
-                    LogUtil.e("accessKey =" + accessKey);
+                    MLog.e("accessKey =" + accessKey);
                     request(mContext, baseRequest, listener, btn);
                 }
 

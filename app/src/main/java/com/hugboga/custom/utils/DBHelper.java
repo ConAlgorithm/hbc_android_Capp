@@ -5,7 +5,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.hugboga.custom.constants.ResourcesConstants;
+import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.data.bean.AirPort;
 
 import org.xutils.DbManager;

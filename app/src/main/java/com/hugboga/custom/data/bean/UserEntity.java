@@ -27,6 +27,7 @@ public class UserEntity {
     private UserEntity() {
     }
 
+
     public static UserEntity getUser() {
         if (user == null) {
             user = new UserEntity();

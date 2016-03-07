@@ -31,10 +31,13 @@ public class UrlLibs {
 	public static final String SERVER_IP_ACCESSKEY = "passport/v1.0/getAccessKey?";
 	//版本检测
 	public static final String SERVER_IP_CHECK_APP_VERSION = "reflash/v1.0/checkAppVersion?";
+	//upload logs
+	public static final String SERVER_IP_UPLOAD_LOGS = "pt/v1.0/log/stream?";
 
 	//首页
 	public static final String SERVER_IP_HOME = "basicdata/v1.0/p/home/citys/contents?";
-
+	//SKU
+	public static final String SERVER_IP_CITY_SKU = "/goods/v1.0/p/home/cityGoods?";
 
 	//-------个人信息--------
 	public static final String  SERVER_IP_PUBLIC_UER_CENTER = "ucenter/v1.0/c/user/";

@@ -15,12 +15,11 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.activity.BaseFragmentActivity;
+import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.fragment.BaseFragment;
-import com.hugboga.custom.fragment.FgChooseCity;
 import com.hugboga.custom.fragment.FgHome;
 import com.hugboga.custom.fragment.FgTest;
-import com.hugboga.custom.utils.MLog;
-import com.hugboga.custom.utils.UpdateResources;
+import com.hugboga.custom.service.LogService;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
@@ -57,6 +56,7 @@ public class MainActivity extends BaseFragmentActivity
         mViewPager.addOnPageChangeListener(this);
         navigationView.setNavigationItemSelectedListener(this);
         initBottomView();
+        addErrorProcess();
         UpdateResources.checkLocalDB(this);
     }
 
@@ -115,6 +115,9 @@ public class MainActivity extends BaseFragmentActivity
 
         if (id == R.id.nav_camera) {
             // Handle the camera action
+            Intent intent = new Intent(this, LogService.class);
+            intent.putExtra(LogService.KEY_IS_RUNNING,true);
+            startService(intent);
         } else if (id == R.id.nav_gallery) {
             startFragment(getTestFragment("ceshi"));
         } else if (id == R.id.nav_slideshow) {
@@ -122,7 +125,9 @@ public class MainActivity extends BaseFragmentActivity
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {
-
+            Intent intent = new Intent(this, LogService.class);
+            intent.putExtra(LogService.KEY_IS_RUNNING,false);
+            startService(intent);
         } else if (id == R.id.nav_send) {
 
         }
@@ -138,18 +143,9 @@ public class MainActivity extends BaseFragmentActivity
     public BaseFragment getTestFragment(String name){
         FgTest fg = new FgTest();
         Bundle bundle = new Bundle();
-        bundle.putString(FgTest.KEY_NAME, name);
+        bundle.putString(FgTest.KEY_NAME,name);
         fg.setArguments(bundle);
         return fg;
-    }
-
-    private BaseFragment getFgChooseCityFragment() {
-        FgChooseCity fgChooseCity = new FgChooseCity();
-        String KEY_FROM = "key_from";
-        Bundle bundle = new Bundle();
-        bundle.putString(KEY_FROM, "startAddress");
-        fgChooseCity.setArguments(bundle);
-        return fgChooseCity;
     }
 
     @Event({R.id.tab_text_1,R.id.tab_text_2,R.id.tab_text_3})

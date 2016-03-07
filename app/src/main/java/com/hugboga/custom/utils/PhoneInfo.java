@@ -17,6 +17,7 @@ import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.Display;
 
+import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.data.bean.UserEntity;
 
 import org.xutils.http.RequestParams;

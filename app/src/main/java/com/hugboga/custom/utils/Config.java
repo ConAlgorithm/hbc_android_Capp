@@ -3,6 +3,7 @@ package com.hugboga.custom.utils;
 import android.content.Context;
 import android.os.Environment;
 
+import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.UserEntity;
 

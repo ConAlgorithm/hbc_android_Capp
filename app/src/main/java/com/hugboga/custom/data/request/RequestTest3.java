@@ -4,12 +4,11 @@ import android.content.Context;
 
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
-import com.huangbaoche.hbcframe.data.request.HbcParamsBuilder;
+import com.huangbaoche.hbcframe.data.net.HbcParamsBuilder;
 import com.hugboga.custom.data.net.UrlLibs;
 
 import org.xutils.http.HttpMethod;
 import org.xutils.http.annotation.HttpRequest;
-import org.xutils.http.app.DefaultParamsBuilder;
 
 import java.util.Map;
 

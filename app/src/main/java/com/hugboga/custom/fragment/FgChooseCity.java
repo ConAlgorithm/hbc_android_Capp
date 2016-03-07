@@ -19,10 +19,9 @@ import com.hugboga.custom.adapter.CityAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.utils.DBHelper;
-import com.hugboga.custom.utils.MLog;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.widget.SideBar;
-
+import com.huangbaoche.hbcframe.util.MLog;
 import org.xutils.DbManager;
 import org.xutils.common.Callback;
 import org.xutils.db.Selector;
@@ -73,7 +72,7 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
     private ArrayList<Integer> exceptCityId = new ArrayList<>();
     private String from;
     private TextView editSearch;
-//    private DbUtils mDbUtils;
+    //    private DbUtils mDbUtils;
     private DbManager mDbManager;
     private SharedPre sharedPer;
     private ArrayList<String> cityHistory =  new ArrayList<String>();//历史数据
@@ -134,7 +133,7 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
         sideBar.setVisibility(View.VISIBLE);
     }
 
-//    @Override
+    //    @Override
     protected void initHeader(){
         setProgressState(0);
     }
@@ -168,23 +167,23 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
         if(mChooseCityList!=null)chooseCityList.addAll(mChooseCityList);
         StringBuffer sb = new StringBuffer();
         for (CityBean bean : chooseCityList) {
-         for (int i =0; i < sourceDateList.size() ; i++) {
-            CityBean city = sourceDateList.get(i);
-                    if (bean.cityId == city.cityId) {
-                        city.isSelected = true;
-                        sb.append(bean.name).append(",");
-                    }
+            for (int i =0; i < sourceDateList.size() ; i++) {
+                CityBean city = sourceDateList.get(i);
+                if (bean.cityId == city.cityId) {
+                    city.isSelected = true;
+                    sb.append(bean.name).append(",");
                 }
+            }
         }
         if (exceptCityId != null)
-        for (int i =sourceDateList.size()-1; i >0 ; i--) {
-            CityBean city = sourceDateList.get(i);
+            for (int i =sourceDateList.size()-1; i >0 ; i--) {
+                CityBean city = sourceDateList.get(i);
                 for (int exceptId : exceptCityId) {
                     if (exceptId == city.cityId) {
                         sourceDateList.remove(city);
                     }
                 }
-        }
+            }
         String str = sb.toString();
         if (str.length() > 1)
             str = str.substring(0, str.length() - 1);
@@ -606,7 +605,7 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
         if(!TextUtils.isEmpty(keyword)) {
             WhereBuilder whereBuilder = WhereBuilder.b();
             whereBuilder.and("place_name", "LIKE", keyword + "%")
-                .and("place_name", "!=", "中国");
+                    .and("place_name", "!=", "中国");
             selector.and(whereBuilder);
         }
         if(orderType==Constants.BUSINESS_TYPE_DAILY){
