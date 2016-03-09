@@ -189,4 +189,7 @@
     <!-- sku-->
     <string name="sku_item_guide_number">%s位中文司导开车带你玩</string>
 
+    <!-- sku-->
+    <string name="person_center_nickname">昵称</string>
+    <string name="person_center_coupon">优惠券</string>
 </resources>

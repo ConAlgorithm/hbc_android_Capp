@@ -103,7 +103,7 @@ public class FgHome extends BaseFragment implements AdapterView.OnItemClickListe
                 break;
             case R.id.fg_home_menu3://单次接送
                 MLog.e("FgSingle");
-                startFragment(new FgSingle());
+//                startFragment(new FgSingle());
                 break;
 
         }
@@ -131,7 +131,7 @@ public class FgHome extends BaseFragment implements AdapterView.OnItemClickListe
                 break;
             case R.id.fg_home_menu3://单次接送
                 MLog.e("FgSingle");
-                startFragment(new FgSingle());
+//                startFragment(new FgSingle());
                 break;
 
         }

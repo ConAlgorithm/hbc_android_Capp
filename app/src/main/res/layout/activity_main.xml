@@ -32,13 +32,26 @@
 </LinearLayout>
 
 
-    <android.support.design.widget.NavigationView
+    <!--<android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header_main"
-        app:menu="@menu/activity_main_drawer" />
+        app:menu="@menu/activity_main_drawer"
+        app:paddingStart="30dp"/>-->
+
+
+    <ListView
+        android:id="@+id/lv_slide_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="#ffffffff"
+        android:clipToPadding="false"
+        android:divider="@null"
+        android:listSelector="?attr/selectableItemBackground"
+        />
 
 </android.support.v4.widget.DrawerLayout>
