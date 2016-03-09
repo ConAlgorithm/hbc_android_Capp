@@ -4,7 +4,6 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import com.huangbaoche.hbcframe.data.bean.UserEntity;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
@@ -13,15 +12,12 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.data.request.RequestUploadLogs;
-import com.hugboga.custom.utils.UploadLogs;
 
 import org.xutils.common.util.LogUtil;
-import org.xutils.x;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 
 /**
  * 日志统计
@@ -59,8 +55,8 @@ public class LogService extends Service {
         public void run() {
             do{
                 try {
-                    //休息10秒
-                    Thread.sleep(3000);
+                    //休息20秒
+                    Thread.sleep(20000);
                     if(!isRunning){
                         MLog.i("DEBUG 调试模式停止");
                     }
@@ -93,17 +89,17 @@ public class LogService extends Service {
         @Override
         public void onDataRequestSucceed(BaseRequest request) {
            MLog.e(request.getData().toString());
-            thread.isRunning = false;
+            thread.isRunning = Boolean.valueOf(request.getData().toString());
         }
 
         @Override
         public void onDataRequestCancel(BaseRequest request) {
-
+            thread.isRunning = false;
         }
 
         @Override
         public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-
+            thread.isRunning = false;
         }
     };
 
