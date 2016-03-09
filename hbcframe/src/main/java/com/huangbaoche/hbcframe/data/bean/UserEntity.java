@@ -3,6 +3,7 @@ package com.huangbaoche.hbcframe.data.bean;
 import android.content.Context;
 import android.text.TextUtils;
 
+import com.huangbaoche.hbcframe.util.MLog;
 import com.huangbaoche.hbcframe.util.SharedPre;
 
 /**
@@ -52,6 +53,7 @@ public class UserEntity {
     }
 
     public String getUserToken(Context activity) {
+        MLog.e("getUserToken Context = "+activity);
         if (TextUtils.isEmpty(userToken)) {
             SharedPre shared = new SharedPre(activity);
             userToken = shared.getStringValue(SharedPre.USERTOKEN);

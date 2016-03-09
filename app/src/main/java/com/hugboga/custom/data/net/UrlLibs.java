@@ -17,7 +17,7 @@ public class UrlLibs {
 	public static String SERVER_IP_HOST_PUBLIC_STAGE = "api2.huangbaoche.com/";//stage
 	public static String SERVER_IP_HOST_PUBLIC_FORMAL = "api2.huangbaoche.com/";//生产
 
-	public static String SERVER_IP_HOST_PUBLIC_DEFAULT = SERVER_IP_HOST_PUBLIC_DEV;//默认
+	public static String SERVER_IP_HOST_PUBLIC_DEFAULT = SERVER_IP_HOST_PUBLIC_EXAMINATION;//默认
 
 	public static String SERVER_IP_HOST_PUBLIC = SERVER_HTTP_SCHEME+SERVER_IP_HOST_PUBLIC_DEFAULT;//主域名
 
@@ -38,6 +38,8 @@ public class UrlLibs {
 	public static final String SERVER_IP_HOME = "basicdata/v1.0/p/home/citys/contents?";
 	//SKU
 	public static final String SERVER_IP_CITY_SKU = "goods/v1.0/p/home/cityGoods?";
+	//聊天
+	public static final String SERVER_IP_CHAT_LIST = "communication/v2.0/c/im/list?";
 
 	//-------个人信息--------
 	public static final String  SERVER_IP_PUBLIC_UER_CENTER = "ucenter/v1.0/c/user/";

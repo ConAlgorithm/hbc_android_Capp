@@ -49,7 +49,6 @@ public class RequestAccessKey extends BaseRequest<String> {
         }catch (Exception e){
             MLog.e(e.toString());
         }
-        MLog.e("getDataMap = "+map);
         return map;
     }
 

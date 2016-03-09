@@ -20,6 +20,8 @@ import java.util.Map;
 
 import javax.net.ssl.SSLSocketFactory;
 
+
+
 /**
  *  默认 Builder
  */
@@ -47,29 +49,44 @@ public class HbcParamsBuilder implements ParamsBuilder {
 
     @Override
     public void buildParams(RequestParams params) {
+        //先清空，会在初始化自动从成员变量里赋值的内容
+        params.clearParams();
         // 添加公共参数
         if(params instanceof BaseRequest){
 
             BaseRequest request = (BaseRequest)params;
             Context context = request.getContext();
             params.setHeader(KEY_HEADER_AK, UserEntity.getUser().getAccessKey(context));
+            if(UserEntity.getUser().getUserToken(context)!=null)
             params.setHeader(KEY_HEADER_UT, UserEntity.getUser().getUserToken(context));
             Map<String,Object> map = request.getDataMap();
             request.setMethod(request.getHttpMethod());
+            StringBuffer sb = new StringBuffer();
             if(map!=null) {
-                if (request.getHttpMethod() == HttpMethod.GET) {
+                if (request.getHttpMethod().equals(HttpMethod.GET)) {
                     for (Map.Entry<String, Object> entity : map.entrySet()) {
-                        if (entity.getValue() != null)
+                        if (entity.getValue() != null) {
                             params.addQueryStringParameter(entity.getKey(), String.valueOf(entity.getValue()));
+                            sb.append(entity.getKey() + "=" + entity.getValue() + "&");
+                        }
                     }
                 } else {
                     for (Map.Entry<String, Object> entity : map.entrySet()) {
-                        if (entity.getValue() != null)
+                        if (entity.getValue() != null) {
                             params.addBodyParameter(entity.getKey(), String.valueOf(entity.getValue()));
+                            sb.append(entity.getKey() + "=" + entity.getValue() + "&");
+                        }
                     }
                 }
             }
-            MLog.e("buildParams url= " + params.getUri());
+            MLog.e("URL = " + params.getUri());
+            for (int i=0;i<params.getHeaders().size();i++) {
+                MLog.e("header = " +params.getHeaders().get(i).key+":"+params.getHeaders().get(i).value);
+            }
+            MLog.e(request.getHttpMethod()+" params = " + sb.toString());
+            for (int i=0;i<params.getQueryStringParams().size();i++) {
+                MLog.e("QueryStringParams = " +params.getQueryStringParams().get(i).key+":"+params.getQueryStringParams().get(i).value);
+            }
         }else{
             throw new RuntimeException("params must instanceof BaseRequest");
         }

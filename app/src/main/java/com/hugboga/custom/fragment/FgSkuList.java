@@ -61,6 +61,7 @@ public class FgSkuList extends  BaseFragment {
             RequestSkuList requestSkuList = (RequestSkuList)request;
             adapter.setList(requestSkuList.getData().goodsList);
             MLog.e("onDataRequestSucceed ");
+            inflateContent();
         }
     }
 

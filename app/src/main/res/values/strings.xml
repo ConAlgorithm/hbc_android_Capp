@@ -187,6 +187,11 @@
     <string name="empty_city_text">该城市暂未开通服务</string>
 
     <!-- sku-->
-    <string name="sku_item_guide_number">%s位中文司导开车带你玩</string>
+    <string name="sku_item_guide_number">%d位中文司导开车带你玩</string>
+    <string name="up">起</string>
+    <string name="sku_sale_number">%d人已体验</string>
 
+    <!--登录-->
+    <string name="login">登录</string>
+    <string name="forget_password">忘记密码</string>
 </resources>
