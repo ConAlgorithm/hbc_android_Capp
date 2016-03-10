@@ -67,7 +67,7 @@ public class MenuItemAdapter extends BaseAdapter {
             viewHolder.tips = (TextView)convertView.findViewById(R.id.tips);
             convertView.setTag(viewHolder);
         }else{
-            convertView.getTag();
+            viewHolder = (ViewHolder) convertView.getTag();
         }
 
         LvMenuItem item = mItems.get(position);
