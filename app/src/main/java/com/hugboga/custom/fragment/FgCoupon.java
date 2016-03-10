@@ -8,7 +8,6 @@ import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -16,25 +15,27 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.CouponAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CouponBean;
-import com.hugboga.custom.data.net.HttpRequestUtils;
-import com.hugboga.custom.data.parser.InterfaceParser;
-import com.hugboga.custom.data.parser.ParserCoupon;
-import com.hugboga.custom.data.parser.ParserCouponExchange;
+import com.hugboga.custom.data.request.RequestCoupon;
+import com.hugboga.custom.data.request.RequestCouponExchange;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.ZListView;
-import com.lidroid.xutils.ViewUtils;
-import com.lidroid.xutils.view.annotation.ViewInject;
-import com.lidroid.xutils.view.annotation.event.OnClick;
+
+import org.xutils.common.Callback;
+import org.xutils.view.annotation.ContentView;
+import org.xutils.view.annotation.Event;
+import org.xutils.view.annotation.ViewInject;
 
 import java.text.ParseException;
 
 /**
  * Created by ZHZEPHI on 2015/7/24.
  */
+@ContentView(R.layout.fg_coupon)
 public class FgCoupon extends BaseFragment implements AdapterView.OnItemClickListener {
 
     public static final String ORDER_ID = "ORDER_ID";
@@ -55,30 +56,29 @@ public class FgCoupon extends BaseFragment implements AdapterView.OnItemClickLis
     private String couponId;
     private int mPageSize = 20;
 
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fg_coupon, null);
-        ViewUtils.inject(this, view);
+    protected void initHeader() {
         Bundle bundle = getArguments();
         if (bundle != null) {
             orderId = bundle.getString(ORDER_ID, "");
             couponId = bundle.getString(KEY_COUPON_ID, "");
             orderPrice = bundle.getDouble(ORDER_PRICE);
         }
-        return view;
-    }
 
-    @Override
-    protected String fragmentTitle() {
-        //设置标题颜色，返回按钮图片
-        leftBtn.setImageResource(R.mipmap.top_back_black);
-        titleText.setTextColor(getResources().getColor(R.color.my_content_title_color));
+        fgTitle.setText("我的优惠券");
+        fgTitle.setTextColor(getResources().getColor(R.color.my_content_title_color));
         listView.setEmptyView(emptyLayout);
         listView.setOnItemClickListener(this);
         listView.setonRefreshListener(onRefreshListener);
         listView.setonLoadListener(onLoadListener);
-        return "我的优惠券";
     }
+
+    @Override
+    protected void initView() {
+
+    }
+
 
     ZListView.OnRefreshListener onRefreshListener = new ZListView.OnRefreshListener() {
         @Override
@@ -89,39 +89,38 @@ public class FgCoupon extends BaseFragment implements AdapterView.OnItemClickLis
             runData(orderId,0);
         }
     };
+
     ZListView.OnLoadListener onLoadListener = new ZListView.OnLoadListener() {
         @Override
         public void onLoad() {
-            if(adapter.getList()!=null && adapter.getList().size()>0){
+            if(adapter.getCount() > 0){
                 runData(orderId, adapter==null?0:adapter.getCount());
             }
         }
     };
 
 
-    private void runData( String orderId, int pageIndex){
-        ParserCoupon parser = new ParserCoupon(orderId, orderPrice,pageIndex, mPageSize);
-        mHttpUtils = new HttpRequestUtils(getActivity(), parser, this);
-        mHttpUtils.execute();
+    private Callback.Cancelable runData( String orderId, int pageIndex){
+        RequestCoupon requestCoupon = new RequestCoupon(getActivity(),orderId, orderPrice,pageIndex, mPageSize);
+        return requestData(requestCoupon);
     }
 
     @Override
-    protected void requestDate() {
+    protected Callback.Cancelable requestData() {
         //默认加载所有优惠券
 
         if(adapter!=null){
             adapter = null;
         }
-        runData(orderId,0);
+        return runData(orderId, 0);
     }
 
     @Override
     protected void inflateContent() {
     }
 
-    @Override
-    @OnClick({R.id.coupon_btn_pay})
-    protected void onClickView(View view) {
+    @Event({R.id.coupon_btn_pay})
+    private void onClickView(View view) {
         switch (view.getId()) {
             case R.id.coupon_btn_pay:
                 //兑换优惠券
@@ -132,37 +131,40 @@ public class FgCoupon extends BaseFragment implements AdapterView.OnItemClickLis
                         carNumberEditText.requestFocus();
                     return;
                 }
-                mHttpUtils = new HttpRequestUtils(getActivity(), new ParserCouponExchange(couponNum), this);
-                mHttpUtils.execute();
+                RequestCouponExchange requestCoupon = new RequestCouponExchange(getActivity(),couponNum);
+                requestData(requestCoupon);
                 break;
             default:
                 break;
         }
     }
+//    @Override
+//    public void onDataRequestSucceed(BaseRequest request) {
 
+//    }
     @Override
-    public void onDataRequestSucceed(InterfaceParser parser) {
-        if (parser instanceof ParserCoupon) {
-            ParserCoupon mParser = (ParserCoupon) parser;
-            if(mParser.listDate!=null){
+    public void onDataRequestSucceed(BaseRequest request) {
+        if (request instanceof RequestCoupon) {
+            RequestCoupon mRequest = (RequestCoupon) request;
+            if(mRequest.getData()!=null){
                 if(adapter==null){
                     adapter = new CouponAdapter(getActivity());
                     adapter.idStr = couponId;
                     listView.setAdapter(adapter);
-                    adapter.setList(mParser.listDate);
+                    adapter.setList(mRequest.getData());
                 }else{
-                    adapter.addList(mParser.listDate);
+                    adapter.addList(mRequest.getData());
                 }
             }
-            if(mParser.listDate!=null&&mParser.listDate.size()<mPageSize){
+            if(mRequest.getData() != null&&mRequest.getData().size()<mPageSize){
                 listView.onLoadCompleteNone();
             }else{
                 listView.onLoadComplete();
             }
             listView.onRefreshComplete();
-        } else if (parser instanceof ParserCouponExchange) {
-            ParserCouponExchange mParser = (ParserCouponExchange) parser;
-            requestDate();
+        } else if (request instanceof RequestCouponExchange) {
+            RequestCouponExchange mParser = (RequestCouponExchange) request;
+            requestData();
             DialogUtil dialogUtil = DialogUtil.getInstance(getActivity());
             dialogUtil.showCustomDialog("优惠券兑换成功", new DialogInterface.OnClickListener() {
                 @Override
@@ -245,4 +247,6 @@ public class FgCoupon extends BaseFragment implements AdapterView.OnItemClickLis
         pw.setOutsideTouchable(true);
         pw.showAtLocation(emptyLayout, Gravity.CENTER, 0, 0);
     }
+
+
 }

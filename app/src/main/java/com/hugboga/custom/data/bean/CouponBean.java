@@ -1,7 +1,5 @@
 package com.hugboga.custom.data.bean;
 
-import com.hugboga.custom.data.parser.InterfaceParser;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -25,7 +23,7 @@ public class CouponBean implements IBaseBean {
     public Integer pageIndex; //优惠劵分页，每次获取历史优惠劵拿最大数请求
     public String batchName; //渠道名称
 
-    @Override
+    /*@Override
     public void parser(JSONObject jsonObj) throws JSONException {
         if(jsonObj==null)return;
         couponID = jsonObj.optString("couponId");
@@ -41,5 +39,5 @@ public class CouponBean implements IBaseBean {
         applyCar = jsonObj.optString("applyCar");
         applyRule = jsonObj.optString("orderRuleRemark");
         batchName = jsonObj.optString("couponBatchName");
-    }
+    }*/
 }

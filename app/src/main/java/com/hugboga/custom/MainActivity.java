@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.huangbaoche.hbcframe.activity.BaseFragmentActivity;
 import com.huangbaoche.hbcframe.util.MLog;
@@ -27,7 +28,9 @@ import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.fragment.BaseFragment;
 import com.hugboga.custom.fragment.FgChat;
 import com.hugboga.custom.fragment.FgChooseCity;
+import com.hugboga.custom.fragment.FgCoupon;
 import com.hugboga.custom.fragment.FgHome;
+import com.hugboga.custom.fragment.FgLogin;
 import com.hugboga.custom.fragment.FgTest;
 import com.hugboga.custom.service.LogService;
 import com.hugboga.custom.utils.UpdateResources;
@@ -230,29 +233,24 @@ public class MainActivity extends BaseFragmentActivity
         switch (position){
             case Constants.PERSONAL_CENTER_COUPON:
                 //我的优惠券
-//                if(isLogin()) {
-//                    startFragment(new FgCoupon());
-//                    UserEntity.getUser().setHasNewCoupon(false);
+                if(isLogin()) {
+                    startFragment(new FgCoupon());
+                    UserEntity.getUser().setHasNewCoupon(false);
 //                    couponPoint.setVisibility(View.GONE);
-//                }
+                }
                 break;
             case Constants.PERSONAL_CENTER_CUSTOMER_SERVICE:
-
                 break;
             case Constants.PERSONAL_CENTER_INTERNAL_SERVICE:
-
                 break;
             case Constants.PERSONAL_CENTER_OVERSEAS_SERVICE:
-
                 break;
             case Constants.PERSONAL_CENTER_SETTING:
-
                 break;
-
             default:
-                drawer.closeDrawer(GravityCompat.START);
                 break;
         }
+        drawer.closeDrawer(GravityCompat.START);
 
 
         /*if (position == 0) {
@@ -275,18 +273,18 @@ public class MainActivity extends BaseFragmentActivity
 
     }
 
-//    /**
-//     * 判断是否登录
-//     * @return
-//     */
-//    private boolean isLogin(){
-//        if(UserEntity.getUser().isLogin(this)){
-//            return true;
-//        }else{
-//            startFragment(new FgLogin());
-//            return false;
-//        }
-//    }
+    /**
+     * 判断是否登录
+     * @return
+     */
+    private boolean isLogin(){
+        if(UserEntity.getUser().isLogin(this)){
+            return true;
+        }else{
+            startFragment(new FgLogin());
+            return false;
+        }
+    }
 
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to

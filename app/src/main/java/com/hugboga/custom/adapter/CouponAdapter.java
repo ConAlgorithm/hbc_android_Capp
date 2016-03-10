@@ -1,25 +1,29 @@
 package com.hugboga.custom.adapter;
 
 import android.app.Activity;
+import android.support.v7.widget.ViewUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.huangbaoche.hbcframe.adapter.BaseAdapter;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.CouponBean;
-import com.hugboga.custom.data.bean.OrderBean;
-import com.lidroid.xutils.ViewUtils;
-import com.lidroid.xutils.view.annotation.ViewInject;
+
+import org.xutils.view.annotation.ViewInject;
+import org.xutils.x;
+
+import java.util.zip.Inflater;
 
 /**
  * Created by ZHZEPHI on 2015/7/24.
  */
-public class CouponAdapter extends BasicListAdapter<CouponBean> {
+public class CouponAdapter extends BaseAdapter<CouponBean> {
 
     public String idStr; //默认选中的优惠券
-
     public CouponAdapter(Activity context) {
         super(context);
     }
@@ -31,12 +35,12 @@ public class CouponAdapter extends BasicListAdapter<CouponBean> {
         if (convertView == null) {
             convertView = mInflater.inflate(R.layout.fg_coupon_item, null);
             holder = new ViewHolder();
-            ViewUtils.inject(holder, convertView);
+            x.view().inject(holder, convertView);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        CouponBean couponBean = mList.get(position);
+        CouponBean couponBean = getItem(position);
         holder.mPrice.setText(couponBean.price);
         holder.mContent.setText(couponBean.batchName);
             if (couponBean.endDate.equals("0")) {
