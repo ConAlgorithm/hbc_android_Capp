@@ -61,7 +61,7 @@ public class MLog {
 
 
 	public static String getCurrentTime(){
-		 SimpleDateFormat timeFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm");
+		 SimpleDateFormat timeFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss.SSSZ");
 		return  timeFormat.format(new Date());
 	}
 }

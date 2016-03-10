@@ -25,6 +25,7 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.LvMenuItem;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.fragment.BaseFragment;
+import com.hugboga.custom.fragment.FgChat;
 import com.hugboga.custom.fragment.FgChooseCity;
 import com.hugboga.custom.fragment.FgHome;
 import com.hugboga.custom.fragment.FgTest;
@@ -304,7 +305,7 @@ public class MainActivity extends BaseFragmentActivity
                     return new FgHome();
                 }
                 case 1: {
-                    return getTestFragment("bbb");
+                    return new FgChat();
                 }
                 case 2: {
                     return getTestFragment("ccc");

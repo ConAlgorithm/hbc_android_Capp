@@ -8,38 +8,81 @@
     android:layout_height="wrap_content"
     android:scaleType="fitXY"
     android:src="@mipmap/img_notext"
+    android:layout_marginBottom="5dp"
     />
 <TextView
     android:id="@+id/item_sku_title"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_below="@id/item_city_sku_img"
+    android:textSize="16dp"
+    android:layout_marginLeft="10dp"
+    android:text="测试精品线路"
     />
 <TextView
     android:id="@+id/item_sku_label"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_below="@id/item_sku_title"
+    android:layout_marginLeft="10dp"
+    android:textSize="15dp"
+    android:text="测试标签"
+
     />
 <TextView
     android:id="@+id/item_sku_guide_number"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_below="@id/item_sku_label"
+    android:layout_marginLeft="10dp"
+    android:textSize="14dp"
+    android:textColor="#7451af"
+    android:text="@string/sku_item_guide_number"
     />
-<TextView
-    android:id="@+id/item_sku_amount"
+<LinearLayout
+    android:id="@+id/item_sku_amount_layout"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_below="@id/item_city_sku_img"
+    android:orientation="horizontal"
     android:layout_alignParentRight="true"
-    />
+    android:layout_below="@id/item_city_sku_img"
+    android:layout_marginRight="10dp"
+    >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:textColor="@color/basic_red"
+        android:text="￥"
+        />
+    <TextView
+        android:id="@+id/item_sku_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="26dp"
+        android:textColor="@color/basic_red"
+        android:text="--"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/basic_red"
+        android:text="@string/up"
+        />
+</LinearLayout>
+
 <TextView
     android:id="@+id/item_sku_sale"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_below="@id/item_sku_amount"
+    android:layout_below="@id/item_sku_amount_layout"
     android:layout_alignParentRight="true"
+    android:layout_marginTop="8dp"
+    android:layout_marginRight="10dp"
+    android:textSize="14dp"
+    android:textColor="#89000000"
+    android:text="@string/sku_sale_number"
     />
 
 </RelativeLayout>

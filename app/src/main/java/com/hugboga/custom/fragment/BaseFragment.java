@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
@@ -104,5 +105,7 @@ public abstract class BaseFragment extends com.huangbaoche.hbcframe.fragment.Bas
 //            }
 //        }
     }
-
+      public void showTip(String tips){
+          Toast.makeText(getActivity(),tips,Toast.LENGTH_LONG).show();
+      }
 }

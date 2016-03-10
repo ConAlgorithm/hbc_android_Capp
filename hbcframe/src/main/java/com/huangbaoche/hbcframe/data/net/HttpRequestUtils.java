@@ -55,7 +55,6 @@ public class HttpRequestUtils {
                     Object data = parser.parse(String.class, String.class, result);
                     request.setData(data);
                 } catch (Throwable throwable) {
-                    throwable.printStackTrace();
                     listener.onDataRequestError(handleException(throwable), request);
                     return;
                 }

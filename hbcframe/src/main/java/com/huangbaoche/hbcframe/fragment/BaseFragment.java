@@ -61,8 +61,8 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
         super.onStart();
         MLog.i(this + " onStart");
         if(needHttpRequest){
-            cancelable = requestData();
             needHttpRequest = false;
+            cancelable = requestData();
         }else {
             inflateContent();
         }

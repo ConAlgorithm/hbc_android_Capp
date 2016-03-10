@@ -10,9 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="130dp"
         android:orientation="horizontal"
+        android:gravity="center_vertical"
         android:layout_alignParentBottom="true"
-        android:paddingBottom="20dp"
-        android:paddingTop="50dp"
         android:background="@mipmap/img_undertext"
         >
 
@@ -52,9 +51,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/black"
+            android:textColor="#dd000000"
             android:textSize="20dp"
-            android:text="@string/home_sub_title"
+            android:text="@string/sku_sub_title"
             />
         <ImageView
             android:layout_width="wrap_content"

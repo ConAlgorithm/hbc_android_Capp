@@ -40,9 +40,11 @@ public class SkuAdapter extends BaseAdapter<SkuItemBean> {
         if(bean!=null){
             viewHolder.tvTitle.setText(bean.goodsName);
             viewHolder.tvLabel.setText(bean.salePoints);
-            viewHolder.tvGuide.setText(bean.guideAmount);
+            viewHolder.tvGuide.setText(mContext.getString(R.string.sku_item_guide_number,bean.guideAmount));
             viewHolder.tvAmount.setText(bean.goodsMinPrice);
-            viewHolder.tvSale.setText(bean.saleAmount);
+            viewHolder.tvSale.setText(mContext.getString(R.string.sku_sale_number,bean.saleAmount));
+            viewHolder.tvGuide.setVisibility(bean.guideAmount == 0 ? View.GONE : View.VISIBLE);
+            viewHolder.tvSale.setVisibility(bean.saleAmount==0?View.GONE:View.VISIBLE);
             //x.image().bind(viewHolder.imgBg,bean.picture);
         }
 

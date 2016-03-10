@@ -1,1 +1,1 @@
-include ':app', ':hbcframe', ':fadingactionbar'
+include ':app', ':hbcframe', ':fadingactionbar',':IMKit'

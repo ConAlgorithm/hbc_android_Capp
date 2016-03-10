@@ -5,6 +5,7 @@
     android:orientation="vertical"
     android:background="@mipmap/img_hometop"
     android:gravity="center_horizontal"
+    android:descendantFocusability="beforeDescendants"
     >
     <TextView
         android:layout_width="wrap_content"
@@ -66,7 +67,7 @@
             android:drawableTop="@mipmap/home_menu02"
             android:text="@string/title_daily" />
 
-        <TextView
+        <Button
             android:id="@+id/fg_home_menu3"
             style="@style/HomeMenuStyle"
             android:drawableTop="@mipmap/home_menu03"

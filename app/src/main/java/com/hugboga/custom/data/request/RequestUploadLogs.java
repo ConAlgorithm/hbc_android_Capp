@@ -7,6 +7,7 @@ import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.data.net.UrlLibs;
 
+import org.json.JSONObject;
 import org.xutils.http.HttpMethod;
 import org.xutils.http.annotation.HttpRequest;
 
@@ -18,7 +19,7 @@ import java.util.Map;
  */
 
 @HttpRequest(path = UrlLibs.SERVER_IP_UPLOAD_LOGS,builder = HbcParamsBuilder.class)
-public class RequestUploadLogs extends BaseRequest<String> {
+public class RequestUploadLogs extends BaseRequest<Boolean> {
 
     private StringBuffer log;
 
@@ -39,7 +40,12 @@ public class RequestUploadLogs extends BaseRequest<String> {
 
     @Override
     public ImplParser getParser() {
-        return null;
+        return new ImplParser() {
+            @Override
+            public Object parseObject(JSONObject obj) throws Throwable {
+                return obj.optBoolean("debug",false);
+            }
+        };
     }
 
     @Override
