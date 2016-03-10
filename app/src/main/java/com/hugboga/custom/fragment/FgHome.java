@@ -61,6 +61,7 @@ public class FgHome extends BaseFragment implements AdapterView.OnItemClickListe
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);
         getView().findViewById(R.id.fg_home_menu3).setOnClickListener(this);
+        getView().findViewById(R.id.header_left_btn).setOnClickListener(this);
     }
 
 
@@ -85,30 +86,6 @@ public class FgHome extends BaseFragment implements AdapterView.OnItemClickListe
         adapter.setList(dataList);
     }
 
-    @Event({R.id.header_left_btn, R.id.header_right_btn, R.id.fg_home_menu1, R.id.fg_home_menu2, R.id.fg_home_menu3})
-    private void onClickView(View view) {
-        MLog.e("onClickView="+view);
-        switch (view.getId()) {
-            case R.id.header_left_btn://左侧按钮
-                ((MainActivity) getActivity()).openDrawer();
-                break;
-            case R.id.header_right_btn://右侧搜索
-
-                break;
-            case R.id.fg_home_menu1://中文接送机
-
-                break;
-            case R.id.fg_home_menu2://按天包车
-
-                break;
-            case R.id.fg_home_menu3://单次接送
-                MLog.e("FgSingle");
-                startFragment(new FgSingle());
-                break;
-
-        }
-
-    }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -123,6 +100,9 @@ public class FgHome extends BaseFragment implements AdapterView.OnItemClickListe
     public void onClick(View v) {
         MLog.e("onClick="+v);
         switch (v.getId()) {
+            case R.id.header_left_btn:
+                ((MainActivity) getActivity()).openDrawer();
+                break;
             case R.id.fg_home_menu1://中文接送机
 
                 break;
@@ -136,4 +116,6 @@ public class FgHome extends BaseFragment implements AdapterView.OnItemClickListe
 
         }
     }
+
+
 }
