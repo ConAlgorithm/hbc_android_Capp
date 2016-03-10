@@ -10,6 +10,7 @@ import android.widget.Toast;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 
+import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
 
@@ -67,6 +68,16 @@ public abstract class BaseFragment extends com.huangbaoche.hbcframe.fragment.Bas
         }
         MLog.i(this + " finishForResult " + fragment);
 
+    }
+
+
+    @Event({R.id.header_left_btn})
+    private void onClickView(View view){
+        switch (view.getId()){
+            case R.id.header_left_btn:
+                finish();
+                break;
+        }
     }
 
     /**

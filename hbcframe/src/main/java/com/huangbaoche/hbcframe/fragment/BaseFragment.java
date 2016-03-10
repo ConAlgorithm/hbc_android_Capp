@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -25,7 +26,7 @@ import org.xutils.x;
 import java.util.ArrayList;
 
 
-public abstract class BaseFragment extends Fragment implements HttpRequestListener {
+public abstract class BaseFragment extends Fragment implements HttpRequestListener, View.OnTouchListener {
     public static String KEY_FRAGMENT_NAME = "key_fragment_name";
 
     public boolean needHttpRequest = true;
@@ -42,6 +43,7 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         injected = true;
+
         return x.view().inject(this, inflater, container);
     }
 
@@ -51,6 +53,7 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
         if (!injected) {
             x.view().inject(this, this.getView());
         }
+        getView().setOnTouchListener(this);
         initHeader();
         initView();
 
@@ -110,6 +113,7 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
 
     @Override
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+        needHttpRequest = true;
         if(errorHandler==null){
             errorHandler = new ErrorHandler(getActivity());
         }
@@ -118,8 +122,13 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
     }
 
     @Override
-    public void onDataRequestCancel(BaseRequest request) {
+    public void onDataRequestSucceed(BaseRequest request) {
 
+    }
+
+    @Override
+    public void onDataRequestCancel(BaseRequest request) {
+        needHttpRequest = true;
     }
 
     /**
@@ -292,5 +301,10 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
 
     public void setContentId(int contentId) {
         this.contentId = contentId;
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        return true;
     }
 }
