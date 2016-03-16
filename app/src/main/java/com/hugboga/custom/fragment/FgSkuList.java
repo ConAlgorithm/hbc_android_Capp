@@ -14,6 +14,7 @@ import com.hugboga.custom.data.request.RequestSkuList;
 
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
+import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
 /**
@@ -69,6 +70,7 @@ public class FgSkuList extends  BaseFragment {
     protected void inflateContent() {
 
     }
+
 
     private CityBean findCityById(String id){
 

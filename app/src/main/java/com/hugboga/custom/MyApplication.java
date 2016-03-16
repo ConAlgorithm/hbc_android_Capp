@@ -10,6 +10,8 @@ import com.hugboga.custom.data.request.RequestAccessKey;
 
 import org.xutils.x;
 
+import io.rong.imkit.RongIM;
+
 /**
  * Created by admin on 2016/2/25.
  */
@@ -20,8 +22,10 @@ public class MyApplication extends HbcApplication {
     public void onCreate() {
         super.onCreate();
         x.Ext.setDebug(true);
-        Log.e("hbcApplication", "debug " + BuildConfig.DEBUG);
+
+        RongIM.init(this); // 初始化融云IM
         initConfig();
+        Log.e("hbcApplication", "debug " + BuildConfig.DEBUG);
     }
 
     private void initConfig(){

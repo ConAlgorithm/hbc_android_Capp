@@ -17,12 +17,14 @@ import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.activity.BaseFragmentActivity;
 import com.huangbaoche.hbcframe.util.MLog;
+import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.fragment.BaseFragment;
 import com.hugboga.custom.fragment.FgChat;
 import com.hugboga.custom.fragment.FgChooseCity;
 import com.hugboga.custom.fragment.FgHome;
 import com.hugboga.custom.fragment.FgTest;
 import com.hugboga.custom.service.LogService;
+import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.UpdateResources;
 
 import org.xutils.view.annotation.ContentView;
@@ -62,6 +64,12 @@ public class MainActivity extends BaseFragmentActivity
         initBottomView();
         addErrorProcess();
         UpdateResources.checkLocalDB(this);
+        connectIM();
+    }
+
+    private void connectIM() {
+        if(UserEntity.getUser().getImToken(this)!=null)
+        IMUtil.connect(this, UserEntity.getUser().imToken);
     }
 
     private void initBottomView() {

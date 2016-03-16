@@ -7,11 +7,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.huangbaoche.hbcframe.data.bean.UserEntity;
+import com.huangbaoche.hbcframe.data.bean.UserSession;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.UserBean;
+import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.request.RequestLogin;
+import com.hugboga.custom.utils.IMUtil;
 
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
@@ -63,10 +65,17 @@ public class FgLogin extends BaseFragment {
             RequestLogin mRequest = (RequestLogin)request;
             UserBean user = mRequest.getData();
             user.setUserEntity(getActivity());
-            UserEntity.getUser().setUserToken(getActivity(),user.userToken);
-            finish();
+            UserSession.getUser().setUserToken(getActivity(), user.userToken);
+            connectIM();
+            finishForResult(new Bundle());
+
         }
     }
+
+    private void connectIM(){
+        IMUtil.connect(getActivity(),UserEntity.getUser().imToken);
+    }
+
     @Event({R.id.login_submit,R.id.change_mobile_areacode,R.id.login_register,R.id.change_mobile_diepwd})
     private void onClickView(View view){
         switch (view.getId()) {

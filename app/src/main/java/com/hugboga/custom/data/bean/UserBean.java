@@ -22,7 +22,7 @@ public class UserBean implements IBaseBean {
     public String userToken;
     public boolean weakPassword;  //布尔值 是否弱密码
     public String weakPasswordMsg; //弱密码提示文案
-
+    public String imToken;//聊天token
 
     public String getGenderStr(){
         switch (gender){
@@ -69,5 +69,6 @@ public class UserBean implements IBaseBean {
         UserEntity.getUser().setAvatar(context, this.avatar);
         UserEntity.getUser().setNickname(context, this.nickname);
         UserEntity.getUser().setCode(context, this.areaCode);
+        UserEntity.getUser().setImToken(context,imToken);
     }
 }

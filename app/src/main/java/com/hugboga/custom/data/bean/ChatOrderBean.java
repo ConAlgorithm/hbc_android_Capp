@@ -4,7 +4,7 @@ package com.hugboga.custom.data.bean;
  * 私信订单信息
  * Created by ZHZEPHI on 2016/3/4.
  */
-public class ChatOrderBean {
+public class ChatOrderBean implements IBaseBean{
 
     public String status; //状态中文
     public String orderNo; //订单号

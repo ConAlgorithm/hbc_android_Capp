@@ -5,7 +5,7 @@ import android.content.Context;
 import android.view.View;
 
 import com.huangbaoche.hbcframe.HbcConfig;
-import com.huangbaoche.hbcframe.data.bean.UserEntity;
+import com.huangbaoche.hbcframe.data.bean.UserSession;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
@@ -115,9 +115,9 @@ public class HttpRequestUtils {
      * @return
      */
     private static boolean checkAccessKey(Context mContext) {
-        String accessKey = UserEntity.getUser().getAccessKey(mContext);
+        String accessKey = UserSession.getUser().getAccessKey(mContext);
         if (accessKey == null) {
-            UserEntity.getUser().setAccessKey(mContext, "");
+            UserSession.getUser().setAccessKey(mContext, "");
             return false;
         }
         return true;
@@ -138,15 +138,15 @@ public class HttpRequestUtils {
             request(mContext, accessKeyRequest, new HttpRequestListener() {
                 @Override
                 public void onDataRequestSucceed(BaseRequest request) {
-                    UserEntity.getUser().setAccessKey(mContext, (String) request.getData());
-                    String accessKey = UserEntity.getUser().getAccessKey(mContext);
+                    UserSession.getUser().setAccessKey(mContext, (String) request.getData());
+                    String accessKey = UserSession.getUser().getAccessKey(mContext);
                     MLog.e("accessKey =" + accessKey);
                     request(mContext, baseRequest, listener, btn);
                 }
 
                 @Override
                 public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-                    UserEntity.getUser().setAccessKey(mContext, null);
+                    UserSession.getUser().setAccessKey(mContext, null);
                     listener.onDataRequestError(errorInfo, request);
                 }
 
