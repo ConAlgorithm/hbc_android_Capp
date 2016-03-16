@@ -164,7 +164,6 @@ public class CityAdapter extends BaseAdapter implements View.OnClickListener,OnI
 			HotCityGridViewAdapter hotCityGridViewAdapter = new HotCityGridViewAdapter(mContext,hotCityList);
 			viewHolder.gv_hot_city.setAdapter(hotCityGridViewAdapter);
 			viewHolder.gv_hot_city.setOnItemClickListener(this);
-			hotCityGridViewAdapter.notifyDataSetChanged();
 		} else {
 
 			if(view.getTag() instanceof GridViewHolder){

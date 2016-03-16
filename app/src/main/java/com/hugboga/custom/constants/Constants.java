@@ -72,6 +72,15 @@ public final class Constants {
 	public static final int CAR_SEAT_9=3;
 	public static final int CAR_SEAT_12=4;
 
+	/**
+	 * 左侧navigation menu
+	 */
+	public static final int PERSONAL_CENTER_COUPON = 1;
+	public static final int PERSONAL_CENTER_CUSTOMER_SERVICE = 2;
+	public static final int PERSONAL_CENTER_INTERNAL_SERVICE = 3;
+	public static final int PERSONAL_CENTER_OVERSEAS_SERVICE = 4;
+	public static final int PERSONAL_CENTER_SETTING = 5;
+
 	/**车辆类型*/
 	public static HashMap<Integer,String> CarTypeMap = new HashMap<Integer,String>();
 	/*** 座位*/

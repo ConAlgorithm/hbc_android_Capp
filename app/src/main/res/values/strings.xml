@@ -191,6 +191,9 @@
     <string name="up">起</string>
     <string name="sku_sale_number">%d人已体验</string>
 
+    <!-- sku-->
+    <string name="person_center_nickname">昵称</string>
+    <string name="person_center_coupon">优惠券</string>
     <!--登录-->
     <string name="login">登录</string>
     <string name="forget_password">忘记密码</string>
