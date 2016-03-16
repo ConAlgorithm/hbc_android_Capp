@@ -140,7 +140,7 @@ public class UserEntity {
         this.orderPoint = orderPoint;
     }
 
-    public String getCode(Context activity) {
+    public String getAreaCode(Context activity) {
         if (code == null) {
             SharedPre shared = new SharedPre(activity);
             code = shared.getStringValue(SharedPre.CODE);
@@ -148,7 +148,7 @@ public class UserEntity {
         return code;
     }
 
-    public void setCode(Context activity, String code) {
+    public void setAreaCode(Context activity, String code) {
         SharedPre shared = new SharedPre(activity);
         shared.saveStringValue(SharedPre.CODE, code);
         this.code = code;

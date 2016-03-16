@@ -22,6 +22,7 @@ import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.net.WebAgent;
 import com.hugboga.custom.data.request.RequestWebInfo;
 import com.hugboga.custom.widget.DialogUtil;
 
@@ -48,34 +49,6 @@ public class FgWebInfo extends BaseFragment implements View.OnKeyListener {
     @ViewInject(R.id.webview)
     WebView webView;
 
-    class javaObj {
-
-        @JavascriptInterface
-        public void requestUrl(String type, String url, String callback) {
-            loadRequest(type, url, null, callback);
-        }
-
-        @JavascriptInterface
-        public void requestBody(String url, String requestBody, String callback) {
-            loadRequest("body", url, requestBody, callback);
-        }
-    }
-    //请求
-    private void loadRequest(final String type, final String url, final String requestBody, final String callback){
-        MLog.e("url = "+url);
-        MLog.e("type = "+type);
-        MLog.e("requestBody = "+requestBody);
-        MLog.e("callback = "+callback);
-
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                RequestWebInfo requestWebInfo = new RequestWebInfo(getActivity(),url, type, requestBody, callback);
-                requestData(requestWebInfo);
-            }
-        });
-
-    }
 
     WebViewClient webClient = new WebViewClient() {
         @Override
@@ -149,7 +122,7 @@ public class FgWebInfo extends BaseFragment implements View.OnKeyListener {
         @Override
         public void onReceivedTitle(WebView view, String title) {
             super.onReceivedTitle(view, title);
-//            fgTitle.setText(view.getTitle());
+            fgTitle.setText(view.getTitle());
         }
 
         @Override
@@ -191,16 +164,6 @@ public class FgWebInfo extends BaseFragment implements View.OnKeyListener {
     }
 
     @Override
-    public void onDataRequestSucceed(BaseRequest request) {
-        if(request instanceof RequestWebInfo){
-            RequestWebInfo requestWebInfo = (RequestWebInfo)request;
-            String callback="javascript:" + requestWebInfo.callBack + "('" + requestWebInfo.getData()+ "')";
-            MLog.e("callback="+callback);
-            webView.loadUrl(callback);
-        }
-    }
-
-    @Override
     public boolean onKey(View v, int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && webView.canGoBack()) {
             webView.goBack();
@@ -226,7 +189,7 @@ public class FgWebInfo extends BaseFragment implements View.OnKeyListener {
         // 启用javaScript
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setDefaultTextEncodingName("UTF-8");
-        webView.addJavascriptInterface(new javaObj(), "javaObj");
+        webView.addJavascriptInterface(new WebAgent(this,webView), "javaObj");
         webView.setOnKeyListener(this);
         webView.setWebViewClient(webClient);
         webView.setWebChromeClient(webChromeClient);
@@ -239,13 +202,9 @@ public class FgWebInfo extends BaseFragment implements View.OnKeyListener {
         String url = getArguments().getString(Web_URL);
 //        url = "https://res2.huangbaoche.com/h5/gmsg/message.html?messageId=100068621&guideId=200000001445";
 //        url="https://www.baidu.com";
+        url = "http://res.dev.hbc.tech/h5/test/api.html?t="+System.currentTimeMillis();
         if (!TextUtils.isEmpty(url)) {
             MLog.e("url=" + url);
-         /*   if (url.startsWith("https://")) {
-                isHttps = true;
-            } else {
-                isHttps = false;
-            }*/
             webView.loadUrl(url);
         }
 //        webView.loadUrl("http://res.dev.hbc.tech/h5/greg/index.html");

@@ -27,8 +27,6 @@ public class ParserHome extends ImplParser {
                 bean.subTitle = item.optString("subTitle");
                 bean.picture = item.optString("picture");
                 dataList.add(bean);
-                dataList.add(bean);
-                dataList.add(bean);
             }
         }
         return dataList;

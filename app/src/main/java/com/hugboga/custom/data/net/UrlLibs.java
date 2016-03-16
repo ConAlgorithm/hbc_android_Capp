@@ -1,7 +1,7 @@
 package com.hugboga.custom.data.net;
 
 
-public class UrlLibs {
+public  class UrlLibs {
 
  	/**
  	 * 接口地址
@@ -22,7 +22,20 @@ public class UrlLibs {
 	public static String SERVER_IP_HOST_PUBLIC = SERVER_HTTP_SCHEME+SERVER_IP_HOST_PUBLIC_DEFAULT;//主域名
 
 
+	/**
+	 * url host 的 enum
+	 */
+	public static enum UrlHost{
+		DEVELOPER(SERVER_IP_HOST_PUBLIC_DEV),
+		EXAMINATION(SERVER_IP_HOST_PUBLIC_EXAMINATION),
+		STAGE(SERVER_IP_HOST_PUBLIC_STAGE),
+		FORMAL(SERVER_IP_HOST_PUBLIC_FORMAL);
 
+		public String url;
+		private UrlHost(String url){
+			this.url = url;
+		}
+	}
 
 
 	//-------业务-------

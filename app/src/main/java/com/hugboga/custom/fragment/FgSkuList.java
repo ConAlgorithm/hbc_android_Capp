@@ -1,7 +1,9 @@
 package com.hugboga.custom.fragment;
 
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
@@ -22,7 +24,7 @@ import org.xutils.view.annotation.ViewInject;
  * Created by admin on 2016/3/3.
  */
 @ContentView(R.layout.fg_sku_list)
-public class FgSkuList extends  BaseFragment {
+public class FgSkuList extends  BaseFragment implements AdapterView.OnItemClickListener {
 
     public static final String KEY_CITY_ID = "KEY_CITY_ID";
 
@@ -40,6 +42,7 @@ public class FgSkuList extends  BaseFragment {
         fgTitle.setText("测试");
         View header = LayoutInflater.from(getActivity()).inflate(R.layout.fg_sku_header, null);
         listView.addHeaderView(header);
+        listView.setOnItemClickListener(this);
     }
 
     @Override
@@ -77,4 +80,10 @@ public class FgSkuList extends  BaseFragment {
         return null;
     }
 
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Bundle bundle = new Bundle();
+        bundle.putString(FgWebInfo.Web_URL,adapter.getItem(position).goodsNo);
+        startFragment(new FgWebInfo(),bundle);
+    }
 }

@@ -50,10 +50,6 @@ public final class Constants {
 	 */
 	public static HashMap<String,Integer> arrivalMap = new HashMap<String,Integer>();
 
-	/**
-	 * 服务器访问渠道列表
-	 */
-	public static HashMap<String,String> hostUrlMap = new HashMap<String,String>();
 
 	/**
 	 * 车辆类型
@@ -110,10 +106,6 @@ public final class Constants {
 
 	static {
 
-//		hostUrlMap.put("developer", UrlLibs.SERVER_IP_HOST_PUBLIC_DEV);
-//		hostUrlMap.put("examination",UrlLibs.SERVER_IP_HOST_PUBLIC_EXAMINATION);
-//		hostUrlMap.put("stage",UrlLibs.SERVER_IP_HOST_PUBLIC_STAGE);
-//		hostUrlMap.put("formal",UrlLibs.SERVER_IP_HOST_PUBLIC_FORMAL);
 
 //		arrivalMap.put("交通", R.mipmap.list_traffic);
 //		arrivalMap.put("酒店", R.mipmap.list_hotels);

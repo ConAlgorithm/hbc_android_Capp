@@ -2,10 +2,6 @@ package com.hugboga.custom.data.bean;
 
 import android.content.Context;
 
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 /**
  * Created by ZHZEPHI on 2015/7/22.
  */
@@ -68,7 +64,7 @@ public class UserBean implements IBaseBean {
         UserEntity.getUser().setUserId(this.userID);
         UserEntity.getUser().setAvatar(context, this.avatar);
         UserEntity.getUser().setNickname(context, this.nickname);
-        UserEntity.getUser().setCode(context, this.areaCode);
+        UserEntity.getUser().setAreaCode(context, this.areaCode);
         UserEntity.getUser().setImToken(context,imToken);
     }
 }

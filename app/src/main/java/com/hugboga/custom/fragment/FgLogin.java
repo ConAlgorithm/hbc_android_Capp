@@ -14,6 +14,7 @@ import com.hugboga.custom.data.bean.UserBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.request.RequestLogin;
 import com.hugboga.custom.utils.IMUtil;
+import com.hugboga.custom.utils.SharedPre;
 
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
@@ -30,6 +31,9 @@ import java.util.regex.Pattern;
 @ContentView(R.layout.fg_login)
 public class FgLogin extends BaseFragment {
 
+    public static String KEY_PHONE = "key_phone";
+    public static String KEY_AREA_CODE = "key_area_code";
+
     @ViewInject(R.id.change_mobile_areacode)
     private TextView areaCodeTextView;
     @ViewInject(R.id.login_phone)
@@ -41,6 +45,7 @@ public class FgLogin extends BaseFragment {
 
     String phone;
     String areaCode;
+    private SharedPre sharedPre;
 
     @Override
     protected void initHeader() {
@@ -49,7 +54,21 @@ public class FgLogin extends BaseFragment {
 
     @Override
     protected void initView() {
-
+        String areaCode = getArguments().getString(KEY_AREA_CODE,"");
+        String phone = getArguments().getString(KEY_PHONE,"");
+        sharedPre = new SharedPre(getActivity());
+        if(TextUtils.isEmpty(areaCode)){
+            areaCode = sharedPre.getStringValue(SharedPre.CODE);
+        }
+        if(!TextUtils.isEmpty(areaCode)) {
+            areaCodeTextView.setText(areaCode);
+        }
+        if(TextUtils.isEmpty(phone)){
+            phone = sharedPre.getStringValue(SharedPre.PHONE);
+        }
+        if(!TextUtils.isEmpty(phone)) {
+            phoneEditText.setText(phone);
+        }
     }
 
     @Override
