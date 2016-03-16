@@ -22,6 +22,7 @@ public class UserBean implements IBaseBean {
     public String userToken;
     public boolean weakPassword;  //布尔值 是否弱密码
     public String weakPasswordMsg; //弱密码提示文案
+    public String token;
 
 
     public String getGenderStr(){

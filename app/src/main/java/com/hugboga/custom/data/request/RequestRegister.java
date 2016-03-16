@@ -1,17 +1,15 @@
 package com.hugboga.custom.data.request;
 
 import android.content.Context;
-
 import com.huangbaoche.hbcframe.data.net.HbcParamsBuilder;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.data.bean.UserBean;
 import com.hugboga.custom.data.net.UrlLibs;
-
+import com.hugboga.custom.data.parser.ParserRegister;
 import org.xutils.http.HttpMethod;
 import org.xutils.http.annotation.HttpRequest;
-
 import java.util.HashMap;
 
 /**
@@ -37,7 +35,7 @@ public class RequestRegister extends BaseRequest<UserBean> {
 
     @Override
     public ImplParser getParser() {
-        return null;
+        return new ParserRegister();
     }
 
     @Override
