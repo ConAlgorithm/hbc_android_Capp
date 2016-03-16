@@ -31,8 +31,12 @@ import com.hugboga.custom.fragment.FgChooseCity;
 import com.hugboga.custom.fragment.FgCoupon;
 import com.hugboga.custom.fragment.FgHome;
 import com.hugboga.custom.fragment.FgLogin;
+import com.hugboga.custom.fragment.FgServicerCenter;
+import com.hugboga.custom.fragment.FgSetting;
 import com.hugboga.custom.fragment.FgTest;
 import com.hugboga.custom.service.LogService;
+import com.hugboga.custom.utils.Common;
+import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.utils.UpdateResources;
 
 import org.xutils.view.annotation.ContentView;
@@ -79,6 +83,7 @@ public class MainActivity extends BaseFragmentActivity
         initBottomView();
         addErrorProcess();
         UpdateResources.checkLocalDB(this);
+        UpdateResources.checkLocalResource(this);
         setUpDrawer();
     }
 
@@ -240,12 +245,23 @@ public class MainActivity extends BaseFragmentActivity
                 }
                 break;
             case Constants.PERSONAL_CENTER_CUSTOMER_SERVICE:
+                //客服
+                startFragment(new FgServicerCenter());
                 break;
             case Constants.PERSONAL_CENTER_INTERNAL_SERVICE:
+                //境内客服
+                PhoneInfo.CallDial(MainActivity.this, Constants.CALL_NUMBER_IN);
                 break;
             case Constants.PERSONAL_CENTER_OVERSEAS_SERVICE:
+                //境外客服
+                PhoneInfo.CallDial(MainActivity.this,Constants.CALL_NUMBER_OUT);
                 break;
             case Constants.PERSONAL_CENTER_SETTING:
+                //我的设置
+                if(isLogin()) {
+//                    versionPoint.setVisibility(View.GONE);
+                    startFragment(new FgSetting());
+                }
                 break;
             default:
                 break;

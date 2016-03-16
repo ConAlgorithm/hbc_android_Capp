@@ -17,7 +17,7 @@ public class UrlLibs {
 	public static String SERVER_IP_HOST_PUBLIC_STAGE = "api2.huangbaoche.com/";//stage
 	public static String SERVER_IP_HOST_PUBLIC_FORMAL = "api2.huangbaoche.com/";//生产
 
-	public static String SERVER_IP_HOST_PUBLIC_DEFAULT = SERVER_IP_HOST_PUBLIC_EXAMINATION;//默认
+	public static String SERVER_IP_HOST_PUBLIC_DEFAULT = SERVER_IP_HOST_PUBLIC_DEV;//默认
 
 	public static String SERVER_IP_HOST_PUBLIC = SERVER_HTTP_SCHEME+SERVER_IP_HOST_PUBLIC_DEFAULT;//主域名
 

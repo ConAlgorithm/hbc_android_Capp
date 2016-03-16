@@ -5,8 +5,13 @@
     android:background="@mipmap/bg_02"
     android:orientation="vertical">
 
-    <include layout="@layout/activity_head" />
+    <include layout="@layout/include_header" />
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/servicer_center_content_bg"
+        android:fillViewport="false">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -57,7 +62,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="-2dp"
             android:layout_below="@id/servicer_center_line"
             android:background="@color/servicer_center_content_bg"
@@ -66,7 +71,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -154,4 +159,5 @@
         </RelativeLayout>
     </RelativeLayout>
 
+    </ScrollView>
 </LinearLayout>

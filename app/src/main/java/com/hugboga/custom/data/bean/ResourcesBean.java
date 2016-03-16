@@ -12,11 +12,4 @@ public class ResourcesBean implements IBaseBean {
     public int resVersion;
     public String resName;
     public String resUrl;
-
-    @Override
-    public void parser(JSONObject jsonObj) throws JSONException {
-        resVersion = jsonObj.optInt("resVersion");
-        resName = jsonObj.optString("resName");
-        resUrl = jsonObj.optString("resDownloadLink");
-    }
 }

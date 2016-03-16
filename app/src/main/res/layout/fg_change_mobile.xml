@@ -5,7 +5,7 @@
     android:background="@mipmap/bg_02"
     android:orientation="vertical">
 
-    <include layout="@layout/activity_head" />
+    <include layout="@layout/include_header" />
 
     <LinearLayout
         android:layout_width="match_parent"

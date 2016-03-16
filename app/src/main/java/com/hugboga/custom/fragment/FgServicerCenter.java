@@ -5,56 +5,50 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
-import com.hugboga.custom.constants.ResourcesConstants;
 import com.hugboga.custom.constants.Constants;
-import com.hugboga.custom.data.parser.InterfaceParser;
-import com.hugboga.custom.data.parser.ParserHome;
-import com.hugboga.custom.utils.MLog;
+import com.hugboga.custom.constants.ResourcesConstants;
 import com.hugboga.custom.utils.PhoneInfo;
-import com.lidroid.xutils.view.annotation.event.OnClick;
 
+import org.xutils.common.Callback;
+import org.xutils.view.annotation.ContentView;
+import org.xutils.view.annotation.Event;
+
+@ContentView(R.layout.fg_servicer_center)
 public class FgServicerCenter extends BaseFragment {
 
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fg_servicer_center, null);
-        return view;
-    }
+//    @Override
+//    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+//                             Bundle savedInstanceState) {
+//        View view = inflater.inflate(R.layout.fg_servicer_center, null);
+//        return view;
+//    }
 
-    @Override
-    protected String fragmentTitle() {
-        leftBtn.setImageResource(R.mipmap.top_back_black);
-        titleText.setTextColor(getResources().getColor(R.color.my_content_title_color));
-        return "客服中心";
-    }
+//    @Override
+//    protected String fragmentTitle() {
+//        leftBtn.setImageResource(R.mipmap.top_back_black);
+//        titleText.setTextColor(getResources().getColor(R.color.my_content_title_color));
+//        return "客服中心";
+//    }
 
-    @Override
-    protected void requestDate() {
-    }
+//    @Override
+//    protected void requestDate() {
+//    }
 
-
-    @Override
-    public void onDataRequestSucceed(InterfaceParser parser) {
-        if (parser instanceof ParserHome) {
-            ParserHome mParser = (ParserHome) parser;
-        }
-    }
 
     @Override
     protected void inflateContent() {
     }
 
-    @Override
-    protected void setClick(View view) {
-//	view.findViewById(R.id.fg_home_btn).setOnClickListener(this);
-    }
+//    @Override
+//    protected void setClick(View view) {
+////	view.findViewById(R.id.fg_home_btn).setOnClickListener(this);
+//    }
 
-    @Override
-    @OnClick({R.id.servicer_center_top_btn1, R.id.servicer_center_top_btn2, R.id.service_center_btn1, R.id.service_center_btn2, R.id.service_center_btn3, R.id.service_center_btn4, R.id.service_center_btn5})
-    protected void onClickView(View view) {
+    @Event({R.id.servicer_center_top_btn1, R.id.servicer_center_top_btn2, R.id.service_center_btn1, R.id.service_center_btn2, R.id.service_center_btn3, R.id.service_center_btn4, R.id.service_center_btn5})
+    private void onClickView(View view) {
         switch (view.getId()) {
             case R.id.servicer_center_top_btn1:
                 //境内客服
@@ -108,6 +102,22 @@ public class FgServicerCenter extends BaseFragment {
     @Override
     public void onFragmentResult(Bundle bundle) {
         MLog.w(this + " onFragmentResult " + bundle);
+    }
+
+    @Override
+    protected void initHeader() {
+        fgTitle.setText("客服中心");
+        fgTitle.setTextColor(getResources().getColor(R.color.my_content_title_color));
+    }
+
+    @Override
+    protected void initView() {
+
+    }
+
+    @Override
+    protected Callback.Cancelable requestData() {
+        return null;
     }
 
 

@@ -3,24 +3,24 @@ package com.hugboga.custom.fragment;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
+import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.UserEntity;
-import com.hugboga.custom.data.net.ExceptionInfo;
-import com.hugboga.custom.data.net.HttpRequestUtils;
-import com.hugboga.custom.data.parser.InterfaceParser;
-import com.hugboga.custom.data.parser.ParserChangeMobile;
-import com.hugboga.custom.data.parser.ParserVerity;
-import com.lidroid.xutils.ViewUtils;
-import com.lidroid.xutils.view.annotation.ViewInject;
-import com.lidroid.xutils.view.annotation.event.OnClick;
+import com.hugboga.custom.data.request.RequestChangeMobile;
+import com.hugboga.custom.data.request.RequestVerity;
 
+import org.xutils.common.Callback;
+import org.xutils.view.annotation.ContentView;
+import org.xutils.view.annotation.Event;
+import org.xutils.view.annotation.ViewInject;
+
+@ContentView(R.layout.fg_change_mobile)
 public class FgChangeMobile extends BaseFragment {
 
     @ViewInject(R.id.change_mobile_phone_view)
@@ -37,59 +37,30 @@ public class FgChangeMobile extends BaseFragment {
     TextView timeTextView;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fg_change_mobile, null);
-        ViewUtils.inject(this, view);
-        return view;
-    }
-
-    @Override
-    protected String fragmentTitle() {
-        //设置标题颜色，返回按钮图片
-        leftBtn.setImageResource(R.mipmap.top_back_black);
-        titleText.setTextColor(getResources().getColor(R.color.my_content_title_color));
-        return "更换手机号";
-    }
-
-    @Override
-    protected void requestDate() {
-        StringBuilder sb = new StringBuilder();
-        String code = UserEntity.getUser().getCode(getActivity());
-        if(!code.isEmpty()){
-            sb.append("+"+code);
-        }
-        String phone = UserEntity.getUser().getPhone(getActivity());
-        if(!phone.isEmpty()){
-            sb.append(phone);
-        }
-        phoneTextView.setText("当前手机号：" + sb.toString());
-    }
-
-    @Override
-    public void onDataRequestSucceed(InterfaceParser parser) {
-        if (parser instanceof ParserChangeMobile) {
-            ParserChangeMobile mParser = (ParserChangeMobile) parser;
-            UserEntity.getUser().setCode(getActivity(),mParser.areaCode);
-            UserEntity.getUser().setPhone(getActivity(), mParser.mobile);
+    public void onDataRequestSucceed(BaseRequest request) {
+        if (request instanceof RequestChangeMobile) {
+            RequestChangeMobile requestChangeMobile = (RequestChangeMobile) request;
+            UserEntity.getUser().setCode(getActivity(), requestChangeMobile.areaCode);
+            UserEntity.getUser().setPhone(getActivity(), requestChangeMobile.mobile);
             showTip("更换手机号成功");
             finish();
             notifyFragment(FgSetting.class, null);
-            notifyFragment(FgPersonCenter.class,null);
-        }else if(parser instanceof  ParserVerity){
-            ParserVerity parserVerity = (ParserVerity) parser;
+//            notifyFragment(FgPersonCenter.class,null);
+        }else if(request instanceof RequestVerity){
+            RequestVerity requestVerity = (RequestVerity) request;
             showTip("验证码已发送");
             time = 59;
             handler.postDelayed(runnable, 0);
         }
     }
 
+
     @Override
-    public void onDataRequestError(ExceptionInfo errorInfo, InterfaceParser parser) {
-        if(parser instanceof ParserVerity){
+    public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+        if(request instanceof RequestVerity){
             setBtnVisible(true);
         }
-        super.onDataRequestError(errorInfo, parser);
+        super.onDataRequestError(errorInfo, request);
     }
 
     Integer time = 59;
@@ -113,14 +84,8 @@ public class FgChangeMobile extends BaseFragment {
     protected void inflateContent() {
     }
 
-    @Override
-    protected void setClick(View view) {
-//	view.findViewById(R.id.fg_home_btn).setOnClickListener(this);
-    }
-
-    @Override
-    @OnClick({R.id.change_mobile_submit, R.id.change_mobile_areacode, R.id.change_mobile_getcode})
-    protected void onClickView(View view) {
+    @Event({R.id.change_mobile_submit, R.id.change_mobile_areacode, R.id.change_mobile_getcode})
+    private void onClickView(View view) {
         switch (view.getId()) {
             case R.id.change_mobile_submit:
                 //更换手机号
@@ -145,9 +110,9 @@ public class FgChangeMobile extends BaseFragment {
                     showTip("该手机号与当前手机号不能相同");
                     return;
                 }
-                ParserChangeMobile parser = new ParserChangeMobile(areaCode, phone, verity);
-                mHttpUtils = new HttpRequestUtils(getActivity(),parser,this);
-                mHttpUtils.execute();
+
+                RequestChangeMobile changeMobile = new RequestChangeMobile(getActivity(),areaCode, phone, verity);
+                requestData(changeMobile);
                 break;
             case R.id.change_mobile_areacode:
                 //选择区号
@@ -178,9 +143,8 @@ public class FgChangeMobile extends BaseFragment {
                     setBtnVisible(true);
                     return;
                 }
-                ParserVerity parserVerity = new ParserVerity(areaCode1,phone1,3);
-                mHttpUtils = new HttpRequestUtils(getActivity(),parserVerity,this);
-                mHttpUtils.execute();
+                RequestVerity requestVerity = new RequestVerity(getActivity(),areaCode1,phone1,3);
+                requestData(requestVerity);
                 break;
             default:
                 break;
@@ -213,6 +177,34 @@ public class FgChangeMobile extends BaseFragment {
             String areaCode = bundle.getString(FgChooseCountry.KEY_COUNTRY_CODE);
             areaCodeTextView.setText("+"+areaCode);
         }
+    }
+
+    @Override
+    protected void initHeader() {
+        //设置标题颜色，返回按钮图片
+//        leftBtn.setImageResource(R.mipmap.top_back_black);
+        fgTitle.setTextColor(getResources().getColor(R.color.my_content_title_color));
+        fgTitle.setText("更换手机号");
+    }
+
+    @Override
+    protected void initView() {
+
+    }
+
+    @Override
+    protected Callback.Cancelable requestData() {
+        StringBuilder sb = new StringBuilder();
+        String code = UserEntity.getUser().getCode(getActivity());
+        if(!code.isEmpty()){
+            sb.append("+"+code);
+        }
+        String phone = UserEntity.getUser().getPhone(getActivity());
+        if(!phone.isEmpty()){
+            sb.append(phone);
+        }
+        phoneTextView.setText("当前手机号：" + sb.toString());
+        return null;
     }
 
 }

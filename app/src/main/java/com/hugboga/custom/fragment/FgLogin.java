@@ -37,6 +37,9 @@ public class FgLogin extends BaseFragment {
     @ViewInject(R.id.login_submit)
     Button loginButton;
 
+    String phone;
+    String areaCode;
+
     @Override
     protected void initHeader() {
         fgTitle.setText(getString(R.string.login));
@@ -74,7 +77,7 @@ public class FgLogin extends BaseFragment {
                 //登录
                 loginGo();
                 break;
-            /*case R.id.change_mobile_areacode:
+            case R.id.change_mobile_areacode:
                 passwordEditText.clearFocus();
                 phoneEditText.clearFocus();
                 //选择区号
@@ -84,24 +87,24 @@ public class FgLogin extends BaseFragment {
                 bundle.putString(KEY_FROM, "login");
                 startFragment(fg,bundle);
                 break;
-            case R.id.login_register:
-                //注册
-                collapseSoftInputMethod(); //隐藏键盘
-                finish();
-                Bundle bundle2 = new Bundle();
-                bundle2.putString("areaCode",areaCode);
-                bundle2.putString("phone", phone);
-                startFragment(new FgRegister(),bundle2);
-                break;
-            case R.id.change_mobile_diepwd:
-                //忘记密码
-                collapseSoftInputMethod(); //隐藏键盘
-                passwordEditText.setText("");
-                Bundle bundle1 = new Bundle();
-                bundle1.putString("areaCode",areaCode);
-                bundle1.putString("phone",phone);
-                startFragment(new FgForgetPasswd(), bundle1);
-                break;*/
+//            case R.id.login_register:
+//                //注册
+//                collapseSoftInputMethod(); //隐藏键盘
+//                finish();
+//                Bundle bundle2 = new Bundle();
+//                bundle2.putString("areaCode",areaCode);
+//                bundle2.putString("phone", phone);
+//                startFragment(new FgRegister(),bundle2);
+//                break;
+//            case R.id.change_mobile_diepwd:
+//                //忘记密码
+//                collapseSoftInputMethod(); //隐藏键盘
+//                passwordEditText.setText("");
+//                Bundle bundle1 = new Bundle();
+//                bundle1.putString("areaCode",areaCode);
+//                bundle1.putString("phone",phone);
+//                startFragment(new FgForgetPasswd(), bundle1);
+//                break;
             default:
                 break;
         }
@@ -112,13 +115,13 @@ public class FgLogin extends BaseFragment {
      */
     private void loginGo(){
         collapseSoftInputMethod(); //隐藏键盘
-        String areaCode = areaCodeTextView.getText().toString();
+        areaCode = areaCodeTextView.getText().toString();
         if(TextUtils.isEmpty(areaCode)){
             showTip("区号不能为空");
             return;
         }
         areaCode = areaCode.substring(1);
-        String phone = phoneEditText.getText().toString();
+        phone = phoneEditText.getText().toString();
         if(TextUtils.isEmpty(phone)){
             showTip("手机号不能为空");
             return;
