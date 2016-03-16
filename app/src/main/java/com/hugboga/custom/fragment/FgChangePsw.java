@@ -45,7 +45,7 @@ public class FgChangePsw extends BaseFragment {
     }
 
     @Event({R.id.change_passwd_submit})
-    protected void onClickView(View view) {
+    private void onClickView(View view) {
         switch (view.getId()) {
             case R.id.change_passwd_submit:
                 //修改密码

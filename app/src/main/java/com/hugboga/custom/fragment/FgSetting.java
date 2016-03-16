@@ -71,7 +71,6 @@ public class FgSetting extends BaseFragment {
             getActivity().sendBroadcast(new Intent(FgHome.FILTER_FLUSH));
             UserEntity.getUser().clean(getActivity());
             finish();
-            finish();
         }
     }
 

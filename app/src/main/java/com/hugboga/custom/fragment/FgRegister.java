@@ -54,9 +54,6 @@ public class FgRegister extends BaseFragment {
             UserBean userBean = register.getData();
             if (userBean != null) {
                 //注册成功，进行登录操作
-//                ParserLogin parserLogin = new ParserLogin(areaCode,phone,password);
-//                mHttpUtils = new HttpRequestUtils(getActivity(),parserLogin,this);
-//                mHttpUtils.execute();
                 //登录成功
                 UserEntity.getUser().setUserId(getActivity(), userBean.userID);
                 UserEntity.getUser().setUserToken(getActivity(), userBean.token);
@@ -221,9 +218,6 @@ public class FgRegister extends BaseFragment {
                 }
                 RequestVerity requestVerity = new RequestVerity(getActivity(), areaCode, phone, 1);
                 requestData(requestVerity);
-//                ParserVerity parserVerity = new ParserVerity(areaCode, phone, 1);
-//                mHttpUtils = new HttpRequestUtils(getActivity(), parserVerity, this);
-//                mHttpUtils.execute();
                 break;
             case R.id.register_protocol:
                 FgWebInfo fgWebInfo = new FgWebInfo();

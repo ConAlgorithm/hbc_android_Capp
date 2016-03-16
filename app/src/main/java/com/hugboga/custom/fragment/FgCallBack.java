@@ -36,7 +36,7 @@ public class FgCallBack extends BaseFragment {
     }
 
     @Event({R.id.call_back_submit})
-    protected void onClickView(View view) {
+    private void onClickView(View view) {
         switch (view.getId()) {
             case R.id.call_back_submit:
                 //提交意见
