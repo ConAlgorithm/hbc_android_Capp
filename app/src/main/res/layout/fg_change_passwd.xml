@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/bg_02"
+    android:orientation="vertical">
+
+    <include layout="@layout/include_header" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/change_mobile_bg"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/change_mobile_margin"
+        android:paddingRight="@dimen/change_mobile_margin"
+        android:paddingTop="@dimen/change_mobile_top"
+        android:weightSum="1">
+
+        <EditText
+            android:id="@+id/change_passwd_oldpwd"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/change_mobile_textbox_height"
+            android:layout_marginTop="@dimen/basic_margin_xlarge"
+            android:background="@drawable/textbox"
+            android:hint="原密码"
+            android:inputType="textPassword"
+            android:maxLength="16"
+            android:paddingLeft="@dimen/basic_margin_medium"
+            android:textColor="@color/change_mobile_text"
+            android:textColorHint="@color/change_mobile_hint" />
+
+        <EditText
+            android:id="@+id/change_passwd_newpwd"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/change_mobile_textbox_height"
+            android:layout_marginTop="@dimen/basic_margin_xlarge"
+            android:background="@drawable/textbox"
+            android:hint="新密码"
+            android:inputType="textPassword"
+            android:maxLength="16"
+            android:paddingLeft="@dimen/basic_margin_medium"
+            android:textColor="@color/change_mobile_text"
+            android:textColorHint="@color/change_mobile_hint" />
+
+        <EditText
+            android:id="@+id/change_passwd_rewpwd"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/change_mobile_textbox_height"
+            android:layout_marginTop="@dimen/basic_margin_xlarge"
+            android:background="@drawable/textbox"
+            android:hint="确认新密码"
+            android:inputType="textPassword"
+            android:maxLength="16"
+            android:paddingLeft="@dimen/basic_margin_medium"
+            android:textColor="@color/change_mobile_text"
+            android:textColorHint="@color/change_mobile_hint" />
+
+        <Button
+            android:id="@+id/change_passwd_submit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/basic_margin_xlarge"
+            android:background="@drawable/login_selector_bg"
+            android:text="重置密码"
+            android:textColor="@color/basic_white"
+            android:textSize="@dimen/text_size_xlarge" />
+
+    </LinearLayout>
+
+</LinearLayout>
