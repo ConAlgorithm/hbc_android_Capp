@@ -2,6 +2,10 @@ package com.hugboga.custom.data.bean;
 
 import android.content.Context;
 
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * Created by ZHZEPHI on 2015/7/22.
  */
@@ -19,6 +23,7 @@ public class UserBean implements IBaseBean {
     public boolean weakPassword;  //布尔值 是否弱密码
     public String weakPasswordMsg; //弱密码提示文案
     public String imToken;//聊天token
+
 
     public String getGenderStr(){
         switch (gender){

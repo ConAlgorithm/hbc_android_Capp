@@ -11,10 +11,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
+import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.SortCountryAdapter;
 import com.hugboga.custom.data.bean.AreaCodeBean;
@@ -28,6 +30,7 @@ import org.xutils.db.Selector;
 import org.xutils.db.sqlite.WhereBuilder;
 import org.xutils.ex.DbException;
 import org.xutils.view.annotation.ContentView;
+import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
 import java.util.ArrayList;
@@ -53,6 +56,9 @@ public class FgChooseCountry extends BaseFragment {
     ListView sortListView;
     @ViewInject(R.id.country_search)
     EditText searchEditText;
+//    @ViewInject(R.id.head_btn_left)
+//    ImageView head_btn_leftl;
+
 
     private SortCountryAdapter adapter;
     private List<AreaCodeBean> sourceDateList;
@@ -246,5 +252,15 @@ public class FgChooseCountry extends BaseFragment {
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
 
+    }
+
+    @Event({R.id.head_btn_left})
+    private void onClickView(View view) {
+        switch (view.getId()) {
+            case R.id.head_btn_left:
+                MLog.e("header_left_btn");
+                finish();
+                break;
+        }
     }
 }

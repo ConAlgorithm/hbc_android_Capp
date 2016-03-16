@@ -115,15 +115,15 @@ public class FgLogin extends BaseFragment {
                 bundle.putString(KEY_FROM, "login");
                 startFragment(fg,bundle);
                 break;
-//            case R.id.login_register:
-//                //注册
-//                collapseSoftInputMethod(); //隐藏键盘
-//                finish();
-//                Bundle bundle2 = new Bundle();
-//                bundle2.putString("areaCode",areaCode);
-//                bundle2.putString("phone", phone);
-//                startFragment(new FgRegister(),bundle2);
-//                break;
+            case R.id.login_register:
+                //注册
+                collapseSoftInputMethod(); //隐藏键盘
+                finish();
+                Bundle bundle2 = new Bundle();
+                bundle2.putString("areaCode",areaCode);
+                bundle2.putString("phone", phone);
+                startFragment(new FgRegister(),bundle2);
+                break;
 //            case R.id.change_mobile_diepwd:
 //                //忘记密码
 //                collapseSoftInputMethod(); //隐藏键盘
