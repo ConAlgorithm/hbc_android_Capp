@@ -40,6 +40,7 @@ import java.util.ArrayList;
 public class FgHome extends BaseFragment implements AdapterView.OnItemClickListener, View.OnClickListener {
 
 
+    public static final String FILTER_FLUSH = "com.hugboga.custom.home.flush";
     @ViewInject(android.R.id.list)
     ListView listView;
 

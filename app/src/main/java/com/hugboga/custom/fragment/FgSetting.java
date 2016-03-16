@@ -7,29 +7,28 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
-
+import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
+import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
-import com.hugboga.custom.constants.ResourcesConstants;
 import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.constants.ResourcesConstants;
+import com.hugboga.custom.data.bean.CheckVersionBean;
 import com.hugboga.custom.data.bean.UserEntity;
-import com.hugboga.custom.data.net.ExceptionInfo;
-import com.hugboga.custom.data.net.HttpRequestUtils;
-import com.hugboga.custom.data.parser.InterfaceParser;
-import com.hugboga.custom.data.parser.ParserCheckVersion;
 import com.hugboga.custom.data.parser.ParserLogout;
+import com.hugboga.custom.data.request.RequestCheckVersion;
+import com.hugboga.custom.data.request.RequestLogout;
 import com.hugboga.custom.utils.PhoneInfo;
-import com.hugboga.custom.utils.PushUtils;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.UpdateResources;
 import com.hugboga.custom.widget.DialogUtil;
-import com.lidroid.xutils.ViewUtils;
-import com.lidroid.xutils.view.annotation.ViewInject;
-import com.lidroid.xutils.view.annotation.event.OnClick;
+import org.xutils.common.Callback;
+import org.xutils.view.annotation.ContentView;
+import org.xutils.view.annotation.Event;
+import org.xutils.view.annotation.ViewInject;
 
+@ContentView(R.layout.fg_setting)
 public class FgSetting extends BaseFragment {
 
     @ViewInject(R.id.setting_menu_version_content)
@@ -38,52 +37,24 @@ public class FgSetting extends BaseFragment {
     TextView newVersionTextView;
     @ViewInject(R.id.setting_menu_mobile)
     TextView mobileTextView;
-
     AlertDialog versionDialog; //版本更新弹窗
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fg_setting, null);
-        ViewUtils.inject(this, view);
-        return view;
-    }
-
-    @Override
-    protected String fragmentTitle() {
-        //设置标题颜色，返回按钮图片
-        leftBtn.setImageResource(R.mipmap.top_back_black);
-        titleText.setTextColor(getResources().getColor(R.color.my_content_title_color));
-        versionFlagTextView.setText("v" + PhoneInfo.getSoftwareVersion(getActivity()));
-        if(UserEntity.getUser().getIsNewVersion(getActivity())){
-            newVersionTextView.setText("升级新版");
-            newVersionTextView.setTextColor(Color.RED);
-        }
-        mobileTextView.setText(UserEntity.getUser().getPhone(getActivity()));
-        return "设置";
-    }
-
-    @Override
-    protected void requestDate() {
-    }
-
-
-    @Override
-    public void onDataRequestSucceed(InterfaceParser parser) {
-        if (parser instanceof ParserCheckVersion) {
-            final ParserCheckVersion mParser = (ParserCheckVersion) parser;
-            if(!TextUtils.isEmpty(mParser.url)){
+    public void onDataRequestSucceed(BaseRequest request) {
+        if (request instanceof RequestCheckVersion) {
+            RequestCheckVersion requestCV = (RequestCheckVersion) request;
+            final CheckVersionBean checkVersionBean = requestCV.getData();
+            if(!TextUtils.isEmpty(checkVersionBean.url)){
                 newVersionTextView.setText("升级新版");
                 newVersionTextView.setTextColor(Color.RED);
             }
-            if(TextUtils.isEmpty(mParser.url)){
+            if(TextUtils.isEmpty(checkVersionBean.url)){
                 DialogUtil.getInstance(getActivity()).showCustomDialog("已是最新版本");
             }
-            UserEntity.getUser().setIsNewVersion(getActivity(), !TextUtils.isEmpty(mParser.url));
-            DialogUtil.getInstance(getActivity()).showUpdateDialog(mParser.force, mParser.content, mParser.url, new DialogInterface.OnClickListener() {
+            UserEntity.getUser().setIsNewVersion(getActivity(), !TextUtils.isEmpty(checkVersionBean.url));
+            DialogUtil.getInstance(getActivity()).showUpdateDialog(checkVersionBean.force, checkVersionBean.content, checkVersionBean.url, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    PushUtils.startDownloadApk(getActivity(), mParser.url);
+//                    PushUtils.startDownloadApk(getActivity(), checkVersionBean.url);
                     if(dialog!=null)
                     dialog.dismiss();
                 }
@@ -94,9 +65,9 @@ public class FgSetting extends BaseFragment {
                     dialog.dismiss();
                 }
             });
-            UpdateResources.checkRemoteResources(getActivity(), mParser, null);
-            UpdateResources.checkRemoteDB(getActivity(), mParser.dbDownloadLink, mParser.dbVersion, null);
-        }else if(parser instanceof  ParserLogout){
+            UpdateResources.checkRemoteResources(getActivity(), checkVersionBean, null);
+            UpdateResources.checkRemoteDB(getActivity(), checkVersionBean.dbDownloadLink, checkVersionBean.dbVersion, null);
+        }else if(request instanceof RequestLogout){
             getActivity().sendBroadcast(new Intent(FgHome.FILTER_FLUSH));
             UserEntity.getUser().clean(getActivity());
             finish();
@@ -105,14 +76,13 @@ public class FgSetting extends BaseFragment {
     }
 
     @Override
-    public void onDataRequestError(ExceptionInfo errorInfo, InterfaceParser parser) {
-        if(parser instanceof  ParserLogout){
+    public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+        if(request instanceof  RequestLogout){
             getActivity().sendBroadcast(new Intent(FgHome.FILTER_FLUSH));
             UserEntity.getUser().clean(getActivity());
             finish();
-            finish();
         }else {
-            super.onDataRequestError(errorInfo, parser);
+            super.onDataRequestError(errorInfo, request);
         }
     }
 
@@ -121,9 +91,8 @@ public class FgSetting extends BaseFragment {
     }
 
 
-    @Override
-    @OnClick({R.id.setting_menu_layout1, R.id.setting_menu_layout2, R.id.setting_menu_layout3, R.id.setting_menu_layout4, R.id.setting_menu_layout5, R.id.setting_exit, R.id.setting_menu_layout6})
-    protected void onClickView(View view) {
+    @Event({R.id.setting_menu_layout1, R.id.setting_menu_layout2, R.id.setting_menu_layout3, R.id.setting_menu_layout4, R.id.setting_menu_layout5, R.id.setting_exit, R.id.setting_menu_layout6})
+    private void onClickView(View view) {
         switch (view.getId()) {
             case R.id.setting_menu_layout1:
                 //更换手机号
@@ -141,8 +110,8 @@ public class FgSetting extends BaseFragment {
                 //软件更新
                 String version = PhoneInfo.getSoftwareVersion(getActivity());
                 int resourcesVersion = new SharedPre(getActivity()).getIntValue(SharedPre.RESOURCES_H5_VERSION);
-                mHttpUtils = new HttpRequestUtils(getActivity(),new ParserCheckVersion(version,resourcesVersion),this);
-                mHttpUtils.execute();
+                final RequestCheckVersion requestCheckVersion = new RequestCheckVersion(getActivity(),version,resourcesVersion);
+                requestData(requestCheckVersion);
                 break;
             case R.id.setting_menu_layout5:
                 //关于我们
@@ -156,8 +125,8 @@ public class FgSetting extends BaseFragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         ParserLogout parser = new ParserLogout();
-                        mHttpUtils = new HttpRequestUtils(getActivity(),parser,FgSetting.this);
-                        mHttpUtils.execute();
+                        RequestLogout requestLogout = new RequestLogout(getActivity());
+                        requestData(requestLogout);
                     }
                 }).show();
                 break;
@@ -185,6 +154,30 @@ public class FgSetting extends BaseFragment {
     @Override
     public void onFragmentResult(Bundle bundle) {
         mobileTextView.setText(UserEntity.getUser().getPhone(getActivity()));
+    }
+
+    @Override
+    protected void initHeader() {
+        //设置标题颜色，返回按钮图片
+//        leftBtn.setImageResource(R.mipmap.top_back_black);
+        fgTitle.setTextColor(getResources().getColor(R.color.my_content_title_color));
+        fgTitle.setText("设置");
+        versionFlagTextView.setText("v" + PhoneInfo.getSoftwareVersion(getActivity()));
+        if(UserEntity.getUser().getIsNewVersion(getActivity())){
+            newVersionTextView.setText("升级新版");
+            newVersionTextView.setTextColor(Color.RED);
+        }
+        mobileTextView.setText(UserEntity.getUser().getPhone(getActivity()));
+    }
+
+    @Override
+    protected void initView() {
+
+    }
+
+    @Override
+    protected Callback.Cancelable requestData() {
+        return null;
     }
 
 }
