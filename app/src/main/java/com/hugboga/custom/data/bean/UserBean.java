@@ -26,7 +26,7 @@ public class UserBean implements IBaseBean {
     public String imToken;//聊天token
 
 
-    public String getGenderStr(){git 
+    public String getGenderStr(){
         switch (gender){
             case "0":
 //                return "保密";
