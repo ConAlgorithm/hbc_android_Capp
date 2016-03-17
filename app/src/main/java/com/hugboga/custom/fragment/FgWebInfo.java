@@ -47,7 +47,7 @@ public class FgWebInfo extends BaseFragment implements View.OnKeyListener {
     private DialogUtil mDialogUtil;
 
     @ViewInject(R.id.webview)
-    WebView webView;
+    public WebView webView;
 
 
     WebViewClient webClient = new WebViewClient() {
@@ -202,7 +202,7 @@ public class FgWebInfo extends BaseFragment implements View.OnKeyListener {
         String url = getArguments().getString(Web_URL);
 //        url = "https://res2.huangbaoche.com/h5/gmsg/message.html?messageId=100068621&guideId=200000001445";
 //        url="https://www.baidu.com";
-        url = "http://res.dev.hbc.tech/h5/test/api.html?t="+System.currentTimeMillis();
+//        url = "http://res.dev.hbc.tech/h5/test/api.html?t="+System.currentTimeMillis();
         if (!TextUtils.isEmpty(url)) {
             MLog.e("url=" + url);
             webView.loadUrl(url);

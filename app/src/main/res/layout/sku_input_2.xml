@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        style="@style/skuInfoLayout"
+        >
+        <TextView
+            android:id="@+id/sku_start_time_star"
+            style="@style/skuInfoStar"
+            android:visibility="invisible"
+            />
+        <TextView
+            android:id="@+id/sku_start_time_title"
+            style="@style/skuInfoTitle"
+            android:layout_toRightOf="@id/sku_start_time_star"
+            android:text="上车时间"
+            />
+        <ImageView
+            android:id="@+id/sku_start_time_arrow"
+            style="@style/skuInfoArrow"
+            />
+        <EditText
+            android:id="@+id/sku_start_edit"
+            style="@style/skuInfoEdit"
+            android:layout_toRightOf="@id/sku_start_time_title"
+            android:layout_toLeftOf="@id/sku_start_time_arrow"
+            android:hint="8：00（当地时间）"
+            />
+    </RelativeLayout>
+    <View style="@style/skuInfoLine"/>
+    <RelativeLayout
+        style="@style/skuInfoLayout"
+        >
+        <TextView
+            android:id="@+id/sku_passenger_number_star"
+            style="@style/skuInfoStar"
+            android:visibility="invisible"
+            />
+        <TextView
+            android:id="@+id/sku_passenger_number_title"
+            style="@style/skuInfoTitle"
+            android:layout_toRightOf="@id/sku_passenger_number_star"
+            android:text="乘坐人数"
+            />
+    </RelativeLayout>
+
+
+</LinearLayout>

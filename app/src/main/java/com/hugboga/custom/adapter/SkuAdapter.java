@@ -11,13 +11,19 @@ import com.huangbaoche.hbcframe.adapter.BaseAdapter;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.SkuItemBean;
 
+import org.xutils.image.ImageOptions;
+import org.xutils.x;
+
 /**
  * Created by admin on 2016/3/3.
  */
 public class SkuAdapter extends BaseAdapter<SkuItemBean> {
 
+    private final ImageOptions options;
+
     public SkuAdapter(Context context) {
         super(context);
+        options = new ImageOptions.Builder().setFailureDrawableId(R.mipmap.img_undertext).build();
     }
 
     @Override
@@ -31,7 +37,7 @@ public class SkuAdapter extends BaseAdapter<SkuItemBean> {
             viewHolder.tvGuide = (TextView) view.findViewById(R.id.item_sku_guide_number);
             viewHolder.tvAmount = (TextView) view.findViewById(R.id.item_sku_amount);
             viewHolder.tvSale  = (TextView) view.findViewById(R.id.item_sku_sale);
-            viewHolder.imgBg = (ImageView) view.findViewById(R.id.item_home_img);
+            viewHolder.imgBg = (ImageView) view.findViewById(R.id.item_city_sku_img);
             view.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) view.getTag();
@@ -45,7 +51,7 @@ public class SkuAdapter extends BaseAdapter<SkuItemBean> {
             viewHolder.tvSale.setText(mContext.getString(R.string.sku_sale_number,bean.saleAmount));
             viewHolder.tvGuide.setVisibility(bean.guideAmount == 0 ? View.GONE : View.VISIBLE);
             viewHolder.tvSale.setVisibility(bean.saleAmount==0?View.GONE:View.VISIBLE);
-            //x.image().bind(viewHolder.imgBg,bean.picture);
+            x.image().bind(viewHolder.imgBg, bean.goodsPicture,options);
         }
 
         return view;

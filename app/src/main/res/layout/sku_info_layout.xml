@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/allbg_gray"
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp"
+    android:paddingLeft="30dp"
+    >
+    <TextView android:id="@+id/sku_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_size_largex"
+        android:text="日本东京一日"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@mipmap/icon_trip"
+        android:drawablePadding="3dp"
+        android:textSize="@dimen/text_size_mediumx"
+        android:text="秋天是啊啊是"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@mipmap/journey_trip2"
+        android:drawablePadding="3dp"
+        android:textSize="@dimen/text_size_mediumx"
+        android:text="@string/sku_days"
+        />
+</LinearLayout>

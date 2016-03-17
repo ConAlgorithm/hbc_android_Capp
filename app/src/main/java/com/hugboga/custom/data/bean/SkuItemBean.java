@@ -15,6 +15,8 @@ public class SkuItemBean implements com.huangbaoche.hbcframe.data.bean.IBaseBean
     public int saleAmount;//销售数量
     public String salePoints;//标签
     public int guideAmount;//车导数量
+    public String daysCount;//天数
+    public String places;//天数
 
 
 }

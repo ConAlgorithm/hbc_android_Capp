@@ -13,9 +13,11 @@ import com.huangbaoche.hbcframe.data.net.ExceptionErrorCode;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
+import com.huangbaoche.hbcframe.data.parser.ServerParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.fragment.BaseFragment;
 import com.huangbaoche.hbcframe.util.MLog;
+import com.huangbaoche.hbcframe.util.WXShareUtils;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.request.RequestWebInfo;
@@ -93,12 +95,28 @@ public class WebAgent implements HttpRequestListener {
     }
 
 
-
     @JavascriptInterface
     public void wxShare(final String picUrl, final String title, final String content, final String goUrl) {
         MLog.e("ZWebView-wxShare===>picUrl:" + picUrl + " title:" + title + " content:" + content + " goUrl:" + goUrl);
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
                 // 调用分享操作
-//                WXShareUtils.getInstance(getContext()).orderTwogo(picUrl, title, content, goUrl);
+                WXShareUtils.getInstance(mActivity).share(0, picUrl, title, content, goUrl);
+            }
+        });
+    }
+
+    @JavascriptInterface
+    public void wxShareByType(final int type ,final String picUrl, final String title, final String content, final String goUrl) {
+        MLog.e("ZWebView-wxShare===>picUrl:" + picUrl + " title:" + title + " content:" + content + " goUrl:" + goUrl);
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                // 调用分享操作
+                WXShareUtils.getInstance(mActivity).share(type, picUrl, title, content, goUrl);
+            }
+        });
     }
 
 
@@ -120,6 +138,8 @@ public class WebAgent implements HttpRequestListener {
 
     @JavascriptInterface
     public void httpRequest(final String requestType, final String apiUrl, final String params, final String successFunction, final String failureFunction) {
+        MLog.e("ZWebView-wxShare===>requestType:" + requestType + " apiUrl:" + apiUrl + " params:" + params + " successFunction:" + successFunction+" failureFunction:"+failureFunction);
+
         RequestWebInfo request = new RequestWebInfo(mActivity,apiUrl,requestType,params,successFunction,failureFunction);
         HttpRequestUtils.request(mActivity,request,this,null);
     }
@@ -218,7 +238,8 @@ public class WebAgent implements HttpRequestListener {
         if(errorInfo.state == ExceptionErrorCode.ERROR_CODE_SERVER){
             if(request instanceof RequestWebInfo){
                 RequestWebInfo webInfoRequest = (RequestWebInfo)request;
-                callBack(webInfoRequest.failCallBack, webInfoRequest.getData());
+                String errorInfoJson = new ServerParser().errorInfoToStr(errorInfo);
+                callBack(webInfoRequest.failCallBack,errorInfoJson);
             }
         }else{
             new ErrorHandler(mActivity).onDataRequestError(errorInfo,request);
