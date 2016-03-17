@@ -12,6 +12,7 @@ import org.json.JSONObject;
  */
 public class UserBean implements IBaseBean {
 
+
     public String avatar;//用户头像
     public String nickname;//昵称
     public String gender;//性别
