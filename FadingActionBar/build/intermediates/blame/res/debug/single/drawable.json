@@ -28,12 +28,12 @@
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\FadingActionBar\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\drawable\\abc_cab_background_top_material.xml"
     },
     {
-        "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\FadingActionBar\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_list_selector_background_transition_holo_light.xml",
-        "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\FadingActionBar\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\drawable\\abc_list_selector_background_transition_holo_light.xml"
-    },
-    {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\FadingActionBar\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_list_selector_background_transition_holo_dark.xml",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\FadingActionBar\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\drawable\\abc_list_selector_background_transition_holo_dark.xml"
+    },
+    {
+        "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\FadingActionBar\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_list_selector_background_transition_holo_light.xml",
+        "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\FadingActionBar\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\drawable\\abc_list_selector_background_transition_holo_light.xml"
     },
     {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\FadingActionBar\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_textfield_search_material.xml",
@@ -48,12 +48,12 @@
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\FadingActionBar\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\drawable\\abc_spinner_textfield_background_material.xml"
     },
     {
-        "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\FadingActionBar\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_btn_default_mtrl_shape.xml",
-        "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\FadingActionBar\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\drawable\\abc_btn_default_mtrl_shape.xml"
-    },
-    {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\FadingActionBar\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_dialog_material_background_dark.xml",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\FadingActionBar\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\drawable\\abc_dialog_material_background_dark.xml"
+    },
+    {
+        "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\FadingActionBar\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_btn_default_mtrl_shape.xml",
+        "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\FadingActionBar\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\drawable\\abc_btn_default_mtrl_shape.xml"
     },
     {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\FadingActionBar\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_seekbar_thumb_material.xml",
@@ -68,12 +68,12 @@
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\FadingActionBar\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\drawable\\abc_item_background_holo_light.xml"
     },
     {
-        "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\FadingActionBar\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_dialog_material_background_light.xml",
-        "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\FadingActionBar\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\drawable\\abc_dialog_material_background_light.xml"
-    },
-    {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\FadingActionBar\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_switch_thumb_material.xml",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\FadingActionBar\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\drawable\\abc_switch_thumb_material.xml"
+    },
+    {
+        "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\FadingActionBar\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_dialog_material_background_light.xml",
+        "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\FadingActionBar\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\drawable\\abc_dialog_material_background_light.xml"
     },
     {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\FadingActionBar\\build\\intermediates\\res\\merged\\debug\\drawable\\fab__gradient_light.xml",
