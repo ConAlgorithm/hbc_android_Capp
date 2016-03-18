@@ -4,16 +4,16 @@
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable\\rc_ic_bubble_right.9.png"
     },
     {
-        "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\rc_item_top_list_selector.xml",
-        "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable\\rc_item_top_list_selector.xml"
+        "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\rc_an_voice_sent.xml",
+        "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable\\rc_an_voice_sent.xml"
     },
     {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\im_chat_empty.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable\\im_chat_empty.png"
     },
     {
-        "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\rc_an_voice_sent.xml",
-        "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable\\rc_an_voice_sent.xml"
+        "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\rc_item_top_list_selector.xml",
+        "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable\\rc_item_top_list_selector.xml"
     },
     {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\rc_btn_over_selector.xml",
@@ -40,12 +40,12 @@
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable\\rc_bg_item.xml"
     },
     {
-        "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\rc_btn_finish_selector.xml",
-        "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable\\rc_btn_finish_selector.xml"
-    },
-    {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\rc_btn_send.xml",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable\\rc_btn_send.xml"
+    },
+    {
+        "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\rc_btn_finish_selector.xml",
+        "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable\\rc_btn_finish_selector.xml"
     },
     {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\rc_ic_bubble_white.9.png",
@@ -60,12 +60,12 @@
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable\\chat_tip_view.xml"
     },
     {
-        "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\rc_ic_bubble_left.9.png",
-        "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable\\rc_ic_bubble_left.9.png"
-    },
-    {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\rc_ic_voice.xml",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable\\rc_ic_voice.xml"
+    },
+    {
+        "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\rc_ic_bubble_left.9.png",
+        "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable\\rc_ic_bubble_left.9.png"
     },
     {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\rc_bg_editinput.xml",
@@ -80,12 +80,12 @@
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable\\rc_ic_extend.xml"
     },
     {
-        "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\rc_ed_public_service_search_selector.xml",
-        "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable\\rc_ed_public_service_search_selector.xml"
-    },
-    {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\rc_btn_sound_off_selector.xml",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable\\rc_btn_sound_off_selector.xml"
+    },
+    {
+        "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\rc_ed_public_service_search_selector.xml",
+        "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable\\rc_ed_public_service_search_selector.xml"
     },
     {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\rc_bg_menu.xml",
@@ -112,12 +112,12 @@
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable\\rc_btn_voice.xml"
     },
     {
-        "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\rc_photo_checkbox.xml",
-        "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable\\rc_photo_checkbox.xml"
-    },
-    {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\rc_progress_sending_style.xml",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable\\rc_progress_sending_style.xml"
+    },
+    {
+        "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\rc_photo_checkbox.xml",
+        "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable\\rc_photo_checkbox.xml"
     },
     {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\rc_btn_answer_selector.xml",
@@ -128,11 +128,11 @@
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable\\rc_btn_hands_free_selector.xml"
     },
     {
-        "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\rc_item_list_selector.xml",
-        "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable\\rc_item_list_selector.xml"
-    },
-    {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\rc_preview_checkbox.xml",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable\\rc_preview_checkbox.xml"
+    },
+    {
+        "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\rc_item_list_selector.xml",
+        "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable\\rc_item_list_selector.xml"
     }
 ]
