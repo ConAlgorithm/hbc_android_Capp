@@ -46,6 +46,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * personInfo 个人信息
+ */
 @ContentView(R.layout.fg_my_info)
 public class FgPersonInfo extends BaseFragment {
 
