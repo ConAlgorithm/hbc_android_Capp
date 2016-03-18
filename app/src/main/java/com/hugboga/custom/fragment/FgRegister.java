@@ -56,9 +56,9 @@ public class FgRegister extends BaseFragment {
                 //注册成功，进行登录操作
                 //登录成功
                 UserEntity.getUser().setUserId(getActivity(), userBean.userID);
-                UserEntity.getUser().setUserToken(getActivity(), userBean.token);
+                UserEntity.getUser().setUserToken(getActivity(), userBean.userToken);
                 UserEntity.getUser().setPhone(getActivity(), phone); //手机号已经不再返回
-                UserEntity.getUser().setCode(getActivity(), areaCode);
+                UserEntity.getUser().setAreaCode(getActivity(), areaCode);
                 UserEntity.getUser().setNickname(getActivity(), userBean.nickname);
                 UserEntity.getUser().setAvatar(getActivity(), userBean.avatar);
                 UserEntity.getUser().setOrderPoint(getActivity(), 0); //清空IM未读的小红点
@@ -80,9 +80,9 @@ public class FgRegister extends BaseFragment {
             if(userBean!=null){
                 //登录成功
                 UserEntity.getUser().setUserId(getActivity(), userBean.userID);
-                UserEntity.getUser().setUserToken(getActivity(), userBean.token);
+                UserEntity.getUser().setUserToken(getActivity(), userBean.userToken);
                 UserEntity.getUser().setPhone(getActivity(), phone); //手机号已经不再返回
-                UserEntity.getUser().setCode(getActivity(), areaCode);
+                UserEntity.getUser().setAreaCode(getActivity(), areaCode);
                 UserEntity.getUser().setNickname(getActivity(), userBean.nickname);
                 UserEntity.getUser().setAvatar(getActivity(), userBean.avatar);
                 UserEntity.getUser().setOrderPoint(getActivity(), 0); //清空IM未读的小红点
