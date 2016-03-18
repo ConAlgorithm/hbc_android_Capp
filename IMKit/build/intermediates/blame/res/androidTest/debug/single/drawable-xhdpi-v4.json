@@ -24,6 +24,7 @@
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f61f.png"
     },
     {
+<<<<<<< HEAD
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f436.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f436.png"
     },
@@ -34,6 +35,18 @@
     {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_btn_pub_service_enter_hover.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_btn_pub_service_enter_hover.png"
+=======
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_ic_def_rich_content.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_ic_def_rich_content.png"
+    },
+    {
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f4a9.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f4a9.png"
+    },
+    {
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f436.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f436.png"
+>>>>>>> b3f2e2470aa82780e1ad0bf2f9e4a7b2b52d1542
     },
     {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f62e.png",
@@ -48,6 +61,7 @@
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f629.png"
     },
     {
+<<<<<<< HEAD
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f623.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f623.png"
     },
@@ -58,6 +72,18 @@
     {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u23f0.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u23f0.png"
+=======
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f628.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f628.png"
+    },
+    {
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u2b50.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u2b50.png"
+    },
+    {
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u270a.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u270a.png"
+>>>>>>> b3f2e2470aa82780e1ad0bf2f9e4a7b2b52d1542
     },
     {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_call_answer.png",
@@ -108,6 +134,7 @@
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f3b2.png"
     },
     {
+<<<<<<< HEAD
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f349.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f349.png"
     },
@@ -118,6 +145,18 @@
     {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f62f.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f62f.png"
+=======
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_bg_text_normal.9.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_bg_text_normal.9.png"
+    },
+    {
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f484.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f484.png"
+    },
+    {
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_default_group_portrait.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_default_group_portrait.png"
+>>>>>>> b3f2e2470aa82780e1ad0bf2f9e4a7b2b52d1542
     },
     {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f389.png",
@@ -164,6 +203,7 @@
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_bar_back.png"
     },
     {
+<<<<<<< HEAD
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f633.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f633.png"
     },
@@ -174,6 +214,18 @@
     {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_ic_menu_keyboard.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_ic_menu_keyboard.png"
+=======
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u2744.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u2744.png"
+    },
+    {
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f3c2.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f3c2.png"
+    },
+    {
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_sound_off_down.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_sound_off_down.png"
+>>>>>>> b3f2e2470aa82780e1ad0bf2f9e4a7b2b52d1542
     },
     {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f637.png",
@@ -184,6 +236,7 @@
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_public_service_menu_bg.9.png"
     },
     {
+<<<<<<< HEAD
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_ic_portrait_voip.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_ic_portrait_voip.png"
     },
@@ -194,6 +247,18 @@
     {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_ic_albums_checked.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_ic_albums_checked.png"
+=======
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_ic_volume_4.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_ic_volume_4.png"
+    },
+    {
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f4aa.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f4aa.png"
+    },
+    {
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u2601.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u2601.png"
+>>>>>>> b3f2e2470aa82780e1ad0bf2f9e4a7b2b52d1542
     },
     {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f62a.png",
@@ -204,6 +269,7 @@
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f616.png"
     },
     {
+<<<<<<< HEAD
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f44a.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f44a.png"
     },
@@ -214,6 +280,18 @@
     {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_ic_notice_wraning.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_ic_notice_wraning.png"
+=======
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_volume_three.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_volume_three.png"
+    },
+    {
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_ic_voice_receive_play1.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_ic_voice_receive_play1.png"
+    },
+    {
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f60e.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f60e.png"
+>>>>>>> b3f2e2470aa82780e1ad0bf2f9e4a7b2b52d1542
     },
     {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_sound_off_disable.png",
@@ -288,6 +366,7 @@
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u270b.png"
     },
     {
+<<<<<<< HEAD
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f36b.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f36b.png"
     },
@@ -298,6 +377,18 @@
     {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_ic_picture.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_ic_picture.png"
+=======
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f629.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f629.png"
+    },
+    {
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f3c0.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f3c0.png"
+    },
+    {
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f47c.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f47c.png"
+>>>>>>> b3f2e2470aa82780e1ad0bf2f9e4a7b2b52d1542
     },
     {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f377.png",
@@ -356,6 +447,7 @@
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f525.png"
     },
     {
+<<<<<<< HEAD
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_ic_setting_friends_add.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_ic_setting_friends_add.png"
     },
@@ -366,12 +458,25 @@
     {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f622.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f622.png"
+=======
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f616.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f616.png"
+    },
+    {
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f48b.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f48b.png"
+    },
+    {
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u2614.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u2614.png"
+>>>>>>> b3f2e2470aa82780e1ad0bf2f9e4a7b2b52d1542
     },
     {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_ic_camera.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_ic_camera.png"
     },
     {
+<<<<<<< HEAD
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_voice_icon_right.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_voice_icon_right.png"
     },
@@ -382,6 +487,18 @@
     {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f4b0.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f4b0.png"
+=======
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_btn_send_hover.9.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_btn_send_hover.9.png"
+    },
+    {
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f46a.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f46a.png"
+    },
+    {
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_ic_extend_selected.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_ic_extend_selected.png"
+>>>>>>> b3f2e2470aa82780e1ad0bf2f9e4a7b2b52d1542
     },
     {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f4a1.png",
@@ -396,6 +513,7 @@
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f44e.png"
     },
     {
+<<<<<<< HEAD
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f601.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f601.png"
     },
@@ -406,6 +524,18 @@
     {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_conversation_list_msg_sending.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_conversation_list_msg_sending.png"
+=======
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f609.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f609.png"
+    },
+    {
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_bar_back.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_bar_back.png"
+    },
+    {
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_ic_volume_3.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_ic_volume_3.png"
+>>>>>>> b3f2e2470aa82780e1ad0bf2f9e4a7b2b52d1542
     },
     {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f61e.png",
@@ -428,6 +558,7 @@
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f62b.png"
     },
     {
+<<<<<<< HEAD
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f64a.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f64a.png"
     },
@@ -438,6 +569,18 @@
     {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_btn_pub_service_follow_hover.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_btn_pub_service_follow_hover.png"
+=======
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_checkbox_pressed.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_checkbox_pressed.png"
+    },
+    {
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u26c5.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u26c5.png"
+    },
+    {
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_volume_two.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_volume_two.png"
+>>>>>>> b3f2e2470aa82780e1ad0bf2f9e4a7b2b52d1542
     },
     {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f3c2.png",
@@ -452,6 +595,7 @@
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_hands_free.png"
     },
     {
+<<<<<<< HEAD
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_call_refuse.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_call_refuse.png"
     },
@@ -462,6 +606,18 @@
     {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f612.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f612.png"
+=======
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f60b.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f60b.png"
+    },
+    {
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_ic_bubble_no_left.9.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_ic_bubble_no_left.9.png"
+    },
+    {
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_ic_warning.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_ic_warning.png"
+>>>>>>> b3f2e2470aa82780e1ad0bf2f9e4a7b2b52d1542
     },
     {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_send_voice_one.png",
@@ -508,6 +664,7 @@
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_ic_volume_3.png"
     },
     {
+<<<<<<< HEAD
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_ic_bubble_white.9.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_ic_bubble_white.9.png"
     },
@@ -522,14 +679,35 @@
     {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f556.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f556.png"
+=======
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f603.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f603.png"
+    },
+    {
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_ic_trangle.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_ic_trangle.png"
+    },
+    {
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_ic_def_coversation_portrait.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_ic_def_coversation_portrait.png"
+    },
+    {
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f602.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f602.png"
+>>>>>>> b3f2e2470aa82780e1ad0bf2f9e4a7b2b52d1542
     },
     {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_unread_remind_without_count.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_unread_remind_without_count.png"
     },
     {
+<<<<<<< HEAD
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f603.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f603.png"
+=======
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f366.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f366.png"
+>>>>>>> b3f2e2470aa82780e1ad0bf2f9e4a7b2b52d1542
     },
     {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_btn_voice_normal.9.png",
@@ -540,16 +718,26 @@
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f3b5.png"
     },
     {
+<<<<<<< HEAD
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f60f.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f60f.png"
+=======
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u270b.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u270b.png"
+>>>>>>> b3f2e2470aa82780e1ad0bf2f9e4a7b2b52d1542
     },
     {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_ic_voice_selected.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_ic_voice_selected.png"
     },
     {
+<<<<<<< HEAD
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_ic_smiley_normal.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_ic_smiley_normal.png"
+=======
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f44e.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f44e.png"
+>>>>>>> b3f2e2470aa82780e1ad0bf2f9e4a7b2b52d1542
     },
     {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u26a1.png",
@@ -568,6 +756,7 @@
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_ic_volume_7.png"
     },
     {
+<<<<<<< HEAD
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f47b.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f47b.png"
     },
@@ -578,14 +767,31 @@
     {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_voice_icon_left.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_voice_icon_left.png"
+=======
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f393.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f393.png"
+    },
+    {
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_hands_free.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_hands_free.png"
+>>>>>>> b3f2e2470aa82780e1ad0bf2f9e4a7b2b52d1542
     },
     {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f60e.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f60e.png"
     },
     {
+<<<<<<< HEAD
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f52b.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f52b.png"
+=======
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_call_refuse.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_call_refuse.png"
+    },
+    {
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_conversation_newmsg.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_conversation_newmsg.png"
+>>>>>>> b3f2e2470aa82780e1ad0bf2f9e4a7b2b52d1542
     },
     {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f635.png",
@@ -652,6 +858,7 @@
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f48d.png"
     },
     {
+<<<<<<< HEAD
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_ed_pub_service_search_normal.9.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_ed_pub_service_search_normal.9.png"
     },
@@ -666,30 +873,61 @@
     {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f4a2.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f4a2.png"
+=======
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f615.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f615.png"
+    },
+    {
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_ic_text.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_ic_text.png"
+    },
+    {
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f30f.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f30f.png"
+>>>>>>> b3f2e2470aa82780e1ad0bf2f9e4a7b2b52d1542
     },
     {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_volume_three.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_volume_three.png"
     },
     {
+<<<<<<< HEAD
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_receive_voice_one.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_receive_voice_one.png"
+=======
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f622.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f622.png"
+>>>>>>> b3f2e2470aa82780e1ad0bf2f9e4a7b2b52d1542
     },
     {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_ic_phone.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_ic_phone.png"
     },
     {
+<<<<<<< HEAD
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f4e2.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f4e2.png"
+=======
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_notification_network_available.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_notification_network_available.png"
+>>>>>>> b3f2e2470aa82780e1ad0bf2f9e4a7b2b52d1542
     },
     {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_bar_logo.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_bar_logo.png"
     },
     {
+<<<<<<< HEAD
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_btn_pub_service_follow_normal.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_btn_pub_service_follow_normal.png"
+=======
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f4a3.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f4a3.png"
+    },
+    {
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_hands_free_down.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_hands_free_down.png"
+>>>>>>> b3f2e2470aa82780e1ad0bf2f9e4a7b2b52d1542
     },
     {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_default_portrait.png",
@@ -708,6 +946,7 @@
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f437.png"
     },
     {
+<<<<<<< HEAD
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_ic_smiley_selected.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_ic_smiley_selected.png"
     },
@@ -718,12 +957,25 @@
     {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f618.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f618.png"
+=======
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f601.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f601.png"
+    },
+    {
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f62e.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f62e.png"
+    },
+    {
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f4a4.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f4a4.png"
+>>>>>>> b3f2e2470aa82780e1ad0bf2f9e4a7b2b52d1542
     },
     {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_ic_bubble_no_left.9.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_ic_bubble_no_left.9.png"
     },
     {
+<<<<<<< HEAD
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_conversation_list_msg_send_failure.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_conversation_list_msg_send_failure.png"
     },
@@ -734,12 +986,25 @@
     {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f35a.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f35a.png"
+=======
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f61f.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f61f.png"
+    },
+    {
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_bg_text_hover.9.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_bg_text_hover.9.png"
+    },
+    {
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_conversation_list_msg_send_failure.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_conversation_list_msg_send_failure.png"
+>>>>>>> b3f2e2470aa82780e1ad0bf2f9e4a7b2b52d1542
     },
     {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_radio_button_on.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_radio_button_on.png"
     },
     {
+<<<<<<< HEAD
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f44d.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f44d.png"
     },
@@ -750,6 +1015,18 @@
     {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_voice_unread.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_voice_unread.png"
+=======
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_ic_bubble_right.9.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_ic_bubble_right.9.png"
+    },
+    {
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_ic_location_item_default.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_ic_location_item_default.png"
+    },
+    {
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f62b.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f62b.png"
+>>>>>>> b3f2e2470aa82780e1ad0bf2f9e4a7b2b52d1542
     },
     {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_ic_volume_1.png",
@@ -768,16 +1045,26 @@
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f434.png"
     },
     {
+<<<<<<< HEAD
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f48a.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f48a.png"
+=======
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_ic_camera.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_ic_camera.png"
+>>>>>>> b3f2e2470aa82780e1ad0bf2f9e4a7b2b52d1542
     },
     {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_ic_def_rich_content.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_ic_def_rich_content.png"
     },
     {
+<<<<<<< HEAD
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f366.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f366.png"
+=======
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f356.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f356.png"
+>>>>>>> b3f2e2470aa82780e1ad0bf2f9e4a7b2b52d1542
     },
     {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f606.png",
@@ -788,6 +1075,7 @@
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_ic_volume_4.png"
     },
     {
+<<<<<<< HEAD
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_ic_volume_6.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_ic_volume_6.png"
     },
@@ -798,6 +1086,18 @@
     {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u23f3.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u23f3.png"
+=======
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_default_discussion_portrait.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_default_discussion_portrait.png"
+    },
+    {
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_bar_more.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_bar_more.png"
+    },
+    {
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u23f3.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u23f3.png"
+>>>>>>> b3f2e2470aa82780e1ad0bf2f9e4a7b2b52d1542
     },
     {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f630.png",
@@ -816,6 +1116,7 @@
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_call_refuse_down.png"
     },
     {
+<<<<<<< HEAD
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u270f.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u270f.png"
     },
@@ -826,32 +1127,59 @@
     {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_ic_location.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_ic_location.png"
+=======
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f004.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f004.png"
+    },
+    {
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_btn_pub_service_follow_normal.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_btn_pub_service_follow_normal.png"
+>>>>>>> b3f2e2470aa82780e1ad0bf2f9e4a7b2b52d1542
     },
     {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_btn_send_hover.9.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_btn_send_hover.9.png"
     },
     {
+<<<<<<< HEAD
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_unread_count_bg.9.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_unread_count_bg.9.png"
     },
     {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u263a.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u263a.png"
+=======
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_btn_pub_service_enter_hover.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_btn_pub_service_enter_hover.png"
+    },
+    {
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_sound_off_disable.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_sound_off_disable.png"
+>>>>>>> b3f2e2470aa82780e1ad0bf2f9e4a7b2b52d1542
     },
     {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f611.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f611.png"
     },
     {
+<<<<<<< HEAD
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_ic_volume_cancel.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_ic_volume_cancel.png"
+=======
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_img_camera.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_img_camera.png"
+    },
+    {
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_btn_send_normal.9.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_btn_send_normal.9.png"
+>>>>>>> b3f2e2470aa82780e1ad0bf2f9e4a7b2b52d1542
     },
     {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_ic_warning.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_ic_warning.png"
     },
     {
+<<<<<<< HEAD
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f61d.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f61d.png"
     },
@@ -862,14 +1190,31 @@
     {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_bg_text_hover.9.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_bg_text_hover.9.png"
+=======
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f4da.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f4da.png"
+    },
+    {
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u263a.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u263a.png"
+>>>>>>> b3f2e2470aa82780e1ad0bf2f9e4a7b2b52d1542
     },
     {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f649.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f649.png"
     },
     {
+<<<<<<< HEAD
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_img_camera.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_img_camera.png"
+=======
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f4e2.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f4e2.png"
+    },
+    {
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f3e1.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f3e1.png"
+>>>>>>> b3f2e2470aa82780e1ad0bf2f9e4a7b2b52d1542
     },
     {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u270a.png",
@@ -904,22 +1249,33 @@
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_ic_trangle.png"
     },
     {
+<<<<<<< HEAD
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f607.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f607.png"
+=======
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_send_voice_two.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_send_voice_two.png"
+>>>>>>> b3f2e2470aa82780e1ad0bf2f9e4a7b2b52d1542
     },
     {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f631.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f631.png"
     },
     {
+<<<<<<< HEAD
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_bar_more.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_bar_more.png"
+=======
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_ic_voice_normal.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_ic_voice_normal.png"
+>>>>>>> b3f2e2470aa82780e1ad0bf2f9e4a7b2b52d1542
     },
     {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_default_discussion_portrait.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_default_discussion_portrait.png"
     },
     {
+<<<<<<< HEAD
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f60d.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f60d.png"
     },
@@ -930,20 +1286,38 @@
     {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_ic_extend_selected.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_ic_extend_selected.png"
+=======
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_checkbox_normal.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_checkbox_normal.png"
+    },
+    {
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_add_people.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_add_people.png"
+>>>>>>> b3f2e2470aa82780e1ad0bf2f9e4a7b2b52d1542
     },
     {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_call_over_down.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_call_over_down.png"
     },
     {
+<<<<<<< HEAD
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_ic_voice_receive.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_ic_voice_receive.png"
+=======
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_public_service_menu_bg.9.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_public_service_menu_bg.9.png"
+    },
+    {
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f618.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f618.png"
+>>>>>>> b3f2e2470aa82780e1ad0bf2f9e4a7b2b52d1542
     },
     {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_read_receipt.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_read_receipt.png"
     },
     {
+<<<<<<< HEAD
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f608.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f608.png"
     },
@@ -954,6 +1328,18 @@
     {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f30f.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f30f.png"
+=======
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f4a1.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f4a1.png"
+    },
+    {
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_ic_message_block.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_ic_message_block.png"
+    },
+    {
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f649.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f649.png"
+>>>>>>> b3f2e2470aa82780e1ad0bf2f9e4a7b2b52d1542
     },
     {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_bg_albums_spinner.9.png",
@@ -964,6 +1350,7 @@
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_ic_bubble_left.9.png"
     },
     {
+<<<<<<< HEAD
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_receive_voice_three.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_receive_voice_three.png"
     },
@@ -974,6 +1361,18 @@
     {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_hands_free_disable.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_hands_free_disable.png"
+=======
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f62c.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f62c.png"
+    },
+    {
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_volume_zero.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_volume_zero.png"
+    },
+    {
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f637.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f637.png"
+>>>>>>> b3f2e2470aa82780e1ad0bf2f9e4a7b2b52d1542
     },
     {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u2744.png",
@@ -996,11 +1395,20 @@
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_sound_off_down.png"
     },
     {
+<<<<<<< HEAD
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_ic_bubble_no_right.9.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_ic_bubble_no_right.9.png"
     },
     {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f634.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f634.png"
+=======
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f623.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f623.png"
+    },
+    {
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_ic_volume_1.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_ic_volume_1.png"
+>>>>>>> b3f2e2470aa82780e1ad0bf2f9e4a7b2b52d1542
     }
 ]
