@@ -7,14 +7,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.huangbaoche.hbcframe.data.bean.UserSession;
+import com.huangbaoche.hbcframe.data.bean.UserEntity;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.UserBean;
-import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.request.RequestLogin;
-import com.hugboga.custom.utils.IMUtil;
-import com.hugboga.custom.utils.SharedPre;
 
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
@@ -31,9 +28,6 @@ import java.util.regex.Pattern;
 @ContentView(R.layout.fg_login)
 public class FgLogin extends BaseFragment {
 
-    public static String KEY_PHONE = "key_phone";
-    public static String KEY_AREA_CODE = "key_area_code";
-
     @ViewInject(R.id.change_mobile_areacode)
     private TextView areaCodeTextView;
     @ViewInject(R.id.login_phone)
@@ -45,7 +39,6 @@ public class FgLogin extends BaseFragment {
 
     String phone;
     String areaCode;
-    private SharedPre sharedPre;
 
     @Override
     protected void initHeader() {
@@ -54,21 +47,7 @@ public class FgLogin extends BaseFragment {
 
     @Override
     protected void initView() {
-        String areaCode = getArguments().getString(KEY_AREA_CODE,"");
-        String phone = getArguments().getString(KEY_PHONE,"");
-        sharedPre = new SharedPre(getActivity());
-        if(TextUtils.isEmpty(areaCode)){
-            areaCode = sharedPre.getStringValue(SharedPre.CODE);
-        }
-        if(!TextUtils.isEmpty(areaCode)) {
-            areaCodeTextView.setText(areaCode);
-        }
-        if(TextUtils.isEmpty(phone)){
-            phone = sharedPre.getStringValue(SharedPre.PHONE);
-        }
-        if(!TextUtils.isEmpty(phone)) {
-            phoneEditText.setText(phone);
-        }
+
     }
 
     @Override
@@ -87,17 +66,10 @@ public class FgLogin extends BaseFragment {
             RequestLogin mRequest = (RequestLogin)request;
             UserBean user = mRequest.getData();
             user.setUserEntity(getActivity());
-            UserSession.getUser().setUserToken(getActivity(), user.userToken);
-            connectIM();
-            finishForResult(new Bundle());
-
+            UserEntity.getUser().setUserToken(getActivity(),user.userToken);
+            finish();
         }
     }
-
-    private void connectIM(){
-        IMUtil.connect(getActivity(),UserEntity.getUser().imToken);
-    }
-
     @Event({R.id.login_submit,R.id.change_mobile_areacode,R.id.login_register,R.id.change_mobile_diepwd})
     private void onClickView(View view){
         switch (view.getId()) {

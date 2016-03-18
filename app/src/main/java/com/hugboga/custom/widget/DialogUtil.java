@@ -317,19 +317,18 @@ public class DialogUtil {
      * 用户自定义  有 "确定" 和 "取消" 两个按钮,无操作事件 可置 null
      *
      * @param content
-     * @param positiveClick 确定按钮的 点击事件
+     * @param postitiveClick 确定按钮的 点击事件
      * @param negativeClick  取消按钮的点击事件
      * @return Dialog    返回类型
      * @Title showCustomDialog
      * @author aceway-liwei
      * @date 2013-2-26 上午10:25:53
      */
-    public Dialog showCustomDialog(String content, OnClickListener positiveClick, OnClickListener negativeClick) {
-        customDialog = showCustomDialog(mContext.getString(R.string.app_name), content, mContext.getString(R.string.dialog_btn_ok), positiveClick
+    public Dialog showCustomDialog(String content, OnClickListener postitiveClick, OnClickListener negativeClick) {
+        customDialog = showCustomDialog(mContext.getString(R.string.app_name), content, mContext.getString(R.string.dialog_btn_ok), postitiveClick
                 , mContext.getString(R.string.dialog_btn_cancel), negativeClick);
         return customDialog;
     }
-
 
     /**
      * 用户自定义 提示框

@@ -15,18 +15,27 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 提交LOG
  * Created by admin on 2016/3/7.
  */
 
 @HttpRequest(path = UrlLibs.SERVER_IP_UPLOAD_LOGS,builder = HbcParamsBuilder.class)
 public class RequestUploadLogs extends BaseRequest<Boolean> {
 
+    private StringBuffer log;
 
+    public RequestUploadLogs(Context context) {
+        super(context);
+    }
     public RequestUploadLogs(Context context,StringBuffer log) {
         super(context);
-        map = new HashMap<>();
-        map.put("log",log.toString());
+        this.log = log;
+    }
+
+    @Override
+    public Map<String, Object> getDataMap() {
+        Map<String,Object> map = new HashMap<>();
+//        map.put("log",log.toString());
+        return map;
     }
 
     @Override

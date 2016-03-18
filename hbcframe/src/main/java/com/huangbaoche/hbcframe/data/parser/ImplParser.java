@@ -49,39 +49,16 @@ public abstract class ImplParser implements InterfaceParser{
         return result;
     }
 
-    /**
-     * 实现方法 解析数据
-     * @param obj jsonObj json对象，data的内容
-     * @return 解析后的数据源可以是Bean 或者 String，list 但是要跟 request的 类型一致
-     * @throws Throwable
-     */
     public abstract Object parseObject(JSONObject obj) throws Throwable;
-
-    /**
-     * 解析方法，如果返回的data是array格式的重载此方法
-     * @param array jsonArray 数据源
-     * @return 解析后的数据源可以是Bean 或者 String，list 但是要跟 request的 类型一致
-     * @throws Throwable
-     */
 
     public Object parseArray(JSONArray array) throws Throwable{
         return  array.toString();
     }
 
-    /**
-     * 解析方法，如果返回的data是String格式的重载此方法
-     * @param string 数据源
-     * @return 解析后的数据源可以是Bean 或者 String，list 但是要跟 request的 类型一致
-     * @throws Throwable
-     */
     public Object parseString(String string) throws Throwable{
         return  string;
     }
 
-    /**
-     * 获取服务器数据解析的标准格式解析器
-     * @return
-     */
     public ImplParser getServerParser() {
         if(serverParser==null){
             try {

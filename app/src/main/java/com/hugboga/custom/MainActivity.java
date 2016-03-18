@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,20 +26,19 @@ import com.hugboga.custom.adapter.MenuItemAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.LvMenuItem;
 import com.hugboga.custom.data.bean.UserEntity;
-import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.fragment.BaseFragment;
 import com.hugboga.custom.fragment.FgChat;
 import com.hugboga.custom.fragment.FgChooseCity;
 import com.hugboga.custom.fragment.FgCoupon;
 import com.hugboga.custom.fragment.FgHome;
 import com.hugboga.custom.fragment.FgLogin;
+import com.hugboga.custom.fragment.FgPersonInfo;
 import com.hugboga.custom.fragment.FgServicerCenter;
 import com.hugboga.custom.fragment.FgSetting;
 import com.hugboga.custom.fragment.FgTest;
 import com.hugboga.custom.service.LogService;
 import com.hugboga.custom.utils.Common;
 import com.hugboga.custom.utils.PhoneInfo;
-import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.UpdateResources;
 
 import org.xutils.view.annotation.ContentView;
@@ -51,7 +51,7 @@ import java.util.List;
 
 @ContentView(R.layout.activity_main)
 public class MainActivity extends BaseFragmentActivity
-        implements /*NavigationView.OnNavigationItemSelectedListener,*/ ViewPager.OnPageChangeListener, AdapterView.OnItemClickListener {
+        implements /*NavigationView.OnNavigationItemSelectedListener,*/ ViewPager.OnPageChangeListener, AdapterView.OnItemClickListener, View.OnClickListener {
 
 
     @ViewInject(R.id.drawer_layout)
@@ -59,6 +59,10 @@ public class MainActivity extends BaseFragmentActivity
 
     @ViewInject(R.id.container)
     private ViewPager mViewPager;
+
+    private TextView tv_modify_info;//header的修改资料
+    private ImageView my_icon_head;//header的头像
+    private TextView tv_nickname;//header的昵称
 
 //    @ViewInject(R.id.toolbar)
 //    private Toolbar toolbar;
@@ -87,12 +91,6 @@ public class MainActivity extends BaseFragmentActivity
         UpdateResources.checkLocalDB(this);
         UpdateResources.checkLocalResource(this);
         setUpDrawer();
-        connectIM();
-    }
-
-    private void connectIM() {
-        if(UserEntity.getUser().getImToken(this)!=null)
-        IMUtil.connect(this, UserEntity.getUser().imToken);
     }
 
     private void initBottomView() {
@@ -115,7 +113,15 @@ public class MainActivity extends BaseFragmentActivity
     private void setUpDrawer()
     {
         LayoutInflater inflater = LayoutInflater.from(this);
-        mLvLeftMenu.addHeaderView(inflater.inflate(R.layout.nav_header_main, mLvLeftMenu, false));
+        View header = inflater.inflate(R.layout.nav_header_main, null);
+        tv_modify_info = (TextView) header.findViewById(R.id.tv_modify_info);
+        tv_modify_info.setOnClickListener(this);
+        my_icon_head = (ImageView) header.findViewById(R.id.my_icon_head);
+        my_icon_head.setOnClickListener(this);
+        tv_nickname = (TextView) header.findViewById(R.id.tv_nickname);
+        tv_nickname.setOnClickListener(this);
+
+        mLvLeftMenu.addHeaderView(header);
         mLvLeftMenu.setAdapter(new MenuItemAdapter(this,mItems));
         mLvLeftMenu.setOnItemClickListener(this);
     }
@@ -307,6 +313,18 @@ public class MainActivity extends BaseFragmentActivity
         }else{
             startFragment(new FgLogin());
             return false;
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.tv_modify_info:
+                if (isLogin()) {
+                    startFragment(new FgPersonInfo());
+                }
+                drawer.closeDrawer(GravityCompat.START);
+                break;
         }
     }
 

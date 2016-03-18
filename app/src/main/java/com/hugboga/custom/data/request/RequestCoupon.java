@@ -39,7 +39,7 @@ public class RequestCoupon extends BaseRequest<ArrayList<CouponBean>> {
         return new ParserCoupon();
     }
 
-        @Override
+    @Override
     public HttpMethod getHttpMethod() {
         return HttpMethod.GET;
     }

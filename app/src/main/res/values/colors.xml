@@ -108,14 +108,4 @@
     <!-- Trip color -->
     <color name="trip_label_color">#FE6C1C</color>
 
-    <!--Letter color-->
-    <color name="letter_item_username">#727272</color>
-    <color name="letter_item_message">#0A0A0A</color>
-    <color name="letter_item_time">#C7C7C7</color>
-    <color name="letter_item_line">#FAFAFA</color>
-    <color name="letter_item_order1">#57C59B</color>
-    <color name="letter_item_order2">#A8A8A8</color>
-    <color name="letter_im_order_color">#7A7A7A</color>
-    <color name="letter_im_order_line">#C9C9C9</color>
-    <color name="letter_im_order_point">#545454</color>
 </resources>

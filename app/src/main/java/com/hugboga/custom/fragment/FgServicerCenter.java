@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
@@ -97,6 +98,11 @@ public class FgServicerCenter extends BaseFragment {
     @Override
     protected int getBusinessType() {
         return Constants.BUSINESS_TYPE_OTHER;
+    }
+
+    @Override
+    public void onDataRequestSucceed(BaseRequest request) {
+
     }
 
     @Override

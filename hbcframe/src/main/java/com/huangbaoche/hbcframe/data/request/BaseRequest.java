@@ -10,9 +10,6 @@ import org.xutils.http.RequestParams;
 import java.util.Map;
 
 /**
- *
- * 请求器基类
- * 泛型T是getData 需要的类型，需要与Parser 解析返回的类型相同
  * Created by admin on 2016/2/25.
  */
 
@@ -21,9 +18,7 @@ public abstract class BaseRequest<T> extends RequestParams implements InterfaceR
     private Context mContext;
 
     private T data;
-    /**
-     * 上行的参数
-     */
+
     public Map<String,Object> map;
 
     public BaseRequest(Context context){
@@ -38,26 +33,14 @@ public abstract class BaseRequest<T> extends RequestParams implements InterfaceR
         return map;
     }
 
-    /**
-     * 获取解析器
-     * @return 解析器
-     */
     public abstract ImplParser getParser() ;
 
-    /**
-     * 请求的方法 默认 GET
-     * @return
-     */
     @Override
     public HttpMethod getHttpMethod() {
         return HttpMethod.GET;
     }
 
 
-    /**
-     * 获取数据源,返回类型是 构造时 类型
-     * @return
-     */
     public T getData() {
         return data;
     }

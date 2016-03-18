@@ -40,7 +40,7 @@ public class FgChangeMobile extends BaseFragment {
     public void onDataRequestSucceed(BaseRequest request) {
         if (request instanceof RequestChangeMobile) {
             RequestChangeMobile requestChangeMobile = (RequestChangeMobile) request;
-            UserEntity.getUser().setAreaCode(getActivity(), requestChangeMobile.areaCode);
+            UserEntity.getUser().setCode(getActivity(), requestChangeMobile.areaCode);
             UserEntity.getUser().setPhone(getActivity(), requestChangeMobile.mobile);
             showTip("更换手机号成功");
             finish();
@@ -195,7 +195,7 @@ public class FgChangeMobile extends BaseFragment {
     @Override
     protected Callback.Cancelable requestData() {
         StringBuilder sb = new StringBuilder();
-        String code = UserEntity.getUser().getAreaCode(getActivity());
+        String code = UserEntity.getUser().getCode(getActivity());
         if(!code.isEmpty()){
             sb.append("+"+code);
         }

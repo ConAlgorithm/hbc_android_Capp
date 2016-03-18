@@ -3,7 +3,6 @@ package com.hugboga.custom.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -111,21 +110,7 @@ public class PhoneInfo {
 		conn.setRequestProperty("platform", "android");
 		conn.setRequestProperty("appfinger", "1.0.0");
 	}
-	/**
-	 * 获取打包后的工程渠道标识
-	 *
-	 * @return
-	 */
-	public static String getVersionChannel(Context context) {
-		try {
-			ApplicationInfo info = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
-			String channelStr = info.metaData.getString("APP_CHANNEL");
-			return channelStr;
-		} catch (PackageManager.NameNotFoundException e) {
-			e.printStackTrace();
-			return "";
-		}
-	}
+
 	public static String getNetState(Context ctx){
 		String nettype = ""; // 联网方式
 		try{

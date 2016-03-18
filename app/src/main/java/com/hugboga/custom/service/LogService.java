@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 
+import com.huangbaoche.hbcframe.data.bean.UserEntity;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
@@ -59,6 +60,7 @@ public class LogService extends Service {
                     if(!isRunning){
                         MLog.i("DEBUG 调试模式停止");
                     }
+                    LogUtil.e("logService upload log " + UserEntity.getUser().logBuilder.length() + " UserEntity =" + UserEntity.getUser());
                     String cmd ="logcat -d "+MLog.TAG+":i *:S";
                     String cmdCancel = "logcat -c";
                     MLog.e("cmd = " + cmd);

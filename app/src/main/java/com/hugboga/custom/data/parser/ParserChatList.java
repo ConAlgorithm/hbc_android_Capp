@@ -31,11 +31,9 @@ public class ParserChatList extends ImplParser {
             //解析IM订单
             JSONArray orderArray = jsonObject.optJSONArray("orderInfo");
             chatBean.orders = new ArrayList<>();
-            if(orderArray!=null){
-                ParserChatOrder mParserChatOrder = new ParserChatOrder();
-                for(int j=0;j<orderArray.length();j++){
-                    chatBean.orders.add(mParserChatOrder.parseObject(orderArray.optJSONObject(j)));
-                }
+            ParserChatOrder mParserChatOrder = new ParserChatOrder();
+            for(int j=0;j<orderArray.length();i++){
+                chatBean.orders.add(mParserChatOrder.parseObject(orderArray.optJSONObject(j)));
             }
             list.add(chatBean);
         }

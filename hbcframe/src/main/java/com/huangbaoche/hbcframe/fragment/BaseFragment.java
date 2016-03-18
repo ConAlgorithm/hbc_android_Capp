@@ -124,9 +124,7 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
     }
 
     @Override
-    public void onDataRequestSucceed(BaseRequest request) {
-
-    }
+    public abstract void onDataRequestSucceed(BaseRequest request);
 
     @Override
     public void onDataRequestCancel(BaseRequest request) {

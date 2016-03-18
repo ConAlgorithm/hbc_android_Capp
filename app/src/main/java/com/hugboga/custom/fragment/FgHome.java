@@ -63,7 +63,6 @@ public class FgHome extends BaseFragment implements AdapterView.OnItemClickListe
         listView.setOnItemClickListener(this);
         getView().findViewById(R.id.fg_home_menu3).setOnClickListener(this);
         getView().findViewById(R.id.header_left_btn).setOnClickListener(this);
-        getView().findViewById(R.id.header_right_btn).setOnClickListener(this);
     }
 
 
@@ -104,9 +103,6 @@ public class FgHome extends BaseFragment implements AdapterView.OnItemClickListe
         switch (v.getId()) {
             case R.id.header_left_btn:
                 ((MainActivity) getActivity()).openDrawer();
-                break;
-            case R.id.header_right_btn:
-                startFragment(new FgChooseCity());
                 break;
             case R.id.fg_home_menu1://中文接送机
 

@@ -1,10 +1,11 @@
 package com.huangbaoche.hbcframe.data.net;
 
 import android.content.Context;
+import android.content.Entity;
 import android.text.TextUtils;
 
 import com.huangbaoche.hbcframe.HbcConfig;
-import com.huangbaoche.hbcframe.data.bean.UserSession;
+import com.huangbaoche.hbcframe.data.bean.UserEntity;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 
@@ -12,7 +13,9 @@ import org.xutils.http.HttpMethod;
 import org.xutils.http.RequestParams;
 import org.xutils.http.annotation.HttpRequest;
 import org.xutils.http.app.ParamsBuilder;
+import org.xutils.x;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.net.ssl.SSLSocketFactory;
@@ -53,9 +56,9 @@ public class HbcParamsBuilder implements ParamsBuilder {
 
             BaseRequest request = (BaseRequest)params;
             Context context = request.getContext();
-            params.setHeader(KEY_HEADER_AK, UserSession.getUser().getAccessKey(context));
-            if(UserSession.getUser().getUserToken(context)!=null)
-            params.setHeader(KEY_HEADER_UT, UserSession.getUser().getUserToken(context));
+            params.setHeader(KEY_HEADER_AK, UserEntity.getUser().getAccessKey(context));
+            if(UserEntity.getUser().getUserToken(context)!=null)
+            params.setHeader(KEY_HEADER_UT, UserEntity.getUser().getUserToken(context));
             Map<String,Object> map = request.getDataMap();
             request.setMethod(request.getHttpMethod());
             StringBuffer sb = new StringBuffer();

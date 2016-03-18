@@ -19,16 +19,14 @@ public class RequestWebInfo extends BaseRequest<String> {
     public String url;
     public String method;
     public String questBody;
-    public String successCallBack;
-    public String failCallBack;
+    public String callBack;
 
-    public RequestWebInfo(Context context,String url,String method,String questBody,String successCallBack,String failCallBack) {
+    public RequestWebInfo(Context context,String url,String method,String questBody,String callBack) {
         super(context);
         this.url = url;
         this.method = method;
         this.questBody = questBody;
-        this.successCallBack = successCallBack;
-        this.failCallBack = failCallBack;
+        this.callBack = callBack;
     }
 
     @Override
