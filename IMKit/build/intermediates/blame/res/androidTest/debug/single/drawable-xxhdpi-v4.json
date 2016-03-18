@@ -8,11 +8,20 @@
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xxhdpi-v4\\rc_ic_bubble_white.9.png"
     },
     {
+<<<<<<< HEAD
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xxhdpi-v4\\rc_default_portrait.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xxhdpi-v4\\rc_default_portrait.png"
     },
     {
         "merged": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xxhdpi-v4\\rc_group_default_portrait.png",
         "source": "D:\\AndroidStudioProjects\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xxhdpi-v4\\rc_group_default_portrait.png"
+=======
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xxhdpi-v4\\rc_default_portrait.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xxhdpi-v4\\rc_default_portrait.png"
+    },
+    {
+        "merged": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xxhdpi-v4\\rc_group_default_portrait.png",
+        "source": "D:\\AndroidStudio\\workspace\\huangbaoche_customer\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xxhdpi-v4\\rc_group_default_portrait.png"
+>>>>>>> b3f2e2470aa82780e1ad0bf2f9e4a7b2b52d1542
     }
 ]
