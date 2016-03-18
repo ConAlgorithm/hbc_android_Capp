@@ -15,6 +15,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,6 +34,7 @@ import com.hugboga.custom.fragment.FgChooseCity;
 import com.hugboga.custom.fragment.FgCoupon;
 import com.hugboga.custom.fragment.FgHome;
 import com.hugboga.custom.fragment.FgLogin;
+import com.hugboga.custom.fragment.FgPersonInfo;
 import com.hugboga.custom.fragment.FgServicerCenter;
 import com.hugboga.custom.fragment.FgSetting;
 import com.hugboga.custom.fragment.FgTest;
@@ -230,7 +233,7 @@ public class MainActivity extends BaseFragmentActivity
 
     @Override
     public void onPageSelected(int position) {
-        MLog.e("onPageSelected = "+position);
+        MLog.e("onPageSelected = " + position);
         for (int i=0;i<tabMenu.length;i++) {
             tabMenu[i].setSelected(position == i);
         }
@@ -307,6 +310,23 @@ public class MainActivity extends BaseFragmentActivity
         }else{
             startFragment(new FgLogin());
             return false;
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.tv_modify_info:
+                if (isLogin()) {
+                    startFragment(new FgPersonInfo());
+                }
+                drawer.closeDrawer(GravityCompat.START);
+                break;
+
+            case R.id.my_icon_head:
+            case R.id.tv_nickname:
+                isLogin();
+                break;
         }
     }
 

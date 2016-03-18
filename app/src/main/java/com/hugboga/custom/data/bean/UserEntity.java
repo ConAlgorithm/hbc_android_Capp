@@ -28,6 +28,9 @@ public class UserEntity {
     private UserEntity() {
     }
 
+    public String getImToken() {
+        return imToken;
+    }
 
     public static UserEntity getUser() {
         if (user == null) {
