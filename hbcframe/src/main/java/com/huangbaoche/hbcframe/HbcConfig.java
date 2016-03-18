@@ -17,4 +17,6 @@ public class HbcConfig {
     public static  Class accessKeyRequest ;
     /*** 设置服务端返回格式解析器*/
     public static  String serverHost = "";
+    /**微信*/
+    public static java.lang.String WX_APP_ID;
 }

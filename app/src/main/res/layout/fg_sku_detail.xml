@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/bg_02"
+    android:orientation="vertical">
+
+    <include layout="@layout/include_header" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/login_login_bg">
+        <LinearLayout
+            android:id="@+id/bottom_layout"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="@color/basic_black"
+            android:layout_alignParentBottom="true"
+            >
+            <TextView
+                android:id="@+id/phone_consultation"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:drawableLeft="@mipmap/phone"
+                android:paddingLeft="30dp"
+                android:drawablePadding="5dp"
+                android:text="@string/phone_consultation"
+                android:textColor="@color/basic_white"
+                />
+            <View
+                android:layout_width="1dp"
+                android:layout_height="40dp"
+                android:background="@color/flight_tap_bg"
+                />
+            <TextView
+                android:id="@+id/goto_order"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="6"
+                android:gravity="center"
+                android:text="@string/goto_order"
+                android:textColor="@color/all_bg_yellow"
+                />
+        </LinearLayout>
+        <WebView
+            android:id="@+id/webview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/bottom_layout"
+            />
+
+    </RelativeLayout>
+</LinearLayout>

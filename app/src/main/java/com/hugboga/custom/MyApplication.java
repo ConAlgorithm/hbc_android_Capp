@@ -57,5 +57,6 @@ public class MyApplication extends HbcApplication {
         HbcConfig.VERSION_CODE = BuildConfig.VERSION_CODE;
         HbcConfig.APP_NAME = getString(R.string.app_name);
         HbcConfig.IS_DEBUG=true;
+        HbcConfig.WX_APP_ID = Constants.WX_APP_ID;
     }
 }

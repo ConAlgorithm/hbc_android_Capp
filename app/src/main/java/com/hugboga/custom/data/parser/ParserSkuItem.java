@@ -19,6 +19,8 @@ public class ParserSkuItem extends ImplParser {
         bean.saleAmount = obj.optInt("saleAmount");
         bean.salePoints = obj.optString("salePoints");
         bean.guideAmount = obj.optInt("guideAmount");
+        bean.daysCount = obj.optString("daysCount");
+        bean.daysCount = obj.optString("daysCount");
         return bean;
     }
 }

@@ -11,6 +11,7 @@ import com.huangbaoche.hbcframe.adapter.BaseAdapter;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.HomeBean;
 
+import org.xutils.image.ImageOptions;
 import org.xutils.x;
 
 /**
@@ -18,8 +19,14 @@ import org.xutils.x;
  */
 public class HomeAdapter extends BaseAdapter<HomeBean> {
 
+    private final ImageOptions options;
+
     public HomeAdapter(Context context) {
         super(context);
+        options = new ImageOptions.Builder()
+                .setLoadingDrawableId(R.mipmap.img_undertext)
+                .setFailureDrawableId(R.mipmap.img_undertext)
+                .build();
     }
 
     @Override
@@ -39,7 +46,7 @@ public class HomeAdapter extends BaseAdapter<HomeBean> {
         if(bean!=null){
             viewHolder.tvTitle.setText(bean.mainTitle);
             viewHolder.tvSubTitle.setText(bean.subTitle);
-            x.image().bind(viewHolder.imgBg,bean.picture);
+            x.image().bind(viewHolder.imgBg,bean.picture,options);
         }
 
         return view;
