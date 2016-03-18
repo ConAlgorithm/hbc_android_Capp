@@ -7,7 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- *用户信息bean
+ *用户信息bean  
  * Created by ZHZEPHI on 2015/7/22.
  */
 public class UserBean implements IBaseBean {
