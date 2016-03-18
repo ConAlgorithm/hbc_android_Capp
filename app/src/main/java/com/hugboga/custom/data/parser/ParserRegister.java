@@ -20,7 +20,7 @@ public class ParserRegister extends ImplParser {
         bean.userID = jsonObj.optString("userId");
         bean.areaCode = jsonObj.optString("areaCode");
         bean.mobile = jsonObj.optString("mobile");
-        bean.token = jsonObj.optString("userToken");
+        bean.userToken = jsonObj.optString("userToken");
         bean.weakPassword = jsonObj.optBoolean("weakPassword");
         bean.weakPasswordMsg = jsonObj.optString("weakPasswordMsg");
         return bean;
