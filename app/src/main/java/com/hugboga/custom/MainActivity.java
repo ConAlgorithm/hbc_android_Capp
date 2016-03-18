@@ -313,7 +313,6 @@ public class MainActivity extends BaseFragmentActivity
         }
     }
 
-    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_modify_info:
