@@ -23,7 +23,10 @@ public class SkuAdapter extends BaseAdapter<SkuItemBean> {
 
     public SkuAdapter(Context context) {
         super(context);
-        options = new ImageOptions.Builder().setFailureDrawableId(R.mipmap.img_undertext).build();
+        options = new ImageOptions.Builder()
+                .setFailureDrawableId(R.mipmap.img_undertext)
+                .setLoadingDrawableId(R.mipmap.img_undertext)
+                .build();
     }
 
     @Override
