@@ -7,20 +7,21 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- *用户信息bean
+ *用户信息bean  
  * Created by ZHZEPHI on 2015/7/22.
  */
 public class UserBean implements IBaseBean {
 
-    public String avatar;//用户的头像
-    public String nickname;
-    public String gender;
-    public int ageType;
-    public String signature;
-    public String userID;
-    public String areaCode;
-    public String mobile;
-    public String userToken;
+
+    public String avatar;//用户头像
+    public String nickname;//昵称
+    public String gender;//性别
+    public int ageType;//年龄
+    public String signature;//签名
+    public String userID;//用户ID
+    public String areaCode;//区号
+    public String mobile;//手机
+    public String userToken;//用户身份凭证
     public boolean weakPassword;  //布尔值 是否弱密码
     public String weakPasswordMsg; //弱密码提示文案
     public String imToken;//聊天token
@@ -71,6 +72,6 @@ public class UserBean implements IBaseBean {
         UserEntity.getUser().setAvatar(context, this.avatar);
         UserEntity.getUser().setNickname(context, this.nickname);
         UserEntity.getUser().setAreaCode(context, this.areaCode);
-        UserEntity.getUser().setImToken(context,imToken);
+        UserEntity.getUser().setImToken(context, imToken);
     }
 }
