@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -324,6 +325,11 @@ public class MainActivity extends BaseFragmentActivity
                     startFragment(new FgPersonInfo());
                 }
                 drawer.closeDrawer(GravityCompat.START);
+                break;
+
+            case R.id.my_icon_head:
+            case R.id.tv_nickname:
+                isLogin();
                 break;
         }
     }

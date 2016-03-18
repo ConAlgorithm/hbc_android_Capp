@@ -71,7 +71,7 @@ public class UserBean implements IBaseBean {
         UserEntity.getUser().setUserId(this.userID);
         UserEntity.getUser().setAvatar(context, this.avatar);
         UserEntity.getUser().setNickname(context, this.nickname);
-        UserEntity.getUser().setAreaCode(context, this.areaCode);
+        UserEntity.getUser().setCode(context, this.areaCode);
         UserEntity.getUser().setImToken(context, imToken);
     }
 }
