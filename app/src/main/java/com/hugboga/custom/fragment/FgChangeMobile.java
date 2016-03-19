@@ -196,11 +196,11 @@ public class FgChangeMobile extends BaseFragment {
     protected Callback.Cancelable requestData() {
         StringBuilder sb = new StringBuilder();
         String code = UserEntity.getUser().getAreaCode(getActivity());
-        if(!code.isEmpty()){
+        if(!TextUtils.isEmpty(code)){
             sb.append("+"+code);
         }
         String phone = UserEntity.getUser().getPhone(getActivity());
-        if(!phone.isEmpty()){
+        if(!TextUtils.isEmpty(phone)){
             sb.append(phone);
         }
         phoneTextView.setText("当前手机号：" + sb.toString());

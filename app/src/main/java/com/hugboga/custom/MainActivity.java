@@ -1,6 +1,9 @@
 package com.hugboga.custom;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -10,6 +13,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,6 +32,7 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.LvMenuItem;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.bean.UserEntity;
+import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.fragment.BaseFragment;
 import com.hugboga.custom.fragment.FgChat;
 import com.hugboga.custom.fragment.FgChooseCity;
@@ -40,21 +45,27 @@ import com.hugboga.custom.fragment.FgSetting;
 import com.hugboga.custom.fragment.FgTest;
 import com.hugboga.custom.service.LogService;
 import com.hugboga.custom.utils.Common;
+import com.hugboga.custom.utils.ImageOptionUtils;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.UpdateResources;
 
+import org.xutils.image.ImageOptions;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
+import org.xutils.x;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import de.greenrobot.event.EventBus;
+
+
 @ContentView(R.layout.activity_main)
 public class MainActivity extends BaseFragmentActivity
-        implements /*NavigationView.OnNavigationItemSelectedListener,*/ ViewPager.OnPageChangeListener, AdapterView.OnItemClickListener {
+        implements /*NavigationView.OnNavigationItemSelectedListener,*/ ViewPager.OnPageChangeListener, AdapterView.OnItemClickListener, View.OnClickListener {
 
 
     @ViewInject(R.id.drawer_layout)
@@ -62,6 +73,10 @@ public class MainActivity extends BaseFragmentActivity
 
     @ViewInject(R.id.container)
     private ViewPager mViewPager;
+
+    private TextView tv_modify_info;//header的修改资料
+    private ImageView my_icon_head;//header的头像
+    private TextView tv_nickname;//header的昵称
 
 //    @ViewInject(R.id.toolbar)
 //    private Toolbar toolbar;
@@ -91,6 +106,32 @@ public class MainActivity extends BaseFragmentActivity
         UpdateResources.checkLocalResource(this);
         setUpDrawer();
         connectIM();
+        try {
+            EventBus.getDefault().register(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        try {
+            EventBus.getDefault().unregister(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void onEventMainThread(EventAction action) {
+        switch (action.getType()) {
+            case CLICK_USER_LOGIN:
+            case CLICK_USER_LOOUT:
+                refreshContent();
+                break;
+            default:
+                break;
+        }
     }
 
     private void connectIM() {
@@ -118,9 +159,43 @@ public class MainActivity extends BaseFragmentActivity
     private void setUpDrawer()
     {
         LayoutInflater inflater = LayoutInflater.from(this);
-        mLvLeftMenu.addHeaderView(inflater.inflate(R.layout.nav_header_main, mLvLeftMenu, false));
+        View header = inflater.inflate(R.layout.nav_header_main, null);
+        tv_modify_info = (TextView) header.findViewById(R.id.tv_modify_info);//编辑
+        tv_modify_info.setOnClickListener(this);
+        my_icon_head = (ImageView) header.findViewById(R.id.my_icon_head);//头像
+        my_icon_head.setOnClickListener(this);
+        tv_nickname = (TextView) header.findViewById(R.id.tv_nickname);//昵称
+        tv_nickname.setOnClickListener(this);
+
+        mLvLeftMenu.addHeaderView(header);
         mLvLeftMenu.setAdapter(new MenuItemAdapter(this,mItems));
         mLvLeftMenu.setOnItemClickListener(this);
+
+        refreshContent();
+    }
+
+    /**
+     * 刷新左边侧滑栏
+     */
+    private void refreshContent(){
+        if(!UserEntity.getUser().isLogin(this)){
+            my_icon_head.setImageResource(R.mipmap.chat_head);
+            tv_nickname.setText(this.getResources().getString(R.string.person_center_nickname));
+            tv_modify_info.setVisibility(View.INVISIBLE);
+        }else{
+            tv_modify_info.setVisibility(View.VISIBLE);
+            if(!TextUtils.isEmpty(UserEntity.getUser().getAvatar(this))){
+                x.image().bind(my_icon_head, UserEntity.getUser().getAvatar(this), ImageOptionUtils.userPortraitImageOptions);
+            }else{
+                my_icon_head.setImageResource(R.mipmap.chat_head);
+            }
+
+            if(!TextUtils.isEmpty(UserEntity.getUser().getNickname(this))){
+                tv_nickname.setText(UserEntity.getUser().getNickname(this));
+            }else {
+                tv_nickname.setText(this.getResources().getString(R.string.person_center_no_nickname));
+            }
+        }
     }
     /**
      * 打开左侧菜单
@@ -313,20 +388,22 @@ public class MainActivity extends BaseFragmentActivity
         }
     }
 
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_modify_info:
                 if (isLogin()) {
                     startFragment(new FgPersonInfo());
                 }
-                drawer.closeDrawer(GravityCompat.START);
                 break;
 
             case R.id.my_icon_head:
             case R.id.tv_nickname:
                 isLogin();
                 break;
+
         }
+        drawer.closeDrawer(GravityCompat.START);
     }
 
     /**
