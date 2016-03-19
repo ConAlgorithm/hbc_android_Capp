@@ -176,8 +176,8 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:paddingLeft">10dp</item>
         <item name="android:paddingRight">10dp</item>
-        <item name="android:paddingTop">5dp</item>
-        <item name="android:paddingBottom">5dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
         <item name="android:gravity">center_vertical</item>
     </style>
     <style name="skuInfoStar">
@@ -207,6 +207,7 @@
         <item name="android:layout_marginLeft">10dp</item>
         <item name="android:layout_centerVertical">true</item>
         <item name="android:background">@null</item>
+        <item name="android:editable">false</item>
     </style>
     <style name="skuInfoLine">
         <item name="android:layout_width">match_parent</item>
@@ -214,6 +215,33 @@
         <item name="android:layout_marginLeft">25dp</item>
         <item name="android:layout_marginRight">10dp</item>
         <item name="android:background">@color/change_mobile_line</item>
+    </style>
+
+    <style name="skuInfoNumberLayout">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:background">@drawable/textbox</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+    <style name="skuInfoNumberSub">
+        <item name="android:layout_width">30dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/basic_black</item>
+        <item name="android:textSize">@dimen/text_size_xlarge</item>
+    </style>
+    <style name="skuInfoNumberEdit">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@null</item>
+        <item name="android:editable">false</item>
+        <item name="android:focusable">false</item>
+        <item name="android:imeOptions">actionNext</item>
+        <item name="android:paddingLeft">@dimen/basic_margin_small</item>
+        <item name="android:paddingRight">@dimen/basic_margin_small</item>
+        <item name="android:textColor">@color/change_mobile_text</item>
+        <item name="android:textColorHint">@color/change_mobile_hint</item>
+        <item name="android:textSize">@dimen/text_size_large</item>
     </style>
 
 </resources>

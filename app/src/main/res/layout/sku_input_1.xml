@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/basic_white"
+    >
 <RelativeLayout
     style="@style/skuInfoLayout"
     >
@@ -20,7 +22,7 @@
         style="@style/skuInfoArrow"
         />
     <EditText
-        android:id="@+id/sku_start_edit"
+        android:id="@+id/sku_start_day_edit"
         style="@style/skuInfoEdit"
         android:layout_toRightOf="@id/sku_start_date_title"
         android:layout_toLeftOf="@id/sku_start_date_arrow"
