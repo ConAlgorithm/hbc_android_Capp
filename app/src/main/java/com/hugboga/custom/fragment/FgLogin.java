@@ -6,12 +6,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
 import com.huangbaoche.hbcframe.data.bean.UserSession;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.UserBean;
 import com.hugboga.custom.data.bean.UserEntity;
+import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestLogin;
 import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.SharedPre;
@@ -20,8 +21,9 @@ import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
-
 import java.util.regex.Pattern;
+
+import de.greenrobot.event.EventBus;
 
 /**
  *
@@ -54,20 +56,22 @@ public class FgLogin extends BaseFragment {
 
     @Override
     protected void initView() {
-        String areaCode = getArguments().getString(KEY_AREA_CODE,"");
-        String phone = getArguments().getString(KEY_PHONE,"");
-        sharedPre = new SharedPre(getActivity());
-        if(TextUtils.isEmpty(areaCode)){
-            areaCode = sharedPre.getStringValue(SharedPre.CODE);
-        }
-        if(!TextUtils.isEmpty(areaCode)) {
-            areaCodeTextView.setText(areaCode);
-        }
-        if(TextUtils.isEmpty(phone)){
-            phone = sharedPre.getStringValue(SharedPre.PHONE);
-        }
-        if(!TextUtils.isEmpty(phone)) {
-            phoneEditText.setText(phone);
+        if(getArguments() != null){
+            String areaCode = getArguments().getString(KEY_AREA_CODE,"");
+            String phone = getArguments().getString(KEY_PHONE,"");
+            sharedPre = new SharedPre(getActivity());
+            if(TextUtils.isEmpty(areaCode)){
+                areaCode = sharedPre.getStringValue(SharedPre.CODE);
+            }
+            if(!TextUtils.isEmpty(areaCode)) {
+                areaCodeTextView.setText(areaCode);
+            }
+            if(TextUtils.isEmpty(phone)){
+                phone = sharedPre.getStringValue(SharedPre.PHONE);
+            }
+            if(!TextUtils.isEmpty(phone)) {
+                phoneEditText.setText(phone);
+            }
         }
     }
 
@@ -87,10 +91,13 @@ public class FgLogin extends BaseFragment {
             RequestLogin mRequest = (RequestLogin)request;
             UserBean user = mRequest.getData();
             user.setUserEntity(getActivity());
+            UserEntity.getUser().setAreaCode(getActivity(),mRequest.areaCode);
+            UserEntity.getUser().setPhone(getActivity(),mRequest.mobile);
             UserSession.getUser().setUserToken(getActivity(), user.userToken);
             connectIM();
+            EventBus.getDefault().post(
+                    new EventAction(EventType.CLICK_USER_LOGIN));
             finishForResult(new Bundle());
-
         }
     }
 
