@@ -5,6 +5,7 @@
     android:background="@color/basic_white"
     >
 <RelativeLayout
+    android:id="@+id/sku_start_day_layout"
     style="@style/skuInfoLayout"
     >
     <TextView
@@ -31,6 +32,7 @@
     </RelativeLayout>
 <View style="@style/skuInfoLine"/>
     <RelativeLayout
+        android:id="@+id/sku_car_type_layout"
         style="@style/skuInfoLayout"
         >
         <TextView
