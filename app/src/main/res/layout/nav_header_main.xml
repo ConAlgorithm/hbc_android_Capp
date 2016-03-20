@@ -28,7 +28,7 @@
 
         android:orientation="vertical">
 
-        <com.hugboga.custom.widget.CircleImageView
+        <ImageView
             android:id="@+id/my_icon_head"
             android:layout_width="60dip"
             android:layout_height="60dip"

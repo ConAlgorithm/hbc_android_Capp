@@ -193,6 +193,7 @@
 
     <!-- sku-->
     <string name="person_center_nickname">点击登录</string>
+    <string name="person_center_no_nickname">昵称未填写</string>
     <string name="person_center_coupon">优惠券</string>
     <!--登录-->
     <string name="login">登录</string>

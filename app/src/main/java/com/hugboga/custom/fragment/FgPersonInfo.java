@@ -25,6 +25,8 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.UserBean;
 import com.hugboga.custom.data.bean.UserEntity;
+import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestChangeUserInfo;
 import com.hugboga.custom.data.request.RequestUpLoadFile;
@@ -45,6 +47,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * personInfo 个人信息
@@ -85,6 +89,8 @@ public class FgPersonInfo extends BaseFragment {
             UserEntity.getUser().setNickname(getActivity(), userBean.nickname);
             UserEntity.getUser().setAvatar(getActivity(), userBean.avatar);
             inflateContent();
+            EventBus.getDefault().post(
+                    new EventAction(EventType.CLICK_USER_LOGIN));
         } else if(request instanceof RequestUpLoadFile){
             RequestUpLoadFile requestUpLoadFile = (RequestUpLoadFile) request;
             Object obj = requestUpLoadFile.getData();

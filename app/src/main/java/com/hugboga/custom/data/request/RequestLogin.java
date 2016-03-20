@@ -22,9 +22,9 @@ import java.util.TreeMap;
  */
 @HttpRequest(path = UrlLibs.SERVER_IP_LOGIN,builder = HbcParamsBuilder.class)
 public class RequestLogin extends BaseRequest<UserBean> {
-    private String areaCode;
-    private String mobile;
-    private String password;
+    public String areaCode;
+    public String mobile;
+    public String password;
 
     public RequestLogin(Context context,String areaCode, String mobile, String password) {
         super(context);

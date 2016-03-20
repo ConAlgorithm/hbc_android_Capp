@@ -16,6 +16,8 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.constants.ResourcesConstants;
 import com.hugboga.custom.data.bean.CheckVersionBean;
 import com.hugboga.custom.data.bean.UserEntity;
+import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.parser.ParserLogout;
 import com.hugboga.custom.data.request.RequestCheckVersion;
 import com.hugboga.custom.data.request.RequestLogout;
@@ -27,6 +29,8 @@ import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
+
+import de.greenrobot.event.EventBus;
 
 @ContentView(R.layout.fg_setting)
 public class FgSetting extends BaseFragment {
@@ -70,6 +74,7 @@ public class FgSetting extends BaseFragment {
         }else if(request instanceof RequestLogout){
             getActivity().sendBroadcast(new Intent(FgHome.FILTER_FLUSH));
             UserEntity.getUser().clean(getActivity());
+            EventBus.getDefault().post(new EventAction(EventType.CLICK_USER_LOOUT));
             finish();
         }
     }
@@ -79,6 +84,7 @@ public class FgSetting extends BaseFragment {
         if(request instanceof  RequestLogout){
             getActivity().sendBroadcast(new Intent(FgHome.FILTER_FLUSH));
             UserEntity.getUser().clean(getActivity());
+            EventBus.getDefault().post(new EventAction(EventType.CLICK_USER_LOOUT));
             finish();
         }else {
             super.onDataRequestError(errorInfo, request);
