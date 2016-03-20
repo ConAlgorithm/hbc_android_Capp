@@ -42,7 +42,7 @@ import javax.net.ssl.SSLHandshakeException;
 @ContentView(R.layout.fg_webview)
 public class FgWebInfo extends BaseFragment implements View.OnKeyListener {
 
-    public static final String Web_URL = "web_url";
+    public static final String WEB_URL = "web_url";
     public boolean isHttps = false;
     private DialogUtil mDialogUtil;
 
@@ -199,7 +199,7 @@ public class FgWebInfo extends BaseFragment implements View.OnKeyListener {
 
     @Override
     protected Callback.Cancelable requestData() {
-        String url = getArguments().getString(Web_URL);
+        String url = getArguments().getString(WEB_URL);
 //        url = "https://res2.huangbaoche.com/h5/gmsg/message.html?messageId=100068621&guideId=200000001445";
 //        url="https://www.baidu.com";
 //        url = "http://res.dev.hbc.tech/h5/test/api.html?t="+System.currentTimeMillis();

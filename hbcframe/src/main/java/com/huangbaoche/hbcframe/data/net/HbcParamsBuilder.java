@@ -81,9 +81,6 @@ public class HbcParamsBuilder implements ParamsBuilder {
                 MLog.e("header = " +params.getHeaders().get(i).key+":"+params.getHeaders().get(i).value);
             }
             MLog.e(request.getHttpMethod()+" params = " + sb.toString());
-            for (int i=0;i<params.getQueryStringParams().size();i++) {
-                MLog.e("QueryStringParams = " +params.getQueryStringParams().get(i).key+":"+params.getQueryStringParams().get(i).value);
-            }
         }else{
             throw new RuntimeException("params must instanceof BaseRequest");
         }

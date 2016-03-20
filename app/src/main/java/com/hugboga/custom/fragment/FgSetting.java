@@ -121,7 +121,7 @@ public class FgSetting extends BaseFragment {
             case R.id.setting_menu_layout5:
                 //关于我们
                 Bundle bundle = new Bundle();
-                bundle.putString(FgWebInfo.Web_URL, ResourcesConstants.H5_ABOUT);
+                bundle.putString(FgWebInfo.WEB_URL, ResourcesConstants.H5_ABOUT);
                 startFragment( new FgWebInfo(),bundle);
                 break;
             case R.id.setting_exit:

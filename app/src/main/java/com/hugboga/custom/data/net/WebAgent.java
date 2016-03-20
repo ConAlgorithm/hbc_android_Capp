@@ -90,8 +90,11 @@ public class WebAgent implements HttpRequestListener {
         if(mFragment!=null&&mFragment.getView()!=null){
             boolean isVisible =  Boolean.valueOf(isBack);
             mFragment.getView().findViewById(R.id.header_left_btn).setVisibility(isVisible? View.VISIBLE:View.GONE);
+            View backBtn = mFragment.getView().findViewById(R.id.header_left_btn);
+            if(backBtn!=null){
+                backBtn.setVisibility(isVisible? View.VISIBLE:View.GONE);
+            }
         }
-
     }
 
 

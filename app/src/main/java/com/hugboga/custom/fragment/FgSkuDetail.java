@@ -19,6 +19,8 @@ import org.xutils.view.annotation.ViewInject;
 @ContentView(R.layout.fg_sku_detail)
 public class FgSkuDetail extends FgWebInfo {
 
+    public static final String WEB_CITY = "web_city";
+
     @Override
     protected void initView() {
         super.initView();
@@ -33,6 +35,9 @@ public class FgSkuDetail extends FgWebInfo {
                 break;
             case R.id.goto_order:
                 Bundle bundle =new Bundle();
+                if(getArguments()!=null){
+                    bundle.putAll(getArguments());
+                }
                 startFragment(new FgSkuSubmit(),bundle);
                 break;
         }

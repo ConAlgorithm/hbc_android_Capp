@@ -100,6 +100,8 @@ public  class UrlLibs {
 	public static final String SERVER_IP_PRICE_DAILY ="price/v1.1/c/dailyPrice?";
 	/**查询价格 单次用车**/
 	public static final String SERVER_IP_PRICE_SINGLE ="price/v1.0/c/singlePrice?";
+	/**查询价格 SKU**/
+	public static final String SERVER_IP_PRICE_SKU ="price/v1.0/c/goodsPrice?";
 
 	//-------订单类--------
 	public static final String SERVER_IP_TRADE ="trade/v1.0/c/order/";
