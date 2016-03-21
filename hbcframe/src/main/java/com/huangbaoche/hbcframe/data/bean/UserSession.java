@@ -10,23 +10,21 @@ import com.huangbaoche.hbcframe.util.SharedPre;
  * 用户单例
  * Created by admin on 2016/2/29.
  */
-public class UserEntity {
+public class UserSession {
 
-    public StringBuilder logBuilder;
 
-    private static UserEntity user = new UserEntity();
+    private static UserSession user = new UserSession();
 
     private String accessKey;//="85862151eaed9bbc8b94373243e687cf";//token
     private String userToken;//="94b561a28ecbcf49c42fb9abe7746663";//userToken
 
 
-    private UserEntity() {
-        logBuilder = new StringBuilder();
+    private UserSession() {
     }
 
-    public static UserEntity getUser() {
+    public static UserSession getUser() {
         if (user == null) {
-            user = new UserEntity();
+            user = new UserSession();
         }
         return user;
     }
@@ -67,12 +65,5 @@ public class UserEntity {
         this.userToken = userToken;
     }
 
-    public void saveLog(String log){
-        logBuilder.append(log);
-    }
-
-    public StringBuilder getLog(){
-        return logBuilder;
-    }
 
 }

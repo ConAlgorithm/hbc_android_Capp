@@ -191,7 +191,25 @@
     <string name="up">起</string>
     <string name="sku_sale_number">%d人已体验</string>
 
+    <!-- sku-->
+    <string name="person_center_nickname">点击登录</string>
+    <string name="person_center_no_nickname">昵称未填写</string>
+    <string name="person_center_coupon">优惠券</string>
     <!--登录-->
     <string name="login">登录</string>
     <string name="forget_password">忘记密码</string>
+
+    <string name="chat_log">聊天记录</string>
+    <string name="phone_consultation">电话咨询</string>
+    <string name="goto_order">马上去玩</string>
+    <string name="goto_pay">去支付</string>
+    <string name="order_total">订单总额：</string>
+    <string name="sku_days">包车天数：%s天</string>
+    <string name="user_name">联系人</string>
+    <string name="user_name_hint">请填写联系人姓名</string>
+    <string name="user_phone">联系电话</string>
+    <string name="user_phone_hint">请填写联系人电话</string>
+    <string name="remark">备注</string>
+    <string name="remark_hint">您可以在这里注明其他需求，以及需要车导知道的其他行程细节</string>
+    <string name="select_car_type">选择服务车型</string>
 </resources>

@@ -1,7 +1,7 @@
 package com.hugboga.custom.data.net;
 
 
-public class UrlLibs {
+public  class UrlLibs {
 
  	/**
  	 * 接口地址
@@ -17,12 +17,25 @@ public class UrlLibs {
 	public static String SERVER_IP_HOST_PUBLIC_STAGE = "api2.huangbaoche.com/";//stage
 	public static String SERVER_IP_HOST_PUBLIC_FORMAL = "api2.huangbaoche.com/";//生产
 
-	public static String SERVER_IP_HOST_PUBLIC_DEFAULT = SERVER_IP_HOST_PUBLIC_EXAMINATION;//默认
+	public static String SERVER_IP_HOST_PUBLIC_DEFAULT = SERVER_IP_HOST_PUBLIC_DEV;//默认
 
 	public static String SERVER_IP_HOST_PUBLIC = SERVER_HTTP_SCHEME+SERVER_IP_HOST_PUBLIC_DEFAULT;//主域名
 
 
+	/**
+	 * url host 的 enum
+	 */
+	public static enum UrlHost{
+		DEVELOPER(SERVER_IP_HOST_PUBLIC_DEV),
+		EXAMINATION(SERVER_IP_HOST_PUBLIC_EXAMINATION),
+		STAGE(SERVER_IP_HOST_PUBLIC_STAGE),
+		FORMAL(SERVER_IP_HOST_PUBLIC_FORMAL);
 
+		public String url;
+		private UrlHost(String url){
+			this.url = url;
+		}
+	}
 
 
 	//-------业务-------
@@ -87,6 +100,8 @@ public class UrlLibs {
 	public static final String SERVER_IP_PRICE_DAILY ="price/v1.1/c/dailyPrice?";
 	/**查询价格 单次用车**/
 	public static final String SERVER_IP_PRICE_SINGLE ="price/v1.0/c/singlePrice?";
+	/**查询价格 SKU**/
+	public static final String SERVER_IP_PRICE_SKU ="price/v1.0/c/goodsPrice?";
 
 	//-------订单类--------
 	public static final String SERVER_IP_TRADE ="trade/v1.0/c/order/";

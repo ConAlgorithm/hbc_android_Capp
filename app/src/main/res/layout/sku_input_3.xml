@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/basic_white"
+    >
+
+    <RelativeLayout
+        style="@style/skuInfoLayout"
+        >
+        <TextView
+            android:id="@+id/sku_user_name_star"
+            style="@style/skuInfoStar"
+            />
+        <TextView
+            android:id="@+id/sku_user_name_title"
+            style="@style/skuInfoTitle"
+            android:layout_toRightOf="@id/sku_user_name_star"
+            android:text="@string/user_name"
+            android:layout_width="70dp"
+            />
+        <EditText
+            android:id="@+id/sku_user_name_edit"
+            style="@style/skuInfoEdit"
+            android:layout_toRightOf="@id/sku_user_name_title"
+            android:hint="@string/user_name_hint"
+            android:editable="true"
+            />
+    </RelativeLayout>
+    <View style="@style/skuInfoLine"/>
+    <RelativeLayout
+        style="@style/skuInfoLayout"
+        >
+        <TextView
+            android:id="@+id/sku_user_phone_star"
+            style="@style/skuInfoStar"
+            />
+        <TextView
+            android:id="@+id/sku_user_phone_title"
+            style="@style/skuInfoTitle"
+            android:layout_toRightOf="@id/sku_user_phone_star"
+            android:layout_width="70dp"
+            android:text="@string/user_phone"
+            />
+        <EditText
+            android:id="@+id/sku_user_phone_edit"
+            style="@style/skuInfoEdit"
+            android:layout_toRightOf="@id/sku_user_phone_title"
+            android:hint="@string/user_phone_hint"
+            android:editable="true"
+            />
+    </RelativeLayout>
+    <View style="@style/skuInfoLine"/>
+    <RelativeLayout
+        style="@style/skuInfoLayout"
+        >
+        <TextView
+            android:id="@+id/sku_remark_star"
+            style="@style/skuInfoStar"
+            />
+        <TextView
+            android:id="@+id/sku_remark_title"
+            style="@style/skuInfoTitle"
+            android:layout_width="70dp"
+            android:layout_toRightOf="@id/sku_remark_star"
+            android:text="@string/remark"
+            />
+        <EditText
+            android:id="@+id/sku_remark_edit"
+            style="@style/skuInfoEdit"
+            android:layout_toRightOf="@id/sku_remark_title"
+            android:hint="@string/remark_hint"
+            android:editable="true"
+            />
+    </RelativeLayout>
+</LinearLayout>

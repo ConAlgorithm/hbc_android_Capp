@@ -7,7 +7,7 @@
     >
 
     <ImageView
-        android:id="@+id/head_btn_left"
+        android:id="@+id/header_left_btn"
         android:layout_width="45dip"
         android:layout_height="45dip"
         android:layout_alignParentLeft="true"
@@ -35,7 +35,7 @@
         android:layout_marginRight="12dp"
         android:layout_marginTop="8dp"
         android:layout_toLeftOf="@id/head_text_right"
-        android:layout_toRightOf="@id/head_btn_left"
+        android:layout_toRightOf="@id/header_left_btn"
         android:background="@drawable/shape_rounded_white"
         android:drawableLeft="@mipmap/search_icon"
         android:drawablePadding="5dp"

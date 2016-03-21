@@ -24,10 +24,12 @@ import org.xutils.common.Callback;
 import org.xutils.x;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public abstract class BaseFragment extends Fragment implements HttpRequestListener, View.OnTouchListener {
     public static String KEY_FRAGMENT_NAME = "key_fragment_name";
+    public static String KEY_FROM = "key_from";
 
     public boolean needHttpRequest = true;
     public Callback.Cancelable cancelable;
@@ -35,7 +37,7 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
 
     private boolean injected = false;
     private ErrorHandler errorHandler;
-    private Fragment mTargetFragment;
+    protected Fragment mTargetFragment;
     private ArrayList<EditText> editTextArray = new ArrayList<EditText>();
 
 
@@ -165,9 +167,9 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
     /**
      * 请求方法 会在加载完成是调用
      */
-    protected Callback.Cancelable requestData(BaseRequest request){
-        cancelable = HttpRequestUtils.request(getActivity(),request, this,null);
-       return cancelable;
+    protected Callback.Cancelable requestData(BaseRequest request) {
+        cancelable = HttpRequestUtils.request(getActivity(), request, this, null);
+        return cancelable;
     }
 
     /**
@@ -306,5 +308,24 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         return true;
+    }
+
+    /**
+     * 通知 栈里的 fragment 更新数据 会调用 onFragmentResult
+     * @param fragment
+     * @param bundle
+     */
+    public void notifyFragment(Class fragment,Bundle bundle){
+        ArrayList<BaseFragment> fragmentList = ((BaseFragmentActivity)getActivity()).getFragmentList();
+        for(int i=fragmentList.size()-1;i>=0;i--){
+            BaseFragment fg = (BaseFragment)fragmentList.get(i);
+            if(fragment.isInstance(fg)) {
+                if(bundle!=null){
+                    bundle.putString(KEY_FROM,this.getClass().getSimpleName());
+                }
+                fg.onFragmentResult(bundle);
+                break;
+            }
+        }
     }
 }

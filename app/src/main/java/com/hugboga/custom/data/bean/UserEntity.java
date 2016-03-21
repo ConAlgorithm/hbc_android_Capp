@@ -23,10 +23,14 @@ public class UserEntity {
     private boolean hasNewCoupon; //是否有新优惠券
     public boolean weakPassword;  //布尔值 是否弱密码
     public String weakPasswordMsg; //弱密码提示文案
+    public String imToken;//聊天token
 
     private UserEntity() {
     }
 
+    public String getImToken() {
+        return imToken;
+    }
 
     public static UserEntity getUser() {
         if (user == null) {
@@ -139,7 +143,7 @@ public class UserEntity {
         this.orderPoint = orderPoint;
     }
 
-    public String getCode(Context activity) {
+    public String getAreaCode(Context activity) {
         if (code == null) {
             SharedPre shared = new SharedPre(activity);
             code = shared.getStringValue(SharedPre.CODE);
@@ -147,7 +151,7 @@ public class UserEntity {
         return code;
     }
 
-    public void setCode(Context activity, String code) {
+    public void setAreaCode(Context activity, String code) {
         SharedPre shared = new SharedPre(activity);
         shared.saveStringValue(SharedPre.CODE, code);
         this.code = code;
@@ -215,6 +219,18 @@ public class UserEntity {
         SharedPre shared = new SharedPre(activity);
         shared.saveBooleanValue(SharedPre.IS_WEAK_PSW, weakPassword);
         this.weakPassword = weakPassword;
+    }
+
+    public String getImToken(Context activity) {
+        SharedPre shared = new SharedPre(activity);
+        imToken = shared.getStringValue(SharedPre.IM_TOKEN);
+        return imToken;
+    }
+
+    public void setImToken(Context activity,String imToken) {
+        SharedPre shared = new SharedPre(activity);
+        shared.saveStringValue(SharedPre.IM_TOKEN, imToken);
+        this.imToken = imToken;
     }
 
     public void clean(Activity activity) {

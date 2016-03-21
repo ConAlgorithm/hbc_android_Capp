@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="10dp"
+    >
+
+    <TextView
+        android:id="@+id/popup_order_children_item_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="儿童（0-1岁）"
+        android:layout_centerVertical="true"
+        android:textSize="18sp"
+        android:textColor="#222527"
+        />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:background="@drawable/textbox"
+        android:orientation="horizontal"
+        android:layout_alignParentRight="true"
+        >
+
+        <TextView
+            android:id="@+id/popup_order_children_item_sub"
+            android:layout_width="30dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="—"
+            android:textColor="@color/basic_black"
+            android:textSize="@dimen/text_size_xlarge" />
+
+        <View style="@style/v_line" />
+
+        <EditText
+            android:id="@+id/popup_order_children_item_number"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:editable="false"
+            android:focusable="false"
+            android:imeOptions="actionNext"
+            android:paddingLeft="@dimen/basic_margin_medium"
+            android:paddingRight="@dimen/basic_margin_medium"
+            android:text="0"
+            android:textColor="@color/change_mobile_text"
+            android:textColorHint="@color/change_mobile_hint" />
+
+        <View style="@style/v_line" />
+
+        <TextView
+            android:id="@+id/popup_order_children_item_plus"
+            android:layout_width="30dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="+"
+            android:textColor="@color/basic_black"
+            android:textSize="@dimen/text_size_xlarge" />
+    </LinearLayout>
+
+</RelativeLayout>

@@ -1,6 +1,7 @@
 package com.hugboga.custom.utils;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 //import com.hugboga.custom.data.bean.ResourcesBean;
 //import com.hugboga.custom.data.parser.ParserCheckVersion;
@@ -9,6 +10,19 @@ import android.content.Context;
 //import com.lidroid.xutils.http.ResponseInfo;
 //import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.huangbaoche.hbcframe.util.MLog;
+import com.hugboga.custom.constants.ResourcesConstants;
+import com.hugboga.custom.data.bean.CheckVersionBean;
+import com.hugboga.custom.data.bean.ResourcesBean;
+import com.hugboga.custom.data.parser.ParserCheckVersion;
+
+import org.xutils.common.Callback;
+import org.xutils.common.task.PriorityExecutor;
+import org.xutils.ex.HttpException;
+import org.xutils.http.RequestParams;
+import org.xutils.x;
+
+import java.io.File;
+import java.util.concurrent.Executor;
 
 /**
  *
@@ -17,6 +31,9 @@ import com.huangbaoche.hbcframe.util.MLog;
  */
 public class UpdateResources {
 
+    private final static int MAX_DOWNLOAD_THREAD = 2; // 有效的值范围[1, 3], 设置为3时, 可能阻塞图片加载.
+    private final static Executor executor = new PriorityExecutor(MAX_DOWNLOAD_THREAD, true);
+
 
     /**
      * 检测服务器
@@ -24,17 +41,17 @@ public class UpdateResources {
      * @param parser
      * @param callBack
      */
-//    public static void checkRemoteResources(Context context, ParserCheckVersion parser,RequestCallBack<File> callBack){
-//
-//        if(parser.resList!=null){
-//            for(ResourcesBean bean:parser.resList){
-//                if(ResourcesConstants.RESOURCES_H5_NAME.equals(bean.resName)){
-//                    downloadResources(context, bean.resUrl,bean.resVersion,callBack);
-//                }
-//            }
-//        }
-//
-//    }
+    public static void checkRemoteResources(Context context, CheckVersionBean parser,Callback.ProgressCallback<File> callBack){
+
+        if(parser.resList!=null){
+            for(ResourcesBean bean:parser.resList){
+                if(ResourcesConstants.RESOURCES_H5_NAME.equals(bean.resName)){
+                    downloadResources(context, bean.resUrl,bean.resVersion,callBack);
+                }
+            }
+        }
+
+    }
 
     /**
      * 下载资源，解压，保存版本号
@@ -43,48 +60,77 @@ public class UpdateResources {
      * @param version
      * @param callBack
      */
-//    public static void downloadResources(final Context context,String url, final int version,final RequestCallBack<File> callBack){
-//        // data/data/com.hugboga.custom/cache/Resources/
-//        final String outPath =context.getCacheDir()+ File.separator+ ResourcesConstants.RESOURCES_PATH+ File.separator;
-//        // data/data/com.hugboga.custom/cache/Resources/hbc_h5
-//        final String outFilePath =outPath+ ResourcesConstants.RESOURCES_LOCAL_NAME;
-//        //  data/data/com.hugboga.custom/cache/Resources/hbc_h5.zip
-//        final String outFile =outFilePath+ ResourcesConstants.RESOURCES_LOCAL_ZIP;
-//        new HttpUtils().download(url, outFile, new RequestCallBack<File>() {
-//            @Override
-//            public void onSuccess(ResponseInfo<File> responseInfo) {
-//                try {
-//                    ZipUtils.UnZipFolder(outFile, outFilePath);
-//                    File file = new File(outFile);
-//                    file.delete();
-//                    new SharedPre(context).saveIntValue(SharedPre.RESOURCES_H5_VERSION, version);
+    public static void downloadResources(final Context context,String url, final int version,final Callback.ProgressCallback<File> callBack){
+        // data/data/com.hugboga.custom/cache/Resources/
+        final String outPath =context.getCacheDir()+ File.separator+ ResourcesConstants.RESOURCES_PATH+ File.separator;
+        // data/data/com.hugboga.custom/cache/Resources/hbc_h5
+        final String outFilePath =outPath+ ResourcesConstants.RESOURCES_LOCAL_NAME;
+        //  data/data/com.hugboga.custom/cache/Resources/hbc_h5.zip
+        final String outFile =outFilePath+ ResourcesConstants.RESOURCES_LOCAL_ZIP;
+
+        RequestParams params = new RequestParams(url);
+        params.setAutoResume(true);
+        params.setAutoRename(false);
+        params.setSaveFilePath(outFile);
+        params.setExecutor(executor);
+        params.setCancelFast(true);
+        x.http().get(params, new Callback.ProgressCallback<File>() {
+            @Override
+            public void onWaiting() {
+
+            }
+
+            @Override
+            public void onStarted() {
+
+            }
+
+            @Override
+            public void onLoading(long total, long current, boolean isDownloading) {
+//                MLog.e(current + "/" + total + " " + isUploading);
+                if (callBack != null) callBack.onLoading(total, current, isDownloading);
+            }
+
+            @Override
+            public void onSuccess(File result) {
+                try {
+                    ZipUtils.UnZipFolder(outFile, outFilePath);
+                    File file = new File(outFile);
+                    file.delete();
+                    new SharedPre(context).saveIntValue(SharedPre.RESOURCES_H5_VERSION, version);
 //                    MLog.e("onSuccess unZip " + responseInfo.toString());
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//                if (callBack != null) callBack.onSuccess(responseInfo);
-//            }
-//
-//            @Override
-//            public void onFailure(HttpException error, String msg) {
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                if (callBack != null) callBack.onSuccess(result);
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
 //                MLog.e("downloadResources onFailure " + msg);
 //                if (callBack != null) callBack.onFailure(error, msg);
-//            }
-//
-//            @Override
-//            public void onLoading(long total, long current, boolean isUploading) {
-//                MLog.e(current + "/" + total + " " + isUploading);
-//                if (callBack != null) callBack.onLoading(total, current, isUploading);
-//            }
-//        });
-//    }
+
+                if (callBack != null) callBack.onError(ex, isOnCallback);
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
+    }
 
     /**
      * 检测本地H5资源
      * 如果不存在，从项目资源 copy到指定目录
      * @param context
      */
-  /*  public static void checkLocalResource(Context context){
+    public static void checkLocalResource(Context context){
         long time = System.currentTimeMillis();
         final String filePath =context.getCacheDir()+ File.separator+ ResourcesConstants.RESOURCES_PATH;
         String fileName = filePath+ File.separator+ ResourcesConstants.RESOURCES_LOCAL_NAME;
@@ -98,7 +144,7 @@ public class UpdateResources {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }*/
+    }
 
     /**
      * 检测本地数据库
@@ -125,42 +171,63 @@ public class UpdateResources {
      * @param version
      * @param callBack
      */
-//    public static void checkRemoteDB(final Context context,String url, final int version,final RequestCallBack<File> callBack){
-//        final DBHelper mDBHelper = new DBHelper(context);
-//        int localVersion = new SharedPre(context).getIntValue(SharedPre.RESOURCES_DB_VERSION, ResourcesConstants.RESOURCES_DB_VERSION_DEFAULT);
-//        MLog.e("localVersion=" + localVersion + " remoteVersion=" + version);
-//        if(localVersion<version&&!TextUtils.isEmpty(url)){//从服务端更新
-//            final String outFile = DBHelper.DB_PATH+ DBHelper.DB_NAME;
-//            final String outFileTmp = outFile +".tmp";
-//            new HttpUtils().download(url, outFileTmp, new RequestCallBack<File>() {
-//                @Override
-//                public void onSuccess(ResponseInfo<File> responseInfo) {
-//                    if(callBack!=null)callBack.onSuccess(responseInfo);
-//                    File fileTmp = new File(outFileTmp);
-//                    File file = new File(outFile);
-//                    mDBHelper.deleteOldDb();
-//                    if(DBHelper.copyFile(fileTmp, file)){
-//                        fileTmp.delete();
-//                        new SharedPre(context).saveIntValue(SharedPre.RESOURCES_DB_VERSION, version);
-//                        if(mDBHelper.checkDataBase()){//无数据库,从资源文件copy
-//                            MLog.e("onSuccess copy DB ok ");
-//                        }
-//                    }
-//                }
-//
-//                @Override
-//                public void onFailure(HttpException error, String msg) {
-//                    MLog.e("onFailure " + msg);
-//                    if(callBack!=null)callBack.onFailure(error,msg);
-//                }
-//
-//                @Override
-//                public void onLoading(long total, long current, boolean isUploading) {
-//                    if(callBack!=null)callBack.onLoading(total, current,isUploading);
-//                }
-//            });
-//        }
-//    }
+    public static void checkRemoteDB(final Context context,String url, final int version,final Callback.ProgressCallback<File> callBack){
+        final DBHelper mDBHelper = new DBHelper(context);
+        int localVersion = new SharedPre(context).getIntValue(SharedPre.RESOURCES_DB_VERSION, ResourcesConstants.RESOURCES_DB_VERSION_DEFAULT);
+        MLog.e("localVersion=" + localVersion + " remoteVersion=" + version);
+        if(localVersion<version&&!TextUtils.isEmpty(url)){//从服务端更新
+            final String outFile = DBHelper.DB_PATH+ DBHelper.DB_NAME;
+            final String outFileTmp = outFile +".tmp";
+            RequestParams params = new RequestParams(url);
+            params.setAutoResume(true);
+            params.setAutoRename(false);
+            params.setSaveFilePath(outFile);
+            params.setExecutor(executor);
+            params.setCancelFast(true);
+            x.http().get(params, new Callback.ProgressCallback<File>() {
+                @Override
+                public void onSuccess(File result) {
+                    if (callBack != null) callBack.onSuccess(result);
+                    File fileTmp = new File(outFileTmp);
+                    File file = new File(outFile);
+                    mDBHelper.deleteOldDb();
+                    if (DBHelper.copyFile(fileTmp, file)) {
+                        fileTmp.delete();
+                        new SharedPre(context).saveIntValue(SharedPre.RESOURCES_DB_VERSION, version);
+                        if (mDBHelper.checkDataBase()) {//无数据库,从资源文件copy
+                            MLog.e("onSuccess copy DB ok ");
+                        }
+                    }
+                }
+
+                @Override
+                public void onError(Throwable ex, boolean isOnCallback) {
+                    if (callBack != null) callBack.onError(ex, isOnCallback);
+                }
+
+                @Override
+                public void onCancelled(CancelledException cex) {
+                }
+
+                @Override
+                public void onFinished() {
+                }
+
+                @Override
+                public void onWaiting() {
+                }
+
+                @Override
+                public void onStarted() {
+                }
+
+                @Override
+                public void onLoading(long total, long current, boolean isDownloading) {
+                    if (callBack != null) callBack.onLoading(total, current, isDownloading);
+                }
+            });
+        }
+    }
 
 
 }

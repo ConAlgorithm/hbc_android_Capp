@@ -38,6 +38,8 @@ public final class Constants {
 		 */
 	public static final String CALL_NUMBER_IN = "400-6100-066";
 	public static final String CALL_NUMBER_OUT = "+861057812003";
+	/**微信**/
+	public static final String WX_APP_ID = "wx683162d3a2e81d84";
 
 	/**title*/
 	public static HashMap<Integer,Integer> TitleMap = new HashMap<Integer,Integer>();
@@ -50,10 +52,6 @@ public final class Constants {
 	 */
 	public static HashMap<String,Integer> arrivalMap = new HashMap<String,Integer>();
 
-	/**
-	 * 服务器访问渠道列表
-	 */
-	public static HashMap<String,String> hostUrlMap = new HashMap<String,String>();
 
 	/**
 	 * 车辆类型
@@ -71,6 +69,15 @@ public final class Constants {
 	public static final int CAR_SEAT_7=2;
 	public static final int CAR_SEAT_9=3;
 	public static final int CAR_SEAT_12=4;
+
+	/**
+	 * 左侧navigation menu
+	 */
+	public static final int PERSONAL_CENTER_COUPON = 1;
+	public static final int PERSONAL_CENTER_CUSTOMER_SERVICE = 2;
+	public static final int PERSONAL_CENTER_INTERNAL_SERVICE = 3;
+	public static final int PERSONAL_CENTER_OVERSEAS_SERVICE = 4;
+	public static final int PERSONAL_CENTER_SETTING = 5;
 
 	/**车辆类型*/
 	public static HashMap<Integer,String> CarTypeMap = new HashMap<Integer,String>();
@@ -101,10 +108,6 @@ public final class Constants {
 
 	static {
 
-//		hostUrlMap.put("developer", UrlLibs.SERVER_IP_HOST_PUBLIC_DEV);
-//		hostUrlMap.put("examination",UrlLibs.SERVER_IP_HOST_PUBLIC_EXAMINATION);
-//		hostUrlMap.put("stage",UrlLibs.SERVER_IP_HOST_PUBLIC_STAGE);
-//		hostUrlMap.put("formal",UrlLibs.SERVER_IP_HOST_PUBLIC_FORMAL);
 
 //		arrivalMap.put("交通", R.mipmap.list_traffic);
 //		arrivalMap.put("酒店", R.mipmap.list_hotels);

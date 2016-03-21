@@ -1,6 +1,7 @@
 package com.huangbaoche.hbcframe.adapter;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -13,9 +14,10 @@ import java.util.List;
  */
 public abstract class BaseAdapter<T> extends android.widget.BaseAdapter {
     public  Context mContext;
-
+    protected LayoutInflater mInflater;
     public BaseAdapter(Context context){
         this.mContext = context;
+        mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     private List<T> dataList;

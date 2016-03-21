@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <group>
+        <item
+            android:id="@+id/coupon"
+            android:icon="@mipmap/personalcenter_discountcoupon"
+            android:title="@string/person_center_coupon"
+            />
+    </group>
+
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_camera"
             android:icon="@drawable/ic_menu_camera"
-            android:title="Import" />
+            android:title="Import"/>
         <item
             android:id="@+id/nav_gallery"
             android:icon="@drawable/ic_menu_gallery"
@@ -32,5 +40,6 @@
                 android:title="Send" />
         </menu>
     </item>
+
 
 </menu>
