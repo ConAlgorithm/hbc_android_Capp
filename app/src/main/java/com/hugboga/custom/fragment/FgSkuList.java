@@ -101,6 +101,7 @@ public class FgSkuList extends  BaseFragment implements AdapterView.OnItemClickL
         Bundle bundle = new Bundle();
         String url = "http://res.test.hbc.tech/h5/csku/skuDetail.html?source=c&goodsNo="+bean.goodsNo;
 //        url = "http://res.dev.hbc.tech/h5/test/api.html?";
+        bean.url = url;
         bundle.putString(FgWebInfo.WEB_URL,url);
         bundle.putSerializable(FgSkuDetail.WEB_CITY, bean);
         startFragment(new FgSkuDetail(),bundle);
