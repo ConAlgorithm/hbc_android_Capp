@@ -61,6 +61,7 @@ public class FgHome extends BaseFragment implements AdapterView.OnItemClickListe
         adapter = new HomeAdapter(getActivity());
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);
+        getView().findViewById(R.id.fg_home_menu1).setOnClickListener(this);
         getView().findViewById(R.id.fg_home_menu3).setOnClickListener(this);
         getView().findViewById(R.id.header_left_btn).setOnClickListener(this);
         getView().findViewById(R.id.header_right_btn).setOnClickListener(this);
@@ -109,7 +110,7 @@ public class FgHome extends BaseFragment implements AdapterView.OnItemClickListe
                 startFragment(new FgChooseCity());
                 break;
             case R.id.fg_home_menu1://中文接送机
-
+                startFragment(new FgTransfer());
                 break;
             case R.id.fg_home_menu2://按天包车
 

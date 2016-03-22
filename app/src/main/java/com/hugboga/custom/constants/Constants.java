@@ -2,6 +2,7 @@ package com.hugboga.custom.constants;
 
 import android.os.Environment;
 
+import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.PromiseBean;
 
 import java.io.File;
@@ -204,11 +205,11 @@ public final class Constants {
 		VisaInfoMap.put(1,"国内签证");
 		VisaInfoMap.put(2,"落地签证");
 
-//		BtnBg.put(BUSINESS_TYPE_PICK,R.drawable.btn_blue);
-//		BtnBg.put(BUSINESS_TYPE_SEND,R.drawable.btn_green);
-//		BtnBg.put(BUSINESS_TYPE_DAILY,R.drawable.btn_orange);
-//		BtnBg.put(BUSINESS_TYPE_RENT,R.drawable.btn_pink);
-//		BtnBg.put(BUSINESS_TYPE_COMMEND,R.drawable.btn_purple);
+		BtnBg.put(BUSINESS_TYPE_PICK, R.drawable.btn_blue);
+		BtnBg.put(BUSINESS_TYPE_SEND,R.drawable.btn_green);
+		BtnBg.put(BUSINESS_TYPE_DAILY,R.drawable.btn_orange);
+		BtnBg.put(BUSINESS_TYPE_RENT,R.drawable.btn_pink);
+		BtnBg.put(BUSINESS_TYPE_COMMEND,R.drawable.btn_purple);
 
 //		PromiseMap.put(0,new PromiseBean(R.mipmap.pro_all,R.string.promise_title_all,R.string.promise_content_all));
 //		PromiseMap.put(1,new PromiseBean(R.mipmap.pro_wait,R.string.promise_title_wait,R.string.promise_content_wait));

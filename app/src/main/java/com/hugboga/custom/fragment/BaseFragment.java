@@ -2,22 +2,25 @@ package com.hugboga.custom.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.huangbaoche.hbcframe.activity.BaseFragmentActivity;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
+import java.util.ArrayList;
+
 
 public abstract class BaseFragment extends com.huangbaoche.hbcframe.fragment.BaseFragment{
     public static String KEY_TITLE = "key_title";
     public static String KEY_FROM = "key_from";
-    public static String KEY_FRAGMENT_NAME = "key_fragment_name";
     public static String KEY_BUSINESS_TYPE = "key_business_Type";
     public static String KEY_GOODS_TYPE = "key_goods_type";
 
@@ -25,14 +28,15 @@ public abstract class BaseFragment extends com.huangbaoche.hbcframe.fragment.Bas
     protected int mBusinessType = -1;//业务类型 1接机2送机3包车4次租
     protected int mGoodsType = -1;//1: 接机 2: 送机 3: 市内包车(由日租拆分出来) 4: 次租 5: 精品线路(由日租拆分出来) 6: 小长途 (由日租拆分出来)7: 大长途 (由日租拆分出来)
 
-
     @ViewInject(R.id.header_title)
     protected TextView fgTitle; //标题
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         contentId = R.id.drawer_layout;
+        getBusinessType();
     }
 
     /**
@@ -50,31 +54,9 @@ public abstract class BaseFragment extends com.huangbaoche.hbcframe.fragment.Bas
         mBusinessType = businessType;
     }
 
-    public void setGoodsType(int mGoodsType) {
-        this.mGoodsType = mGoodsType;
+    public void setGoodsType(int goodsType){
+        mGoodsType = goodsType;
     }
-
-    /**
-     * 回传数据使用，启动fragment 在 onFragmentResult中接收数据
-     *
-     * @param bundle 参数
-     */
-    public void finishForResult(Bundle bundle) {
-
-        collapseSoftInputMethod();
-        finish();
-        Bundle mBundle = new Bundle();
-        if(getArguments()!=null) mBundle.putAll(getArguments());
-        if (bundle != null )mBundle.putAll(bundle);
-        mBundle.putString(KEY_FRAGMENT_NAME, this.getClass().getSimpleName());
-        Fragment fragment = this.getTarget();
-        if (fragment != null && fragment instanceof BaseFragment) {
-            ((BaseFragment) fragment).onFragmentResult(mBundle);
-        }
-        MLog.i(this + " finishForResult " + fragment);
-
-    }
-
 
     @Event({R.id.header_left_btn})
     private void onClickView(View view){
@@ -85,6 +67,32 @@ public abstract class BaseFragment extends com.huangbaoche.hbcframe.fragment.Bas
                 break;
         }
     }
+    public void startFragment(BaseFragment fragment) {
+
+        Bundle bundle = fragment.getArguments();
+        bundle = bundle ==null?new Bundle():bundle;
+        startFragment(fragment, bundle);
+    }
+    public void startFragment(BaseFragment fragment,Bundle bundle) {
+        ((BaseFragmentActivity) getActivity()).addFragment(fragment);
+
+        collapseSoftInputMethod();
+        editTextClearFocus();
+        int tmpBusinessType =-1 ;
+        int tmpGoodsType =-1 ;
+        if(bundle!=null&&fragment!=null){
+            fragment.setArguments(bundle);
+            tmpBusinessType = bundle.getInt(KEY_BUSINESS_TYPE,-1);
+            tmpGoodsType = bundle.getInt(KEY_GOODS_TYPE,-1);
+        }
+        if (fragment != null  ) {
+            fragment.setTarget(this);
+            fragment.setBusinessType(tmpBusinessType == -1 ? mBusinessType : tmpBusinessType);
+            fragment.setGoodsType(tmpGoodsType == -1 ? mGoodsType : tmpGoodsType);
+        }
+        super.startFragment(fragment);
+    }
+
 
     /**
      * 切换流程状态 填写行程- 选车-填单-支付

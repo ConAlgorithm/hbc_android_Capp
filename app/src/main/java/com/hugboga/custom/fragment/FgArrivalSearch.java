@@ -20,6 +20,7 @@ import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.widget.ZListView;
 
 import org.xutils.common.Callback;
+import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
@@ -29,6 +30,7 @@ import java.util.List;
 /**
  * 目的地列表 ，要去哪
  */
+@ContentView(R.layout.fg_arrival_search)
 public class FgArrivalSearch extends BaseFragment implements AdapterView.OnItemClickListener, View.OnKeyListener , ZListView.OnRefreshListener, ZListView.OnLoadListener{
 
     public static final String KEY_ARRIVAL = "arrival";
@@ -60,19 +62,13 @@ public class FgArrivalSearch extends BaseFragment implements AdapterView.OnItemC
     private SharedPre sharedPre;
     private ArrayList<String> placeHistoryArray;
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fg_arrival_search, null);
-        cityId = getArguments().getInt(KEY_CITY_ID, -1);
-        location = getArguments().getString(KEY_LOCATION);
-        sharedPre = new SharedPre(getActivity());
-        return view;
-    }
 
     @Override
     protected void initHeader() {
-        fgTitle.setText("搜索目的地");
+        cityId = getArguments().getInt(KEY_CITY_ID, -1);
+        location = getArguments().getString(KEY_LOCATION);
+        sharedPre = new SharedPre(getActivity());
+//        fgTitle.setText("搜索目的地");
     }
 
     @Override

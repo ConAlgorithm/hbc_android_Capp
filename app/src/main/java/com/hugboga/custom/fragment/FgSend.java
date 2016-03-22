@@ -2,12 +2,12 @@ package com.hugboga.custom.fragment;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.huangbaoche.hbcframe.data.request.BaseRequest;
+import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.PromiseAdapter;
 import com.hugboga.custom.constants.Constants;
@@ -15,14 +15,13 @@ import com.hugboga.custom.constants.ResourcesConstants;
 import com.hugboga.custom.data.bean.AirPort;
 import com.hugboga.custom.data.bean.ArrivalBean;
 import com.hugboga.custom.data.bean.PromiseBean;
-import com.hugboga.custom.data.parser.InterfaceParser;
-import com.hugboga.custom.utils.MLog;
-import com.lidroid.xutils.view.annotation.ViewInject;
-import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
+import org.xutils.common.Callback;
+import org.xutils.view.annotation.ContentView;
+import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
 import java.util.ArrayList;
@@ -31,6 +30,7 @@ import java.util.Calendar;
 /**
  * 送机填写行程
  */
+@ContentView(R.layout.fg_send)
 public class FgSend extends BaseFragment {
 
 	@ViewInject(R.id.send_airport)
@@ -54,39 +54,27 @@ public class FgSend extends BaseFragment {
 	private String serverDate;
 	private String serverTime;
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fg_send, null);
-		return view;
-	}
 
-	@Override
-	protected String fragmentTitle() {
-		rightText.setVisibility(View.VISIBLE);
-		setProgressState(0);
-		return getString(R.string.title_send);
-	}
-
-	@Override
-	protected void requestDate() {
-	}
 	protected void initView() {
 		promiseWait.setVisibility(View.GONE);
 		promiseApp.setVisibility(View.GONE);
 	}
 
 	@Override
-	public void onDataRequestSucceed(InterfaceParser parser) {
+	protected Callback.Cancelable requestData() {
+		return null;
+	}
+
+	@Override
+	public void onDataRequestSucceed(BaseRequest request) {
 	}
 
 	@Override
 	protected void inflateContent() {
 	}
 
-	@Override
-	@OnClick({R.id.send_btn, R.id.send_where_layout, R.id.send_flight_layout, R.id.send_time_layout, R.id.bottom_promise_layout, R.id.submit_order_tip})
-	protected void onClickView(View view) {
+	@Event({R.id.send_btn, R.id.send_where_layout, R.id.send_flight_layout, R.id.send_time_layout, R.id.bottom_promise_layout, R.id.submit_order_tip})
+	private void onClickView(View view) {
 		switch (view.getId()){
 			case R.id.send_flight_layout:
 //				startFragment(new FgOrder());
@@ -119,7 +107,7 @@ public class FgSend extends BaseFragment {
 				break;
 			case R.id.submit_order_tip:
 				Bundle bundle = new Bundle();
-				bundle.putString(FgWebInfo.Web_URL, ResourcesConstants.H5_NOTICE);
+				bundle.putString(FgWebInfo.WEB_URL, ResourcesConstants.H5_NOTICE);
 				startFragment(new FgWebInfo(), bundle);
 				break;
 		}
@@ -188,6 +176,13 @@ public class FgSend extends BaseFragment {
 			wContent.setText(arrivalBean.placeDetail);
 			collapseSoftInputMethod();
 		}
+	}
+
+	@Override
+	protected void initHeader() {
+//		rightText.setVisibility(View.VISIBLE);
+//		setProgressState(0);
+//		fgTitle.setText(getString(R.string.title_send));
 	}
 
 

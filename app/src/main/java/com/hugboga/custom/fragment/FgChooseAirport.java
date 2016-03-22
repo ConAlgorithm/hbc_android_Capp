@@ -5,29 +5,29 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.huangbaoche.hbcframe.data.request.BaseRequest;
+import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.AirportAdapter;
 import com.hugboga.custom.data.bean.AirPort;
-import com.hugboga.custom.data.net.HttpRequestUtils;
-import com.hugboga.custom.data.parser.InterfaceParser;
-import com.hugboga.custom.data.parser.ParserAirPort;
+import com.hugboga.custom.data.request.RequestAirPort;
 import com.hugboga.custom.utils.DBHelper;
-import com.hugboga.custom.utils.MLog;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.widget.SideBar;
-import com.lidroid.xutils.DbUtils;
-import com.lidroid.xutils.db.sqlite.Selector;
-import com.lidroid.xutils.db.sqlite.WhereBuilder;
-import com.lidroid.xutils.exception.DbException;
-import com.lidroid.xutils.view.annotation.ViewInject;
-import com.lidroid.xutils.view.annotation.event.OnClick;
+
+import org.xutils.DbManager;
+import org.xutils.common.Callback;
+import org.xutils.db.Selector;
+import org.xutils.db.sqlite.WhereBuilder;
+import org.xutils.ex.DbException;
+import org.xutils.view.annotation.ContentView;
+import org.xutils.view.annotation.Event;
+import org.xutils.view.annotation.ViewInject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +35,7 @@ import java.util.List;
 /**
  * 选择机场
  */
+@ContentView(R.layout.fg_city)
 public class FgChooseAirport extends BaseFragment implements SideBar.OnTouchingLetterChangedListener,AdapterView.OnItemClickListener, View.OnKeyListener, TextWatcher {
 
 	public static final String KEY_BUNDLE = "bundle";
@@ -49,21 +50,17 @@ public class FgChooseAirport extends BaseFragment implements SideBar.OnTouchingL
 	@ViewInject(R.id.empty_layout_text)
 	private TextView emptyViewText;
 	private TextView editSearch;
-	private DbUtils mDbUtils;
+	private DbManager mDbManager;
 	private SharedPre sharedPer;
 	private ArrayList<String> airportHistory;
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fg_city, null);
-		editSearch = (TextView)view.findViewById(R.id.head_search);
-		editSearch.setHint("输入城市或机场");
-		editSearch.addTextChangedListener(this);
-		mDbUtils = new DBHelper(getActivity()).getDbUtils();
-		sharedPer = new SharedPre(getActivity());
 
-		return view;
+	@Override
+	protected void initHeader() {
+		mDbManager = new DBHelper(getActivity()).getDbManager();
+		sharedPer = new SharedPre(getActivity());
+		setProgressState(0);
+		fgTitle.setText(getString(R.string.title_choose_airport));
 	}
 
 	protected void initView() {
@@ -78,6 +75,9 @@ public class FgChooseAirport extends BaseFragment implements SideBar.OnTouchingL
 		sideBar.setOnTouchingLetterChangedListener(this);
 		sortListView = (ListView) view.findViewById(R.id.country_lvcountry);
 		sortListView.setOnItemClickListener(this);
+		editSearch = (TextView)view.findViewById(R.id.head_search);
+		editSearch.setHint("输入城市或机场");
+		editSearch.addTextChangedListener(this);
 		editSearch.setOnKeyListener(this);
 		editSearch.requestFocus();
 
@@ -87,6 +87,15 @@ public class FgChooseAirport extends BaseFragment implements SideBar.OnTouchingL
 		initSideBar(sideBar);
 
 	}
+
+	@Override
+	protected Callback.Cancelable requestData() {
+		requestDate(null);
+		requestHotDate();
+		requestHistoryDate();
+		return null;
+	}
+
 	private void  initSideBar(SideBar sideBar){
 		String[] b = {"历史","热门", "A", "B", "C", "D", "E", "F", "G", "H", "I",
 				"J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V",
@@ -108,25 +117,17 @@ public class FgChooseAirport extends BaseFragment implements SideBar.OnTouchingL
 		}
 	}
 
-	@Override
-	protected String fragmentTitle() {
-		setProgressState(0);
-		return "选择机场";
-	}
-
-	@Override
-	protected void requestDate() {
-		requestDate(null);
-		requestHotDate();
-		requestHistoryDate();
-	}
 	protected void requestDate(String keyword) {
-		
-		Selector selector =   Selector.from(AirPort.class);
+		Selector selector = null;
+		try {
+			selector = mDbManager.selector(AirPort.class);
+		} catch (DbException e) {
+			e.printStackTrace();
+		}
 		if(!TextUtils.isEmpty(keyword))
 		selector.where("airport_name","LIKE","%"+keyword+"%").or("city_name","LIKE","%"+keyword+"%");
 		try {
-			 sourceDateList =mDbUtils.findAll(selector);
+			 sourceDateList = selector.findAll();
 		} catch (DbException e) {
 			e.printStackTrace();
 		}
@@ -137,12 +138,17 @@ public class FgChooseAirport extends BaseFragment implements SideBar.OnTouchingL
 	 * 热门机场
 	 */
 	private void requestHotDate(){
-		Selector selector =   Selector.from(AirPort.class);
+		Selector selector = null;
+		try {
+			selector = mDbManager.selector(AirPort.class);
+		} catch (DbException e) {
+			e.printStackTrace();
+		}
 		selector.where("is_hot", "=", 1);
 		selector.orderBy("hot_weight");
 		selector.limit(3);
 		try {
-			List<AirPort> hotAirportDate = mDbUtils.findAll(selector);
+			List<AirPort> hotAirportDate = selector.findAll();
 			for(AirPort bean:hotAirportDate){
 				bean.cityFirstLetter = "热门机场";
 			}
@@ -167,12 +173,17 @@ public class FgChooseAirport extends BaseFragment implements SideBar.OnTouchingL
 				airportHistory.add(airport);
 			}
 		}
-		Selector selector =   Selector.from(AirPort.class);
+		Selector selector = null;
+		try {
+			selector = mDbManager.selector(AirPort.class);
+		} catch (DbException e) {
+			e.printStackTrace();
+		}
 		WhereBuilder where = WhereBuilder.b();
 		where.and("airport_id", "IN", airportHistory);
 		selector.where(where);
 		try {
-			List<AirPort> tmpHistoryAirportDate = mDbUtils.findAll(selector);
+			List<AirPort> tmpHistoryAirportDate = selector.findAll();
 			ArrayList<AirPort> historyAirportDate = new ArrayList<AirPort>();
 			for(String historyId:airportHistory) {
 				for (AirPort bean : tmpHistoryAirportDate) {
@@ -191,10 +202,10 @@ public class FgChooseAirport extends BaseFragment implements SideBar.OnTouchingL
 		}
 	}
 	@Override
-	public void onDataRequestSucceed(InterfaceParser parser) {
-		if (parser instanceof ParserAirPort) {
-			ParserAirPort mParser =(ParserAirPort)parser;
-			sourceDateList = mParser.airportList;
+	public void onDataRequestSucceed(BaseRequest request) {
+		if (request instanceof RequestAirPort) {
+			RequestAirPort mParser =(RequestAirPort)request;
+			sourceDateList = mParser.getData();
 			inflateContent();
 		}
 	}
@@ -213,25 +224,16 @@ public class FgChooseAirport extends BaseFragment implements SideBar.OnTouchingL
 		adapter.updateListView(sourceDateList);
 	}
 
-	@Override
-	public void onClick(View view) {
-		switch (view.getId()) {
-			case R.id.head_text_right:
-				String keyword = editSearch.getText().toString().trim();
-				if(TextUtils.isEmpty(keyword))return;
-				requestDate( keyword); //进行点击搜索
-				break;
-			default:
-				super.onClick(view);
-				break;
-		}
-	}
-	@Override
-	@OnClick({R.id.head_search_clean})
-	protected void onClickView(View view) {
+	@Event({R.id.head_search_clean, R.id.head_text_right})
+	private void onClickView(View view) {
 		switch (view.getId()){
 			case R.id.head_search_clean:
 				editSearch.setText("");
+				break;
+			case R.id.head_text_right:
+				String keyword = editSearch.getText().toString().trim();
+				if(TextUtils.isEmpty(keyword))return;
+				requestDate(keyword); //进行点击搜索
 				break;
 		}
 	}
@@ -296,7 +298,7 @@ public class FgChooseAirport extends BaseFragment implements SideBar.OnTouchingL
 	@Override
 	public void afterTextChanged(Editable s) {
 		if(TextUtils.isEmpty(s)) {
-			requestDate();
+			requestData();
 		}else {
 			requestDate(editSearch.getText().toString().trim());
 		}

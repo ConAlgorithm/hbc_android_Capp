@@ -27,7 +27,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="@string/daily_tap_in_town"
+                android:text="@string/title_pick"
                 android:textColor="@color/basic_black"
                 android:textSize="15sp" />
 
@@ -51,7 +51,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="@string/daily_tap_out_town"
+                android:text="@string/title_send"
                 android:textColor="@color/my_content_btn_color"
                 android:textSize="15sp" />
 

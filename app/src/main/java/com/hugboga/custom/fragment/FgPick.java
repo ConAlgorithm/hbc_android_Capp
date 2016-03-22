@@ -17,6 +17,7 @@ import com.hugboga.custom.data.bean.FlightBean;
 import com.hugboga.custom.data.bean.PromiseBean;
 
 import org.xutils.common.Callback;
+import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
@@ -25,6 +26,7 @@ import java.util.ArrayList;
 /**
  * 接机填写行程
  */
+@ContentView(R.layout.fg_pick)
 public class FgPick extends BaseFragment {
 
 	@ViewInject(R.id.pick_flight_tip)
@@ -51,16 +53,9 @@ public class FgPick extends BaseFragment {
 	private ArrivalBean arrivalBean;//达到目的地
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fg_pick, null);
-		return view;
-	}
-
-	@Override
 	protected void initHeader() {
-		fgTitle.setText(getString(R.string.title_pick));
-		setProgressState(0);
+//		fgTitle.setText(getString(R.string.title_pick));
+//		setProgressState(0);
 	}
 
 	protected void initView() {
@@ -100,7 +95,7 @@ public class FgPick extends BaseFragment {
 				break;
 			case R.id.submit_order_tip:
 				Bundle bundle = new Bundle();
-				bundle.putString(FgWebInfo.Web_URL, ResourcesConstants.H5_NOTICE);
+				bundle.putString(FgWebInfo.WEB_URL, ResourcesConstants.H5_NOTICE);
 				startFragment(new FgWebInfo(),bundle);
 				break;
 			case R.id.pick_btn:

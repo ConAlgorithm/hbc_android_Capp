@@ -12,22 +12,46 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 
 import org.xutils.common.Callback;
+import org.xutils.view.annotation.ContentView;
+import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
 /**
  * 接送机
  * Created by Administrator on 2016/3/19.
  */
+@ContentView(R.layout.fg_transfer)
 public class FgTransfer extends BaseFragment{
+    @ViewInject(R.id.daily_tap_line1)
+    private View tabLine1;
+    @ViewInject(R.id.daily_tap_line2)
+    private View tabLine2;
+    @ViewInject(R.id.daily_tap_1)
+    private TextView tabText1;
+    @ViewInject(R.id.daily_tap_2)
+    private TextView tabText2;
+//    private FgDailyInTown fgInTown;
+//    private FgDailyOutTown fgOutTown;
+    private FgPick fgPick;
+    private FgSend fgSend;
+    private FragmentManager fm;
 
     @Override
     protected void initHeader() {
-
+//        rightText.setVisibility(View.VISIBLE);
+        setProgressState(0);
+        fgTitle.setText(getString(R.string.title_transfer));
     }
 
     @Override
     protected void initView() {
-
+        fgPick = new FgPick();
+        fgSend = new FgSend();
+        fm = getFragmentManager();
+        FragmentTransaction transaction = fm.beginTransaction();
+        transaction.add(R.id.daily_content, fgPick);
+//        transaction.addToBackStack(null);
+        transaction.commit();
     }
 
     @Override
@@ -40,85 +64,37 @@ public class FgTransfer extends BaseFragment{
 
     }
 
-
-    @ViewInject(R.id.daily_tap_line1)
-    private View tabLine1;
-    @ViewInject(R.id.daily_tap_line2)
-    private View tabLine2;
-    @ViewInject(R.id.daily_tap_1)
-    private TextView tabText1;
-    @ViewInject(R.id.daily_tap_2)
-    private TextView tabText2;
-
-
-    private FgDailyInTown fgInTown;
-    private FgDailyOutTown fgOutTown;
-    private Fg
-    private FragmentManager fm;
-
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fg_transfer, null);
-        fgInTown = new FgDailyInTown();
-        fgOutTown = new FgDailyOutTown();
-        fm = getFragmentManager();
-        FragmentTransaction transaction = fm.beginTransaction();
-        transaction.add(R.id.daily_content, fgInTown);
-//        transaction.addToBackStack(null);
-        transaction.commit();
-        return view;
-    }
-
-    @Override
-    protected String fragmentTitle() {
-        rightText.setVisibility(View.VISIBLE);
-        setProgressState(0);
-        return getString(R.string.title_daily);
-    }
-
-
-    @Override
-    public void onDataRequestSucceed(InterfaceParser parser) {
-    }
-
-
-    @Override
-    @OnClick({
-            R.id.daily_layout_1,
-            R.id.daily_layout_2,
-    })
-    protected void onClickView(View view) {
+    @Event({R.id.daily_layout_1,R.id.daily_layout_2,})
+    private void onClickView(View view) {
         Bundle bundle;
         FragmentTransaction transaction ;
         switch (view.getId()) {
             case R.id.daily_layout_1:
                 selectTap(0);
-                if(!fgInTown.isAdded()){
+                if(!fgPick.isAdded()){
                     transaction = fm.beginTransaction();
-                    transaction.add(R.id.daily_content, fgInTown);
+                    transaction.add(R.id.daily_content, fgPick);
 //                    transaction.addToBackStack(null);
                     transaction.commit();
-                }else if(!fgInTown.isVisible()){
+                }else if(!fgPick.isVisible()){
                     transaction = fm.beginTransaction();
-                    transaction.hide(fgOutTown);
-                    transaction.show(fgInTown);
+                    transaction.hide(fgSend);
+                    transaction.show(fgPick);
                     transaction.commit();
                 }
                 break;
             case R.id.daily_layout_2:
                 selectTap(1);
-                if(!fgOutTown.isAdded()){
+                if(!fgSend.isAdded()){
                     transaction = fm.beginTransaction();
-                    transaction.add(R.id.daily_content, fgOutTown);
-                    transaction.hide(fgInTown);
+                    transaction.add(R.id.daily_content, fgSend);
+                    transaction.hide(fgPick);
 //                    transaction.addToBackStack(null);
                     transaction.commit();
-                }else if(!fgOutTown.isVisible()){
+                }else if(!fgSend.isVisible()){
                     transaction = fm.beginTransaction();
-                    transaction.hide(fgInTown);
-                    transaction.show(fgOutTown);
+                    transaction.hide(fgPick);
+                    transaction.show(fgSend);
                     transaction.commit();
                 }
                 break;
@@ -126,13 +102,11 @@ public class FgTransfer extends BaseFragment{
         }
     }
 
-
-
-    @Override
-    protected int getBusinessType() {
-        mBusinessType = Constants.BUSINESS_TYPE_DAILY;
-        return mBusinessType;
-    }
+//    @Override
+//    protected int getBusinessType() {
+//        mBusinessType = Constants.BUSINESS_TYPE_DAILY;
+//        return mBusinessType;
+//    }
 
     private void selectTap(int index){
         if(index==1){

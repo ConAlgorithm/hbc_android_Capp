@@ -35,23 +35,4 @@ public class FlightBean implements IBaseBean {
 	public AirPort depAirport;
 	public AirPort arrivalAirport;
 
-	@Override
-	public void parser(JSONObject jsonObj) {
-		flightNo = jsonObj.optString("flightNo");
-		company = jsonObj.optString("company");
-		depTime = jsonObj.optString("depTime");
-		arrivalTime = jsonObj.optString("arrTime");
-		depAirportCode = jsonObj.optString("depAirportCode");
-		arrivalAirportCode = jsonObj.optString("arrAirportCode");
-		depAirportName = jsonObj.optString("depAirport");
-		arrAirportName = jsonObj.optString("arrAirport");
-		depTerminal = jsonObj.optString("depTerminal");
-		arrTerminal = jsonObj.optString("arrTerminal");
-		arrDate = jsonObj.optString("arrDate");
-		depDate = jsonObj.optString("depDate");
-		depCityName = jsonObj.optString("depCityName");
-		arrCityName = jsonObj.optString("arrCityName");
-
-	}
-
 }

@@ -5,6 +5,7 @@ import android.content.Context;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
+import com.hugboga.custom.data.parser.ParserCheckPrice;
 import com.hugboga.custom.utils.Config;
 
 import java.util.HashMap;
@@ -35,6 +36,6 @@ public class RequestCheckPrice extends BaseRequest {
 
     @Override
     public ImplParser getParser() {
-        return null;
+        return new ParserCheckPrice();
     }
 }

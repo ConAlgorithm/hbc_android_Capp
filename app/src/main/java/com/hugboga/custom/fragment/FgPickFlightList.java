@@ -1,31 +1,29 @@
 package com.hugboga.custom.fragment;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.FlightAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.AirPort;
 import com.hugboga.custom.data.bean.FlightBean;
-import com.hugboga.custom.data.net.HttpRequestUtils;
-import com.hugboga.custom.data.parser.InterfaceParser;
-import com.hugboga.custom.data.parser.ParserFlightByCity;
-import com.hugboga.custom.data.parser.ParserFlightByNo;
+import com.hugboga.custom.data.request.RequestFlightByCity;
+import com.hugboga.custom.data.request.RequestFlightByNo;
 import com.hugboga.custom.utils.DBHelper;
 import com.hugboga.custom.utils.DateUtils;
-import com.lidroid.xutils.DbUtils;
-import com.lidroid.xutils.db.sqlite.Selector;
-import com.lidroid.xutils.exception.DbException;
-import com.lidroid.xutils.view.annotation.ViewInject;
-import com.lidroid.xutils.view.annotation.event.OnClick;
 
+import org.xutils.DbManager;
+import org.xutils.common.Callback;
+import org.xutils.db.Selector;
+import org.xutils.ex.DbException;
+import org.xutils.view.annotation.ContentView;
+import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
 import java.text.ParseException;
@@ -37,9 +35,8 @@ import java.util.TreeSet;
 /**
  * 接机选择航班列表
  */
+@ContentView(R.layout.fg_pick_flight_list)
 public class FgPickFlightList extends BaseFragment implements AdapterView.OnItemClickListener {
-
-
     public static final String KEY_FLIGHT_NO = "flight_no";
     public static final String KEY_FLIGHT_DATE = "flight_date";
     public static final String KEY_FLIGHT_FROM = "flight_from";
@@ -56,14 +53,21 @@ public class FgPickFlightList extends BaseFragment implements AdapterView.OnItem
     private String flightDate;
     private int flightFromCityId;
     private int flightToCityId;
+    private DbManager mDbManager;
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fg_pick_flight_list, null);
-        ListView listView = (ListView) view.findViewById(R.id.flight_list);
+    protected void initHeader() {
+        setProgressState(0);
+        fgTitle.setText(getString(R.string.title_pick_flight_list));
+    }
+
+    @Override
+    protected void initView() {
+        mDbManager = new DBHelper(getActivity()).getDbManager();
+        ListView listView = (ListView) getView().findViewById(R.id.flight_list);
         mAdapter = new FlightAdapter(getActivity());
         listView.setAdapter(mAdapter);
-        View emptyView = view.findViewById(R.id.flight_empty_layout);
+        View emptyView = getView().findViewById(R.id.flight_empty_layout);
         listView.setEmptyView(emptyView);
         listView.setOnItemClickListener(this);
         emptyView.setVisibility(View.GONE);
@@ -72,11 +76,10 @@ public class FgPickFlightList extends BaseFragment implements AdapterView.OnItem
         flightFromCityId = getArguments().getInt(KEY_FLIGHT_FROM);
         flightToCityId = getArguments().getInt(KEY_FLIGHT_TO);
         flightType = getArguments().getInt(KEY_FLIGHT_TYPE);
-        return view;
     }
 
     @Override
-    protected void requestDate() {
+    protected Callback.Cancelable requestData() {
         TextView emptyNo = (TextView) getView().findViewById(R.id.flight_empty_no);
 
         try {
@@ -85,33 +88,26 @@ public class FgPickFlightList extends BaseFragment implements AdapterView.OnItem
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        InterfaceParser parser ;
+        BaseRequest request ;
         if(flightType==1){
             emptyNo.setText(String.format(getString(R.string.flight_empty_no), flightNo));
-            parser = new ParserFlightByNo(flightNo, flightDate,mBusinessType);
+            request = new RequestFlightByNo(getActivity(),flightNo, flightDate,mBusinessType);
         }else{
             emptyNo.setText(R.string.flight_empty_no_city);
-            parser = new ParserFlightByCity(flightFromCityId,flightToCityId,flightDate);
+            request = new RequestFlightByCity(getActivity(),flightFromCityId,flightToCityId,flightDate);
         }
-        mHttpUtils = new HttpRequestUtils(getActivity(), parser, this);
-        mHttpUtils.execute();
-    }
-
-
-    @Override
-    protected String fragmentTitle() {
-        setProgressState(0);
-        return getString(R.string.title_pick_flight_list);
+        requestData(request);
+        return null;
     }
 
     @Override
-    public void onDataRequestSucceed(InterfaceParser parser) {
-        if (parser instanceof ParserFlightByNo) {
-            ParserFlightByNo mParser = (ParserFlightByNo) parser;
-            mListDate = mParser.listDate;
-        }else if(parser instanceof ParserFlightByCity){
-            ParserFlightByCity mParser = (ParserFlightByCity) parser;
-            mListDate = mParser.listDate;
+    public void onDataRequestSucceed(BaseRequest request) {
+        if (request instanceof RequestFlightByNo) {
+            RequestFlightByNo mParser = (RequestFlightByNo) request;
+            mListDate = mParser.getData();
+        }else if(request instanceof RequestFlightByCity){
+            RequestFlightByCity mParser = (RequestFlightByCity) request;
+            mListDate = mParser.getData();
         }
             int count = 0;
             if (mListDate != null && !mListDate.isEmpty()) {
@@ -133,14 +129,10 @@ public class FgPickFlightList extends BaseFragment implements AdapterView.OnItem
         mAdapter.notifyDataSetChanged();
     }
 
-    @Override
-    @OnClick({R.id.pick_btn, R.id.flight_empty_btn})
-    protected void onClickView(View view) {
+    @Event({R.id.pick_btn, R.id.flight_empty_btn})
+    private void onClickView(View view) {
         switch (view.getId()) {
             case R.id.pick_btn:
-                break;
-            case R.id.flight_empty_btn:
-                startFragment(new FgPickFlightCustomer());
                 break;
         }
     }
@@ -165,10 +157,17 @@ public class FgPickFlightList extends BaseFragment implements AdapterView.OnItem
             sets.add(bean.depAirportCode);
             sets.add(bean.arrivalAirportCode);
         }
-        DbUtils db = new DBHelper(getActivity()).getDbUtils();
-        Selector selector = Selector.from(AirPort.class).where("airport_code", "IN", sets);
+
+        Selector selector = null;
         try {
-            List<AirPort> list = db.findAll(selector);
+            selector = mDbManager.selector(AirPort.class);
+        } catch (DbException e) {
+            e.printStackTrace();
+        }
+
+        selector.where("airport_code", "IN", sets);
+        try {
+            List<AirPort> list = selector.findAll();
             for (int i=listDate.size()-1;i>=0;i--) {
                 FlightBean flightBean = listDate.get(i);
                 for (AirPort airPort : list) {

@@ -16,6 +16,7 @@ import com.hugboga.custom.data.bean.CityBean;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import org.xutils.common.Callback;
+import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
@@ -24,6 +25,7 @@ import java.util.Calendar;
 /**
  * 接机填写选择航班
  */
+@ContentView(R.layout.fg_pick_flight)
 public class FgPickFlight extends BaseFragment {
 
 	public static final String KEY_AIRPORT = "key_airport";
@@ -41,15 +43,6 @@ public class FgPickFlight extends BaseFragment {
 
 	private int cityFromId = -1;//起始城市ID
 	private int cityToId = -1;//到达城市ID
-
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fg_pick_flight, null);
-		view.findViewById(R.id.pick_btn).setBackgroundResource(Constants.BtnBg.get(mBusinessType));
-		view.findViewById(R.id.pick_btn2).setBackgroundResource(Constants.BtnBg.get(mBusinessType));
-		return view;
-	}
 
 	@Override
 	protected int getBusinessType() {
@@ -169,6 +162,9 @@ public class FgPickFlight extends BaseFragment {
 		setProgressState(0);
 		selectTap(0);
 		fgTitle.setText(getString(R.string.title_pick_flight));
+		getView().findViewById(R.id.pick_btn).setBackgroundResource(Constants.BtnBg.get(mBusinessType));
+		getView().findViewById(R.id.pick_btn2).setBackgroundResource(Constants.BtnBg.get(mBusinessType));
+
 	}
 
 	@Override

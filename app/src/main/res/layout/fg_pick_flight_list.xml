@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:background="@color/allbg_white"
   >
-    <include layout="@layout/activity_head"/>
+    <include layout="@layout/include_header"/>
      <TextView
          android:id="@+id/flight_info"
          android:layout_width="match_parent"

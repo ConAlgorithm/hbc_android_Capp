@@ -9,6 +9,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.huangbaoche.hbcframe.data.net.ExceptionErrorCode;
+import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
+import com.huangbaoche.hbcframe.data.net.ServerException;
+import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.CarViewpagerAdapter;
 import com.hugboga.custom.constants.Constants;
@@ -16,22 +20,22 @@ import com.hugboga.custom.constants.ResourcesConstants;
 import com.hugboga.custom.data.bean.AirPort;
 import com.hugboga.custom.data.bean.ArrivalBean;
 import com.hugboga.custom.data.bean.CarBean;
+import com.hugboga.custom.data.bean.CarListBean;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.DailyBean;
 import com.hugboga.custom.data.bean.FlightBean;
-import com.hugboga.custom.data.net.ExceptionErrorCode;
-import com.hugboga.custom.data.net.ExceptionInfo;
-import com.hugboga.custom.data.net.HttpRequestUtils;
-import com.hugboga.custom.data.net.ServerException;
-import com.hugboga.custom.data.parser.InterfaceParser;
-import com.hugboga.custom.data.parser.ParserCheckPrice;
-import com.hugboga.custom.data.parser.ParserCheckPriceForDaily;
+import com.hugboga.custom.data.request.RequestCheckPrice;
+import com.hugboga.custom.data.request.RequestCheckPriceForDaily;
+import com.hugboga.custom.data.request.RequestCheckPriceForPickup;
+import com.hugboga.custom.data.request.RequestCheckPriceForSingle;
+import com.hugboga.custom.data.request.RequestCheckPriceForTransfer;
 import com.hugboga.custom.utils.SharedPre;
+import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.JazzyViewPager;
-import com.lidroid.xutils.view.annotation.ViewInject;
-import com.lidroid.xutils.view.annotation.event.OnClick;
 
 import org.xutils.common.Callback;
+import org.xutils.view.annotation.ContentView;
+import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
 import java.util.ArrayList;
@@ -41,6 +45,7 @@ import java.util.Iterator;
 /**
  * Created by admin on 2015/7/17.
  */
+@ContentView(R.layout.fg_car)
 public class FgCar extends BaseFragment implements ViewPager.OnPageChangeListener {
 
 
@@ -115,24 +120,20 @@ public class FgCar extends BaseFragment implements ViewPager.OnPageChangeListene
     private int urgentFlag;//是否急单，1是，0非
     private boolean needChildrenSeat = false;//是否需要儿童座椅
     private boolean needBanner = true;//是否可以展示接机牌
+    private DialogUtil mDialogUtil;
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fg_car, null);
-        initView(view);
-        return view;
-    }
 
     @Override
     protected void initHeader() {
 //        rightText.setVisibility(View.VISIBLE);
         setProgressState(1);
         fgTitle.setText(getString(Constants.TitleMap.get(mGoodsType)));
+        mDialogUtil = DialogUtil.getInstance(getActivity());
     }
 
     @Override
     protected void initView() {
-
+        initView(getView());
     }
 
 //    @Override
@@ -204,6 +205,8 @@ public class FgCar extends BaseFragment implements ViewPager.OnPageChangeListene
                     serverDate = flightBean.arrDate+" "+flightBean.arrivalTime;
                     needChildrenSeat = flightBean.arrivalAirport.childSeatSwitch;
                     needBanner = flightBean.arrivalAirport.bannerSwitch;
+                    RequestCheckPriceForPickup requestCheckPriceForPickup = new RequestCheckPriceForPickup(getActivity(),mBusinessType, airportCode,cityId,startLocation,termLocation,serverDate);
+                    requestData(requestCheckPriceForPickup);
                     break;
                 case Constants.BUSINESS_TYPE_SEND:
                     cityId = airPortBean.cityId;
@@ -214,6 +217,8 @@ public class FgCar extends BaseFragment implements ViewPager.OnPageChangeListene
                     serverDate =  bundle.getString(KEY_TIME);
                     needChildrenSeat = airPortBean.childSeatSwitch;
                     needBanner = airPortBean.bannerSwitch;
+                    RequestCheckPriceForTransfer requestCheckPriceForTransfer = new RequestCheckPriceForTransfer(getActivity(),mBusinessType, airportCode,cityId,startLocation,termLocation,serverDate);
+                    requestData(requestCheckPriceForTransfer);
                     break;
                 case Constants.BUSINESS_TYPE_DAILY:
                     needChildrenSeat = dailyBean.childSeatSwitch;
@@ -221,23 +226,21 @@ public class FgCar extends BaseFragment implements ViewPager.OnPageChangeListene
                     carTripLayout.setVisibility(View.GONE);
                     carTimeTitle.setText("包车天数");
                     carTimeValue.setText("共" + dailyBean.totalDay + "天");
-                    ParserCheckPriceForDaily parser = new ParserCheckPriceForDaily(dailyBean);
-                    mHttpUtils = new HttpRequestUtils(getActivity(),parser,this);
-                    mHttpUtils.execute();
-                    return null;
+                    RequestCheckPriceForDaily requestCheckPriceForDaily = new RequestCheckPriceForDaily(getActivity(),dailyBean);
+                    requestData(requestCheckPriceForDaily);
+                    break;
                 case Constants.BUSINESS_TYPE_RENT:
                     cityId = cityBean.cityId;
                     needChildrenSeat = cityBean.childSeatSwitch;
                     startLocation = startBean.location;
                     termLocation = arrivalBean.location;
                     serverDate =  bundle.getString(KEY_TIME);
+                    RequestCheckPriceForSingle requestCheckPriceForSingle = new RequestCheckPriceForSingle(getActivity(),mBusinessType, airportCode,cityId,startLocation,termLocation,serverDate);
+                    requestData(requestCheckPriceForSingle);
                     break;
                 default:
                     return null;
             }
-        ParserCheckPrice parser = new ParserCheckPrice(mBusinessType, airportCode,cityId,startLocation,termLocation,serverDate);
-        mHttpUtils = new HttpRequestUtils(getActivity(),parser,this);
-        mHttpUtils.execute();
         }else{
             Toast.makeText(getActivity(), "缺少参数", Toast.LENGTH_LONG).show();
         }
@@ -255,34 +258,34 @@ public class FgCar extends BaseFragment implements ViewPager.OnPageChangeListene
     }
 
 
-    @Override
-    @OnClick({R.id.bottom_bar_btn, R.id.car_price_info, R.id.car_mask})
+    @Event({R.id.bottom_bar_btn, R.id.car_price_info, R.id.car_mask})
     protected void onClickView(View view) {
     switch (view.getId()){
         case R.id.bottom_bar_btn:
             if(carBean==null||carBean.originalPrice==0)return;
-            FgSubmit fg = new FgSubmit();
+//            FgSubmit fg = new FgSubmit();
             Bundle bundle= new Bundle();
-            bundle.putSerializable(KEY_FLIGHT,flightBean);
-            bundle.putSerializable(KEY_AIRPORT,airPortBean);
-            bundle.putSerializable(KEY_START,startBean);
-            bundle.putSerializable(KEY_ARRIVAL,arrivalBean);
-            bundle.putSerializable(KEY_DAILY,dailyBean);
-            bundle.putSerializable(KEY_CAR,carBean);
-            bundle.putSerializable(KEY_CITY,cityBean);
-            bundle.putString(KEY_TIME, serverDate);
-            bundle.putInt(KEY_CITY_ID, cityId);
-            bundle.putInt(KEY_COM_TIME, interval);
-            bundle.putInt(KEY_URGENT_FLAG, carBean.urgentFlag);
-            bundle.putDouble(KEY_DISTANCE,distance);
-            bundle.putBoolean(KEY_NEED_CHILDREN_SEAT,needChildrenSeat);
-            bundle.putBoolean(KEY_NEED_BANNER,needBanner);
-            startFragment(fg,bundle);
+//            bundle.putSerializable(KEY_FLIGHT,flightBean);
+//            bundle.putSerializable(KEY_AIRPORT,airPortBean);
+//            bundle.putSerializable(KEY_START,startBean);
+//            bundle.putSerializable(KEY_ARRIVAL,arrivalBean);
+//            bundle.putSerializable(KEY_DAILY,dailyBean);
+//            bundle.putSerializable(KEY_CAR,carBean);
+//            bundle.putSerializable(KEY_CITY,cityBean);
+//            bundle.putString(KEY_TIME, serverDate);
+//            bundle.putInt(KEY_CITY_ID, cityId);
+//            bundle.putInt(KEY_COM_TIME, interval);
+//            bundle.putInt(KEY_URGENT_FLAG, carBean.urgentFlag);
+//            bundle.putDouble(KEY_DISTANCE,distance);
+//            bundle.putBoolean(KEY_NEED_CHILDREN_SEAT,needChildrenSeat);
+//            bundle.putBoolean(KEY_NEED_BANNER,needBanner);
+//            startFragment(fg,bundle);
+            Toast.makeText(getActivity(), "这个地方注掉了", Toast.LENGTH_SHORT).show();
             break;
         case R.id.car_price_info:
             FgWebInfo fgWebInfo = new FgWebInfo();
             bundle = new Bundle();
-            bundle.putString(FgWebInfo.Web_URL, ResourcesConstants.H5_PRICE);
+            bundle.putString(FgWebInfo.WEB_URL, ResourcesConstants.H5_PRICE);
             startFragment(fgWebInfo, bundle);
             break;
         case R.id.car_mask:
@@ -295,13 +298,13 @@ public class FgCar extends BaseFragment implements ViewPager.OnPageChangeListene
 
 
     @Override
-    public void onDataRequestSucceed(InterfaceParser parser) {
-        if(parser instanceof  ParserCheckPrice){
-            ParserCheckPrice mParser = (ParserCheckPrice) parser;
-            this.distance = mParser.distance;
-            this.interval = mParser.interval;
+    public void onDataRequestSucceed(BaseRequest request) {
+        if(request instanceof RequestCheckPrice){
+            RequestCheckPrice requestCheckPrice = (RequestCheckPrice) request;
+            this.distance = ((CarListBean)requestCheckPrice.getData()).distance;
+            this.interval = ((CarListBean)requestCheckPrice.getData()).interval;
 //            processCarList(mParser.carList);
-            carList = mParser.carList;
+            carList = ((CarListBean)requestCheckPrice.getData()).carList;
             mAdapter = new CarViewpagerAdapter(getActivity(),mJazzy);
             mAdapter.setList(carList);
             mJazzy.setState(null);
@@ -352,7 +355,7 @@ public class FgCar extends BaseFragment implements ViewPager.OnPageChangeListene
     }
 
     @Override
-    public void onDataRequestError(ExceptionInfo errorInfo, InterfaceParser parser) {
+    public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
         if(errorInfo.state== ExceptionErrorCode.ERROR_CODE_SERVER){
             ServerException exception = (ServerException) errorInfo.exception;
                 if(exception.getCode() != 10011&&exception.getCode()!=10012&&exception.getCode()!=10013) {
@@ -360,7 +363,7 @@ public class FgCar extends BaseFragment implements ViewPager.OnPageChangeListene
                     return;
                 }
         }
-        super.onDataRequestError(errorInfo, parser);
+        super.onDataRequestError(errorInfo, request);
     }
 
     @Override
