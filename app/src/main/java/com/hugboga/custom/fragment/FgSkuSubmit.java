@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
+import com.huangbaoche.hbcframe.util.WXShareUtils;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CarBean;
@@ -62,6 +63,8 @@ public class FgSkuSubmit extends BaseFragment implements View.OnClickListener {
     private TextView skuStartAddress;//地址
     @ViewInject(R.id.sku_user_name_edit)
     private TextView skuUserName;//用户名
+    @ViewInject(R.id.sku_area_code)
+    private TextView skuAreaCode;//用户手机区号
     @ViewInject(R.id.sku_user_phone_edit)
     private TextView skuPhone;//用户手机
     @ViewInject(R.id.bottom_bar_total_value)
@@ -77,6 +80,7 @@ public class FgSkuSubmit extends BaseFragment implements View.OnClickListener {
     private CarListBean carListBean;//车型
     private FgCarSuk fgCarSuk;
     private CarBean carTypeBean;//车型
+    private String areaCode;//区号
 
     @Override
     protected void initHeader() {
@@ -103,7 +107,8 @@ public class FgSkuSubmit extends BaseFragment implements View.OnClickListener {
 
     }
 
-    @Event({R.id.sku_start_day_layout,
+    @Event({
+            R.id.sku_start_day_layout,
             R.id.sku_start_day_edit,
             R.id.sku_car_type_layout,
             R.id.sku_car_type_edit,
@@ -115,6 +120,7 @@ public class FgSkuSubmit extends BaseFragment implements View.OnClickListener {
             R.id.submit_child_plus,
             R.id.sku_start_address_layout,
             R.id.sku_start_address_edit,
+            R.id.sku_area_code,
             R.id.sku_info_call_1,
             R.id.sku_info_call_2,
             R.id.bottom_bar_btn
@@ -165,6 +171,9 @@ public class FgSkuSubmit extends BaseFragment implements View.OnClickListener {
                 break;
             case R.id.sku_start_address_layout://出发地点 选poi
             case R.id.sku_start_address_edit://出发地点 选poi
+                break;
+            case R.id.sku_area_code://电话 区号
+                startFragment(new FgChooseCountry());
                 break;
             case R.id.sku_info_call_1://电话 国内
                 PhoneInfo.CallDial(getActivity(),Constants.CALL_NUMBER_IN);
@@ -225,6 +234,10 @@ public class FgSkuSubmit extends BaseFragment implements View.OnClickListener {
                 }
             }
 
+        }else if(FgChooseCountry.class.getSimpleName().equals(from)){
+           areaCode =  bundle.getString(FgChooseCountry.KEY_COUNTRY_CODE);
+           String areaCodeName =  bundle.getString(FgChooseCountry.KEY_COUNTRY_NAME);
+           skuAreaCode.setText("+"+areaCode+" ｜");
         }
     }
 

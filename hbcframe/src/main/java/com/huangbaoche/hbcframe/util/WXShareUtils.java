@@ -26,6 +26,9 @@ import java.net.URLEncoder;
  * Created by ZHZEPHI on 2016/1/26.
  */
 public class WXShareUtils {
+    public static final int TYPE_SESSION = 0;//好友
+    public static final int TYPE_TIMELINE = 1;//朋友圈
+
 
     Context mContext;
     private static WXShareUtils wxShareUtils;
@@ -77,7 +80,11 @@ public class WXShareUtils {
             x.image().loadFile(picUrl, null, new Callback.CacheCallback<File>() {
                 @Override
                 public boolean onCache(File result) {
-                    return false;
+                    BitmapFactory.Options options = new BitmapFactory.Options();
+                    options.inSampleSize = 2;
+                    Bitmap bitmap= BitmapFactory.decodeFile(result.getAbsolutePath(), options);
+                    share(type,bitmap,title,content,goUrl);
+                    return true;
                 }
 
                 @Override
@@ -85,18 +92,7 @@ public class WXShareUtils {
                     BitmapFactory.Options options = new BitmapFactory.Options();
                     options.inSampleSize = 2;
                     Bitmap bitmap= BitmapFactory.decodeFile(result.getAbsolutePath(), options);
-                    WXWebpageObject webpage = new WXWebpageObject();
-                    webpage.webpageUrl = goUrl;
-                    WXMediaMessage msg = new WXMediaMessage(webpage);
-                    msg.title = title;
-                    msg.description = content;
-                    msg.setThumbImage(bitmap);
-
-                    SendMessageToWX.Req req = new SendMessageToWX.Req();
-                    req.transaction = String.valueOf(System.currentTimeMillis());
-                    req.message = msg;
-                    req.scene = type == 0 ? SendMessageToWX.Req.WXSceneSession : SendMessageToWX.Req.WXSceneTimeline;
-                    iwxapi.sendReq(req);
+                    share(type,bitmap,title,content,goUrl);
                 }
 
                 @Override
@@ -117,7 +113,27 @@ public class WXShareUtils {
 
                 });
 
+        }else{
+            Toast.makeText(mContext,"未安装微信",Toast.LENGTH_LONG).show();
         }
+    }
+
+
+    public void share(final int type, final Bitmap bitmap, final String title, final String content, final String goUrl) {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inSampleSize = 2;
+        WXWebpageObject webpage = new WXWebpageObject();
+        webpage.webpageUrl = goUrl;
+        WXMediaMessage msg = new WXMediaMessage(webpage);
+        msg.title = title;
+        msg.description = content;
+        msg.setThumbImage(bitmap);
+
+        SendMessageToWX.Req req = new SendMessageToWX.Req();
+        req.transaction = String.valueOf(System.currentTimeMillis());
+        req.message = msg;
+        req.scene = type == TYPE_SESSION ? SendMessageToWX.Req.WXSceneSession : SendMessageToWX.Req.WXSceneTimeline;
+        iwxapi.sendReq(req);
     }
 
 }

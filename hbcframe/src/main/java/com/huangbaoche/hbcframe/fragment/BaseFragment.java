@@ -241,6 +241,8 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
         MLog.i(this + " finishForResult " + fragment);
 
     }
+
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
