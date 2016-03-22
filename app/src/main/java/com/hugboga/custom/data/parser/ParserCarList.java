@@ -10,13 +10,14 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 /**
+ * 选车 查价 列表解析器
  * Created by admin on 2016/3/20.
  */
 public class ParserCarList extends ImplParser {
     @Override
     public CarListBean parseObject(JSONObject obj) throws Throwable {
         CarListBean carListBean = new CarListBean();
-        carListBean.distance = obj.optDouble("distance",0);
+        carListBean.distance = obj.optString("distance");
         carListBean.interval = obj.optInt("estTime", 0);
         JSONArray priceList = obj.optJSONArray("cars");
         CarBean bean;

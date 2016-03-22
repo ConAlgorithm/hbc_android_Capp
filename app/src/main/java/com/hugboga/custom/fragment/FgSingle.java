@@ -185,7 +185,7 @@ public class FgSingle extends BaseFragment {
 	@Override
 	public int getBusinessType() {
 		mBusinessType = Constants.BUSINESS_TYPE_RENT;
-//		setGoodsType(mBusinessType);
+		setGoodsType(mBusinessType);
 		return mBusinessType;
 	}
 

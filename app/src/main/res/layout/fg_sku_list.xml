@@ -6,13 +6,21 @@
     android:orientation="vertical"
     >
     <include layout="@layout/include_header"/>
-<ListView
-    android:id="@android:id/list"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:dividerHeight="2dp"
-    android:divider="@null"
-    android:background="@color/allbg_white"
-    />
+    <LinearLayout
+        android:id="@+id/fg_sku_list_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+        <ListView
+            android:id="@android:id/list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:dividerHeight="2dp"
+            android:divider="@null"
+            />
+        <include layout="@layout/include_sku_list_empty"/>
+    </LinearLayout>
+
 
 </LinearLayout>

@@ -31,8 +31,6 @@ public class OrderBean implements IBaseBean {
     public int urgentFlag;//是否急单，1是，0非
     public Integer serviceCityId;//	服务地城市ID
     public String serviceCityName;
-//    public Integer startCityID;
-//    public String startCityName;
     public Integer serviceEndCityid;
     public String serviceEndCityName;
     public Integer carType;//必选	int	1 经济 2舒适 3豪华 4奢华
@@ -75,14 +73,13 @@ public class OrderBean implements IBaseBean {
     public Integer checkInPrice;//check in 价格 送机
     public String priceMark;//价格戳 询价系统返回ID
     public ArrayList<String> childSeat;
-//    public List<OrderContact> contact;
+    public List<OrderContact> contact;
 //    public OrderPriceInfo orderPriceInfo;
 //    public OrderGuideInfo orderGuideInfo;
     public CouponBean orderCoupon;
     public int additionIsRead;//增项费用是否已读
     public String lineSubject;//精品线路，标题 xx一日游
     public String lineDescription;//精品线路，简介
-//    public AssessmentBean assessmentBean;//评价
 
     //2.2.0
     public Integer oneCityTravel;//1：市内畅游  2：跨城市
@@ -92,4 +89,8 @@ public class OrderBean implements IBaseBean {
     public String journeyComment;//行程说明
     public String dailyTips;//注意事项
 
+    //2.5.0
+    public String goodsNo;//商品ID
+    public String skuPoi;//poi 列表，jsonArray格式
+    public List<PoiBean> skuPoiArray ;
 }

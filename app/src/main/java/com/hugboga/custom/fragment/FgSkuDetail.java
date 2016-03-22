@@ -42,7 +42,7 @@ public class FgSkuDetail extends FgWebInfo {
                 if(skuItemBean!=null){
                     String title =skuItemBean.goodsName;
                     String content = "这是详情";
-                    WXShareUtils.getInstance(getActivity()).share(WXShareUtils.TYPE_SESSION,skuItemBean.goodsPicture,title,content, skuItemBean.url);
+                    WXShareUtils.getInstance(getActivity()).share(WXShareUtils.TYPE_SESSION,skuItemBean.goodsPicture,title,content, skuItemBean.shareURL);
                 }
                 break;
             case R.id.phone_consultation:
