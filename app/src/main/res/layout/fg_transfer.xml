@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/bg_02"
+    android:orientation="vertical">
+
+    <include layout="@layout/include_header" />
+
+    <include layout="@layout/include_progress" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dip"
+        android:background="@color/basic_other_toolbar_color"
+        android:orientation="horizontal"
+        android:visibility="visible">
+
+        <RelativeLayout
+            android:id="@+id/daily_layout_1"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/daily_tap_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@string/title_pick"
+                android:textColor="@color/basic_black"
+                android:textSize="15sp" />
+
+            <View
+                android:id="@+id/daily_tap_line1"
+                android:layout_width="60dip"
+                android:layout_height="2dip"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:background="@color/basic_black" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/daily_layout_2"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/daily_tap_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@string/title_send"
+                android:textColor="@color/my_content_btn_color"
+                android:textSize="15sp" />
+
+            <View
+                android:id="@+id/daily_tap_line2"
+                android:layout_width="50dip"
+                android:layout_height="2dip"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:background="@color/basic_black"
+                android:visibility="gone" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/travel_tab_lineb" />
+
+    <FrameLayout
+        android:id="@+id/daily_content"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+</LinearLayout>
