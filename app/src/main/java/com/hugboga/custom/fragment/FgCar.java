@@ -15,6 +15,7 @@ import com.huangbaoche.hbcframe.data.net.ServerException;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.CarViewpagerAdapter;
+import com.hugboga.custom.constants.CarTypeEnum;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.constants.ResourcesConstants;
 import com.hugboga.custom.data.bean.AirPort;
@@ -170,8 +171,21 @@ public class FgCar extends BaseFragment implements ViewPager.OnPageChangeListene
                 bean.carSeat= Constants.CarSeatMap.get(j);
                 bean.originalPrice=0;
                 bean.models = Constants.CarDescInfoMap.get(i).get(j);
+                CarTypeEnum carTypeEnum = CarTypeEnum.getCarType(bean.carType,bean.carSeat);
+                if(carTypeEnum!=null){
+                    bean.imgRes = carTypeEnum.imgRes;
+                }
                 carList.add(bean);
                 id++;
+            }
+        }
+    }
+
+    private void sortListDataImage() {
+        for(CarBean bean :carList){
+            CarTypeEnum carTypeEnum = CarTypeEnum.getCarType(bean.carType,bean.carSeat);
+            if(carTypeEnum!=null){
+                bean.imgRes = carTypeEnum.imgRes;
             }
         }
     }
@@ -259,7 +273,7 @@ public class FgCar extends BaseFragment implements ViewPager.OnPageChangeListene
 
 
     @Event({R.id.bottom_bar_btn, R.id.car_price_info, R.id.car_mask})
-    protected void onClickView(View view) {
+    private void onClickView(View view) {
     switch (view.getId()){
         case R.id.bottom_bar_btn:
             if(carBean==null||carBean.originalPrice==0)return;
@@ -305,6 +319,7 @@ public class FgCar extends BaseFragment implements ViewPager.OnPageChangeListene
             this.interval = ((CarListBean)requestCheckPrice.getData()).interval;
 //            processCarList(mParser.carList);
             carList = ((CarListBean)requestCheckPrice.getData()).carList;
+            sortListDataImage();
             mAdapter = new CarViewpagerAdapter(getActivity(),mJazzy);
             mAdapter.setList(carList);
             mJazzy.setState(null);

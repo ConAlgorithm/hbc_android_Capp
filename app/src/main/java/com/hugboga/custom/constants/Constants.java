@@ -110,18 +110,18 @@ public final class Constants {
 	static {
 
 
-//		arrivalMap.put("交通", R.mipmap.list_traffic);
-//		arrivalMap.put("酒店", R.mipmap.list_hotels);
-//		arrivalMap.put("景点", R.mipmap.list_scenic);
+		arrivalMap.put("交通", R.mipmap.list_traffic);
+		arrivalMap.put("酒店", R.mipmap.list_hotels);
+		arrivalMap.put("景点", R.mipmap.list_scenic);
 //
-//		TitleMap.put(Constants.BUSINESS_TYPE_PICK,R.string.title_pick);
-//		TitleMap.put(Constants.BUSINESS_TYPE_SEND,R.string.title_send);
-//		TitleMap.put(Constants.BUSINESS_TYPE_DAILY,R.string.title_daily_in_town);
-//		TitleMap.put(Constants.BUSINESS_TYPE_DAILY_SHORT,R.string.title_daily_out_town);
-//		TitleMap.put(Constants.BUSINESS_TYPE_RENT,R.string.title_rent);
-//		TitleMap.put(Constants.BUSINESS_TYPE_DAILY_LONG,R.string.title_daily_out_town);
-//		TitleMap.put(Constants.BUSINESS_TYPE_COMMEND,R.string.title_commend);
-//		TitleMap.put(Constants.BUSINESS_TYPE_OTHER,R.string.title_other);
+		TitleMap.put(Constants.BUSINESS_TYPE_PICK,R.string.title_pick);
+		TitleMap.put(Constants.BUSINESS_TYPE_SEND,R.string.title_send);
+		TitleMap.put(Constants.BUSINESS_TYPE_DAILY,R.string.title_daily_in_town);
+		TitleMap.put(Constants.BUSINESS_TYPE_DAILY_SHORT,R.string.title_daily_out_town);
+		TitleMap.put(Constants.BUSINESS_TYPE_RENT,R.string.title_rent);
+		TitleMap.put(Constants.BUSINESS_TYPE_DAILY_LONG,R.string.title_daily_out_town);
+		TitleMap.put(Constants.BUSINESS_TYPE_COMMEND,R.string.title_commend);
+		TitleMap.put(Constants.BUSINESS_TYPE_OTHER,R.string.title_other);
 
 		TitleMap2.put(Constants.BUSINESS_TYPE_PICK,"接机费用");
 		TitleMap2.put(Constants.BUSINESS_TYPE_SEND,"送机费用");
@@ -129,12 +129,12 @@ public final class Constants {
 		TitleMap2.put(Constants.BUSINESS_TYPE_RENT,"单次用车费用");
 		TitleMap2.put(Constants.BUSINESS_TYPE_COMMEND,"精品线路费用");
 
-//		BgColors.put(Constants.BUSINESS_TYPE_PICK, R.color.basic_pick_toolbar_color);
-//		BgColors.put(Constants.BUSINESS_TYPE_SEND, R.color.basic_send_toolbar_color);
-//		BgColors.put(Constants.BUSINESS_TYPE_DAILY, R.color.basic_daily_toolbar_color);
-//		BgColors.put(Constants.BUSINESS_TYPE_RENT, R.color.basic_rent_toolbar_color);
-//		BgColors.put(Constants.BUSINESS_TYPE_COMMEND, R.color.basic_commend_toolbar_color);
-//		BgColors.put(Constants.BUSINESS_TYPE_OTHER, R.color.basic_other_toolbar_color);
+		BgColors.put(Constants.BUSINESS_TYPE_PICK, R.color.basic_pick_toolbar_color);
+		BgColors.put(Constants.BUSINESS_TYPE_SEND, R.color.basic_send_toolbar_color);
+		BgColors.put(Constants.BUSINESS_TYPE_DAILY, R.color.basic_daily_toolbar_color);
+		BgColors.put(Constants.BUSINESS_TYPE_RENT, R.color.basic_rent_toolbar_color);
+		BgColors.put(Constants.BUSINESS_TYPE_COMMEND, R.color.basic_commend_toolbar_color);
+		BgColors.put(Constants.BUSINESS_TYPE_OTHER, R.color.basic_other_toolbar_color);
 
 		CarTypeMap.put(CAR_TYPE_COMMON,"经济");
 		CarTypeMap.put(CAR_TYPE_COMFORT,"舒适");
@@ -211,10 +211,10 @@ public final class Constants {
 		BtnBg.put(BUSINESS_TYPE_RENT,R.drawable.btn_pink);
 		BtnBg.put(BUSINESS_TYPE_COMMEND,R.drawable.btn_purple);
 
-//		PromiseMap.put(0,new PromiseBean(R.mipmap.pro_all,R.string.promise_title_all,R.string.promise_content_all));
-//		PromiseMap.put(1,new PromiseBean(R.mipmap.pro_wait,R.string.promise_title_wait,R.string.promise_content_wait));
-//		PromiseMap.put(2,new PromiseBean(R.mipmap.pro_app,R.string.promise_title_app,R.string.promise_content_app));
-//		PromiseMap.put(3,new PromiseBean(R.mipmap.pro_pay,R.string.promise_title_pay,R.string.promise_content_pay));
-//		PromiseMap.put(4,new PromiseBean(R.mipmap.pro_safe,R.string.promise_title_safe,R.string.promise_content_safe));
+		PromiseMap.put(0,new PromiseBean(R.mipmap.pro_all,R.string.promise_title_all,R.string.promise_content_all));
+		PromiseMap.put(1,new PromiseBean(R.mipmap.pro_wait,R.string.promise_title_wait,R.string.promise_content_wait));
+		PromiseMap.put(2,new PromiseBean(R.mipmap.pro_app,R.string.promise_title_app,R.string.promise_content_app));
+		PromiseMap.put(3,new PromiseBean(R.mipmap.pro_pay,R.string.promise_title_pay,R.string.promise_content_pay));
+		PromiseMap.put(4,new PromiseBean(R.mipmap.pro_safe,R.string.promise_title_safe,R.string.promise_content_safe));
 	}
 }

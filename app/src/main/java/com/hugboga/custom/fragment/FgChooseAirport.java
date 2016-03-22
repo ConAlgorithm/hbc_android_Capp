@@ -60,7 +60,7 @@ public class FgChooseAirport extends BaseFragment implements SideBar.OnTouchingL
 		mDbManager = new DBHelper(getActivity()).getDbManager();
 		sharedPer = new SharedPre(getActivity());
 		setProgressState(0);
-		fgTitle.setText(getString(R.string.title_choose_airport));
+//		fgTitle.setText(getString(R.string.title_choose_airport));
 	}
 
 	protected void initView() {
