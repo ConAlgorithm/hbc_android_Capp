@@ -1,0 +1,150 @@
+package com.hugboga.custom.fragment;
+
+import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import com.hugboga.custom.R;
+import com.hugboga.custom.constants.Constants;
+
+import org.xutils.common.Callback;
+import org.xutils.view.annotation.ViewInject;
+
+/**
+ * 接送机
+ * Created by Administrator on 2016/3/19.
+ */
+public class FgTransfer extends BaseFragment{
+
+    @Override
+    protected void initHeader() {
+
+    }
+
+    @Override
+    protected void initView() {
+
+    }
+
+    @Override
+    protected Callback.Cancelable requestData() {
+        return null;
+    }
+
+    @Override
+    protected void inflateContent() {
+
+    }
+
+
+    @ViewInject(R.id.daily_tap_line1)
+    private View tabLine1;
+    @ViewInject(R.id.daily_tap_line2)
+    private View tabLine2;
+    @ViewInject(R.id.daily_tap_1)
+    private TextView tabText1;
+    @ViewInject(R.id.daily_tap_2)
+    private TextView tabText2;
+
+
+    private FgDailyInTown fgInTown;
+    private FgDailyOutTown fgOutTown;
+    private Fg
+    private FragmentManager fm;
+
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fg_transfer, null);
+        fgInTown = new FgDailyInTown();
+        fgOutTown = new FgDailyOutTown();
+        fm = getFragmentManager();
+        FragmentTransaction transaction = fm.beginTransaction();
+        transaction.add(R.id.daily_content, fgInTown);
+//        transaction.addToBackStack(null);
+        transaction.commit();
+        return view;
+    }
+
+    @Override
+    protected String fragmentTitle() {
+        rightText.setVisibility(View.VISIBLE);
+        setProgressState(0);
+        return getString(R.string.title_daily);
+    }
+
+
+    @Override
+    public void onDataRequestSucceed(InterfaceParser parser) {
+    }
+
+
+    @Override
+    @OnClick({
+            R.id.daily_layout_1,
+            R.id.daily_layout_2,
+    })
+    protected void onClickView(View view) {
+        Bundle bundle;
+        FragmentTransaction transaction ;
+        switch (view.getId()) {
+            case R.id.daily_layout_1:
+                selectTap(0);
+                if(!fgInTown.isAdded()){
+                    transaction = fm.beginTransaction();
+                    transaction.add(R.id.daily_content, fgInTown);
+//                    transaction.addToBackStack(null);
+                    transaction.commit();
+                }else if(!fgInTown.isVisible()){
+                    transaction = fm.beginTransaction();
+                    transaction.hide(fgOutTown);
+                    transaction.show(fgInTown);
+                    transaction.commit();
+                }
+                break;
+            case R.id.daily_layout_2:
+                selectTap(1);
+                if(!fgOutTown.isAdded()){
+                    transaction = fm.beginTransaction();
+                    transaction.add(R.id.daily_content, fgOutTown);
+                    transaction.hide(fgInTown);
+//                    transaction.addToBackStack(null);
+                    transaction.commit();
+                }else if(!fgOutTown.isVisible()){
+                    transaction = fm.beginTransaction();
+                    transaction.hide(fgInTown);
+                    transaction.show(fgOutTown);
+                    transaction.commit();
+                }
+                break;
+
+        }
+    }
+
+
+
+    @Override
+    protected int getBusinessType() {
+        mBusinessType = Constants.BUSINESS_TYPE_DAILY;
+        return mBusinessType;
+    }
+
+    private void selectTap(int index){
+        if(index==1){
+            tabLine1.setVisibility(View.GONE);
+            tabLine2.setVisibility(View.VISIBLE);
+            tabText1.setTextColor(getResources().getColor(R.color.my_content_btn_color));
+            tabText2.setTextColor(getResources().getColor(R.color.basic_black));
+        }else{
+            tabLine1.setVisibility(View.VISIBLE);
+            tabLine2.setVisibility(View.GONE);
+            tabText1.setTextColor(getResources().getColor(R.color.basic_black));
+            tabText2.setTextColor(getResources().getColor(R.color.my_content_btn_color));
+        }
+    }
+}

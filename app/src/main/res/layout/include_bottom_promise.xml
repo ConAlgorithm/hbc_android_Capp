@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="bottom"
+    android:paddingTop="30dp"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/bottom_promise_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+       >
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawablePadding="10dp"
+            android:drawableTop="@mipmap/pro_all"
+            android:gravity="center_horizontal"
+            android:text="一价全包" />
+
+        <TextView
+            android:id="@+id/bottom_promise_wait"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawablePadding="10dp"
+            android:drawableTop="@mipmap/pro_wait"
+            android:gravity="center_horizontal"
+            android:text="免费等待" />
+
+        <TextView
+            android:id="@+id/bottom_promise_app"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawablePadding="10dp"
+            android:drawableTop="@mipmap/pro_app"
+            android:gravity="center_horizontal"
+            android:text="增值服务"
+            android:visibility="gone" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawablePadding="10dp"
+            android:drawableTop="@mipmap/pro_pay"
+            android:gravity="center_horizontal"
+            android:text="先行赔付"
+
+            />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawablePadding="10dp"
+            android:drawableTop="@mipmap/pro_safe"
+            android:gravity="center_horizontal"
+            android:text="免费保险" />
+    </LinearLayout>
+</LinearLayout>
