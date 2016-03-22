@@ -222,7 +222,7 @@ public class FgRegister extends BaseFragment {
             case R.id.register_protocol:
                 FgWebInfo fgWebInfo = new FgWebInfo();
                 Bundle bundle1 = new Bundle();
-                bundle1.putString(FgWebInfo.Web_URL, ResourcesConstants.H5_PROTOCOL);
+                bundle1.putString(FgWebInfo.WEB_URL, ResourcesConstants.H5_PROTOCOL);
                 fgWebInfo.setArguments(bundle1);
                 startFragment(fgWebInfo);
                 break;

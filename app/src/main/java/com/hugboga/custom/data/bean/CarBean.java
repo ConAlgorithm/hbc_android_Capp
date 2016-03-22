@@ -1,12 +1,11 @@
 package com.hugboga.custom.data.bean;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 /**
+ * 
+ * 车型
  * Created by admin on 2015/7/22.
  */
-public class CarBean implements IBaseBean {
+public class CarBean implements IBaseBean{
 
     public int id;
     public int carType;//类型
@@ -17,16 +16,6 @@ public class CarBean implements IBaseBean {
     public int checkInPrice;//促销价
     public String pricemark;//价格戳
     public int urgentFlag;//是否急单，1是，0非
-
-    @Override
-    public void parser(JSONObject jsonObj) throws JSONException {
-        carType = jsonObj.optInt("carType");
-        carSeat = jsonObj.optInt("seatCategory");
-        desc = jsonObj.optString("carDesc");
-        models = jsonObj.optString("models");
-        pricemark = jsonObj.optString("pricemark");
-        originalPrice = jsonObj.optInt("price");
-        checkInPrice = jsonObj.optInt("checkInPrice",0);
-        urgentFlag = jsonObj.optInt("urgentFlag",0);
-    }
+    
+    public int imgRes;//图片资源
 }

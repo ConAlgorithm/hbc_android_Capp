@@ -17,6 +17,7 @@ import com.hugboga.custom.adapter.HomeAdapter;
 import com.hugboga.custom.adapter.SkuAdapter;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.SkuCityBean;
+import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.data.request.RequestSkuList;
 
 import org.xutils.common.Callback;
@@ -94,9 +95,14 @@ public class FgSkuList extends  BaseFragment implements AdapterView.OnItemClickL
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        MLog.e("position = "+position);
+        if(position==0)return;
+        SkuItemBean bean = adapter.getItem(position-1);
         Bundle bundle = new Bundle();
-        String url = "http://res.dev.hbc.tech/h5/csku/skuDetail.html?source=c&goodsNo="+adapter.getItem(position).goodsNo;
-        bundle.putString(FgWebInfo.Web_URL,url);
+        String url = "http://res.test.hbc.tech/h5/csku/skuDetail.html?source=c&goodsNo="+bean.goodsNo;
+//        url = "http://res.dev.hbc.tech/h5/test/api.html?";
+        bundle.putString(FgWebInfo.WEB_URL,url);
+        bundle.putSerializable(FgSkuDetail.WEB_CITY, bean);
         startFragment(new FgSkuDetail(),bundle);
     }
 }

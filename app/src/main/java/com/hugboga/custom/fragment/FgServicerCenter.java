@@ -90,7 +90,7 @@ public class FgServicerCenter extends BaseFragment {
      */
     private void toWebInfo(String url) {
         Bundle bundle = new Bundle();
-        bundle.putString(FgWebInfo.Web_URL, url);
+        bundle.putString(FgWebInfo.WEB_URL, url);
         startFragment(new FgWebInfo(),bundle);
     }
 

@@ -118,4 +118,7 @@
     <color name="letter_im_order_color">#7A7A7A</color>
     <color name="letter_im_order_line">#C9C9C9</color>
     <color name="letter_im_order_point">#545454</color>
+
+    <color name="sku_info_bg">#EEEEEE</color>
+    <color name="sku_call">#007cff</color>
 </resources>

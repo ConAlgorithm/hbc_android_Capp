@@ -49,8 +49,8 @@ import java.util.List;
             View view = mInflater.inflate(R.layout.item_viewpage_car, null);
             CarBean bean = mList.get(position);
             ImageView image = (ImageView) view.findViewById(R.id.item_car_img);
-            Integer resId = Constants.CarPicMap.get(bean.carSeat+"_"+bean.carType);
-            if(resId!=null)
+            int resId = bean.imgRes;
+            if(resId!=0)
             image.setImageResource(resId);
             TextView tv = (TextView)view.findViewById(R.id.item_car_title);
             tv.setText(bean.desc);
