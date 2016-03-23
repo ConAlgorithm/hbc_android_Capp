@@ -11,9 +11,9 @@ import com.huangbaoche.hbcframe.adapter.BaseAdapter;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.PoiBean;
 
-public class ArrivalSearchAdapter extends BaseAdapter{
+public class PoiSearchAdapter extends BaseAdapter{
 
-	public ArrivalSearchAdapter(Activity context) {
+	public PoiSearchAdapter(Activity context) {
 		super(context);
 	}
 
