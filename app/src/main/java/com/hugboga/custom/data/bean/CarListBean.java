@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class CarListBean implements IBaseBean{
     public   int orderType;//订单类型
     public   int goodsType;//商品类型
-    public String distance;//预估路程（单位：公里）
+    public double distance;//预估路程（单位：公里）
     public int interval;//预估时间（单位：分钟）
     public ArrayList<CarBean> carList;
 

@@ -1,9 +1,10 @@
 package com.hugboga.custom.data.bean;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
- *
- * poi 点
- * Created by admin on 2016/3/22.
+ * Created by admin on 2015/7/21.
  */
 public class PoiBean implements IBaseBean {
 
@@ -17,4 +18,5 @@ public class PoiBean implements IBaseBean {
 
     public boolean isFirst =false;
     public boolean isHistory =false;
+
 }

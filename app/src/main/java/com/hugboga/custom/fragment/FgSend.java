@@ -13,7 +13,7 @@ import com.hugboga.custom.adapter.PromiseAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.constants.ResourcesConstants;
 import com.hugboga.custom.data.bean.AirPort;
-import com.hugboga.custom.data.bean.ArrivalBean;
+import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.bean.PromiseBean;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
@@ -50,7 +50,7 @@ public class FgSend extends BaseFragment {
 	private TextView promiseApp;
 
 	private AirPort airPortBean;//航班信息
-	private ArrivalBean arrivalBean;//达到目的地
+	private PoiBean poiBean;//达到目的地
 	private String serverDate;
 	private String serverTime;
 
@@ -82,10 +82,10 @@ public class FgSend extends BaseFragment {
 				break;
 			case R.id.send_where_layout:
 				if(airPortBean!=null) {
-				    FgArrivalSearch fg = new FgArrivalSearch();
+				    FgPoiSearch fg = new FgPoiSearch();
 					Bundle bundle = new Bundle();
-					bundle.putInt(FgArrivalSearch.KEY_CITY_ID, airPortBean.cityId);
-					bundle.putString(FgArrivalSearch.KEY_LOCATION, airPortBean.location);
+					bundle.putInt(FgPoiSearch.KEY_CITY_ID, airPortBean.cityId);
+					bundle.putString(FgPoiSearch.KEY_LOCATION, airPortBean.location);
 					fg.setArguments(bundle);
 					startFragment(fg);
 				}else{
@@ -133,7 +133,7 @@ public class FgSend extends BaseFragment {
 		if(airPortBean==null){
 			Toast.makeText(getActivity(), "选择机场", Toast.LENGTH_LONG).show();
 			return;
-		}else if(arrivalBean ==null){
+		}else if(poiBean ==null){
 			Toast.makeText(getActivity(), "选择达到目的地", Toast.LENGTH_LONG).show();
 			return;
 		}else if(serverDate==null){
@@ -143,7 +143,7 @@ public class FgSend extends BaseFragment {
 		FgCar fg = new FgCar();
 		Bundle bundle = new Bundle();
 		bundle.putSerializable(FgCar.KEY_AIRPORT, airPortBean);
-		bundle.putSerializable(FgCar.KEY_ARRIVAL,arrivalBean);
+		bundle.putSerializable(FgCar.KEY_ARRIVAL, poiBean);
 		bundle.putString(FgCar.KEY_TIME,serverDate+" "+serverTime);
 		fg.setArguments(bundle);
 		startFragment(fg);
@@ -163,17 +163,17 @@ public class FgSend extends BaseFragment {
 		if(FgChooseAirport.class.getSimpleName().equals(from)){
 			airPortBean = (AirPort) bundle.getSerializable(FgChooseAirport.KEY_AIRPORT);
 			fContent.setText(airPortBean.cityName+" "+airPortBean.airportName);
-			arrivalBean =null;
+			poiBean =null;
 			wTip.setVisibility(View.VISIBLE);
 			wTitle.setVisibility(View.GONE);
 			wContent.setVisibility(View.GONE);
-		}else if(FgArrivalSearch.class.getSimpleName().equals(from)){
-			arrivalBean = (ArrivalBean) bundle.getSerializable("arrival");
+		}else if(FgPoiSearch.class.getSimpleName().equals(from)){
+			poiBean = (PoiBean) bundle.getSerializable("arrival");
 			wTip.setVisibility(View.GONE);
 			wTitle.setVisibility(View.VISIBLE);
 			wContent.setVisibility(View.VISIBLE);
-			wTitle.setText(arrivalBean.placeName);
-			wContent.setText(arrivalBean.placeDetail);
+			wTitle.setText(poiBean.placeName);
+			wContent.setText(poiBean.placeDetail);
 			collapseSoftInputMethod();
 		}
 	}
