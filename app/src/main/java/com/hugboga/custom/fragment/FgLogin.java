@@ -61,12 +61,17 @@ public class FgLogin extends BaseFragment {
             String areaCode = getArguments().getString(KEY_AREA_CODE,"");
             String phone = getArguments().getString(KEY_PHONE,"");
             sharedPre = new SharedPre(getActivity());
+            MLog.e("areaCode1="+areaCode);
             if(TextUtils.isEmpty(areaCode)){
                 areaCode = sharedPre.getStringValue(SharedPre.CODE);
+                MLog.e("areaCode2="+areaCode);
             }
             if(!TextUtils.isEmpty(areaCode)) {
                 this.areaCode = areaCode;
                 areaCodeTextView.setText("+"+areaCode);
+                MLog.e("areaCode3=" + areaCode);
+            }else{
+                this.areaCode = "86";
             }
             if(TextUtils.isEmpty(phone)){
                 phone = sharedPre.getStringValue(SharedPre.PHONE);
@@ -152,7 +157,7 @@ public class FgLogin extends BaseFragment {
      */
     private void loginGo(){
         collapseSoftInputMethod(); //隐藏键盘
-        MLog.e("areaCode="+areaCode);
+        MLog.e("areaCode4="+areaCode);
         if(TextUtils.isEmpty(areaCode)){
             showTip("区号不能为空");
             return;

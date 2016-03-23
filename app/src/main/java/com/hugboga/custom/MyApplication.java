@@ -41,6 +41,7 @@ public class MyApplication extends HbcApplication {
         //根据工程渠道标识，设置访问的服务器全局信息，没有标识则默认访问开发服务器
         if(TextUtils.isEmpty(channel))channel = "formal";
         String host = UrlLibs.SERVER_IP_HOST_PUBLIC_FORMAL;
+        MLog.e("channel = "+channel);
         UrlLibs.UrlHost urlHost = UrlLibs.UrlHost.valueOf(channel.toUpperCase());
         MLog.e("urlHost="+urlHost);
         if(urlHost!=null){
