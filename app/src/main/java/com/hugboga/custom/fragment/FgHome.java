@@ -1,5 +1,4 @@
 package com.hugboga.custom.fragment;
-
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
@@ -30,25 +29,17 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-
 /**
  * 首页
  * Created by admin on 2016/3/1.
  */
-
 @ContentView(R.layout.fg_home)
 public class FgHome extends BaseFragment implements AdapterView.OnItemClickListener, View.OnClickListener {
-
-
     public static final String FILTER_FLUSH = "com.hugboga.custom.home.flush";
     @ViewInject(android.R.id.list)
     ListView listView;
-
-
-
     private ArrayList<HomeBean> dataList;
     private HomeAdapter adapter;
-
 
     @Override
     protected void initHeader() {
@@ -66,7 +57,6 @@ public class FgHome extends BaseFragment implements AdapterView.OnItemClickListe
         getView().findViewById(R.id.header_left_btn).setOnClickListener(this);
         getView().findViewById(R.id.header_right_btn).setOnClickListener(this);
     }
-
 
     @Override
     protected Callback.Cancelable requestData() {
@@ -88,7 +78,6 @@ public class FgHome extends BaseFragment implements AdapterView.OnItemClickListe
         MLog.e("dataList = " + dataList.get(0).mainTitle);
         adapter.setList(dataList);
     }
-
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -119,9 +108,6 @@ public class FgHome extends BaseFragment implements AdapterView.OnItemClickListe
                 MLog.e("FgSingle");
                 startFragment(new FgSingle());
                 break;
-
         }
     }
-
-
 }

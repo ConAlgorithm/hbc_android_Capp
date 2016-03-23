@@ -275,23 +275,23 @@ public class FgCar extends BaseFragment implements ViewPager.OnPageChangeListene
     switch (view.getId()){
         case R.id.bottom_bar_btn:
             if(carBean==null||carBean.originalPrice==0)return;
-//            FgSubmit fg = new FgSubmit();
+            FgSubmit fg = new FgSubmit();
             Bundle bundle= new Bundle();
-//            bundle.putSerializable(KEY_FLIGHT,flightBean);
-//            bundle.putSerializable(KEY_AIRPORT,airPortBean);
-//            bundle.putSerializable(KEY_START,startBean);
-//            bundle.putSerializable(KEY_ARRIVAL,arrivalBean);
-//            bundle.putSerializable(KEY_DAILY,dailyBean);
-//            bundle.putSerializable(KEY_CAR,carBean);
-//            bundle.putSerializable(KEY_CITY,cityBean);
-//            bundle.putString(KEY_TIME, serverDate);
-//            bundle.putInt(KEY_CITY_ID, cityId);
-//            bundle.putInt(KEY_COM_TIME, interval);
-//            bundle.putInt(KEY_URGENT_FLAG, carBean.urgentFlag);
-//            bundle.putDouble(KEY_DISTANCE,distance);
-//            bundle.putBoolean(KEY_NEED_CHILDREN_SEAT,needChildrenSeat);
-//            bundle.putBoolean(KEY_NEED_BANNER,needBanner);
-//            startFragment(fg,bundle);
+            bundle.putSerializable(KEY_FLIGHT,flightBean);
+            bundle.putSerializable(KEY_AIRPORT,airPortBean);
+            bundle.putSerializable(KEY_START,startBean);
+            bundle.putSerializable(KEY_ARRIVAL,poiBean);
+            bundle.putSerializable(KEY_DAILY,dailyBean);
+            bundle.putSerializable(KEY_CAR,carBean);
+            bundle.putSerializable(KEY_CITY,cityBean);
+            bundle.putString(KEY_TIME, serverDate);
+            bundle.putInt(KEY_CITY_ID, cityId);
+            bundle.putInt(KEY_COM_TIME, interval);
+            bundle.putInt(KEY_URGENT_FLAG, carBean.urgentFlag);
+            bundle.putDouble(KEY_DISTANCE,distance);
+            bundle.putBoolean(KEY_NEED_CHILDREN_SEAT,needChildrenSeat);
+            bundle.putBoolean(KEY_NEED_BANNER,needBanner);
+            startFragment(fg,bundle);
             Toast.makeText(getActivity(), "这个地方注掉了", Toast.LENGTH_SHORT).show();
             break;
         case R.id.car_price_info:
