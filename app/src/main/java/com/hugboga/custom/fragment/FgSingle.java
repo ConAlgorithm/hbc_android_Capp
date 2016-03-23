@@ -1,10 +1,7 @@
 package com.hugboga.custom.fragment;
 
-import android.app.AlertDialog;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -12,18 +9,13 @@ import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
-import com.hugboga.custom.constants.ResourcesConstants;
-import com.hugboga.custom.data.bean.ArrivalBean;
+import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.bean.CityBean;
-import com.hugboga.custom.data.bean.PromiseBean;
 
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
-
-import java.util.ArrayList;
-import java.util.Calendar;
 
 /**
  * 次租填写行程
@@ -50,8 +42,8 @@ public class FgSingle extends BaseFragment {
 	private TextView sDateTime;
 
 	private CityBean cityBean;//城市信息
-	private ArrivalBean startBean;//起始地
-	private ArrivalBean arrivalBean;//达到目的地
+	private PoiBean startBean;//起始地
+	private PoiBean arrivalBean;//达到目的地
 	private String serverDate;
 	private String serverTime;
 

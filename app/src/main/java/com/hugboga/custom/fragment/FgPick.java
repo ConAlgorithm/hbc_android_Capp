@@ -2,9 +2,7 @@ package com.hugboga.custom.fragment;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -12,7 +10,7 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.PromiseAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.constants.ResourcesConstants;
-import com.hugboga.custom.data.bean.ArrivalBean;
+import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.bean.FlightBean;
 import com.hugboga.custom.data.bean.PromiseBean;
 
@@ -50,7 +48,7 @@ public class FgPick extends BaseFragment {
 	private TextView promiseApp;
 
 	private FlightBean flightBean;//航班信息
-	private ArrivalBean arrivalBean;//达到目的地
+	private PoiBean poiBean;//达到目的地
 
 	@Override
 	protected void initHeader() {
@@ -81,10 +79,10 @@ public class FgPick extends BaseFragment {
 				break;
 			case R.id.pick_where_layout:
 				if(flightBean!=null&&flightBean.arrivalAirport!=null) {
-				    FgArrivalSearch fg = new FgArrivalSearch();
+				    FgPoiSearch fg = new FgPoiSearch();
 					Bundle bundle = new Bundle();
-					bundle.putInt(FgArrivalSearch.KEY_CITY_ID, flightBean.arrivalAirport.cityId);
-					bundle.putString(FgArrivalSearch.KEY_LOCATION, flightBean.arrivalAirport.location);
+					bundle.putInt(FgPoiSearch.KEY_CITY_ID, flightBean.arrivalAirport.cityId);
+					bundle.putString(FgPoiSearch.KEY_LOCATION, flightBean.arrivalAirport.location);
 					startFragment(fg,bundle);
 				}else{
 					Toast.makeText(getActivity(), "先选择乘坐航班", Toast.LENGTH_LONG).show();
@@ -129,14 +127,14 @@ public class FgPick extends BaseFragment {
 		}else if(flightBean.depAirport ==null||flightBean.arrivalAirport==null){
 			Toast.makeText(getActivity(), "航班异常，机场无信息", Toast.LENGTH_LONG).show();
 			return;
-		}else if(arrivalBean ==null){
+		}else if(poiBean ==null){
 			Toast.makeText(getActivity(), "选择到达目的地", Toast.LENGTH_LONG).show();
 			return;
 		}
 		FgCar fg = new FgCar();
 		Bundle bundle = new Bundle();
 		bundle.putSerializable(FgCar.KEY_FLIGHT, flightBean);
-		bundle.putSerializable(FgCar.KEY_ARRIVAL,arrivalBean);
+		bundle.putSerializable(FgCar.KEY_ARRIVAL, poiBean);
 		fg.setArguments(bundle);
 		startFragment(fg);
 	}
@@ -160,17 +158,17 @@ public class FgPick extends BaseFragment {
 			fTitle.setText(flightBean.arrivalAirport.airportName);
 			fContent.setText(flightBean.flightNo + " " + flightBean.depAirportName + "-" + flightBean.arrAirportName);
 			fTime.setText("当地时间" + flightBean.arrDate + " " + flightBean.arrivalTime + " 降落");
-			arrivalBean = null;
+			poiBean = null;
 			wTip.setVisibility(View.VISIBLE);
 			wTitle.setVisibility(View.GONE);
 			wContent.setVisibility(View.GONE);
-		}else if(FgArrivalSearch.class.getSimpleName().equals(from)){
-			arrivalBean = (ArrivalBean) bundle.getSerializable("arrival");
+		}else if(FgPoiSearch.class.getSimpleName().equals(from)){
+			poiBean = (PoiBean) bundle.getSerializable("arrival");
 			wTip.setVisibility(View.GONE);
 			wTitle.setVisibility(View.VISIBLE);
 			wContent.setVisibility(View.VISIBLE);
-			wTitle.setText(arrivalBean.placeName);
-			wContent.setText(arrivalBean.placeDetail);
+			wTitle.setText(poiBean.placeName);
+			wContent.setText(poiBean.placeDetail);
 			collapseSoftInputMethod();
 		}
 	}

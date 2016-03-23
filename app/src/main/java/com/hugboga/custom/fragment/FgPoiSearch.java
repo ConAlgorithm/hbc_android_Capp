@@ -3,9 +3,7 @@ package com.hugboga.custom.fragment;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -14,8 +12,8 @@ import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.ArrivalSearchAdapter;
 import com.hugboga.custom.constants.Constants;
-import com.hugboga.custom.data.bean.ArrivalBean;
-import com.hugboga.custom.data.request.RequestArrivalSearch;
+import com.hugboga.custom.data.bean.PoiBean;
+import com.hugboga.custom.data.request.RequestPoiSearch;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.widget.ZListView;
 
@@ -31,7 +29,7 @@ import java.util.List;
  * 目的地列表 ，要去哪
  */
 @ContentView(R.layout.fg_arrival_search)
-public class FgArrivalSearch extends BaseFragment implements AdapterView.OnItemClickListener, View.OnKeyListener , ZListView.OnRefreshListener, ZListView.OnLoadListener{
+public class FgPoiSearch extends BaseFragment implements AdapterView.OnItemClickListener, View.OnKeyListener , ZListView.OnRefreshListener, ZListView.OnLoadListener{
 
     public static final String KEY_ARRIVAL = "arrival";
 
@@ -54,7 +52,7 @@ public class FgArrivalSearch extends BaseFragment implements AdapterView.OnItemC
 
     public ArrivalSearchAdapter adapter;
     private long t = 0;
-    private List<ArrivalBean> sourceDateList;
+    private List<PoiBean> sourceDateList;
     private int cityId;
     private String location;
     private int PAGESIZE = 20;
@@ -133,11 +131,11 @@ public class FgArrivalSearch extends BaseFragment implements AdapterView.OnItemC
 //        @color/item_title_bg
       String placeHistoryStr =  sharedPre.getStringValue(mBusinessType+ SharedPre.RESOURCES_PLACE_HISTORY);
         placeHistoryArray = new ArrayList<String>();
-        ArrayList<ArrivalBean> historyList = new ArrayList<ArrivalBean>();
-        ArrivalBean bean;
+        ArrayList<PoiBean> historyList = new ArrayList<PoiBean>();
+        PoiBean bean;
         if(placeHistoryStr!=null){
             for(String place:placeHistoryStr.split(",")){
-                bean = new ArrivalBean();
+                bean = new PoiBean();
                 bean.placeName = place;
                 bean.isHistory = true;
                 historyList.add(bean);
@@ -154,15 +152,15 @@ public class FgArrivalSearch extends BaseFragment implements AdapterView.OnItemC
     }
 
     private void requestKeyword(int offset) {
-        RequestArrivalSearch requestArrivalSearch = new RequestArrivalSearch(getActivity(),cityId,location, searchWord,offset,PAGESIZE);
-        requestData(requestArrivalSearch);
+        RequestPoiSearch requestPoiSearch = new RequestPoiSearch(getActivity(),cityId,location, searchWord,offset,PAGESIZE);
+        requestData(requestPoiSearch);
     }
 
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
-        if (request instanceof RequestArrivalSearch) {
-            RequestArrivalSearch requestArrivalSearch = (RequestArrivalSearch) request;
-            ArrayList<ArrivalBean> dateList = requestArrivalSearch.getData();//listDate;
+        if (request instanceof RequestPoiSearch) {
+            RequestPoiSearch requestPoiSearch = (RequestPoiSearch) request;
+            ArrayList<PoiBean> dateList = requestPoiSearch.getData();//listDate;
             sortListView.setEmptyView(emptyView);
             if (TextUtils.isEmpty(editSearch.getText())) {
                 dateList = null;
@@ -219,7 +217,7 @@ public class FgArrivalSearch extends BaseFragment implements AdapterView.OnItemC
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        ArrivalBean bean = (ArrivalBean)adapter.getItem(position-1);
+        PoiBean bean = (PoiBean)adapter.getItem(position-1);
         if(bean!=null){
             if(bean.isHistory){
                 editSearch.setText(bean.placeName);

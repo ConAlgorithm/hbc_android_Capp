@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.adapter.BaseAdapter;
 import com.hugboga.custom.R;
-import com.hugboga.custom.data.bean.ArrivalBean;
+import com.hugboga.custom.data.bean.PoiBean;
 
 public class ArrivalSearchAdapter extends BaseAdapter{
 
@@ -28,7 +28,7 @@ public class ArrivalSearchAdapter extends BaseAdapter{
 		} else {
 			viewHolder = (ViewHolder) view.getTag();
 		}
-		ArrivalBean model = (ArrivalBean) getItem(position);
+		PoiBean model = (PoiBean) getItem(position);
 		viewHolder.tvTitle.setText(model.placeName);
 		if(!TextUtils.isEmpty(model.placeDetail)){
 			viewHolder.tvLetter.setVisibility(View.VISIBLE);

@@ -2,10 +2,8 @@ package com.hugboga.custom.fragment;
 
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,7 +17,7 @@ import com.hugboga.custom.constants.CarTypeEnum;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.constants.ResourcesConstants;
 import com.hugboga.custom.data.bean.AirPort;
-import com.hugboga.custom.data.bean.ArrivalBean;
+import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.bean.CarBean;
 import com.hugboga.custom.data.bean.CarListBean;
 import com.hugboga.custom.data.bean.CityBean;
@@ -106,8 +104,8 @@ public class FgCar extends BaseFragment implements ViewPager.OnPageChangeListene
     private AirPort airPortBean;//机场信息 送机
     private DailyBean dailyBean;// 日租
     private CityBean cityBean;//起始目的地 次租
-    private ArrivalBean startBean;//起始目的地 次租
-    private ArrivalBean arrivalBean;//达到目的地
+    private PoiBean startBean;//起始目的地 次租
+    private PoiBean poiBean;//达到目的地
 
     private CarBean carBean;//车
     private String serverDate;
@@ -204,9 +202,9 @@ public class FgCar extends BaseFragment implements ViewPager.OnPageChangeListene
         if(bundle!=null) {
             flightBean = (FlightBean) bundle.getSerializable(KEY_FLIGHT);
             airPortBean = (AirPort) bundle.getSerializable(KEY_AIRPORT);
-            startBean = (ArrivalBean) bundle.getSerializable(KEY_START);
+            startBean = (PoiBean) bundle.getSerializable(KEY_START);
             cityBean = (CityBean) bundle.getSerializable(KEY_CITY);
-            arrivalBean = (ArrivalBean) bundle.getSerializable(KEY_ARRIVAL);
+            poiBean = (PoiBean) bundle.getSerializable(KEY_ARRIVAL);
             dailyBean = (DailyBean) bundle.getSerializable(KEY_DAILY);
             String startLocation,termLocation;
             switch (mBusinessType){
@@ -215,7 +213,7 @@ public class FgCar extends BaseFragment implements ViewPager.OnPageChangeListene
                     airportCode = flightBean.arrivalAirport.airportCode;
                     //出发地，到达地经纬度
                     startLocation = flightBean.arrivalAirport.location;
-                    termLocation = arrivalBean.location;
+                    termLocation = poiBean.location;
                     serverDate = flightBean.arrDate+" "+flightBean.arrivalTime;
                     needChildrenSeat = flightBean.arrivalAirport.childSeatSwitch;
                     needBanner = flightBean.arrivalAirport.bannerSwitch;
@@ -226,7 +224,7 @@ public class FgCar extends BaseFragment implements ViewPager.OnPageChangeListene
                     cityId = airPortBean.cityId;
                     airportCode = airPortBean.airportCode;
                     //出发地，到达地经纬度
-                    startLocation = arrivalBean.location;
+                    startLocation = poiBean.location;
                     termLocation = airPortBean.location;
                     serverDate =  bundle.getString(KEY_TIME);
                     needChildrenSeat = airPortBean.childSeatSwitch;
@@ -247,7 +245,7 @@ public class FgCar extends BaseFragment implements ViewPager.OnPageChangeListene
                     cityId = cityBean.cityId;
                     needChildrenSeat = cityBean.childSeatSwitch;
                     startLocation = startBean.location;
-                    termLocation = arrivalBean.location;
+                    termLocation = poiBean.location;
                     serverDate =  bundle.getString(KEY_TIME);
                     RequestCheckPriceForSingle requestCheckPriceForSingle = new RequestCheckPriceForSingle(getActivity(),mBusinessType, airportCode,cityId,startLocation,termLocation,serverDate);
                     requestData(requestCheckPriceForSingle);

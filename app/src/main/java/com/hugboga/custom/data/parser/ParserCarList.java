@@ -17,7 +17,7 @@ public class ParserCarList extends ImplParser {
     @Override
     public CarListBean parseObject(JSONObject obj) throws Throwable {
         CarListBean carListBean = new CarListBean();
-        carListBean.distance = obj.optString("distance");
+        carListBean.distance = obj.optDouble("distance",0);
         carListBean.interval = obj.optInt("estTime", 0);
         JSONArray priceList = obj.optJSONArray("cars");
         CarBean bean;

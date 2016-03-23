@@ -13,15 +13,14 @@ import android.widget.Toast;
 
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
-import com.huangbaoche.hbcframe.util.WXShareUtils;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.bean.CarBean;
 import com.hugboga.custom.data.bean.CarListBean;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.OrderContact;
-import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.data.request.RequestPriceSku;
 import com.hugboga.custom.data.request.RequestSubmitBase;
@@ -288,8 +287,8 @@ public class FgSkuSubmit extends BaseFragment implements View.OnClickListener {
         orderBean.orderGoodsType = skuBean.goodsType;
         orderBean.serviceTime = serverDate;//日期
         orderBean.serviceStartTime = serverTime+":00";//时间
-        orderBean.serviceEndTime = getServiceEndTime(serverDate,skuBean.daysCount-1);
-        orderBean.distance = carListBean.distance;//距离
+        orderBean.serviceEndTime = getServiceEndTime(serverDate, skuBean.daysCount - 1);
+        orderBean.distance = String.valueOf(carListBean.distance);//距离
         orderBean.expectedCompTime = carListBean.interval;//耗时
         orderBean.carDesc = carTypeBean.desc;//车型描述
         orderBean.carType = carTypeBean.carType;//车型

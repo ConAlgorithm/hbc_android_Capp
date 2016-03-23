@@ -1,18 +1,7 @@
 package com.hugboga.custom.data.bean;
 
-import android.text.TextUtils;
-
-import com.hugboga.custom.constants.Constants;
-import com.hugboga.custom.utils.Config;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 
 /**
  * Created by ZHZEPHI on 2015/7/20.

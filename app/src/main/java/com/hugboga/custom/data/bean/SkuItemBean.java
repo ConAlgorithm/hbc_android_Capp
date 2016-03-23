@@ -1,7 +1,5 @@
 package com.hugboga.custom.data.bean;
 
-import com.huangbaoche.hbcframe.data.bean.*;
-
 import java.util.List;
 
 /**
