@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
-import com.hugboga.custom.adapter.ArrivalSearchAdapter;
+import com.hugboga.custom.adapter.PoiSearchAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.request.RequestPoiSearch;
@@ -50,7 +50,7 @@ public class FgPoiSearch extends BaseFragment implements AdapterView.OnItemClick
     public static final String KEY_CITY_ID ="key_city_id";
     public static final String KEY_LOCATION ="location";
 
-    public ArrivalSearchAdapter adapter;
+    public PoiSearchAdapter adapter;
     private long t = 0;
     private List<PoiBean> sourceDateList;
     private int cityId;
@@ -80,7 +80,7 @@ public class FgPoiSearch extends BaseFragment implements AdapterView.OnItemClick
         editSearch.setOnKeyListener(this);
         editSearch.requestFocus();
         showSoftInputMethod(editSearch);
-        adapter = new ArrivalSearchAdapter(getActivity());
+        adapter = new PoiSearchAdapter(getActivity());
         sortListView.setAdapter(adapter);
         sortListView.setOnItemClickListener(this);
         sortListView.setonLoadListener(this);
