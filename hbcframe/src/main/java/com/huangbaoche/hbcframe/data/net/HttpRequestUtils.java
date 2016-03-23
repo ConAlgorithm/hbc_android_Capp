@@ -33,7 +33,7 @@ public class HttpRequestUtils {
 
 
     public static Callback.Cancelable request(Context mContext,final BaseRequest request, final HttpRequestListener listener,View btn){
-
+        if(btn!=null)btn.setEnabled(false);
         if (!NetWork.isNetworkAvailable(mContext)) {
             ExceptionInfo result = new ExceptionInfo(ExceptionErrorCode.ERROR_CODE_NET_UNAVAILABLE, null);
             if (listener != null)

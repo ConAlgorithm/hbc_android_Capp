@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/allbg_gray"
+    android:layout_marginTop="-2dp"
+    android:orientation="vertical">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dip">
+
+        <TextView
+            android:id="@+id/pay_total_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:text="总费用" />
+
+        <View
+            style="@style/dash_line"
+            android:layout_width="170dip"
+            android:layout_gravity="center" />
+
+        <TextView
+            android:id="@+id/pay_total_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:text="--" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/pay_check_in_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dip"
+        android:visibility="gone"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:text="服务费" />
+
+        <View
+            style="@style/dash_line"
+            android:layout_width="170dip"
+            android:layout_gravity="center" />
+
+        <TextView
+            android:id="@+id/pay_check_in_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:text="--" />
+    </FrameLayout>
+    <FrameLayout
+        android:id="@+id/pay_should_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dip">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:text="应付金额" />
+
+        <View
+            style="@style/dash_line"
+            android:layout_width="170dip"
+            android:layout_gravity="center" />
+
+        <TextView
+            android:id="@+id/pay_should_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:text="--" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/pay_coupons_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dip"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/pay_coupons_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:textColor="@color/basic_gold"
+            android:text="优惠券" />
+
+        <View
+            style="@style/dash_line"
+            android:layout_width="170dip"
+            android:layout_gravity="center" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right">
+
+            <TextView
+                android:id="@+id/pay_coupons_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0元" />
+
+            <ImageView
+                android:id="@+id/pay_coupons_arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|center_vertical"
+                android:layout_marginLeft="8dp"
+                android:src="@mipmap/journey_unfold_right"
+                android:visibility="gone" />
+        </LinearLayout>
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/pay_actual_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dip">
+
+        <TextView
+            android:id="@+id/pay_need_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:textColor="@color/basic_gold"
+            android:text="实付金额" />
+
+        <View
+            style="@style/dash_line"
+            android:layout_width="170dip"
+            android:layout_gravity="center" />
+
+        <TextView
+            android:id="@+id/pay_actual_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:textColor="@color/basic_gold"
+            android:text="--" />
+    </FrameLayout>
+</LinearLayout>

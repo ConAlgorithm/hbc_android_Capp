@@ -41,8 +41,10 @@ public class FgSkuDetail extends FgWebInfo {
             case R.id.header_right_btn:
                 if(skuItemBean!=null){
                     String title =skuItemBean.goodsName;
-                    String content = "这是详情";
-                    WXShareUtils.getInstance(getActivity()).share(WXShareUtils.TYPE_SESSION,skuItemBean.goodsPicture,title,content, skuItemBean.shareURL);
+                    String content = getActivity().getString(R.string.wx_share_content);
+                    String shareUrl = skuItemBean.shareURL==null?skuItemBean.skuDetailUrl:skuItemBean.shareURL;
+                    shareUrl = shareUrl==null?"http://www.huangbaoche.com":shareUrl;
+                    WXShareUtils.getInstance(getActivity()).share(WXShareUtils.TYPE_SESSION,skuItemBean.goodsPicture,title,content,shareUrl);
                 }
                 break;
             case R.id.phone_consultation:

@@ -1,0 +1,133 @@
+package com.hugboga.custom.data.parser;
+
+import android.text.TextUtils;
+
+import com.huangbaoche.hbcframe.data.parser.ImplParser;
+import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.bean.CityBean;
+import com.hugboga.custom.data.bean.CouponBean;
+import com.hugboga.custom.data.bean.OrderBean;
+import com.hugboga.custom.data.bean.OrderContact;
+import com.hugboga.custom.data.bean.OrderGuideInfo;
+import com.hugboga.custom.data.bean.OrderPriceInfo;
+import com.hugboga.custom.data.bean.OrderStatus;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+
+/**
+ * 订单bean
+ * Created by admin on 2016/3/23.
+ */
+public class ParserOrder extends ImplParser {
+    @Override
+    public OrderBean parseObject(JSONObject jsonObj) throws Throwable {
+        OrderBean orderbean = new OrderBean();
+        orderbean.orderType = jsonObj.optInt("orderType");
+        orderbean.orderGoodsType = jsonObj.optInt("orderGoodsType", Constants.BUSINESS_TYPE_DAILY_LONG);
+        orderbean.orderNo = jsonObj.optString("orderNo");
+        orderbean.imcount = jsonObj.optInt("imCount");
+        int status = jsonObj.optInt("orderStatus");
+        orderbean.orderStatus = OrderStatus.getStateByCode(status);
+        orderbean.serviceCityId = jsonObj.optInt("serviceCityId");
+        orderbean.serviceCityName = jsonObj.optString("serviceCityName");
+        orderbean.serviceEndCityid = jsonObj.optInt("serviceEndCityid");
+        orderbean.serviceEndCityName = jsonObj.optString("serviceEndCityname");
+        orderbean.carType = jsonObj.optInt("carTypeId");
+        orderbean.seatCategory = jsonObj.optInt("carSeatNum");
+        orderbean.carDesc = jsonObj.optString("carDesc");
+        orderbean.serviceTime = jsonObj.optString("serviceTime");
+        orderbean.serviceEndTime = jsonObj.optString("serviceEndTime");
+        orderbean.serviceStartTime = jsonObj.optString("serviceRecTime");
+        orderbean.startAddress = jsonObj.optString("startAddress");
+        orderbean.startAddressDetail = jsonObj.optString("startAddressDetail");
+        orderbean.startLocation = jsonObj.optString("startAddressPoi");
+        orderbean.destAddress = jsonObj.optString("destAddress");
+        orderbean.destAddressDetail = jsonObj.optString("destAddressDetail");
+        orderbean.serviceAreaCode = jsonObj.optString("serviceAreaCode");
+        orderbean.serviceAddressTel = jsonObj.optString("serviceAddressTel");
+        orderbean.distance = jsonObj.optString("distance");
+        orderbean.contactName = jsonObj.optString("userName");
+        orderbean.brandSign = jsonObj.optString("flightBrandSign");
+        orderbean.flightAirportCode = jsonObj.optString("flightAirportCode");
+        orderbean.adult = jsonObj.optInt("adultNum");
+        orderbean.child = jsonObj.optInt("childNum");
+        orderbean.visa = jsonObj.optInt("isArrivalVisa");
+        orderbean.memo = jsonObj.optString("userRemark");
+        orderbean.flight = jsonObj.optString("flightNo");
+        orderbean.cancelable = jsonObj.optBoolean("cancelable");
+        orderbean.cancelText = jsonObj.optString("cancelText");
+        orderbean.cancelTip = jsonObj.optString("cancelTip");
+        orderbean.canComment = jsonObj.optBoolean("appraisable");
+        orderbean.canChat = jsonObj.optBoolean("canChat");
+        orderbean.imToken = jsonObj.optString("imToken");
+        orderbean.payDeadTime = jsonObj.optString("payDeadTime");
+        orderbean.totalDays = jsonObj.optInt("totalDays");
+        orderbean.additionIsRead = jsonObj.optInt("additionIsRead");
+        orderbean.lineSubject = jsonObj.optString("lineSubject");
+        orderbean.lineDescription = jsonObj.optString("lineDescription");
+
+        //passByCity
+        JSONArray passByCityArray = jsonObj.optJSONArray("passCities");
+        if (passByCityArray != null && passByCityArray.length() > 0) {
+            orderbean.passByCity = new ArrayList<CityBean>(passByCityArray.length());
+            ParserCity parserCity = new ParserCity();
+            for (int i = 0; i < passByCityArray.length(); i++) {
+                orderbean.passByCity.add(parserCity.parseObject(passByCityArray.optJSONObject(i)));
+            }
+        }
+
+        //childSeat
+        String childSeatStr = jsonObj.optString("childSeat");
+        if (!TextUtils.isEmpty(childSeatStr)) {
+            orderbean.childSeat = new ArrayList<String>();
+            String[] childSeats = childSeatStr.split(",");
+            for (String seat : childSeats) {
+                orderbean.childSeat.add(seat);
+            }
+        }
+        //contact
+        orderbean.contact = new ArrayList<OrderContact>();
+        orderbean.cancelText = jsonObj.optString("cancelText");
+        OrderContact oc = new OrderContact();
+        oc.areaCode = jsonObj.optString("userAreaCode1");
+        oc.tel = jsonObj.optString("userMobile1");
+        if(!TextUtils.isEmpty(oc.tel))
+            orderbean.contact.add(oc);
+        if(jsonObj.has("userMobile2")){
+            oc = new OrderContact();
+            oc.areaCode = jsonObj.optString("userAreaCode2");
+            oc.tel = jsonObj.optString("userMobile2");
+            if(!TextUtils.isEmpty(oc.tel))
+                orderbean.contact.add(oc);
+        }
+        if(jsonObj.has("userMobile3")){
+            oc = new OrderContact();
+            oc.areaCode = jsonObj.optString("userAreaCode3");
+            oc.tel = jsonObj.optString("userMobile3");
+            if(!TextUtils.isEmpty(oc.tel))
+                orderbean.contact.add(oc);
+        }
+        //priceInfo
+        orderbean.orderPriceInfo = new OrderPriceInfo();
+        orderbean.orderPriceInfo.parser(jsonObj.optJSONObject("priceInfo"));
+        // orderCoupon
+        orderbean.orderCoupon = new ParserCouponBean().parseObject(jsonObj.optJSONObject("coupon"));
+        //orderGuideInfo
+        if (jsonObj.has("guideInfo")) {
+            orderbean.orderGuideInfo = new ParserGuideInfo().parseObject(jsonObj.optJSONObject("guideInfo"));
+        }
+        if(jsonObj.has("appraisement")){
+            orderbean.assessmentBean = new ParserAssessment().parseObject(jsonObj.optJSONObject("appraisement"));
+        }
+        //2.2.0
+        orderbean.isHalfDaily = jsonObj.optInt("halfDaily");
+        orderbean.inTownDays = jsonObj.optInt("serviceLocalDays");
+        orderbean.outTownDays = jsonObj.optInt("serviceNonlocalDays");
+        orderbean.journeyComment = jsonObj.optString("journeyComment");
+        orderbean.dailyTips = jsonObj.optString("dailyOrderTips");
+        return orderbean;
+    }
+}

@@ -268,7 +268,7 @@ public class FgRegister extends BaseFragment {
         fgTitle.setTextColor(getResources().getColor(R.color.my_content_title_color));
         fgTitle.setText("注册");
         //初始化数据
-        if(mTargetFragment instanceof FgLogin){
+        if(mSourceFragment instanceof FgLogin){
             String code = getArguments().getString("areaCode");
             if(code!=null && !code.isEmpty()){
                 areaCodeTextView.setText("+" + code);

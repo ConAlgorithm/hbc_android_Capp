@@ -63,9 +63,11 @@ public class OrderBean implements IBaseBean {
     public String priceMark;//价格戳 询价系统返回ID
     public ArrayList<String> childSeat;
     public List<OrderContact> contact;
-//    public OrderPriceInfo orderPriceInfo;
-//    public OrderGuideInfo orderGuideInfo;
+    public OrderPriceInfo orderPriceInfo;
+    public OrderGuideInfo orderGuideInfo;
     public CouponBean orderCoupon;
+    public AssessmentBean assessmentBean;//评价
+
     public int additionIsRead;//增项费用是否已读
     public String lineSubject;//精品线路，标题 xx一日游
     public String lineDescription;//精品线路，简介

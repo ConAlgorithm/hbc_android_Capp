@@ -40,8 +40,7 @@ public final class Constants {
 	public static final String CALL_NUMBER_IN = "400-6100-066";
 	public static final String CALL_NUMBER_OUT = "+861057812003";
 	/**微信**/
-	public static final String WX_APP_ID = "wx683162d3a2e81d84";
-
+	public static final String WX_APP_ID = "wx89138279bb15267f";
 	/**title*/
 	public static HashMap<Integer,Integer> TitleMap = new HashMap<Integer,Integer>();
 	/**title*/
