@@ -33,19 +33,6 @@ public class RequestPriceSku extends BaseRequest<CarListBean> {
         map.put("goodsNo",goodsNo);
         map.put("serviceDate",serviceDate);
         map.put("channelId", Config.channelId);
-        // test
-        /*map.put("startDate","2016-03-23 00:00:00");
-        map.put("endDate","2016-03-24 00:00:00");
-        map.put("cityId","145");
-        map.put("startCityId","145");
-        map.put("endCityId","145");
-        map.put("intownDays","2");
-        map.put("outtownDays","0");
-        map.put("channelId","18");
-        map.put("startLocation","43.95,4.81");
-        map.put("endLocation","43.95,4.81");
-        map.put("halfDay","0");
-        map.put("assitCheckIn","1");*/
     }
 
     @Override

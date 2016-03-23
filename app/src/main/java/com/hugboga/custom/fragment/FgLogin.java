@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import com.huangbaoche.hbcframe.data.bean.UserSession;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
+import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.UserBean;
 import com.hugboga.custom.data.bean.UserEntity;
@@ -64,7 +65,8 @@ public class FgLogin extends BaseFragment {
                 areaCode = sharedPre.getStringValue(SharedPre.CODE);
             }
             if(!TextUtils.isEmpty(areaCode)) {
-                areaCodeTextView.setText(areaCode);
+                this.areaCode = areaCode;
+                areaCodeTextView.setText("+"+areaCode);
             }
             if(TextUtils.isEmpty(phone)){
                 phone = sharedPre.getStringValue(SharedPre.PHONE);
@@ -150,12 +152,12 @@ public class FgLogin extends BaseFragment {
      */
     private void loginGo(){
         collapseSoftInputMethod(); //隐藏键盘
-        areaCode = areaCodeTextView.getText().toString();
+        MLog.e("areaCode="+areaCode);
         if(TextUtils.isEmpty(areaCode)){
             showTip("区号不能为空");
             return;
         }
-        areaCode = areaCode.substring(1);
+        areaCode = areaCode.replace("+","");
         phone = phoneEditText.getText().toString();
         if(TextUtils.isEmpty(phone)){
             showTip("手机号不能为空");
@@ -174,6 +176,14 @@ public class FgLogin extends BaseFragment {
         RequestLogin request = new RequestLogin(getActivity(),areaCode,phone,password);
         requestData(request);
     }
-
+    @Override
+    public void onFragmentResult(Bundle bundle) {
+        String from = bundle.getString(KEY_FRAGMENT_NAME);
+        if(FgChooseCountry.class.getSimpleName().equals(from)){
+            areaCode = bundle.getString(FgChooseCountry.KEY_COUNTRY_CODE);
+            MLog.e("areaCode+"+areaCode);
+            areaCodeTextView.setText("+" + areaCode);
+        }
+    }
 
 }

@@ -204,6 +204,7 @@ public class MainActivity extends BaseFragmentActivity
         if (!drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.openDrawer(GravityCompat.START);
         }
+        MLog.e(" openDrawer ");
     }
 
     @Override

@@ -53,6 +53,7 @@
             android:id="@+id/sku_user_phone_edit"
             style="@style/skuInfoEdit"
             android:layout_toRightOf="@id/sku_area_code"
+            android:inputType="phone"
             android:hint="@string/user_phone_hint"
             android:editable="true"
             />

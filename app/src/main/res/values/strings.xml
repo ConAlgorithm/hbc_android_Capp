@@ -216,4 +216,5 @@
     <string name="remark_hint">您可以在这里注明其他需求，以及需要车导知道的其他行程细节</string>
     <string name="select_car_type">选择服务车型</string>
     <string name="suk_area_code"><![CDATA[区号 > ｜]]></string>
+    <string name="sku_empty_tips">更多精品包车线路即将上限，敬请期待</string>
 </resources>
