@@ -26,7 +26,7 @@ public abstract class BaseFragment extends com.huangbaoche.hbcframe.fragment.Bas
 
 
     protected int mBusinessType = -1;//业务类型 1接机2送机3包车4次租
-    protected int mGoodsType;//1: 接机 2: 送机 3: 市内包车(由日租拆分出来) 4: 次租 5: 精品线路(由日租拆分出来) 6: 小长途 (由日租拆分出来)7: 大长途 (由日租拆分出来)
+    protected int mGoodsType = -1;//1: 接机 2: 送机 3: 市内包车(由日租拆分出来) 4: 次租 5: 精品线路(由日租拆分出来) 6: 小长途 (由日租拆分出来)7: 大长途 (由日租拆分出来)
 
     @ViewInject(R.id.header_title)
     protected TextView fgTitle; //标题
