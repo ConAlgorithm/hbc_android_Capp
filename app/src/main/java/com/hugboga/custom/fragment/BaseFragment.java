@@ -74,7 +74,6 @@ public abstract class BaseFragment extends com.huangbaoche.hbcframe.fragment.Bas
         startFragment(fragment, bundle);
     }
     public void startFragment(BaseFragment fragment,Bundle bundle) {
-
         collapseSoftInputMethod();
         editTextClearFocus();
         int tmpBusinessType =-1 ;
@@ -100,34 +99,34 @@ public abstract class BaseFragment extends com.huangbaoche.hbcframe.fragment.Bas
      */
 
     public void setProgressState(int index) {
-//        View bootView = getView();
-//        int[] textIds = {R.id.progress_text_1,
-//                R.id.progress_text_2,
-//                R.id.progress_text_3,
-//                R.id.progress_text_4,
-//        };
-//        int[] iconIds = {R.id.progress_icon_1,
-//                R.id.progress_icon_2,
-//                R.id.progress_icon_3,
-//                R.id.progress_icon_4,
-//        };
-//        for (int i = 0; i < textIds.length; i++) {
-//            View text = bootView.findViewById(textIds[i]);
-//            View icon = bootView.findViewById(iconIds[i]);
-//            if (text == null || icon == null) continue;
-//            if (index == i) {
-//                bootView.findViewById(textIds[i]).setEnabled(true);
-//                bootView.findViewById(iconIds[i]).setSelected(true);
-//            } else {
-//                bootView.findViewById(textIds[i]).setEnabled(false);
-//                bootView.findViewById(iconIds[i]).setSelected(false);
-//                if (index < i) {
-//                    bootView.findViewById(iconIds[i]).setEnabled(false);
-//                } else {
-//                    bootView.findViewById(iconIds[i]).setEnabled(true);
-//                }
-//            }
-//        }
+        View bootView = getView();
+        int[] textIds = {R.id.progress_text_1,
+                R.id.progress_text_2,
+                R.id.progress_text_3,
+                R.id.progress_text_4,
+        };
+        int[] iconIds = {R.id.progress_icon_1,
+                R.id.progress_icon_2,
+                R.id.progress_icon_3,
+                R.id.progress_icon_4,
+        };
+        for (int i = 0; i < textIds.length; i++) {
+            View text = bootView.findViewById(textIds[i]);
+            View icon = bootView.findViewById(iconIds[i]);
+            if (text == null || icon == null) continue;
+            if (index == i) {
+                bootView.findViewById(textIds[i]).setEnabled(true);
+                bootView.findViewById(iconIds[i]).setSelected(true);
+            } else {
+                bootView.findViewById(textIds[i]).setEnabled(false);
+                bootView.findViewById(iconIds[i]).setSelected(false);
+                if (index < i) {
+                    bootView.findViewById(iconIds[i]).setEnabled(false);
+                } else {
+                    bootView.findViewById(iconIds[i]).setEnabled(true);
+                }
+            }
+        }
     }
       public void showTip(String tips){
           Toast.makeText(getActivity(),tips,Toast.LENGTH_LONG).show();
