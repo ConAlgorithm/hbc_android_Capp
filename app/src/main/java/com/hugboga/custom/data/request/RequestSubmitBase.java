@@ -55,6 +55,7 @@ public class RequestSubmitBase extends BaseRequest<String> {
         map.put("carTypeId", orderBean.carType);
         map.put("carSeatNum", orderBean.seatCategory);
         map.put("carDesc", orderBean.carDesc);
+        map.put("userRemark", orderBean.memo);
 
 
         if(orderBean.contact!=null&&orderBean.contact.size()>0){

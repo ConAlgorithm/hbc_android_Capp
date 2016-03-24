@@ -288,6 +288,7 @@ public class FgOrder extends BaseFragment {
 
     @Override
     protected void initHeader() {
+        setProgressState(3);
         if (mOrderBean == null) return;
 
         if (mOrderBean.orderStatus.code >= OrderStatus.PAYSUCCESS.code && mOrderBean.orderStatus.code <= OrderStatus.SERVICING.code || (mOrderBean.orderStatus == OrderStatus.INITSTATE && mSourceFragment instanceof FgTravel)) {
@@ -1000,7 +1001,6 @@ public class FgOrder extends BaseFragment {
 
     @Override
     protected int getBusinessType() {
-        setProgressState(3);
         return super.getBusinessType();
     }
 

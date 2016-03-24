@@ -292,7 +292,6 @@ public class FgCar extends BaseFragment implements ViewPager.OnPageChangeListene
             bundle.putBoolean(KEY_NEED_CHILDREN_SEAT,needChildrenSeat);
             bundle.putBoolean(KEY_NEED_BANNER,needBanner);
             startFragment(fg,bundle);
-            Toast.makeText(getActivity(), "这个地方注掉了", Toast.LENGTH_SHORT).show();
             break;
         case R.id.car_price_info:
             FgWebInfo fgWebInfo = new FgWebInfo();

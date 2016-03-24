@@ -53,6 +53,7 @@ public class FgHome extends BaseFragment implements AdapterView.OnItemClickListe
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);
         getView().findViewById(R.id.fg_home_menu1).setOnClickListener(this);
+        getView().findViewById(R.id.fg_home_menu2).setOnClickListener(this);
         getView().findViewById(R.id.fg_home_menu3).setOnClickListener(this);
         getView().findViewById(R.id.header_left_btn).setOnClickListener(this);
         getView().findViewById(R.id.header_right_btn).setOnClickListener(this);
@@ -101,10 +102,9 @@ public class FgHome extends BaseFragment implements AdapterView.OnItemClickListe
                 startFragment(new FgTransfer());
                 break;
             case R.id.fg_home_menu2://按天包车
-
+                startFragment(new FgDaily());
                 break;
             case R.id.fg_home_menu3://单次接送
-                MLog.e("FgSingle");
                 startFragment(new FgSingle());
                 break;
         }
