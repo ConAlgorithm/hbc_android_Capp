@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/pay_type_group"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/allbg_gray"
+    android:orientation="vertical"
+    android:paddingLeft="10dp"
+    android:visibility="gone">
+
+    <RelativeLayout
+        android:id="@+id/pay_type_alipay_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dip">
+
+        <TextView
+            android:id="@+id/pay_type_alipay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="支付宝支付"
+            android:textSize="@dimen/text_size_xlarge" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/pay_type_alipay"
+            android:text="推荐支付宝用户使用"
+            android:textColor="@color/basic_gray" />
+
+        <RadioButton
+            android:id="@+id/pay_type_alipay_radio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:button="@drawable/radiobtn_selector"
+            android:checked="true"
+            android:clickable="false" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="10dp"
+        android:background="@color/basic_gray"
+        android:visibility="gone" />
+
+    <RelativeLayout
+        android:id="@+id/pay_type_wechat_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dip"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/pay_type_wechat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="微信支付"
+            android:textSize="@dimen/text_size_xlarge" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/pay_type_wechat"
+            android:text="推荐已安装微信的用户使用"
+            android:textColor="@color/basic_gray" />
+
+        <RadioButton
+            android:id="@+id/pay_type_wechat_radio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:button="@drawable/radiobtn_selector"
+            android:clickable="false" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="10dp"
+        android:background="@color/basic_gray"
+        android:visibility="gone" />
+
+    <RelativeLayout
+        android:id="@+id/pay_type_bank_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dip"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/pay_type_bank"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="银行卡支付"
+            android:textSize="@dimen/text_size_xlarge" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/pay_type_bank"
+            android:text="支持信用卡储蓄卡，无需开通网银"
+            android:textColor="@color/basic_gray" />
+
+        <RadioButton
+            android:id="@+id/pay_type_bank_radio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:button="@drawable/radiobtn_selector"
+            android:clickable="false" />
+    </RelativeLayout>
+
+</RadioGroup>

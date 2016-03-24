@@ -217,4 +217,5 @@
     <string name="select_car_type">选择服务车型</string>
     <string name="suk_area_code"><![CDATA[区号 > ｜]]></string>
     <string name="sku_empty_tips">更多精品包车线路即将上限，敬请期待</string>
+    <string name="wx_share_content">全球10万华人朋友开车带你玩！</string>
 </resources>

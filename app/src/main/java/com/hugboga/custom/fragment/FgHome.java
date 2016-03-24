@@ -75,7 +75,6 @@ public class FgHome extends BaseFragment implements AdapterView.OnItemClickListe
 
     @Override
     public void inflateContent() {
-        MLog.e("dataList = " + dataList.get(0).mainTitle);
         adapter.setList(dataList);
     }
 

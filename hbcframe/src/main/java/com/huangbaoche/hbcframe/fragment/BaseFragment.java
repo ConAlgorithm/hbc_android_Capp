@@ -24,7 +24,6 @@ import org.xutils.common.Callback;
 import org.xutils.x;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
 public abstract class BaseFragment extends Fragment implements HttpRequestListener, View.OnTouchListener {
@@ -37,7 +36,7 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
 
     private boolean injected = false;
     private ErrorHandler errorHandler;
-    protected Fragment mTargetFragment;
+    protected Fragment mSourceFragment;//fragment来源，从哪个跳转来的
     private ArrayList<EditText> editTextArray = new ArrayList<EditText>();
 
 
@@ -52,6 +51,7 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        MLog.i(this + "onViewCreated");
         if (!injected) {
             x.view().inject(this, this.getView());
         }
@@ -190,7 +190,6 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
         bundle = bundle ==null?new Bundle():bundle;
         startFragment(fragment, bundle);
     }
-
     public void startFragment(BaseFragment fragment,Bundle bundle) {
         if (fragment == null) return;
         if (contentId == -1) throw new RuntimeException("BaseFragment ContentId not null, BaseFragment.setContentId(int)");
@@ -292,11 +291,11 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
     }
 
     public Fragment getTarget() {
-        return mTargetFragment;
+        return mSourceFragment;
     }
 
     public void setTarget(Fragment mTargetFragment) {
-        this.mTargetFragment = mTargetFragment;
+        this.mSourceFragment = mTargetFragment;
     }
 
     public int getContentId() {
