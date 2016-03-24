@@ -20,12 +20,14 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alipay.sdk.app.PayTask;
 import com.huangbaoche.hbcframe.data.net.ExceptionErrorCode;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.ServerException;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
+import com.hugboga.custom.alipay.PayResult;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.CouponBean;
@@ -39,6 +41,7 @@ import com.hugboga.custom.data.request.RequestPayNoByAli;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.widget.DialogUtil;
+import com.hugboga.custom.wxapi.WXPay;
 
 import org.xutils.common.Callback;
 import org.xutils.image.ImageOptions;
@@ -204,6 +207,9 @@ public class FgOrder extends BaseFragment {
     @ViewInject(R.id.pay_actual_value)
     private TextView orderActualPay;//需要支付
 
+    @ViewInject(R.id.order_pay_type_layout)
+    private View payTypeLayout;//支付方式
+
     @ViewInject(R.id.pay_money_layout)
     private View payMoneyLayout;//支付成功金额layout
     @ViewInject(R.id.pay_success_layout)
@@ -304,7 +310,7 @@ public class FgOrder extends BaseFragment {
         }else{
             fgTitle.setText(getString(Constants.TitleMap.get(mGoodsType)));
         }
-
+        setProgressState(3);
     }
 
     @Override
@@ -335,6 +341,7 @@ public class FgOrder extends BaseFragment {
         orderServerTimeDesc.setText("(当地时间)");
         orderServerTimeDesc.setVisibility(View.VISIBLE);
         submitBottomLayout.setVisibility(View.GONE);
+        payTypeLayout.setVisibility(View.GONE);
         switch (mBusinessType) {
             case Constants.BUSINESS_TYPE_PICK:
                 orderPlacardLayout.setVisibility(TextUtils.isEmpty(mOrderBean.brandSign) ? View.GONE : View.VISIBLE);
@@ -631,8 +638,10 @@ public class FgOrder extends BaseFragment {
     private void initBottomView() {
         if (mOrderBean.orderStatus == OrderStatus.INITSTATE) {
             submitBottomLayout.setVisibility(View.VISIBLE);
+            payTypeLayout.setVisibility(View.VISIBLE);
         } else {
             submitBottomLayout.setVisibility(View.GONE);
+            payTypeLayout.setVisibility(View.GONE);
         }
     }
 
@@ -775,7 +784,6 @@ public class FgOrder extends BaseFragment {
 
     @Override
     protected Callback.Cancelable requestData() {
-        bottomBtn.setBackgroundColor(getResources().getColor(Constants.BgColors.get(mBusinessType)));
         orderId = getArguments().getString(KEY_ORDER_ID);
         RequestOrderDetail request = new RequestOrderDetail(getActivity(),orderId);
         return requestData(request);
@@ -783,7 +791,8 @@ public class FgOrder extends BaseFragment {
 
     private void requestPayNo() {
         if (mOrderBean == null) return;
-        RequestPayNoByAli request = new RequestPayNoByAli(getActivity(),mOrderBean.orderNo, shouldPay, this.payType, mOrderBean.orderCoupon.couponID);
+        String couponId= mOrderBean.orderCoupon==null?"":mOrderBean.orderCoupon.couponID;
+        RequestPayNoByAli request = new RequestPayNoByAli(getActivity(),mOrderBean.orderNo, shouldPay, this.payType, couponId);
         requestData(request);
     }
 
@@ -839,7 +848,7 @@ public class FgOrder extends BaseFragment {
     Handler mAlipayHandler = new Handler() {
         public void handleMessage(android.os.Message msg) {
             MLog.e(this + "handleMessage：" + msg.obj);
-          /*  switch (msg.what) {
+            switch (msg.what) {
                 case PayResult.SDK_PAY_FLAG: {
                     PayResult payResult = new PayResult((String) msg.obj);
                     String resultInfo = payResult.getResult();
@@ -860,7 +869,7 @@ public class FgOrder extends BaseFragment {
                 }
                 default:
                     break;
-            }*/
+            }
             inflateContent();
         }
     };
@@ -955,11 +964,11 @@ public class FgOrder extends BaseFragment {
                 //增项费用查看详情
                 paySuccessPoint.setVisibility(View.GONE);
                 bundle = new Bundle();
-      /*          bundle.putString(FgOrderOverPrice.KEY_ORDER_NO, mOrderBean.orderNo);
+                bundle.putString(FgOrderOverPrice.KEY_ORDER_NO, mOrderBean.orderNo);
                 bundle.putInt(FgOrderOverPrice.KEY_ORDER_IS_READ, mOrderBean.additionIsRead);
                 bundle.putSerializable(FgOrderOverPrice.KEY_ORDER_PRICE, mOrderBean.orderPriceInfo);
                 bundle.putSerializable(FgOrderOverPrice.KEY_ORDER_COUPON, mOrderBean.orderCoupon);
-                startFragment(new FgOrderOverPrice(), bundle);*/
+                startFragment(new FgOrderOverPrice(), bundle);
                 break;
             case R.id.guide_btn_chat:
                 //车导聊天
@@ -974,11 +983,11 @@ public class FgOrder extends BaseFragment {
                 //车导评价
                 if (mOrderBean == null || mOrderBean.orderGuideInfo == null) return;
                 bundle = new Bundle();
-/*                bundle.putString(FgAssessment.GUIDE_ID, mOrderBean.orderGuideInfo.guideID);
+                bundle.putString(FgAssessment.GUIDE_ID, mOrderBean.orderGuideInfo.guideID);
                 bundle.putString(FgAssessment.ORDER_ID, mOrderBean.orderNo);
                 bundle.putInt(FgAssessment.ORDER_TYPE, mOrderBean.orderType);
                 bundle.putString(FgAssessment.GUIDE_NAME, mOrderBean.orderGuideInfo.guideName);
-                startFragment(new FgAssessment(), bundle);*/
+                startFragment(new FgAssessment(), bundle);
                 break;
             case R.id.bottom_bar_btn:
 //                notifyOrderList();
@@ -1001,7 +1010,6 @@ public class FgOrder extends BaseFragment {
 
     @Override
     protected int getBusinessType() {
-        setProgressState(3);
         return super.getBusinessType();
     }
 
@@ -1127,14 +1135,14 @@ public class FgOrder extends BaseFragment {
                     @Override
                     public void run() {
                         // 构造PayTask 对象
-                       /* PayTask alipay = new PayTask(getActivity());
+                        PayTask alipay = new PayTask(getActivity());
                         // 调用支付接口，获取支付结果
-                        String result = alipay.pay(payInfo);
+                        String result = alipay.pay(payInfo, true);
 
                         Message msg = new Message();
                         msg.what = PayResult.SDK_PAY_FLAG;
                         msg.obj = result;
-                        mAlipayHandler.sendMessage(msg);*/
+                        mAlipayHandler.sendMessage(msg);
                     }
                 };
                 // 必须异步调用
@@ -1240,7 +1248,7 @@ public class FgOrder extends BaseFragment {
 
     private void onKeyBack() {
         MLog.e("onKeyBack " + mSourceFragment);
-       /* if (mSourceFragment != null && mSourceFragment instanceof  FgSubmit) {
+        if (mSourceFragment != null && mSourceFragment instanceof  FgSubmit) {
             mDialogUtil.showCustomDialog(getString(R.string.app_name), getString(R.string.order_cancel_pay), "返回", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -1252,9 +1260,9 @@ public class FgOrder extends BaseFragment {
 
                 }
             });
-        } else {*/
+        } else {
             finish();
-//        }
+        }
 
     }
 

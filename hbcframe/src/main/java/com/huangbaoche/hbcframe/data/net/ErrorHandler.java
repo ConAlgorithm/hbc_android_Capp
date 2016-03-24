@@ -84,7 +84,7 @@ public  class ErrorHandler implements HttpRequestListener{
                 errState = "系统内部错误";
                 break;
         }
-            Toast.makeText(mActivity, mActivity.getString(R.string.request_error), Toast.LENGTH_LONG).show();
+            Toast.makeText(mActivity, mActivity.getString(R.string.request_error,errorInfo.state), Toast.LENGTH_LONG).show();
         if (errorInfo.exception != null) {
 //			ErrorUpload upload = new ErrorUpload(errorInfo.state, errState, errorInfo.exception);
 //          Common.uploadErrorInfo(mContext, upload);

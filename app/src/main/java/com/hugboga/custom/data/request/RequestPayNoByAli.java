@@ -9,6 +9,7 @@ import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.utils.Config;
 
 import org.json.JSONObject;
+import org.xutils.http.HttpMethod;
 import org.xutils.http.annotation.HttpRequest;
 
 import java.util.HashMap;
@@ -34,6 +35,11 @@ public class RequestPayNoByAli extends BaseRequest<String> {
         map.put("orderNo",orderId);
         map.put("actualPrice",payPrice);
         map.put("coupId", couponID);
+    }
+
+    @Override
+    public HttpMethod getHttpMethod() {
+        return  HttpMethod.POST;
     }
 
     @Override

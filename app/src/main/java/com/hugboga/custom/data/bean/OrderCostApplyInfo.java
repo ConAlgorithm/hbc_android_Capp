@@ -18,14 +18,4 @@ public class OrderCostApplyInfo implements IBaseBean {
     public String overDayPrice;//超天数的费用
     public String prePaymentPrice;//垫付费用
 
-    public void parser(JSONObject jsonObj) throws JSONException {
-        dailyDate = jsonObj.optString("dailyDate");
-        overTime = jsonObj.optString("overTime");
-        overTimePrice = jsonObj.optString("overTimePrice");
-        overDistance = jsonObj.optString("overDistance");
-        overDistancePrice = jsonObj.optString("overDistancePrice");
-        overDay = jsonObj.optString("overDay");
-        overDayPrice = jsonObj.optString("overDayPrice");
-        prePaymentPrice = jsonObj.optString("prePaymentPrice");
-    }
 }

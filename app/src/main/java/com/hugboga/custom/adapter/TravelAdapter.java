@@ -52,8 +52,8 @@ public class TravelAdapter extends BaseAdapter<OrderBean>  {
         this.fragment = fragment;
         dialog = DialogUtil.getInstance(context);
         options = new ImageOptions.Builder()
-                .setFailureDrawableId(R.mipmap.img_undertext)
-                .setLoadingDrawableId(R.mipmap.img_undertext)
+                .setFailureDrawableId(R.mipmap.chat_head)
+                .setLoadingDrawableId(R.mipmap.chat_head)
                 .setCircular(true)
                 .build();
     }

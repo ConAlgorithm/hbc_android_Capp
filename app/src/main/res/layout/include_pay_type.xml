@@ -1,32 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/pay_type_group"
+<LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/allbg_gray"
     android:orientation="vertical"
+    >
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/pay_type"
+    android:padding="@dimen/default_margin_xlarge"
+    />
+<RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/pay_type_group"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/allbg_white"
+    android:orientation="vertical"
     android:paddingLeft="10dp"
-    android:visibility="gone">
+    android:visibility="visible">
 
     <RelativeLayout
         android:id="@+id/pay_type_alipay_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dip">
-
+        android:layout_margin="10dip"
+        android:layout_gravity="center_vertical"
+        >
+        <ImageView
+            android:id="@+id/pay_type_alipay_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/icon_pay2"
+            android:layout_centerVertical="true"
+            />
         <TextView
             android:id="@+id/pay_type_alipay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="支付宝支付"
-            android:textSize="@dimen/text_size_xlarge" />
+            android:layout_toRightOf="@id/pay_type_alipay_icon"
+            android:text="支付宝    "
+            android:textSize="@dimen/text_size_xlarge"
+            android:layout_marginLeft="5dp"
+            android:layout_centerVertical="true"
+            />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/pay_type_alipay"
             android:text="推荐支付宝用户使用"
-            android:textColor="@color/basic_gray" />
+            android:layout_toRightOf="@id/pay_type_alipay"
+            android:textColor="@color/basic_gray"
+            android:layout_marginLeft="20dp"
+            android:layout_centerVertical="true"
+            />
 
         <RadioButton
             android:id="@+id/pay_type_alipay_radio"
@@ -51,21 +78,35 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dip"
-        android:visibility="gone">
-
+        android:visibility="visible">
+        <ImageView
+            android:id="@+id/pay_type_wechat_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/icon_pay1"
+            android:layout_centerVertical="true"
+            />
         <TextView
             android:id="@+id/pay_type_wechat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/pay_type_wechat_icon"
             android:text="微信支付"
-            android:textSize="@dimen/text_size_xlarge" />
+            android:textSize="@dimen/text_size_xlarge"
+            android:layout_marginLeft="5dp"
+            android:layout_centerVertical="true"
+            />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/pay_type_wechat"
             android:text="推荐已安装微信的用户使用"
-            android:textColor="@color/basic_gray" />
+            android:textColor="@color/basic_gray"
+            android:layout_toRightOf="@id/pay_type_wechat"
+            android:layout_marginLeft="20dp"
+            android:layout_centerVertical="true"
+            />
 
         <RadioButton
             android:id="@+id/pay_type_wechat_radio"
@@ -116,3 +157,4 @@
     </RelativeLayout>
 
 </RadioGroup>
+</LinearLayout>
