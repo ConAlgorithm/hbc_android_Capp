@@ -57,28 +57,32 @@ public class FgLogin extends BaseFragment {
 
     @Override
     protected void initView() {
+        String areaCode = null;
+        String phone= null;
         if(getArguments() != null){
-            String areaCode = getArguments().getString(KEY_AREA_CODE,"");
-            String phone = getArguments().getString(KEY_PHONE,"");
-            sharedPre = new SharedPre(getActivity());
+            areaCode = getArguments().getString(KEY_AREA_CODE,"");
+            phone = getArguments().getString(KEY_PHONE,"");
+
             MLog.e("areaCode1="+areaCode);
-            if(TextUtils.isEmpty(areaCode)){
-                areaCode = sharedPre.getStringValue(SharedPre.CODE);
-                MLog.e("areaCode2="+areaCode);
-            }
-            if(!TextUtils.isEmpty(areaCode)) {
-                this.areaCode = areaCode;
-                areaCodeTextView.setText("+"+areaCode);
-                MLog.e("areaCode3=" + areaCode);
-            }else{
-                this.areaCode = "86";
-            }
-            if(TextUtils.isEmpty(phone)){
-                phone = sharedPre.getStringValue(SharedPre.PHONE);
-            }
-            if(!TextUtils.isEmpty(phone)) {
-                phoneEditText.setText(phone);
-            }
+        }
+        sharedPre = new SharedPre(getActivity());
+        if(TextUtils.isEmpty(areaCode)){
+            areaCode = sharedPre.getStringValue(SharedPre.CODE);
+            MLog.e("areaCode2="+areaCode);
+        }
+        if(!TextUtils.isEmpty(areaCode)) {
+            this.areaCode = areaCode;
+            areaCodeTextView.setText("+"+areaCode);
+            MLog.e("areaCode3=" + areaCode);
+        }else{
+            this.areaCode = "86";
+        }
+        if(TextUtils.isEmpty(phone)){
+            phone = sharedPre.getStringValue(SharedPre.PHONE);
+        }
+        if(!TextUtils.isEmpty(phone)) {
+            this.phone = phone;
+            phoneEditText.setText(phone);
         }
     }
 
@@ -163,7 +167,7 @@ public class FgLogin extends BaseFragment {
             return;
         }
         areaCode = areaCode.replace("+","");
-        phone = phoneEditText.getText().toString();
+        phone = phoneEditText.getText().toString().trim();
         if(TextUtils.isEmpty(phone)){
             showTip("手机号不能为空");
             return;
