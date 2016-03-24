@@ -26,7 +26,7 @@ public class OrderBean implements IBaseBean {
     public Integer seatCategory;//必选	int	车座数
     public String carDesc;//选填	string	现代圣达菲,起亚K5,雪佛兰迈锐宝
     public String flight;//航班号
-//    public FlightBean flightBean;
+    public FlightBean flightBean;
     public String serviceTime;//服务时间[2015-10-03 20:02:34]
     public String serviceEndTime; //包车结束时间
     public String serviceStartTime; //包车起始时间，选填
