@@ -6,7 +6,7 @@
     android:background="@mipmap/bg_02"
   >
     <include layout="@layout/include_header"/>
-    <!--<include layout="@layout/include_progress"/>-->
+    <include layout="@layout/include_progress"/>
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -145,7 +145,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="20dp"
             android:text="@string/submit_order_tip"/>
-       <!-- <include layout="@layout/include_bottom_promise"/>-->
+        <include layout="@layout/include_bottom_promise"/>
     </LinearLayout>
     </ScrollView>
 </LinearLayout>

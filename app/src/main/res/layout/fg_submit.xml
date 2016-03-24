@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <include layout="@layout/activity_head" />
+        <include layout="@layout/include_header" />
 
         <include layout="@layout/include_progress" />
     </LinearLayout>
