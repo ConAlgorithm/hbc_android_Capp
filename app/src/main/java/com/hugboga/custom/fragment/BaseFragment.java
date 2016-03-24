@@ -74,8 +74,6 @@ public abstract class BaseFragment extends com.huangbaoche.hbcframe.fragment.Bas
         startFragment(fragment, bundle);
     }
     public void startFragment(BaseFragment fragment,Bundle bundle) {
-//        ((BaseFragmentActivity) getActivity()).addFragment(fragment);
-
         collapseSoftInputMethod();
         editTextClearFocus();
         int tmpBusinessType =-1 ;
