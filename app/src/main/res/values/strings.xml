@@ -22,7 +22,7 @@
     <!-- 提示信息 -->
     <string name="two_exit">再按一次退出程序</string>
     <string name="network_error">网络链接错误</string>
-    <string name="no_network">网络不可用</string>
+    <string name="no_network"> 当前网络不可用，请检查网络连接</string>
     <string name="no_room">存储空间不足，建议清除存</string>
     <string name="net_overtime">网络链接超时啦</string>
     <string name="net_error">网络异常，需要关闭！</string>

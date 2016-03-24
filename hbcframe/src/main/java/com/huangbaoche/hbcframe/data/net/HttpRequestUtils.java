@@ -1,6 +1,8 @@
 package com.huangbaoche.hbcframe.data.net;
 
 
+import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.view.View;
 
@@ -10,6 +12,7 @@ import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.huangbaoche.hbcframe.util.NetWork;
+import com.huangbaoche.hbcframe.widget.DialogUtilInterface;
 
 import org.apache.http.conn.ConnectTimeoutException;
 import org.json.JSONObject;
@@ -17,6 +20,8 @@ import org.xutils.common.Callback;
 import org.xutils.x;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
@@ -31,20 +36,38 @@ import javax.net.ssl.SSLHandshakeException;
 public class HttpRequestUtils {
 
 
+    public static Callback.Cancelable request(Context mContext,final BaseRequest request, final HttpRequestListener listener) {
+        return request(mContext,request,listener,(HttpRequestOption)null);
+    }
+    public static Callback.Cancelable request(Context mContext,final BaseRequest request, final HttpRequestListener listener,boolean needShowLoading) {
+        HttpRequestOption option =  new HttpRequestOption();
+        option.needShowLoading = needShowLoading;
+        return request(mContext,request,listener,option);
+    }
+    public static Callback.Cancelable request(Context mContext,final BaseRequest request, final HttpRequestListener listener,View btn) {
+        HttpRequestOption option =  new HttpRequestOption();
+        option.btn = btn;
+        return request(mContext,request,listener,option);
+    }
 
-    public static Callback.Cancelable request(Context mContext,final BaseRequest request, final HttpRequestListener listener,View btn){
-        if(btn!=null)btn.setEnabled(false);
+
+    public static Callback.Cancelable request(Context mContext,final BaseRequest request, final HttpRequestListener listener,HttpRequestOption option){
+        if(option==null)option=new HttpRequestOption();
+        option.setBtnEnabled(false);
         if (!NetWork.isNetworkAvailable(mContext)) {
             ExceptionInfo result = new ExceptionInfo(ExceptionErrorCode.ERROR_CODE_NET_UNAVAILABLE, null);
             if (listener != null)
                 listener.onDataRequestError(result, request);
-            if (btn != null)btn.setEnabled(true);
+            option.setBtnEnabled(true);
             return null;
         }
+        final DialogUtilInterface dialogUtil =getDialogUtil(mContext);
+        if(dialogUtil !=null)dialogUtil.showLoadingDialog();
         if (!checkAccessKey(mContext)){
-            requestAccessKey(mContext,request,listener,btn);
+            requestAccessKey(mContext,request,listener,option);
             return null;
         }
+        final HttpRequestOption finalOption = option;
         Callback.Cancelable cancelable = x.http().request(request.getHttpMethod(), request, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
@@ -64,7 +87,7 @@ public class HttpRequestUtils {
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
                 MLog.e("onError",ex);
-                listener.onDataRequestError(handleException(ex),request);
+                listener.onDataRequestError(handleException(ex), request);
             }
 
             @Override
@@ -75,9 +98,32 @@ public class HttpRequestUtils {
 
             @Override
             public void onFinished() {
+                finalOption.setBtnEnabled(true);
+                if(dialogUtil !=null)dialogUtil.dismissLoadingDialog();
             }
         });
         return cancelable;
+    }
+
+    public static DialogUtilInterface getDialogUtil(Context mContext){
+        DialogUtilInterface dialogUtil = null;
+        if(mContext instanceof Activity) {
+            try {
+                if(HbcConfig.dialogUtil!=null) {
+                    Method method = HbcConfig.dialogUtil.getMethod("getInstance", Activity.class);
+                    dialogUtil = (DialogUtilInterface) method.invoke(null, mContext);
+                }
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return dialogUtil;
     }
 
     /**
@@ -128,20 +174,22 @@ public class HttpRequestUtils {
      * @param mContext
      * @param baseRequest 上一个请求
      * @param listener 上一个回调
-     * @param btn 上一个按钮
+     * @param option 上一个请求的配置
      */
-    private static void requestAccessKey(final Context mContext,final BaseRequest baseRequest,final HttpRequestListener listener, final View btn){
+    private static void requestAccessKey(final Context mContext,final BaseRequest baseRequest,final HttpRequestListener listener, final HttpRequestOption option){
         try {
             Constructor constructor = HbcConfig.accessKeyRequest.getDeclaredConstructor(Context.class);
             constructor.setAccessible(true);
             final BaseRequest accessKeyRequest = (BaseRequest) constructor.newInstance(mContext);
+            HttpRequestOption accessOption = option.clone();
+            accessOption.needShowLoading =false;
             request(mContext, accessKeyRequest, new HttpRequestListener() {
                 @Override
                 public void onDataRequestSucceed(BaseRequest request) {
                     UserSession.getUser().setAccessKey(mContext, (String) request.getData());
                     String accessKey = UserSession.getUser().getAccessKey(mContext);
                     MLog.e("accessKey =" + accessKey);
-                    request(mContext, baseRequest, listener, btn);
+                    request(mContext, baseRequest, listener, option);
                 }
 
                 @Override
@@ -154,7 +202,7 @@ public class HttpRequestUtils {
                 public void onDataRequestCancel(BaseRequest request) {
                             listener.onDataRequestCancel(request);
                         }
-            },btn);
+            },accessOption);
         } catch (InstantiationException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {

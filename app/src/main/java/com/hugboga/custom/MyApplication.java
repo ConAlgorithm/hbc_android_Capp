@@ -12,7 +12,9 @@ import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestAccessKey;
 import com.hugboga.custom.utils.Common;
 import com.hugboga.custom.utils.Config;
+import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.PhoneInfo;
+import com.hugboga.custom.widget.DialogUtil;
 
 import org.xutils.x;
 
@@ -53,6 +55,7 @@ public class MyApplication extends HbcApplication {
     private void initConfig(){
         HbcConfig.serverHost= UrlLibs.SERVER_IP_HOST_PUBLIC;
         HbcConfig.accessKeyRequest = RequestAccessKey.class;
+        HbcConfig.dialogUtil = DialogUtil.class;
         HbcConfig.PACKAGE_NAME = BuildConfig.APPLICATION_ID;
         HbcConfig.VERSION_NAME = BuildConfig.VERSION_NAME;
         HbcConfig.VERSION_CODE = BuildConfig.VERSION_CODE;

@@ -174,7 +174,6 @@ android {
     }
 
 
-
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:23.2.0'
@@ -185,4 +184,5 @@ dependencies {
     compile project(':IMKit')
     compile 'com.wdullaer:materialdatetimepicker:2.1.1'
     compile 'com.nineoldandroids:library:2.4.0'
+    compile 'pl.droidsonroids.gif:android-gif-drawable:1.1.14'
 }

@@ -227,7 +227,7 @@ public class FgTravel extends BaseFragment  implements AdapterView.OnItemClickLi
     private Callback.Cancelable runData( int offset) {
         if(needRefreshMap.get(orderShowType)) {
             parserTravel = new RequestTravel(getActivity(),orderShowType, offset, PAGESIZE);
-           return HttpRequestUtils.request(getActivity(),parserTravel,this,null);
+           return HttpRequestUtils.request(getActivity(),parserTravel,this);
         }else{
             onRequestComplete();
         }

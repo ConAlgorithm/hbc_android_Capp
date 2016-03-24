@@ -939,6 +939,7 @@ public class FgOrder extends BaseFragment {
                 if (mOrderBean.orderStatus == OrderStatus.INITSTATE) {
                     bundle = new Bundle();
                     bundle.putString(FgCoupon.ORDER_ID, mOrderBean.orderNo);
+                    if(mOrderBean.orderCoupon!=null)
                     bundle.putString(FgCoupon.KEY_COUPON_ID, mOrderBean.orderCoupon.couponID);
                     startFragment(new FgCoupon(), bundle);
                 }
