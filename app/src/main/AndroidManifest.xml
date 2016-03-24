@@ -18,7 +18,7 @@
 
         <meta-data
             android:name="JPUSH_APPKEY"
-            android:value="${JPUSH_APPKEY}" />
+            android:value="${JPUSH_KEY}" />
         <!-- 标识版本渠道 -->
         <meta-data
             android:name="APP_CHANNEL"
