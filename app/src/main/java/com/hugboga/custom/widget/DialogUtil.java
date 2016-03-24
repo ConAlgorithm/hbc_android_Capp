@@ -15,6 +15,10 @@ import android.util.TypedValue;
 import android.view.View;
 import android.widget.TextView;
 
+import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
+import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
+import com.huangbaoche.hbcframe.data.request.BaseRequest;
+import com.huangbaoche.hbcframe.widget.DialogUtilInterface;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.fragment.BaseFragment;
@@ -28,7 +32,7 @@ import com.hugboga.custom.utils.PhoneInfo;
  *
  * @date 2012-6-6 上午10:41:22
  */
-public class DialogUtil {
+public class DialogUtil implements DialogUtilInterface {
     public Activity mContext;
     private Dialog mLoadingDialog;
     private AlertDialog settingDialog;
@@ -170,6 +174,7 @@ public class DialogUtil {
         return settingDialog;
     }
 
+
     /**
      * @return void    返回类型
      * @throws
@@ -190,18 +195,18 @@ public class DialogUtil {
 //		mContext.startActivity(intent);
     }
 
-//    /**
-//     * \
-//     *
-//     * @param syncServices
-//     * @return Dialog    返回类型
-//     * @throws
-//     * @Title showOvertimeDialog
-//     * @Description 联网超时, 确定重新联网
-//     * @author aceway-liwei
-//     * @date 2012-6-13 上午09:45:31
-//     */
-    /*public Dialog showOvertimeDialog(final HttpRequestUtils syncServices) {
+    /**
+     * \
+     *
+     * @param baseRequest
+     * @return Dialog    返回类型
+     * @throws
+     * @Title showOvertimeDialog
+     * @Description 联网超时, 确定重新联网
+     * @author aceway-liwei
+     * @date 2012-6-13 上午09:45:31
+     */
+     public Dialog showOvertimeDialog(final BaseRequest baseRequest, final HttpRequestListener listener) {
         if (overtimeDialog != null && overtimeDialog.isShowing()) {
             return overtimeDialog;
         }
@@ -218,14 +223,14 @@ public class DialogUtil {
                             public void onClick(DialogInterface dialog,
                                                 int whichButton) {
                                 // 联网超时，重新联网
-                                syncServices.execute();
+                                HttpRequestUtils.request(mContext,baseRequest,listener);
                             }
                         })
                 .setNegativeButton(R.string.dialog_btn_cancel, null)
                 .create();
         overtimeDialog.show();
         return overtimeDialog;
-    }*/
+    }
 
     public Dialog showNoRoomDialog() {
         if (noRoomDialog == null) {
@@ -256,13 +261,13 @@ public class DialogUtil {
      * @date 2013-2-26 上午10:25:53
      */
     public Dialog showCustomFinishDialog(String content) {
-        OnClickListener postitiveClick = new OnClickListener() {
+        OnClickListener positiveClick = new OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 mContext.finish();
             }
         };
-        customDialog = showCustomDialog(mContext.getString(R.string.app_name), content, mContext.getString(R.string.dialog_btn_ok), postitiveClick, null, null);
+        customDialog = showCustomDialog(mContext.getString(R.string.app_name), content, mContext.getString(R.string.dialog_btn_ok), positiveClick, null, null);
         return customDialog;
     }
 
@@ -274,7 +279,7 @@ public class DialogUtil {
      * @author aceway-liwei
      */
     public Dialog showCustomFinishDialog(String content, final BaseFragment fragment) {
-        OnClickListener postitiveClick = new OnClickListener() {
+        OnClickListener positiveClick = new OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (fragment != null && fragment.isVisible())
@@ -282,7 +287,7 @@ public class DialogUtil {
             }
         };
         if (fragment.isVisible())
-            customDialog = showCustomDialog(mContext.getString(R.string.app_name), content, mContext.getString(R.string.dialog_btn_ok), postitiveClick, null, null);
+            customDialog = showCustomDialog(mContext.getString(R.string.app_name), content, mContext.getString(R.string.dialog_btn_ok), positiveClick, null, null);
         return customDialog;
     }
 
@@ -305,14 +310,14 @@ public class DialogUtil {
      * 如果需要两个按钮  可以 {@link  #showCustomDialog(String, OnClickListener, OnClickListener)}
      *
      * @param content
-     * @param postitiveClick 确定按钮的 点击事件
+     * @param positiveClick 确定按钮的 点击事件
      * @return Dialog    返回类型
      * @Title showCustomDialog
      * @author aceway-liwei
      * @date 2013-2-26 上午10:25:53
      */
-    public Dialog showCustomDialog(String content, OnClickListener postitiveClick) {
-        customDialog = showCustomDialog(mContext.getString(R.string.app_name), content, mContext.getString(R.string.dialog_btn_ok), postitiveClick, null, null);
+    public Dialog showCustomDialog(String content, OnClickListener positiveClick) {
+        customDialog = showCustomDialog(mContext.getString(R.string.app_name), content, mContext.getString(R.string.dialog_btn_ok), positiveClick, null, null);
         return customDialog;
     }
 
@@ -320,15 +325,15 @@ public class DialogUtil {
      * 用户自定义  有 "确定" 和 "取消" 两个按钮,无操作事件 可置 null
      *
      * @param content
-     * @param postitiveClick 确定按钮的 点击事件
+     * @param positiveClick 确定按钮的 点击事件
      * @param negativeClick  取消按钮的点击事件
      * @return Dialog    返回类型
      * @Title showCustomDialog
      * @author aceway-liwei
      * @date 2013-2-26 上午10:25:53
      */
-    public Dialog showCustomDialog(String content, OnClickListener postitiveClick, OnClickListener negativeClick) {
-        customDialog = showCustomDialog(mContext.getString(R.string.app_name), content, mContext.getString(R.string.dialog_btn_ok), postitiveClick
+    public Dialog showCustomDialog(String content, OnClickListener positiveClick, OnClickListener negativeClick) {
+        customDialog = showCustomDialog(mContext.getString(R.string.app_name), content, mContext.getString(R.string.dialog_btn_ok), positiveClick
                 , mContext.getString(R.string.dialog_btn_cancel), negativeClick);
         return customDialog;
     }
@@ -570,7 +575,7 @@ public class DialogUtil {
 			tv_positive.setOnClickListener(updateClickListener);
 		}*/
     //打开浏览器
-    protected void openBrower(String url) {
+    protected void openBrowser(String url) {
 
         Uri uri = Uri.parse(url);
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);

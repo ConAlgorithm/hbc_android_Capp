@@ -52,8 +52,8 @@ public class TravelAdapter extends BaseAdapter<OrderBean>  {
         this.fragment = fragment;
         dialog = DialogUtil.getInstance(context);
         options = new ImageOptions.Builder()
-                .setFailureDrawableId(R.mipmap.img_undertext)
-                .setLoadingDrawableId(R.mipmap.img_undertext)
+                .setFailureDrawableId(R.mipmap.chat_head)
+                .setLoadingDrawableId(R.mipmap.chat_head)
                 .setCircular(true)
                 .build();
     }
@@ -439,7 +439,7 @@ public class TravelAdapter extends BaseAdapter<OrderBean>  {
         @ViewInject(R.id.travel_item_head_layout)
         LinearLayout mHeadLayout; //导游信息
         @ViewInject(R.id.travel_item_head_img)
-        CircleImageView mHeadImg;//导游头像
+        ImageView mHeadImg;//导游头像
         @ViewInject(R.id.travel_item_head_title)
         TextView mHeadTitle; //导游名称
         @ViewInject(R.id.travel_item_btn_pay)

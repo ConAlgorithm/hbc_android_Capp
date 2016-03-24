@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.constants.Constants;
 import com.tencent.mm.sdk.modelbase.BaseReq;
 import com.tencent.mm.sdk.modelbase.BaseResp;
@@ -26,12 +27,13 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
         super.onCreate(savedInstanceState);
     }
     @Override
-    public void onReq(BaseReq arg0) {
-
+    public void onReq(BaseReq req) {
+        MLog.e("onResp "+req.openId+" "+req.transaction );
     }
 
     @Override
     public void onResp(BaseResp resp) {
+        MLog.e("onResp "+resp.errCode+" "+resp.errStr );
         switch (resp.errCode) {
             case BaseResp.ErrCode.ERR_OK:
                 //分享成功

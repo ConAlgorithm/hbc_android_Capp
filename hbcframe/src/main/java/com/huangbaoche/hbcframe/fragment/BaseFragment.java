@@ -24,6 +24,7 @@ import org.xutils.common.Callback;
 import org.xutils.x;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public abstract class BaseFragment extends Fragment implements HttpRequestListener, View.OnTouchListener {
@@ -117,7 +118,7 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
         needHttpRequest = true;
         if(errorHandler==null){
-            errorHandler = new ErrorHandler(getActivity());
+            errorHandler = new ErrorHandler(getActivity(),this);
         }
         errorHandler.onDataRequestError(errorInfo, request);
         errorHandler = null;
@@ -168,7 +169,7 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
      * 请求方法 会在加载完成是调用
      */
     protected Callback.Cancelable requestData(BaseRequest request) {
-        cancelable = HttpRequestUtils.request(getActivity(), request, this, null);
+        cancelable = HttpRequestUtils.request(getActivity(), request, this);
         return cancelable;
     }
 
@@ -245,6 +246,42 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+
+    /**
+     *启动页面，如果有，从栈提到最上面，上面的都关闭；如果没有则新建
+     */
+    public void  bringToFront(Class fragment, Bundle bundle){
+        collapseSoftInputMethod();
+        List<Fragment> fragmentList = getFragmentManager().getFragments();
+        BaseFragment targetFg = null;
+        for(Fragment fg:fragmentList){
+            if(fragment.isInstance(fg)){
+                targetFg = (BaseFragment) fg;
+                break;
+            }
+        }
+        if(targetFg!=null){
+            for(int i=fragmentList.size()-1;i>=0;i--){
+                BaseFragment fg = (BaseFragment)fragmentList.get(i);
+                if(fg!=targetFg) {
+                    if(fg!=null)
+                        fg.finish();
+                }else
+                    break;
+            }
+            targetFg.onFragmentResult(bundle);
+        }else{
+            try {
+                BaseFragment fg = (BaseFragment) fragment.newInstance();
+                startFragment(fg,bundle);
+            } catch (java.lang.InstantiationException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     /**

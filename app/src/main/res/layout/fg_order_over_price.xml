@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/allbg_gray"
+    android:orientation="vertical">
+
+    <include layout="@layout/include_header" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        >
+
+        <TextView
+            android:id="@+id/order_pay_total_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="--"
+            android:textColor="#222527"
+            android:textSize="28dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/order_pay_total_price"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@id/order_pay_total_price"
+            android:text="元"
+            android:textColor="#222527"
+            android:textSize="14dp" />
+    </RelativeLayout>
+
+    <include
+        android:id="@+id/pay_money_layout"
+        layout="@layout/include_pay_money" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/over_price_tip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_centerHorizontal="true"
+            android:drawableLeft="@mipmap/journey_cost"
+            android:drawablePadding="5dip"
+            android:layout_margin="10dp"
+            android:layout_alignParentBottom="true"
+            android:text="@string/submit_order_over_tip" />
+        <ListView
+            android:id="@+id/over_price_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/allbg_gray"
+            android:divider="#00000000"
+            android:dividerHeight="1dp"
+            android:padding="5dp"
+            android:layout_above="@id/over_price_tip"
+            android:visibility="gone"
+            />
+
+    </RelativeLayout>
+
+</LinearLayout>

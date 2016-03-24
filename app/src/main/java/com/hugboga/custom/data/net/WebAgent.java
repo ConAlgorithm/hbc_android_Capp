@@ -144,7 +144,7 @@ public class WebAgent implements HttpRequestListener {
         MLog.e("ZWebView-wxShare===>requestType:" + requestType + " apiUrl:" + apiUrl + " params:" + params + " successFunction:" + successFunction+" failureFunction:"+failureFunction);
 
         RequestWebInfo request = new RequestWebInfo(mActivity,apiUrl,requestType,params,successFunction,failureFunction);
-        HttpRequestUtils.request(mActivity,request,this,null);
+        HttpRequestUtils.request(mActivity,request,this);
     }
 
     @JavascriptInterface
@@ -245,7 +245,7 @@ public class WebAgent implements HttpRequestListener {
                 callBack(webInfoRequest.failCallBack,errorInfoJson);
             }
         }else{
-            new ErrorHandler(mActivity).onDataRequestError(errorInfo,request);
+            new ErrorHandler(mActivity,this).onDataRequestError(errorInfo,request);
         }
     }
 }

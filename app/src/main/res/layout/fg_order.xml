@@ -74,6 +74,10 @@
                     android:id="@+id/order_pay_cancel_layout"
                     layout="@layout/include_pay_cancel_price" />
 
+                <include
+                    android:id="@+id/order_pay_type_layout"
+                    layout="@layout/include_pay_type" />
+
                 <!-- 评价区域-->
                 <include
                     android:id="@+id/order_evaluation_layout"

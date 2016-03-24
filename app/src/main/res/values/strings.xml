@@ -22,7 +22,7 @@
     <!-- 提示信息 -->
     <string name="two_exit">再按一次退出程序</string>
     <string name="network_error">网络链接错误</string>
-    <string name="no_network">网络不可用</string>
+    <string name="no_network"> 当前网络不可用，请检查网络连接</string>
     <string name="no_room">存储空间不足，建议清除存</string>
     <string name="net_overtime">网络链接超时啦</string>
     <string name="net_error">网络异常，需要关闭！</string>
@@ -218,4 +218,5 @@
     <string name="suk_area_code"><![CDATA[区号 > ｜]]></string>
     <string name="sku_empty_tips">更多精品包车线路即将上限，敬请期待</string>
     <string name="wx_share_content">全球10万华人朋友开车带你玩！</string>
+    <string name="pay_type">支付方式</string>
 </resources>
