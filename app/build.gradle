@@ -1,9 +1,5 @@
 apply plugin: 'com.android.application'
 
-Properties properties = new Properties()
-properties.load(project.rootProject.file('local.properties').newDataInputStream())
-def storeFilePath = properties.getProperty('storeFile')
-//def apkFilePath = properties.getProperty('apkFile')
 Properties getProperties() {
     Properties properties = new Properties()
     properties.load(project.rootProject.file('local.properties').newDataInputStream())
@@ -12,6 +8,18 @@ Properties getProperties() {
 
 String keyStoreFile() {
     return getProperties().getProperty('storeFile');
+}
+
+String keyAlias() {
+    return getProperties().getProperty('keyAlias');
+}
+
+String keyPassword() {
+    return getProperties().getProperty('keyPassword');
+}
+
+String storePassword() {
+    return getProperties().getProperty('storePassword');
 }
 
 String versionCode() {
@@ -66,10 +74,10 @@ android {
 
     signingConfigs {
         hbcSign {
-            keyAlias 'hugbogaGuide'
-            keyPassword 'hugbogaGuide@hugboga'
+            keyAlias keyAlias()
+            keyPassword keyPassword()
             storeFile file(keyStoreFile())
-            storePassword 'hugboga@guide'
+            storePassword storePassword()
         }
     }
     compileSdkVersion 23
@@ -173,7 +181,7 @@ def getCustomizeFlavors() {
 
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:23.2.0'
     compile 'com.android.support:design:23.2.0'
     compile 'com.android.support:support-v4:23.2.0'
