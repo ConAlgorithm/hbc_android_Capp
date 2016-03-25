@@ -1,7 +1,77 @@
 apply plugin: 'com.android.application'
 
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+def storeFilePath = properties.getProperty('storeFile')
+//def apkFilePath = properties.getProperty('apkFile')
+Properties getProperties(){
+    Properties properties = new Properties()
+    properties.load(project.rootProject.file('local.properties').newDataInputStream())
+    return properties;
+}
+
+String keyStoreFile(){
+    return getProperties().getProperty('storeFile');
+}
+
+String versionCode(){
+    return getProperties().getProperty('versionCode');
+}
+
+String versionName(){
+    return getProperties().getProperty('versionName');
+}
+
+String outPutPath(){
+    return getProperties().getProperty('outPutPath');
+}
+
+String appPrefix(){
+    return getProperties().getProperty('appPrefix');
+}
+
+
+
+def getDefaultVersionCode() {
+    return Integer.valueOf(System.getProperty("org.gradle.project.defaultVersionCode",versionCode()))  //versionCode
+}
+
+def getDefaultAppVersion() {
+    return System.getProperty("org.gradle.project.defaultAppVersion",versionName()); //versionName
+}
+
+def getDefaultPkgNamePrefix(){
+    return System.getProperty("org.gradle.project.defaultPkgNamePrefix",appPrefix());
+}
+
+def getDefaultPkgName(){
+    return System.getProperty("org.gradle.project.defaultPkgName",outPutPath()); //默认输出路径
+}
+
+def getDefaultFlavorName(){
+    return System.getProperty("org.gradle.project.defaultFlavorName","all"); //对应渠道名，默认全部；
+}
+
+def getCdmsBuildEnv(){
+    return System.getProperty("org.gradle.project.cdmsBuildEnv","dev");
+}
+
+
+
 android {
+    useLibrary 'org.apache.http.legacy'
+
+    lintOptions {
+        abortOnError false
+    }
+
     signingConfigs {
+        hbcSign {
+            keyAlias 'hugbogaGuide'
+            keyPassword 'hugbogaGuide@hugboga'
+            storeFile file(keyStoreFile())
+            storePassword 'hugboga@guide'
+        }
     }
     compileSdkVersion 23
     buildToolsVersion '23.0.2'
@@ -11,44 +81,108 @@ android {
         targetSdkVersion 23
         versionCode 8
         versionName "2.2.0"
+        signingConfig signingConfigs.hbcSign
     }
     buildTypes {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.hbcSign
         }
         debug {
             debuggable true
+            signingConfig signingConfigs.hbcSign
         }
     }
     lintOptions {
         abortOnError false
     }
-    productFlavors {
-                developer {
-                        manifestPlaceholders = [APP_CHANNEL: name, JPUSH_APPKEY: "a351a47a9106354c59188e16", RONG_CLOUD_APP_KEY: "3argexb6r2kve", UMENG_APPKEY: "55ccb4cfe0f55ab500004a9d"]
-                    }
-                examination {
-                        manifestPlaceholders = [APP_CHANNEL: name, JPUSH_APPKEY: "a351a47a9106354c59188e16", RONG_CLOUD_APP_KEY: "3argexb6r2kve", UMENG_APPKEY: "55ccb4cfe0f55ab500004a9d"]
-                    }
-                stage {
-                        manifestPlaceholders = [APP_CHANNEL: name, JPUSH_APPKEY: "a351a47a9106354c59188e16", RONG_CLOUD_APP_KEY: "ik1qhw091eiyp", UMENG_APPKEY: "55ccb4cfe0f55ab500004a9d"]
-                    }
-                formal {
-                        manifestPlaceholders = [APP_CHANNEL: name, JPUSH_APPKEY: "580ff852cd505c00c4be92d6", RONG_CLOUD_APP_KEY: "6tnym1brna4s7", UMENG_APPKEY: "55ccb4cfe0f55ab500004a9d"]
-                    }
+    def flavors = getCustomizeFlavors();
 
+    productFlavors {
+        flavors.each { flavorName, flavorPackage ->
+            "$flavorName" {
+                manifestPlaceholders = flavorPackage.manifestPlaceholders
+            }
+        }
+    }
+
+    productFlavors.all { flavor ->
+        switch (flavor.name) {
+            case 'formal':
+                flavor.buildConfigField('String', 'API_SERVER_URL', '"https://api2.huangbaoche.com/"')
+                break;
+            case 'stage':
+                flavor.buildConfigField('String', 'API_SERVER_URL', '"https://api.stage.hbc.tech/"')
+                break;
+            case 'experiment':
+                flavor.buildConfigField('String', 'API_SERVER_URL', '"http://api.test.hbc.tech/"')
+                break;
+            case 'developer':
+            default:
+                flavor.buildConfigField('String', 'API_SERVER_URL', '"http://api.dev.hbc.tech/"')
+                break;
+        }
+    }
+
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            def outputFile = new File(getDefaultPkgName())
+            println 'default-pkg-name>>> ' + outputFile
+            if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                def fileName = getDefaultPkgNamePrefix()+'_'+getCdmsBuildEnv()+'_v'+getDefaultAppVersion()+'_'+getDefaultVersionCode()+'_'+"${name}"+'.apk'
+                output.outputFile = new File(outputFile.parent, fileName)
+            }
+        }
     }
 }
+    def getCustomizeFlavors() {
+        def flavorArray = [:]
+        def flavorName = getDefaultFlavorName();
+        println 'setup-flavors-debug>>> ' + flavorName
+
+        def customizeFlavors = [
+                developer  : [
+                        manifestPlaceholders: [JPUSH_KEY: "a351a47a9106354c59188e16", APP_CHANNEL: "developer", RONG_CLOUD_APP_KEY: "3argexb6r2kve"]
+                ],
+                examination  : [
+                        manifestPlaceholders: [JPUSH_KEY: "a351a47a9106354c59188e16", APP_CHANNEL: "examination", RONG_CLOUD_APP_KEY: "3argexb6r2kve"]
+                ],
+                stage  : [
+                        manifestPlaceholders: [JPUSH_KEY: "a351a47a9106354c59188e16", APP_CHANNEL: "stage", RONG_CLOUD_APP_KEY: "ik1qhw091eiyp"]
+                ],
+                formal  : [
+                        manifestPlaceholders: [JPUSH_KEY: "580ff852cd505c00c4be92d6", APP_CHANNEL: "formal", RONG_CLOUD_APP_KEY: "6tnym1brna4s7"]
+                ],
+    ]
+        if (flavorName == 'all') {
+            return customizeFlavors;
+        } else (
+                customizeFlavors.each { name, singleFlavor ->
+                    println 'setup-flavors-debug>>> name:' + name + ' flavorName:' + flavorName
+                    if (flavorName == name) {
+                        flavorArray.put(name, singleFlavor)
+                    }
+                }
+        )
+        println 'setup-flavors-debug>>> flavors:' + flavorArray
+        if (flavorArray.size() <= 0) {
+            println 'setup-flavors-error>>> flavors:null'
+            System.exit(2);
+        }
+        return flavorArray;
+    }
+
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:23.1.1'
-    compile 'com.android.support:design:23.1.1'
-    compile 'com.android.support:support-v4:23.1.1'
+    compile 'com.android.support:appcompat-v7:23.2.0'
+    compile 'com.android.support:design:23.2.0'
+    compile 'com.android.support:support-v4:23.2.0'
     compile project(':hbcframe')
     compile project(':fadingactionbar')
     compile project(':IMKit')
     compile 'com.wdullaer:materialdatetimepicker:2.1.1'
     compile 'com.nineoldandroids:library:2.4.0'
+    compile 'pl.droidsonroids.gif:android-gif-drawable:1.1.14'
 }

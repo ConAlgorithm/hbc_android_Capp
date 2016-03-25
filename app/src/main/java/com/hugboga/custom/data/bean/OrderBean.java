@@ -1,18 +1,7 @@
 package com.hugboga.custom.data.bean;
 
-import android.text.TextUtils;
-
-import com.hugboga.custom.constants.Constants;
-import com.hugboga.custom.utils.Config;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 
 /**
  * Created by ZHZEPHI on 2015/7/20.
@@ -31,15 +20,13 @@ public class OrderBean implements IBaseBean {
     public int urgentFlag;//是否急单，1是，0非
     public Integer serviceCityId;//	服务地城市ID
     public String serviceCityName;
-//    public Integer startCityID;
-//    public String startCityName;
     public Integer serviceEndCityid;
     public String serviceEndCityName;
     public Integer carType;//必选	int	1 经济 2舒适 3豪华 4奢华
     public Integer seatCategory;//必选	int	车座数
     public String carDesc;//选填	string	现代圣达菲,起亚K5,雪佛兰迈锐宝
     public String flight;//航班号
-//    public FlightBean flightBean;
+    public FlightBean flightBean;
     public String serviceTime;//服务时间[2015-10-03 20:02:34]
     public String serviceEndTime; //包车结束时间
     public String serviceStartTime; //包车起始时间，选填
@@ -75,14 +62,15 @@ public class OrderBean implements IBaseBean {
     public Integer checkInPrice;//check in 价格 送机
     public String priceMark;//价格戳 询价系统返回ID
     public ArrayList<String> childSeat;
-//    public List<OrderContact> contact;
-//    public OrderPriceInfo orderPriceInfo;
-//    public OrderGuideInfo orderGuideInfo;
+    public List<OrderContact> contact;
+    public OrderPriceInfo orderPriceInfo;
+    public OrderGuideInfo orderGuideInfo;
     public CouponBean orderCoupon;
+    public AssessmentBean assessmentBean;//评价
+
     public int additionIsRead;//增项费用是否已读
     public String lineSubject;//精品线路，标题 xx一日游
     public String lineDescription;//精品线路，简介
-//    public AssessmentBean assessmentBean;//评价
 
     //2.2.0
     public Integer oneCityTravel;//1：市内畅游  2：跨城市
@@ -92,4 +80,8 @@ public class OrderBean implements IBaseBean {
     public String journeyComment;//行程说明
     public String dailyTips;//注意事项
 
+    //2.5.0
+    public String goodsNo;//商品ID
+    public String skuPoi;//poi 列表，jsonArray格式
+    public List<PoiBean> skuPoiArray ;
 }

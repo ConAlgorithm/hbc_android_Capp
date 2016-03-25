@@ -42,10 +42,18 @@
             android:layout_width="70dp"
             android:text="@string/user_phone"
             />
+        <TextView
+            android:id="@+id/sku_area_code"
+            style="@style/skuInfoEdit"
+            android:layout_width="wrap_content"
+            android:layout_toRightOf="@id/sku_user_phone_title"
+            android:text="@string/suk_area_code"
+            />
         <EditText
             android:id="@+id/sku_user_phone_edit"
             style="@style/skuInfoEdit"
-            android:layout_toRightOf="@id/sku_user_phone_title"
+            android:layout_toRightOf="@id/sku_area_code"
+            android:inputType="phone"
             android:hint="@string/user_phone_hint"
             android:editable="true"
             />
@@ -57,6 +65,7 @@
         <TextView
             android:id="@+id/sku_remark_star"
             style="@style/skuInfoStar"
+            android:visibility="invisible"
             />
         <TextView
             android:id="@+id/sku_remark_title"

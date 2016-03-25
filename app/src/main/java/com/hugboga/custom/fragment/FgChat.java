@@ -4,10 +4,12 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
+import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.ChatAdapter;
 import com.hugboga.custom.constants.Constants;
@@ -35,13 +37,15 @@ import io.rong.imlib.model.Conversation;
  */
 
 @ContentView(R.layout.fg_chat)
-public class FgChat extends BaseFragment implements AdapterView.OnItemClickListener {
+public class FgChat extends BaseFragment implements AdapterView.OnItemClickListener, View.OnClickListener {
 
     @ViewInject(R.id.chat_logout)
     private View EmptyLayout;
 
     @ViewInject(R.id.chat_list)
     private View chatList;
+    @ViewInject(R.id.header_left_btn)
+    private ImageView leftBtn;
 
     @ViewInject(R.id.chat_list)
     ListView listView;
@@ -54,6 +58,8 @@ public class FgChat extends BaseFragment implements AdapterView.OnItemClickListe
     @Override
     protected void initHeader() {
         fgTitle.setText("私聊");
+        leftBtn.setImageResource(R.mipmap.header_menu);
+        leftBtn.setOnClickListener(this);
     }
 
     @Override
@@ -88,11 +94,15 @@ public class FgChat extends BaseFragment implements AdapterView.OnItemClickListe
             MLog.e("onDataRequestSucceed = "+dataList);
         }
     }
-    @Event({R.id.login_btn})
+    @Event({R.id.login_btn,R.id.header_left_btn})
     private void onClickView(View view){
-        switch (R.id.login_btn){
+        switch (view.getId()){
             case R.id.login_btn:
                 startFragment(new FgLogin());
+                break;
+            case R.id.header_left_btn:
+                MLog.e("left  "+view);
+                ((MainActivity) getActivity()).openDrawer();
                 break;
         }
     }
@@ -133,5 +143,15 @@ public class FgChat extends BaseFragment implements AdapterView.OnItemClickListe
             e.printStackTrace();
         }
         return obj.toString();
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.header_left_btn:
+                MLog.e("left  "+view);
+                ((MainActivity) getActivity()).openDrawer();
+                break;
+        }
     }
 }

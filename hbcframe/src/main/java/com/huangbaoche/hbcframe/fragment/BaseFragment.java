@@ -37,7 +37,7 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
 
     private boolean injected = false;
     private ErrorHandler errorHandler;
-    protected Fragment mTargetFragment;
+    protected Fragment mSourceFragment;//fragment来源，从哪个跳转来的
     private ArrayList<EditText> editTextArray = new ArrayList<EditText>();
 
 
@@ -52,6 +52,7 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        MLog.i(this + "onViewCreated");
         if (!injected) {
             x.view().inject(this, this.getView());
         }
@@ -117,7 +118,7 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
         needHttpRequest = true;
         if(errorHandler==null){
-            errorHandler = new ErrorHandler(getActivity());
+            errorHandler = new ErrorHandler(getActivity(),this);
         }
         errorHandler.onDataRequestError(errorInfo, request);
         errorHandler = null;
@@ -168,7 +169,7 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
      * 请求方法 会在加载完成是调用
      */
     protected Callback.Cancelable requestData(BaseRequest request) {
-        cancelable = HttpRequestUtils.request(getActivity(), request, this, null);
+        cancelable = HttpRequestUtils.request(getActivity(), request, this);
         return cancelable;
     }
 
@@ -190,7 +191,6 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
         bundle = bundle ==null?new Bundle():bundle;
         startFragment(fragment, bundle);
     }
-
     public void startFragment(BaseFragment fragment,Bundle bundle) {
         if (fragment == null) return;
         if (contentId == -1) throw new RuntimeException("BaseFragment ContentId not null, BaseFragment.setContentId(int)");
@@ -241,9 +241,47 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
         MLog.i(this + " finishForResult " + fragment);
 
     }
+
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+
+    /**
+     *启动页面，如果有，从栈提到最上面，上面的都关闭；如果没有则新建
+     */
+    public void  bringToFront(Class fragment, Bundle bundle){
+        collapseSoftInputMethod();
+        List<Fragment> fragmentList = getFragmentManager().getFragments();
+        BaseFragment targetFg = null;
+        for(Fragment fg:fragmentList){
+            if(fragment.isInstance(fg)){
+                targetFg = (BaseFragment) fg;
+                break;
+            }
+        }
+        if(targetFg!=null){
+            for(int i=fragmentList.size()-1;i>=0;i--){
+                BaseFragment fg = (BaseFragment)fragmentList.get(i);
+                if(fg!=targetFg) {
+                    if(fg!=null)
+                        fg.finish();
+                }else
+                    break;
+            }
+            targetFg.onFragmentResult(bundle);
+        }else{
+            try {
+                BaseFragment fg = (BaseFragment) fragment.newInstance();
+                startFragment(fg,bundle);
+            } catch (java.lang.InstantiationException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     /**
@@ -290,11 +328,11 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
     }
 
     public Fragment getTarget() {
-        return mTargetFragment;
+        return mSourceFragment;
     }
 
     public void setTarget(Fragment mTargetFragment) {
-        this.mTargetFragment = mTargetFragment;
+        this.mSourceFragment = mTargetFragment;
     }
 
     public int getContentId() {

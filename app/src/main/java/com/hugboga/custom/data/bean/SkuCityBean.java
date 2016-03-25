@@ -10,6 +10,7 @@ public class SkuCityBean implements IBaseBean {
     public String cityGuideAmount;
     public String cityId;
     public String cityName;
+    public String cityHeadPicture;
     public String cityPicture;
     public String goodsCount;
     public String cityDesc;

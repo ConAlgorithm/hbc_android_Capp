@@ -12,7 +12,9 @@ import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestAccessKey;
 import com.hugboga.custom.utils.Common;
 import com.hugboga.custom.utils.Config;
+import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.PhoneInfo;
+import com.hugboga.custom.widget.DialogUtil;
 
 import org.xutils.x;
 
@@ -41,6 +43,7 @@ public class MyApplication extends HbcApplication {
         //根据工程渠道标识，设置访问的服务器全局信息，没有标识则默认访问开发服务器
         if(TextUtils.isEmpty(channel))channel = "formal";
         String host = UrlLibs.SERVER_IP_HOST_PUBLIC_FORMAL;
+        MLog.e("channel = "+channel);
         UrlLibs.UrlHost urlHost = UrlLibs.UrlHost.valueOf(channel.toUpperCase());
         MLog.e("urlHost="+urlHost);
         if(urlHost!=null){
@@ -52,6 +55,7 @@ public class MyApplication extends HbcApplication {
     private void initConfig(){
         HbcConfig.serverHost= UrlLibs.SERVER_IP_HOST_PUBLIC;
         HbcConfig.accessKeyRequest = RequestAccessKey.class;
+        HbcConfig.dialogUtil = DialogUtil.class;
         HbcConfig.PACKAGE_NAME = BuildConfig.APPLICATION_ID;
         HbcConfig.VERSION_NAME = BuildConfig.VERSION_NAME;
         HbcConfig.VERSION_CODE = BuildConfig.VERSION_CODE;

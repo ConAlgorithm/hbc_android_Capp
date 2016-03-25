@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.huangbaoche.hbcframe.data.net.DefaultImageCallback;
@@ -39,6 +41,12 @@ public class FgSkuList extends  BaseFragment implements AdapterView.OnItemClickL
     @ViewInject(android.R.id.list)
     ListView listView;
 
+    @ViewInject(R.id.fg_sku_list_layout)
+    LinearLayout listViewLayout;
+
+
+    View skuSubtitle;
+
 
     protected String mCityId;
 
@@ -52,6 +60,7 @@ public class FgSkuList extends  BaseFragment implements AdapterView.OnItemClickL
         fgTitle.setText("测试");
         View header = LayoutInflater.from(getActivity()).inflate(R.layout.fg_sku_header, null);
         headerBg = header.findViewById(R.id.home_menu_layout);
+        skuSubtitle = header.findViewById(R.id.sku_subtitle);
         listView.addHeaderView(header);
         listView.setOnItemClickListener(this);
     }
@@ -83,13 +92,31 @@ public class FgSkuList extends  BaseFragment implements AdapterView.OnItemClickL
     protected void inflateContent() {
         adapter.setList(skuCityBean.goodsList);
         ImageOptions options = new ImageOptions.Builder().setFailureDrawableId(R.mipmap.img_undertext).build();
-        x.image().loadDrawable(skuCityBean.cityPicture, options, new DefaultImageCallback<Drawable>() {
-            @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-            @Override
-            public void onSuccess(Drawable result) {
-            headerBg.setBackground(result);
-            }
-        });
+        if(skuCityBean.goodsList.size()==0){
+            MLog.e("skuCityBean.goodsList.size"+skuCityBean.goodsList.size());
+            x.image().loadDrawable(skuCityBean.cityPicture, options, new DefaultImageCallback<Drawable>() {
+                @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+                @Override
+                public void onSuccess(Drawable result) {
+                    listView.setBackground(null);
+                    skuSubtitle.setVisibility(View.GONE);
+                    headerBg.setBackground(null);
+                    listViewLayout.setBackground(result);
+                    MLog.e(" cityPicture result" + result);
+                }
+            });
+        }else{
+            MLog.e("skuCityBean.goodsList.size"+skuCityBean.goodsList.size());
+            x.image().loadDrawable(skuCityBean.cityHeadPicture, options, new DefaultImageCallback<Drawable>() {
+                @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+                @Override
+                public void onSuccess(Drawable result) {
+                    headerBg.setBackground(result);
+                    MLog.e("cityHeadPicture result" + result);
+                }
+            });
+        }
+
     }
 
 
@@ -99,9 +126,9 @@ public class FgSkuList extends  BaseFragment implements AdapterView.OnItemClickL
         if(position==0)return;
         SkuItemBean bean = adapter.getItem(position-1);
         Bundle bundle = new Bundle();
-        String url = "http://res.test.hbc.tech/h5/csku/skuDetail.html?source=c&goodsNo="+bean.goodsNo;
+//        String url = "http://res.test.hbc.tech/h5/csku/skuDetail.html?source=c&goodsNo="+bean.goodsNo;
 //        url = "http://res.dev.hbc.tech/h5/test/api.html?";
-        bundle.putString(FgWebInfo.WEB_URL,url);
+        bundle.putString(FgWebInfo.WEB_URL,bean.skuDetailUrl);
         bundle.putSerializable(FgSkuDetail.WEB_CITY, bean);
         startFragment(new FgSkuDetail(),bundle);
     }

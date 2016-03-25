@@ -2,16 +2,25 @@
 <!--未登录-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/allbg_gray"
+    android:gravity="center"
+    >
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/chat_logout"
+        />
     <Button
         android:id="@+id/login_btn"
-        android:layout_width="fill_parent"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:layout_marginBottom="100dip"
+        android:padding="10dp"
+        android:layout_marginTop="30dp"
         android:background="@drawable/btn_orange"
         android:textColor="@color/basic_white"
         android:text="@string/login"
-        android:textSize="18sp"
+        android:textSize="@dimen/text_size_xlarge"
         />
 </LinearLayout>

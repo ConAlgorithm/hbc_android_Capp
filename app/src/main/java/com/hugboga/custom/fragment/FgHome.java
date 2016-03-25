@@ -1,5 +1,4 @@
 package com.hugboga.custom.fragment;
-
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
@@ -30,25 +29,17 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-
 /**
  * 首页
  * Created by admin on 2016/3/1.
  */
-
 @ContentView(R.layout.fg_home)
 public class FgHome extends BaseFragment implements AdapterView.OnItemClickListener, View.OnClickListener {
-
-
     public static final String FILTER_FLUSH = "com.hugboga.custom.home.flush";
     @ViewInject(android.R.id.list)
     ListView listView;
-
-
-
     private ArrayList<HomeBean> dataList;
     private HomeAdapter adapter;
-
 
     @Override
     protected void initHeader() {
@@ -61,11 +52,12 @@ public class FgHome extends BaseFragment implements AdapterView.OnItemClickListe
         adapter = new HomeAdapter(getActivity());
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);
+        getView().findViewById(R.id.fg_home_menu1).setOnClickListener(this);
+        getView().findViewById(R.id.fg_home_menu2).setOnClickListener(this);
         getView().findViewById(R.id.fg_home_menu3).setOnClickListener(this);
         getView().findViewById(R.id.header_left_btn).setOnClickListener(this);
         getView().findViewById(R.id.header_right_btn).setOnClickListener(this);
     }
-
 
     @Override
     protected Callback.Cancelable requestData() {
@@ -84,10 +76,8 @@ public class FgHome extends BaseFragment implements AdapterView.OnItemClickListe
 
     @Override
     public void inflateContent() {
-        MLog.e("dataList = " + dataList.get(0).mainTitle);
         adapter.setList(dataList);
     }
-
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -109,18 +99,14 @@ public class FgHome extends BaseFragment implements AdapterView.OnItemClickListe
                 startFragment(new FgChooseCity());
                 break;
             case R.id.fg_home_menu1://中文接送机
-
+                startFragment(new FgTransfer());
                 break;
             case R.id.fg_home_menu2://按天包车
-
+                startFragment(new FgDaily());
                 break;
             case R.id.fg_home_menu3://单次接送
-                MLog.e("FgSingle");
                 startFragment(new FgSingle());
                 break;
-
         }
     }
-
-
 }

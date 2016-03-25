@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 /**
+ * 选车 查价 列表解析器
  * Created by admin on 2016/3/20.
  */
 public class ParserCarList extends ImplParser {

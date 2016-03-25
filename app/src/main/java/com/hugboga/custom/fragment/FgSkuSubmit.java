@@ -15,12 +15,19 @@ import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.bean.CarBean;
 import com.hugboga.custom.data.bean.CarListBean;
+import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.OrderBean;
+import com.hugboga.custom.data.bean.OrderContact;
 import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.data.request.RequestPriceSku;
+import com.hugboga.custom.data.request.RequestSubmitBase;
+import com.hugboga.custom.data.request.RequestSubmitDaily;
+import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.PhoneInfo;
+import com.hugboga.custom.utils.SharedPre;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
@@ -30,6 +37,7 @@ import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 /**
@@ -62,14 +70,18 @@ public class FgSkuSubmit extends BaseFragment implements View.OnClickListener {
     private TextView skuStartAddress;//地址
     @ViewInject(R.id.sku_user_name_edit)
     private TextView skuUserName;//用户名
+    @ViewInject(R.id.sku_area_code)
+    private TextView skuAreaCode;//用户手机区号
     @ViewInject(R.id.sku_user_phone_edit)
     private TextView skuPhone;//用户手机
+    @ViewInject(R.id.sku_remark_edit)
+    private TextView remark;//备注
     @ViewInject(R.id.bottom_bar_total_value)
     private TextView totalPrice;//价钱
 
     private SkuItemBean skuBean;
-    private String serverDate;
-    private String serverTime="08:00";
+    private String serverDate;//包车日期，yyyy-MM-dd
+    private String serverTime="08:00";//时间 HH-mm
     private int adult;//成人数
     private int child;//儿童数
     private boolean needChildrenSeat = true;//是否需要儿童座椅
@@ -77,6 +89,8 @@ public class FgSkuSubmit extends BaseFragment implements View.OnClickListener {
     private CarListBean carListBean;//车型
     private FgCarSuk fgCarSuk;
     private CarBean carTypeBean;//车型
+    private String areaCode;//区号
+    private PoiBean startPoiBean;//上车地点
 
     @Override
     protected void initHeader() {
@@ -86,11 +100,21 @@ public class FgSkuSubmit extends BaseFragment implements View.OnClickListener {
     @Override
     protected void initView() {
         skuBean = (SkuItemBean) getArguments().getSerializable(FgSkuDetail.WEB_CITY);
-        MLog.e("skuBean= "+skuBean);
+        MLog.e("skuBean= " + skuBean);
         if(skuBean ==null)return;
         skuTitle.setText(skuBean.goodsName);
         skuLabel.setText(skuBean.salePoints);
-        skuDays.setText(getString(R.string.sku_days,skuBean.daysCount));
+        skuDays.setText(getString(R.string.sku_days, skuBean.daysCount));
+        SharedPre sharedPre = new SharedPre(getActivity());
+        String areaCode = sharedPre.getStringValue(SharedPre.CODE);
+        String phone = sharedPre.getStringValue(SharedPre.PHONE);
+        if(TextUtils.isEmpty(areaCode)){
+            setAreaCode(areaCode);
+            this.areaCode = areaCode;
+        }
+        if(TextUtils.isEmpty(phone)){
+            skuPhone.setText(phone);
+        }
     }
 
     @Override
@@ -103,7 +127,8 @@ public class FgSkuSubmit extends BaseFragment implements View.OnClickListener {
 
     }
 
-    @Event({R.id.sku_start_day_layout,
+    @Event({
+            R.id.sku_start_day_layout,
             R.id.sku_start_day_edit,
             R.id.sku_car_type_layout,
             R.id.sku_car_type_edit,
@@ -115,6 +140,7 @@ public class FgSkuSubmit extends BaseFragment implements View.OnClickListener {
             R.id.submit_child_plus,
             R.id.sku_start_address_layout,
             R.id.sku_start_address_edit,
+            R.id.sku_area_code,
             R.id.sku_info_call_1,
             R.id.sku_info_call_2,
             R.id.bottom_bar_btn
@@ -165,6 +191,9 @@ public class FgSkuSubmit extends BaseFragment implements View.OnClickListener {
                 break;
             case R.id.sku_start_address_layout://出发地点 选poi
             case R.id.sku_start_address_edit://出发地点 选poi
+                break;
+            case R.id.sku_area_code://电话 区号
+                startFragment(new FgChooseCountry());
                 break;
             case R.id.sku_info_call_1://电话 国内
                 PhoneInfo.CallDial(getActivity(),Constants.CALL_NUMBER_IN);
@@ -225,35 +254,149 @@ public class FgSkuSubmit extends BaseFragment implements View.OnClickListener {
                 }
             }
 
+        }else if(FgChooseCountry.class.getSimpleName().equals(from)){
+           areaCode =  bundle.getString(FgChooseCountry.KEY_COUNTRY_CODE);
+           String areaCodeName =  bundle.getString(FgChooseCountry.KEY_COUNTRY_NAME);
+            setAreaCode(areaCode);
         }
+    }
+
+    private void setAreaCode(String areaCode){
+        String input = "+"+areaCode+" ｜";
+        skuAreaCode.setText(input);
     }
 
     /**
      * 下单
      */
     private void submit() {
-        checkInput();
+        if(checkInput()){
+            OrderBean orderBean =  getOrderByInput();
+            RequestSubmitDaily request = new RequestSubmitDaily(getActivity(),orderBean);
+            requestData(request);
+        }
+
     }
 
-    private void checkInput() {
+    private OrderBean getOrderByInput() {
         OrderBean orderBean = new OrderBean();//订单
+        orderBean.orderType = 5;
+        orderBean.goodsNo =skuBean.goodsNo;
+        orderBean.lineSubject =skuBean.goodsName;
+        orderBean.lineDescription =skuBean.salePoints;
+        orderBean.orderGoodsType = skuBean.goodsType;
+        orderBean.serviceTime = serverDate;//日期
+        orderBean.serviceStartTime = serverTime+":00";//时间
+        orderBean.serviceEndTime = getServiceEndTime(serverDate, skuBean.daysCount - 1);
+        orderBean.distance = String.valueOf(carListBean.distance);//距离
+        orderBean.expectedCompTime = carListBean.interval;//耗时
+        orderBean.carDesc = carTypeBean.desc;//车型描述
+        orderBean.carType = carTypeBean.carType;//车型
+        orderBean.seatCategory = carTypeBean.carSeat;
+        orderBean.orderPrice = carTypeBean.originalPrice;
+        orderBean.priceMark = carTypeBean.pricemark;
+        orderBean.urgentFlag = carTypeBean.urgentFlag;
+        orderBean.adult = adult;//成人数
+        orderBean.child = child;//儿童数
+        orderBean.childSeat= new ArrayList<>();
+        for (int i = 0; i < childrenSeatNumbers.length; i++) {
+            if (childrenSeatNumbers[i] != 0)
+                orderBean.childSeat.add((i + 1) + "-" + childrenSeatNumbers[i]);
+        }
+        String contactName = skuUserName.getText().toString().trim();
+        orderBean.contactName = contactName;
+        orderBean.contact = new ArrayList<OrderContact>();
+        OrderContact orderContact = new OrderContact();
+        orderContact.areaCode = areaCode;
+        orderContact.tel = skuPhone.getText().toString().trim();
+        orderBean.contact.add(orderContact);
+        orderBean.memo = remark.getText().toString().trim();
+        if (startPoiBean != null) {
+            orderBean.startAddress = startPoiBean.placeName;
+            orderBean.startAddressDetail = startPoiBean.placeDetail;
+            orderBean.startLocation = startPoiBean.location;
+        }
+        orderBean.serviceCityId = skuBean.depCityId;
+        orderBean.serviceCityName = skuBean.depCityName;
+        //出发地，到达地经纬度
+        orderBean.startLocation = null;
+        orderBean.terminalLocation = null;
+        orderBean.startAddress = "test";
+        orderBean.startAddressDetail= "test";
+        orderBean.startLocation="1,1";//起始位置
+        orderBean.destAddress = skuBean.arrCityName;
+        orderBean.serviceEndCityid = skuBean.arrCityId;
+        orderBean.serviceEndCityName = skuBean.arrCityName;
+        orderBean.serviceStartTime = serverTime;
+        orderBean.totalDays = skuBean.daysCount;
+        orderBean.oneCityTravel = skuBean.goodsType==3?1:2;//1：市内畅游  2：跨城市
+        orderBean.isHalfDaily = 0;
+        orderBean.inTownDays =skuBean.goodsType==3 ? skuBean.daysCount:0;
+        orderBean.outTownDays = skuBean.goodsType==3 ? 0:skuBean.daysCount;
+        orderBean.skuPoi = getPoiStr();
+        orderBean.stayCityListStr = getPassCityStr();
+        
+        return orderBean;
+    }
+
+    private String getServiceEndTime(String date,int day) {
+        try {
+        String[] ymd = date.split("-");
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Integer.valueOf(ymd[0]), Integer.valueOf(ymd[1]), Integer.valueOf(ymd[2]));
+            calendar.add(Calendar.DAY_OF_YEAR, day);
+           return DateUtils.dateDateFormat.format(calendar.getTime());
+        }catch (Exception e){
+            MLog.e("解析时间格式错误",e);
+        }
+         return null;
+    }
+
+    private String getPassCityStr() {
+        String passCity = "";
+        passCity += skuBean.depCityId + "-0";
+        for (CityBean city : skuBean.passCityList) {
+            passCity += "," + city.cityId + "-0";
+        }
+        passCity += "," + skuBean.arrCityId + "-0";
+        return passCity;
+    }
+
+    private String getPoiStr() {
+        return skuBean.passPoiListStr;
+    }
+
+    private boolean checkInput() {
+
         if(TextUtils.isEmpty(serverDate)){
             Toast.makeText(getActivity(),"请选择服务时间",Toast.LENGTH_LONG).show();
-            return;
+            return false;
         }
+
         if(carTypeBean==null){
             Toast.makeText(getActivity(),"请选择服务车型",Toast.LENGTH_LONG).show();
-            return;
+            return false;
         }
+
         if(adult==0){
             Toast.makeText(getActivity(),"请选择成人数量",Toast.LENGTH_LONG).show();
-            return;
+            return false;
         }
+
         String contactName = skuUserName.getText().toString().trim();
         if (TextUtils.isEmpty(contactName)) {
             Toast.makeText(getActivity(),"请填写联系人姓名",Toast.LENGTH_LONG).show();
-            return;
+            return false;
         }
+        if(TextUtils.isEmpty(areaCode)){
+            Toast.makeText(getActivity(),"请选择区号",Toast.LENGTH_LONG).show();
+            return false;
+        }
+        if(TextUtils.isEmpty(skuPhone.getText().toString().trim())){
+            Toast.makeText(getActivity(),"请填写联系电话",Toast.LENGTH_LONG).show();
+            return false;
+        }
+        return true;
     }
 
 
@@ -330,6 +473,9 @@ public class FgSkuSubmit extends BaseFragment implements View.OnClickListener {
     public void onDataRequestSucceed(BaseRequest request) {
         if(request instanceof RequestPriceSku){
             carListBean= ((RequestPriceSku) request).getData();
+        }else if(request instanceof RequestSubmitBase){
+            String orderNo = ((RequestSubmitBase) request).getData();
+            Toast.makeText(getActivity(),"下单成功",Toast.LENGTH_LONG).show();
         }
 
     }

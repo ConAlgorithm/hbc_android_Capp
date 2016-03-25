@@ -19,6 +19,7 @@ public class ParserSkuCity extends ImplParser {
         bean.cityGuideAmount = obj.optString("cityGuideAmount");
         bean.cityId = obj.optString("cityId");
         bean.cityName = obj.optString("cityName");
+        bean.cityHeadPicture = obj.optString("cityHeadPicture");
         bean.cityPicture = obj.optString("cityPicture");
         bean.goodsCount = obj.optString("goodsCount");
         bean.cityDesc = obj.optString("cityDesc");

@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import com.huangbaoche.hbcframe.data.bean.UserSession;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
+import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.UserBean;
 import com.hugboga.custom.data.bean.UserEntity;
@@ -56,22 +57,32 @@ public class FgLogin extends BaseFragment {
 
     @Override
     protected void initView() {
+        String areaCode = null;
+        String phone= null;
         if(getArguments() != null){
-            String areaCode = getArguments().getString(KEY_AREA_CODE,"");
-            String phone = getArguments().getString(KEY_PHONE,"");
-            sharedPre = new SharedPre(getActivity());
-            if(TextUtils.isEmpty(areaCode)){
-                areaCode = sharedPre.getStringValue(SharedPre.CODE);
-            }
-            if(!TextUtils.isEmpty(areaCode)) {
-                areaCodeTextView.setText(areaCode);
-            }
-            if(TextUtils.isEmpty(phone)){
-                phone = sharedPre.getStringValue(SharedPre.PHONE);
-            }
-            if(!TextUtils.isEmpty(phone)) {
-                phoneEditText.setText(phone);
-            }
+            areaCode = getArguments().getString(KEY_AREA_CODE,"");
+            phone = getArguments().getString(KEY_PHONE,"");
+
+            MLog.e("areaCode1="+areaCode);
+        }
+        sharedPre = new SharedPre(getActivity());
+        if(TextUtils.isEmpty(areaCode)){
+            areaCode = sharedPre.getStringValue(SharedPre.CODE);
+            MLog.e("areaCode2="+areaCode);
+        }
+        if(!TextUtils.isEmpty(areaCode)) {
+            this.areaCode = areaCode;
+            areaCodeTextView.setText("+"+areaCode);
+            MLog.e("areaCode3=" + areaCode);
+        }else{
+            this.areaCode = "86";
+        }
+        if(TextUtils.isEmpty(phone)){
+            phone = sharedPre.getStringValue(SharedPre.PHONE);
+        }
+        if(!TextUtils.isEmpty(phone)) {
+            this.phone = phone;
+            phoneEditText.setText(phone);
         }
     }
 
@@ -150,13 +161,13 @@ public class FgLogin extends BaseFragment {
      */
     private void loginGo(){
         collapseSoftInputMethod(); //隐藏键盘
-        areaCode = areaCodeTextView.getText().toString();
+        MLog.e("areaCode4="+areaCode);
         if(TextUtils.isEmpty(areaCode)){
             showTip("区号不能为空");
             return;
         }
-        areaCode = areaCode.substring(1);
-        phone = phoneEditText.getText().toString();
+        areaCode = areaCode.replace("+","");
+        phone = phoneEditText.getText().toString().trim();
         if(TextUtils.isEmpty(phone)){
             showTip("手机号不能为空");
             return;
@@ -174,6 +185,14 @@ public class FgLogin extends BaseFragment {
         RequestLogin request = new RequestLogin(getActivity(),areaCode,phone,password);
         requestData(request);
     }
-
+    @Override
+    public void onFragmentResult(Bundle bundle) {
+        String from = bundle.getString(KEY_FRAGMENT_NAME);
+        if(FgChooseCountry.class.getSimpleName().equals(from)){
+            areaCode = bundle.getString(FgChooseCountry.KEY_COUNTRY_CODE);
+            MLog.e("areaCode+"+areaCode);
+            areaCodeTextView.setText("+" + areaCode);
+        }
+    }
 
 }

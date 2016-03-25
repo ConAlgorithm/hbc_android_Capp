@@ -80,7 +80,7 @@ public class LogService extends Service {
     private void uploadLogs(StringBuffer sb) {
         if(sb.length()==0)return;
         RequestUploadLogs request = new RequestUploadLogs(getApplication(),sb);
-        HttpRequestUtils.request(getApplication(),request,httpListener,null);
+        HttpRequestUtils.request(getApplication(),request,httpListener);
     }
 
     HttpRequestListener httpListener = new HttpRequestListener() {

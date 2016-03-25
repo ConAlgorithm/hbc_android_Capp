@@ -128,11 +128,19 @@
             android:layout_toRightOf="@id/sku_start_address_star"
             android:text="上车地点"
             />
+
+        <ImageView
+            android:id="@+id/sku_start_address_arrow"
+            style="@style/skuInfoArrow"
+            />
         <EditText
             android:id="@+id/sku_start_address_edit"
             style="@style/skuInfoEdit"
             android:layout_toRightOf="@id/sku_start_address_title"
+            android:layout_toLeftOf="@id/sku_start_address_arrow"
             android:hint="请添加您的上车地点"
             />
     </RelativeLayout>
+
+
 </LinearLayout>

@@ -43,6 +43,7 @@ import com.hugboga.custom.fragment.FgPersonInfo;
 import com.hugboga.custom.fragment.FgServicerCenter;
 import com.hugboga.custom.fragment.FgSetting;
 import com.hugboga.custom.fragment.FgTest;
+import com.hugboga.custom.fragment.FgTravel;
 import com.hugboga.custom.service.LogService;
 import com.hugboga.custom.utils.Common;
 import com.hugboga.custom.utils.ImageOptionUtils;
@@ -204,6 +205,7 @@ public class MainActivity extends BaseFragmentActivity
         if (!drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.openDrawer(GravityCompat.START);
         }
+        MLog.e(" openDrawer ");
     }
 
     @Override
@@ -426,7 +428,7 @@ public class MainActivity extends BaseFragmentActivity
                     return new FgChat();
                 }
                 case 2: {
-                    return getTestFragment("ccc");
+                    return new FgTravel();
                 }
             }
             return null;

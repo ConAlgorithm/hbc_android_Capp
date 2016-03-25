@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:padding="10dp"
+    android:orientation="vertical"
+    android:background="@color/allbg_gray"
+    android:layout_width="match_parent" android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <View
+            android:layout_centerVertical="true"
+            style="@style/dash_line"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="成功支付"
+            android:layout_centerInParent="true"
+            android:padding="10dp"
+            android:textColor="#AAAAAA"
+            android:textSize="14dp"
+            android:background="@color/allbg_gray"
+            />
+    </RelativeLayout>
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+    <TextView
+        android:id="@+id/order_pay_total_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="--"
+        android:textSize="28dp"
+        android:textColor="#222527"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/order_pay_total_price"
+        android:layout_alignBottom="@id/order_pay_total_price"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="5dp"
+        android:text="元"
+        android:textSize="14dp"
+        android:textColor="#222527"
+        />
+<LinearLayout
+    android:id="@+id/order_pay_detail"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentRight="true"
+    android:layout_alignBottom="@id/order_pay_total_price"
+    android:layout_marginBottom="5dp"
+    >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text="查看明细"
+        />
+    <ImageView
+        android:id="@+id/order_pay_point"
+        android:layout_width="5dp"
+        android:layout_height="5dp"
+        android:src="@mipmap/journey_remind"
+        android:visibility="gone"
+        />
+    <ImageView
+        android:id="@+id/order_pay_arrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/personal_center_right"
+        android:layout_marginTop="3dp"
+        />
+</LinearLayout>
+
+</RelativeLayout>
+
+</LinearLayout>
