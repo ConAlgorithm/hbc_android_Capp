@@ -98,7 +98,6 @@ android {
         }
         debug {
             debuggable true
-            signingConfig signingConfigs.hbcSign
         }
     }
     lintOptions {
