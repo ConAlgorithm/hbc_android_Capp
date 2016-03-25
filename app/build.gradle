@@ -14,6 +14,18 @@ String keyStoreFile(){
     return getProperties().getProperty('storeFile');
 }
 
+String keyAlias(){
+    return getProperties().getProperty('keyAlias');
+}
+
+String keyPassword(){
+    return getProperties().getProperty('keyPassword');
+}
+
+String storePassword(){
+    return getProperties().getProperty('storePassword');
+}
+
 String versionCode(){
     return getProperties().getProperty('versionCode');
 }
@@ -67,10 +79,10 @@ android {
 
     signingConfigs {
         hbcSign {
-            keyAlias 'hugbogaGuide'
-            keyPassword 'hugbogaGuide@hugboga'
+            keyAlias keyAlias()
+            keyPassword keyPassword()
             storeFile file(keyStoreFile())
-            storePassword 'hugboga@guide'
+            storePassword storePassword()
         }
     }
     compileSdkVersion 23
@@ -91,7 +103,6 @@ android {
         }
         debug {
             debuggable true
-            signingConfig signingConfigs.hbcSign
         }
     }
     lintOptions {
