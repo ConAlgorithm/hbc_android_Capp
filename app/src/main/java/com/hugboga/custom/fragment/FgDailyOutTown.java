@@ -126,10 +126,10 @@ public class FgDailyOutTown extends BaseFragment {
                 showDatePicker(eDateTime, sDateTime.getText().toString());
                 break;
             case R.id.daily_day_start_layout:
-                showSelectDay(1,0,mTotalDays-1);
+                showSelectDay(1, 0, mTotalDays - 1);
                 break;
             case R.id.daily_day_end_layout:
-                showSelectDay(0,1,mTotalDays );
+                showSelectDay(0, 1, mTotalDays);
                 break;
             case R.id.daily_btn:
                 startFgCar();
@@ -140,7 +140,7 @@ public class FgDailyOutTown extends BaseFragment {
             case R.id.submit_order_tip:
                 bundle = new Bundle();
                 bundle.putString(FgWebInfo.WEB_URL, ResourcesConstants.H5_NOTICE);
-                startFragment(new FgWebInfo(),bundle);
+                startFragment(new FgWebInfo(), bundle);
                 break;
         }
     }
@@ -158,7 +158,7 @@ public class FgDailyOutTown extends BaseFragment {
                 tContent.setText("");
                 cityTips.setText(startBean.dailyTip);
                 cityTips.setVisibility(View.VISIBLE);
-            }else if ("endAddress".equals(fromKey)) {
+            } else if ("endAddress".equals(fromKey)) {
                 arrivalBean = (CityBean) bundle.getSerializable(FgChooseCity.KEY_CITY);
                 tContent.setText(arrivalBean.name);
             }
@@ -186,7 +186,8 @@ public class FgDailyOutTown extends BaseFragment {
                 .show()
                 .setCanceledOnTouchOutside(true);
     }
-    private boolean checkDataValid(){
+
+    private boolean checkDataValid() {
         processDays();
         if (startBean == null) {
             Toast.makeText(getActivity(), "选择起始城市", Toast.LENGTH_LONG).show();
@@ -199,13 +200,14 @@ public class FgDailyOutTown extends BaseFragment {
             Toast.makeText(getActivity(), "选择服务日期", Toast.LENGTH_LONG).show();
             return false;
         }
-        if(mTotalDays <=0){
+        if (mTotalDays <= 0) {
             Toast.makeText(getActivity(), "请重新选择服务日期", Toast.LENGTH_LONG).show();
-            return false ;
+            return false;
         }
 
-        return  true;
+        return true;
     }
+
     private void processDays() {
         try {
             if (mTotalDays < 0) return;
@@ -219,16 +221,16 @@ public class FgDailyOutTown extends BaseFragment {
     }
 
     private void startFgCar() {
-        if(!checkDataValid())return;
+        if (!checkDataValid()) return;
         bean.startCityID = startBean.cityId;
         bean.startCityName = startBean.name;
-        bean.startLocation=startBean.location;
+        bean.startLocation = startBean.location;
         bean.terminalCityID = arrivalBean.cityId;
         bean.terminalCityName = arrivalBean.name;
-        bean.terminalLocation=arrivalBean.location;
+        bean.terminalLocation = arrivalBean.location;
         bean.childSeatSwitch = startBean.childSeatSwitch;
         bean.areaCode = startBean.areaCode;
-        bean.oneCityTravel  = 2;
+        bean.oneCityTravel = 2;
         bean.totalDay = mTotalDays;
         FgCar fg = new FgCar();
         Bundle bundle = new Bundle();
@@ -237,12 +239,12 @@ public class FgDailyOutTown extends BaseFragment {
         startFragment(fg);
     }
 
-    private void showDatePicker(final TextView mTextView,String startDate){
+    private void showDatePicker(final TextView mTextView, String startDate) {
         Calendar cal = Calendar.getInstance();
         try {
-            if(!TextUtils.isEmpty(mTextView.getText().toString())){
+            if (!TextUtils.isEmpty(mTextView.getText().toString())) {
                 cal.setTime(DateUtils.getDateByStr(mTextView.getText().toString()));
-            }else if(!TextUtils.isEmpty(startDate)) {
+            } else if (!TextUtils.isEmpty(startDate)) {
                 cal.setTime(DateUtils.getDateByStr(startDate));
             }
         } catch (ParseException e) {
@@ -252,7 +254,7 @@ public class FgDailyOutTown extends BaseFragment {
                 new com.wdullaer.materialdatetimepicker.date.DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(com.wdullaer.materialdatetimepicker.date.DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-                        String date = "You picked the following date: "+dayOfMonth+"/"+(monthOfYear+1)+"/"+year;
+                        String date = "You picked the following date: " + dayOfMonth + "/" + (monthOfYear + 1) + "/" + year;
                         String monthStr = String.format("%02d", (monthOfYear + 1));
                         String dayOfMonthStr = String.format("%02d", dayOfMonth);
                         String serverDate = year + "-" + monthStr + "-" + dayOfMonthStr;
@@ -266,7 +268,7 @@ public class FgDailyOutTown extends BaseFragment {
         );
         cal = Calendar.getInstance();
         try {
-            if(!TextUtils.isEmpty(startDate)) {
+            if (!TextUtils.isEmpty(startDate)) {
 
                 cal.setTime(DateUtils.getDateByStr(startDate));
             }
@@ -295,19 +297,19 @@ public class FgDailyOutTown extends BaseFragment {
                 endDateStr = DateUtils.dateDateFormat.format(endDate);
                 eDateTime.setText(endDateStr);
             }
-            mTotalDays = DateUtils.getDiffByDate(DateUtils.getDateByStr(startDateStr), DateUtils.getDateByStr(endDateStr))+1;
+            mTotalDays = DateUtils.getDiffByDate(DateUtils.getDateByStr(startDateStr), DateUtils.getDateByStr(endDateStr)) + 1;
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        if(mTotalDays<=0){
+        if (mTotalDays <= 0) {
             Toast.makeText(getActivity(), "请重新选择服务日期", Toast.LENGTH_LONG).show();
-            return ;
+            return;
         }
         String startDate = sDateTime.getText().toString();
         String endDate = eDateTime.getText().toString();
         bean.startDate = startDate;
         bean.endDate = endDate;
-        if(bean.outTownDays==-1||bean.outTownDays>mTotalDays){
+        if (bean.outTownDays == -1 || bean.outTownDays > mTotalDays) {
             bean.outTownDays = 1;
         }
         bean.inTownDays = mTotalDays - bean.outTownDays;
@@ -316,24 +318,24 @@ public class FgDailyOutTown extends BaseFragment {
     }
 
 
-    private void showSelectDay(final int type, final int min,int max) {
+    private void showSelectDay(final int type, final int min, int max) {
         if (max < min) return;
         String[] dayInfo;
-        dayInfo = new String[max + 1-min];
-        for (int i = 0; i+min <= max; i++) {
-            dayInfo[i] = (i+min) + "天";
+        dayInfo = new String[max + 1 - min];
+        for (int i = 0; i + min <= max; i++) {
+            dayInfo[i] = (i + min) + "天";
         }
-        MLog.e("dayInfo= "+ Arrays.toString(dayInfo));
+        MLog.e("dayInfo= " + Arrays.toString(dayInfo));
         new AlertDialog.Builder(getActivity())
                 .setTitle("天数选择")
                 .setItems(dayInfo, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (type == 1) {
-                            bean.inTownDays = which+min;
+                            bean.inTownDays = which + min;
                             bean.outTownDays = mTotalDays - bean.inTownDays;
                         } else {
-                            bean.outTownDays = which+min;
+                            bean.outTownDays = which + min;
                             bean.inTownDays = mTotalDays - bean.outTownDays;
                         }
                         inTownDaysTv.setText(bean.inTownDays + "天");

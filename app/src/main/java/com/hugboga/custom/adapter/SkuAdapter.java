@@ -39,22 +39,22 @@ public class SkuAdapter extends BaseAdapter<SkuItemBean> {
             viewHolder.tvLabel = (TextView) view.findViewById(R.id.item_sku_label);
             viewHolder.tvGuide = (TextView) view.findViewById(R.id.item_sku_guide_number);
             viewHolder.tvAmount = (TextView) view.findViewById(R.id.item_sku_amount);
-            viewHolder.tvSale  = (TextView) view.findViewById(R.id.item_sku_sale);
+            viewHolder.tvSale = (TextView) view.findViewById(R.id.item_sku_sale);
             viewHolder.imgBg = (ImageView) view.findViewById(R.id.item_city_sku_img);
             view.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) view.getTag();
         }
-        SkuItemBean bean =  getItem(position);
-        if(bean!=null){
+        SkuItemBean bean = getItem(position);
+        if (bean != null) {
             viewHolder.tvTitle.setText(bean.goodsName);
             viewHolder.tvLabel.setText(bean.salePoints);
-            viewHolder.tvGuide.setText(mContext.getString(R.string.sku_item_guide_number,bean.guideAmount));
+            viewHolder.tvGuide.setText(mContext.getString(R.string.sku_item_guide_number, bean.guideAmount));
             viewHolder.tvAmount.setText(bean.goodsMinPrice);
-            viewHolder.tvSale.setText(mContext.getString(R.string.sku_sale_number,bean.saleAmount));
+            viewHolder.tvSale.setText(mContext.getString(R.string.sku_sale_number, bean.saleAmount));
             viewHolder.tvGuide.setVisibility(bean.guideAmount == 0 ? View.GONE : View.VISIBLE);
-            viewHolder.tvSale.setVisibility(bean.saleAmount==0?View.GONE:View.VISIBLE);
-            x.image().bind(viewHolder.imgBg, bean.goodsPicture,options);
+            viewHolder.tvSale.setVisibility(bean.saleAmount == 0 ? View.GONE : View.VISIBLE);
+            x.image().bind(viewHolder.imgBg, bean.goodsPicture, options);
         }
 
         return view;

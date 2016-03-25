@@ -3,23 +3,24 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/allbg_white"
-    android:orientation="vertical"
-    >
-    <include layout="@layout/include_header"/>
+    android:orientation="vertical">
+
+    <include layout="@layout/include_header" />
+
     <LinearLayout
         android:id="@+id/fg_sku_list_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical">
+
         <ListView
             android:id="@android:id/list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:dividerHeight="2dp"
-            android:divider="@null"
-            />
-        <include layout="@layout/include_sku_list_empty"/>
+            android:divider="@null" />
+
+        <include layout="@layout/include_sku_list_empty" />
     </LinearLayout>
 
 

@@ -8,7 +8,6 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.webkit.JavascriptInterface;
 import android.webkit.JsResult;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
@@ -18,12 +17,10 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.huangbaoche.hbcframe.data.net.DefaultSSLSocketFactory;
-import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.net.WebAgent;
-import com.hugboga.custom.data.request.RequestWebInfo;
 import com.hugboga.custom.widget.DialogUtil;
 
 import org.xutils.common.Callback;
@@ -84,7 +81,7 @@ public class FgWebInfo extends BaseFragment implements View.OnKeyListener {
         }
 
         private WebResourceResponse processRequest(Uri uri) {
-            MLog.d( "GET: " + uri.toString());
+            MLog.d("GET: " + uri.toString());
             try {
                 // Setup connection
                 URL url = new URL(uri.toString());
@@ -189,12 +186,12 @@ public class FgWebInfo extends BaseFragment implements View.OnKeyListener {
         // 启用javaScript
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setDefaultTextEncodingName("UTF-8");
-        webView.addJavascriptInterface(new WebAgent(this,webView), "javaObj");
+        webView.addJavascriptInterface(new WebAgent(this, webView), "javaObj");
         webView.setOnKeyListener(this);
         webView.setWebViewClient(webClient);
         webView.setWebChromeClient(webChromeClient);
         webView.setBackgroundColor(0x00000000);
-        mDialogUtil =  DialogUtil.getInstance(getActivity());
+        mDialogUtil = DialogUtil.getInstance(getActivity());
     }
 
     @Override

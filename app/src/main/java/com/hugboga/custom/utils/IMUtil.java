@@ -24,8 +24,8 @@ import io.rong.imlib.model.UserInfo;
 public class IMUtil {
 
 
-    public static void connect(final Context context,String imToken){
-        if(TextUtils.isEmpty(imToken)){
+    public static void connect(final Context context, String imToken) {
+        if (TextUtils.isEmpty(imToken)) {
             MLog.e("IMToken 不能为空");
             return;
         }
@@ -40,8 +40,8 @@ public class IMUtil {
 
             @Override
             public void onSuccess(String userId) {
-                MLog.e( "-连接融云 ——onSuccess— -" + userId);
-                initRongIm(context,userId);
+                MLog.e("-连接融云 ——onSuccess— -" + userId);
+                initRongIm(context, userId);
             }
 
             @Override
@@ -54,10 +54,11 @@ public class IMUtil {
             }
         });
     }
+
     /**
      * IM扩展功能自定义
      */
-    private static void initRongIm(Context context,String userId) {
+    private static void initRongIm(Context context, String userId) {
         InputProvider.ExtendProvider[] provider = {
                 new ImageInputProvider(RongContext.getInstance()),//图片
                 new CameraInputProvider(RongContext.getInstance()),//相机
@@ -69,12 +70,13 @@ public class IMUtil {
 
     /**
      * 获取头像UserInfo
+     *
      * @return
      */
     private static UserInfo getUserInfo(Context context) {
         UserInfo userInfo = null;
         String userid = UserEntity.getUser().getUserId();
-        String username =  UserEntity.getUser().getNickname(context);
+        String username = UserEntity.getUser().getNickname(context);
         String guideAvatarUrl = UserEntity.getUser().getAvatar(context);
         if (!TextUtils.isEmpty(guideAvatarUrl) && guideAvatarUrl.startsWith(UrlLibs.SERVER_HTTP_SCHEME_HTTPS)) {
             guideAvatarUrl = guideAvatarUrl.replace(UrlLibs.SERVER_HTTP_SCHEME_HTTPS, UrlLibs.SERVER_HTTP_SCHEME_HTTP);

@@ -20,11 +20,12 @@ import java.util.HashMap;
 @HttpRequest(path = UrlLibs.SERVER_IP_FLIGHTS_BY_NO, builder = HbcParamsBuilder.class)
 public class RequestFlightByNo extends BaseRequest<ArrayList<FlightBean>> {
     public String no;
-    public RequestFlightByNo(Context context, String no, String date,int orderType) {
+
+    public RequestFlightByNo(Context context, String no, String date, int orderType) {
         super(context);
-        this.no =no;
-        map = new HashMap<String,Object>();
-        map.put("flightNo",no);
+        this.no = no;
+        map = new HashMap<String, Object>();
+        map.put("flightNo", no);
         map.put("date", date);
         map.put("orderType", orderType);
     }

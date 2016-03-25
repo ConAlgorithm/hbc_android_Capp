@@ -14,13 +14,13 @@ import java.util.HashMap;
 /**
  * Created by admin on 2016/3/23.
  */
-@HttpRequest(path = UrlLibs.SERVER_IP_ORDER_CANCEL,builder = HbcParamsBuilder.class)
+@HttpRequest(path = UrlLibs.SERVER_IP_ORDER_CANCEL, builder = HbcParamsBuilder.class)
 public class RequestOrderCancel extends BaseRequest {
 
-    public RequestOrderCancel(Context context,String orderID,double cancelPrice,String memo) {
+    public RequestOrderCancel(Context context, String orderID, double cancelPrice, String memo) {
         super(context);
-        map = new HashMap<String,Object>();
-        map.put("orderNo",orderID);
+        map = new HashMap<String, Object>();
+        map.put("orderNo", orderID);
         map.put("cancelPrice", cancelPrice);
     }
 

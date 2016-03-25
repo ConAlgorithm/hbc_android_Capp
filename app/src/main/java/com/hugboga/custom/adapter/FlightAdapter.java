@@ -18,21 +18,24 @@ import java.util.List;
  * 航班列表适配器
  */
 public class FlightAdapter extends BaseAdapter {
-    public List<FlightBean> mList =new ArrayList<FlightBean>();
+    public List<FlightBean> mList = new ArrayList<FlightBean>();
     private LayoutInflater mInflater;
     private ViewHolder holder;
+
     public FlightAdapter(Activity activity) {
         mInflater = (LayoutInflater) activity
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
-    public void addList(List<FlightBean> list){
+
+    public void addList(List<FlightBean> list) {
         this.mList.addAll(list);
     }
-    public void setList(List<FlightBean> list){
-        if(list!=null){
+
+    public void setList(List<FlightBean> list) {
+        if (list != null) {
             this.mList = list;
-        }else{
-            this. mList.clear();
+        } else {
+            this.mList.clear();
         }
     }
 
@@ -66,19 +69,20 @@ public class FlightAdapter extends BaseAdapter {
         }
         FlightBean bean = mList.get(position);
 
-        holder.title.setText(bean.company+" "+bean.flightNo);
-        holder.time.setText(bean.depTime +" - "+bean.arrivalTime);
-        String address="";
-        if(bean.depAirport !=null) address = bean.depAirport.airportName;
+        holder.title.setText(bean.company + " " + bean.flightNo);
+        holder.time.setText(bean.depTime + " - " + bean.arrivalTime);
+        String address = "";
+        if (bean.depAirport != null) address = bean.depAirport.airportName;
 
-        if(bean.arrivalAirport!=null){
-            address+=" - ";
-            address += bean.arrivalAirport.airportName;}
+        if (bean.arrivalAirport != null) {
+            address += " - ";
+            address += bean.arrivalAirport.airportName;
+        }
         holder.address.setText(address);
         return convertView;
     }
 
-    class ViewHolder{
+    class ViewHolder {
         public TextView title;
         public TextView time;
         public TextView address;

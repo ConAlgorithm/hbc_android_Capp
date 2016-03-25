@@ -19,7 +19,7 @@ import java.util.HashMap;
  * Created by admin on 2016/3/23.
  */
 
-@HttpRequest(path = UrlLibs.SERVER_IP_ORDER_PAY_ID,builder = HbcParamsBuilder.class)
+@HttpRequest(path = UrlLibs.SERVER_IP_ORDER_PAY_ID, builder = HbcParamsBuilder.class)
 public class RequestPayNoByAli extends BaseRequest<String> {
 
     /**
@@ -27,19 +27,19 @@ public class RequestPayNoByAli extends BaseRequest<String> {
      * payPrice 支付金额<br/>
      * couponID 优惠券
      */
-    public RequestPayNoByAli(Context context,String orderId,double payPrice,int getway,String couponID){
+    public RequestPayNoByAli(Context context, String orderId, double payPrice, int getway, String couponID) {
         super(context);
-        map =new HashMap<String,Object>();
+        map = new HashMap<String, Object>();
         map.put("appId", Config.getImei());
-        map.put("appEnv","android");
-        map.put("orderNo",orderId);
-        map.put("actualPrice",payPrice);
+        map.put("appEnv", "android");
+        map.put("orderNo", orderId);
+        map.put("actualPrice", payPrice);
         map.put("coupId", couponID);
     }
 
     @Override
     public HttpMethod getHttpMethod() {
-        return  HttpMethod.POST;
+        return HttpMethod.POST;
     }
 
     @Override

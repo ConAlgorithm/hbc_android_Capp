@@ -27,7 +27,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
 
     //The Android's default system path of your application database.
-    public  static String DB_PATH = "/data/data/com.hugboga.custom/databases/";
+    public static String DB_PATH = "/data/data/com.hugboga.custom/databases/";
 
     public static String DB_NAME = "hbcv2.2.7.db";
 
@@ -56,7 +56,7 @@ public class DBHelper extends SQLiteOpenHelper {
         return db;
     }*/
 
-    public DbManager getDbManager(){
+    public DbManager getDbManager() {
         DbManager db = x.getDb(DaoConfig.getInstance(myContext));
         return db;
     }
@@ -88,13 +88,13 @@ public class DBHelper extends SQLiteOpenHelper {
     /**
      * 删除老数据库
      */
-    public void deleteOldDb(){
+    public void deleteOldDb() {
         File fileDir = new File(DB_PATH);
-        if(fileDir.exists() && fileDir.isDirectory()){
+        if (fileDir.exists() && fileDir.isDirectory()) {
             File[] files = fileDir.listFiles();
-            for(File file:files){
+            for (File file : files) {
                 String fileName = file.getName();
-                if(fileName.startsWith("hbc") && !fileName.equals(DB_NAME) && (fileName.endsWith(".db") || fileName.endsWith(".db-journal"))){
+                if (fileName.startsWith("hbc") && !fileName.equals(DB_NAME) && (fileName.endsWith(".db") || fileName.endsWith(".db-journal"))) {
                     file.delete();
                 }
             }
@@ -128,7 +128,7 @@ public class DBHelper extends SQLiteOpenHelper {
      * This is done by transfering bytestream.
      */
     public void copyDataBase() throws IOException {
-MLog.e("copyDataBase");
+        MLog.e("copyDataBase");
         //Open your local db as the input stream
         InputStream myInput = myContext.getAssets().open(DB_NAME);
 
@@ -151,7 +151,7 @@ MLog.e("copyDataBase");
         myInput.close();
     }
 
-    public static boolean copyFile(File file,File newFile){
+    public static boolean copyFile(File file, File newFile) {
         boolean flag = false;
         try {
             InputStream myInput = new FileInputStream(file);
@@ -166,7 +166,7 @@ MLog.e("copyDataBase");
             } catch (IOException e) {
                 e.printStackTrace();
                 flag = false;
-            }finally {
+            } finally {
                 myOutput.flush();
                 myOutput.close();
                 myInput.close();

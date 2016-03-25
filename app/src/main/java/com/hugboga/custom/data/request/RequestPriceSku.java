@@ -19,19 +19,19 @@ import java.util.TreeMap;
  * Created by admin on 2016/3/20.
  */
 
-@HttpRequest(path = UrlLibs.SERVER_IP_PRICE_SKU,builder = HbcParamsBuilder.class)
+@HttpRequest(path = UrlLibs.SERVER_IP_PRICE_SKU, builder = HbcParamsBuilder.class)
 public class RequestPriceSku extends BaseRequest<CarListBean> {
 
     /**
      * @param context
-     * @param goodsNo 商品ID
+     * @param goodsNo     商品ID
      * @param serviceDate 服务时间 yyyy-MM-dd HH:mm:ss
      */
-    public RequestPriceSku(Context context, String goodsNo,String serviceDate) {
+    public RequestPriceSku(Context context, String goodsNo, String serviceDate) {
         super(context);
         map = new TreeMap();
-        map.put("goodsNo",goodsNo);
-        map.put("serviceDate",serviceDate);
+        map.put("goodsNo", goodsNo);
+        map.put("serviceDate", serviceDate);
         map.put("channelId", Config.channelId);
     }
 

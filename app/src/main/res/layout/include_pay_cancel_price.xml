@@ -5,10 +5,12 @@
     android:background="@color/allbg_gray"
     android:orientation="vertical"
     android:visibility="gone">
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#d7d7d9" />
+
     <FrameLayout
         android:id="@+id/pay_cancel_layout"
         android:layout_width="match_parent"

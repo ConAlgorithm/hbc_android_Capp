@@ -1,12 +1,8 @@
 package com.hugboga.custom.data.bean;
 
-import com.hugboga.custom.data.parser.ParserApplyInfo;
-
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

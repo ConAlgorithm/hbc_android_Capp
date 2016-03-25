@@ -3,8 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/servicer_center_bg"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
+
     <TextView
         android:id="@+id/pay_time_tip"
         android:layout_width="match_parent"
@@ -23,8 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="15dip"
-        >
+        android:padding="15dip">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -179,6 +178,7 @@
             android:textColor="@color/my_content_text_color"
             android:text="起始日期 至 结束日期(N天)"
             android:visibility="gone" />
+
         <TextView
             android:id="@+id/order_daily_day_detail"
             style="@style/orderDetailsCol"
@@ -202,15 +202,17 @@
                 <!-- 途径城市-->
                 <include
                     android:id="@+id/order_daily_pass_city_layout"
-                    layout="@layout/include_order_daily_pass_city_str"/>
+                    layout="@layout/include_order_daily_pass_city_str" />
                 <!-- 精品线路-->
                 <include
                     android:id="@+id/order_commend_layout"
-                    layout="@layout/include_order_commend_layout"/>
+                    layout="@layout/include_order_commend_layout" />
 
-                <View style="@style/dash_line"
+                <View
+                    style="@style/dash_line"
                     android:layout_marginBottom="10dp"
                     android:layout_marginTop="10dp" />
+
                 <RelativeLayout
                     android:id="@+id/txt_flight_value_layout"
                     android:layout_width="match_parent"
@@ -264,8 +266,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="80dp"
                     android:text="暂未填写"
-                    android:visibility="gone"
-                    />
+                    android:visibility="gone" />
 
                 <LinearLayout
                     android:id="@+id/order_hotel_phone_daily_layout"
@@ -298,12 +299,12 @@
                         android:text=""
                         android:textColor="@color/basic_pick_color" />
                 </LinearLayout>
+
                 <RelativeLayout
                     android:id="@+id/order_commend_date_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    >
+                    android:visibility="gone">
 
                     <TextView
                         android:id="@+id/order_commend_date_title"
@@ -319,6 +320,7 @@
 
                         />
                 </RelativeLayout>
+
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -341,8 +343,7 @@
                 <View
                     style="@style/dash_line"
                     android:layout_marginBottom="10dp"
-                    android:layout_marginTop="10dp"
-                    />
+                    android:layout_marginTop="10dp" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -362,12 +363,14 @@
                         android:textColor="@color/my_content_text_color"
                         android:layout_marginTop="2dp"
                         android:layout_toRightOf="@id/txt_contact" />
+
                     <TextView
                         style="@style/orderDetailsCol"
                         android:layout_width="76dp"
                         android:layout_height="wrap_content"
                         android:text="联系方式"
-                        android:layout_below="@id/txt_contact"/>
+                        android:layout_below="@id/txt_contact" />
+
                     <TextView
                         android:id="@+id/txt_contact01"
                         android:layout_width="match_parent"
@@ -474,8 +477,7 @@
                         style="@style/orderDetailsValue"
                         android:layout_marginTop="2dp"
                         android:layout_toRightOf="@id/txt_babyseat"
-                        android:lineSpacingExtra="2dp"
-                        />
+                        android:lineSpacingExtra="2dp" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -531,9 +533,12 @@
                         style="@style/orderDetailsValue"
                         android:layout_toRightOf="@id/txt_order_sn" />
                 </RelativeLayout>
-                <include android:id="@+id/order_daily_tips"
-                    layout="@layout/include_order_daily_tips"/>
+
+                <include
+                    android:id="@+id/order_daily_tips"
+                    layout="@layout/include_order_daily_tips" />
             </LinearLayout>
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

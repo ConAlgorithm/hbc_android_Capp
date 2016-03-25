@@ -74,6 +74,7 @@ public class UserEntity {
         }
         return userId;
     }
+
     public String getUserToken(Context activity) {
         if (TextUtils.isEmpty(userToken)) {
             SharedPre shared = new SharedPre(activity);
@@ -82,11 +83,12 @@ public class UserEntity {
         return userToken;
     }
 
-    public void setUserToken(Context active,String userToken) {
+    public void setUserToken(Context active, String userToken) {
         SharedPre shared = new SharedPre(active);
         shared.saveStringValue(SharedPre.USERTOKEN, userToken);
         this.userToken = userToken;
     }
+
     public void setNickname(Context active, String nickname) {
         SharedPre shared = new SharedPre(active);
         shared.saveStringValue(SharedPre.NICKNAME, nickname);
@@ -203,9 +205,9 @@ public class UserEntity {
         return weakPasswordMsg;
     }
 
-    public void setWeakPasswordMsg(Context activity,String weakPasswordMsg) {
+    public void setWeakPasswordMsg(Context activity, String weakPasswordMsg) {
         SharedPre shared = new SharedPre(activity);
-         shared.saveStringValue(SharedPre.WEAK_PSW_MESSAGE, weakPasswordMsg);
+        shared.saveStringValue(SharedPre.WEAK_PSW_MESSAGE, weakPasswordMsg);
         this.weakPasswordMsg = weakPasswordMsg;
     }
 
@@ -215,7 +217,7 @@ public class UserEntity {
         return weakPassword;
     }
 
-    public void setWeakPassword(Context activity,boolean weakPassword) {
+    public void setWeakPassword(Context activity, boolean weakPassword) {
         SharedPre shared = new SharedPre(activity);
         shared.saveBooleanValue(SharedPre.IS_WEAK_PSW, weakPassword);
         this.weakPassword = weakPassword;
@@ -227,7 +229,7 @@ public class UserEntity {
         return imToken;
     }
 
-    public void setImToken(Context activity,String imToken) {
+    public void setImToken(Context activity, String imToken) {
         SharedPre shared = new SharedPre(activity);
         shared.saveStringValue(SharedPre.IM_TOKEN, imToken);
         this.imToken = imToken;

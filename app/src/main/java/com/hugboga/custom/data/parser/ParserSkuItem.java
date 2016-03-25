@@ -1,8 +1,8 @@
 package com.hugboga.custom.data.parser;
 
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
-import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.bean.CityBean;
+import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.bean.SkuItemBean;
 
 import org.json.JSONArray;
@@ -33,9 +33,9 @@ public class ParserSkuItem extends ImplParser {
         bean.passCityList = new ArrayList<CityBean>();
         JSONArray passCityJArray = obj.optJSONArray("passbyCitys");
         CityBean cityBean;
-        if(passCityJArray!=null){
+        if (passCityJArray != null) {
             JSONObject cityObject;
-            for(int i=0;i<passCityJArray.length();i++) {
+            for (int i = 0; i < passCityJArray.length(); i++) {
                 cityObject = passCityJArray.optJSONObject(i);
                 cityBean = new CityBean();
                 cityBean.cityId = cityObject.optInt("passbyId");
@@ -46,16 +46,16 @@ public class ParserSkuItem extends ImplParser {
         JSONArray poiJArray = obj.optJSONArray("passbyPois");
         bean.passPoiList = new ArrayList<>();
         PoiBean poiBean;
-        if(poiJArray!=null){
+        if (poiJArray != null) {
             JSONObject poiObject;
             bean.passPoiListStr = poiJArray.toString();
-        for(int i=0;i<poiJArray.length();i++){
-            poiObject = poiJArray.optJSONObject(i);
-            poiBean = new PoiBean();
-            poiBean.id =poiObject.optInt("passbyId");
-            poiBean.placeName =poiObject.optString("passbyName");
-            bean.passPoiList.add(poiBean);
-           }
+            for (int i = 0; i < poiJArray.length(); i++) {
+                poiObject = poiJArray.optJSONObject(i);
+                poiBean = new PoiBean();
+                poiBean.id = poiObject.optInt("passbyId");
+                poiBean.placeName = poiObject.optString("passbyName");
+                bean.passPoiList.add(poiBean);
+            }
         }
         return bean;
     }

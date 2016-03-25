@@ -23,22 +23,22 @@ public class RequestChangeUserInfo extends BaseRequest<UserBean> {
 
     public RequestChangeUserInfo(Context context, String avatar, String nickname, String gender, String ageType, String sign) {
         super(context);
-        map = new HashMap<String,Object>();
+        map = new HashMap<String, Object>();
         try {
-            if(!TextUtils.isEmpty(avatar)){
-                map.put("avatar",avatar);
+            if (!TextUtils.isEmpty(avatar)) {
+                map.put("avatar", avatar);
             }
-            if(!TextUtils.isEmpty(nickname)){
-                map.put("nickName",nickname);
+            if (!TextUtils.isEmpty(nickname)) {
+                map.put("nickName", nickname);
             }
-            if(!TextUtils.isEmpty(gender)){
-                map.put("gender",gender);
+            if (!TextUtils.isEmpty(gender)) {
+                map.put("gender", gender);
             }
-            if(!TextUtils.isEmpty(ageType)){
-                map.put("ageType",ageType);
+            if (!TextUtils.isEmpty(ageType)) {
+                map.put("ageType", ageType);
             }
-            if(!TextUtils.isEmpty(sign)){
-                map.put("signature",sign);
+            if (!TextUtils.isEmpty(sign)) {
+                map.put("signature", sign);
             }
         } catch (Exception e) {
             e.printStackTrace();

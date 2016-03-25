@@ -1,6 +1,7 @@
 package com.hugboga.custom.data.request;
 
 import android.content.Context;
+
 import com.huangbaoche.hbcframe.data.net.HbcParamsBuilder;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
@@ -8,8 +9,10 @@ import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.data.bean.UserBean;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.parser.ParserRegister;
+
 import org.xutils.http.HttpMethod;
 import org.xutils.http.annotation.HttpRequest;
+
 import java.util.HashMap;
 
 /**
@@ -17,9 +20,9 @@ import java.util.HashMap;
  */
 @HttpRequest(path = UrlLibs.SERVER_IP_REGISTER, builder = HbcParamsBuilder.class)
 public class RequestRegister extends BaseRequest<UserBean> {
-    public RequestRegister(Context context, String areaCode, String mobile, String password, String verity,String referrerId,int channel) {
+    public RequestRegister(Context context, String areaCode, String mobile, String password, String verity, String referrerId, int channel) {
         super(context);
-        map = new HashMap<String,Object>();
+        map = new HashMap<String, Object>();
         try {
             map.put("areaCode", areaCode);
             map.put("mobile", mobile);
@@ -28,7 +31,7 @@ public class RequestRegister extends BaseRequest<UserBean> {
             map.put("referrerId", referrerId);
             map.put("source", 1);
             map.put("fromChannel", channel);
-        }catch (Exception e){
+        } catch (Exception e) {
             MLog.e(e.toString());
         }
     }

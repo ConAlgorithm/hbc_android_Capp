@@ -1,20 +1,12 @@
 package com.hugboga.custom.activity;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.text.TextUtils;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 
 import com.huangbaoche.hbcframe.activity.BaseFragmentActivity;
 import com.huangbaoche.hbcframe.util.MLog;
@@ -27,7 +19,6 @@ import org.json.JSONObject;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import io.rong.imkit.RongContext;
@@ -82,7 +73,7 @@ public class IMChatActivity extends BaseFragmentActivity {
         String jsonStr = uri.getQueryParameter("title");
         try {
             ChatInfo imInfo = new ParserChatInfo().parseObject(new JSONObject(jsonStr));
-            if(imInfo==null)return;
+            if (imInfo == null) return;
             isChat = imInfo.isChat;
             userId = imInfo.userId;
             imUserId = USER_IM_ADD + userId;
@@ -295,7 +286,6 @@ public class IMChatActivity extends BaseFragmentActivity {
         }
         super.onClick(v);
     }*/
-
     @Override
     public void onBackPressed() {
         clearImChat();

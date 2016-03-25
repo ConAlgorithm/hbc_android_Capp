@@ -4,58 +4,57 @@ Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 def storeFilePath = properties.getProperty('storeFile')
 //def apkFilePath = properties.getProperty('apkFile')
-Properties getProperties(){
+Properties getProperties() {
     Properties properties = new Properties()
     properties.load(project.rootProject.file('local.properties').newDataInputStream())
     return properties;
 }
 
-String keyStoreFile(){
+String keyStoreFile() {
     return getProperties().getProperty('storeFile');
 }
 
-String versionCode(){
+String versionCode() {
     return getProperties().getProperty('versionCode');
 }
 
-String versionName(){
+String versionName() {
     return getProperties().getProperty('versionName');
 }
 
-String outPutPath(){
+String outPutPath() {
     return getProperties().getProperty('outPutPath');
 }
 
-String appPrefix(){
+String appPrefix() {
     return getProperties().getProperty('appPrefix');
 }
 
 
-
 def getDefaultVersionCode() {
-    return Integer.valueOf(System.getProperty("org.gradle.project.defaultVersionCode",versionCode()))  //versionCode
+    return Integer.valueOf(System.getProperty("org.gradle.project.defaultVersionCode", versionCode()))
+    //versionCode
 }
 
 def getDefaultAppVersion() {
-    return System.getProperty("org.gradle.project.defaultAppVersion",versionName()); //versionName
+    return System.getProperty("org.gradle.project.defaultAppVersion", versionName()); //versionName
 }
 
-def getDefaultPkgNamePrefix(){
-    return System.getProperty("org.gradle.project.defaultPkgNamePrefix",appPrefix());
+def getDefaultPkgNamePrefix() {
+    return System.getProperty("org.gradle.project.defaultPkgNamePrefix", appPrefix());
 }
 
-def getDefaultPkgName(){
-    return System.getProperty("org.gradle.project.defaultPkgName",outPutPath()); //默认输出路径
+def getDefaultPkgName() {
+    return System.getProperty("org.gradle.project.defaultPkgName", outPutPath()); //默认输出路径
 }
 
-def getDefaultFlavorName(){
-    return System.getProperty("org.gradle.project.defaultFlavorName","all"); //对应渠道名，默认全部；
+def getDefaultFlavorName() {
+    return System.getProperty("org.gradle.project.defaultFlavorName", "examination"); //对应渠道名，默认全部；
 }
 
-def getCdmsBuildEnv(){
-    return System.getProperty("org.gradle.project.cdmsBuildEnv","dev");
+def getCdmsBuildEnv() {
+    return System.getProperty("org.gradle.project.cdmsBuildEnv", "dev");
 }
-
 
 
 android {
@@ -74,13 +73,13 @@ android {
         }
     }
     compileSdkVersion 23
-    buildToolsVersion '23.0.2'
+    buildToolsVersion '24.0.0 rc2'
     defaultConfig {
         applicationId "com.hugboga.custom"
         minSdkVersion 15
         targetSdkVersion 23
         versionCode 8
-        versionName "2.5.0"
+        versionName "2.2.0"
         signingConfig signingConfigs.hbcSign
     }
     buildTypes {
@@ -130,52 +129,51 @@ android {
             def outputFile = new File(getDefaultPkgName())
             println 'default-pkg-name>>> ' + outputFile
             if (outputFile != null && outputFile.name.endsWith('.apk')) {
-                def fileName = getDefaultPkgNamePrefix()+'_'+getCdmsBuildEnv()+'_v'+getDefaultAppVersion()+'_'+getDefaultVersionCode()+'_'+"${name}"+'.apk'
+                def fileName = getDefaultPkgNamePrefix() + '_' + getCdmsBuildEnv() + '_v' + getDefaultAppVersion() + '_' + getDefaultVersionCode() + '_' + "${name}" + '.apk'
                 output.outputFile = new File(outputFile.parent, fileName)
             }
         }
     }
 }
-    def getCustomizeFlavors() {
-        def flavorArray = [:]
-        def flavorName = getDefaultFlavorName();
-        println 'setup-flavors-debug>>> ' + flavorName
 
-        def customizeFlavors = [
-                developer  : [
-                        manifestPlaceholders: [JPUSH_KEY: "a351a47a9106354c59188e16", APP_CHANNEL: "developer", RONG_CLOUD_APP_KEY: "3argexb6r2kve"]
-                ],
-                examination  : [
-                        manifestPlaceholders: [JPUSH_KEY: "a351a47a9106354c59188e16", APP_CHANNEL: "examination", RONG_CLOUD_APP_KEY: "3argexb6r2kve"]
-                ],
-                stage  : [
-                        manifestPlaceholders: [JPUSH_KEY: "a351a47a9106354c59188e16", APP_CHANNEL: "stage", RONG_CLOUD_APP_KEY: "ik1qhw091eiyp"]
-                ],
-                formal  : [
-                        manifestPlaceholders: [JPUSH_KEY: "580ff852cd505c00c4be92d6", APP_CHANNEL: "formal", RONG_CLOUD_APP_KEY: "6tnym1brna4s7"]
-                ],
+def getCustomizeFlavors() {
+    def flavorArray = [:]
+    def flavorName = getDefaultFlavorName();
+    def customizeFlavors = [
+            developer  : [
+                    manifestPlaceholders: [JPUSH_KEY: "a351a47a9106354c59188e16", APP_CHANNEL: "developer", RONG_CLOUD_APP_KEY: "3argexb6r2kve"]
+            ],
+            examination: [
+                    manifestPlaceholders: [JPUSH_KEY: "a351a47a9106354c59188e16", APP_CHANNEL: "examination", RONG_CLOUD_APP_KEY: "3argexb6r2kve"]
+            ],
+            stage      : [
+                    manifestPlaceholders: [JPUSH_KEY: "a351a47a9106354c59188e16", APP_CHANNEL: "stage", RONG_CLOUD_APP_KEY: "ik1qhw091eiyp"]
+            ],
+            formal     : [
+                    manifestPlaceholders: [JPUSH_KEY: "580ff852cd505c00c4be92d6", APP_CHANNEL: "formal", RONG_CLOUD_APP_KEY: "6tnym1brna4s7"]
+            ],
     ]
-        if (flavorName == 'all') {
-            return customizeFlavors;
-        } else (
-                customizeFlavors.each { name, singleFlavor ->
-                    println 'setup-flavors-debug>>> name:' + name + ' flavorName:' + flavorName
-                    if (flavorName == name) {
-                        flavorArray.put(name, singleFlavor)
-                    }
+    if (flavorName == 'all') {
+        return customizeFlavors;
+    } else (
+            customizeFlavors.each { name, singleFlavor ->
+                println 'setup-flavors-debug>>> name:' + name + ' flavorName:' + flavorName
+                if (flavorName == name) {
+                    flavorArray.put(name, singleFlavor)
                 }
-        )
-        println 'setup-flavors-debug>>> flavors:' + flavorArray
-        if (flavorArray.size() <= 0) {
-            println 'setup-flavors-error>>> flavors:null'
-            System.exit(2);
-        }
-        return flavorArray;
+            }
+    )
+    println 'setup-flavors-debug>>> flavors:' + flavorArray
+    if (flavorArray.size() <= 0) {
+        println 'setup-flavors-error>>> flavors:null'
+        System.exit(2);
     }
+    return flavorArray;
+}
 
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:23.2.0'
     compile 'com.android.support:design:23.2.0'
     compile 'com.android.support:support-v4:23.2.0'

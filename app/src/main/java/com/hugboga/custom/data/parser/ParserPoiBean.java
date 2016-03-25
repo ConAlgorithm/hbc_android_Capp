@@ -16,7 +16,7 @@ public class ParserPoiBean extends ImplParser {
         poiBean.placeDetail = jsonObj.optString("placeAddress");
         poiBean.lng = jsonObj.optDouble("placeLng");
         poiBean.lat = jsonObj.optDouble("placeLat");
-        poiBean.location = poiBean.lat+","+ poiBean.lng;
+        poiBean.location = poiBean.lat + "," + poiBean.lng;
         return poiBean;
     }
 }

@@ -22,15 +22,15 @@ import java.util.HashMap;
 public class RequestPoiSearch extends BaseRequest<ArrayList<PoiBean>> {
     public RequestPoiSearch(Context context, int cityId, String location, String keyword, int offset, int limit) {
         super(context);
-        map =new HashMap();
+        map = new HashMap();
         try {
-            map.put("location",location);
-            if(cityId!=-1)
+            map.put("location", location);
+            if (cityId != -1)
                 map.put("cityId", cityId);
             map.put("input", keyword);
             map.put("offset", offset);
             map.put("limit", limit);
-        }catch (Exception e){
+        } catch (Exception e) {
             MLog.e(e.toString());
         }
     }

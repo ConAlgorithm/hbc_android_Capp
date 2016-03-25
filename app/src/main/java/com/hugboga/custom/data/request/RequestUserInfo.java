@@ -1,6 +1,7 @@
 package com.hugboga.custom.data.request;
 
 import android.content.Context;
+
 import com.huangbaoche.hbcframe.data.net.HbcParamsBuilder;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
@@ -20,7 +21,7 @@ import java.util.HashMap;
 public class RequestUserInfo extends BaseRequest<UserBean> {
     public RequestUserInfo(Context context) {
         super(context);
-        map = new HashMap<String,Object>();
+        map = new HashMap<String, Object>();
     }
 
     @Override

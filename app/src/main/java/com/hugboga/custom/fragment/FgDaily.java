@@ -3,9 +3,7 @@ package com.hugboga.custom.fragment;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
@@ -65,16 +63,16 @@ public class FgDaily extends BaseFragment {
             R.id.daily_layout_2,})
     private void onClickView(View view) {
         Bundle bundle;
-        FragmentTransaction transaction ;
+        FragmentTransaction transaction;
         switch (view.getId()) {
             case R.id.daily_layout_1:
                 selectTap(0);
-                if(!fgInTown.isAdded()){
+                if (!fgInTown.isAdded()) {
                     transaction = fm.beginTransaction();
                     transaction.add(R.id.daily_content, fgInTown);
 //                    transaction.addToBackStack(null);
                     transaction.commit();
-                }else if(!fgInTown.isVisible()){
+                } else if (!fgInTown.isVisible()) {
                     transaction = fm.beginTransaction();
                     transaction.hide(fgOutTown);
                     transaction.show(fgInTown);
@@ -83,13 +81,13 @@ public class FgDaily extends BaseFragment {
                 break;
             case R.id.daily_layout_2:
                 selectTap(1);
-                if(!fgOutTown.isAdded()){
+                if (!fgOutTown.isAdded()) {
                     transaction = fm.beginTransaction();
                     transaction.add(R.id.daily_content, fgOutTown);
                     transaction.hide(fgInTown);
 //                    transaction.addToBackStack(null);
                     transaction.commit();
-                }else if(!fgOutTown.isVisible()){
+                } else if (!fgOutTown.isVisible()) {
                     transaction = fm.beginTransaction();
                     transaction.hide(fgInTown);
                     transaction.show(fgOutTown);
@@ -106,13 +104,13 @@ public class FgDaily extends BaseFragment {
         return mBusinessType;
     }
 
-    private void selectTap(int index){
-        if(index==1){
+    private void selectTap(int index) {
+        if (index == 1) {
             tabLine1.setVisibility(View.GONE);
             tabLine2.setVisibility(View.VISIBLE);
             tabText1.setTextColor(getResources().getColor(R.color.my_content_btn_color));
             tabText2.setTextColor(getResources().getColor(R.color.basic_black));
-        }else{
+        } else {
             tabLine1.setVisibility(View.VISIBLE);
             tabLine2.setVisibility(View.GONE);
             tabText1.setTextColor(getResources().getColor(R.color.basic_black));

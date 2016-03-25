@@ -26,38 +26,39 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
         api.handleIntent(getIntent(), this);
         super.onCreate(savedInstanceState);
     }
+
     @Override
     public void onReq(BaseReq req) {
-        MLog.e("onResp "+req.openId+" "+req.transaction );
+        MLog.e("onResp " + req.openId + " " + req.transaction);
     }
 
     @Override
     public void onResp(BaseResp resp) {
-        MLog.e("onResp "+resp.errCode+" "+resp.errStr );
+        MLog.e("onResp " + resp.errCode + " " + resp.errStr);
         switch (resp.errCode) {
             case BaseResp.ErrCode.ERR_OK:
                 //分享成功
-                Log.i(TAG,"分享成功");
+                Log.i(TAG, "分享成功");
                 break;
             case BaseResp.ErrCode.ERR_COMM:
                 //一般错误
-                Log.i(TAG,"一般错误");
+                Log.i(TAG, "一般错误");
                 break;
             case BaseResp.ErrCode.ERR_USER_CANCEL:
                 //用户取消
-                Log.i(TAG,"用户取消");
+                Log.i(TAG, "用户取消");
                 break;
             case BaseResp.ErrCode.ERR_SENT_FAILED:
                 //发送失败
-                Log.i(TAG,"发送失败");
+                Log.i(TAG, "发送失败");
                 break;
             case BaseResp.ErrCode.ERR_AUTH_DENIED:
                 //认证被否决
-                Log.i(TAG,"认证被否决"+resp.errStr);
+                Log.i(TAG, "认证被否决" + resp.errStr);
                 break;
             case BaseResp.ErrCode.ERR_UNSUPPORT:
                 //不支持错误
-                Log.i(TAG,"不支持错误");
+                Log.i(TAG, "不支持错误");
                 break;
         }
         finish();

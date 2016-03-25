@@ -22,14 +22,14 @@ public class PromiseAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View view, ViewGroup parent) {
         ViewHolder viewHolder;
-        if(view==null) {
+        if (view == null) {
             viewHolder = new ViewHolder();
             view = mInflater.inflate(R.layout.item_promise, null);
             viewHolder.icon = (ImageView) view.findViewById(R.id.item_promise_icon);
             viewHolder.title = (TextView) view.findViewById(R.id.item_promise_title);
             viewHolder.content = (TextView) view.findViewById(R.id.item_promise_content);
             view.setTag(viewHolder);
-        }else{
+        } else {
             viewHolder = (ViewHolder) view.getTag();
         }
         PromiseBean bean = (PromiseBean) getItem(position);
@@ -38,7 +38,8 @@ public class PromiseAdapter extends BaseAdapter {
         viewHolder.content.setText(mContext.getString(bean.content));
         return view;
     }
-    class ViewHolder{
+
+    class ViewHolder {
         ImageView icon;
         TextView title;
         TextView content;

@@ -1,8 +1,6 @@
 package com.hugboga.custom.adapter;
 
 import android.app.Activity;
-import android.support.v7.widget.ViewUtils;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -16,14 +14,13 @@ import com.hugboga.custom.data.bean.CouponBean;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
-import java.util.zip.Inflater;
-
 /**
  * Created by ZHZEPHI on 2015/7/24.
  */
 public class CouponAdapter extends BaseAdapter<CouponBean> {
 
     public String idStr; //默认选中的优惠券
+
     public CouponAdapter(Activity context) {
         super(context);
     }
@@ -43,12 +40,12 @@ public class CouponAdapter extends BaseAdapter<CouponBean> {
         CouponBean couponBean = getItem(position);
         holder.mPrice.setText(couponBean.price);
         holder.mContent.setText(couponBean.batchName);
-            if (couponBean.endDate.equals("0")) {
-                holder.mDateBettow.setText("长期有效");
-            } else {
+        if (couponBean.endDate.equals("0")) {
+            holder.mDateBettow.setText("长期有效");
+        } else {
 //                holder.mDateBettow.setText("有效期：" + DateUtils.getPointStrFromDate1(couponBean.startDate) + " 至 " + DateUtils.getPointStrFromDate1(couponBean.endDate));
-                holder.mDateBettow.setText("有效期：" + couponBean.startDate + " 至 " + couponBean.endDate);
-            }
+            holder.mDateBettow.setText("有效期：" + couponBean.startDate + " 至 " + couponBean.endDate);
+        }
         //根据状态显示不同背景
         if (couponBean.couponStatus.equals(1) || couponBean.couponStatus.equals(98)) {
             //可用

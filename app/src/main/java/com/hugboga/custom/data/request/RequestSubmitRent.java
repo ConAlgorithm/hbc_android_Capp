@@ -12,7 +12,7 @@ import org.xutils.http.annotation.HttpRequest;
  * Created by admin on 2016/3/22.
  */
 @HttpRequest(path = UrlLibs.SERVER_IP_SUBMIT_SINGLE, builder = HbcParamsBuilder.class)
-public class RequestSubmitRent extends RequestSubmitBase{
+public class RequestSubmitRent extends RequestSubmitBase {
     public RequestSubmitRent(Context context, OrderBean orderBean) {
         super(context, orderBean);
     }

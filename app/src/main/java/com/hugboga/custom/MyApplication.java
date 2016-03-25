@@ -1,6 +1,8 @@
 package com.hugboga.custom;
 
 
+import android.app.ActivityManager;
+import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -10,9 +12,6 @@ import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestAccessKey;
-import com.hugboga.custom.utils.Common;
-import com.hugboga.custom.utils.Config;
-import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.widget.DialogUtil;
 
@@ -31,7 +30,7 @@ public class MyApplication extends HbcApplication {
         super.onCreate();
         x.Ext.setDebug(true);
         initUrlHost();
-        RongIM.init(this); // 初始化融云IM
+        initRongIm(); // 初始化融云IM
         initConfig();
         Log.e("hbcApplication", "debug " + BuildConfig.DEBUG);
     }
@@ -41,26 +40,56 @@ public class MyApplication extends HbcApplication {
         //根据工程渠道标识，设置访问的服务器全局信息，没有标识则默认访问开发服务器
         MLog.e("channel=" + channel);
         //根据工程渠道标识，设置访问的服务器全局信息，没有标识则默认访问开发服务器
-        if(TextUtils.isEmpty(channel))channel = "formal";
+        if (TextUtils.isEmpty(channel)) channel = "formal";
         String host = UrlLibs.SERVER_IP_HOST_PUBLIC_FORMAL;
-        MLog.e("channel = "+channel);
+        MLog.e("channel = " + channel);
         UrlLibs.UrlHost urlHost = UrlLibs.UrlHost.valueOf(channel.toUpperCase());
-        MLog.e("urlHost="+urlHost);
-        if(urlHost!=null){
+        MLog.e("urlHost=" + urlHost);
+        if (urlHost != null) {
             host = urlHost.url;
         }
-        UrlLibs.SERVER_IP_HOST_PUBLIC = UrlLibs.SERVER_HTTP_SCHEME_HTTP+host;
+        UrlLibs.SERVER_IP_HOST_PUBLIC = UrlLibs.SERVER_HTTP_SCHEME_HTTP + host;
     }
 
-    private void initConfig(){
-        HbcConfig.serverHost= UrlLibs.SERVER_IP_HOST_PUBLIC;
+    private void initConfig() {
+        HbcConfig.serverHost = UrlLibs.SERVER_IP_HOST_PUBLIC;
         HbcConfig.accessKeyRequest = RequestAccessKey.class;
         HbcConfig.dialogUtil = DialogUtil.class;
         HbcConfig.PACKAGE_NAME = BuildConfig.APPLICATION_ID;
         HbcConfig.VERSION_NAME = BuildConfig.VERSION_NAME;
         HbcConfig.VERSION_CODE = BuildConfig.VERSION_CODE;
         HbcConfig.APP_NAME = getString(R.string.app_name);
-        HbcConfig.IS_DEBUG=true;
+        HbcConfig.IS_DEBUG = true;
         HbcConfig.WX_APP_ID = Constants.WX_APP_ID;
+    }
+
+    /**
+     * 初始化融云IM
+     */
+    private void initRongIm() {
+        try {
+            if (getApplicationInfo().packageName.equals(getCurProcessName(getApplicationContext())) || "io.rong.push".equals(getCurProcessName(getApplicationContext()))) {
+                RongIM.init(this);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 获得当前进程的名字
+     *
+     * @param context
+     * @return 进程号
+     */
+    public static String getCurProcessName(Context context) {
+        int pid = android.os.Process.myPid();
+        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningAppProcessInfo appProcess : activityManager.getRunningAppProcesses()) {
+            if (appProcess.pid == pid) {
+                return appProcess.processName;
+            }
+        }
+        return null;
     }
 }

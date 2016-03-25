@@ -3,29 +3,27 @@ package com.hugboga.custom.utils;
 import android.content.Context;
 import android.text.TextUtils;
 
-//import com.hugboga.custom.data.bean.ResourcesBean;
-//import com.hugboga.custom.data.parser.ParserCheckVersion;
-//import com.lidroid.xutils.HttpUtils;
-//import com.lidroid.xutils.exception.HttpException;
-//import com.lidroid.xutils.http.ResponseInfo;
-//import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.constants.ResourcesConstants;
 import com.hugboga.custom.data.bean.CheckVersionBean;
 import com.hugboga.custom.data.bean.ResourcesBean;
-import com.hugboga.custom.data.parser.ParserCheckVersion;
 
 import org.xutils.common.Callback;
 import org.xutils.common.task.PriorityExecutor;
-import org.xutils.ex.HttpException;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
 
 import java.io.File;
 import java.util.concurrent.Executor;
 
+//import com.hugboga.custom.data.bean.ResourcesBean;
+//import com.hugboga.custom.data.parser.ParserCheckVersion;
+//import com.lidroid.xutils.HttpUtils;
+//import com.lidroid.xutils.exception.HttpException;
+//import com.lidroid.xutils.http.ResponseInfo;
+//import com.lidroid.xutils.http.callback.RequestCallBack;
+
 /**
- *
  * 更新资源，H5，DB
  * Created by admin on 2015/11/10.
  */
@@ -37,16 +35,17 @@ public class UpdateResources {
 
     /**
      * 检测服务器
+     *
      * @param context
      * @param parser
      * @param callBack
      */
-    public static void checkRemoteResources(Context context, CheckVersionBean parser,Callback.ProgressCallback<File> callBack){
+    public static void checkRemoteResources(Context context, CheckVersionBean parser, Callback.ProgressCallback<File> callBack) {
 
-        if(parser.resList!=null){
-            for(ResourcesBean bean:parser.resList){
-                if(ResourcesConstants.RESOURCES_H5_NAME.equals(bean.resName)){
-                    downloadResources(context, bean.resUrl,bean.resVersion,callBack);
+        if (parser.resList != null) {
+            for (ResourcesBean bean : parser.resList) {
+                if (ResourcesConstants.RESOURCES_H5_NAME.equals(bean.resName)) {
+                    downloadResources(context, bean.resUrl, bean.resVersion, callBack);
                 }
             }
         }
@@ -55,18 +54,19 @@ public class UpdateResources {
 
     /**
      * 下载资源，解压，保存版本号
+     *
      * @param context
      * @param url
      * @param version
      * @param callBack
      */
-    public static void downloadResources(final Context context,String url, final int version,final Callback.ProgressCallback<File> callBack){
+    public static void downloadResources(final Context context, String url, final int version, final Callback.ProgressCallback<File> callBack) {
         // data/data/com.hugboga.custom/cache/Resources/
-        final String outPath =context.getCacheDir()+ File.separator+ ResourcesConstants.RESOURCES_PATH+ File.separator;
+        final String outPath = context.getCacheDir() + File.separator + ResourcesConstants.RESOURCES_PATH + File.separator;
         // data/data/com.hugboga.custom/cache/Resources/hbc_h5
-        final String outFilePath =outPath+ ResourcesConstants.RESOURCES_LOCAL_NAME;
+        final String outFilePath = outPath + ResourcesConstants.RESOURCES_LOCAL_NAME;
         //  data/data/com.hugboga.custom/cache/Resources/hbc_h5.zip
-        final String outFile =outFilePath+ ResourcesConstants.RESOURCES_LOCAL_ZIP;
+        final String outFile = outFilePath + ResourcesConstants.RESOURCES_LOCAL_ZIP;
 
         RequestParams params = new RequestParams(url);
         params.setAutoResume(true);
@@ -128,19 +128,20 @@ public class UpdateResources {
     /**
      * 检测本地H5资源
      * 如果不存在，从项目资源 copy到指定目录
+     *
      * @param context
      */
-    public static void checkLocalResource(Context context){
+    public static void checkLocalResource(Context context) {
         long time = System.currentTimeMillis();
-        final String filePath =context.getCacheDir()+ File.separator+ ResourcesConstants.RESOURCES_PATH;
-        String fileName = filePath+ File.separator+ ResourcesConstants.RESOURCES_LOCAL_NAME;
+        final String filePath = context.getCacheDir() + File.separator + ResourcesConstants.RESOURCES_PATH;
+        String fileName = filePath + File.separator + ResourcesConstants.RESOURCES_LOCAL_NAME;
         try {
-        final String resFile = ResourcesConstants.RESOURCES_LOCAL_NAME+ ResourcesConstants.RESOURCES_LOCAL_ZIP;
-        File file = new File(fileName);
-        if(!file.exists()){//如果不存在,从资源目录解压到项目目录
+            final String resFile = ResourcesConstants.RESOURCES_LOCAL_NAME + ResourcesConstants.RESOURCES_LOCAL_ZIP;
+            File file = new File(fileName);
+            if (!file.exists()) {//如果不存在,从资源目录解压到项目目录
                 ZipUtils.UnZipFolder(context.getResources().getAssets().open(resFile), fileName);
-            new SharedPre(context).saveIntValue(SharedPre.RESOURCES_H5_VERSION, ResourcesConstants.RESOURCES_H5_VERSION_DEFAULT);
-        }
+                new SharedPre(context).saveIntValue(SharedPre.RESOURCES_H5_VERSION, ResourcesConstants.RESOURCES_H5_VERSION_DEFAULT);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -148,9 +149,10 @@ public class UpdateResources {
 
     /**
      * 检测本地数据库
+     *
      * @param context
      */
-    public static void checkLocalDB(Context context){
+    public static void checkLocalDB(Context context) {
         final DBHelper mDBHelper = new DBHelper(context);
         try {
             if (!mDBHelper.checkDataBase()) {//无数据库,从资源文件copy
@@ -159,25 +161,26 @@ public class UpdateResources {
 //                mDBHelper.getDbUtils();
                 mDBHelper.getDbManager();
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             MLog.e("checkLocalDB", e);
         }
     }
 
     /**
      * 检测 DB
+     *
      * @param context
      * @param url
      * @param version
      * @param callBack
      */
-    public static void checkRemoteDB(final Context context,String url, final int version,final Callback.ProgressCallback<File> callBack){
+    public static void checkRemoteDB(final Context context, String url, final int version, final Callback.ProgressCallback<File> callBack) {
         final DBHelper mDBHelper = new DBHelper(context);
         int localVersion = new SharedPre(context).getIntValue(SharedPre.RESOURCES_DB_VERSION, ResourcesConstants.RESOURCES_DB_VERSION_DEFAULT);
         MLog.e("localVersion=" + localVersion + " remoteVersion=" + version);
-        if(localVersion<version&&!TextUtils.isEmpty(url)){//从服务端更新
-            final String outFile = DBHelper.DB_PATH+ DBHelper.DB_NAME;
-            final String outFileTmp = outFile +".tmp";
+        if (localVersion < version && !TextUtils.isEmpty(url)) {//从服务端更新
+            final String outFile = DBHelper.DB_PATH + DBHelper.DB_NAME;
+            final String outFileTmp = outFile + ".tmp";
             RequestParams params = new RequestParams(url);
             params.setAutoResume(true);
             params.setAutoRename(false);

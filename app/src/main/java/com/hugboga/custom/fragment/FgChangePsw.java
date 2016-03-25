@@ -35,7 +35,7 @@ public class FgChangePsw extends BaseFragment {
         if (request instanceof RequestChangePwd) {
             RequestChangePwd mParser = (RequestChangePwd) request;
             showTip("修改密码成功");
-            UserEntity.getUser().setWeakPassword(getActivity(),false);
+            UserEntity.getUser().setWeakPassword(getActivity(), false);
             finish();
         }
     }
@@ -51,32 +51,32 @@ public class FgChangePsw extends BaseFragment {
                 //修改密码
                 collapseSoftInputMethod();
                 String oldStr = oldPwdEditText.getText().toString();
-                if(TextUtils.isEmpty(oldStr)){
+                if (TextUtils.isEmpty(oldStr)) {
                     showTip("原密码不能为空");
                     oldPwdEditText.requestFocus();
                     return;
                 }
                 String password = newPwdEditText.getText().toString();
-                if(TextUtils.isEmpty(password)){
+                if (TextUtils.isEmpty(password)) {
                     showTip("新密码不能为空");
                     newPwdEditText.requestFocus();
                     return;
                 }
-                if(!Pattern.matches("[\\w]{4,16}", password)){
+                if (!Pattern.matches("[\\w]{4,16}", password)) {
                     showTip("密码必须是4-16位数字或字母");
                     return;
                 }
                 String repassword = rewPwdEditText.getText().toString();
-                if(TextUtils.isEmpty(repassword)){
+                if (TextUtils.isEmpty(repassword)) {
                     showTip("确认新密码不能为空");
                     rewPwdEditText.requestFocus();
                     return;
                 }
-                if(!TextUtils.equals(password, repassword)) {
+                if (!TextUtils.equals(password, repassword)) {
                     showTip("两次填写的新密码不一致");
                     return;
                 }
-                RequestChangePwd requestChangePwd = new RequestChangePwd(getActivity(),oldStr,password);
+                RequestChangePwd requestChangePwd = new RequestChangePwd(getActivity(), oldStr, password);
                 requestData(requestChangePwd);
                 break;
             default:

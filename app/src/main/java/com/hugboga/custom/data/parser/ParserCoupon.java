@@ -2,8 +2,10 @@ package com.hugboga.custom.data.parser;
 
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.hugboga.custom.data.bean.CouponBean;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 /**
@@ -38,11 +40,11 @@ public class ParserCoupon extends ImplParser {
     public ArrayList<CouponBean> parseObject(JSONObject obj) throws Throwable {
         ArrayList<CouponBean> listDate = new ArrayList<>();
         JSONArray jsonArray = obj.optJSONArray("listData");
-        for(int i=0;i<jsonArray.length();i++){
+        for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject segObj = jsonArray.optJSONObject(i);
             ParserCouponBean parserCouponBean = new ParserCouponBean();
             CouponBean couponBean = parserCouponBean.parseObject(segObj);
-            if(couponBean != null){
+            if (couponBean != null) {
                 listDate.add(couponBean);
             }
         }

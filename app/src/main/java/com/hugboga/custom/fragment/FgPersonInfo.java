@@ -33,7 +33,6 @@ import com.hugboga.custom.data.request.RequestUpLoadFile;
 import com.hugboga.custom.data.request.RequestUserInfo;
 import com.hugboga.custom.utils.ImageOptionUtils;
 import com.hugboga.custom.utils.ImageUtils;
-import com.hugboga.custom.widget.CircleImageView;
 
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
@@ -91,14 +90,14 @@ public class FgPersonInfo extends BaseFragment {
             inflateContent();
             EventBus.getDefault().post(
                     new EventAction(EventType.CLICK_USER_LOGIN));
-        } else if(request instanceof RequestUpLoadFile){
+        } else if (request instanceof RequestUpLoadFile) {
             RequestUpLoadFile requestUpLoadFile = (RequestUpLoadFile) request;
             Object obj = requestUpLoadFile.getData();
-            if(obj instanceof String){
+            if (obj instanceof String) {
                 submitChangeUserInfo(1, obj.toString());
-            }else if(obj instanceof List){
-                if(!((List) obj).isEmpty())
-                submitChangeUserInfo(1, ((List) obj).get(0).toString());
+            } else if (obj instanceof List) {
+                if (!((List) obj).isEmpty())
+                    submitChangeUserInfo(1, ((List) obj).get(0).toString());
             }
         }
     }
@@ -108,10 +107,10 @@ public class FgPersonInfo extends BaseFragment {
 //        BitmapUtils imageUtil = x.image().HttpImageUtils.getInstance(getActivity());
 //        imageUtil.configDefaultLoadingImage(R.mipmap.chat_head);
 //        imageUtil.configDefaultLoadFailedImage(R.mipmap.chat_head);
-        if(!TextUtils.isEmpty(userBean.avatar)){
+        if (!TextUtils.isEmpty(userBean.avatar)) {
             String avatar = userBean.avatar;
 //            imageUtil.display(headImageView, avatar);
-            x.image().bind(headImageView,avatar, ImageOptionUtils.userPortraitImageOptions);
+            x.image().bind(headImageView, avatar, ImageOptionUtils.userPortraitImageOptions);
         }
         if (!TextUtils.isEmpty(userBean.nickname)) {
             nickNameTextView.setText(userBean.nickname);
@@ -119,7 +118,7 @@ public class FgPersonInfo extends BaseFragment {
         if (!TextUtils.isEmpty(userBean.gender)) {
             sexTextView.setText(userBean.getGenderStr());
         }
-        if (userBean.ageType!=-1) {
+        if (userBean.ageType != -1) {
             ageTextView.setText(userBean.getAgeStr());
         }
         if (!TextUtils.isEmpty(userBean.signature)) {
@@ -151,7 +150,7 @@ public class FgPersonInfo extends BaseFragment {
                 break;
             case R.id.my_info_menu_layout2:
                 //昵称
-                RelativeLayout rl = (RelativeLayout) LayoutInflater.from(getActivity()).inflate(R.layout.fg_person_info_nick,null);
+                RelativeLayout rl = (RelativeLayout) LayoutInflater.from(getActivity()).inflate(R.layout.fg_person_info_nick, null);
                 final EditText inputServer = (EditText) rl.findViewById(R.id.person_info_nick_text);
                 inputServer.setText(nickNameTextView.getText().toString());
                 inputServer.setSelection(inputServer.getText().length());
@@ -189,7 +188,7 @@ public class FgPersonInfo extends BaseFragment {
                 final CharSequence[] ages = getResources().getStringArray(R.array.my_info_age);
                 AlertDialog.Builder ageDialogBuild = new AlertDialog.Builder(getActivity());
                 ageDialogBuild.setTitle("选择年龄");
-                ageDialogBuild.setSingleChoiceItems(ages, getAgeInt(ages),new DialogInterface.OnClickListener() {
+                ageDialogBuild.setSingleChoiceItems(ages, getAgeInt(ages), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String agesStr = ages[which].toString();
@@ -229,16 +228,17 @@ public class FgPersonInfo extends BaseFragment {
 
     /**
      * 获取年龄选择项
+     *
      * @param ages
      * @return
      */
-    private int getAgeInt(CharSequence[] ages){
+    private int getAgeInt(CharSequence[] ages) {
         String str = ageTextView.getText().toString();
-        if(str==null || str.isEmpty()){
+        if (str == null || str.isEmpty()) {
             return -1;
         }
-        for(int i=0;i<ages.length;i++){
-            if(str.equals(ages[i])){
+        for (int i = 0; i < ages.length; i++) {
+            if (str.equals(ages[i])) {
                 return i;
             }
         }
@@ -247,16 +247,17 @@ public class FgPersonInfo extends BaseFragment {
 
     /**
      * 选择性别选择项
+     *
      * @param items3
      * @return
      */
-    private int getSexInt(CharSequence[] items3){
+    private int getSexInt(CharSequence[] items3) {
         String str = sexTextView.getText().toString();
-        if(str==null || str.isEmpty()){
+        if (str == null || str.isEmpty()) {
             return -1;
         }
-        for(int i=0;i<items3.length;i++){
-            if(str.equals(items3[i])){
+        for (int i = 0; i < items3.length; i++) {
+            if (str.equals(items3[i])) {
                 return i;
             }
         }
@@ -323,7 +324,7 @@ public class FgPersonInfo extends BaseFragment {
             }
 
         }
-        return  fileName;
+        return fileName;
     }
 
     /**
@@ -435,35 +436,36 @@ public class FgPersonInfo extends BaseFragment {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    private void uploadPic(String fileName){
+    private void uploadPic(String fileName) {
         File file = new File(fileName);
-        if(file.exists()){
+        if (file.exists()) {
             uploadPic(file);
         }
     }
 
     /**
      * 上传图片
-     *type资源类型：图片 1  视频 2
-     *refId 用户id
+     * type资源类型：图片 1  视频 2
+     * refId 用户id
      * refType
      * // 实体对象类型： 导游车辆 1;
-     // 实体对象类型： 推送消息  2;
-     // 实体对象类型： 导游头像 3;
-    // 用户头像 4;
+     * // 实体对象类型： 推送消息  2;
+     * // 实体对象类型： 导游头像 3;
+     * // 用户头像 4;
+     *
      * @param file
      */
-    private void uploadPic(File file){
+    private void uploadPic(File file) {
         MLog.e("uploadPic url=" + UrlLibs.SERVER_IP_PIC_UPLOAD);
-        String url  = UrlLibs.SERVER_IP_PIC_UPLOAD;
+        String url = UrlLibs.SERVER_IP_PIC_UPLOAD;
         url = url.replace(UrlLibs.SERVER_IP_HOST_PUBLIC_DEFAULT, UrlLibs.SERVER_IP_HOST_PUBLIC);
         MLog.e("uploadPic url=" + url);
-        HashMap<String,Object> fileMap = new HashMap<>();
+        HashMap<String, Object> fileMap = new HashMap<>();
         fileMap.put("pic", file);
         fileMap.put("type", "1");
         fileMap.put("refId", UserEntity.getUser().getUserId());
         fileMap.put("refType", "4");
-        RequestUpLoadFile parser =new RequestUpLoadFile(getActivity(),fileMap);
+        RequestUpLoadFile parser = new RequestUpLoadFile(getActivity(), fileMap);
         requestData(parser);
     }
 

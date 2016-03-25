@@ -1,12 +1,9 @@
 package com.hugboga.custom.fragment;
+
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
@@ -16,19 +13,13 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.HomeAdapter;
 import com.hugboga.custom.data.bean.HomeBean;
 import com.hugboga.custom.data.request.RequestHome;
-import com.manuelpeinado.fadingactionbar.FadingActionBarHelper;
 
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
-import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
-import org.xutils.x;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
+
 /**
  * 首页
  * Created by admin on 2016/3/1.
@@ -81,16 +72,16 @@ public class FgHome extends BaseFragment implements AdapterView.OnItemClickListe
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        if(position==0)return;
+        if (position == 0) return;
         FgSkuList fg = new FgSkuList();
         Bundle bundle = new Bundle();
-        bundle.putString(FgSkuList.KEY_CITY_ID,dataList.get(position-1).cityId);
-        startFragment(fg,bundle);
+        bundle.putString(FgSkuList.KEY_CITY_ID, dataList.get(position - 1).cityId);
+        startFragment(fg, bundle);
     }
 
     @Override
     public void onClick(View v) {
-        MLog.e("onClick="+v);
+        MLog.e("onClick=" + v);
         switch (v.getId()) {
             case R.id.header_left_btn:
                 ((MainActivity) getActivity()).openDrawer();

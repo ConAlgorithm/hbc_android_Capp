@@ -3,13 +3,10 @@ package com.hugboga.custom.fragment;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
-import com.hugboga.custom.constants.Constants;
 
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
@@ -21,7 +18,7 @@ import org.xutils.view.annotation.ViewInject;
  * Created by Administrator on 2016/3/19.
  */
 @ContentView(R.layout.fg_transfer)
-public class FgTransfer extends BaseFragment{
+public class FgTransfer extends BaseFragment {
     @ViewInject(R.id.daily_tap_line1)
     private View tabLine1;
     @ViewInject(R.id.daily_tap_line2)
@@ -30,7 +27,7 @@ public class FgTransfer extends BaseFragment{
     private TextView tabText1;
     @ViewInject(R.id.daily_tap_2)
     private TextView tabText2;
-//    private FgDailyInTown fgInTown;
+    //    private FgDailyInTown fgInTown;
 //    private FgDailyOutTown fgOutTown;
     private FgPick fgPick;
     private FgSend fgSend;
@@ -64,19 +61,19 @@ public class FgTransfer extends BaseFragment{
 
     }
 
-    @Event({R.id.daily_layout_1,R.id.daily_layout_2,})
+    @Event({R.id.daily_layout_1, R.id.daily_layout_2,})
     private void onClickView(View view) {
         Bundle bundle;
-        FragmentTransaction transaction ;
+        FragmentTransaction transaction;
         switch (view.getId()) {
             case R.id.daily_layout_1:
                 selectTap(0);
-                if(!fgPick.isAdded()){
+                if (!fgPick.isAdded()) {
                     transaction = fm.beginTransaction();
                     transaction.add(R.id.daily_content, fgPick);
 //                    transaction.addToBackStack(null);
                     transaction.commit();
-                }else if(!fgPick.isVisible()){
+                } else if (!fgPick.isVisible()) {
                     transaction = fm.beginTransaction();
                     transaction.hide(fgSend);
                     transaction.show(fgPick);
@@ -85,13 +82,13 @@ public class FgTransfer extends BaseFragment{
                 break;
             case R.id.daily_layout_2:
                 selectTap(1);
-                if(!fgSend.isAdded()){
+                if (!fgSend.isAdded()) {
                     transaction = fm.beginTransaction();
                     transaction.add(R.id.daily_content, fgSend);
                     transaction.hide(fgPick);
 //                    transaction.addToBackStack(null);
                     transaction.commit();
-                }else if(!fgSend.isVisible()){
+                } else if (!fgSend.isVisible()) {
                     transaction = fm.beginTransaction();
                     transaction.hide(fgPick);
                     transaction.show(fgSend);
@@ -108,13 +105,13 @@ public class FgTransfer extends BaseFragment{
 //        return mBusinessType;
 //    }
 
-    private void selectTap(int index){
-        if(index==1){
+    private void selectTap(int index) {
+        if (index == 1) {
             tabLine1.setVisibility(View.GONE);
             tabLine2.setVisibility(View.VISIBLE);
             tabText1.setTextColor(getResources().getColor(R.color.my_content_btn_color));
             tabText2.setTextColor(getResources().getColor(R.color.basic_black));
-        }else{
+        } else {
             tabLine1.setVisibility(View.VISIBLE);
             tabLine2.setVisibility(View.GONE);
             tabText1.setTextColor(getResources().getColor(R.color.basic_black));

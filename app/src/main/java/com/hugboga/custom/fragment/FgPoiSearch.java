@@ -29,7 +29,7 @@ import java.util.List;
  * 目的地列表 ，要去哪
  */
 @ContentView(R.layout.fg_arrival_search)
-public class FgPoiSearch extends BaseFragment implements AdapterView.OnItemClickListener, View.OnKeyListener , ZListView.OnRefreshListener, ZListView.OnLoadListener{
+public class FgPoiSearch extends BaseFragment implements AdapterView.OnItemClickListener, View.OnKeyListener, ZListView.OnRefreshListener, ZListView.OnLoadListener {
 
     public static final String KEY_ARRIVAL = "arrival";
 
@@ -47,8 +47,8 @@ public class FgPoiSearch extends BaseFragment implements AdapterView.OnItemClick
     @ViewInject(R.id.arrival_tip)
     private TextView arrivalTip;
 
-    public static final String KEY_CITY_ID ="key_city_id";
-    public static final String KEY_LOCATION ="location";
+    public static final String KEY_CITY_ID = "key_city_id";
+    public static final String KEY_LOCATION = "location";
 
     public PoiSearchAdapter adapter;
     private long t = 0;
@@ -56,7 +56,7 @@ public class FgPoiSearch extends BaseFragment implements AdapterView.OnItemClick
     private int cityId;
     private String location;
     private int PAGESIZE = 20;
-    private String searchWord="";
+    private String searchWord = "";
     private SharedPre sharedPre;
     private ArrayList<String> placeHistoryArray;
 
@@ -127,14 +127,14 @@ public class FgPoiSearch extends BaseFragment implements AdapterView.OnItemClick
     /**
      * 初始化搜索历史记录
      */
-    private void initHistoryDate(){
+    private void initHistoryDate() {
 //        @color/item_title_bg
-      String placeHistoryStr =  sharedPre.getStringValue(mBusinessType+ SharedPre.RESOURCES_PLACE_HISTORY);
+        String placeHistoryStr = sharedPre.getStringValue(mBusinessType + SharedPre.RESOURCES_PLACE_HISTORY);
         placeHistoryArray = new ArrayList<String>();
         ArrayList<PoiBean> historyList = new ArrayList<PoiBean>();
         PoiBean bean;
-        if(placeHistoryStr!=null){
-            for(String place:placeHistoryStr.split(",")){
+        if (placeHistoryStr != null) {
+            for (String place : placeHistoryStr.split(",")) {
                 bean = new PoiBean();
                 bean.placeName = place;
                 bean.isHistory = true;
@@ -142,8 +142,8 @@ public class FgPoiSearch extends BaseFragment implements AdapterView.OnItemClick
                 placeHistoryArray.add(place);
             }
             adapter.setList(historyList);
-            if(historyList.size()>0)
-            arrivalTip.setTextColor(0xff242424);
+            if (historyList.size() > 0)
+                arrivalTip.setTextColor(0xff242424);
             arrivalTip.setText("搜索历史");
             return;
         }
@@ -152,7 +152,7 @@ public class FgPoiSearch extends BaseFragment implements AdapterView.OnItemClick
     }
 
     private void requestKeyword(int offset) {
-        RequestPoiSearch requestPoiSearch = new RequestPoiSearch(getActivity(),cityId,location, searchWord,offset,PAGESIZE);
+        RequestPoiSearch requestPoiSearch = new RequestPoiSearch(getActivity(), cityId, location, searchWord, offset, PAGESIZE);
         requestData(requestPoiSearch);
     }
 
@@ -167,15 +167,15 @@ public class FgPoiSearch extends BaseFragment implements AdapterView.OnItemClick
             }
             inflateContent();
             sortListView.getMoreView().setVisibility(View.VISIBLE);
-            if(dateList!=null&&dateList.size()<PAGESIZE){
+            if (dateList != null && dateList.size() < PAGESIZE) {
                 sortListView.onLoadCompleteNone();
-            }else {
+            } else {
                 sortListView.onLoadComplete();
             }
-            if(sortListView.state== ZListView.LOADING_MORE){
-                if(dateList!=null)
+            if (sortListView.state == ZListView.LOADING_MORE) {
+                if (dateList != null)
                     adapter.addList(dateList);
-            }else{
+            } else {
                 adapter.setList(dateList);
                 sortListView.onRefreshComplete();
             }
@@ -217,12 +217,12 @@ public class FgPoiSearch extends BaseFragment implements AdapterView.OnItemClick
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        PoiBean bean = (PoiBean)adapter.getItem(position-1);
-        if(bean!=null){
-            if(bean.isHistory){
+        PoiBean bean = (PoiBean) adapter.getItem(position - 1);
+        if (bean != null) {
+            if (bean.isHistory) {
                 editSearch.setText(bean.placeName);
                 search();
-            }else{
+            } else {
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(KEY_ARRIVAL, bean);
                 finishForResult(bundle);
@@ -245,7 +245,7 @@ public class FgPoiSearch extends BaseFragment implements AdapterView.OnItemClick
     private void search() {
         arrivalTip.setTextColor(getActivity().getResources().getColor(R.color.basic_rent_toolbar_color));
         searchWord = editSearch.getText().toString();
-        if (!TextUtils.isEmpty(searchWord)&&!TextUtils.isEmpty(searchWord.trim())) {
+        if (!TextUtils.isEmpty(searchWord) && !TextUtils.isEmpty(searchWord.trim())) {
             searchWord = searchWord.trim();
             saveHistoryDate(searchWord);
             onRefresh();
@@ -259,18 +259,21 @@ public class FgPoiSearch extends BaseFragment implements AdapterView.OnItemClick
         }
 
     }
+
     /**
      * 存储历史
+     *
      * @param keyword
      */
     private void saveHistoryDate(String keyword) {
         placeHistoryArray.remove(keyword);//排重
-        placeHistoryArray.add(0,keyword);
-        for(int i=placeHistoryArray.size()-1;i>2;i--){
+        placeHistoryArray.add(0, keyword);
+        for (int i = placeHistoryArray.size() - 1; i > 2; i--) {
             placeHistoryArray.remove(i);
         }
-        sharedPre.saveStringValue(mBusinessType+ SharedPre.RESOURCES_PLACE_HISTORY, TextUtils.join(",", placeHistoryArray));
+        sharedPre.saveStringValue(mBusinessType + SharedPre.RESOURCES_PLACE_HISTORY, TextUtils.join(",", placeHistoryArray));
     }
+
     @Override
     public void onLoad() {
         requestKeyword(adapter.getCount());

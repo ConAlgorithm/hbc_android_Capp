@@ -9,9 +9,9 @@ import java.util.concurrent.Executors;
 public class Test {
 
 
-    public void test(){
+    public void test() {
 
-        ExecutorService executorService =  Executors.newSingleThreadExecutor();
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
         executorService.submit(new Runnable() {
             @Override
             public void run() {

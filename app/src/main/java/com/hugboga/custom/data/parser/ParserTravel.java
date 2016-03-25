@@ -15,7 +15,7 @@ public class ParserTravel extends ImplParser {
     @Override
     public ArrayList<OrderBean> parseObject(JSONObject obj) throws Throwable {
 
-        JSONArray jsonArray= obj.optJSONArray("resultBean");
+        JSONArray jsonArray = obj.optJSONArray("resultBean");
         ArrayList<OrderBean> listData = new ArrayList<OrderBean>();
         if (jsonArray != null) {
             for (int i = 0; i < jsonArray.length(); i++) {

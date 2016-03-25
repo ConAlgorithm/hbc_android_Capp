@@ -11,7 +11,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -62,7 +61,7 @@ public class FgChooseCountry extends BaseFragment {
 
     private SortCountryAdapter adapter;
     private List<AreaCodeBean> sourceDateList;
-//    private DbUtils mDbUtils;
+    //    private DbUtils mDbUtils;
     private DbManager mDbManager;
 
     @Override
@@ -82,7 +81,7 @@ public class FgChooseCountry extends BaseFragment {
         return null;
     }
 
-    Handler handler =new Handler(){
+    Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             initViews();
@@ -92,23 +91,24 @@ public class FgChooseCountry extends BaseFragment {
 
     /**
      * 获取区号列表
+     *
      * @param keyword 搜索的关键词
      */
-    private void requestDate(String keyword){
+    private void requestDate(String keyword) {
         Selector selector = null;
         try {
             selector = mDbManager.selector(AreaCodeBean.class);
         } catch (DbException e) {
             e.printStackTrace();
         }
-        if(!TextUtils.isEmpty(keyword)) {
+        if (!TextUtils.isEmpty(keyword)) {
             WhereBuilder whereBuilder = WhereBuilder.b();
             whereBuilder.and("cn_name", "LIKE", "%" + keyword + "%").or("area_code", "LIKE", "%" + keyword + "%");
             selector.where(whereBuilder);
         }
         selector.orderBy("initial");
         try {
-            sourceDateList =selector.findAll();
+            sourceDateList = selector.findAll();
         } catch (DbException e) {
             e.printStackTrace();
         }
@@ -130,6 +130,7 @@ public class FgChooseCountry extends BaseFragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
             }
+
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count,
                                           int after) {
@@ -152,7 +153,7 @@ public class FgChooseCountry extends BaseFragment {
             public void onTouchingLetterChanged(String s) {
                 //该字母首次出现的位置
                 int position = adapter.getPositionForSection(s.charAt(0));
-                if(position != -1){
+                if (position != -1) {
                     sortListView.setSelection(position);
                 }
 
@@ -162,9 +163,9 @@ public class FgChooseCountry extends BaseFragment {
         sortListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
-            public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
-            	Intent intent = new Intent();
-            	AreaCodeBean areaCodeBean = (AreaCodeBean)adapter.getItem(position);
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent();
+                AreaCodeBean areaCodeBean = (AreaCodeBean) adapter.getItem(position);
                 Bundle bundle = new Bundle();
 
                 bundle.putString(KEY_COUNTRY_CODE, areaCodeBean.getCode());
@@ -183,37 +184,39 @@ public class FgChooseCountry extends BaseFragment {
     /**
      * 数据筛选
      * Created by ZHZEPHI at 2015年2月2日 下午7:31:38
+     *
      * @param filterStr
      */
-    private void filterData(String filterStr){
-    	List<AreaCodeBean> filterDateList = new ArrayList<AreaCodeBean>();
+    private void filterData(String filterStr) {
+        List<AreaCodeBean> filterDateList = new ArrayList<AreaCodeBean>();
 
-        if(TextUtils.isEmpty(filterStr)){
-    		filterDateList = sourceDateList;
-    	}else{
-    		for(AreaCodeBean sm:sourceDateList){
-        		if(sm.getName().indexOf(filterStr)>=0 || sm.getCode().indexOf(filterStr)>=0){
-        			filterDateList.add(sm);
-        		}
+        if (TextUtils.isEmpty(filterStr)) {
+            filterDateList = sourceDateList;
+        } else {
+            for (AreaCodeBean sm : sourceDateList) {
+                if (sm.getName().indexOf(filterStr) >= 0 || sm.getCode().indexOf(filterStr) >= 0) {
+                    filterDateList.add(sm);
+                }
             }
-    	}
-    	// 根据a-z进行排序源数据
+        }
+        // 根据a-z进行排序源数据
         Collections.sort(filterDateList, pinyinComparator);
         adapter = new SortCountryAdapter(getActivity(), filterDateList);
         sortListView.setAdapter(adapter);
     }
-    
+
     /**
      * 为ListView填充数据
+     *
      * @param date
      * @return
      */
-    private List<AreaCodeBean> filledData(String [] date){
+    private List<AreaCodeBean> filledData(String[] date) {
         List<AreaCodeBean> mSortList = new ArrayList<AreaCodeBean>();
-        
+
         String[] codes = getResources().getStringArray(R.array.countrycode);
 
-        for(int i=0; i<date.length; i++){
+        for (int i = 0; i < date.length; i++) {
             AreaCodeBean areaCodeBean = new AreaCodeBean();
             areaCodeBean.setName(date[i]);
             areaCodeBean.setCode(codes[i]);
@@ -240,12 +243,12 @@ public class FgChooseCountry extends BaseFragment {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         switch (id) {
-		case android.R.id.home:
-			finish();
-			break;
-		default:
-			break;
-		}
+            case android.R.id.home:
+                finish();
+                break;
+            default:
+                break;
+        }
         return super.onOptionsItemSelected(item);
     }
 

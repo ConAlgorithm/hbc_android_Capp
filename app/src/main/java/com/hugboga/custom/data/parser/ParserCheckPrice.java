@@ -21,7 +21,7 @@ public class ParserCheckPrice extends ImplParser {
     @Override
     public CarListBean parseObject(JSONObject obj) throws Throwable {
         CarListBean carListBean = new CarListBean();
-        carListBean.distance = obj.optDouble("distance",0);
+        carListBean.distance = obj.optDouble("distance", 0);
         carListBean.interval = obj.optInt("estTime", 0);
         JSONArray priceList = obj.optJSONArray("cars");
         CarBean bean;
@@ -37,8 +37,8 @@ public class ParserCheckPrice extends ImplParser {
                 bean.models = jsonObj.optString("models");
                 bean.pricemark = jsonObj.optString("pricemark");
                 bean.originalPrice = jsonObj.optInt("price");
-                bean.checkInPrice = jsonObj.optInt("checkInPrice",0);
-                bean.urgentFlag = jsonObj.optInt("urgentFlag",0);
+                bean.checkInPrice = jsonObj.optInt("checkInPrice", 0);
+                bean.urgentFlag = jsonObj.optInt("urgentFlag", 0);
                 carListBean.carList.add(bean);
             }
         }

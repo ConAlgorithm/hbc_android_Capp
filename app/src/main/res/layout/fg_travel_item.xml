@@ -85,8 +85,8 @@
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="5dp"
             android:textSize="@dimen/text_size_large"
-            android:visibility="gone"
-            />
+            android:visibility="gone" />
+
         <TextView
             android:id="@+id/travel_item_datetime"
             android:layout_width="wrap_content"
@@ -176,14 +176,15 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="@dimen/basic_margin_small"
                         android:textSize="@dimen/text_size_large" />
+
                     <ImageView
                         android:id="@+id/travel_item_btn_chat"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:src="@mipmap/list_btn_chat"
-                        android:layout_marginLeft="5dp"
-                        />
+                        android:layout_marginLeft="5dp" />
+
                     <TextView
                         android:id="@+id/travel_item_btn_chat_num"
                         android:layout_width="14dp"

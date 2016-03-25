@@ -1,165 +1,161 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="45dip"
+    android:layout_width="match_parent"
+    android:layout_height="45dip"
     android:padding="10dip"
     android:orientation="horizontal"
-    android:background="@color/progress_bg"
-    >
-<RelativeLayout
-    android:layout_width="0dip"
-    android:layout_height="wrap_content"
-    android:layout_weight="1"
-    >
-    <LinearLayout
-        android:id="@+id/progress_layout_1"
-        android:layout_width="fill_parent"
+    android:background="@color/progress_bg">
+
+    <RelativeLayout
+        android:layout_width="0dip"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_alignParentBottom="true"
-        android:gravity="center"
-        >
-        <ImageView
-            android:id="@+id/progress_icon_1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/progress_icon_state"
-            />
-        <ImageView
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:id="@+id/progress_layout_1"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:background="@mipmap/progress_bar_bg"
-            android:layout_margin="2dip"
-            />
+            android:orientation="horizontal"
+            android:layout_alignParentBottom="true"
+            android:gravity="center">
 
-    </LinearLayout>
+            <ImageView
+                android:id="@+id/progress_icon_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/progress_icon_state" />
 
-    <TextView
-        android:id="@+id/progress_text_1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@drawable/progress_text_state"
-        android:textSize="13dp"
-        android:text="@string/progress_trip"
-        android:layout_above="@id/progress_layout_1"
-        android:layout_marginLeft="15dip"
-        />
- </RelativeLayout>
-<RelativeLayout
-    android:layout_width="0dip"
-    android:layout_height="wrap_content"
-    android:layout_weight="1"
-    >
-    <LinearLayout
-        android:id="@+id/progress_layout_2"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_alignParentBottom="true"
-        android:gravity="center"
-        >
-        <ImageView
-            android:id="@+id/progress_icon_2"
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@mipmap/progress_bar_bg"
+                android:layout_margin="2dip" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/progress_text_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/progress_icon_state"
-            />
-        <ImageView
+            android:textColor="@drawable/progress_text_state"
+            android:textSize="13dp"
+            android:text="@string/progress_trip"
+            android:layout_above="@id/progress_layout_1"
+            android:layout_marginLeft="15dip" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="0dip"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:id="@+id/progress_layout_2"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:background="@mipmap/progress_bar_bg"
-            android:layout_margin="2dip"
-            />
+            android:orientation="horizontal"
+            android:layout_alignParentBottom="true"
+            android:gravity="center">
 
-    </LinearLayout>
+            <ImageView
+                android:id="@+id/progress_icon_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/progress_icon_state" />
 
-    <TextView
-        android:id="@+id/progress_text_2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@drawable/progress_text_state"
-        android:textSize="13dp"
-        android:text="@string/progress_car"
-        android:layout_above="@id/progress_layout_2"
-        android:layout_marginLeft="15dip"
-        />
- </RelativeLayout>
-<RelativeLayout
-    android:layout_width="0dip"
-    android:layout_height="wrap_content"
-    android:layout_weight="1"
-    >
-    <LinearLayout
-        android:id="@+id/progress_layout_3"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_alignParentBottom="true"
-        android:gravity="center"
-        >
-        <ImageView
-            android:id="@+id/progress_icon_3"
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@mipmap/progress_bar_bg"
+                android:layout_margin="2dip" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/progress_text_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/progress_icon_state"
-            />
-        <ImageView
+            android:textColor="@drawable/progress_text_state"
+            android:textSize="13dp"
+            android:text="@string/progress_car"
+            android:layout_above="@id/progress_layout_2"
+            android:layout_marginLeft="15dip" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="0dip"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:id="@+id/progress_layout_3"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:background="@mipmap/progress_bar_bg"
-            android:layout_margin="2dip"
-            />
+            android:orientation="horizontal"
+            android:layout_alignParentBottom="true"
+            android:gravity="center">
 
-    </LinearLayout>
+            <ImageView
+                android:id="@+id/progress_icon_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/progress_icon_state" />
 
-    <TextView
-        android:id="@+id/progress_text_3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@drawable/progress_text_state"
-        android:textSize="13dp"
-        android:text="@string/progress_order"
-        android:layout_above="@id/progress_layout_3"
-        android:layout_marginLeft="15dip"
-        />
- </RelativeLayout>
-<RelativeLayout
-    android:layout_width="0dip"
-    android:layout_height="wrap_content"
-    android:layout_weight="1"
-    >
-    <LinearLayout
-        android:id="@+id/progress_layout_4"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_alignParentBottom="true"
-        android:gravity="center"
-        >
-        <ImageView
-            android:id="@+id/progress_icon_4"
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@mipmap/progress_bar_bg"
+                android:layout_margin="2dip" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/progress_text_3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/progress_icon_state"
-            />
-        <ImageView
+            android:textColor="@drawable/progress_text_state"
+            android:textSize="13dp"
+            android:text="@string/progress_order"
+            android:layout_above="@id/progress_layout_3"
+            android:layout_marginLeft="15dip" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="0dip"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:id="@+id/progress_layout_4"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:background="@mipmap/progress_bar_bg"
-            android:layout_margin="2dip"
-            />
+            android:orientation="horizontal"
+            android:layout_alignParentBottom="true"
+            android:gravity="center">
 
-    </LinearLayout>
+            <ImageView
+                android:id="@+id/progress_icon_4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/progress_icon_state" />
 
-    <TextView
-        android:id="@+id/progress_text_4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@drawable/progress_text_state"
-        android:textSize="13dp"
-        android:text="@string/progress_pay"
-        android:layout_above="@id/progress_layout_4"
-        android:layout_marginLeft="15dip"
-        />
- </RelativeLayout>
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@mipmap/progress_bar_bg"
+                android:layout_margin="2dip" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/progress_text_4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@drawable/progress_text_state"
+            android:textSize="13dp"
+            android:text="@string/progress_pay"
+            android:layout_above="@id/progress_layout_4"
+            android:layout_marginLeft="15dip" />
+    </RelativeLayout>
 
 </LinearLayout>

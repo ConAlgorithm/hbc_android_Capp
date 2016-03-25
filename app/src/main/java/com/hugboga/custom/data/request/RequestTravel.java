@@ -18,15 +18,15 @@ import java.util.HashMap;
  * 订单行程列表 解析器
  * Created by admin on 2016/3/23.
  */
-@HttpRequest(path = UrlLibs.SERVER_IP_ORDER_LIST,builder = HbcParamsBuilder.class)
+@HttpRequest(path = UrlLibs.SERVER_IP_ORDER_LIST, builder = HbcParamsBuilder.class)
 public class RequestTravel extends BaseRequest<ArrayList<OrderBean>> {
-    public RequestTravel(Context context,  int orderShowType, int offset,int limit)  {
+    public RequestTravel(Context context, int orderShowType, int offset, int limit) {
         super(context);
-        map = new HashMap<String,Object>();
-        map.put("searchType", orderShowType+1);
-        map.put("offset",offset);
-        map.put("limit",limit);
-        }
+        map = new HashMap<String, Object>();
+        map.put("searchType", orderShowType + 1);
+        map.put("offset", offset);
+        map.put("limit", limit);
+    }
 
     @Override
     public ImplParser getParser() {

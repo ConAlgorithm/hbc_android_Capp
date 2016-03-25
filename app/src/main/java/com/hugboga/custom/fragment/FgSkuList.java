@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
@@ -15,9 +14,7 @@ import com.huangbaoche.hbcframe.data.net.DefaultImageCallback;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
-import com.hugboga.custom.adapter.HomeAdapter;
 import com.hugboga.custom.adapter.SkuAdapter;
-import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.SkuCityBean;
 import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.data.request.RequestSkuList;
@@ -25,7 +22,6 @@ import com.hugboga.custom.data.request.RequestSkuList;
 import org.xutils.common.Callback;
 import org.xutils.image.ImageOptions;
 import org.xutils.view.annotation.ContentView;
-import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
@@ -34,7 +30,7 @@ import org.xutils.x;
  * Created by admin on 2016/3/3.
  */
 @ContentView(R.layout.fg_sku_list)
-public class FgSkuList extends  BaseFragment implements AdapterView.OnItemClickListener {
+public class FgSkuList extends BaseFragment implements AdapterView.OnItemClickListener {
 
     public static final String KEY_CITY_ID = "KEY_CITY_ID";
 
@@ -74,15 +70,15 @@ public class FgSkuList extends  BaseFragment implements AdapterView.OnItemClickL
     @Override
     protected Callback.Cancelable requestData() {
         mCityId = getArguments().getString(KEY_CITY_ID);
-        RequestSkuList requestSkuList = new RequestSkuList(getActivity(),mCityId);
+        RequestSkuList requestSkuList = new RequestSkuList(getActivity(), mCityId);
         return requestData(requestSkuList);
     }
 
 
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
-        if(request instanceof RequestSkuList){
-            RequestSkuList requestSkuList = (RequestSkuList)request;
+        if (request instanceof RequestSkuList) {
+            RequestSkuList requestSkuList = (RequestSkuList) request;
             skuCityBean = requestSkuList.getData();
             inflateContent();
         }
@@ -92,8 +88,8 @@ public class FgSkuList extends  BaseFragment implements AdapterView.OnItemClickL
     protected void inflateContent() {
         adapter.setList(skuCityBean.goodsList);
         ImageOptions options = new ImageOptions.Builder().setFailureDrawableId(R.mipmap.img_undertext).build();
-        if(skuCityBean.goodsList.size()==0){
-            MLog.e("skuCityBean.goodsList.size"+skuCityBean.goodsList.size());
+        if (skuCityBean.goodsList.size() == 0) {
+            MLog.e("skuCityBean.goodsList.size" + skuCityBean.goodsList.size());
             x.image().loadDrawable(skuCityBean.cityPicture, options, new DefaultImageCallback<Drawable>() {
                 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
                 @Override
@@ -105,8 +101,8 @@ public class FgSkuList extends  BaseFragment implements AdapterView.OnItemClickL
                     MLog.e(" cityPicture result" + result);
                 }
             });
-        }else{
-            MLog.e("skuCityBean.goodsList.size"+skuCityBean.goodsList.size());
+        } else {
+            MLog.e("skuCityBean.goodsList.size" + skuCityBean.goodsList.size());
             x.image().loadDrawable(skuCityBean.cityHeadPicture, options, new DefaultImageCallback<Drawable>() {
                 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
                 @Override
@@ -122,14 +118,14 @@ public class FgSkuList extends  BaseFragment implements AdapterView.OnItemClickL
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        MLog.e("position = "+position);
-        if(position==0)return;
-        SkuItemBean bean = adapter.getItem(position-1);
+        MLog.e("position = " + position);
+        if (position == 0) return;
+        SkuItemBean bean = adapter.getItem(position - 1);
         Bundle bundle = new Bundle();
 //        String url = "http://res.test.hbc.tech/h5/csku/skuDetail.html?source=c&goodsNo="+bean.goodsNo;
 //        url = "http://res.dev.hbc.tech/h5/test/api.html?";
-        bundle.putString(FgWebInfo.WEB_URL,bean.skuDetailUrl);
+        bundle.putString(FgWebInfo.WEB_URL, bean.skuDetailUrl);
         bundle.putSerializable(FgSkuDetail.WEB_CITY, bean);
-        startFragment(new FgSkuDetail(),bundle);
+        startFragment(new FgSkuDetail(), bundle);
     }
 }
