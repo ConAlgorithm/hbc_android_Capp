@@ -68,6 +68,7 @@ import de.greenrobot.event.EventBus;
 public class MainActivity extends BaseFragmentActivity
         implements /*NavigationView.OnNavigationItemSelectedListener,*/ ViewPager.OnPageChangeListener, AdapterView.OnItemClickListener, View.OnClickListener {
 
+    public static final String PUSH_BUNDLE_MSG = "pushMessage";
 
     @ViewInject(R.id.drawer_layout)
     private DrawerLayout drawer;
