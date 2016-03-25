@@ -161,6 +161,43 @@ public class DateUtils {
     }
 
     /**
+     * 指定格式化时间方式
+     *
+     * @param formatStr
+     * @param date
+     * @return
+     * @throws ParseException
+     */
+    public static String getDateLocalFromStr(String formatStr, String date) throws ParseException {
+        SimpleDateFormat newFromat = new SimpleDateFormat(formatStr);
+        Date oldDate = dateTimeFormat.parse(date);
+        return newFromat.format(oldDate.getTime());
+    }
+
+    /**
+     * 私信时间格式化
+     *
+     * @param date
+     * @return
+     * @throws ParseException
+     */
+    public static String resetLetterTime(String date) throws ParseException {
+        String localTime = getDateLocalFromStr(date); //服务器时间格式化成本地时间
+        SimpleDateFormat localFromat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date oldDate = localFromat.parse(localTime);
+        Calendar oldCalendar = Calendar.getInstance();
+        oldCalendar.setTime(oldDate); //私信时间
+        //获取本地时间
+        Calendar nowCalendar = Calendar.getInstance();
+        if (oldCalendar.get(Calendar.YEAR) != nowCalendar.get(Calendar.YEAR)) {
+            return getDateLocalFromStr("yyyy-MM-dd", date);
+        } else if (oldCalendar.get(Calendar.DAY_OF_MONTH) != nowCalendar.get(Calendar.DAY_OF_MONTH)) {
+            return getDateLocalFromStr("MM-dd", date);
+        }
+        return getDateLocalFromStr("HH:mm", date);
+    }
+
+    /**
      * 格式化年月日，时分格式的时间
      * yyyy年MM月dd日 HH:mm
      * Created by ZHZEPHI at 2015年4月16日 下午3:00:36

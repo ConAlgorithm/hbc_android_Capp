@@ -93,7 +93,7 @@ public class IMChatActivity extends BaseFragmentActivity {
         clearImChat(); //进入后清空消息提示
         setUserInfo(); //设置聊天对象头像
         resetChatting(); //设置是否可以聊天
-//        loadImOrder(); //显示聊天订单信息
+        loadImOrder(); //显示聊天订单信息
         initEmpty(); //构建空提示
     }
 
@@ -377,22 +377,22 @@ public class IMChatActivity extends BaseFragmentActivity {
     /**
      * 刷新IM聊天订单
      */
-   /* private void loadImOrder() {
-        ImOrderRequest request = new ImOrderRequest(null, userId);
-        HttpRequestUtils httpRequestUtils = new HttpRequestUtils(IMChatActivity.this, request, new DefaultListener(IMChatActivity.this) {
-            @Override
-            public void onResponse(Object object) {
-                Object[] obj = null;
-                if (object != null) {
-                    obj = (Object[]) object;
-                }
-                ArrayList<LetterOrder> datas = null;
-                if (obj != null && obj[1] != null) {
-                    datas = (ArrayList) obj[1];
-                }
-                flushOrderView(datas);
-            }
-        });
-        httpRequestUtils.execute();
-    }*/
+    private void loadImOrder() {
+//        ImOrderRequest request = new ImOrderRequest(null, userId);
+//        HttpRequestUtils httpRequestUtils = new HttpRequestUtils(IMChatActivity.this, request, new DefaultListener(IMChatActivity.this) {
+//            @Override
+//            public void onResponse(Object object) {
+//                Object[] obj = null;
+//                if (object != null) {
+//                    obj = (Object[]) object;
+//                }
+//                ArrayList<LetterOrder> datas = null;
+//                if (obj != null && obj[1] != null) {
+//                    datas = (ArrayList) obj[1];
+//                }
+//                flushOrderView(datas);
+//            }
+//        });
+//        httpRequestUtils.execute();
+    }
 }

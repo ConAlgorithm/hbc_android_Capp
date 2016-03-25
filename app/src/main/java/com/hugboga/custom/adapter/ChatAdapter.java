@@ -14,6 +14,7 @@ import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.ChatBean;
 import com.hugboga.custom.data.bean.ChatOrderBean;
+import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.widget.ChildListView;
 
 import org.json.JSONException;
@@ -22,6 +23,7 @@ import org.xutils.image.ImageOptions;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
+import java.text.ParseException;
 import java.util.List;
 
 import io.rong.imkit.RongIM;
@@ -53,7 +55,11 @@ public class ChatAdapter extends BaseAdapter<ChatBean> {
         if (chatBean != null) {
             viewHolder.mUsername.setText(chatBean.targetName);
             viewHolder.mMessage.setText(chatBean.message);
-            viewHolder.mTime.setText(chatBean.timeStr);
+            try {
+                viewHolder.mTime.setText(DateUtils.resetLetterTime(chatBean.timeStr));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
             x.image().bind(viewHolder.mImage, chatBean.targetAvatar, options);
             flushOrder(viewHolder, chatBean);
             flushPoint(viewHolder, chatBean);
@@ -61,10 +67,10 @@ public class ChatAdapter extends BaseAdapter<ChatBean> {
                 @Override
                 public void onClick(View v) {
                     if ("3".equals(chatBean.targetType)) {
-                        String titleJson = getChatInfo(chatBean.targetId, chatBean.targetAvatar);
+                        String titleJson = getChatInfo(chatBean.targetId, chatBean.targetAvatar, chatBean.targetName, chatBean.targetType);
                         RongIM.getInstance().startConversation(mContext, Conversation.ConversationType.APP_PUBLIC_SERVICE, chatBean.targetId, titleJson);
                     } else if ("1".equals(chatBean.targetType)) {
-                        String titleJson = getChatInfo(chatBean.userId, chatBean.targetAvatar);
+                        String titleJson = getChatInfo(chatBean.userId, chatBean.targetAvatar, chatBean.targetName, chatBean.targetType);
                         RongIM.getInstance().startPrivateChat(mContext, chatBean.targetId, titleJson);
                     } else {
                         MLog.e("目标用户不是客服，也不是司导");
@@ -75,12 +81,14 @@ public class ChatAdapter extends BaseAdapter<ChatBean> {
         return convertView;
     }
 
-    private String getChatInfo(String userId, String userAvatar) {
+    private String getChatInfo(String userId, String userAvatar, String title, String targetType) {
         JSONObject obj = new JSONObject();
         try {
             obj.put("isChat", true);
             obj.put("userId", userId);
             obj.put("userAvatar", userAvatar);
+            obj.put("title", title);
+            obj.put("targetType", targetType);
         } catch (JSONException e) {
             e.printStackTrace();
         }
