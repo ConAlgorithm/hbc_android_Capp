@@ -276,7 +276,9 @@ public class FgSubmit extends BaseFragment implements CompoundButton.OnCheckedCh
                 break;
         }
         hotelPhoneAreaCode.setText(hotelAreaCode);
-        areaCode.setText("+" + UserEntity.getUser().getAreaCode(getActivity()));
+        String areaCodeValue = UserEntity.getUser().getAreaCode(getActivity());
+        if(TextUtils.isEmpty(areaCodeValue))areaCodeValue = "86";
+        areaCode.setText("+" + areaCodeValue);
         connectPhone.setText(UserEntity.getUser().getPhone(getActivity()));
         bottomTotal.setText("" + (carBean.originalPrice + carBean.checkInPrice));
         bottomBtn.setText("提交订单");
@@ -584,7 +586,6 @@ public class FgSubmit extends BaseFragment implements CompoundButton.OnCheckedCh
 
                 orderBean.serviceCityId = flightBean.arrivalAirport.cityId;
                 orderBean.serviceTime = flightBean.arrDate + " " + flightBean.arrivalTime + ":00";
-                ;
                 orderBean.brandSign = brandSign;
                 requestSubmitBase = new RequestSubmitPick(getActivity(),orderBean);
                 break;

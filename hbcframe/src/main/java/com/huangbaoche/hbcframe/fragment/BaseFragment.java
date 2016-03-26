@@ -36,17 +36,20 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
     protected int contentId = -1;
 
     private boolean injected = false;
+    private boolean initView = false;
     private ErrorHandler errorHandler;
     protected Fragment mSourceFragment;//fragment来源，从哪个跳转来的
     private ArrayList<EditText> editTextArray = new ArrayList<EditText>();
 
-
+    private View contentView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         injected = true;
-
-        return x.view().inject(this, inflater, container);
+        if(contentView ==null)
+        contentView = x.view().inject(this, inflater, container);
+        MLog.i(this + "onCreateView "+contentView);
+        return contentView;
     }
 
     @Override
@@ -56,9 +59,12 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
         if (!injected) {
             x.view().inject(this, this.getView());
         }
-        getView().setOnTouchListener(this);
-        initHeader();
-        initView();
+        if(!initView){
+            initView = true;
+            getView().setOnTouchListener(this);
+            initHeader();
+            initView();
+        }
 
     }
 
@@ -102,6 +108,16 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
     public void onStop() {
         super.onStop();
         MLog.i(this + " onStop");
+    }
+
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if(contentView !=null&&contentView.getParent()!=null) {
+            MLog.i(this+" onDestroyView");
+            ((ViewGroup) contentView.getParent()).removeView(contentView);
+        }
     }
 
     @Override

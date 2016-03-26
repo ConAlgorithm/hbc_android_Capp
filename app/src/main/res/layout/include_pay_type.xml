@@ -5,17 +5,10 @@
     android:background="@color/allbg_gray"
     android:orientation="vertical"
     >
-<TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="@string/pay_type"
-    android:padding="@dimen/default_margin_xlarge"
-    />
 <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/pay_type_group"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/allbg_white"
     android:orientation="vertical"
     android:paddingLeft="10dp"
     android:visibility="visible">
@@ -40,19 +33,19 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/pay_type_alipay_icon"
             android:text="支付宝    "
-            android:textSize="@dimen/text_size_xlarge"
-            android:layout_marginLeft="5dp"
-            android:layout_centerVertical="true"
+            android:textSize="@dimen/text_size_large"
+            android:layout_marginLeft="10dp"
             />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="推荐支付宝用户使用"
-            android:layout_toRightOf="@id/pay_type_alipay"
+            android:layout_toRightOf="@id/pay_type_alipay_icon"
+            android:layout_below="@id/pay_type_alipay"
             android:textColor="@color/basic_gray"
-            android:layout_marginLeft="20dp"
-            android:layout_centerVertical="true"
+            android:textSize="@dimen/text_size_mediumx"
+            android:layout_marginLeft="10dp"
             />
 
         <RadioButton
@@ -92,9 +85,8 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/pay_type_wechat_icon"
             android:text="微信支付"
-            android:textSize="@dimen/text_size_xlarge"
-            android:layout_marginLeft="5dp"
-            android:layout_centerVertical="true"
+            android:textSize="@dimen/text_size_large"
+            android:layout_marginLeft="10dp"
             />
 
         <TextView
@@ -103,9 +95,8 @@
             android:layout_below="@id/pay_type_wechat"
             android:text="推荐已安装微信的用户使用"
             android:textColor="@color/basic_gray"
-            android:layout_toRightOf="@id/pay_type_wechat"
-            android:layout_marginLeft="20dp"
-            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/pay_type_wechat_icon"
+            android:layout_marginLeft="10dp"
             />
 
         <RadioButton

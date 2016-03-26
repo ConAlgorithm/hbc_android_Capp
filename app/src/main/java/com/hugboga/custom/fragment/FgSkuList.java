@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
@@ -15,17 +14,18 @@ import com.huangbaoche.hbcframe.data.net.DefaultImageCallback;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
-import com.hugboga.custom.adapter.HomeAdapter;
 import com.hugboga.custom.adapter.SkuAdapter;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.SkuCityBean;
 import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.data.request.RequestSkuList;
+import com.hugboga.custom.utils.DBHelper;
 
+import org.xutils.DbManager;
 import org.xutils.common.Callback;
+import org.xutils.ex.DbException;
 import org.xutils.image.ImageOptions;
 import org.xutils.view.annotation.ContentView;
-import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
@@ -34,7 +34,7 @@ import org.xutils.x;
  * Created by admin on 2016/3/3.
  */
 @ContentView(R.layout.fg_sku_list)
-public class FgSkuList extends  BaseFragment implements AdapterView.OnItemClickListener {
+public class FgSkuList extends  BaseFragment implements AdapterView.OnItemClickListener, View.OnClickListener {
 
     public static final String KEY_CITY_ID = "KEY_CITY_ID";
 
@@ -43,26 +43,50 @@ public class FgSkuList extends  BaseFragment implements AdapterView.OnItemClickL
 
     @ViewInject(R.id.fg_sku_list_layout)
     LinearLayout listViewLayout;
+    @ViewInject(R.id.sku_list_empty)
+    View listViewEmpty;
 
 
     View skuSubtitle;
 
 
     protected String mCityId;
+    private CityBean mCityBean;
 
     private SkuAdapter adapter;
     private View headerBg;
     private SkuCityBean skuCityBean;
+    private View ListHeader;
 
 
     @Override
     protected void initHeader() {
         fgTitle.setText("测试");
-        View header = LayoutInflater.from(getActivity()).inflate(R.layout.fg_sku_header, null);
-        headerBg = header.findViewById(R.id.home_menu_layout);
-        skuSubtitle = header.findViewById(R.id.sku_subtitle);
-        listView.addHeaderView(header);
+        mCityId = getArguments().getString(KEY_CITY_ID);
+        ListHeader = LayoutInflater.from(getActivity()).inflate(R.layout.fg_sku_header, null);
+        headerBg = ListHeader.findViewById(R.id.home_menu_layout);
+
+        skuSubtitle = ListHeader.findViewById(R.id.sku_subtitle);
+        listView.addHeaderView(ListHeader);
         listView.setOnItemClickListener(this);
+        listView.setEmptyView(listViewEmpty);
+        mCityBean = findCityById(mCityId);
+        initListHeader();
+    }
+
+    private void initListHeader() {
+        View menu1 = ListHeader.findViewById(R.id.fg_home_menu1);
+        View menu2 = ListHeader.findViewById(R.id.fg_home_menu2);
+        View menu3 = ListHeader.findViewById(R.id.fg_home_menu3);
+        menu1.setOnClickListener(this);
+        menu2.setOnClickListener(this);
+        menu3.setOnClickListener(this);
+        if(mCityBean!=null){
+            menu1.setVisibility(mCityBean.isCityCode?View.VISIBLE:View.GONE);
+            menu2.setVisibility(mCityBean.isDaily?View.VISIBLE:View.GONE);
+            menu3.setVisibility(mCityBean.isSingle?View.VISIBLE:View.GONE);
+        }
+
     }
 
     @Override
@@ -73,7 +97,6 @@ public class FgSkuList extends  BaseFragment implements AdapterView.OnItemClickL
 
     @Override
     protected Callback.Cancelable requestData() {
-        mCityId = getArguments().getString(KEY_CITY_ID);
         RequestSkuList requestSkuList = new RequestSkuList(getActivity(),mCityId);
         return requestData(requestSkuList);
     }
@@ -122,14 +145,45 @@ public class FgSkuList extends  BaseFragment implements AdapterView.OnItemClickL
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        MLog.e("position = "+position);
-        if(position==0)return;
+        MLog.e("position = " + position);
+        if(position==0||mCityBean==null)return;
         SkuItemBean bean = adapter.getItem(position-1);
         Bundle bundle = new Bundle();
 //        String url = "http://res.test.hbc.tech/h5/csku/skuDetail.html?source=c&goodsNo="+bean.goodsNo;
 //        url = "http://res.dev.hbc.tech/h5/test/api.html?";
-        bundle.putString(FgWebInfo.WEB_URL,bean.skuDetailUrl);
-        bundle.putSerializable(FgSkuDetail.WEB_CITY, bean);
+        bundle.putString(FgWebInfo.WEB_URL, bean.skuDetailUrl);
+        bundle.putSerializable(FgSkuDetail.WEB_SKU, bean);
+        bundle.putSerializable(FgSkuDetail.WEB_CITY, mCityBean);
         startFragment(new FgSkuDetail(),bundle);
+    }
+
+    private CityBean findCityById(String cityId){
+        CityBean cityBean = null;
+        DbManager mDbManager = new DBHelper(getActivity()).getDbManager();
+        try {
+            cityBean = mDbManager.findById(CityBean.class,cityId);
+        } catch (DbException e) {
+            e.printStackTrace();
+        }
+        if(cityBean!=null)
+        MLog.e("cityBean"+cityBean.name+ cityBean.location);
+        else
+        MLog.e("citybean is null");
+        return cityBean;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.fg_home_menu1://中文接送机
+                startFragment(new FgTransfer());
+                break;
+            case R.id.fg_home_menu2://按天包车
+                startFragment(new FgDaily());
+                break;
+            case R.id.fg_home_menu3://单次接送
+                startFragment(new FgSingle());
+                break;
+        }
     }
 }

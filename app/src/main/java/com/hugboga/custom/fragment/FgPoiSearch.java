@@ -88,7 +88,7 @@ public class FgPoiSearch extends BaseFragment implements AdapterView.OnItemClick
         sortListView.getHeadView().setVisibility(View.GONE);
         sortListView.onLoadCompleteNone();
         sortListView.setVisibility(View.VISIBLE);
-        initHistoryDate();
+        initHistoryData();
         return null;
     }
 
@@ -127,7 +127,7 @@ public class FgPoiSearch extends BaseFragment implements AdapterView.OnItemClick
     /**
      * 初始化搜索历史记录
      */
-    private void initHistoryDate(){
+    private void initHistoryData(){
 //        @color/item_title_bg
       String placeHistoryStr =  sharedPre.getStringValue(mBusinessType+ SharedPre.RESOURCES_PLACE_HISTORY);
         placeHistoryArray = new ArrayList<String>();
@@ -255,7 +255,7 @@ public class FgPoiSearch extends BaseFragment implements AdapterView.OnItemClick
             sourceDateList = null;
             editSearch.setText("");
             adapter.setList(sourceDateList);
-            initHistoryDate();
+            initHistoryData();
         }
 
     }

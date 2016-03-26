@@ -8,6 +8,7 @@ import com.huangbaoche.hbcframe.HbcApplication;
 import com.huangbaoche.hbcframe.HbcConfig;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.net.ServerCodeHandler;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestAccessKey;
 import com.hugboga.custom.utils.Common;
@@ -56,6 +57,7 @@ public class MyApplication extends HbcApplication {
         HbcConfig.serverHost= UrlLibs.SERVER_IP_HOST_PUBLIC;
         HbcConfig.accessKeyRequest = RequestAccessKey.class;
         HbcConfig.dialogUtil = DialogUtil.class;
+        HbcConfig.serverCodeHandler = ServerCodeHandler.class;
         HbcConfig.PACKAGE_NAME = BuildConfig.APPLICATION_ID;
         HbcConfig.VERSION_NAME = BuildConfig.VERSION_NAME;
         HbcConfig.VERSION_CODE = BuildConfig.VERSION_CODE;

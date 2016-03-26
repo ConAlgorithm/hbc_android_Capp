@@ -28,4 +28,5 @@ public class SkuItemBean implements com.huangbaoche.hbcframe.data.bean.IBaseBean
     public List<CityBean> passCityList;
     public List<PoiBean> passPoiList;
     public String passPoiListStr;
+
 }

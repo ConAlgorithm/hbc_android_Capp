@@ -14,15 +14,15 @@ String keyStoreFile(){
     return getProperties().getProperty('storeFile');
 }
 
-String keyAlias(){
+String localKeyAlias(){
     return getProperties().getProperty('keyAlias');
 }
 
-String keyPassword(){
+String localKeyPassword(){
     return getProperties().getProperty('keyPassword');
 }
 
-String storePassword(){
+String localStorePassword(){
     return getProperties().getProperty('storePassword');
 }
 
@@ -79,10 +79,10 @@ android {
 
     signingConfigs {
         hbcSign {
-            keyAlias keyAlias()
-            keyPassword keyPassword()
+            keyAlias localKeyAlias()
+            keyPassword localKeyPassword()
             storeFile file(keyStoreFile())
-            storePassword storePassword()
+            storePassword localStorePassword()
         }
     }
     compileSdkVersion 23
@@ -103,11 +103,10 @@ android {
         }
         debug {
             debuggable true
+            signingConfig signingConfigs.hbcSign
         }
     }
-    lintOptions {
-        abortOnError false
-    }
+
     def flavors = getCustomizeFlavors();
 
     productFlavors {

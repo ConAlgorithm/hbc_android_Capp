@@ -18,6 +18,8 @@ public class HbcConfig {
     public static Class accessKeyRequest;
     /*** 设置dialogUtil 实现类*/
     public static Class dialogUtil;
+    /*** 服务端返回错误码处理器 ServerCodeHandlerInterface 实现类*/
+    public static Class serverCodeHandler;
     /*** 设置服务端返回格式解析器*/
     public static  String serverHost = "";
     /**微信*/

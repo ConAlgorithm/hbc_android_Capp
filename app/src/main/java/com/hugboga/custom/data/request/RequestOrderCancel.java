@@ -7,6 +7,7 @@ import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.data.net.UrlLibs;
 
+import org.xutils.http.HttpMethod;
 import org.xutils.http.annotation.HttpRequest;
 
 import java.util.HashMap;
@@ -22,6 +23,11 @@ public class RequestOrderCancel extends BaseRequest {
         map = new HashMap<String,Object>();
         map.put("orderNo",orderID);
         map.put("cancelPrice", cancelPrice);
+    }
+
+    @Override
+    public HttpMethod getHttpMethod() {
+        return HttpMethod.POST;
     }
 
     @Override

@@ -23,6 +23,7 @@ import java.io.Serializable;
 @ContentView(R.layout.fg_sku_detail)
 public class FgSkuDetail extends FgWebInfo {
 
+    public static final String WEB_SKU = "web_sku";
     public static final String WEB_CITY = "web_city";
     private SkuItemBean skuItemBean;//sku详情
 
@@ -31,7 +32,7 @@ public class FgSkuDetail extends FgWebInfo {
         super.initView();
         getView().findViewById(R.id.header_right_btn).setVisibility(View.VISIBLE);
         if(this.getArguments()!=null){
-            skuItemBean =  (SkuItemBean)getArguments().getSerializable(WEB_CITY);
+            skuItemBean =  (SkuItemBean)getArguments().getSerializable(WEB_SKU);
         }
     }
 

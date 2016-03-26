@@ -67,7 +67,7 @@ public class FgCoupon extends BaseFragment implements AdapterView.OnItemClickLis
         }
 
         fgTitle.setText("我的优惠券");
-        fgTitle.setTextColor(getResources().getColor(R.color.my_content_title_color));
+//        fgTitle.setTextColor(getResources().getColor(R.color.my_content_title_color));
         listView.setEmptyView(emptyLayout);
         listView.setOnItemClickListener(this);
         listView.setonRefreshListener(onRefreshListener);
