@@ -15,6 +15,8 @@ public class ParserChatInfo extends ImplParser {
         chatInfo.isChat = jsonObj.optBoolean("isChat");
         chatInfo.userId = jsonObj.optString("userId");
         chatInfo.userAvatar = jsonObj.optString("userAvatar");
+        chatInfo.title = jsonObj.optString("title");
+        chatInfo.targetType = jsonObj.optString("targetType");
         return chatInfo;
     }
 }

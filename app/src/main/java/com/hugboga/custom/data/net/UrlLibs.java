@@ -221,5 +221,8 @@ public class UrlLibs {
      **/
     public static final String SERVER_IP_IM_TOKEN_UPDATE = "trade/v1.0/c/order/im/token/update?";
 
-
+    /**
+     * IM聊天界面的订单数据
+     */
+    public static final String SERVER_IP_IM_ORDER_LIST = "trade/v1.0/c/order/list/im";
 }
