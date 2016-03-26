@@ -956,8 +956,8 @@ public class FgOrder extends BaseFragment {
                 break;
             case R.id.pay_change_trip://修改行程
                 bundle = new Bundle();
-//                bundle.putSerializable(FgChangeTrip.KEY_ORDER_BEAN, mOrderBean);
-//                startFragment(new FgChangeTrip(), bundle);
+                bundle.putSerializable(FgChangeTrip.KEY_ORDER_BEAN, mOrderBean);
+                startFragment(new FgChangeTrip(), bundle);
                 break;
             case R.id.pay_type_alipay_layout://
                 chosePayType(Constants.PAY_STATE_ALIPAY);
