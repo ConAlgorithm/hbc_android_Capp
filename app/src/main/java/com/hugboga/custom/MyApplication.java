@@ -1,6 +1,7 @@
 package com.hugboga.custom;
 
 
+import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -26,6 +27,7 @@ import io.rong.imkit.RongIM;
  */
 public class MyApplication extends HbcApplication {
 
+    private static Context mAppContext;
 
     @Override
     public void onCreate() {
@@ -34,7 +36,12 @@ public class MyApplication extends HbcApplication {
         initUrlHost();
         RongIM.init(this); // 初始化融云IM
         initConfig();
+        mAppContext = this.getApplicationContext();
         Log.e("hbcApplication", "debug " + BuildConfig.DEBUG);
+    }
+
+    public static Context getAppContext() {
+        return mAppContext;
     }
 
     private void initUrlHost() {
