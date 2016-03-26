@@ -12,6 +12,9 @@ import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestAccessKey;
+import com.hugboga.custom.utils.Common;
+import com.hugboga.custom.utils.Config;
+import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.widget.DialogUtil;
 
@@ -24,6 +27,7 @@ import io.rong.imkit.RongIM;
  */
 public class MyApplication extends HbcApplication {
 
+    private static Context mAppContext;
 
     @Override
     public void onCreate() {
@@ -32,7 +36,12 @@ public class MyApplication extends HbcApplication {
         initUrlHost();
         initRongIm(); // 初始化融云IM
         initConfig();
+        mAppContext = this.getApplicationContext();
         Log.e("hbcApplication", "debug " + BuildConfig.DEBUG);
+    }
+
+    public static Context getAppContext() {
+        return mAppContext;
     }
 
     private void initUrlHost() {
