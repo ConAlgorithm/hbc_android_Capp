@@ -215,7 +215,7 @@ public class UrlLibs {
     /**
      * IM 通知更新为已读
      **/
-    public static final String SERVER_IP_IM_UPDATE = "communication/v1.0/c/im/update?";
+    public static final String SERVER_IP_IM_UPDATE = "communication/v2.0/c/im/clear?";
     /**
      * IM 通知更新为已读
      **/

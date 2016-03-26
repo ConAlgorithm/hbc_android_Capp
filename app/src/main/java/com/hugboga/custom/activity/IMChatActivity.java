@@ -25,6 +25,7 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.ChatInfo;
 import com.hugboga.custom.data.bean.ChatOrderBean;
 import com.hugboga.custom.data.parser.ParserChatInfo;
+import com.hugboga.custom.data.request.RequestIMClear;
 import com.hugboga.custom.data.request.RequestIMOrder;
 
 import org.json.JSONException;
@@ -48,7 +49,7 @@ import io.rong.imlib.model.Message;
 import io.rong.imlib.model.UserInfo;
 
 @ContentView(R.layout.activity_imchat)
-public class IMChatActivity extends BaseFragmentActivity implements View.OnClickListener {
+public class IMChatActivity extends BaseFragmentActivity {
 
     @ViewInject(R.id.header_title)
     TextView title;
@@ -306,15 +307,14 @@ public class IMChatActivity extends BaseFragmentActivity implements View.OnClick
     }*/
 
     @Event({R.id.header_left_btn, R.id.header_right_txt})
-    @Override
-    public void onClick(View v) {
+    private void onClick(View v) {
         switch (v.getId()) {
             case R.id.header_left_btn:
                 finish();
                 clearImChat();
                 break;
             case R.id.header_right_txt:
-                MLog.d("进入历史订单列表");
+                MLog.e("进入历史订单列表");
 //                Intent intent = new Intent(IMChatActivity.this, NewOrderActivity.class);
 //                intent.putExtra(NewOrderActivity.SEARCH_TYPE, NewOrderActivity.SearchType.SEARCH_TYPE_HISTORY.getType());
 //                intent.putExtra(NewOrderActivity.SEARCH_USER, userId);
@@ -398,19 +398,9 @@ public class IMChatActivity extends BaseFragmentActivity implements View.OnClick
      * 清空融云消息数
      */
     private void clearImChat() {
-   /*     String targetType = (TextUtils.isEmpty(userId) || "".trim().equals(userId)) ? "3" : "2"; //目标ID的类型，1：导游，2：用户，3：客服
         // 调用接口清空聊天未读信息
-        if (!TextUtils.isEmpty(userId) && !"".equals(userId)) {
-            ImUpdateRequest request = new ImUpdateRequest(null, userId, targetType);
-            HttpRequestUtils httpRequestUtils = new HttpRequestUtils(IMChatActivity.this, request, new DefaultListener(IMChatActivity.this) {
-                @Override
-                public void onResponse(Object obj) {
-                    MLog.e("success-清空IM未读消息数成功");
-                }
-            });
-            httpRequestUtils.setIsShowLoading();
-            httpRequestUtils.execute();
-        }*/
+        RequestIMClear requestIMClear = new RequestIMClear(IMChatActivity.this, userId, targetType);
+        HttpRequestUtils.request(IMChatActivity.this, requestIMClear, imClearListener);
     }
 
     /**
@@ -440,6 +430,24 @@ public class IMChatActivity extends BaseFragmentActivity implements View.OnClick
         @Override
         public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
             MLog.e("orderListener-onDataRequestError");
+            ErrorHandler handler = new ErrorHandler(IMChatActivity.this, this);
+            handler.onDataRequestError(errorInfo, request);
+        }
+    };
+
+    HttpRequestListener imClearListener = new HttpRequestListener() {
+        @Override
+        public void onDataRequestSucceed(BaseRequest request) {
+            MLog.e("清除IM消息成功");
+        }
+
+        @Override
+        public void onDataRequestCancel(BaseRequest request) {
+
+        }
+
+        @Override
+        public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
             ErrorHandler handler = new ErrorHandler(IMChatActivity.this, this);
             handler.onDataRequestError(errorInfo, request);
         }
