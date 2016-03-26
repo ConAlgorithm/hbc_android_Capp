@@ -1,5 +1,7 @@
 package com.hugboga.custom.utils;
 
+import android.text.TextUtils;
+
 import java.text.DateFormatSymbols;
 import java.text.DecimalFormat;
 import java.text.ParseException;
@@ -151,11 +153,14 @@ public class DateUtils {
      * @throws ParseException
      */
     public static String getDateLocalFromStr(String date) throws ParseException {
+        if (TextUtils.isEmpty(date)) {
+            return date;
+        }
         SimpleDateFormat localFromat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         localFromat.setTimeZone(TimeZone.getTimeZone("GMT+8:00"));
-        Date oldDate = localFromat.parse(date);
+        Long timeLong = Long.valueOf(date);
         Calendar oldCalendar = Calendar.getInstance(TimeZone.getTimeZone("GMT+8:00"));
-        oldCalendar.setTime(oldDate);
+        oldCalendar.setTimeInMillis(timeLong);
         localFromat.setTimeZone(TimeZone.getDefault());
         return localFromat.format(oldCalendar.getTime());
     }
@@ -169,9 +174,13 @@ public class DateUtils {
      * @throws ParseException
      */
     public static String getDateLocalFromStr(String formatStr, String date) throws ParseException {
+        if (TextUtils.isEmpty(date)) {
+            return date;
+        }
         SimpleDateFormat newFromat = new SimpleDateFormat(formatStr);
-        Date oldDate = dateTimeFormat.parse(date);
-        return newFromat.format(oldDate.getTime());
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(Long.valueOf(date));
+        return newFromat.format(calendar.getTime());
     }
 
     /**
@@ -184,6 +193,9 @@ public class DateUtils {
     public static String resetLetterTime(String date) throws ParseException {
         String localTime = getDateLocalFromStr(date); //服务器时间格式化成本地时间
         SimpleDateFormat localFromat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        if(TextUtils.isEmpty(localTime)){
+            return date;
+        }
         Date oldDate = localFromat.parse(localTime);
         Calendar oldCalendar = Calendar.getInstance();
         oldCalendar.setTime(oldDate); //私信时间

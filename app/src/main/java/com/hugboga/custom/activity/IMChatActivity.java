@@ -315,10 +315,10 @@ public class IMChatActivity extends BaseFragmentActivity {
                 break;
             case R.id.header_right_txt:
                 MLog.e("进入历史订单列表");
-//                Intent intent = new Intent(IMChatActivity.this, NewOrderActivity.class);
-//                intent.putExtra(NewOrderActivity.SEARCH_TYPE, NewOrderActivity.SearchType.SEARCH_TYPE_HISTORY.getType());
-//                intent.putExtra(NewOrderActivity.SEARCH_USER, userId);
-//                startActivity(intent);
+                Intent intent = new Intent(IMChatActivity.this, NewOrderActivity.class);
+                intent.putExtra(NewOrderActivity.SEARCH_TYPE, NewOrderActivity.SearchType.SEARCH_TYPE_HISTORY.getType());
+                intent.putExtra(NewOrderActivity.SEARCH_USER, userId);
+                startActivity(intent);
                 break;
             default:
                 break;

@@ -176,6 +176,12 @@ public class UrlLibs {
      **/
     public static final String SERVER_IP_ORDER_LIST = UrlLibs.SERVER_IP_TRADE_1_1 + "list?";
     /**
+     * IM中查询历史订单
+     */
+//    public static final String SERVER_IP_ORDER_HISTORY = "trade/v1.0/c/order/list/history?";
+    //TODO 测试数据
+    public static final String SERVER_IP_ORDER_HISTORY = UrlLibs.SERVER_IP_TRADE_1_1 + "list?";
+    /**
      * 订单详情
      **/
     public static final String SERVER_IP_ORDER_DETAIL = UrlLibs.SERVER_IP_TRADE_1_1 + "detail?";
