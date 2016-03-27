@@ -49,14 +49,17 @@ import com.hugboga.custom.utils.Common;
 import com.hugboga.custom.utils.ImageOptionUtils;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.utils.IMUtil;
+import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.UpdateResources;
 
+import org.xutils.common.util.FileUtil;
 import org.xutils.image.ImageOptions;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -92,12 +95,14 @@ public class MainActivity extends BaseFragmentActivity
     private ListView mLvLeftMenu;
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
+    private SharedPre sharedPre;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        setSupportActionBar(toolbar);
         contentId = R.id.drawer_layout;
+        sharedPre = new SharedPre(this);
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.addOnPageChangeListener(this);
@@ -108,11 +113,28 @@ public class MainActivity extends BaseFragmentActivity
         UpdateResources.checkLocalResource(this);
         setUpDrawer();
         connectIM();
+        new Thread(new CalaCacheThread()).start();//计算缓存图片大小
         try {
             EventBus.getDefault().register(this);
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private long calculateCacheFileSize(){
+        long length = 0L;
+        String DISK_CACHE_DIR_NAME = "xUtils_img"; //1
+        String CACHE_DIR_NAME = "xUtils_cache";    //2
+
+        File cacheDir1 = FileUtil.getCacheDir(DISK_CACHE_DIR_NAME);
+        File cacheDir2 = FileUtil.getCacheDir(CACHE_DIR_NAME);
+        if(cacheDir1 != null){
+            length += FileUtil.getFileOrDirSize(cacheDir1);
+        }
+        if(cacheDir2 != null){
+            length += FileUtil.getFileOrDirSize(cacheDir2);
+        }
+        return length;
     }
 
     @Override
@@ -451,6 +473,13 @@ public class MainActivity extends BaseFragmentActivity
                     return "行程";
             }
             return null;
+        }
+    }
+
+    class CalaCacheThread implements Runnable {
+        public void run() {
+            long cacheSize = calculateCacheFileSize();
+            sharedPre.saveLongValue(SharedPre.CACHE_SIZE, cacheSize);
         }
     }
 }

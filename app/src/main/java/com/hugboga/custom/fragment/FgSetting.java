@@ -23,12 +23,17 @@ import com.hugboga.custom.data.request.RequestCheckVersion;
 import com.hugboga.custom.data.request.RequestLogout;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.utils.SharedPre;
+import com.hugboga.custom.utils.ToastUtils;
 import com.hugboga.custom.utils.UpdateResources;
 import com.hugboga.custom.widget.DialogUtil;
 import org.xutils.common.Callback;
+import org.xutils.common.util.FileUtil;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
+import org.xutils.x;
+
+import java.io.File;
 
 import de.greenrobot.event.EventBus;
 
@@ -41,7 +46,11 @@ public class FgSetting extends BaseFragment {
     TextView newVersionTextView;
     @ViewInject(R.id.setting_menu_mobile)
     TextView mobileTextView;
+    @ViewInject(R.id.setting_menu_clear_cache_flag)
+    TextView cacheSizeTextView;
     AlertDialog versionDialog; //版本更新弹窗
+    private SharedPre sharedPre;
+    Long cacheSize;
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
         if (request instanceof RequestCheckVersion) {
@@ -59,14 +68,14 @@ public class FgSetting extends BaseFragment {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
 //                    PushUtils.startDownloadApk(getActivity(), checkVersionBean.url);
-                    if(dialog!=null)
-                    dialog.dismiss();
+                    if (dialog != null)
+                        dialog.dismiss();
                 }
             }, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    if(dialog!=null)
-                    dialog.dismiss();
+                    if (dialog != null)
+                        dialog.dismiss();
                 }
             });
             UpdateResources.checkRemoteResources(getActivity(), checkVersionBean, null);
@@ -96,7 +105,7 @@ public class FgSetting extends BaseFragment {
     }
 
 
-    @Event({R.id.setting_menu_layout1, R.id.setting_menu_layout2, R.id.setting_menu_layout3, R.id.setting_menu_layout4, R.id.setting_menu_layout5, R.id.setting_exit, R.id.setting_menu_layout6})
+    @Event({R.id.setting_menu_layout1, R.id.setting_menu_layout2, R.id.setting_menu_layout3, R.id.setting_menu_layout4, R.id.setting_menu_layout5, R.id.setting_exit, R.id.setting_menu_layout6, R.id.setting_menu_layout7 })
     private void onClickView(View view) {
         switch (view.getId()) {
             case R.id.setting_menu_layout1:
@@ -146,6 +155,22 @@ public class FgSetting extends BaseFragment {
                     showTip("设备上没有安装应用市场");
                 }
                 break;
+            case R.id.setting_menu_layout7:
+                new AlertDialog.Builder(getActivity())
+                        .setTitle("清除缓存")
+                        .setMessage("将删除" + getCacheSize() + "图片和系统预填信息")
+                        .setNegativeButton("取消", null)
+                        .setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                x.image().clearCacheFiles();
+                                x.image().clearMemCache();
+                                cacheSize = 0L;
+                                cacheSizeTextView.setText(getCacheSize());
+                                sharedPre.saveLongValue(SharedPre.CACHE_SIZE, 0);
+                            }
+                        }).show();
+                break;
             default:
                 break;
         }
@@ -173,7 +198,36 @@ public class FgSetting extends BaseFragment {
             newVersionTextView.setTextColor(Color.RED);
         }
         mobileTextView.setText(UserEntity.getUser().getPhone(getActivity()));
+        sharedPre = new SharedPre(getActivity());
+        cacheSize = sharedPre.getLongValue(SharedPre.CACHE_SIZE);
+        cacheSizeTextView.setText(getCacheSize());
     }
+
+    private String getCacheSize(){
+        String result = "";
+        if(cacheSize == null){
+            return result;
+        }
+        long oneKB = 1024;
+        long oneMB = 1024*1024;
+        long oneGB = 1024*1024*1024;
+        if(cacheSize == 0){
+            return "0K";
+        }else if(cacheSize>0 && cacheSize < oneKB){
+            return "1K";
+        }else if(cacheSize>oneKB && cacheSize < oneMB){
+            long num = cacheSize / oneKB;
+            return num+"K";
+        }else if(cacheSize>oneMB && cacheSize < oneGB){
+            long num = cacheSize / oneMB;
+            return num+"M";
+        }else if(cacheSize>oneGB){
+            long num = cacheSize / oneGB;
+            return num+"G";
+        }
+        return result;
+    }
+
 
     @Override
     protected void initView() {
