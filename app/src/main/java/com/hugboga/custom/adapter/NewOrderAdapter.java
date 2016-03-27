@@ -28,12 +28,12 @@ import java.text.ParseException;
  * 聊天历史订单
  * Created by ZHZEPHI on 2015/11/7 11:47.
  */
-public class HistoryOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
+public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
 
     private final ImageOptions options;
     DialogUtil dialog;
 
-    public HistoryOrderAdapter(Context context) {
+    public NewOrderAdapter(Context context) {
         super(context);
         dialog = DialogUtil.getInstance((Activity) context);
         options = new ImageOptions.Builder()

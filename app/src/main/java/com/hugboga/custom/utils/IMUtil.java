@@ -1,18 +1,18 @@
 package com.hugboga.custom.utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.text.TextUtils;
 
+import com.huangbaoche.hbcframe.data.net.ErrorHandler;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
-import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.net.UrlLibs;
-import com.hugboga.custom.data.request.RequestIMClear;
 import com.hugboga.custom.data.request.RequestResetToken;
 
 import io.rong.imkit.RongContext;
@@ -33,8 +33,15 @@ public class IMUtil {
     Context context;
     private int requestIMTokenCount = 0;
 
-    public void connect(final Context context, String imToken) {
+    public IMUtil(final Context context) {
         this.context = context;
+    }
+
+    public void conn(String imToken) {
+        connect(imToken);
+    }
+
+    public void connect(String imToken) {
         if (TextUtils.isEmpty(imToken)) {
             MLog.e("IMToken 不能为空");
             return;
@@ -79,7 +86,7 @@ public class IMUtil {
     HttpRequestListener httpRequestListener = new HttpRequestListener() {
         @Override
         public void onDataRequestSucceed(BaseRequest request) {
-            connect(context, request.getData().toString());
+            connect(request.getData().toString());
         }
 
         @Override
@@ -89,7 +96,8 @@ public class IMUtil {
 
         @Override
         public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-
+            ErrorHandler handler = new ErrorHandler((Activity) context, this);
+            handler.onDataRequestError(errorInfo, request);
         }
     };
 

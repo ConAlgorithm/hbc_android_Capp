@@ -114,7 +114,7 @@ public class FgLogin extends BaseFragment {
     }
 
     private void connectIM() {
-        IMUtil.connect(getActivity(), UserEntity.getUser().imToken);
+        new IMUtil(getActivity()).conn(UserEntity.getUser().imToken);
     }
 
     @Event({R.id.login_submit, R.id.change_mobile_areacode, R.id.login_register, R.id.change_mobile_diepwd})

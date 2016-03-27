@@ -11,7 +11,7 @@ import com.huangbaoche.hbcframe.activity.BaseFragmentActivity;
 import com.huangbaoche.hbcframe.adapter.ZBaseAdapter;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
-import com.hugboga.custom.adapter.HistoryOrderAdapter;
+import com.hugboga.custom.adapter.NewOrderAdapter;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.request.RequestOrder;
 import com.hugboga.custom.widget.recycler.ZListPageView;
@@ -35,7 +35,7 @@ public class NewOrderActivity extends BaseFragmentActivity implements ZBaseAdapt
     @ViewInject(R.id.order_empty)
     RelativeLayout emptyLayout;
 
-    private HistoryOrderAdapter adapter;
+    private NewOrderAdapter adapter;
     Bundle bundle;
 
     @Override
@@ -58,7 +58,7 @@ public class NewOrderActivity extends BaseFragmentActivity implements ZBaseAdapt
      * @param searchType
      */
     private void initListView(SearchType searchType) {
-        adapter = new HistoryOrderAdapter(NewOrderActivity.this);
+        adapter = new NewOrderAdapter(NewOrderActivity.this);
         recyclerView.setAdapter(adapter);
         recyclerView.setEmptyLayout(emptyLayout);
         recyclerView.setRequestData(getRequest(searchType));
