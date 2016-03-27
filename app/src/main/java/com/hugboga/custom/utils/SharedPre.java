@@ -11,7 +11,7 @@ import java.util.Set;
 
 /**
  * Save Data To SharePreference Or Get Data from SharePreference
- * <p/>
+ * <p>
  * 通过SharedPreferences来存储数据，自定义类型
  */
 public class SharedPre {
