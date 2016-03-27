@@ -41,13 +41,13 @@ public class FgCallBack extends BaseFragment {
             case R.id.call_back_submit:
                 //提交意见
                 String content = contentEditText.getText().toString();
-                if(TextUtils.isEmpty(content)){
+                if (TextUtils.isEmpty(content)) {
                     showTip("请填写内容后再提交");
                     contentEditText.requestFocus();
                     return;
                 }
 
-                RequestCallBack requestCallBack = new RequestCallBack(getActivity(),content);
+                RequestCallBack requestCallBack = new RequestCallBack(getActivity(), content);
                 requestData(requestCallBack);
                 break;
             default:

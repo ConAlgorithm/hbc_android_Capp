@@ -1,31 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="10dp"
-    >
-<TextView android:layout_width="0dp"
-    android:layout_height="wrap_content"
-    android:layout_weight="1"
-    android:textSize="@dimen/text_size_large"
-    android:textColor="@color/basic_black"
-    android:text="如有任何疑问\n请联系客服："
-    />
+    android:padding="10dp">
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textSize="@dimen/text_size_large"
+        android:textColor="@color/basic_black"
+        android:text="如有任何疑问\n请联系客服：" />
+
     <LinearLayout
         android:id="@+id/sku_info_call_1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/text_size_large"
             android:drawableLeft="@mipmap/tab_call1"
             android:textColor="@color/sku_call"
-            android:text="境内客服"
-            />
+            android:text="境内客服" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -33,24 +34,23 @@
             android:textSize="@dimen/text_size_mediumx"
             android:textColor="@color/basic_gray"
             android:layout_marginTop="3dp"
-            android:text="（仅限国内拨打）"
-            />
-        </LinearLayout>
+            android:text="（仅限国内拨打）" />
+    </LinearLayout>
+
     <LinearLayout
         android:id="@+id/sku_info_call_2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/text_size_large"
             android:drawableLeft="@mipmap/tab_call1"
             android:textColor="@color/sku_call"
-            android:text="境外客服"
-            />
+            android:text="境外客服" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -58,7 +58,6 @@
             android:textSize="@dimen/text_size_mediumx"
             android:textColor="@color/basic_gray"
             android:layout_marginTop="3dp"
-            android:text="（仅限国外拨打）"
-            />
-        </LinearLayout>
+            android:text="（仅限国外拨打）" />
+    </LinearLayout>
 </LinearLayout>

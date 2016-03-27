@@ -5,11 +5,11 @@ package com.hugboga.custom.data.bean;
  */
 public class TestBean {
 
-   public String content;
-   public String url;
-   public String force;
-   public String appVersion;
-   public String dbDownloadLink;
-   public int dbVersion;
+    public String content;
+    public String url;
+    public String force;
+    public String appVersion;
+    public String dbDownloadLink;
+    public int dbVersion;
 
 }

@@ -20,9 +20,9 @@ public class ParserAirPort extends ImplParser {
     @Override
     public Object parseArray(JSONArray array) throws Exception {
         ArrayList<AirPort> airportList = new ArrayList<AirPort>();
-        JSONObject obj ;
+        JSONObject obj;
         AirPort bean;
-        for(int i=0;i<array.length();i++){
+        for (int i = 0; i < array.length(); i++) {
             obj = array.optJSONObject(i);
             ParserAirPortBean parserAirPortBean = new ParserAirPortBean();
             bean = parserAirPortBean.parseObject(obj);

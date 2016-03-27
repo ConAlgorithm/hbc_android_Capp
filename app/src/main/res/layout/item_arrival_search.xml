@@ -4,8 +4,7 @@
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
     android:orientation="vertical"
-    android:padding="10dp"
-    >
+    android:padding="10dp">
 
     <TextView
         android:id="@+id/title"
@@ -16,8 +15,7 @@
         android:paddingLeft="8dip"
         android:paddingTop="5dip"
         android:paddingBottom="5dip"
-        android:text="aaaaaaaa"
-        />
+        android:text="aaaaaaaa" />
 
     <TextView
         android:id="@+id/content"
@@ -28,7 +26,6 @@
         android:textColor="@color/basic_gray"
         android:layout_marginLeft="8dip"
         android:paddingTop="5dip"
-        android:text="aaaaaaaa"
-        />
+        android:text="aaaaaaaa" />
 
 </LinearLayout>

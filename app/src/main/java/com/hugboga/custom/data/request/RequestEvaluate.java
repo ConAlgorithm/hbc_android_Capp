@@ -15,11 +15,11 @@ import java.util.HashMap;
 /**
  * Created by admin on 2016/3/24.
  */
-@HttpRequest(path = UrlLibs.SERVER_IP_GUIDES_COMMENTS,builder = HbcParamsBuilder.class)
+@HttpRequest(path = UrlLibs.SERVER_IP_GUIDES_COMMENTS, builder = HbcParamsBuilder.class)
 public class RequestEvaluate extends BaseRequest {
-    public RequestEvaluate(Context context,String userId, String userName, String guideID, String guideName, String orderID, int orderType, Integer star1, Integer star2, Integer star3, String comment){
+    public RequestEvaluate(Context context, String userId, String userName, String guideID, String guideName, String orderID, int orderType, Integer star1, Integer star2, Integer star3, String comment) {
         super(context);
-        map = new HashMap<String,Object>();
+        map = new HashMap<String, Object>();
         map.put("orderNo", orderID);
         map.put("content", comment);
         map.put("sceneryNarrate", star1);

@@ -23,9 +23,10 @@ import java.io.InputStream;
  * Created by admin on 2016/3/4.
  */
 public class LogService extends Service {
-    public static final  String KEY_IS_RUNNING="KEY_IS_RUNNING";
+    public static final String KEY_IS_RUNNING = "KEY_IS_RUNNING";
 
     CheckThread thread;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -36,57 +37,58 @@ public class LogService extends Service {
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
-        thread.isRunning = intent.getBooleanExtra(KEY_IS_RUNNING,false);
-        LogUtil.e("LogService onBind = "+thread.isRunning);
+        thread.isRunning = intent.getBooleanExtra(KEY_IS_RUNNING, false);
+        LogUtil.e("LogService onBind = " + thread.isRunning);
         return null;
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        thread.isRunning = intent.getBooleanExtra(KEY_IS_RUNNING,false);
-        LogUtil.e("LogService onStartCommand = "+thread.isRunning);
+        thread.isRunning = intent.getBooleanExtra(KEY_IS_RUNNING, false);
+        LogUtil.e("LogService onStartCommand = " + thread.isRunning);
         return super.onStartCommand(intent, flags, startId);
     }
 
-    class CheckThread extends Thread{
-        public   boolean isRunning = true;
+    class CheckThread extends Thread {
+        public boolean isRunning = true;
+
         @Override
         public void run() {
-            do{
+            do {
                 try {
                     //休息20秒
                     Thread.sleep(20000);
-                    if(!isRunning){
+                    if (!isRunning) {
                         MLog.i("DEBUG 调试模式停止");
                     }
-                    String cmd ="logcat -d "+MLog.TAG+":i *:S";
+                    String cmd = "logcat -d " + MLog.TAG + ":i *:S";
                     String cmdCancel = "logcat -c";
                     MLog.e("cmd = " + cmd);
                     Process logcatProcess = Runtime.getRuntime().exec(cmd);
-                    StringBuffer str =inputToStr(logcatProcess.getInputStream());
+                    StringBuffer str = inputToStr(logcatProcess.getInputStream());
                     MLog.e("logcat e = " + str.length());
                     uploadLogs(str);
                     Runtime.getRuntime().exec(cmdCancel);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            }while (isRunning);
+            } while (isRunning);
             LogService.this.stopSelf();
             MLog.e("MLogService exit");
+        }
+
     }
 
-}
-
     private void uploadLogs(StringBuffer sb) {
-        if(sb.length()==0)return;
-        RequestUploadLogs request = new RequestUploadLogs(getApplication(),sb);
-        HttpRequestUtils.request(getApplication(),request,httpListener);
+        if (sb.length() == 0) return;
+        RequestUploadLogs request = new RequestUploadLogs(getApplication(), sb);
+        HttpRequestUtils.request(getApplication(), request, httpListener);
     }
 
     HttpRequestListener httpListener = new HttpRequestListener() {
         @Override
         public void onDataRequestSucceed(BaseRequest request) {
-           MLog.e(request.getData().toString());
+            MLog.e(request.getData().toString());
             thread.isRunning = Boolean.valueOf(request.getData().toString());
         }
 
@@ -104,7 +106,7 @@ public class LogService extends Service {
     private StringBuffer inputToStr(InputStream is) throws IOException {
         byte[] buf = new byte[1024];
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        for (int i; (i = is.read(buf)) != -1;) {
+        for (int i; (i = is.read(buf)) != -1; ) {
             baos.write(buf, 0, i);
         }
         StringBuffer sb = new StringBuffer();

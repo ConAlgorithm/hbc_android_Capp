@@ -21,9 +21,9 @@ import java.util.HashMap;
 public class RequestFlightByCity extends BaseRequest<ArrayList<FlightBean>> {
     public RequestFlightByCity(Context context, int depCity, int arrCity, String date) {
         super(context);
-        map = new HashMap<String,Object>();
-        map.put("depCityId",depCity);
-        map.put("arrCityId",arrCity);
+        map = new HashMap<String, Object>();
+        map.put("depCityId", depCity);
+        map.put("arrCityId", arrCity);
         map.put("flightDate", date);
     }
 

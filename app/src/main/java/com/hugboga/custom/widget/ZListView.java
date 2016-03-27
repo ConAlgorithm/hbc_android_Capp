@@ -22,409 +22,412 @@ import com.hugboga.custom.utils.DateUtils;
 
 public class ZListView extends ListView implements OnScrollListener {
 
-	public final static int RELEASE_To_REFRESH = 0;
-	public final static int PULL_To_REFRESH = 1;
-	public final static int REFRESHING = 2;
-	public final static int DONE = 3;
-	public final static int LOADING = 4;
-	public final static int LOADING_MORE = 5;
+    public final static int RELEASE_To_REFRESH = 0;
+    public final static int PULL_To_REFRESH = 1;
+    public final static int REFRESHING = 2;
+    public final static int DONE = 3;
+    public final static int LOADING = 4;
+    public final static int LOADING_MORE = 5;
 
-	// 实际的padding的距离与界面上偏移距离的比例
-	private final static int RATIO = 3;
+    // 实际的padding的距离与界面上偏移距离的比例
+    private final static int RATIO = 3;
 
-	private LayoutInflater inflater;
+    private LayoutInflater inflater;
 
-	private LinearLayout headView;
+    private LinearLayout headView;
 
-	private TextView tipsTextview;
-	private TextView lastUpdatedTextView;
-	private ImageView arrowImageView;
-	private ProgressBar progressBar;
+    private TextView tipsTextview;
+    private TextView lastUpdatedTextView;
+    private ImageView arrowImageView;
+    private ProgressBar progressBar;
 
 
-	private RotateAnimation animation;
-	private RotateAnimation reverseAnimation;
+    private RotateAnimation animation;
+    private RotateAnimation reverseAnimation;
 
-	// 用于保证startY的值在一个完整的touch事件中只被记录一次
-	private boolean isRecored;
+    // 用于保证startY的值在一个完整的touch事件中只被记录一次
+    private boolean isRecored;
 
-	@SuppressWarnings("unused")
-	private int headContentWidth;
-	private int headContentHeight;
-	
-	private int startY;
-	private int firstItemIndex;
+    @SuppressWarnings("unused")
+    private int headContentWidth;
+    private int headContentHeight;
 
-	public int state;
+    private int startY;
+    private int firstItemIndex;
 
-	private boolean isBack;
+    public int state;
 
-	private OnRefreshListener refreshListener;
-	private OnLoadListener loadListener;
+    private boolean isBack;
 
-	private boolean isRefreshable;
-	private boolean hasMore = true;
+    private OnRefreshListener refreshListener;
+    private OnLoadListener loadListener;
 
-	private ProgressBar moreProgressBar;
-	private TextView loadMoreView;
-	private View moreView;
+    private boolean isRefreshable;
+    private boolean hasMore = true;
 
-	public ZListView(Context context) {
-		super(context);
-		init(context);
-	}
+    private ProgressBar moreProgressBar;
+    private TextView loadMoreView;
+    private View moreView;
 
-	public ZListView(Context context, AttributeSet attrs) {
-		super(context, attrs);
-		init(context);
-	}
+    public ZListView(Context context) {
+        super(context);
+        init(context);
+    }
 
-	private void init(Context context) {
-		setCacheColorHint(context.getResources().getColor(android.R.color.transparent));
-		inflater = LayoutInflater.from(context);
+    public ZListView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        init(context);
+    }
 
-		headView = (LinearLayout) inflater.inflate(R.layout.zlistview_head, null);
+    private void init(Context context) {
+        setCacheColorHint(context.getResources().getColor(android.R.color.transparent));
+        inflater = LayoutInflater.from(context);
 
-		arrowImageView = (ImageView) headView.findViewById(R.id.zlistview_head_arrowImageView);
-		arrowImageView.setMinimumWidth(70);
-		arrowImageView.setMinimumHeight(50);
-		progressBar = (ProgressBar) headView
-				.findViewById(R.id.zlistview_head_progressBar);
-		tipsTextview = (TextView) headView.findViewById(R.id.zlistview_head_tipsTextView);
-		lastUpdatedTextView = (TextView) headView
-				.findViewById(R.id.zlistview_head_lastUpdatedTextView);
+        headView = (LinearLayout) inflater.inflate(R.layout.zlistview_head, null);
 
-		measureView(headView);
-		headContentHeight = headView.getMeasuredHeight();
-		headContentWidth = headView.getMeasuredWidth();
+        arrowImageView = (ImageView) headView.findViewById(R.id.zlistview_head_arrowImageView);
+        arrowImageView.setMinimumWidth(70);
+        arrowImageView.setMinimumHeight(50);
+        progressBar = (ProgressBar) headView
+                .findViewById(R.id.zlistview_head_progressBar);
+        tipsTextview = (TextView) headView.findViewById(R.id.zlistview_head_tipsTextView);
+        lastUpdatedTextView = (TextView) headView
+                .findViewById(R.id.zlistview_head_lastUpdatedTextView);
 
-		headView.setPadding(0, -1 * headContentHeight, 0, 0);
-		headView.invalidate();
+        measureView(headView);
+        headContentHeight = headView.getMeasuredHeight();
+        headContentWidth = headView.getMeasuredWidth();
 
-		//Log.v("size", "width:" + headContentWidth + " height:" + headContentHeight);
+        headView.setPadding(0, -1 * headContentHeight, 0, 0);
+        headView.invalidate();
 
-		addHeaderView(headView, null, false);
-		setOnScrollListener(this);
+        //Log.v("size", "width:" + headContentWidth + " height:" + headContentHeight);
 
-		animation = new RotateAnimation(0, -180,
-				RotateAnimation.RELATIVE_TO_SELF, 0.5f,
-				RotateAnimation.RELATIVE_TO_SELF, 0.5f);
-		animation.setInterpolator(new LinearInterpolator());
-		animation.setDuration(250);
-		animation.setFillAfter(true);
+        addHeaderView(headView, null, false);
+        setOnScrollListener(this);
 
-		reverseAnimation = new RotateAnimation(-180, 0,
-				RotateAnimation.RELATIVE_TO_SELF, 0.5f,
-				RotateAnimation.RELATIVE_TO_SELF, 0.5f);
-		reverseAnimation.setInterpolator(new LinearInterpolator());
-		reverseAnimation.setDuration(200);
-		reverseAnimation.setFillAfter(true);
+        animation = new RotateAnimation(0, -180,
+                RotateAnimation.RELATIVE_TO_SELF, 0.5f,
+                RotateAnimation.RELATIVE_TO_SELF, 0.5f);
+        animation.setInterpolator(new LinearInterpolator());
+        animation.setDuration(250);
+        animation.setFillAfter(true);
 
-		state = DONE;
-		isRefreshable = false;
-		
-		moreView = LayoutInflater.from(getContext()).inflate(R.layout.zlistview_footer, null);
-		moreView.setVisibility(View.VISIBLE);
-		moreProgressBar = (ProgressBar) moreView.findViewById(R.id.zlistview_footer_loading);
-		loadMoreView = (TextView) moreView.findViewById(R.id.zlistview_footer_loadtxt);
-		moreView.setOnClickListener(null); //不能点击加载更多的视图
-		addFooterView(moreView);
-		//增加页脚距离
+        reverseAnimation = new RotateAnimation(-180, 0,
+                RotateAnimation.RELATIVE_TO_SELF, 0.5f,
+                RotateAnimation.RELATIVE_TO_SELF, 0.5f);
+        reverseAnimation.setInterpolator(new LinearInterpolator());
+        reverseAnimation.setDuration(200);
+        reverseAnimation.setFillAfter(true);
+
+        state = DONE;
+        isRefreshable = false;
+
+        moreView = LayoutInflater.from(getContext()).inflate(R.layout.zlistview_footer, null);
+        moreView.setVisibility(View.VISIBLE);
+        moreProgressBar = (ProgressBar) moreView.findViewById(R.id.zlistview_footer_loading);
+        loadMoreView = (TextView) moreView.findViewById(R.id.zlistview_footer_loadtxt);
+        moreView.setOnClickListener(null); //不能点击加载更多的视图
+        addFooterView(moreView);
+        //增加页脚距离
 //		View foMore = new TextView(getContext());
 //		foMore.setLayoutParams(new LayoutParams(20, 8));
 //		addFooterView(foMore);
-	}
+    }
 
-	public void onScroll(AbsListView arg0, int firstVisiableItem, int arg2,
-			int arg3) {
-		firstItemIndex = firstVisiableItem;
-	}
+    public void onScroll(AbsListView arg0, int firstVisiableItem, int arg2,
+                         int arg3) {
+        firstItemIndex = firstVisiableItem;
+    }
 
-	public void onScrollStateChanged(AbsListView view, int scrollState) {
-		if (scrollState == OnScrollListener.SCROLL_STATE_IDLE) { // 判断滚动是否停止;
-			if (view.getLastVisiblePosition() == (view.getCount()-1)&&isFillScreenItem()) { // 判断是否滚动到最底部;
-				onLoad();
-			}
-		}
-	}
-	
-	private void onLoad() {
-		if (loadListener != null && moreProgressBar.getVisibility()==View.GONE&&hasMore) {
-			state = LOADING_MORE;
-			moreProgressBar.setVisibility(View.VISIBLE);
-			loadMoreView.setText(getContext().getString(R.string.footer_text));
-			loadListener.onLoad();
-		}
-	}
-	/**
-	 * 条目是否填满整个屏幕
-	 */
-	private boolean isFillScreenItem() {
-		final int firstVisiblePosition = this.getFirstVisiblePosition();
-		final int lastVisiblePostion = this.getLastVisiblePosition()
-				- this.getFooterViewsCount();
-		final int visibleItemCount = lastVisiblePostion - firstVisiblePosition
-				+ 1;
-		final int totalItemCount = this.getCount()
-				- this.getFooterViewsCount();
+    public void onScrollStateChanged(AbsListView view, int scrollState) {
+        if (scrollState == OnScrollListener.SCROLL_STATE_IDLE) { // 判断滚动是否停止;
+            if (view.getLastVisiblePosition() == (view.getCount() - 1) && isFillScreenItem()) { // 判断是否滚动到最底部;
+                onLoad();
+            }
+        }
+    }
 
-		return visibleItemCount < totalItemCount;
-	}
-	public void onLoadComplete() {
-		moreProgressBar.setVisibility(View.GONE);
-		loadMoreView.setText(getContext().getString(R.string.load_more));
-		loadMoreView.setVisibility(View.VISIBLE);
-		hasMore = true;
-	}
-	
-	public void onLoadCompleteNone(){
-		moreProgressBar.setVisibility(View.GONE);
-		loadMoreView.setText(getContext().getString(R.string.footer_none));
-		loadMoreView.setVisibility(View.GONE);
-		removeFooterView(moreView);
-		hasMore = false;
-	}
+    private void onLoad() {
+        if (loadListener != null && moreProgressBar.getVisibility() == View.GONE && hasMore) {
+            state = LOADING_MORE;
+            moreProgressBar.setVisibility(View.VISIBLE);
+            loadMoreView.setText(getContext().getString(R.string.footer_text));
+            loadListener.onLoad();
+        }
+    }
 
-	public boolean onTouchEvent(MotionEvent event) {
-		try {
-			if (isRefreshable) {
-				switch (event.getAction()) {
-					case MotionEvent.ACTION_DOWN:
-						if (firstItemIndex == 0 && !isRecored) { //在down时候记录当前位置
-							isRecored = true;
-							startY = (int) event.getY();
-						}
-						break;
+    /**
+     * 条目是否填满整个屏幕
+     */
+    private boolean isFillScreenItem() {
+        final int firstVisiblePosition = this.getFirstVisiblePosition();
+        final int lastVisiblePostion = this.getLastVisiblePosition()
+                - this.getFooterViewsCount();
+        final int visibleItemCount = lastVisiblePostion - firstVisiblePosition
+                + 1;
+        final int totalItemCount = this.getCount()
+                - this.getFooterViewsCount();
 
-					case MotionEvent.ACTION_UP:
+        return visibleItemCount < totalItemCount;
+    }
 
-						if (state != REFRESHING && state != LOADING) {
-							if (state == DONE) {
-								// 什么都不做
-							}
-							if (state == PULL_To_REFRESH) {  //由下拉刷新状态，到done状态
-								state = DONE;
-								changeHeaderViewByState();
-							}
-							if (state == RELEASE_To_REFRESH) {  //由松开刷新状态，到done状态
-								state = REFRESHING;
-								changeHeaderViewByState();
-								onRefresh();
-							}
-						}
+    public void onLoadComplete() {
+        moreProgressBar.setVisibility(View.GONE);
+        loadMoreView.setText(getContext().getString(R.string.load_more));
+        loadMoreView.setVisibility(View.VISIBLE);
+        hasMore = true;
+    }
 
-						isRecored = false;
-						isBack = false;
+    public void onLoadCompleteNone() {
+        moreProgressBar.setVisibility(View.GONE);
+        loadMoreView.setText(getContext().getString(R.string.footer_none));
+        loadMoreView.setVisibility(View.GONE);
+        removeFooterView(moreView);
+        hasMore = false;
+    }
 
-						break;
+    public boolean onTouchEvent(MotionEvent event) {
+        try {
+            if (isRefreshable) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        if (firstItemIndex == 0 && !isRecored) { //在down时候记录当前位置
+                            isRecored = true;
+                            startY = (int) event.getY();
+                        }
+                        break;
 
-					case MotionEvent.ACTION_MOVE:
-						int tempY = (int) event.getY();
+                    case MotionEvent.ACTION_UP:
 
-						if (!isRecored && firstItemIndex == 0) {  //在move时候记录下位置
-							isRecored = true;
-							startY = tempY;
-						}
+                        if (state != REFRESHING && state != LOADING) {
+                            if (state == DONE) {
+                                // 什么都不做
+                            }
+                            if (state == PULL_To_REFRESH) {  //由下拉刷新状态，到done状态
+                                state = DONE;
+                                changeHeaderViewByState();
+                            }
+                            if (state == RELEASE_To_REFRESH) {  //由松开刷新状态，到done状态
+                                state = REFRESHING;
+                                changeHeaderViewByState();
+                                onRefresh();
+                            }
+                        }
 
-						if (state != REFRESHING && isRecored && state != LOADING) {
+                        isRecored = false;
+                        isBack = false;
 
-							// 保证在设置padding的过程中，当前的位置一直是在head，否则如果当列表超出屏幕的话，当在上推的时候，列表会同时进行滚动
+                        break;
 
-							// 可以松手去刷新了
-							if (state == RELEASE_To_REFRESH) {
+                    case MotionEvent.ACTION_MOVE:
+                        int tempY = (int) event.getY();
 
-								setSelection(0);
+                        if (!isRecored && firstItemIndex == 0) {  //在move时候记录下位置
+                            isRecored = true;
+                            startY = tempY;
+                        }
 
-								// 往上推了，推到了屏幕足够掩盖head的程度，但是还没有推到全部掩盖的地步
-								if (((tempY - startY) / RATIO < headContentHeight)
-										&& (tempY - startY) > 0) {  //由松开刷新状态转变到下拉刷新状态
-									state = PULL_To_REFRESH;
-									changeHeaderViewByState();
-								}
-								// 一下子推到顶了
-								else if (tempY - startY <= 0) {  //由松开刷新状态转变到done状态
-									state = DONE;
-									changeHeaderViewByState();
-								}
-								// 往下拉了，或者还没有上推到屏幕顶部掩盖head的地步
-								else {
-									// 不用进行特别的操作，只用更新paddingTop的值就行了
-								}
-							}
-							// 还没有到达显示松开刷新的时候,DONE或者是PULL_To_REFRESH状态
-							if (state == PULL_To_REFRESH) {
+                        if (state != REFRESHING && isRecored && state != LOADING) {
 
-								setSelection(0);
+                            // 保证在设置padding的过程中，当前的位置一直是在head，否则如果当列表超出屏幕的话，当在上推的时候，列表会同时进行滚动
 
-								// 下拉到可以进入RELEASE_TO_REFRESH的状态
-								if ((tempY - startY) / RATIO >= headContentHeight) {  //由done或者下拉刷新状态转变到松开刷新
-									state = RELEASE_To_REFRESH;
-									isBack = true;
-									changeHeaderViewByState();
-								}
-								// 上推到顶了
-								else if (tempY - startY <= 0) {  //由DOne或者下拉刷新状态转变到done状态
-									state = DONE;
-									changeHeaderViewByState();
-								}
-							}
+                            // 可以松手去刷新了
+                            if (state == RELEASE_To_REFRESH) {
 
-							// done状态下
-							if (state == DONE) {
-								if (tempY - startY > 0) {
-									state = PULL_To_REFRESH;
-									changeHeaderViewByState();
-								}
-							}
+                                setSelection(0);
 
-							// 更新headView的size
-							if (state == PULL_To_REFRESH) {
-								headView.setPadding(0, -1 * headContentHeight
-										+ (tempY - startY) / RATIO, 0, 0);
+                                // 往上推了，推到了屏幕足够掩盖head的程度，但是还没有推到全部掩盖的地步
+                                if (((tempY - startY) / RATIO < headContentHeight)
+                                        && (tempY - startY) > 0) {  //由松开刷新状态转变到下拉刷新状态
+                                    state = PULL_To_REFRESH;
+                                    changeHeaderViewByState();
+                                }
+                                // 一下子推到顶了
+                                else if (tempY - startY <= 0) {  //由松开刷新状态转变到done状态
+                                    state = DONE;
+                                    changeHeaderViewByState();
+                                }
+                                // 往下拉了，或者还没有上推到屏幕顶部掩盖head的地步
+                                else {
+                                    // 不用进行特别的操作，只用更新paddingTop的值就行了
+                                }
+                            }
+                            // 还没有到达显示松开刷新的时候,DONE或者是PULL_To_REFRESH状态
+                            if (state == PULL_To_REFRESH) {
 
-							}
+                                setSelection(0);
 
-							// 更新headView的paddingTop
-							if (state == RELEASE_To_REFRESH) {
-								headView.setPadding(0, (tempY - startY) / RATIO
-										- headContentHeight, 0, 0);
-							}
+                                // 下拉到可以进入RELEASE_TO_REFRESH的状态
+                                if ((tempY - startY) / RATIO >= headContentHeight) {  //由done或者下拉刷新状态转变到松开刷新
+                                    state = RELEASE_To_REFRESH;
+                                    isBack = true;
+                                    changeHeaderViewByState();
+                                }
+                                // 上推到顶了
+                                else if (tempY - startY <= 0) {  //由DOne或者下拉刷新状态转变到done状态
+                                    state = DONE;
+                                    changeHeaderViewByState();
+                                }
+                            }
 
-						}
-						break;
-				}
-			}
-		}catch (Exception e){}
-		return super.onTouchEvent(event);
-	}
+                            // done状态下
+                            if (state == DONE) {
+                                if (tempY - startY > 0) {
+                                    state = PULL_To_REFRESH;
+                                    changeHeaderViewByState();
+                                }
+                            }
 
-	// 当状态改变时候，调用该方法，以更新界面
-	private void changeHeaderViewByState() {
-		switch (state) {
-		case RELEASE_To_REFRESH:  //当前状态，松开刷新
-			arrowImageView.setVisibility(View.VISIBLE);
-			progressBar.setVisibility(View.GONE);
-			tipsTextview.setVisibility(View.VISIBLE);
-			lastUpdatedTextView.setVisibility(View.VISIBLE);
+                            // 更新headView的size
+                            if (state == PULL_To_REFRESH) {
+                                headView.setPadding(0, -1 * headContentHeight
+                                        + (tempY - startY) / RATIO, 0, 0);
 
-			arrowImageView.clearAnimation();
-			arrowImageView.startAnimation(animation);
+                            }
 
-			tipsTextview.setText(R.string.give_flush);
+                            // 更新headView的paddingTop
+                            if (state == RELEASE_To_REFRESH) {
+                                headView.setPadding(0, (tempY - startY) / RATIO
+                                        - headContentHeight, 0, 0);
+                            }
 
-			break;
-		case PULL_To_REFRESH:  //当前状态，下拉刷新
-			progressBar.setVisibility(View.GONE);
-			tipsTextview.setVisibility(View.VISIBLE);
-			lastUpdatedTextView.setVisibility(View.VISIBLE);
-			arrowImageView.clearAnimation();
-			arrowImageView.setVisibility(View.VISIBLE);
-			// 是由RELEASE_To_REFRESH状态转变来的
-			if (isBack) {
-				isBack = false;
-				arrowImageView.clearAnimation();
-				arrowImageView.startAnimation(reverseAnimation);
-			}
-			tipsTextview.setText(R.string.down_give_flush);
-			break;
+                        }
+                        break;
+                }
+            }
+        } catch (Exception e) {
+        }
+        return super.onTouchEvent(event);
+    }
 
-		case REFRESHING:  //当前状态,正在刷新...
+    // 当状态改变时候，调用该方法，以更新界面
+    private void changeHeaderViewByState() {
+        switch (state) {
+            case RELEASE_To_REFRESH:  //当前状态，松开刷新
+                arrowImageView.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.GONE);
+                tipsTextview.setVisibility(View.VISIBLE);
+                lastUpdatedTextView.setVisibility(View.VISIBLE);
 
-			headView.setPadding(0, 0, 0, 0);
+                arrowImageView.clearAnimation();
+                arrowImageView.startAnimation(animation);
 
-			progressBar.setVisibility(View.VISIBLE);
-			arrowImageView.clearAnimation();
-			arrowImageView.setVisibility(View.GONE);
-			tipsTextview.setText(R.string.run_flush);
-			lastUpdatedTextView.setVisibility(View.VISIBLE);
-			break;
-		case DONE:
-			headView.setPadding(0, -1 * headContentHeight, 0, 0);
+                tipsTextview.setText(R.string.give_flush);
 
-			progressBar.setVisibility(View.GONE);
-			arrowImageView.clearAnimation();
-			arrowImageView.setImageResource(R.drawable.arrow);
-			tipsTextview.setText(R.string.down_give_flush);
-			lastUpdatedTextView.setVisibility(View.VISIBLE);
-			break;
-		}
-	}
+                break;
+            case PULL_To_REFRESH:  //当前状态，下拉刷新
+                progressBar.setVisibility(View.GONE);
+                tipsTextview.setVisibility(View.VISIBLE);
+                lastUpdatedTextView.setVisibility(View.VISIBLE);
+                arrowImageView.clearAnimation();
+                arrowImageView.setVisibility(View.VISIBLE);
+                // 是由RELEASE_To_REFRESH状态转变来的
+                if (isBack) {
+                    isBack = false;
+                    arrowImageView.clearAnimation();
+                    arrowImageView.startAnimation(reverseAnimation);
+                }
+                tipsTextview.setText(R.string.down_give_flush);
+                break;
 
-	public void setonRefreshListener(OnRefreshListener refreshListener) {
-		this.refreshListener = refreshListener;
-		isRefreshable = true;
-	}
-	
-	public void setonLoadListener(OnLoadListener loadListener) {
-		this.loadListener = loadListener;
-	}
+            case REFRESHING:  //当前状态,正在刷新...
 
-	public interface OnRefreshListener {
-		void onRefresh();
-	}
+                headView.setPadding(0, 0, 0, 0);
 
-	public interface OnLoadListener {
-		void onLoad();
-	}
-	
-	public void onRefreshComplete() {
-		state = DONE;
-		lastUpdatedTextView.setText(getResources().getString(R.string.near_update) + DateUtils.getNowDatetime());
-		changeHeaderViewByState();
-	}
+                progressBar.setVisibility(View.VISIBLE);
+                arrowImageView.clearAnimation();
+                arrowImageView.setVisibility(View.GONE);
+                tipsTextview.setText(R.string.run_flush);
+                lastUpdatedTextView.setVisibility(View.VISIBLE);
+                break;
+            case DONE:
+                headView.setPadding(0, -1 * headContentHeight, 0, 0);
 
-	private void onRefresh() {
-		if (refreshListener != null) {
-			refreshListener.onRefresh();
-		}
-	}
+                progressBar.setVisibility(View.GONE);
+                arrowImageView.clearAnimation();
+                arrowImageView.setImageResource(R.drawable.arrow);
+                tipsTextview.setText(R.string.down_give_flush);
+                lastUpdatedTextView.setVisibility(View.VISIBLE);
+                break;
+        }
+    }
 
-	// 设置headView的width以及height
-	private void measureView(View child) {
-		ViewGroup.LayoutParams p = child.getLayoutParams();
-		if (p == null) {
-			p = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-					ViewGroup.LayoutParams.WRAP_CONTENT);
-		}
-		int childWidthSpec = ViewGroup.getChildMeasureSpec(0, 0 + 0, p.width);
-		int lpHeight = p.height;
-		int childHeightSpec;
-		if (lpHeight > 0) {
-			childHeightSpec = MeasureSpec.makeMeasureSpec(lpHeight,
-					MeasureSpec.EXACTLY);
-		} else {
-			childHeightSpec = MeasureSpec.makeMeasureSpec(0,
-					MeasureSpec.UNSPECIFIED);
-		}
-		child.measure(childWidthSpec, childHeightSpec);
-	}
+    public void setonRefreshListener(OnRefreshListener refreshListener) {
+        this.refreshListener = refreshListener;
+        isRefreshable = true;
+    }
 
-	public void setAdapter(BaseAdapter adapter) {
-		lastUpdatedTextView.setText(getResources().getString(R.string.near_update) + DateUtils.getNowDatetime());
-		super.setAdapter(adapter);
-	}
+    public void setonLoadListener(OnLoadListener loadListener) {
+        this.loadListener = loadListener;
+    }
 
-	public LinearLayout getHeadView() {
-		return headView;
-	}
+    public interface OnRefreshListener {
+        void onRefresh();
+    }
 
-	public void setHeadView(LinearLayout headView) {
-		this.headView = headView;
-	}
+    public interface OnLoadListener {
+        void onLoad();
+    }
 
-	public View getMoreView() {
-		return moreView;
-	}
+    public void onRefreshComplete() {
+        state = DONE;
+        lastUpdatedTextView.setText(getResources().getString(R.string.near_update) + DateUtils.getNowDatetime());
+        changeHeaderViewByState();
+    }
 
-	public void setMoreView(View moreView) {
-		this.moreView = moreView;
-	}
+    private void onRefresh() {
+        if (refreshListener != null) {
+            refreshListener.onRefresh();
+        }
+    }
 
-	public boolean isHasMore() {
-		return hasMore;
-	}
+    // 设置headView的width以及height
+    private void measureView(View child) {
+        ViewGroup.LayoutParams p = child.getLayoutParams();
+        if (p == null) {
+            p = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT);
+        }
+        int childWidthSpec = ViewGroup.getChildMeasureSpec(0, 0 + 0, p.width);
+        int lpHeight = p.height;
+        int childHeightSpec;
+        if (lpHeight > 0) {
+            childHeightSpec = MeasureSpec.makeMeasureSpec(lpHeight,
+                    MeasureSpec.EXACTLY);
+        } else {
+            childHeightSpec = MeasureSpec.makeMeasureSpec(0,
+                    MeasureSpec.UNSPECIFIED);
+        }
+        child.measure(childWidthSpec, childHeightSpec);
+    }
 
-	public void setHasMore(boolean hasMore) {
-		this.hasMore = hasMore;
-	}
+    public void setAdapter(BaseAdapter adapter) {
+        lastUpdatedTextView.setText(getResources().getString(R.string.near_update) + DateUtils.getNowDatetime());
+        super.setAdapter(adapter);
+    }
+
+    public LinearLayout getHeadView() {
+        return headView;
+    }
+
+    public void setHeadView(LinearLayout headView) {
+        this.headView = headView;
+    }
+
+    public View getMoreView() {
+        return moreView;
+    }
+
+    public void setMoreView(View moreView) {
+        this.moreView = moreView;
+    }
+
+    public boolean isHasMore() {
+        return hasMore;
+    }
+
+    public void setHasMore(boolean hasMore) {
+        this.hasMore = hasMore;
+    }
 }

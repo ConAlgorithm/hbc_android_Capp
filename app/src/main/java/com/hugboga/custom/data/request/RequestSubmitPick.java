@@ -12,7 +12,7 @@ import org.xutils.http.annotation.HttpRequest;
  * Created by admin on 2016/3/22.
  */
 @HttpRequest(path = UrlLibs.SERVER_IP_SUBMIT_PICKUP, builder = HbcParamsBuilder.class)
-public class RequestSubmitPick extends RequestSubmitBase{
+public class RequestSubmitPick extends RequestSubmitBase {
     public RequestSubmitPick(Context context, OrderBean orderBean) {
         super(context, orderBean);
         map.put("flightBrandSign", orderBean.brandSign);
@@ -25,7 +25,7 @@ public class RequestSubmitPick extends RequestSubmitBase{
             map.put("flightDestName", orderBean.flightBean.arrAirportName);
             map.put("flightFlyTimeL", orderBean.flightBean.depDate + " " + orderBean.flightBean.depTime + ":00");
             map.put("flightArriveTimeL", orderBean.flightBean.arrDate + " " + orderBean.flightBean.arrivalTime + ":00");
-            map.put("flightAirportBuiding",orderBean.flightBean == null?null:orderBean.flightBean.arrTerminal);
+            map.put("flightAirportBuiding", orderBean.flightBean == null ? null : orderBean.flightBean.arrTerminal);
         }
     }
 }

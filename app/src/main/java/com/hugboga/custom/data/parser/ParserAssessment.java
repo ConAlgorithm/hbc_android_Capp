@@ -6,7 +6,6 @@ import com.hugboga.custom.data.bean.AssessmentBean;
 import org.json.JSONObject;
 
 /**
- *
  * 评价
  * Created by admin on 2016/3/23.
  */

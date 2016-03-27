@@ -11,7 +11,6 @@ import com.hugboga.custom.data.parser.ParserUpLoadFile;
 import org.xutils.http.HttpMethod;
 import org.xutils.http.annotation.HttpRequest;
 
-import java.util.List;
 import java.util.Map;
 
 /**

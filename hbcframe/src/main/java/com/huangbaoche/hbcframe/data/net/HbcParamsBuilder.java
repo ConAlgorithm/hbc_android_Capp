@@ -29,9 +29,14 @@ public class HbcParamsBuilder implements ParamsBuilder {
 
     @Override
     public String buildUri(RequestParams params, HttpRequest httpRequest) {
-        String url = getHost(httpRequest.host());
-        url += httpRequest.path();
-        return url;
+        String host = getHost(httpRequest.host());
+        String path = httpRequest.path();
+        if(params instanceof BaseRequest){
+            BaseRequest request = (BaseRequest)params;
+            if(!TextUtils.isEmpty(request.getUrl()))
+            path = request.getUrl() ;
+        }
+        return host+path;
     }
 
     @Override

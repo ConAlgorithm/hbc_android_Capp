@@ -1,12 +1,17 @@
 package com.huangbaoche.hbcframe.data.net;
 
 import android.app.Activity;
+import android.content.Context;
 import android.text.TextUtils;
 import android.widget.Toast;
 
+import com.huangbaoche.hbcframe.HbcConfig;
 import com.huangbaoche.hbcframe.R;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.widget.DialogUtilInterface;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 /**
  * Created by admin on 2016/2/25.
@@ -63,6 +68,8 @@ public  class ErrorHandler implements HttpRequestListener{
 //                    mDialogUtil.showCustomDialog(serverException.getMessage(),
 //                            serverException.getCode(), serverException.getOpr());
 //                }
+                ServerCodeHandlerInterface serverCodeHandler = getServerCodeHandler(mActivity);
+                if(!serverCodeHandler.handleServerCode(mActivity,serverException.getMessage(),serverException.getCode(),request,mListener))
                 Toast.makeText(mActivity, serverException.getMessage(), Toast.LENGTH_LONG).show();
                 return;
             case ExceptionErrorCode.ERROR_CODE_PARSE:
@@ -94,5 +101,22 @@ public  class ErrorHandler implements HttpRequestListener{
     @Override
     public void onDataRequestCancel(BaseRequest request) {
 
+    }
+
+
+    public static ServerCodeHandlerInterface getServerCodeHandler(Context mContext){
+        ServerCodeHandlerInterface handler = null;
+        if(mContext instanceof Activity) {
+            try {
+                if(HbcConfig.serverCodeHandler!=null) {
+                    handler = (ServerCodeHandlerInterface) HbcConfig.serverCodeHandler.newInstance();
+                }
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return handler;
     }
 }

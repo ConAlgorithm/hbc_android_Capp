@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="50dp"
     android:layout_alignParentBottom="true"
-    android:orientation="horizontal" >
+    android:orientation="horizontal">
 
     <LinearLayout
         android:layout_width="0dp"
@@ -20,6 +20,7 @@
             android:text="@string/order_total"
             android:textColor="@color/basic_white"
             android:textSize="13sp" />
+
         <TextView
             android:id="@+id/bottom_bar_total_unit"
             android:layout_width="wrap_content"
@@ -28,8 +29,8 @@
             android:gravity="center"
             android:text="￥"
             android:textColor="@color/submit_money"
-            android:textSize="@dimen/text_size_xlarge"
-            />
+            android:textSize="@dimen/text_size_xlarge" />
+
         <TextView
             android:id="@+id/bottom_bar_total_value"
             android:layout_width="wrap_content"

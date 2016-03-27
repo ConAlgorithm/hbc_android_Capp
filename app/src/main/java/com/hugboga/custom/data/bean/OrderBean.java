@@ -11,7 +11,7 @@ public class OrderBean implements IBaseBean {
     public Integer orderType;//1: 接机 2: 送机 3: 市内包车(由日租拆分出来) 4: 次租
     public int orderGoodsType;//扩展字段   1: 接机 2: 送机 3: 市内包车(由日租拆分出来) 4: 次租 5: 精品线路(由日租拆分出来) 6: 小长途 (由日租拆分出来)7: 大长途 (由日租拆分出来)
     public String orderNo; //订单号
-//    public String orderID;
+    //    public String orderID;
     public Integer imcount; //IM未读消息数
     /**
      * 订单状态。0-等待支付；1-预订成功；2-导游已接单；3-导游已到达；4-您已上车；5-行程结束;100-已完成；-1-已取消；-5-退款中；-6-退款完成；
@@ -74,7 +74,7 @@ public class OrderBean implements IBaseBean {
 
     //2.2.0
     public Integer oneCityTravel;//1：市内畅游  2：跨城市
-    public Integer isHalfDaily ;//0:不是半日包车 1:是半日包车
+    public Integer isHalfDaily;//0:不是半日包车 1:是半日包车
     public Integer inTownDays;//市内天数
     public Integer outTownDays;//市外城市天数
     public String journeyComment;//行程说明
@@ -83,5 +83,5 @@ public class OrderBean implements IBaseBean {
     //2.5.0
     public String goodsNo;//商品ID
     public String skuPoi;//poi 列表，jsonArray格式
-    public List<PoiBean> skuPoiArray ;
+    public List<PoiBean> skuPoiArray;
 }

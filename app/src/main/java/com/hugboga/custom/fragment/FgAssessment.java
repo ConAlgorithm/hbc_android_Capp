@@ -23,7 +23,6 @@ import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
 /**
- *
  * 评价页面
  * Created by ZHZEPHI on 2015/7/28.
  */
@@ -59,9 +58,9 @@ public class FgAssessment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fg_assessment, null);
-          guideId = getArguments().getString(GUIDE_ID, "");
-          guideName = getArguments().getString(GUIDE_NAME, "");
-          orderId = getArguments().getString(ORDER_ID, "");
+        guideId = getArguments().getString(GUIDE_ID, "");
+        guideName = getArguments().getString(GUIDE_NAME, "");
+        orderId = getArguments().getString(ORDER_ID, "");
         return view;
     }
 
@@ -71,12 +70,12 @@ public class FgAssessment extends BaseFragment {
     }
 
 
-    protected void initView(){
-        Bundle bundle =  getArguments();
-        if(bundle==null)return;
+    protected void initView() {
+        Bundle bundle = getArguments();
+        if (bundle == null) return;
         //选项显示差异化
         orderType = bundle.getInt(ORDER_TYPE);
-        if(orderType==1 || orderType==2||orderType==4){
+        if (orderType == 1 || orderType == 2 || orderType == 4) {
             //接机|送机
             label1.setText("准时程度");
         }
@@ -94,7 +93,7 @@ public class FgAssessment extends BaseFragment {
 
     @Event({R.id.assessment_submit})
     private void onClickView(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.assessment_submit:
                 //提交评价
                 int numStarts1 = (int) ratingBar1.getRating();
@@ -103,8 +102,8 @@ public class FgAssessment extends BaseFragment {
                 String comment = commentEditText.getText().toString();
                 String userId = UserEntity.getUser().getUserId();
                 String userName = UserEntity.getUser().getNickname(getActivity());
-                if(!guideId.isEmpty() && !orderId.isEmpty()){
-                    RequestEvaluate request = new RequestEvaluate(getActivity(),userId,userName,guideId,guideName, orderId,orderType, numStarts1,numStarts2,numStarts3,  comment);
+                if (!guideId.isEmpty() && !orderId.isEmpty()) {
+                    RequestEvaluate request = new RequestEvaluate(getActivity(), userId, userName, guideId, guideName, orderId, orderType, numStarts1, numStarts2, numStarts3, comment);
                     requestData(request);
                 }
                 break;
@@ -119,32 +118,34 @@ public class FgAssessment extends BaseFragment {
         new AlertDialog.Builder(getActivity()).setTitle("评价已提交，感谢您对皇包车的支持").setNegativeButton("返回我的行程", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                notifyOrderList(FgTravel.TYPE_ORDER_FINISH,false,true,false);
-                Bundle bundle =new Bundle();
+                notifyOrderList(FgTravel.TYPE_ORDER_FINISH, false, true, false);
+                Bundle bundle = new Bundle();
                 bundle.putString(KEY_FRAGMENT_NAME, FgAssessment.class.getSimpleName());
-                bringToFront(FgTravel.class,bundle);
+                bringToFront(FgTravel.class, bundle);
             }
         }).setPositiveButton("还需用车", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                bringToFront(FgHome.class,new Bundle());
+                bringToFront(FgHome.class, new Bundle());
 //                finish();
             }
         }).setCancelable(false)
-          .show();
+                .show();
 //        notifyOrderList();
     }
-    private void notifyOrderList(){
+
+    private void notifyOrderList() {
         Intent intent = new Intent();
         intent.setAction(FgTravel.FILTER_FLUSH);
         getActivity().sendBroadcast(intent);
     }
-    private void notifyOrderList(int jumpType,boolean refreshRunning,boolean refreshFinish,boolean refreshCancel){
+
+    private void notifyOrderList(int jumpType, boolean refreshRunning, boolean refreshFinish, boolean refreshCancel) {
         Intent intent = new Intent();
         intent.setAction(FgTravel.FILTER_FLUSH);
-        intent.putExtra(FgTravel.JUMP_TYPE,jumpType);
+        intent.putExtra(FgTravel.JUMP_TYPE, jumpType);
         intent.putExtra(FgTravel.REFRESH_RUNNING, refreshRunning);
-        intent.putExtra(FgTravel.REFRESH_FINISH,refreshFinish);
+        intent.putExtra(FgTravel.REFRESH_FINISH, refreshFinish);
         intent.putExtra(FgTravel.REFRESH_CANCEL, refreshCancel);
         getActivity().sendBroadcast(intent);
     }

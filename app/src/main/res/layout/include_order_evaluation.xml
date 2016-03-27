@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:layout_width="match_parent" android:layout_height="match_parent"
-    android:visibility="gone"
-    >
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:visibility="gone">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_centerVertical="true"
-            style="@style/h_line"
-            />
+            style="@style/h_line" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -21,8 +23,7 @@
             android:padding="10dp"
             android:textColor="#AAAAAA"
             android:textSize="14dp"
-            android:background="@color/allbg_gray"
-            />
+            android:background="@color/allbg_gray" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -31,15 +32,15 @@
         android:layout_centerHorizontal="true"
         android:gravity="center_vertical"
         android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        >
+        android:paddingRight="20dp">
+
         <TextView
             android:id="@+id/assessment_label1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16sp"
-            android:text="景点讲解"
-            />
+            android:text="景点讲解" />
+
         <RatingBar
             android:id="@+id/assessment_ratingbar1"
             android:progressDrawable="@drawable/rate_star_selector"
@@ -51,9 +52,9 @@
             android:progress="5"
             android:stepSize="1"
             android:isIndicator="true"
-            android:layout_marginLeft="20dp"
-            />
+            android:layout_marginLeft="20dp" />
     </RelativeLayout>
+
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -61,14 +62,14 @@
         android:layout_marginTop="@dimen/basic_margin_large"
         android:gravity="center_vertical"
         android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        >
+        android:paddingRight="20dp">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16sp"
-            android:text="服务态度"
-            />
+            android:text="服务态度" />
+
         <RatingBar
             android:id="@+id/assessment_ratingbar2"
             android:progressDrawable="@drawable/rate_star_selector"
@@ -80,9 +81,9 @@
             android:progress="5"
             android:stepSize="1"
             android:isIndicator="true"
-            android:layout_marginLeft="20dp"
-            />
+            android:layout_marginLeft="20dp" />
     </RelativeLayout>
+
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -90,14 +91,14 @@
         android:layout_marginTop="@dimen/basic_margin_large"
         android:gravity="center_vertical"
         android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        >
+        android:paddingRight="20dp">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16sp"
-            android:text="熟悉路线"
-            />
+            android:text="熟悉路线" />
+
         <RatingBar
             android:id="@+id/assessment_ratingbar3"
             android:progressDrawable="@drawable/rate_star_selector"
@@ -109,9 +110,9 @@
             android:progress="5"
             android:stepSize="1"
             android:isIndicator="true"
-            android:layout_marginLeft="20dp"
-            />
+            android:layout_marginLeft="20dp" />
     </RelativeLayout>
+
     <TextView
         android:id="@+id/assessment_comment"
         android:layout_width="wrap_content"
@@ -119,6 +120,5 @@
         android:textColor="@color/basic_black"
         android:textSize="18sp"
         android:padding="20dp"
-        android:text="aasdsadsa "
-        />
+        android:text="aasdsadsa " />
 </LinearLayout>

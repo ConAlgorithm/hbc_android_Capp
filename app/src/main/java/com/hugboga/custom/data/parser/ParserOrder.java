@@ -5,10 +5,8 @@ import android.text.TextUtils;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityBean;
-import com.hugboga.custom.data.bean.CouponBean;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.OrderContact;
-import com.hugboga.custom.data.bean.OrderGuideInfo;
 import com.hugboga.custom.data.bean.OrderPriceInfo;
 import com.hugboga.custom.data.bean.OrderStatus;
 
@@ -94,20 +92,20 @@ public class ParserOrder extends ImplParser {
         OrderContact oc = new OrderContact();
         oc.areaCode = jsonObj.optString("userAreaCode1");
         oc.tel = jsonObj.optString("userMobile1");
-        if(!TextUtils.isEmpty(oc.tel))
+        if (!TextUtils.isEmpty(oc.tel))
             orderbean.contact.add(oc);
-        if(jsonObj.has("userMobile2")){
+        if (jsonObj.has("userMobile2")) {
             oc = new OrderContact();
             oc.areaCode = jsonObj.optString("userAreaCode2");
             oc.tel = jsonObj.optString("userMobile2");
-            if(!TextUtils.isEmpty(oc.tel))
+            if (!TextUtils.isEmpty(oc.tel))
                 orderbean.contact.add(oc);
         }
-        if(jsonObj.has("userMobile3")){
+        if (jsonObj.has("userMobile3")) {
             oc = new OrderContact();
             oc.areaCode = jsonObj.optString("userAreaCode3");
             oc.tel = jsonObj.optString("userMobile3");
-            if(!TextUtils.isEmpty(oc.tel))
+            if (!TextUtils.isEmpty(oc.tel))
                 orderbean.contact.add(oc);
         }
         //priceInfo
@@ -119,7 +117,7 @@ public class ParserOrder extends ImplParser {
         if (jsonObj.has("guideInfo")) {
             orderbean.orderGuideInfo = new ParserGuideInfo().parseObject(jsonObj.optJSONObject("guideInfo"));
         }
-        if(jsonObj.has("appraisement")){
+        if (jsonObj.has("appraisement")) {
             orderbean.assessmentBean = new ParserAssessment().parseObject(jsonObj.optJSONObject("appraisement"));
         }
         //2.2.0

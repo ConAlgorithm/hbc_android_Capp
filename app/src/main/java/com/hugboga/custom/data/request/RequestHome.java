@@ -2,9 +2,9 @@ package com.hugboga.custom.data.request;
 
 import android.content.Context;
 
+import com.huangbaoche.hbcframe.data.net.HbcParamsBuilder;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
-import com.huangbaoche.hbcframe.data.net.HbcParamsBuilder;
 import com.hugboga.custom.data.bean.HomeBean;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.parser.ParserHome;

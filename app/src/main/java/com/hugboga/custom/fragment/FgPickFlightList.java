@@ -88,13 +88,13 @@ public class FgPickFlightList extends BaseFragment implements AdapterView.OnItem
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        BaseRequest request ;
-        if(flightType==1){
+        BaseRequest request;
+        if (flightType == 1) {
             emptyNo.setText(String.format(getString(R.string.flight_empty_no), flightNo));
-            request = new RequestFlightByNo(getActivity(),flightNo, flightDate,mBusinessType);
-        }else{
+            request = new RequestFlightByNo(getActivity(), flightNo, flightDate, mBusinessType);
+        } else {
             emptyNo.setText(R.string.flight_empty_no_city);
-            request = new RequestFlightByCity(getActivity(),flightFromCityId,flightToCityId,flightDate);
+            request = new RequestFlightByCity(getActivity(), flightFromCityId, flightToCityId, flightDate);
         }
         requestData(request);
         return null;
@@ -105,22 +105,22 @@ public class FgPickFlightList extends BaseFragment implements AdapterView.OnItem
         if (request instanceof RequestFlightByNo) {
             RequestFlightByNo mParser = (RequestFlightByNo) request;
             mListDate = mParser.getData();
-        }else if(request instanceof RequestFlightByCity){
+        } else if (request instanceof RequestFlightByCity) {
             RequestFlightByCity mParser = (RequestFlightByCity) request;
             mListDate = mParser.getData();
         }
-            int count = 0;
-            if (mListDate != null && !mListDate.isEmpty()) {
-                addAirportInfo(mListDate);
-                count = mListDate.size();
-            }
-            try {
-                String tFlightDate = DateUtils.getWeekStrByDate(flightDate, DateUtils.dateDateFormat, DateUtils.dateWeekFormat2);
-                flightInfo.setText(tFlightDate + " (共" + count + "趟航班)");
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            inflateContent();
+        int count = 0;
+        if (mListDate != null && !mListDate.isEmpty()) {
+            addAirportInfo(mListDate);
+            count = mListDate.size();
+        }
+        try {
+            String tFlightDate = DateUtils.getWeekStrByDate(flightDate, DateUtils.dateDateFormat, DateUtils.dateWeekFormat2);
+            flightInfo.setText(tFlightDate + " (共" + count + "趟航班)");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        inflateContent();
     }
 
     @Override
@@ -168,7 +168,7 @@ public class FgPickFlightList extends BaseFragment implements AdapterView.OnItem
         selector.where("airport_code", "IN", sets);
         try {
             List<AirPort> list = selector.findAll();
-            for (int i=listDate.size()-1;i>=0;i--) {
+            for (int i = listDate.size() - 1; i >= 0; i--) {
                 FlightBean flightBean = listDate.get(i);
                 for (AirPort airPort : list) {
                     if (airPort.airportCode.equals(flightBean.depAirportCode))
@@ -180,17 +180,17 @@ public class FgPickFlightList extends BaseFragment implements AdapterView.OnItem
                     flightBean.depAirport = new AirPort();
                     flightBean.depAirport.airportName = flightBean.depAirportName;
                     flightBean.depAirport.cityName = flightBean.depCityName;
-                    if(mBusinessType== Constants.BUSINESS_TYPE_SEND){
-                        flightBean.serviceStatus=false;
+                    if (mBusinessType == Constants.BUSINESS_TYPE_SEND) {
+                        flightBean.serviceStatus = false;
                         listDate.remove(i);
                     }
                 }
-                if(flightBean.arrivalAirport==null){
+                if (flightBean.arrivalAirport == null) {
                     flightBean.arrivalAirport = new AirPort();
                     flightBean.arrivalAirport.airportName = flightBean.arrAirportName;
                     flightBean.arrivalAirport.cityName = flightBean.arrCityName;
-                    if(mBusinessType== Constants.BUSINESS_TYPE_PICK){
-                        flightBean.serviceStatus=false;
+                    if (mBusinessType == Constants.BUSINESS_TYPE_PICK) {
+                        flightBean.serviceStatus = false;
                         listDate.remove(i);
                     }
 

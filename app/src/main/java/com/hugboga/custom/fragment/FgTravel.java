@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
@@ -27,6 +28,8 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.TravelAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.OrderBean;
+import com.hugboga.custom.data.bean.UserEntity;
+import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.request.RequestTravel;
 import com.hugboga.custom.widget.ZListView;
 
@@ -34,10 +37,13 @@ import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
+import org.xutils.x;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import de.greenrobot.event.EventBus;
 
 @ContentView(R.layout.fg_travel)
 public class FgTravel extends BaseFragment  implements AdapterView.OnItemClickListener, ZListView.OnRefreshListener, ZListView.OnLoadListener, View.OnClickListener {
@@ -53,6 +59,9 @@ public class FgTravel extends BaseFragment  implements AdapterView.OnItemClickLi
     private static final int PAGESIZE = 20;
 
 
+    @ViewInject(R.id.travel_logout_layout)
+    private View logoutLayout;
+    //Tab1
     @ViewInject(R.id.header_left_btn)
     private ImageView leftBtn;
     //Tab1
@@ -106,7 +115,16 @@ public class FgTravel extends BaseFragment  implements AdapterView.OnItemClickLi
     private int orderShowType = TYPE_ORDER_RUNNING;
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if(!EventBus.getDefault().isRegistered(this))
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
     public void initView() {
+        logoutLayout.setVisibility(UserEntity.getUser().isLogin(getActivity())?View.GONE:View.VISIBLE);
+
         LayoutInflater inflater = LayoutInflater.from(getActivity());
         //注册刷新广播
         IntentFilter filter = new IntentFilter(FILTER_FLUSH);
@@ -137,7 +155,6 @@ public class FgTravel extends BaseFragment  implements AdapterView.OnItemClickLi
         needRefreshMap.put(TYPE_ORDER_RUNNING, true);
         needRefreshMap.put(TYPE_ORDER_FINISH, true);
         needRefreshMap.put(TYPE_ORDER_CANCEL,true);
-
 
         //加载数据片段页面
         List<RelativeLayout> listViews = new ArrayList<RelativeLayout>();
@@ -201,6 +218,7 @@ public class FgTravel extends BaseFragment  implements AdapterView.OnItemClickLi
 
     @Override
     public void onDestroy() {
+        EventBus.getDefault().unregister(this);
         getActivity().unregisterReceiver(flushReceiver);
         super.onDestroy();
     }
@@ -216,20 +234,24 @@ public class FgTravel extends BaseFragment  implements AdapterView.OnItemClickLi
                 break;
         }
     }
+
     @Override
     protected Callback.Cancelable requestData() {
         return runData(0);
     }
+
     /**
      * 加载数据
      *
      */
     private Callback.Cancelable runData( int offset) {
-        if(needRefreshMap.get(orderShowType)) {
-            parserTravel = new RequestTravel(getActivity(),orderShowType, offset, PAGESIZE);
-           return HttpRequestUtils.request(getActivity(),parserTravel,this);
-        }else{
-            onRequestComplete();
+        if(UserEntity.getUser().isLogin(getActivity())) {
+            if (needRefreshMap.get(orderShowType)) {
+                parserTravel = new RequestTravel(getActivity(), orderShowType, offset, PAGESIZE);
+                return requestData(parserTravel);
+            } else {
+                onRequestComplete();
+            }
         }
         return null;
     }
@@ -302,7 +324,7 @@ public class FgTravel extends BaseFragment  implements AdapterView.OnItemClickLi
     }
 
 
-    @Event({R.id.travel_tab1_layout, R.id.travel_tab2_layout, R.id.travel_tab3_layout})
+    @Event({R.id.travel_tab1_layout, R.id.travel_tab2_layout, R.id.travel_tab3_layout,R.id.travel_login_btn})
     private void onClickView(View view) {
         switch (view.getId()) {
             case R.id.travel_tab1_layout:
@@ -316,6 +338,9 @@ public class FgTravel extends BaseFragment  implements AdapterView.OnItemClickLi
             case R.id.travel_tab3_layout:
                 //已取消
                 reSetTabView(2);
+                break;
+            case R.id.travel_login_btn:
+                startFragment(new FgLogin());
                 break;
             default:
                 break;
@@ -471,4 +496,27 @@ public class FgTravel extends BaseFragment  implements AdapterView.OnItemClickLi
             reSetTabView(jumpType);
         }
     };
+
+    public void onEventMainThread(EventAction action) {
+        MLog.e(this+" onEventMainThread "+action.getType());
+        switch (action.getType()) {
+            case CLICK_USER_LOGIN:
+                requestData();
+                logoutLayout.setVisibility(View.GONE);
+                break;
+            case CLICK_USER_LOOUT:
+                cleanListData();
+                logoutLayout.setVisibility(View.VISIBLE);
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void cleanListData() {
+        runningAdapter.setList(null);
+        finishAdapter.setList(null);
+        cancelAdapter.setList(null);
+
+    }
 }

@@ -24,10 +24,10 @@ public class ParserSkuCity extends ImplParser {
         bean.goodsCount = obj.optString("goodsCount");
         bean.cityDesc = obj.optString("cityDesc");
         JSONArray goodsArray = obj.optJSONArray("goodses");
-        ParserSkuItem itemParser = new ParserSkuItem() ;
-        if(goodsArray!=null){
+        ParserSkuItem itemParser = new ParserSkuItem();
+        if (goodsArray != null) {
             bean.goodsList = new ArrayList<SkuItemBean>();
-            for(int i =0;i<goodsArray.length();i++){
+            for (int i = 0; i < goodsArray.length(); i++) {
                 bean.goodsList.add(itemParser.parseObject(goodsArray.optJSONObject(i)));
             }
         }

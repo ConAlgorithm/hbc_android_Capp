@@ -14,7 +14,7 @@ public class LvMenuItem {
     public LvMenuItem(int icon, String name, String tips) {
         this.icon = icon;
         this.name = name;
-        if(!TextUtils.isEmpty(tips)){
+        if (!TextUtils.isEmpty(tips)) {
             this.tips = tips;
         }
     }

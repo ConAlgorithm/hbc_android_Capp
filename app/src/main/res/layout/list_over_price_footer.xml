@@ -1,36 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="@color/allbg_gray"
-    >
+    android:background="@color/allbg_gray">
+
     <View
         android:id="@+id/pay_money_bottom_line"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#d7d7d9" />
+
     <FrameLayout
         android:id="@+id/pay_over_actual_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dip"
-        >
+        android:layout_margin="10dip">
+
         <TextView
             android:id="@+id/pay_over_actual_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="后付费用总计"
             android:layout_gravity="left"
-            android:textColor="@color/basic_gold"
-            />
+            android:textColor="@color/basic_gold" />
+
         <TextView
             android:id="@+id/pay_over_actual_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="--"
             android:layout_gravity="right"
-            android:textColor="@color/basic_gold"
-            />
+            android:textColor="@color/basic_gold" />
     </FrameLayout>
 
 </LinearLayout>

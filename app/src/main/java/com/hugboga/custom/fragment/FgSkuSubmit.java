@@ -80,6 +80,7 @@ public class FgSkuSubmit extends BaseFragment implements View.OnClickListener {
     private TextView totalPrice;//价钱
 
     private SkuItemBean skuBean;
+    private CityBean cityBean;
     private String serverDate;//包车日期，yyyy-MM-dd
     private String serverTime="08:00";//时间 HH-mm
     private int adult;//成人数
@@ -99,7 +100,8 @@ public class FgSkuSubmit extends BaseFragment implements View.OnClickListener {
 
     @Override
     protected void initView() {
-        skuBean = (SkuItemBean) getArguments().getSerializable(FgSkuDetail.WEB_CITY);
+        skuBean = (SkuItemBean) getArguments().getSerializable(FgSkuDetail.WEB_SKU);
+        cityBean = (CityBean) getArguments().getSerializable(FgSkuDetail.WEB_CITY);
         MLog.e("skuBean= " + skuBean);
         if(skuBean ==null)return;
         skuTitle.setText(skuBean.goodsName);
@@ -108,13 +110,14 @@ public class FgSkuSubmit extends BaseFragment implements View.OnClickListener {
         SharedPre sharedPre = new SharedPre(getActivity());
         String areaCode = sharedPre.getStringValue(SharedPre.CODE);
         String phone = sharedPre.getStringValue(SharedPre.PHONE);
-        if(TextUtils.isEmpty(areaCode)){
+        if(!TextUtils.isEmpty(areaCode)){
             setAreaCode(areaCode);
             this.areaCode = areaCode;
         }
-        if(TextUtils.isEmpty(phone)){
+        if(!TextUtils.isEmpty(phone)){
             skuPhone.setText(phone);
         }
+        needChildrenSeat = cityBean!=null&&cityBean.childSeatSwitch;
     }
 
     @Override
@@ -191,6 +194,12 @@ public class FgSkuSubmit extends BaseFragment implements View.OnClickListener {
                 break;
             case R.id.sku_start_address_layout://出发地点 选poi
             case R.id.sku_start_address_edit://出发地点 选poi
+                FgPoiSearch fg = new FgPoiSearch();
+                bundle = new Bundle();
+                bundle.putString(KEY_FROM, "from");
+                bundle.putInt(FgPoiSearch.KEY_CITY_ID, skuBean.depCityId);
+                bundle.putString(FgPoiSearch.KEY_LOCATION, cityBean.location);
+                startFragment(fg,bundle);
                 break;
             case R.id.sku_area_code://电话 区号
                 startFragment(new FgChooseCountry());
@@ -257,7 +266,12 @@ public class FgSkuSubmit extends BaseFragment implements View.OnClickListener {
         }else if(FgChooseCountry.class.getSimpleName().equals(from)){
            areaCode =  bundle.getString(FgChooseCountry.KEY_COUNTRY_CODE);
            String areaCodeName =  bundle.getString(FgChooseCountry.KEY_COUNTRY_NAME);
-            setAreaCode(areaCode);
+           setAreaCode(areaCode);
+        }else if(FgPoiSearch.class.getSimpleName().equals(from)){
+            startPoiBean = (PoiBean) bundle.getSerializable(FgPoiSearch.KEY_ARRIVAL);
+            if(startPoiBean!=null){
+                skuStartAddress.setText(startPoiBean.placeName);
+            }
         }
     }
 
@@ -321,9 +335,9 @@ public class FgSkuSubmit extends BaseFragment implements View.OnClickListener {
         //出发地，到达地经纬度
         orderBean.startLocation = null;
         orderBean.terminalLocation = null;
-        orderBean.startAddress = "test";
-        orderBean.startAddressDetail= "test";
-        orderBean.startLocation="1,1";//起始位置
+        orderBean.startAddress = startPoiBean.placeName;
+        orderBean.startAddressDetail= startPoiBean.placeDetail;
+        orderBean.startLocation=startPoiBean.location;//起始位置
         orderBean.destAddress = skuBean.arrCityName;
         orderBean.serviceEndCityid = skuBean.arrCityId;
         orderBean.serviceEndCityName = skuBean.arrCityName;
@@ -474,8 +488,13 @@ public class FgSkuSubmit extends BaseFragment implements View.OnClickListener {
         if(request instanceof RequestPriceSku){
             carListBean= ((RequestPriceSku) request).getData();
         }else if(request instanceof RequestSubmitBase){
-            String orderNo = ((RequestSubmitBase) request).getData();
             Toast.makeText(getActivity(),"下单成功",Toast.LENGTH_LONG).show();
+            bringToFront(FgTravel.class,new Bundle());
+            String orderNo = ((RequestSubmitBase) request).getData();
+            Bundle bundle = new Bundle();
+            bundle.putString(FgOrder.KEY_ORDER_ID, orderNo);
+            startFragment(new FgOrder(),bundle);
+
         }
 
     }

@@ -16,18 +16,15 @@ import org.xutils.http.annotation.HttpRequest;
 public class RequestSubmitSend extends RequestSubmitBase{
     public RequestSubmitSend(Context context, OrderBean orderBean) {
         super(context, orderBean);
+
+            map.put("flightAirportCode", orderBean.flightAirportCode);
+            map.put("flightAirportName", orderBean.destAddress);
         if(orderBean.flightBean != null){
             map.put("flightFlyTimeL", orderBean.flightBean.depDate + " " + orderBean.flightBean.depTime + ":00");
             map.put("flightArriveTimeL", orderBean.flightBean.arrDate + " " + orderBean.flightBean.arrivalTime + ":00");
             map.put("flightAirportBuiding", orderBean.flightBean == null?null:orderBean.flightBean.depTerminal);
             if(!TextUtils.isEmpty(orderBean.flightBean.flightNo)) {
                 map.put("flightNo", orderBean.flightBean.flightNo);
-            }
-            if(!TextUtils.isEmpty(orderBean.flightBean.depAirportCode)) {
-                map.put("flightAirportCode", orderBean.flightBean.depAirportCode);
-            }
-            if(!TextUtils.isEmpty(orderBean.flightBean.depAirportName)) {
-                map.put("flightAirportName", orderBean.flightBean.depAirportName);
             }
             if(!TextUtils.isEmpty(orderBean.flightBean.arrivalAirportCode)) {
                 map.put("flightDestCode", orderBean.flightBean.arrivalAirportCode);

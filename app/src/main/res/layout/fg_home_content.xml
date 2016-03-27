@@ -4,8 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:dividerHeight="2dp"
-    android:divider="@null"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    >
+    android:divider="@null">
 
 </ListView>

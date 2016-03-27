@@ -2,17 +2,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
 
-    <include layout="@layout/include_header"/>
+    <include layout="@layout/include_header" />
+
     <include
         android:id="@+id/chat_logout"
-        layout ="@layout/include_chat_logout"/>
+        layout="@layout/include_chat_logout" />
+
     <ListView
         android:id="@+id/chat_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        />
+        android:dividerHeight="@dimen/default_margin_medium" />
 
 </LinearLayout>

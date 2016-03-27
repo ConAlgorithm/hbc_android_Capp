@@ -32,8 +32,8 @@ public class ParserCheckVersion extends ImplParser {
         cvBean.dbVersion = obj.optInt("dbVersion");
         JSONArray resUpdates = obj.optJSONArray("resUpdates");
         cvBean.resList = new ArrayList<>();
-        if(resUpdates!=null)
-            for(int i=0;i<resUpdates.length();i++){
+        if (resUpdates != null)
+            for (int i = 0; i < resUpdates.length(); i++) {
                 ResourcesBean bean = new ResourcesBean();
                 ParserResourceBean parserRB = new ParserResourceBean();
                 bean = parserRB.parseObject(resUpdates.optJSONObject(i));

@@ -1,35 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center_horizontal"
-    >
-<ImageView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:src="@mipmap/journey_sorry"
-    android:layout_marginTop="30dip"
-    />
+    android:gravity="center_horizontal">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/journey_sorry"
+        android:layout_marginTop="30dip" />
+
     <TextView
         android:id="@+id/flight_empty_no"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/flight_empty_no"
-        android:layout_marginTop="20dip"
-        />
+        android:layout_marginTop="20dip" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/flight_empty_tip"
-        android:layout_marginTop="5dip"
-        />
+        android:layout_marginTop="5dip" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/flight_empty_tip2"
         android:layout_marginTop="30dip"
-        android:visibility="gone"
-        />
+        android:visibility="gone" />
+
     <Button
         android:id="@+id/flight_empty_btn"
         android:layout_width="wrap_content"
@@ -40,6 +41,5 @@
         android:layout_marginTop="10dip"
         android:paddingLeft="5dip"
         android:paddingRight="5dip"
-        android:visibility="gone"
-        />
+        android:visibility="gone" />
 </LinearLayout>

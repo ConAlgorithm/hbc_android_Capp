@@ -13,7 +13,7 @@ public class ParserGuideInfo extends ImplParser {
     @Override
     public OrderGuideInfo parseObject(JSONObject jsonObj) throws Throwable {
         OrderGuideInfo orderGuideInfo = null;
-        if(jsonObj!=null && !jsonObj.equals("")){
+        if (jsonObj != null && !jsonObj.equals("")) {
             orderGuideInfo = new OrderGuideInfo();
             orderGuideInfo.guideAvatar = jsonObj.optString("guideAvatar");
             orderGuideInfo.guideName = jsonObj.optString("guideName");
@@ -22,6 +22,6 @@ public class ParserGuideInfo extends ImplParser {
             orderGuideInfo.guideStarLevel = jsonObj.optDouble("guideStarLevel", 0);
             orderGuideInfo.car = jsonObj.optString("guideCar");
         }
-        return  orderGuideInfo;
+        return orderGuideInfo;
     }
 }

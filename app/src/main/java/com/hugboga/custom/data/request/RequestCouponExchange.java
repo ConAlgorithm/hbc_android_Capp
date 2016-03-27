@@ -19,7 +19,7 @@ import java.util.HashMap;
 public class RequestCouponExchange extends BaseRequest<String> {
     public RequestCouponExchange(Context context, String couponCode) {
         super(context);
-        map = new HashMap<String,Object>();
+        map = new HashMap<String, Object>();
         map.put("couponCode", couponCode);
     }
 

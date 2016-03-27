@@ -276,7 +276,9 @@ public class FgSubmit extends BaseFragment implements CompoundButton.OnCheckedCh
                 break;
         }
         hotelPhoneAreaCode.setText(hotelAreaCode);
-        areaCode.setText("+" + UserEntity.getUser().getAreaCode(getActivity()));
+        String areaCodeValue = UserEntity.getUser().getAreaCode(getActivity());
+        if(TextUtils.isEmpty(areaCodeValue))areaCodeValue = "86";
+        areaCode.setText("+" + areaCodeValue);
         connectPhone.setText(UserEntity.getUser().getPhone(getActivity()));
         bottomTotal.setText("" + (carBean.originalPrice + carBean.checkInPrice));
         bottomBtn.setText("提交订单");
@@ -584,9 +586,8 @@ public class FgSubmit extends BaseFragment implements CompoundButton.OnCheckedCh
 
                 orderBean.serviceCityId = flightBean.arrivalAirport.cityId;
                 orderBean.serviceTime = flightBean.arrDate + " " + flightBean.arrivalTime + ":00";
-                ;
                 orderBean.brandSign = brandSign;
-                requestSubmitBase = new RequestSubmitPick(getActivity(),orderBean);
+                requestSubmitBase = new RequestSubmitPick(getActivity(), orderBean);
                 break;
             case Constants.BUSINESS_TYPE_SEND:
                 orderBean.startAddress = arrivalBean.placeName;
@@ -605,7 +606,7 @@ public class FgSubmit extends BaseFragment implements CompoundButton.OnCheckedCh
                     orderBean.flightBean = flightBean;
                     orderBean.flight = flightBean.flightNo;
                 }
-                requestSubmitBase = new RequestSubmitSend(getActivity(),orderBean);
+                requestSubmitBase = new RequestSubmitSend(getActivity(), orderBean);
                 break;
             case Constants.BUSINESS_TYPE_DAILY:
                 if (arrivalBean != null) {
@@ -635,7 +636,7 @@ public class FgSubmit extends BaseFragment implements CompoundButton.OnCheckedCh
                     orderBean.journeyComment = dailyPassCityValue.getText().toString();
                 }
                 orderBean.stayCityListStr = getPassCityStr();
-                requestSubmitBase = new RequestSubmitDaily(getActivity(),orderBean);
+                requestSubmitBase = new RequestSubmitDaily(getActivity(), orderBean);
                 break;
             case Constants.BUSINESS_TYPE_RENT:
                 orderBean.startAddress = startBean.placeName;
@@ -649,9 +650,9 @@ public class FgSubmit extends BaseFragment implements CompoundButton.OnCheckedCh
                 orderBean.serviceCityId = cityId;
                 orderBean.serviceTime = serverTime + ":00";
 //                orderBean.city = serverTime;
-                requestSubmitBase = new RequestSubmitRent(getActivity(),orderBean);
+                requestSubmitBase = new RequestSubmitRent(getActivity(), orderBean);
                 break;
-            }
+        }
 
         HttpRequestUtils.request(getActivity(), requestSubmitBase, this, btn);
     }
@@ -698,13 +699,13 @@ public class FgSubmit extends BaseFragment implements CompoundButton.OnCheckedCh
     private void goToOrder(String orderId) {
         Bundle bundle = new Bundle();
         bundle.putString(FgOrder.KEY_ORDER_ID, orderId);
-        ArrayList<com.huangbaoche.hbcframe.fragment.BaseFragment> fragmentList = ((BaseFragmentActivity)getActivity()).getFragmentList();
-        if(fragmentList!=null&&fragmentList.size()>0){
-            for(int i=fragmentList.size()-1;i>0;i--) {
+        ArrayList<com.huangbaoche.hbcframe.fragment.BaseFragment> fragmentList = ((BaseFragmentActivity) getActivity()).getFragmentList();
+        if (fragmentList != null && fragmentList.size() > 0) {
+            for (int i = fragmentList.size() - 1; i > 0; i--) {
                 BaseFragment fragment = (BaseFragment) fragmentList.get(i);
                 if (fragment == null) continue;
                 if (!(fragment instanceof FgHome)) { //如果不是home
-                        fragment.finish();
+                    fragment.finish();
                 }
             }
         }
@@ -874,7 +875,7 @@ public class FgSubmit extends BaseFragment implements CompoundButton.OnCheckedCh
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.popup_order_children_cancel:
                 popupWindow.dismiss();
                 break;

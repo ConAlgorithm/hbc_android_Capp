@@ -8,10 +8,10 @@ import org.json.JSONObject;
 /**
  * Created by admin on 2016/2/25.
  */
-public class ParserTest extends ImplParser{
+public class ParserTest extends ImplParser {
     @Override
     public Object parseObject(JSONObject obj) throws Throwable {
-        TestBean bean =  new TestBean();
+        TestBean bean = new TestBean();
         bean.content = obj.optString("releaseNote");
         bean.url = obj.optString("appDownloadLink");
         bean.force = obj.optString("forceUpdate");

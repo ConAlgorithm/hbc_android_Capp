@@ -20,10 +20,10 @@ public class ParserUpLoadFile extends ImplParser {
     }
 
     @Override
-    public Object parseArray(JSONArray array) throws Throwable{
+    public Object parseArray(JSONArray array) throws Throwable {
         MLog.e("array=" + array);
         List<String> responseList = new ArrayList<>();
-        if(array!=null) {
+        if (array != null) {
             for (int i = 0; i < array.length(); i++) {
                 responseList.add(array.getString(i));
             }
@@ -32,8 +32,8 @@ public class ParserUpLoadFile extends ImplParser {
     }
 
     @Override
-    public Object parseString(String string) throws Throwable{
+    public Object parseString(String string) throws Throwable {
         MLog.e("str=" + string);
-        return  string.toString();
+        return string.toString();
     }
 }

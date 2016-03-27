@@ -62,10 +62,12 @@
                 android:background="@color/basic_black" />
         </RelativeLayout>
     </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/travel_tab_lineb" />
+
     <include
         android:id="@+id/flight_content1"
         layout="@layout/fg_pick_flight_tap_1" />

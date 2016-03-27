@@ -8,28 +8,27 @@
     android:fitsSystemWindows="true"
     tools:openDrawer="end">
 
-   <!-- <include
-        layout="@layout/app_bar_main"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />-->
+    <!-- <include
+         layout="@layout/app_bar_main"
+         android:layout_width="match_parent"
+         android:layout_height="match_parent" />-->
 
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    >
-
-    <android.support.v4.view.ViewPager
-        android:id="@+id/container"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        android:orientation="vertical">
 
-   <include layout="@layout/tab_bottom"/>
+        <android.support.v4.view.ViewPager
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-</LinearLayout>
+        <include layout="@layout/tab_bottom" />
+
+    </LinearLayout>
 
 
     <!--<android.support.design.widget.NavigationView
@@ -51,7 +50,6 @@
         android:background="#ffffffff"
         android:clipToPadding="false"
         android:divider="@null"
-        android:listSelector="?attr/selectableItemBackground"
-        />
+        android:listSelector="?attr/selectableItemBackground" />
 
 </android.support.v4.widget.DrawerLayout>

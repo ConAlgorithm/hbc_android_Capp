@@ -19,14 +19,14 @@ import java.util.HashMap;
 /**
  * Created by admin on 2016/3/24.
  */
-@HttpRequest(path = UrlLibs.SERVER_IP_ORDER_OVER_PRICE,builder = HbcParamsBuilder.class)
+@HttpRequest(path = UrlLibs.SERVER_IP_ORDER_OVER_PRICE, builder = HbcParamsBuilder.class)
 public class RequestOverPrice extends BaseRequest<ArrayList<OrderCostApplyInfo>> {
 
     public String applyfee;
 
-    public RequestOverPrice(Context context,String orderNo) {
+    public RequestOverPrice(Context context, String orderNo) {
         super(context);
-        map = new HashMap<String,Object>();
+        map = new HashMap<String, Object>();
         map.put("orderNo", orderNo);
     }
 
@@ -37,10 +37,10 @@ public class RequestOverPrice extends BaseRequest<ArrayList<OrderCostApplyInfo>>
             public Object parseObject(JSONObject obj) throws Throwable {
                 applyfee = obj.optString("applyfee");
                 JSONArray array = obj.optJSONArray("resultBean");
-                ArrayList<OrderCostApplyInfo> list=null;
-                if(array!=null) {
+                ArrayList<OrderCostApplyInfo> list = null;
+                if (array != null) {
                     ParserApplyInfo parserApplyInfo = new ParserApplyInfo();
-                    list= new ArrayList<OrderCostApplyInfo>();
+                    list = new ArrayList<OrderCostApplyInfo>();
                     for (int i = 0; i < array.length(); i++) {
                         JSONObject object = array.optJSONObject(i);
                         list.add(parserApplyInfo.parseObject(object));

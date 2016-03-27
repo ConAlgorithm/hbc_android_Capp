@@ -17,10 +17,10 @@ public class ParserHome extends ImplParser {
     public ArrayList<HomeBean> parseObject(JSONObject obj) throws Throwable {
         ArrayList<HomeBean> dataList = new ArrayList<>();
         JSONArray array = obj.optJSONArray("listData");
-        if(array!=null){
-            HomeBean bean ;
-            for (int i=0;i<array.length();i++){
-                bean= new HomeBean();
+        if (array != null) {
+            HomeBean bean;
+            for (int i = 0; i < array.length(); i++) {
+                bean = new HomeBean();
                 JSONObject item = array.optJSONObject(i);
                 bean.cityId = item.optString("cityId");
                 bean.mainTitle = item.optString("mainTitle");

@@ -8,4 +8,6 @@ public class ChatInfo {
     public boolean isChat;
     public String userId;
     public String userAvatar;
+    public String title;
+    public String targetType;
 }

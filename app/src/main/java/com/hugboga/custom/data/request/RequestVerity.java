@@ -20,11 +20,11 @@ public class RequestVerity extends BaseRequest {
     public String areaCode;
     public String mobile;
 
-    public RequestVerity(Context context,String areaCode, String mobile, int type) {
+    public RequestVerity(Context context, String areaCode, String mobile, int type) {
         super(context);
         this.areaCode = areaCode;
         this.mobile = mobile;
-        map = new HashMap<String,Object>();
+        map = new HashMap<String, Object>();
         map.put("areaCode", areaCode);
         map.put("mobile", mobile);
         map.put("captchaType", type);

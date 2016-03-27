@@ -39,6 +39,13 @@ public abstract class BaseRequest<T> extends RequestParams implements InterfaceR
     }
 
     /**
+     * 动态返回相对的路径，如果不为空，注解的path失效
+     * @return
+     */
+    public String getUrl(){
+        return null;
+    }
+    /**
      * 获取解析器
      * @return 解析器
      */

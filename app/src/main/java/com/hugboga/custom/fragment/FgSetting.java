@@ -51,6 +51,7 @@ public class FgSetting extends BaseFragment {
     AlertDialog versionDialog; //版本更新弹窗
     private SharedPre sharedPre;
     Long cacheSize;
+
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
         if (request instanceof RequestCheckVersion) {

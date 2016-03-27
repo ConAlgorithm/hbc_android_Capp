@@ -7,10 +7,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.RadioButton;
@@ -34,14 +32,18 @@ import com.hugboga.custom.data.bean.CouponBean;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.OrderStatus;
 import com.hugboga.custom.data.bean.UserEntity;
+import com.hugboga.custom.data.bean.WXpayBean;
+import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.request.RequestIMTokenUpdate;
 import com.hugboga.custom.data.request.RequestOrderCancel;
 import com.hugboga.custom.data.request.RequestOrderDetail;
-import com.hugboga.custom.data.request.RequestPayNoByAli;
+import com.hugboga.custom.data.request.RequestPayNo;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.wxapi.WXPay;
+import com.tencent.mm.sdk.openapi.IWXAPI;
+import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
 import org.xutils.common.Callback;
 import org.xutils.image.ImageOptions;
@@ -52,6 +54,7 @@ import org.xutils.x;
 
 import java.text.ParseException;
 
+import de.greenrobot.event.EventBus;
 import io.rong.imkit.RongContext;
 import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
@@ -312,10 +315,19 @@ public class FgOrder extends BaseFragment {
             fgTitle.setText(getString(Constants.TitleMap.get(mGoodsType)));
         }
         setProgressState(3);
+        try {
+            if(!EventBus.getDefault().isRegistered(this))
+            EventBus.getDefault().register(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     protected void initView() {
+        IWXAPI msgApi = WXAPIFactory.createWXAPI(getActivity(), Constants.WX_APP_ID);
+        // 将该app注册到微信
+        msgApi.registerApp(Constants.WX_APP_ID);
         mDialogUtil = DialogUtil.getInstance(getActivity());
     }
 
@@ -323,11 +335,11 @@ public class FgOrder extends BaseFragment {
         initHeader();
         ((TextView) getView().findViewById(R.id.bottom_bar_btn)).setText("立即支付");
         if (mOrderBean == null) return;
-      /*  if (!(mSourceFragment instanceof FgSubmit)) {
+       if (!(mSourceFragment instanceof FgSubmit)) {
             headProgress.setVisibility(View.GONE);
         } else {
             headProgress.setVisibility(View.VISIBLE);
-        }*/
+        }
         //酒店电话
         if (!TextUtils.isEmpty(mOrderBean.serviceAddressTel)) {
             hotelAreaCode = mOrderBean.serviceAreaCode;
@@ -793,7 +805,7 @@ public class FgOrder extends BaseFragment {
     private void requestPayNo() {
         if (mOrderBean == null) return;
         String couponId= mOrderBean.orderCoupon==null?"":mOrderBean.orderCoupon.couponID;
-        RequestPayNoByAli request = new RequestPayNoByAli(getActivity(),mOrderBean.orderNo, shouldPay, this.payType, couponId);
+        RequestPayNo request = new RequestPayNo(getActivity(),mOrderBean.orderNo, shouldPay, this.payType, couponId);
         requestData(request);
     }
 
@@ -811,9 +823,22 @@ public class FgOrder extends BaseFragment {
             mBusinessType = mOrderBean.orderType;
             inflateContent();
             flushCoupon();
-        } else if (parser instanceof RequestPayNoByAli) {
-            RequestPayNoByAli mParser = (RequestPayNoByAli) parser;
-            payByAlipay(mParser.getData());
+        } else if (parser instanceof RequestPayNo) {
+            RequestPayNo mParser = (RequestPayNo) parser;
+            if(mParser.payType ==Constants.PAY_STATE_ALIPAY){
+                payByAlipay((String)mParser.getData());
+            }else if(mParser.payType ==Constants.PAY_STATE_WECHAT){
+                WXpayBean bean = (WXpayBean)mParser.getData();
+                if(bean!=null){
+                    if(bean.coupPay){
+                        mDialogUtil.showLoadingDialog();
+                        mHandler.sendEmptyMessageDelayed(1, 3000);
+                    }else{
+                        WXPay.pay(getActivity(), bean);
+                    }
+                }
+            }
+
         } else if (parser instanceof RequestOrderCancel) {
             DialogUtil dialogUtil = DialogUtil.getInstance(getActivity());
             dialogUtil.showCustomDialog("取消订单成功", new DialogInterface.OnClickListener() {
@@ -904,7 +929,7 @@ public class FgOrder extends BaseFragment {
             R.id.guide_btn_chat,
             R.id.guide_btn_call,
             R.id.guide_btn_assessment,
-            R.id.head_btn_right,
+            R.id.header_right_btn,
             R.id.order_pay_detail,
             R.id.order_info_tai
     })
@@ -912,8 +937,7 @@ public class FgOrder extends BaseFragment {
         if (mOrderBean == null) return;
         Bundle bundle;
         switch (view.getId()) {
-            case R.id.head_btn_right:
-            case R.id.head_text_right:
+            case R.id.header_right_btn:
                 if (mOrderBean.orderStatus.code >= OrderStatus.PAYSUCCESS.code && mOrderBean.orderStatus.code <= OrderStatus.SERVICING.code) {
                     showPopupWindow(view);
                 } else {
@@ -932,8 +956,8 @@ public class FgOrder extends BaseFragment {
                 break;
             case R.id.pay_change_trip://修改行程
                 bundle = new Bundle();
-//                bundle.putSerializable(FgChangeTrip.KEY_ORDER_BEAN, mOrderBean);
-//                startFragment(new FgChangeTrip(), bundle);
+                bundle.putSerializable(FgChangeTrip.KEY_ORDER_BEAN, mOrderBean);
+                startFragment(new FgChangeTrip(), bundle);
                 break;
             case R.id.pay_type_alipay_layout://
                 chosePayType(Constants.PAY_STATE_ALIPAY);
@@ -991,7 +1015,6 @@ public class FgOrder extends BaseFragment {
                 startFragment(new FgAssessment(), bundle);
                 break;
             case R.id.bottom_bar_btn:
-//                notifyOrderList();
                 requestPayNo();
                 break;
             case R.id.order_info_tai:
@@ -1159,10 +1182,10 @@ public class FgOrder extends BaseFragment {
             requestDate();
         } else if (FgOrderCancel.class.getSimpleName().equals(from)) {
             requestDate();
-        } else if (FgCoupon.class.getSimpleName().equals(from)) {
+        } else*/ if (FgCoupon.class.getSimpleName().equals(from)) {
             couponBean = (CouponBean) bundle.getSerializable(FgCoupon.KEY_COUPON);
             flushCoupon();
-        }*/
+        }
     }
 
     /**
@@ -1227,8 +1250,8 @@ public class FgOrder extends BaseFragment {
                             } else {
                                 finish();
                                 Bundle bundle = new Bundle();
-//                                bundle.putSerializable(FgOrderCancel.KEY_ORDER, mOrderBean);
-//                                startFragment(new FgOrderCancel(), bundle);
+                                bundle.putSerializable(FgOrderCancel.KEY_ORDER, mOrderBean);
+                                startFragment(new FgOrderCancel(), bundle);
                             }
                         }
                     }, "返回", null);
@@ -1286,16 +1309,22 @@ public class FgOrder extends BaseFragment {
         requestData(parser);
     }
 
-    /**
-     * 处理下 时间
-     * @param dateStr
-     * @return
-     */
-    private String splitDateStr(String dateStr){
-        if(dateStr==null)return null;
-        String[] dateArray = dateStr.split(" ");
-        if(dateArray!=null&&dateArray.length>1)return dateArray[0];
-        return dateStr;
+    public void onEventMainThread(EventAction action) {
+        switch (action.getType()) {
+            case REFRESH_ORDER_DETAIL:
+                requestData();
+                break;
+            case PAY_CANCEL:
+                Toast.makeText(getActivity(),"支付取消",Toast.LENGTH_LONG).show();
+                break;
+            default:
+                break;
+        }
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
 }

@@ -2,12 +2,8 @@ package com.hugboga.custom.data.bean;
 
 import android.content.Context;
 
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 /**
- *用户信息bean  
+ * 用户信息bean
  * Created by ZHZEPHI on 2015/7/22.
  */
 public class UserBean implements IBaseBean {
@@ -27,8 +23,8 @@ public class UserBean implements IBaseBean {
     public String imToken;//聊天token
 
 
-    public String getGenderStr(){
-        switch (gender){
+    public String getGenderStr() {
+        switch (gender) {
             case "0":
 //                return "保密";
                 return "";
@@ -42,8 +38,8 @@ public class UserBean implements IBaseBean {
         }
     }
 
-    public String getAgeStr(){
-        switch (ageType){
+    public String getAgeStr() {
+        switch (ageType) {
             case 0:
                 return "40后";
             case 1:
@@ -67,7 +63,7 @@ public class UserBean implements IBaseBean {
         }
     }
 
-    public void setUserEntity(Context context){
+    public void setUserEntity(Context context) {
         UserEntity.getUser().setUserId(this.userID);
         UserEntity.getUser().setAvatar(context, this.avatar);
         UserEntity.getUser().setNickname(context, this.nickname);

@@ -5,7 +5,9 @@ import android.content.Context;
 import com.huangbaoche.hbcframe.data.net.HbcParamsBuilder;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.net.UrlLibs;
+import com.hugboga.custom.data.parser.ParserWxPay;
 import com.hugboga.custom.utils.Config;
 
 import org.json.JSONObject;
@@ -20,14 +22,17 @@ import java.util.HashMap;
  */
 
 @HttpRequest(path = UrlLibs.SERVER_IP_ORDER_PAY_ID,builder = HbcParamsBuilder.class)
-public class RequestPayNoByAli extends BaseRequest<String> {
+public class RequestPayNo extends BaseRequest<Object> {
+
+    public  int payType;
 
     /**
      * orderID 订单ID<br/>
      * payPrice 支付金额<br/>
-     * couponID 优惠券
+     * couponID 优惠券<br/>
+     * payType 1 支付宝 ，2 微信
      */
-    public RequestPayNoByAli(Context context,String orderId,double payPrice,int getway,String couponID){
+    public RequestPayNo(Context context, String orderId, double payPrice, int payType, String couponID){
         super(context);
         map =new HashMap<String,Object>();
         map.put("appId", Config.getImei());
@@ -35,6 +40,8 @@ public class RequestPayNoByAli extends BaseRequest<String> {
         map.put("orderNo",orderId);
         map.put("actualPrice",payPrice);
         map.put("coupId", couponID);
+        map.put("payType", payType);
+        this.payType = payType;
     }
 
     @Override
@@ -44,11 +51,16 @@ public class RequestPayNoByAli extends BaseRequest<String> {
 
     @Override
     public ImplParser getParser() {
-        return new ImplParser() {
-            @Override
-            public Object parseObject(JSONObject obj) throws Throwable {
-                return obj.optString("payurl");
-            }
-        };
+        if(payType == Constants.PAY_STATE_WECHAT){
+            return  new ParserWxPay();
+        }else{
+            return new ImplParser() {
+                @Override
+                public Object parseObject(JSONObject obj) throws Throwable {
+                    return obj.optString("payurl");
+                }
+            };
+        }
+
     }
 }
