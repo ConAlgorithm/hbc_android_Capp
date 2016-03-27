@@ -429,10 +429,10 @@ public class MainActivity extends BaseFragmentActivity
         }
     }
 
-    class CalaCacheThread implements Runnable {
-        public void run() {
-            long cacheSize = calculateCacheFileSize();
-            sharedPre.saveLongValue(SharedPre.CACHE_SIZE, cacheSize);
-        }
-    }
+//    class CalaCacheThread implements Runnable {
+//        public void run() {
+//            long cacheSize = calculateCacheFileSize();
+//            sharedPre.saveLongValue(SharedPre.CACHE_SIZE, cacheSize);
+//        }
+//    }
 }
