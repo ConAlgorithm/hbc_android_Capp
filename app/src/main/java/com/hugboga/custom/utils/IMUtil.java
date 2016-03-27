@@ -4,9 +4,16 @@ import android.content.Context;
 import android.net.Uri;
 import android.text.TextUtils;
 
+import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
+import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
+import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
+import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
+import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.net.UrlLibs;
+import com.hugboga.custom.data.request.RequestIMClear;
+import com.hugboga.custom.data.request.RequestResetToken;
 
 import io.rong.imkit.RongContext;
 import io.rong.imkit.RongIM;
@@ -23,19 +30,24 @@ import io.rong.imlib.model.UserInfo;
  */
 public class IMUtil {
 
+    Context context;
+    private int requestIMTokenCount = 0;
 
-    public static void connect(final Context context, String imToken) {
+    public void connect(final Context context, String imToken) {
+        this.context = context;
         if (TextUtils.isEmpty(imToken)) {
             MLog.e("IMToken 不能为空");
             return;
         }
-//        RongIM.setConversationBehaviorListener(conversationBehaviorListener); //聊天界面监听
         RongIM.connect(imToken, new RongIMClient.ConnectCallback() {
 
             @Override
             public void onTokenIncorrect() {
                 MLog.e("-Token已过期，重新获取Token");
-//                resetIMTokenTask.sendEmptyMessage(0);
+                if (requestIMTokenCount < 3) {
+                    requestIMTokenCount++;
+                    requestIMTokenUpdate();
+                }
             }
 
             @Override
@@ -47,13 +59,39 @@ public class IMUtil {
             @Override
             public void onError(RongIMClient.ErrorCode errorCode) {
                 MLog.e("-连接融云 ——onError— -" + errorCode);
-//                android.os.Message message = new android.os.Message();
-//                message.what = 1;
-//                message.obj = imtoken;
-//                resetIMTokenTask.sendMessage(message);
+                if (requestIMTokenCount < 3) {
+                    //您需要更换 Token
+                    requestIMTokenCount++;
+                    requestIMTokenUpdate();
+                }
             }
         });
     }
+
+    /**
+     * update token
+     */
+    private void requestIMTokenUpdate() {
+        RequestResetToken requestResetToken = new RequestResetToken(context);
+        HttpRequestUtils.request(context, requestResetToken, httpRequestListener);
+    }
+
+    HttpRequestListener httpRequestListener = new HttpRequestListener() {
+        @Override
+        public void onDataRequestSucceed(BaseRequest request) {
+            connect(context, request.getData().toString());
+        }
+
+        @Override
+        public void onDataRequestCancel(BaseRequest request) {
+
+        }
+
+        @Override
+        public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+
+        }
+    };
 
     /**
      * IM扩展功能自定义

@@ -178,9 +178,7 @@ public class UrlLibs {
     /**
      * IM中查询历史订单
      */
-//    public static final String SERVER_IP_ORDER_HISTORY = "trade/v1.0/c/order/list/history?";
-    //TODO 测试数据
-    public static final String SERVER_IP_ORDER_HISTORY = UrlLibs.SERVER_IP_TRADE_1_1 + "list?";
+    public static final String SERVER_IP_ORDER_HISTORY = "trade/v1.0/c/order/list/history?";
     /**
      * 订单详情
      **/

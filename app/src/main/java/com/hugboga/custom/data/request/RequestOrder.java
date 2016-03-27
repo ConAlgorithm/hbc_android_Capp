@@ -24,9 +24,7 @@ public class RequestOrder extends BaseRequest<Object[]> {
         super(context);
         map = new HashMap<String, Object>();
         map.put("guideId", guideId);
-//        map.put("orderByType", "1"); //排序类型：SERVING_TIME(1,"服务时间"),DELIVER_ACP_TIME(2,"接单时间")
-        //TODO 测试数据
-        map.put("searchType", "1");
+        map.put("orderByType", "1"); //排序类型：SERVING_TIME(1,"服务时间"),DELIVER_ACP_TIME(2,"接单时间")
     }
 
     @Override
