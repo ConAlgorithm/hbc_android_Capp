@@ -1,6 +1,12 @@
 package com.hugboga.custom;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -14,14 +20,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.huangbaoche.hbcframe.activity.BaseFragmentActivity;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.adapter.MenuItemAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.LvMenuItem;
+import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.fragment.BaseFragment;
@@ -35,12 +44,16 @@ import com.hugboga.custom.fragment.FgServicerCenter;
 import com.hugboga.custom.fragment.FgSetting;
 import com.hugboga.custom.fragment.FgTest;
 import com.hugboga.custom.fragment.FgTravel;
-import com.hugboga.custom.utils.IMUtil;
+import com.hugboga.custom.service.LogService;
+import com.hugboga.custom.utils.Common;
 import com.hugboga.custom.utils.ImageOptionUtils;
 import com.hugboga.custom.utils.PhoneInfo;
+import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.UpdateResources;
 
+import org.xutils.common.util.FileUtil;
+import org.xutils.image.ImageOptions;
 import org.xutils.common.util.FileUtil;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
@@ -83,14 +96,12 @@ public class MainActivity extends BaseFragmentActivity
     private ListView mLvLeftMenu;
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
-    private SharedPre sharedPre;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        setSupportActionBar(toolbar);
         contentId = R.id.drawer_layout;
-        sharedPre = new SharedPre(this);
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.addOnPageChangeListener(this);
@@ -101,28 +112,11 @@ public class MainActivity extends BaseFragmentActivity
         UpdateResources.checkLocalResource(this);
         setUpDrawer();
         connectIM();
-        new Thread(new CalaCacheThread()).start();//计算缓存图片大小
         try {
             EventBus.getDefault().register(this);
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    private long calculateCacheFileSize(){
-        long length = 0L;
-        String DISK_CACHE_DIR_NAME = "xUtils_img"; //1
-        String CACHE_DIR_NAME = "xUtils_cache";    //2
-
-        File cacheDir1 = FileUtil.getCacheDir(DISK_CACHE_DIR_NAME);
-        File cacheDir2 = FileUtil.getCacheDir(CACHE_DIR_NAME);
-        if(cacheDir1 != null){
-            length += FileUtil.getFileOrDirSize(cacheDir1);
-        }
-        if(cacheDir2 != null){
-            length += FileUtil.getFileOrDirSize(cacheDir2);
-        }
-        return length;
     }
 
     @Override
@@ -147,28 +141,29 @@ public class MainActivity extends BaseFragmentActivity
     }
 
     private void connectIM() {
-        if (UserEntity.getUser().getImToken(this) != null)
-            IMUtil.connect(this, UserEntity.getUser().imToken);
+        if(UserEntity.getUser().getImToken(this)!=null)
+        IMUtil.connect(this, UserEntity.getUser().imToken);
     }
 
     private void initBottomView() {
-        tabMenu[0] = (TextView) findViewById(R.id.tab_text_1);
-        tabMenu[1] = (TextView) findViewById(R.id.tab_text_2);
-        tabMenu[2] = (TextView) findViewById(R.id.tab_text_3);
+        tabMenu[0]=(TextView)findViewById(R.id.tab_text_1);
+        tabMenu[1]=(TextView)findViewById(R.id.tab_text_2);
+        tabMenu[2]=(TextView)findViewById(R.id.tab_text_3);
         tabMenu[0].setSelected(true);
     }
 
 
     private List<LvMenuItem> mItems = new ArrayList<LvMenuItem>(
-            Arrays.asList(
-                    new LvMenuItem(R.mipmap.personal_center_coupon, "优惠券", "3张可用"),
-                    new LvMenuItem(R.mipmap.personal_center_customer_service, "客服中心", ""),
-                    new LvMenuItem(R.mipmap.personal_center_internal, "境内客服", "仅限国内使用"),
-                    new LvMenuItem(R.mipmap.personal_center_overseas, "境外客服", "仅限国外使用"),
-                    new LvMenuItem(R.mipmap.personal_center_setting, "设置", "")
-            ));
+        Arrays.asList(
+            new LvMenuItem(R.mipmap.personal_center_coupon, "优惠券", "3张可用"),
+            new LvMenuItem(R.mipmap.personal_center_customer_service, "客服中心", ""),
+            new LvMenuItem(R.mipmap.personal_center_internal, "境内客服", "仅限国内使用"),
+            new LvMenuItem(R.mipmap.personal_center_overseas, "境外客服", "仅限国外使用"),
+            new LvMenuItem(R.mipmap.personal_center_setting, "设置", "")
+        ));
 
-    private void setUpDrawer() {
+    private void setUpDrawer()
+    {
         LayoutInflater inflater = LayoutInflater.from(this);
         View header = inflater.inflate(R.layout.nav_header_main, null);
         tv_modify_info = (TextView) header.findViewById(R.id.tv_modify_info);//编辑
@@ -179,7 +174,7 @@ public class MainActivity extends BaseFragmentActivity
         tv_nickname.setOnClickListener(this);
 
         mLvLeftMenu.addHeaderView(header);
-        mLvLeftMenu.setAdapter(new MenuItemAdapter(this, mItems));
+        mLvLeftMenu.setAdapter(new MenuItemAdapter(this,mItems));
         mLvLeftMenu.setOnItemClickListener(this);
 
         refreshContent();
@@ -188,31 +183,30 @@ public class MainActivity extends BaseFragmentActivity
     /**
      * 刷新左边侧滑栏
      */
-    private void refreshContent() {
-        if (!UserEntity.getUser().isLogin(this)) {
+    private void refreshContent(){
+        if(!UserEntity.getUser().isLogin(this)){
             my_icon_head.setImageResource(R.mipmap.chat_head);
             tv_nickname.setText(this.getResources().getString(R.string.person_center_nickname));
             tv_modify_info.setVisibility(View.INVISIBLE);
-        } else {
+        }else{
             tv_modify_info.setVisibility(View.VISIBLE);
-            if (!TextUtils.isEmpty(UserEntity.getUser().getAvatar(this))) {
+            if(!TextUtils.isEmpty(UserEntity.getUser().getAvatar(this))){
                 x.image().bind(my_icon_head, UserEntity.getUser().getAvatar(this), ImageOptionUtils.userPortraitImageOptions);
-            } else {
+            }else{
                 my_icon_head.setImageResource(R.mipmap.chat_head);
             }
 
-            if (!TextUtils.isEmpty(UserEntity.getUser().getNickname(this))) {
+            if(!TextUtils.isEmpty(UserEntity.getUser().getNickname(this))){
                 tv_nickname.setText(UserEntity.getUser().getNickname(this));
-            } else {
+            }else {
                 tv_nickname.setText(this.getResources().getString(R.string.person_center_no_nickname));
             }
         }
     }
-
     /**
      * 打开左侧菜单
      */
-    public void openDrawer() {
+    public void openDrawer(){
         if (!drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.openDrawer(GravityCompat.START);
         }
@@ -283,14 +277,13 @@ public class MainActivity extends BaseFragmentActivity
         return contentId;
     }
 
-    public BaseFragment getTestFragment(String name) {
+    public BaseFragment getTestFragment(String name){
         FgTest fg = new FgTest();
         Bundle bundle = new Bundle();
-        bundle.putString(FgTest.KEY_NAME, name);
+        bundle.putString(FgTest.KEY_NAME,name);
         fg.setArguments(bundle);
         return fg;
     }
-
     private BaseFragment getFgChooseCityFragment() {
         FgChooseCity fgChooseCity = new FgChooseCity();
         String KEY_FROM = "key_from";
@@ -301,9 +294,9 @@ public class MainActivity extends BaseFragmentActivity
     }
 
 
-    @Event({R.id.tab_text_1, R.id.tab_text_2, R.id.tab_text_3})
-    private void onClickView(View view) {
-        switch (view.getId()) {
+    @Event({R.id.tab_text_1,R.id.tab_text_2,R.id.tab_text_3})
+    private void onClickView(View view){
+        switch (view.getId()){
             case R.id.tab_text_1:
                 mViewPager.setCurrentItem(0);
                 break;
@@ -323,7 +316,7 @@ public class MainActivity extends BaseFragmentActivity
     @Override
     public void onPageSelected(int position) {
         MLog.e("onPageSelected = " + position);
-        for (int i = 0; i < tabMenu.length; i++) {
+        for (int i=0;i<tabMenu.length;i++) {
             tabMenu[i].setSelected(position == i);
         }
     }
@@ -335,10 +328,10 @@ public class MainActivity extends BaseFragmentActivity
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        switch (position) {
+        switch (position){
             case Constants.PERSONAL_CENTER_COUPON:
                 //我的优惠券
-                if (isLogin()) {
+                if(isLogin()) {
                     startFragment(new FgCoupon());
                     UserEntity.getUser().setHasNewCoupon(false);
 //                    couponPoint.setVisibility(View.GONE);
@@ -354,11 +347,11 @@ public class MainActivity extends BaseFragmentActivity
                 break;
             case Constants.PERSONAL_CENTER_OVERSEAS_SERVICE:
                 //境外客服
-                PhoneInfo.CallDial(MainActivity.this, Constants.CALL_NUMBER_OUT);
+                PhoneInfo.CallDial(MainActivity.this,Constants.CALL_NUMBER_OUT);
                 break;
             case Constants.PERSONAL_CENTER_SETTING:
                 //我的设置
-                if (isLogin()) {
+                if(isLogin()) {
 //                    versionPoint.setVisibility(View.GONE);
                     startFragment(new FgSetting());
                 }
@@ -391,13 +384,12 @@ public class MainActivity extends BaseFragmentActivity
 
     /**
      * 判断是否登录
-     *
      * @return
      */
-    private boolean isLogin() {
-        if (UserEntity.getUser().isLogin(this)) {
+    private boolean isLogin(){
+        if(UserEntity.getUser().isLogin(this)){
             return true;
-        } else {
+        }else{
             startFragment(new FgLogin());
             return false;
         }
@@ -469,6 +461,7 @@ public class MainActivity extends BaseFragmentActivity
     class CalaCacheThread implements Runnable {
         public void run() {
             long cacheSize = calculateCacheFileSize();
+            sharedPre.saveLongValue(SharedPre.CACHE_SIZE, cacheSize);
         }
     }
 }
