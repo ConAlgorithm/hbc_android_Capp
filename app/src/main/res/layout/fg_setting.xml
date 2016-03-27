@@ -187,6 +187,42 @@
                 android:src="@mipmap/personal_center_right" />
         </RelativeLayout>
 
+        <RelativeLayout
+            android:id="@+id/setting_menu_layout7"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/setting_menu_layout5"
+            android:layout_marginTop="@dimen/basic_margin_xlarge"
+            android:background="@drawable/click_item_bg"
+            android:padding="@dimen/basic_margin_xlarge">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="清除缓存"
+                android:textColor="@color/my_info_menu_title"
+                android:textSize="@dimen/text_size_largex" />
+            <ImageView
+                android:id="@+id/setting_clear_cache_arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/personal_center_right"
+                />
+            <TextView
+                android:id="@+id/setting_menu_clear_cache_flag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/basic_margin_large"
+                android:layout_marginRight="10dp"
+                android:layout_toLeftOf="@id/setting_clear_cache_arrow"
+                android:textSize="@dimen/text_size_medium"
+                android:textColor="@color/basic_gray"
+                />
+        </RelativeLayout>
+
         <TextView
             android:id="@+id/setting_exit"
             android:layout_width="match_parent"
