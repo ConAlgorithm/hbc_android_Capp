@@ -58,9 +58,6 @@
         <service
             android:name=".service.LogService"
             android:process="com.hugboga.custom.hbclog" />
-        <service
-            android:name=".service.LogService"
-            android:process="com.hugboga.custom.hbclog" />
 
         <activity
             android:name=".activity.IMChatActivity"
