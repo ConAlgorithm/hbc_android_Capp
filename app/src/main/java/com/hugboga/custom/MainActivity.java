@@ -51,6 +51,9 @@ import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.UpdateResources;
+import com.tencent.mm.sdk.modelbase.BaseReq;
+import com.tencent.mm.sdk.modelbase.BaseResp;
+import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
 
 import org.xutils.common.util.FileUtil;
 import org.xutils.image.ImageOptions;
@@ -70,7 +73,7 @@ import de.greenrobot.event.EventBus;
 
 @ContentView(R.layout.activity_main)
 public class MainActivity extends BaseFragmentActivity
-        implements /*NavigationView.OnNavigationItemSelectedListener,*/ ViewPager.OnPageChangeListener, AdapterView.OnItemClickListener, View.OnClickListener {
+        implements  ViewPager.OnPageChangeListener, AdapterView.OnItemClickListener, View.OnClickListener {
 
     public static final String PUSH_BUNDLE_MSG = "pushMessage";
 
@@ -96,12 +99,16 @@ public class MainActivity extends BaseFragmentActivity
     private ListView mLvLeftMenu;
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
+    private FgHome fgHome;
+    private FgChat fgChat;
+    private FgTravel fgTravel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        setSupportActionBar(toolbar);
         contentId = R.id.drawer_layout;
+        initAdapterContent();
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.addOnPageChangeListener(this);
@@ -117,6 +124,15 @@ public class MainActivity extends BaseFragmentActivity
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void initAdapterContent() {
+        fgHome = new FgHome();
+        fgChat = new FgChat();
+        fgTravel = new FgTravel();
+        addFragment(fgHome);
+        addFragment(fgChat);
+        addFragment(fgTravel);
     }
 
     @Override
@@ -244,33 +260,6 @@ public class MainActivity extends BaseFragmentActivity
         return super.onOptionsItemSelected(item);
     }
 
-    /*@SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-            Intent intent = new Intent(this, LogService.class);
-            intent.putExtra(LogService.KEY_IS_RUNNING,true);
-            startService(intent);
-        } else if (id == R.id.nav_gallery) {
-            startFragment(getTestFragment("ceshi"));
-        } else if (id == R.id.nav_slideshow) {
-            startFragment(getFgChooseCityFragment());
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-            Intent intent = new Intent(this, LogService.class);
-            intent.putExtra(LogService.KEY_IS_RUNNING,false);
-            startService(intent);
-        } else if (id == R.id.nav_send) {
-
-        }
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
-    }*/
 
     @Override
     public int getContentId() {
@@ -362,24 +351,6 @@ public class MainActivity extends BaseFragmentActivity
         drawer.closeDrawer(GravityCompat.START);
 
 
-        /*if (position == 0) {
-            // Handle the camera action
-            Intent intent = new Intent(this, LogService.class);
-            intent.putExtra(LogService.KEY_IS_RUNNING,true);
-            startService(intent);
-        } else if (position == 1) {
-            startFragment(getTestFragment("ceshi"));
-        } else if (position == 2) {
-            startFragment(getFgChooseCityFragment());
-        } else if (position == 3) {
-
-        } else if (position == 4) {
-            Intent intent = new Intent(this, LogService.class);
-            intent.putExtra(LogService.KEY_IS_RUNNING,false);
-            startService(intent);
-        }
-        drawer.closeDrawer(GravityCompat.START);*/
-
     }
 
     /**
@@ -427,13 +398,13 @@ public class MainActivity extends BaseFragmentActivity
         public Fragment getItem(int position) {
             switch (position) {
                 case 0: {
-                    return new FgHome();
+                    return fgHome;
                 }
                 case 1: {
-                    return new FgChat();
+                    return fgChat;
                 }
                 case 2: {
-                    return new FgTravel();
+                    return fgTravel;
                 }
             }
             return null;

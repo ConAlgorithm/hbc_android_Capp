@@ -2,6 +2,7 @@ package com.hugboga.custom.adapter;
 
 import android.app.Activity;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -14,11 +15,14 @@ import android.widget.TextView;
 import com.huangbaoche.hbcframe.adapter.BaseAdapter;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.IMChatActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.OrderBean;
+import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.fragment.BaseFragment;
 import com.hugboga.custom.fragment.FgTravel;
 import com.hugboga.custom.utils.DateUtils;
+import com.hugboga.custom.widget.CircleImageView;
 import com.hugboga.custom.widget.DialogUtil;
 
 import org.xutils.image.ImageOptions;
@@ -28,13 +32,15 @@ import org.xutils.x;
 import java.text.ParseException;
 import java.util.HashMap;
 
+import io.rong.imkit.RongContext;
 import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
+import io.rong.imlib.model.UserInfo;
 
 /**
  * Created by ZHZEPHI on 2015/7/21.
  */
-public class TravelAdapter extends BaseAdapter<OrderBean> {
+public class TravelAdapter extends BaseAdapter<OrderBean>  {
 
     private final ImageOptions options;
 
@@ -57,7 +63,7 @@ public class TravelAdapter extends BaseAdapter<OrderBean> {
         ViewHolder holder = null;
 
         if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.fg_travel_item, null);
+            convertView = mInflater.inflate(R.layout.fg_travel_item,null);
             holder = new ViewHolder();
             x.view().inject(holder, convertView);
             convertView.setTag(holder);
@@ -69,12 +75,12 @@ public class TravelAdapter extends BaseAdapter<OrderBean> {
         holder.mCarType.setText(orderBean.carDesc);
         //当地城市时间
         holder.mServiceTimeLocl.setVisibility(View.VISIBLE);
-        holder.mServiceTimeLocl.setText("(" + orderBean.serviceCityName + "时间)");
+        holder.mServiceTimeLocl.setText("("+orderBean.serviceCityName +"时间)");
         //订单状态
         holder.mStatus.setText(orderBean.orderStatus.name);
         holder.mCommendStartAddress.setVisibility(View.GONE);
-        switch (orderBean.orderType) {
-            case Constants.BUSINESS_TYPE_PICK:
+        switch (orderBean.orderType){
+            case  Constants.BUSINESS_TYPE_PICK:
                 //接机
                 holder.mLineView.setBackgroundResource(R.drawable.jour_blue_ttt);
                 holder.mTypeStr.setText(R.string.title_pick);
@@ -91,7 +97,7 @@ public class TravelAdapter extends BaseAdapter<OrderBean> {
                     e.printStackTrace();
                 }
                 break;
-            case Constants.BUSINESS_TYPE_SEND:
+            case  Constants.BUSINESS_TYPE_SEND:
                 //送机
                 holder.mLineView.setBackgroundResource(R.drawable.jour_green_ttt);
                 holder.mTypeStr.setText(R.string.title_send);
@@ -108,36 +114,36 @@ public class TravelAdapter extends BaseAdapter<OrderBean> {
                     e.printStackTrace();
                 }
                 break;
-            case Constants.BUSINESS_TYPE_DAILY:
+            case  Constants.BUSINESS_TYPE_DAILY:
                 //日租
                 holder.mLineView.setBackgroundResource(R.drawable.jour_yellow_ttt);
                 holder.mTypeStr.setText(R.string.title_daily);
 
                 holder.mServiceTime.setVisibility(View.VISIBLE);
-                if (orderBean.isHalfDaily == 1) {//半日包
+                if(orderBean.isHalfDaily==1){//半日包
 
                     holder.mDays.setVisibility(View.GONE);
-                    holder.mServiceTime.setText(orderBean.serviceTime + "(半日包)");
-                } else {
+                    holder.mServiceTime.setText(orderBean.serviceTime+"(半日包)");
+                }else{
                     holder.mDays.setVisibility(View.VISIBLE);
                     holder.mDays.setText((orderBean.totalDays) + "天");
-                    holder.mServiceTime.setText(orderBean.serviceTime + " 至 " + orderBean.serviceEndTime);
+                    holder.mServiceTime.setText(orderBean.serviceTime+" 至 "+orderBean.serviceEndTime);
                 }
-                if (orderBean.orderGoodsType == Constants.BUSINESS_TYPE_DAILY) {
+                if(orderBean.orderGoodsType == Constants.BUSINESS_TYPE_DAILY){
                     holder.mTypeStr.setText("市内包车");
-                } else {
+                }else{
                     holder.mTypeStr.setText("跨城市包车");
                 }
                 holder.mFrom.setVisibility(View.GONE);
                 holder.mTo.setVisibility(View.GONE);
                 holder.mCitys.setVisibility(View.VISIBLE);
                 String dailyPlace = orderBean.serviceCityName;
-                if (!TextUtils.isEmpty(orderBean.serviceEndCityName)) {
-                    dailyPlace += " - " + orderBean.serviceEndCityName;
+                if(!TextUtils.isEmpty(orderBean.serviceEndCityName)){
+                    dailyPlace+=" - " + orderBean.serviceEndCityName;
                 }
                 holder.mCitys.setText(dailyPlace);
                 break;
-            case Constants.BUSINESS_TYPE_RENT:
+            case  Constants.BUSINESS_TYPE_RENT:
                 //次租
                 holder.mLineView.setBackgroundResource(R.drawable.jour_red_ttt);
                 holder.mTypeStr.setText(R.string.title_rent);
@@ -154,7 +160,7 @@ public class TravelAdapter extends BaseAdapter<OrderBean> {
                     e.printStackTrace();
                 }
                 break;
-            case Constants.BUSINESS_TYPE_COMMEND:
+            case  Constants.BUSINESS_TYPE_COMMEND:
                 //线路包车
                 holder.mLineView.setBackgroundResource(R.drawable.jour_purple_ttt);
                 holder.mTypeStr.setText(R.string.title_commend);
@@ -183,41 +189,38 @@ public class TravelAdapter extends BaseAdapter<OrderBean> {
                 }
             });
         }else{*/
-        holder.mBtnChat.setVisibility(View.GONE);
+            holder.mBtnChat.setVisibility(View.GONE);
 //        }
         setStatusView(holder, orderBean);
         return convertView;
     }
 
-    private String splitDateStr(String dateStr) {
-        if (dateStr == null) return null;
+    private String splitDateStr(String dateStr){
+        if(dateStr==null)return null;
         String[] dateArray = dateStr.split(" ");
-        if (dateArray != null && dateArray.length > 1) return dateArray[0];
+        if(dateArray!=null&&dateArray.length>1)return dateArray[0];
         return dateStr;
     }
 
     /**
      * 设置聊一聊未读个数小红点
-     *
      * @param chatNumTextView
      */
-    private void showMessageNum(final TextView chatNumTextView, Integer imcount) {
-        if (imcount > 0) {
+    private void showMessageNum(final TextView chatNumTextView, Integer imcount){
+        if(imcount>0){
             chatNumTextView.setVisibility(View.VISIBLE);
             chatNumTextView.setText(String.valueOf(imcount));
-        } else {
+        }else{
             chatNumTextView.setVisibility(View.GONE);
         }
     }
-
     private int requestIMTokenCount = 0;
-    private HashMap<String, TextView> imMap = new HashMap<String, TextView>();
-
+    private HashMap<String ,TextView> imMap = new HashMap<String ,TextView>();
     /**
      * 开始聊天
      */
-    private void gotoChatView(final TextView chatNum, final OrderBean orderBean) {
-        imMap.put(orderBean.orderNo, chatNum);
+    private void gotoChatView(final TextView chatNum, final OrderBean orderBean){
+        imMap.put(orderBean.orderNo,chatNum);
         dialog.showLoadingDialog(true);
         RongIM.connect(orderBean.imToken, new RongIMClient.ConnectCallback() {
             @Override
@@ -266,13 +269,12 @@ public class TravelAdapter extends BaseAdapter<OrderBean> {
 
     /**
      * 根据状态重置操作栏
-     *
      * @param holder
      * @param orderBean
      */
-    private void setStatusView(ViewHolder holder, OrderBean orderBean) {
+    private void setStatusView( ViewHolder holder,   OrderBean orderBean){
         holder.mAssessment.setOnClickListener(null);
-        switch (orderBean.orderStatus) {
+        switch (orderBean.orderStatus){
             case INITSTATE:
                 //等待支付 初始状态
                 holder.mStatusLayout.setVisibility(View.VISIBLE);
@@ -297,10 +299,10 @@ public class TravelAdapter extends BaseAdapter<OrderBean> {
                 holder.mStatusLayout.setVisibility(View.VISIBLE);
                 holder.mPrice.setVisibility(View.GONE);
                 holder.mHeadLayout.setVisibility(View.VISIBLE);
-                if (orderBean.orderGuideInfo != null) {
+                if(orderBean.orderGuideInfo!=null) {
                     holder.mHeadTitle.setText(orderBean.orderGuideInfo.guideName);
-                    x.image().bind(holder.mHeadImg, orderBean.orderGuideInfo.guideAvatar, options);
-                }
+                    x.image().bind(holder.mHeadImg, orderBean.orderGuideInfo.guideAvatar,options);
+               }
                 holder.mBtnChat.setVisibility(View.VISIBLE);
                 holder.mBtnPay.setVisibility(View.GONE);
                 holder.mAssessment.setVisibility(View.GONE);
@@ -312,7 +314,7 @@ public class TravelAdapter extends BaseAdapter<OrderBean> {
                 holder.mPrice.setVisibility(View.GONE);
                 holder.mHeadLayout.setVisibility(View.VISIBLE);
                 holder.mHeadTitle.setText(orderBean.orderGuideInfo.guideName);
-                x.image().bind(holder.mHeadImg, orderBean.orderGuideInfo.guideAvatar, options);
+                x.image().bind(holder.mHeadImg, orderBean.orderGuideInfo.guideAvatar,options);
                 holder.mBtnPay.setVisibility(View.GONE);
                 holder.mBtnChat.setVisibility(View.VISIBLE);
                 holder.mAssessment.setVisibility(View.GONE);
@@ -323,9 +325,9 @@ public class TravelAdapter extends BaseAdapter<OrderBean> {
                 holder.mStatusLayout.setVisibility(View.VISIBLE);
                 holder.mPrice.setVisibility(View.GONE);
                 holder.mHeadLayout.setVisibility(View.VISIBLE);
-                if (orderBean.orderGuideInfo != null) {
+                if(orderBean.orderGuideInfo!=null) {
                     holder.mHeadTitle.setText(orderBean.orderGuideInfo.guideName);
-                    x.image().bind(holder.mHeadImg, orderBean.orderGuideInfo.guideAvatar, options);
+                    x.image().bind(holder.mHeadImg, orderBean.orderGuideInfo.guideAvatar,options);
                 }
                 holder.mBtnChat.setVisibility(View.VISIBLE);
                 holder.mBtnPay.setVisibility(View.GONE);
@@ -336,13 +338,13 @@ public class TravelAdapter extends BaseAdapter<OrderBean> {
                 //是否可以评价
                 holder.mAssessment.setVisibility(View.VISIBLE);
                 MLog.e("onclick " + orderBean.orderNo + " orderType = " + orderBean.orderType);
-                MLog.e("onclick=" + holder.mAssessment.hasOnClickListeners());
+                MLog.e("onclick="+holder.mAssessment.hasOnClickListeners());
                 holder.mAssessment.setOnClickListener(new TravelOnClickListener(orderBean));
                 holder.mStatusLayout.setVisibility(View.VISIBLE);
                 holder.mPrice.setVisibility(View.GONE);
                 holder.mHeadLayout.setVisibility(View.VISIBLE);
                 holder.mHeadTitle.setText(orderBean.orderGuideInfo.guideName);
-                x.image().bind(holder.mHeadImg, orderBean.orderGuideInfo.guideAvatar, options);
+                x.image().bind(holder.mHeadImg, orderBean.orderGuideInfo.guideAvatar,options);
                 holder.mBtnPay.setVisibility(View.GONE);
                 holder.mBtnChat.setVisibility(View.VISIBLE);
                 holder.mStatus.setTextColor(Color.parseColor("#F3AD5B"));
@@ -360,7 +362,7 @@ public class TravelAdapter extends BaseAdapter<OrderBean> {
                 holder.mBtnChat.setVisibility(View.VISIBLE);
                 holder.mStatus.setTextColor(Color.parseColor("#BDBDBD"));
                 holder.mHeadTitle.setText(orderBean.orderGuideInfo.guideName);
-                x.image().bind(holder.mHeadImg, orderBean.orderGuideInfo.guideAvatar, options);
+                x.image().bind(holder.mHeadImg, orderBean.orderGuideInfo.guideAvatar,options);
                 break;
             case CANCELLED:
             case REFUNDED:
@@ -449,18 +451,15 @@ public class TravelAdapter extends BaseAdapter<OrderBean> {
         @ViewInject(R.id.travel_item_btn_assessment)
         TextView mAssessment; //评价车导
     }
-
     class TravelOnClickListener implements View.OnClickListener {
 
         private final OrderBean mOrderBean;
-
-        public TravelOnClickListener(OrderBean orderBean) {
+        public TravelOnClickListener(OrderBean orderBean){
             this.mOrderBean = orderBean;
         }
-
         @Override
         public void onClick(View v) {
-            switch (v.getId()) {
+            switch (v.getId()){
                 case R.id.travel_item_btn_assessment:
                     MLog.e("评价车导2 " + mOrderBean.orderNo + " orderType = " + mOrderBean.orderType);
                     Bundle bundle = new Bundle();
@@ -472,7 +471,7 @@ public class TravelAdapter extends BaseAdapter<OrderBean> {
                     fragment.startFragment(new FgAssessment(), bundle);*/
                     break;
                 case R.id.travel_item_btn_pay:
-                    OrderBean mOrderBean = (OrderBean) v.getTag();
+                    OrderBean mOrderBean = (OrderBean)v.getTag();
                     MLog.e("立即支付 " + mOrderBean.orderNo);
                     //立即支付，进入订单详情
                     bundle = new Bundle();

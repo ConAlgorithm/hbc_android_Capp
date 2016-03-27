@@ -1,157 +1,151 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/allbg_gray"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    >
+<RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/pay_type_group"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingLeft="10dp"
+    android:visibility="visible">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/pay_type"
-        android:padding="@dimen/default_margin_xlarge" />
-
-    <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/pay_type_group"
+    <RelativeLayout
+        android:id="@+id/pay_type_alipay_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/allbg_white"
-        android:orientation="vertical"
-        android:paddingLeft="10dp"
+        android:layout_margin="10dip"
+        android:layout_gravity="center_vertical"
+        >
+        <ImageView
+            android:id="@+id/pay_type_alipay_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/icon_pay2"
+            android:layout_centerVertical="true"
+            />
+        <TextView
+            android:id="@+id/pay_type_alipay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/pay_type_alipay_icon"
+            android:text="支付宝    "
+            android:textSize="@dimen/text_size_large"
+            android:layout_marginLeft="10dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="推荐支付宝用户使用"
+            android:layout_toRightOf="@id/pay_type_alipay_icon"
+            android:layout_below="@id/pay_type_alipay"
+            android:textColor="@color/basic_gray"
+            android:textSize="@dimen/text_size_mediumx"
+            android:layout_marginLeft="10dp"
+            />
+
+        <RadioButton
+            android:id="@+id/pay_type_alipay_radio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:button="@drawable/radiobtn_selector"
+            android:checked="true"
+            android:clickable="false" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="10dp"
+        android:background="@color/basic_gray"
+        android:visibility="gone" />
+
+    <RelativeLayout
+        android:id="@+id/pay_type_wechat_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dip"
         android:visibility="visible">
-
-        <RelativeLayout
-            android:id="@+id/pay_type_alipay_layout"
-            android:layout_width="match_parent"
+        <ImageView
+            android:id="@+id/pay_type_wechat_icon"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dip"
-            android:layout_gravity="center_vertical">
-
-            <ImageView
-                android:id="@+id/pay_type_alipay_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/icon_pay2"
-                android:layout_centerVertical="true" />
-
-            <TextView
-                android:id="@+id/pay_type_alipay"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/pay_type_alipay_icon"
-                android:text="支付宝    "
-                android:textSize="@dimen/text_size_xlarge"
-                android:layout_marginLeft="5dp"
-                android:layout_centerVertical="true" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="推荐支付宝用户使用"
-                android:layout_toRightOf="@id/pay_type_alipay"
-                android:textColor="@color/basic_gray"
-                android:layout_marginLeft="20dp"
-                android:layout_centerVertical="true" />
-
-            <RadioButton
-                android:id="@+id/pay_type_alipay_radio"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:button="@drawable/radiobtn_selector"
-                android:checked="true"
-                android:clickable="false" />
-        </RelativeLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:src="@mipmap/icon_pay1"
+            android:layout_centerVertical="true"
+            />
+        <TextView
+            android:id="@+id/pay_type_wechat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/pay_type_wechat_icon"
+            android:text="微信支付"
+            android:textSize="@dimen/text_size_large"
             android:layout_marginLeft="10dp"
-            android:background="@color/basic_gray"
-            android:visibility="gone" />
+            />
 
-        <RelativeLayout
-            android:id="@+id/pay_type_wechat_layout"
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dip"
-            android:visibility="visible">
-
-            <ImageView
-                android:id="@+id/pay_type_wechat_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/icon_pay1"
-                android:layout_centerVertical="true" />
-
-            <TextView
-                android:id="@+id/pay_type_wechat"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/pay_type_wechat_icon"
-                android:text="微信支付"
-                android:textSize="@dimen/text_size_xlarge"
-                android:layout_marginLeft="5dp"
-                android:layout_centerVertical="true" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/pay_type_wechat"
-                android:text="推荐已安装微信的用户使用"
-                android:textColor="@color/basic_gray"
-                android:layout_toRightOf="@id/pay_type_wechat"
-                android:layout_marginLeft="20dp"
-                android:layout_centerVertical="true" />
-
-            <RadioButton
-                android:id="@+id/pay_type_wechat_radio"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:button="@drawable/radiobtn_selector"
-                android:clickable="false" />
-        </RelativeLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_below="@id/pay_type_wechat"
+            android:text="推荐已安装微信的用户使用"
+            android:textColor="@color/basic_gray"
+            android:layout_toRightOf="@id/pay_type_wechat_icon"
             android:layout_marginLeft="10dp"
-            android:background="@color/basic_gray"
-            android:visibility="gone" />
+            />
 
-        <RelativeLayout
-            android:id="@+id/pay_type_bank_layout"
-            android:layout_width="match_parent"
+        <RadioButton
+            android:id="@+id/pay_type_wechat_radio"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dip"
-            android:visibility="gone">
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:button="@drawable/radiobtn_selector"
+            android:clickable="false" />
+    </RelativeLayout>
 
-            <TextView
-                android:id="@+id/pay_type_bank"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="银行卡支付"
-                android:textSize="@dimen/text_size_xlarge" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="10dp"
+        android:background="@color/basic_gray"
+        android:visibility="gone" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/pay_type_bank"
-                android:text="支持信用卡储蓄卡，无需开通网银"
-                android:textColor="@color/basic_gray" />
+    <RelativeLayout
+        android:id="@+id/pay_type_bank_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dip"
+        android:visibility="gone">
 
-            <RadioButton
-                android:id="@+id/pay_type_bank_radio"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:button="@drawable/radiobtn_selector"
-                android:clickable="false" />
-        </RelativeLayout>
+        <TextView
+            android:id="@+id/pay_type_bank"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="银行卡支付"
+            android:textSize="@dimen/text_size_xlarge" />
 
-    </RadioGroup>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/pay_type_bank"
+            android:text="支持信用卡储蓄卡，无需开通网银"
+            android:textColor="@color/basic_gray" />
+
+        <RadioButton
+            android:id="@+id/pay_type_bank_radio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:button="@drawable/radiobtn_selector"
+            android:clickable="false" />
+    </RelativeLayout>
+
+</RadioGroup>
 </LinearLayout>

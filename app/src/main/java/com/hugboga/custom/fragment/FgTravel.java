@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
@@ -27,6 +28,8 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.TravelAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.OrderBean;
+import com.hugboga.custom.data.bean.UserEntity;
+import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.request.RequestTravel;
 import com.hugboga.custom.widget.ZListView;
 
@@ -34,25 +37,31 @@ import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
+import org.xutils.x;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import de.greenrobot.event.EventBus;
+
 @ContentView(R.layout.fg_travel)
-public class FgTravel extends BaseFragment implements AdapterView.OnItemClickListener, ZListView.OnRefreshListener, ZListView.OnLoadListener, View.OnClickListener {
+public class FgTravel extends BaseFragment  implements AdapterView.OnItemClickListener, ZListView.OnRefreshListener, ZListView.OnLoadListener, View.OnClickListener {
 
     public static final String FILTER_FLUSH = "com.hugboga.custom.travel.flush";
     public static final String JUMP_TYPE = "JUMP_TYPE";
     public static final String REFRESH_RUNNING = "REFRESH_RUNNING";
     public static final String REFRESH_FINISH = "REFRESH_FINISH";
     public static final String REFRESH_CANCEL = "REFRESH_CANCEL";
-    public static final int TYPE_ORDER_RUNNING = 0;
-    public static final int TYPE_ORDER_FINISH = 1;
-    public static final int TYPE_ORDER_CANCEL = 2;
+    public static final int TYPE_ORDER_RUNNING=0;
+    public static final int TYPE_ORDER_FINISH=1;
+    public static final int TYPE_ORDER_CANCEL=2;
     private static final int PAGESIZE = 20;
 
 
+    @ViewInject(R.id.travel_logout_layout)
+    private View logoutLayout;
+    //Tab1
     @ViewInject(R.id.header_left_btn)
     private ImageView leftBtn;
     //Tab1
@@ -99,14 +108,23 @@ public class FgTravel extends BaseFragment implements AdapterView.OnItemClickLis
     View emptyViewFinish;
     View emptyViewCancel;
 
-    HashMap<Integer, Boolean> needRefreshMap = new HashMap<>();
+    HashMap<Integer,Boolean> needRefreshMap = new HashMap<>();
 
     //Request
     RequestTravel parserTravel;
     private int orderShowType = TYPE_ORDER_RUNNING;
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if(!EventBus.getDefault().isRegistered(this))
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
     public void initView() {
+        logoutLayout.setVisibility(UserEntity.getUser().isLogin(getActivity())?View.GONE:View.VISIBLE);
+
         LayoutInflater inflater = LayoutInflater.from(getActivity());
         //注册刷新广播
         IntentFilter filter = new IntentFilter(FILTER_FLUSH);
@@ -115,19 +133,19 @@ public class FgTravel extends BaseFragment implements AdapterView.OnItemClickLis
         //进行中
         runninLayout = new RelativeLayout(getActivity());
         fgTravelRunning = new ZListView(getActivity());
-        runningAdapter = new TravelAdapter(getActivity(), this);
+        runningAdapter = new TravelAdapter(getActivity(),this);
         emptyViewRunning = inflater.inflate(R.layout.fg_travel_empty, null);
         initListView(runninLayout, fgTravelRunning, runningAdapter, emptyViewRunning);
         //已完成
         finishLayout = new RelativeLayout(getActivity());
         fgTravelFinish = new ZListView(getActivity());
-        finishAdapter = new TravelAdapter(getActivity(), this);
+        finishAdapter = new TravelAdapter(getActivity(),this);
         emptyViewFinish = inflater.inflate(R.layout.fg_travel_empty_finish, null);
         initListView(finishLayout, fgTravelFinish, finishAdapter, emptyViewFinish);
         //取消
         cancelLayout = new RelativeLayout(getActivity());
         fgTravelCancel = new ZListView(getActivity());
-        cancelAdapter = new TravelAdapter(getActivity(), this);
+        cancelAdapter = new TravelAdapter(getActivity(),this);
         emptyViewCancel = inflater.inflate(R.layout.fg_travel_empty_cancel, null);
         initListView(cancelLayout, fgTravelCancel, cancelAdapter, emptyViewCancel);
 
@@ -136,8 +154,7 @@ public class FgTravel extends BaseFragment implements AdapterView.OnItemClickLis
         tab1LineView.setVisibility(View.VISIBLE);
         needRefreshMap.put(TYPE_ORDER_RUNNING, true);
         needRefreshMap.put(TYPE_ORDER_FINISH, true);
-        needRefreshMap.put(TYPE_ORDER_CANCEL, true);
-
+        needRefreshMap.put(TYPE_ORDER_CANCEL,true);
 
         //加载数据片段页面
         List<RelativeLayout> listViews = new ArrayList<RelativeLayout>();
@@ -165,7 +182,7 @@ public class FgTravel extends BaseFragment implements AdapterView.OnItemClickLis
         });
     }
 
-    private void initListView(ViewGroup layout, ZListView listView, BaseAdapter adapter, View emptyView) {
+    private void initListView(ViewGroup layout,ZListView listView,BaseAdapter adapter,View emptyView){
         listView.setAdapter(adapter);
         listView.setDivider(new ColorDrawable(0));
         listView.setOnItemClickListener(this);
@@ -174,13 +191,13 @@ public class FgTravel extends BaseFragment implements AdapterView.OnItemClickLis
         layout.addView(listView);
         emptyView.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
         Button startBtn = (Button) emptyView.findViewById(R.id.travel_empty_btn);
-        if (startBtn != null)
-            startBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    finish();
-                }
-            });
+        if(startBtn!=null)
+        startBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         layout.addView(emptyView);
     }
 
@@ -201,6 +218,7 @@ public class FgTravel extends BaseFragment implements AdapterView.OnItemClickLis
 
     @Override
     public void onDestroy() {
+        EventBus.getDefault().unregister(this);
         getActivity().unregisterReceiver(flushReceiver);
         super.onDestroy();
     }
@@ -224,16 +242,20 @@ public class FgTravel extends BaseFragment implements AdapterView.OnItemClickLis
 
     /**
      * 加载数据
+     *
      */
-    private Callback.Cancelable runData(int offset) {
-        if (needRefreshMap.get(orderShowType)) {
-            parserTravel = new RequestTravel(getActivity(), orderShowType, offset, PAGESIZE);
-            return HttpRequestUtils.request(getActivity(), parserTravel, this);
-        } else {
-            onRequestComplete();
+    private Callback.Cancelable runData( int offset) {
+        if(UserEntity.getUser().isLogin(getActivity())) {
+            if (needRefreshMap.get(orderShowType)) {
+                parserTravel = new RequestTravel(getActivity(), orderShowType, offset, PAGESIZE);
+                return requestData(parserTravel);
+            } else {
+                onRequestComplete();
+            }
         }
         return null;
     }
+
 
 
     @Override
@@ -241,18 +263,18 @@ public class FgTravel extends BaseFragment implements AdapterView.OnItemClickLis
         if (parser instanceof RequestTravel) {
             parserTravel = (RequestTravel) parser;
             ArrayList<OrderBean> listData = parserTravel.getData();
-            switch (orderShowType) {
+            switch (orderShowType){
                 case TYPE_ORDER_RUNNING:
                     needRefreshMap.put(TYPE_ORDER_RUNNING, false);
-                    inflateView(tab1NumberTextView, fgTravelRunning, runningAdapter, emptyViewRunning, listData);
+                    inflateView(tab1NumberTextView, fgTravelRunning, runningAdapter,emptyViewRunning, listData);
                     break;
                 case TYPE_ORDER_FINISH:
                     needRefreshMap.put(TYPE_ORDER_FINISH, false);
-                    inflateView(tab2NumberTextView, fgTravelFinish, finishAdapter, emptyViewFinish, listData);
+                    inflateView(tab2NumberTextView,fgTravelFinish,finishAdapter,emptyViewFinish, listData);
                     break;
                 case TYPE_ORDER_CANCEL:
-                    needRefreshMap.put(TYPE_ORDER_CANCEL, false);
-                    inflateView(tab3NumberTextView, fgTravelCancel, cancelAdapter, emptyViewCancel, listData);
+                    needRefreshMap.put(TYPE_ORDER_CANCEL,false);
+                    inflateView(tab3NumberTextView,fgTravelCancel,cancelAdapter,emptyViewCancel, listData);
                     break;
                 default:
                     break;
@@ -266,9 +288,9 @@ public class FgTravel extends BaseFragment implements AdapterView.OnItemClickLis
         onRequestComplete();
     }
 
-    private void onRequestComplete() {
+    private void onRequestComplete(){
         ZListView listView = fgTravelRunning;
-        switch (orderShowType) {
+        switch (orderShowType){
             case TYPE_ORDER_RUNNING:
                 listView = fgTravelRunning;
                 break;
@@ -285,24 +307,24 @@ public class FgTravel extends BaseFragment implements AdapterView.OnItemClickLis
         listView.onRefreshComplete();
     }
 
-    private void inflateView(TextView text, ZListView listView, TravelAdapter adapter, View emptyView, ArrayList listData) {
+    private void inflateView(TextView text,ZListView listView,TravelAdapter adapter,View emptyView, ArrayList listData) {
         listView.setEmptyView(emptyView);
-        if (listView.state == ZListView.LOADING_MORE) {
+        if(listView.state== ZListView.LOADING_MORE){
             adapter.addList(listData);
-        } else {
+        }else{
             adapter.setList(listData);
         }
-        if (listData.size() < PAGESIZE) {
+        if(listData.size()<PAGESIZE){
             listView.onLoadCompleteNone();
-        } else {
+        }else{
             listView.onLoadComplete();
         }
         listView.onRefreshComplete();
-        MLog.e("listView = " + listView);
+        MLog.e("listView = "+listView);
     }
 
 
-    @Event({R.id.travel_tab1_layout, R.id.travel_tab2_layout, R.id.travel_tab3_layout})
+    @Event({R.id.travel_tab1_layout, R.id.travel_tab2_layout, R.id.travel_tab3_layout,R.id.travel_login_btn})
     private void onClickView(View view) {
         switch (view.getId()) {
             case R.id.travel_tab1_layout:
@@ -316,6 +338,9 @@ public class FgTravel extends BaseFragment implements AdapterView.OnItemClickLis
             case R.id.travel_tab3_layout:
                 //已取消
                 reSetTabView(2);
+                break;
+            case R.id.travel_login_btn:
+                startFragment(new FgLogin());
                 break;
             default:
                 break;
@@ -338,15 +363,16 @@ public class FgTravel extends BaseFragment implements AdapterView.OnItemClickLis
     }
 
 
+
     /**
      * 设置Tab切换效果
      *
      * @param position
      */
     private void reSetTabView(Integer position) {
-        if (position == orderShowType) {
+        if(position==orderShowType){
             requestData();
-        } else {
+        }else {
             orderShowType = position;
             tab1TextView.setSelected(false);
             tab1NumberTextView.setSelected(false);
@@ -404,28 +430,27 @@ public class FgTravel extends BaseFragment implements AdapterView.OnItemClickLis
 
     @Override
     public void onRefresh() {
-        needRefreshMap.put(orderShowType, true);
-        runData(0);
+        needRefreshMap.put(orderShowType,true);
+        runData( 0);
     }
 
     @Override
     public void onLoad() {
-        needRefreshMap.put(orderShowType, true);
-        switch (orderShowType) {
+        needRefreshMap.put(orderShowType,true);
+        switch (orderShowType){
             case TYPE_ORDER_RUNNING:
-                runData(runningAdapter.getCount());
+                runData( runningAdapter.getCount());
                 break;
             case TYPE_ORDER_FINISH:
-                runData(finishAdapter.getCount());
+                runData( finishAdapter.getCount());
                 break;
             case TYPE_ORDER_CANCEL:
-                runData(cancelAdapter.getCount());
+                runData( cancelAdapter.getCount());
                 break;
             default:
                 break;
         }
     }
-
     class OrderPageAdapter extends PagerAdapter {
 
         private List<RelativeLayout> listViews;
@@ -463,12 +488,35 @@ public class FgTravel extends BaseFragment implements AdapterView.OnItemClickLis
         @Override
         public void onReceive(Context context, Intent intent) {
             MLog.e("onReceive  刷新订单列表");
-            int jumpType = intent.getIntExtra(JUMP_TYPE, TYPE_ORDER_RUNNING);
-            needRefreshMap.put(TYPE_ORDER_RUNNING, needRefreshMap.get(TYPE_ORDER_RUNNING) || intent.getBooleanExtra(REFRESH_RUNNING, false));
-            needRefreshMap.put(TYPE_ORDER_FINISH, needRefreshMap.get(TYPE_ORDER_FINISH) || intent.getBooleanExtra(REFRESH_FINISH, false));
-            needRefreshMap.put(TYPE_ORDER_CANCEL, needRefreshMap.get(TYPE_ORDER_CANCEL) || intent.getBooleanExtra(REFRESH_CANCEL, false));
-            MLog.e("onReceive jumpType=" + jumpType + " " + needRefreshMap.get(TYPE_ORDER_RUNNING) + " " + needRefreshMap.get(TYPE_ORDER_FINISH) + " " + TYPE_ORDER_CANCEL);
+            int jumpType = intent.getIntExtra(JUMP_TYPE,TYPE_ORDER_RUNNING);
+            needRefreshMap.put(TYPE_ORDER_RUNNING,needRefreshMap.get(TYPE_ORDER_RUNNING)||intent.getBooleanExtra(REFRESH_RUNNING,false));
+            needRefreshMap.put(TYPE_ORDER_FINISH, needRefreshMap.get(TYPE_ORDER_FINISH)||intent.getBooleanExtra(REFRESH_FINISH,false));
+            needRefreshMap.put(TYPE_ORDER_CANCEL, needRefreshMap.get(TYPE_ORDER_CANCEL)||intent.getBooleanExtra(REFRESH_CANCEL, false));
+            MLog.e("onReceive jumpType=" + jumpType + " " + needRefreshMap.get(TYPE_ORDER_RUNNING) + " " + needRefreshMap.get(TYPE_ORDER_FINISH)+" "+TYPE_ORDER_CANCEL);
             reSetTabView(jumpType);
         }
     };
+
+    public void onEventMainThread(EventAction action) {
+        MLog.e(this+" onEventMainThread "+action.getType());
+        switch (action.getType()) {
+            case CLICK_USER_LOGIN:
+                requestData();
+                logoutLayout.setVisibility(View.GONE);
+                break;
+            case CLICK_USER_LOOUT:
+                cleanListData();
+                logoutLayout.setVisibility(View.VISIBLE);
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void cleanListData() {
+        runningAdapter.setList(null);
+        finishAdapter.setList(null);
+        cancelAdapter.setList(null);
+
+    }
 }

@@ -188,7 +188,7 @@ public class UserEntity {
     }
 
     public boolean isLogin(Activity activity) {
-        return !TextUtils.isEmpty(getUserId(activity));
+        return !TextUtils.isEmpty(getUserToken(activity));
     }
 
     public boolean hasNewCoupon() {

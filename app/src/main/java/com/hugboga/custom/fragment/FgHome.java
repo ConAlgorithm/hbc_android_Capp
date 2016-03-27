@@ -31,11 +31,15 @@ public class FgHome extends BaseFragment implements AdapterView.OnItemClickListe
     ListView listView;
     private ArrayList<HomeBean> dataList;
     private HomeAdapter adapter;
+    private boolean isAddHeader;
 
     @Override
     protected void initHeader() {
         View header = LayoutInflater.from(getActivity()).inflate(R.layout.fg_home_header, null);
-        listView.addHeaderView(header);
+        if(!isAddHeader){
+            listView.addHeaderView(header);
+            isAddHeader =true;
+        }
     }
 
     @Override
