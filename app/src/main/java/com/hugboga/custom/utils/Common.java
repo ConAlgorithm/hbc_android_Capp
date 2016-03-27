@@ -13,6 +13,7 @@ import android.provider.CalendarContract;
 import android.provider.MediaStore;
 import android.util.TypedValue;
 
+import com.huangbaoche.hbcframe.util.JNIUtil;
 import com.huangbaoche.hbcframe.util.MLog;
 
 import org.json.JSONObject;
@@ -32,7 +33,6 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.TreeMap;
 
 
 public class Common {
