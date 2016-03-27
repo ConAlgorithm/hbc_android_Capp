@@ -61,7 +61,7 @@ public class IMUtil {
         InputProvider.ExtendProvider[] provider = {
                 new ImageInputProvider(RongContext.getInstance()),//图片
                 new CameraInputProvider(RongContext.getInstance()),//相机
-                new VoIPInputProvider(RongContext.getInstance()),// 语音通话
+//                new VoIPInputProvider(RongContext.getInstance()),// 语音通话
         };
         RongIM.getInstance().resetInputExtensionProvider(Conversation.ConversationType.PRIVATE, provider);
         RongIM.getInstance().setCurrentUserInfo(getUserInfo(context));

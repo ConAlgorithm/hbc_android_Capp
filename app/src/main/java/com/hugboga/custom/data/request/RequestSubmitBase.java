@@ -41,7 +41,7 @@ public class RequestSubmitBase extends BaseRequest<String> {
         map.put("serviceTimeL", orderBean.serviceTime);
         map.put("serviceEndTimeL", orderBean.serviceEndTime);
         if(orderBean.serviceStartTime!=null)
-            map.put("serviceRecTime", orderBean.serviceStartTime+":00");
+            map.put("serviceRecTime", orderBean.serviceStartTime);
         map.put("totalDays", orderBean.totalDays);
         map.put("expectedCompTime", orderBean.expectedCompTime);
 

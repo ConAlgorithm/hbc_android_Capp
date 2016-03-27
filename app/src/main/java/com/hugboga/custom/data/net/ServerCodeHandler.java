@@ -17,6 +17,8 @@ import com.hugboga.custom.fragment.FgHome;
 import com.hugboga.custom.fragment.FgLogin;
 import com.hugboga.custom.widget.DialogUtil;
 
+import java.util.ArrayList;
+
 /**
  * Created by admin on 2016/3/26.
  */
@@ -36,18 +38,17 @@ public class ServerCodeHandler implements ServerCodeHandlerInterface {
                 dialogUtil.showCustomDialog(content, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        gotoLogin(mContext);
+                        gotoLogin(mContext,false);
                     }
                 });
                 break;
             case 10013:
                 //  设备禁止访问，则直接退出重新登录
                 UserEntity.getUser().clean(mContext);
-                UserSession.getUser().setUserToken(mContext, null);
                 dialogUtil.showCustomDialog(content, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        gotoLogin(mContext);
+                        gotoLogin(mContext,true);
                     }
                 });
                 break;
@@ -56,17 +57,20 @@ public class ServerCodeHandler implements ServerCodeHandlerInterface {
         return false;
     }
 
-    private static void gotoLogin(Activity mContext){
+    private static void gotoLogin(Activity mContext,boolean finish){
         if (mContext instanceof BaseFragmentActivity) {
             BaseFragmentActivity activity = (BaseFragmentActivity) mContext;
             BaseFragment fragment = null;
-            for (Fragment fg : activity.getSupportFragmentManager().getFragments()) {
+            ArrayList<com.huangbaoche.hbcframe.fragment.BaseFragment> fragmentList = activity.getFragmentList();
+            for(int i =fragmentList.size()-1;i>=0;i--){
+                Fragment fg  = fragmentList.get(i);
                 if (fg != null && fg instanceof BaseFragment) {
                     fragment = (BaseFragment) fg;
                     break;
                 }
             }
             if (fragment != null) {
+                if(finish)
                 fragment.bringToFront(FgHome.class, new Bundle());
                 fragment.startFragment(new FgLogin());
             }

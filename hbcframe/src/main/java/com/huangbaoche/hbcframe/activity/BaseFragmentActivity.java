@@ -1,8 +1,11 @@
 package com.huangbaoche.hbcframe.activity;
 
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-
+import android.view.KeyEvent;
+import android.widget.Toast;
+import com.huangbaoche.hbcframe.R;
 import com.huangbaoche.hbcframe.fragment.BaseFragment;
 import com.huangbaoche.hbcframe.util.MLog;
 
@@ -130,9 +133,27 @@ public class BaseFragmentActivity extends AppCompatActivity  {
             MLog.e("startFragment fragment is null");
             return;
         }
-        if(contentId ==-1)
-            throw new RuntimeException("BaseFragmentActivity ContentId not null, BaseFragment.setContentId(int)");
-        if(bundle!=null)fragment.setArguments(bundle);
-        getSupportFragmentManager().beginTransaction().add(contentId, fragment).addToBackStack(null).commit();
+        BaseFragment tFragment = null;
+        if(mFragmentList !=null&&mFragmentList.size()>0){
+            mFragmentList.get(mFragmentList.size() - 1);
+            for(int i=mFragmentList.size()-1;i>=0;i--){
+                tFragment = mFragmentList.get(i);
+                if(tFragment !=null&&tFragment.getContentId()!=-1)break;
+            }
+        }
+        if(tFragment!=null) {
+            tFragment.startFragment(fragment, bundle);
+        }else{
+            addFragment(fragment);
+            if(bundle!=null){
+                fragment.setArguments(bundle);
+            }
+            FragmentTransaction transaction = this.getSupportFragmentManager().beginTransaction();
+            transaction.add(contentId, fragment);
+            transaction.addToBackStack(null);
+            transaction.commitAllowingStateLoss();
+        }
+
     }
+
 }

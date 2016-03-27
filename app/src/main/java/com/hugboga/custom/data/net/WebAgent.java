@@ -142,21 +142,26 @@ public class WebAgent implements HttpRequestListener {
     @JavascriptInterface
     public void httpRequest(final String requestType, final String apiUrl, final String params, final String successFunction, final String failureFunction) {
         MLog.e("ZWebView-wxShare===>requestType:" + requestType + " apiUrl:" + apiUrl + " params:" + params + " successFunction:" + successFunction+" failureFunction:"+failureFunction);
-
-        RequestWebInfo request = new RequestWebInfo(mActivity,apiUrl,requestType,params,successFunction,failureFunction);
-        HttpRequestUtils.request(mActivity,request,this);
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+        RequestWebInfo request = new RequestWebInfo(mActivity, apiUrl, requestType, params, successFunction, failureFunction);
+        HttpRequestUtils.request(mActivity, request, WebAgent.this);
+            }
+        });
     }
 
     @JavascriptInterface
     public void finish() {
-                if (mWebView != null) {
-                    if(mFragment !=null){
-                        mFragment.finish();
-                    }else if(mActivity !=null){
-                        mActivity.finish();
-                    }
-                }
+        if (mWebView != null) {
+            if (mFragment != null) {
+                mFragment.finish();
+            } else if (mActivity != null) {
+                mActivity.finish();
+            }
+        }
     }
+
     @JavascriptInterface
     public void gotoLogin(final String jsonObj) {
         MLog.e("ZWebView-gotoLogin===>jsonObj:" + jsonObj);
@@ -181,7 +186,7 @@ public class WebAgent implements HttpRequestListener {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (mFragment != null) {
-                            mFragment.startFragment(new FgLogin(),bundle);
+                            mFragment.startFragment(new FgLogin(), bundle);
                         }
                     }
                 });
@@ -198,22 +203,21 @@ public class WebAgent implements HttpRequestListener {
 
     @JavascriptInterface
     public void getUserInfo(final String callBack) {
-                //获取getGuideInfo，并回调
-                try {
-                    JSONObject jsonObject = new JSONObject();
-                    jsonObject.put("id", UserEntity.getUser().getUserId(mActivity));
-                    jsonObject.put("name", UserEntity.getUser().getNickname(mActivity));
-                    jsonObject.put("areacode", UserEntity.getUser().getAreaCode(mActivity));
-                    jsonObject.put("phone", UserEntity.getUser().getPhone(mActivity));
-                    callBack(callBack,jsonObject.toString());
-                }catch (Exception e){
-                    MLog.e("getUserInfo ",e);
-                }
+        //获取getGuideInfo，并回调
+        try {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("id", UserEntity.getUser().getUserId(mActivity));
+            jsonObject.put("name", UserEntity.getUser().getNickname(mActivity));
+            jsonObject.put("areacode", UserEntity.getUser().getAreaCode(mActivity));
+            jsonObject.put("phone", UserEntity.getUser().getPhone(mActivity));
+            callBack(callBack, jsonObject.toString());
+        } catch (Exception e) {
+            MLog.e("getUserInfo ", e);
+        }
     }
 
 
-
-    private void callBack(final String callBackMethod,final String callBackResult){
+    private void callBack(final String callBackMethod, final String callBackResult) {
         mActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -225,8 +229,8 @@ public class WebAgent implements HttpRequestListener {
 
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
-        if(request instanceof RequestWebInfo){
-            RequestWebInfo webInfoRequest = (RequestWebInfo)request;
+        if (request instanceof RequestWebInfo) {
+            RequestWebInfo webInfoRequest = (RequestWebInfo) request;
             callBack(webInfoRequest.successCallBack, webInfoRequest.getData());
         }
     }
@@ -238,14 +242,14 @@ public class WebAgent implements HttpRequestListener {
 
     @Override
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-        if(errorInfo.state == ExceptionErrorCode.ERROR_CODE_SERVER){
-            if(request instanceof RequestWebInfo){
-                RequestWebInfo webInfoRequest = (RequestWebInfo)request;
+        if (errorInfo.state == ExceptionErrorCode.ERROR_CODE_SERVER) {
+            if (request instanceof RequestWebInfo) {
+                RequestWebInfo webInfoRequest = (RequestWebInfo) request;
                 String errorInfoJson = new ServerParser().errorInfoToStr(errorInfo);
-                callBack(webInfoRequest.failCallBack,errorInfoJson);
+                callBack(webInfoRequest.failCallBack, errorInfoJson);
             }
-        }else{
-            new ErrorHandler(mActivity,this).onDataRequestError(errorInfo,request);
+        } else {
+            new ErrorHandler(mActivity, this).onDataRequestError(errorInfo, request);
         }
     }
 }

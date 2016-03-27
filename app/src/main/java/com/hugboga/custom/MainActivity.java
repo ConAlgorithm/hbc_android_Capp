@@ -14,6 +14,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -424,4 +425,27 @@ public class MainActivity extends BaseFragmentActivity
             return null;
         }
     }
+    private long exitTime;
+    /**
+     * 监听按下 back 事件，连续点击两次退出程序
+     */
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_BACK:
+                if (getFragmentList().size() > 3) {
+                    return super.onKeyDown(keyCode, event);
+                }
+                long times = System.currentTimeMillis();
+                if ((times - exitTime) > 2000) {
+                    Toast.makeText(this, "再次点击退出", Toast.LENGTH_SHORT).show();
+                    exitTime = System.currentTimeMillis();
+                } else {
+                    finish();
+                }
+                return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
 }

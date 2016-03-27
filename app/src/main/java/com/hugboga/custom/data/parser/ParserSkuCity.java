@@ -16,7 +16,7 @@ public class ParserSkuCity extends ImplParser {
     @Override
     public Object parseObject(JSONObject obj) throws Throwable {
         SkuCityBean bean = new SkuCityBean();
-        bean.cityGuideAmount = obj.optString("cityGuideAmount");
+        bean.cityGuideAmount = obj.optInt("cityGuideAmount");
         bean.cityId = obj.optString("cityId");
         bean.cityName = obj.optString("cityName");
         bean.cityHeadPicture = obj.optString("cityHeadPicture");

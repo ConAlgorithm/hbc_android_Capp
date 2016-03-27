@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * Created by admin on 2016/3/3.
  */
 public class SkuCityBean implements IBaseBean {
-    public String cityGuideAmount;
+    public int cityGuideAmount;
     public String cityId;
     public String cityName;
     public String cityHeadPicture;
