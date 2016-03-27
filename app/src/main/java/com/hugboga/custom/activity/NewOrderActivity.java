@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.huangbaoche.hbcframe.activity.BaseFragmentActivity;
 import com.huangbaoche.hbcframe.adapter.ZBaseAdapter;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
+import com.huangbaoche.hbcframe.widget.ZSwipeRefreshLayout;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.NewOrderAdapter;
 import com.hugboga.custom.data.bean.OrderBean;
@@ -32,6 +33,8 @@ public class NewOrderActivity extends BaseFragmentActivity implements ZBaseAdapt
     ImageView backBtn;
     @ViewInject(R.id.listview)
     ZListPageView recyclerView;
+    @ViewInject(R.id.swipe)
+    ZSwipeRefreshLayout swipeRefreshLayout;
     @ViewInject(R.id.order_empty)
     RelativeLayout emptyLayout;
 
@@ -60,6 +63,7 @@ public class NewOrderActivity extends BaseFragmentActivity implements ZBaseAdapt
     private void initListView(SearchType searchType) {
         adapter = new NewOrderAdapter(NewOrderActivity.this);
         recyclerView.setAdapter(adapter);
+        recyclerView.setzSwipeRefreshLayout(swipeRefreshLayout);
         recyclerView.setEmptyLayout(emptyLayout);
         recyclerView.setRequestData(getRequest(searchType));
         recyclerView.setOnItemClickListener(this);
