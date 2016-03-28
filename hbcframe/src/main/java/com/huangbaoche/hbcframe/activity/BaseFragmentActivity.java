@@ -47,13 +47,9 @@ public class BaseFragmentActivity extends AppCompatActivity  {
         super.onBackPressed();
     }
 
-
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_MENU) {
-            return true;
-        }
-        return super.onKeyDown(keyCode,event);
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return true;
     }
 
     /**
