@@ -59,7 +59,7 @@ def getDefaultPkgName(){
 }
 
 def getDefaultFlavorName(){
-    return System.getProperty("org.gradle.project.defaultFlavorName","all"); //对应渠道名，默认全部；
+    return System.getProperty("org.gradle.project.defaultFlavorName","examination"); //对应渠道名，默认全部；
 }
 
 def getCdmsBuildEnv(){
