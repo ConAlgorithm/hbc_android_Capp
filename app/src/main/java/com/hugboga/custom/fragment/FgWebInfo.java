@@ -197,14 +197,10 @@ public class FgWebInfo extends BaseFragment implements View.OnKeyListener {
     @Override
     protected Callback.Cancelable requestData() {
         String url = getArguments().getString(WEB_URL);
-//        url = "https://res2.huangbaoche.com/h5/gmsg/message.html?messageId=100068621&guideId=200000001445";
-//        url="https://www.baidu.com";
-//        url = "http://res.dev.hbc.tech/h5/test/api.html?t="+System.currentTimeMillis();
         if (!TextUtils.isEmpty(url)) {
-            MLog.e("url=" + url);
             webView.loadUrl(url);
         }
-//        webView.loadUrl("http://res.dev.hbc.tech/h5/greg/index.html");
+        MLog.e("url=" + url);
         return null;
     }
 }

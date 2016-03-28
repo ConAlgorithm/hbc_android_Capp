@@ -997,7 +997,7 @@ public class FgOrder extends BaseFragment {
                 break;
             case R.id.guide_btn_chat:
                 //车导聊天
-                gotoChatView(mOrderBean.imToken, "G" + mOrderBean.orderGuideInfo.guideID);
+                gotoChatView(UserEntity.getUser().getImToken(getActivity()), "G" + mOrderBean.orderGuideInfo.guideID);
 //                gotoChatView(mOrderBean.imToken, "S114997482130");
                 break;
             case R.id.guide_btn_call:
@@ -1075,9 +1075,7 @@ public class FgOrder extends BaseFragment {
      * @param chatId 聊天对象的Id
      */
     private void gotoChatView(String token, final String chatId) {
-        mDialogUtil.showLoadingDialog(true);
-        MLog.e("gotoChatView "+token);
-
+        RongIM.getInstance().startPrivateChat(getActivity(), chatId, "title");
         RongIM.connect(token, new RongIMClient.ConnectCallback() {
             @Override
             public void onTokenIncorrect() {
@@ -1178,11 +1176,11 @@ public class FgOrder extends BaseFragment {
     @Override
     public void onFragmentResult(Bundle bundle) {
         String from = bundle.getString(KEY_FRAGMENT_NAME);
-       /* if (FgChangeTrip.class.getSimpleName().equals(from)) {
-            requestDate();
+        if (FgChangeTrip.class.getSimpleName().equals(from)) {
+            requestData();
         } else if (FgOrderCancel.class.getSimpleName().equals(from)) {
-            requestDate();
-        } else*/ if (FgCoupon.class.getSimpleName().equals(from)) {
+            requestData();
+        } else if (FgCoupon.class.getSimpleName().equals(from)) {
             couponBean = (CouponBean) bundle.getSerializable(FgCoupon.KEY_COUPON);
             flushCoupon();
         }
@@ -1248,7 +1246,7 @@ public class FgOrder extends BaseFragment {
                             if (mOrderBean.orderStatus == OrderStatus.INITSTATE) {
                                 cancelOrder(mOrderBean.orderNo, 0);
                             } else {
-                                finish();
+//                                finish();
                                 Bundle bundle = new Bundle();
                                 bundle.putSerializable(FgOrderCancel.KEY_ORDER, mOrderBean);
                                 startFragment(new FgOrderCancel(), bundle);

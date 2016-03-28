@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.net.DefaultImageCallback;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
@@ -46,6 +47,11 @@ public class FgSkuList extends  BaseFragment implements AdapterView.OnItemClickL
     @ViewInject(R.id.sku_list_empty)
     View listViewEmpty;
 
+    @ViewInject(R.id.city_sku_empty_guide_number)
+    TextView guideNumber;
+    @ViewInject(R.id.sku_list_empty_title_content)
+    TextView listViewEmptyContent;
+
 
     View skuSubtitle;
 
@@ -61,15 +67,12 @@ public class FgSkuList extends  BaseFragment implements AdapterView.OnItemClickL
 
     @Override
     protected void initHeader() {
-        fgTitle.setText("测试");
         mCityId = getArguments().getString(KEY_CITY_ID);
         ListHeader = LayoutInflater.from(getActivity()).inflate(R.layout.fg_sku_header, null);
         headerBg = ListHeader.findViewById(R.id.home_menu_layout);
-
         skuSubtitle = ListHeader.findViewById(R.id.sku_subtitle);
         listView.addHeaderView(ListHeader);
         listView.setOnItemClickListener(this);
-        listView.setEmptyView(listViewEmpty);
         mCityBean = findCityById(mCityId);
         initListHeader();
     }
@@ -107,6 +110,7 @@ public class FgSkuList extends  BaseFragment implements AdapterView.OnItemClickL
         if(request instanceof RequestSkuList){
             RequestSkuList requestSkuList = (RequestSkuList)request;
             skuCityBean = requestSkuList.getData();
+
             inflateContent();
         }
     }
@@ -115,6 +119,7 @@ public class FgSkuList extends  BaseFragment implements AdapterView.OnItemClickL
     protected void inflateContent() {
         adapter.setList(skuCityBean.goodsList);
         ImageOptions options = new ImageOptions.Builder().setFailureDrawableId(R.mipmap.img_undertext).build();
+        fgTitle.setText(skuCityBean.cityName);
         if(skuCityBean.goodsList.size()==0){
             MLog.e("skuCityBean.goodsList.size"+skuCityBean.goodsList.size());
             x.image().loadDrawable(skuCityBean.cityPicture, options, new DefaultImageCallback<Drawable>() {
@@ -123,8 +128,11 @@ public class FgSkuList extends  BaseFragment implements AdapterView.OnItemClickL
                 public void onSuccess(Drawable result) {
                     listView.setBackground(null);
                     skuSubtitle.setVisibility(View.GONE);
-                    headerBg.setBackground(null);
+                    headerBg.setBackgroundResource(R.drawable.city_sku_bg);
                     listViewLayout.setBackground(result);
+                    listViewEmpty.setVisibility(View.VISIBLE);
+                    guideNumber.setText(getString(R.string.sku_item_guide_number, skuCityBean.cityGuideAmount));
+                    listViewEmptyContent.setText("       "+skuCityBean.cityDesc);
                     MLog.e(" cityPicture result" + result);
                 }
             });

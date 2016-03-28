@@ -341,7 +341,6 @@ public class FgSkuSubmit extends BaseFragment implements View.OnClickListener {
         orderBean.destAddress = skuBean.arrCityName;
         orderBean.serviceEndCityid = skuBean.arrCityId;
         orderBean.serviceEndCityName = skuBean.arrCityName;
-        orderBean.serviceStartTime = serverTime;
         orderBean.totalDays = skuBean.daysCount;
         orderBean.oneCityTravel = skuBean.goodsType==3?1:2;//1：市内畅游  2：跨城市
         orderBean.isHalfDaily = 0;
