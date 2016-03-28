@@ -439,6 +439,7 @@ public class MainActivity extends BaseFragmentActivity
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         switch (keyCode) {
             case KeyEvent.KEYCODE_BACK:
+                MLog.e("getFragmentList().size() ="+getFragmentList().size());
                 if (getFragmentList().size() > 3) {
                     return super.onKeyDown(keyCode, event);
                 }
