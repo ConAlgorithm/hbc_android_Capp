@@ -377,8 +377,6 @@ public class FgOrder extends BaseFragment {
                 } else {
                     orderHotelPhoneLayoutPick.setVisibility(View.GONE);
                 }
-                orderChangeTrip.setTextColor(getResources().getColor(R.color.basic_pick_toolbar_color));
-                orderChangeTrip.setBackgroundResource(R.drawable.btn_round_blue);
                 break;
             case Constants.BUSINESS_TYPE_SEND:
                 orderPlacardLayout.setVisibility(View.GONE);
@@ -390,8 +388,6 @@ public class FgOrder extends BaseFragment {
                 orderVisaLayout.setVisibility(View.GONE);
                 String flight = TextUtils.isEmpty(mOrderBean.flight) ? "暂未填写" : mOrderBean.flight;
                 orderFlightNo.setText(flight);
-                orderChangeTrip.setTextColor(getResources().getColor(R.color.basic_send_toolbar_color));
-                orderChangeTrip.setBackgroundResource(R.drawable.btn_round_green);
                 orderHotelPhoneLayoutSend.setVisibility(TextUtils.isEmpty(hotelPhone) ? View.GONE : View.VISIBLE);
                 orderHotelPhoneSend.setText(hotelAreaCode + " " + hotelPhone);
                 orderPayCheckInLayout.setVisibility(Double.isNaN(mOrderBean.orderPriceInfo.checkInPrice) ? View.GONE : View.VISIBLE);
@@ -468,8 +464,6 @@ public class FgOrder extends BaseFragment {
                 }else{
                     orderDailyTipsLayout.setVisibility(View.GONE);
                 }
-                orderChangeTrip.setTextColor(getResources().getColor(R.color.basic_daily_toolbar_color));
-                orderChangeTrip.setBackgroundResource(R.drawable.btn_round_orange);
                 if (!TextUtils.isEmpty(hotelPhone)) {
                     orderHotelPhoneLayoutDaily.setVisibility(View.VISIBLE);
                     orderHotelPhoneDaily.setText(hotelAreaCode + " " + hotelPhone);
@@ -486,8 +480,6 @@ public class FgOrder extends BaseFragment {
                 orderFlightNoLayout.setVisibility(View.GONE);
                 orderVisaLayout.setVisibility(View.GONE);
                 orderPlaceFromDesc.setVisibility(View.VISIBLE);
-                orderChangeTrip.setTextColor(getResources().getColor(R.color.basic_rent_toolbar_color));
-                orderChangeTrip.setBackgroundResource(R.drawable.btn_round_pick);
                 break;
 
             case Constants.BUSINESS_TYPE_COMMEND:
@@ -549,8 +541,6 @@ public class FgOrder extends BaseFragment {
                 }else{
                     orderDailyTipsLayout.setVisibility(View.GONE);
                 }
-                orderChangeTrip.setTextColor(getResources().getColor(R.color.basic_commend_toolbar_color));
-                orderChangeTrip.setBackgroundResource(R.drawable.btn_round_purple);
                 orderChangeTrip.setVisibility(View.GONE);
                 if (!TextUtils.isEmpty(hotelPhone)) {
                     orderHotelPhoneLayoutDaily.setVisibility(View.VISIBLE);
