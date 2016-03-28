@@ -486,6 +486,11 @@ public class FgSkuSubmit extends BaseFragment implements View.OnClickListener {
     public void onDataRequestSucceed(BaseRequest request) {
         if(request instanceof RequestPriceSku){
             carListBean= ((RequestPriceSku) request).getData();
+            if(fgCarSuk == null){
+                fgCarSuk = new FgCarSuk();}
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(FgCarSuk.KEY_CAR_LIST,carListBean);
+            startFragment(fgCarSuk,bundle);
         }else if(request instanceof RequestSubmitBase){
             Toast.makeText(getActivity(),"下单成功",Toast.LENGTH_LONG).show();
             bringToFront(FgTravel.class,new Bundle());
