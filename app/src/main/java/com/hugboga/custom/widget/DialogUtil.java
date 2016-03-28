@@ -135,7 +135,7 @@ public class DialogUtil implements DialogUtilInterface {
      * @date 2012-6-13 上午09:37:05
      */
     public void dismissLoadingDialog() {
-        if (!mContext.isFinishing() && mLoadingDialog != null)
+        if (!mContext.isFinishing() && mLoadingDialog != null&&mLoadingDialog.isShowing())
             mLoadingDialog.dismiss();
     }
 

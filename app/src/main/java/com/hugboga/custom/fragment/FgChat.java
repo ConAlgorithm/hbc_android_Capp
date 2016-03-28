@@ -11,6 +11,7 @@ import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.ChatAdapter;
 import com.hugboga.custom.data.bean.UserEntity;
+import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.request.RequestChatList;
 
 import org.xutils.common.Callback;
@@ -19,6 +20,8 @@ import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
 import java.util.ArrayList;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * 聊天页面
@@ -56,16 +59,22 @@ public class FgChat extends BaseFragment implements View.OnClickListener {
         adapter = new ChatAdapter(getActivity());
         listView.setAdapter(adapter);
         listView.setEmptyView(emptyView);
+        if(!EventBus.getDefault().isRegistered(this))
+            EventBus.getDefault().register(this);
     }
 
     @Override
     protected Callback.Cancelable requestData() {
-        if (UserEntity.getUser().getUserToken(getActivity()) == null) {
+        MLog.e("isLogin="+UserEntity.getUser().isLogin(getActivity()));
+        if (!UserEntity.getUser().isLogin(getActivity())) {
             needHttpRequest = true;
+            emptyLayout.setVisibility(View.VISIBLE);
             return null;
+        }else{
+            emptyLayout.setVisibility(View.GONE);
+            RequestChatList parserChatList = new RequestChatList(getActivity(), 0, 20);
+            return requestData(parserChatList);
         }
-        RequestChatList parserChatList = new RequestChatList(getActivity(), 0, 20);
-        return requestData(parserChatList);
     }
 
     @Override
@@ -107,6 +116,27 @@ public class FgChat extends BaseFragment implements View.OnClickListener {
             case R.id.header_left_btn:
                 MLog.e("left  " + view);
                 ((MainActivity) getActivity()).openDrawer();
+                break;
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
+    }
+
+    public void onEventMainThread(EventAction action) {
+        MLog.e(this+" onEventMainThread "+action.getType());
+        switch (action.getType()) {
+            case CLICK_USER_LOGIN:
+                requestData();
+                break;
+            case CLICK_USER_LOOUT:
+                adapter.setList(null);
+                requestData();
+                break;
+            default:
                 break;
         }
     }

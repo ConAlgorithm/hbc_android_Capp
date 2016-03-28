@@ -332,9 +332,11 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
      * 收起软键盘
      */
     public void collapseSoftInputMethod() {
-        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-        if(imm!=null&&getView()!=null)
-            imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
+        if(getActivity()!=null) {
+            InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            if (imm != null && getView() != null)
+                imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
+        }
     }
 
     /**
