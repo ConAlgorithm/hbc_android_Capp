@@ -46,19 +46,28 @@ public class MyApplication extends HbcApplication {
     }
 
     private void initUrlHost() {
-        String channel = PhoneInfo.getVersionChannel(this);
-        //根据工程渠道标识，设置访问的服务器全局信息，没有标识则默认访问开发服务器
-        MLog.e("channel=" + channel);
-        //根据工程渠道标识，设置访问的服务器全局信息，没有标识则默认访问开发服务器
-        if (TextUtils.isEmpty(channel)) channel = "formal";
-        String host = UrlLibs.SERVER_IP_HOST_PUBLIC_FORMAL;
-        MLog.e("channel = " + channel);
-        UrlLibs.UrlHost urlHost = UrlLibs.UrlHost.valueOf(channel.toUpperCase());
-        MLog.e("urlHost=" + urlHost);
-        if (urlHost != null) {
-            host = urlHost.url;
+        if(TextUtils.isEmpty(BuildConfig.API_SERVER_URL)) {
+            String channel = PhoneInfo.getVersionChannel(this);
+            MLog.e("channel=" + channel);
+            //根据工程渠道标识，设置访问的服务器全局信息，没有标识则默认访问正式服务器
+            if (TextUtils.isEmpty(channel)) channel = "formal";
+            String host = UrlLibs.SERVER_IP_HOST_PUBLIC_FORMAL;
+            String scheme = UrlLibs.SERVER_HTTP_SCHEME_HTTPS;
+            MLog.e("channel = " + channel);
+            UrlLibs.UrlHost urlHost = UrlLibs.UrlHost.valueOf(channel.toUpperCase());
+            MLog.e("urlHost=" + urlHost);
+            if (urlHost != null) {
+                host = urlHost.url;
+            }
+            if("formal".equals(channel)) {
+                scheme = UrlLibs.SERVER_HTTP_SCHEME_HTTPS;
+            }else{
+                scheme = UrlLibs.SERVER_HTTP_SCHEME_HTTP;
+            }
+            UrlLibs.SERVER_IP_HOST_PUBLIC = scheme + host;
+        }else {
+            UrlLibs.SERVER_IP_HOST_PUBLIC = BuildConfig.API_SERVER_URL;
         }
-        UrlLibs.SERVER_IP_HOST_PUBLIC = UrlLibs.SERVER_HTTP_SCHEME_HTTP + host;
     }
 
     private void initConfig() {

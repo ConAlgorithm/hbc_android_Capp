@@ -86,14 +86,19 @@ public class WebAgent implements HttpRequestListener {
 
     @JavascriptInterface
     public void setBackBtn(final String isBack) {
-        if (mFragment != null && mFragment.getView() != null) {
-            boolean isVisible = Boolean.valueOf(isBack);
-            mFragment.getView().findViewById(R.id.header_left_btn).setVisibility(isVisible ? View.VISIBLE : View.GONE);
-            View backBtn = mFragment.getView().findViewById(R.id.header_left_btn);
-            if (backBtn != null) {
-                backBtn.setVisibility(isVisible ? View.VISIBLE : View.GONE);
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (mFragment != null && mFragment.getView() != null) {
+                    boolean isVisible = Boolean.valueOf(isBack);
+                    mFragment.getView().findViewById(R.id.header_left_btn).setVisibility(isVisible ? View.VISIBLE : View.GONE);
+                    View backBtn = mFragment.getView().findViewById(R.id.header_left_btn);
+                    if (backBtn != null) {
+                        backBtn.setVisibility(isVisible ? View.VISIBLE : View.GONE);
+                    }
+                }
             }
-        }
+        });
     }
 
 
@@ -141,20 +146,29 @@ public class WebAgent implements HttpRequestListener {
     @JavascriptInterface
     public void httpRequest(final String requestType, final String apiUrl, final String params, final String successFunction, final String failureFunction) {
         MLog.e("ZWebView-wxShare===>requestType:" + requestType + " apiUrl:" + apiUrl + " params:" + params + " successFunction:" + successFunction + " failureFunction:" + failureFunction);
-
-        RequestWebInfo request = new RequestWebInfo(mActivity, apiUrl, requestType, params, successFunction, failureFunction);
-        HttpRequestUtils.request(mActivity, request, this);
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                RequestWebInfo request = new RequestWebInfo(mActivity, apiUrl, requestType, params, successFunction, failureFunction);
+                HttpRequestUtils.request(mActivity, request, WebAgent.this);
+            }
+        });
     }
 
     @JavascriptInterface
     public void finish() {
-        if (mWebView != null) {
-            if (mFragment != null) {
-                mFragment.finish();
-            } else if (mActivity != null) {
-                mActivity.finish();
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (mWebView != null) {
+                    if (mFragment != null) {
+                        mFragment.finish();
+                    } else if (mActivity != null) {
+                        mActivity.finish();
+                    }
+                }
             }
-        }
+        });
     }
 
     @JavascriptInterface
@@ -193,7 +207,12 @@ public class WebAgent implements HttpRequestListener {
     @JavascriptInterface
     public void callPhone(final String phone) {
         MLog.e("ZWebView-callPhone===>phone:" + phone);
-        PhoneInfo.CallDial(mActivity, phone);
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                PhoneInfo.CallDial(mActivity, phone);
+            }
+        });
     }
 
     @JavascriptInterface
