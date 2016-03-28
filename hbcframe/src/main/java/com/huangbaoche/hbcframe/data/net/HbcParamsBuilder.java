@@ -27,12 +27,14 @@ public class HbcParamsBuilder implements ParamsBuilder {
     public static String KEY_HEADER_AK ="ak";//AccessKey
     public static String KEY_HEADER_UT ="ut";//UserToken
 
+    private Context mContext;
     @Override
     public String buildUri(RequestParams params, HttpRequest httpRequest) {
         String host = getHost(httpRequest.host());
         String path = httpRequest.path();
         if(params instanceof BaseRequest){
             BaseRequest request = (BaseRequest)params;
+            mContext = request.getContext();
             if(!TextUtils.isEmpty(request.getUrl()))
             path = request.getUrl() ;
         }
@@ -46,7 +48,7 @@ public class HbcParamsBuilder implements ParamsBuilder {
 
     @Override
     public SSLSocketFactory getSSLSocketFactory() {
-        return null;
+        return DefaultSSLSocketFactory.getSocketFactory(mContext);
     }
 
     @Override

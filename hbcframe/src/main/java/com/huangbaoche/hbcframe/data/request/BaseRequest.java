@@ -72,4 +72,27 @@ public abstract class BaseRequest<T> extends RequestParams implements InterfaceR
     public void setData(T data) {
         this.data = data;
     }
+
+
+    /**
+     * copy 新的自己
+     * @return
+     */
+    public BaseRequest clone(){
+        BaseRequest request = new BaseRequest(mContext) {
+            @Override
+            public ImplParser getParser() {
+                return BaseRequest.this.getParser();
+            }
+            public String getUrl(){
+                return BaseRequest.this.getUrl();
+            }
+            public HttpMethod getHttpMethod() {
+                return BaseRequest.this.getHttpMethod();
+            }
+        };
+        request.data = data;
+        request.map = map;
+    return  request;
+    }
 }
