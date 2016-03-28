@@ -18,6 +18,7 @@
             android:src="@mipmap/home_left_icon"
             />
         <TextView
+            android:id="@+id/city_sku_empty_guide_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/basic_white"
@@ -40,7 +41,7 @@
         android:layout_centerHorizontal="true"
         android:layout_margin="20dp"
         android:lineSpacingExtra="5dp"
-        android:text="        如果广告三个格式计算机孙鲲拉卡拉的艰苦拉卡拉的艰苦拉卡拉的艰苦拉卡拉的艰苦拉卡拉的艰苦拉萨凯撒离开家"
+        android:text="        如果广告三个格式计算机孙鲲拉卡"
         />
     <ImageView
         android:layout_width="wrap_content"

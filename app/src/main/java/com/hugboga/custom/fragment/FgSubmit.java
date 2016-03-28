@@ -622,7 +622,7 @@ public class FgSubmit extends BaseFragment implements CompoundButton.OnCheckedCh
                 orderBean.destAddress = dailyBean.terminalCityName;
                 orderBean.serviceEndCityid = dailyBean.terminalCityID;
                 orderBean.serviceEndCityName = dailyBean.terminalCityName;
-                orderBean.serviceStartTime = serverTime;
+                orderBean.serviceStartTime = serverTime+ ":00";
                 orderBean.serviceTime = dailyBean.startDate;
                 orderBean.serviceEndTime = dailyBean.endDate;
 //                orderBean.passByCityID = dailyBean.passByCityID;

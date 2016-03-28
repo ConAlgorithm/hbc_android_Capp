@@ -86,6 +86,7 @@ public class FgOrderCancel extends BaseFragment {
 
     @Override
     public boolean onBackPressed() {
+        finish();
         goBackOrderFg();
         return true;
     }

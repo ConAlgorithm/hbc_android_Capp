@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.text.TextUtils;
 
+import com.huangbaoche.hbcframe.data.bean.UserSession;
 import com.hugboga.custom.utils.SharedPre;
 
 
@@ -238,6 +239,7 @@ public class UserEntity {
     public void clean(Activity activity) {
         SharedPre shared = new SharedPre(activity);
         shared.clean();
+        UserSession.getUser().setUserToken(activity,null);
         userId = null;
         accessKey = null;
         avatar = null;

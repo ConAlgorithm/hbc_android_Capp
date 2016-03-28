@@ -1,4 +1,4 @@
-package com.hugboga.custom.utils;
+package com.huangbaoche.hbcframe.util;
 
 import android.content.Context;
 

@@ -208,8 +208,9 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
         startFragment(fragment, bundle);
     }
     public void startFragment(BaseFragment fragment,Bundle bundle) {
+        MLog.e("startFragment "+this);
         if (fragment == null) return;
-        if (contentId == -1) throw new RuntimeException("BaseFragment ContentId not null, BaseFragment.setContentId(int)");
+        if (getContentId() == -1) throw new RuntimeException("BaseFragment ContentId not null, BaseFragment.setContentId(int)");
         ((BaseFragmentActivity) getActivity()).addFragment(fragment);
         collapseSoftInputMethod();
         editTextClearFocus();
@@ -270,7 +271,9 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
      */
     public void  bringToFront(Class fragment, Bundle bundle){
         collapseSoftInputMethod();
-        List<Fragment> fragmentList = getFragmentManager().getFragments();
+        if(getActivity() instanceof BaseFragmentActivity){
+
+        ArrayList<BaseFragment> fragmentList = ((BaseFragmentActivity) getActivity()).getFragmentList();
         BaseFragment targetFg = null;
         for(Fragment fg:fragmentList){
             if(fragment.isInstance(fg)){
@@ -297,6 +300,8 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
+        }
+
         }
     }
 
@@ -328,7 +333,7 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
      */
     public void collapseSoftInputMethod() {
         InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-        if(imm!=null)
+        if(imm!=null&&getView()!=null)
             imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
     }
 
