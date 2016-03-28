@@ -7,6 +7,7 @@ import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import org.xutils.http.HttpMethod;
 import org.xutils.http.RequestParams;
 
+import java.lang.reflect.Field;
 import java.util.Map;
 
 /**
@@ -73,26 +74,23 @@ public abstract class BaseRequest<T> extends RequestParams implements InterfaceR
         this.data = data;
     }
 
-
     /**
-     * copy 新的自己
-     * @return
+     * 需要重新build 参数时，调用此方法；比如列表翻页
      */
-    public BaseRequest clone(){
-        BaseRequest request = new BaseRequest(mContext) {
-            @Override
-            public ImplParser getParser() {
-                return BaseRequest.this.getParser();
+    public void needRebuild(){
+        try {
+            for(Class cls =this.getClass();cls !=Object.class;cls = cls.getSuperclass()){
+                if(cls==RequestParams.class) {
+                    Field field = cls.getDeclaredField("buildUri");
+                    field.setAccessible(true);
+                    field.set(this, "");
+                }
             }
-            public String getUrl(){
-                return BaseRequest.this.getUrl();
-            }
-            public HttpMethod getHttpMethod() {
-                return BaseRequest.this.getHttpMethod();
-            }
-        };
-        request.data = data;
-        request.map = map;
-    return  request;
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
     }
 }
