@@ -10,7 +10,7 @@ import android.content.Context;
 public class JNIUtil {
 
     static {
-        System.loadLibrary("hugboga");
+        System.loadLibrary("hbcframe");
     }
 
     public static native String getSign(Context con);
