@@ -17,12 +17,12 @@ import com.hugboga.custom.constants.CarTypeEnum;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.constants.ResourcesConstants;
 import com.hugboga.custom.data.bean.AirPort;
-import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.bean.CarBean;
 import com.hugboga.custom.data.bean.CarListBean;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.DailyBean;
 import com.hugboga.custom.data.bean.FlightBean;
+import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.request.RequestCheckPrice;
 import com.hugboga.custom.data.request.RequestCheckPriceForDaily;
 import com.hugboga.custom.data.request.RequestCheckPriceForPickup;
@@ -48,17 +48,17 @@ import java.util.Iterator;
 public class FgCar extends BaseFragment implements ViewPager.OnPageChangeListener {
 
 
-    public static final String KEY_CITY_ID="KEY_CITY_ID";
-    public static final String KEY_CITY="KEY_CITY";
-    public static final String KEY_FLIGHT="KEY_FLIGHT";
-    public static final String KEY_AIRPORT="KEY_AIRPORT";
-    public static final String KEY_START="KEY_START";
-    public static final String KEY_ARRIVAL="KEY_ARRIVAL";
-    public static final String KEY_TIME="KEY_TIME";
-    public static final String KEY_CAR="KEY_CAR";
-    public static final String KEY_DAILY="KEY_DAILY";
-    public static final String KEY_MASK="KEY_MASK";
-    public static final String KEY_DISTANCE="KEY_DISTANCE";
+    public static final String KEY_CITY_ID = "KEY_CITY_ID";
+    public static final String KEY_CITY = "KEY_CITY";
+    public static final String KEY_FLIGHT = "KEY_FLIGHT";
+    public static final String KEY_AIRPORT = "KEY_AIRPORT";
+    public static final String KEY_START = "KEY_START";
+    public static final String KEY_ARRIVAL = "KEY_ARRIVAL";
+    public static final String KEY_TIME = "KEY_TIME";
+    public static final String KEY_CAR = "KEY_CAR";
+    public static final String KEY_DAILY = "KEY_DAILY";
+    public static final String KEY_MASK = "KEY_MASK";
+    public static final String KEY_DISTANCE = "KEY_DISTANCE";
     public static final String KEY_COM_TIME = "KEY_EXPECTED_COMP_TIME";
     public static final String KEY_URGENT_FLAG = "KEY_URGENT_FLAG";
     public static final String KEY_NEED_CHILDREN_SEAT = "KEY_NEED_CHILDREN_SEAT";
@@ -112,7 +112,8 @@ public class FgCar extends BaseFragment implements ViewPager.OnPageChangeListene
 
     private double distance;//预估路程（单位：公里）
     private int interval;//预估时间（单位：分钟）
-    private ArrayList<CarBean> carList = new ArrayList<CarBean>();;
+    private ArrayList<CarBean> carList = new ArrayList<CarBean>();
+    ;
     private CarViewpagerAdapter mAdapter;
     private int cityId;
     private String airportCode;
@@ -140,7 +141,7 @@ public class FgCar extends BaseFragment implements ViewPager.OnPageChangeListene
 //        return null;
 //    }
 
-    private void initView(View view){
+    private void initView(View view) {
         View flGalleryContainer = view.findViewById(R.id.viewpager_layout);
         flGalleryContainer.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -157,20 +158,21 @@ public class FgCar extends BaseFragment implements ViewPager.OnPageChangeListene
         mJazzy.setOffscreenPageLimit(5);
         mJazzy.addOnPageChangeListener(this);
     }
-    private void initListData(){
-        int id=1;
+
+    private void initListData() {
+        int id = 1;
         CarBean bean;
         carList = new ArrayList<CarBean>(16);
-        for(int i=1;i<=4;i++){
-            for(int j=1;j<=4;j++) {
+        for (int i = 1; i <= 4; i++) {
+            for (int j = 1; j <= 4; j++) {
                 bean = new CarBean();
-                bean.id=id;
-                bean.carType=i;
-                bean.carSeat= Constants.CarSeatMap.get(j);
-                bean.originalPrice=0;
+                bean.id = id;
+                bean.carType = i;
+                bean.carSeat = Constants.CarSeatMap.get(j);
+                bean.originalPrice = 0;
                 bean.models = Constants.CarDescInfoMap.get(i).get(j);
-                CarTypeEnum carTypeEnum = CarTypeEnum.getCarType(bean.carType,bean.carSeat);
-                if(carTypeEnum!=null){
+                CarTypeEnum carTypeEnum = CarTypeEnum.getCarType(bean.carType, bean.carSeat);
+                if (carTypeEnum != null) {
                     bean.imgRes = carTypeEnum.imgRes;
                 }
                 carList.add(bean);
@@ -180,9 +182,9 @@ public class FgCar extends BaseFragment implements ViewPager.OnPageChangeListene
     }
 
     private void sortListDataImage() {
-        for(CarBean bean :carList){
-            CarTypeEnum carTypeEnum = CarTypeEnum.getCarType(bean.carType,bean.carSeat);
-            if(carTypeEnum!=null){
+        for (CarBean bean : carList) {
+            CarTypeEnum carTypeEnum = CarTypeEnum.getCarType(bean.carType, bean.carSeat);
+            if (carTypeEnum != null) {
                 bean.imgRes = carTypeEnum.imgRes;
             }
         }
@@ -199,25 +201,25 @@ public class FgCar extends BaseFragment implements ViewPager.OnPageChangeListene
         initMaskView();
         Bundle bundle = getArguments();
         bottomBtn.setBackgroundColor(getResources().getColor(Constants.BgColors.get(mBusinessType)));
-        if(bundle!=null) {
+        if (bundle != null) {
             flightBean = (FlightBean) bundle.getSerializable(KEY_FLIGHT);
             airPortBean = (AirPort) bundle.getSerializable(KEY_AIRPORT);
             startBean = (PoiBean) bundle.getSerializable(KEY_START);
             cityBean = (CityBean) bundle.getSerializable(KEY_CITY);
             poiBean = (PoiBean) bundle.getSerializable(KEY_ARRIVAL);
             dailyBean = (DailyBean) bundle.getSerializable(KEY_DAILY);
-            String startLocation,termLocation;
-            switch (mBusinessType){
+            String startLocation, termLocation;
+            switch (mBusinessType) {
                 case Constants.BUSINESS_TYPE_PICK:
                     cityId = flightBean.arrivalAirport.cityId;
                     airportCode = flightBean.arrivalAirport.airportCode;
                     //出发地，到达地经纬度
                     startLocation = flightBean.arrivalAirport.location;
                     termLocation = poiBean.location;
-                    serverDate = flightBean.arrDate+" "+flightBean.arrivalTime;
+                    serverDate = flightBean.arrDate + " " + flightBean.arrivalTime;
                     needChildrenSeat = flightBean.arrivalAirport.childSeatSwitch;
                     needBanner = flightBean.arrivalAirport.bannerSwitch;
-                    RequestCheckPriceForPickup requestCheckPriceForPickup = new RequestCheckPriceForPickup(getActivity(),mBusinessType, airportCode,cityId,startLocation,termLocation,serverDate);
+                    RequestCheckPriceForPickup requestCheckPriceForPickup = new RequestCheckPriceForPickup(getActivity(), mBusinessType, airportCode, cityId, startLocation, termLocation, serverDate);
                     requestData(requestCheckPriceForPickup);
                     break;
                 case Constants.BUSINESS_TYPE_SEND:
@@ -226,10 +228,10 @@ public class FgCar extends BaseFragment implements ViewPager.OnPageChangeListene
                     //出发地，到达地经纬度
                     startLocation = poiBean.location;
                     termLocation = airPortBean.location;
-                    serverDate =  bundle.getString(KEY_TIME);
+                    serverDate = bundle.getString(KEY_TIME);
                     needChildrenSeat = airPortBean.childSeatSwitch;
                     needBanner = airPortBean.bannerSwitch;
-                    RequestCheckPriceForTransfer requestCheckPriceForTransfer = new RequestCheckPriceForTransfer(getActivity(),mBusinessType, airportCode,cityId,startLocation,termLocation,serverDate);
+                    RequestCheckPriceForTransfer requestCheckPriceForTransfer = new RequestCheckPriceForTransfer(getActivity(), mBusinessType, airportCode, cityId, startLocation, termLocation, serverDate);
                     requestData(requestCheckPriceForTransfer);
                     break;
                 case Constants.BUSINESS_TYPE_DAILY:
@@ -238,7 +240,7 @@ public class FgCar extends BaseFragment implements ViewPager.OnPageChangeListene
                     carTripLayout.setVisibility(View.GONE);
                     carTimeTitle.setText("包车天数");
                     carTimeValue.setText("共" + dailyBean.totalDay + "天");
-                    RequestCheckPriceForDaily requestCheckPriceForDaily = new RequestCheckPriceForDaily(getActivity(),dailyBean);
+                    RequestCheckPriceForDaily requestCheckPriceForDaily = new RequestCheckPriceForDaily(getActivity(), dailyBean);
                     requestData(requestCheckPriceForDaily);
                     break;
                 case Constants.BUSINESS_TYPE_RENT:
@@ -246,14 +248,14 @@ public class FgCar extends BaseFragment implements ViewPager.OnPageChangeListene
                     needChildrenSeat = cityBean.childSeatSwitch;
                     startLocation = startBean.location;
                     termLocation = poiBean.location;
-                    serverDate =  bundle.getString(KEY_TIME);
-                    RequestCheckPriceForSingle requestCheckPriceForSingle = new RequestCheckPriceForSingle(getActivity(),mBusinessType, airportCode,cityId,startLocation,termLocation,serverDate);
+                    serverDate = bundle.getString(KEY_TIME);
+                    RequestCheckPriceForSingle requestCheckPriceForSingle = new RequestCheckPriceForSingle(getActivity(), mBusinessType, airportCode, cityId, startLocation, termLocation, serverDate);
                     requestData(requestCheckPriceForSingle);
                     break;
                 default:
                     return null;
             }
-        }else{
+        } else {
             Toast.makeText(getActivity(), "缺少参数", Toast.LENGTH_LONG).show();
         }
         return null;
@@ -262,9 +264,9 @@ public class FgCar extends BaseFragment implements ViewPager.OnPageChangeListene
     private void initMaskView() {
         SharedPre shared = new SharedPre(getActivity());
         boolean maskClick = shared.getBooleanValue(KEY_MASK);
-        if(maskClick){
+        if (maskClick) {
             carMask.setVisibility(View.GONE);
-        }else{
+        } else {
             carMask.setVisibility(View.VISIBLE);
         }
     }
@@ -272,83 +274,84 @@ public class FgCar extends BaseFragment implements ViewPager.OnPageChangeListene
 
     @Event({R.id.bottom_bar_btn, R.id.car_price_info, R.id.car_mask})
     private void onClickView(View view) {
-    switch (view.getId()){
-        case R.id.bottom_bar_btn:
-            if(carBean==null||carBean.originalPrice==0)return;
-            FgSubmit fg = new FgSubmit();
-            Bundle bundle= new Bundle();
-            bundle.putSerializable(KEY_FLIGHT,flightBean);
-            bundle.putSerializable(KEY_AIRPORT,airPortBean);
-            bundle.putSerializable(KEY_START,startBean);
-            bundle.putSerializable(KEY_ARRIVAL,poiBean);
-            bundle.putSerializable(KEY_DAILY,dailyBean);
-            bundle.putSerializable(KEY_CAR,carBean);
-            bundle.putSerializable(KEY_CITY,cityBean);
-            bundle.putString(KEY_TIME, serverDate);
-            bundle.putInt(KEY_CITY_ID, cityId);
-            bundle.putInt(KEY_COM_TIME, interval);
-            bundle.putInt(KEY_URGENT_FLAG, carBean.urgentFlag);
-            bundle.putDouble(KEY_DISTANCE,distance);
-            bundle.putBoolean(KEY_NEED_CHILDREN_SEAT,needChildrenSeat);
-            bundle.putBoolean(KEY_NEED_BANNER,needBanner);
-            startFragment(fg,bundle);
-            break;
-        case R.id.car_price_info:
-            FgWebInfo fgWebInfo = new FgWebInfo();
-            bundle = new Bundle();
-            bundle.putString(FgWebInfo.WEB_URL, ResourcesConstants.H5_PRICE);
-            startFragment(fgWebInfo, bundle);
-            break;
-        case R.id.car_mask:
-            SharedPre shared = new SharedPre(getActivity());
-            shared.saveBooleanValue(KEY_MASK,true);
-            carMask.setVisibility(View.GONE);
-            break;
-    }
+        switch (view.getId()) {
+            case R.id.bottom_bar_btn:
+                if (carBean == null || carBean.originalPrice == 0) return;
+                FgSubmit fg = new FgSubmit();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(KEY_FLIGHT, flightBean);
+                bundle.putSerializable(KEY_AIRPORT, airPortBean);
+                bundle.putSerializable(KEY_START, startBean);
+                bundle.putSerializable(KEY_ARRIVAL, poiBean);
+                bundle.putSerializable(KEY_DAILY, dailyBean);
+                bundle.putSerializable(KEY_CAR, carBean);
+                bundle.putSerializable(KEY_CITY, cityBean);
+                bundle.putString(KEY_TIME, serverDate);
+                bundle.putInt(KEY_CITY_ID, cityId);
+                bundle.putInt(KEY_COM_TIME, interval);
+                bundle.putInt(KEY_URGENT_FLAG, carBean.urgentFlag);
+                bundle.putDouble(KEY_DISTANCE, distance);
+                bundle.putBoolean(KEY_NEED_CHILDREN_SEAT, needChildrenSeat);
+                bundle.putBoolean(KEY_NEED_BANNER, needBanner);
+                startFragment(fg, bundle);
+                break;
+            case R.id.car_price_info:
+                FgWebInfo fgWebInfo = new FgWebInfo();
+                bundle = new Bundle();
+                bundle.putString(FgWebInfo.WEB_URL, ResourcesConstants.H5_PRICE);
+                startFragment(fgWebInfo, bundle);
+                break;
+            case R.id.car_mask:
+                SharedPre shared = new SharedPre(getActivity());
+                shared.saveBooleanValue(KEY_MASK, true);
+                carMask.setVisibility(View.GONE);
+                break;
+        }
     }
 
 
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
-        if(request instanceof RequestCheckPrice){
+        if (request instanceof RequestCheckPrice) {
             RequestCheckPrice requestCheckPrice = (RequestCheckPrice) request;
-            this.distance = ((CarListBean)requestCheckPrice.getData()).distance;
-            this.interval = ((CarListBean)requestCheckPrice.getData()).interval;
+            this.distance = ((CarListBean) requestCheckPrice.getData()).distance;
+            this.interval = ((CarListBean) requestCheckPrice.getData()).interval;
 //            processCarList(mParser.carList);
-            carList = ((CarListBean)requestCheckPrice.getData()).carList;
+            carList = ((CarListBean) requestCheckPrice.getData()).carList;
             sortListDataImage();
-            mAdapter = new CarViewpagerAdapter(getActivity(),mJazzy);
+            mAdapter = new CarViewpagerAdapter(getActivity(), mJazzy);
             mAdapter.setList(carList);
             mJazzy.setState(null);
             mJazzy.setAdapter(mAdapter);
             onPageSelected(0);
             inflateContent();
-            if(carList==null||carList.size()==0){
+            if (carList == null || carList.size() == 0) {
                 carEmptyLayout.setVisibility(View.VISIBLE);
-            }else{
+            } else {
                 carEmptyLayout.setVisibility(View.GONE);
             }
         }
     }
-    private void processCarList(ArrayList<CarBean> list){
-        if(carList==null){
+
+    private void processCarList(ArrayList<CarBean> list) {
+        if (carList == null) {
             carList = list;
-        }else{
-            int i=0;
+        } else {
+            int i = 0;
             Iterator<CarBean> carIterator = carList.iterator();
             while (carIterator.hasNext()) {
                 CarBean bean = carIterator.next();
-                if(i>=list.size()){
+                if (i >= list.size()) {
                     carIterator.remove();
-                 }else{
-                CarBean tmpBean = list.get(i);
-                if(tmpBean!=null){
-                    bean.originalPrice = tmpBean.originalPrice;
-                    if(tmpBean.originalPrice==0)
+                } else {
+                    CarBean tmpBean = list.get(i);
+                    if (tmpBean != null) {
+                        bean.originalPrice = tmpBean.originalPrice;
+                        if (tmpBean.originalPrice == 0)
+                            carIterator.remove();
+                    } else {
                         carIterator.remove();
-                 }else{
-                    carIterator.remove();
-                }
+                    }
                 }
                 i++;
             }
@@ -357,10 +360,10 @@ public class FgCar extends BaseFragment implements ViewPager.OnPageChangeListene
 
     @Override
     protected void inflateContent() {
-        if(mBusinessType == Constants.BUSINESS_TYPE_DAILY){
+        if (mBusinessType == Constants.BUSINESS_TYPE_DAILY) {
             carTimeTitle.setText("包车天数");
-            carTimeValue.setText("共" + (dailyBean.inTownDays+dailyBean.outTownDays) + "天");
-        }else{
+            carTimeValue.setText("共" + (dailyBean.inTownDays + dailyBean.outTownDays) + "天");
+        } else {
             carTimeValue.setText(interval + "分钟");
             carTripValue.setText(distance + "公里");
         }
@@ -368,12 +371,12 @@ public class FgCar extends BaseFragment implements ViewPager.OnPageChangeListene
 
     @Override
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-        if(errorInfo.state== ExceptionErrorCode.ERROR_CODE_SERVER){
+        if (errorInfo.state == ExceptionErrorCode.ERROR_CODE_SERVER) {
             ServerException exception = (ServerException) errorInfo.exception;
-                if(exception.getCode() != 10011&&exception.getCode()!=10012&&exception.getCode()!=10013) {
-                    mDialogUtil.showCustomFinishDialog(exception.getMessage(), this);
-                    return;
-                }
+            if (exception.getCode() != 10011 && exception.getCode() != 10012 && exception.getCode() != 10013) {
+                mDialogUtil.showCustomFinishDialog(exception.getMessage(), this);
+                return;
+            }
         }
         super.onDataRequestError(errorInfo, request);
     }
@@ -384,12 +387,12 @@ public class FgCar extends BaseFragment implements ViewPager.OnPageChangeListene
 
     @Override
     public void onPageSelected(int position) {
-        if(carList==null||carList.size()==0)return;
+        if (carList == null || carList.size() == 0) return;
         carBean = carList.get(position);
         Integer[] carInfo = Constants.CarSeatInfoMap.get(carBean.carSeat);
         carInfoText.setText(String.format("乘坐%d人 | 行李%d件", carInfo[0], carInfo[1]));
-        carTotalValue.setText(carBean.originalPrice+"元");
-        carInfoIntro.setText("此车型包括："+carBean.models);
+        carTotalValue.setText(carBean.originalPrice + "元");
+        carInfoIntro.setText("此车型包括：" + carBean.models);
     }
 
     @Override

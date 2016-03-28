@@ -3,9 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="10dp"
-    android:visibility="gone"
-    >
+    android:visibility="gone">
+
     <View style="@style/dash_line" />
+
     <ImageView
         android:layout_width="12dp"
         android:layout_height="12dp"
@@ -19,6 +20,5 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:layout_marginLeft="10dp"
-        android:textColor="@color/my_content_text_color"
-         />
+        android:textColor="@color/my_content_text_color" />
 </RelativeLayout>

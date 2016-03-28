@@ -20,15 +20,15 @@ public class RequestChangeMobile extends BaseRequest {
     public String areaCode;
     public String mobile;
 
-    public RequestChangeMobile(Context context,String areaCode,String mobile,String verity) {
+    public RequestChangeMobile(Context context, String areaCode, String mobile, String verity) {
         super(context);
         this.areaCode = areaCode;
         this.mobile = mobile;
-        map = new HashMap<String,Object>();
+        map = new HashMap<String, Object>();
         try {
-            map.put("areaCode",areaCode);
-            map.put("mobile",mobile);
-            map.put("captcha",verity);
+            map.put("areaCode", areaCode);
+            map.put("mobile", mobile);
+            map.put("captcha", verity);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -10,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
-import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CarBean;
 import com.hugboga.custom.widget.JazzyViewPager;
 import com.hugboga.custom.widget.OutlineContainer;
@@ -20,68 +19,62 @@ import java.util.List;
 /**
  * Created by admin on 2015/7/17.
  */
-    public class CarViewpagerAdapter extends PagerAdapter {
-        private final LayoutInflater mInflater;
-        private Activity activity;
-        private JazzyViewPager mJazzy;
-        private List<CarBean> mList;
+public class CarViewpagerAdapter extends PagerAdapter {
+    private final LayoutInflater mInflater;
+    private Activity activity;
+    private JazzyViewPager mJazzy;
+    private List<CarBean> mList;
 
-        public CarViewpagerAdapter(Activity activity, JazzyViewPager mJazzy) {
-            mInflater = (LayoutInflater) activity
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            this.activity = activity;
-            this.mJazzy = mJazzy;
-        }
+    public CarViewpagerAdapter(Activity activity, JazzyViewPager mJazzy) {
+        mInflater = (LayoutInflater) activity
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.activity = activity;
+        this.mJazzy = mJazzy;
+    }
 
-        public void setList(List<CarBean> list){
-            this.mList = list;
-            notifyDataSetChanged();
-        }
+    public void setList(List<CarBean> list) {
+        this.mList = list;
+        notifyDataSetChanged();
+    }
 
-        public void addList(List<CarBean> list){
-            this.mList.addAll(list);
-            notifyDataSetChanged();
-        }
+    public void addList(List<CarBean> list) {
+        this.mList.addAll(list);
+        notifyDataSetChanged();
+    }
 
-        @Override
-        public Object instantiateItem(ViewGroup container,   int position)
-        {
-            View view = mInflater.inflate(R.layout.item_viewpage_car, null);
-            CarBean bean = mList.get(position);
-            ImageView image = (ImageView) view.findViewById(R.id.item_car_img);
-            int resId = bean.imgRes;
-            if(resId!=0)
+    @Override
+    public Object instantiateItem(ViewGroup container, int position) {
+        View view = mInflater.inflate(R.layout.item_viewpage_car, null);
+        CarBean bean = mList.get(position);
+        ImageView image = (ImageView) view.findViewById(R.id.item_car_img);
+        int resId = bean.imgRes;
+        if (resId != 0)
             image.setImageResource(resId);
-            TextView tv = (TextView)view.findViewById(R.id.item_car_title);
-            tv.setText(bean.desc);
-            container.addView(view);
-            mJazzy.setObjectForPosition(view, position);
-            return view;
-        }
+        TextView tv = (TextView) view.findViewById(R.id.item_car_title);
+        tv.setText(bean.desc);
+        container.addView(view);
+        mJazzy.setObjectForPosition(view, position);
+        return view;
+    }
 
-        @Override
-        public void destroyItem(ViewGroup container, int position, Object obj)
-        {
-            View view =mJazzy.findViewFromObject(position);
-            container.removeView(view);
-        }
+    @Override
+    public void destroyItem(ViewGroup container, int position, Object obj) {
+        View view = mJazzy.findViewFromObject(position);
+        container.removeView(view);
+    }
 
-        @Override
-        public int getCount()
-        {
-            return mList==null?0:mList.size();
-        }
+    @Override
+    public int getCount() {
+        return mList == null ? 0 : mList.size();
+    }
 
-        @Override
-        public boolean isViewFromObject(View view, Object obj)
-        {
-            if (view instanceof OutlineContainer)
-            {
-                return ((OutlineContainer) view).getChildAt(0) == obj;
-            } else
-            {
-                return view == obj;
-            }
+    @Override
+    public boolean isViewFromObject(View view, Object obj) {
+        if (view instanceof OutlineContainer) {
+            return ((OutlineContainer) view).getChildAt(0) == obj;
+        } else {
+            return view == obj;
         }
+    }
 
 }

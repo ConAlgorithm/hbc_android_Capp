@@ -37,34 +37,35 @@ public class OverPriceAdapter extends BaseAdapter<OrderCostApplyInfo> {
         } else {
             viewHolder = (ViewHolder) view.getTag();
         }
-        OrderCostApplyInfo model =  getItem(position);
-        if(!TextUtils.isEmpty(model.prePaymentPrice)){//垫付费用
+        OrderCostApplyInfo model = getItem(position);
+        if (!TextUtils.isEmpty(model.prePaymentPrice)) {//垫付费用
             viewHolder.overOtherLayout.setVisibility(View.VISIBLE);
             viewHolder.overOtherValue.setText(model.prePaymentPrice + "");
         }
-        if(!TextUtils.isEmpty(model.dailyDate)){
+        if (!TextUtils.isEmpty(model.dailyDate)) {
             viewHolder.overTitle.setVisibility(View.VISIBLE);
             viewHolder.overTitle.setText(model.dailyDate);
-        }else if(!TextUtils.isEmpty(model.overDay)){
+        } else if (!TextUtils.isEmpty(model.overDay)) {
             viewHolder.overTitle.setVisibility(View.VISIBLE);
             viewHolder.overItemLayout.setVisibility(View.VISIBLE);
             viewHolder.overTitle.setText("超出天数");
             viewHolder.overItemTitle.setText("超出天数费用");
-            viewHolder.overItemValue.setText(model.overDayPrice+"("+model.overDay+")");
+            viewHolder.overItemValue.setText(model.overDayPrice + "(" + model.overDay + ")");
         }
 
-        if(!TextUtils.isEmpty(model.overTime)){
+        if (!TextUtils.isEmpty(model.overTime)) {
             viewHolder.overItemLayout.setVisibility(View.VISIBLE);
             viewHolder.overItemTitle.setText("超时费用");
-            viewHolder.overItemValue.setText(model.overTimePrice+"("+model.overTime+")");
-        }else if(!TextUtils.isEmpty(model.overDistance)){
+            viewHolder.overItemValue.setText(model.overTimePrice + "(" + model.overTime + ")");
+        } else if (!TextUtils.isEmpty(model.overDistance)) {
             viewHolder.overItemLayout.setVisibility(View.VISIBLE);
             viewHolder.overItemTitle.setText("超里程费");
-            viewHolder.overItemValue.setText(model.overDistancePrice+"("+model.overDistance+")");
+            viewHolder.overItemValue.setText(model.overDistancePrice + "(" + model.overDistance + ")");
         }
         return view;
     }
-      class ViewHolder {
+
+    class ViewHolder {
         TextView overTitle;
         TextView overItemTitle;
         TextView overItemValue;

@@ -19,20 +19,20 @@ import java.util.TreeMap;
  */
 public class RequestSubmitBase extends BaseRequest<String> {
 
-    public RequestSubmitBase(Context context,OrderBean orderBean) {
+    public RequestSubmitBase(Context context, OrderBean orderBean) {
         super(context);
         map = new TreeMap();
         map.put("orderNo", orderBean.orderNo);
         map.put("orderChannel", Config.channelId);
         map.put("orderType", orderBean.orderType);
         map.put("urgentFlag", orderBean.urgentFlag);
-        if(orderBean.checkInPrice!=null)
+        if (orderBean.checkInPrice != null)
             map.put("checkInPrice", orderBean.checkInPrice);
         map.put("priceChannel", orderBean.orderPrice);
         map.put("priceMark", orderBean.priceMark);
         map.put("adultNum", orderBean.adult);
         map.put("childNum", orderBean.child);
-        if(orderBean.childSeat!=null)
+        if (orderBean.childSeat != null)
             map.put("childSeat", TextUtils.join(",", orderBean.childSeat));
         map.put("userName", orderBean.contactName);
         map.put("serviceCityId", orderBean.serviceCityId);
@@ -58,7 +58,7 @@ public class RequestSubmitBase extends BaseRequest<String> {
         map.put("userRemark", orderBean.memo);
 
 
-        if(orderBean.contact!=null&&orderBean.contact.size()>0){
+        if (orderBean.contact != null && orderBean.contact.size() > 0) {
             map.put("userAreaCode1", orderBean.contact.get(0).areaCode);
             map.put("userMobile1", orderBean.contact.get(0).tel);
         }
@@ -70,7 +70,7 @@ public class RequestSubmitBase extends BaseRequest<String> {
             map.put("userAreaCode3", orderBean.contact.get(2).areaCode);
             map.put("userMobile3", orderBean.contact.get(2).tel);
         }
-        if(orderBean.orderType!=null&&orderBean.orderType.equals(5)){//如果是SKU  传
+        if (orderBean.orderType != null && orderBean.orderType.equals(5)) {//如果是SKU  传
             map.put("lineSubject", orderBean.lineSubject);
             map.put("lineDescription", orderBean.lineDescription);
             map.put("orderGoodsType", orderBean.orderGoodsType);

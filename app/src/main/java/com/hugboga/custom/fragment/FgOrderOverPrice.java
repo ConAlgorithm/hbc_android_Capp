@@ -3,7 +3,6 @@ package com.hugboga.custom.fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -76,8 +75,9 @@ public class FgOrderOverPrice extends BaseFragment {
         fgTitle.setText("增项费用");
 
     }
+
     @Override
-    protected void initView(){
+    protected void initView() {
         mPriceInfo = (OrderPriceInfo) getArguments().getSerializable(KEY_ORDER_PRICE);
         mOrderCoupon = (CouponBean) getArguments().getSerializable(KEY_ORDER_COUPON);
         orderNo = getArguments().getString(KEY_ORDER_NO);
@@ -87,26 +87,27 @@ public class FgOrderOverPrice extends BaseFragment {
         if (mOrderCoupon != null && mOrderCoupon.price != null) {
             orderPayCouponsLayout.setVisibility(View.VISIBLE);
             orderPayCoupons.setText(mOrderCoupon.price);
-        }else{
+        } else {
             //没有使用优惠券，则直接不显示
             orderPayCouponsLayout.setVisibility(View.GONE);
         }
         orderPayTotal.setText(mPriceInfo.orderPrice + "元");
         orderShouldTotal.setText(mPriceInfo.shouldPay + "元");
         orderActualPay.setText(mPriceInfo.actualPay + "元");
-        orderPayCheckInLayout.setVisibility(Double.isNaN(mPriceInfo.checkInPrice)? View.GONE: View.VISIBLE);
-        orderPayCheckInValue.setText(mPriceInfo.checkInPrice+"元");
+        orderPayCheckInLayout.setVisibility(Double.isNaN(mPriceInfo.checkInPrice) ? View.GONE : View.VISIBLE);
+        orderPayCheckInValue.setText(mPriceInfo.checkInPrice + "元");
         paySuccessPrice.setText(String.valueOf(mPriceInfo.actualPay));
         orderPayTotalTitle.setText(Constants.TitleMap2.get(mBusinessType));
     }
+
     @Override
     protected Callback.Cancelable requestData() {
 
-        if(additionIsRead!=-1) {
+        if (additionIsRead != -1) {
             listView.setVisibility(View.VISIBLE);
-            RequestOverPrice request = new RequestOverPrice(getActivity(),orderNo);
+            RequestOverPrice request = new RequestOverPrice(getActivity(), orderNo);
             return requestData(request);
-        }else{
+        } else {
             listView.setVisibility(View.GONE);
         }
         return null;
@@ -114,7 +115,7 @@ public class FgOrderOverPrice extends BaseFragment {
 
     @Override
     protected void inflateContent() {
-        if(mOverPrice.orderCostApplyInfos!=null&&mOverPrice.orderCostApplyInfos.size()>0) {
+        if (mOverPrice.orderCostApplyInfos != null && mOverPrice.orderCostApplyInfos.size() > 0) {
             OverPriceAdapter adapter = new OverPriceAdapter(getActivity());
             adapter.setList(mOverPrice.orderCostApplyInfos);
             View headerView = LayoutInflater.from(getActivity()).inflate(R.layout.list_over_price_header, null);
@@ -125,28 +126,28 @@ public class FgOrderOverPrice extends BaseFragment {
             listView.addHeaderView(headerView);
             listView.addFooterView(footView);
             listView.setAdapter(adapter);
-        }else{
+        } else {
             listView.setVisibility(View.GONE);
         }
     }
 
     @Event({R.id.over_price_tip})
     private void onClickView(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.over_price_tip:
                 Bundle bundle = new Bundle();
                 bundle.putString(FgWebInfo.WEB_URL, ResourcesConstants.OverPriceMap.get(mBusinessType));
-                startFragment( new FgWebInfo(),bundle);
+                startFragment(new FgWebInfo(), bundle);
                 break;
         }
     }
 
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
-        RequestOverPrice mParser = (RequestOverPrice)request;
+        RequestOverPrice mParser = (RequestOverPrice) request;
         mOverPrice = new OrderOverPrice();
         applyfee = mParser.applyfee;
-        mOverPrice.orderCostApplyInfos =mParser.getData();
+        mOverPrice.orderCostApplyInfos = mParser.getData();
         inflateContent();
     }
 }

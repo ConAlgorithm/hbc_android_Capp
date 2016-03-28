@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+
 import com.huangbaoche.hbcframe.data.net.ExceptionErrorCode;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.ServerException;
@@ -21,10 +22,12 @@ import com.hugboga.custom.data.request.RequestLogin;
 import com.hugboga.custom.data.request.RequestRegister;
 import com.hugboga.custom.data.request.RequestVerity;
 import com.hugboga.custom.widget.DialogUtil;
+
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
+
 import java.util.regex.Pattern;
 
 @ContentView(R.layout.fg_register)
@@ -74,10 +77,10 @@ public class FgRegister extends BaseFragment {
             setBtnVisible(false);
             time = 59;
             handler.postDelayed(runnable, 0);
-        }else if (request instanceof RequestLogin) {
+        } else if (request instanceof RequestLogin) {
             RequestLogin requestLogin = (RequestLogin) request;
             UserBean userBean = requestLogin.getData();
-            if(userBean!=null){
+            if (userBean != null) {
                 //登录成功
                 UserEntity.getUser().setUserId(getActivity(), userBean.userID);
                 UserEntity.getUser().setUserToken(getActivity(), userBean.userToken);
@@ -114,31 +117,31 @@ public class FgRegister extends BaseFragment {
 
     @Override
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-            setBtnVisible(true);
-            if (errorInfo.state == ExceptionErrorCode.ERROR_CODE_SERVER) {
-                if (errorInfo.exception instanceof ServerException) {
-                    ServerException se = (ServerException) errorInfo.exception;
-                    if (se.getCode() == 40070010 || se.getCode() == 10014) {
-                        //区号手机号，已经被注册
-                        DialogUtil.getInstance(getActivity()).showCustomDialog("提醒", "此手机号已经注册，是否直接登录？", "取消", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                            }
-                        }, "登录", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                finish();
-                                Bundle bundle = new Bundle();
-                                bundle.putString("areaCode", areaCode);
-                                bundle.putString("phone", phone);
-                                startFragment(new FgLogin(), bundle);
-                            }
-                        }).show();
-                        return;
+        setBtnVisible(true);
+        if (errorInfo.state == ExceptionErrorCode.ERROR_CODE_SERVER) {
+            if (errorInfo.exception instanceof ServerException) {
+                ServerException se = (ServerException) errorInfo.exception;
+                if (se.getCode() == 40070010 || se.getCode() == 10014) {
+                    //区号手机号，已经被注册
+                    DialogUtil.getInstance(getActivity()).showCustomDialog("提醒", "此手机号已经注册，是否直接登录？", "取消", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
                         }
-                    }
+                    }, "登录", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            finish();
+                            Bundle bundle = new Bundle();
+                            bundle.putString("areaCode", areaCode);
+                            bundle.putString("phone", phone);
+                            startFragment(new FgLogin(), bundle);
+                        }
+                    }).show();
+                    return;
                 }
-            super.onDataRequestError(errorInfo, request);
+            }
+        }
+        super.onDataRequestError(errorInfo, request);
     }
 
     @Override
@@ -177,13 +180,13 @@ public class FgRegister extends BaseFragment {
                     return;
                 }
 //                String channelStr = AppInfo.getVersionChannel(getActivity());
-                Integer channelInt= 1000;
+                Integer channelInt = 1000;
                 try {
 //                    channelInt = Integer.valueOf(channelStr);
-                }catch (Exception e){
+                } catch (Exception e) {
                     MLog.e("getVersionChannel ", e);
                 }
-                RequestRegister requestRegister = new RequestRegister(getActivity(), areaCode, phone, password, verity,null,channelInt);
+                RequestRegister requestRegister = new RequestRegister(getActivity(), areaCode, phone, password, verity, null, channelInt);
                 requestData(requestRegister);
                 break;
             case R.id.register_login:
@@ -268,13 +271,13 @@ public class FgRegister extends BaseFragment {
         fgTitle.setTextColor(getResources().getColor(R.color.my_content_title_color));
         fgTitle.setText("注册");
         //初始化数据
-        if(mSourceFragment instanceof FgLogin){
+        if (mSourceFragment instanceof FgLogin) {
             String code = getArguments().getString("areaCode");
-            if(code!=null && !code.isEmpty()){
+            if (code != null && !code.isEmpty()) {
                 areaCodeTextView.setText("+" + code);
             }
             String phone = getArguments().getString("phone");
-            if(phone!=null && !phone.isEmpty()){
+            if (phone != null && !phone.isEmpty()) {
                 phoneEditText.setText(phone);
             }
         }

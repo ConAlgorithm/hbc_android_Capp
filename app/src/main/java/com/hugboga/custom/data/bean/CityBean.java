@@ -9,11 +9,11 @@ import org.xutils.db.annotation.Table;
  */
 
 @Table(name = "city")
-public class CityBean implements  IBaseBean {
+public class CityBean implements IBaseBean {
 
 
-    @Column(name = "city_id", isId=true)
-    public int  cityId;
+    @Column(name = "city_id", isId = true)
+    public int cityId;
     @Column(name = "cn_name")
     public String name;
     @Column(name = "initial")
@@ -27,7 +27,7 @@ public class CityBean implements  IBaseBean {
     @Column(name = "area_code")
     public String areaCode;
     @Column(name = "group_id")
-    public int  groupId;
+    public int groupId;
     @Column(name = "childseat_switch")
     public boolean childSeatSwitch;
     @Column(name = "is_daily")
@@ -45,7 +45,7 @@ public class CityBean implements  IBaseBean {
 
 
     public boolean isSelected = false;//是否被选择
-    public boolean isFirst=false;//是否第一个首字母出现
+    public boolean isFirst = false;//是否第一个首字母出现
 
     public int stayDay = 0;//呆几天
 
@@ -65,9 +65,9 @@ public class CityBean implements  IBaseBean {
 
     @Override
     public boolean equals(Object obj) {
-        if(obj instanceof CityBean){
-            CityBean bean = (CityBean)obj;
-            if(cityId ==((CityBean) obj).cityId)return true;
+        if (obj instanceof CityBean) {
+            CityBean bean = (CityBean) obj;
+            if (cityId == ((CityBean) obj).cityId) return true;
         }
         return false;
     }
@@ -75,7 +75,7 @@ public class CityBean implements  IBaseBean {
 
     @Override
     public String toString() {
-        return super.toString()+"{"+"cityId="+cityId+",name="+name+",groupId="+groupId+",isDaily="+isDaily+",isSingle="+isSingle+"}";
+        return super.toString() + "{" + "cityId=" + cityId + ",name=" + name + ",groupId=" + groupId + ",isDaily=" + isDaily + ",isSingle=" + isSingle + "}";
     }
 }
 

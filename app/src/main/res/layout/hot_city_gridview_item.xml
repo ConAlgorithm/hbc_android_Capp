@@ -12,5 +12,5 @@
         android:gravity="center"
         android:maxLines="2"
         android:ellipsize="end"
-        android:background="@drawable/btn_round_hot_city"/>
+        android:background="@drawable/btn_round_hot_city" />
 </LinearLayout>

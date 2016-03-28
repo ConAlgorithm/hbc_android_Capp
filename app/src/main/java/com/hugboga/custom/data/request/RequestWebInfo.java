@@ -11,7 +11,6 @@ import com.hugboga.custom.data.parser.ParserWebInfo;
 import org.xutils.http.HttpMethod;
 import org.xutils.http.annotation.HttpRequest;
 
-import java.util.Objects;
 import java.util.TreeMap;
 
 /**
@@ -26,7 +25,7 @@ public class RequestWebInfo extends BaseRequest<String> {
     public String successCallBack;
     public String failCallBack;
 
-    public RequestWebInfo(Context context,String url,String method,String questBody,String successCallBack,String failCallBack) {
+    public RequestWebInfo(Context context, String url, String method, String questBody, String successCallBack, String failCallBack) {
         super(context);
         this.url = url;
         this.method = method;
@@ -48,12 +47,12 @@ public class RequestWebInfo extends BaseRequest<String> {
         return requestMethod;
     }
 
-    public String getUrl(){
-        return  url;
+    public String getUrl() {
+        return url;
     }
 
 
-    public TreeMap<String,Object> getQueryParameter(String params) {
+    public TreeMap<String, Object> getQueryParameter(String params) {
         TreeMap<String, Object> map = new TreeMap<>();
         int start = 0;
         do {
@@ -66,7 +65,7 @@ public class RequestWebInfo extends BaseRequest<String> {
             }
 
             String name = params.substring(start, separator);
-            String value = params.substring(separator+1, end);
+            String value = params.substring(separator + 1, end);
             map.put(name, Uri.decode(value));
             start = end + 1;
         } while (start < params.length());

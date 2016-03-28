@@ -22,16 +22,16 @@ import java.util.HashMap;
 @HttpRequest(path = UrlLibs.SERVER_IP_COUPONS, builder = HbcParamsBuilder.class)
 public class RequestCoupon extends BaseRequest<ArrayList<CouponBean>> {
 
-    public RequestCoupon(Context context,String orderID, double orderPrice, int offset, int limit) {
+    public RequestCoupon(Context context, String orderID, double orderPrice, int offset, int limit) {
         super(context);
-        map =new HashMap<String,Object>();
-        if(!TextUtils.isEmpty(orderID))
-        map.put("useOrderNo",orderID);
-        if(orderPrice>0)
-        map.put("useOrderPrice",orderPrice);
-        map.put("status","1,2,98");
-        map.put("offset",offset);
-        map.put("limit",limit);
+        map = new HashMap<String, Object>();
+        if (!TextUtils.isEmpty(orderID))
+            map.put("useOrderNo", orderID);
+        if (orderPrice > 0)
+            map.put("useOrderPrice", orderPrice);
+        map.put("status", "1,2,98");
+        map.put("offset", offset);
+        map.put("limit", limit);
     }
 
     @Override
@@ -39,7 +39,7 @@ public class RequestCoupon extends BaseRequest<ArrayList<CouponBean>> {
         return new ParserCoupon();
     }
 
-        @Override
+    @Override
     public HttpMethod getHttpMethod() {
         return HttpMethod.GET;
     }

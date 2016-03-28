@@ -4,56 +4,54 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/allbg_gray"
-    android:padding="30dip"
-  >
-    <TextView
-          android:id="@+id/pick_flight_from"
-          android:layout_width="fill_parent"
-          android:layout_height="wrap_content"
-          android:padding="15dip"
-          android:hint="@string/tip_pick_flight_from"
-          android:textColorHint="@color/change_mobile_hint"
-          android:background="@drawable/shape_rounded_rectangle_white"
-          android:textSize="16sp"
-           />
-      <TextView
-          android:id="@+id/pick_flight_to"
-          android:layout_width="fill_parent"
-          android:layout_height="wrap_content"
-          android:padding="15dip"
-          android:layout_marginTop="20dip"
-          android:hint="@string/tip_pick_flight_to"
-          android:textColorHint="@color/change_mobile_hint"
-          android:background="@drawable/shape_rounded_rectangle_white"
-          android:textSize="16sp"
-          />
-      <TextView
-          android:id="@+id/pick_flight_time2"
-          android:layout_width="fill_parent"
-          android:layout_height="wrap_content"
-          android:padding="15dip"
-          android:layout_marginTop="20dip"
-          android:hint="@string/tip_pick_flight_time"
-          android:textColorHint="@color/change_mobile_hint"
-          android:background="@drawable/shape_rounded_rectangle_white"
-          android:textSize="16sp"
-          />
+    android:padding="30dip">
 
-        <Button
-            android:id="@+id/pick_btn2"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dip"
-            android:background="@drawable/btn_blue"
-            android:textColor="@color/basic_white"
-            android:text="@string/dialog_btn_search"
-            android:textSize="18sp"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/tap_city_tip"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dip"
-            />
-    </LinearLayout>
+    <TextView
+        android:id="@+id/pick_flight_from"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dip"
+        android:hint="@string/tip_pick_flight_from"
+        android:textColorHint="@color/change_mobile_hint"
+        android:background="@drawable/shape_rounded_rectangle_white"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/pick_flight_to"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dip"
+        android:layout_marginTop="20dip"
+        android:hint="@string/tip_pick_flight_to"
+        android:textColorHint="@color/change_mobile_hint"
+        android:background="@drawable/shape_rounded_rectangle_white"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/pick_flight_time2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dip"
+        android:layout_marginTop="20dip"
+        android:hint="@string/tip_pick_flight_time"
+        android:textColorHint="@color/change_mobile_hint"
+        android:background="@drawable/shape_rounded_rectangle_white"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/pick_btn2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dip"
+        android:background="@drawable/btn_blue"
+        android:textColor="@color/basic_white"
+        android:text="@string/dialog_btn_search"
+        android:textSize="18sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tap_city_tip"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dip" />
+</LinearLayout>

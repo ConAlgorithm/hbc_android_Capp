@@ -21,7 +21,7 @@ import java.util.HashMap;
 public class RequestAirPort extends BaseRequest<ArrayList<AirPort>> {
     public RequestAirPort(Context context, String keyword) {
         super(context);
-        map = new HashMap<String,Object>();
+        map = new HashMap<String, Object>();
         map.put("keyword", keyword);
     }
 

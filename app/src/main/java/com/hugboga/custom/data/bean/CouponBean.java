@@ -1,8 +1,5 @@
 package com.hugboga.custom.data.bean;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 /**
  * Created by ZHZEPHI on 2015/7/24.
  */

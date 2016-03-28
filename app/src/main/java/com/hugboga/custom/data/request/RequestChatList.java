@@ -12,23 +12,21 @@ import com.hugboga.custom.data.parser.ParserChatList;
 import org.xutils.http.annotation.HttpRequest;
 
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.TreeMap;
 
 /**
- *
  * 聊天列表
  * Created by admin on 2016/3/8.
  */
-@HttpRequest(path = UrlLibs.SERVER_IP_CHAT_LIST,builder = HbcParamsBuilder.class)
+@HttpRequest(path = UrlLibs.SERVER_IP_CHAT_LIST, builder = HbcParamsBuilder.class)
 public class RequestChatList extends BaseRequest<ArrayList<ChatBean>> {
 
 
-    public RequestChatList(Context context,int offset,int limit) {
+    public RequestChatList(Context context, int offset, int limit) {
         super(context);
-        map = new TreeMap<String,Object>();
-        map.put("offset",offset);
-        map.put("limit",limit);
+        map = new TreeMap<String, Object>();
+        map.put("offset", offset);
+        map.put("limit", limit);
     }
 
 

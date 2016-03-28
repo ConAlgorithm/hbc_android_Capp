@@ -83,25 +83,25 @@ public class FgCoupon extends BaseFragment implements AdapterView.OnItemClickLis
     ZListView.OnRefreshListener onRefreshListener = new ZListView.OnRefreshListener() {
         @Override
         public void onRefresh() {
-            if(adapter!=null){
+            if (adapter != null) {
                 adapter = null;
             }
-            runData(orderId,0);
+            runData(orderId, 0);
         }
     };
 
     ZListView.OnLoadListener onLoadListener = new ZListView.OnLoadListener() {
         @Override
         public void onLoad() {
-            if(adapter.getCount() > 0){
-                runData(orderId, adapter==null?0:adapter.getCount());
+            if (adapter.getCount() > 0) {
+                runData(orderId, adapter == null ? 0 : adapter.getCount());
             }
         }
     };
 
 
-    private Callback.Cancelable runData( String orderId, int pageIndex){
-        RequestCoupon requestCoupon = new RequestCoupon(getActivity(),orderId, orderPrice,pageIndex, mPageSize);
+    private Callback.Cancelable runData(String orderId, int pageIndex) {
+        RequestCoupon requestCoupon = new RequestCoupon(getActivity(), orderId, orderPrice, pageIndex, mPageSize);
         return requestData(requestCoupon);
     }
 
@@ -109,7 +109,7 @@ public class FgCoupon extends BaseFragment implements AdapterView.OnItemClickLis
     protected Callback.Cancelable requestData() {
         //默认加载所有优惠券
 
-        if(adapter!=null){
+        if (adapter != null) {
             adapter = null;
         }
         return runData(orderId, 0);
@@ -128,10 +128,10 @@ public class FgCoupon extends BaseFragment implements AdapterView.OnItemClickLis
                 String couponNum = carNumberEditText.getText().toString();
                 if (couponNum.isEmpty()) {
                     showTip("请输入优惠券兑换码");
-                        carNumberEditText.requestFocus();
+                    carNumberEditText.requestFocus();
                     return;
                 }
-                RequestCouponExchange requestCoupon = new RequestCouponExchange(getActivity(),couponNum);
+                RequestCouponExchange requestCoupon = new RequestCouponExchange(getActivity(), couponNum);
                 requestData(requestCoupon);
                 break;
             default:
@@ -141,24 +141,24 @@ public class FgCoupon extends BaseFragment implements AdapterView.OnItemClickLis
 //    @Override
 //    public void onDataRequestSucceed(BaseRequest request) {
 
-//    }
+    //    }
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
         if (request instanceof RequestCoupon) {
             RequestCoupon mRequest = (RequestCoupon) request;
-            if(mRequest.getData()!=null){
-                if(adapter==null){
+            if (mRequest.getData() != null) {
+                if (adapter == null) {
                     adapter = new CouponAdapter(getActivity());
                     adapter.idStr = couponId;
                     listView.setAdapter(adapter);
                     adapter.setList(mRequest.getData());
-                }else{
+                } else {
                     adapter.addList(mRequest.getData());
                 }
             }
-            if(mRequest.getData() != null&&mRequest.getData().size()<mPageSize){
+            if (mRequest.getData() != null && mRequest.getData().size() < mPageSize) {
                 listView.onLoadCompleteNone();
-            }else{
+            } else {
                 listView.onLoadComplete();
             }
             listView.onRefreshComplete();
@@ -183,7 +183,7 @@ public class FgCoupon extends BaseFragment implements AdapterView.OnItemClickLis
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        CouponBean bean = (CouponBean) adapter.getItem(position-1);
+        CouponBean bean = (CouponBean) adapter.getItem(position - 1);
         if (!TextUtils.isEmpty(orderId)) {
             //点击回传优惠券
             if (bean != null) {
@@ -209,12 +209,12 @@ public class FgCoupon extends BaseFragment implements AdapterView.OnItemClickLis
     private void showCouponInfo(CouponBean bean) throws ParseException {
         LayoutInflater inflater = LayoutInflater.from(getActivity());
         View popView = inflater.inflate(R.layout.coupon_info_layout, null);
-        if(bean.couponStatus==1){
+        if (bean.couponStatus == 1) {
             //可用
             popView.findViewById(R.id.coupon_info_layout).setBackgroundResource(R.mipmap.coupon_details);
             popView.findViewById(R.id.coupon_info_price_line).setBackgroundResource(R.drawable.coupon_dash_line);
             popView.findViewById(R.id.coupon_info_content_line).setBackgroundColor(Color.parseColor("#E997A4"));
-        }else{
+        } else {
             //已使用，已过期
             popView.findViewById(R.id.coupon_info_layout).setBackgroundResource(R.mipmap.coupon_details_no);
             popView.findViewById(R.id.coupon_info_price_line).setBackgroundResource(R.drawable.coupon_dash_line2);
@@ -223,18 +223,18 @@ public class FgCoupon extends BaseFragment implements AdapterView.OnItemClickLis
 
         final PopupWindow pw = new PopupWindow(popView, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
         //内容赋值
-        ((TextView)popView.findViewById(R.id.coupon_info_price)).setText(bean.price);
-        ((TextView)popView.findViewById(R.id.coupon_info_rule)).setText(bean.batchName);
-        if(bean.endDate.equals("0")){
-            ((TextView)popView.findViewById(R.id.coupon_info_limit_time)).setText("有效期：长期有效");
-        }else{
-            ((TextView)popView.findViewById(R.id.coupon_info_limit_time)).setText("有效期：" + bean.startDate + " 至 " + bean.endDate);
+        ((TextView) popView.findViewById(R.id.coupon_info_price)).setText(bean.price);
+        ((TextView) popView.findViewById(R.id.coupon_info_rule)).setText(bean.batchName);
+        if (bean.endDate.equals("0")) {
+            ((TextView) popView.findViewById(R.id.coupon_info_limit_time)).setText("有效期：长期有效");
+        } else {
+            ((TextView) popView.findViewById(R.id.coupon_info_limit_time)).setText("有效期：" + bean.startDate + " 至 " + bean.endDate);
         }
-        ((TextView)popView.findViewById(R.id.coupon_info_limit1_content)).setText(bean.applyArea);
-        ((TextView)popView.findViewById(R.id.coupon_info_limit2_content)).setText(bean.applyType);
-        ((TextView)popView.findViewById(R.id.coupon_info_limit3_content)).setText(bean.applyCar);
-        ((TextView)popView.findViewById(R.id.coupon_info_content)).setText(bean.applyRule);
-        ((TextView)popView.findViewById(R.id.coupon_info_memo)).setText("详细说明："+bean.content);
+        ((TextView) popView.findViewById(R.id.coupon_info_limit1_content)).setText(bean.applyArea);
+        ((TextView) popView.findViewById(R.id.coupon_info_limit2_content)).setText(bean.applyType);
+        ((TextView) popView.findViewById(R.id.coupon_info_limit3_content)).setText(bean.applyCar);
+        ((TextView) popView.findViewById(R.id.coupon_info_content)).setText(bean.applyRule);
+        ((TextView) popView.findViewById(R.id.coupon_info_memo)).setText("详细说明：" + bean.content);
         popView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

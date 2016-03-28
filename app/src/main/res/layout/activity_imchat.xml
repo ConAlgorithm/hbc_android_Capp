@@ -2,13 +2,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include android:id="@+id/toolbar"
-        layout="@layout/include_header"/>
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/include_header" />
 
     <RelativeLayout
         android:id="@+id/imchat_viewpage_layout"
         android:layout_width="match_parent"
-        android:layout_height="98dp"
+        android:layout_height="78dp"
         android:layout_below="@id/toolbar"
         android:background="@color/basic_white">
 

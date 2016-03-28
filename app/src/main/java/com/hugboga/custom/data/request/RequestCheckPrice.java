@@ -16,15 +16,15 @@ import java.util.HashMap;
 public class RequestCheckPrice extends BaseRequest {
     private int orderType;
 
-    public RequestCheckPrice(Context context, int orderType,String airportCode, Integer cityId,  String startLocation, String endLocation, String date) {
+    public RequestCheckPrice(Context context, int orderType, String airportCode, Integer cityId, String startLocation, String endLocation, String date) {
         super(context);
-        map = new HashMap<String,Object>();
+        map = new HashMap<String, Object>();
         this.orderType = orderType;
         try {
             map.put("airportCode", airportCode);
             map.put("cityId", cityId);
-            if(date!=null)
-                map.put("serviceDate", date+":00");
+            if (date != null)
+                map.put("serviceDate", date + ":00");
             map.put("startLocation", startLocation);
             map.put("endLocation", endLocation);
             map.put("channelId", Config.channelId);

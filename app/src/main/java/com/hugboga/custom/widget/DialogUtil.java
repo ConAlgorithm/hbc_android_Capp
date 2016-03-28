@@ -206,7 +206,7 @@ public class DialogUtil implements DialogUtilInterface {
      * @author aceway-liwei
      * @date 2012-6-13 上午09:45:31
      */
-     public Dialog showOvertimeDialog(final BaseRequest baseRequest, final HttpRequestListener listener) {
+    public Dialog showOvertimeDialog(final BaseRequest baseRequest, final HttpRequestListener listener) {
         if (overtimeDialog != null && overtimeDialog.isShowing()) {
             return overtimeDialog;
         }
@@ -223,7 +223,7 @@ public class DialogUtil implements DialogUtilInterface {
                             public void onClick(DialogInterface dialog,
                                                 int whichButton) {
                                 // 联网超时，重新联网
-                                HttpRequestUtils.request(mContext,baseRequest,listener);
+                                HttpRequestUtils.request(mContext, baseRequest, listener);
                             }
                         })
                 .setNegativeButton(R.string.dialog_btn_cancel, null)
@@ -326,7 +326,7 @@ public class DialogUtil implements DialogUtilInterface {
      *
      * @param content
      * @param positiveClick 确定按钮的 点击事件
-     * @param negativeClick  取消按钮的点击事件
+     * @param negativeClick 取消按钮的点击事件
      * @return Dialog    返回类型
      * @Title showCustomDialog
      * @author aceway-liwei
@@ -501,25 +501,26 @@ public class DialogUtil implements DialogUtilInterface {
 		}*/
         return intent;
     }
-    public void showUpdateDialog(String force, String content, final String url,OnClickListener positiveClick,OnClickListener negativeClick){
-        if(TextUtils.isEmpty(url)) {
-            if(negativeClick!=null)
-                negativeClick.onClick(null,0);
+
+    public void showUpdateDialog(String force, String content, final String url, OnClickListener positiveClick, OnClickListener negativeClick) {
+        if (TextUtils.isEmpty(url)) {
+            if (negativeClick != null)
+                negativeClick.onClick(null, 0);
             return;
         }
         //新版本推送
-        if(content==null){
+        if (content == null) {
             versionDialog = new Builder(mContext).create();
-        }else{
+        } else {
             versionDialog = new AlertDialog.Builder(mContext).setItems(content.split("#"), null).create();
         }
         versionDialog.setTitle("发现新版本");
         versionDialog.setCancelable(false);
-        if(!force.equals("true")){
-            versionDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "稍后更新",  negativeClick);
+        if (!force.equals("true")) {
+            versionDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "稍后更新", negativeClick);
         }
         versionDialog.setButton(DialogInterface.BUTTON_POSITIVE, "前去更新", positiveClick);
-        if(!versionDialog.isShowing()){
+        if (!versionDialog.isShowing()) {
             versionDialog.show();
         }
     }

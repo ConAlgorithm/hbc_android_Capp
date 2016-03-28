@@ -13,7 +13,7 @@ import com.huangbaoche.hbcframe.util.MLog;
  */
 public class AliPay {
 
-    private void pay(final Activity activity,final String payInfo, final Handler mHandler) {
+    private void pay(final Activity activity, final String payInfo, final Handler mHandler) {
         MLog.e("payInfo=" + payInfo);
         if (!TextUtils.isEmpty(payInfo)) {
             Runnable payRunnable = new Runnable() {

@@ -27,6 +27,7 @@ public class WXPay {
         request.timeStamp= bean.timestamp;
         request.sign= bean.sign;
         msgApi.sendReq(request);
+        context.startActivity(new Intent(context,WXEntryActivity.class));
     }
 
 }

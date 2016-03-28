@@ -16,17 +16,15 @@ import java.util.Map;
 import java.util.TreeMap;
 
 /**
- *
- *
  * Created by admin on 2016/3/8.
  */
-@HttpRequest(path = UrlLibs.SERVER_IP_LOGIN,builder = HbcParamsBuilder.class)
+@HttpRequest(path = UrlLibs.SERVER_IP_LOGIN, builder = HbcParamsBuilder.class)
 public class RequestLogin extends BaseRequest<UserBean> {
     public String areaCode;
     public String mobile;
     public String password;
 
-    public RequestLogin(Context context,String areaCode, String mobile, String password) {
+    public RequestLogin(Context context, String areaCode, String mobile, String password) {
         super(context);
         this.areaCode = areaCode;
         this.mobile = mobile;
@@ -35,7 +33,7 @@ public class RequestLogin extends BaseRequest<UserBean> {
 
     @Override
     public Map<String, Object> getDataMap() {
-        TreeMap map = new TreeMap<String,Object>();
+        TreeMap map = new TreeMap<String, Object>();
         map.put("areaCode", areaCode);
         map.put("mobile", mobile);
         map.put("password", password);

@@ -234,10 +234,12 @@ public class FgTravel extends BaseFragment  implements AdapterView.OnItemClickLi
                 break;
         }
     }
+
     @Override
     protected Callback.Cancelable requestData() {
         return runData(0);
     }
+
     /**
      * 加载数据
      *

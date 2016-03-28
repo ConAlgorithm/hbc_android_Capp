@@ -1,9 +1,7 @@
 package com.hugboga.custom.fragment;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
@@ -91,7 +89,7 @@ public class FgServicerCenter extends BaseFragment {
     private void toWebInfo(String url) {
         Bundle bundle = new Bundle();
         bundle.putString(FgWebInfo.WEB_URL, url);
-        startFragment(new FgWebInfo(),bundle);
+        startFragment(new FgWebInfo(), bundle);
     }
 
     @Override

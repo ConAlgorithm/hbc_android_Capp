@@ -1,50 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/basic_white"
-    >
+    android:background="@color/basic_white">
+
     <RelativeLayout
         android:id="@+id/sku_start_time_layout"
-        style="@style/skuInfoLayout"
-        >
+        style="@style/skuInfoLayout">
+
         <TextView
             android:id="@+id/sku_start_time_star"
             style="@style/skuInfoStar"
-            android:visibility="invisible"
-            />
+            android:visibility="invisible" />
+
         <TextView
             android:id="@+id/sku_start_time_title"
             style="@style/skuInfoTitle"
             android:layout_toRightOf="@id/sku_start_time_star"
-            android:text="上车时间"
-            />
+            android:text="上车时间" />
+
         <ImageView
             android:id="@+id/sku_start_time_arrow"
-            style="@style/skuInfoArrow"
-            />
+            style="@style/skuInfoArrow" />
+
         <EditText
             android:id="@+id/sku_start_time_edit"
             style="@style/skuInfoEdit"
             android:layout_toRightOf="@id/sku_start_time_title"
             android:layout_toLeftOf="@id/sku_start_time_arrow"
-            android:hint="8：00（当地时间）"
-            />
+            android:hint="8：00（当地时间）" />
     </RelativeLayout>
-    <View style="@style/skuInfoLine"/>
-    <RelativeLayout
-        style="@style/skuInfoLayout"
-        >
+
+    <View style="@style/skuInfoLine" />
+
+    <RelativeLayout style="@style/skuInfoLayout">
+
         <TextView
             android:id="@+id/sku_passenger_number_star"
-            style="@style/skuInfoStar"
-            />
+            style="@style/skuInfoStar" />
+
         <TextView
             android:id="@+id/sku_passenger_number_title"
             style="@style/skuInfoTitle"
             android:layout_toRightOf="@id/sku_passenger_number_star"
-            android:text="乘坐人数"
-            />
+            android:text="乘坐人数" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -53,49 +53,52 @@
         android:layout_marginBottom="15dp"
         android:paddingLeft="30dp"
         android:paddingRight="25dip">
-     <LinearLayout
-        style="@style/skuInfoNumberLayout">
-        <TextView
-            android:id="@+id/submit_adult_sub"
-            style="@style/skuInfoNumberSub"
-            android:text="—"
-           />
-        <View style="@style/v_line" />
-        <EditText
-            android:id="@+id/submit_adult"
-            style="@style/skuInfoNumberEdit"
-            android:text="成人0"
-            />
-        <View style="@style/v_line" />
-        <TextView
-            android:id="@+id/submit_adult_plus"
-            style="@style/skuInfoNumberSub"
-            android:text="+"
-         />
-    </LinearLayout>
 
-    <LinearLayout
-        style="@style/skuInfoNumberLayout"
-        android:layout_alignParentRight="true"
-        >
-        <TextView
-            android:id="@+id/submit_child_sub"
-            style="@style/skuInfoNumberSub"
-            android:text="—"
-            />
-        <View style="@style/v_line" />
-        <EditText
-            android:id="@+id/submit_child"
-            style="@style/skuInfoNumberEdit"
-            android:text="儿童0"
-            />
-        <View style="@style/v_line" />
-        <TextView
-            android:id="@+id/submit_child_plus"
-            style="@style/skuInfoNumberSub"
-            android:text="+"
-            />
-    </LinearLayout>
+        <LinearLayout style="@style/skuInfoNumberLayout">
+
+            <TextView
+                android:id="@+id/submit_adult_sub"
+                style="@style/skuInfoNumberSub"
+                android:text="—" />
+
+            <View style="@style/v_line" />
+
+            <EditText
+                android:id="@+id/submit_adult"
+                style="@style/skuInfoNumberEdit"
+                android:text="成人0" />
+
+            <View style="@style/v_line" />
+
+            <TextView
+                android:id="@+id/submit_adult_plus"
+                style="@style/skuInfoNumberSub"
+                android:text="+" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/skuInfoNumberLayout"
+            android:layout_alignParentRight="true">
+
+            <TextView
+                android:id="@+id/submit_child_sub"
+                style="@style/skuInfoNumberSub"
+                android:text="—" />
+
+            <View style="@style/v_line" />
+
+            <EditText
+                android:id="@+id/submit_child"
+                style="@style/skuInfoNumberEdit"
+                android:text="儿童0" />
+
+            <View style="@style/v_line" />
+
+            <TextView
+                android:id="@+id/submit_child_plus"
+                style="@style/skuInfoNumberSub"
+                android:text="+" />
+        </LinearLayout>
     </RelativeLayout>
 
     <LinearLayout
@@ -110,36 +113,34 @@
         android:paddingBottom="5dp"
         android:background="@drawable/shape_rounded_dash"
         android:orientation="vertical"
-        android:visibility="gone"
-        />
+        android:visibility="gone" />
 
-    <View style="@style/skuInfoLine"/>
+    <View style="@style/skuInfoLine" />
+
     <RelativeLayout
         android:id="@+id/sku_start_address_layout"
-        style="@style/skuInfoLayout"
-        >
+        style="@style/skuInfoLayout">
+
         <TextView
             android:id="@+id/sku_start_address_star"
-            style="@style/skuInfoStar"
-            />
+            style="@style/skuInfoStar" />
+
         <TextView
             android:id="@+id/sku_start_address_title"
             style="@style/skuInfoTitle"
             android:layout_toRightOf="@id/sku_start_address_star"
-            android:text="上车地点"
-            />
+            android:text="上车地点" />
 
         <ImageView
             android:id="@+id/sku_start_address_arrow"
-            style="@style/skuInfoArrow"
-            />
+            style="@style/skuInfoArrow" />
+
         <EditText
             android:id="@+id/sku_start_address_edit"
             style="@style/skuInfoEdit"
             android:layout_toRightOf="@id/sku_start_address_title"
             android:layout_toLeftOf="@id/sku_start_address_arrow"
-            android:hint="请添加您的上车地点"
-            />
+            android:hint="请添加您的上车地点" />
     </RelativeLayout>
 
 

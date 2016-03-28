@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="@dimen/default_margin_medium"
-    android:background="@color/basic_white"
-    android:orientation="vertical">
+    android:background="@color/basic_white">
 
     <RelativeLayout
+        android:id="@+id/letter_item_top_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/default_margin_large">
+        android:paddingBottom="@dimen/default_margin_medium"
+        android:paddingLeft="@dimen/default_margin_xlarge"
+        android:paddingRight="@dimen/default_margin_xlarge"
+        android:paddingTop="@dimen/default_margin_medium">
 
         <RelativeLayout
             android:id="@+id/letter_item_img_layout"
@@ -38,7 +41,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/default_margin_medium"
+            android:layout_marginLeft="@dimen/default_margin_large"
             android:layout_toRightOf="@id/letter_item_img_layout"
             android:orientation="vertical">
 
@@ -51,7 +54,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/letter_item_username"
-                    android:textSize="@dimen/text_size_medium" />
+                    android:textSize="@dimen/text_size_large" />
 
                 <TextView
                     android:id="@+id/letter_item_time"
@@ -80,23 +83,28 @@
         android:id="@+id/letter_item_orders"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/letter_item_top_layout"
         android:orientation="vertical">
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_margin="@dimen/default_margin_smallx"
+            android:layout_marginLeft="@dimen/default_margin_large"
+            android:layout_marginRight="@dimen/default_margin_large"
             android:background="@color/letter_item_line" />
 
-<!--        <com.hugboga.guide.widget.ChildListView
+        <com.hugboga.custom.widget.ChildListView
             android:id="@+id/letter_item_listview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/default_margin_medium"
+            android:layout_marginBottom="@dimen/default_margin_medium"
+            android:layout_marginLeft="@dimen/default_margin_xlarge"
+            android:layout_marginRight="@dimen/default_margin_xlarge"
+            android:layout_marginTop="@dimen/default_margin_medium"
             android:divider="@android:color/transparent"
             android:dividerHeight="0dp"
-            android:listSelector="@android:color/transparent" />-->
+            android:listSelector="@android:color/transparent" />
 
     </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>

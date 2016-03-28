@@ -1,7 +1,5 @@
 package com.hugboga.custom.data.bean;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.xutils.db.annotation.Column;
 import org.xutils.db.annotation.Table;
 
@@ -10,8 +8,8 @@ import org.xutils.db.annotation.Table;
  */
 @Table(name = "airport")
 public class AirPort implements IBaseBean {
-    @Column(name = "airport_id", isId=true)
-    public int  airportId;
+    @Column(name = "airport_id", isId = true)
+    public int airportId;
     @Column(name = "airport_name")
     public String airportName;
     @Column(name = "area_code")

@@ -10,8 +10,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        >
+        android:layout_marginTop="10dp">
 
         <TextView
             android:id="@+id/order_pay_total_price"
@@ -37,9 +36,11 @@
     <include
         android:id="@+id/pay_money_layout"
         layout="@layout/include_pay_money" />
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <TextView
             android:id="@+id/over_price_tip"
             android:layout_width="wrap_content"
@@ -51,6 +52,7 @@
             android:layout_margin="10dp"
             android:layout_alignParentBottom="true"
             android:text="@string/submit_order_over_tip" />
+
         <ListView
             android:id="@+id/over_price_list"
             android:layout_width="match_parent"
@@ -60,8 +62,7 @@
             android:dividerHeight="1dp"
             android:padding="5dp"
             android:layout_above="@id/over_price_tip"
-            android:visibility="gone"
-            />
+            android:visibility="gone" />
 
     </RelativeLayout>
 

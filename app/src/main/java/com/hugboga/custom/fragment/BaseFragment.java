@@ -1,24 +1,18 @@
 package com.hugboga.custom.fragment;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.view.View;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.huangbaoche.hbcframe.activity.BaseFragmentActivity;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
-import java.util.ArrayList;
 
-
-public abstract class BaseFragment extends com.huangbaoche.hbcframe.fragment.BaseFragment{
+public abstract class BaseFragment extends com.huangbaoche.hbcframe.fragment.BaseFragment {
     public static String KEY_TITLE = "key_title";
     public static String KEY_FROM = "key_from";
     public static String KEY_BUSINESS_TYPE = "key_business_Type";
@@ -40,50 +34,52 @@ public abstract class BaseFragment extends com.huangbaoche.hbcframe.fragment.Bas
     }
 
     /**
-     *  当前的业务类型  Constants.BUSINESS_TYPE_OTHER
+     * 当前的业务类型  Constants.BUSINESS_TYPE_OTHER
      */
-    protected int getBusinessType(){
-        if(mBusinessType!=-1)return mBusinessType;
-        if(getArguments()!=null){
-            mBusinessType = getArguments().getInt(KEY_BUSINESS_TYPE,-1);
+    protected int getBusinessType() {
+        if (mBusinessType != -1) return mBusinessType;
+        if (getArguments() != null) {
+            mBusinessType = getArguments().getInt(KEY_BUSINESS_TYPE, -1);
         }
         return mBusinessType;
     }
 
-    public void setBusinessType(int businessType){
+    public void setBusinessType(int businessType) {
         mBusinessType = businessType;
     }
 
-    public void setGoodsType(int goodsType){
+    public void setGoodsType(int goodsType) {
         mGoodsType = goodsType;
     }
 
     @Event({R.id.header_left_btn})
-    private void onClickView(View view){
-        switch (view.getId()){
+    private void onClickView(View view) {
+        switch (view.getId()) {
             case R.id.header_left_btn:
                 MLog.e("header_left_btn");
                 finish();
                 break;
         }
     }
+
     public void startFragment(BaseFragment fragment) {
 
         Bundle bundle = fragment.getArguments();
-        bundle = bundle ==null?new Bundle():bundle;
+        bundle = bundle == null ? new Bundle() : bundle;
         startFragment(fragment, bundle);
     }
-    public void startFragment(BaseFragment fragment,Bundle bundle) {
+
+    public void startFragment(BaseFragment fragment, Bundle bundle) {
         collapseSoftInputMethod();
         editTextClearFocus();
-        int tmpBusinessType =-1 ;
-        int tmpGoodsType =-1 ;
-        if(bundle!=null&&fragment!=null){
+        int tmpBusinessType = -1;
+        int tmpGoodsType = -1;
+        if (bundle != null && fragment != null) {
             fragment.setArguments(bundle);
-            tmpBusinessType = bundle.getInt(KEY_BUSINESS_TYPE,-1);
-            tmpGoodsType = bundle.getInt(KEY_GOODS_TYPE,-1);
+            tmpBusinessType = bundle.getInt(KEY_BUSINESS_TYPE, -1);
+            tmpGoodsType = bundle.getInt(KEY_GOODS_TYPE, -1);
         }
-        if (fragment != null  ) {
+        if (fragment != null) {
             fragment.setTarget(this);
             fragment.setBusinessType(tmpBusinessType == -1 ? mBusinessType : tmpBusinessType);
             fragment.setGoodsType(tmpGoodsType == -1 ? mGoodsType : tmpGoodsType);
@@ -128,7 +124,8 @@ public abstract class BaseFragment extends com.huangbaoche.hbcframe.fragment.Bas
             }
         }
     }
-      public void showTip(String tips){
-          Toast.makeText(getActivity(),tips,Toast.LENGTH_LONG).show();
-      }
+
+    public void showTip(String tips) {
+        Toast.makeText(getActivity(), tips, Toast.LENGTH_LONG).show();
+    }
 }

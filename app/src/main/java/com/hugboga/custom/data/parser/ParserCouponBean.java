@@ -11,7 +11,7 @@ import org.json.JSONObject;
 public class ParserCouponBean extends ImplParser {
     @Override
     public CouponBean parseObject(JSONObject jsonObj) throws Throwable {
-        if(jsonObj==null)return null;
+        if (jsonObj == null) return null;
         CouponBean couponBean = new CouponBean();
         couponBean.couponID = jsonObj.optString("couponId");
         couponBean.couponType = jsonObj.optInt("couponType");

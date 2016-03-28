@@ -43,10 +43,10 @@ public class HomeAdapter extends BaseAdapter<HomeBean> {
             viewHolder = (ViewHolder) view.getTag();
         }
         HomeBean bean = getItem(position);
-        if(bean!=null){
+        if (bean != null) {
             viewHolder.tvTitle.setText(bean.mainTitle);
             viewHolder.tvSubTitle.setText(bean.subTitle);
-            x.image().bind(viewHolder.imgBg,bean.picture,options);
+            x.image().bind(viewHolder.imgBg, bean.picture, options);
         }
 
         return view;

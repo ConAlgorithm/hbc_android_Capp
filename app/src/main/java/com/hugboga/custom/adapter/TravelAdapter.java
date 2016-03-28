@@ -337,6 +337,8 @@ public class TravelAdapter extends BaseAdapter<OrderBean>  {
             case NOT_EVALUATED:
                 //是否可以评价
                 holder.mAssessment.setVisibility(View.VISIBLE);
+                MLog.e("onclick " + orderBean.orderNo + " orderType = " + orderBean.orderType);
+                MLog.e("onclick="+holder.mAssessment.hasOnClickListeners());
                 holder.mAssessment.setOnClickListener(new TravelOnClickListener(orderBean));
                 holder.mStatusLayout.setVisibility(View.VISIBLE);
                 holder.mPrice.setVisibility(View.GONE);

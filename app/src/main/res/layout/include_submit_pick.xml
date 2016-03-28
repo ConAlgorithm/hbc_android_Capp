@@ -342,6 +342,7 @@
                 android:textSize="@dimen/text_size_xlarge" />
         </LinearLayout>
     </RelativeLayout>
+
     <LinearLayout
         android:id="@+id/submit_child_seat_layout"
         android:layout_width="match_parent"
@@ -353,8 +354,7 @@
         android:paddingBottom="5dp"
         android:background="@drawable/shape_rounded_dash"
         android:orientation="vertical"
-        android:visibility="gone"
-        />
+        android:visibility="gone" />
 
     <LinearLayout
         android:id="@+id/submit_pick_name_layout"
@@ -532,8 +532,7 @@
         android:paddingLeft="15dp"
         android:paddingRight="25dip"
         android:paddingTop="15dp"
-        android:visibility="gone"
-        >
+        android:visibility="gone">
 
         <TextView
             android:layout_width="wrap_content"
@@ -620,14 +619,14 @@
             android:paddingRight="20dp"
             android:textColorHint="@color/change_mobile_hint"
             android:textSize="@dimen/text_size_large" />
+
         <ImageView
             android:id="@+id/submit_daily_city_arrow"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:src="@mipmap/personal_center_right"
             android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            />
+            android:layout_centerVertical="true" />
     </RelativeLayout>
 
     <LinearLayout
@@ -677,40 +676,40 @@
             android:text="*"
             android:textSize="16sp"
             android:visibility="invisible" />
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/textbox"
-            android:padding="10dp"
-            >
-        <TextView
-            android:id="@+id/submit_transfer_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:textSize="@dimen/text_size_large"
-            android:text="协助办理check in "
-            />
-        <TextView
-            android:id="@+id/submit_transfer_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/submit_transfer_label"
-            android:layout_marginLeft="10dp"
-            android:textColor="@color/basic_gold"
-            android:layout_centerVertical="true"
-            android:textSize="@dimen/text_size_mediumx"
-            android:text="@string/transfer_check_in"
-            />
-        <CheckBox
-            android:id="@+id/submit_transfer_check"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:button="@drawable/switch_bg"
-            android:layout_alignParentRight="true"
-            android:background="@null"
-            android:checked="true"
-            />
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/submit_transfer_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:textSize="@dimen/text_size_large"
+                android:text="协助办理check in " />
+
+            <TextView
+                android:id="@+id/submit_transfer_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/submit_transfer_label"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/basic_gold"
+                android:layout_centerVertical="true"
+                android:textSize="@dimen/text_size_mediumx"
+                android:text="@string/transfer_check_in" />
+
+            <CheckBox
+                android:id="@+id/submit_transfer_check"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/switch_bg"
+                android:layout_alignParentRight="true"
+                android:background="@null"
+                android:checked="true" />
         </RelativeLayout>
     </LinearLayout>
 </LinearLayout>

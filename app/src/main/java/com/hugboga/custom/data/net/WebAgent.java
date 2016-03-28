@@ -28,7 +28,6 @@ import com.hugboga.custom.widget.DialogUtil;
 import org.json.JSONObject;
 
 /**
- *
  * 请求代理模式
  * Created by admin on 2016/3/16.
  */
@@ -39,18 +38,18 @@ public class WebAgent implements HttpRequestListener {
     private WebView mWebView;
     private DialogUtil dialog;
 
-    public WebAgent(Activity activity,WebView webView){
+    public WebAgent(Activity activity, WebView webView) {
         this.mActivity = activity;
         this.mWebView = webView;
         dialog = DialogUtil.getInstance(mActivity);
     }
-    public WebAgent(BaseFragment fragment,WebView webView){
+
+    public WebAgent(BaseFragment fragment, WebView webView) {
         this.mFragment = fragment;
         this.mWebView = webView;
         mActivity = fragment.getActivity();
         dialog = DialogUtil.getInstance(mActivity);
     }
-
 
 
     @JavascriptInterface
@@ -87,12 +86,12 @@ public class WebAgent implements HttpRequestListener {
 
     @JavascriptInterface
     public void setBackBtn(final String isBack) {
-        if(mFragment!=null&&mFragment.getView()!=null){
-            boolean isVisible =  Boolean.valueOf(isBack);
-            mFragment.getView().findViewById(R.id.header_left_btn).setVisibility(isVisible? View.VISIBLE:View.GONE);
+        if (mFragment != null && mFragment.getView() != null) {
+            boolean isVisible = Boolean.valueOf(isBack);
+            mFragment.getView().findViewById(R.id.header_left_btn).setVisibility(isVisible ? View.VISIBLE : View.GONE);
             View backBtn = mFragment.getView().findViewById(R.id.header_left_btn);
-            if(backBtn!=null){
-                backBtn.setVisibility(isVisible? View.VISIBLE:View.GONE);
+            if (backBtn != null) {
+                backBtn.setVisibility(isVisible ? View.VISIBLE : View.GONE);
             }
         }
     }
@@ -111,7 +110,7 @@ public class WebAgent implements HttpRequestListener {
     }
 
     @JavascriptInterface
-    public void wxShareByType(final int type ,final String picUrl, final String title, final String content, final String goUrl) {
+    public void wxShareByType(final int type, final String picUrl, final String title, final String content, final String goUrl) {
         MLog.e("ZWebView-wxShare===>picUrl:" + picUrl + " title:" + title + " content:" + content + " goUrl:" + goUrl);
         mActivity.runOnUiThread(new Runnable() {
             @Override
@@ -125,11 +124,11 @@ public class WebAgent implements HttpRequestListener {
 
     @JavascriptInterface
     public void backUrl() {
-        MLog.e("ZWebView-backUrl===>canGoBack  "  );
+        MLog.e("ZWebView-backUrl===>canGoBack  ");
         mActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (mWebView != null&&mWebView.canGoBack()) {
+                if (mWebView != null && mWebView.canGoBack()) {
                     mWebView.goBack();
                 }
             }
@@ -141,14 +140,10 @@ public class WebAgent implements HttpRequestListener {
 
     @JavascriptInterface
     public void httpRequest(final String requestType, final String apiUrl, final String params, final String successFunction, final String failureFunction) {
-        MLog.e("ZWebView-wxShare===>requestType:" + requestType + " apiUrl:" + apiUrl + " params:" + params + " successFunction:" + successFunction+" failureFunction:"+failureFunction);
-        mActivity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
+        MLog.e("ZWebView-wxShare===>requestType:" + requestType + " apiUrl:" + apiUrl + " params:" + params + " successFunction:" + successFunction + " failureFunction:" + failureFunction);
+
         RequestWebInfo request = new RequestWebInfo(mActivity, apiUrl, requestType, params, successFunction, failureFunction);
-        HttpRequestUtils.request(mActivity, request, WebAgent.this);
-            }
-        });
+        HttpRequestUtils.request(mActivity, request, this);
     }
 
     @JavascriptInterface

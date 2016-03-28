@@ -50,17 +50,21 @@ import com.hugboga.custom.utils.Common;
 import com.hugboga.custom.utils.ImageOptionUtils;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.utils.IMUtil;
+import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.UpdateResources;
 import com.tencent.mm.sdk.modelbase.BaseReq;
 import com.tencent.mm.sdk.modelbase.BaseResp;
 import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
 
+import org.xutils.common.util.FileUtil;
 import org.xutils.image.ImageOptions;
+import org.xutils.common.util.FileUtil;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -70,7 +74,7 @@ import de.greenrobot.event.EventBus;
 
 @ContentView(R.layout.activity_main)
 public class MainActivity extends BaseFragmentActivity
-        implements  ViewPager.OnPageChangeListener, AdapterView.OnItemClickListener, View.OnClickListener {
+        implements ViewPager.OnPageChangeListener, AdapterView.OnItemClickListener, View.OnClickListener {
 
     public static final String PUSH_BUNDLE_MSG = "pushMessage";
 
@@ -154,8 +158,8 @@ public class MainActivity extends BaseFragmentActivity
     }
 
     private void connectIM() {
-        if(UserEntity.getUser().getImToken(this)!=null)
-        IMUtil.connect(this, UserEntity.getUser().imToken);
+        if (UserEntity.getUser().getImToken(this) != null)
+            new IMUtil(this).conn(UserEntity.getUser().imToken);
     }
 
     private void initBottomView() {
@@ -167,16 +171,15 @@ public class MainActivity extends BaseFragmentActivity
 
 
     private List<LvMenuItem> mItems = new ArrayList<LvMenuItem>(
-        Arrays.asList(
-            new LvMenuItem(R.mipmap.personal_center_coupon, "优惠券", "3张可用"),
-            new LvMenuItem(R.mipmap.personal_center_customer_service, "客服中心", ""),
-            new LvMenuItem(R.mipmap.personal_center_internal, "境内客服", "仅限国内使用"),
-            new LvMenuItem(R.mipmap.personal_center_overseas, "境外客服", "仅限国外使用"),
-            new LvMenuItem(R.mipmap.personal_center_setting, "设置", "")
-        ));
+            Arrays.asList(
+                    new LvMenuItem(R.mipmap.personal_center_coupon, "优惠券", "3张可用"),
+                    new LvMenuItem(R.mipmap.personal_center_customer_service, "客服中心", ""),
+                    new LvMenuItem(R.mipmap.personal_center_internal, "境内客服", "仅限国内使用"),
+                    new LvMenuItem(R.mipmap.personal_center_overseas, "境外客服", "仅限国外使用"),
+                    new LvMenuItem(R.mipmap.personal_center_setting, "设置", "")
+            ));
 
-    private void setUpDrawer()
-    {
+    private void setUpDrawer() {
         LayoutInflater inflater = LayoutInflater.from(this);
         View header = inflater.inflate(R.layout.nav_header_main, null);
         tv_modify_info = (TextView) header.findViewById(R.id.tv_modify_info);//编辑
@@ -187,7 +190,7 @@ public class MainActivity extends BaseFragmentActivity
         tv_nickname.setOnClickListener(this);
 
         mLvLeftMenu.addHeaderView(header);
-        mLvLeftMenu.setAdapter(new MenuItemAdapter(this,mItems));
+        mLvLeftMenu.setAdapter(new MenuItemAdapter(this, mItems));
         mLvLeftMenu.setOnItemClickListener(this);
 
         refreshContent();
@@ -196,30 +199,31 @@ public class MainActivity extends BaseFragmentActivity
     /**
      * 刷新左边侧滑栏
      */
-    private void refreshContent(){
-        if(!UserEntity.getUser().isLogin(this)){
+    private void refreshContent() {
+        if (!UserEntity.getUser().isLogin(this)) {
             my_icon_head.setImageResource(R.mipmap.chat_head);
             tv_nickname.setText(this.getResources().getString(R.string.person_center_nickname));
             tv_modify_info.setVisibility(View.INVISIBLE);
-        }else{
+        } else {
             tv_modify_info.setVisibility(View.VISIBLE);
-            if(!TextUtils.isEmpty(UserEntity.getUser().getAvatar(this))){
+            if (!TextUtils.isEmpty(UserEntity.getUser().getAvatar(this))) {
                 x.image().bind(my_icon_head, UserEntity.getUser().getAvatar(this), ImageOptionUtils.userPortraitImageOptions);
-            }else{
+            } else {
                 my_icon_head.setImageResource(R.mipmap.chat_head);
             }
 
-            if(!TextUtils.isEmpty(UserEntity.getUser().getNickname(this))){
+            if (!TextUtils.isEmpty(UserEntity.getUser().getNickname(this))) {
                 tv_nickname.setText(UserEntity.getUser().getNickname(this));
-            }else {
+            } else {
                 tv_nickname.setText(this.getResources().getString(R.string.person_center_no_nickname));
             }
         }
     }
+
     /**
      * 打开左侧菜单
      */
-    public void openDrawer(){
+    public void openDrawer() {
         if (!drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.openDrawer(GravityCompat.START);
         }
@@ -263,13 +267,14 @@ public class MainActivity extends BaseFragmentActivity
         return contentId;
     }
 
-    public BaseFragment getTestFragment(String name){
+    public BaseFragment getTestFragment(String name) {
         FgTest fg = new FgTest();
         Bundle bundle = new Bundle();
-        bundle.putString(FgTest.KEY_NAME,name);
+        bundle.putString(FgTest.KEY_NAME, name);
         fg.setArguments(bundle);
         return fg;
     }
+
     private BaseFragment getFgChooseCityFragment() {
         FgChooseCity fgChooseCity = new FgChooseCity();
         String KEY_FROM = "key_from";
@@ -280,9 +285,9 @@ public class MainActivity extends BaseFragmentActivity
     }
 
 
-    @Event({R.id.tab_text_1,R.id.tab_text_2,R.id.tab_text_3})
-    private void onClickView(View view){
-        switch (view.getId()){
+    @Event({R.id.tab_text_1, R.id.tab_text_2, R.id.tab_text_3})
+    private void onClickView(View view) {
+        switch (view.getId()) {
             case R.id.tab_text_1:
                 mViewPager.setCurrentItem(0);
                 break;
@@ -302,7 +307,7 @@ public class MainActivity extends BaseFragmentActivity
     @Override
     public void onPageSelected(int position) {
         MLog.e("onPageSelected = " + position);
-        for (int i=0;i<tabMenu.length;i++) {
+        for (int i = 0; i < tabMenu.length; i++) {
             tabMenu[i].setSelected(position == i);
         }
     }
@@ -314,10 +319,10 @@ public class MainActivity extends BaseFragmentActivity
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        switch (position){
+        switch (position) {
             case Constants.PERSONAL_CENTER_COUPON:
                 //我的优惠券
-                if(isLogin()) {
+                if (isLogin()) {
                     startFragment(new FgCoupon());
                     UserEntity.getUser().setHasNewCoupon(false);
 //                    couponPoint.setVisibility(View.GONE);
@@ -333,11 +338,11 @@ public class MainActivity extends BaseFragmentActivity
                 break;
             case Constants.PERSONAL_CENTER_OVERSEAS_SERVICE:
                 //境外客服
-                PhoneInfo.CallDial(MainActivity.this,Constants.CALL_NUMBER_OUT);
+                PhoneInfo.CallDial(MainActivity.this, Constants.CALL_NUMBER_OUT);
                 break;
             case Constants.PERSONAL_CENTER_SETTING:
                 //我的设置
-                if(isLogin()) {
+                if (isLogin()) {
 //                    versionPoint.setVisibility(View.GONE);
                     startFragment(new FgSetting());
                 }
@@ -352,12 +357,13 @@ public class MainActivity extends BaseFragmentActivity
 
     /**
      * 判断是否登录
+     *
      * @return
      */
-    private boolean isLogin(){
-        if(UserEntity.getUser().isLogin(this)){
+    private boolean isLogin() {
+        if (UserEntity.getUser().isLogin(this)) {
             return true;
-        }else{
+        } else {
             startFragment(new FgLogin());
             return false;
         }

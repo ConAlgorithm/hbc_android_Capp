@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="?android:attr/actionBarSize"
     android:background="@color/all_bg_yellow">
 
     <ImageView
         android:id="@+id/header_left_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="12dp"
+        android:layout_width="?android:attr/actionBarSize"
+        android:layout_height="match_parent"
+        android:padding="@dimen/default_margin_xlarge"
         android:src="@mipmap/top_back_white" />
 
     <TextView
@@ -16,19 +16,29 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="@dimen/default_margin_small"
         android:layout_toRightOf="@id/header_left_btn"
         android:textColor="@color/allbg_white"
-        android:textSize="23dp" />
+        android:textSize="@dimen/text_size_largex" />
 
     <ImageView
         android:id="@+id/header_right_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="12dp"
+        android:layout_width="?android:attr/actionBarSize"
+        android:layout_height="match_parent"
         android:layout_alignParentRight="true"
+        android:padding="@dimen/default_margin_xlarge"
         android:src="@drawable/btn_share"
-        android:visibility="gone"
-        />
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/header_right_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:padding="@dimen/default_margin_xlarge"
+        android:text="@string/letter_chat_btn"
+        android:textColor="@color/basic_white"
+        android:textSize="@dimen/text_size_large"
+        android:visibility="gone" />
 
 </RelativeLayout>

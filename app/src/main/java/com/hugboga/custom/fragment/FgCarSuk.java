@@ -26,7 +26,7 @@ import java.util.ArrayList;
  * Created by admin on 2016/3/20.
  */
 @ContentView(R.layout.fg_car_sku)
-public class FgCarSuk extends BaseFragment implements  ViewPager.OnPageChangeListener {
+public class FgCarSuk extends BaseFragment implements ViewPager.OnPageChangeListener {
 
     public static final String KEY_CAR_LIST = "KEY_CAR_LIST";
     public static final String KYE_POSITION = "KYE_POSITION";
@@ -78,7 +78,7 @@ public class FgCarSuk extends BaseFragment implements  ViewPager.OnPageChangeLis
         mJazzy.setOffscreenPageLimit(5);
         mJazzy.addOnPageChangeListener(this);
         carListBean = (CarListBean) getArguments().getSerializable(KEY_CAR_LIST);
-        if(carListBean!=null) {
+        if (carListBean != null) {
             initListData();
             mAdapter.setList(carListBean.carList);
 
@@ -86,9 +86,9 @@ public class FgCarSuk extends BaseFragment implements  ViewPager.OnPageChangeLis
     }
 
     private void initListData() {
-        for(CarBean bean :carListBean.carList){
-            CarTypeEnum carTypeEnum = CarTypeEnum.getCarType(bean.carType,bean.carSeat);
-            if(carTypeEnum!=null){
+        for (CarBean bean : carListBean.carList) {
+            CarTypeEnum carTypeEnum = CarTypeEnum.getCarType(bean.carType, bean.carSeat);
+            if (carTypeEnum != null) {
                 bean.imgRes = carTypeEnum.imgRes;
             }
         }
@@ -103,12 +103,13 @@ public class FgCarSuk extends BaseFragment implements  ViewPager.OnPageChangeLis
     protected void inflateContent() {
 
     }
- @Event({R.id.head_text_right,R.id.car_sku_layout})
-    private void onClickView(View view){
-        switch (view.getId()){
+
+    @Event({R.id.head_text_right, R.id.car_sku_layout})
+    private void onClickView(View view) {
+        switch (view.getId()) {
             case R.id.head_text_right:
                 Bundle bundle = new Bundle();
-                bundle.putInt(KYE_POSITION,mPosition);
+                bundle.putInt(KYE_POSITION, mPosition);
                 finishForResult(bundle);
                 break;
             case R.id.car_sku_layout:
@@ -118,7 +119,7 @@ public class FgCarSuk extends BaseFragment implements  ViewPager.OnPageChangeLis
 
     }
 
-    
+
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -127,12 +128,12 @@ public class FgCarSuk extends BaseFragment implements  ViewPager.OnPageChangeLis
     @Override
     public void onPageSelected(int position) {
         ArrayList<CarBean> carList = carListBean.carList;
-        if(carList==null||carList.size()==0)return;
+        if (carList == null || carList.size() == 0) return;
         this.mPosition = position;
         CarBean carBean = carList.get(position);
         Integer[] carInfo = Constants.CarSeatInfoMap.get(carBean.carSeat);
         carInfoText.setText(String.format("乘坐%d人 | 行李%d件", carInfo[0], carInfo[1]));
-        carInfoIntro.setText("此车型包括："+carBean.models);
+        carInfoIntro.setText("此车型包括：" + carBean.models);
     }
 
     @Override

@@ -199,8 +199,8 @@
             android:gravity="center"
             android:text="@string/submit_btn"
             android:textSize="18sp"
-            android:layout_below="@id/car_info"
-            />
+            android:layout_below="@id/car_info" />
+
         <TextView
             android:id="@+id/car_price_info"
             android:layout_width="wrap_content"
@@ -224,7 +224,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
-                android:src="@mipmap/choose_gesture"/>
+                android:src="@mipmap/choose_gesture" />
 
         </LinearLayout>
     </RelativeLayout>

@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
 import com.huangbaoche.hbcframe.data.bean.UserSession;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
@@ -22,12 +23,12 @@ import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
+
 import java.util.regex.Pattern;
 
 import de.greenrobot.event.EventBus;
 
 /**
- *
  * 登录页面
  * Created by admin on 2016/3/8.
  */
@@ -58,29 +59,29 @@ public class FgLogin extends BaseFragment {
     @Override
     protected void initView() {
         String areaCode = null;
-        String phone= null;
-        if(getArguments() != null){
-            areaCode = getArguments().getString(KEY_AREA_CODE,"");
-            phone = getArguments().getString(KEY_PHONE,"");
+        String phone = null;
+        if (getArguments() != null) {
+            areaCode = getArguments().getString(KEY_AREA_CODE, "");
+            phone = getArguments().getString(KEY_PHONE, "");
 
-            MLog.e("areaCode1="+areaCode);
+            MLog.e("areaCode1=" + areaCode);
         }
         sharedPre = new SharedPre(getActivity());
-        if(TextUtils.isEmpty(areaCode)){
+        if (TextUtils.isEmpty(areaCode)) {
             areaCode = sharedPre.getStringValue(SharedPre.CODE);
-            MLog.e("areaCode2="+areaCode);
+            MLog.e("areaCode2=" + areaCode);
         }
-        if(!TextUtils.isEmpty(areaCode)) {
+        if (!TextUtils.isEmpty(areaCode)) {
             this.areaCode = areaCode;
-            areaCodeTextView.setText("+"+areaCode);
+            areaCodeTextView.setText("+" + areaCode);
             MLog.e("areaCode3=" + areaCode);
-        }else{
+        } else {
             this.areaCode = "86";
         }
-        if(TextUtils.isEmpty(phone)){
+        if (TextUtils.isEmpty(phone)) {
             phone = sharedPre.getStringValue(SharedPre.PHONE);
         }
-        if(!TextUtils.isEmpty(phone)) {
+        if (!TextUtils.isEmpty(phone)) {
             this.phone = phone;
             phoneEditText.setText(phone);
         }
@@ -98,12 +99,12 @@ public class FgLogin extends BaseFragment {
 
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
-        if(request instanceof RequestLogin){
-            RequestLogin mRequest = (RequestLogin)request;
+        if (request instanceof RequestLogin) {
+            RequestLogin mRequest = (RequestLogin) request;
             UserBean user = mRequest.getData();
             user.setUserEntity(getActivity());
-            UserEntity.getUser().setAreaCode(getActivity(),mRequest.areaCode);
-            UserEntity.getUser().setPhone(getActivity(),mRequest.mobile);
+            UserEntity.getUser().setAreaCode(getActivity(), mRequest.areaCode);
+            UserEntity.getUser().setPhone(getActivity(), mRequest.mobile);
             UserSession.getUser().setUserToken(getActivity(), user.userToken);
             connectIM();
             EventBus.getDefault().post(
@@ -112,12 +113,12 @@ public class FgLogin extends BaseFragment {
         }
     }
 
-    private void connectIM(){
-        IMUtil.connect(getActivity(),UserEntity.getUser().imToken);
+    private void connectIM() {
+        new IMUtil(getActivity()).conn(UserEntity.getUser().imToken);
     }
 
-    @Event({R.id.login_submit,R.id.change_mobile_areacode,R.id.login_register,R.id.change_mobile_diepwd})
-    private void onClickView(View view){
+    @Event({R.id.login_submit, R.id.change_mobile_areacode, R.id.login_register, R.id.change_mobile_diepwd})
+    private void onClickView(View view) {
         switch (view.getId()) {
             case R.id.login_submit:
                 //登录
@@ -131,16 +132,16 @@ public class FgLogin extends BaseFragment {
                 FgChooseCountry fg = new FgChooseCountry();
                 Bundle bundle = new Bundle();
                 bundle.putString(KEY_FROM, "login");
-                startFragment(fg,bundle);
+                startFragment(fg, bundle);
                 break;
             case R.id.login_register:
                 //注册
                 collapseSoftInputMethod(); //隐藏键盘
                 finish();
                 Bundle bundle2 = new Bundle();
-                bundle2.putString("areaCode",areaCode);
+                bundle2.putString("areaCode", areaCode);
                 bundle2.putString("phone", phone);
-                startFragment(new FgRegister(),bundle2);
+                startFragment(new FgRegister(), bundle2);
                 break;
 //            case R.id.change_mobile_diepwd:
 //                //忘记密码
@@ -159,38 +160,39 @@ public class FgLogin extends BaseFragment {
     /**
      * 进行登录
      */
-    private void loginGo(){
+    private void loginGo() {
         collapseSoftInputMethod(); //隐藏键盘
-        MLog.e("areaCode4="+areaCode);
-        if(TextUtils.isEmpty(areaCode)){
+        MLog.e("areaCode4=" + areaCode);
+        if (TextUtils.isEmpty(areaCode)) {
             showTip("区号不能为空");
             return;
         }
-        areaCode = areaCode.replace("+","");
+        areaCode = areaCode.replace("+", "");
         phone = phoneEditText.getText().toString().trim();
-        if(TextUtils.isEmpty(phone)){
+        if (TextUtils.isEmpty(phone)) {
             showTip("手机号不能为空");
             return;
         }
         String password = passwordEditText.getText().toString();
-        if(TextUtils.isEmpty(password)){
+        if (TextUtils.isEmpty(password)) {
             showTip("密码不能为空");
             return;
         }
-        if(!Pattern.matches("[\\w]{4,16}", password)){
+        if (!Pattern.matches("[\\w]{4,16}", password)) {
             showTip("密码必须是4-16位数字或字母");
             return;
         }
 
-        RequestLogin request = new RequestLogin(getActivity(),areaCode,phone,password);
+        RequestLogin request = new RequestLogin(getActivity(), areaCode, phone, password);
         requestData(request);
     }
+
     @Override
     public void onFragmentResult(Bundle bundle) {
         String from = bundle.getString(KEY_FRAGMENT_NAME);
-        if(FgChooseCountry.class.getSimpleName().equals(from)){
+        if (FgChooseCountry.class.getSimpleName().equals(from)) {
             areaCode = bundle.getString(FgChooseCountry.KEY_COUNTRY_CODE);
-            MLog.e("areaCode+"+areaCode);
+            MLog.e("areaCode+" + areaCode);
             areaCodeTextView.setText("+" + areaCode);
         }
     }

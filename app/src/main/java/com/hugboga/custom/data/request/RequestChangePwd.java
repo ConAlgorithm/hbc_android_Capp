@@ -18,12 +18,12 @@ import java.util.HashMap;
 
 @HttpRequest(path = UrlLibs.SERVER_IP_PASSWORD_UPDATE, builder = HbcParamsBuilder.class)
 public class RequestChangePwd extends BaseRequest {
-    public RequestChangePwd(Context context,String originPassword, String password) {
+    public RequestChangePwd(Context context, String originPassword, String password) {
         super(context);
-        map = new HashMap<String,Object>();
+        map = new HashMap<String, Object>();
         try {
-            map.put("originPassword",originPassword);
-            map.put("password",password);
+            map.put("originPassword", originPassword);
+            map.put("password", password);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -14,16 +14,15 @@ import org.xutils.http.annotation.HttpRequest;
 import java.util.HashMap;
 
 /**
- *
  * 订单解析类
  * Created by admin on 2015/7/23.
  */
-@HttpRequest(path = UrlLibs.SERVER_IP_ORDER_DETAIL,builder = HbcParamsBuilder.class)
+@HttpRequest(path = UrlLibs.SERVER_IP_ORDER_DETAIL, builder = HbcParamsBuilder.class)
 public class RequestOrderDetail extends BaseRequest<OrderBean> {
 
-    public RequestOrderDetail(Activity activity,String orderId){
+    public RequestOrderDetail(Activity activity, String orderId) {
         super(activity);
-        map = new HashMap<String,Object>();
+        map = new HashMap<String, Object>();
         map.put("orderNo", orderId);
     }
 

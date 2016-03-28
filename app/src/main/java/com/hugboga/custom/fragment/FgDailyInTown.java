@@ -32,7 +32,7 @@ import java.util.Date;
 
 /**
  * 市内包车2.2
- *
+ * <p/>
  * Created by admin on 2016/1/14.
  */
 @ContentView(R.layout.include_daily_intown)
@@ -61,7 +61,6 @@ public class FgDailyInTown extends BaseFragment implements CompoundButton.OnChec
     private TextView promiseApp;
     @ViewInject(R.id.daily_city_tips)
     private TextView cityTips;
-
 
 
     private CityBean startBean;//起始地
@@ -120,7 +119,7 @@ public class FgDailyInTown extends BaseFragment implements CompoundButton.OnChec
                 showDatePicker(sDateTime, null);
                 break;
             case R.id.daily_end_layout:
-                showDatePicker(eDateTime,sDateTime.getText().toString());
+                showDatePicker(eDateTime, sDateTime.getText().toString());
                 break;
             case R.id.daily_btn:
                 startFgCar();
@@ -151,36 +150,37 @@ public class FgDailyInTown extends BaseFragment implements CompoundButton.OnChec
                 .show()
                 .setCanceledOnTouchOutside(true);
     }
-    private boolean checkDataValid(){
+
+    private boolean checkDataValid() {
         if (startBean == null) {
             Toast.makeText(getActivity(), "选择起始城市", Toast.LENGTH_LONG).show();
             return false;
         }
-        if (TextUtils.isEmpty(bean.startDate) ||  TextUtils.isEmpty(bean.endDate)) {
+        if (TextUtils.isEmpty(bean.startDate) || TextUtils.isEmpty(bean.endDate)) {
             Toast.makeText(getActivity(), "选择服务日期", Toast.LENGTH_LONG).show();
             return false;
         }
-        if(mTotalDays <0){
+        if (mTotalDays < 0) {
             Toast.makeText(getActivity(), "请重新选择服务日期", Toast.LENGTH_LONG).show();
-            return false ;
+            return false;
         }
 
-        return  true;
+        return true;
     }
 
 
     private void startFgCar() {
-        if(!checkDataValid())return;
+        if (!checkDataValid()) return;
         bean.startCityID = startBean.cityId;
         bean.startCityName = startBean.name;
-        bean.startLocation=startBean.location;
+        bean.startLocation = startBean.location;
         bean.terminalCityID = arrivalBean.cityId;
         bean.terminalCityName = arrivalBean.name;
-        bean.terminalLocation=arrivalBean.location;
+        bean.terminalLocation = arrivalBean.location;
         bean.inTownDays = mTotalDays;
         bean.outTownDays = 0;
         bean.totalDay = mTotalDays;
-        bean.oneCityTravel  = 1;
+        bean.oneCityTravel = 1;
         bean.childSeatSwitch = startBean.childSeatSwitch;
         bean.areaCode = startBean.areaCode;
         FgCar fg = new FgCar();
@@ -213,12 +213,12 @@ public class FgDailyInTown extends BaseFragment implements CompoundButton.OnChec
 
     }
 
-    private void showDatePicker(final TextView mTextView,String startDate){
+    private void showDatePicker(final TextView mTextView, String startDate) {
         Calendar cal = Calendar.getInstance();
         try {
-            if(!TextUtils.isEmpty(mTextView.getText().toString())){
+            if (!TextUtils.isEmpty(mTextView.getText().toString())) {
                 cal.setTime(DateUtils.getDateByStr(mTextView.getText().toString()));
-            }else if(!TextUtils.isEmpty(startDate)) {
+            } else if (!TextUtils.isEmpty(startDate)) {
                 cal.setTime(DateUtils.getDateByStr(startDate));
             }
         } catch (ParseException e) {
@@ -246,13 +246,13 @@ public class FgDailyInTown extends BaseFragment implements CompoundButton.OnChec
                 cal.get(Calendar.DAY_OF_MONTH)
         );
         cal = Calendar.getInstance();
-            try {
-                if(!TextUtils.isEmpty(startDate)) {
+        try {
+            if (!TextUtils.isEmpty(startDate)) {
 
-                    cal.setTime(DateUtils.getDateByStr(startDate));
-                }
-            } catch (ParseException e) {
-                e.printStackTrace();
+                cal.setTime(DateUtils.getDateByStr(startDate));
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
         dpd.setMinDate(cal);
         cal = Calendar.getInstance();
@@ -276,7 +276,7 @@ public class FgDailyInTown extends BaseFragment implements CompoundButton.OnChec
                 endDateStr = DateUtils.dateDateFormat.format(endDate);
                 eDateTime.setText(endDateStr);
             }
-            mTotalDays = DateUtils.getDiffByDate(DateUtils.getDateByStr(startDateStr), DateUtils.getDateByStr(endDateStr))+1 ;
+            mTotalDays = DateUtils.getDiffByDate(DateUtils.getDateByStr(startDateStr), DateUtils.getDateByStr(endDateStr)) + 1;
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -288,15 +288,15 @@ public class FgDailyInTown extends BaseFragment implements CompoundButton.OnChec
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        MLog.e("onCheckedChanged "+isChecked);
+        MLog.e("onCheckedChanged " + isChecked);
         bean.isHalfDay = isChecked;
         eDateTime.setText("");
-        if(isChecked){
+        if (isChecked) {
             allDateLayout.setVisibility(View.GONE);
             halfDateLayout.setVisibility(View.VISIBLE);
             bean.endDate = bean.startDate;
             mTotalDays = 1;
-        }else{
+        } else {
             allDateLayout.setVisibility(View.VISIBLE);
             halfDateLayout.setVisibility(View.GONE);
             bean.endDate = null;

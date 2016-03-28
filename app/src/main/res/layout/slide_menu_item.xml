@@ -9,8 +9,8 @@
         android:id="@+id/icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@mipmap/personal_center_coupon"
-        />
+        android:src="@mipmap/personal_center_coupon" />
+
     <TextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
@@ -19,8 +19,8 @@
         android:layout_marginLeft="15dip"
         android:layout_centerVertical="true"
         android:textColor="#404040"
-        android:textSize="15dp"
-        />
+        android:textSize="15dp" />
+
     <TextView
         android:id="@+id/tips"
         android:layout_width="wrap_content"
@@ -29,6 +29,5 @@
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:textColor="#9a9a9a"
-        android:textSize="12dp"
-        />
+        android:textSize="12dp" />
 </RelativeLayout>

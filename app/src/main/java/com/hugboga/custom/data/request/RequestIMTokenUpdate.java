@@ -16,12 +16,12 @@ import java.util.HashMap;
  * Created by admin on 2016/3/23.
  */
 
-@HttpRequest(path = UrlLibs.SERVER_IP_IM_TOKEN_UPDATE,builder = HbcParamsBuilder.class)
+@HttpRequest(path = UrlLibs.SERVER_IP_IM_TOKEN_UPDATE, builder = HbcParamsBuilder.class)
 public class RequestIMTokenUpdate extends BaseRequest<String> {
     public RequestIMTokenUpdate(Context context, String orderNo) {
         super(context);
-        map = new HashMap<String,Object>();
-        map.put("apply_type",2);
+        map = new HashMap<String, Object>();
+        map.put("apply_type", 2);
         map.put("orderNo", orderNo);
     }
 
@@ -30,7 +30,7 @@ public class RequestIMTokenUpdate extends BaseRequest<String> {
         return new ImplParser() {
             @Override
             public Object parseObject(JSONObject obj) throws Throwable {
-               return obj.optString("token");
+                return obj.optString("token");
             }
         };
     }

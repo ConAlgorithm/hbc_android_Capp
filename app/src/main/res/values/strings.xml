@@ -142,6 +142,12 @@
     <string name="submit_btn">下一步</string>
     <string name="submit">提交</string>
 
+    <!--私信Letter-->
+    <string name="letter_order_state1">未开始</string>
+    <string name="letter_order_state2">进行中</string>
+    <string name="letter_order_state3">已完成</string>
+    <string name="letter_chat_btn">历史订单</string>
+
     <!-- 页面 pay -->
     <string name="pay_tip_thailand"><u>泰国接机说明</u></string>
     <string name="order_cancel_tip">确定要取消行程吗？</string>

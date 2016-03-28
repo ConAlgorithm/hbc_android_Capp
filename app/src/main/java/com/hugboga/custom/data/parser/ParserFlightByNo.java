@@ -2,8 +2,10 @@ package com.hugboga.custom.data.parser;
 
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.hugboga.custom.data.bean.FlightBean;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 /**

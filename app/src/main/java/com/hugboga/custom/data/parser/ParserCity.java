@@ -3,7 +3,6 @@ package com.hugboga.custom.data.parser;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.hugboga.custom.data.bean.CityBean;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -22,6 +21,6 @@ public class ParserCity extends ImplParser {
         cityBean.enName = jsonObj.optString("enName");
         cityBean.location = jsonObj.optString("location");
         cityBean.stayDay = jsonObj.optInt("stayDay");
-        return  cityBean;
+        return cityBean;
     }
 }
