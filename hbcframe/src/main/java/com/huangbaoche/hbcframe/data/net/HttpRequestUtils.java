@@ -51,7 +51,7 @@ public class HttpRequestUtils {
     }
 
 
-    public static Callback.Cancelable request(Context mContext,final BaseRequest request, final HttpRequestListener listener,HttpRequestOption option){
+    public static Callback.Cancelable request(final Context mContext,final BaseRequest request, final HttpRequestListener listener,HttpRequestOption option){
         if(option==null)option=new HttpRequestOption();
         option.setBtnEnabled(false);
         if (!NetWork.isNetworkAvailable(mContext)) {
@@ -61,8 +61,14 @@ public class HttpRequestUtils {
             option.setBtnEnabled(true);
             return null;
         }
-        final DialogUtilInterface dialogUtil =getDialogUtil(mContext);
-        if(dialogUtil !=null)dialogUtil.showLoadingDialog();
+        final DialogUtilInterface dialogUtil = getDialogUtil(mContext);
+        if(mContext instanceof Activity)((Activity) mContext).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (dialogUtil != null) dialogUtil.showLoadingDialog();
+            }
+        });
+
         if (!checkAccessKey(mContext)){
             requestAccessKey(mContext,request,listener,option);
             return null;
@@ -99,7 +105,10 @@ public class HttpRequestUtils {
             @Override
             public void onFinished() {
                 finalOption.setBtnEnabled(true);
-                if(dialogUtil !=null)dialogUtil.dismissLoadingDialog();
+                if(dialogUtil !=null){
+                    MLog.e("onFinished = "+request.getUrl());
+                    dialogUtil.dismissLoadingDialog();
+                }
             }
         });
         return cancelable;

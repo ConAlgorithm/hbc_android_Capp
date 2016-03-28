@@ -2,8 +2,6 @@ apply plugin: 'com.android.application'
 
 Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
-def storeFilePath = properties.getProperty('storeFile')
-//def apkFilePath = properties.getProperty('apkFile')
 Properties getProperties(){
     Properties properties = new Properties()
     properties.load(project.rootProject.file('local.properties').newDataInputStream())
@@ -125,7 +123,7 @@ android {
             case 'stage':
                 flavor.buildConfigField('String', 'API_SERVER_URL', '"https://api.stage.hbc.tech/"')
                 break;
-            case 'experiment':
+            case 'examination':
                 flavor.buildConfigField('String', 'API_SERVER_URL', '"http://api.test.hbc.tech/"')
                 break;
             case 'formal':

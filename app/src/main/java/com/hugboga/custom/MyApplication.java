@@ -46,6 +46,7 @@ public class MyApplication extends HbcApplication {
     }
 
     private void initUrlHost() {
+        MLog.e("urlHost=" + BuildConfig.API_SERVER_URL);
         if(TextUtils.isEmpty(BuildConfig.API_SERVER_URL)) {
             String channel = PhoneInfo.getVersionChannel(this);
             MLog.e("channel=" + channel);
@@ -55,7 +56,7 @@ public class MyApplication extends HbcApplication {
             String scheme = UrlLibs.SERVER_HTTP_SCHEME_HTTPS;
             MLog.e("channel = " + channel);
             UrlLibs.UrlHost urlHost = UrlLibs.UrlHost.valueOf(channel.toUpperCase());
-            MLog.e("urlHost=" + urlHost);
+
             if (urlHost != null) {
                 host = urlHost.url;
             }

@@ -45,6 +45,8 @@ import com.hugboga.custom.wxapi.WXPay;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.xutils.common.Callback;
 import org.xutils.image.ImageOptions;
 import org.xutils.view.annotation.ContentView;
@@ -849,10 +851,6 @@ public class FgOrder extends BaseFragment {
                 }
             });
             notifyOrderList(FgTravel.TYPE_ORDER_CANCEL, true, false, true);
-        } else if(parser instanceof RequestIMTokenUpdate){
-            RequestIMTokenUpdate mParser = (RequestIMTokenUpdate) parser;
-            mOrderBean.imToken = mParser.getData();
-            gotoChatView(mOrderBean.imToken, "G" + mOrderBean.orderGuideInfo.guideID);
         }
     }
 
@@ -997,7 +995,7 @@ public class FgOrder extends BaseFragment {
                 break;
             case R.id.guide_btn_chat:
                 //车导聊天
-                gotoChatView(UserEntity.getUser().getImToken(getActivity()), "G" + mOrderBean.orderGuideInfo.guideID);
+                gotoChatView(mOrderBean.orderGuideInfo.guideID,mOrderBean.orderGuideInfo.guideAvatar,mOrderBean.orderGuideInfo.guideName);
 //                gotoChatView(mOrderBean.imToken, "S114997482130");
                 break;
             case R.id.guide_btn_call:
@@ -1071,54 +1069,25 @@ public class FgOrder extends BaseFragment {
     /**
      * 开始聊天
      *
-     * @param token
      * @param chatId 聊天对象的Id
      */
-    private void gotoChatView(String token, final String chatId) {
-        RongIM.getInstance().startPrivateChat(getActivity(), chatId, "title");
-        RongIM.connect(token, new RongIMClient.ConnectCallback() {
-            @Override
-            public void onTokenIncorrect() {
-                MLog.e("onTokenIncorrect");
-                if (requestIMTokenCount < 3) {
-                    requestIMTokenCount++;
-                    requestIMTokenUpdate(mOrderBean.orderNo);
-                } else {
-                    mDialogUtil.dismissLoadingDialog();
-                }
-            }
-
-            @Override
-            public void onSuccess(String s) {
-                guideChatNum.setVisibility(View.GONE);
-                mDialogUtil.dismissLoadingDialog();
-                //刷新IM头像
-                String userIcon = UserEntity.getUser().getAvatar(getActivity());
-                userIcon = userIcon.replaceFirst("https:", "http:");
-                RongIM.getInstance().refreshUserInfoCache(new UserInfo(s, UserEntity.getUser().getNickname(getActivity()), Uri.parse(userIcon)));
-//                IMChatActivity.orderId = chatId;
-//                IMChatActivity.ids = s;
-                RongIM.getInstance().startPrivateChat(getActivity(), chatId, "title");
-                userIcon = mOrderBean.orderGuideInfo.guideAvatar;
-                userIcon = userIcon.replaceFirst("https:", "http:");
-                UserInfo peerUser = new UserInfo(chatId, mOrderBean.orderGuideInfo.guideName, Uri.parse(userIcon));
-                RongContext.getInstance().getUserInfoCache().put(chatId, peerUser);
-            }
-
-            @Override
-            public void onError(RongIMClient.ErrorCode errorCode) {
-                MLog.e("IMChatActivity onError=" + errorCode.getValue() + " " + errorCode.toString());
-                if (requestIMTokenCount < 3) {
-                    //您需要更换 Token
-                    requestIMTokenCount++;
-                    requestIMTokenUpdate(mOrderBean.orderNo);
-                } else {
-                    mDialogUtil.dismissLoadingDialog();
-                }
-            }
-        });
+    private void gotoChatView( final String chatId,String targetAvatar,String targetName) {
+        String titleJson = getChatInfo(chatId,  targetAvatar, targetName, "3");
+        RongIM.getInstance().startPrivateChat(getActivity(), "G"+chatId, titleJson);
     }
-
+    private String getChatInfo(String userId, String userAvatar, String title, String targetType) {
+        JSONObject obj = new JSONObject();
+        try {
+            obj.put("isChat", true);
+            obj.put("userId", userId);
+            obj.put("userAvatar", userAvatar);
+            obj.put("title", title);
+            obj.put("targetType", targetType);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return obj.toString();
+    }
     /**
      * 设置聊一聊未读个数小红点
      *
@@ -1286,25 +1255,6 @@ public class FgOrder extends BaseFragment {
             finish();
         }
 
-    }
-
-    /**
-     * 获取IM token
-     */
-    private void requestIMToken(String orderId) {
-        RequestIMTokenUpdate parser = new RequestIMTokenUpdate(getActivity(),orderId);
-        requestData(parser);
-      /*  mHttpUtils = new HttpRequestUtils(getActivity(),parser,this);
-        mHttpUtils.isShowLoading = false;
-        mHttpUtils.execute();*/
-    }
-
-    /**
-     * update token
-     */
-    private void requestIMTokenUpdate(String orderId) {
-        RequestIMTokenUpdate parser = new RequestIMTokenUpdate(getActivity(),orderId);
-        requestData(parser);
     }
 
     public void onEventMainThread(EventAction action) {
