@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
+import android.view.Menu;
 import android.widget.Toast;
 import com.huangbaoche.hbcframe.R;
 import com.huangbaoche.hbcframe.fragment.BaseFragment;
@@ -45,6 +46,16 @@ public class BaseFragmentActivity extends AppCompatActivity  {
         }
         super.onBackPressed();
     }
+
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_MENU) {
+            return true;
+        }
+        return super.onKeyDown(keyCode,event);
+    }
+
     /**
      * @return void    返回类型
      * @Title addErrorProcess
