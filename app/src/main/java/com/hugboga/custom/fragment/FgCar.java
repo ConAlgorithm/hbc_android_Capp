@@ -200,7 +200,7 @@ public class FgCar extends BaseFragment implements ViewPager.OnPageChangeListene
     protected Callback.Cancelable requestData() {
         initMaskView();
         Bundle bundle = getArguments();
-        bottomBtn.setBackgroundColor(getResources().getColor(Constants.BgColors.get(mBusinessType)));
+//        bottomBtn.setBackgroundColor(getResources().getColor(Constants.BgColors.get(mBusinessType)));
         if (bundle != null) {
             flightBean = (FlightBean) bundle.getSerializable(KEY_FLIGHT);
             airPortBean = (AirPort) bundle.getSerializable(KEY_AIRPORT);

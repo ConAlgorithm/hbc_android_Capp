@@ -744,7 +744,7 @@ public class FgOrder extends BaseFragment {
                 orderInfoTai.setVisibility(View.GONE);
                 orderGuideEmptyLayout.setVisibility(View.GONE);
                 guideAssessment.setVisibility(View.VISIBLE);
-                guideAssessment.setBackgroundResource(Constants.BtnBg.get(mOrderBean.orderType));
+//                guideAssessment.setBackgroundResource(Constants.BtnBg.get(mOrderBean.orderType));
                 guideChat.setVisibility(View.VISIBLE);
                 guideCall.setVisibility(View.GONE);
                 orderChangeTrip.setVisibility(View.GONE);
