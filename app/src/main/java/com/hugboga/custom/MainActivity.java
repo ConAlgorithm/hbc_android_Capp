@@ -185,7 +185,7 @@ public class MainActivity extends BaseFragmentActivity
     private void gotoChatList(){
         //如果是收到消息推送 关了上层的页面
         if(getFragmentList().size()>3){
-            for(int i=getFragmentList().size();i>3;i--){
+            for(int i=getFragmentList().size()-1;i>2;i--){
                 getFragmentList().get(i).finish();
             }
         }
@@ -193,11 +193,11 @@ public class MainActivity extends BaseFragmentActivity
         mViewPager.setCurrentItem(1);
     }
 
-    private void gotoOrder(PushMessage orderNo){
+    private void gotoOrder(PushMessage message){
         Bundle bundle = new Bundle();
-        bundle.putInt(BaseFragment.KEY_BUSINESS_TYPE,orderNo.orderType);
-        bundle.putInt(BaseFragment.KEY_GOODS_TYPE, orderNo.goodsType);
-        bundle.putString(FgOrder.KEY_ORDER_ID, orderNo.orderID);
+        bundle.putInt(BaseFragment.KEY_BUSINESS_TYPE,message.orderType);
+        bundle.putInt(BaseFragment.KEY_GOODS_TYPE, message.goodsType);
+        bundle.putString(FgOrder.KEY_ORDER_ID, message.orderID);
         startFragment(new FgOrder(), bundle);
     }
 
