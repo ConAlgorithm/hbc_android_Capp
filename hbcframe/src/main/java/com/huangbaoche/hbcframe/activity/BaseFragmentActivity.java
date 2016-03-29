@@ -30,8 +30,9 @@ public class BaseFragmentActivity extends AppCompatActivity  {
         x.view().inject(this);
 //		addErrorProcess();
     }
-    @Override
-    public void onBackPressed() {
+
+    //是否需要关闭fragment
+    protected void doFragmentBack(){
         if(mFragmentList!=null&&mFragmentList.size()>0){
             for(int i=mFragmentList.size()-1;i>0;i--) {
                 BaseFragment fragment = (BaseFragment) mFragmentList.get(i);
@@ -44,6 +45,11 @@ public class BaseFragmentActivity extends AppCompatActivity  {
                 }
             }
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        doFragmentBack();
         super.onBackPressed();
     }
 
