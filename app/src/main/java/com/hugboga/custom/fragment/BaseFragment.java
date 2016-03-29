@@ -1,7 +1,6 @@
 package com.hugboga.custom.fragment;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.TextPaint;
 import android.view.View;
 import android.widget.TextView;
@@ -64,7 +63,6 @@ public abstract class BaseFragment extends com.huangbaoche.hbcframe.fragment.Bas
             case R.id.header_left_btn:
                 MLog.e("header_left_btn");
                 finish();
-                EventBus.getDefault().post(new EventAction(EventType.CLICK_HEADER_LEFT_BTN_BACK));
                 break;
         }
     }
