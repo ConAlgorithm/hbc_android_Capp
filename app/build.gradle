@@ -2,8 +2,6 @@ apply plugin: 'com.android.application'
 
 Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
-def storeFilePath = properties.getProperty('storeFile')
-//def apkFilePath = properties.getProperty('apkFile')
 Properties getProperties(){
     Properties properties = new Properties()
     properties.load(project.rootProject.file('local.properties').newDataInputStream())
@@ -61,7 +59,7 @@ def getDefaultPkgName(){
 }
 
 def getDefaultFlavorName(){
-    return System.getProperty("org.gradle.project.defaultFlavorName","all"); //对应渠道名，默认全部；
+    return System.getProperty("org.gradle.project.defaultFlavorName","examination"); //对应渠道名，默认全部；
 }
 
 def getCdmsBuildEnv(){
@@ -92,7 +90,7 @@ android {
         minSdkVersion 15
         targetSdkVersion 23
         versionCode 8
-        versionName "2.2.0"
+        versionName "2.5.0"
         signingConfig signingConfigs.hbcSign
     }
     buildTypes {
@@ -125,7 +123,7 @@ android {
             case 'stage':
                 flavor.buildConfigField('String', 'API_SERVER_URL', '"https://api.stage.hbc.tech/"')
                 break;
-            case 'experiment':
+            case 'examination':
                 flavor.buildConfigField('String', 'API_SERVER_URL', '"http://api.test.hbc.tech/"')
                 break;
             case 'formal':
