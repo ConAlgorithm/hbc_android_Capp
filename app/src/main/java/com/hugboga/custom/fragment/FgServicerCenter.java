@@ -105,7 +105,6 @@ public class FgServicerCenter extends BaseFragment {
     @Override
     protected void initHeader() {
         fgTitle.setText("客服中心");
-        fgTitle.setTextColor(getResources().getColor(R.color.my_content_title_color));
     }
 
     @Override

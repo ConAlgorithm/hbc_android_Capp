@@ -379,7 +379,6 @@ public class FgPersonInfo extends BaseFragment {
     @Override
     protected void initHeader() {
         //设置标题颜色，返回按钮图片
-        fgTitle.setTextColor(getResources().getColor(R.color.my_content_title_color));
         fgTitle.setText("我的资料");
     }
 

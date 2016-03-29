@@ -3,7 +3,7 @@
     android:id="@+id/activity_head_layout"
     android:layout_width="fill_parent"
     android:layout_height="48dip"
-    android:background="@color/basic_black">
+    android:background="@drawable/btn_orange">
 
     <ImageView
         android:id="@+id/header_left_btn"

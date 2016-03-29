@@ -191,7 +191,6 @@ public class FgSetting extends BaseFragment {
     protected void initHeader() {
         //设置标题颜色，返回按钮图片
 //        leftBtn.setImageResource(R.mipmap.top_back_black);
-        fgTitle.setTextColor(getResources().getColor(R.color.my_content_title_color));
         fgTitle.setText("设置");
         versionFlagTextView.setText("v" + PhoneInfo.getSoftwareVersion(getActivity()));
         if(UserEntity.getUser().getIsNewVersion(getActivity())){

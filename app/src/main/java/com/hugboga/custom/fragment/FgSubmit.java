@@ -282,7 +282,7 @@ public class FgSubmit extends BaseFragment implements CompoundButton.OnCheckedCh
         connectPhone.setText(UserEntity.getUser().getPhone(getActivity()));
         bottomTotal.setText("" + (carBean.originalPrice + carBean.checkInPrice));
         bottomBtn.setText("提交订单");
-        bottomBtn.setBackgroundColor(getResources().getColor(Constants.BgColors.get(mBusinessType)));
+//        bottomBtn.setBackgroundColor(getResources().getColor(Constants.BgColors.get(mBusinessType)));
         carInfo.setText(carBean.desc);
         Integer[] carInfo = Constants.CarSeatInfoMap.get(carBean.carSeat);
         carInfoDesc.setText("(" + String.format(getString(R.string.submit_car_info), carInfo[0], carInfo[1]) + ")");
