@@ -31,6 +31,11 @@ public class BaseFragmentActivity extends AppCompatActivity  {
 //		addErrorProcess();
     }
 
+    //获取fragment个数
+    protected  int getFragmentsSize(){
+        return mFragmentList.size();
+    }
+
     //是否需要关闭fragment
     protected void doFragmentBack(){
         if(mFragmentList!=null&&mFragmentList.size()>0){

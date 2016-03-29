@@ -212,6 +212,16 @@ public class MainActivity extends BaseFragmentActivity
                 if(index>=0&&index<3)
                 mViewPager.setCurrentItem(index);
                 break;
+            case CLICK_HEADER_LEFT_BTN_BACK:
+                if(getFragmentsSize() == 3){
+                    drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED); //打开
+                }
+                break;
+            case START_NEW_FRAGMENT:
+                if(getFragmentsSize() > 3){
+                    drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED); //关闭手势滑动
+                }
+                break;
             default:
                 break;
         }
