@@ -213,12 +213,12 @@ public class MainActivity extends BaseFragmentActivity
                 mViewPager.setCurrentItem(index);
                 break;
             case CLICK_HEADER_LEFT_BTN_BACK:
-                if(getFragmentsSize() == 3){
+                if(getFragmentsSize() == mSectionsPagerAdapter.getCount()){
                     drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED); //打开
                 }
                 break;
             case START_NEW_FRAGMENT:
-                if(getFragmentsSize() > 3){
+                if(getFragmentsSize() > mSectionsPagerAdapter.getCount()){
                     drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED); //关闭手势滑动
                 }
                 break;
@@ -304,7 +304,7 @@ public class MainActivity extends BaseFragmentActivity
     @Override
     public void onBackPressed() {
         MLog.e("getFragmentList().size() ="+getFragmentList().size());
-        if (getFragmentList().size() > 3) {
+        if (getFragmentList().size() > mSectionsPagerAdapter.getCount()) {
             doFragmentBack();
         }else {
             if (drawer.isDrawerOpen(GravityCompat.START)) {
