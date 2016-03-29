@@ -163,7 +163,7 @@ public class PushUtils {
         4. 版本更新，先进入Main，再进行版本更新提示
          */
         Intent intent = new Intent(context, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         Bundle bundle = new Bundle();
         bundle.putSerializable(MainActivity.PUSH_BUNDLE_MSG, pushMessage);
         intent.putExtras(bundle);

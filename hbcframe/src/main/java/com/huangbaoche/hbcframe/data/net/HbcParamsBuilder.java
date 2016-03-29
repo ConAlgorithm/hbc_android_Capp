@@ -13,6 +13,7 @@ import org.xutils.http.RequestParams;
 import org.xutils.http.annotation.HttpRequest;
 import org.xutils.http.app.ParamsBuilder;
 
+import java.io.File;
 import java.util.Map;
 
 import javax.net.ssl.SSLSocketFactory;
@@ -77,7 +78,12 @@ public class HbcParamsBuilder implements ParamsBuilder {
                 } else {
                     for (Map.Entry<String, Object> entity : map.entrySet()) {
                         if (entity.getValue() != null) {
-                            params.addBodyParameter(entity.getKey(), String.valueOf(entity.getValue()));
+                            if(entity.getValue() instanceof File){
+                                params.setMultipart(true);
+                                params.addBodyParameter(entity.getKey(), (File) entity.getValue());
+                            }else {
+                                params.addBodyParameter(entity.getKey(), String.valueOf(entity.getValue()));
+                            }
                             sb.append(entity.getKey() + "=" + entity.getValue() + "&");
                         }
                     }
