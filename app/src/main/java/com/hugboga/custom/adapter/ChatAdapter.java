@@ -68,7 +68,7 @@ public class ChatAdapter extends BaseAdapter<ChatBean> {
                 public void onClick(View v) {
                     if ("3".equals(chatBean.targetType)) {
                         String titleJson = getChatInfo(chatBean.targetId, chatBean.targetAvatar, chatBean.targetName, chatBean.targetType);
-                        RongIM.getInstance().startConversation(mContext, Conversation.ConversationType.APP_PUBLIC_SERVICE, chatBean.targetId, titleJson);
+                        RongIM.getInstance().startCustomerServiceChat(mContext, chatBean.targetId, titleJson);
                     } else if ("1".equals(chatBean.targetType)) {
                         String titleJson = getChatInfo(chatBean.userId, chatBean.targetAvatar, chatBean.targetName, chatBean.targetType);
                         RongIM.getInstance().startPrivateChat(mContext, chatBean.targetId, titleJson);
