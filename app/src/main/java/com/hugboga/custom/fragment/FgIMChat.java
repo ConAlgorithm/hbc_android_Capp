@@ -334,10 +334,10 @@ public class FgIMChat extends BaseFragment {
                 break;
             case R.id.header_right_txt:
                 MLog.e("进入历史订单列表");
-//                Intent intent = new Intent(FgIMChat.this, NewOrderActivity.class);
-//                intent.putExtra(NewOrderActivity.SEARCH_TYPE, NewOrderActivity.SearchType.SEARCH_TYPE_HISTORY.getType());
-//                intent.putExtra(NewOrderActivity.SEARCH_USER, userId);
-//                startActivity(intent);
+                Bundle bundle = new Bundle();
+                bundle.putInt(FgNewOrder.SEARCH_TYPE, FgNewOrder.SearchType.SEARCH_TYPE_HISTORY.getType());
+                bundle.putString(FgNewOrder.SEARCH_USER, userId);
+                startFragment(new FgNewOrder(), bundle);
                 break;
             default:
                 break;

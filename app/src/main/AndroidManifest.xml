@@ -76,27 +76,6 @@
             android:name=".service.LogService"
             android:process="com.hugboga.custom.hbclog" />
 
-        <!--<activity-->
-            <!--android:name=".activity.IMChatActivity"-->
-            <!--android:label="@string/title_activity_imchat"-->
-            <!--android:screenOrientation="portrait">-->
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.VIEW" />-->
-
-                <!--<category android:name="android.intent.category.DEFAULT" />-->
-
-                <!--<data-->
-                    <!--android:host="com.hugboga.custom"-->
-                    <!--android:pathPrefix="/conversation/"-->
-                    <!--android:scheme="rong" />-->
-            <!--</intent-filter>-->
-        <!--</activity>-->
-
-        <activity
-            android:name=".activity.NewOrderActivity"
-            android:label="@string/letter_chat_btn"
-            android:screenOrientation="portrait" />
-
         <activity
             android:name=".wxapi.WXEntryActivity"
             android:exported="true" />
