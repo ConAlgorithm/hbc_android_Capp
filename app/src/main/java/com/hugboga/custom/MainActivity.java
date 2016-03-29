@@ -419,7 +419,9 @@ public class MainActivity extends BaseFragmentActivity
             case KeyEvent.KEYCODE_BACK:
                 MLog.e("getFragmentList().size() ="+getFragmentList().size());
                 if (getFragmentList().size() > 3) {
-                    return super.onKeyDown(keyCode, event);
+//                    return super.onKeyDown(keyCode, event);
+                    doFragmentBack();
+                    return true;
                 }
                 long times = System.currentTimeMillis();
                 if ((times - exitTime) > 2000) {
