@@ -64,7 +64,7 @@ public class ServerCodeHandler implements ServerCodeHandlerInterface {
             ArrayList<com.huangbaoche.hbcframe.fragment.BaseFragment> fragmentList = activity.getFragmentList();
             for(int i =fragmentList.size()-1;i>=0;i--){
                 Fragment fg  = fragmentList.get(i);
-                if (fg != null && fg instanceof BaseFragment) {
+                if (fg != null && fg instanceof BaseFragment&&fg.isAdded()) {
                     fragment = (BaseFragment) fg;
                     break;
                 }

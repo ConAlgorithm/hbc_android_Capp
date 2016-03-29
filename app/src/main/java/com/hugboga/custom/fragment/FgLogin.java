@@ -63,18 +63,14 @@ public class FgLogin extends BaseFragment {
         if (getArguments() != null) {
             areaCode = getArguments().getString(KEY_AREA_CODE, "");
             phone = getArguments().getString(KEY_PHONE, "");
-
-            MLog.e("areaCode1=" + areaCode);
         }
         sharedPre = new SharedPre(getActivity());
         if (TextUtils.isEmpty(areaCode)) {
             areaCode = sharedPre.getStringValue(SharedPre.CODE);
-            MLog.e("areaCode2=" + areaCode);
         }
         if (!TextUtils.isEmpty(areaCode)) {
             this.areaCode = areaCode;
             areaCodeTextView.setText("+" + areaCode);
-            MLog.e("areaCode3=" + areaCode);
         } else {
             this.areaCode = "86";
         }

@@ -2,8 +2,6 @@ apply plugin: 'com.android.application'
 
 Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
-def storeFilePath = properties.getProperty('storeFile')
-//def apkFilePath = properties.getProperty('apkFile')
 Properties getProperties(){
     Properties properties = new Properties()
     properties.load(project.rootProject.file('local.properties').newDataInputStream())
@@ -92,7 +90,7 @@ android {
         minSdkVersion 15
         targetSdkVersion 23
         versionCode 8
-        versionName "2.2.0"
+        versionName "2.5.0"
         signingConfig signingConfigs.hbcSign
     }
     buildTypes {

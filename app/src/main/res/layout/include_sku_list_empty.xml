@@ -22,7 +22,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/basic_white"
+            android:drawableLeft="@mipmap/car_icon"
             android:textSize="@dimen/text_size_large"
+            android:drawablePadding="3dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:text="%d位中文司导开车带你玩"
             />
         <ImageView
@@ -46,7 +50,7 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@mipmap/top_btn_share"
+        android:src="@mipmap/cityhome_intro"
         android:layout_alignLeft="@id/sku_list_empty_title_content"
         android:layout_alignTop="@id/sku_list_empty_title_content"
         />

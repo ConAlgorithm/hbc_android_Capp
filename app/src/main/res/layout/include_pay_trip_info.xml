@@ -563,13 +563,13 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_marginTop="5dp"
-                    android:background="@drawable/btn_round_blue"
+                    android:background="@drawable/btn_round_orange"
                     android:paddingTop="7dp"
                     android:paddingBottom="7dp"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
                     android:text="修改行程资料"
-                    android:textColor="#398bd0"
+                    android:textColor="@color/basic_daily_toolbar_color"
                     android:visibility="gone" />
             </RelativeLayout>
         </RelativeLayout>
