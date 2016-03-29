@@ -172,12 +172,18 @@ public class MainActivity extends BaseFragmentActivity
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-       PushMessage message = (PushMessage) intent.getSerializableExtra(MainActivity.PUSH_BUNDLE_MSG);
-        if(message!=null){
-            if("IM".equals(message.type)) {
-                gotoChatList();
-            }else{
-                gotoOrder(message);
+        if ("rong".equals(intent.getData().getScheme())) {
+            Bundle bundle = new Bundle();
+            bundle.putString(FgIMChat.KEY_TITLE, intent.getData().toString());
+            startFragment(new FgIMChat(), bundle);
+        } else {
+            PushMessage message = (PushMessage) intent.getSerializableExtra(MainActivity.PUSH_BUNDLE_MSG);
+            if (message != null) {
+                if ("IM".equals(message.type)) {
+                    gotoChatList();
+                } else {
+                    gotoOrder(message);
+                }
             }
         }
     }
