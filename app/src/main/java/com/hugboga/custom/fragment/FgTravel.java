@@ -354,12 +354,7 @@ public class FgTravel extends BaseFragment  implements AdapterView.OnItemClickLi
 
     @Override
     public void onFragmentResult(Bundle bundle) {
-        String from = bundle.getString(KEY_FRAGMENT_NAME);
-      /*  if (FgPaySuccess.class.getSimpleName().equals(from)) {
-            requestDate();
-        } else if (FgAssessment.class.getSimpleName().equals(from)) {
-            requestDate();
-        }*/
+
     }
 
 

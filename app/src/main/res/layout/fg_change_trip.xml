@@ -25,7 +25,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
-                android:background="@drawable/btn_blue"
+                android:background="@drawable/btn_orange"
                 android:gravity="center"
                 android:padding="13dip"
                 android:text="@string/submit"

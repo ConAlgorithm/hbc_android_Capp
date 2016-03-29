@@ -93,6 +93,11 @@ android {
         versionName "2.5.0"
         signingConfig signingConfigs.hbcSign
     }
+    sourceSets{
+        main{
+            jniLibs.srcDirs = ['libs']
+        }
+    }
     buildTypes {
         release {
             minifyEnabled true
@@ -197,4 +202,5 @@ dependencies {
     compile 'com.wdullaer:materialdatetimepicker:2.1.1'
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.1.14'
+    compile files('libs/jpush-android-2.1.0.jar')
 }

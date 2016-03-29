@@ -67,8 +67,6 @@ public class FgChangeTrip extends BaseFragment implements View.OnClickListener {
     @ViewInject(R.id.submit_phone_layout3)
     private View phoneLayout3;//电话布局3
 
-    @ViewInject(R.id.submit_phone_add)
-    private TextView phonePhoneAdd;//电话添加
 
     private TextView[] areaCodeArray ;//区号数组
     private TextView[] areaPhoneArray ;//电话数组
@@ -177,8 +175,6 @@ public class FgChangeTrip extends BaseFragment implements View.OnClickListener {
 
         switch (mBusinessType) {
             case Constants.BUSINESS_TYPE_PICK:
-                phonePhoneAdd.setTextColor(getResources().getColor(R.color.basic_pick_color));
-                tripBtn.setBackgroundResource(R.drawable.btn_blue);
                 tripLabel.setText(getResources().getString(R.string.trip_tip_label1));
                 flightNOLayout.setVisibility(View.GONE);
                 hotelPhone.setText(mOrderBean.serviceAddressTel);
@@ -187,8 +183,6 @@ public class FgChangeTrip extends BaseFragment implements View.OnClickListener {
                     hotelPhoneAreaCode.setText("+"+mOrderBean.serviceAreaCode);
                 break;
             case Constants.BUSINESS_TYPE_SEND:
-                phonePhoneAdd.setTextColor(getResources().getColor(R.color.basic_send_color));
-                tripBtn.setBackgroundResource(R.drawable.btn_green);
                 tripLabel.setText(getResources().getString(R.string.trip_tip_label1));
                 pickNameLayout.setVisibility(View.GONE);
                 hotelPhoneStar.setVisibility(View.INVISIBLE);
@@ -202,13 +196,7 @@ public class FgChangeTrip extends BaseFragment implements View.OnClickListener {
                 }
                 break;
             case Constants.BUSINESS_TYPE_COMMEND:
-                phonePhoneAdd.setTextColor(getResources().getColor(R.color.basic_commend_color));
-                tripBtn.setBackgroundResource(R.drawable.btn_purple);
             case Constants.BUSINESS_TYPE_DAILY:
-                if(mBusinessType== Constants.BUSINESS_TYPE_DAILY) {
-                   phonePhoneAdd.setTextColor(getResources().getColor(R.color.basic_daily_color));
-                   tripBtn.setBackgroundResource(R.drawable.btn_orange);
-                }
                 tripLabel.setText(getResources().getString(R.string.trip_tip_label2));
                 pickNameLayout.setVisibility(View.GONE);
                 pickNameLayout.setVisibility(View.GONE);
@@ -243,8 +231,6 @@ public class FgChangeTrip extends BaseFragment implements View.OnClickListener {
                 }
                 break;
             case Constants.BUSINESS_TYPE_RENT:
-                phonePhoneAdd.setTextColor(getResources().getColor(R.color.basic_rent_color));
-                tripBtn.setBackgroundResource(R.drawable.btn_pink);
                 tripLabel.setText(getResources().getString(R.string.trip_tip_label1));
                 pickNameLayout.setVisibility(View.GONE);
                 hotelPhoneLayout.setVisibility(View.GONE);
