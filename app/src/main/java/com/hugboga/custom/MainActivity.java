@@ -290,12 +290,24 @@ public class MainActivity extends BaseFragmentActivity
         MLog.e(" openDrawer ");
     }
 
+    private long exitTime;
     @Override
     public void onBackPressed() {
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
+        MLog.e("getFragmentList().size() ="+getFragmentList().size());
+        if (getFragmentList().size() > 3) {
+            doFragmentBack();
+        }else {
+            if (drawer.isDrawerOpen(GravityCompat.START)) {
+                drawer.closeDrawer(GravityCompat.START);
+            } else {
+                long times = System.currentTimeMillis();
+                if ((times - exitTime) > 2000) {
+                    Toast.makeText(this, "再次点击退出", Toast.LENGTH_SHORT).show();
+                    exitTime = System.currentTimeMillis();
+                } else {
+                    finish();
+                }
+            }
         }
     }
 
@@ -469,30 +481,6 @@ public class MainActivity extends BaseFragmentActivity
             return null;
         }
     }
-    private long exitTime;
-    /**
-     * 监听按下 back 事件，连续点击两次退出程序
-     */
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        switch (keyCode) {
-            case KeyEvent.KEYCODE_BACK:
-                MLog.e("getFragmentList().size() ="+getFragmentList().size());
-                if (getFragmentList().size() > 3) {
-//                    return super.onKeyDown(keyCode, event);
-                    doFragmentBack();
-                    return true;
-                }
-                long times = System.currentTimeMillis();
-                if ((times - exitTime) > 2000) {
-                    Toast.makeText(this, "再次点击退出", Toast.LENGTH_SHORT).show();
-                    exitTime = System.currentTimeMillis();
-                } else {
-                    finish();
-                }
-                return true;
-        }
-        return super.onKeyDown(keyCode, event);
-    }
+
 
 }
