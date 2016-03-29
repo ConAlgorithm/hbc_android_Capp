@@ -8,9 +8,13 @@ import android.widget.Toast;
 
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
+import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.event.EventType;
 
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
+
+import de.greenrobot.event.EventBus;
 
 
 public abstract class BaseFragment extends com.huangbaoche.hbcframe.fragment.BaseFragment {
@@ -63,6 +67,24 @@ public abstract class BaseFragment extends com.huangbaoche.hbcframe.fragment.Bas
         }
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().post(new EventAction(EventType.CLICK_HEADER_LEFT_BTN_BACK));
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().post(new EventAction(EventType.START_NEW_FRAGMENT));
+    }
+
+    @Override
+    public boolean onBackPressed() {
+        return super.onBackPressed();
+    }
+
+
     public void startFragment(BaseFragment fragment) {
 
         Bundle bundle = fragment.getArguments();
@@ -71,6 +93,7 @@ public abstract class BaseFragment extends com.huangbaoche.hbcframe.fragment.Bas
     }
 
     public void startFragment(BaseFragment fragment, Bundle bundle) {
+
         collapseSoftInputMethod();
         editTextClearFocus();
         int tmpBusinessType = -1;
@@ -86,6 +109,7 @@ public abstract class BaseFragment extends com.huangbaoche.hbcframe.fragment.Bas
             fragment.setGoodsType(tmpGoodsType == -1 ? mGoodsType : tmpGoodsType);
         }
         super.startFragment(fragment);
+
     }
 
 

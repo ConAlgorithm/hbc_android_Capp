@@ -3,10 +3,8 @@ package com.huangbaoche.hbcframe.activity;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.view.KeyEvent;
 import android.view.Menu;
-import android.widget.Toast;
-import com.huangbaoche.hbcframe.R;
+
 import com.huangbaoche.hbcframe.fragment.BaseFragment;
 import com.huangbaoche.hbcframe.util.MLog;
 
@@ -29,6 +27,11 @@ public class BaseFragmentActivity extends AppCompatActivity  {
         super.onCreate(arg0);
         x.view().inject(this);
 //		addErrorProcess();
+    }
+
+    //获取fragment个数
+    protected  int getFragmentsSize(){
+        return mFragmentList.size();
     }
 
     //是否需要关闭fragment
