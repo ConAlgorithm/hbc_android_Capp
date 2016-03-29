@@ -139,15 +139,15 @@ public class FgLogin extends BaseFragment {
                 bundle2.putString("phone", phone);
                 startFragment(new FgRegister(), bundle2);
                 break;
-//            case R.id.change_mobile_diepwd:
-//                //忘记密码
-//                collapseSoftInputMethod(); //隐藏键盘
-//                passwordEditText.setText("");
-//                Bundle bundle1 = new Bundle();
-//                bundle1.putString("areaCode",areaCode);
-//                bundle1.putString("phone",phone);
-//                startFragment(new FgForgetPasswd(), bundle1);
-//                break;
+            case R.id.change_mobile_diepwd:
+                //忘记密码
+                collapseSoftInputMethod(); //隐藏键盘
+                passwordEditText.setText("");
+                Bundle bundle1 = new Bundle();
+                bundle1.putString("areaCode",areaCode);
+                bundle1.putString("phone",phone);
+                startFragment(new FgForgetPasswd(), bundle1);
+                break;
             default:
                 break;
         }

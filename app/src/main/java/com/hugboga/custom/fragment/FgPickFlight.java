@@ -161,8 +161,8 @@ public class FgPickFlight extends BaseFragment {
         setProgressState(0);
         selectTap(0);
         fgTitle.setText(getString(R.string.title_pick_flight));
-        getView().findViewById(R.id.pick_btn).setBackgroundResource(Constants.BtnBg.get(mBusinessType));
-        getView().findViewById(R.id.pick_btn2).setBackgroundResource(Constants.BtnBg.get(mBusinessType));
+//        getView().findViewById(R.id.pick_btn).setBackgroundResource(Constants.BtnBg.get(mBusinessType));
+//        getView().findViewById(R.id.pick_btn2).setBackgroundResource(Constants.BtnBg.get(mBusinessType));
 
     }
 

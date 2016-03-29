@@ -62,7 +62,7 @@ public class FgOrderCancel extends BaseFragment {
         orderBack.setText(orderBean.orderPriceInfo.cancelFee + "元");
         if(orderBean.cancelable){
             getView().findViewById(R.id.order_cancel_btn).setVisibility(View.VISIBLE);
-            getView().findViewById(R.id.order_cancel_btn).setBackgroundResource(Constants.BtnBg.get(orderBean.orderType));
+//            getView().findViewById(R.id.order_cancel_btn).setBackgroundResource(Constants.BtnBg.get(orderBean.orderType));
         }else{
             getView().findViewById(R.id.order_cancel_btn).setVisibility(View.INVISIBLE);
         }

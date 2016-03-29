@@ -13,11 +13,14 @@ import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.ServerException;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
+import com.hugboga.custom.BuildConfig;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.constants.ResourcesConstants;
 import com.hugboga.custom.data.bean.UserBean;
 import com.hugboga.custom.data.bean.UserEntity;
+import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestLogin;
 import com.hugboga.custom.data.request.RequestRegister;
 import com.hugboga.custom.data.request.RequestVerity;
@@ -29,6 +32,8 @@ import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
 import java.util.regex.Pattern;
+
+import de.greenrobot.event.EventBus;
 
 @ContentView(R.layout.fg_register)
 public class FgRegister extends BaseFragment {
@@ -68,7 +73,8 @@ public class FgRegister extends BaseFragment {
                 showTip("注册成功");
                 Bundle bundle = new Bundle();
                 bundle.putBoolean("isLogin", true);
-//                notifyFragment(FgPersonCenter.class,bundle);
+                EventBus.getDefault().post(
+                        new EventAction(EventType.CLICK_USER_LOGIN));
                 finish();
             }
         } else if (request instanceof RequestVerity) {
@@ -92,7 +98,8 @@ public class FgRegister extends BaseFragment {
                 showTip("登录成功");
                 Bundle bundle = new Bundle();
                 bundle.putBoolean("isLogin", true);
-//                notifyFragment(FgPersonCenter.class,bundle);
+                EventBus.getDefault().post(
+                        new EventAction(EventType.CLICK_USER_LOGIN));
                 finish();
             }
         }
@@ -179,10 +186,10 @@ public class FgRegister extends BaseFragment {
                     showTip("密码必须是4-16位数字或字母");
                     return;
                 }
-//                String channelStr = AppInfo.getVersionChannel(getActivity());
+                String channelStr = BuildConfig.FLAVOR;
                 Integer channelInt = 1000;
                 try {
-//                    channelInt = Integer.valueOf(channelStr);
+                    channelInt = Integer.valueOf(channelStr);
                 } catch (Exception e) {
                     MLog.e("getVersionChannel ", e);
                 }
@@ -268,7 +275,6 @@ public class FgRegister extends BaseFragment {
     protected void initHeader() {
         //设置标题颜色，返回按钮图片
 //        leftBtn.setImageResource(R.mipmap.top_close);
-        fgTitle.setTextColor(getResources().getColor(R.color.my_content_title_color));
         fgTitle.setText("注册");
         //初始化数据
         if (mSourceFragment instanceof FgLogin) {
