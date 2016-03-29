@@ -45,7 +45,6 @@ import com.hugboga.custom.fragment.FgChat;
 import com.hugboga.custom.fragment.FgChooseCity;
 import com.hugboga.custom.fragment.FgCoupon;
 import com.hugboga.custom.fragment.FgHome;
-import com.hugboga.custom.fragment.FgIMChat;
 import com.hugboga.custom.fragment.FgLogin;
 import com.hugboga.custom.fragment.FgOrder;
 import com.hugboga.custom.fragment.FgPersonInfo;
@@ -189,10 +188,10 @@ public class MainActivity extends BaseFragmentActivity
         }
     }
 
-    private void gotoChatList() {
+    private void gotoChatList(){
         //如果是收到消息推送 关了上层的页面
-        if (getFragmentList().size() > 3) {
-            for (int i = getFragmentList().size() - 1; i > 2; i--) {
+        if(getFragmentList().size()>3){
+            for(int i=getFragmentList().size()-1;i>=3;i--){
                 getFragmentList().get(i).finish();
             }
         }
@@ -200,9 +199,9 @@ public class MainActivity extends BaseFragmentActivity
         mViewPager.setCurrentItem(1);
     }
 
-    private void gotoOrder(PushMessage message) {
+    private void gotoOrder(PushMessage message){
         Bundle bundle = new Bundle();
-        bundle.putInt(BaseFragment.KEY_BUSINESS_TYPE, message.orderType);
+        bundle.putInt(BaseFragment.KEY_BUSINESS_TYPE,message.orderType);
         bundle.putInt(BaseFragment.KEY_GOODS_TYPE, message.goodsType);
         bundle.putString(FgOrder.KEY_ORDER_ID, message.orderID);
         startFragment(new FgOrder(), bundle);
@@ -216,8 +215,18 @@ public class MainActivity extends BaseFragmentActivity
                 break;
             case SET_MAIN_PAGE_INDEX:
                 int index = Integer.valueOf(action.data.toString());
-                if (index >= 0 && index < 3)
-                    mViewPager.setCurrentItem(index);
+                if(index>=0&&index<3)
+                mViewPager.setCurrentItem(index);
+                break;
+            case CLICK_HEADER_LEFT_BTN_BACK:
+                if(getFragmentsSize() == mSectionsPagerAdapter.getCount()){
+                    drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED); //打开
+                }
+                break;
+            case START_NEW_FRAGMENT:
+                if(getFragmentsSize() > mSectionsPagerAdapter.getCount()){
+                    drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED); //关闭手势滑动
+                }
                 break;
             default:
                 break;
@@ -230,9 +239,9 @@ public class MainActivity extends BaseFragmentActivity
     }
 
     private void initBottomView() {
-        tabMenu[0] = (TextView) findViewById(R.id.tab_text_1);
-        tabMenu[1] = (TextView) findViewById(R.id.tab_text_2);
-        tabMenu[2] = (TextView) findViewById(R.id.tab_text_3);
+        tabMenu[0]=(TextView)findViewById(R.id.tab_text_1);
+        tabMenu[1]=(TextView)findViewById(R.id.tab_text_2);
+        tabMenu[2]=(TextView)findViewById(R.id.tab_text_3);
         tabMenu[0].setSelected(true);
     }
 
@@ -298,13 +307,12 @@ public class MainActivity extends BaseFragmentActivity
     }
 
     private long exitTime;
-
     @Override
     public void onBackPressed() {
-        MLog.e("getFragmentList().size() =" + getFragmentList().size());
-        if (getFragmentList().size() > 3) {
+        MLog.e("getFragmentList().size() ="+getFragmentList().size());
+        if (getFragmentList().size() > mSectionsPagerAdapter.getCount()) {
             doFragmentBack();
-        } else {
+        }else {
             if (drawer.isDrawerOpen(GravityCompat.START)) {
                 drawer.closeDrawer(GravityCompat.START);
             } else {
