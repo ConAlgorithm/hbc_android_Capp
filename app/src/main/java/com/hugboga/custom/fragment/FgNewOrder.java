@@ -1,4 +1,4 @@
-package com.hugboga.custom.activity;
+package com.hugboga.custom.fragment;
 
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -17,12 +17,13 @@ import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.request.RequestOrder;
 import com.hugboga.custom.widget.recycler.ZListPageView;
 
+import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
 @ContentView(R.layout.activity_new_order)
-public class NewOrderActivity extends BaseFragmentActivity implements ZBaseAdapter.OnItemClickListener {
+public class FgNewOrder extends BaseFragment implements ZBaseAdapter.OnItemClickListener {
 
     public static final String SEARCH_TYPE = "search_type";
     public static final String SEARCH_USER = "search_user";
@@ -42,11 +43,15 @@ public class NewOrderActivity extends BaseFragmentActivity implements ZBaseAdapt
     Bundle bundle;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void initHeader() {
+
+    }
+
+    @Override
+    protected void initView() {
         backBtn.setVisibility(View.VISIBLE);
-        title.setText(getTitle());
-        bundle = getIntent().getExtras();
+        title.setText(R.string.letter_chat_btn);
+        bundle = getArguments();
         if (bundle == null) {
             return;
         }
@@ -55,13 +60,23 @@ public class NewOrderActivity extends BaseFragmentActivity implements ZBaseAdapt
         initListView(searchType);
     }
 
+    @Override
+    protected Callback.Cancelable requestData() {
+        return null;
+    }
+
+    @Override
+    protected void inflateContent() {
+
+    }
+
     /**
      * 设置列表数据
      *
      * @param searchType
      */
     private void initListView(SearchType searchType) {
-        adapter = new NewOrderAdapter(NewOrderActivity.this);
+        adapter = new NewOrderAdapter(getActivity());
         recyclerView.setAdapter(adapter);
         recyclerView.setzSwipeRefreshLayout(swipeRefreshLayout);
         recyclerView.setEmptyLayout(emptyLayout);
@@ -79,11 +94,11 @@ public class NewOrderActivity extends BaseFragmentActivity implements ZBaseAdapt
     private BaseRequest getRequest(SearchType searchType) {
         switch (searchType) {
             case SEARCH_TYPE_NEW:
-                return new RequestOrder(NewOrderActivity.this, bundle.getString(SEARCH_USER, ""));
+                return new RequestOrder(getActivity(), bundle.getString(SEARCH_USER, ""));
             case SEARCH_TYPE_HISTORY:
-                return new RequestOrder(NewOrderActivity.this, bundle.getString(SEARCH_USER, ""));
+                return new RequestOrder(getActivity(), bundle.getString(SEARCH_USER, ""));
             default:
-                return new RequestOrder(NewOrderActivity.this, bundle.getString(SEARCH_USER, ""));
+                return new RequestOrder(getActivity(), bundle.getString(SEARCH_USER, ""));
         }
     }
 
@@ -134,12 +149,12 @@ public class NewOrderActivity extends BaseFragmentActivity implements ZBaseAdapt
         if (view.getParent() == recyclerView) {
             OrderBean order = adapter.getDatas().get(position);
             if (order != null) {
-                //TODO 跳转到订单详情
-                Snackbar.make(recyclerView, "打开订单详情界面", Snackbar.LENGTH_SHORT).show();
-//                Intent intent = new Intent(NewOrderActivity.this, WorkOrderInfoActivity.class);
-//                intent.putExtra(OrderInfoActivity.ORDER_NO, order.getOrderNo());
-//                intent.putExtra(OrderInfoActivity.ORDER_TYPE, order.getOrderType().getCode());
-//                startActivity(intent);
+                // 跳转到订单详情
+                Bundle bundle = new Bundle();
+                bundle.putInt(KEY_BUSINESS_TYPE, order.orderType);
+                bundle.putInt(KEY_GOODS_TYPE, order.orderGoodsType);
+                bundle.putString(FgOrder.KEY_ORDER_ID, order.orderNo);
+                startFragment(new FgOrder(), bundle);
             }
         }
     }

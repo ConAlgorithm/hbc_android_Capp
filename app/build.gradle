@@ -1,7 +1,5 @@
 apply plugin: 'com.android.application'
 
-Properties properties = new Properties()
-properties.load(project.rootProject.file('local.properties').newDataInputStream())
 Properties getProperties(){
     Properties properties = new Properties()
     properties.load(project.rootProject.file('local.properties').newDataInputStream())
@@ -90,8 +88,13 @@ android {
         minSdkVersion 15
         targetSdkVersion 23
         versionCode 8
-        versionName "2.5.0"
+        versionName "2.2.0"
         signingConfig signingConfigs.hbcSign
+    }
+    sourceSets{
+        main{
+            jniLibs.srcDirs = ['libs']
+        }
     }
     buildTypes {
         release {
@@ -197,4 +200,5 @@ dependencies {
     compile 'com.wdullaer:materialdatetimepicker:2.1.1'
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.1.14'
+    compile files('libs/jpush-android-2.1.0.jar')
 }

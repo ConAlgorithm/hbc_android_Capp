@@ -20,7 +20,8 @@ public class PushMessage implements IBaseBean {
     public String force;
     public String url;
     public String orderID;
-    public String orderType;
+    public int orderType;
+    public int goodsType;
 
     public void parser(String str){
         try {
@@ -51,7 +52,8 @@ public class PushMessage implements IBaseBean {
         force = jsonObj.optString("force");
         url = jsonObj.optString("url");
         orderID = jsonObj.optString("orderNo");
-        orderType = jsonObj.optString("orderType");
+        orderType = jsonObj.optInt("orderType");
+        goodsType = jsonObj.optInt("goodsType");
     }
 
 }

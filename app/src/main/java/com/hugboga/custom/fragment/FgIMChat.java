@@ -1,20 +1,17 @@
-package com.hugboga.custom.activity;
+package com.hugboga.custom.fragment;
 
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.huangbaoche.hbcframe.activity.BaseFragmentActivity;
 import com.huangbaoche.hbcframe.data.net.ErrorHandler;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
@@ -30,14 +27,13 @@ import com.hugboga.custom.data.request.RequestIMOrder;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.zip.Inflater;
 
 import io.rong.imkit.RongContext;
 import io.rong.imkit.RongIM;
@@ -49,7 +45,9 @@ import io.rong.imlib.model.Message;
 import io.rong.imlib.model.UserInfo;
 
 @ContentView(R.layout.activity_imchat)
-public class IMChatActivity extends BaseFragmentActivity {
+public class FgIMChat extends BaseFragment {
+
+    public static final String KEY_TITLE = "key_title";
 
     @ViewInject(R.id.header_title)
     TextView title;
@@ -72,24 +70,30 @@ public class IMChatActivity extends BaseFragmentActivity {
     private RelativeLayout view;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        title.setText(getTitle()); //刷新标题
+    protected void initHeader() {
+    }
+
+    @Override
+    protected void initView() {
         topRightBtn.setVisibility(View.VISIBLE); //显示历史订单按钮
-//        grantAudio(); //对音频进行授权
-        ConversationFragment conversation = (ConversationFragment) getSupportFragmentManager().findFragmentById(R.id.conversation);
+        Bundle bundle = getArguments();
+        if (bundle == null) {
+            return;
+        }
+        ConversationFragment conversation = (ConversationFragment) getChildFragmentManager().findFragmentById(R.id.conversation);
         if (conversation == null) {
             return;
         }
+        Uri uri = Uri.parse(bundle.getString(KEY_TITLE));
+        conversation.setUri(uri);
         view = (RelativeLayout) conversation.getView();
         //刷新订单信息
-        getUserInfoToOrder(conversation.getUri());
+        getUserInfoToOrder(uri);
+        //        grantAudio(); //对音频进行授权
     }
 
     /**
      * 解析用户ID信息
-     *
-     * @param uri
      */
     private void getUserInfoToOrder(Uri uri) {
         String jsonStr = uri.getQueryParameter("title");
@@ -119,6 +123,22 @@ public class IMChatActivity extends BaseFragmentActivity {
         resetChatting(); //设置是否可以聊天
         loadImOrder(); //显示聊天订单信息
         initEmpty(); //构建空提示
+    }
+
+    @Override
+    protected Callback.Cancelable requestData() {
+        return null;
+    }
+
+    @Override
+    protected void inflateContent() {
+
+    }
+
+    @Override
+    public void onPause() {
+        clearImChat(); //清空未读消息记录
+        super.onPause();
     }
 
     /**
@@ -169,7 +189,7 @@ public class IMChatActivity extends BaseFragmentActivity {
         List<View> views = new ArrayList<>();
         pointLayout.removeAllViews();
         for (ChatOrderBean letterOrder : datas) {
-            View view = View.inflate(IMChatActivity.this, R.layout.im_chat_orders_item, null);
+            View view = View.inflate(getActivity(), R.layout.im_chat_orders_item, null);
             //设置状态
             TextView textView = (TextView) view.findViewById(R.id.im_chat_orders_item_state);
             textView.setText(letterOrder.status);
@@ -182,7 +202,7 @@ public class IMChatActivity extends BaseFragmentActivity {
             textViewAddr.setText(letterOrder.startAddress + " - " + letterOrder.destAddress);
             views.add(view);
             //设置红点
-            View viewp = View.inflate(IMChatActivity.this, R.layout.im_chat_orders_point, null);
+            View viewp = View.inflate(getActivity(), R.layout.im_chat_orders_point, null);
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             layoutParams.setMargins(3, 2, 3, 2);
             viewp.setLayoutParams(layoutParams);
@@ -203,11 +223,11 @@ public class IMChatActivity extends BaseFragmentActivity {
     private void resetStatusColor(TextView tv, String status) {
         if (!TextUtils.isEmpty(status)) {
             if (getString(R.string.letter_order_state1).equals(status)) {
-                tv.setTextColor(ContextCompat.getColor(IMChatActivity.this, R.color.letter_item_order1));
+                tv.setTextColor(ContextCompat.getColor(getActivity(), R.color.letter_item_order1));
             } else if (getString(R.string.letter_order_state2).equals(status)) {
-                tv.setTextColor(ContextCompat.getColor(IMChatActivity.this, R.color.letter_item_order2));
+                tv.setTextColor(ContextCompat.getColor(getActivity(), R.color.letter_item_order2));
             } else if (getString(R.string.letter_order_state3).equals(status)) {
-                tv.setTextColor(ContextCompat.getColor(IMChatActivity.this, R.color.letter_item_order3));
+                tv.setTextColor(ContextCompat.getColor(getActivity(), R.color.letter_item_order3));
             }
         }
     }
@@ -305,7 +325,6 @@ public class IMChatActivity extends BaseFragmentActivity {
         });
         dialog.show();
     }*/
-
     @Event({R.id.header_left_btn, R.id.header_right_txt})
     private void onClick(View v) {
         switch (v.getId()) {
@@ -315,21 +334,16 @@ public class IMChatActivity extends BaseFragmentActivity {
                 break;
             case R.id.header_right_txt:
                 MLog.e("进入历史订单列表");
-                Intent intent = new Intent(IMChatActivity.this, NewOrderActivity.class);
-                intent.putExtra(NewOrderActivity.SEARCH_TYPE, NewOrderActivity.SearchType.SEARCH_TYPE_HISTORY.getType());
-                intent.putExtra(NewOrderActivity.SEARCH_USER, userId);
-                startActivity(intent);
+                Bundle bundle = new Bundle();
+                bundle.putInt(FgNewOrder.SEARCH_TYPE, FgNewOrder.SearchType.SEARCH_TYPE_HISTORY.getType());
+                bundle.putString(FgNewOrder.SEARCH_USER, userId);
+                startFragment(new FgNewOrder(), bundle);
                 break;
             default:
                 break;
         }
     }
 
-    @Override
-    public void onBackPressed() {
-        clearImChat();
-        super.onBackPressed();
-    }
 
     /**
      * 构建聊天为空界面
@@ -399,16 +413,16 @@ public class IMChatActivity extends BaseFragmentActivity {
      */
     private void clearImChat() {
         // 调用接口清空聊天未读信息
-        RequestIMClear requestIMClear = new RequestIMClear(IMChatActivity.this, userId, targetType);
-        HttpRequestUtils.request(IMChatActivity.this, requestIMClear, imClearListener);
+        RequestIMClear requestIMClear = new RequestIMClear(getActivity(), userId, targetType);
+        HttpRequestUtils.request(getActivity(), requestIMClear, imClearListener);
     }
 
     /**
      * 刷新IM聊天订单
      */
     private void loadImOrder() {
-        RequestIMOrder requestIMOrder = new RequestIMOrder(IMChatActivity.this, userId);
-        HttpRequestUtils.request(IMChatActivity.this, requestIMOrder, orderListener);
+        RequestIMOrder requestIMOrder = new RequestIMOrder(getActivity(), userId);
+        HttpRequestUtils.request(getActivity(), requestIMOrder, orderListener);
     }
 
     HttpRequestListener orderListener = new HttpRequestListener() {
@@ -430,7 +444,7 @@ public class IMChatActivity extends BaseFragmentActivity {
         @Override
         public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
             MLog.e("orderListener-onDataRequestError");
-            ErrorHandler handler = new ErrorHandler(IMChatActivity.this, this);
+            ErrorHandler handler = new ErrorHandler(getActivity(), this);
             handler.onDataRequestError(errorInfo, request);
         }
     };
@@ -448,7 +462,7 @@ public class IMChatActivity extends BaseFragmentActivity {
 
         @Override
         public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-            ErrorHandler handler = new ErrorHandler(IMChatActivity.this, this);
+            ErrorHandler handler = new ErrorHandler(getActivity(), this);
             handler.onDataRequestError(errorInfo, request);
         }
     };

@@ -3,10 +3,8 @@ package com.huangbaoche.hbcframe.activity;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.view.KeyEvent;
 import android.view.Menu;
-import android.widget.Toast;
-import com.huangbaoche.hbcframe.R;
+
 import com.huangbaoche.hbcframe.fragment.BaseFragment;
 import com.huangbaoche.hbcframe.util.MLog;
 
@@ -30,8 +28,14 @@ public class BaseFragmentActivity extends AppCompatActivity  {
         x.view().inject(this);
 //		addErrorProcess();
     }
-    @Override
-    public void onBackPressed() {
+
+    //获取fragment个数
+    protected  int getFragmentsSize(){
+        return mFragmentList.size();
+    }
+
+    //是否需要关闭fragment
+    protected void doFragmentBack(){
         if(mFragmentList!=null&&mFragmentList.size()>0){
             for(int i=mFragmentList.size()-1;i>0;i--) {
                 BaseFragment fragment = (BaseFragment) mFragmentList.get(i);
@@ -44,6 +48,11 @@ public class BaseFragmentActivity extends AppCompatActivity  {
                 }
             }
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        doFragmentBack();
         super.onBackPressed();
     }
 

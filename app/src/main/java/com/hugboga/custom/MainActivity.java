@@ -1,6 +1,11 @@
 package com.hugboga.custom;
 
+import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
@@ -31,6 +36,7 @@ import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.adapter.MenuItemAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.LvMenuItem;
+import com.hugboga.custom.data.bean.PushMessage;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
@@ -40,6 +46,7 @@ import com.hugboga.custom.fragment.FgChooseCity;
 import com.hugboga.custom.fragment.FgCoupon;
 import com.hugboga.custom.fragment.FgHome;
 import com.hugboga.custom.fragment.FgLogin;
+import com.hugboga.custom.fragment.FgOrder;
 import com.hugboga.custom.fragment.FgPersonInfo;
 import com.hugboga.custom.fragment.FgServicerCenter;
 import com.hugboga.custom.fragment.FgSetting;
@@ -47,9 +54,11 @@ import com.hugboga.custom.fragment.FgTest;
 import com.hugboga.custom.fragment.FgTravel;
 import com.hugboga.custom.service.LogService;
 import com.hugboga.custom.utils.Common;
+import com.hugboga.custom.utils.Config;
 import com.hugboga.custom.utils.ImageOptionUtils;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.utils.IMUtil;
+import com.hugboga.custom.utils.PushUtils;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.UpdateResources;
 import com.tencent.mm.sdk.modelbase.BaseReq;
@@ -69,6 +78,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import cn.jpush.android.api.JPushInterface;
 import de.greenrobot.event.EventBus;
 
 
@@ -77,6 +87,7 @@ public class MainActivity extends BaseFragmentActivity
         implements ViewPager.OnPageChangeListener, AdapterView.OnItemClickListener, View.OnClickListener {
 
     public static final String PUSH_BUNDLE_MSG = "pushMessage";
+    public static final String FILTER_PUSH_DO = "com.hugboga.custom.pushdo";
 
     @ViewInject(R.id.drawer_layout)
     private DrawerLayout drawer;
@@ -114,6 +125,7 @@ public class MainActivity extends BaseFragmentActivity
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.addOnPageChangeListener(this);
 //        navigationView.setNavigationItemSelectedListener(this);
+        JPushInterface.setAlias(MainActivity.this, PhoneInfo.getIMEI(this), null);
         initBottomView();
         addErrorProcess();
         UpdateResources.checkLocalDB(this);
@@ -146,11 +158,75 @@ public class MainActivity extends BaseFragmentActivity
         }
     }
 
+    /**
+     * Push任务接收器
+     */
+    class PushDoReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            PushMessage pushMessage = (PushMessage) intent.getSerializableExtra(PUSH_BUNDLE_MSG);
+        }
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        if ("rong".equals(intent.getData().getScheme())) {
+            Bundle bundle = new Bundle();
+            bundle.putString(FgIMChat.KEY_TITLE, intent.getData().toString());
+            startFragment(new FgIMChat(), bundle);
+        } else {
+            PushMessage message = (PushMessage) intent.getSerializableExtra(MainActivity.PUSH_BUNDLE_MSG);
+            if (message != null) {
+                if ("IM".equals(message.type)) {
+                    gotoChatList();
+                } else {
+                    gotoOrder(message);
+                }
+            }
+        }
+    }
+
+    private void gotoChatList(){
+        //如果是收到消息推送 关了上层的页面
+        if(getFragmentList().size()>3){
+            for(int i=getFragmentList().size()-1;i>=3;i--){
+                getFragmentList().get(i).finish();
+            }
+        }
+        //跳转到聊天列表
+        mViewPager.setCurrentItem(1);
+    }
+
+    private void gotoOrder(PushMessage message){
+        Bundle bundle = new Bundle();
+        bundle.putInt(BaseFragment.KEY_BUSINESS_TYPE,message.orderType);
+        bundle.putInt(BaseFragment.KEY_GOODS_TYPE, message.goodsType);
+        bundle.putString(FgOrder.KEY_ORDER_ID, message.orderID);
+        startFragment(new FgOrder(), bundle);
+    }
+
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
             case CLICK_USER_LOGIN:
             case CLICK_USER_LOOUT:
                 refreshContent();
+                break;
+            case SET_MAIN_PAGE_INDEX:
+                int index = Integer.valueOf(action.data.toString());
+                if(index>=0&&index<3)
+                mViewPager.setCurrentItem(index);
+                break;
+            case CLICK_HEADER_LEFT_BTN_BACK:
+                if(getFragmentsSize() == mSectionsPagerAdapter.getCount()){
+                    drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED); //打开
+                }
+                break;
+            case START_NEW_FRAGMENT:
+                if(getFragmentsSize() > mSectionsPagerAdapter.getCount()){
+                    drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED); //关闭手势滑动
+                }
                 break;
             default:
                 break;
@@ -230,12 +306,24 @@ public class MainActivity extends BaseFragmentActivity
         MLog.e(" openDrawer ");
     }
 
+    private long exitTime;
     @Override
     public void onBackPressed() {
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
+        MLog.e("getFragmentList().size() ="+getFragmentList().size());
+        if (getFragmentList().size() > mSectionsPagerAdapter.getCount()) {
+            doFragmentBack();
+        }else {
+            if (drawer.isDrawerOpen(GravityCompat.START)) {
+                drawer.closeDrawer(GravityCompat.START);
+            } else {
+                long times = System.currentTimeMillis();
+                if ((times - exitTime) > 2000) {
+                    Toast.makeText(this, "再次点击退出", Toast.LENGTH_SHORT).show();
+                    exitTime = System.currentTimeMillis();
+                } else {
+                    finish();
+                }
+            }
         }
     }
 
@@ -409,28 +497,6 @@ public class MainActivity extends BaseFragmentActivity
             return null;
         }
     }
-    private long exitTime;
-    /**
-     * 监听按下 back 事件，连续点击两次退出程序
-     */
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        switch (keyCode) {
-            case KeyEvent.KEYCODE_BACK:
-                MLog.e("getFragmentList().size() ="+getFragmentList().size());
-                if (getFragmentList().size() > 3) {
-                    return super.onKeyDown(keyCode, event);
-                }
-                long times = System.currentTimeMillis();
-                if ((times - exitTime) > 2000) {
-                    Toast.makeText(this, "再次点击退出", Toast.LENGTH_SHORT).show();
-                    exitTime = System.currentTimeMillis();
-                } else {
-                    finish();
-                }
-                return true;
-        }
-        return super.onKeyDown(keyCode, event);
-    }
+
 
 }

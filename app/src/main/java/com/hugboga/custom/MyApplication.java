@@ -21,6 +21,7 @@ import com.hugboga.custom.widget.DialogUtil;
 
 import org.xutils.x;
 
+import cn.jpush.android.api.JPushInterface;
 import io.rong.imkit.RongIM;
 
 /**
@@ -35,6 +36,8 @@ public class MyApplication extends HbcApplication {
         super.onCreate();
         x.Ext.setDebug(true);
         initUrlHost();
+        JPushInterface.setDebugMode(false);    // 设置开启日志,发布时请关闭日志
+        JPushInterface.init(this);            // 初始化 JPush
         initRongIm(); // 初始化融云IM
         initConfig();
         mAppContext = this.getApplicationContext();

@@ -10,10 +10,6 @@
     <string name="rc_voice_short">Message too short</string>
     <string name="rc_voice_failure"> Message error!</string>
 
-    <string name="rc_no_message">No message</string>
-    <string name="huangbaoche_remind">Chat friendly :)</string>
-    <string name="huangbaoche_remind_message"></string>
-
     <!-- discussion_notification_msg -->
     <string name="rc_discussion_nt_msg_for_rename">"%1$s Modify the discussion group name is %2$s"</string>
     <string name="rc_discussion_nt_msg_for_added">"%1$s Invited %2$s to join the discussion group"</string>
@@ -122,6 +118,7 @@
     <string name="rc_read_all">Read All</string>
 
     <string name="rc_voip_cpu_error">Sorry  Function temporarily does not support your models</string>
+    
     <string name="rc_notification_ticker_text">You have a new message</string>
     
     <string name="rc_notification_new_msg">%1$s&#160;sent&#160;%2$d&#160;messages</string>
