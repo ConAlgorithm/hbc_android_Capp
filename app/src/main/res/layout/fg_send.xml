@@ -87,7 +87,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dip"
-            android:background="@drawable/btn_green"
+            android:background="@drawable/btn_orange"
             android:textColor="@color/basic_white"
             android:text="@string/btn_select_car"
             android:textSize="18sp" />

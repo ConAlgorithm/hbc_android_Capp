@@ -79,7 +79,7 @@ public class FgAssessment extends BaseFragment {
             //接机|送机
             label1.setText("准时程度");
         }
-        getView().findViewById(R.id.assessment_submit).setBackgroundResource(Constants.BtnBg.get(orderType));
+//        getView().findViewById(R.id.assessment_submit).setBackgroundResource(Constants.BtnBg.get(orderType));
     }
 
     @Override

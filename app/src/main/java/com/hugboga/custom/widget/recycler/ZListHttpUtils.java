@@ -33,6 +33,7 @@ public class ZListHttpUtils extends HttpRequestUtils {
         int itemCount = adapter.getDatas() == null ? 0 : adapter.getDatas().size();
         if (offset.equals("0") || adapter.getDataCount() == 0 || dataCount > itemCount) {
             setPageParams(request.getDataMap(), limit, offset);
+            request.needRebuild(); //重构请求参数
             HttpRequestUtils.request(context, request, pageListListener); //开始请求数据
         } else {
             zListPageView.setLoading(false);

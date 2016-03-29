@@ -69,7 +69,6 @@ public class FgCallBack extends BaseFragment {
     protected void initHeader() {
         //设置标题颜色，返回按钮图片
 //        leftBtn.setImageResource(R.mipmap.top_back_black);
-        fgTitle.setTextColor(getResources().getColor(R.color.my_content_title_color));
         fgTitle.setText("意见反馈");
     }
 

@@ -51,7 +51,8 @@
             android:padding="10dp"
             android:layout_marginRight="30dp"
             android:layout_marginLeft="10dp"
-            android:layout_gravity="right|center_vertical" />
+            android:layout_gravity="right|center_vertical"
+            android:visibility="invisible"/>
 
     </LinearLayout>
 

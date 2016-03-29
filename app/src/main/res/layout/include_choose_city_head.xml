@@ -4,6 +4,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:id="@+id/choose_city_head_layout"
+    android:background="@drawable/btn_orange"
     android:visibility="gone">
 
     <TextView

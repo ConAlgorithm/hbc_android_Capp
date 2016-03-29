@@ -54,7 +54,7 @@ public final class Constants {
     /**
      * 颜色
      */
-    public static HashMap<Integer, Integer> BgColors = new HashMap<Integer, Integer>();
+//    public static HashMap<Integer, Integer> BgColors = new HashMap<Integer, Integer>();
     /**
      * 送达目的地
      */
@@ -118,7 +118,7 @@ public final class Constants {
     /**
      * 车辆类型图片
      */
-    public static HashMap<Integer, Integer> BtnBg = new HashMap<Integer, Integer>();
+//    public static HashMap<Integer, Integer> BtnBg = new HashMap<Integer, Integer>();
 
     /**
      * 承诺
@@ -153,12 +153,12 @@ public final class Constants {
         TitleMap2.put(Constants.BUSINESS_TYPE_RENT, "单次用车费用");
         TitleMap2.put(Constants.BUSINESS_TYPE_COMMEND, "精品线路费用");
 
-        BgColors.put(Constants.BUSINESS_TYPE_PICK, R.color.basic_pick_toolbar_color);
-        BgColors.put(Constants.BUSINESS_TYPE_SEND, R.color.basic_send_toolbar_color);
-        BgColors.put(Constants.BUSINESS_TYPE_DAILY, R.color.basic_daily_toolbar_color);
-        BgColors.put(Constants.BUSINESS_TYPE_RENT, R.color.basic_rent_toolbar_color);
-        BgColors.put(Constants.BUSINESS_TYPE_COMMEND, R.color.basic_commend_toolbar_color);
-        BgColors.put(Constants.BUSINESS_TYPE_OTHER, R.color.basic_other_toolbar_color);
+//        BgColors.put(Constants.BUSINESS_TYPE_PICK, R.color.basic_pick_toolbar_color);
+//        BgColors.put(Constants.BUSINESS_TYPE_SEND, R.color.basic_send_toolbar_color);
+//        BgColors.put(Constants.BUSINESS_TYPE_DAILY, R.color.basic_daily_toolbar_color);
+//        BgColors.put(Constants.BUSINESS_TYPE_RENT, R.color.basic_rent_toolbar_color);
+//        BgColors.put(Constants.BUSINESS_TYPE_COMMEND, R.color.basic_commend_toolbar_color);
+//        BgColors.put(Constants.BUSINESS_TYPE_OTHER, R.color.basic_other_toolbar_color);
 
         CarTypeMap.put(CAR_TYPE_COMMON, "经济");
         CarTypeMap.put(CAR_TYPE_COMFORT, "舒适");
@@ -229,11 +229,11 @@ public final class Constants {
         VisaInfoMap.put(1, "国内签证");
         VisaInfoMap.put(2, "落地签证");
 
-        BtnBg.put(BUSINESS_TYPE_PICK, R.drawable.btn_blue);
-        BtnBg.put(BUSINESS_TYPE_SEND, R.drawable.btn_green);
-        BtnBg.put(BUSINESS_TYPE_DAILY, R.drawable.btn_orange);
-        BtnBg.put(BUSINESS_TYPE_RENT, R.drawable.btn_pink);
-        BtnBg.put(BUSINESS_TYPE_COMMEND, R.drawable.btn_purple);
+//        BtnBg.put(BUSINESS_TYPE_PICK, R.drawable.btn_blue);
+//        BtnBg.put(BUSINESS_TYPE_SEND, R.drawable.btn_green);
+//        BtnBg.put(BUSINESS_TYPE_DAILY, R.drawable.btn_orange);
+//        BtnBg.put(BUSINESS_TYPE_RENT, R.drawable.btn_pink);
+//        BtnBg.put(BUSINESS_TYPE_COMMEND, R.drawable.btn_purple);
 
         PromiseMap.put(0, new PromiseBean(R.mipmap.pro_all, R.string.promise_title_all, R.string.promise_content_all));
         PromiseMap.put(1, new PromiseBean(R.mipmap.pro_wait, R.string.promise_title_wait, R.string.promise_content_wait));

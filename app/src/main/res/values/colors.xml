@@ -41,9 +41,9 @@
     <color name="item_title_bg">#E9E9E9</color>
 
     <!--progress-->
-    <color name="progress_bg">#77000000</color>
+    <color name="progress_bg">#f7cb0c</color>
     <color name="progress_text_enable">#FFFFFF</color>
-    <color name="progress_text_disable">#9C9C9C</color>
+    <color name="progress_text_disable">#CCFFFFFF</color>
     <!--pick_flight-->
     <color name="flight_tap_bg">#AAFFFFFF</color>
     <!--submit-->

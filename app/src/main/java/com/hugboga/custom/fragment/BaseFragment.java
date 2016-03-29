@@ -1,6 +1,7 @@
 package com.hugboga.custom.fragment;
 
 import android.os.Bundle;
+import android.text.TextPaint;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -111,6 +112,8 @@ public abstract class BaseFragment extends com.huangbaoche.hbcframe.fragment.Bas
             View icon = bootView.findViewById(iconIds[i]);
             if (text == null || icon == null) continue;
             if (index == i) {
+                TextPaint tp = ((TextView)text).getPaint();
+                tp.setFakeBoldText(true);
                 bootView.findViewById(textIds[i]).setEnabled(true);
                 bootView.findViewById(iconIds[i]).setSelected(true);
             } else {
