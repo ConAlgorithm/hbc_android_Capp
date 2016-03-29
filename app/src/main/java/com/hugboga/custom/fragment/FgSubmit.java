@@ -34,6 +34,8 @@ import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.OrderContact;
 import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.bean.UserEntity;
+import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestSubmitBase;
 import com.hugboga.custom.data.request.RequestSubmitDaily;
 import com.hugboga.custom.data.request.RequestSubmitPick;
@@ -50,6 +52,8 @@ import org.xutils.view.annotation.ViewInject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by admin on 2015/7/18.
@@ -98,8 +102,6 @@ public class FgSubmit extends BaseFragment implements CompoundButton.OnCheckedCh
     @ViewInject(R.id.submit_phone_layout3)
     private View phoneLayout3;//电话布局3
 
-    @ViewInject(R.id.submit_phone_add)
-    private TextView phonePhoneAdd;//电话添加
 
     private TextView[] areaCodeArray;//区号数组
     private TextView[] areaPhoneArray;//电话数组
@@ -200,7 +202,6 @@ public class FgSubmit extends BaseFragment implements CompoundButton.OnCheckedCh
                 airportName.setText(flightBean.arrivalAirport.airportName);
                 arrivalHotel.setText(arrivalBean.placeName);
                 arrivalHotelDesc.setText(arrivalBean.placeDetail);
-                phonePhoneAdd.setTextColor(getResources().getColor(R.color.basic_pick_color));
                 flightNOLayout.setVisibility(View.GONE);
                 pickVisaLayout.setVisibility(flightBean.arrivalAirport.visaSwitch ? View.VISIBLE : View.GONE);
                 pickNameLayout.setVisibility(needBanner ? View.VISIBLE : View.GONE);
@@ -213,7 +214,6 @@ public class FgSubmit extends BaseFragment implements CompoundButton.OnCheckedCh
                 airportName.setText(airportBean.airportName);
                 arrivalHotel.setText(arrivalBean.placeName);
                 arrivalHotelDesc.setText(arrivalBean.placeDetail);
-                phonePhoneAdd.setTextColor(getResources().getColor(R.color.basic_send_color));
                 pickNameLayout.setVisibility(View.GONE);
                 flightNOLayout.setVisibility(View.VISIBLE);
                 transferCheckInLayout.setVisibility(View.VISIBLE);
@@ -227,7 +227,6 @@ public class FgSubmit extends BaseFragment implements CompoundButton.OnCheckedCh
                 airNo.setText(dailyBean.startDate + " 至 " + dailyBean.endDate);
                 timeDesc.setVisibility(View.GONE);
                 serverDateTime.setHint(dailyBean.startDate + " " + serverTime + "(当地时间)");
-                phonePhoneAdd.setTextColor(getResources().getColor(R.color.basic_daily_color));
                 hotelAreaCode = "+" + dailyBean.areaCode;
                 dailyPassCityLayout.setVisibility(View.VISIBLE);
                 if (dailyBean.oneCityTravel == 1) {//市内包车
@@ -268,7 +267,6 @@ public class FgSubmit extends BaseFragment implements CompoundButton.OnCheckedCh
                 airportName.setText(startBean.placeName);
                 arrivalHotel.setText(arrivalBean.placeName);
                 arrivalHotelDesc.setText(arrivalBean.placeDetail);
-                phonePhoneAdd.setTextColor(getResources().getColor(R.color.basic_rent_color));
                 pickNameLayout.setVisibility(View.GONE);
                 hotelPhoneLayout.setVisibility(View.GONE);
                 flightNOLayout.setVisibility(View.GONE);
@@ -697,19 +695,10 @@ public class FgSubmit extends BaseFragment implements CompoundButton.OnCheckedCh
     }
 
     private void goToOrder(String orderId) {
+        EventBus.getDefault().post(new EventAction(EventType.SET_MAIN_PAGE_INDEX,2));
         Bundle bundle = new Bundle();
         bundle.putString(FgOrder.KEY_ORDER_ID, orderId);
-        ArrayList<com.huangbaoche.hbcframe.fragment.BaseFragment> fragmentList = ((BaseFragmentActivity) getActivity()).getFragmentList();
-        if (fragmentList != null && fragmentList.size() > 0) {
-            for (int i = fragmentList.size() - 1; i > 0; i--) {
-                BaseFragment fragment = (BaseFragment) fragmentList.get(i);
-                if (fragment == null) continue;
-                if (!(fragment instanceof FgHome)) { //如果不是home
-                    fragment.finish();
-                }
-            }
-        }
-
+        bringToFront(FgTravel.class,bundle);
         //下单后再返回,直接到主页
         startFragment(new FgOrder(), bundle);
     }

@@ -21,7 +21,6 @@ public class HbcApplication extends Application {
         x.Ext.init(this);
         x.Ext.setDebug(BuildConfig.DEBUG);
         Log.e("hbcApplication", "debug " + BuildConfig.DEBUG);
-        MLog.e("getKeyStorePsw = " + Common.getKeyStorePsw(getApplicationContext()));
     }
 
 
