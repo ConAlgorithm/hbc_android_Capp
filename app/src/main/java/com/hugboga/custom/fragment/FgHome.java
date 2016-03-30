@@ -11,6 +11,7 @@ import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.HomeAdapter;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.HomeBean;
 import com.hugboga.custom.data.request.RequestHome;
 
@@ -91,7 +92,9 @@ public class FgHome extends BaseFragment implements AdapterView.OnItemClickListe
                 ((MainActivity) getActivity()).openDrawer();
                 break;
             case R.id.header_right_btn:
-                startFragment(new FgChooseCity());
+                Bundle bundle = new Bundle();
+                bundle.putInt(KEY_BUSINESS_TYPE, Constants.BUSINESS_TYPE_HOME);
+                startFragment(new FgChooseCity(),bundle);
                 break;
             case R.id.fg_home_menu1://中文接送机
                 startFragment(new FgTransfer());
