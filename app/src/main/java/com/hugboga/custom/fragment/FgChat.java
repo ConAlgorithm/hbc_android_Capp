@@ -94,6 +94,7 @@ public class FgChat extends BaseFragment implements View.OnClickListener, ZBaseA
         if (!UserEntity.getUser().isLogin(getActivity())) {
             needHttpRequest = true;
             emptyLayout.setVisibility(View.VISIBLE);
+            chatLayout.setVisibility(View.GONE);
             return null;
         } else {
             emptyLayout.setVisibility(View.GONE);
