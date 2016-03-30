@@ -21,12 +21,10 @@ import java.util.TreeMap;
 @HttpRequest(path = UrlLibs.SERVER_IP_CHAT_LIST, builder = HbcParamsBuilder.class)
 public class RequestChatList extends BaseRequest<ArrayList<ChatBean>> {
 
-
     public RequestChatList(Context context) {
         super(context);
         map = new TreeMap<String, Object>();
     }
-
 
     @Override
     public ImplParser getParser() {
