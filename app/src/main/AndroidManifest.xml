@@ -93,11 +93,6 @@
         <!--</activity>-->
 
         <activity
-            android:name=".activity.NewOrderActivity"
-            android:label="@string/letter_chat_btn"
-            android:screenOrientation="portrait" />
-
-        <activity
             android:name=".wxapi.WXEntryActivity"
             android:exported="true" />
         <activity
