@@ -70,6 +70,12 @@
     public <init>(org.json.JSONObject);
 }
 
+# Permission
+-dontwarn com.zhy.m.**
+-keep class com.zhy.m.** {*;}
+-keep interface com.zhy.m.** { *; }
+-keep class **$$PermissionProxy { *; }
+
 # android-support-v4
 -dontwarn android.support.**
 -keep class android.support.** { *;}

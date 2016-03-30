@@ -19,6 +19,15 @@
     <string name="dialog_btn_again">再来一次</string>
     <string name="complete">完成</string>
 
+    <!--Permission-->
+    <string name="grant_fail_title">授权失败</string>
+    <string name="grant_fail_btn">重新获取</string>
+    <string name="grant_fail_btn_exit">退出应用</string>
+    <string name="grant_fail_phone1">您选择了不再提醒授权，请进入设置-应用中为应用授权</string>
+    <string name="grant_fail_sdcard">权限只是用做存储照片使用，拒绝将不能正常使用</string>
+    <string name="grant_fail_camera">权限只是用做拍摄头像照片使用，拒绝将不能拍摄头像</string>
+    <string name="grant_fail_phone">权限只是用做识别身份使用，拒绝将不能正常使用</string>
+
     <!-- 提示信息 -->
     <string name="two_exit">再按一次退出程序</string>
     <string name="network_error">网络链接错误</string>
