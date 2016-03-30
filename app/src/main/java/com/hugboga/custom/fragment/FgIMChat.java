@@ -20,7 +20,7 @@ import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.ChatInfo;
-import com.hugboga.custom.data.bean.ChatOrderBean;
+import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.parser.ParserChatInfo;
 import com.hugboga.custom.data.request.RequestIMClear;
 import com.hugboga.custom.data.request.RequestIMOrder;
@@ -167,7 +167,7 @@ public class FgIMChat extends BaseFragment {
      *
      * @param orders
      */
-    private void flushOrderView(ArrayList<ChatOrderBean> orders) {
+    private void flushOrderView(ArrayList<OrderBean> orders) {
         if (orders != null && orders.size() > 0) {
             //有订单数据
             viewPageLayout.setVisibility(View.VISIBLE);
@@ -185,21 +185,24 @@ public class FgIMChat extends BaseFragment {
      * @param datas
      * @return
      */
-    private List<View> getOrderViews(ArrayList<ChatOrderBean> datas) {
+    private List<View> getOrderViews(ArrayList<OrderBean> datas) {
         List<View> views = new ArrayList<>();
         pointLayout.removeAllViews();
-        for (ChatOrderBean letterOrder : datas) {
+        for (OrderBean orderBean : datas) {
             View view = View.inflate(getActivity(), R.layout.im_chat_orders_item, null);
             //设置状态
             TextView textView = (TextView) view.findViewById(R.id.im_chat_orders_item_state);
-            textView.setText(letterOrder.status);
-            resetStatusColor(textView, letterOrder.status);
+            textView.setText(orderBean.orderStatus.name);
+//            resetStatusColor(textView, letterOrder.status);
             //订单类型和时间
             TextView textViewtype = (TextView) view.findViewById(R.id.im_chat_orders_item_ordertime);
-            textViewtype.setText(letterOrder.serviceTime + "  " + letterOrder.orderTypeStr);
-            //订单地址
-            TextView textViewAddr = (TextView) view.findViewById(R.id.im_chat_orders_item_address);
-            textViewAddr.setText(letterOrder.startAddress + " - " + letterOrder.destAddress);
+            textViewtype.setText(getTypeStr(orderBean));
+            //订单地址1
+            TextView textViewAddr1 = (TextView) view.findViewById(R.id.im_chat_orders_item_address1);
+            textViewAddr1.setText(getAddr1(orderBean));
+            //订单地址1
+            TextView textViewAddr2 = (TextView) view.findViewById(R.id.im_chat_orders_item_address2);
+            textViewAddr2.setText(getAddr2(orderBean));
             views.add(view);
             //设置红点
             View viewp = View.inflate(getActivity(), R.layout.im_chat_orders_point, null);
@@ -212,6 +215,46 @@ public class FgIMChat extends BaseFragment {
             pointLayout.getChildAt(0).setSelected(true);
         }
         return views;
+    }
+
+    private String getTypeStr(OrderBean orderBean) {
+        StringBuilder sb = new StringBuilder();
+        if (orderBean.orderGoodsType == 5) {
+            sb.append("[" + orderBean.getOrderTypeStr(getActivity()) + "]");
+            sb.append(orderBean.lineSubject);
+        } else {
+            sb.append("[" + orderBean.getOrderTypeStr(getActivity()) + "]");
+        }
+        return sb.toString();
+    }
+
+    private String getAddr1(OrderBean orderBean) {
+        StringBuilder sb = new StringBuilder();
+        if (orderBean.orderGoodsType == 1 || orderBean.orderGoodsType == 2 || orderBean.orderGoodsType == 4) {
+            sb.append("出发：");
+            sb.append(orderBean.startAddress);
+        } else if (orderBean.orderGoodsType == 5) {
+            //线路
+            sb.append(orderBean.serviceTime + "至" + orderBean.serviceEndTime);
+        } else {
+            sb.append(orderBean.serviceCityName + "-" + orderBean.serviceEndCityName);
+        }
+        return sb.toString();
+    }
+
+    private String getAddr2(OrderBean orderBean) {
+        StringBuilder sb = new StringBuilder();
+        if (orderBean.orderGoodsType == 1 || orderBean.orderGoodsType == 2 || orderBean.orderGoodsType == 4) {
+            sb.append("到达：");
+            sb.append(orderBean.destAddress);
+        } else if (orderBean.orderGoodsType == 5) {
+            //线路
+            sb.append("出发：");
+            sb.append(orderBean.serviceCityName);
+        } else {
+            sb.append(orderBean.serviceTime + "至" + orderBean.serviceEndTime);
+        }
+        return sb.toString();
     }
 
     /**
@@ -264,7 +307,7 @@ public class FgIMChat extends BaseFragment {
 
         List<View> views;
 
-        IMOrderPagerAdapter(ArrayList<ChatOrderBean> datas) {
+        IMOrderPagerAdapter(ArrayList<OrderBean> datas) {
             this.views = getOrderViews(datas);
         }
 
@@ -430,7 +473,7 @@ public class FgIMChat extends BaseFragment {
         public void onDataRequestSucceed(BaseRequest request) {
             Object[] objs = ((RequestIMOrder) request).getData();
             if (objs != null && objs[1] != null) {
-                ArrayList<ChatOrderBean> datas = (ArrayList) objs[1];
+                ArrayList<OrderBean> datas = (ArrayList) objs[1];
                 flushOrderView(datas);
             }
             MLog.e("orderListener-onDataRequestSucceed");

@@ -9,13 +9,9 @@ import com.huangbaoche.hbcframe.viewholder.ZBaseViewHolder;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.viewholder.ChatVH;
 import com.hugboga.custom.data.bean.ChatBean;
-import com.hugboga.custom.data.bean.ChatInfo;
 import com.hugboga.custom.data.bean.ChatOrderBean;
-import com.hugboga.custom.data.parser.ParserChatInfo;
 import com.hugboga.custom.utils.DateUtils;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.xutils.image.ImageOptions;
 import org.xutils.x;
 
