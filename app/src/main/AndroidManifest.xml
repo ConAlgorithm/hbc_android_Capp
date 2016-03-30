@@ -54,7 +54,7 @@
             android:screenOrientation="portrait"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustPan">
+            android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -91,11 +91,6 @@
         <!--android:scheme="rong" />-->
         <!--</intent-filter>-->
         <!--</activity>-->
-
-        <activity
-            android:name=".activity.NewOrderActivity"
-            android:label="@string/letter_chat_btn"
-            android:screenOrientation="portrait" />
 
         <activity
             android:name=".wxapi.WXEntryActivity"

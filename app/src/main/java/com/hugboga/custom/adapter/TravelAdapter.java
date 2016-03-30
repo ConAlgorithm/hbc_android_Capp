@@ -2,7 +2,6 @@ package com.hugboga.custom.adapter;
 
 import android.app.Activity;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -15,14 +14,11 @@ import android.widget.TextView;
 import com.huangbaoche.hbcframe.adapter.BaseAdapter;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
-import com.hugboga.custom.activity.IMChatActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.OrderBean;
-import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.fragment.BaseFragment;
 import com.hugboga.custom.fragment.FgTravel;
 import com.hugboga.custom.utils.DateUtils;
-import com.hugboga.custom.widget.CircleImageView;
 import com.hugboga.custom.widget.DialogUtil;
 
 import org.xutils.image.ImageOptions;
@@ -32,10 +28,8 @@ import org.xutils.x;
 import java.text.ParseException;
 import java.util.HashMap;
 
-import io.rong.imkit.RongContext;
 import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
-import io.rong.imlib.model.UserInfo;
 
 /**
  * Created by ZHZEPHI on 2015/7/21.

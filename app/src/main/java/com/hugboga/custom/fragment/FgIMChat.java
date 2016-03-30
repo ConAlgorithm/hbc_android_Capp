@@ -1,6 +1,7 @@
 package com.hugboga.custom.fragment;
 
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -46,6 +47,8 @@ import io.rong.imlib.model.UserInfo;
 @ContentView(R.layout.activity_imchat)
 public class FgIMChat extends BaseFragment {
 
+    public static final String KEY_TITLE = "key_title";
+
     @ViewInject(R.id.header_title)
     TextView title;
     @ViewInject(R.id.header_right_txt)
@@ -73,20 +76,24 @@ public class FgIMChat extends BaseFragment {
     @Override
     protected void initView() {
         topRightBtn.setVisibility(View.VISIBLE); //显示历史订单按钮
-//        grantAudio(); //对音频进行授权
+        Bundle bundle = getArguments();
+        if (bundle == null) {
+            return;
+        }
         ConversationFragment conversation = (ConversationFragment) getChildFragmentManager().findFragmentById(R.id.conversation);
         if (conversation == null) {
             return;
         }
+        Uri uri = Uri.parse(bundle.getString(KEY_TITLE));
+        conversation.setUri(uri);
         view = (RelativeLayout) conversation.getView();
         //刷新订单信息
-        getUserInfoToOrder(conversation.getUri());
+        getUserInfoToOrder(uri);
+        //        grantAudio(); //对音频进行授权
     }
 
     /**
      * 解析用户ID信息
-     *
-     * @param uri
      */
     private void getUserInfoToOrder(Uri uri) {
         String jsonStr = uri.getQueryParameter("title");
@@ -327,10 +334,10 @@ public class FgIMChat extends BaseFragment {
                 break;
             case R.id.header_right_txt:
                 MLog.e("进入历史订单列表");
-//                Intent intent = new Intent(FgIMChat.this, NewOrderActivity.class);
-//                intent.putExtra(NewOrderActivity.SEARCH_TYPE, NewOrderActivity.SearchType.SEARCH_TYPE_HISTORY.getType());
-//                intent.putExtra(NewOrderActivity.SEARCH_USER, userId);
-//                startActivity(intent);
+                Bundle bundle = new Bundle();
+                bundle.putInt(FgNewOrder.SEARCH_TYPE, FgNewOrder.SearchType.SEARCH_TYPE_HISTORY.getType());
+                bundle.putString(FgNewOrder.SEARCH_USER, userId);
+                startFragment(new FgNewOrder(), bundle);
                 break;
             default:
                 break;

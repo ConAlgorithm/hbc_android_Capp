@@ -1,17 +1,9 @@
 package com.hugboga.custom;
 
-import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -19,14 +11,10 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,7 +30,6 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.LvMenuItem;
 import com.hugboga.custom.data.bean.PushMessage;
 import com.hugboga.custom.data.bean.UserEntity;
-import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.request.RequestPushClick;
 import com.hugboga.custom.data.request.RequestPushToken;
@@ -51,6 +38,7 @@ import com.hugboga.custom.fragment.FgChat;
 import com.hugboga.custom.fragment.FgChooseCity;
 import com.hugboga.custom.fragment.FgCoupon;
 import com.hugboga.custom.fragment.FgHome;
+import com.hugboga.custom.fragment.FgIMChat;
 import com.hugboga.custom.fragment.FgLogin;
 import com.hugboga.custom.fragment.FgOrder;
 import com.hugboga.custom.fragment.FgPersonInfo;
@@ -58,28 +46,16 @@ import com.hugboga.custom.fragment.FgServicerCenter;
 import com.hugboga.custom.fragment.FgSetting;
 import com.hugboga.custom.fragment.FgTest;
 import com.hugboga.custom.fragment.FgTravel;
-import com.hugboga.custom.service.LogService;
-import com.hugboga.custom.utils.Common;
-import com.hugboga.custom.utils.Config;
+import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.ImageOptionUtils;
 import com.hugboga.custom.utils.PhoneInfo;
-import com.hugboga.custom.utils.IMUtil;
-import com.hugboga.custom.utils.PushUtils;
-import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.UpdateResources;
-import com.tencent.mm.sdk.modelbase.BaseReq;
-import com.tencent.mm.sdk.modelbase.BaseResp;
-import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
 
-import org.xutils.common.util.FileUtil;
-import org.xutils.image.ImageOptions;
-import org.xutils.common.util.FileUtil;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -199,6 +175,11 @@ public class MainActivity extends BaseFragmentActivity
 
     private void receivePushMessage(Intent intent){
         if(intent !=null) {
+            if ("rong".equals(intent.getData().getScheme())) {
+                Bundle bundle = new Bundle();
+                bundle.putString(FgIMChat.KEY_TITLE, intent.getData().toString());
+                startFragment(new FgIMChat(), bundle);
+            } else {
             PushMessage message = (PushMessage) intent.getSerializableExtra(MainActivity.PUSH_BUNDLE_MSG);
             if (message != null) {
                 uploadPushClick(message.messageID);
@@ -209,12 +190,13 @@ public class MainActivity extends BaseFragmentActivity
                 }
             }
         }
+      ｝
     }
 
-    private void gotoChatList(){
+    private void gotoChatList() {
         //如果是收到消息推送 关了上层的页面
-        if(getFragmentList().size()>3){
-            for(int i=getFragmentList().size()-1;i>=3;i--){
+        if (getFragmentList().size() > 3) {
+            for (int i = getFragmentList().size() - 1; i >= 3; i--) {
                 getFragmentList().get(i).finish();
             }
         }
@@ -222,9 +204,9 @@ public class MainActivity extends BaseFragmentActivity
         mViewPager.setCurrentItem(1);
     }
 
-    private void gotoOrder(PushMessage message){
+    private void gotoOrder(PushMessage message) {
         Bundle bundle = new Bundle();
-        bundle.putInt(BaseFragment.KEY_BUSINESS_TYPE,message.orderType);
+        bundle.putInt(BaseFragment.KEY_BUSINESS_TYPE, message.orderType);
         bundle.putInt(BaseFragment.KEY_GOODS_TYPE, message.goodsType);
         bundle.putString(FgOrder.KEY_ORDER_ID, message.orderID);
         startFragment(new FgOrder(), bundle);
@@ -238,16 +220,16 @@ public class MainActivity extends BaseFragmentActivity
                 break;
             case SET_MAIN_PAGE_INDEX:
                 int index = Integer.valueOf(action.data.toString());
-                if(index>=0&&index<3)
-                mViewPager.setCurrentItem(index);
+                if (index >= 0 && index < 3)
+                    mViewPager.setCurrentItem(index);
                 break;
             case CLICK_HEADER_LEFT_BTN_BACK:
-                if(getFragmentsSize() == mSectionsPagerAdapter.getCount()){
+                if (getFragmentsSize() == mSectionsPagerAdapter.getCount()) {
                     drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED); //打开
                 }
                 break;
             case START_NEW_FRAGMENT:
-                if(getFragmentsSize() > mSectionsPagerAdapter.getCount()){
+                if (getFragmentsSize() > mSectionsPagerAdapter.getCount()) {
                     drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED); //关闭手势滑动
                 }
                 break;
@@ -262,9 +244,9 @@ public class MainActivity extends BaseFragmentActivity
     }
 
     private void initBottomView() {
-        tabMenu[0]=(TextView)findViewById(R.id.tab_text_1);
-        tabMenu[1]=(TextView)findViewById(R.id.tab_text_2);
-        tabMenu[2]=(TextView)findViewById(R.id.tab_text_3);
+        tabMenu[0] = (TextView) findViewById(R.id.tab_text_1);
+        tabMenu[1] = (TextView) findViewById(R.id.tab_text_2);
+        tabMenu[2] = (TextView) findViewById(R.id.tab_text_3);
         tabMenu[0].setSelected(true);
     }
 
@@ -330,12 +312,13 @@ public class MainActivity extends BaseFragmentActivity
     }
 
     private long exitTime;
+
     @Override
     public void onBackPressed() {
-        MLog.e("getFragmentList().size() ="+getFragmentList().size());
+        MLog.e("getFragmentList().size() =" + getFragmentList().size());
         if (getFragmentList().size() > mSectionsPagerAdapter.getCount()) {
             doFragmentBack();
-        }else {
+        } else {
             if (drawer.isDrawerOpen(GravityCompat.START)) {
                 drawer.closeDrawer(GravityCompat.START);
             } else {
