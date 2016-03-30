@@ -1,5 +1,9 @@
 package com.hugboga.custom.data.bean;
 
+import android.content.Context;
+
+import com.hugboga.custom.R;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -84,4 +88,25 @@ public class OrderBean implements IBaseBean {
     public String goodsNo;//商品ID
     public String skuPoi;//poi 列表，jsonArray格式
     public List<PoiBean> skuPoiArray;
+
+    public String getOrderTypeStr(Context context) {
+        switch (orderGoodsType) {
+            case 1:
+                return context.getString(R.string.title_pick);
+            case 2:
+                return context.getString(R.string.title_send);
+            case 3:
+                return context.getString(R.string.title_daily_in_town);
+            case 4:
+                return context.getString(R.string.title_rent);
+            case 5:
+                return context.getString(R.string.title_commend);
+            case 6:
+                return context.getString(R.string.title_daily_small);
+            case 7:
+                return context.getString(R.string.title_daily_large);
+            default:
+                return "";
+        }
+    }
 }
