@@ -160,7 +160,7 @@ public class SplashActivity extends BaseFragmentActivity {
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
             View view = views.get(position);
-            if (position == 3) {
+//            if (position == 3) {
                 view.setOnClickListener(new View.OnClickListener() {
 
                     @Override
@@ -168,7 +168,7 @@ public class SplashActivity extends BaseFragmentActivity {
                         finishHandler.sendEmptyMessage(0);
                     }
                 });
-            }
+//            }
             ((ViewPager) container).addView(view, 0);
             return views.get(position);
         }

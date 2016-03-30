@@ -75,12 +75,14 @@
     <color name="change_mobile_line">#D7D7D7</color>
     <color name="change_mobile_hint">#c7c7c7</color>
     <color name="change_mobile_getcode">#398bd0</color>
+    <color name="login_unready">#c2bfb1</color>
+    <color name="login_ready">#2c2c2c</color>
 
     <!-- Callback color -->
     <color name="call_back_bg">#DDf9f9f9</color>
 
     <!-- Login color -->
-    <color name="login_login_bg">#DDF2F4F7</color>
+    <color name="login_login_bg">#FCCE04</color>
     <color name="login_login_color">#6C6C6C</color>
 
     <!-- Travel color -->

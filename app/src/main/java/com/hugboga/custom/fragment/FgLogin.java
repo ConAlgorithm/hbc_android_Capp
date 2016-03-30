@@ -1,11 +1,16 @@
 package com.hugboga.custom.fragment;
 
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.bean.UserSession;
@@ -34,7 +39,7 @@ import de.greenrobot.event.EventBus;
  * Created by admin on 2016/3/8.
  */
 @ContentView(R.layout.fg_login)
-public class FgLogin extends BaseFragment {
+public class FgLogin extends BaseFragment implements TextWatcher{
 
     public static String KEY_PHONE = "key_phone";
     public static String KEY_AREA_CODE = "key_area_code";
@@ -46,8 +51,11 @@ public class FgLogin extends BaseFragment {
     @ViewInject(R.id.login_password)
     private EditText passwordEditText;
     @ViewInject(R.id.login_submit)
-    Button loginButton;
+    private Button loginButton;
+    @ViewInject(R.id.iv_pwd_visible)
+    private ImageView passwordVisible;
 
+    boolean isPwdVisibility = false;
     String phone;
     String areaCode;
     private SharedPre sharedPre;
@@ -82,6 +90,8 @@ public class FgLogin extends BaseFragment {
             this.phone = phone;
             phoneEditText.setText(phone);
         }
+        phoneEditText.addTextChangedListener(this);
+        passwordEditText.addTextChangedListener(this);
     }
 
     @Override
@@ -126,7 +136,7 @@ public class FgLogin extends BaseFragment {
         new IMUtil(getActivity()).conn(UserEntity.getUser().imToken);
     }
 
-    @Event({R.id.login_submit, R.id.change_mobile_areacode, R.id.login_register, R.id.change_mobile_diepwd})
+    @Event({R.id.login_submit, R.id.change_mobile_areacode, R.id.login_register, R.id.change_mobile_diepwd, R.id.iv_pwd_visible})
     private void onClickView(View view) {
         switch (view.getId()) {
             case R.id.login_submit:
@@ -160,6 +170,19 @@ public class FgLogin extends BaseFragment {
                 bundle1.putString("areaCode",areaCode);
                 bundle1.putString("phone",phone);
                 startFragment(new FgForgetPasswd(), bundle1);
+                break;
+            case R.id.iv_pwd_visible:
+                if(passwordEditText != null){
+                    if(isPwdVisibility){//密码可见
+                        isPwdVisibility = false;
+                        passwordEditText.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                        passwordVisible.setImageResource(R.mipmap.icon_pwd_invisible);
+                    }else{//密码不可见
+                        isPwdVisibility = true;
+                        passwordEditText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                        passwordVisible.setImageResource(R.mipmap.icon_pwd_visible);
+                    }
+                }
                 break;
             default:
                 break;
@@ -206,4 +229,27 @@ public class FgLogin extends BaseFragment {
         }
     }
 
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+        String phone = phoneEditText.getText().toString().trim();
+        String password = passwordEditText.getText().toString();
+        if (!TextUtils.isEmpty(areaCode)&&!TextUtils.isEmpty(phone)
+                &&!TextUtils.isEmpty(password)
+                &&Pattern.matches("[\\w]{4,16}", password)) {
+            loginButton.setBackgroundColor(getResources().getColor(R.color.login_ready));
+        }else{
+            loginButton.setBackgroundColor(getResources().getColor(R.color.login_unready));
+        }
+
+    }
 }
