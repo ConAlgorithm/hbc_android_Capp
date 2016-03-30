@@ -103,7 +103,7 @@ public class MainActivity extends BaseFragmentActivity
 //        navigationView.setNavigationItemSelectedListener(this);
         JPushInterface.setAlias(MainActivity.this, PhoneInfo.getIMEI(this), null);
         initBottomView();
-        addErrorProcess();
+//        addErrorProcess();
         UpdateResources.checkLocalDB(this);
         UpdateResources.checkLocalResource(this);
         setUpDrawer();
