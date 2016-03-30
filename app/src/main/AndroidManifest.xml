@@ -100,6 +100,11 @@
             android:exported="true"
             android:launchMode="singleTop" />
 
+        <!-- 剪切图片 -->
+        <activity
+            android:name="com.yalantis.ucrop.UCropActivity"
+            android:screenOrientation="portrait" />
+
         <!-- alipay sdk begin -->
         <activity
             android:name="com.alipay.sdk.app.H5PayActivity"

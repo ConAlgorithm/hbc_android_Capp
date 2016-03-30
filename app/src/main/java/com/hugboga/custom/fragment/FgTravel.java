@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -53,6 +54,8 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, ZBas
 
     @ViewInject(R.id.travel_logout_layout)
     private View logoutLayout;
+    @ViewInject(R.id.travel_content)
+    LinearLayout contentLayout; //主题部分
     //Tab1
     @ViewInject(R.id.header_left_btn)
     private ImageView leftBtn;
@@ -195,6 +198,14 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, ZBas
 
     @Override
     protected Callback.Cancelable requestData() {
+        if (UserEntity.getUser().isLogin(getActivity())) {
+            contentLayout.setVisibility(View.VISIBLE);
+            logoutLayout.setVisibility(View.GONE);
+            reSetTabView(0); //刷新第一个标签页
+        } else {
+            contentLayout.setVisibility(View.GONE);
+            logoutLayout.setVisibility(View.VISIBLE);
+        }
         return null;
     }
 
@@ -302,6 +313,9 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, ZBas
      * @param position
      */
     private void reSetTabView(Integer position) {
+        if (!UserEntity.getUser().isLogin(getActivity())) {
+            return;
+        }
         tab1TextView.setSelected(false);
         tab1NumberTextView.setSelected(false);
         tab1LineView.setVisibility(View.GONE);
@@ -335,21 +349,21 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, ZBas
     @Override
     public void onItemClick(View view, int position) {
         if (view == fgTravelRunning) {
-            OrderBean bean = (OrderBean) runningAdapter.getDatas().get(position);
+            OrderBean bean = runningAdapter.getDatas().get(position);
             Bundle bundle = new Bundle();
             bundle.putInt(KEY_BUSINESS_TYPE, bean.orderType);
             bundle.putInt(KEY_GOODS_TYPE, bean.orderGoodsType);
             bundle.putString(FgOrder.KEY_ORDER_ID, bean.orderNo);
             startFragment(new FgOrder(), bundle);
         } else if (view == fgTravelFinish) {
-            OrderBean bean = (OrderBean) finishAdapter.getDatas().get(position - 1);
+            OrderBean bean = finishAdapter.getDatas().get(position);
             Bundle bundle = new Bundle();
             bundle.putInt(KEY_BUSINESS_TYPE, bean.orderType);
             bundle.putInt(KEY_GOODS_TYPE, bean.orderGoodsType);
             bundle.putString(FgOrder.KEY_ORDER_ID, bean.orderNo);
             startFragment(new FgOrder(), bundle);
         } else if (view == fgTravelCancel) {
-            OrderBean bean = (OrderBean) cancelAdapter.getDatas().get(position - 1);
+            OrderBean bean = cancelAdapter.getDatas().get(position);
             Bundle bundle = new Bundle();
             bundle.putInt(KEY_BUSINESS_TYPE, bean.orderType);
             bundle.putInt(KEY_GOODS_TYPE, bean.orderGoodsType);
@@ -408,12 +422,14 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, ZBas
         MLog.e(this + " onEventMainThread " + action.getType());
         switch (action.getType()) {
             case CLICK_USER_LOGIN:
-                requestData();
+                contentLayout.setVisibility(View.VISIBLE);
                 logoutLayout.setVisibility(View.GONE);
+                requestData();
                 break;
             case CLICK_USER_LOOUT:
-                cleanListData();
+                contentLayout.setVisibility(View.GONE);
                 logoutLayout.setVisibility(View.VISIBLE);
+                cleanListData();
                 break;
             default:
                 break;

@@ -5,6 +5,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,14 +17,20 @@ import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
+import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.data.bean.CheckVersionBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.request.RequestCheckVersion;
+import com.hugboga.custom.utils.PermissionRes;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.utils.PushUtils;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.UpdateResources;
 import com.hugboga.custom.widget.DialogUtil;
+import com.zhy.m.permission.MPermissions;
+import com.zhy.m.permission.PermissionDenied;
+import com.zhy.m.permission.PermissionGrant;
+import com.zhy.m.permission.ShowRequestPermissionRationale;
 
 import org.xutils.view.annotation.ContentView;
 
@@ -38,32 +46,70 @@ public class LoadingActivity extends BaseFragmentActivity implements HttpRequest
     @Override
     protected void onStart() {
         super.onStart();
+        grantPhone(); //先对手机授权
+    }
 
+    private void initView() {
         UpdateResources.checkLocalDB(this);
         UpdateResources.checkLocalResource(this);
-        if(PhoneInfo.isNewVersion(LoadingActivity.this)){
+        if (PhoneInfo.isNewVersion(LoadingActivity.this)) {
             //新版本清空Accesskey，使请求重新获取
-            UserEntity.getUser().setAccessKey(LoadingActivity.this,null);
+            UserEntity.getUser().setAccessKey(LoadingActivity.this, null);
         }
         checkVersion();
     }
 
-    private void checkVersion(){
-        String version = PhoneInfo.getSoftwareVersion(LoadingActivity.this);
-        int resourcesVersion = new SharedPre(this).getIntValue(SharedPre.RESOURCES_H5_VERSION);
-        RequestCheckVersion requestCheckVersion = new RequestCheckVersion(this,version,resourcesVersion);
-        HttpRequestUtils.request(this, requestCheckVersion, this);
-
+    /**
+     * 授权获取手机信息权限
+     */
+    private void grantPhone() {
+        MPermissions.requestPermissions(LoadingActivity.this, PermissionRes.READ_PHONE_STATE, android.Manifest.permission.READ_PHONE_STATE);
     }
 
+    @PermissionGrant(PermissionRes.READ_PHONE_STATE)
+    public void requestPhoneSuccess() {
+        initView();
+    }
 
-    Handler handler = new Handler(){
+    @PermissionDenied(PermissionRes.READ_PHONE_STATE)
+    public void requestPhoneFailed() {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(LoadingActivity.this);
+        dialog.setCancelable(false);
+        dialog.setTitle(R.string.grant_fail_title);
+        if (!ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.READ_PHONE_STATE)) {
+            dialog.setMessage(R.string.grant_fail_phone1);
+        } else {
+            dialog.setMessage(R.string.grant_fail_phone);
+            dialog.setPositiveButton(R.string.grant_fail_btn, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    grantPhone();
+                }
+            });
+        }
+        dialog.setNegativeButton(R.string.grant_fail_btn_exit, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                System.exit(0);
+            }
+        });
+        dialog.show();
+    }
+
+    private void checkVersion() {
+        String version = PhoneInfo.getSoftwareVersion(LoadingActivity.this);
+        int resourcesVersion = new SharedPre(this).getIntValue(SharedPre.RESOURCES_H5_VERSION);
+        RequestCheckVersion requestCheckVersion = new RequestCheckVersion(this, version, resourcesVersion);
+        HttpRequestUtils.request(this, requestCheckVersion, this);
+    }
+
+    Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            if(PhoneInfo.isNewVersion(LoadingActivity.this)){
-                startActivity(new Intent(LoadingActivity.this,SplashActivity.class));
-            }else{
-                startActivity(new Intent(LoadingActivity.this,MainActivity.class));
+            if (PhoneInfo.isNewVersion(LoadingActivity.this)) {
+                startActivity(new Intent(LoadingActivity.this, SplashActivity.class));
+            } else {
+                startActivity(new Intent(LoadingActivity.this, MainActivity.class));
             }
             finish();
 //            super.handleMessage(msg);
@@ -115,12 +161,12 @@ public class LoadingActivity extends BaseFragmentActivity implements HttpRequest
     }
 
 
-    private void checkToNew(){
-        Long time = System.currentTimeMillis()-start;
-        final Long cha = aLong-time;
-        if(cha<=0){
+    private void checkToNew() {
+        Long time = System.currentTimeMillis() - start;
+        final Long cha = aLong - time;
+        if (cha <= 0) {
             handler.sendEmptyMessage(0);
-        }else{
+        } else {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -142,11 +188,16 @@ public class LoadingActivity extends BaseFragmentActivity implements HttpRequest
 
     @Override
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-        if(errorHandler==null){
-            errorHandler = new ErrorHandler(this,this);
+        if (errorHandler == null) {
+            errorHandler = new ErrorHandler(this, this);
         }
         errorHandler.onDataRequestError(errorInfo, request);
         errorHandler = null;
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        MPermissions.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
 }
