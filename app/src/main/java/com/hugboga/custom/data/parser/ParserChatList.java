@@ -7,13 +7,16 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * Created by admin on 2016/3/8.
  */
 public class ParserChatList extends ImplParser {
     @Override
-    public ArrayList<ChatBean> parseObject(JSONObject obj) throws Throwable {
+    public Object[] parseObject(JSONObject obj) throws Throwable {
+        Object[] objs = new Object[2];
+        objs[0] = obj.optInt("totalSize");
         JSONArray jsonArray = obj.optJSONArray("resultBean");
         ArrayList<ChatBean> list = new ArrayList<ChatBean>();
         for (int i = 0; i < jsonArray.length(); i++) {
@@ -39,7 +42,8 @@ public class ParserChatList extends ImplParser {
             }
             list.add(chatBean);
         }
-        return list;
+        objs[1] = list;
+        return objs;
     }
 
 }
