@@ -221,6 +221,7 @@ public class WebAgent implements HttpRequestListener {
         try {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("id", UserEntity.getUser().getUserId(mActivity));
+            jsonObject.put("ut", UserEntity.getUser().getUserToken(mActivity));
             jsonObject.put("name", UserEntity.getUser().getNickname(mActivity));
             jsonObject.put("areacode", UserEntity.getUser().getAreaCode(mActivity));
             jsonObject.put("phone", UserEntity.getUser().getPhone(mActivity));

@@ -27,6 +27,7 @@ import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 import com.hugboga.custom.alipay.PayResult;
 import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.bean.ChatInfo;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.CouponBean;
 import com.hugboga.custom.data.bean.OrderBean;
@@ -34,6 +35,7 @@ import com.hugboga.custom.data.bean.OrderStatus;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.bean.WXpayBean;
 import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.parser.ParserChatInfo;
 import com.hugboga.custom.data.request.RequestIMTokenUpdate;
 import com.hugboga.custom.data.request.RequestOrderCancel;
 import com.hugboga.custom.data.request.RequestOrderDetail;
@@ -1066,17 +1068,13 @@ public class FgOrder extends BaseFragment {
         RongIM.getInstance().startPrivateChat(getActivity(), "G"+chatId, titleJson);
     }
     private String getChatInfo(String userId, String userAvatar, String title, String targetType) {
-        JSONObject obj = new JSONObject();
-        try {
-            obj.put("isChat", true);
-            obj.put("userId", userId);
-            obj.put("userAvatar", userAvatar);
-            obj.put("title", title);
-            obj.put("targetType", targetType);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return obj.toString();
+        ChatInfo chatInfo = new ChatInfo();
+        chatInfo.isChat = true;
+        chatInfo.userId = userId;
+        chatInfo.userAvatar = userAvatar;
+        chatInfo.title = title;
+        chatInfo.targetType = targetType;
+       return new ParserChatInfo().toJsonString(chatInfo);
     }
     /**
      * 设置聊一聊未读个数小红点
