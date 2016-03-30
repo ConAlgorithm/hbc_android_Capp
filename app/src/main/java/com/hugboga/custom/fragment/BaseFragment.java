@@ -1,6 +1,7 @@
 package com.hugboga.custom.fragment;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.text.TextPaint;
 import android.view.View;
 import android.widget.TextView;
@@ -10,6 +11,7 @@ import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
+import com.zhy.m.permission.MPermissions;
 
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
@@ -154,5 +156,11 @@ public abstract class BaseFragment extends com.huangbaoche.hbcframe.fragment.Bas
 
     public void showTip(String tips) {
         Toast.makeText(getActivity(), tips, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        MPermissions.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 }

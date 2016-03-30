@@ -1,13 +1,18 @@
 package com.hugboga.custom.fragment;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.text.InputFilter;
 import android.text.TextUtils;
 import android.view.Gravity;
@@ -31,8 +36,14 @@ import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestChangeUserInfo;
 import com.hugboga.custom.data.request.RequestUpLoadFile;
 import com.hugboga.custom.data.request.RequestUserInfo;
+import com.hugboga.custom.utils.FileUtil;
 import com.hugboga.custom.utils.ImageOptionUtils;
 import com.hugboga.custom.utils.ImageUtils;
+import com.hugboga.custom.utils.PermissionRes;
+import com.yalantis.ucrop.UCrop;
+import com.zhy.m.permission.MPermissions;
+import com.zhy.m.permission.PermissionDenied;
+import com.zhy.m.permission.PermissionGrant;
 
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
@@ -131,22 +142,7 @@ public class FgPersonInfo extends BaseFragment {
         switch (view.getId()) {
             case R.id.my_info_menu_layout1:
                 //头像
-                final CharSequence[] items = getResources().getStringArray(R.array.my_info_phone_type);
-                new AlertDialog.Builder(getActivity()).setTitle("上传头像").setItems(items, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (which == 0) {
-                            ImageUtils.checkDir(); //检查并创建图片目录
-                            Intent takeIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                            takeIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(Constants.IMAGE_DIR, Constants.HEAD_IMAGE)));
-                            startActivityForResult(takeIntent, 1);
-                        } else if (which == 1) {
-                            Intent phoneIntent = new Intent(Intent.ACTION_PICK, null);
-                            phoneIntent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
-                            startActivityForResult(phoneIntent, 2);
-                        }
-                    }
-                }).show();
+                grantSdcard();
                 break;
             case R.id.my_info_menu_layout2:
                 //昵称
@@ -227,6 +223,86 @@ public class FgPersonInfo extends BaseFragment {
     }
 
     /**
+     * 授权获取照相机权限
+     */
+    private void grantSdcard() {
+        MPermissions.requestPermissions(this, PermissionRes.WRITE_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+    }
+
+    @PermissionGrant(PermissionRes.WRITE_EXTERNAL_STORAGE)
+    public void requestSdcardSuccess() {
+        //修改头像
+        final CharSequence[] items = getResources().getStringArray(R.array.my_info_phone_type);
+        new AlertDialog.Builder(getActivity()).setTitle("上传头像").setItems(items, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (which == 0) {
+                    grantCamera();
+                } else if (which == 1) {
+                    Intent phoneIntent = new Intent(Intent.ACTION_PICK, null);
+                    phoneIntent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+                    startActivityForResult(phoneIntent, 2);
+                }
+            }
+        }).show();
+    }
+
+    @PermissionDenied(PermissionRes.WRITE_EXTERNAL_STORAGE)
+    public void requestSdcardFailed() {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
+        dialog.setCancelable(false);
+        dialog.setTitle(R.string.grant_fail_title);
+        if (!ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            dialog.setMessage(R.string.grant_fail_phone1);
+        } else {
+            dialog.setMessage(R.string.grant_fail_sdcard);
+            dialog.setPositiveButton(R.string.grant_fail_btn, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    grantSdcard();
+                }
+            });
+        }
+        dialog.show();
+    }
+
+    /**
+     * 授权获取照相机权限
+     */
+    private void grantCamera() {
+        MPermissions.requestPermissions(this, PermissionRes.CAMERA, android.Manifest.permission.CAMERA);
+    }
+
+    @PermissionGrant(PermissionRes.CAMERA)
+    public void requestPhoneSuccess() {
+        //拍照
+        ImageUtils.checkDir(); //检查并创建图片目录
+        Intent takeIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        File file = new File(Constants.IMAGE_DIR, Constants.HEAD_IMAGE);
+        takeIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
+        startActivityForResult(takeIntent, 1);
+    }
+
+    @PermissionDenied(PermissionRes.CAMERA)
+    public void requestPhoneFailed() {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
+        dialog.setCancelable(false);
+        dialog.setTitle(R.string.grant_fail_title);
+        if (!ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), android.Manifest.permission.CAMERA)) {
+            dialog.setMessage(R.string.grant_fail_phone1);
+        } else {
+            dialog.setMessage(R.string.grant_fail_camera);
+            dialog.setPositiveButton(R.string.grant_fail_btn, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    grantCamera();
+                }
+            });
+        }
+        dialog.show();
+    }
+
+    /**
      * 获取年龄选择项
      *
      * @param ages
@@ -283,22 +359,13 @@ public class FgPersonInfo extends BaseFragment {
 
     /**
      * 调用系统剪切图片
-     *
-     * @param uri
      */
-    public void cropPhoto(Uri uri) {
-        Intent intent = new Intent("com.android.camera.action.CROP");
-        intent.setDataAndType(uri, "image/*");
-        intent.putExtra("crop", "true");
-        // aspectX aspectY 是宽高的比例
-        intent.putExtra("aspectX", 1);
-        intent.putExtra("aspectY", 1);
-        // outputX outputY 是裁剪图片宽高
-        intent.putExtra("outputX", 200);
-        intent.putExtra("outputY", 200);
-        intent.putExtra("scale", true);
-        intent.putExtra("return-data", true);
-        startActivityForResult(intent, 3);
+    public void cropPhoto() {
+        File oldFile = new File(Constants.IMAGE_DIR, Constants.HEAD_IMAGE);
+        File newFile = new File(Constants.IMAGE_DIR, Constants.HEAD_IMAGE_NEW);
+        UCrop.Options options = new UCrop.Options();
+        options.setCompressionFormat(Bitmap.CompressFormat.PNG);
+        UCrop.of(Uri.fromFile(oldFile), Uri.fromFile(newFile)).withAspectRatio(1f, 1f).withOptions(options).withMaxResultSize(200, 200).start(getActivity(), this);
     }
 
     private String setPicToView(Bitmap mBitmap) {
@@ -399,40 +466,52 @@ public class FgPersonInfo extends BaseFragment {
         switch (requestCode) {
             case 1:
                 if (resultCode == Activity.RESULT_OK) {
-                    File temp = new File(Constants.IMAGE_DIR, Constants.HEAD_IMAGE);
-                    cropPhoto(Uri.fromFile(temp));//裁剪图片
+                    cropPhoto();//裁剪图片
                 }
                 break;
             case 2:
-                if (data != null && resultCode == Activity.RESULT_OK) {
-                    cropPhoto(data.getData());//裁剪图片
+                if (resultCode == Activity.RESULT_OK) {
+                    try {
+                        Bitmap bitmap = BitmapFactory.decodeStream(getActivity().getContentResolver().openInputStream(data.getData()));
+                        FileUtil.saveBitmapToFile(bitmap, Constants.IMAGE_DIR, Constants.HEAD_IMAGE);
+                        cropPhoto();//裁剪图片
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
                 }
                 break;
-            case 3:
-                if (data != null && resultCode == Activity.RESULT_OK) {
-                    Bundle extras = data.getExtras();
-                    if (extras != null) {
-                        head = extras.getParcelable("data");
-                        if (head != null) {
-                            Bitmap mBitmap = Bitmap.createScaledBitmap(head, 200, 200, true);
-                            if (mBitmap != null) {
-                                /**
-                                 * 上传服务器代码
-                                 */
-                                String fileName = setPicToView(mBitmap);//保存在SD卡中
-                                MLog.e("fileName=" + fileName);
-//                                String imageString = ImageUtils.bitmapToString(mBitmap);
-                                uploadPic(fileName);
-                                headImageView.setImageBitmap(mBitmap);//用ImageView显示出来
-                            }
+            case UCrop.REQUEST_CROP:
+                if (resultCode == Activity.RESULT_OK) {
+                    final Uri resultUri = UCrop.getOutput(data);
+                    if (resultUri != null) {
+                        Bitmap bitmap = getBitmapFromUri(resultUri);
+                        if (bitmap != null) {
+                            String fileName = setPicToView(bitmap);//保存在SD卡中
+                            MLog.e("fileName=" + fileName);
+                            uploadPic(fileName);
+                            headImageView.setImageBitmap(bitmap);//用ImageView显示出来
                         }
                     }
+                } else if (resultCode == UCrop.RESULT_ERROR) {
+                    final Throwable cropError = UCrop.getError(data);
+                    cropError.printStackTrace();
                 }
                 break;
             default:
                 break;
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private Bitmap getBitmapFromUri(Uri uri) {
+        Bitmap bitmap = null;
+        try {
+            bitmap = BitmapFactory.decodeStream(getActivity().getContentResolver().openInputStream(uri));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return bitmap;
     }
 
     private void uploadPic(String fileName) {
