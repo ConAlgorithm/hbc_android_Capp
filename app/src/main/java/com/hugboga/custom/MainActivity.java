@@ -110,7 +110,7 @@ public class MainActivity extends BaseFragmentActivity
         JPushInterface.setAlias(MainActivity.this, PhoneInfo.getIMEI(this), null);
         uploadPushToken();
         initBottomView();
-        addErrorProcess();
+//        addErrorProcess();
         UpdateResources.checkLocalDB(this);
         UpdateResources.checkLocalResource(this);
         setUpDrawer();

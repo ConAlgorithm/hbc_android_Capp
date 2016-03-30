@@ -13,8 +13,9 @@ import java.util.ArrayList;
  */
 public class ParserTravel extends ImplParser {
     @Override
-    public ArrayList<OrderBean> parseObject(JSONObject obj) throws Throwable {
-
+    public Object[] parseObject(JSONObject obj) throws Throwable {
+        Object[] objs = new Object[2];
+        objs[0] = obj.optInt("totalSize");
         JSONArray jsonArray = obj.optJSONArray("resultBean");
         ArrayList<OrderBean> listData = new ArrayList<OrderBean>();
         if (jsonArray != null) {
@@ -24,6 +25,7 @@ public class ParserTravel extends ImplParser {
                 listData.add(parserOrder.parseObject(segObj));
             }
         }
-        return listData;
+        objs[1] = listData;
+        return objs;
     }
 }

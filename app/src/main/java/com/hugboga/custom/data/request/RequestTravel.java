@@ -19,13 +19,15 @@ import java.util.HashMap;
  * Created by admin on 2016/3/23.
  */
 @HttpRequest(path = UrlLibs.SERVER_IP_ORDER_LIST, builder = HbcParamsBuilder.class)
-public class RequestTravel extends BaseRequest<ArrayList<OrderBean>> {
-    public RequestTravel(Context context, int orderShowType, int offset, int limit) {
+public class RequestTravel extends BaseRequest {
+    public RequestTravel(Context context, int orderShowType) {
         super(context);
         map = new HashMap<String, Object>();
-        map.put("searchType", orderShowType + 1);
-        map.put("offset", offset);
-        map.put("limit", limit);
+        try {
+            map.put("searchType", orderShowType);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
