@@ -177,7 +177,9 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                 //等待支付 初始状态
                 vh.mStatusLayout.setVisibility(View.VISIBLE);
                 vh.mPrice.setVisibility(View.VISIBLE);
-                vh.mPrice.setText("应付金额：" + orderBean.orderPriceInfo.shouldPay + "元");
+                if(orderBean.orderPriceInfo!=null){
+                    vh.mPrice.setText("应付金额：" + orderBean.orderPriceInfo.shouldPay + "元");
+                }
                 vh.mHeadLayout.setVisibility(View.GONE);
                 vh.mBtnPay.setVisibility(View.VISIBLE);
                 vh.mBtnPay.setTag(orderBean);
@@ -211,8 +213,10 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                 vh.mStatusLayout.setVisibility(View.VISIBLE);
                 vh.mPrice.setVisibility(View.GONE);
                 vh.mHeadLayout.setVisibility(View.VISIBLE);
-                vh.mHeadTitle.setText(orderBean.orderGuideInfo.guideName);
-                x.image().bind(vh.mHeadImg, orderBean.orderGuideInfo.guideAvatar, options);
+                if(orderBean.orderGuideInfo!=null){
+                    vh.mHeadTitle.setText(orderBean.orderGuideInfo.guideName);
+                    x.image().bind(vh.mHeadImg, orderBean.orderGuideInfo.guideAvatar, options);
+                }
                 vh.mBtnPay.setVisibility(View.GONE);
                 vh.mBtnChat.setVisibility(View.VISIBLE);
                 vh.mAssessment.setVisibility(View.GONE);
@@ -241,8 +245,10 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                 vh.mStatusLayout.setVisibility(View.VISIBLE);
                 vh.mPrice.setVisibility(View.GONE);
                 vh.mHeadLayout.setVisibility(View.VISIBLE);
-                vh.mHeadTitle.setText(orderBean.orderGuideInfo.guideName);
-                x.image().bind(vh.mHeadImg, orderBean.orderGuideInfo.guideAvatar, options);
+                if(orderBean.orderGuideInfo!=null){
+                    vh.mHeadTitle.setText(orderBean.orderGuideInfo.guideName);
+                    x.image().bind(vh.mHeadImg, orderBean.orderGuideInfo.guideAvatar, options);
+                }
                 vh.mBtnPay.setVisibility(View.GONE);
                 vh.mBtnChat.setVisibility(View.VISIBLE);
                 vh.mStatus.setTextColor(Color.parseColor("#F3AD5B"));
@@ -259,8 +265,10 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                 vh.mHeadLayout.setVisibility(View.VISIBLE);
                 vh.mBtnChat.setVisibility(View.VISIBLE);
                 vh.mStatus.setTextColor(Color.parseColor("#BDBDBD"));
-                vh.mHeadTitle.setText(orderBean.orderGuideInfo.guideName);
-                x.image().bind(vh.mHeadImg, orderBean.orderGuideInfo.guideAvatar, options);
+                if(orderBean.orderGuideInfo!=null){
+                    vh.mHeadTitle.setText(orderBean.orderGuideInfo.guideName);
+                    x.image().bind(vh.mHeadImg, orderBean.orderGuideInfo.guideAvatar, options);
+                }
                 break;
             case CANCELLED:
             case REFUNDED:

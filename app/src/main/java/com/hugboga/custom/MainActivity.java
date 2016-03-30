@@ -1,15 +1,21 @@
 package com.hugboga.custom;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +26,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.huangbaoche.hbcframe.activity.BaseFragmentActivity;
+import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
+import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
+import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
+import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.adapter.MenuItemAdapter;
 import com.hugboga.custom.constants.Constants;
@@ -27,6 +37,8 @@ import com.hugboga.custom.data.bean.LvMenuItem;
 import com.hugboga.custom.data.bean.PushMessage;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.request.RequestPushClick;
+import com.hugboga.custom.data.request.RequestPushToken;
 import com.hugboga.custom.fragment.BaseFragment;
 import com.hugboga.custom.fragment.FgChat;
 import com.hugboga.custom.fragment.FgChooseCity;
@@ -42,8 +54,12 @@ import com.hugboga.custom.fragment.FgTest;
 import com.hugboga.custom.fragment.FgTravel;
 import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.ImageOptionUtils;
+import com.hugboga.custom.utils.PermissionRes;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.utils.UpdateResources;
+import com.zhy.m.permission.MPermissions;
+import com.zhy.m.permission.PermissionDenied;
+import com.zhy.m.permission.PermissionGrant;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
@@ -60,7 +76,7 @@ import de.greenrobot.event.EventBus;
 
 @ContentView(R.layout.activity_main)
 public class MainActivity extends BaseFragmentActivity
-        implements ViewPager.OnPageChangeListener, AdapterView.OnItemClickListener, View.OnClickListener {
+        implements ViewPager.OnPageChangeListener, AdapterView.OnItemClickListener, View.OnClickListener, HttpRequestListener {
 
     public static final String PUSH_BUNDLE_MSG = "pushMessage";
     public static final String FILTER_PUSH_DO = "com.hugboga.custom.pushdo";
@@ -95,24 +111,77 @@ public class MainActivity extends BaseFragmentActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        setSupportActionBar(toolbar);
+        initBottomView();
         contentId = R.id.drawer_layout;
         initAdapterContent();
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.addOnPageChangeListener(this);
+
 //        navigationView.setNavigationItemSelectedListener(this);
-        JPushInterface.setAlias(MainActivity.this, PhoneInfo.getIMEI(this), null);
-        initBottomView();
-        addErrorProcess();
+        //为服务器授权
+        grantPhone();
+
+//      addErrorProcess();
         UpdateResources.checkLocalDB(this);
         UpdateResources.checkLocalResource(this);
         setUpDrawer();
         connectIM();
+        receivePushMessage(getIntent());
         try {
             EventBus.getDefault().register(this);
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * 授权获取手机信息权限
+     */
+    private void grantPhone() {
+        MPermissions.requestPermissions(MainActivity.this, PermissionRes.READ_PHONE_STATE, android.Manifest.permission.READ_PHONE_STATE);
+    }
+
+    @PermissionGrant(PermissionRes.READ_PHONE_STATE)
+    public void requestPhoneSuccess() {
+        JPushInterface.setAlias(MainActivity.this, PhoneInfo.getIMEI(this), null);
+        uploadPushToken();
+    }
+
+    private void uploadPushToken() {
+        String imei = PhoneInfo.getIMEI(this);
+        RequestPushToken request = new RequestPushToken(this, imei, imei, BuildConfig.VERSION_NAME, imei, PhoneInfo.getSoftwareVersion(this));
+        HttpRequestUtils.request(this, request, this);
+    }
+
+    @PermissionDenied(PermissionRes.READ_PHONE_STATE)
+    public void requestPhoneFailed() {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
+        dialog.setCancelable(false);
+        dialog.setTitle(R.string.grant_fail_title);
+        if (!ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.READ_PHONE_STATE)) {
+            dialog.setMessage(R.string.grant_fail_phone1);
+        } else {
+            dialog.setMessage(R.string.grant_fail_phone);
+            dialog.setPositiveButton(R.string.grant_fail_btn, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    grantPhone();
+                }
+            });
+        }
+        dialog.setNegativeButton(R.string.grant_fail_btn_exit, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                System.exit(0);
+            }
+        });
+        dialog.show();
+    }
+
+    private void uploadPushClick(String pushId) {
+        RequestPushClick request = new RequestPushClick(this, pushId);
+        HttpRequestUtils.request(this, request, this);
     }
 
     private void initAdapterContent() {
@@ -134,31 +203,44 @@ public class MainActivity extends BaseFragmentActivity
         }
     }
 
-    /**
-     * Push任务接收器
-     */
-    class PushDoReceiver extends BroadcastReceiver {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            PushMessage pushMessage = (PushMessage) intent.getSerializableExtra(PUSH_BUNDLE_MSG);
+    @Override
+    public void onDataRequestSucceed(BaseRequest request) {
+        if (request instanceof RequestPushToken) {
+            MLog.e(request.getData().toString());
         }
     }
 
     @Override
+    public void onDataRequestCancel(BaseRequest request) {
+    }
+
+    @Override
+    public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+        MLog.e(errorInfo == null ? "" : errorInfo.toString());
+    }
+
+
+    @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        if ("rong".equals(intent.getData().getScheme())) {
-            Bundle bundle = new Bundle();
-            bundle.putString(FgIMChat.KEY_TITLE, intent.getData().toString());
-            startFragment(new FgIMChat(), bundle);
-        } else {
-            PushMessage message = (PushMessage) intent.getSerializableExtra(MainActivity.PUSH_BUNDLE_MSG);
-            if (message != null) {
-                if ("IM".equals(message.type)) {
-                    gotoChatList();
-                } else {
-                    gotoOrder(message);
+        receivePushMessage(intent);
+    }
+
+    private void receivePushMessage(Intent intent) {
+        if (intent != null) {
+            if (intent.getData() != null && "rong".equals(intent.getData().getScheme())) {
+                Bundle bundle = new Bundle();
+                bundle.putString(FgIMChat.KEY_TITLE, intent.getData().toString());
+                startFragment(new FgIMChat(), bundle);
+            } else {
+                PushMessage message = (PushMessage) intent.getSerializableExtra(MainActivity.PUSH_BUNDLE_MSG);
+                if (message != null) {
+                    uploadPushClick(message.messageID);
+                    if ("IM".equals(message.type)) {
+                        gotoChatList();
+                    } else {
+                        gotoOrder(message);
+                    }
                 }
             }
         }
@@ -474,6 +556,25 @@ public class MainActivity extends BaseFragmentActivity
             return null;
         }
     }
+    public void restartApp(){
+        Intent intent = new Intent(this,MainActivity.class);
+        PendingIntent restartIntent = PendingIntent.getActivity(
+                this.getApplicationContext(), 0, intent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+        //退出程序 重启应用
+        AlarmManager mgr = (AlarmManager)this.getSystemService(Context.ALARM_SERVICE);
+        mgr.set(AlarmManager.RTC, System.currentTimeMillis()+500,restartIntent); //  重启应用
+    }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        MPermissions.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
 
+    @Override
+    public void exitApp() {
+        restartApp();
+        super.exitApp();
+    }
 }

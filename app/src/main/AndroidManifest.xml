@@ -70,7 +70,7 @@
         <activity
             android:name=".SplashActivity"
             android:label="@string/title_activity_splash"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"/>
 
         <service
             android:name=".service.LogService"
@@ -100,6 +100,11 @@
             android:exported="true"
             android:launchMode="singleTop" />
 
+        <!-- 剪切图片 -->
+        <activity
+            android:name="com.yalantis.ucrop.UCropActivity"
+            android:screenOrientation="portrait" />
+
         <!-- alipay sdk begin -->
         <activity
             android:name="com.alipay.sdk.app.H5PayActivity"
@@ -126,7 +131,7 @@
         <service
             android:name="cn.jpush.android.service.DownloadService"
             android:enabled="true"
-            android:exported="false"></service>
+            android:exported="false"/>
 
         <!-- Required SDK 核心功能 -->
         <service

@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.adapter.BaseAdapter;
+import com.huangbaoche.hbcframe.viewholder.ZBaseViewHolder;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.ChatOrderBean;
 
@@ -62,7 +63,7 @@ public class LetterOrderAdapter extends BaseAdapter<ChatOrderBean> {
         }
     }
 
-    public class LetterOrderVH extends BaseViewHolder {
+    public class LetterOrderVH extends ZBaseViewHolder {
 
         @ViewInject(R.id.letter_item_order_state)
         TextView mOrderState;

@@ -8,6 +8,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -84,6 +85,8 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+
         View view = inflater.inflate(R.layout.fg_city, null);
         chooseType = getArguments().getInt(KEY_CHOOSE_TYPE, KEY_TYPE_SINGLE);
         from = getArguments().getString(KEY_FROM);
@@ -106,6 +109,19 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
         mDbManager = new DBHelper(getActivity()).getDbManager();
         sharedPer = new SharedPre(getActivity());
         return view;
+    }
+
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        this.getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        this.getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
     }
 
     protected void initView() {
@@ -229,26 +245,6 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
         return null;
     }
 
-//    protected void requestDate() {
-//        long time = System.currentTimeMillis();
-//        if(cityId!=-1&&groupId==-1){
-//            try {
-//                Selector<CityBean> selector = mDbManager.selector(CityBean.class);
-//                CityBean cityBean = selector.where("city_id", "=", cityId).findFirst();
-//                if(cityBean!=null)
-//                groupId = cityBean.groupId;
-//            } catch (DbException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//        requestDate(getBusinessType(), groupId, null);
-//        if(chooseType==this.KEY_TYPE_SINGLE){
-//            requestHotDate(getBusinessType(), groupId);
-//            requestHistoryDate(getBusinessType(), groupId);
-//        }
-//        MLog.e("time=" + (System.currentTimeMillis() - time));
-//    }
-
     /**
      * 查询全部城市
      *
@@ -272,18 +268,15 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
         }
         if (orderType == Constants.BUSINESS_TYPE_DAILY) {
             if (groupId == -1) {
-                selector.and("group_id", "<>", null);
                 selector.and("is_daily", "=", 1);
             } else {
                 selector.and("group_id", "=", groupId);
-                selector.and("is_daily", "=", 1);
             }
-//
         } else if (orderType == Constants.BUSINESS_TYPE_RENT) {
             selector.and("is_single", "=", 1);
         } else if (orderType == Constants.BUSINESS_TYPE_PICK || orderType == Constants.BUSINESS_TYPE_SEND) {
             selector.and("is_city_code", "=", 1);
-        } else if (orderType == Constants.BUSINESS_TYPE_HOME){
+        } else if (orderType == Constants.BUSINESS_TYPE_HOME) {
             WhereBuilder whereBuilder = WhereBuilder.b();
             whereBuilder.and("place_name", "<>", "中国");
             selector.and(whereBuilder);
@@ -316,17 +309,15 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
         selector.where("is_hot", "=", 1);
         if (orderType == Constants.BUSINESS_TYPE_DAILY) {
             if (groupId == -1) {
-                selector.and("group_id", "<>", null);
                 selector.and("is_daily", "=", 1);
             } else {
                 selector.and("group_id", "=", groupId);
-                selector.and("is_daily", "=", 1);
             }
         } else if (orderType == Constants.BUSINESS_TYPE_RENT) {
             selector.and("is_single", "=", 1);
         } else if (orderType == Constants.BUSINESS_TYPE_PICK || orderType == Constants.BUSINESS_TYPE_SEND) {
             selector.and("is_city_code", "=", 1);
-        } else if (orderType == Constants.BUSINESS_TYPE_HOME){
+        } else if (orderType == Constants.BUSINESS_TYPE_HOME) {
             WhereBuilder whereBuilder = WhereBuilder.b();
             whereBuilder.and("place_name", "<>", "中国");
             selector.and(whereBuilder);
@@ -385,17 +376,15 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
         selector.where(where);
         if (orderType == Constants.BUSINESS_TYPE_DAILY) {
             if (groupId == -1) {
-                selector.and("group_id", "<>", null);
                 selector.and("is_daily", "=", 1);
             } else {
                 selector.and("group_id", "=", groupId);
-                selector.and("is_daily", "=", 1);
             }
         } else if (orderType == Constants.BUSINESS_TYPE_RENT) {
             selector.and("is_single", "=", 1);
         } else if (orderType == Constants.BUSINESS_TYPE_PICK || orderType == Constants.BUSINESS_TYPE_SEND) {
             selector.and("is_city_code", "=", 1);
-        } else if (orderType == Constants.BUSINESS_TYPE_HOME){
+        } else if (orderType == Constants.BUSINESS_TYPE_HOME) {
             WhereBuilder whereBuilder = WhereBuilder.b();
             whereBuilder.and("place_name", "<>", "中国");
             selector.and(whereBuilder);
@@ -463,22 +452,24 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
                             int position, long id) {
         Bundle bundle = new Bundle(getArguments());
         CityBean cityBean = sourceDateList.get(position);
-        ToastUtils.showShort(cityBean.cityId + " , " + cityBean.name);
         if (cityBean.firstLetter.equals("nationality")) {
             return;
         }
-        if(getBusinessType() == Constants.BUSINESS_TYPE_HOME){
+        //从首页进城市搜索，到城市sku列表
+        if (getBusinessType() == Constants.BUSINESS_TYPE_HOME) {
+            saveHistoryDate(cityBean);
             FgSkuList fg = new FgSkuList();
-            bundle.putString(FgSkuList.KEY_CITY_ID,String.valueOf(cityBean.cityId));
+            bundle.putString(FgSkuList.KEY_CITY_ID, String.valueOf(cityBean.cityId));
             finish();
             startFragment(fg, bundle);
             return;
         }
+        //包车城市搜索
         if (chooseType == KEY_TYPE_SINGLE) {
             saveHistoryDate(cityBean);
             bundle.putSerializable(KEY_CITY, cityBean);
             finishForResult(bundle);
-        } else {
+        } else {//途径城市
             cityBean.isSelected = !cityBean.isSelected;
             if (chooseCityList.size() >= 10 && cityBean.isSelected) {
                 cityBean.isSelected = false;
@@ -589,7 +580,6 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
      * @param isNeedMore 是否需要更多结果(%keyword%的),第一次调置为false
      */
     protected List<CityBean> requestDataByKeyword(int orderType, int groupId, String keyword, boolean isNeedMore) {
-//        Selector selector = Selector.from(CityBean.class);
         List<CityBean> dataList = new ArrayList<CityBean>();
         Selector selector = null;
         try {
@@ -609,18 +599,16 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
         }
         if (orderType == Constants.BUSINESS_TYPE_DAILY) {
             if (groupId == -1) {
-                selector.and("group_id", "<>", null);
                 selector.and("is_daily", "=", 1);
             } else {
                 selector.and("group_id", "=", groupId);
-                selector.and("is_daily", "=", 1);
             }
             //条件加不加？？？？
         } else if (orderType == Constants.BUSINESS_TYPE_RENT) {
             selector.and("is_single", "=", 1);
         } else if (orderType == Constants.BUSINESS_TYPE_PICK || orderType == Constants.BUSINESS_TYPE_SEND) {
             selector.and("is_city_code", "=", 1);
-        } else if (orderType == Constants.BUSINESS_TYPE_HOME){
+        } else if (orderType == Constants.BUSINESS_TYPE_HOME) {
             WhereBuilder whereBuilder = WhereBuilder.b();
             whereBuilder.and("place_name", "<>", "中国");
             selector.and(whereBuilder);
@@ -664,14 +652,13 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
                 selector.and("is_daily", "=", 1);
             } else {
                 selector.and("group_id", "=", groupId);
-                selector.and("is_daily", "=", 1);
             }
             //条件加不加？？？？
         } else if (orderType == Constants.BUSINESS_TYPE_RENT) {
             selector.and("is_single", "=", 1);
         } else if (orderType == Constants.BUSINESS_TYPE_PICK || orderType == Constants.BUSINESS_TYPE_SEND) {
             selector.and("is_city_code", "=", 1);
-        } else if (orderType == Constants.BUSINESS_TYPE_HOME){
+        } else if (orderType == Constants.BUSINESS_TYPE_HOME) {
             WhereBuilder whereBuilder = WhereBuilder.b();
             whereBuilder.and("place_name", "<>", "中国");
             selector.and(whereBuilder);

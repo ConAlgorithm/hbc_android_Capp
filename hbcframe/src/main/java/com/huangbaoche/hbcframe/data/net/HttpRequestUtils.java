@@ -77,7 +77,7 @@ public class HttpRequestUtils {
         Callback.Cancelable cancelable = x.http().request(request.getHttpMethod(), request, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                MLog.e("onSuccess result=" + result);
+                MLog.e(request.getClass().getSimpleName()+" onSuccess result=" + result);
                 try {
                     ImplParser parser = request.getParser();
                     if(parser==null) parser= new DefaultParser();
@@ -92,13 +92,13 @@ public class HttpRequestUtils {
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                MLog.e("onError",ex);
+                MLog.e(request.getClass().getSimpleName()+" onError",ex);
                 listener.onDataRequestError(handleException(ex), request);
             }
 
             @Override
             public void onCancelled(CancelledException cex) {
-                MLog.e("onCancelled="+cex.toString());
+                MLog.e(request.getClass().getSimpleName()+" onCancelled="+cex.toString());
                 listener.onDataRequestCancel(request);
             }
 

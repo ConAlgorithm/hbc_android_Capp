@@ -5,10 +5,8 @@ import android.content.Context;
 import com.huangbaoche.hbcframe.data.net.HbcParamsBuilder;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
-import com.hugboga.custom.data.bean.ChatOrderBean;
 import com.hugboga.custom.data.net.UrlLibs;
-import com.hugboga.custom.data.parser.ParserChatOrder;
-import com.hugboga.custom.data.parser.ParserChatOrders;
+import com.hugboga.custom.data.parser.ParserNewOrder;
 
 import org.xutils.http.annotation.HttpRequest;
 
@@ -35,6 +33,6 @@ public class RequestIMOrder extends BaseRequest<Object[]> {
 
     @Override
     public ImplParser getParser() {
-        return new ParserChatOrders();
+        return new ParserNewOrder();
     }
 }

@@ -5,29 +5,32 @@ import android.content.Context;
 import com.huangbaoche.hbcframe.data.net.HbcParamsBuilder;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
-import com.hugboga.custom.data.bean.ChatBean;
 import com.hugboga.custom.data.net.UrlLibs;
-import com.hugboga.custom.data.parser.ParserChatList;
 
+import org.xutils.http.HttpMethod;
 import org.xutils.http.annotation.HttpRequest;
 
-import java.util.ArrayList;
 import java.util.TreeMap;
 
 /**
- * 聊天列表
- * Created by admin on 2016/3/8.
+ * Created by admin on 2016/3/29.
  */
-@HttpRequest(path = UrlLibs.SERVER_IP_CHAT_LIST, builder = HbcParamsBuilder.class)
-public class RequestChatList extends BaseRequest<ArrayList<ChatBean>> {
+@HttpRequest(path = UrlLibs.SERVER_IP_PUSH_RECEIVE,builder = HbcParamsBuilder.class)
+public class RequestPushReceive extends BaseRequest {
 
-    public RequestChatList(Context context) {
+    public RequestPushReceive(Context context,String pushId) {
         super(context);
-        map = new TreeMap<String, Object>();
+        map = new TreeMap();
+        map.put("pushId",pushId);
+    }
+
+    @Override
+    public HttpMethod getMethod() {
+        return HttpMethod.POST;
     }
 
     @Override
     public ImplParser getParser() {
-        return new ParserChatList();
+        return null;
     }
 }

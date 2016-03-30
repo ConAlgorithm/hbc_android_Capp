@@ -13,6 +13,7 @@ public final class Constants {
     //SDCard path
     public static final String IMAGE_DIR = Environment.getExternalStorageDirectory() + File.separator + "huangbaocheC";
     public static final String HEAD_IMAGE = "head.png";
+    public static final String HEAD_IMAGE_NEW = "head_new.png";
     public static final String VERSION_FILE = "huangbaoche_C.apk";
 
     public static final int BUSINESS_TYPE_PICK = 1;//接机

@@ -4,16 +4,26 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 
+import com.huangbaoche.hbcframe.adapter.ZBaseAdapter;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
+import com.huangbaoche.hbcframe.widget.ZSwipeRefreshLayout;
 import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.ChatAdapter;
+import com.hugboga.custom.adapter.NewOrderAdapter;
+import com.hugboga.custom.data.bean.ChatBean;
+import com.hugboga.custom.data.bean.ChatInfo;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.parser.ParserChatInfo;
 import com.hugboga.custom.data.request.RequestChatList;
+import com.hugboga.custom.widget.recycler.ZListPageView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
@@ -22,6 +32,7 @@ import org.xutils.view.annotation.ViewInject;
 import java.util.ArrayList;
 
 import de.greenrobot.event.EventBus;
+import io.rong.imkit.RongIM;
 
 /**
  * 聊天页面
@@ -29,21 +40,19 @@ import de.greenrobot.event.EventBus;
  */
 
 @ContentView(R.layout.fg_chat)
-public class FgChat extends BaseFragment implements View.OnClickListener {
+public class FgChat extends BaseFragment implements View.OnClickListener, ZBaseAdapter.OnItemClickListener {
 
-    @ViewInject(R.id.chat_logout)
-    private View emptyLayout;
-
-    @ViewInject(R.id.chat_list)
-    private View chatList;
     @ViewInject(R.id.header_left_btn)
     private ImageView leftBtn;
 
-    @ViewInject(R.id.chat_list)
-    ListView listView;
-
+    @ViewInject(R.id.chat_content)
+    RelativeLayout chatLayout; //主题内容显示
+    @ViewInject(R.id.listview)
+    ZListPageView recyclerView;
+    @ViewInject(R.id.swipe)
+    ZSwipeRefreshLayout swipeRefreshLayout;
     @ViewInject(R.id.chat_logout)
-    View emptyView;
+    RelativeLayout emptyLayout;
 
     private ChatAdapter adapter;
 
@@ -56,24 +65,44 @@ public class FgChat extends BaseFragment implements View.OnClickListener {
 
     @Override
     protected void initView() {
-        adapter = new ChatAdapter(getActivity());
-        listView.setAdapter(adapter);
-        listView.setEmptyView(emptyView);
-        if(!EventBus.getDefault().isRegistered(this))
+        initListView();
+        if (!EventBus.getDefault().isRegistered(this))
             EventBus.getDefault().register(this);
+    }
+
+    private void initListView() {
+        adapter = new ChatAdapter(getActivity());
+        recyclerView.setAdapter(adapter);
+        recyclerView.setzSwipeRefreshLayout(swipeRefreshLayout);
+        recyclerView.setEmptyLayout(emptyLayout);
+        RequestChatList parserChatList = new RequestChatList(getActivity());
+        recyclerView.setRequestData(parserChatList);
+        recyclerView.setOnItemClickListener(this);
+    }
+
+    /**
+     * 加载数据
+     */
+    public void loadData() {
+        if (recyclerView != null) {
+            recyclerView.showPageFirst();
+            adapter.notifyDataSetChanged();
+        }
     }
 
     @Override
     protected Callback.Cancelable requestData() {
-        MLog.e("isLogin="+UserEntity.getUser().isLogin(getActivity()));
+        MLog.e("isLogin=" + UserEntity.getUser().isLogin(getActivity()));
         if (!UserEntity.getUser().isLogin(getActivity())) {
             needHttpRequest = true;
             emptyLayout.setVisibility(View.VISIBLE);
+            chatLayout.setVisibility(View.GONE);
             return null;
-        }else{
+        } else {
             emptyLayout.setVisibility(View.GONE);
-            RequestChatList parserChatList = new RequestChatList(getActivity(), 0, 20);
-            return requestData(parserChatList);
+            chatLayout.setVisibility(View.VISIBLE);
+            loadData();
+            return null;
         }
     }
 
@@ -83,12 +112,6 @@ public class FgChat extends BaseFragment implements View.OnClickListener {
 
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
-        if (request instanceof RequestChatList) {
-            RequestChatList requestChatList = (RequestChatList) request;
-            ArrayList dataList = requestChatList.getData();
-            adapter.setList(dataList);
-            MLog.e("onDataRequestSucceed = " + dataList);
-        }
     }
 
     @Event({R.id.login_btn, R.id.header_left_btn})
@@ -127,17 +150,45 @@ public class FgChat extends BaseFragment implements View.OnClickListener {
     }
 
     public void onEventMainThread(EventAction action) {
-        MLog.e(this+" onEventMainThread "+action.getType());
+        MLog.e(this + " onEventMainThread " + action.getType());
         switch (action.getType()) {
             case CLICK_USER_LOGIN:
                 requestData();
                 break;
             case CLICK_USER_LOOUT:
-                adapter.setList(null);
-                requestData();
+                chatLayout.setVisibility(View.GONE);
+                //清理列表数据
+                adapter.getDatas().clear();
+                adapter.notifyDataSetChanged();
+                emptyLayout.setVisibility(View.VISIBLE);
                 break;
             default:
                 break;
         }
     }
+
+    @Override
+    public void onItemClick(View view, int position) {
+        ChatBean chatBean = adapter.getDatas().get(position);
+        if ("3".equals(chatBean.targetType)) {
+            String titleJson = getChatInfo(chatBean.targetId, chatBean.targetAvatar, chatBean.targetName, chatBean.targetType);
+            RongIM.getInstance().startCustomerServiceChat(getActivity(), chatBean.targetId, titleJson);
+        } else if ("1".equals(chatBean.targetType)) {
+            String titleJson = getChatInfo(chatBean.userId, chatBean.targetAvatar, chatBean.targetName, chatBean.targetType);
+            RongIM.getInstance().startPrivateChat(getActivity(), chatBean.targetId, titleJson);
+        } else {
+            MLog.e("目标用户不是客服，也不是司导");
+        }
+    }
+
+    private String getChatInfo(String userId, String userAvatar, String title, String targetType) {
+        ChatInfo chatInfo = new ChatInfo();
+        chatInfo.isChat = true;
+        chatInfo.userId = userId;
+        chatInfo.userAvatar = userAvatar;
+        chatInfo.title = title;
+        chatInfo.targetType = targetType;
+        return new ParserChatInfo().toJsonString(chatInfo);
+    }
+
 }

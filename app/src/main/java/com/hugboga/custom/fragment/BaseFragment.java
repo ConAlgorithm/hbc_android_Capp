@@ -1,6 +1,7 @@
 package com.hugboga.custom.fragment;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.text.TextPaint;
 import android.view.View;
 import android.widget.TextView;
@@ -10,6 +11,7 @@ import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
+import com.zhy.m.permission.MPermissions;
 
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
@@ -70,17 +72,17 @@ public abstract class BaseFragment extends com.huangbaoche.hbcframe.fragment.Bas
     @Override
     public void onStop() {
         super.onStop();
-        EventBus.getDefault().post(new EventAction(EventType.CLICK_HEADER_LEFT_BTN_BACK));
+        collapseSoftInputMethod();
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        EventBus.getDefault().post(new EventAction(EventType.START_NEW_FRAGMENT));
     }
 
     @Override
     public boolean onBackPressed() {
+        EventBus.getDefault().post(new EventAction(EventType.CLICK_HEADER_LEFT_BTN_BACK));
         return super.onBackPressed();
     }
 
@@ -108,6 +110,7 @@ public abstract class BaseFragment extends com.huangbaoche.hbcframe.fragment.Bas
             fragment.setBusinessType(tmpBusinessType == -1 ? mBusinessType : tmpBusinessType);
             fragment.setGoodsType(tmpGoodsType == -1 ? mGoodsType : tmpGoodsType);
         }
+        EventBus.getDefault().post(new EventAction(EventType.START_NEW_FRAGMENT));
         super.startFragment(fragment);
 
     }
@@ -154,5 +157,11 @@ public abstract class BaseFragment extends com.huangbaoche.hbcframe.fragment.Bas
 
     public void showTip(String tips) {
         Toast.makeText(getActivity(), tips, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        MPermissions.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 }

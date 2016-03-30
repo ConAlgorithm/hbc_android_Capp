@@ -19,6 +19,15 @@
     <string name="dialog_btn_again">再来一次</string>
     <string name="complete">完成</string>
 
+    <!--Permission-->
+    <string name="grant_fail_title">授权失败</string>
+    <string name="grant_fail_btn">重新获取</string>
+    <string name="grant_fail_btn_exit">退出应用</string>
+    <string name="grant_fail_phone1">您选择了不再提醒授权，请进入设置-应用中为应用授权</string>
+    <string name="grant_fail_sdcard">权限只是用做存储照片使用，拒绝将不能正常使用</string>
+    <string name="grant_fail_camera">权限只是用做拍摄头像照片使用，拒绝将不能拍摄头像</string>
+    <string name="grant_fail_phone">权限只是用做识别身份使用，拒绝将不能正常使用</string>
+
     <!-- 提示信息 -->
     <string name="two_exit">再按一次退出程序</string>
     <string name="network_error">网络链接错误</string>
@@ -61,6 +70,8 @@
     <string name="title_daily_out_town">跨城市包车</string>
     <string name="title_rent">单次接送</string>
     <string name="title_commend">线路包车</string>
+    <string name="title_daily_small">小长途</string>
+    <string name="title_daily_large">大长途</string>
     <string name="title_other">订单详情</string>
     <string name="title_choose_airport">选择机场</string>
     <string name="title_transfer">接送机</string>
@@ -77,7 +88,7 @@
     <string name="sku_sub_title">精品包车线路</string>
 
     <!-- Search address -->
-    <string name="search_hint_pick">搜索送达目的地</string>
+    <string name="search_hint_pick">请输入城市名称</string>
     <string name="search_hint_send">搜索出发地点</string>
 
     <!-- 页面 progress-->

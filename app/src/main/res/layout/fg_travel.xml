@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@mipmap/bg_02"
     android:orientation="vertical">
 
-    <include layout="@layout/include_header" />
     <include
-        android:id="@+id/travel_logout_layout"
-        layout="@layout/include_travel_logout"/>
+        android:id="@+id/toolbar"
+        layout="@layout/include_header" />
+
     <LinearLayout
+        android:id="@+id/travel_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/toolbar"
         android:orientation="vertical">
 
         <include layout="@layout/fg_travel_tabs" />
@@ -30,4 +32,8 @@
 
     </LinearLayout>
 
-</LinearLayout>
+    <include
+        android:id="@+id/travel_logout_layout"
+        layout="@layout/include_travel_logout" />
+
+</RelativeLayout>
