@@ -22,11 +22,9 @@ import java.util.TreeMap;
 public class RequestChatList extends BaseRequest<ArrayList<ChatBean>> {
 
 
-    public RequestChatList(Context context, int offset, int limit) {
+    public RequestChatList(Context context) {
         super(context);
         map = new TreeMap<String, Object>();
-        map.put("offset", offset);
-        map.put("limit", limit);
     }
 
 
