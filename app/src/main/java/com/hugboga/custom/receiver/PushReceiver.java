@@ -34,12 +34,11 @@ public class PushReceiver extends BroadcastReceiver implements HttpRequestListen
     public void onReceive(Context context, Intent intent) {
         Bundle bundle = intent.getExtras();
         MLog.e("bundle="+bundle);
-        String pushId = bundle.getString(JPushInterface.EXTRA_PUSH_ID);
         String msgId = bundle.getString(JPushInterface.EXTRA_MSG_ID);
         String title = bundle.getString(JPushInterface.EXTRA_TITLE);
         String msg1 = bundle.getString(JPushInterface.EXTRA_MESSAGE);
         String msg2 = bundle.getString(JPushInterface.EXTRA_EXTRA);
-        MLog.e("pushId="+pushId+", msgId="+msgId+", msg1="+msg1+" msg2="+msg2);
+        MLog.e(", msgId="+msgId+", msg1="+msg1+" msg2="+msg2);
         if(msg2==null || msg2.isEmpty()){
             return;
         }
@@ -57,7 +56,7 @@ public class PushReceiver extends BroadcastReceiver implements HttpRequestListen
         PushUtils pushUtils = new PushUtils();
 //        gotoMain(context, pushMessage);
         PushUtils.showNotification(context,pushMessage);
-        uploadPushReceive(context,pushId);
+        uploadPushReceive(context,msgId);
        /* if (!TextUtils.isEmpty(pushMessage.type) && pushUtils.isVersion(context, pushMessage.version) && pushUtils.isVaild(pushMessage.vaild) && pushUtils.isAccountId(pushMessage.accountID)) {
             gotoMain(context, pushMessage);
             *//*

@@ -1,5 +1,9 @@
 package com.hugboga.custom;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -118,7 +122,7 @@ public class MainActivity extends BaseFragmentActivity
         //为服务器授权
         grantPhone();
 
-//        addErrorProcess();
+//      addErrorProcess();
         UpdateResources.checkLocalDB(this);
         UpdateResources.checkLocalResource(this);
         setUpDrawer();
@@ -552,6 +556,15 @@ public class MainActivity extends BaseFragmentActivity
             return null;
         }
     }
+    public void restartApp(){
+        Intent intent = new Intent(this,MainActivity.class);
+        PendingIntent restartIntent = PendingIntent.getActivity(
+                this.getApplicationContext(), 0, intent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+        //退出程序 重启应用
+        AlarmManager mgr = (AlarmManager)this.getSystemService(Context.ALARM_SERVICE);
+        mgr.set(AlarmManager.RTC, System.currentTimeMillis()+500,restartIntent); //  重启应用
+    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -559,4 +572,9 @@ public class MainActivity extends BaseFragmentActivity
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
+    @Override
+    public void exitApp() {
+        restartApp();
+        super.exitApp();
+    }
 }
