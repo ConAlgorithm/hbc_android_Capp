@@ -21,6 +21,7 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.utils.DBHelper;
 import com.hugboga.custom.utils.SharedPre;
+import com.hugboga.custom.utils.ToastUtils;
 import com.hugboga.custom.widget.SideBar;
 
 import org.xutils.DbManager;
@@ -33,7 +34,9 @@ import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * 选择城市
@@ -124,9 +127,6 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
 
 //		findCityList(groupId, null);
         MLog.e("adapter= " + adapter);
-        //测试代码开始
-        setBusinessType(3);
-        //测试代码结束
         adapter = new CityAdapter(getActivity(), this, sourceDateList, String.valueOf(getBusinessType()));
         adapter.setChooseType(chooseType);
         sortListView.setAdapter(adapter);
@@ -276,12 +276,20 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
                 selector.and("is_daily", "=", 1);
             } else {
                 selector.and("group_id", "=", groupId);
+                selector.and("is_daily", "=", 1);
             }
 //
         } else if (orderType == Constants.BUSINESS_TYPE_RENT) {
             selector.and("is_single", "=", 1);
         } else if (orderType == Constants.BUSINESS_TYPE_PICK || orderType == Constants.BUSINESS_TYPE_SEND) {
             selector.and("is_city_code", "=", 1);
+        } else if (orderType == Constants.BUSINESS_TYPE_HOME){
+            WhereBuilder whereBuilder = WhereBuilder.b();
+            whereBuilder.and("place_name", "<>", "中国");
+            selector.and(whereBuilder);
+            WhereBuilder whereBuilder2 = WhereBuilder.b();
+            whereBuilder2.and("is_city_code", "=", 1).or("is_daily", "=", 1).or("is_single", "=", 1);
+            selector.and(whereBuilder2);
         }
         selector.orderBy("initial");
         try {
@@ -312,11 +320,19 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
                 selector.and("is_daily", "=", 1);
             } else {
                 selector.and("group_id", "=", groupId);
+                selector.and("is_daily", "=", 1);
             }
         } else if (orderType == Constants.BUSINESS_TYPE_RENT) {
             selector.and("is_single", "=", 1);
         } else if (orderType == Constants.BUSINESS_TYPE_PICK || orderType == Constants.BUSINESS_TYPE_SEND) {
             selector.and("is_city_code", "=", 1);
+        } else if (orderType == Constants.BUSINESS_TYPE_HOME){
+            WhereBuilder whereBuilder = WhereBuilder.b();
+            whereBuilder.and("place_name", "<>", "中国");
+            selector.and(whereBuilder);
+            WhereBuilder whereBuilder2 = WhereBuilder.b();
+            whereBuilder2.and("is_city_code", "=", 1).or("is_daily", "=", 1).or("is_single", "=", 1);
+            selector.and(whereBuilder2);
         }
         // 修改热门城市排序
         selector.orderBy("hot_weight", true);
@@ -373,11 +389,19 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
                 selector.and("is_daily", "=", 1);
             } else {
                 selector.and("group_id", "=", groupId);
+                selector.and("is_daily", "=", 1);
             }
         } else if (orderType == Constants.BUSINESS_TYPE_RENT) {
             selector.and("is_single", "=", 1);
         } else if (orderType == Constants.BUSINESS_TYPE_PICK || orderType == Constants.BUSINESS_TYPE_SEND) {
             selector.and("is_city_code", "=", 1);
+        } else if (orderType == Constants.BUSINESS_TYPE_HOME){
+            WhereBuilder whereBuilder = WhereBuilder.b();
+            whereBuilder.and("place_name", "<>", "中国");
+            selector.and(whereBuilder);
+            WhereBuilder whereBuilder2 = WhereBuilder.b();
+            whereBuilder2.and("is_city_code", "=", 1).or("is_daily", "=", 1).or("is_single", "=", 1);
+            selector.and(whereBuilder2);
         }
         try {
             List<CityBean> tmpHistoryCityDate = selector.findAll();
@@ -439,7 +463,15 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
                             int position, long id) {
         Bundle bundle = new Bundle(getArguments());
         CityBean cityBean = sourceDateList.get(position);
+        ToastUtils.showShort(cityBean.cityId + " , " + cityBean.name);
         if (cityBean.firstLetter.equals("nationality")) {
+            return;
+        }
+        if(getBusinessType() == Constants.BUSINESS_TYPE_HOME){
+            FgSkuList fg = new FgSkuList();
+            bundle.putString(FgSkuList.KEY_CITY_ID,String.valueOf(cityBean.cityId));
+            finish();
+            startFragment(fg, bundle);
             return;
         }
         if (chooseType == KEY_TYPE_SINGLE) {
@@ -518,17 +550,20 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
         } else {
             sourceDateList.clear();
             adapter.getHotCityList().clear();
+            Set<CityBean> set = new HashSet<CityBean>();//去重复Set
             List<CityBean> dataList = requestDataByKeyword(getBusinessType(), groupId, editSearch.getText().toString().trim(), false);
             if (dataList.size() > 0) {
-                sourceDateList.addAll(dataList);
+                set.addAll(dataList);
             }
-            if (sourceDateList.size() >= 10) {
+            if (set.size() >= 10) {
+                sourceDateList.addAll(set);
                 adapter.notifyDataSetChanged();
             } else {
                 List<CityBean> dataList2 = requestDataByKeyword(getBusinessType(), groupId, editSearch.getText().toString().trim(), true);
                 if (dataList2.size() > 0) {
-                    sourceDateList.addAll(dataList2);
+                    set.addAll(dataList2);
                 }
+                sourceDateList.addAll(set);
                 if (sourceDateList.size() >= 10) {
                     adapter.notifyDataSetChanged();
                 } else {
@@ -578,12 +613,20 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
                 selector.and("is_daily", "=", 1);
             } else {
                 selector.and("group_id", "=", groupId);
+                selector.and("is_daily", "=", 1);
             }
             //条件加不加？？？？
         } else if (orderType == Constants.BUSINESS_TYPE_RENT) {
             selector.and("is_single", "=", 1);
         } else if (orderType == Constants.BUSINESS_TYPE_PICK || orderType == Constants.BUSINESS_TYPE_SEND) {
             selector.and("is_city_code", "=", 1);
+        } else if (orderType == Constants.BUSINESS_TYPE_HOME){
+            WhereBuilder whereBuilder = WhereBuilder.b();
+            whereBuilder.and("place_name", "<>", "中国");
+            selector.and(whereBuilder);
+            WhereBuilder whereBuilder2 = WhereBuilder.b();
+            whereBuilder2.and("is_city_code", "=", 1).or("is_daily", "=", 1).or("is_single", "=", 1);
+            selector.and(whereBuilder2);
         }
         try {
             dataList = selector.findAll();
@@ -621,12 +664,20 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
                 selector.and("is_daily", "=", 1);
             } else {
                 selector.and("group_id", "=", groupId);
+                selector.and("is_daily", "=", 1);
             }
             //条件加不加？？？？
         } else if (orderType == Constants.BUSINESS_TYPE_RENT) {
             selector.and("is_single", "=", 1);
         } else if (orderType == Constants.BUSINESS_TYPE_PICK || orderType == Constants.BUSINESS_TYPE_SEND) {
             selector.and("is_city_code", "=", 1);
+        } else if (orderType == Constants.BUSINESS_TYPE_HOME){
+            WhereBuilder whereBuilder = WhereBuilder.b();
+            whereBuilder.and("place_name", "<>", "中国");
+            selector.and(whereBuilder);
+            WhereBuilder whereBuilder2 = WhereBuilder.b();
+            whereBuilder2.and("is_city_code", "=", 1).or("is_daily", "=", 1).or("is_single", "=", 1);
+            selector.and(whereBuilder2);
         }
         selector.orderBy("guide_count", true);
         selector.limit(4);

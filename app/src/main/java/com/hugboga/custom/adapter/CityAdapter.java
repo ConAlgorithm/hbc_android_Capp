@@ -14,10 +14,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.fragment.FgChooseCity;
+import com.hugboga.custom.fragment.FgSkuList;
 import com.hugboga.custom.utils.DBHelper;
 import com.hugboga.custom.utils.SharedPre;
+import com.hugboga.custom.utils.ToastUtils;
 import com.hugboga.custom.widget.NoScrollGridView;
 
 import org.xutils.DbManager;
@@ -291,6 +294,14 @@ public class CityAdapter extends BaseAdapter implements View.OnClickListener, On
         if (fragment != null) {
             Bundle bundle = new Bundle(fragment.getArguments());
             CityBean cityBean = hotCityList.get(position);
+            ToastUtils.showShort(cityBean.cityId + " , " + cityBean.name);
+            if(!TextUtils.isEmpty(mBusinessType) && Integer.parseInt(mBusinessType) == Constants.BUSINESS_TYPE_HOME){
+                FgSkuList fg = new FgSkuList();
+                bundle.putString(FgSkuList.KEY_CITY_ID, String.valueOf(cityBean.cityId));
+                fragment.finish();
+                fragment.startFragment(fg, bundle);
+                return;
+            }
             if (chooseType == fragment.KEY_TYPE_SINGLE) {
                 fragment.saveHistoryDate(cityBean);
                 bundle.putSerializable(fragment.KEY_CITY, cityBean);
