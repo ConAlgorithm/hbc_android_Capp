@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -123,6 +124,18 @@ public class FgRegister extends BaseFragment {
     };
 
     @Override
+    public void onStop() {
+        super.onStop();
+        this.getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        this.getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+    }
+
+    @Override
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
         setBtnVisible(true);
         if (errorInfo.state == ExceptionErrorCode.ERROR_CODE_SERVER) {
@@ -139,8 +152,8 @@ public class FgRegister extends BaseFragment {
                         public void onClick(DialogInterface dialog, int which) {
                             finish();
                             Bundle bundle = new Bundle();
-                            bundle.putString("areaCode", areaCode);
-                            bundle.putString("phone", phone);
+                            bundle.putString("key_area_code", areaCode);
+                            bundle.putString("key_phone", phone);
                             startFragment(new FgLogin(), bundle);
                         }
                     }).show();

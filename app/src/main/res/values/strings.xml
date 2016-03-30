@@ -86,7 +86,7 @@
     <string name="sku_sub_title">精品包车线路</string>
 
     <!-- Search address -->
-    <string name="search_hint_pick">搜索送达目的地</string>
+    <string name="search_hint_pick">请输入城市名称</string>
     <string name="search_hint_send">搜索出发地点</string>
 
     <!-- 页面 progress-->
