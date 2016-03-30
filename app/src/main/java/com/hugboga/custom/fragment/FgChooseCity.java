@@ -85,7 +85,7 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        this.getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+
 
         View view = inflater.inflate(R.layout.fg_city, null);
         chooseType = getArguments().getInt(KEY_CHOOSE_TYPE, KEY_TYPE_SINGLE);
@@ -116,6 +116,12 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
     public void onStop() {
         super.onStop();
         this.getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        this.getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
     }
 
     protected void initView() {
