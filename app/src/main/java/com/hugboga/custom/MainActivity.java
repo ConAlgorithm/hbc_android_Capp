@@ -45,6 +45,7 @@ import com.hugboga.custom.fragment.FgChat;
 import com.hugboga.custom.fragment.FgChooseCity;
 import com.hugboga.custom.fragment.FgCoupon;
 import com.hugboga.custom.fragment.FgHome;
+import com.hugboga.custom.fragment.FgIMChat;
 import com.hugboga.custom.fragment.FgLogin;
 import com.hugboga.custom.fragment.FgOrder;
 import com.hugboga.custom.fragment.FgPersonInfo;
