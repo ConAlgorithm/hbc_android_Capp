@@ -44,7 +44,7 @@ public class UrlLibs {
     //ACCESS KEY
     public static final String SERVER_IP_ACCESSKEY = "passport/v1.0/getAccessKey?";
     //版本检测
-    public static final String SERVER_IP_CHECK_APP_VERSION = "reflash/v1.0/checkAppVersion?";
+    public static final String SERVER_IP_CHECK_APP_VERSION = "passport/v1.0/checkAppVersion?";
     //upload logs
     public static final String SERVER_IP_UPLOAD_LOGS = "pt/v1.0/log/stream?";
 

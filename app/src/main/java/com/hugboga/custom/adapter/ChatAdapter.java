@@ -61,18 +61,6 @@ public class ChatAdapter extends ZBaseAdapter<ChatBean, ChatVH> {
         }
     }
 
-
-    private String getChatInfo(String userId, String userAvatar, String title, String targetType) {
-        ChatInfo chatInfo = new ChatInfo();
-        chatInfo.isChat = true;
-        chatInfo.userId = userId;
-        chatInfo.userAvatar = userAvatar;
-        chatInfo.title = title;
-        chatInfo.targetType = targetType;
-        return new ParserChatInfo().toJsonString(chatInfo);
-    }
-
-
     /**
      * 刷新未读消息数
      *

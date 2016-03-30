@@ -79,7 +79,7 @@ public class CityAdapter extends BaseAdapter implements View.OnClickListener, On
     }
 
     public Object getItem(int position) {
-        if (position == searchHistoryCount && hotCityList.size() != 0) {
+        if (position == searchHistoryCount &&hotCityList!=null&&hotCityList.size() != 0) {
             return hotCityList;
         } else {
             return list.get(position);
@@ -294,7 +294,6 @@ public class CityAdapter extends BaseAdapter implements View.OnClickListener, On
         if (fragment != null) {
             Bundle bundle = new Bundle(fragment.getArguments());
             CityBean cityBean = hotCityList.get(position);
-            ToastUtils.showShort(cityBean.cityId + " , " + cityBean.name);
             if(!TextUtils.isEmpty(mBusinessType) && Integer.parseInt(mBusinessType) == Constants.BUSINESS_TYPE_HOME){
                 FgSkuList fg = new FgSkuList();
                 bundle.putString(FgSkuList.KEY_CITY_ID, String.valueOf(cityBean.cityId));

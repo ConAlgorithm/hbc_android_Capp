@@ -244,7 +244,6 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
      * @param bundle 参数
      */
     public void finishForResult(Bundle bundle) {
-
         collapseSoftInputMethod();
         finish();
         Bundle mBundle = new Bundle();

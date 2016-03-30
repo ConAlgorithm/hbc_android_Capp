@@ -1,5 +1,7 @@
 package com.hugboga.custom.fragment;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.webkit.WebView;
@@ -49,7 +51,17 @@ public class FgSkuDetail extends FgWebInfo {
                 }
                 break;
             case R.id.phone_consultation:
-                PhoneInfo.CallDial(getActivity(), Constants.CALL_NUMBER_IN);
+                final AlertDialog.Builder callDialog = new AlertDialog.Builder(getActivity());
+                callDialog.setTitle("呼叫客服");
+                final String [] callItems = new String[]{Constants.CALL_NUMBER_IN,Constants.CALL_NUMBER_OUT};
+                callDialog.setItems(callItems,new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        PhoneInfo.CallDial(getActivity(), callItems[which]);
+                    }
+                  });
+                callDialog.show();
+
                 break;
             case R.id.goto_order:
                 Bundle bundle =new Bundle();
