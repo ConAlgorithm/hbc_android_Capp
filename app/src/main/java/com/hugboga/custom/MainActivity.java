@@ -20,6 +20,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.huangbaoche.hbcframe.activity.BaseFragmentActivity;
+import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
+import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
+import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
+import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.adapter.MenuItemAdapter;
 import com.hugboga.custom.constants.Constants;
@@ -27,6 +31,8 @@ import com.hugboga.custom.data.bean.LvMenuItem;
 import com.hugboga.custom.data.bean.PushMessage;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.request.RequestPushClick;
+import com.hugboga.custom.data.request.RequestPushToken;
 import com.hugboga.custom.fragment.BaseFragment;
 import com.hugboga.custom.fragment.FgChat;
 import com.hugboga.custom.fragment.FgChooseCity;
@@ -60,7 +66,7 @@ import de.greenrobot.event.EventBus;
 
 @ContentView(R.layout.activity_main)
 public class MainActivity extends BaseFragmentActivity
-        implements ViewPager.OnPageChangeListener, AdapterView.OnItemClickListener, View.OnClickListener {
+        implements ViewPager.OnPageChangeListener, AdapterView.OnItemClickListener, View.OnClickListener, HttpRequestListener {
 
     public static final String PUSH_BUNDLE_MSG = "pushMessage";
     public static final String FILTER_PUSH_DO = "com.hugboga.custom.pushdo";
@@ -102,19 +108,29 @@ public class MainActivity extends BaseFragmentActivity
         mViewPager.addOnPageChangeListener(this);
 //        navigationView.setNavigationItemSelectedListener(this);
         JPushInterface.setAlias(MainActivity.this, PhoneInfo.getIMEI(this), null);
+        uploadPushToken();
         initBottomView();
 //        addErrorProcess();
         UpdateResources.checkLocalDB(this);
         UpdateResources.checkLocalResource(this);
         setUpDrawer();
         connectIM();
+        receivePushMessage(getIntent());
         try {
             EventBus.getDefault().register(this);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
+    private void uploadPushToken(){
+        String imei =PhoneInfo.getIMEI(this);
+        RequestPushToken request = new RequestPushToken(this,imei,imei,BuildConfig.VERSION_NAME,imei,PhoneInfo.getSoftwareVersion(this));
+        HttpRequestUtils.request(this,request,this);
+    }
+    private void uploadPushClick(String pushId){
+        RequestPushClick request = new RequestPushClick(this,pushId);
+        HttpRequestUtils.request(this,request,this);
+    }
     private void initAdapterContent() {
         fgHome = new FgHome();
         fgChat = new FgChat();
@@ -134,31 +150,44 @@ public class MainActivity extends BaseFragmentActivity
         }
     }
 
-    /**
-     * Push任务接收器
-     */
-    class PushDoReceiver extends BroadcastReceiver {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            PushMessage pushMessage = (PushMessage) intent.getSerializableExtra(PUSH_BUNDLE_MSG);
+    @Override
+    public void onDataRequestSucceed(BaseRequest request) {
+        if(request instanceof RequestPushToken){
+            MLog.e(request.getData().toString());
         }
     }
 
     @Override
+    public void onDataRequestCancel(BaseRequest request) {
+    }
+
+    @Override
+    public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+        MLog.e(errorInfo==null?"":errorInfo.toString());
+    }
+
+
+    @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        if ("rong".equals(intent.getData().getScheme())) {
-            Bundle bundle = new Bundle();
-            bundle.putString(FgIMChat.KEY_TITLE, intent.getData().toString());
-            startFragment(new FgIMChat(), bundle);
-        } else {
-            PushMessage message = (PushMessage) intent.getSerializableExtra(MainActivity.PUSH_BUNDLE_MSG);
-            if (message != null) {
-                if ("IM".equals(message.type)) {
-                    gotoChatList();
-                } else {
-                    gotoOrder(message);
+        receivePushMessage(intent);
+    }
+
+    private void receivePushMessage(Intent intent){
+        if(intent !=null) {
+            if (intent.getData()!=null&&"rong".equals(intent.getData().getScheme())) {
+                Bundle bundle = new Bundle();
+                bundle.putString(FgIMChat.KEY_TITLE, intent.getData().toString());
+                startFragment(new FgIMChat(), bundle);
+            } else {
+                PushMessage message = (PushMessage) intent.getSerializableExtra(MainActivity.PUSH_BUNDLE_MSG);
+                if (message != null) {
+                    uploadPushClick(message.messageID);
+                    if ("IM".equals(message.type)) {
+                        gotoChatList();
+                    } else {
+                        gotoOrder(message);
+                    }
                 }
             }
         }

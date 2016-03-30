@@ -22,42 +22,6 @@ String localStorePassword() {
     return getProperties().getProperty('storePassword');
 }
 
-String versionCode() {
-    return getProperties().getProperty('versionCode');
-}
-
-String versionName() {
-    return getProperties().getProperty('versionName');
-}
-
-String outPutPath() {
-    return getProperties().getProperty('outPutPath');
-}
-
-String appPrefix() {
-    return getProperties().getProperty('appPrefix');
-}
-
-def getDefaultVersionCode() {
-    return Integer.valueOf(System.getProperty("org.gradle.project.defaultVersionCode", versionCode()))
-}
-
-def getDefaultAppVersion() {
-    return System.getProperty("org.gradle.project.defaultAppVersion", versionName()); //versionName
-}
-
-def getDefaultPkgNamePrefix() {
-    return System.getProperty("org.gradle.project.defaultPkgNamePrefix", appPrefix());
-}
-
-def getDefaultPkgName() {
-    return System.getProperty("org.gradle.project.defaultPkgName", outPutPath()); //默认输出路径
-}
-
-def getCdmsBuildEnv() {
-    return System.getProperty("org.gradle.project.cdmsBuildEnv", "dev");
-}
-
 
 android {
     useLibrary 'org.apache.http.legacy'
@@ -80,8 +44,8 @@ android {
         applicationId "com.hugboga.custom"
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 8
-        versionName "2.2.0"
+        versionCode 9
+        versionName "2.5.0"
         signingConfig signingConfigs.hbcSign
     }
     sourceSets {
@@ -100,13 +64,15 @@ android {
             signingConfig signingConfigs.hbcSign
         }
     }
-
+    //==productFlavors_start==
     productFlavors {
         developer {}
         stage {}
         examination {}
         formal {}
     }
+    //==productFlavors_end==
+    //==productFlavors==
 
     productFlavors.all { flavor ->
         switch (flavor.name) {
@@ -131,16 +97,19 @@ android {
         }
     }
 
+    //==applicationVariants_start==
     applicationVariants.all { variant ->
         variant.outputs.each { output ->
-            def outputFile = new File(getDefaultPkgName())
+            def outputFile = output.outputFile
             println 'default-pkg-name>>> ' + outputFile
             if (outputFile != null && outputFile.name.endsWith('.apk')) {
-                def fileName = getDefaultPkgNamePrefix() + '_' + getCdmsBuildEnv() + '_v' + getDefaultAppVersion() + '_' + getDefaultVersionCode() + '_' + "${name}" + '.apk'
+                def fileName = "CAPP_Developer_V${defaultConfig.versionName}_${defaultConfig.versionCode}_${name}.apk"
                 output.outputFile = new File(outputFile.parent, fileName)
             }
         }
     }
+    //==applicationVariants_end==
+    //==applicationVariants==
 }
 
 dependencies {
@@ -149,7 +118,6 @@ dependencies {
     compile 'com.android.support:design:23.2.0'
     compile 'com.android.support:support-v4:23.2.0'
     compile project(':hbcframe')
-    compile project(':fadingactionbar')
     compile project(':IMKit')
     compile 'com.wdullaer:materialdatetimepicker:2.1.1'
     compile 'com.nineoldandroids:library:2.4.0'

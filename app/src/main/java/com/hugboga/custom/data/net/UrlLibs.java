@@ -229,4 +229,16 @@ public class UrlLibs {
      * IM聊天界面的订单数据
      */
     public static final String SERVER_IP_IM_ORDER_LIST = "trade/v1.0/c/order/list/im";
+    /**
+     * 获取用户注册信息 - 注册极光别名时调用该接口进行反馈（Android + IOS）
+     */
+    public static final String SERVER_IP_PUSH_TOKEN = "communication/v2.0/c/push/token";
+    /**
+     * Android APP 接到push未点击时，调用该接口进行反馈（Android）
+     */
+    public static final String SERVER_IP_PUSH_RECEIVE = "communication/v2.0/c/push/receive";
+    /**
+     * APP收到的push被点击时，调用该接口进行反馈（Android + IOS）
+     */
+    public static final String SERVER_IP_PUSH_CLICK = "communication/v2.0/c/push/click";
 }
