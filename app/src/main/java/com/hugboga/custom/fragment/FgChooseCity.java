@@ -8,6 +8,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -84,6 +85,8 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        this.getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+
         View view = inflater.inflate(R.layout.fg_city, null);
         chooseType = getArguments().getInt(KEY_CHOOSE_TYPE, KEY_TYPE_SINGLE);
         from = getArguments().getString(KEY_FROM);
@@ -106,6 +109,13 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
         mDbManager = new DBHelper(getActivity()).getDbManager();
         sharedPer = new SharedPre(getActivity());
         return view;
+    }
+
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        this.getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
     }
 
     protected void initView() {

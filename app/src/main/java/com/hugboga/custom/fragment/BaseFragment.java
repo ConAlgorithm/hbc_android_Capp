@@ -70,6 +70,8 @@ public abstract class BaseFragment extends com.huangbaoche.hbcframe.fragment.Bas
     @Override
     public void onStop() {
         super.onStop();
+        //隐藏软键盘
+        collapseSoftInputMethod();
         EventBus.getDefault().post(new EventAction(EventType.CLICK_HEADER_LEFT_BTN_BACK));
     }
 
