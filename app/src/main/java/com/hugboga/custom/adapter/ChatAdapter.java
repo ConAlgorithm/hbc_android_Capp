@@ -13,7 +13,9 @@ import com.huangbaoche.hbcframe.adapter.BaseAdapter;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.ChatBean;
+import com.hugboga.custom.data.bean.ChatInfo;
 import com.hugboga.custom.data.bean.ChatOrderBean;
+import com.hugboga.custom.data.parser.ParserChatInfo;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.widget.ChildListView;
 
@@ -82,18 +84,15 @@ public class ChatAdapter extends BaseAdapter<ChatBean> {
     }
 
     private String getChatInfo(String userId, String userAvatar, String title, String targetType) {
-        JSONObject obj = new JSONObject();
-        try {
-            obj.put("isChat", true);
-            obj.put("userId", userId);
-            obj.put("userAvatar", userAvatar);
-            obj.put("title", title);
-            obj.put("targetType", targetType);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return obj.toString();
+        ChatInfo chatInfo = new ChatInfo();
+        chatInfo.isChat = true;
+        chatInfo.userId = userId;
+        chatInfo.userAvatar = userAvatar;
+        chatInfo.title = title;
+        chatInfo.targetType = targetType;
+        return new ParserChatInfo().toJsonString(chatInfo);
     }
+
 
     /**
      * 刷新未读消息数

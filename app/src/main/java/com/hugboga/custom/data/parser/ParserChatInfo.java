@@ -3,6 +3,7 @@ package com.hugboga.custom.data.parser;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.hugboga.custom.data.bean.ChatInfo;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -18,5 +19,19 @@ public class ParserChatInfo extends ImplParser {
         chatInfo.title = jsonObj.optString("title");
         chatInfo.targetType = jsonObj.optString("targetType");
         return chatInfo;
+    }
+
+    public String toJsonString(ChatInfo chatInfo){
+        JSONObject obj = new JSONObject();
+        try {
+            obj.put("isChat", chatInfo.isChat);
+            obj.put("userId", chatInfo.userId);
+            obj.put("userAvatar", chatInfo.userAvatar);
+            obj.put("title", chatInfo.title);
+            obj.put("targetType", chatInfo.targetType);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return obj.toString();
     }
 }

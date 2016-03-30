@@ -111,11 +111,16 @@ android {
     def flavors = getCustomizeFlavors();
 
     productFlavors {
+        developer { }
+        stage { }
+        examination { }
+        formal { }
         flavors.each { flavorName, flavorPackage ->
             "$flavorName" {
                 manifestPlaceholders = flavorPackage.manifestPlaceholders
             }
         }
+
     }
 
     productFlavors.all { flavor ->

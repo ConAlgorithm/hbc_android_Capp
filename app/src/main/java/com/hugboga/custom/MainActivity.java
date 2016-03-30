@@ -175,22 +175,22 @@ public class MainActivity extends BaseFragmentActivity
 
     private void receivePushMessage(Intent intent){
         if(intent !=null) {
-            if ("rong".equals(intent.getData().getScheme())) {
+            if (intent.getData()!=null&&"rong".equals(intent.getData().getScheme())) {
                 Bundle bundle = new Bundle();
                 bundle.putString(FgIMChat.KEY_TITLE, intent.getData().toString());
                 startFragment(new FgIMChat(), bundle);
             } else {
-            PushMessage message = (PushMessage) intent.getSerializableExtra(MainActivity.PUSH_BUNDLE_MSG);
-            if (message != null) {
-                uploadPushClick(message.messageID);
-                if ("IM".equals(message.type)) {
-                    gotoChatList();
-                } else {
-                    gotoOrder(message);
+                PushMessage message = (PushMessage) intent.getSerializableExtra(MainActivity.PUSH_BUNDLE_MSG);
+                if (message != null) {
+                    uploadPushClick(message.messageID);
+                    if ("IM".equals(message.type)) {
+                        gotoChatList();
+                    } else {
+                        gotoOrder(message);
+                    }
                 }
             }
         }
-      ｝
     }
 
     private void gotoChatList() {

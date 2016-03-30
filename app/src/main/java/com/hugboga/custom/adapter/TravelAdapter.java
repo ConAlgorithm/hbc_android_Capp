@@ -15,8 +15,12 @@ import com.huangbaoche.hbcframe.adapter.BaseAdapter;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.bean.ChatInfo;
 import com.hugboga.custom.data.bean.OrderBean;
+import com.hugboga.custom.data.parser.ParserChatInfo;
 import com.hugboga.custom.fragment.BaseFragment;
+import com.hugboga.custom.fragment.FgAssessment;
+import com.hugboga.custom.fragment.FgOrder;
 import com.hugboga.custom.fragment.FgTravel;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.widget.DialogUtil;
@@ -170,7 +174,7 @@ public class TravelAdapter extends BaseAdapter<OrderBean>  {
                 holder.mCitys.setText(orderBean.lineSubject);
                 break;
         }
-       /* if(orderBean.canChat && (orderBean.imToken!=null && !orderBean.imToken.isEmpty()) && (orderBean.orderGuideInfo!=null && orderBean.orderGuideInfo.guideID!=null)){
+        if(orderBean.canChat && (orderBean.imToken!=null && !orderBean.imToken.isEmpty()) && (orderBean.orderGuideInfo!=null && orderBean.orderGuideInfo.guideID!=null)){
             holder.mBtnChat.setVisibility(View.VISIBLE);
             final ViewHolder finalHolder = holder;
             holder.mBtnChat.setTag(orderBean);
@@ -179,16 +183,31 @@ public class TravelAdapter extends BaseAdapter<OrderBean>  {
                 public void onClick(View v) {
                     OrderBean mOrderBean = (OrderBean)v.getTag();
                     MLog.e("进入聊天" + mOrderBean.orderNo);
-                    gotoChatView(finalHolder.mBtnChatNum,mOrderBean);
+                    if(mOrderBean.orderGuideInfo!=null&&mOrderBean.orderGuideInfo.guideID!=null){
+                        gotoChatView(mOrderBean.orderGuideInfo.guideID,mOrderBean.orderGuideInfo.guideAvatar,mOrderBean.orderGuideInfo.guideName);
+                    }
+
                 }
             });
-        }else{*/
+        }else{
             holder.mBtnChat.setVisibility(View.GONE);
-//        }
+        }
         setStatusView(holder, orderBean);
         return convertView;
     }
-
+    private void gotoChatView( final String chatId,String targetAvatar,String targetName) {
+        String titleJson = getChatInfo(chatId,  targetAvatar, targetName, "3");
+        RongIM.getInstance().startPrivateChat(mContext, "G"+chatId, titleJson);
+    }
+    private String getChatInfo(String userId, String userAvatar, String title, String targetType) {
+        ChatInfo chatInfo = new ChatInfo();
+        chatInfo.isChat = true;
+        chatInfo.userId = userId;
+        chatInfo.userAvatar = userAvatar;
+        chatInfo.title = title;
+        chatInfo.targetType = targetType;
+        return new ParserChatInfo().toJsonString(chatInfo);
+    }
     private String splitDateStr(String dateStr){
         if(dateStr==null)return null;
         String[] dateArray = dateStr.split(" ");
@@ -208,58 +227,7 @@ public class TravelAdapter extends BaseAdapter<OrderBean>  {
             chatNumTextView.setVisibility(View.GONE);
         }
     }
-    private int requestIMTokenCount = 0;
-    private HashMap<String ,TextView> imMap = new HashMap<String ,TextView>();
-    /**
-     * 开始聊天
-     */
-    private void gotoChatView(final TextView chatNum, final OrderBean orderBean){
-        imMap.put(orderBean.orderNo,chatNum);
-        dialog.showLoadingDialog(true);
-        RongIM.connect(orderBean.imToken, new RongIMClient.ConnectCallback() {
-            @Override
-            public void onTokenIncorrect() {
-                if (requestIMTokenCount < 3) {
-                    requestIMTokenCount++;
-                    requestIMTokenUpdate(orderBean);
-                } else {
-                    dialog.dismissLoadingDialog();
-                }
-            }
 
-            @Override
-            public void onSuccess(String s) {
-                dialog.dismissLoadingDialog();
-                //刷新IM头像
-               /* RongIM.getInstance().refreshUserInfoCache(new UserInfo(s, UserEntity.getUser().getNickname(mContext), Uri.parse(UserEntity.getUser().getAvatar(mContext))));
-                IMChatActivity.orderId = "G" + orderBean.orderGuideInfo.guideID;
-                IMChatActivity.ids = s;
-                chatNum.setVisibility(View.GONE);
-                RongIM.getInstance().startPrivateChat(mContext, "G" + orderBean.orderGuideInfo.guideID, "title");
-                Uri uri;
-                if (TextUtils.isEmpty(orderBean.orderGuideInfo.guideAvatar)) {
-                    uri = Uri.parse("android.resource://" + mContext.getPackageName() + "/" + R.mipmap.journey_head_portrait);
-                } else {
-                    uri = Uri.parse(orderBean.orderGuideInfo.guideAvatar);
-                }
-                UserInfo peerUser = new UserInfo(IMChatActivity.orderId, orderBean.orderGuideInfo.guideName, uri);
-                RongContext.getInstance().getUserInfoCache().put(IMChatActivity.orderId, peerUser);*/
-            }
-
-            @Override
-            public void onError(RongIMClient.ErrorCode errorCode) {
-                dialog.dismissLoadingDialog();
-                if (requestIMTokenCount < 3) {
-                    //您需要更换 Token
-                    requestIMTokenCount++;
-                    requestIMTokenUpdate(orderBean);
-                } else {
-                    dialog.dismissLoadingDialog();
-                }
-            }
-
-        });
-    }
 
     /**
      * 根据状态重置操作栏
@@ -371,37 +339,7 @@ public class TravelAdapter extends BaseAdapter<OrderBean>  {
         showMessageNum(holder.mBtnChatNum, orderBean.imcount);
     }
 
-    /**
-     * update token
-     */
-    private void requestIMTokenUpdate(OrderBean orderBean) {
-      /*  ParserIMTokenUpdate parser = new ParserIMTokenUpdate(orderBean.orderNo);
-        parser.orderBean = orderBean;
-        mHttpUtils = new HttpRequestUtils(mContext,parser,this);
-        mHttpUtils.isShowLoading = false;
-        mHttpUtils.execute();*/
-    }
 
-   /* @Override
-    public void onDataRequestSucceed(InterfaceParser parser) {
-        if(parser instanceof ParserIMTokenUpdate){
-            ParserIMTokenUpdate mParser = (ParserIMTokenUpdate) parser;
-            mParser.orderBean.imToken = mParser.token;
-            TextView textView = imMap.get(mParser.orderBean.orderNo);
-            gotoChatView(textView, mParser.orderBean);
-        }
-    }
-
-    @Override
-    public void onDataRequestError(ExceptionInfo errorInfo, InterfaceParser parser) {
-        if(mHttpUtils!=null)
-            mHttpUtils.onDataRequestError(errorInfo);
-    }
-
-    @Override
-    public void onDataRequestCancel(InterfaceParser parser) {
-
-    }*/
 
     class ViewHolder {
         @ViewInject(R.id.travel_item_line)
@@ -457,21 +395,22 @@ public class TravelAdapter extends BaseAdapter<OrderBean>  {
                 case R.id.travel_item_btn_assessment:
                     MLog.e("评价车导2 " + mOrderBean.orderNo + " orderType = " + mOrderBean.orderType);
                     Bundle bundle = new Bundle();
-                   /* bundle.putString(FgAssessment.GUIDE_ID, mOrderBean.orderGuideInfo.guideID);
+                    bundle.putString(FgAssessment.GUIDE_ID, mOrderBean.orderGuideInfo.guideID);
                     bundle.putString(FgAssessment.ORDER_ID, mOrderBean.orderNo);
                     bundle.putInt(FgAssessment.ORDER_TYPE, mOrderBean.orderType);
                     bundle.putInt(BaseFragment.KEY_BUSINESS_TYPE, mOrderBean.orderType);
                     bundle.putString(FgAssessment.GUIDE_NAME, mOrderBean.orderGuideInfo.guideName);
-                    fragment.startFragment(new FgAssessment(), bundle);*/
+                    fragment.startFragment(new FgAssessment(), bundle);
                     break;
                 case R.id.travel_item_btn_pay:
                     OrderBean mOrderBean = (OrderBean)v.getTag();
                     MLog.e("立即支付 " + mOrderBean.orderNo);
                     //立即支付，进入订单详情
                     bundle = new Bundle();
-                    bundle.putInt(FgTravel.KEY_BUSINESS_TYPE, mOrderBean.orderType);
-                   /* bundle.putString(FgOrder.KEY_ORDER_ID, mOrderBean.orderNo);
-                    fragment.startFragment(new FgOrder(), bundle);*/
+                    bundle.putInt(FgOrder.KEY_BUSINESS_TYPE, mOrderBean.orderType);
+                    bundle.putInt(FgOrder.KEY_GOODS_TYPE, mOrderBean.orderGoodsType);
+                    bundle.putString(FgOrder.KEY_ORDER_ID, mOrderBean.orderNo);
+                    fragment.startFragment(new FgOrder(), bundle);
                     break;
             }
         }
