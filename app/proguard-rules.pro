@@ -198,3 +198,4 @@
 }
 
 -keep class com.hugboga.custom.data.event.EventAction { *; }
+-keep class com.hugboga.custom.fragment.FgPersonInfo{ *; }
