@@ -10,10 +10,12 @@ import com.hugboga.custom.data.bean.ResourcesBean;
 
 import org.xutils.common.Callback;
 import org.xutils.common.task.PriorityExecutor;
+import org.xutils.common.util.LogUtil;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.concurrent.Executor;
 
 //import com.hugboga.custom.data.bean.ResourcesBean;
@@ -41,13 +43,15 @@ public class UpdateResources {
      * @param callBack
      */
     public static void checkRemoteResources(Context context, CheckVersionBean parser, Callback.ProgressCallback<File> callBack) {
-
-        if (parser.resList != null) {
+        LogUtil.e("检测H5 checkRemoteResources ");
+        if (parser.resList != null&&parser.resList.size()>0) {
             for (ResourcesBean bean : parser.resList) {
                 if (ResourcesConstants.RESOURCES_H5_NAME.equals(bean.resName)) {
                     downloadResources(context, bean.resUrl, bean.resVersion, callBack);
                 }
             }
+        }else{
+            callBack.onFinished();
         }
 
     }
@@ -107,9 +111,6 @@ public class UpdateResources {
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-//                MLog.e("downloadResources onFailure " + msg);
-//                if (callBack != null) callBack.onFailure(error, msg);
-
                 if (callBack != null) callBack.onError(ex, isOnCallback);
             }
 
@@ -120,7 +121,7 @@ public class UpdateResources {
 
             @Override
             public void onFinished() {
-
+                if(callBack !=null)callBack.onFinished();
             }
         });
     }
@@ -175,16 +176,17 @@ public class UpdateResources {
      * @param callBack
      */
     public static void checkRemoteDB(final Context context, String url, final int version, final Callback.ProgressCallback<File> callBack) {
+        LogUtil.e("检测DB checkRemoteDB "+version);
         final DBHelper mDBHelper = new DBHelper(context);
         int localVersion = new SharedPre(context).getIntValue(SharedPre.RESOURCES_DB_VERSION, ResourcesConstants.RESOURCES_DB_VERSION_DEFAULT);
         MLog.e("localVersion=" + localVersion + " remoteVersion=" + version);
         if (localVersion < version && !TextUtils.isEmpty(url)) {//从服务端更新
             final String outFile = DBHelper.DB_PATH + DBHelper.DB_NAME;
-            final String outFileTmp = outFile + ".tmp";
+            final String outFileTmp = outFile + DBHelper.DB_TMP;
             RequestParams params = new RequestParams(url);
             params.setAutoResume(true);
             params.setAutoRename(false);
-            params.setSaveFilePath(outFile);
+            params.setSaveFilePath(outFileTmp);
             params.setExecutor(executor);
             params.setCancelFast(true);
             x.http().get(params, new Callback.ProgressCallback<File>() {
@@ -193,14 +195,22 @@ public class UpdateResources {
                     if (callBack != null) callBack.onSuccess(result);
                     File fileTmp = new File(outFileTmp);
                     File file = new File(outFile);
-                    mDBHelper.deleteOldDb();
-                    if (DBHelper.copyFile(fileTmp, file)) {
-                        fileTmp.delete();
-                        new SharedPre(context).saveIntValue(SharedPre.RESOURCES_DB_VERSION, version);
-                        if (mDBHelper.checkDataBase()) {//无数据库,从资源文件copy
-                            MLog.e("onSuccess copy DB ok ");
+                    if(mDBHelper.checkTmpDataBase()){
+                        try {
+                            mDBHelper.getDbManager().close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        mDBHelper.deleteOldDb();
+                        if (DBHelper.copyFile(fileTmp, file)) {
+                            fileTmp.delete();
+                            new SharedPre(context).saveIntValue(SharedPre.RESOURCES_DB_VERSION, version);
+                            if (mDBHelper.checkDataBase()) {//无数据库,从资源文件copy
+                                MLog.e("onSuccess copy DB ok ");
+                            }
                         }
                     }
+
                 }
 
                 @Override
@@ -214,6 +224,7 @@ public class UpdateResources {
 
                 @Override
                 public void onFinished() {
+                    if(callBack!=null)callBack.onFinished();
                 }
 
                 @Override
@@ -229,6 +240,8 @@ public class UpdateResources {
                     if (callBack != null) callBack.onLoading(total, current, isDownloading);
                 }
             });
+        }else{
+            if(callBack!=null)callBack.onFinished();
         }
     }
 

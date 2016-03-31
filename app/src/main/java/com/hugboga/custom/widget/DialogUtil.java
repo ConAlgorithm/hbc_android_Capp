@@ -25,6 +25,8 @@ import com.hugboga.custom.fragment.BaseFragment;
 import com.hugboga.custom.utils.Common;
 import com.hugboga.custom.utils.PhoneInfo;
 
+import org.xutils.common.util.LogUtil;
+
 /**
  * <p> DialogUtil mDialogUtil = new DialogUtil(activity);
  * <p> mDialogUtil.showLoadingDialog();
@@ -502,8 +504,9 @@ public class DialogUtil implements DialogUtilInterface {
         return intent;
     }
 
-    public void showUpdateDialog(String force, String content, final String url, OnClickListener positiveClick, OnClickListener negativeClick) {
-        if (TextUtils.isEmpty(url)) {
+    public void showUpdateDialog(boolean hasUpdate,boolean force, String content, final String url, OnClickListener positiveClick, OnClickListener negativeClick) {
+        LogUtil.e("版本检测 hasUpdate="+hasUpdate+" force="+force);
+        if (TextUtils.isEmpty(url)||!hasUpdate) {
             if (negativeClick != null)
                 negativeClick.onClick(null, 0);
             return;
@@ -516,7 +519,7 @@ public class DialogUtil implements DialogUtilInterface {
         }
         versionDialog.setTitle("发现新版本");
         versionDialog.setCancelable(false);
-        if (!force.equals("true")) {
+        if (!force) {
             versionDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "稍后更新", negativeClick);
         }
         versionDialog.setButton(DialogInterface.BUTTON_POSITIVE, "前去更新", positiveClick);

@@ -1,6 +1,7 @@
 package com.hugboga.custom.adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.adapter.BaseAdapter;
+import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.HomeBean;
 
@@ -38,17 +40,31 @@ public class HomeAdapter extends BaseAdapter<HomeBean> {
             viewHolder.tvTitle = (TextView) view.findViewById(R.id.item_home_title);
             viewHolder.tvSubTitle = (TextView) view.findViewById(R.id.item_home_sub_title);
             viewHolder.imgBg = (ImageView) view.findViewById(R.id.item_home_img);
+            viewHolder.splitLine = (View) view.findViewById(R.id.split_line);
             view.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) view.getTag();
         }
         HomeBean bean = getItem(position);
         if (bean != null) {
-            viewHolder.tvTitle.setText(bean.mainTitle);
-            viewHolder.tvSubTitle.setText(bean.subTitle);
+            if (!TextUtils.isEmpty(bean.mainTitle)) {
+                viewHolder.tvTitle.setText(bean.mainTitle);
+            } else {
+                viewHolder.tvTitle.setText("");
+            }
+            if (!TextUtils.isEmpty(bean.subTitle)) {
+                viewHolder.tvSubTitle.setText(bean.subTitle);
+            } else {
+                viewHolder.tvSubTitle.setText("");
+            }
+            if(!TextUtils.isEmpty(bean.mainTitle)&&!TextUtils.isEmpty(bean.subTitle)){
+                viewHolder.splitLine.setVisibility(View.VISIBLE);
+            }else{
+                viewHolder.splitLine.setVisibility(View.GONE);
+            }
+
             x.image().bind(viewHolder.imgBg, bean.picture, options);
         }
-
         return view;
     }
 
@@ -56,6 +72,7 @@ public class HomeAdapter extends BaseAdapter<HomeBean> {
         TextView tvTitle;
         TextView tvSubTitle;
         ImageView imgBg;
+        View splitLine;
     }
 
 }
