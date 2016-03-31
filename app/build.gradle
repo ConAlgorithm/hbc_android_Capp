@@ -98,7 +98,7 @@ android {
     }
 
     //==applicationVariants_start==
-    applicationVariants.all { variant ->
+   /* applicationVariants.all { variant ->
         variant.outputs.each { output ->
             def outputFile = output.outputFile
             println 'default-pkg-name>>> ' + outputFile
@@ -107,7 +107,7 @@ android {
                 output.outputFile = new File(outputFile.parent, fileName)
             }
         }
-    }
+    }*/
     //==applicationVariants_end==
     //==applicationVariants==
 }
