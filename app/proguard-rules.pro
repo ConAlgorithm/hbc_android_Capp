@@ -42,7 +42,7 @@
 -keep public class com.hugboga.guide.fragment.** {*;}
 -keep public class android.net.http.SslError
 
--keep public class com.hugboga.guide.R$*{
+-keep public class com.hugboga.custom.R$*{
     public static final int *;
 }
 
@@ -55,15 +55,11 @@
 -dontwarn android.webkit.WebViewClient
 
 # 以下是自定义ZWebView中Java中js对象
--keepclassmembers class com.hugboga.guide.widget.ZWebView$javaObj {
-   public *;
-}
+-keep class com.hugboga.custom.data.net.WebAgent { *; }
 
 # 以下是xUtils的混淆规则
 -keep class * extends java.lang.annotation.Annotation { *; }
--dontwarn com.lidroid.xutils.**
--keep interface com.lidroid.** { *; }
--keep class com.lidroid.** { *; }
+
 
 # 以下是友盟混淆的规则
 -keepclassmembers class * {
@@ -202,3 +198,4 @@
 }
 
 -keep class com.hugboga.custom.data.event.EventAction { *; }
+-keep class com.hugboga.custom.fragment.FgPersonInfo{ *; }

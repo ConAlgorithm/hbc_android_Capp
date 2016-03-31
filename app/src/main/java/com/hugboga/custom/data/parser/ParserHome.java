@@ -23,9 +23,9 @@ public class ParserHome extends ImplParser {
                 bean = new HomeBean();
                 JSONObject item = array.optJSONObject(i);
                 bean.cityId = item.optString("cityId");
-                bean.mainTitle = item.optString("mainTitle");
-                bean.subTitle = item.optString("subTitle");
-                bean.picture = item.optString("picture");
+                bean.mainTitle = item.isNull("mainTitle")?null:item.optString("mainTitle",null);
+                bean.subTitle = item.isNull("subTitle")?null:item.optString("subTitle",null);
+                bean.picture = item.optString("picture",null);
                 dataList.add(bean);
             }
         }

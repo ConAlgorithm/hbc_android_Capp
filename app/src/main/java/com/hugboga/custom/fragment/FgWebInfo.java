@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.content.DialogInterface;
 import android.net.Uri;
 import android.net.http.SslError;
+import android.os.Build;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -191,6 +192,9 @@ public class FgWebInfo extends BaseFragment implements View.OnKeyListener {
         webView.setWebViewClient(webClient);
         webView.setWebChromeClient(webChromeClient);
         webView.setBackgroundColor(0x00000000);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            WebView.setWebContentsDebuggingEnabled(true);
+        }
         mDialogUtil = DialogUtil.getInstance(getActivity());
     }
 

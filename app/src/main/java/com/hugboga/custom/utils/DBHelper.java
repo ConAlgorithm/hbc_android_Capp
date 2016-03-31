@@ -30,6 +30,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static String DB_PATH = "/data/data/com.hugboga.custom/databases/";
 
     public static String DB_NAME = "hbcv2.2.7.db";
+    public static String DB_TMP = ".tmp";
 
 
     private SQLiteDatabase myDataBase;
@@ -94,7 +95,7 @@ public class DBHelper extends SQLiteOpenHelper {
             File[] files = fileDir.listFiles();
             for (File file : files) {
                 String fileName = file.getName();
-                if (fileName.startsWith("hbc") && !fileName.equals(DB_NAME) && (fileName.endsWith(".db") || fileName.endsWith(".db-journal"))) {
+                if (fileName.startsWith("hbc") && !fileName.equals(DB_NAME)&& !fileName.equals(DB_NAME+DB_TMP) && (fileName.endsWith(".db") || fileName.endsWith(".db-journal"))) {
                     file.delete();
                 }
             }
@@ -109,11 +110,22 @@ public class DBHelper extends SQLiteOpenHelper {
     public boolean checkDataBase() {
 
         boolean checkDB = false;
-//        DbUtils db = getDbUtils();
         DbManager db = getDbManager();
         try {
             db.getDatabase();
-//            checkDB = db.tableIsExist(AirPort.class);
+            checkDB = db.getTable(AirPort.class).tableIsExist();
+            MLog.e("checkDataBase " + checkDB);
+        } catch (DbException e) {
+            e.printStackTrace();
+        }
+        return checkDB;
+    }
+    public boolean checkTmpDataBase() {
+
+        boolean checkDB = false;
+        DbManager db = x.getDb(DaoConfig.getTmpConfig(myContext));
+        try {
+            db.getDatabase();
             checkDB = db.getTable(AirPort.class).tableIsExist();
             MLog.e("checkDataBase " + checkDB);
         } catch (DbException e) {

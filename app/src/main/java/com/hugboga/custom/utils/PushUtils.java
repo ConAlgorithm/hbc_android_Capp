@@ -1,5 +1,6 @@
 package com.hugboga.custom.utils;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Notification;
@@ -9,6 +10,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.text.TextUtils;
@@ -23,6 +25,7 @@ import com.hugboga.custom.widget.ZVersionDialog;
 
 import org.xutils.common.Callback;
 import org.xutils.common.task.PriorityExecutor;
+import org.xutils.common.util.LogUtil;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
 
@@ -121,6 +124,7 @@ public class PushUtils {
      * @param context
      * @param pushMessage
      */
+//    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     public static void showNotification(Context context, PushMessage pushMessage) {
 
         //设置通知消息属性
@@ -207,6 +211,7 @@ public class PushUtils {
      * Created by ZHZEPHI at 2015年4月15日 下午5:32:29
      */
     public static void startDownloadApk(final Activity activity, final String url){
+        LogUtil.e("下载apk startDownloadApk");
         if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){
             File fileDir = new File(Constants.IMAGE_DIR);
             if(!fileDir.exists()){

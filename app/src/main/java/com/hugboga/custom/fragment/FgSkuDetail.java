@@ -17,6 +17,7 @@ import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
 import java.io.Serializable;
+import java.util.TreeMap;
 
 /**
  * Created by admin on 2016/3/17.
@@ -60,8 +61,9 @@ public class FgSkuDetail extends FgWebInfo {
                         PhoneInfo.CallDial(getActivity(), callItems[which]);
                     }
                   });
+                callDialog.setCancelable(true);
+                callDialog.create().setCanceledOnTouchOutside(true);
                 callDialog.show();
-
                 break;
             case R.id.goto_order:
                 Bundle bundle =new Bundle();
