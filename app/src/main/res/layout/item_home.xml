@@ -25,6 +25,7 @@
             android:textColor="@android:color/white" />
 
         <View
+            android:id="@+id/split_line"
             android:layout_width="250dp"
             android:layout_height="1dp"
             android:background="#aaffffff" />

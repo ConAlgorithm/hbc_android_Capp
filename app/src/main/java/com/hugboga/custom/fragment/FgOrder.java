@@ -639,9 +639,6 @@ public class FgOrder extends BaseFragment {
         initStatusView();//根据状态调整信息
         initContactView();//联系方式
         initBottomView();//底部支付
-        if(mOrderBean.orderType== Constants.BUSINESS_TYPE_COMMEND){
-            orderChangeTrip.setVisibility(View.GONE);
-        }
     }
 
     /**
@@ -1242,7 +1239,7 @@ public class FgOrder extends BaseFragment {
 
     private void onKeyBack() {
         MLog.e("onKeyBack " + mSourceFragment);
-        if (mSourceFragment != null && mSourceFragment instanceof  FgSubmit) {
+        if (mSourceFragment != null && mSourceFragment instanceof  FgSubmit&&mOrderBean.orderStatus==OrderStatus.INITSTATE) {
             mDialogUtil.showCustomDialog(getString(R.string.app_name), getString(R.string.order_cancel_pay), "返回", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {

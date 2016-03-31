@@ -25,7 +25,10 @@ String localStorePassword() {
 
 
 android {
-
+    dexOptions {
+        incremental true
+        javaMaxHeapSize "4g"
+    }
     lintOptions {
         abortOnError false
     }
