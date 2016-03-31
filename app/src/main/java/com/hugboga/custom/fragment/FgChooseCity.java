@@ -36,8 +36,10 @@ import org.xutils.view.annotation.ViewInject;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * 选择城市
@@ -413,19 +415,20 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
         }
     }
 
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.head_text_right:
-                String keyword = editSearch.getText().toString().trim();
-                if (TextUtils.isEmpty(keyword)) return;
-                requestDataByKeyword(getBusinessType(), groupId, keyword, false); //进行点击搜索
-                break;
-            default:
-                break;
-        }
-    }
+//    public void onClick(View view) {
+//        switch (view.getId()) {
+//            case R.id.head_text_right:
+//                String keyword = editSearch.getText().toString().trim();
+//                if (TextUtils.isEmpty(keyword)) return;
+//                requestDataByKeyword(getBusinessType(), groupId, keyword, false); //进行点击搜索
+//                collapseSoftInputMethod();
+//                break;
+//            default:
+//                break;
+//        }
+//    }
 
-    @Event(value = {R.id.city_choose_btn, R.id.head_search_clean})
+    @Event(value = {R.id.city_choose_btn, R.id.head_search_clean, R.id.head_text_right})
     private void onClickView(View view) {
         switch (view.getId()) {
             case R.id.city_choose_btn:
@@ -433,6 +436,12 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
                 break;
             case R.id.head_search_clean:
                 editSearch.setText("");
+                break;
+            case R.id.head_text_right:
+                String keyword = editSearch.getText().toString().trim();
+                if (TextUtils.isEmpty(keyword)) return;
+                requestDataByKeyword(getBusinessType(), groupId, keyword, false); //进行点击搜索
+                collapseSoftInputMethod();
                 break;
         }
 
@@ -541,9 +550,13 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
         } else {
             sourceDateList.clear();
             adapter.getHotCityList().clear();
-            Set<CityBean> set = new HashSet<CityBean>();//去重复Set
+            boolean isSetGuessYouWant = false;
+            Set<CityBean> set = new LinkedHashSet<CityBean>();//去重复Set
             List<CityBean> dataList = requestDataByKeyword(getBusinessType(), groupId, editSearch.getText().toString().trim(), false);
             if (dataList.size() > 0) {
+                dataList.get(0).isFirst = true;
+                dataList.get(0).firstLetter = getActivity().getString(R.string.guess_you_want);
+                isSetGuessYouWant = true;
                 set.addAll(dataList);
             }
             if (set.size() >= 10) {
@@ -552,6 +565,11 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
             } else {
                 List<CityBean> dataList2 = requestDataByKeyword(getBusinessType(), groupId, editSearch.getText().toString().trim(), true);
                 if (dataList2.size() > 0) {
+                    if(!isSetGuessYouWant){
+                        dataList2.get(0).isFirst = true;
+                        dataList2.get(0).firstLetter = getActivity().getString(R.string.guess_you_want);
+                        isSetGuessYouWant = true;
+                    }
                     set.addAll(dataList2);
                 }
                 sourceDateList.addAll(set);
@@ -560,6 +578,11 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
                 } else {
                     List<CityBean> finalList = requestCountryDataByKeyword(getBusinessType(), groupId, editSearch.getText().toString().trim());
                     if (finalList.size() > 0) {
+                        if(!isSetGuessYouWant){
+                            finalList.get(0).isFirst = true;
+                            finalList.get(0).firstLetter = getActivity().getString(R.string.guess_you_want);
+                            isSetGuessYouWant = true;
+                        }
                         sourceDateList.addAll(finalList);
                     }
                     adapter.notifyDataSetChanged();

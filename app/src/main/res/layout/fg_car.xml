@@ -216,7 +216,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="-15dp"
-            android:background="@color/progress_bg"
+            android:background="@color/car_mask_bg"
             android:visibility="visible"
             android:gravity="center_horizontal">
 
