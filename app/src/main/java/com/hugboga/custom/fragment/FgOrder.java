@@ -543,7 +543,7 @@ public class FgOrder extends BaseFragment {
                 }else{
                     orderDailyTipsLayout.setVisibility(View.GONE);
                 }
-                orderChangeTrip.setVisibility(View.GONE);
+                orderChangeTrip.setVisibility(View.VISIBLE);
                 if (!TextUtils.isEmpty(hotelPhone)) {
                     orderHotelPhoneLayoutDaily.setVisibility(View.VISIBLE);
                     orderHotelPhoneDaily.setText(hotelAreaCode + " " + hotelPhone);
@@ -694,6 +694,7 @@ public class FgOrder extends BaseFragment {
     private void initStatusView() {
         orderGuideLayout.setVisibility(View.VISIBLE);
         payCancelLayout.setVisibility(View.GONE);
+        orderTimeTip.setVisibility(View.GONE);
         switch (mOrderBean.orderStatus) {
             case INITSTATE: //"等待支付";
                 orderInfoTai.setVisibility(View.GONE);

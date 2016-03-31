@@ -60,6 +60,7 @@ public class FgSkuDetail extends FgWebInfo {
                         PhoneInfo.CallDial(getActivity(), callItems[which]);
                     }
                   });
+                callDialog.setCancelable(true);
                 callDialog.show();
 
                 break;

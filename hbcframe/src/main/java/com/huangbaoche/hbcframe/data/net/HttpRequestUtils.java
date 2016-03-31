@@ -51,10 +51,18 @@ public class HttpRequestUtils {
     }
 
 
+    /**
+     * 请求
+     * @param mContext
+     * @param request
+     * @param listener
+     * @param option
+     * @return
+     */
     public static Callback.Cancelable request(final Context mContext,final BaseRequest request, final HttpRequestListener listener,HttpRequestOption option){
         if(option==null)option=new HttpRequestOption();
-        option.setBtnEnabled(false);
-        if (!NetWork.isNetworkAvailable(mContext)) {
+        option.setBtnEnabled(false);//设置按钮不可用
+        if (!NetWork.isNetworkAvailable(mContext)) {//无网络直接报错
             ExceptionInfo result = new ExceptionInfo(ExceptionErrorCode.ERROR_CODE_NET_UNAVAILABLE, null);
             if (listener != null)
                 listener.onDataRequestError(result, request);
@@ -69,21 +77,21 @@ public class HttpRequestUtils {
             }
         });
 
-        if (!checkAccessKey(mContext)){
+        if (!checkAccessKey(mContext)){//Accesskey不能用,请求AccessKey ,回来继续请求上一个请求
             requestAccessKey(mContext,request,listener,option);
             return null;
         }
         final HttpRequestOption finalOption = option;
         Callback.Cancelable cancelable = x.http().request(request.getHttpMethod(), request, new Callback.CommonCallback<String>() {
             @Override
-            public void onSuccess(String result) {
+            public void onSuccess(String result) {//请求成功
                 MLog.e(request.getClass().getSimpleName()+" onSuccess result=" + result);
                 try {
                     ImplParser parser = request.getParser();
-                    if(parser==null) parser= new DefaultParser();
+                    if(parser==null) parser= new DefaultParser();//默认解析器
                     Object data = parser.parse(String.class, String.class, result);
-                    request.setData(data);
-                } catch (Throwable throwable) {
+                    request.setData(data);//设置数据
+                } catch (Throwable throwable) {//内部的错误直接抛到错误回调方法内
                     listener.onDataRequestError(handleException(throwable), request);
                     return;
                 }
@@ -114,6 +122,11 @@ public class HttpRequestUtils {
         return cancelable;
     }
 
+    /**
+     * 通过反射拿到 dialog 实例
+     * @param mContext
+     * @return
+     */
     public static DialogUtilInterface getDialogUtil(Context mContext){
         DialogUtilInterface dialogUtil = null;
         if(mContext instanceof Activity) {
@@ -187,6 +200,7 @@ public class HttpRequestUtils {
      */
     private static void requestAccessKey(final Context mContext,final BaseRequest baseRequest,final HttpRequestListener listener, final HttpRequestOption option){
         try {
+            //通过反射实例化AccessKey
             Constructor constructor = HbcConfig.accessKeyRequest.getDeclaredConstructor(Context.class);
             constructor.setAccessible(true);
             final BaseRequest accessKeyRequest = (BaseRequest) constructor.newInstance(mContext);
