@@ -15,8 +15,10 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.ChatAdapter;
 import com.hugboga.custom.adapter.NewOrderAdapter;
 import com.hugboga.custom.data.bean.ChatBean;
+import com.hugboga.custom.data.bean.ChatInfo;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.parser.ParserChatInfo;
 import com.hugboga.custom.data.request.RequestChatList;
 import com.hugboga.custom.widget.recycler.ZListPageView;
 
@@ -180,16 +182,13 @@ public class FgChat extends BaseFragment implements View.OnClickListener, ZBaseA
     }
 
     private String getChatInfo(String userId, String userAvatar, String title, String targetType) {
-        JSONObject obj = new JSONObject();
-        try {
-            obj.put("isChat", true);
-            obj.put("userId", userId);
-            obj.put("userAvatar", userAvatar);
-            obj.put("title", title);
-            obj.put("targetType", targetType);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return obj.toString();
+        ChatInfo chatInfo = new ChatInfo();
+        chatInfo.isChat = true;
+        chatInfo.userId = userId;
+        chatInfo.userAvatar = userAvatar;
+        chatInfo.title = title;
+        chatInfo.targetType = targetType;
+        return new ParserChatInfo().toJsonString(chatInfo);
     }
+
 }

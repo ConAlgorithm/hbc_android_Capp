@@ -72,19 +72,17 @@ public abstract class BaseFragment extends com.huangbaoche.hbcframe.fragment.Bas
     @Override
     public void onStop() {
         super.onStop();
-        //隐藏软键盘
         collapseSoftInputMethod();
-        EventBus.getDefault().post(new EventAction(EventType.CLICK_HEADER_LEFT_BTN_BACK));
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        EventBus.getDefault().post(new EventAction(EventType.START_NEW_FRAGMENT));
     }
 
     @Override
     public boolean onBackPressed() {
+        EventBus.getDefault().post(new EventAction(EventType.CLICK_HEADER_LEFT_BTN_BACK));
         return super.onBackPressed();
     }
 
@@ -112,6 +110,7 @@ public abstract class BaseFragment extends com.huangbaoche.hbcframe.fragment.Bas
             fragment.setBusinessType(tmpBusinessType == -1 ? mBusinessType : tmpBusinessType);
             fragment.setGoodsType(tmpGoodsType == -1 ? mGoodsType : tmpGoodsType);
         }
+        EventBus.getDefault().post(new EventAction(EventType.START_NEW_FRAGMENT));
         super.startFragment(fragment);
 
     }

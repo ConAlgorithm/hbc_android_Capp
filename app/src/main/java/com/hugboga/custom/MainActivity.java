@@ -1,6 +1,5 @@
 package com.hugboga.custom;
 
-import android.app.DownloadManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -32,10 +31,8 @@ import com.hugboga.custom.adapter.MenuItemAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.LvMenuItem;
 import com.hugboga.custom.data.bean.PushMessage;
-import com.hugboga.custom.data.bean.UserCouponBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
-import com.hugboga.custom.data.request.RequestGetCoupon;
 import com.hugboga.custom.data.request.RequestPushClick;
 import com.hugboga.custom.data.request.RequestPushToken;
 import com.hugboga.custom.fragment.BaseFragment;
@@ -577,6 +574,15 @@ public class MainActivity extends BaseFragmentActivity
             return null;
         }
     }
+    public void restartApp(){
+        Intent intent = new Intent(this,MainActivity.class);
+        PendingIntent restartIntent = PendingIntent.getActivity(
+                this.getApplicationContext(), 0, intent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+        //退出程序 重启应用
+        AlarmManager mgr = (AlarmManager)this.getSystemService(Context.ALARM_SERVICE);
+        mgr.set(AlarmManager.RTC, System.currentTimeMillis()+500,restartIntent); //  重启应用
+    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -584,4 +590,9 @@ public class MainActivity extends BaseFragmentActivity
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
+    @Override
+    public void exitApp() {
+        restartApp();
+        super.exitApp();
+    }
 }

@@ -9,13 +9,9 @@ import com.huangbaoche.hbcframe.viewholder.ZBaseViewHolder;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.viewholder.ChatVH;
 import com.hugboga.custom.data.bean.ChatBean;
-import com.hugboga.custom.data.bean.ChatInfo;
 import com.hugboga.custom.data.bean.ChatOrderBean;
-import com.hugboga.custom.data.parser.ParserChatInfo;
 import com.hugboga.custom.utils.DateUtils;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.xutils.image.ImageOptions;
 import org.xutils.x;
 
@@ -60,18 +56,6 @@ public class ChatAdapter extends ZBaseAdapter<ChatBean, ChatVH> {
             flushPoint(vh, chatBean);
         }
     }
-
-
-    private String getChatInfo(String userId, String userAvatar, String title, String targetType) {
-        ChatInfo chatInfo = new ChatInfo();
-        chatInfo.isChat = true;
-        chatInfo.userId = userId;
-        chatInfo.userAvatar = userAvatar;
-        chatInfo.title = title;
-        chatInfo.targetType = targetType;
-        return new ParserChatInfo().toJsonString(chatInfo);
-    }
-
 
     /**
      * 刷新未读消息数

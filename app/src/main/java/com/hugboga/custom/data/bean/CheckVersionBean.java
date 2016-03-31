@@ -9,6 +9,8 @@ public class CheckVersionBean implements IBaseBean {
     public String content;
     public String url;
     public String force;
+    public boolean hasAppUpdate;
+    public boolean debugMod;
     public ArrayList<ResourcesBean> resList;
     public String appVersion;
     public String dbDownloadLink;

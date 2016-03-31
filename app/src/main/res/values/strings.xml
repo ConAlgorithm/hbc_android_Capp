@@ -70,6 +70,8 @@
     <string name="title_daily_out_town">跨城市包车</string>
     <string name="title_rent">单次接送</string>
     <string name="title_commend">线路包车</string>
+    <string name="title_daily_small">小长途</string>
+    <string name="title_daily_large">大长途</string>
     <string name="title_other">订单详情</string>
     <string name="title_choose_airport">选择机场</string>
     <string name="title_transfer">接送机</string>

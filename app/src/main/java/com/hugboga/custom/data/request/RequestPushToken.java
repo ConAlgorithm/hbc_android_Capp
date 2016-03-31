@@ -24,7 +24,7 @@ public class RequestPushToken extends BaseRequest {
         map = new TreeMap();
         map.put("pushToken",pushToken);
         map.put("realToken",realToken);
-        map.put("os","android");
+        map.put("os","1");//android
         map.put("appVersion",appVersion);
         map.put("deviceId",deviceId);
         map.put("osVersion",osVersion);
