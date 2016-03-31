@@ -16,7 +16,9 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.huangbaoche.hbcframe.adapter.BaseAdapter;
 import com.huangbaoche.hbcframe.adapter.ZBaseAdapter;
+import com.huangbaoche.hbcframe.adapter.ZBaseAdapter.OnItemClickListener;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.huangbaoche.hbcframe.widget.ZSwipeRefreshLayout;
 import com.hugboga.custom.MainActivity;
@@ -41,7 +43,7 @@ import java.util.List;
 import de.greenrobot.event.EventBus;
 
 @ContentView(R.layout.fg_travel)
-public class FgTravel extends BaseFragment implements View.OnClickListener, ZBaseAdapter.OnItemClickListener {
+public class FgTravel extends BaseFragment implements View.OnClickListener, OnItemClickListener {
 
     public static final String FILTER_FLUSH = "com.hugboga.custom.travel.flush";
     public static final String JUMP_TYPE = "JUMP_TYPE";
@@ -131,12 +133,12 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, ZBas
         fgTravelRunning = (ZListPageView) runninLayout.findViewById(R.id.listview);
         runningSwipeRefresh = (ZSwipeRefreshLayout) runninLayout.findViewById(R.id.swipe);
         runningEmptyLayout = (RelativeLayout) runninLayout.findViewById(R.id.list_empty);
-        runningAdapter = new NewOrderAdapter(getActivity());
+        runningAdapter = new NewOrderAdapter(this);
         fgTravelRunning.setAdapter(runningAdapter);
         fgTravelRunning.setzSwipeRefreshLayout(runningSwipeRefresh);
         fgTravelRunning.setEmptyLayout(runningEmptyLayout);
         fgTravelRunning.setRequestData(new RequestTravel(getActivity(), 1));
-        fgTravelRunning.setOnItemClickListener(this);
+        fgTravelRunning.setOnItemClickListener(new TravelOnItemClickListener(fgTravelRunning));
         //设置开启我的行程事件
         setBtnClick(runninLayout.findViewById(R.id.travel_empty_btn));
         //已完成
@@ -144,23 +146,23 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, ZBas
         fgTravelFinish = (ZListPageView) finishLayout.findViewById(R.id.listview);
         finishSwipeRefresh = (ZSwipeRefreshLayout) finishLayout.findViewById(R.id.swipe);
         finishEmptyLayout = (RelativeLayout) finishLayout.findViewById(R.id.list_empty);
-        finishAdapter = new NewOrderAdapter(getActivity());
+        finishAdapter = new NewOrderAdapter(this);
         fgTravelFinish.setAdapter(finishAdapter);
         fgTravelFinish.setzSwipeRefreshLayout(finishSwipeRefresh);
         fgTravelFinish.setEmptyLayout(finishEmptyLayout);
         fgTravelFinish.setRequestData(new RequestTravel(getActivity(), 2));
-        fgTravelFinish.setOnItemClickListener(this);
+        fgTravelFinish.setOnItemClickListener(new TravelOnItemClickListener(fgTravelFinish));
         //已取消
         cancelLayout = (RelativeLayout) inflater.inflate(R.layout.travel_list_layout_cancel, null);
         fgTravelCancel = (ZListPageView) cancelLayout.findViewById(R.id.listview);
         cancelSwipeRefresh = (ZSwipeRefreshLayout) cancelLayout.findViewById(R.id.swipe);
         cancelEmptyLayout = (RelativeLayout) cancelLayout.findViewById(R.id.list_empty);
-        cancelAdapter = new NewOrderAdapter(getActivity());
+        cancelAdapter = new NewOrderAdapter(this);
         fgTravelCancel.setAdapter(cancelAdapter);
         fgTravelCancel.setzSwipeRefreshLayout(cancelSwipeRefresh);
         fgTravelCancel.setEmptyLayout(cancelEmptyLayout);
         fgTravelCancel.setRequestData(new RequestTravel(getActivity(), 3));
-        fgTravelCancel.setOnItemClickListener(this);
+        fgTravelCancel.setOnItemClickListener(new TravelOnItemClickListener(fgTravelCancel));
 
         //Tab相关
         tab1TextView.setSelected(true);
@@ -346,30 +348,42 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, ZBas
         }
     }
 
+  class TravelOnItemClickListener implements ZBaseAdapter.OnItemClickListener{
+
+      View view;
+      public TravelOnItemClickListener(View view){
+        this.view = view;
+      }
+      @Override
+      public void onItemClick(View v, int position) {
+          MLog.e("view = "+view);
+          if (view == fgTravelRunning) {
+              OrderBean bean = runningAdapter.getDatas().get(position);
+              Bundle bundle = new Bundle();
+              bundle.putInt(KEY_BUSINESS_TYPE, bean.orderType);
+              bundle.putInt(KEY_GOODS_TYPE, bean.orderGoodsType);
+              bundle.putString(FgOrder.KEY_ORDER_ID, bean.orderNo);
+              startFragment(new FgOrder(), bundle);
+          } else if (view == fgTravelFinish) {
+              OrderBean bean = finishAdapter.getDatas().get(position);
+              Bundle bundle = new Bundle();
+              bundle.putInt(KEY_BUSINESS_TYPE, bean.orderType);
+              bundle.putInt(KEY_GOODS_TYPE, bean.orderGoodsType);
+              bundle.putString(FgOrder.KEY_ORDER_ID, bean.orderNo);
+              startFragment(new FgOrder(), bundle);
+          } else if (view == fgTravelCancel) {
+              OrderBean bean = cancelAdapter.getDatas().get(position);
+              Bundle bundle = new Bundle();
+              bundle.putInt(KEY_BUSINESS_TYPE, bean.orderType);
+              bundle.putInt(KEY_GOODS_TYPE, bean.orderGoodsType);
+              bundle.putString(FgOrder.KEY_ORDER_ID, bean.orderNo);
+              startFragment(new FgOrder(), bundle);
+          }
+      }
+  }
     @Override
     public void onItemClick(View view, int position) {
-        if (view == fgTravelRunning) {
-            OrderBean bean = runningAdapter.getDatas().get(position);
-            Bundle bundle = new Bundle();
-            bundle.putInt(KEY_BUSINESS_TYPE, bean.orderType);
-            bundle.putInt(KEY_GOODS_TYPE, bean.orderGoodsType);
-            bundle.putString(FgOrder.KEY_ORDER_ID, bean.orderNo);
-            startFragment(new FgOrder(), bundle);
-        } else if (view == fgTravelFinish) {
-            OrderBean bean = finishAdapter.getDatas().get(position);
-            Bundle bundle = new Bundle();
-            bundle.putInt(KEY_BUSINESS_TYPE, bean.orderType);
-            bundle.putInt(KEY_GOODS_TYPE, bean.orderGoodsType);
-            bundle.putString(FgOrder.KEY_ORDER_ID, bean.orderNo);
-            startFragment(new FgOrder(), bundle);
-        } else if (view == fgTravelCancel) {
-            OrderBean bean = cancelAdapter.getDatas().get(position);
-            Bundle bundle = new Bundle();
-            bundle.putInt(KEY_BUSINESS_TYPE, bean.orderType);
-            bundle.putInt(KEY_GOODS_TYPE, bean.orderGoodsType);
-            bundle.putString(FgOrder.KEY_ORDER_ID, bean.orderNo);
-            startFragment(new FgOrder(), bundle);
-        }
+
     }
 
     class OrderPageAdapter extends PagerAdapter {
