@@ -28,6 +28,7 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestTravel;
 import com.hugboga.custom.widget.recycler.ZListPageView;
 
@@ -238,7 +239,8 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, OnIt
             startBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    finish();
+                    //开启行程，跳转到首页
+                    EventBus.getDefault().post(new EventAction(EventType.SET_MAIN_PAGE_INDEX, 0));
                 }
             });
     }
@@ -348,39 +350,42 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, OnIt
         }
     }
 
-  class TravelOnItemClickListener implements ZBaseAdapter.OnItemClickListener{
+    class TravelOnItemClickListener implements ZBaseAdapter.OnItemClickListener {
 
-      View view;
-      public TravelOnItemClickListener(View view){
-        this.view = view;
-      }
-      @Override
-      public void onItemClick(View v, int position) {
-          MLog.e("view = "+view);
-          if (view == fgTravelRunning) {
-              OrderBean bean = runningAdapter.getDatas().get(position);
-              Bundle bundle = new Bundle();
-              bundle.putInt(KEY_BUSINESS_TYPE, bean.orderType);
-              bundle.putInt(KEY_GOODS_TYPE, bean.orderGoodsType);
-              bundle.putString(FgOrder.KEY_ORDER_ID, bean.orderNo);
-              startFragment(new FgOrder(), bundle);
-          } else if (view == fgTravelFinish) {
-              OrderBean bean = finishAdapter.getDatas().get(position);
-              Bundle bundle = new Bundle();
-              bundle.putInt(KEY_BUSINESS_TYPE, bean.orderType);
-              bundle.putInt(KEY_GOODS_TYPE, bean.orderGoodsType);
-              bundle.putString(FgOrder.KEY_ORDER_ID, bean.orderNo);
-              startFragment(new FgOrder(), bundle);
-          } else if (view == fgTravelCancel) {
-              OrderBean bean = cancelAdapter.getDatas().get(position);
-              Bundle bundle = new Bundle();
-              bundle.putInt(KEY_BUSINESS_TYPE, bean.orderType);
-              bundle.putInt(KEY_GOODS_TYPE, bean.orderGoodsType);
-              bundle.putString(FgOrder.KEY_ORDER_ID, bean.orderNo);
-              startFragment(new FgOrder(), bundle);
-          }
-      }
-  }
+        View view;
+
+        public TravelOnItemClickListener(View view) {
+            this.view = view;
+        }
+
+        @Override
+        public void onItemClick(View v, int position) {
+            MLog.e("view = " + view);
+            if (view == fgTravelRunning) {
+                OrderBean bean = runningAdapter.getDatas().get(position);
+                Bundle bundle = new Bundle();
+                bundle.putInt(KEY_BUSINESS_TYPE, bean.orderType);
+                bundle.putInt(KEY_GOODS_TYPE, bean.orderGoodsType);
+                bundle.putString(FgOrder.KEY_ORDER_ID, bean.orderNo);
+                startFragment(new FgOrder(), bundle);
+            } else if (view == fgTravelFinish) {
+                OrderBean bean = finishAdapter.getDatas().get(position);
+                Bundle bundle = new Bundle();
+                bundle.putInt(KEY_BUSINESS_TYPE, bean.orderType);
+                bundle.putInt(KEY_GOODS_TYPE, bean.orderGoodsType);
+                bundle.putString(FgOrder.KEY_ORDER_ID, bean.orderNo);
+                startFragment(new FgOrder(), bundle);
+            } else if (view == fgTravelCancel) {
+                OrderBean bean = cancelAdapter.getDatas().get(position);
+                Bundle bundle = new Bundle();
+                bundle.putInt(KEY_BUSINESS_TYPE, bean.orderType);
+                bundle.putInt(KEY_GOODS_TYPE, bean.orderGoodsType);
+                bundle.putString(FgOrder.KEY_ORDER_ID, bean.orderNo);
+                startFragment(new FgOrder(), bundle);
+            }
+        }
+    }
+
     @Override
     public void onItemClick(View view, int position) {
 
