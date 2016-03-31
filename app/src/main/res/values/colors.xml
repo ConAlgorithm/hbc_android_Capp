@@ -39,9 +39,11 @@
 
     <!--city-->
     <color name="item_title_bg">#E9E9E9</color>
+    <color name="normal_subtitle_color">#242424</color>
 
     <!--progress-->
     <color name="progress_bg">#f7cb0c</color>
+    <color name="car_mask_bg">#77000000</color>
     <color name="progress_text_enable">#FFFFFF</color>
     <color name="progress_text_disable">#CCFFFFFF</color>
     <!--pick_flight-->
