@@ -162,3 +162,43 @@
 # can be remapped
 -renamesourcefileattribute SourceFile
 -keepattributes SourceFile,LineNumberTable
+
+-keep class com.hugboga.custom.widget.DialogUtil {
+    public static ** getInstance(**);
+}
+
+-keepclassmembers class ** {
+    public void onEvent*(**);
+}
+################### region for xUtils
+-keepattributes Signature,*Annotation*
+-keep public class org.xutils.** {
+    public protected *;
+}
+-keep public interface org.xutils.** {
+    public protected *;
+}
+-keepclassmembers class * extends org.xutils.** {
+    public protected *;
+}
+-keepclassmembers @org.xutils.db.annotation.* class * {*;}
+-keepclassmembers @org.xutils.http.annotation.* class * {*;}
+-keepclassmembers class * {
+    @org.xutils.view.annotation.Event <methods>;
+}
+#################### end region
+
+##EventBus
+-keepattributes *Annotation*
+-keepclassmembers class ** {
+    @de.greenrobot.event.Subscribe <methods>;
+}
+-keep enum de.greenrobot.event.ThreadMode { *; }
+-keep enum de.greenrobot.event.EventBusException { *; }
+
+# Only required if you use AsyncExecutor
+-keepclassmembers class * extends de.greenrobot.event.util.ThrowableFailureEvent {
+    <init>(java.lang.Throwable);
+}
+
+-keep class com.hugboga.custom.data.event.EventAction { *; }

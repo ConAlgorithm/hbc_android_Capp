@@ -76,7 +76,7 @@ public class FgNewOrder extends BaseFragment implements ZBaseAdapter.OnItemClick
      * @param searchType
      */
     private void initListView(SearchType searchType) {
-        adapter = new NewOrderAdapter(getActivity());
+        adapter = new NewOrderAdapter(this);
         recyclerView.setAdapter(adapter);
         recyclerView.setzSwipeRefreshLayout(swipeRefreshLayout);
         recyclerView.setEmptyLayout(emptyLayout);
