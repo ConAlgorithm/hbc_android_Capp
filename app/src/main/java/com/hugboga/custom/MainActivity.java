@@ -2,7 +2,6 @@ package com.hugboga.custom;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -35,8 +34,10 @@ import com.hugboga.custom.adapter.MenuItemAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.LvMenuItem;
 import com.hugboga.custom.data.bean.PushMessage;
+import com.hugboga.custom.data.bean.UserCouponBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.request.RequestGetCoupon;
 import com.hugboga.custom.data.request.RequestPushClick;
 import com.hugboga.custom.data.request.RequestPushToken;
 import com.hugboga.custom.fragment.BaseFragment;
@@ -122,7 +123,7 @@ public class MainActivity extends BaseFragmentActivity
         //为服务器授权
         grantPhone();
 
-//      addErrorProcess();
+//        addErrorProcess();
         UpdateResources.checkLocalDB(this);
         UpdateResources.checkLocalResource(this);
         setUpDrawer();
@@ -132,6 +133,10 @@ public class MainActivity extends BaseFragmentActivity
             EventBus.getDefault().register(this);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+
+        if(UserEntity.getUser().isLogin(this)) {
+            getUserCoupon();
         }
     }
 
@@ -184,6 +189,12 @@ public class MainActivity extends BaseFragmentActivity
         HttpRequestUtils.request(this, request, this);
     }
 
+    private void getUserCoupon(){
+        RequestGetCoupon getCoupon = new RequestGetCoupon(this);
+        HttpRequestUtils.request(this,getCoupon,this);
+
+    }
+
     private void initAdapterContent() {
         fgHome = new FgHome();
         fgChat = new FgChat();
@@ -207,6 +218,13 @@ public class MainActivity extends BaseFragmentActivity
     public void onDataRequestSucceed(BaseRequest request) {
         if (request instanceof RequestPushToken) {
             MLog.e(request.getData().toString());
+        }else if(request instanceof RequestGetCoupon){
+            RequestGetCoupon requestGetCoupon = (RequestGetCoupon)request;
+            UserCouponBean bean = requestGetCoupon.getData();
+            if(null != mItems && mItems.size() > 0) {
+                mItems.get(0).tips = String.format(getString(R.string.user_have_coupon), bean.couponSize);
+                menuItemAdapter.notifyDataSetChanged();
+            }
         }
     }
 
@@ -268,6 +286,7 @@ public class MainActivity extends BaseFragmentActivity
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
             case CLICK_USER_LOGIN:
+                getUserCoupon();
             case CLICK_USER_LOOUT:
                 refreshContent();
                 break;
@@ -306,13 +325,14 @@ public class MainActivity extends BaseFragmentActivity
 
     private List<LvMenuItem> mItems = new ArrayList<LvMenuItem>(
             Arrays.asList(
-                    new LvMenuItem(R.mipmap.personal_center_coupon, "优惠券", "3张可用"),
+                    new LvMenuItem(R.mipmap.personal_center_coupon, "优惠券", ""),
                     new LvMenuItem(R.mipmap.personal_center_customer_service, "客服中心", ""),
                     new LvMenuItem(R.mipmap.personal_center_internal, "境内客服", "仅限国内使用"),
                     new LvMenuItem(R.mipmap.personal_center_overseas, "境外客服", "仅限国外使用"),
                     new LvMenuItem(R.mipmap.personal_center_setting, "设置", "")
             ));
 
+    MenuItemAdapter menuItemAdapter;
     private void setUpDrawer() {
         LayoutInflater inflater = LayoutInflater.from(this);
         View header = inflater.inflate(R.layout.nav_header_main, null);
@@ -324,7 +344,8 @@ public class MainActivity extends BaseFragmentActivity
         tv_nickname.setOnClickListener(this);
 
         mLvLeftMenu.addHeaderView(header);
-        mLvLeftMenu.setAdapter(new MenuItemAdapter(this, mItems));
+        menuItemAdapter = new MenuItemAdapter(this, mItems);
+        mLvLeftMenu.setAdapter(menuItemAdapter);
         mLvLeftMenu.setOnItemClickListener(this);
 
         refreshContent();
@@ -338,6 +359,8 @@ public class MainActivity extends BaseFragmentActivity
             my_icon_head.setImageResource(R.mipmap.chat_head);
             tv_nickname.setText(this.getResources().getString(R.string.person_center_nickname));
             tv_modify_info.setVisibility(View.INVISIBLE);
+            mItems.get(0).tips = "";
+            menuItemAdapter.notifyDataSetChanged();
         } else {
             tv_modify_info.setVisibility(View.VISIBLE);
             if (!TextUtils.isEmpty(UserEntity.getUser().getAvatar(this))) {

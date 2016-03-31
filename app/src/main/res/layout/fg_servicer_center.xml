@@ -23,6 +23,7 @@
                 android:id="@+id/servicer_center_top"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:paddingBottom="@dimen/basic_margin_xlarge"
                 android:paddingTop="@dimen/basic_margin_xlarge">
 
