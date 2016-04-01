@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.webkit.WebView;
 
 import com.huangbaoche.hbcframe.util.WXShareUtils;
@@ -61,9 +63,10 @@ public class FgSkuDetail extends FgWebInfo {
                         PhoneInfo.CallDial(getActivity(), callItems[which]);
                     }
                   });
-                callDialog.setCancelable(true);
-                callDialog.create().setCanceledOnTouchOutside(true);
-                callDialog.show();
+                AlertDialog dialog = callDialog.create();
+                dialog.setCanceledOnTouchOutside(true);
+                dialog.setCancelable(true);
+                dialog.show();
                 break;
             case R.id.goto_order:
                 Bundle bundle =new Bundle();
