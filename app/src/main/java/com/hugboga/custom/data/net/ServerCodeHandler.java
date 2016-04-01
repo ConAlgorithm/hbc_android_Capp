@@ -27,11 +27,11 @@ public class ServerCodeHandler implements ServerCodeHandlerInterface {
     public  boolean handleServerCode(final Activity mContext,String content, final int state, final BaseRequest request,final HttpRequestListener listener) {
         DialogUtil dialogUtil = DialogUtil.getInstance(mContext);
         switch (state) {
-            case 10011://AccessKey
+            case 10011://AccessKey失效，在切换服务器或者是 服务器找到该AccessKey
                 UserSession.getUser().setAccessKey(mContext,null);
                 HttpRequestUtils.request(mContext,request,listener);
-                break;
-            case 10012://userToken不合法或已失效，登录信息失效，请重新登录
+                return true;
+            case 10012://userToken不合法或已失效，登录信息失效，请重新登录;在其他设备上登录
                 UserEntity.getUser().setUserId(mContext, null);
                 UserEntity.getUser().setUserToken(mContext, null);
                 UserSession.getUser().setUserToken(mContext, null);
@@ -41,7 +41,7 @@ public class ServerCodeHandler implements ServerCodeHandlerInterface {
                         gotoLogin(mContext,false);
                     }
                 });
-                break;
+                return true;
             case 10013:
                 //  设备禁止访问，则直接退出重新登录
                 UserEntity.getUser().clean(mContext);
@@ -51,7 +51,7 @@ public class ServerCodeHandler implements ServerCodeHandlerInterface {
                         gotoLogin(mContext,true);
                     }
                 });
-                break;
+                return true;
 
         }
         return false;

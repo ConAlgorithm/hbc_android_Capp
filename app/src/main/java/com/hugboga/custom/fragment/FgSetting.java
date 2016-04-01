@@ -22,6 +22,7 @@ import com.hugboga.custom.data.parser.ParserLogout;
 import com.hugboga.custom.data.request.RequestCheckVersion;
 import com.hugboga.custom.data.request.RequestLogout;
 import com.hugboga.custom.utils.PhoneInfo;
+import com.hugboga.custom.utils.PushUtils;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.ToastUtils;
 import com.hugboga.custom.utils.UpdateResources;
@@ -65,10 +66,10 @@ public class FgSetting extends BaseFragment {
                 DialogUtil.getInstance(getActivity()).showCustomDialog("已是最新版本");
             }
             UserEntity.getUser().setIsNewVersion(getActivity(), !TextUtils.isEmpty(checkVersionBean.url));
-            DialogUtil.getInstance(getActivity()).showUpdateDialog(checkVersionBean.force, checkVersionBean.content, checkVersionBean.url, new DialogInterface.OnClickListener() {
+            DialogUtil.getInstance(getActivity()).showUpdateDialog(checkVersionBean.hasAppUpdate,checkVersionBean.force, checkVersionBean.content, checkVersionBean.url, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-//                    PushUtils.startDownloadApk(getActivity(), checkVersionBean.url);
+                    PushUtils.startDownloadApk(getActivity(), checkVersionBean.url);
                     if (dialog != null)
                         dialog.dismiss();
                 }
@@ -123,9 +124,8 @@ public class FgSetting extends BaseFragment {
                 break;
             case R.id.setting_menu_layout4:
                 //软件更新
-                String version = PhoneInfo.getSoftwareVersion(getActivity());
                 int resourcesVersion = new SharedPre(getActivity()).getIntValue(SharedPre.RESOURCES_H5_VERSION);
-                final RequestCheckVersion requestCheckVersion = new RequestCheckVersion(getActivity(),version,resourcesVersion);
+                final RequestCheckVersion requestCheckVersion = new RequestCheckVersion(getActivity(),resourcesVersion);
                 requestData(requestCheckVersion);
                 break;
             case R.id.setting_menu_layout5:

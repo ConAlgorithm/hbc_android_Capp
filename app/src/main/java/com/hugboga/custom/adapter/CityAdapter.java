@@ -1,6 +1,8 @@
 package com.hugboga.custom.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -213,6 +215,16 @@ public class CityAdapter extends BaseAdapter implements View.OnClickListener, On
         }
         //如果当前位置等于该分类首字母的Char的位置 ，则认为是第一次出现
         if (model.isFirst) {
+            if(!TextUtils.isEmpty(model.firstLetter) && model.firstLetter.equals(mContext.getString(R.string.guess_you_want))){
+                Drawable drawable= mContext.getResources().getDrawable(R.mipmap.icon_guess_you_want);
+                drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+                viewHolder.tvLetter.setCompoundDrawables(drawable, null, null, null);
+                viewHolder.tvLetter.setCompoundDrawablePadding(5);
+                viewHolder.tvLetter.setTextColor(mContext.getResources().getColor(R.color.progress_bg));
+            }else {
+                viewHolder.tvLetter.setCompoundDrawables(null, null, null, null);
+                viewHolder.tvLetter.setTextColor(mContext.getResources().getColor(R.color.normal_subtitle_color));
+            }
             viewHolder.tvLetter.setVisibility(View.VISIBLE);
             viewHolder.tvLetter.setText(model.firstLetter);
         } else {

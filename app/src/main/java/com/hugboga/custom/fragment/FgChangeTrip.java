@@ -17,6 +17,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
+import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.AirPort;
@@ -463,7 +464,7 @@ public class FgChangeTrip extends BaseFragment implements View.OnClickListener {
         }
     }
     private void submitData() {
-
+        MLog.e("mOrderBean.orderNo="+mOrderBean.orderNo);
         final OrderBean orderBean = new OrderBean();
         orderBean.orderNo = mOrderBean.orderNo;
         String contactName = connectName.getText().toString().trim();
