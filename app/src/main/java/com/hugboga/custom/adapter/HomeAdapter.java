@@ -83,6 +83,8 @@ public class HomeAdapter extends ZHeadFootAdapter<HomeBean, HomeVH> {
             } else {
                 vh.splitLine.setVisibility(View.GONE);
             }
+            vh.imgBg.mWidth = 750;
+            vh.imgBg.mHeight = 400;
             x.image().bind(vh.imgBg, homeBean.picture, options);
         }
     }
