@@ -46,6 +46,7 @@ public class CityAdapter extends BaseAdapter implements View.OnClickListener, On
     private int searchHistoryCount = 0;
     private int chooseType = -1;
     private FgChooseCity fragment;
+    private HotCityGridViewAdapter hotCityGridViewAdapter;
 
 
     public CityAdapter(Context mContext, FgChooseCity fragment, List<CityBean> list, String mBusinessType) {
@@ -73,6 +74,9 @@ public class CityAdapter extends BaseAdapter implements View.OnClickListener, On
     public void updateListView(List<CityBean> list) {
         this.list = list;
         notifyDataSetChanged();
+//        if(hotCityList!=null && hotCityList.size()>0) {
+//            hotCityGridViewAdapter.notifyDataSetChanged();
+//        }
     }
 
     public int getCount() {
@@ -166,13 +170,17 @@ public class CityAdapter extends BaseAdapter implements View.OnClickListener, On
             viewHolder.tvLetter = (TextView) view.findViewById(R.id.catalog);
             view.setTag(viewHolder);
 
-            HotCityGridViewAdapter hotCityGridViewAdapter = new HotCityGridViewAdapter(mContext, hotCityList);
+            hotCityGridViewAdapter = new HotCityGridViewAdapter(mContext, hotCityList);
             viewHolder.gv_hot_city.setAdapter(hotCityGridViewAdapter);
             viewHolder.gv_hot_city.setOnItemClickListener(this);
         } else {
 
             if (view.getTag() instanceof GridViewHolder) {
                 viewHolder = (GridViewHolder) view.getTag();
+//                hotCityGridViewAdapter.notifyDataSetChanged();
+                hotCityGridViewAdapter = new HotCityGridViewAdapter(mContext, hotCityList);
+                viewHolder.gv_hot_city.setAdapter(hotCityGridViewAdapter);
+                viewHolder.gv_hot_city.setOnItemClickListener(this);
             } else {
                 return null;
             }
@@ -307,6 +315,7 @@ public class CityAdapter extends BaseAdapter implements View.OnClickListener, On
             Bundle bundle = new Bundle(fragment.getArguments());
             CityBean cityBean = hotCityList.get(position);
             if(!TextUtils.isEmpty(mBusinessType) && Integer.parseInt(mBusinessType) == Constants.BUSINESS_TYPE_HOME){
+                fragment.saveHistoryDate(cityBean);
                 FgSkuList fg = new FgSkuList();
                 bundle.putString(FgSkuList.KEY_CITY_ID, String.valueOf(cityBean.cityId));
                 fragment.finish();
