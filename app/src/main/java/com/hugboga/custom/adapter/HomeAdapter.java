@@ -9,22 +9,31 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.adapter.BaseAdapter;
+import com.huangbaoche.hbcframe.adapter.ZBaseAdapter;
+import com.huangbaoche.hbcframe.adapter.ZHeadFootAdapter;
 import com.huangbaoche.hbcframe.util.MLog;
+import com.huangbaoche.hbcframe.viewholder.ZBaseViewHolder;
 import com.hugboga.custom.R;
+import com.hugboga.custom.adapter.viewholder.HomeVH;
+import com.hugboga.custom.data.bean.ChatBean;
 import com.hugboga.custom.data.bean.HomeBean;
+import com.hugboga.custom.fragment.FgHome;
 
 import org.xutils.image.ImageOptions;
 import org.xutils.x;
 
 /**
+ * 首页信息adapter
  * Created by admin on 2016/3/2.
  */
-public class HomeAdapter extends BaseAdapter<HomeBean> {
+public class HomeAdapter extends ZHeadFootAdapter<HomeBean, HomeVH> {
 
+    FgHome fgHome;
     private final ImageOptions options;
 
-    public HomeAdapter(Context context) {
+    public HomeAdapter(Context context, FgHome fgHome) {
         super(context);
+        this.fgHome = fgHome;
         options = new ImageOptions.Builder()
 //                .setLoadingDrawableId(R.mipmap.img_undertext)
                 .setFailureDrawableId(R.mipmap.img_undertext)
@@ -32,47 +41,52 @@ public class HomeAdapter extends BaseAdapter<HomeBean> {
     }
 
     @Override
-    public View getView(int position, View view, ViewGroup parent) {
-        ViewHolder viewHolder = null;
-        if (view == null) {
-            viewHolder = new ViewHolder();
-            view = LayoutInflater.from(mContext).inflate(R.layout.item_home, null);
-            viewHolder.tvTitle = (TextView) view.findViewById(R.id.item_home_title);
-            viewHolder.tvSubTitle = (TextView) view.findViewById(R.id.item_home_sub_title);
-            viewHolder.imgBg = (ImageView) view.findViewById(R.id.item_home_img);
-            viewHolder.splitLine = (View) view.findViewById(R.id.split_line);
-            view.setTag(viewHolder);
-        } else {
-            viewHolder = (ViewHolder) view.getTag();
-        }
-        HomeBean bean = getItem(position);
-        if (bean != null) {
-            if (!TextUtils.isEmpty(bean.mainTitle)) {
-                viewHolder.tvTitle.setText(bean.mainTitle);
-            } else {
-                viewHolder.tvTitle.setText("");
-            }
-            if (!TextUtils.isEmpty(bean.subTitle)) {
-                viewHolder.tvSubTitle.setText(bean.subTitle);
-            } else {
-                viewHolder.tvSubTitle.setText("");
-            }
-            if(!TextUtils.isEmpty(bean.mainTitle)&&!TextUtils.isEmpty(bean.subTitle)){
-                viewHolder.splitLine.setVisibility(View.VISIBLE);
-            }else{
-                viewHolder.splitLine.setVisibility(View.GONE);
-            }
-
-            x.image().bind(viewHolder.imgBg, bean.picture, options);
-        }
-        return view;
+    protected View getHeaderView() {
+        View header = View.inflate(fgHome.getActivity(), R.layout.fg_home_header, null);
+        header.findViewById(R.id.fg_home_menu1).setOnClickListener(fgHome);
+        header.findViewById(R.id.fg_home_menu2).setOnClickListener(fgHome);
+        header.findViewById(R.id.fg_home_menu3).setOnClickListener(fgHome);
+        return header;
     }
 
-    final static class ViewHolder {
-        TextView tvTitle;
-        TextView tvSubTitle;
-        ImageView imgBg;
-        View splitLine;
+    @Override
+    protected View getFooterView() {
+        return new View(context);
+    }
+
+    @Override
+    protected int initResource() {
+        return R.layout.item_home;
+    }
+
+    @Override
+    protected ZBaseViewHolder getVH(View view) {
+        return new HomeVH(view);
+    }
+
+    @Override
+    protected void getView(int position, HomeVH vh) {
+        HomeBean homeBean = datas.get(position);
+        if (homeBean != null) {
+            if (!TextUtils.isEmpty(homeBean.mainTitle)) {
+                vh.tvTitle.setText(homeBean.mainTitle);
+            } else {
+                vh.tvTitle.setText("");
+            }
+            if (!TextUtils.isEmpty(homeBean.subTitle)) {
+                vh.tvSubTitle.setText(homeBean.subTitle);
+            } else {
+                vh.tvSubTitle.setText("");
+            }
+            if (!TextUtils.isEmpty(homeBean.mainTitle) && !TextUtils.isEmpty(homeBean.subTitle)) {
+                vh.splitLine.setVisibility(View.VISIBLE);
+            } else {
+                vh.splitLine.setVisibility(View.GONE);
+            }
+            vh.imgBg.mWidth = 750;
+            vh.imgBg.mHeight = 400;
+            x.image().bind(vh.imgBg, homeBean.picture, options);
+        }
     }
 
 }

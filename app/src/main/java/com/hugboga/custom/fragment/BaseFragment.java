@@ -3,10 +3,12 @@ package com.hugboga.custom.fragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextPaint;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.huangbaoche.hbcframe.util.FastClickUtils;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.event.EventAction;
@@ -73,11 +75,13 @@ public abstract class BaseFragment extends com.huangbaoche.hbcframe.fragment.Bas
     public void onStop() {
         super.onStop();
         collapseSoftInputMethod();
+        EventBus.getDefault().post(new EventAction(EventType.CLICK_HEADER_LEFT_BTN_BACK));
     }
 
     @Override
     public void onStart() {
         super.onStart();
+        EventBus.getDefault().post(new EventAction(EventType.START_NEW_FRAGMENT));
     }
 
     @Override
@@ -88,14 +92,12 @@ public abstract class BaseFragment extends com.huangbaoche.hbcframe.fragment.Bas
 
 
     public void startFragment(BaseFragment fragment) {
-
         Bundle bundle = fragment.getArguments();
         bundle = bundle == null ? new Bundle() : bundle;
         startFragment(fragment, bundle);
     }
 
     public void startFragment(BaseFragment fragment, Bundle bundle) {
-
         collapseSoftInputMethod();
         editTextClearFocus();
         int tmpBusinessType = -1;
@@ -110,7 +112,6 @@ public abstract class BaseFragment extends com.huangbaoche.hbcframe.fragment.Bas
             fragment.setBusinessType(tmpBusinessType == -1 ? mBusinessType : tmpBusinessType);
             fragment.setGoodsType(tmpGoodsType == -1 ? mGoodsType : tmpGoodsType);
         }
-        EventBus.getDefault().post(new EventAction(EventType.START_NEW_FRAGMENT));
         super.startFragment(fragment);
 
     }

@@ -75,7 +75,6 @@ public class FgIMChat extends BaseFragment {
 
     @Override
     protected void initView() {
-        topRightBtn.setVisibility(View.VISIBLE); //显示历史订单按钮
         Bundle bundle = getArguments();
         if (bundle == null) {
             return;
@@ -106,11 +105,20 @@ public class FgIMChat extends BaseFragment {
             userAvatar = imInfo.userAvatar;
             title.setText(imInfo.title); //设置标题
             targetType = imInfo.targetType;
+            resetRightBtn();
             initRunningOrder(); //构建和该用户之间的订单
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (Throwable throwable) {
             throwable.printStackTrace();
+        }
+    }
+
+    private void resetRightBtn(){
+        if(!TextUtils.isEmpty(targetType) && "3".equals(targetType)){
+            topRightBtn.setVisibility(View.GONE); //显示历史订单按钮
+        }else{
+            topRightBtn.setVisibility(View.VISIBLE); //显示历史订单按钮
         }
     }
 
