@@ -65,52 +65,13 @@ public class CityBean implements IBaseBean {
 //        stayDay = jsonObj.optInt("stayDay");
 //    }
 
-//    @Override
-//    public boolean equals(Object obj) {
-//        if (obj instanceof CityBean) {
-//            CityBean bean = (CityBean) obj;
-//            if (cityId == ((CityBean) obj).cityId) return true;
-//        }
-//        return false;
-//    }
-
-
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        CityBean cityBean = (CityBean) o;
-
-        if (cityId != cityBean.cityId) return false;
-        if (groupId != cityBean.groupId) return false;
-        if (childSeatSwitch != cityBean.childSeatSwitch) return false;
-        if (isDaily != cityBean.isDaily) return false;
-        if (isSingle != cityBean.isSingle) return false;
-        if (isCityCode != cityBean.isCityCode) return false;
-        if (isHot != cityBean.isHot) return false;
-        if (hotWeight != cityBean.hotWeight) return false;
-        if (isSelected != cityBean.isSelected) return false;
-        if (isFirst != cityBean.isFirst) return false;
-        if (stayDay != cityBean.stayDay) return false;
-        if (dataType != cityBean.dataType) return false;
-        if (!name.equals(cityBean.name)) return false;
-        if (firstLetter != null ? !firstLetter.equals(cityBean.firstLetter) : cityBean.firstLetter != null)
-            return false;
-        if (!enName.equals(cityBean.enName)) return false;
-        if (!location.equals(cityBean.location)) return false;
-        if (!placeName.equals(cityBean.placeName)) return false;
-        return !(dailyTip != null ? !dailyTip.equals(cityBean.dailyTip) : cityBean.dailyTip != null);
-
-    }
-
-    @Override
-    public int hashCode() {
-        int result = cityId;
-        result = 31 * result + name.hashCode();
-        result = 31 * result + enName.hashCode();
-        result = 31 * result + placeName.hashCode();
-        return result;
+    public boolean equals(Object obj) {
+        if (obj instanceof CityBean) {
+            CityBean bean = (CityBean) obj;
+            if (cityId == ((CityBean) obj).cityId) return true;
+        }
+        return false;
     }
 
     @Override

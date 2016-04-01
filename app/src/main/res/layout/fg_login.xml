@@ -21,7 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/change_mobile_textbox_height"
             android:layout_marginTop="@dimen/change_mobile_top"
-            android:background="@drawable/textbox"
+            android:background="@drawable/login_textbox"
             android:orientation="horizontal">
 
             <TextView
@@ -59,7 +59,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/change_mobile_textbox_height"
             android:layout_marginTop="@dimen/change_mobile_top"
-            android:background="@drawable/textbox"
+            android:background="@drawable/login_textbox"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
@@ -105,7 +105,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/basic_margin_xlarge"
-            android:background="@drawable/login_selector_bg"
+            android:background="@drawable/login2_selector_bg"
             android:text="登录"
             android:textColor="@color/basic_white"
             android:textSize="@dimen/text_size_xlarge" />
