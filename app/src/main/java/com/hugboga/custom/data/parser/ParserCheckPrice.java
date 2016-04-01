@@ -36,6 +36,7 @@ public class ParserCheckPrice extends ImplParser {
                 bean.desc = jsonObj.optString("carDesc");
                 bean.models = jsonObj.optString("models");
                 bean.pricemark = jsonObj.optString("pricemark");
+                bean.urgentCutdownTip = jsonObj.optString("urgentCutdownTip");
                 bean.originalPrice = jsonObj.optInt("price");
                 bean.checkInPrice = jsonObj.optInt("checkInPrice", 0);
                 bean.urgentFlag = jsonObj.optInt("urgentFlag", 0);

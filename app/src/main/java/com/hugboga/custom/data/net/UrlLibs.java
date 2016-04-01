@@ -52,8 +52,6 @@ public class UrlLibs {
     public static final String SERVER_IP_HOME = "basicdata/v1.0/p/home/citys/contents?";
     //SKU
     public static final String SERVER_IP_CITY_SKU = "goods/v1.0/p/home/cityGoods?";
-    //聊天
-    public static final String SERVER_IP_CHAT_LIST = "communication/v2.0/c/im/list?";
 
     //-------个人信息--------
     public static final String SERVER_IP_PUBLIC_UER_CENTER = "ucenter/v1.0/c/user/";
@@ -212,18 +210,16 @@ public class UrlLibs {
      **/
     public static final String SERVER_IP_PIC_UPLOAD = "file/v1.0/upload?";
 
-    /**
-     * IM token
-     **/
-    public static final String SERVER_IP_IM_TOKEN = "communication/v1.0/e/im/token?";
+    //聊天
+    public static final String SERVER_IP_CHAT_LIST = "communication/v2.0/c/im/list?";
     /**
      * IM 通知更新为已读
      **/
     public static final String SERVER_IP_IM_UPDATE = "communication/v2.0/c/im/clear?";
     /**
-     * IM 通知更新为已读
+     * IM 通知更新
      **/
-    public static final String SERVER_IP_IM_TOKEN_UPDATE = "trade/v1.0/c/order/im/token/update?";
+    public static final String SERVER_IP_IM_TOKEN_UPDATE = "communication/v2.0/c/im/token?";
 
     /**
      * IM聊天界面的订单数据

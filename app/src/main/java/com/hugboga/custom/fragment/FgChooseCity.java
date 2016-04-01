@@ -269,13 +269,13 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
         } else if (orderType == Constants.BUSINESS_TYPE_RENT) {
             selector.and("is_single", "=", 1);
         } else if (orderType == Constants.BUSINESS_TYPE_PICK || orderType == Constants.BUSINESS_TYPE_SEND) {
-            selector.and("is_city_code", "=", 1);
+            selector.and("has_airport", "=", 1);
         } else if (orderType == Constants.BUSINESS_TYPE_HOME) {
             WhereBuilder whereBuilder = WhereBuilder.b();
             whereBuilder.and("place_name", "<>", "中国");
             selector.and(whereBuilder);
             WhereBuilder whereBuilder2 = WhereBuilder.b();
-            whereBuilder2.and("is_city_code", "=", 1).or("is_daily", "=", 1).or("is_single", "=", 1);
+            whereBuilder2.and("has_airport", "=", 1).or("is_daily", "=", 1).or("is_single", "=", 1);
             selector.and(whereBuilder2);
         }
         selector.orderBy("initial");
@@ -310,13 +310,13 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
         } else if (orderType == Constants.BUSINESS_TYPE_RENT) {
             selector.and("is_single", "=", 1);
         } else if (orderType == Constants.BUSINESS_TYPE_PICK || orderType == Constants.BUSINESS_TYPE_SEND) {
-            selector.and("is_city_code", "=", 1);
+            selector.and("has_airport", "=", 1);
         } else if (orderType == Constants.BUSINESS_TYPE_HOME) {
             WhereBuilder whereBuilder = WhereBuilder.b();
             whereBuilder.and("place_name", "<>", "中国");
             selector.and(whereBuilder);
             WhereBuilder whereBuilder2 = WhereBuilder.b();
-            whereBuilder2.and("is_city_code", "=", 1).or("is_daily", "=", 1).or("is_single", "=", 1);
+            whereBuilder2.and("has_airport", "=", 1).or("is_daily", "=", 1).or("is_single", "=", 1);
             selector.and(whereBuilder2);
         }
         // 修改热门城市排序
@@ -377,13 +377,13 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
         } else if (orderType == Constants.BUSINESS_TYPE_RENT) {
             selector.and("is_single", "=", 1);
         } else if (orderType == Constants.BUSINESS_TYPE_PICK || orderType == Constants.BUSINESS_TYPE_SEND) {
-            selector.and("is_city_code", "=", 1);
+            selector.and("has_airport", "=", 1);
         } else if (orderType == Constants.BUSINESS_TYPE_HOME) {
             WhereBuilder whereBuilder = WhereBuilder.b();
             whereBuilder.and("place_name", "<>", "中国");
             selector.and(whereBuilder);
             WhereBuilder whereBuilder2 = WhereBuilder.b();
-            whereBuilder2.and("is_city_code", "=", 1).or("is_daily", "=", 1).or("is_single", "=", 1);
+            whereBuilder2.and("has_airport", "=", 1).or("is_daily", "=", 1).or("is_single", "=", 1);
             selector.and(whereBuilder2);
         }
         try {
@@ -643,13 +643,13 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
         } else if (orderType == Constants.BUSINESS_TYPE_RENT) {
             selector.and("is_single", "=", 1);
         } else if (orderType == Constants.BUSINESS_TYPE_PICK || orderType == Constants.BUSINESS_TYPE_SEND) {
-            selector.and("is_city_code", "=", 1);
+            selector.and("has_airport", "=", 1);
         } else if (orderType == Constants.BUSINESS_TYPE_HOME) {
             WhereBuilder whereBuilder = WhereBuilder.b();
             whereBuilder.and("place_name", "<>", "中国");
             selector.and(whereBuilder);
             WhereBuilder whereBuilder2 = WhereBuilder.b();
-            whereBuilder2.and("is_city_code", "=", 1).or("is_daily", "=", 1).or("is_single", "=", 1);
+            whereBuilder2.and("has_airport", "=", 1).or("is_daily", "=", 1).or("is_single", "=", 1);
             selector.and(whereBuilder2);
         }
         try {
@@ -693,13 +693,13 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
         } else if (orderType == Constants.BUSINESS_TYPE_RENT) {
             selector.and("is_single", "=", 1);
         } else if (orderType == Constants.BUSINESS_TYPE_PICK || orderType == Constants.BUSINESS_TYPE_SEND) {
-            selector.and("is_city_code", "=", 1);
+            selector.and("has_airport", "=", 1);
         } else if (orderType == Constants.BUSINESS_TYPE_HOME) {
             WhereBuilder whereBuilder = WhereBuilder.b();
             whereBuilder.and("place_name", "<>", "中国");
             selector.and(whereBuilder);
             WhereBuilder whereBuilder2 = WhereBuilder.b();
-            whereBuilder2.and("is_city_code", "=", 1).or("is_daily", "=", 1).or("is_single", "=", 1);
+            whereBuilder2.and("has_airport", "=", 1).or("is_daily", "=", 1).or("is_single", "=", 1);
             selector.and(whereBuilder2);
         }
         selector.orderBy("guide_count", true);

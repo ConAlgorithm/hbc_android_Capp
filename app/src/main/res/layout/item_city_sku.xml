@@ -3,7 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
+    <TextView android:id="@+id/top_line" android:background="#e7e7e7" android:layout_height="8dp" android:layout_width="match_parent"/>
+
+    <com.hugboga.custom.widget.STGVImageView
+        android:layout_below="@id/top_line"
         android:id="@+id/item_city_sku_img"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -13,33 +16,20 @@
 
     <TextView
         android:id="@+id/item_sku_title"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/item_sku_amount_layout"
         android:layout_below="@id/item_city_sku_img"
-        android:textSize="16dp"
+        android:textSize="14sp"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:textColor="#da000000"
         android:layout_marginLeft="10dp"
         android:text="测试精品线路" />
 
-    <TextView
-        android:id="@+id/item_sku_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/item_sku_title"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="5dp"
-        android:textSize="15dp"
 
-        />
 
-    <TextView
-        android:id="@+id/item_sku_guide_number"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/item_sku_label"
-        android:layout_marginLeft="10dp"
-        android:textSize="14dp"
-        android:textColor="#7451af"
-        android:text="@string/sku_item_guide_number" />
+
 
     <LinearLayout
         android:id="@+id/item_sku_amount_layout"
@@ -47,13 +37,14 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_alignParentRight="true"
-        android:layout_below="@id/item_city_sku_img"
+        android:layout_marginBottom="2dp"
+        android:layout_above="@+id/item_sku_guide_number"
         android:layout_marginRight="10dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20dp"
+            android:textSize="20sp"
             android:textColor="@color/basic_red"
             android:text="￥" />
 
@@ -61,7 +52,7 @@
             android:id="@+id/item_sku_amount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="26dp"
+            android:textSize="24sp"
             android:textColor="@color/basic_red"
             android:text="--" />
 
@@ -73,15 +64,45 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/item_sku_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/item_sku_amount_layout"
+        android:layout_below="@id/item_sku_title"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:textSize="11sp"
+
+        />
+
+
+    <TextView
         android:id="@+id/item_sku_sale"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/item_sku_amount_layout"
+        android:layout_below="@id/item_sku_label"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="8dp"
         android:layout_marginRight="10dp"
-        android:textSize="14dp"
+        android:textSize="10sp"
+        android:layout_marginBottom="10dp"
         android:textColor="#89000000"
         android:text="@string/sku_sale_number" />
+
+    <TextView
+        android:id="@+id/item_sku_guide_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/item_sku_label"
+        android:layout_toLeftOf="@id/item_sku_sale"
+        android:layout_marginLeft="10dp"
+        android:textSize="10sp"
+        android:layout_marginBottom="10dp"
+        android:drawableLeft="@mipmap/journey_car_sku"
+        android:drawablePadding="5dp"
+        android:textColor="#7451af"
+        android:text="@string/sku_item_guide_number" />
 
 </RelativeLayout>

@@ -60,6 +60,8 @@ public class FgSingle extends BaseFragment {
     private TextView promiseApp;
 
     protected void initView() {
+        cityBean = (CityBean) getArguments().getSerializable(FgDaily.KEY_CITY_BEAN);
+        if (cityBean != null) fContent.setText(cityBean.name);
         promiseWait.setVisibility(View.GONE);
         promiseApp.setVisibility(View.GONE);
     }

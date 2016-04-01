@@ -82,9 +82,12 @@ public class FgDailyInTown extends BaseFragment implements CompoundButton.OnChec
 
     @Override
     protected void initView() {
+        CityBean cityBean = (CityBean) getArguments().getSerializable(FgDaily.KEY_CITY_BEAN);
+        arrivalBean = startBean = cityBean;
         promiseWait.setVisibility(View.GONE);
         promiseApp.setVisibility(View.VISIBLE);
         checkBoxIsHalf.setOnCheckedChangeListener(this);
+        setCityInfo();
     }
 
     @Override
@@ -199,13 +202,16 @@ public class FgDailyInTown extends BaseFragment implements CompoundButton.OnChec
             if ("startAddress".equals(fromKey)) {
                 startBean = (CityBean) bundle.getSerializable(FgChooseCity.KEY_CITY);
                 arrivalBean = startBean;
-                if (startBean == null) return;
-                wContent.setText(startBean.name);
-                cityTips.setText(startBean.dailyTip);
-                cityTips.setVisibility(View.VISIBLE);
+                setCityInfo();
             }
-            collapseSoftInputMethod();
         }
+    }
+
+    private void setCityInfo() {
+        if (startBean == null) return;
+        wContent.setText(startBean.name);
+        cityTips.setText(startBean.dailyTip);
+        cityTips.setVisibility(View.VISIBLE);
     }
 
     @Override

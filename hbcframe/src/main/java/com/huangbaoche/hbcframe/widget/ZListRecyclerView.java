@@ -9,6 +9,8 @@ import android.util.AttributeSet;
  */
 public class ZListRecyclerView extends ZRecyclerView {
 
+    ZDefaultDivider divider;
+
     public ZListRecyclerView(Context context) {
         super(context);
         initListView();
@@ -27,7 +29,7 @@ public class ZListRecyclerView extends ZRecyclerView {
     /**
      * 初始化列表组件，设置布局和增加Item空隙
      */
-    private void initListView(){
+    private void initListView() {
         setLayoutManager();
         addItemDecoration();
     }
@@ -40,7 +42,11 @@ public class ZListRecyclerView extends ZRecyclerView {
     }
 
     public void addItemDecoration() {
-        ZDefaultDivider divider = new ZDefaultDivider();
+        divider = new ZDefaultDivider();
         super.addItemDecoration(divider);
+    }
+
+    public ZDefaultDivider getItemDecoration() {
+        return divider;
     }
 }

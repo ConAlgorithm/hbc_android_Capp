@@ -25,9 +25,7 @@ public class RequestCheckVersion extends BaseRequest<CheckVersionBean> {
     public RequestCheckVersion(Context context,int resVersion) {
         super(context);
         map = new HashMap<String, Object>();
-//        map.put("appVersion", BuildConfig.VERSION_NAME);
-        //todo  test check Version
-        map.put("appVersion", "2.2.0");
+        map.put("appVersion", BuildConfig.VERSION_NAME);
         map.put("appKey", BuildConfig.APPLICATION_ID); //Android
         map.put("resVersions", ResourcesConstants.RESOURCES_H5_NAME + ":" + resVersion); //Android
         map.put("resVersions", ResourcesConstants.RESOURCES_H5_NAME + ":" + 0); //Android

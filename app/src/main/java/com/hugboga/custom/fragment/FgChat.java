@@ -33,6 +33,7 @@ import java.util.ArrayList;
 
 import de.greenrobot.event.EventBus;
 import io.rong.imkit.RongIM;
+import io.rong.imlib.model.Conversation;
 
 /**
  * 聊天页面
@@ -88,6 +89,12 @@ public class FgChat extends BaseFragment implements View.OnClickListener, ZBaseA
             recyclerView.showPageFirst();
             adapter.notifyDataSetChanged();
         }
+    }
+
+    @Override
+    public void onResume() {
+        loadData();
+        super.onResume();
     }
 
     @Override
@@ -172,7 +179,7 @@ public class FgChat extends BaseFragment implements View.OnClickListener, ZBaseA
         ChatBean chatBean = adapter.getDatas().get(position);
         if ("3".equals(chatBean.targetType)) {
             String titleJson = getChatInfo(chatBean.targetId, chatBean.targetAvatar, chatBean.targetName, chatBean.targetType);
-            RongIM.getInstance().startCustomerServiceChat(getActivity(), chatBean.targetId, titleJson);
+            RongIM.getInstance().startConversation(getActivity(), Conversation.ConversationType.APP_PUBLIC_SERVICE, chatBean.targetId, titleJson);
         } else if ("1".equals(chatBean.targetType)) {
             String titleJson = getChatInfo(chatBean.userId, chatBean.targetAvatar, chatBean.targetName, chatBean.targetType);
             RongIM.getInstance().startPrivateChat(getActivity(), chatBean.targetId, titleJson);
