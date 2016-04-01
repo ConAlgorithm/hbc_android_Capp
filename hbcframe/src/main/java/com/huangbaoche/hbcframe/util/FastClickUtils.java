@@ -1,7 +1,5 @@
 package com.huangbaoche.hbcframe.util;
 
-import android.util.Log;
-
 import java.util.Calendar;
 
 /**
