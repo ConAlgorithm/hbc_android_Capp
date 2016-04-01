@@ -67,18 +67,10 @@ public class HomeAdapter extends BaseAdapter<HomeBean> {
             }else{
                 viewHolder.splitLine.setVisibility(View.GONE);
             }
+            viewHolder.imgBg.mHeight = 400;
+            viewHolder.imgBg.mWidth = 750;
 
-            x.image().bind(viewHolder.imgBg, bean.picture, options, new DefaultImageCallback<Drawable>() {
-                @Override
-                public void onSuccess(Drawable result) {
-                    int height = result.getIntrinsicHeight();
-                    int width = result.getIntrinsicWidth();
-                    MLog.e(""+height+"  "+width);
-                    viewHolder.imgBg.mHeight = height;
-                    viewHolder.imgBg.mWidth = width;
-                    viewHolder.imgBg.setImageDrawable(result);
-                }
-            });
+            x.image().bind(viewHolder.imgBg, bean.picture, options);
         }
         return view;
     }
