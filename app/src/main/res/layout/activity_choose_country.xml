@@ -9,6 +9,7 @@
         android:id="@+id/country_search_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/all_bg_yellow"
         android:orientation="horizontal">
 
         <ImageView

@@ -241,4 +241,10 @@ public class UrlLibs {
      * APP收到的push被点击时，调用该接口进行反馈（Android + IOS）
      */
     public static final String SERVER_IP_PUSH_CLICK = "communication/v2.0/c/push/click";
+
+    /**
+     * 获取用户优惠卷
+     */
+    public static final String GET_USER_COUPON = "trade/v1.0/c/order/home?";
+
 }

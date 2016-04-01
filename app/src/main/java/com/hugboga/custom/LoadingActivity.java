@@ -32,7 +32,10 @@ import com.zhy.m.permission.PermissionDenied;
 import com.zhy.m.permission.PermissionGrant;
 import com.zhy.m.permission.ShowRequestPermissionRationale;
 
+import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
+
+import java.io.File;
 
 @ContentView(R.layout.activity_loading)
 public class LoadingActivity extends BaseFragmentActivity implements HttpRequestListener {
@@ -97,9 +100,8 @@ public class LoadingActivity extends BaseFragmentActivity implements HttpRequest
     }
 
     private void checkVersion() {
-        String version = PhoneInfo.getSoftwareVersion(LoadingActivity.this);
         int resourcesVersion = new SharedPre(this).getIntValue(SharedPre.RESOURCES_H5_VERSION);
-        RequestCheckVersion requestCheckVersion = new RequestCheckVersion(this, version, resourcesVersion);
+        RequestCheckVersion requestCheckVersion = new RequestCheckVersion(this, resourcesVersion);
         HttpRequestUtils.request(this, requestCheckVersion, this);
     }
 
@@ -143,8 +145,8 @@ public class LoadingActivity extends BaseFragmentActivity implements HttpRequest
         if (request instanceof RequestCheckVersion) {
             RequestCheckVersion requestCheckVersion = (RequestCheckVersion) request;
             final CheckVersionBean cvBean = requestCheckVersion.getData();
-            UserEntity.getUser().setIsNewVersion(this, !TextUtils.isEmpty(cvBean.url));//是否有新版本
-            DialogUtil.getInstance(this).showUpdateDialog(cvBean.force, cvBean.content, cvBean.url, new DialogInterface.OnClickListener() {
+            UserEntity.getUser().setIsNewVersion(this, cvBean.hasAppUpdate);//是否有新版本
+            DialogUtil.getInstance(this).showUpdateDialog(cvBean.hasAppUpdate,cvBean.force, cvBean.content, cvBean.url, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     PushUtils.startDownloadApk(LoadingActivity.this, cvBean.url);
@@ -152,11 +154,21 @@ public class LoadingActivity extends BaseFragmentActivity implements HttpRequest
             }, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    checkToNew();
+                    //在版本检测后 检测DB
+                    UpdateResources.checkRemoteDB(LoadingActivity.this, cvBean.dbDownloadLink, cvBean.dbVersion, new CheckVersionCallBack() {
+                        @Override
+                        public void onFinished() {
+                            //在检测DB后检测资源
+                            UpdateResources.checkRemoteResources(LoadingActivity.this, cvBean, new CheckVersionCallBack() {
+                                @Override
+                                public void onFinished() {
+                                    checkToNew();
+                                }
+                            });
+                        }
+                    });
                 }
             });
-            UpdateResources.checkRemoteResources(this, cvBean, null);
-            UpdateResources.checkRemoteDB(this, cvBean.dbDownloadLink, cvBean.dbVersion, null);
         }
     }
 
@@ -199,5 +211,38 @@ public class LoadingActivity extends BaseFragmentActivity implements HttpRequest
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         MPermissions.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    abstract class CheckVersionCallBack implements Callback.ProgressCallback<File> {
+        @Override
+        public void onWaiting() {
+
+        }
+
+        @Override
+        public void onStarted() {
+
+        }
+
+        @Override
+        public void onLoading(long total, long current, boolean isDownloading) {
+
+        }
+
+        @Override
+        public void onSuccess(File result) {
+
+        }
+
+        @Override
+        public void onError(Throwable ex, boolean isOnCallback) {
+
+        }
+
+        @Override
+        public void onCancelled(CancelledException cex) {
+
+        }
+
     }
 }

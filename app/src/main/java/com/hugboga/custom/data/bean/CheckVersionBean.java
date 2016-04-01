@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class CheckVersionBean implements IBaseBean {
     public String content;
     public String url;
-    public String force;
+    public boolean force;
     public boolean hasAppUpdate;
     public boolean debugMod;
     public ArrayList<ResourcesBean> resList;

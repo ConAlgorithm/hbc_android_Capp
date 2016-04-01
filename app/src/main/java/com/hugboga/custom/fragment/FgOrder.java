@@ -2,15 +2,20 @@ package com.hugboga.custom.fragment;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupMenu;
+import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
@@ -543,7 +548,7 @@ public class FgOrder extends BaseFragment {
                 }else{
                     orderDailyTipsLayout.setVisibility(View.GONE);
                 }
-                orderChangeTrip.setVisibility(View.GONE);
+                orderChangeTrip.setVisibility(View.VISIBLE);
                 if (!TextUtils.isEmpty(hotelPhone)) {
                     orderHotelPhoneLayoutDaily.setVisibility(View.VISIBLE);
                     orderHotelPhoneDaily.setText(hotelAreaCode + " " + hotelPhone);
@@ -634,9 +639,6 @@ public class FgOrder extends BaseFragment {
         initStatusView();//根据状态调整信息
         initContactView();//联系方式
         initBottomView();//底部支付
-        if(mOrderBean.orderType== Constants.BUSINESS_TYPE_COMMEND){
-            orderChangeTrip.setVisibility(View.GONE);
-        }
     }
 
     /**
@@ -694,6 +696,7 @@ public class FgOrder extends BaseFragment {
     private void initStatusView() {
         orderGuideLayout.setVisibility(View.VISIBLE);
         payCancelLayout.setVisibility(View.GONE);
+        orderTimeTip.setVisibility(View.GONE);
         switch (mOrderBean.orderStatus) {
             case INITSTATE: //"等待支付";
                 orderInfoTai.setVisibility(View.GONE);
@@ -1178,45 +1181,54 @@ public class FgOrder extends BaseFragment {
      * @param parent 点击的按钮
      */
     public void showPopupWindow(View parent) {
-        PopupMenu popup = new PopupMenu(getActivity(), parent);
-        popup.getMenuInflater()
-                .inflate(R.menu.menu_order_more, popup.getMenu());
-        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            public boolean onMenuItemClick(MenuItem item) {
-                if (item.getItemId() == R.id.order_cancel) {
+
+        View v = LayoutInflater.from(getActivity()).inflate(R.layout.popup_top_right_menu, null);
+        TextView cancel_order = (TextView)v.findViewById(R.id.cancel_order);
+        TextView menu_phone = (TextView)v.findViewById(R.id.menu_phone);
+        final PopupWindow popup = new PopupWindow(v, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        popup.setBackgroundDrawable(new BitmapDrawable());
+        popup.setOutsideTouchable(true);
+        popup.setFocusable(true);
+        popup.showAsDropDown(rightBtn);
+        cancel_order.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                     //如果此订单不能取消，直接进行提示
-                    if (!mOrderBean.cancelable && !TextUtils.isEmpty(mOrderBean.cancelText)) {
-                        mDialogUtil = DialogUtil.getInstance(getActivity());
-                        mDialogUtil.showCustomDialog(mOrderBean.cancelText);
-                        return true;
-                    }
+                popup.dismiss();
+                if (!mOrderBean.cancelable && !TextUtils.isEmpty(mOrderBean.cancelText)) {
                     mDialogUtil = DialogUtil.getInstance(getActivity());
-                    String tip = "";
-                    if (mOrderBean.orderStatus == OrderStatus.INITSTATE) {
-                        tip = getString(R.string.order_cancel_tip);
-                    } else {
-                        tip = mOrderBean.cancelTip;
-                    }
-                    mDialogUtil.showCustomDialog(getString(R.string.app_name), tip, "确定", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            if (mOrderBean.orderStatus == OrderStatus.INITSTATE) {
-                                cancelOrder(mOrderBean.orderNo, 0);
-                            } else {
-//                                finish();
-                                Bundle bundle = new Bundle();
-                                bundle.putSerializable(FgOrderCancel.KEY_ORDER, mOrderBean);
-                                startFragment(new FgOrderCancel(), bundle);
-                            }
-                        }
-                    }, "返回", null);
-                } else {
-                    mDialogUtil.showCallDialog();
+                    mDialogUtil.showCustomDialog(mOrderBean.cancelText);
+                    return;
                 }
-                return true;
+                mDialogUtil = DialogUtil.getInstance(getActivity());
+                String tip = "";
+                if (mOrderBean.orderStatus == OrderStatus.INITSTATE) {
+                    tip = getString(R.string.order_cancel_tip);
+                } else {
+                    tip = mOrderBean.cancelTip;
+                }
+                mDialogUtil.showCustomDialog(getString(R.string.app_name), tip, "确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (mOrderBean.orderStatus == OrderStatus.INITSTATE) {
+                            cancelOrder(mOrderBean.orderNo, 0);
+                        } else {
+//                                finish();
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable(FgOrderCancel.KEY_ORDER, mOrderBean);
+                            startFragment(new FgOrderCancel(), bundle);
+                        }
+                    }
+                }, "返回", null);
             }
         });
-        popup.show();
+        menu_phone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDialogUtil.showCallDialog();
+                popup.dismiss();
+            }
+        });
     }
 
     @Override
@@ -1227,7 +1239,7 @@ public class FgOrder extends BaseFragment {
 
     private void onKeyBack() {
         MLog.e("onKeyBack " + mSourceFragment);
-        if (mSourceFragment != null && mSourceFragment instanceof  FgSubmit) {
+        if (mSourceFragment != null && mSourceFragment instanceof  FgSubmit&&mOrderBean.orderStatus==OrderStatus.INITSTATE) {
             mDialogUtil.showCustomDialog(getString(R.string.app_name), getString(R.string.order_cancel_pay), "返回", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {

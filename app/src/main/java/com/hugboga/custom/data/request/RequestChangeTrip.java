@@ -36,6 +36,7 @@ public class RequestChangeTrip extends BaseRequest {
                 case Constants.BUSINESS_TYPE_DAILY:
                 case Constants.BUSINESS_TYPE_DAILY_SHORT:
                 case Constants.BUSINESS_TYPE_DAILY_LONG:
+                case Constants.BUSINESS_TYPE_COMMEND:
                     dataMap = new RequestSubmitDaily(context,orderBean).getDataMap();
                     break;
                 case Constants.BUSINESS_TYPE_RENT:

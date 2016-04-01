@@ -105,7 +105,7 @@ public class FgSkuSubmit extends BaseFragment implements View.OnClickListener {
         MLog.e("skuBean= " + skuBean);
         if(skuBean ==null)return;
         skuTitle.setText(skuBean.goodsName);
-        skuLabel.setText(skuBean.salePoints);
+        skuLabel.setText(skuBean.places);
         skuDays.setText(getString(R.string.sku_days, skuBean.daysCount));
         SharedPre sharedPre = new SharedPre(getActivity());
         String areaCode = sharedPre.getStringValue(SharedPre.CODE);
@@ -492,7 +492,6 @@ public class FgSkuSubmit extends BaseFragment implements View.OnClickListener {
             bundle.putSerializable(FgCarSuk.KEY_CAR_LIST,carListBean);
             startFragment(fgCarSuk,bundle);
         }else if(request instanceof RequestSubmitBase){
-            Toast.makeText(getActivity(),"下单成功",Toast.LENGTH_LONG).show();
             bringToFront(FgTravel.class,new Bundle());
             String orderNo = ((RequestSubmitBase) request).getData();
             Bundle bundle = new Bundle();

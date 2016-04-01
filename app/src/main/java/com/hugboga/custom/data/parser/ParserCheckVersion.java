@@ -26,7 +26,9 @@ public class ParserCheckVersion extends ImplParser {
         CheckVersionBean cvBean = new CheckVersionBean();
         cvBean.content = obj.optString("releaseNote");
         cvBean.url = obj.optString("appDownloadLink");
-        cvBean.force = obj.optString("forceUpdate");
+        cvBean.force = obj.optBoolean("forceUpdate");
+        cvBean.hasAppUpdate = obj.optBoolean("hasAppUpdate");
+        cvBean.debugMod = obj.optBoolean("debugMod");
         cvBean.appVersion = obj.optString("appVersion");
         cvBean.dbDownloadLink = obj.optString("dbDownloadLink");
         cvBean.dbVersion = obj.optInt("dbVersion");
