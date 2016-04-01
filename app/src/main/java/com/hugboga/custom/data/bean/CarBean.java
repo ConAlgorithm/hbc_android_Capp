@@ -14,6 +14,7 @@ public class CarBean implements IBaseBean {
     public int originalPrice;//原价
     public int checkInPrice;//促销价
     public String pricemark;//价格戳
+    public String urgentCutdownTip;//提示
     public int urgentFlag;//是否急单，1是，0非
 
     public int imgRes;//图片资源

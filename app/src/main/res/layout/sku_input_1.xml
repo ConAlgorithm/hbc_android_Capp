@@ -23,7 +23,7 @@
             android:id="@+id/sku_start_date_arrow"
             style="@style/skuInfoArrow" />
 
-        <EditText
+        <TextView
             android:id="@+id/sku_start_day_edit"
             style="@style/skuInfoEdit"
             android:layout_toRightOf="@id/sku_start_date_title"
@@ -51,7 +51,7 @@
             android:id="@+id/sku_car_type_arrow"
             style="@style/skuInfoArrow" />
 
-        <EditText
+        <TextView
             android:id="@+id/sku_car_type_edit"
             style="@style/skuInfoEdit"
             android:layout_toRightOf="@id/sku_car_type_title"

@@ -26,7 +26,7 @@ public class HomeAdapter extends BaseAdapter<HomeBean> {
     public HomeAdapter(Context context) {
         super(context);
         options = new ImageOptions.Builder()
-                .setLoadingDrawableId(R.mipmap.img_undertext)
+//                .setLoadingDrawableId(R.mipmap.img_undertext)
                 .setFailureDrawableId(R.mipmap.img_undertext)
                 .build();
     }

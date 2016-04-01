@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.webkit.WebView;
 
+import com.huangbaoche.hbcframe.util.MLog;
 import com.huangbaoche.hbcframe.util.WXShareUtils;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
@@ -33,7 +34,8 @@ public class FgSkuDetail extends FgWebInfo {
     @Override
     protected void initView() {
         super.initView();
-        getView().findViewById(R.id.header_right_btn).setVisibility(View.VISIBLE);
+        MLog.e("微信 getInstance "+WXShareUtils.getInstance(getActivity()).isInstall(false));
+        getView().findViewById(R.id.header_right_btn).setVisibility(WXShareUtils.getInstance(getActivity()).isInstall(false)?View.VISIBLE:View.GONE);
         if(this.getArguments()!=null){
             skuItemBean =  (SkuItemBean)getArguments().getSerializable(WEB_SKU);
         }
@@ -48,7 +50,8 @@ public class FgSkuDetail extends FgWebInfo {
                     String content = getActivity().getString(R.string.wx_share_content);
                     String shareUrl = skuItemBean.shareURL==null?skuItemBean.skuDetailUrl:skuItemBean.shareURL;
                     shareUrl = shareUrl==null?"http://www.huangbaoche.com":shareUrl;
-                    WXShareUtils.getInstance(getActivity()).share(WXShareUtils.TYPE_SESSION,skuItemBean.goodsPicture,title,content,shareUrl);
+                    skuShare(skuItemBean.goodsPicture,title,content,shareUrl);
+
                 }
                 break;
             case R.id.phone_consultation:
@@ -73,6 +76,21 @@ public class FgSkuDetail extends FgWebInfo {
                 startFragment(new FgSkuSubmit(),bundle);
                 break;
         }
+    }
+
+    private void skuShare(String goodsPicture, final String title, final String content, final String shareUrl) {
+        final AlertDialog.Builder callDialog = new AlertDialog.Builder(getActivity());
+        callDialog.setTitle("分享");
+        final String [] callItems = new String[]{"分享好友","分享朋友圈"};
+        callDialog.setItems(callItems, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                WXShareUtils.getInstance(getActivity()).share(which+1, skuItemBean.goodsPicture, title, content, shareUrl);
+            }
+        });
+        callDialog.setCancelable(true);
+        callDialog.create().setCanceledOnTouchOutside(true);
+        callDialog.show();
     }
 
 }

@@ -43,6 +43,8 @@ public class CityBean implements IBaseBean {
     @Column(name = "daily_tip")
     public String dailyTip;//包车注意提示
 
+    @Column(name = "has_airport ")
+    public boolean hasAirport;//0没有开通的机场 1开通 有开通的机场
 
     public boolean isSelected = false;//是否被选择
     public boolean isFirst = false;//是否第一个首字母出现
