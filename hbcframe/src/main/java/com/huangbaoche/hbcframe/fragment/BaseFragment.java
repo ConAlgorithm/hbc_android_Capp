@@ -5,12 +5,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.huangbaoche.hbcframe.activity.BaseFragmentActivity;
 import com.huangbaoche.hbcframe.data.net.ErrorHandler;
@@ -18,6 +20,7 @@ import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
+import com.huangbaoche.hbcframe.util.FastClickUtils;
 import com.huangbaoche.hbcframe.util.MLog;
 
 import org.xutils.common.Callback;
@@ -202,12 +205,15 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
      * @param fragment
      */
     public void startFragment(BaseFragment fragment) {
-
         Bundle bundle = fragment.getArguments();
         bundle = bundle ==null?new Bundle():bundle;
         startFragment(fragment, bundle);
     }
+
     public void startFragment(BaseFragment fragment,Bundle bundle) {
+        if(FastClickUtils.isFastClick()) {
+            return;
+        }
         MLog.e("startFragment "+this);
         if (fragment == null) return;
         if (getContentId() == -1) throw new RuntimeException("BaseFragment ContentId not null, BaseFragment.setContentId(int)");
