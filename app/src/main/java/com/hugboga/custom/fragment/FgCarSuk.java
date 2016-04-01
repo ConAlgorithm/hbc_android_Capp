@@ -6,6 +6,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 
+import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.CarViewpagerAdapter;
 import com.hugboga.custom.constants.CarTypeEnum;
@@ -81,8 +82,8 @@ public class FgCarSuk extends BaseFragment implements ViewPager.OnPageChangeList
         if (carListBean != null) {
             initListData();
             mAdapter.setList(carListBean.carList);
-
         }
+        onPageSelected(0);
     }
 
     private void initListData() {
@@ -134,6 +135,8 @@ public class FgCarSuk extends BaseFragment implements ViewPager.OnPageChangeList
         Integer[] carInfo = Constants.CarSeatInfoMap.get(carBean.carSeat);
         carInfoText.setText(String.format("乘坐%d人 | 行李%d件", carInfo[0], carInfo[1]));
         carInfoIntro.setText("此车型包括：" + carBean.models);
+        carTip.setText(carBean.urgentCutdownTip);
+        MLog.e("urgentCutdownTip "+carBean.urgentCutdownTip);
     }
 
     @Override

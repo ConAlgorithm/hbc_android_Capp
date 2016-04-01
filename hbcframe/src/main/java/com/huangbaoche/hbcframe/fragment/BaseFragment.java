@@ -235,6 +235,7 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
      * 将fragment从后台堆栈中弹出,  (模拟用户按下BACK 命令).
      */
     public void finish() {
+        collapseSoftInputMethod();
         //将fragment从后台堆栈中弹出,  (模拟用户按下BACK 命令).
         if(getFragmentManager()==null)return;
         getFragmentManager().popBackStack();

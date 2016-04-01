@@ -3,18 +3,14 @@ package com.hugboga.custom.fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
-import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupMenu;
 import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.RatingBar;
@@ -37,11 +33,9 @@ import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.CouponBean;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.OrderStatus;
-import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.bean.WXpayBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.parser.ParserChatInfo;
-import com.hugboga.custom.data.request.RequestIMTokenUpdate;
 import com.hugboga.custom.data.request.RequestOrderCancel;
 import com.hugboga.custom.data.request.RequestOrderDetail;
 import com.hugboga.custom.data.request.RequestPayNo;
@@ -52,8 +46,6 @@ import com.hugboga.custom.wxapi.WXPay;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.xutils.common.Callback;
 import org.xutils.image.ImageOptions;
 import org.xutils.view.annotation.ContentView;
@@ -64,10 +56,7 @@ import org.xutils.x;
 import java.text.ParseException;
 
 import de.greenrobot.event.EventBus;
-import io.rong.imkit.RongContext;
 import io.rong.imkit.RongIM;
-import io.rong.imlib.RongIMClient;
-import io.rong.imlib.model.UserInfo;
 
 /**
  * Created by admin on 2015/7/18.

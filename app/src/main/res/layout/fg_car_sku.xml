@@ -80,7 +80,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dip"
-                android:text="乘坐4人 | 行李3件"
                 android:textColor="@color/basic_black"
                 android:textSize="20sp" />
 
@@ -104,7 +103,6 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="5dip"
                 android:gravity="center"
-                android:text="泰国旅行实施司机+地接2人同时陪同的方式\n选车时请务必注意"
                 android:textColor="@color/travel_list_pay_color"
                 android:textSize="15sp"
                 android:visibility="visible" />

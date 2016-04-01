@@ -196,8 +196,9 @@ public class FgChangeTrip extends BaseFragment implements View.OnClickListener {
                     hotelPhoneAreaCode.setText("+"+mOrderBean.serviceAreaCode);
                 }
                 break;
-            case Constants.BUSINESS_TYPE_COMMEND:
             case Constants.BUSINESS_TYPE_DAILY:
+                dailyPassCityLayout.setVisibility(View.VISIBLE);
+            case Constants.BUSINESS_TYPE_COMMEND:
                 tripLabel.setText(getResources().getString(R.string.trip_tip_label2));
                 pickNameLayout.setVisibility(View.GONE);
                 pickNameLayout.setVisibility(View.GONE);
@@ -212,7 +213,7 @@ public class FgChangeTrip extends BaseFragment implements View.OnClickListener {
                     hotelPhoneAreaCode.setText("+"+mOrderBean.serviceAreaCode);
                 }
 
-                dailyPassCityLayout.setVisibility(View.VISIBLE);
+
                 if(mOrderBean.orderGoodsType==3){//市内包车
                     dailyPassCityArrow.setVisibility(View.GONE);
                     dailyPassCityValue.setClickable(false);

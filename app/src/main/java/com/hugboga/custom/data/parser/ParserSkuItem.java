@@ -31,6 +31,7 @@ public class ParserSkuItem extends ImplParser {
         bean.guideAmount = obj.optInt("guideAmount");
         bean.daysCount = obj.optInt("daysCount");
         bean.skuDetailUrl = obj.optString("skuDetailUrl");
+        bean.places = obj.optString("places");
         bean.shareURL = obj.optString("shareURL");
         bean.passCityList = new ArrayList<CityBean>();
         JSONArray passCityJArray = obj.optJSONArray("passbyCitys");

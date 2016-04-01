@@ -76,8 +76,11 @@ public class FgDailyOutTown extends BaseFragment {
 
     @Override
     protected void initView() {
+        CityBean cityBean = (CityBean) getArguments().getSerializable(FgDaily.KEY_CITY_BEAN);
+        startBean = cityBean;
         promiseWait.setVisibility(View.GONE);
         promiseApp.setVisibility(View.VISIBLE);
+        setCityInfo();
     }
 
     @Override
@@ -153,16 +156,20 @@ public class FgDailyOutTown extends BaseFragment {
             String fromKey = bundle.getString(KEY_FROM);
             if ("startAddress".equals(fromKey)) {
                 startBean = (CityBean) bundle.getSerializable(FgChooseCity.KEY_CITY);
-                if (startBean == null) return;
-                wContent.setText(startBean.name);
-                tContent.setText("");
-                cityTips.setText(startBean.dailyTip);
-                cityTips.setVisibility(View.VISIBLE);
+                setCityInfo();
             } else if ("endAddress".equals(fromKey)) {
                 arrivalBean = (CityBean) bundle.getSerializable(FgChooseCity.KEY_CITY);
                 tContent.setText(arrivalBean.name);
             }
         }
+    }
+
+    private void setCityInfo() {
+        if (startBean == null) return;
+        wContent.setText(startBean.name);
+        tContent.setText("");
+        cityTips.setText(startBean.dailyTip);
+        cityTips.setVisibility(View.VISIBLE);
     }
 
     @Override

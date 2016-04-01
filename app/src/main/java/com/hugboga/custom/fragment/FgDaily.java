@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.bean.CityBean;
 
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
@@ -20,6 +21,7 @@ import org.xutils.view.annotation.ViewInject;
 @ContentView(R.layout.fg_daily)
 public class FgDaily extends BaseFragment {
 
+    public static final String KEY_CITY_BEAN = "KEY_CITY_BEAN";
     @ViewInject(R.id.daily_tap_line1)
     private View tabLine1;
     @ViewInject(R.id.daily_tap_line2)
@@ -44,6 +46,8 @@ public class FgDaily extends BaseFragment {
     protected void initView() {
         fgInTown = new FgDailyInTown();
         fgOutTown = new FgDailyOutTown();
+        fgInTown.setArguments(getArguments());
+        fgOutTown.setArguments(getArguments());
         fm = getFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
         transaction.add(R.id.daily_content, fgInTown);
