@@ -62,10 +62,9 @@ public class SkuAdapter extends BaseAdapter<SkuItemBean> {
             viewHolder.tvGuide.setText(mContext.getString(R.string.sku_item_guide_number, bean.guideAmount));
             viewHolder.tvAmount.setText(bean.goodsMinPrice);
             viewHolder.tvSale.setText(mContext.getString(R.string.sku_sale_number, bean.saleAmount));
-            viewHolder.tvGuide.setVisibility(bean.guideAmount == 0 ? View.GONE : View.VISIBLE);
-            viewHolder.tvSale.setVisibility(bean.saleAmount == 0 ? View.GONE : View.VISIBLE);
+            viewHolder.tvGuide.setVisibility(bean.guideAmount == 0 ? View.INVISIBLE : View.VISIBLE);
+            viewHolder.tvSale.setVisibility(bean.saleAmount == 0 ? View.INVISIBLE : View.VISIBLE);
 
-//            x.image().bind(viewHolder.imgBg, bean.goodsPicture, options);
 
             x.image().bind(viewHolder.imgBg, bean.goodsPicture, options,new DefaultImageCallback<Drawable>() {
                 @Override

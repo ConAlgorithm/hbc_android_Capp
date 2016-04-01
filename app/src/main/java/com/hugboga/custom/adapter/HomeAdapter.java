@@ -1,6 +1,7 @@
 package com.hugboga.custom.adapter;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,9 +10,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.adapter.BaseAdapter;
+import com.huangbaoche.hbcframe.data.net.DefaultImageCallback;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.HomeBean;
+import com.hugboga.custom.widget.STGVImageView;
 
 import org.xutils.image.ImageOptions;
 import org.xutils.x;
@@ -25,21 +28,23 @@ public class HomeAdapter extends BaseAdapter<HomeBean> {
 
     public HomeAdapter(Context context) {
         super(context);
-        options = new ImageOptions.Builder()
+        options = new ImageOptions.Builder().setCrop(true)
+                .setImageScaleType(ImageView.ScaleType.CENTER_CROP)
                 .setLoadingDrawableId(R.mipmap.img_undertext)
                 .setFailureDrawableId(R.mipmap.img_undertext)
                 .build();
     }
 
+    ViewHolder viewHolder = null;
     @Override
     public View getView(int position, View view, ViewGroup parent) {
-        ViewHolder viewHolder = null;
+
         if (view == null) {
             viewHolder = new ViewHolder();
             view = LayoutInflater.from(mContext).inflate(R.layout.item_home, null);
             viewHolder.tvTitle = (TextView) view.findViewById(R.id.item_home_title);
             viewHolder.tvSubTitle = (TextView) view.findViewById(R.id.item_home_sub_title);
-            viewHolder.imgBg = (ImageView) view.findViewById(R.id.item_home_img);
+            viewHolder.imgBg = (STGVImageView) view.findViewById(R.id.item_home_img);
             viewHolder.splitLine = (View) view.findViewById(R.id.split_line);
             view.setTag(viewHolder);
         } else {
@@ -63,7 +68,17 @@ public class HomeAdapter extends BaseAdapter<HomeBean> {
                 viewHolder.splitLine.setVisibility(View.GONE);
             }
 
-            x.image().bind(viewHolder.imgBg, bean.picture, options);
+            x.image().bind(viewHolder.imgBg, bean.picture, options, new DefaultImageCallback<Drawable>() {
+                @Override
+                public void onSuccess(Drawable result) {
+                    int height = result.getIntrinsicHeight();
+                    int width = result.getIntrinsicWidth();
+                    MLog.e(""+height+"  "+width);
+                    viewHolder.imgBg.mHeight = height;
+                    viewHolder.imgBg.mWidth = width;
+                    viewHolder.imgBg.setImageDrawable(result);
+                }
+            });
         }
         return view;
     }
@@ -71,7 +86,7 @@ public class HomeAdapter extends BaseAdapter<HomeBean> {
     final static class ViewHolder {
         TextView tvTitle;
         TextView tvSubTitle;
-        ImageView imgBg;
+        STGVImageView imgBg;
         View splitLine;
     }
 
