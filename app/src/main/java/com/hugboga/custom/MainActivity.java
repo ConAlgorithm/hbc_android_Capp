@@ -141,9 +141,9 @@ public class MainActivity extends BaseFragmentActivity
             e.printStackTrace();
         }
 
-        if(UserEntity.getUser().isLogin(this)) {
-            getUserCoupon();
-        }
+//        if(UserEntity.getUser().isLogin(this)) {
+//            getUserCoupon();
+//        }
     }
 
     /**
@@ -292,7 +292,7 @@ public class MainActivity extends BaseFragmentActivity
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
             case CLICK_USER_LOGIN:
-                getUserCoupon();
+//                getUserCoupon();
             case CLICK_USER_LOOUT:
                 refreshContent();
                 break;
