@@ -93,7 +93,7 @@ public class FgChat extends BaseFragment implements View.OnClickListener, ZBaseA
 
     @Override
     public void onResume() {
-        loadData();
+        requestData();
         super.onResume();
     }
 

@@ -17,10 +17,10 @@
     <TextView
         android:id="@+id/item_sku_title"
         android:layout_width="match_parent"
+        android:layout_marginRight="10dp"
         android:layout_height="wrap_content"
-        android:layout_toLeftOf="@+id/item_sku_amount_layout"
         android:layout_below="@id/item_city_sku_img"
-        android:textSize="14sp"
+        android:textSize="16sp"
         android:singleLine="true"
         android:ellipsize="end"
         android:textColor="#da000000"
@@ -34,32 +34,35 @@
     <LinearLayout
         android:id="@+id/item_sku_amount_layout"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="30sp"
         android:orientation="horizontal"
         android:layout_alignParentRight="true"
-        android:layout_marginBottom="2dp"
-        android:layout_above="@+id/item_sku_guide_number"
-        android:layout_marginRight="10dp">
+        android:layout_marginBottom="15dp"
+        android:gravity="right"
+        android:background="@drawable/list_tag2"
+        android:layout_above="@+id/item_sku_title">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:textColor="@color/basic_red"
+            android:textSize="22sp"
+            android:textColor="@color/basic_white"
             android:text="￥" />
 
         <TextView
             android:id="@+id/item_sku_amount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="24sp"
-            android:textColor="@color/basic_red"
+            android:textSize="22sp"
+            android:textColor="@color/basic_white"
             android:text="--" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/basic_red"
+            android:textColor="@color/basic_white"
+            android:layout_marginLeft="5dp"
+            android:textSize="12sp"
             android:text="@string/up" />
     </LinearLayout>
 
@@ -67,14 +70,13 @@
         android:id="@+id/item_sku_label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toLeftOf="@id/item_sku_amount_layout"
         android:layout_below="@id/item_sku_title"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="5dp"
         android:singleLine="true"
         android:ellipsize="end"
-        android:textSize="11sp"
+        android:textSize="13sp"
 
         />
 
@@ -86,7 +88,7 @@
         android:layout_below="@id/item_sku_label"
         android:layout_alignParentRight="true"
         android:layout_marginRight="10dp"
-        android:textSize="10sp"
+        android:textSize="12sp"
         android:layout_marginBottom="10dp"
         android:textColor="#89000000"
         android:text="@string/sku_sale_number" />
@@ -98,7 +100,7 @@
         android:layout_below="@id/item_sku_label"
         android:layout_toLeftOf="@id/item_sku_sale"
         android:layout_marginLeft="10dp"
-        android:textSize="10sp"
+        android:textSize="12sp"
         android:layout_marginBottom="10dp"
         android:drawableLeft="@mipmap/journey_car_sku"
         android:drawablePadding="5dp"
