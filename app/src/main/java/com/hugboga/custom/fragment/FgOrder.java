@@ -1082,6 +1082,7 @@ public class FgOrder extends BaseFragment {
         } else {
             chatNumTextView.setVisibility(View.GONE);
         }
+        chatNumTextView.setVisibility(View.GONE);
     }
 
     private void notifyOrderList(int jumpType, boolean refreshRunning, boolean refreshFinish, boolean refreshCancel) {

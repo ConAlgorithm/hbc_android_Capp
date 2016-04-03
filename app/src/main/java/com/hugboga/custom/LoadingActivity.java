@@ -21,6 +21,7 @@ import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.data.bean.CheckVersionBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.request.RequestCheckVersion;
+import com.hugboga.custom.service.LogService;
 import com.hugboga.custom.utils.PermissionRes;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.utils.PushUtils;
@@ -169,9 +170,20 @@ public class LoadingActivity extends BaseFragmentActivity implements HttpRequest
                     });
                 }
             });
+            checkUploadLog(cvBean);
         }
     }
-
+    /**
+     * 是否开启debug模式
+     */
+    private void checkUploadLog( CheckVersionBean cvBean){
+        MLog.e("context="+this+",resource="+cvBean+" ,isDebugMod="+cvBean.debugMod);
+        if(cvBean!=null&&cvBean.debugMod){
+            Intent intent = new Intent(this, LogService.class);
+            intent.putExtra(LogService.KEY_IS_RUNNING,true);
+            startService(intent);
+        }
+    }
 
     private void checkToNew() {
         Long time = System.currentTimeMillis() - start;

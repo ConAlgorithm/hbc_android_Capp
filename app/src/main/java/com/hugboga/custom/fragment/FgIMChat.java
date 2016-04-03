@@ -21,6 +21,8 @@ import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.ChatInfo;
 import com.hugboga.custom.data.bean.OrderBean;
+import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.parser.ParserChatInfo;
 import com.hugboga.custom.data.request.RequestIMClear;
 import com.hugboga.custom.data.request.RequestIMOrder;
@@ -35,6 +37,7 @@ import org.xutils.view.annotation.ViewInject;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.greenrobot.event.EventBus;
 import io.rong.imkit.RongContext;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.RongIMClientWrapper;
@@ -227,6 +230,8 @@ public class FgIMChat extends BaseFragment {
 
     private String getTypeStr(OrderBean orderBean) {
         StringBuilder sb = new StringBuilder();
+        MLog.e("orderGoodsType ="+orderBean.orderGoodsType);
+        MLog.e("getOrderTypeStr = "+orderBean.getOrderTypeStr(getActivity()));
         if (orderBean.orderGoodsType == 5) {
             sb.append("[" + orderBean.getOrderTypeStr(getActivity()) + "]");
             sb.append(orderBean.lineSubject);
@@ -380,7 +385,7 @@ public class FgIMChat extends BaseFragment {
     private void onClick(View v) {
         switch (v.getId()) {
             case R.id.header_left_btn:
-                finish();
+                notifyChatList();
                 clearImChat();
                 break;
             case R.id.header_right_txt:
@@ -395,6 +400,15 @@ public class FgIMChat extends BaseFragment {
         }
     }
 
+    @Override
+    public boolean onBackPressed() {
+        notifyChatList();
+        return false;
+    }
+
+    private void notifyChatList() {
+        EventBus.getDefault().post(new EventAction(EventType.REFRESH_CHAT_LIST));
+    }
 
     /**
      * 构建聊天为空界面

@@ -92,14 +92,10 @@ public class MainActivity extends BaseFragmentActivity
     private ImageView my_icon_head;//header的头像
     private TextView tv_nickname;//header的昵称
 
-//    @ViewInject(R.id.toolbar)
-//    private Toolbar toolbar;
-
     private TextView tabMenu[] = new TextView[3];
 
-//    @ViewInject(R.id.nav_view)
-//    private NavigationView navigationView;
-
+    @ViewInject(R.id.bottom_point_2)
+    private TextView bottomPoint2;
     @ViewInject(R.id.lv_slide_menu)
     private ListView mLvLeftMenu;
 
@@ -391,7 +387,6 @@ public class MainActivity extends BaseFragmentActivity
 
     @Override
     public void onBackPressed() {
-        MLog.e("getFragmentList().size() =" + getFragmentList().size());
         if (getFragmentList().size() > mSectionsPagerAdapter.getCount()) {
             doFragmentBack();
         } else {
@@ -413,23 +408,6 @@ public class MainActivity extends BaseFragmentActivity
     @Override
     public int getContentId() {
         return contentId;
-    }
-
-    public BaseFragment getTestFragment(String name) {
-        FgTest fg = new FgTest();
-        Bundle bundle = new Bundle();
-        bundle.putString(FgTest.KEY_NAME, name);
-        fg.setArguments(bundle);
-        return fg;
-    }
-
-    private BaseFragment getFgChooseCityFragment() {
-        FgChooseCity fgChooseCity = new FgChooseCity();
-        String KEY_FROM = "key_from";
-        Bundle bundle = new Bundle();
-        bundle.putString(KEY_FROM, "startAddress");
-        fgChooseCity.setArguments(bundle);
-        return fgChooseCity;
     }
 
 
@@ -579,6 +557,18 @@ public class MainActivity extends BaseFragmentActivity
             return null;
         }
     }
+
+    public void setIMCount(int count){
+        if(count>0){
+            bottomPoint2.setVisibility(View.VISIBLE);
+            bottomPoint2.setText(""+count);
+        }else{
+            bottomPoint2.setVisibility(View.GONE);
+            bottomPoint2.setText("");
+        }
+
+    }
+
     public void restartApp(){
         Intent intent = new Intent(this,MainActivity.class);
         PendingIntent restartIntent = PendingIntent.getActivity(

@@ -275,6 +275,7 @@ public class FgSkuSubmit extends BaseFragment implements View.OnClickListener {
         } else if (FgPoiSearch.class.getSimpleName().equals(from)) {
             startPoiBean = (PoiBean) bundle.getSerializable(FgPoiSearch.KEY_ARRIVAL);
             if (startPoiBean != null) {
+                MLog.e("placeName = "+startPoiBean.placeName+" location ="+startPoiBean.location);
                 skuStartAddress.setText(startPoiBean.placeName);
             }
         }
@@ -342,7 +343,6 @@ public class FgSkuSubmit extends BaseFragment implements View.OnClickListener {
         orderBean.serviceCityId = skuBean.depCityId;
         orderBean.serviceCityName = skuBean.depCityName;
         //出发地，到达地经纬度
-        orderBean.startLocation = null;
         orderBean.terminalLocation = null;
         orderBean.destAddress = skuBean.arrCityName;
         orderBean.serviceEndCityid = skuBean.arrCityId;
