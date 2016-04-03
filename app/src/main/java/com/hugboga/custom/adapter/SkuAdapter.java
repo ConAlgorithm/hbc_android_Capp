@@ -65,18 +65,9 @@ public class SkuAdapter extends BaseAdapter<SkuItemBean> {
             viewHolder.tvGuide.setVisibility(bean.guideAmount == 0 ? View.INVISIBLE : View.VISIBLE);
             viewHolder.tvSale.setVisibility(bean.saleAmount == 0 ? View.INVISIBLE : View.VISIBLE);
 
-
-            x.image().bind(viewHolder.imgBg, bean.goodsPicture, options,new DefaultImageCallback<Drawable>() {
-                @Override
-                public void onSuccess(Drawable result) {
-                    int height = result.getIntrinsicHeight();
-                    int width = result.getIntrinsicWidth();
-                    MLog.e(""+height+"  "+width);
-                    viewHolder.imgBg.mHeight = height;
-                    viewHolder.imgBg.mWidth = width;
-                    viewHolder.imgBg.setImageDrawable(result);
-                }
-            });
+            viewHolder.imgBg.mHeight = 400;
+            viewHolder.imgBg.mWidth = 750;
+            x.image().bind(viewHolder.imgBg, bean.goodsPicture, options);
         }
 
         return view;
