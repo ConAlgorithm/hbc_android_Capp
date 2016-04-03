@@ -17,10 +17,13 @@ import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.data.bean.PushMessage;
+import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestPushReceive;
 import com.hugboga.custom.utils.PushUtils;
 
 import cn.jpush.android.api.JPushInterface;
+import de.greenrobot.event.EventBus;
 
 /**
  * Push
@@ -57,16 +60,13 @@ public class PushReceiver extends BroadcastReceiver implements HttpRequestListen
 //        gotoMain(context, pushMessage);
         PushUtils.showNotification(context,pushMessage);
         uploadPushReceive(context,msgId);
-       /* if (!TextUtils.isEmpty(pushMessage.type) && pushUtils.isVersion(context, pushMessage.version) && pushUtils.isVaild(pushMessage.vaild) && pushUtils.isAccountId(pushMessage.accountID)) {
-            gotoMain(context, pushMessage);
-            *//*
-            是否需要通知栏提醒，在此进行通知栏显示
-             *//*
-            if (!pushMessage.notification.isEmpty() && pushMessage.notification.equals("true")) {
-                PushUtils.showNotification(context,pushMessage);
-            }
-        }*/
+        if("IM".equals(pushMessage.type)){
+            notifyChatList();
+        }
+    }
 
+    private void notifyChatList() {
+        EventBus.getDefault().post(new EventAction(EventType.REFRESH_CHAT_LIST));
     }
 
     private void uploadPushReceive(Context context,String pushId){

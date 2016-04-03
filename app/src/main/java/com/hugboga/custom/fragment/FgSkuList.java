@@ -172,7 +172,7 @@ public class FgSkuList extends  BaseFragment implements AdapterView.OnItemClickL
             e.printStackTrace();
         }
         if(cityBean!=null)
-        MLog.e("cityBean"+cityBean.name+ cityBean.location);
+        MLog.e("cityBean"+cityBean.name+ cityBean.location+" hasAirport="+cityBean.hasAirport);
         else
         MLog.e("citybean is null");
         return cityBean;

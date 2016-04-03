@@ -269,7 +269,7 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
         } else if (orderType == Constants.BUSINESS_TYPE_RENT) {
             selector.and("is_single", "=", 1);
         } else if (orderType == Constants.BUSINESS_TYPE_PICK || orderType == Constants.BUSINESS_TYPE_SEND) {
-            selector.and("has_airport", "=", 1);
+            selector.and("is_city_code", "=", 1);
         } else if (orderType == Constants.BUSINESS_TYPE_HOME) {
             WhereBuilder whereBuilder = WhereBuilder.b();
             whereBuilder.and("place_name", "<>", "中国");
@@ -310,7 +310,7 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
         } else if (orderType == Constants.BUSINESS_TYPE_RENT) {
             selector.and("is_single", "=", 1);
         } else if (orderType == Constants.BUSINESS_TYPE_PICK || orderType == Constants.BUSINESS_TYPE_SEND) {
-            selector.and("has_airport", "=", 1);
+            selector.and("is_city_code", "=", 1);
         } else if (orderType == Constants.BUSINESS_TYPE_HOME) {
             WhereBuilder whereBuilder = WhereBuilder.b();
             whereBuilder.and("place_name", "<>", "中国");
@@ -377,7 +377,7 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
         } else if (orderType == Constants.BUSINESS_TYPE_RENT) {
             selector.and("is_single", "=", 1);
         } else if (orderType == Constants.BUSINESS_TYPE_PICK || orderType == Constants.BUSINESS_TYPE_SEND) {
-            selector.and("has_airport", "=", 1);
+            selector.and("is_city_code", "=", 1);
         } else if (orderType == Constants.BUSINESS_TYPE_HOME) {
             WhereBuilder whereBuilder = WhereBuilder.b();
             whereBuilder.and("place_name", "<>", "中国");
@@ -427,9 +427,9 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
                 finishResult();
                 break;
             case R.id.head_search_clean:
-                if(TextUtils.isEmpty(editSearch.getText().toString().trim())){
-                    break;
-                }
+//                if(TextUtils.isEmpty(editSearch.getText().toString().trim())){
+//                    break;
+//                }
                 editSearch.setText("");
                 break;
             case R.id.head_text_right:
@@ -643,7 +643,7 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
         } else if (orderType == Constants.BUSINESS_TYPE_RENT) {
             selector.and("is_single", "=", 1);
         } else if (orderType == Constants.BUSINESS_TYPE_PICK || orderType == Constants.BUSINESS_TYPE_SEND) {
-            selector.and("has_airport", "=", 1);
+            selector.and("is_city_code", "=", 1);
         } else if (orderType == Constants.BUSINESS_TYPE_HOME) {
             WhereBuilder whereBuilder = WhereBuilder.b();
             whereBuilder.and("place_name", "<>", "中国");
@@ -698,7 +698,7 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
         } else if (orderType == Constants.BUSINESS_TYPE_RENT) {
             selector.and("is_single", "=", 1);
         } else if (orderType == Constants.BUSINESS_TYPE_PICK || orderType == Constants.BUSINESS_TYPE_SEND) {
-            selector.and("has_airport", "=", 1);
+            selector.and("is_city_code", "=", 1);
         } else if (orderType == Constants.BUSINESS_TYPE_HOME) {
             WhereBuilder whereBuilder = WhereBuilder.b();
             whereBuilder.and("place_name", "<>", "中国");

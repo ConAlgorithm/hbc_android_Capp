@@ -1,32 +1,23 @@
 package com.hugboga.custom.fragment;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
 
 import com.huangbaoche.hbcframe.adapter.ZBaseAdapter;
-import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.huangbaoche.hbcframe.widget.ZDefaultDivider;
 import com.huangbaoche.hbcframe.widget.ZSwipeRefreshLayout;
 import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.R;
-import com.hugboga.custom.adapter.ChatAdapter;
 import com.hugboga.custom.adapter.HomeAdapter;
 import com.hugboga.custom.constants.Constants;
-import com.hugboga.custom.data.bean.ChatBean;
 import com.hugboga.custom.data.bean.HomeBean;
-import com.hugboga.custom.data.request.RequestChatList;
 import com.hugboga.custom.data.request.RequestHome;
 import com.hugboga.custom.widget.recycler.ZListPageView;
 
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
-
-import java.util.ArrayList;
 
 /**
  * 首页
