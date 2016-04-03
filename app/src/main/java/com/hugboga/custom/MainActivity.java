@@ -57,16 +57,19 @@ import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.ImageOptionUtils;
 import com.hugboga.custom.utils.PermissionRes;
 import com.hugboga.custom.utils.PhoneInfo;
+import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.UpdateResources;
 import com.zhy.m.permission.MPermissions;
 import com.zhy.m.permission.PermissionDenied;
 import com.zhy.m.permission.PermissionGrant;
 
+import org.xutils.common.util.FileUtil;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -103,11 +106,13 @@ public class MainActivity extends BaseFragmentActivity
     private FgHome fgHome;
     private FgChat fgChat;
     private FgTravel fgTravel;
+    private SharedPre sharedPre;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        setSupportActionBar(toolbar);
+        sharedPre = new SharedPre(this);
         initBottomView();
         contentId = R.id.drawer_layout;
         initAdapterContent();
@@ -125,15 +130,16 @@ public class MainActivity extends BaseFragmentActivity
         setUpDrawer();
         connectIM();
         receivePushMessage(getIntent());
+        new Thread(new CalaCacheThread()).start();//计算缓存图片大小
         try {
             EventBus.getDefault().register(this);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        if(UserEntity.getUser().isLogin(this)) {
-            getUserCoupon();
-        }
+//        if(UserEntity.getUser().isLogin(this)) {
+//            getUserCoupon();
+//        }
     }
 
     /**
@@ -282,7 +288,7 @@ public class MainActivity extends BaseFragmentActivity
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
             case CLICK_USER_LOGIN:
-                getUserCoupon();
+//                getUserCoupon();
             case CLICK_USER_LOOUT:
                 refreshContent();
                 break;
@@ -589,5 +595,28 @@ public class MainActivity extends BaseFragmentActivity
     public void exitApp() {
         restartApp();
         super.exitApp();
+    }
+
+    class CalaCacheThread implements Runnable {
+        public void run() {
+            long cacheSize = calculateCacheFileSize();
+            sharedPre.saveLongValue(SharedPre.CACHE_SIZE, cacheSize);
+        }
+    }
+
+    private long calculateCacheFileSize(){
+        long length = 0L;
+        String DISK_CACHE_DIR_NAME = "xUtils_img"; //1
+        String CACHE_DIR_NAME = "xUtils_cache";    //2
+
+        File cacheDir1 = FileUtil.getCacheDir(DISK_CACHE_DIR_NAME);
+        File cacheDir2 = FileUtil.getCacheDir(CACHE_DIR_NAME);
+        if(cacheDir1 != null){
+            length += FileUtil.getFileOrDirSize(cacheDir1);
+        }
+        if(cacheDir2 != null){
+            length += FileUtil.getFileOrDirSize(cacheDir2);
+        }
+        return length;
     }
 }

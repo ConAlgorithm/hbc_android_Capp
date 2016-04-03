@@ -657,6 +657,11 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
         } catch (DbException e) {
             e.printStackTrace();
         }
+        if (dataList.size() > 0) {
+            for (CityBean cb : dataList) {
+                cb.name = cb.name + "，" + cb.placeName;
+            }
+        }
         return dataList;
     }
 
@@ -710,11 +715,11 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
             e.printStackTrace();
         }
         if (CountryDateList.size() > 0) {
-            for (CityBean bc : CountryDateList) {
-                bc.name = "相关城市，" + bc.name;
+            for (CityBean cb : CountryDateList) {
+                cb.name = "相关城市，" + cb.name;
             }
             CityBean onlyForDisplayCityBean = new CityBean();
-            onlyForDisplayCityBean.name = CountryDateList.get(0).placeName + " - 该地点为国家";
+            onlyForDisplayCityBean.name = CountryDateList.get(0).placeName + " - 该地点为国家/地区";
             onlyForDisplayCityBean.firstLetter = "nationality";
             CountryDateList.add(0, onlyForDisplayCityBean);
         }
