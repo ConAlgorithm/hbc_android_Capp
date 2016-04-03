@@ -35,7 +35,7 @@ public class HomeAdapter extends ZHeadFootAdapter<HomeBean, HomeVH> {
         super(context);
         this.fgHome = fgHome;
         options = new ImageOptions.Builder()
-//                .setLoadingDrawableId(R.mipmap.img_undertext)
+                .setLoadingDrawableId(R.mipmap.img_undertext)
                 .setFailureDrawableId(R.mipmap.img_undertext)
                 .build();
     }
