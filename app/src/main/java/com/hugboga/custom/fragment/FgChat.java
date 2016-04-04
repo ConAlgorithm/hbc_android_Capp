@@ -3,33 +3,28 @@ package com.hugboga.custom.fragment;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import com.huangbaoche.hbcframe.adapter.ZBaseAdapter;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
-import com.huangbaoche.hbcframe.widget.ZSwipeRefreshLayout;
+import com.huangbaoche.hbcframe.widget.recycler.ZListPageView;
+import com.huangbaoche.hbcframe.widget.recycler.ZSwipeRefreshLayout;
 import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.ChatAdapter;
-import com.hugboga.custom.adapter.NewOrderAdapter;
 import com.hugboga.custom.data.bean.ChatBean;
 import com.hugboga.custom.data.bean.ChatInfo;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.parser.ParserChatInfo;
 import com.hugboga.custom.data.request.RequestChatList;
-import com.hugboga.custom.widget.recycler.ZListPageView;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import de.greenrobot.event.EventBus;
@@ -68,14 +63,14 @@ public class FgChat extends BaseFragment implements View.OnClickListener, ZBaseA
 
     @Override
     protected void initView() {
-        MLog.e(this+" initView");
+        MLog.e(this + " initView");
         initListView();
         if (!EventBus.getDefault().isRegistered(this))
             EventBus.getDefault().register(this);
     }
 
     private void initListView() {
-        MLog.e(this+" initListView");
+        MLog.e(this + " initListView");
         adapter = new ChatAdapter(getActivity());
         recyclerView.setAdapter(adapter);
         recyclerView.setzSwipeRefreshLayout(swipeRefreshLayout);
@@ -94,11 +89,6 @@ public class FgChat extends BaseFragment implements View.OnClickListener, ZBaseA
             recyclerView.showPageFirst();
             adapter.notifyDataSetChanged();
         }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
     }
 
     @Override
@@ -141,7 +131,7 @@ public class FgChat extends BaseFragment implements View.OnClickListener, ZBaseA
 
     @Override
     public void onFragmentResult(Bundle bundle) {
-        MLog.e("onFragmentResult "+bundle);
+        MLog.e("onFragmentResult " + bundle);
         requestData();
     }
 
@@ -206,7 +196,7 @@ public class FgChat extends BaseFragment implements View.OnClickListener, ZBaseA
 
     @Override
     public void notice(Object object) {
-        List<ChatBean> chatBeans = ((ZBaseAdapter)((SlideInBottomAnimationAdapter) recyclerView.getAdapter()).getWrappedAdapter()).getDatas();
+        List<ChatBean> chatBeans = ((ZBaseAdapter) ((SlideInBottomAnimationAdapter) recyclerView.getAdapter()).getWrappedAdapter()).getDatas();
         if (chatBeans != null && chatBeans.size() > 0) {
             int totalCount = 0;
             for (ChatBean bean : chatBeans) {

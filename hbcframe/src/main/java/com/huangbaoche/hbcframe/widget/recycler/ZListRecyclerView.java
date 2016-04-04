@@ -1,4 +1,4 @@
-package com.huangbaoche.hbcframe.widget;
+package com.huangbaoche.hbcframe.widget.recycler;
 
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;

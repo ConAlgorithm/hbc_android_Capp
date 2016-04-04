@@ -5,15 +5,15 @@ import android.view.View;
 
 import com.huangbaoche.hbcframe.adapter.ZBaseAdapter;
 import com.huangbaoche.hbcframe.util.MLog;
-import com.huangbaoche.hbcframe.widget.ZDefaultDivider;
-import com.huangbaoche.hbcframe.widget.ZSwipeRefreshLayout;
+import com.huangbaoche.hbcframe.widget.recycler.ZDefaultDivider;
+import com.huangbaoche.hbcframe.widget.recycler.ZListPageView;
+import com.huangbaoche.hbcframe.widget.recycler.ZSwipeRefreshLayout;
 import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.HomeAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.HomeBean;
 import com.hugboga.custom.data.request.RequestHome;
-import com.hugboga.custom.widget.recycler.ZListPageView;
 
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
