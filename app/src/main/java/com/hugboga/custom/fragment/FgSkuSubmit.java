@@ -250,7 +250,9 @@ public class FgSkuSubmit extends BaseFragment implements View.OnClickListener {
                 skuChildEdit.setText(String.format(getString(R.string.submit_child), child));
                 inflateChildrenSeat();
                 break;
-
+            default:
+                super.onClick(view);
+                break;
         }
     }
 

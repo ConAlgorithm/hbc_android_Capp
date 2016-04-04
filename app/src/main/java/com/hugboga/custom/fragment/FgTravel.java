@@ -274,6 +274,7 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, OnIt
                 ((MainActivity) getActivity()).openDrawer();
                 break;
             default:
+                super.onClick(v);
                 break;
         }
     }

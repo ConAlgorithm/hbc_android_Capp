@@ -28,10 +28,6 @@ public class FgNewOrder extends BaseFragment implements ZBaseAdapter.OnItemClick
     public static final String SEARCH_TYPE = "search_type";
     public static final String SEARCH_USER = "search_user";
 
-    @ViewInject(R.id.header_title)
-    TextView title;
-    @ViewInject(R.id.header_left_btn)
-    ImageView backBtn;
     @ViewInject(R.id.listview)
     ZListPageView recyclerView;
     @ViewInject(R.id.swipe)
@@ -44,13 +40,12 @@ public class FgNewOrder extends BaseFragment implements ZBaseAdapter.OnItemClick
 
     @Override
     protected void initHeader() {
-
+       fgTitle.setText(R.string.letter_chat_btn);
+        fgRightBtn.setVisibility(View.VISIBLE);
     }
 
     @Override
     protected void initView() {
-        backBtn.setVisibility(View.VISIBLE);
-        title.setText(R.string.letter_chat_btn);
         bundle = getArguments();
         if (bundle == null) {
             return;
@@ -113,10 +108,10 @@ public class FgNewOrder extends BaseFragment implements ZBaseAdapter.OnItemClick
     private void initTitle(SearchType searchType) {
         switch (searchType) {
             case SEARCH_TYPE_NEW:
-                title.setText(getString(R.string.letter_chat_btn));
+                fgTitle.setText(getString(R.string.letter_chat_btn));
                 break;
             case SEARCH_TYPE_HISTORY:
-                title.setText(getString(R.string.letter_chat_btn));
+                fgTitle.setText(getString(R.string.letter_chat_btn));
                 break;
             default:
                 break;
@@ -130,17 +125,6 @@ public class FgNewOrder extends BaseFragment implements ZBaseAdapter.OnItemClick
         if (recyclerView != null) {
             recyclerView.showPageFirst();
             adapter.notifyDataSetChanged();
-        }
-    }
-
-    @Event({R.id.header_left_btn})
-    private void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.header_left_btn:
-                finish();
-                break;
-            default:
-                break;
         }
     }
 

@@ -283,7 +283,7 @@ public class FgOrder extends BaseFragment {
     private TextView bottomBtn;
 
     private boolean isShowDetail = false;//详细新是否展开
-    private int payType = Constants.PAY_STATE_ALIPAY;//支付方式
+    private int payType = Constants.PAY_STATE_WECHAT;//支付方式
     private OrderBean mOrderBean;//order 实体
     private String orderId;//订单号
     private double shouldPay;//需要支付

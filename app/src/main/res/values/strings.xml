@@ -84,6 +84,7 @@
     <!--首页-->
     <string name="home_main_title">全球10万华人朋友</string>
     <string name="home_sub_title">开车带你玩</string>
+    <string name="contact_service">联系客服</string>
     <!--SKU-->
     <string name="sku_sub_title">精品包车线路</string>
 

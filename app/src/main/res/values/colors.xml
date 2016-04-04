@@ -7,7 +7,7 @@
     <!-- Basic color -->
     <color name="basic_pick_color">#398bd0</color>
     <color name="basic_send_color">#10c1ad</color>
-    <color name="basic_daily_color">#f2b904</color>
+    <color name="basic_daily_color">#fcce04</color>
     <color name="basic_rent_color">#e25f68</color>
     <color name="basic_commend_color">#7A5CC0</color>
     <color name="basic_other_color">#00FFFFFF</color>

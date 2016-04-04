@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.TextView;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
+import com.hugboga.custom.BuildConfig;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.constants.ResourcesConstants;
@@ -192,7 +193,7 @@ public class FgSetting extends BaseFragment {
         //设置标题颜色，返回按钮图片
 //        leftBtn.setImageResource(R.mipmap.top_back_black);
         fgTitle.setText("设置");
-        versionFlagTextView.setText("v" + PhoneInfo.getSoftwareVersion(getActivity()));
+        versionFlagTextView.setText("v" + BuildConfig.VERSION_NAME+"_"+BuildConfig.VERSION_CODE);
         if(UserEntity.getUser().getIsNewVersion(getActivity())){
             newVersionTextView.setText("升级新版");
             newVersionTextView.setTextColor(Color.RED);
