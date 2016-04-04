@@ -139,8 +139,10 @@ public class FgChat extends BaseFragment implements View.OnClickListener, ZBaseA
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.header_left_btn:
-                MLog.e("left  " + view);
                 ((MainActivity) getActivity()).openDrawer();
+                break;
+            default:
+                super.onClick(view);
                 break;
         }
     }
@@ -196,7 +198,7 @@ public class FgChat extends BaseFragment implements View.OnClickListener, ZBaseA
 
     @Override
     public void notice(Object object) {
-        List<ChatBean> chatBeans = ((ZBaseAdapter) ((SlideInBottomAnimationAdapter) recyclerView.getAdapter()).getWrappedAdapter()).getDatas();
+        List<ChatBean> chatBeans = adapter.getDatas();
         if (chatBeans != null && chatBeans.size() > 0) {
             int totalCount = 0;
             for (ChatBean bean : chatBeans) {
@@ -205,6 +207,5 @@ public class FgChat extends BaseFragment implements View.OnClickListener, ZBaseA
             ((MainActivity) getActivity()).setIMCount(totalCount);
             MLog.e("totalCount = " + totalCount);
         }
-
     }
 }

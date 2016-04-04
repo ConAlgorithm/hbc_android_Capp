@@ -313,6 +313,7 @@ public class FgChangeTrip extends BaseFragment implements View.OnClickListener {
 
     @Override
     protected void initHeader() {
+        fgRightBtn.setVisibility(View.VISIBLE);
         fgTitle.setText("修改行程资料");
     }
 
@@ -450,6 +451,9 @@ public class FgChangeTrip extends BaseFragment implements View.OnClickListener {
                 exceptId.add(mOrderBean.serviceEndCityid);
                 bundle.putSerializable(FgChooseCity.KEY_CITY_EXCEPT_ID_LIST, exceptId);
                 startFragment(new FgChooseCity(), bundle);
+                break;
+            default:
+                super.onClick(view);
                 break;
         }
     }

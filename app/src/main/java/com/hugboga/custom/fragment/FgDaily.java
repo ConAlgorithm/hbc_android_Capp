@@ -37,7 +37,7 @@ public class FgDaily extends BaseFragment {
 
     @Override
     protected void initHeader() {
-//        rightText.setVisibility(View.VISIBLE);
+        fgRightBtn.setVisibility(View.VISIBLE);
         setProgressState(0);
         fgTitle.setText(getString(R.string.title_daily));
     }
