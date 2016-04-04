@@ -1,4 +1,4 @@
-package com.hugboga.custom.widget.recycler;
+package com.huangbaoche.hbcframe.widget.recycler;
 
 import android.content.Context;
 
@@ -6,7 +6,6 @@ import com.huangbaoche.hbcframe.adapter.ZBaseAdapter;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
-import com.huangbaoche.hbcframe.widget.ZSwipeRefreshLayout;
 
 import java.util.Map;
 

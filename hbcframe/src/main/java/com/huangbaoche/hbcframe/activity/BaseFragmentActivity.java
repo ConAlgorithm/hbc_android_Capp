@@ -159,6 +159,7 @@ public class BaseFragmentActivity extends AppCompatActivity  {
             for(int i=mFragmentList.size()-1;i>=0;i--){
                 tFragment = mFragmentList.get(i);
                 if(tFragment !=null&&tFragment.getContentId()!=-1)break;
+                tFragment =null;
             }
         }
         if(tFragment!=null) {

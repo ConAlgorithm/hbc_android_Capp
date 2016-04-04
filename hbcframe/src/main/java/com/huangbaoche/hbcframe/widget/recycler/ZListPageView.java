@@ -1,4 +1,4 @@
-package com.hugboga.custom.widget.recycler;
+package com.huangbaoche.hbcframe.widget.recycler;
 
 import android.app.Activity;
 import android.content.Context;
@@ -16,10 +16,6 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.page.IPageList;
 import com.huangbaoche.hbcframe.page.Page;
-import com.huangbaoche.hbcframe.util.MLog;
-import com.huangbaoche.hbcframe.widget.ZListRecyclerView;
-import com.huangbaoche.hbcframe.widget.ZSwipeRefreshLayout;
-import com.hugboga.custom.data.request.RequestIMOrder;
 
 import java.util.List;
 
@@ -93,7 +89,7 @@ public class ZListPageView extends ZListRecyclerView implements IPageList {
                     LayoutManager layoutManager = getLayoutManager();
                     int lastVisibleItem = ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();
                     int totalItemCount = layoutManager.getItemCount();
-                    if (lastVisibleItem >= totalItemCount - 2 && dy > 0) {
+                    if (lastVisibleItem >= totalItemCount - 1 && dy > 0) {
                         showPageNext();
                     }
                 }

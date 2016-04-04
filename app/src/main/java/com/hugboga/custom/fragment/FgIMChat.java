@@ -1,10 +1,14 @@
 package com.hugboga.custom.fragment;
 
+import android.Manifest;
+import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +30,10 @@ import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.parser.ParserChatInfo;
 import com.hugboga.custom.data.request.RequestIMClear;
 import com.hugboga.custom.data.request.RequestIMOrder;
+import com.hugboga.custom.utils.PermissionRes;
+import com.zhy.m.permission.MPermissions;
+import com.zhy.m.permission.PermissionDenied;
+import com.zhy.m.permission.PermissionGrant;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -117,10 +125,10 @@ public class FgIMChat extends BaseFragment {
         }
     }
 
-    private void resetRightBtn(){
-        if(!TextUtils.isEmpty(targetType) && "3".equals(targetType)){
+    private void resetRightBtn() {
+        if (!TextUtils.isEmpty(targetType) && "3".equals(targetType)) {
             topRightBtn.setVisibility(View.GONE); //显示历史订单按钮
-        }else{
+        } else {
             topRightBtn.setVisibility(View.VISIBLE); //显示历史订单按钮
         }
     }
@@ -138,7 +146,38 @@ public class FgIMChat extends BaseFragment {
 
     @Override
     protected Callback.Cancelable requestData() {
+        grantAudio(); //进行授权
         return null;
+    }
+
+    /**
+     * 授权获取手机音频权限
+     */
+    private void grantAudio() {
+        MPermissions.requestPermissions(this, PermissionRes.IM_PERMISSION, android.Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA);
+    }
+
+    @PermissionGrant(PermissionRes.IM_PERMISSION)
+    public void requestAudioSuccess() {
+    }
+
+    @PermissionDenied(PermissionRes.IM_PERMISSION)
+    public void requestAudioFailed() {
+        android.app.AlertDialog.Builder dialog = new android.app.AlertDialog.Builder(getActivity());
+        dialog.setCancelable(false);
+        dialog.setTitle(R.string.grant_fail_title);
+        if (!ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            dialog.setMessage(R.string.grant_fail_phone1);
+        } else {
+            dialog.setMessage(R.string.grant_fail_im);
+            dialog.setPositiveButton(R.string.grant_fail_btn, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    grantAudio();
+                }
+            });
+        }
+        dialog.show();
     }
 
     @Override
@@ -148,6 +187,7 @@ public class FgIMChat extends BaseFragment {
 
     @Override
     public void onPause() {
+        notifyChatList();
         clearImChat(); //清空未读消息记录
         super.onPause();
     }
@@ -230,8 +270,8 @@ public class FgIMChat extends BaseFragment {
 
     private String getTypeStr(OrderBean orderBean) {
         StringBuilder sb = new StringBuilder();
-        MLog.e("orderGoodsType ="+orderBean.orderGoodsType);
-        MLog.e("getOrderTypeStr = "+orderBean.getOrderTypeStr(getActivity()));
+        MLog.e("orderGoodsType =" + orderBean.orderGoodsType);
+        MLog.e("getOrderTypeStr = " + orderBean.getOrderTypeStr(getActivity()));
         if (orderBean.orderGoodsType == 5) {
             sb.append("[" + orderBean.getOrderTypeStr(getActivity()) + "]");
             sb.append(orderBean.lineSubject);

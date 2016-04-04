@@ -12,4 +12,5 @@ public class PermissionRes {
     public static final int ACCESS_FINE_LOCATION = 4; //读取位置信息
     public static final int RECORD_AUDIO = 5; //读取音频权限
     public static final int TYPE_SYSTEM_ALERT = 6; //获取系统弹框权限
+    public static final int IM_PERMISSION = 7; //IM聊天权限
 }
