@@ -26,8 +26,8 @@ import java.net.URLEncoder;
  * Created by ZHZEPHI on 2016/1/26.
  */
 public class WXShareUtils {
-    public static final int TYPE_SESSION = 0;//好友
-    public static final int TYPE_TIMELINE = 1;//朋友圈
+    public static final int TYPE_SESSION = 1;//好友
+    public static final int TYPE_TIMELINE = 2;//朋友圈
 
 
     Context mContext;
@@ -55,12 +55,16 @@ public class WXShareUtils {
      *
      * @return
      */
-    private boolean isInstall() {
+    public boolean isInstall(boolean isShow) {
         if (!iwxapi.isWXAppInstalled()) {
+            MLog.e("手机未安装微信");
+            if(isShow)
             new AlertDialog.Builder(mContext).setTitle("手机未安装微信").setPositiveButton("知道了", null).show();
             return false;
         }
         if (!iwxapi.isWXAppSupportAPI()) {
+            MLog.e("微信版本太低");
+            if(isShow)
             new AlertDialog.Builder(mContext).setTitle("微信版本太低").setPositiveButton("知道了", null).show();
             return false;
         }
@@ -76,7 +80,7 @@ public class WXShareUtils {
      * @param goUrl
      */
     public void share(final int type, final String picUrl, final String title, final String content, final String goUrl) {
-        if (isInstall()) {
+        if (isInstall(true)) {
             x.image().loadFile(picUrl, null, new Callback.CacheCallback<File>() {
                 @Override
                 public boolean onCache(File result) {

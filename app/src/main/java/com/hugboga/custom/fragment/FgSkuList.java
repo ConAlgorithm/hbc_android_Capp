@@ -85,7 +85,7 @@ public class FgSkuList extends  BaseFragment implements AdapterView.OnItemClickL
         menu2.setOnClickListener(this);
         menu3.setOnClickListener(this);
         if(mCityBean!=null){
-            menu1.setVisibility(mCityBean.isCityCode?View.VISIBLE:View.GONE);
+            menu1.setVisibility(mCityBean.hasAirport?View.VISIBLE:View.GONE);
             menu2.setVisibility(mCityBean.isDaily?View.VISIBLE:View.GONE);
             menu3.setVisibility(mCityBean.isSingle?View.VISIBLE:View.GONE);
         }
@@ -157,8 +157,6 @@ public class FgSkuList extends  BaseFragment implements AdapterView.OnItemClickL
         if(position==0||mCityBean==null)return;
         SkuItemBean bean = adapter.getItem(position-1);
         Bundle bundle = new Bundle();
-//        String url = "http://res.test.hbc.tech/h5/csku/skuDetail.html?source=c&goodsNo="+bean.goodsNo;
-//        url = "http://res.dev.hbc.tech/h5/test/api.html?";
         bundle.putString(FgWebInfo.WEB_URL, bean.skuDetailUrl);
         bundle.putSerializable(FgSkuDetail.WEB_SKU, bean);
         bundle.putSerializable(FgSkuDetail.WEB_CITY, mCityBean);
@@ -174,7 +172,7 @@ public class FgSkuList extends  BaseFragment implements AdapterView.OnItemClickL
             e.printStackTrace();
         }
         if(cityBean!=null)
-        MLog.e("cityBean"+cityBean.name+ cityBean.location);
+        MLog.e("cityBean"+cityBean.name+ cityBean.location+" hasAirport="+cityBean.hasAirport);
         else
         MLog.e("citybean is null");
         return cityBean;
@@ -182,15 +180,17 @@ public class FgSkuList extends  BaseFragment implements AdapterView.OnItemClickL
 
     @Override
     public void onClick(View v) {
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(FgDaily.KEY_CITY_BEAN,mCityBean);
         switch (v.getId()){
             case R.id.fg_home_menu1://中文接送机
                 startFragment(new FgTransfer());
                 break;
             case R.id.fg_home_menu2://按天包车
-                startFragment(new FgDaily());
+                startFragment(new FgDaily(),bundle);
                 break;
             case R.id.fg_home_menu3://单次接送
-                startFragment(new FgSingle());
+                startFragment(new FgSingle(),bundle);
                 break;
         }
     }

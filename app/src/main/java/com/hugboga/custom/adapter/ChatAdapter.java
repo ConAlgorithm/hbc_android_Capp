@@ -63,9 +63,7 @@ public class ChatAdapter extends ZBaseAdapter<ChatBean, ChatVH> {
      * @param vh
      */
     private void flushPoint(ChatVH vh, ChatBean chatBean) {
-        String imCount = chatBean.imCount;
-        if (!TextUtils.isEmpty(imCount) || !"".equals(imCount.trim())) {
-            Integer ints = Integer.parseInt(imCount);
+            Integer ints = chatBean.imCount;
             if (ints > 0) {
                 vh.mUnReadCount.setVisibility(View.VISIBLE);
                 if (ints > 99) {
@@ -75,9 +73,6 @@ public class ChatAdapter extends ZBaseAdapter<ChatBean, ChatVH> {
             } else {
                 vh.mUnReadCount.setVisibility(View.GONE);
             }
-        } else {
-            vh.mUnReadCount.setVisibility(View.GONE);
-        }
     }
 
     /**

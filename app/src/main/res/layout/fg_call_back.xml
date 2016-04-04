@@ -22,6 +22,7 @@
             android:layout_marginTop="@dimen/basic_margin_xlarge"
             android:background="@drawable/textbox"
             android:hint="请留下您的宝贵意见"
+            android:maxLength="255"
             android:minLines="5"
             android:gravity="top"
             android:inputType="textMultiLine"

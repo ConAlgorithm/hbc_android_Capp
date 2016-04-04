@@ -26,7 +26,7 @@ public class ParserChatList extends ImplParser {
             chatBean.targetName = jsonObject.optString("targetName");
             chatBean.targetId = jsonObject.optString("targetId");
             chatBean.targetType = jsonObject.optString("targetType");
-            chatBean.imCount = jsonObject.optString("imCount");
+            chatBean.imCount = jsonObject.optInt("imCount");
             chatBean.message = jsonObject.optString("lastMsg");
             chatBean.timeStr = jsonObject.optString("lastTime");
             chatBean.userId = jsonObject.optString("userId");

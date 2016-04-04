@@ -13,14 +13,13 @@ import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.net.UrlLibs;
-import com.hugboga.custom.data.request.RequestResetToken;
+import com.hugboga.custom.data.request.RequestResetIMToken;
 
 import io.rong.imkit.RongContext;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.widget.provider.CameraInputProvider;
 import io.rong.imkit.widget.provider.ImageInputProvider;
 import io.rong.imkit.widget.provider.InputProvider;
-import io.rong.imkit.widget.provider.VoIPInputProvider;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.UserInfo;
@@ -79,7 +78,7 @@ public class IMUtil {
      * update token
      */
     private void requestIMTokenUpdate() {
-        RequestResetToken requestResetToken = new RequestResetToken(context);
+        RequestResetIMToken requestResetToken = new RequestResetIMToken(context);
         HttpRequestUtils.request(context, requestResetToken, httpRequestListener);
     }
 

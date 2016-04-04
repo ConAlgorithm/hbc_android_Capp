@@ -208,7 +208,7 @@
 
     <!-- sku-->
     <string name="sku_item_guide_number">%d位中文司导开车带你玩</string>
-    <string name="up">起</string>
+    <string name="up">起/车</string>
     <string name="sku_sale_number">%d人已体验</string>
 
     <!-- sku-->

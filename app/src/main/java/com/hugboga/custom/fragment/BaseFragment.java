@@ -1,14 +1,11 @@
 package com.hugboga.custom.fragment;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.text.TextPaint;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.huangbaoche.hbcframe.util.FastClickUtils;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.event.EventAction;
@@ -108,7 +105,7 @@ public abstract class BaseFragment extends com.huangbaoche.hbcframe.fragment.Bas
             tmpGoodsType = bundle.getInt(KEY_GOODS_TYPE, -1);
         }
         if (fragment != null) {
-            fragment.setTarget(this);
+            fragment.setSourceFragment(this);
             fragment.setBusinessType(tmpBusinessType == -1 ? mBusinessType : tmpBusinessType);
             fragment.setGoodsType(tmpGoodsType == -1 ? mGoodsType : tmpGoodsType);
         }

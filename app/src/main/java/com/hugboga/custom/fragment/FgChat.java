@@ -3,31 +3,39 @@ package com.hugboga.custom.fragment;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import com.huangbaoche.hbcframe.adapter.ZBaseAdapter;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
-import com.huangbaoche.hbcframe.widget.recycler.ZListPageView;
-import com.huangbaoche.hbcframe.widget.recycler.ZSwipeRefreshLayout;
+import com.huangbaoche.hbcframe.widget.ZSwipeRefreshLayout;
 import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.ChatAdapter;
+import com.hugboga.custom.adapter.NewOrderAdapter;
 import com.hugboga.custom.data.bean.ChatBean;
 import com.hugboga.custom.data.bean.ChatInfo;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.parser.ParserChatInfo;
 import com.hugboga.custom.data.request.RequestChatList;
+import com.hugboga.custom.widget.recycler.ZListPageView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import de.greenrobot.event.EventBus;
 import io.rong.imkit.RongIM;
 import io.rong.imlib.model.Conversation;
+import jp.wasabeef.recyclerview.animators.adapters.SlideInBottomAnimationAdapter;
 
 /**
  * 聊天页面
@@ -35,7 +43,7 @@ import io.rong.imlib.model.Conversation;
  */
 
 @ContentView(R.layout.fg_chat)
-public class FgChat extends BaseFragment implements View.OnClickListener, ZBaseAdapter.OnItemClickListener {
+public class FgChat extends BaseFragment implements View.OnClickListener, ZBaseAdapter.OnItemClickListener, ZListPageView.NoticeViewTask {
 
     @ViewInject(R.id.header_left_btn)
     private ImageView leftBtn;
@@ -60,12 +68,14 @@ public class FgChat extends BaseFragment implements View.OnClickListener, ZBaseA
 
     @Override
     protected void initView() {
+        MLog.e(this+" initView");
         initListView();
         if (!EventBus.getDefault().isRegistered(this))
             EventBus.getDefault().register(this);
     }
 
     private void initListView() {
+        MLog.e(this+" initListView");
         adapter = new ChatAdapter(getActivity());
         recyclerView.setAdapter(adapter);
         recyclerView.setzSwipeRefreshLayout(swipeRefreshLayout);
@@ -73,6 +83,7 @@ public class FgChat extends BaseFragment implements View.OnClickListener, ZBaseA
         RequestChatList parserChatList = new RequestChatList(getActivity());
         recyclerView.setRequestData(parserChatList);
         recyclerView.setOnItemClickListener(this);
+        recyclerView.setNoticeViewTask(this);
     }
 
     /**
@@ -87,7 +98,7 @@ public class FgChat extends BaseFragment implements View.OnClickListener, ZBaseA
 
     @Override
     public void onResume() {
-        loadData();
+//        loadData();
         super.onResume();
     }
 
@@ -131,6 +142,7 @@ public class FgChat extends BaseFragment implements View.OnClickListener, ZBaseA
 
     @Override
     public void onFragmentResult(Bundle bundle) {
+        MLog.e("onFragmentResult "+bundle);
         requestData();
     }
 
@@ -154,6 +166,7 @@ public class FgChat extends BaseFragment implements View.OnClickListener, ZBaseA
         MLog.e(this + " onEventMainThread " + action.getType());
         switch (action.getType()) {
             case CLICK_USER_LOGIN:
+            case REFRESH_CHAT_LIST:
                 requestData();
                 break;
             case CLICK_USER_LOOUT:
@@ -192,4 +205,17 @@ public class FgChat extends BaseFragment implements View.OnClickListener, ZBaseA
         return new ParserChatInfo().toJsonString(chatInfo);
     }
 
+    @Override
+    public void notice(Object object) {
+        List<ChatBean> chatBeans = ((ZBaseAdapter)((SlideInBottomAnimationAdapter) recyclerView.getAdapter()).getWrappedAdapter()).getDatas();
+        if (chatBeans != null && chatBeans.size() > 0) {
+            int totalCount = 0;
+            for (ChatBean bean : chatBeans) {
+                totalCount += bean.imCount;
+            }
+            ((MainActivity) getActivity()).setIMCount(totalCount);
+            MLog.e("totalCount = " + totalCount);
+        }
+
+    }
 }

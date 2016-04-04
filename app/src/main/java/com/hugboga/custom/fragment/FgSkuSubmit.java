@@ -22,6 +22,7 @@ import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.OrderContact;
 import com.hugboga.custom.data.bean.SkuItemBean;
+import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.request.RequestPriceSku;
 import com.hugboga.custom.data.request.RequestSubmitBase;
 import com.hugboga.custom.data.request.RequestSubmitDaily;
@@ -41,7 +42,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 /**
- *
  * SKu 下单
  * Created by admin on 2016/3/17.
  */
@@ -82,7 +82,7 @@ public class FgSkuSubmit extends BaseFragment implements View.OnClickListener {
     private SkuItemBean skuBean;
     private CityBean cityBean;
     private String serverDate;//包车日期，yyyy-MM-dd
-    private String serverTime="08:00";//时间 HH-mm
+    private String serverTime = "08:00";//时间 HH-mm
     private int adult;//成人数
     private int child;//儿童数
     private boolean needChildrenSeat = true;//是否需要儿童座椅
@@ -103,21 +103,21 @@ public class FgSkuSubmit extends BaseFragment implements View.OnClickListener {
         skuBean = (SkuItemBean) getArguments().getSerializable(FgSkuDetail.WEB_SKU);
         cityBean = (CityBean) getArguments().getSerializable(FgSkuDetail.WEB_CITY);
         MLog.e("skuBean= " + skuBean);
-        if(skuBean ==null)return;
+        if (skuBean == null) return;
         skuTitle.setText(skuBean.goodsName);
         skuLabel.setText(skuBean.places);
         skuDays.setText(getString(R.string.sku_days, skuBean.daysCount));
         SharedPre sharedPre = new SharedPre(getActivity());
         String areaCode = sharedPre.getStringValue(SharedPre.CODE);
         String phone = sharedPre.getStringValue(SharedPre.PHONE);
-        if(!TextUtils.isEmpty(areaCode)){
+        if (!TextUtils.isEmpty(areaCode)) {
             setAreaCode(areaCode);
             this.areaCode = areaCode;
         }
-        if(!TextUtils.isEmpty(phone)){
+        if (!TextUtils.isEmpty(phone)) {
             skuPhone.setText(phone);
         }
-        needChildrenSeat = cityBean!=null&&cityBean.childSeatSwitch;
+        needChildrenSeat = cityBean != null && cityBean.childSeatSwitch;
     }
 
     @Override
@@ -148,23 +148,28 @@ public class FgSkuSubmit extends BaseFragment implements View.OnClickListener {
             R.id.sku_info_call_2,
             R.id.bottom_bar_btn
     })
-    private void onClickView(View view){
-        switch (view.getId()){
+    private void onClickView(View view) {
+        switch (view.getId()) {
             case R.id.sku_start_day_layout://开始日期
             case R.id.sku_start_day_edit://开始日期
                 showDaySelect();
                 break;
             case R.id.sku_car_type_layout://车型
             case R.id.sku_car_type_edit://车型
-                if(carListBean==null){
-                    Toast.makeText(getActivity(),"请先选择日期",Toast.LENGTH_LONG).show();
+                if (carListBean == null) {
+                    Toast.makeText(getActivity(), "请先选择日期", Toast.LENGTH_LONG).show();
                     return;
                 }
-                if(fgCarSuk == null){
-                    fgCarSuk = new FgCarSuk();}
+                if (carListBean.carList == null || carListBean.carList.isEmpty()) {
+                    Toast.makeText(getActivity(), "请先选择日期", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                if (fgCarSuk == null) {
+                    fgCarSuk = new FgCarSuk();
+                }
                 Bundle bundle = new Bundle();
-                bundle.putSerializable(FgCarSuk.KEY_CAR_LIST,carListBean);
-                startFragment(fgCarSuk,bundle);
+                bundle.putSerializable(FgCarSuk.KEY_CAR_LIST, carListBean);
+                startFragment(fgCarSuk, bundle);
                 break;
             case R.id.sku_start_time_layout://开时时间,默认8:00
             case R.id.sku_start_time_edit://开时时间,默认8:00
@@ -199,16 +204,16 @@ public class FgSkuSubmit extends BaseFragment implements View.OnClickListener {
                 bundle.putString(KEY_FROM, "from");
                 bundle.putInt(FgPoiSearch.KEY_CITY_ID, skuBean.depCityId);
                 bundle.putString(FgPoiSearch.KEY_LOCATION, cityBean.location);
-                startFragment(fg,bundle);
+                startFragment(fg, bundle);
                 break;
             case R.id.sku_area_code://电话 区号
                 startFragment(new FgChooseCountry());
                 break;
             case R.id.sku_info_call_1://电话 国内
-                PhoneInfo.CallDial(getActivity(),Constants.CALL_NUMBER_IN);
+                PhoneInfo.CallDial(getActivity(), Constants.CALL_NUMBER_IN);
                 break;
             case R.id.sku_info_call_2://电话 境外
-                PhoneInfo.CallDial(getActivity(),Constants.CALL_NUMBER_OUT);
+                PhoneInfo.CallDial(getActivity(), Constants.CALL_NUMBER_OUT);
                 break;
             case R.id.bottom_bar_btn:
                 submit();
@@ -219,7 +224,7 @@ public class FgSkuSubmit extends BaseFragment implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.popup_order_children_item_sub:
                 int index = (int) view.getTag();
                 if (childrenSeatNumbers[index] > 0) {
@@ -252,31 +257,32 @@ public class FgSkuSubmit extends BaseFragment implements View.OnClickListener {
     @Override
     public void onFragmentResult(Bundle bundle) {
         String from = bundle.getString(KEY_FRAGMENT_NAME);
-        if(FgCarSuk.class.getSimpleName().equals(from)){
-           int carTypePosition = bundle.getInt(FgCarSuk.KYE_POSITION);
-            if(carTypePosition<carListBean.carList.size()&&carTypePosition>=0){
+        if (FgCarSuk.class.getSimpleName().equals(from)) {
+            int carTypePosition = bundle.getInt(FgCarSuk.KYE_POSITION);
+            if (carTypePosition < carListBean.carList.size() && carTypePosition >= 0) {
                 CarBean carBean = carListBean.carList.get(carTypePosition);
-                if(carBean!=null){
+                if (carBean != null) {
                     carTypeBean = carBean;
                     skuCarTypeEdit.setText(carTypeBean.desc);
-                    totalPrice.setText(""+carTypeBean.originalPrice);
+                    totalPrice.setText("" + carTypeBean.originalPrice);
                 }
             }
 
-        }else if(FgChooseCountry.class.getSimpleName().equals(from)){
-           areaCode =  bundle.getString(FgChooseCountry.KEY_COUNTRY_CODE);
-           String areaCodeName =  bundle.getString(FgChooseCountry.KEY_COUNTRY_NAME);
-           setAreaCode(areaCode);
-        }else if(FgPoiSearch.class.getSimpleName().equals(from)){
+        } else if (FgChooseCountry.class.getSimpleName().equals(from)) {
+            areaCode = bundle.getString(FgChooseCountry.KEY_COUNTRY_CODE);
+            String areaCodeName = bundle.getString(FgChooseCountry.KEY_COUNTRY_NAME);
+            setAreaCode(areaCode);
+        } else if (FgPoiSearch.class.getSimpleName().equals(from)) {
             startPoiBean = (PoiBean) bundle.getSerializable(FgPoiSearch.KEY_ARRIVAL);
-            if(startPoiBean!=null){
+            if (startPoiBean != null) {
+                MLog.e("placeName = "+startPoiBean.placeName+" location ="+startPoiBean.location);
                 skuStartAddress.setText(startPoiBean.placeName);
             }
         }
     }
 
-    private void setAreaCode(String areaCode){
-        String input = "+"+areaCode+" ｜";
+    private void setAreaCode(String areaCode) {
+        String input = "+" + areaCode + " ｜";
         skuAreaCode.setText(input);
     }
 
@@ -284,10 +290,14 @@ public class FgSkuSubmit extends BaseFragment implements View.OnClickListener {
      * 下单
      */
     private void submit() {
-        if(checkInput()){
-            OrderBean orderBean =  getOrderByInput();
-            RequestSubmitDaily request = new RequestSubmitDaily(getActivity(),orderBean);
-            requestData(request);
+        if (checkInput()) {
+            if (UserEntity.getUser().isLogin(getActivity())) {
+                OrderBean orderBean = getOrderByInput();
+                RequestSubmitDaily request = new RequestSubmitDaily(getActivity(), orderBean);
+                requestData(request);
+            }else{
+                startFragment(new FgLogin());
+            }
         }
 
     }
@@ -295,12 +305,12 @@ public class FgSkuSubmit extends BaseFragment implements View.OnClickListener {
     private OrderBean getOrderByInput() {
         OrderBean orderBean = new OrderBean();//订单
         orderBean.orderType = 5;
-        orderBean.goodsNo =skuBean.goodsNo;
-        orderBean.lineSubject =skuBean.goodsName;
-        orderBean.lineDescription =skuBean.salePoints;
+        orderBean.goodsNo = skuBean.goodsNo;
+        orderBean.lineSubject = skuBean.goodsName;
+        orderBean.lineDescription = skuBean.salePoints;
         orderBean.orderGoodsType = skuBean.goodsType;
         orderBean.serviceTime = serverDate;//日期
-        orderBean.serviceStartTime = serverTime+":00";//时间
+        orderBean.serviceStartTime = serverTime + ":00";//时间
         orderBean.serviceEndTime = getServiceEndTime(serverDate, skuBean.daysCount - 1);
         orderBean.distance = String.valueOf(carListBean.distance);//距离
         orderBean.expectedCompTime = carListBean.interval;//耗时
@@ -312,7 +322,7 @@ public class FgSkuSubmit extends BaseFragment implements View.OnClickListener {
         orderBean.urgentFlag = carTypeBean.urgentFlag;
         orderBean.adult = adult;//成人数
         orderBean.child = child;//儿童数
-        orderBean.childSeat= new ArrayList<>();
+        orderBean.childSeat = new ArrayList<>();
         for (int i = 0; i < childrenSeatNumbers.length; i++) {
             if (childrenSeatNumbers[i] != 0)
                 orderBean.childSeat.add((i + 1) + "-" + childrenSeatNumbers[i]);
@@ -333,36 +343,32 @@ public class FgSkuSubmit extends BaseFragment implements View.OnClickListener {
         orderBean.serviceCityId = skuBean.depCityId;
         orderBean.serviceCityName = skuBean.depCityName;
         //出发地，到达地经纬度
-        orderBean.startLocation = null;
         orderBean.terminalLocation = null;
-        orderBean.startAddress = startPoiBean.placeName;
-        orderBean.startAddressDetail= startPoiBean.placeDetail;
-        orderBean.startLocation=startPoiBean.location;//起始位置
         orderBean.destAddress = skuBean.arrCityName;
         orderBean.serviceEndCityid = skuBean.arrCityId;
         orderBean.serviceEndCityName = skuBean.arrCityName;
         orderBean.totalDays = skuBean.daysCount;
-        orderBean.oneCityTravel = skuBean.goodsType==3?1:2;//1：市内畅游  2：跨城市
+        orderBean.oneCityTravel = skuBean.goodsType == 3 ? 1 : 2;//1：市内畅游  2：跨城市
         orderBean.isHalfDaily = 0;
-        orderBean.inTownDays =skuBean.goodsType==3 ? skuBean.daysCount:0;
-        orderBean.outTownDays = skuBean.goodsType==3 ? 0:skuBean.daysCount;
+        orderBean.inTownDays = skuBean.goodsType == 3 ? skuBean.daysCount : 0;
+        orderBean.outTownDays = skuBean.goodsType == 3 ? 0 : skuBean.daysCount;
         orderBean.skuPoi = getPoiStr();
         orderBean.stayCityListStr = getPassCityStr();
-        
+
         return orderBean;
     }
 
-    private String getServiceEndTime(String date,int day) {
+    private String getServiceEndTime(String date, int day) {
         try {
-        String[] ymd = date.split("-");
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Integer.valueOf(ymd[0]), Integer.valueOf(ymd[1]), Integer.valueOf(ymd[2]));
+            String[] ymd = date.split("-");
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Integer.valueOf(ymd[0]), Integer.valueOf(ymd[1]), Integer.valueOf(ymd[2]));
             calendar.add(Calendar.DAY_OF_YEAR, day);
-           return DateUtils.dateDateFormat.format(calendar.getTime());
-        }catch (Exception e){
-            MLog.e("解析时间格式错误",e);
+            return DateUtils.dateDateFormat.format(calendar.getTime());
+        } catch (Exception e) {
+            MLog.e("解析时间格式错误", e);
         }
-         return null;
+        return null;
     }
 
     private String getPassCityStr() {
@@ -381,32 +387,32 @@ public class FgSkuSubmit extends BaseFragment implements View.OnClickListener {
 
     private boolean checkInput() {
 
-        if(TextUtils.isEmpty(serverDate)){
-            Toast.makeText(getActivity(),"请选择服务时间",Toast.LENGTH_LONG).show();
+        if (TextUtils.isEmpty(serverDate)) {
+            Toast.makeText(getActivity(), "请选择服务时间", Toast.LENGTH_LONG).show();
             return false;
         }
 
-        if(carTypeBean==null){
-            Toast.makeText(getActivity(),"请选择服务车型",Toast.LENGTH_LONG).show();
+        if (carTypeBean == null) {
+            Toast.makeText(getActivity(), "请选择服务车型", Toast.LENGTH_LONG).show();
             return false;
         }
 
-        if(adult==0){
-            Toast.makeText(getActivity(),"请选择成人数量",Toast.LENGTH_LONG).show();
+        if (adult == 0) {
+            Toast.makeText(getActivity(), "请选择成人数量", Toast.LENGTH_LONG).show();
             return false;
         }
 
         String contactName = skuUserName.getText().toString().trim();
         if (TextUtils.isEmpty(contactName)) {
-            Toast.makeText(getActivity(),"请填写联系人姓名",Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), "请填写联系人姓名", Toast.LENGTH_LONG).show();
             return false;
         }
-        if(TextUtils.isEmpty(areaCode)){
-            Toast.makeText(getActivity(),"请选择区号",Toast.LENGTH_LONG).show();
+        if (TextUtils.isEmpty(areaCode)) {
+            Toast.makeText(getActivity(), "请选择区号", Toast.LENGTH_LONG).show();
             return false;
         }
-        if(TextUtils.isEmpty(skuPhone.getText().toString().trim())){
-            Toast.makeText(getActivity(),"请填写联系电话",Toast.LENGTH_LONG).show();
+        if (TextUtils.isEmpty(skuPhone.getText().toString().trim())) {
+            Toast.makeText(getActivity(), "请填写联系电话", Toast.LENGTH_LONG).show();
             return false;
         }
         return true;
@@ -414,7 +420,7 @@ public class FgSkuSubmit extends BaseFragment implements View.OnClickListener {
 
 
     public void showDaySelect() {
-        Calendar cal =Calendar.getInstance();
+        Calendar cal = Calendar.getInstance();
         DatePickerDialog dpd = DatePickerDialog.newInstance(
                 new MyDatePickerListener(),
                 cal.get(Calendar.YEAR),
@@ -438,9 +444,9 @@ public class FgSkuSubmit extends BaseFragment implements View.OnClickListener {
     class MyDatePickerListener implements DatePickerDialog.OnDateSetListener {
         @Override
         public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-            int month = monthOfYear+1;
-            String monthStr = String.format("%02d",month);
-            String dayOfMonthStr = String.format("%02d",dayOfMonth);
+            int month = monthOfYear + 1;
+            String monthStr = String.format("%02d", month);
+            String dayOfMonthStr = String.format("%02d", dayOfMonth);
             serverDate = year + "-" + monthStr + "-" + dayOfMonthStr;
             skuStartDayEdit.setText(serverDate);
             requestCarList();//选完时间自动请求车型
@@ -452,12 +458,13 @@ public class FgSkuSubmit extends BaseFragment implements View.OnClickListener {
      * 时间选择器
      */
     public void showTimeSelect() {
-        Calendar cal =Calendar.getInstance();
+        Calendar cal = Calendar.getInstance();
         MyTimePickerDialogListener myTimePickerDialog = new MyTimePickerDialogListener();
         com.wdullaer.materialdatetimepicker.time.TimePickerDialog datePickerDialog = com.wdullaer.materialdatetimepicker.time.TimePickerDialog.newInstance(myTimePickerDialog, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), true);
         datePickerDialog.setAccentColor(getActivity().getResources().getColor(R.color.all_bg_yellow));
         datePickerDialog.show(this.getActivity().getFragmentManager(), "TimePickerDialog");                //显示日期设置对话框
     }
+
     /*
          * Function  :       自定义MyDatePickerDialog类，用于实现DatePickerDialog.OnDateSetListener接口，
          *                           当点击日期设置对话框中的“设置”按钮时触发该接口方法
@@ -475,28 +482,29 @@ public class FgSkuSubmit extends BaseFragment implements View.OnClickListener {
     /**
      * 请求车型
      */
-    private void requestCarList(){
-        String serverDayTime = serverDate +" "+serverTime+":00";
-        MLog.e("serverDayTime= "+serverDayTime);
-        RequestPriceSku request = new RequestPriceSku(getActivity(),skuBean.goodsNo,serverDayTime);
+    private void requestCarList() {
+        String serverDayTime = serverDate + " " + serverTime + ":00";
+        MLog.e("serverDayTime= " + serverDayTime);
+        RequestPriceSku request = new RequestPriceSku(getActivity(), skuBean.goodsNo, serverDayTime);
         requestData(request);
     }
 
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
-        if(request instanceof RequestPriceSku){
-            carListBean= ((RequestPriceSku) request).getData();
-            if(fgCarSuk == null){
-                fgCarSuk = new FgCarSuk();}
+        if (request instanceof RequestPriceSku) {
+            carListBean = ((RequestPriceSku) request).getData();
+            if (fgCarSuk == null) {
+                fgCarSuk = new FgCarSuk();
+            }
             Bundle bundle = new Bundle();
-            bundle.putSerializable(FgCarSuk.KEY_CAR_LIST,carListBean);
-            startFragment(fgCarSuk,bundle);
-        }else if(request instanceof RequestSubmitBase){
-            bringToFront(FgTravel.class,new Bundle());
+            bundle.putSerializable(FgCarSuk.KEY_CAR_LIST, carListBean);
+            startFragment(fgCarSuk, bundle);
+        } else if (request instanceof RequestSubmitBase) {
+            bringToFront(FgTravel.class, new Bundle());
             String orderNo = ((RequestSubmitBase) request).getData();
             Bundle bundle = new Bundle();
             bundle.putString(FgOrder.KEY_ORDER_ID, orderNo);
-            startFragment(new FgOrder(),bundle);
+            startFragment(new FgOrder(), bundle);
 
         }
 

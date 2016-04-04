@@ -64,7 +64,7 @@ public class RequestSubmitBase extends BaseRequest<String> {
         }
         if (orderBean.contact.size()>1&&orderBean.contact.get(1) != null) {
             map.put("userAreaCode2", orderBean.contact.get(1).areaCode);
-            map.put("", orderBean.contact.get(1).tel);
+            map.put("userMobile2", orderBean.contact.get(1).tel);
         }
         if (orderBean.contact.size()>2&&orderBean.contact.get(2) != null) {
             map.put("userAreaCode3", orderBean.contact.get(2).areaCode);

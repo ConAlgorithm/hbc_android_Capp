@@ -6,6 +6,7 @@ import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.viewholder.ZBaseViewHolder;
 import com.hugboga.custom.R;
+import com.hugboga.custom.widget.STGVImageView;
 
 import org.xutils.view.annotation.ViewInject;
 
@@ -20,7 +21,7 @@ public class HomeVH extends ZBaseViewHolder {
     @ViewInject(R.id.item_home_sub_title)
     public TextView tvSubTitle;
     @ViewInject(R.id.item_home_img)
-    public ImageView imgBg;
+    public STGVImageView imgBg;
     @ViewInject(R.id.split_line)
     public View splitLine;
 

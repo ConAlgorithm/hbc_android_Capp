@@ -5,14 +5,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.huangbaoche.hbcframe.activity.BaseFragmentActivity;
 import com.huangbaoche.hbcframe.data.net.ErrorHandler;
@@ -27,7 +25,6 @@ import org.xutils.common.Callback;
 import org.xutils.x;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
 public abstract class BaseFragment extends Fragment implements HttpRequestListener, View.OnTouchListener {
@@ -41,7 +38,7 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
     private boolean injected = false;
     private boolean initView = false;
     private ErrorHandler errorHandler;
-    protected Fragment mSourceFragment;//fragment来源，从哪个跳转来的
+    protected BaseFragment mSourceFragment;//fragment来源，从哪个跳转来的
     private ArrayList<EditText> editTextArray = new ArrayList<EditText>();
 
     private View contentView;
@@ -49,9 +46,9 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         injected = true;
-        if(contentView ==null)
-        contentView = x.view().inject(this, inflater, container);
-        MLog.i(this + "onCreateView "+contentView);
+        if (contentView == null)
+            contentView = x.view().inject(this, inflater, container);
+        MLog.i(this + "onCreateView " + contentView);
         return contentView;
     }
 
@@ -62,7 +59,7 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
         if (!injected) {
             x.view().inject(this, this.getView());
         }
-        if(!initView){
+        if (!initView) {
             initView = true;
             getView().setOnTouchListener(this);
             initHeader();
@@ -75,10 +72,10 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
     public void onStart() {
         super.onStart();
         MLog.i(this + " onStart");
-        if(needHttpRequest){
+        if (needHttpRequest) {
             needHttpRequest = false;
             cancelable = requestData();
-        }else {
+        } else {
             inflateContent();
         }
     }
@@ -117,8 +114,8 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if(contentView !=null&&contentView.getParent()!=null) {
-            MLog.i(this+" onDestroyView");
+        if (contentView != null && contentView.getParent() != null) {
+            MLog.i(this + " onDestroyView");
             ((ViewGroup) contentView.getParent()).removeView(contentView);
         }
     }
@@ -127,7 +124,7 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
     public void onDestroy() {
         super.onDestroy();
         MLog.i(this + " onDestroy");
-        if(cancelable!=null){
+        if (cancelable != null) {
             cancelable.cancel();
         }
     }
@@ -136,8 +133,8 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
     @Override
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
         needHttpRequest = true;
-        if(errorHandler==null){
-            errorHandler = new ErrorHandler(getActivity(),this);
+        if (errorHandler == null) {
+            errorHandler = new ErrorHandler(getActivity(), this);
         }
         errorHandler.onDataRequestError(errorInfo, request);
         errorHandler = null;
@@ -162,6 +159,7 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
      * @param bundle 参数
      */
     public void onFragmentResult(Bundle bundle) {
+        MLog.e(this + " onFragmentResult");
     }
 
 
@@ -180,10 +178,12 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
      * 请求方法 会在加载时调用
      */
     protected abstract Callback.Cancelable requestData();
+
     /**
      * 填充内容，在执行onRestart的时候调用
      */
     protected abstract void inflateContent();
+
     /**
      * 请求方法 会在加载完成是调用
      */
@@ -194,6 +194,7 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
 
     /**
      * 设置 错误处理
+     *
      * @param errorHandler
      */
     public void setErrorHandler(ErrorHandler errorHandler) {
@@ -202,28 +203,30 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
 
     /**
      * 启动新的fragment
+     *
      * @param fragment
      */
     public void startFragment(BaseFragment fragment) {
         Bundle bundle = fragment.getArguments();
-        bundle = bundle ==null?new Bundle():bundle;
+        bundle = bundle == null ? new Bundle() : bundle;
         startFragment(fragment, bundle);
     }
 
-    public void startFragment(BaseFragment fragment,Bundle bundle) {
-        if(FastClickUtils.isFastClick()) {
+    public void startFragment(BaseFragment fragment, Bundle bundle) {
+        if (FastClickUtils.isFastClick()) {
             return;
         }
-        MLog.e("startFragment "+this);
+        MLog.e("startFragment " + this);
         if (fragment == null) return;
-        if (getContentId() == -1) throw new RuntimeException("BaseFragment ContentId not null, BaseFragment.setContentId(int)");
+        if (getContentId() == -1)
+            throw new RuntimeException("BaseFragment ContentId not null, BaseFragment.setContentId(int)");
         ((BaseFragmentActivity) getActivity()).addFragment(fragment);
         collapseSoftInputMethod();
         editTextClearFocus();
-        if(bundle!=null){
+        if (bundle != null) {
             fragment.setArguments(bundle);
         }
-            fragment.setTarget(this);
+        fragment.setSourceFragment(this);
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.add(contentId, fragment);
         transaction.addToBackStack(null);
@@ -235,15 +238,17 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
      * 将fragment从后台堆栈中弹出,  (模拟用户按下BACK 命令).
      */
     public void finish() {
+        collapseSoftInputMethod();
         //将fragment从后台堆栈中弹出,  (模拟用户按下BACK 命令).
-        if(getFragmentManager()==null)return;
+        if (getFragmentManager() == null) return;
         getFragmentManager().popBackStack();
-        Fragment fragment = this.getTarget();
+        Fragment fragment = this.geSourceFragment();
         if (fragment != null && fragment instanceof BaseFragment) {
             ((BaseFragment) fragment).onResume();
         }
         ((BaseFragmentActivity) getActivity()).removeFragment(this);
     }
+
     /**
      * 回传数据使用，启动fragment 在 onFragmentResult中接收数据
      *
@@ -253,12 +258,12 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
         collapseSoftInputMethod();
         finish();
         Bundle mBundle = new Bundle();
-        if(getArguments()!=null) mBundle.putAll(getArguments());
-        if (bundle != null )mBundle.putAll(bundle);
+        if (getArguments() != null) mBundle.putAll(getArguments());
+        if (bundle != null) mBundle.putAll(bundle);
         mBundle.putString(KEY_FRAGMENT_NAME, this.getClass().getSimpleName());
-        Fragment fragment = this.getTarget();
-        if (fragment != null && fragment instanceof BaseFragment) {
-            ((BaseFragment) fragment).onFragmentResult(mBundle);
+        BaseFragment fragment = this.geSourceFragment();
+        if (fragment != null ) {
+            fragment.onFragmentResult(mBundle);
         }
         MLog.i(this + " finishForResult " + fragment);
 
@@ -272,51 +277,52 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
 
 
     /**
-     *启动页面，如果有，从栈提到最上面，上面的都关闭；如果没有则新建
+     * 启动页面，如果有，从栈提到最上面，上面的都关闭；如果没有则新建
      */
-    public void  bringToFront(Class fragment, Bundle bundle){
+    public void bringToFront(Class fragment, Bundle bundle) {
         collapseSoftInputMethod();
-        if(getActivity() instanceof BaseFragmentActivity){
+        if (getActivity() instanceof BaseFragmentActivity) {
 
-        ArrayList<BaseFragment> fragmentList = ((BaseFragmentActivity) getActivity()).getFragmentList();
-        BaseFragment targetFg = null;
-        for(Fragment fg:fragmentList){
-            if(fragment.isInstance(fg)){
-                targetFg = (BaseFragment) fg;
-                break;
-            }
-        }
-        if(targetFg!=null){
-            for(int i=fragmentList.size()-1;i>=0;i--){
-                BaseFragment fg = (BaseFragment)fragmentList.get(i);
-                if(fg!=targetFg) {
-                    if(fg!=null)
-                        fg.finish();
-                }else
+            ArrayList<BaseFragment> fragmentList = ((BaseFragmentActivity) getActivity()).getFragmentList();
+            BaseFragment targetFg = null;
+            for (Fragment fg : fragmentList) {
+                if (fragment.isInstance(fg)) {
+                    targetFg = (BaseFragment) fg;
                     break;
+                }
             }
-            targetFg.onFragmentResult(bundle);
-        }else{
-            try {
-                BaseFragment fg = (BaseFragment) fragment.newInstance();
-                startFragment(fg,bundle);
-            } catch (java.lang.InstantiationException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
+            if (targetFg != null) {
+                for (int i = fragmentList.size() - 1; i >= 0; i--) {
+                    BaseFragment fg = (BaseFragment) fragmentList.get(i);
+                    if (fg != targetFg) {
+                        if (fg != null)
+                            fg.finish();
+                    } else
+                        break;
+                }
+                targetFg.onFragmentResult(bundle);
+            } else {
+                try {
+                    BaseFragment fg = (BaseFragment) fragment.newInstance();
+                    startFragment(fg, bundle);
+                } catch (java.lang.InstantiationException e) {
+                    e.printStackTrace();
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
             }
-        }
 
         }
     }
 
     /**
      * 点击 back键的时候触发该方法，如果返回false，返回事件交给上层处理。如果返回true，则表示自己处理事件
+     *
      * @return
      */
-    public boolean onBackPressed(){
+    public boolean onBackPressed() {
         MLog.e(this + "onBackPressed");
-        if(cancelable!=null)
+        if (cancelable != null)
             cancelable.cancel();
         return false;
     }
@@ -333,11 +339,12 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
         InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.showSoftInput(inputText, InputMethodManager.SHOW_IMPLICIT);
     }
+
     /**
      * 收起软键盘
      */
     public void collapseSoftInputMethod() {
-        if(getActivity()!=null) {
+        if (getActivity() != null) {
             InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
             if (imm != null && getView() != null)
                 imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
@@ -348,18 +355,18 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
      * 取消光标
      */
     public void editTextClearFocus() {
-        if(editTextArray!=null&&editTextArray.size()>0){
-            for(EditText editText:editTextArray){
+        if (editTextArray != null && editTextArray.size() > 0) {
+            for (EditText editText : editTextArray) {
                 editText.clearFocus();
             }
         }
     }
 
-    public Fragment getTarget() {
+    public BaseFragment geSourceFragment() {
         return mSourceFragment;
     }
 
-    public void setTarget(Fragment mTargetFragment) {
+    public void setSourceFragment(BaseFragment mTargetFragment) {
         this.mSourceFragment = mTargetFragment;
     }
 
@@ -378,16 +385,17 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
 
     /**
      * 通知 栈里的 fragment 更新数据 会调用 onFragmentResult
+     *
      * @param fragment
      * @param bundle
      */
-    public void notifyFragment(Class fragment,Bundle bundle){
-        ArrayList<BaseFragment> fragmentList = ((BaseFragmentActivity)getActivity()).getFragmentList();
-        for(int i=fragmentList.size()-1;i>=0;i--){
-            BaseFragment fg = (BaseFragment)fragmentList.get(i);
-            if(fragment.isInstance(fg)) {
-                if(bundle!=null){
-                    bundle.putString(KEY_FROM,this.getClass().getSimpleName());
+    public void notifyFragment(Class fragment, Bundle bundle) {
+        ArrayList<BaseFragment> fragmentList = ((BaseFragmentActivity) getActivity()).getFragmentList();
+        for (int i = fragmentList.size() - 1; i >= 0; i--) {
+            BaseFragment fg = (BaseFragment) fragmentList.get(i);
+            if (fragment.isInstance(fg)) {
+                if (bundle != null) {
+                    bundle.putString(KEY_FROM, this.getClass().getSimpleName());
                 }
                 fg.onFragmentResult(bundle);
                 break;

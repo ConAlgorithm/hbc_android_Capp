@@ -62,8 +62,8 @@ public class FgChangePsw extends BaseFragment {
                     newPwdEditText.requestFocus();
                     return;
                 }
-                if (!Pattern.matches("[\\w]{4,16}", password)) {
-                    showTip("密码必须是4-16位数字或字母");
+                if (!Pattern.matches("[\\w]{6,16}", password)) {
+                    showTip("密码必须是6-16位数字或字母");
                     return;
                 }
                 String repassword = rewPwdEditText.getText().toString();

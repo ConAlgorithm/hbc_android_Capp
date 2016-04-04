@@ -14,7 +14,7 @@ public class ChatBean {
     public String targetType; //目标类型
     public String message; //消息
     public String timeStr; //时间
-    public String imCount; //未读消息数
+    public int imCount; //未读消息数
     public String userId; //用户ID
     public String userType; //用户类型
     public List<ChatOrderBean> orders; //私信显示订单
