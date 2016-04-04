@@ -35,6 +35,8 @@ public class HomeAdapter extends ZHeadFootAdapter<HomeBean, HomeVH> {
         super(context);
         this.fgHome = fgHome;
         options = new ImageOptions.Builder()
+                .setSize(720,334)
+                .setCrop(true)
                 .setLoadingDrawableId(R.mipmap.img_undertext)
                 .setFailureDrawableId(R.mipmap.img_undertext)
                 .build();
@@ -83,8 +85,6 @@ public class HomeAdapter extends ZHeadFootAdapter<HomeBean, HomeVH> {
             } else {
                 vh.splitLine.setVisibility(View.GONE);
             }
-            vh.imgBg.mWidth = 750;
-            vh.imgBg.mHeight = 400;
             x.image().bind(vh.imgBg, homeBean.picture, options);
         }
     }
