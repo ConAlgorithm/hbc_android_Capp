@@ -93,7 +93,7 @@ public class ZListPageView extends ZListRecyclerView implements IPageList {
                     LayoutManager layoutManager = getLayoutManager();
                     int lastVisibleItem = ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();
                     int totalItemCount = layoutManager.getItemCount();
-                    if (lastVisibleItem >= totalItemCount - 2 && dy > 0) {
+                    if (lastVisibleItem >= totalItemCount - 1 && dy > 0) {
                         showPageNext();
                     }
                 }
