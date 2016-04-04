@@ -1,4 +1,4 @@
-package com.huangbaoche.hbcframe.widget;
+package com.huangbaoche.hbcframe.widget.recycler;
 
 import android.graphics.Rect;
 import android.support.v7.widget.RecyclerView;
