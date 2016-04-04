@@ -5,10 +5,13 @@
  */
 package com.hugboga.custom.utils;
 
+import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.os.Environment;
 import android.util.Base64;
+import android.util.DisplayMetrics;
 import android.util.Log;
 
 import com.hugboga.custom.constants.Constants;
@@ -49,6 +52,32 @@ public class ImageUtils {
         } else {
             Log.i("ERROR:", "SD卡不存在");
         }
+    }
+
+
+    /**
+     * 根据屏幕宽度生成图片的高
+     * @param width  原始width
+     * @param height 原始height
+     */
+    public static int getResizeHeight(Context context, int width , int height) {
+        if (width == 0 || height == 0){
+            return 0;
+        }
+        int screenWidth = getScreenWidth(context);
+        return screenWidth * height / width;
+    }
+
+
+    /**
+     * 获取手机屏幕width
+     * @param context
+     * @return
+     */
+    public static int getScreenWidth(Context context){
+        Resources resources = context.getResources();
+        DisplayMetrics dm = resources.getDisplayMetrics();
+        return dm.widthPixels;
     }
 
 }

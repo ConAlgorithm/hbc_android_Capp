@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <com.hugboga.custom.widget.STGVImageView
+    <ImageView
         android:id="@+id/item_home_img"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

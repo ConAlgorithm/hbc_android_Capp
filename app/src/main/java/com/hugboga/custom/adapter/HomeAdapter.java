@@ -18,6 +18,7 @@ import com.hugboga.custom.adapter.viewholder.HomeVH;
 import com.hugboga.custom.data.bean.ChatBean;
 import com.hugboga.custom.data.bean.HomeBean;
 import com.hugboga.custom.fragment.FgHome;
+import com.hugboga.custom.utils.ImageUtils;
 
 import org.xutils.image.ImageOptions;
 import org.xutils.x;
@@ -35,6 +36,8 @@ public class HomeAdapter extends ZHeadFootAdapter<HomeBean, HomeVH> {
         super(context);
         this.fgHome = fgHome;
         options = new ImageOptions.Builder()
+                .setSize(ImageUtils.getScreenWidth(context),ImageUtils.getResizeHeight(context,720,334))
+                .setCrop(true)
                 .setLoadingDrawableId(R.mipmap.img_undertext)
                 .setFailureDrawableId(R.mipmap.img_undertext)
                 .build();
@@ -83,8 +86,6 @@ public class HomeAdapter extends ZHeadFootAdapter<HomeBean, HomeVH> {
             } else {
                 vh.splitLine.setVisibility(View.GONE);
             }
-            vh.imgBg.mWidth = 750;
-            vh.imgBg.mHeight = 400;
             x.image().bind(vh.imgBg, homeBean.picture, options);
         }
     }

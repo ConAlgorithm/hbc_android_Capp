@@ -21,7 +21,7 @@ public class HomeVH extends ZBaseViewHolder {
     @ViewInject(R.id.item_home_sub_title)
     public TextView tvSubTitle;
     @ViewInject(R.id.item_home_img)
-    public STGVImageView imgBg;
+    public ImageView imgBg;
     @ViewInject(R.id.split_line)
     public View splitLine;
 

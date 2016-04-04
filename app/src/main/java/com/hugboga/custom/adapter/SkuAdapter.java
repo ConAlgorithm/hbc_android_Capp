@@ -13,6 +13,7 @@ import com.huangbaoche.hbcframe.data.net.DefaultImageCallback;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.SkuItemBean;
+import com.hugboga.custom.utils.ImageUtils;
 import com.hugboga.custom.widget.STGVImageView;
 
 import org.w3c.dom.Text;
@@ -29,6 +30,9 @@ public class SkuAdapter extends BaseAdapter<SkuItemBean> {
     public SkuAdapter(Context context) {
         super(context);
         options = new ImageOptions.Builder()
+                .setSize(ImageUtils.getScreenWidth(context),ImageUtils.getResizeHeight(context,750,300))
+                .setImageScaleType(ImageView.ScaleType.CENTER_CROP)
+                .setCrop(true)
                 .setFailureDrawableId(R.mipmap.img_undertext)
                 .setLoadingDrawableId(R.mipmap.img_undertext)
                 .build();
@@ -44,7 +48,7 @@ public class SkuAdapter extends BaseAdapter<SkuItemBean> {
             viewHolder.tvGuide = (TextView) view.findViewById(R.id.item_sku_guide_number);
             viewHolder.tvAmount = (TextView) view.findViewById(R.id.item_sku_amount);
             viewHolder.tvSale = (TextView) view.findViewById(R.id.item_sku_sale);
-            viewHolder.imgBg = (STGVImageView) view.findViewById(R.id.item_city_sku_img);
+            viewHolder.imgBg = (ImageView) view.findViewById(R.id.item_city_sku_img);
             viewHolder.top_line = (TextView) view.findViewById(R.id.top_line);
             view.setTag(viewHolder);
         } else {
@@ -65,8 +69,6 @@ public class SkuAdapter extends BaseAdapter<SkuItemBean> {
             viewHolder.tvGuide.setVisibility(bean.guideAmount == 0 ? View.INVISIBLE : View.VISIBLE);
             viewHolder.tvSale.setVisibility(bean.saleAmount == 0 ? View.INVISIBLE : View.VISIBLE);
 
-            viewHolder.imgBg.mHeight = 400;
-            viewHolder.imgBg.mWidth = 750;
             x.image().bind(viewHolder.imgBg, bean.goodsPicture, options);
         }
 
@@ -74,7 +76,7 @@ public class SkuAdapter extends BaseAdapter<SkuItemBean> {
     }
 
     final static class ViewHolder {
-        STGVImageView imgBg;
+        ImageView imgBg;
         TextView tvTitle;
         TextView tvLabel;
         TextView tvGuide;
