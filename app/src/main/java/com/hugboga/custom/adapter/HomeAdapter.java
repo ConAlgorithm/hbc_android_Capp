@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.adapter.BaseAdapter;
@@ -30,17 +31,17 @@ import org.xutils.x;
 public class HomeAdapter extends ZHeadFootAdapter<HomeBean, HomeVH> {
 
     FgHome fgHome;
-    private final ImageOptions options;
+//    private final ImageOptions options;
 
     public HomeAdapter(Context context, FgHome fgHome) {
         super(context);
         this.fgHome = fgHome;
-        options = new ImageOptions.Builder()
-                .setSize(ImageUtils.getScreenWidth(context),ImageUtils.getResizeHeight(context,720,334))
-                .setCrop(true)
-                .setLoadingDrawableId(R.mipmap.img_undertext)
-                .setFailureDrawableId(R.mipmap.img_undertext)
-                .build();
+//        options = new ImageOptions.Builder()
+//                .setSize(ImageUtils.getScreenWidth(context),ImageUtils.getResizeHeight(context,720,334))
+//                .setCrop(true)
+//                .setLoadingDrawableId(R.mipmap.img_undertext)
+//                .setFailureDrawableId(R.mipmap.img_undertext)
+//                .build();
     }
 
     @Override
@@ -86,7 +87,10 @@ public class HomeAdapter extends ZHeadFootAdapter<HomeBean, HomeVH> {
             } else {
                 vh.splitLine.setVisibility(View.GONE);
             }
-            x.image().bind(vh.imgBg, homeBean.picture, options);
+            vh.imgBg.setBackgroundResource(R.mipmap.img_undertext);
+            vh.imgBg.setLayoutParams(new RelativeLayout.LayoutParams(ImageUtils.getScreenWidth(context),ImageUtils.getResizeHeight(context,720,334)));
+
+            x.image().bind(vh.imgBg, homeBean.picture);
         }
     }
 
