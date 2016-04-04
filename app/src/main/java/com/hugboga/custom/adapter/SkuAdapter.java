@@ -13,6 +13,7 @@ import com.huangbaoche.hbcframe.data.net.DefaultImageCallback;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.SkuItemBean;
+import com.hugboga.custom.utils.ImageUtils;
 import com.hugboga.custom.widget.STGVImageView;
 
 import org.w3c.dom.Text;
@@ -29,7 +30,7 @@ public class SkuAdapter extends BaseAdapter<SkuItemBean> {
     public SkuAdapter(Context context) {
         super(context);
         options = new ImageOptions.Builder()
-                .setSize(750,300)
+                .setSize(ImageUtils.getScreenWidth(context),ImageUtils.getResizeHeight(context,750,300))
                 .setImageScaleType(ImageView.ScaleType.CENTER_CROP)
                 .setCrop(true)
                 .setFailureDrawableId(R.mipmap.img_undertext)
