@@ -16,11 +16,11 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.huangbaoche.hbcframe.adapter.BaseAdapter;
 import com.huangbaoche.hbcframe.adapter.ZBaseAdapter;
 import com.huangbaoche.hbcframe.adapter.ZBaseAdapter.OnItemClickListener;
 import com.huangbaoche.hbcframe.util.MLog;
-import com.huangbaoche.hbcframe.widget.ZSwipeRefreshLayout;
+import com.huangbaoche.hbcframe.widget.recycler.ZListPageView;
+import com.huangbaoche.hbcframe.widget.recycler.ZSwipeRefreshLayout;
 import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.NewOrderAdapter;
@@ -30,7 +30,6 @@ import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestTravel;
-import com.hugboga.custom.widget.recycler.ZListPageView;
 
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;

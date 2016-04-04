@@ -27,6 +27,7 @@
     <string name="grant_fail_sdcard">权限只是用做存储照片使用，拒绝将不能正常使用</string>
     <string name="grant_fail_camera">权限只是用做拍摄头像照片使用，拒绝将不能拍摄头像</string>
     <string name="grant_fail_phone">权限只是用做识别身份使用，拒绝将不能正常使用</string>
+    <string name="grant_fail_im">权限只是用做聊天基础功能使用，拒绝将不能正常使用</string>
 
     <!-- 提示信息 -->
     <string name="two_exit">再按一次退出程序</string>
@@ -189,7 +190,7 @@
     <string name="run_flush">正在刷新&#8230;</string>
     <string name="near_update">最近更新</string>
 
-    <string name="loading_msg">ⓒ 皇包车 2015</string>
+    <string name="loading_msg">ⓒ 皇包车 2016</string>
     <string name="title_activity_splash">SplashActivity</string>
     <string name="title_activity_photo">PhotoActivity</string>
 

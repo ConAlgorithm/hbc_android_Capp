@@ -1,21 +1,19 @@
 package com.hugboga.custom.fragment;
 
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.huangbaoche.hbcframe.activity.BaseFragmentActivity;
 import com.huangbaoche.hbcframe.adapter.ZBaseAdapter;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
-import com.huangbaoche.hbcframe.widget.ZSwipeRefreshLayout;
+import com.huangbaoche.hbcframe.widget.recycler.ZListPageView;
+import com.huangbaoche.hbcframe.widget.recycler.ZSwipeRefreshLayout;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.NewOrderAdapter;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.request.RequestOrder;
-import com.hugboga.custom.widget.recycler.ZListPageView;
 
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
