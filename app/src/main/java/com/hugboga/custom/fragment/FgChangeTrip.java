@@ -144,6 +144,7 @@ public class FgChangeTrip extends BaseFragment implements View.OnClickListener {
     private PoiBean poiBean;
     private DialogUtil mDialogUtil;
 
+
     @Override
     protected void initView() {
         areaCodeArray = new TextView[]{areaCode, areaCode2, areaCode3};
