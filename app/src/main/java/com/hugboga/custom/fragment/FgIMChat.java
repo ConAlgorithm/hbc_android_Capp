@@ -8,7 +8,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,10 +59,6 @@ public class FgIMChat extends BaseFragment {
 
     public static final String KEY_TITLE = "key_title";
 
-    @ViewInject(R.id.header_title)
-    TextView title;
-    @ViewInject(R.id.header_right_txt)
-    TextView topRightBtn;
     @ViewInject(R.id.imchat_viewpage_layout)
     RelativeLayout viewPageLayout;
     @ViewInject(R.id.imchat_viewpage)
@@ -100,7 +95,6 @@ public class FgIMChat extends BaseFragment {
         view = (RelativeLayout) conversation.getView();
         //刷新订单信息
         getUserInfoToOrder(uri);
-        //        grantAudio(); //对音频进行授权
     }
 
     /**
@@ -115,7 +109,7 @@ public class FgIMChat extends BaseFragment {
             userId = imInfo.userId;
             imUserId = USER_IM_ADD + userId;
             userAvatar = imInfo.userAvatar;
-            title.setText(imInfo.title); //设置标题
+            fgTitle.setText(imInfo.title); //设置标题
             targetType = imInfo.targetType;
             resetRightBtn();
             initRunningOrder(); //构建和该用户之间的订单
@@ -128,9 +122,9 @@ public class FgIMChat extends BaseFragment {
 
     private void resetRightBtn() {
         if (!TextUtils.isEmpty(targetType) && "3".equals(targetType)) {
-            topRightBtn.setVisibility(View.GONE); //显示历史订单按钮
+            fgRightBtn.setVisibility(View.GONE); //显示历史订单按钮
         } else {
-            topRightBtn.setVisibility(View.VISIBLE); //显示历史订单按钮
+            fgRightBtn.setVisibility(View.VISIBLE); //显示历史订单按钮
         }
     }
 
@@ -200,7 +194,7 @@ public class FgIMChat extends BaseFragment {
         if (!isChat) {
             View view1 = view.getChildAt(0);
             view1.setVisibility(View.GONE);
-            title.setText(getString(R.string.chat_log));
+            fgTitle.setText(getString(R.string.chat_log));
         }
     }
 
@@ -387,46 +381,10 @@ public class FgIMChat extends BaseFragment {
         }
     }
 
-    /**
-     * 授权获取手机音频权限
-     */
-   /* private void grantAudio() {
-        MPermissions.requestPermissions(IMChatActivity.this, PermissionRes.RECORD_AUDIO, android.Manifest.permission.RECORD_AUDIO);
-    }
-
-    @PermissionGrant(PermissionRes.RECORD_AUDIO)
-    public void requestAudioSuccess() {
-    }
-
-    @PermissionDenied(PermissionRes.RECORD_AUDIO)
-    public void requestAudioFailed() {
-        AlertDialog.Builder dialog = new AlertDialog.Builder(IMChatActivity.this);
-        dialog.setCancelable(false);
-        dialog.setTitle(R.string.grant_fail_title);
-        if (!ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.RECORD_AUDIO)) {
-            dialog.setMessage(R.string.grant_fail_phone1);
-        } else {
-            dialog.setMessage(R.string.grant_fail_audio);
-            dialog.setPositiveButton(R.string.grant_fail_btn, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    grantAudio();
-                }
-            });
-        }
-        dialog.setNegativeButton(R.string.grant_fail_btn_exit, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                HBCApplication.getInstance().exit();
-            }
-        });
-        dialog.show();
-    }*/
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.header_right_btn:
+            case R.id.header_right_txt:
                 MLog.e("进入历史订单列表");
                 Bundle bundle = new Bundle();
                 bundle.putInt(FgNewOrder.SEARCH_TYPE, FgNewOrder.SearchType.SEARCH_TYPE_HISTORY.getType());
@@ -438,6 +396,7 @@ public class FgIMChat extends BaseFragment {
                 break;
         }
     }
+
     @Override
     public boolean onBackPressed() {
         notifyChatList();
