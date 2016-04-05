@@ -56,23 +56,18 @@ public class FgAssessment extends BaseFragment {
     private String orderId;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fg_assessment, null);
-        guideId = getArguments().getString(GUIDE_ID, "");
-        guideName = getArguments().getString(GUIDE_NAME, "");
-        orderId = getArguments().getString(ORDER_ID, "");
-        return view;
-    }
-
-    @Override
     protected void initHeader() {
         fgTitle.setText("评价车导");
     }
 
 
     protected void initView() {
+
         Bundle bundle = getArguments();
         if (bundle == null) return;
+        guideId = bundle.getString(GUIDE_ID, "");
+        guideName = bundle.getString(GUIDE_NAME, "");
+        orderId = bundle.getString(ORDER_ID, "");
         //选项显示差异化
         orderType = bundle.getInt(ORDER_TYPE);
         if (orderType == 1 || orderType == 2 || orderType == 4) {

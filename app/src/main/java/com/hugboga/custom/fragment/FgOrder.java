@@ -312,7 +312,6 @@ public class FgOrder extends BaseFragment {
         }else{
             fgTitle.setText(getString(Constants.TitleMap.get(mGoodsType)));
         }
-        setProgressState(3);
         try {
             if(!EventBus.getDefault().isRegistered(this))
             EventBus.getDefault().register(this);

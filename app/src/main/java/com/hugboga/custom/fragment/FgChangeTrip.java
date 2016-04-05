@@ -145,18 +145,13 @@ public class FgChangeTrip extends BaseFragment implements View.OnClickListener {
     private DialogUtil mDialogUtil;
 
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fg_change_trip, null);
+    protected void initView(){
         mOrderBean = (OrderBean)getArguments().getSerializable(KEY_ORDER_BEAN);
         mDialogUtil = DialogUtil.getInstance(getActivity());
         dbUtils = new DBHelper(getActivity()).getDbManager();
         adult = mOrderBean.adult;
         child = mOrderBean.child;
-        return view;
-    }
 
-    protected void initView(){
         areaCodeArray = new TextView[]{areaCode, areaCode2, areaCode3};
         areaPhoneArray =  new TextView[]{connectPhone,connectPhone2,connectPhone3};
         AirPort airPort = findAirPortByCode(mOrderBean.flightAirportCode);
