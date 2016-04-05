@@ -97,7 +97,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
-                android:drawableLeft="@mipmap/journey_call_green"
+                android:drawableLeft="@mipmap/journey_call_yellow"
                 android:drawablePadding="2dp"
                 android:text=""
                 android:textColor="@color/basic_pick_color" />

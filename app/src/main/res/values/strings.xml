@@ -212,8 +212,9 @@
     <string name="sku_item_guide_number">%d位中文司导开车带你玩</string>
     <string name="up">起/车</string>
     <string name="sku_sale_number">%d人已体验</string>
+    <string name="sku_car_tip">注意:不同车型会影响总价上下浮动</string>
 
-    <!-- sku-->
+    <!-- 个人中心-->
     <string name="person_center_nickname">点击登录</string>
     <string name="person_center_no_nickname">昵称未填写</string>
     <string name="person_center_coupon">优惠券</string>

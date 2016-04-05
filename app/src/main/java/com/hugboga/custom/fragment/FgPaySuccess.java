@@ -28,14 +28,7 @@ public class FgPaySuccess extends BaseFragment {
     private int payType;//0,下单，1，增项费用
     private int orderType;
     private String orderId;
-    private String from;
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fg_pay_result, null);
-        from =getArguments().getString("from");
-        return view;
-    }
 
     @Override
     protected void initHeader() {

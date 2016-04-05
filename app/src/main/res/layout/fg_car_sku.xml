@@ -105,6 +105,7 @@
                 android:gravity="center"
                 android:textColor="@color/travel_list_pay_color"
                 android:textSize="15sp"
+                android:text="@string/sku_car_tip"
                 android:visibility="visible" />
 
         </LinearLayout>
