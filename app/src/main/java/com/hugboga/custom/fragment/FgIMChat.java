@@ -82,6 +82,7 @@ public class FgIMChat extends BaseFragment {
 
     @Override
     protected void initHeader() {
+        fgRightBtn.setText(R.string.letter_chat_btn);
     }
 
     @Override
@@ -421,14 +422,11 @@ public class FgIMChat extends BaseFragment {
         });
         dialog.show();
     }*/
-    @Event({R.id.header_left_btn, R.id.header_right_txt})
-    private void onClick(View v) {
+
+    @Override
+    public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.header_left_btn:
-                notifyChatList();
-                clearImChat();
-                break;
-            case R.id.header_right_txt:
+            case R.id.header_right_btn:
                 MLog.e("进入历史订单列表");
                 Bundle bundle = new Bundle();
                 bundle.putInt(FgNewOrder.SEARCH_TYPE, FgNewOrder.SearchType.SEARCH_TYPE_HISTORY.getType());
@@ -436,10 +434,10 @@ public class FgIMChat extends BaseFragment {
                 startFragment(new FgNewOrder(), bundle);
                 break;
             default:
+                super.onClick(v);
                 break;
         }
     }
-
     @Override
     public boolean onBackPressed() {
         notifyChatList();

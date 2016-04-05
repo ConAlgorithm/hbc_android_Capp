@@ -36,7 +36,6 @@ public class FgSkuDetail extends FgWebInfo {
     @Override
     protected void initView() {
         super.initView();
-        MLog.e("微信 getInstance "+WXShareUtils.getInstance(getActivity()).isInstall(false));
         getView().findViewById(R.id.header_right_btn).setVisibility(WXShareUtils.getInstance(getActivity()).isInstall(false)?View.VISIBLE:View.GONE);
         if(this.getArguments()!=null){
             skuItemBean =  (SkuItemBean)getArguments().getSerializable(WEB_SKU);
@@ -57,19 +56,7 @@ public class FgSkuDetail extends FgWebInfo {
                 }
                 break;
             case R.id.phone_consultation:
-                final AlertDialog.Builder callDialog = new AlertDialog.Builder(getActivity());
-                callDialog.setTitle("呼叫客服");
-                final String [] callItems = new String[]{Constants.CALL_NUMBER_IN,Constants.CALL_NUMBER_OUT};
-                callDialog.setItems(callItems,new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        PhoneInfo.CallDial(getActivity(), callItems[which]);
-                    }
-                  });
-                AlertDialog dialog = callDialog.create();
-                dialog.setCanceledOnTouchOutside(true);
-                dialog.setCancelable(true);
-                dialog.show();
+                showContactServiceDialog();
                 break;
             case R.id.goto_order:
                 Bundle bundle =new Bundle();
@@ -91,9 +78,10 @@ public class FgSkuDetail extends FgWebInfo {
                 WXShareUtils.getInstance(getActivity()).share(which+1, skuItemBean.goodsPicture, title, content, shareUrl);
             }
         });
-        callDialog.setCancelable(true);
-        callDialog.create().setCanceledOnTouchOutside(true);
-        callDialog.show();
+        AlertDialog dialog = callDialog.create();
+        dialog.setCancelable(true);
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.show();
     }
 
 }

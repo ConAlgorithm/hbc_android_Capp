@@ -125,7 +125,7 @@ public class FgCar extends BaseFragment implements ViewPager.OnPageChangeListene
 
     @Override
     protected void initHeader() {
-//        rightText.setVisibility(View.VISIBLE);
+        fgRightBtn.setVisibility(View.VISIBLE);
         setProgressState(1);
         fgTitle.setText(getString(Constants.TitleMap.get(mGoodsType)));
         mDialogUtil = DialogUtil.getInstance(getActivity());

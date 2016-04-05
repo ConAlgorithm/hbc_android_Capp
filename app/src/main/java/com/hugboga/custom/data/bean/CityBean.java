@@ -76,7 +76,7 @@ public class CityBean implements IBaseBean {
 
     @Override
     public String toString() {
-        return super.toString() + "{" + "cityId=" + cityId + ",name=" + name + ",groupId=" + groupId+",hasAirport="+hasAirport + ",isDaily=" + isDaily + ",isSingle=" + isSingle + "}";
+        return super.toString() + "{" + "cityId=" + cityId + ",name=" + name + ",groupId=" + groupId+",hasAirport="+hasAirport+" isCityCode="+isCityCode + ",isDaily=" + isDaily + ",isSingle=" + isSingle + "}";
     }
 }
 

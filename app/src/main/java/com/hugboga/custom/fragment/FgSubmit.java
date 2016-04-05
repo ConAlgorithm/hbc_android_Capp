@@ -764,7 +764,7 @@ public class FgSubmit extends BaseFragment implements CompoundButton.OnCheckedCh
 
     @Override
     protected void initHeader() {
-//        rightText.setVisibility(View.VISIBLE);
+        fgRightBtn.setVisibility(View.VISIBLE);
         bottomBtnLayout.setVisibility(View.VISIBLE);
         fgTitle.setText(getString(Constants.TitleMap.get(mGoodsType)));
         mDialogUtil = DialogUtil.getInstance(getActivity());
@@ -889,6 +889,9 @@ public class FgSubmit extends BaseFragment implements CompoundButton.OnCheckedCh
                 if (childrenSeatNumbers[index] < 5) {
                     popupItemNumber[index].setText(String.valueOf(++childrenSeatNumbers[index]));
                 }
+                break;
+            default:
+                super.onClick(view);
                 break;
         }
     }

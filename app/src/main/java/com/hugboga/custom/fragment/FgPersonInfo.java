@@ -159,7 +159,10 @@ public class FgPersonInfo extends BaseFragment {
                         submitChangeUserInfo(2, inputServer.getText().toString());
                     }
                 });
-                builder.show();
+                AlertDialog dialog = builder.create();
+                dialog.setCancelable(true);
+                dialog.setCanceledOnTouchOutside(true);
+                dialog.show();
                 break;
             case R.id.my_info_menu_layout3:
                 //性别
@@ -175,7 +178,10 @@ public class FgPersonInfo extends BaseFragment {
                         submitChangeUserInfo(3, String.valueOf(which + 1));
                     }
                 });
-                sexDialog.show();
+                dialog = sexDialog.create();
+                dialog.setCancelable(true);
+                dialog.setCanceledOnTouchOutside(true);
+                dialog.show();
                 break;
             case R.id.my_info_menu_layout4:
                 //年龄
@@ -191,7 +197,10 @@ public class FgPersonInfo extends BaseFragment {
                         submitChangeUserInfo(4, String.valueOf(getAgeLevel(which)));
                     }
                 });
-                ageDialogBuild.show();
+                dialog = ageDialogBuild.create();
+                dialog.setCancelable(true);
+                dialog.setCanceledOnTouchOutside(true);
+                dialog.show();
                 break;
             case R.id.my_info_menu_layout5:
                 //签名
@@ -213,7 +222,10 @@ public class FgPersonInfo extends BaseFragment {
                                 submitChangeUserInfo(5, inputServer1.getText().toString());
                             }
                         });
-                builder1.show();
+                dialog = builder1.create();
+                dialog.setCancelable(true);
+                dialog.setCanceledOnTouchOutside(true);
+                dialog.show();
                 break;
             default:
                 break;
@@ -231,7 +243,7 @@ public class FgPersonInfo extends BaseFragment {
     public void requestSdcardSuccess() {
         //修改头像
         final CharSequence[] items = getResources().getStringArray(R.array.my_info_phone_type);
-        new AlertDialog.Builder(getActivity()).setTitle("上传头像").setItems(items, new DialogInterface.OnClickListener() {
+        AlertDialog.Builder builder1= new AlertDialog.Builder(getActivity()).setTitle("上传头像").setItems(items, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (which == 0) {
@@ -242,25 +254,32 @@ public class FgPersonInfo extends BaseFragment {
                     startActivityForResult(phoneIntent, 2);
                 }
             }
-        }).show();
+        });
+        AlertDialog dialog = builder1.create();
+        dialog.setCancelable(true);
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.show();
     }
 
     @PermissionDenied(PermissionRes.WRITE_EXTERNAL_STORAGE)
     public void requestSdcardFailed() {
-        AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
-        dialog.setCancelable(false);
-        dialog.setTitle(R.string.grant_fail_title);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setCancelable(false);
+        builder.setTitle(R.string.grant_fail_title);
         if (!ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-            dialog.setMessage(R.string.grant_fail_phone1);
+            builder.setMessage(R.string.grant_fail_phone1);
         } else {
-            dialog.setMessage(R.string.grant_fail_sdcard);
-            dialog.setPositiveButton(R.string.grant_fail_btn, new DialogInterface.OnClickListener() {
+            builder.setMessage(R.string.grant_fail_sdcard);
+            builder.setPositiveButton(R.string.grant_fail_btn, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     grantSdcard();
                 }
             });
         }
+        AlertDialog dialog = builder.create();
+        dialog.setCancelable(true);
+        dialog.setCanceledOnTouchOutside(true);
         dialog.show();
     }
 
@@ -283,20 +302,24 @@ public class FgPersonInfo extends BaseFragment {
 
     @PermissionDenied(PermissionRes.CAMERA)
     public void requestPhoneFailed() {
-        AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
-        dialog.setCancelable(false);
-        dialog.setTitle(R.string.grant_fail_title);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setCancelable(false);
+        builder.setTitle(R.string.grant_fail_title);
         if (!ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), android.Manifest.permission.CAMERA)) {
-            dialog.setMessage(R.string.grant_fail_phone1);
+            builder.setMessage(R.string.grant_fail_phone1);
         } else {
-            dialog.setMessage(R.string.grant_fail_camera);
-            dialog.setPositiveButton(R.string.grant_fail_btn, new DialogInterface.OnClickListener() {
+            builder.setMessage(R.string.grant_fail_camera);
+            builder.setPositiveButton(R.string.grant_fail_btn, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     grantCamera();
                 }
             });
         }
+        builder.show();
+        AlertDialog dialog = builder.create();
+        dialog.setCancelable(true);
+        dialog.setCanceledOnTouchOutside(true);
         dialog.show();
     }
 

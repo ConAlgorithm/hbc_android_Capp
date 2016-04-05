@@ -427,9 +427,9 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
                 finishResult();
                 break;
             case R.id.head_search_clean:
-//                if(TextUtils.isEmpty(editSearch.getText().toString().trim())){
-//                    break;
-//                }
+                if(TextUtils.isEmpty(editSearch.getText().toString().trim())){
+                    break;
+                }
                 editSearch.setText("");
                 break;
             case R.id.head_text_right:

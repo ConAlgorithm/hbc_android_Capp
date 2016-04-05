@@ -89,7 +89,7 @@ public class FgSkuList extends  BaseFragment implements AdapterView.OnItemClickL
             menu2.setVisibility(mCityBean.isDaily?View.VISIBLE:View.GONE);
             menu3.setVisibility(mCityBean.isSingle?View.VISIBLE:View.GONE);
         }
-
+        MLog.e(mCityBean.toString());
     }
 
     @Override
@@ -191,6 +191,9 @@ public class FgSkuList extends  BaseFragment implements AdapterView.OnItemClickL
                 break;
             case R.id.fg_home_menu3://单次接送
                 startFragment(new FgSingle(),bundle);
+                break;
+            default:
+                super.onClick(v);
                 break;
         }
     }
