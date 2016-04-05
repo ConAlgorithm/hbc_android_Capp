@@ -34,15 +34,12 @@ import com.hugboga.custom.adapter.MenuItemAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.LvMenuItem;
 import com.hugboga.custom.data.bean.PushMessage;
-import com.hugboga.custom.data.bean.UserCouponBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
-import com.hugboga.custom.data.request.RequestGetCoupon;
 import com.hugboga.custom.data.request.RequestPushClick;
 import com.hugboga.custom.data.request.RequestPushToken;
 import com.hugboga.custom.fragment.BaseFragment;
 import com.hugboga.custom.fragment.FgChat;
-import com.hugboga.custom.fragment.FgChooseCity;
 import com.hugboga.custom.fragment.FgCoupon;
 import com.hugboga.custom.fragment.FgHome;
 import com.hugboga.custom.fragment.FgIMChat;
@@ -51,7 +48,6 @@ import com.hugboga.custom.fragment.FgOrder;
 import com.hugboga.custom.fragment.FgPersonInfo;
 import com.hugboga.custom.fragment.FgServicerCenter;
 import com.hugboga.custom.fragment.FgSetting;
-import com.hugboga.custom.fragment.FgTest;
 import com.hugboga.custom.fragment.FgTravel;
 import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.ImageOptionUtils;
@@ -136,10 +132,6 @@ public class MainActivity extends BaseFragmentActivity
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-//        if(UserEntity.getUser().isLogin(this)) {
-//            getUserCoupon();
-//        }
     }
 
     /**
@@ -191,12 +183,6 @@ public class MainActivity extends BaseFragmentActivity
         HttpRequestUtils.request(this, request, this);
     }
 
-    private void getUserCoupon(){
-        RequestGetCoupon getCoupon = new RequestGetCoupon(this);
-        HttpRequestUtils.request(this,getCoupon,this);
-
-    }
-
     private void initAdapterContent() {
         fgHome = new FgHome();
         fgChat = new FgChat();
@@ -220,13 +206,6 @@ public class MainActivity extends BaseFragmentActivity
     public void onDataRequestSucceed(BaseRequest request) {
         if (request instanceof RequestPushToken) {
             MLog.e(request.getData().toString());
-        }else if(request instanceof RequestGetCoupon){
-            RequestGetCoupon requestGetCoupon = (RequestGetCoupon)request;
-            UserCouponBean bean = requestGetCoupon.getData();
-            if(null != mItems && mItems.size() > 0) {
-                mItems.get(0).tips = String.format(getString(R.string.user_have_coupon), bean.couponSize);
-                menuItemAdapter.notifyDataSetChanged();
-            }
         }
     }
 
@@ -335,6 +314,7 @@ public class MainActivity extends BaseFragmentActivity
             ));
 
     MenuItemAdapter menuItemAdapter;
+
     private void setUpDrawer() {
         LayoutInflater inflater = LayoutInflater.from(this);
         View header = inflater.inflate(R.layout.nav_header_main, null);
@@ -505,14 +485,11 @@ public class MainActivity extends BaseFragmentActivity
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_modify_info:
-                if (isLogin()) {
-                    startFragment(new FgPersonInfo());
-                }
-                break;
-
             case R.id.my_icon_head:
             case R.id.tv_nickname:
-                isLogin();
+                if(isLogin()){
+                    startFragment(new FgPersonInfo());
+                };
                 break;
 
         }
@@ -564,25 +541,25 @@ public class MainActivity extends BaseFragmentActivity
         }
     }
 
-    public void setIMCount(int count){
-        if(count>0){
+    public void setIMCount(int count) {
+        if (count > 0) {
             bottomPoint2.setVisibility(View.VISIBLE);
-            bottomPoint2.setText(""+count);
-        }else{
+            bottomPoint2.setText("" + count);
+        } else {
             bottomPoint2.setVisibility(View.GONE);
             bottomPoint2.setText("");
         }
 
     }
 
-    public void restartApp(){
-        Intent intent = new Intent(this,MainActivity.class);
+    public void restartApp() {
+        Intent intent = new Intent(this, MainActivity.class);
         PendingIntent restartIntent = PendingIntent.getActivity(
                 this.getApplicationContext(), 0, intent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
         //退出程序 重启应用
-        AlarmManager mgr = (AlarmManager)this.getSystemService(Context.ALARM_SERVICE);
-        mgr.set(AlarmManager.RTC, System.currentTimeMillis()+500,restartIntent); //  重启应用
+        AlarmManager mgr = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+        mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 500, restartIntent); //  重启应用
     }
 
     @Override
@@ -604,17 +581,17 @@ public class MainActivity extends BaseFragmentActivity
         }
     }
 
-    private long calculateCacheFileSize(){
+    private long calculateCacheFileSize() {
         long length = 0L;
         String DISK_CACHE_DIR_NAME = "xUtils_img"; //1
         String CACHE_DIR_NAME = "xUtils_cache";    //2
 
         File cacheDir1 = FileUtil.getCacheDir(DISK_CACHE_DIR_NAME);
         File cacheDir2 = FileUtil.getCacheDir(CACHE_DIR_NAME);
-        if(cacheDir1 != null){
+        if (cacheDir1 != null) {
             length += FileUtil.getFileOrDirSize(cacheDir1);
         }
-        if(cacheDir2 != null){
+        if (cacheDir2 != null) {
             length += FileUtil.getFileOrDirSize(cacheDir2);
         }
         return length;

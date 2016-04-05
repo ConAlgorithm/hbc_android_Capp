@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.adapter.BaseAdapter;
@@ -25,17 +26,18 @@ import org.xutils.x;
  */
 public class SkuAdapter extends BaseAdapter<SkuItemBean> {
 
-    private final ImageOptions options;
+//    private final ImageOptions options;
 
+    private Context context;
     public SkuAdapter(Context context) {
         super(context);
-        options = new ImageOptions.Builder()
-                .setSize(ImageUtils.getScreenWidth(context),ImageUtils.getResizeHeight(context,750,300))
-                .setImageScaleType(ImageView.ScaleType.CENTER_CROP)
-                .setCrop(true)
-                .setFailureDrawableId(R.mipmap.img_undertext)
-                .setLoadingDrawableId(R.mipmap.img_undertext)
-                .build();
+        this.context = context;
+//        options = new ImageOptions.Builder()
+//                .setSize(ImageUtils.getScreenWidth(context),ImageUtils.getResizeHeight(context,750,300))
+//                .setCrop(true)
+////                .setFailureDrawableId(R.mipmap.img_undertext)
+////                .setLoadingDrawableId(R.mipmap.img_undertext)
+//                .build();
     }
     ViewHolder viewHolder = null;
     @Override
@@ -69,7 +71,8 @@ public class SkuAdapter extends BaseAdapter<SkuItemBean> {
             viewHolder.tvGuide.setVisibility(bean.guideAmount == 0 ? View.INVISIBLE : View.VISIBLE);
             viewHolder.tvSale.setVisibility(bean.saleAmount == 0 ? View.INVISIBLE : View.VISIBLE);
 
-            x.image().bind(viewHolder.imgBg, bean.goodsPicture, options);
+            viewHolder.imgBg.setLayoutParams(new RelativeLayout.LayoutParams(ImageUtils.getScreenWidth(context),ImageUtils.getResizeHeight(context,750,300)));
+            x.image().bind(viewHolder.imgBg, bean.goodsPicture);
         }
 
         return view;
