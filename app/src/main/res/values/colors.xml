@@ -51,7 +51,7 @@
     <!--submit-->
     <color name="submit_money">#FFDD27</color>
     <!-- Servicer center color -->
-    <color name="servicer_center_bg">#EAFFFFFF</color>
+    <color name="servicer_center_bg">#FFFFFF</color>
     <color name="servicer_center_content_bg">#f9f9f9</color>
     <color name="servicer_center_content_color">#222527</color>
     <color name="servicer_center_content_line">#d7d7d9</color>
