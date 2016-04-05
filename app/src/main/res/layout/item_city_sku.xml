@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scaleType="centerCrop"
-        android:src="@mipmap/img_undertext"
+        android:src="@mipmap/img_notext"
         android:layout_marginBottom="5dp" />
 
     <TextView

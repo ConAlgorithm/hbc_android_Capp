@@ -17,6 +17,7 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.utils.PhoneInfo;
+import com.hugboga.custom.widget.DialogUtil;
 import com.zhy.m.permission.MPermissions;
 
 import org.xutils.view.annotation.Event;
@@ -87,7 +88,7 @@ public abstract class BaseFragment extends com.huangbaoche.hbcframe.fragment.Bas
                 finish();
                 break;
             case R.id.header_right_txt:
-                showContactServiceDialog();
+                DialogUtil.getInstance(getActivity()).showCallDialog();
                 break;
         }
     }
@@ -185,21 +186,5 @@ public abstract class BaseFragment extends com.huangbaoche.hbcframe.fragment.Bas
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         MPermissions.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-    }
-
-    public void showContactServiceDialog(){
-        final AlertDialog.Builder callDialog = new AlertDialog.Builder(getActivity());
-        callDialog.setTitle("呼叫客服");
-        final String [] callItems = new String[]{Constants.CALL_NUMBER_IN,Constants.CALL_NUMBER_OUT};
-        callDialog.setItems(callItems,new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                PhoneInfo.CallDial(getActivity(), callItems[which]);
-            }
-        });
-        AlertDialog dialog = callDialog.create();
-        dialog.setCanceledOnTouchOutside(true);
-        dialog.setCancelable(true);
-        dialog.show();
     }
 }

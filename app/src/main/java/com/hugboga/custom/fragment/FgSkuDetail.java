@@ -14,6 +14,7 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.utils.PhoneInfo;
+import com.hugboga.custom.widget.DialogUtil;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
@@ -52,11 +53,10 @@ public class FgSkuDetail extends FgWebInfo {
                     String shareUrl = skuItemBean.shareURL==null?skuItemBean.skuDetailUrl:skuItemBean.shareURL;
                     shareUrl = shareUrl==null?"http://www.huangbaoche.com":shareUrl;
                     skuShare(skuItemBean.goodsPicture,title,content,shareUrl);
-
                 }
                 break;
             case R.id.phone_consultation:
-                showContactServiceDialog();
+                DialogUtil.getInstance(getActivity()).showCallDialog();
                 break;
             case R.id.goto_order:
                 Bundle bundle =new Bundle();
