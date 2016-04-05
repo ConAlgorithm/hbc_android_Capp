@@ -199,3 +199,4 @@
 
 -keep class com.hugboga.custom.data.event.EventAction { *; }
 -keep class com.hugboga.custom.fragment.FgPersonInfo{ *; }
+-keep class com.hugboga.custom.fragment.FgIMChat{ *; }
