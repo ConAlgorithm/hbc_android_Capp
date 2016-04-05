@@ -80,6 +80,7 @@ public class WXShareUtils {
      * @param goUrl
      */
     public void share(final int type, final String picUrl, final String title, final String content, final String goUrl) {
+        MLog.e("cache type="+type+" bitmap="+picUrl+" title="+title+" content="+content+" goUrl="+goUrl);
         if (isInstall(true)) {
             x.image().loadFile(picUrl, null, new Callback.CacheCallback<File>() {
                 @Override
@@ -87,6 +88,7 @@ public class WXShareUtils {
                     BitmapFactory.Options options = new BitmapFactory.Options();
                     options.inSampleSize = 2;
                     Bitmap bitmap= BitmapFactory.decodeFile(result.getAbsolutePath(), options);
+
                     share(type,bitmap,title,content,goUrl);
                     return true;
                 }

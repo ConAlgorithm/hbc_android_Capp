@@ -364,7 +364,7 @@ public class FgSkuSubmit extends BaseFragment implements View.OnClickListener {
         try {
             String[] ymd = date.split("-");
             Calendar calendar = Calendar.getInstance();
-            calendar.set(Integer.valueOf(ymd[0]), Integer.valueOf(ymd[1]), Integer.valueOf(ymd[2]));
+            calendar.set(Integer.valueOf(ymd[0]), Integer.valueOf(ymd[1])-1, Integer.valueOf(ymd[2]));
             calendar.add(Calendar.DAY_OF_YEAR, day);
             return DateUtils.dateDateFormat.format(calendar.getTime());
         } catch (Exception e) {
@@ -403,7 +403,15 @@ public class FgSkuSubmit extends BaseFragment implements View.OnClickListener {
             Toast.makeText(getActivity(), "请选择成人数量", Toast.LENGTH_LONG).show();
             return false;
         }
-
+        //客户端做check
+        if(adult+child>=carTypeBean.carSeat){
+            Toast.makeText(getActivity(),"您选择的出行人数超出车型所能容纳的人数,请重新填写出行人数", Toast.LENGTH_LONG).show();
+            return false;
+        }
+        if (startPoiBean == null) {
+            showTip("请添加您的上车地点");
+            return false;
+        }
         String contactName = skuUserName.getText().toString().trim();
         if (TextUtils.isEmpty(contactName)) {
             Toast.makeText(getActivity(), "请填写联系人姓名", Toast.LENGTH_LONG).show();

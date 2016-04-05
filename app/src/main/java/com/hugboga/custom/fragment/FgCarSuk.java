@@ -135,8 +135,6 @@ public class FgCarSuk extends BaseFragment implements ViewPager.OnPageChangeList
         Integer[] carInfo = Constants.CarSeatInfoMap.get(carBean.carSeat);
         carInfoText.setText(String.format("乘坐%d人 | 行李%d件", carInfo[0], carInfo[1]));
         carInfoIntro.setText("此车型包括：" + carBean.models);
-        carTip.setText(carBean.urgentCutdownTip);
-        MLog.e("urgentCutdownTip "+carBean.urgentCutdownTip);
     }
 
     @Override

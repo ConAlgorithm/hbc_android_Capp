@@ -21,6 +21,7 @@ import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.AirPort;
+import com.hugboga.custom.data.bean.CarBean;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.FlightBean;
 import com.hugboga.custom.data.bean.OrderBean;
@@ -514,6 +515,11 @@ public class FgChangeTrip extends BaseFragment implements View.OnClickListener {
         if (adult == 0) {
             adultCount.requestFocus();
             showTip("请选择成人数量");
+            return;
+        }
+        //客户端做check
+        if (adult + child >= orderBean.seatCategory) {
+            Toast.makeText(getActivity(), "您选择的出行人数超出车型所能容纳的人数,请重新填写出行人数", Toast.LENGTH_LONG).show();
             return;
         }
         String brandSign = pickName.getText().toString().trim();

@@ -275,7 +275,7 @@ public class FgSubmit extends BaseFragment implements CompoundButton.OnCheckedCh
         }
         hotelPhoneAreaCode.setText(hotelAreaCode);
         String areaCodeValue = UserEntity.getUser().getAreaCode(getActivity());
-        if(TextUtils.isEmpty(areaCodeValue))areaCodeValue = "86";
+        if (TextUtils.isEmpty(areaCodeValue)) areaCodeValue = "86";
         areaCode.setText("+" + areaCodeValue);
         connectPhone.setText(UserEntity.getUser().getPhone(getActivity()));
         bottomTotal.setText("" + (carBean.originalPrice + carBean.checkInPrice));
@@ -323,7 +323,11 @@ public class FgSubmit extends BaseFragment implements CompoundButton.OnCheckedCh
     private void onClickView(View view) {
         switch (view.getId()) {
             case R.id.bottom_bar_btn:
-                submitData(view);
+                if(UserEntity.getUser().isLogin(getActivity())){
+                    submitData(view);
+                }else{
+                    startFragment(new FgLogin());
+                }
                 break;
             case R.id.submit_phone_add:
                 if (phoneLayoutCount == 1) {
@@ -525,11 +529,12 @@ public class FgSubmit extends BaseFragment implements CompoundButton.OnCheckedCh
             showTip("请选择成人数量");
             return;
         }
-        /*服务端做check
-        if(adult+child>=Constants.CarSeatMap.get(carBean.carSeat)){
+        //客户端做check
+        if (adult + child >= carBean.carSeat) {
             mDialogUtil.showCustomDialog("您选择的出行人数超出车型所能容纳的人数,请重新填写出行人数");
             return;
-        }*/
+        }
+
         String brandSign = pickName.getText().toString().trim();
         if (mBusinessType == Constants.BUSINESS_TYPE_PICK && needBanner && TextUtils.isEmpty(brandSign)) {
             showTip("请填写接机牌姓名");
@@ -607,9 +612,9 @@ public class FgSubmit extends BaseFragment implements CompoundButton.OnCheckedCh
                 requestSubmitBase = new RequestSubmitSend(getActivity(), orderBean);
                 break;
             case Constants.BUSINESS_TYPE_DAILY:
-                if (arrivalBean != null) {
-                    orderBean.startAddress = arrivalBean.placeName;
-                    orderBean.startAddressDetail = arrivalBean.placeDetail;
+                if (startBean != null) {
+                    orderBean.startAddress = startBean.placeName;
+                    orderBean.startAddressDetail = startBean.placeDetail;
                 }
                 orderBean.serviceCityId = dailyBean.startCityID;
                 orderBean.serviceCityName = dailyBean.startCityName;
@@ -620,7 +625,7 @@ public class FgSubmit extends BaseFragment implements CompoundButton.OnCheckedCh
                 orderBean.destAddress = dailyBean.terminalCityName;
                 orderBean.serviceEndCityid = dailyBean.terminalCityID;
                 orderBean.serviceEndCityName = dailyBean.terminalCityName;
-                orderBean.serviceStartTime = serverTime+ ":00";
+                orderBean.serviceStartTime = serverTime + ":00";
                 orderBean.serviceTime = dailyBean.startDate;
                 orderBean.serviceEndTime = dailyBean.endDate;
 //                orderBean.passByCityID = dailyBean.passByCityID;
@@ -695,10 +700,10 @@ public class FgSubmit extends BaseFragment implements CompoundButton.OnCheckedCh
     }
 
     private void goToOrder(String orderId) {
-        EventBus.getDefault().post(new EventAction(EventType.SET_MAIN_PAGE_INDEX,2));
+        EventBus.getDefault().post(new EventAction(EventType.SET_MAIN_PAGE_INDEX, 2));
         Bundle bundle = new Bundle();
         bundle.putString(FgOrder.KEY_ORDER_ID, orderId);
-        bringToFront(FgTravel.class,bundle);
+        bringToFront(FgTravel.class, bundle);
         //下单后再返回,直接到主页
         startFragment(new FgOrder(), bundle);
     }
@@ -744,8 +749,8 @@ public class FgSubmit extends BaseFragment implements CompoundButton.OnCheckedCh
                 flightNo.setText(flightInfoStr);
             }
         } else if (FgPoiSearch.class.getSimpleName().equals(fragmentName)) {
-            arrivalBean = (PoiBean) bundle.getSerializable(FgPoiSearch.KEY_ARRIVAL);
-            serverPlace.setText(arrivalBean.placeName);
+            startBean = (PoiBean) bundle.getSerializable(FgPoiSearch.KEY_ARRIVAL);
+            serverPlace.setText(startBean.placeName);
         } else if (FgChooseCity.class.getSimpleName().equals(fragmentName)) {
             passCityList = (ArrayList<CityBean>) bundle.getSerializable(FgChooseCity.KEY_CITY_LIST);
             String passCityStr = "";
