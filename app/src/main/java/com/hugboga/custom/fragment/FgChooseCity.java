@@ -551,6 +551,7 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
             if(TextUtils.isEmpty(s.toString().trim())){
                 return;
             }
+            long time = System.currentTimeMillis();
             sideBar.setVisibility(View.INVISIBLE);
             sourceDateList.clear();
             adapter.getHotCityList().clear();
@@ -601,7 +602,7 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
                     adapter.notifyDataSetChanged();
                 }
             }
-
+            MLog.e("time=" + (System.currentTimeMillis() - time));
 
         }
 

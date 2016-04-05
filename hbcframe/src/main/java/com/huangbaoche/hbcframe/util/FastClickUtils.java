@@ -7,7 +7,7 @@ import java.util.Calendar;
  */
 public class FastClickUtils {
 
-    public static final int MIN_CLICK_DELAY_TIME = 1000;
+    public static final int MIN_CLICK_DELAY_TIME = 500;
     private static long lastClickTime = 0;
 
 
