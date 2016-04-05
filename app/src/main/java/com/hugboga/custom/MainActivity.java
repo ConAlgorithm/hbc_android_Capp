@@ -505,14 +505,11 @@ public class MainActivity extends BaseFragmentActivity
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_modify_info:
-                if (isLogin()) {
-                    startFragment(new FgPersonInfo());
-                }
-                break;
-
             case R.id.my_icon_head:
             case R.id.tv_nickname:
-                isLogin();
+                if(isLogin()){
+                    startFragment(new FgPersonInfo());
+                };
                 break;
 
         }
