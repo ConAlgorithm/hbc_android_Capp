@@ -57,7 +57,7 @@ public class FgAssessment extends BaseFragment {
 
     @Override
     protected void initHeader() {
-        fgTitle.setText("评价车导");
+        fgTitle.setText("评价司导");
     }
 
 

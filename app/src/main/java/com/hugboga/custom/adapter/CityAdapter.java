@@ -4,7 +4,11 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.ImageSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,7 +46,7 @@ public class CityAdapter extends BaseAdapter implements View.OnClickListener, On
     private String mBusinessType;
     private DbManager mDbManager;
     private boolean isFirstAccessHotCity = false;
-    private List<CityBean> hotCityList = null;
+    private List<CityBean> hotCityList = new ArrayList<CityBean>();;
     private int searchHistoryCount = 0;
     private int chooseType = -1;
     private FgChooseCity fragment;
@@ -238,12 +242,12 @@ public class CityAdapter extends BaseAdapter implements View.OnClickListener, On
         } else {
             viewHolder.tvLetter.setVisibility(View.GONE);
         }
-        if (model.isSelected) {
-            viewHolder.imgIcon.setVisibility(View.VISIBLE);
-        } else {
-            viewHolder.imgIcon.setVisibility(View.INVISIBLE);
+
+        if(!TextUtils.isEmpty(model.keyWord)){
+            viewHolder.tvTitle.setText(getSpannableString(model.name, model.keyWord));
+        }else{
+            viewHolder.tvTitle.setText(model.name);
         }
-        viewHolder.tvTitle.setText(model.name);
         if (type == HISTORY_ITEM) {
             viewHolder.imgDel.setVisibility(View.VISIBLE);
             viewHolder.imgDel.setOnClickListener(this);
@@ -254,10 +258,25 @@ public class CityAdapter extends BaseAdapter implements View.OnClickListener, On
             viewHolder.imgDel.setVisibility(View.INVISIBLE);
             viewHolder.imgIcon.setVisibility(View.INVISIBLE);
         }
-        if (model.firstLetter.equals("nationality")) {
+        if (model.isSelected) {
+            viewHolder.imgIcon.setVisibility(View.VISIBLE);
+        } else {
+            viewHolder.imgIcon.setVisibility(View.INVISIBLE);
+        }
+        if (model.isNationality) {
             viewHolder.ll_item.setClickable(false);
         }
         return view;
+    }
+
+    private SpannableStringBuilder getSpannableString(String name, String keyWord) {
+        SpannableStringBuilder ssb = new SpannableStringBuilder(name);
+        ForegroundColorSpan yellowSpan = new ForegroundColorSpan(Color.parseColor("#FDCE02"));
+        int start = ssb.toString().indexOf(keyWord);
+        int end = start + keyWord.length();
+        ssb.setSpan(yellowSpan, start, end,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        return ssb;
     }
 
     @Override

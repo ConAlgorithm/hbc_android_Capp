@@ -7,7 +7,7 @@
     <RelativeLayout
         android:id="@+id/travel_item_head"
         android:layout_width="match_parent"
-        android:layout_height="26dp"
+        android:layout_height="13dp"
         android:background="@color/travel_bg" />
 
     <RelativeLayout
@@ -227,7 +227,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/basic_margin_medium"
                     android:background="@drawable/btn_round_travel"
-                    android:text="评价车导"
+                    android:text="评价司导"
                     android:textSize="@dimen/text_size_large"
                     android:visibility="gone" />
 
