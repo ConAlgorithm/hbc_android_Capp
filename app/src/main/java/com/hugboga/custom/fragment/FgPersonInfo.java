@@ -38,6 +38,8 @@ import com.hugboga.custom.utils.FileUtil;
 import com.hugboga.custom.utils.ImageOptionUtils;
 import com.hugboga.custom.utils.ImageUtils;
 import com.hugboga.custom.utils.PermissionRes;
+import com.hugboga.custom.widget.CircleImageView;
+import com.hugboga.custom.widget.CircularImage;
 import com.yalantis.ucrop.UCrop;
 import com.zhy.m.permission.MPermissions;
 import com.zhy.m.permission.PermissionDenied;
@@ -65,7 +67,7 @@ import de.greenrobot.event.EventBus;
 public class FgPersonInfo extends BaseFragment {
 
     @ViewInject(R.id.my_info_menu_head1)
-    ImageView headImageView;
+    CircularImage headImageView;
     @ViewInject(R.id.my_info_nickname)
     TextView nickNameTextView;
     @ViewInject(R.id.my_info_sex)
@@ -119,7 +121,7 @@ public class FgPersonInfo extends BaseFragment {
         if (!TextUtils.isEmpty(userBean.avatar)) {
             String avatar = userBean.avatar;
 //            imageUtil.display(headImageView, avatar);
-            x.image().bind(headImageView, avatar, ImageOptionUtils.userPortraitImageOptions);
+            x.image().bind(headImageView, avatar);
         }
         if (!TextUtils.isEmpty(userBean.nickname)) {
             nickNameTextView.setText(userBean.nickname);
