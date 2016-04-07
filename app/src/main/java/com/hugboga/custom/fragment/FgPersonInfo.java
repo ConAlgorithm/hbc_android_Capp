@@ -383,12 +383,13 @@ public class FgPersonInfo extends BaseFragment {
     /**
      * 调用系统剪切图片
      */
-    public void cropPhoto() {
+    public void cropPhoto(Uri uri) {
+        if(null == uri) return;
         File oldFile = new File(Constants.IMAGE_DIR, Constants.HEAD_IMAGE);
         File newFile = new File(Constants.IMAGE_DIR, Constants.HEAD_IMAGE_NEW);
         UCrop.Options options = new UCrop.Options();
-        options.setCompressionFormat(Bitmap.CompressFormat.PNG);
-        UCrop.of(Uri.fromFile(oldFile), Uri.fromFile(newFile)).withAspectRatio(1f, 1f).withOptions(options).withMaxResultSize(200, 200).start(getActivity(), this);
+        options.setCompressionFormat(Bitmap.CompressFormat.JPEG);
+        UCrop.of(uri, Uri.fromFile(newFile)).withAspectRatio(1f, 1f).withOptions(options).withMaxResultSize(200, 200).start(getActivity(), this);
     }
 
     private String setPicToView(Bitmap mBitmap) {
@@ -397,7 +398,7 @@ public class FgPersonInfo extends BaseFragment {
         String fileName = Constants.IMAGE_DIR + File.separator + Constants.HEAD_IMAGE;//图片名字
         try {
             b = new FileOutputStream(fileName);
-            mBitmap.compress(Bitmap.CompressFormat.PNG, 100, b);// 把数据写入文件
+            mBitmap.compress(Bitmap.CompressFormat.JPEG, 100, b);// 把数据写入文件
             b.flush();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -489,16 +490,17 @@ public class FgPersonInfo extends BaseFragment {
         switch (requestCode) {
             case 1:
                 if (resultCode == Activity.RESULT_OK) {
-                    cropPhoto();//裁剪图片
+                    cropPhoto(data.getData());//裁剪图片
                 }
                 break;
             case 2:
                 if (resultCode == Activity.RESULT_OK) {
                     try {
-                        Bitmap bitmap = BitmapFactory.decodeStream(getActivity().getContentResolver().openInputStream(data.getData()));
-                        FileUtil.saveBitmapToFile(bitmap, Constants.IMAGE_DIR, Constants.HEAD_IMAGE);
-                        cropPhoto();//裁剪图片
-                    } catch (FileNotFoundException e) {
+//                        Bitmap bitmap = BitmapFactory.decodeStream(getActivity().getContentResolver().openInputStream(data.getData()));
+//                        FileUtil.saveBitmapToFile(bitmap, Constants.IMAGE_DIR, Constants.HEAD_IMAGE);
+//                        String filePath = data.getData().getPath();
+                        cropPhoto(data.getData());//裁剪图片
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
@@ -509,10 +511,11 @@ public class FgPersonInfo extends BaseFragment {
                     if (resultUri != null) {
                         Bitmap bitmap = getBitmapFromUri(resultUri);
                         if (bitmap != null) {
+                            headImageView.setImageURI(resultUri);
                             String fileName = setPicToView(bitmap);//保存在SD卡中
                             MLog.e("fileName=" + fileName);
                             uploadPic(fileName);
-                            headImageView.setImageBitmap(bitmap);//用ImageView显示出来
+//                            headImageView.setImageBitmap(bitmap);//用ImageView显示出来
                         }
                     }
                 } else if (resultCode == UCrop.RESULT_ERROR) {
