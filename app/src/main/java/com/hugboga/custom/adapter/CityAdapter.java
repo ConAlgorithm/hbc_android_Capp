@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityBean;
@@ -34,6 +35,7 @@ import org.xutils.db.Selector;
 import org.xutils.ex.DbException;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class CityAdapter extends BaseAdapter implements View.OnClickListener, OnItemClickListener {
@@ -89,7 +91,7 @@ public class CityAdapter extends BaseAdapter implements View.OnClickListener, On
     }
 
     public Object getItem(int position) {
-        if (position == searchHistoryCount &&hotCityList!=null&&hotCityList.size() != 0) {
+        if (position == searchHistoryCount && hotCityList != null && hotCityList.size() != 0) {
             return hotCityList;
         } else {
             return list.get(position);
@@ -244,7 +246,7 @@ public class CityAdapter extends BaseAdapter implements View.OnClickListener, On
         }
 
         if(!TextUtils.isEmpty(model.keyWord)){
-            viewHolder.tvTitle.setText(getSpannableString(model.name, model.keyWord));
+            viewHolder.tvTitle.setText(getSpannableString(model.name + "，" + model.placeName, model.keyWord));
         }else{
             viewHolder.tvTitle.setText(model.name);
         }
@@ -319,9 +321,21 @@ public class CityAdapter extends BaseAdapter implements View.OnClickListener, On
             }
             sharedPer.saveStringValue(mBusinessType + SharedPre.RESOURCES_CITY_HISTORY, TextUtils.join(",", cityHistory));
         }
-        for (CityBean cb : list) {
-            if (cityBean.cityId == cb.cityId) {
-                list.remove(cityBean);
+//        for (CityBean cb : list) {
+//            if (cityBean.cityId == cb.cityId) {
+//                list.remove(cityBean);
+//                break;
+//            }
+//        }
+
+        Iterator<CityBean> iterator = list.iterator();
+        while(iterator.hasNext()){
+            CityBean cb = iterator.next();
+            if(cb.cityId == cityBean.cityId){
+                iterator.remove();
+                if(searchHistoryCount > 0){
+                    searchHistoryCount--;
+                }
                 break;
             }
         }
