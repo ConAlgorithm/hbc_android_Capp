@@ -661,7 +661,7 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
         }
         if (dataList.size() > 0) {
             for (CityBean cb : dataList) {
-                cb.name = cb.name + "，" + cb.placeName;
+//                cb.name = cb.name + "，" + cb.placeName;
                 cb.keyWord = keyword;
             }
         }

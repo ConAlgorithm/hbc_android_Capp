@@ -68,6 +68,8 @@ public class FgChangeTrip extends BaseFragment implements View.OnClickListener {
     private View phoneLayout2;//电话布局2
     @ViewInject(R.id.submit_phone_layout3)
     private View phoneLayout3;//电话布局3
+    @ViewInject(R.id.submit_phone_add)
+    private TextView phoneAdd;//增加电话
 
 
     private TextView[] areaCodeArray;//区号数组
@@ -353,18 +355,25 @@ public class FgChangeTrip extends BaseFragment implements View.OnClickListener {
                     phoneLayoutCount++;
                     phoneLayout2.setVisibility(View.VISIBLE);
                     phoneLayout3.setVisibility(View.VISIBLE);
+                    phoneAdd.setTextColor(getActivity().getResources().getColor(R.color.basic_gray));
                 }
                 break;
             case R.id.submit_phone_del_2:
                 areaCode2.setText("");
                 connectPhone2.setText("");
                 phoneLayout2.setVisibility(View.GONE);
+                if(phoneLayoutCount == 3){
+                    phoneAdd.setTextColor(getActivity().getResources().getColor(R.color.basic_daily_color));
+                }
                 phoneLayoutCount--;
                 break;
             case R.id.submit_phone_del_3:
                 areaCode3.setText("");
                 connectPhone3.setText("");
                 phoneLayout3.setVisibility(View.GONE);
+                if(phoneLayoutCount == 3){
+                    phoneAdd.setTextColor(getActivity().getResources().getColor(R.color.basic_daily_color));
+                }
                 phoneLayoutCount--;
                 break;
             case R.id.submit_adult_sub:
