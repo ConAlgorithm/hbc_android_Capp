@@ -47,6 +47,7 @@
                 android:layout_height="50dip"
                 android:layout_marginRight="@dimen/basic_margin_large"
                 android:layout_toLeftOf="@id/my_info_menu_arrow1"
+                android:background="@color/basic_white"
                 android:src="@mipmap/chat_head" />
         </RelativeLayout>
 
