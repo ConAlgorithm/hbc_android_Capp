@@ -4,6 +4,9 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.huangbaoche.hbcframe.adapter.ZBaseAdapter;
+import com.huangbaoche.hbcframe.data.net.ExceptionErrorCode;
+import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
+import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.huangbaoche.hbcframe.widget.recycler.ZDefaultDivider;
 import com.huangbaoche.hbcframe.widget.recycler.ZListPageView;
@@ -24,7 +27,7 @@ import org.xutils.view.annotation.ViewInject;
  * Created by admin on 2016/3/1.
  */
 @ContentView(R.layout.fg_home)
-public class FgHome extends BaseFragment implements View.OnClickListener, ZBaseAdapter.OnItemClickListener {
+public class FgHome extends BaseFragment implements View.OnClickListener, ZBaseAdapter.OnItemClickListener, ZListPageView.NoticeViewTask {
 
     public static final String FILTER_FLUSH = "com.hugboga.custom.home.flush";
 
@@ -32,6 +35,8 @@ public class FgHome extends BaseFragment implements View.OnClickListener, ZBaseA
     ZListPageView recyclerView;
     @ViewInject(R.id.swipe)
     ZSwipeRefreshLayout swipeRefreshLayout;
+    @ViewInject(R.id.home_empty_layout)
+    View emptyView;
 
     private HomeAdapter adapter;
 
@@ -59,6 +64,7 @@ public class FgHome extends BaseFragment implements View.OnClickListener, ZBaseA
         RequestHome requestHome = new RequestHome(getActivity());
         recyclerView.setRequestData(requestHome);
         recyclerView.setOnItemClickListener(this);
+        recyclerView.setNoticeViewTask(this);
         //设置间距
         ZDefaultDivider zDefaultDivider = recyclerView.getItemDecoration();
         zDefaultDivider.setItemOffsets(0, 2, 0, 2);
@@ -109,5 +115,19 @@ public class FgHome extends BaseFragment implements View.OnClickListener, ZBaseA
         Bundle bundle = new Bundle();
         bundle.putString(FgSkuList.KEY_CITY_ID, homeBean.cityId);
         startFragment(fg, bundle);
+    }
+
+    @Override
+    public void notice(Object object) {
+        emptyView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+        if(errorInfo.state== ExceptionErrorCode.ERROR_CODE_NET_NOTFOUND){
+            emptyView.setVisibility(View.VISIBLE);
+        }else{
+            super.onDataRequestError(errorInfo, request);
+        }
     }
 }

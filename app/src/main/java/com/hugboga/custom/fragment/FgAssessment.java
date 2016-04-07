@@ -16,12 +16,16 @@ import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.UserEntity;
+import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestEvaluate;
 
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * 评价页面
@@ -119,12 +123,13 @@ public class FgAssessment extends BaseFragment {
                 Bundle bundle = new Bundle();
                 bundle.putString(KEY_FRAGMENT_NAME, FgAssessment.class.getSimpleName());
                 bringToFront(FgTravel.class, bundle);
+                EventBus.getDefault().post(new EventAction(EventType.SET_MAIN_PAGE_INDEX, 2));
             }
         }).setPositiveButton("还需用车", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                bringToFront(FgHome.class, new Bundle());
-//                finish();
+                bringToFront(FgTravel.class, new Bundle());
+                EventBus.getDefault().post(new EventAction(EventType.SET_MAIN_PAGE_INDEX, 0));
             }
         }).setCancelable(false)
                 .show();

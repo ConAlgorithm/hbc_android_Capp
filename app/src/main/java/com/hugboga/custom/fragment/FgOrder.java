@@ -36,6 +36,7 @@ import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.OrderStatus;
 import com.hugboga.custom.data.bean.WXpayBean;
 import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.parser.ParserChatInfo;
 import com.hugboga.custom.data.request.RequestOrderCancel;
 import com.hugboga.custom.data.request.RequestOrderDetail;
@@ -906,6 +907,7 @@ public class FgOrder extends BaseFragment {
     };
 
 
+
     @Event({R.id.pay_trip_switch_btn,
             R.id.pay_change_trip,
             R.id.pay_type_alipay_layout,
@@ -938,7 +940,7 @@ public class FgOrder extends BaseFragment {
                     }
                 }
                 break;
-            case R.id.head_btn_left:
+            case R.id.header_left_btn:
                 onKeyBack();
                 break;
             case R.id.pay_trip_switch_btn://展开详情
@@ -1240,10 +1242,11 @@ public class FgOrder extends BaseFragment {
 
     private void onKeyBack() {
         MLog.e("onKeyBack " + mSourceFragment);
-        if (mSourceFragment != null && (mSourceFragment instanceof  FgSubmit||mSourceFragment instanceof  FgSkuSubmit)&&mOrderBean.orderStatus==OrderStatus.INITSTATE) {
+        if (mSourceFragment != null && (mSourceFragment instanceof  FgSubmit||mSourceFragment instanceof  FgSkuSubmit)&&mOrderBean.orderStatus!=null&&mOrderBean.orderStatus==OrderStatus.INITSTATE) {
             mDialogUtil.showCustomDialog(getString(R.string.app_name), getString(R.string.order_cancel_pay), "返回", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
+                    EventBus.getDefault().post(new EventAction(EventType.SET_MAIN_PAGE_INDEX, 0));
                     FgOrder.this.finish();
                 }
             }, "继续支付", new DialogInterface.OnClickListener() {

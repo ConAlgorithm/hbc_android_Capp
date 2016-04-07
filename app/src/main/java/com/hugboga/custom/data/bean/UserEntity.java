@@ -54,13 +54,7 @@ public class UserEntity {
         this.accessKey = accessKey;
     }
 
-    public String getUserId() {
-        return userId;
-    }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
 
     public void setUserId(Context active, String userId) {
         SharedPre shared = new SharedPre(active);

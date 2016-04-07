@@ -107,7 +107,9 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
         emptyView = view.findViewById(R.id.arrival_empty_layout);
         sideBar = (SideBar) view.findViewById(R.id.sidrbar);
         TextView dialog = (TextView) view.findViewById(R.id.dialog);
-        initSideBar(sideBar);
+        if (chooseType != KEY_TYPE_MULTIPLY) {
+            initSideBar(sideBar);
+        }
         sideBar.setTextView(dialog);
         //设置右侧触摸监听
         sideBar.setOnTouchingLetterChangedListener(this);
@@ -117,7 +119,7 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
 //		findCityList(groupId, null);
         MLog.e("adapter= " + adapter);
         adapter = new CityAdapter(getActivity(), this, sourceDateList, String.valueOf(getBusinessType()));
-        adapter.setChooseType(chooseType);
+            adapter.setChooseType(chooseType);
         sortListView.setAdapter(adapter);
         sortListView.setEmptyView(emptyView);
         sideBar.setVisibility(View.VISIBLE);
@@ -661,7 +663,6 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
         }
         if (dataList.size() > 0) {
             for (CityBean cb : dataList) {
-                cb.name = cb.name + "，" + cb.placeName;
                 cb.keyWord = keyword;
             }
         }
@@ -719,7 +720,7 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
         }
         if (CountryDateList.size() > 0) {
             for (CityBean cb : CountryDateList) {
-                cb.name = "相关城市，" + cb.name;
+                cb.keyWord = "相关城市";
             }
             CityBean onlyForDisplayCityBean = new CityBean();
             onlyForDisplayCityBean.name = CountryDateList.get(0).placeName + " - 该地点为国家/地区";

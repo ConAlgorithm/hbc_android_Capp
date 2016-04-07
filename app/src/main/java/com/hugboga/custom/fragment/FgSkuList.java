@@ -14,6 +14,7 @@ import com.huangbaoche.hbcframe.adapter.ZBaseAdapter;
 import com.huangbaoche.hbcframe.data.net.DefaultImageCallback;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
+import com.huangbaoche.hbcframe.widget.recycler.ZDefaultDivider;
 import com.huangbaoche.hbcframe.widget.recycler.ZListPageView;
 import com.huangbaoche.hbcframe.widget.recycler.ZSwipeRefreshLayout;
 import com.hugboga.custom.R;
@@ -104,6 +105,9 @@ public class FgSkuList extends  BaseFragment implements  View.OnClickListener, Z
         RequestSkuList request = new RequestSkuList(getActivity(),mCityId);
         recyclerView.setRequestData(request);
         recyclerView.setNoticeViewTask(this);
+        //设置间距
+        ZDefaultDivider zDefaultDivider = recyclerView.getItemDecoration();
+        zDefaultDivider.setItemOffsets(0, 2, 0, 2);
     }
 
     @Override

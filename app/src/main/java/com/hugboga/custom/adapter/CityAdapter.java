@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityBean;
@@ -34,6 +35,7 @@ import org.xutils.db.Selector;
 import org.xutils.ex.DbException;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class CityAdapter extends BaseAdapter implements View.OnClickListener, OnItemClickListener {
@@ -89,7 +91,7 @@ public class CityAdapter extends BaseAdapter implements View.OnClickListener, On
     }
 
     public Object getItem(int position) {
-        if (position == searchHistoryCount &&hotCityList!=null&&hotCityList.size() != 0) {
+        if (position == searchHistoryCount && hotCityList != null && hotCityList.size() != 0) {
             return hotCityList;
         } else {
             return list.get(position);
@@ -244,7 +246,11 @@ public class CityAdapter extends BaseAdapter implements View.OnClickListener, On
         }
 
         if(!TextUtils.isEmpty(model.keyWord)){
-            viewHolder.tvTitle.setText(getSpannableString(model.name, model.keyWord));
+            if(model.keyWord.equals("相关城市")){
+                viewHolder.tvTitle.setText("相关城市，" + model.name);
+            }else{
+                viewHolder.tvTitle.setText(getSpannableString(model.name + "，" + model.placeName, model.keyWord));
+            }
         }else{
             viewHolder.tvTitle.setText(model.name);
         }
@@ -289,7 +295,7 @@ public class CityAdapter extends BaseAdapter implements View.OnClickListener, On
             case R.id.btn_del:
                 // 删除历史item，刷新列表
                 CityBean cityBean = list.get(integer.intValue());
-                deleteHistoryItem(cityBean);
+                deleteHistoryItem(cityBean, integer);
                 break;
         }
 
@@ -300,14 +306,7 @@ public class CityAdapter extends BaseAdapter implements View.OnClickListener, On
      *
      * @param cityBean
      */
-    private void deleteHistoryItem(CityBean cityBean) {
-        Selector selector = null;
-        try {
-            selector = mDbManager.selector(CityBean.class);
-        } catch (DbException e) {
-            e.printStackTrace();
-        }
-
+    private void deleteHistoryItem(CityBean cityBean, int position) {
         String cityHistoryStr = sharedPer.getStringValue(mBusinessType + SharedPre.RESOURCES_CITY_HISTORY);
 
         if (!TextUtils.isEmpty(cityHistoryStr)) {
@@ -319,12 +318,23 @@ public class CityAdapter extends BaseAdapter implements View.OnClickListener, On
             }
             sharedPer.saveStringValue(mBusinessType + SharedPre.RESOURCES_CITY_HISTORY, TextUtils.join(",", cityHistory));
         }
-        for (CityBean cb : list) {
-            if (cityBean.cityId == cb.cityId) {
-                list.remove(cityBean);
+
+        Iterator<CityBean> iterator = list.iterator();
+        while(iterator.hasNext()){
+            CityBean cb = iterator.next();
+            if(cb.cityId == cityBean.cityId){
+                iterator.remove();
+                if(searchHistoryCount > 0){
+                    searchHistoryCount--;
+                }
+                if(position == 0 && searchHistoryCount > 0){
+                    list.get(0).firstLetter = "搜索历史";
+                    list.get(0).isFirst = true;
+                }
                 break;
             }
         }
+
         notifyDataSetChanged();
     }
 
