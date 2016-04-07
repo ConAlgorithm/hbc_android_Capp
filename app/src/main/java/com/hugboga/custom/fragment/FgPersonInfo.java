@@ -380,12 +380,15 @@ public class FgPersonInfo extends BaseFragment {
         }
     }
 
+    private String cropPic = null;
     /**
      * 调用系统剪切图片
      */
     public void cropPhoto(Uri uri) {
         if(null == uri) return;
-        File oldFile = new File(Constants.IMAGE_DIR, Constants.HEAD_IMAGE);
+//        File oldFile = new File(Constants.IMAGE_DIR, Constants.HEAD_IMAGE);
+
+        cropPic = ImageUtils.getPhotoFileName();
         File newFile = new File(Constants.IMAGE_DIR, Constants.HEAD_IMAGE_NEW);
         UCrop.Options options = new UCrop.Options();
         options.setCompressionFormat(Bitmap.CompressFormat.JPEG);
@@ -395,7 +398,7 @@ public class FgPersonInfo extends BaseFragment {
     private String setPicToView(Bitmap mBitmap) {
         FileOutputStream b = null;
         ImageUtils.checkDir(); //检查并创建图片目录
-        String fileName = Constants.IMAGE_DIR + File.separator + Constants.HEAD_IMAGE;//图片名字
+        String fileName = Constants.IMAGE_DIR + File.separator + cropPic;//Constants.HEAD_IMAGE;//图片名字
         try {
             b = new FileOutputStream(fileName);
             mBitmap.compress(Bitmap.CompressFormat.JPEG, 100, b);// 把数据写入文件

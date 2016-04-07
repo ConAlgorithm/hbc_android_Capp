@@ -3,7 +3,7 @@
     android:id="@+id/ll_main"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@color/allbg_white"
+    android:background="@color/all_bg_yellow"
     android:orientation="vertical" >
 
     <TextView
@@ -23,7 +23,7 @@
     <View
         android:layout_width="130dp"
         android:layout_height="1px"
-        android:background="#99e5de" />
+        android:background="@color/basic_white" />
 
     <TextView
         android:id="@+id/menu_phone"
