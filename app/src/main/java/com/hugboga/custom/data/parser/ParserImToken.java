@@ -13,6 +13,6 @@ public class ParserImToken extends ImplParser {
 
     @Override
     public Object parseObject(JSONObject obj) throws Throwable {
-        return obj.optString(UserEntity.getUser().getUserId());
+        return obj.optString("IMtoken");
     }
 }

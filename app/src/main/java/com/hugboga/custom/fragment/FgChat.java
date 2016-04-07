@@ -204,6 +204,9 @@ public class FgChat extends BaseFragment implements View.OnClickListener, ZBaseA
             for (ChatBean bean : chatBeans) {
                 totalCount += bean.imCount;
             }
+            if (totalCount > 99) {
+                totalCount = 99;
+            }
             ((MainActivity) getActivity()).setIMCount(totalCount);
             MLog.e("totalCount = " + totalCount);
         }

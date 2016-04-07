@@ -14,7 +14,7 @@ import java.util.ArrayList;
  */
 public class ParserSkuCity extends ImplParser {
     @Override
-    public Object parseObject(JSONObject obj) throws Throwable {
+    public Object[] parseObject(JSONObject obj) throws Throwable {
         SkuCityBean bean = new SkuCityBean();
         bean.cityGuideAmount = obj.optInt("cityGuideAmount");
         bean.cityId = obj.optString("cityId");
@@ -31,6 +31,7 @@ public class ParserSkuCity extends ImplParser {
                 bean.goodsList.add(itemParser.parseObject(goodsArray.optJSONObject(i)));
             }
         }
-        return bean;
+        Object[] result = new Object[]{bean.goodsCount,bean.goodsList,bean};
+        return result;
     }
 }

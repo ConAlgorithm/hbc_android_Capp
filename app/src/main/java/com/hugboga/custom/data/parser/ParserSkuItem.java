@@ -28,6 +28,7 @@ public class ParserSkuItem extends ImplParser {
         bean.goodsType = obj.optInt("goodsType");
         bean.saleAmount = obj.optInt("saleAmount");
         bean.salePoints = obj.optString("salePoints");
+        bean.keyWords = obj.optString("keyWords");
         bean.guideAmount = obj.optInt("guideAmount");
         bean.daysCount = obj.optInt("daysCount");
         bean.skuDetailUrl = obj.optString("skuDetailUrl");

@@ -23,7 +23,7 @@
                 android:id="@+id/letter_item_img"
                 android:layout_width="@dimen/letter_img_width"
                 android:layout_height="@dimen/letter_img_width"
-                android:src="@mipmap/ic_launcher" />
+                 />
 
             <TextView
                 android:id="@+id/footer_order_btn_point"

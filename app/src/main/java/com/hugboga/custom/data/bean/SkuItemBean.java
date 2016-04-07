@@ -14,6 +14,7 @@ public class SkuItemBean implements com.huangbaoche.hbcframe.data.bean.IBaseBean
     public String goodsPicture;//图片
     public int saleAmount;//销售数量
     public String salePoints;//标签
+    public String keyWords;//关键字
     public int guideAmount;//车导数量
     public int daysCount;//天数
     public String places;//
