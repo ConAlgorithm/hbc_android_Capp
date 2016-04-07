@@ -293,7 +293,7 @@ public class MainActivity extends BaseFragmentActivity
     }
 
     private void connectIM() {
-        if (UserEntity.getUser().getImToken(this) != null)
+        if (UserEntity.getUser().isLogin(this))
             new IMUtil(this).conn(UserEntity.getUser().imToken);
     }
 
