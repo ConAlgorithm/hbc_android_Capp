@@ -72,6 +72,10 @@ public class SkuAdapter extends BaseAdapter<SkuItemBean> {
             viewHolder.tvSale.setVisibility(bean.saleAmount == 0 ? View.INVISIBLE : View.VISIBLE);
 
             viewHolder.imgBg.setLayoutParams(new RelativeLayout.LayoutParams(ImageUtils.getScreenWidth(context),ImageUtils.getResizeHeight(context,750,300)));
+            viewHolder.imgBg.setBackgroundResource(R.mipmap.img_notext);
+            viewHolder.imgBg.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
+
             x.image().bind(viewHolder.imgBg, bean.goodsPicture);
         }
 
