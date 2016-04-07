@@ -227,7 +227,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/basic_margin_medium"
                     android:background="@drawable/btn_round_travel"
-                    android:text="评价车导"
+                    android:text="评价司导"
                     android:textSize="@dimen/text_size_large"
                     android:visibility="gone" />
 

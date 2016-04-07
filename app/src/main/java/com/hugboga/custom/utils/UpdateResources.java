@@ -156,7 +156,7 @@ public class UpdateResources {
     public static void checkLocalDB(Context context) {
         final DBHelper mDBHelper = new DBHelper(context);
         try {
-            if (!mDBHelper.checkDataBase()) {//无数据库,从资源文件copy
+             if (!mDBHelper.checkDataBase()) {//无数据库,从资源文件copy
                 mDBHelper.deleteOldDb();
                 mDBHelper.copyDataBase();
 //                mDBHelper.getDbUtils();

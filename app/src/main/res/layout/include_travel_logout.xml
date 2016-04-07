@@ -37,7 +37,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/basic_margin_small"
-            android:text="如果您预订了车导服务"
+            android:text="如果您预订了司导服务"
             android:textSize="@dimen/text_size_largex" />
 
         <TextView

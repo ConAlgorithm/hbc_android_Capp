@@ -459,7 +459,7 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
                             int position, long id) {
         Bundle bundle = new Bundle(getArguments());
         CityBean cityBean = sourceDateList.get(position);
-        if (cityBean.firstLetter.equals("nationality")) {
+        if (cityBean.isNationality) {
             return;
         }
         //从首页进城市搜索，到城市sku列表
@@ -595,6 +595,7 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
                         if(!isSetGuessYouWant){
                             finalList.get(0).isFirst = true;
                             finalList.get(0).firstLetter = getActivity().getString(R.string.guess_you_want);
+//                            finalList.get(0).isNationality = true;
                             isSetGuessYouWant = true;
                         }
                         sourceDateList.addAll(finalList);
@@ -661,6 +662,7 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
         if (dataList.size() > 0) {
             for (CityBean cb : dataList) {
                 cb.name = cb.name + "，" + cb.placeName;
+                cb.keyWord = keyword;
             }
         }
         return dataList;
@@ -722,6 +724,8 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
             CityBean onlyForDisplayCityBean = new CityBean();
             onlyForDisplayCityBean.name = CountryDateList.get(0).placeName + " - 该地点为国家/地区";
             onlyForDisplayCityBean.firstLetter = "nationality";
+            onlyForDisplayCityBean.isNationality = true;
+            onlyForDisplayCityBean.keyWord = keyword;
             CountryDateList.add(0, onlyForDisplayCityBean);
         }
         return CountryDateList;
