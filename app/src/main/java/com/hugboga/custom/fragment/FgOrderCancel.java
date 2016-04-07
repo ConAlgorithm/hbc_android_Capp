@@ -56,7 +56,11 @@ public class FgOrderCancel extends BaseFragment {
         mDialogUtil = DialogUtil.getInstance(getActivity());
         orderBean = (OrderBean) getArguments().getSerializable(KEY_ORDER);
         OverPriceAdapter adapter = new OverPriceAdapter(getActivity());
-        orderType.setText(getString(Constants.TitleMap.get(orderBean.orderType)));
+        if(orderBean.orderType==3){
+            orderType.setText(getString(Constants.TitleMap.get(orderBean.orderGoodsType)));
+        }else{
+            orderType.setText(getString(Constants.TitleMap.get(orderBean.orderType)));
+        }
         orderNoValue.setText(orderBean.orderNo);
         orderApplyValue.setText(orderBean.orderPriceInfo.actualPay+"元");
         orderBack.setText(orderBean.orderPriceInfo.cancelFee + "元");

@@ -324,11 +324,7 @@ public class FgSubmit extends BaseFragment implements CompoundButton.OnCheckedCh
     private void onClickView(View view) {
         switch (view.getId()) {
             case R.id.bottom_bar_btn:
-                if(UserEntity.getUser().isLogin(getActivity())){
                     submitData(view);
-                }else{
-                    startFragment(new FgLogin());
-                }
                 break;
             case R.id.submit_phone_add:
                 if (phoneLayoutCount == 1) {
@@ -555,17 +551,17 @@ public class FgSubmit extends BaseFragment implements CompoundButton.OnCheckedCh
             showTip("请填选择酒店电话区号");
             return;
         }
-
+        if(!UserEntity.getUser().isLogin(getActivity())){
+            startFragment(new FgLogin());
+            return;
+        }
         hotelPhoneAreaCodeStr = hotelPhoneAreaCodeStr.replace("+", "");
         orderBean.serviceAreaCode = hotelPhoneAreaCodeStr;
         orderBean.serviceAddressTel = hotelPhoneStr;
         orderBean.expectedCompTime = expectedCompTime;
         orderBean.urgentFlag = getArguments().getInt(FgCar.KEY_URGENT_FLAG);
 
-        if(!UserEntity.getUser().isLogin(getActivity())){
-            startFragment(new FgLogin());
-            return;
-        }
+
         orderBean.orderType = getBusinessType();
         orderBean.carType = carBean.carType;
         orderBean.seatCategory = carBean.carSeat;

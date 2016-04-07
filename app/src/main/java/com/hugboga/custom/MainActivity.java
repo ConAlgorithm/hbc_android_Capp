@@ -544,8 +544,13 @@ public class MainActivity extends BaseFragmentActivity
 
     public void setIMCount(int count) {
         if (count > 0) {
+            if (count > 99) {
+                bottomPoint2.setText("99+");
+            }else {
+                bottomPoint2.setText(""+count);
+            }
             bottomPoint2.setVisibility(View.VISIBLE);
-            bottomPoint2.setText("" + count);
+
         } else {
             bottomPoint2.setVisibility(View.GONE);
             bottomPoint2.setText("");

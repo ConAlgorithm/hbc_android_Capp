@@ -101,9 +101,10 @@ public class LoadingActivity extends BaseFragmentActivity implements HttpRequest
     }
 
     private void checkVersion() {
+        DialogUtil.getInstance(this).showLoadingDialog();
         int resourcesVersion = new SharedPre(this).getIntValue(SharedPre.RESOURCES_H5_VERSION);
         RequestCheckVersion requestCheckVersion = new RequestCheckVersion(this, resourcesVersion);
-        HttpRequestUtils.request(this, requestCheckVersion, this);
+        HttpRequestUtils.request(this, requestCheckVersion, this,false);
     }
 
     Handler handler = new Handler() {
@@ -172,6 +173,7 @@ public class LoadingActivity extends BaseFragmentActivity implements HttpRequest
             });
             checkUploadLog(cvBean);
         }
+
     }
     /**
      * 是否开启debug模式
@@ -186,6 +188,7 @@ public class LoadingActivity extends BaseFragmentActivity implements HttpRequest
     }
 
     private void checkToNew() {
+        DialogUtil.getInstance(this).dismissLoadingDialog();
         Long time = System.currentTimeMillis() - start;
         final Long cha = aLong - time;
         if (cha <= 0) {
@@ -208,6 +211,7 @@ public class LoadingActivity extends BaseFragmentActivity implements HttpRequest
 
     @Override
     public void onDataRequestCancel(BaseRequest request) {
+        DialogUtil.getInstance(this).dismissLoadingDialog();
     }
 
     @Override
@@ -217,6 +221,7 @@ public class LoadingActivity extends BaseFragmentActivity implements HttpRequest
         }
         errorHandler.onDataRequestError(errorInfo, request);
         errorHandler = null;
+        DialogUtil.getInstance(this).dismissLoadingDialog();
     }
 
     @Override

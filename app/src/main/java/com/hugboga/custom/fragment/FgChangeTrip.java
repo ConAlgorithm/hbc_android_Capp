@@ -80,8 +80,6 @@ public class FgChangeTrip extends BaseFragment implements View.OnClickListener {
 
     @ViewInject(R.id.submit_child_seat_layout)
     private LinearLayout orderChildrenSeatLayout;//儿童座椅
-    @ViewInject(R.id.txt_children_seat_value)
-    private TextView orderChildrenSeatValue;//儿童座椅数
     @ViewInject(R.id.submit_pick_name)
     private TextView pickName;//接机牌
     @ViewInject(R.id.submit_pick_name_layout)
@@ -518,8 +516,9 @@ public class FgChangeTrip extends BaseFragment implements View.OnClickListener {
             showTip("请选择成人数量");
             return;
         }
+        MLog.e("seatCategory = "+mOrderBean.seatCategory);
         //客户端做check
-        if (adult + child >= orderBean.seatCategory) {
+        if (adult + child >= mOrderBean.seatCategory) {
             Toast.makeText(getActivity(), "您选择的出行人数超出车型所能容纳的人数,请重新填写出行人数", Toast.LENGTH_LONG).show();
             return;
         }

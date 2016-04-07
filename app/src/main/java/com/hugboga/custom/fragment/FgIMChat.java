@@ -530,28 +530,26 @@ public class FgIMChat extends BaseFragment {
         }
     };
     public static String getOrderStatus(OrderStatus orderStatus){
-        String status ="";
         switch (orderStatus) {
             case INITSTATE:     // 未支付
-                status = "未支付";
+                return  "未支付";
             case PAYSUCCESS:
             case AGREE:    // 已支付--服务中
-                status = "未开始";
+                return "未开始";
             case ARRIVED:
             case SERVICING:
             case COMPLAINT:    // 已支付--服务中
-                status = "进行中";
+                return "进行中";
             case NOT_EVALUATED:     // 未评价
-                status = "进行中";
+                return "进行中";
             case COMPLETE:     // 已评价（已完成）
-                status = "已完成";
+                return "已完成";
             case CANCELLED:     // 已取消（未支付）
-                status = "已取消";
+                return "已取消";
             case REFUNDED: // 已退款（已支付）
-                status = "已退款";
+                return "已退款";
             default:
-                status = "";
+                return "";
         }
-        return status;
     }
 }
