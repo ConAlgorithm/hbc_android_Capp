@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.huangbaoche.hbcframe.adapter.ZBaseAdapter;
 import com.huangbaoche.hbcframe.adapter.ZBaseAdapter.OnItemClickListener;
 import com.huangbaoche.hbcframe.util.MLog;
+import com.huangbaoche.hbcframe.widget.recycler.ZDefaultDivider;
 import com.huangbaoche.hbcframe.widget.recycler.ZListPageView;
 import com.huangbaoche.hbcframe.widget.recycler.ZSwipeRefreshLayout;
 import com.hugboga.custom.MainActivity;
@@ -130,6 +131,9 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, OnIt
 
         //进行中
         runninLayout = (RelativeLayout) inflater.inflate(R.layout.travel_list_layout_running, null);
+//        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+//        layoutParams.setMargins(0, 15, 0, 15);//4个参数按顺序分别是左上右下
+//        runninLayout.setLayoutParams(layoutParams);
         fgTravelRunning = (ZListPageView) runninLayout.findViewById(R.id.listview);
         runningSwipeRefresh = (ZSwipeRefreshLayout) runninLayout.findViewById(R.id.swipe);
         runningEmptyLayout = (RelativeLayout) runninLayout.findViewById(R.id.list_empty);
@@ -139,6 +143,9 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, OnIt
         fgTravelRunning.setEmptyLayout(runningEmptyLayout);
         fgTravelRunning.setRequestData(new RequestTravel(getActivity(), 1));
         fgTravelRunning.setOnItemClickListener(new TravelOnItemClickListener(fgTravelRunning));
+        //设置间距
+        ZDefaultDivider zDefaultDivider = fgTravelRunning.getItemDecoration();
+        zDefaultDivider.setItemOffsets(0, 15, 0, 15);
         //设置开启我的行程事件
         setBtnClick(runninLayout.findViewById(R.id.travel_empty_btn));
         //已完成
@@ -152,6 +159,8 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, OnIt
         fgTravelFinish.setEmptyLayout(finishEmptyLayout);
         fgTravelFinish.setRequestData(new RequestTravel(getActivity(), 2));
         fgTravelFinish.setOnItemClickListener(new TravelOnItemClickListener(fgTravelFinish));
+        ZDefaultDivider zDefaultDivider2 = fgTravelFinish.getItemDecoration();
+        zDefaultDivider2.setItemOffsets(0, 15, 0, 15);
         //已取消
         cancelLayout = (RelativeLayout) inflater.inflate(R.layout.travel_list_layout_cancel, null);
         fgTravelCancel = (ZListPageView) cancelLayout.findViewById(R.id.listview);
@@ -163,6 +172,8 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, OnIt
         fgTravelCancel.setEmptyLayout(cancelEmptyLayout);
         fgTravelCancel.setRequestData(new RequestTravel(getActivity(), 3));
         fgTravelCancel.setOnItemClickListener(new TravelOnItemClickListener(fgTravelCancel));
+        ZDefaultDivider zDefaultDivider3 = fgTravelCancel.getItemDecoration();
+        zDefaultDivider3.setItemOffsets(0, 15, 0, 15);
 
         //Tab相关
         tab1TextView.setSelected(true);

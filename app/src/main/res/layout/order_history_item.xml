@@ -7,7 +7,7 @@
     <RelativeLayout
         android:id="@+id/travel_item_head"
         android:layout_width="match_parent"
-        android:layout_height="13dp"
+        android:layout_height="0dp"
         android:background="@color/travel_bg" />
 
     <RelativeLayout
