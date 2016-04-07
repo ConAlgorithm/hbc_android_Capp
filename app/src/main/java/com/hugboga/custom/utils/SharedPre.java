@@ -37,6 +37,8 @@ public class SharedPre {
 	public static String RESOURCES_PLACE_HISTORY ="resources_place_history";
 	public static String CACHE_SIZE ="cache_size";
 
+	public static String IS_INIT_DB ="is_init_db";
+
 	public SharedPre(Context ctx) {
 		this.ctx = ctx;
 	}

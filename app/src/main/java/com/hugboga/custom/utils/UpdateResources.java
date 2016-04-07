@@ -156,12 +156,23 @@ public class UpdateResources {
     public static void checkLocalDB(Context context) {
         final DBHelper mDBHelper = new DBHelper(context);
         try {
-             if (!mDBHelper.checkDataBase()) {//无数据库,从资源文件copy
+            boolean isInitDB = new SharedPre(context).getBooleanValue(SharedPre.IS_INIT_DB);
+            int apkDBVersion = ResourcesConstants.RESOURCES_DB_VERSION_DEFAULT;
+            int localDBVersion = new SharedPre(context).getIntValue(SharedPre.RESOURCES_DB_VERSION, ResourcesConstants.RESOURCES_DB_VERSION_DEFAULT);
+            if(!isInitDB || localDBVersion < apkDBVersion){//无数据库,或者当前数据库版本小于APK内的数据库版本,从资源文件copy
                 mDBHelper.deleteOldDb();
                 mDBHelper.copyDataBase();
 //                mDBHelper.getDbUtils();
                 mDBHelper.getDbManager();
+                new SharedPre(context).saveBooleanValue(SharedPre.IS_INIT_DB,true);
             }
+
+//             if (!mDBHelper.checkDataBase()) {//无数据库,从资源文件copy
+//                mDBHelper.deleteOldDb();
+//                mDBHelper.copyDataBase();
+////                mDBHelper.getDbUtils();
+//                mDBHelper.getDbManager();
+//            }
         } catch (Exception e) {
             MLog.e("checkLocalDB", e);
         }
