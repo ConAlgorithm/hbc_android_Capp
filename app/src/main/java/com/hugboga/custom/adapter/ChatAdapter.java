@@ -51,7 +51,7 @@ public class ChatAdapter extends ZBaseAdapter<ChatBean, ChatVH> {
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            x.image().bind(vh.mImage, chatBean.targetAvatar, options);
+            x.image().bind(vh.mImage, chatBean.targetAvatar);
             flushOrder(vh, chatBean);
             flushPoint(vh, chatBean);
         }

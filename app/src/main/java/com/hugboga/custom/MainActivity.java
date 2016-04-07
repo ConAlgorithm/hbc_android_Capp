@@ -55,6 +55,7 @@ import com.hugboga.custom.utils.PermissionRes;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.UpdateResources;
+import com.hugboga.custom.widget.CircularImage;
 import com.zhy.m.permission.MPermissions;
 import com.zhy.m.permission.PermissionDenied;
 import com.zhy.m.permission.PermissionGrant;
@@ -88,7 +89,7 @@ public class MainActivity extends BaseFragmentActivity
     private ViewPager mViewPager;
 
     private TextView tv_modify_info;//header的修改资料
-    private ImageView my_icon_head;//header的头像
+    private CircularImage my_icon_head;//header的头像
     private TextView tv_nickname;//header的昵称
 
     private TextView tabMenu[] = new TextView[3];
@@ -320,7 +321,7 @@ public class MainActivity extends BaseFragmentActivity
         View header = inflater.inflate(R.layout.nav_header_main, null);
         tv_modify_info = (TextView) header.findViewById(R.id.tv_modify_info);//编辑
         tv_modify_info.setOnClickListener(this);
-        my_icon_head = (ImageView) header.findViewById(R.id.my_icon_head);//头像
+        my_icon_head = (CircularImage) header.findViewById(R.id.my_icon_head);//头像
         my_icon_head.setOnClickListener(this);
         tv_nickname = (TextView) header.findViewById(R.id.tv_nickname);//昵称
         tv_nickname.setOnClickListener(this);
@@ -346,7 +347,7 @@ public class MainActivity extends BaseFragmentActivity
         } else {
             tv_modify_info.setVisibility(View.VISIBLE);
             if (!TextUtils.isEmpty(UserEntity.getUser().getAvatar(this))) {
-                x.image().bind(my_icon_head, UserEntity.getUser().getAvatar(this), ImageOptionUtils.userPortraitImageOptions);
+                x.image().bind(my_icon_head, UserEntity.getUser().getAvatar(this));
             } else {
                 my_icon_head.setImageResource(R.mipmap.chat_head);
             }
