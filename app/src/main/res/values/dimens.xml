@@ -72,4 +72,5 @@
     <!--Letter size-->
     <dimen name="letter_img_width">48dp</dimen>
     <dimen name="letter_img_point_width">16dp</dimen>
+    <dimen name="letter_img_point_width_x">18dp</dimen>
 </resources>
