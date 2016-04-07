@@ -25,6 +25,7 @@ import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.ServerException;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
+import com.huangbaoche.hbcframe.util.WXShareUtils;
 import com.hugboga.custom.R;
 import com.hugboga.custom.alipay.PayResult;
 import com.hugboga.custom.constants.Constants;
@@ -787,6 +788,9 @@ public class FgOrder extends BaseFragment {
         return requestData(request);
     }
 
+    /**
+     * 请求支付的号
+     */
     private void requestPayNo() {
         if (mOrderBean == null) return;
         String couponId= mOrderBean.orderCoupon==null?"":mOrderBean.orderCoupon.couponID;
@@ -794,6 +798,11 @@ public class FgOrder extends BaseFragment {
         requestData(request);
     }
 
+    /**
+     * 取消订单
+     * @param orderID
+     * @param cancelPrice
+     */
     private void cancelOrder(String orderID, double cancelPrice) {
         if (cancelPrice < 0) cancelPrice = 0;
         RequestOrderCancel request = new RequestOrderCancel(getActivity(),orderID, cancelPrice, "");
@@ -996,6 +1005,9 @@ public class FgOrder extends BaseFragment {
                 startFragment(new FgAssessment(), bundle);
                 break;
             case R.id.bottom_bar_btn:
+                if(payType==Constants.PAY_STATE_WECHAT&&!WXShareUtils.getInstance(getActivity()).isInstall(true)){
+                    return;
+                }
                 requestPayNo();
                 break;
             case R.id.order_info_tai:

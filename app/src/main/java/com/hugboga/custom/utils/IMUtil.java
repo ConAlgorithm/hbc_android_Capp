@@ -123,10 +123,11 @@ public class IMUtil {
         String userid = UserEntity.getUser().getUserId();
         String username = UserEntity.getUser().getNickname(context);
         String guideAvatarUrl = UserEntity.getUser().getAvatar(context);
-        if (!TextUtils.isEmpty(guideAvatarUrl) && guideAvatarUrl.startsWith(UrlLibs.SERVER_HTTP_SCHEME_HTTPS)) {
+      /*  if (!TextUtils.isEmpty(guideAvatarUrl) && guideAvatarUrl.startsWith(UrlLibs.SERVER_HTTP_SCHEME_HTTPS)) {
             guideAvatarUrl = guideAvatarUrl.replace(UrlLibs.SERVER_HTTP_SCHEME_HTTPS, UrlLibs.SERVER_HTTP_SCHEME_HTTP);
-            userInfo = new UserInfo("Y" + userid, username, Uri.parse(guideAvatarUrl));
-        }
+        }*/
+        userInfo = new UserInfo("Y" + userid, username, Uri.parse(guideAvatarUrl));
+        MLog.e("guideAvatarUrl =  "+guideAvatarUrl);
         return userInfo;
     }
 }

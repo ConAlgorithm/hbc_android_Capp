@@ -562,6 +562,10 @@ public class FgSubmit extends BaseFragment implements CompoundButton.OnCheckedCh
         orderBean.expectedCompTime = expectedCompTime;
         orderBean.urgentFlag = getArguments().getInt(FgCar.KEY_URGENT_FLAG);
 
+        if(!UserEntity.getUser().isLogin(getActivity())){
+            startFragment(new FgLogin());
+            return;
+        }
         orderBean.orderType = getBusinessType();
         orderBean.carType = carBean.carType;
         orderBean.seatCategory = carBean.carSeat;

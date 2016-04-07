@@ -72,7 +72,7 @@ public class FgOrderOverPrice extends BaseFragment {
 
     @Override
     protected void initHeader() {
-        fgTitle.setText("增项费用");
+        fgTitle.setText("费用明细");
 
     }
 

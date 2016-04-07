@@ -39,7 +39,7 @@ public class FgNewOrder extends BaseFragment implements ZBaseAdapter.OnItemClick
     @Override
     protected void initHeader() {
        fgTitle.setText(R.string.letter_chat_btn);
-        fgRightBtn.setVisibility(View.VISIBLE);
+        fgRightBtn.setVisibility(View.GONE);
     }
 
     @Override

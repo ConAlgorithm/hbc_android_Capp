@@ -606,7 +606,7 @@ public class DialogUtil implements DialogUtilInterface {
 
     public void showCallDialog() {
         String[] str = {"境内客服:" + Constants.CALL_NUMBER_IN, "境外客服:" + Constants.CALL_NUMBER_OUT};
-        new AlertDialog.Builder(getRootActivity(mContext))
+        AlertDialog dialog = new AlertDialog.Builder(getRootActivity(mContext))
                 .setTitle("联系客服")
                 .setItems(str, new DialogInterface.OnClickListener() {
                     @Override
@@ -617,7 +617,10 @@ public class DialogUtil implements DialogUtilInterface {
                             PhoneInfo.CallDial(mContext, Constants.CALL_NUMBER_OUT);
                         }
                     }
-                }).show();
+                }).create();
+        dialog.setCancelable(true);
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.show();
     }
 
 }

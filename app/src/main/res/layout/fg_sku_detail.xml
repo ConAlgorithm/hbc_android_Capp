@@ -9,7 +9,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/login_login_bg">
+        android:background="@color/servicer_center_content_bg">
 
         <LinearLayout
             android:id="@+id/bottom_layout"
@@ -50,7 +50,8 @@
             android:id="@+id/webview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@id/bottom_layout" />
+            android:layout_above="@id/bottom_layout"
+            />
 
     </RelativeLayout>
 </LinearLayout>

@@ -13,6 +13,7 @@ import org.xutils.http.annotation.HttpRequest;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Created by admin on 2016/3/3.
@@ -20,7 +21,7 @@ import java.util.Map;
 @HttpRequest(
         path = UrlLibs.SERVER_IP_CITY_SKU,
         builder = HbcParamsBuilder.class)
-public class RequestSkuList extends BaseRequest<SkuCityBean> {
+public class RequestSkuList extends BaseRequest<Objects[]> {
 
     private final String cityId;
 

@@ -225,7 +225,7 @@
     <string name="chat_log">聊天记录</string>
     <string name="phone_consultation">电话咨询</string>
     <string name="goto_order">马上去玩</string>
-    <string name="goto_pay">去支付</string>
+    <string name="goto_pay">立即支付</string>
     <string name="order_total">订单总额：</string>
     <string name="sku_days">包车天数：%s天</string>
     <string name="user_name">联系人</string>
