@@ -6,6 +6,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.huangbaoche.hbcframe.adapter.ZBaseAdapter;
+import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.huangbaoche.hbcframe.widget.recycler.ZListPageView;
@@ -208,5 +209,10 @@ public class FgChat extends BaseFragment implements View.OnClickListener, ZBaseA
             ((MainActivity) getActivity()).setIMCount(totalCount);
             MLog.e("totalCount = " + totalCount);
         }
+    }
+
+    @Override
+    public void error(ExceptionInfo errorInfo, BaseRequest request) {
+
     }
 }

@@ -28,8 +28,8 @@
             android:text="@string/tab_chat" />
         <TextView
             android:id="@+id/bottom_point_2"
-            android:layout_width="@dimen/letter_img_point_width"
-            android:layout_height="@dimen/letter_img_point_width"
+            android:layout_width="@dimen/letter_img_point_width_x"
+            android:layout_height="@dimen/letter_img_point_width_x"
             android:background="@mipmap/tabbar_number"
             android:layout_toRightOf="@id/tab_text_2"
             android:layout_marginLeft="-5dp"

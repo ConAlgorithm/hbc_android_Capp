@@ -222,6 +222,9 @@ public class ZListPageView extends ZListRecyclerView implements IPageList {
             }
             ErrorHandler handler = new ErrorHandler((Activity) getContext(), this);
             handler.onDataRequestError(errorInfo, request);
+            if (noticeViewTask != null) {
+                noticeViewTask.error(errorInfo,request);
+            }
         }
 
     };
@@ -233,6 +236,8 @@ public class ZListPageView extends ZListRecyclerView implements IPageList {
 
     public interface NoticeViewTask {
         void notice(Object object);
+        void error(ExceptionInfo errorInfo, BaseRequest request);
+
     }
 
     public void setNoticeViewTask(NoticeViewTask noticeViewTask) {
