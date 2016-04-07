@@ -128,7 +128,7 @@
     <string name="tip_pick_flight_down_time">飞机降落的当地时间</string>
 
     <!-- 页面 pick_daily -->
-    <string name="daily_tip">下单成功后，会有专属车导为您定制详细行程</string>
+    <string name="daily_tip">下单成功后，会有专属司导为您定制详细行程</string>
     <string name="daily_tap_in_town">市内包车</string>
     <string name="daily_tap_out_town">跨城市包车</string>
     <!-- 页面 pick_flight_customer -->
@@ -146,9 +146,9 @@
     <string name="submit_pick_name">接机牌姓名</string>
     <string name="submit_send_hotel">入住酒店联系电话</string>
     <string name="submit_flight_no">选择起飞航班号</string>
-    <string name="submit_send_hotel_tip">如果您的用车地址是酒店，请填写电话方便车导确认酒店具体位置</string>
+    <string name="submit_send_hotel_tip">如果您的用车地址是酒店，请填写电话方便司导确认酒店具体位置</string>
     <string name="submit_chose_visa">选择签证信息</string>
-    <string name="submit_remark_tip">您可以在这里注明其他需求，以及需要车导知道的其他行程细节</string>
+    <string name="submit_remark_tip">您可以在这里注明其他需求，以及需要司导知道的其他行程细节</string>
     <string name="submit_order_cancel"><u>订单取消规则</u></string>
     <string name="submit_order_tip"><u>预订须知</u></string>
     <string name="submit_order_over_tip"><u>后付费用计价规则</u></string>
@@ -165,7 +165,7 @@
     <string name="pay_tip_thailand"><u>泰国接机说明</u></string>
     <string name="order_cancel_tip">确定要取消行程吗？</string>
     <string name="order_cancel_tip2" formatted="false">距离服务开始时间24小时前取消及更改，免收退改费,可全额退款;\n服务开始时间24小时内取消及更改，将收取订单金额的100%作为退改费;</string>
-    <string name="order_cancel_tip3">\n跨城市长途包车距离服务开始时间48小时内取消及更改，将产生车导住宿费用，收取订单金额20%用于补偿车导损失。</string>
+    <string name="order_cancel_tip3">\n跨城市长途包车距离服务开始时间48小时内取消及更改，将产生司导住宿费用，收取订单金额20%用于补偿司导损失。</string>
     <string name="pay_time_tip">请在%1$s内付款,以免订单取消</string>
     <string name="order_cancel_pay">订单尚未付款，返回将放弃支付，稍后可在“我的行程”中继续完成支付</string>
     <!-- 承诺promise -->
@@ -233,7 +233,7 @@
     <string name="user_phone">联系电话</string>
     <string name="user_phone_hint">请填写联系人电话</string>
     <string name="remark">备注</string>
-    <string name="remark_hint">您可以在这里注明其他需求，以及需要车导知道的其他行程细节</string>
+    <string name="remark_hint">您可以在这里注明其他需求，以及需要司导知道的其他行程细节</string>
     <string name="select_car_type">选择服务车型</string>
     <string name="suk_area_code"><![CDATA[区号 > ｜]]></string>
     <string name="sku_empty_tips">更多精品包车线路即将上限，敬请期待</string>

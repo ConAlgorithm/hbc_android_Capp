@@ -53,6 +53,10 @@ public class CityBean implements IBaseBean {
 
     public int dataType = -1;// 数据类型 1.历史搜索记录 2.热门城市 3.全部城市
 
+    public String keyWord = "";
+
+    public boolean isNationality = false;
+
 //    @Override
 //    public void parser(JSONObject jsonObj) throws JSONException {
 //        cityId = jsonObj.optInt("cityId");

@@ -20,7 +20,7 @@
         android:layout_toRightOf="@id/guide_head_img"
         android:layout_marginTop="7dp"
         android:layout_marginLeft="10dp"
-        android:text="车导"
+        android:text="司导"
         android:textSize="17sp" />
 
     <TextView
