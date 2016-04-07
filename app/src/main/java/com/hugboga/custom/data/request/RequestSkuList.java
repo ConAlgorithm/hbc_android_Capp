@@ -28,13 +28,8 @@ public class RequestSkuList extends BaseRequest<Objects[]> {
     public RequestSkuList(Context context, String cityId) {
         super(context);
         this.cityId = cityId;
-    }
-
-    @Override
-    public Map<String, Object> getDataMap() {
-        HashMap<String, Object> map = new HashMap<>();
+        map = new HashMap<>();
         map.put("cityId", cityId);
-        return map;
     }
 
     @Override

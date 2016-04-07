@@ -1240,7 +1240,7 @@ public class FgOrder extends BaseFragment {
 
     private void onKeyBack() {
         MLog.e("onKeyBack " + mSourceFragment);
-        if (mSourceFragment != null && mSourceFragment instanceof  FgSubmit&&mOrderBean.orderStatus==OrderStatus.INITSTATE) {
+        if (mSourceFragment != null && (mSourceFragment instanceof  FgSubmit||mSourceFragment instanceof  FgSkuSubmit)&&mOrderBean.orderStatus==OrderStatus.INITSTATE) {
             mDialogUtil.showCustomDialog(getString(R.string.app_name), getString(R.string.order_cancel_pay), "返回", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
