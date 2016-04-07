@@ -12,13 +12,16 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         >
-        <ListView
-            android:id="@android:id/list"
+        <com.huangbaoche.hbcframe.widget.recycler.ZSwipeRefreshLayout
+            android:id="@+id/swipe"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:dividerHeight="2dp"
-            android:divider="@null"
-            />
+            android:layout_height="match_parent">
+
+            <com.huangbaoche.hbcframe.widget.recycler.ZListPageView
+                android:id="@+id/listview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </com.huangbaoche.hbcframe.widget.recycler.ZSwipeRefreshLayout>
         <include
             android:id="@+id/sku_list_empty"
             layout="@layout/include_sku_list_empty"/>

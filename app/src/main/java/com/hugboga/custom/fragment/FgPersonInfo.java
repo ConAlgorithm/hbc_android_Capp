@@ -38,6 +38,8 @@ import com.hugboga.custom.utils.FileUtil;
 import com.hugboga.custom.utils.ImageOptionUtils;
 import com.hugboga.custom.utils.ImageUtils;
 import com.hugboga.custom.utils.PermissionRes;
+import com.hugboga.custom.widget.CircleImageView;
+import com.hugboga.custom.widget.CircularImage;
 import com.yalantis.ucrop.UCrop;
 import com.zhy.m.permission.MPermissions;
 import com.zhy.m.permission.PermissionDenied;
@@ -65,7 +67,7 @@ import de.greenrobot.event.EventBus;
 public class FgPersonInfo extends BaseFragment {
 
     @ViewInject(R.id.my_info_menu_head1)
-    ImageView headImageView;
+    CircularImage headImageView;
     @ViewInject(R.id.my_info_nickname)
     TextView nickNameTextView;
     @ViewInject(R.id.my_info_sex)
@@ -119,7 +121,7 @@ public class FgPersonInfo extends BaseFragment {
         if (!TextUtils.isEmpty(userBean.avatar)) {
             String avatar = userBean.avatar;
 //            imageUtil.display(headImageView, avatar);
-            x.image().bind(headImageView, avatar, ImageOptionUtils.userPortraitImageOptions);
+            x.image().bind(headImageView, avatar);
         }
         if (!TextUtils.isEmpty(userBean.nickname)) {
             nickNameTextView.setText(userBean.nickname);
@@ -378,24 +380,28 @@ public class FgPersonInfo extends BaseFragment {
         }
     }
 
+    private String cropPic = null;
     /**
      * 调用系统剪切图片
      */
-    public void cropPhoto() {
-        File oldFile = new File(Constants.IMAGE_DIR, Constants.HEAD_IMAGE);
+    public void cropPhoto(Uri uri) {
+        if(null == uri) return;
+//        File oldFile = new File(Constants.IMAGE_DIR, Constants.HEAD_IMAGE);
+
+        cropPic = ImageUtils.getPhotoFileName();
         File newFile = new File(Constants.IMAGE_DIR, Constants.HEAD_IMAGE_NEW);
         UCrop.Options options = new UCrop.Options();
-        options.setCompressionFormat(Bitmap.CompressFormat.PNG);
-        UCrop.of(Uri.fromFile(oldFile), Uri.fromFile(newFile)).withAspectRatio(1f, 1f).withOptions(options).withMaxResultSize(200, 200).start(getActivity(), this);
+        options.setCompressionFormat(Bitmap.CompressFormat.JPEG);
+        UCrop.of(uri, Uri.fromFile(newFile)).withAspectRatio(1f, 1f).withOptions(options).withMaxResultSize(200, 200).start(getActivity(), this);
     }
 
     private String setPicToView(Bitmap mBitmap) {
         FileOutputStream b = null;
         ImageUtils.checkDir(); //检查并创建图片目录
-        String fileName = Constants.IMAGE_DIR + File.separator + Constants.HEAD_IMAGE;//图片名字
+        String fileName = Constants.IMAGE_DIR + File.separator + cropPic;//Constants.HEAD_IMAGE;//图片名字
         try {
             b = new FileOutputStream(fileName);
-            mBitmap.compress(Bitmap.CompressFormat.PNG, 100, b);// 把数据写入文件
+            mBitmap.compress(Bitmap.CompressFormat.JPEG, 100, b);// 把数据写入文件
             b.flush();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -487,16 +493,17 @@ public class FgPersonInfo extends BaseFragment {
         switch (requestCode) {
             case 1:
                 if (resultCode == Activity.RESULT_OK) {
-                    cropPhoto();//裁剪图片
+                    cropPhoto(data.getData());//裁剪图片
                 }
                 break;
             case 2:
                 if (resultCode == Activity.RESULT_OK) {
                     try {
-                        Bitmap bitmap = BitmapFactory.decodeStream(getActivity().getContentResolver().openInputStream(data.getData()));
-                        FileUtil.saveBitmapToFile(bitmap, Constants.IMAGE_DIR, Constants.HEAD_IMAGE);
-                        cropPhoto();//裁剪图片
-                    } catch (FileNotFoundException e) {
+//                        Bitmap bitmap = BitmapFactory.decodeStream(getActivity().getContentResolver().openInputStream(data.getData()));
+//                        FileUtil.saveBitmapToFile(bitmap, Constants.IMAGE_DIR, Constants.HEAD_IMAGE);
+//                        String filePath = data.getData().getPath();
+                        cropPhoto(data.getData());//裁剪图片
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
@@ -507,10 +514,11 @@ public class FgPersonInfo extends BaseFragment {
                     if (resultUri != null) {
                         Bitmap bitmap = getBitmapFromUri(resultUri);
                         if (bitmap != null) {
+                            headImageView.setImageURI(resultUri);
                             String fileName = setPicToView(bitmap);//保存在SD卡中
                             MLog.e("fileName=" + fileName);
                             uploadPic(fileName);
-                            headImageView.setImageBitmap(bitmap);//用ImageView显示出来
+//                            headImageView.setImageBitmap(bitmap);//用ImageView显示出来
                         }
                     }
                 } else if (resultCode == UCrop.RESULT_ERROR) {

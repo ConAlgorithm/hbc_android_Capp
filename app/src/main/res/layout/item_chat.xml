@@ -19,10 +19,12 @@
             android:layout_width="@dimen/letter_img_width"
             android:layout_height="@dimen/letter_img_width">
 
-            <ImageView
+            <com.hugboga.custom.widget.CircularImage
                 android:id="@+id/letter_item_img"
                 android:layout_width="@dimen/letter_img_width"
                 android:layout_height="@dimen/letter_img_width"
+                android:background="#00000000"
+                android:scaleType="centerCrop"
                 android:src="@mipmap/ic_launcher" />
 
             <TextView

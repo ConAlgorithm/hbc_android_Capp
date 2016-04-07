@@ -66,8 +66,8 @@
     <color name="my_info_bg">#F9F9F9</color>
     <color name="my_info_menu_title">#696769</color>
 
-    <!-- Coupon color -->
     <color name="coupon_layout1_color">#D5D7D9</color>
+    <!-- Coupon color -->
     <color name="coupon_empty_color">#F0F0F0</color>
     <color name="coupon_empty_text">#AAAAAA</color>
 

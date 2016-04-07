@@ -8,17 +8,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
+import com.huangbaoche.hbcframe.adapter.ZBaseAdapter;
 import com.huangbaoche.hbcframe.data.net.DefaultImageCallback;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
+import com.huangbaoche.hbcframe.widget.recycler.ZListPageView;
+import com.huangbaoche.hbcframe.widget.recycler.ZSwipeRefreshLayout;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.SkuAdapter;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.SkuCityBean;
 import com.hugboga.custom.data.bean.SkuItemBean;
+import com.hugboga.custom.data.request.RequestHome;
 import com.hugboga.custom.data.request.RequestSkuList;
 import com.hugboga.custom.utils.DBHelper;
 
@@ -35,12 +38,14 @@ import org.xutils.x;
  * Created by admin on 2016/3/3.
  */
 @ContentView(R.layout.fg_sku_list)
-public class FgSkuList extends  BaseFragment implements AdapterView.OnItemClickListener, View.OnClickListener {
+public class FgSkuList extends  BaseFragment implements  View.OnClickListener, ZBaseAdapter.OnItemClickListener, ZListPageView.NoticeViewTask {
 
     public static final String KEY_CITY_ID = "KEY_CITY_ID";
 
-    @ViewInject(android.R.id.list)
-    ListView listView;
+    @ViewInject(R.id.listview)
+    ZListPageView recyclerView;
+    @ViewInject(R.id.swipe)
+    ZSwipeRefreshLayout swipeRefreshLayout;
 
     @ViewInject(R.id.fg_sku_list_layout)
     LinearLayout listViewLayout;
@@ -62,25 +67,23 @@ public class FgSkuList extends  BaseFragment implements AdapterView.OnItemClickL
     private SkuAdapter adapter;
     private View headerBg;
     private SkuCityBean skuCityBean;
-    private View ListHeader;
+    private View listHeader;
 
 
     @Override
     protected void initHeader() {
         mCityId = getArguments().getString(KEY_CITY_ID);
-        ListHeader = LayoutInflater.from(getActivity()).inflate(R.layout.fg_sku_header, null);
-        headerBg = ListHeader.findViewById(R.id.home_menu_layout);
-        skuSubtitle = ListHeader.findViewById(R.id.sku_subtitle);
-        listView.addHeaderView(ListHeader);
-        listView.setOnItemClickListener(this);
+        listHeader = LayoutInflater.from(getActivity()).inflate(R.layout.fg_sku_header, null);
+        headerBg = listHeader.findViewById(R.id.home_menu_layout);
+        skuSubtitle = listHeader.findViewById(R.id.sku_subtitle);
         mCityBean = findCityById(mCityId);
         initListHeader();
     }
 
     private void initListHeader() {
-        View menu1 = ListHeader.findViewById(R.id.fg_home_menu1);
-        View menu2 = ListHeader.findViewById(R.id.fg_home_menu2);
-        View menu3 = ListHeader.findViewById(R.id.fg_home_menu3);
+        View menu1 = listHeader.findViewById(R.id.fg_home_menu1);
+        View menu2 = listHeader.findViewById(R.id.fg_home_menu2);
+        View menu3 = listHeader.findViewById(R.id.fg_home_menu3);
         menu1.setOnClickListener(this);
         menu2.setOnClickListener(this);
         menu3.setOnClickListener(this);
@@ -94,30 +97,32 @@ public class FgSkuList extends  BaseFragment implements AdapterView.OnItemClickL
 
     @Override
     protected void initView() {
-        adapter = new SkuAdapter(getActivity());
-        listView.setAdapter(adapter);
+        adapter = new SkuAdapter(this, listHeader);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setOnItemClickListener(this);
+        recyclerView.setzSwipeRefreshLayout(swipeRefreshLayout);
+        RequestSkuList request = new RequestSkuList(getActivity(),mCityId);
+        recyclerView.setRequestData(request);
+        recyclerView.setNoticeViewTask(this);
     }
 
     @Override
     protected Callback.Cancelable requestData() {
-        RequestSkuList requestSkuList = new RequestSkuList(getActivity(),mCityId);
-        return requestData(requestSkuList);
+        if (recyclerView != null) {
+            recyclerView.showPageFirst();
+        }
+        return null;
     }
 
-
     @Override
-    public void onDataRequestSucceed(BaseRequest request) {
-        if(request instanceof RequestSkuList){
-            RequestSkuList requestSkuList = (RequestSkuList)request;
-            skuCityBean = requestSkuList.getData();
-
-            inflateContent();
-        }
+    public void notice(Object object) {
+        Object[] obj = (Object[]) object;
+        skuCityBean = (SkuCityBean) obj[2];
+        inflateContent();
     }
 
     @Override
     protected void inflateContent() {
-        adapter.setList(skuCityBean.goodsList);
         ImageOptions options = new ImageOptions.Builder().setFailureDrawableId(R.mipmap.img_undertext).build();
         fgTitle.setText(skuCityBean.cityName);
         if(skuCityBean.goodsList.size()==0){
@@ -126,7 +131,7 @@ public class FgSkuList extends  BaseFragment implements AdapterView.OnItemClickL
                 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
                 @Override
                 public void onSuccess(Drawable result) {
-                    listView.setBackground(null);
+                    recyclerView.setBackground(null);
                     skuSubtitle.setVisibility(View.GONE);
                     headerBg.setBackgroundResource(R.drawable.city_sku_bg);
                     listViewLayout.setBackground(result);
@@ -150,18 +155,6 @@ public class FgSkuList extends  BaseFragment implements AdapterView.OnItemClickL
 
     }
 
-
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        MLog.e("position = " + position);
-        if(position==0||mCityBean==null)return;
-        SkuItemBean bean = adapter.getItem(position-1);
-        Bundle bundle = new Bundle();
-        bundle.putString(FgWebInfo.WEB_URL, bean.skuDetailUrl);
-        bundle.putSerializable(FgSkuDetail.WEB_SKU, bean);
-        bundle.putSerializable(FgSkuDetail.WEB_CITY, mCityBean);
-        startFragment(new FgSkuDetail(),bundle);
-    }
 
     private CityBean findCityById(String cityId){
         CityBean cityBean = null;
@@ -197,4 +190,18 @@ public class FgSkuList extends  BaseFragment implements AdapterView.OnItemClickL
                 break;
         }
     }
+
+    @Override
+    public void onItemClick(View view, int position) {
+        MLog.e("position = " + position);
+        if(mCityBean==null)return;
+        SkuItemBean bean = adapter.getDatas().get(position);
+        Bundle bundle = new Bundle();
+        bundle.putString(FgWebInfo.WEB_URL, bean.skuDetailUrl);
+        bundle.putSerializable(FgSkuDetail.WEB_SKU, bean);
+        bundle.putSerializable(FgSkuDetail.WEB_CITY, mCityBean);
+        startFragment(new FgSkuDetail(),bundle);
+    }
+
+
 }

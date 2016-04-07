@@ -18,6 +18,8 @@ import com.hugboga.custom.constants.Constants;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * com.hugboga.custom.utils.ImageUtils
@@ -52,6 +54,16 @@ public class ImageUtils {
         } else {
             Log.i("ERROR:", "SD卡不存在");
         }
+    }
+
+    /**
+     * 生成图片名称
+     * @return
+     */
+    public static String getPhotoFileName() {
+        Date date = new Date(System.currentTimeMillis());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+        return dateFormat.format(date) + ".jpg";
     }
 
 

@@ -148,6 +148,11 @@ public class FgChangeTrip extends BaseFragment implements View.OnClickListener {
 
     @Override
     protected void initView() {
+        mOrderBean = (OrderBean) getArguments().getSerializable(KEY_ORDER_BEAN);
+        mDialogUtil = DialogUtil.getInstance(getActivity());
+        dbUtils = new DBHelper(getActivity()).getDbManager();
+        adult = mOrderBean.adult;
+        child = mOrderBean.child;
         areaCodeArray = new TextView[]{areaCode, areaCode2, areaCode3};
         areaPhoneArray = new TextView[]{connectPhone, connectPhone2, connectPhone3};
         AirPort airPort = findAirPortByCode(mOrderBean.flightAirportCode);
@@ -273,11 +278,7 @@ public class FgChangeTrip extends BaseFragment implements View.OnClickListener {
 
     @Override
     protected void inflateContent() {
-        mOrderBean = (OrderBean) getArguments().getSerializable(KEY_ORDER_BEAN);
-        mDialogUtil = DialogUtil.getInstance(getActivity());
-        dbUtils = new DBHelper(getActivity()).getDbManager();
-        adult = mOrderBean.adult;
-        child = mOrderBean.child;
+
     }
 
     /**
