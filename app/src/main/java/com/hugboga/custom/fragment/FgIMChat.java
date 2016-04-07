@@ -24,6 +24,7 @@ import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.ChatInfo;
 import com.hugboga.custom.data.bean.OrderBean;
+import com.hugboga.custom.data.bean.OrderStatus;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.parser.ParserChatInfo;
@@ -238,7 +239,7 @@ public class FgIMChat extends BaseFragment {
             View view = View.inflate(getActivity(), R.layout.im_chat_orders_item, null);
             //设置状态
             TextView textView = (TextView) view.findViewById(R.id.im_chat_orders_item_state);
-            textView.setText(orderBean.orderStatus.name);
+            textView.setText(getOrderStatus(orderBean.orderStatus));
 //            resetStatusColor(textView, letterOrder.status);
             //订单类型和时间
             TextView textViewtype = (TextView) view.findViewById(R.id.im_chat_orders_item_ordertime);
@@ -528,4 +529,29 @@ public class FgIMChat extends BaseFragment {
             handler.onDataRequestError(errorInfo, request);
         }
     };
+    public static String getOrderStatus(OrderStatus orderStatus){
+        String status ="";
+        switch (orderStatus) {
+            case INITSTATE:     // 未支付
+                status = "未支付";
+            case PAYSUCCESS:
+            case AGREE:    // 已支付--服务中
+                status = "未开始";
+            case ARRIVED:
+            case SERVICING:
+            case COMPLAINT:    // 已支付--服务中
+                status = "进行中";
+            case NOT_EVALUATED:     // 未评价
+                status = "进行中";
+            case COMPLETE:     // 已评价（已完成）
+                status = "已完成";
+            case CANCELLED:     // 已取消（未支付）
+                status = "已取消";
+            case REFUNDED: // 已退款（已支付）
+                status = "已退款";
+            default:
+                status = "";
+        }
+        return status;
+    }
 }

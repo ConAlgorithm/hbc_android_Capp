@@ -12,6 +12,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
+import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.UserEntity;
@@ -95,7 +96,8 @@ public class FgAssessment extends BaseFragment {
                 int numStarts2 = (int) ratingBar2.getRating();
                 int numStarts3 = (int) ratingBar3.getRating();
                 String comment = commentEditText.getText().toString();
-                String userId = UserEntity.getUser().getUserId();
+                String userId = UserEntity.getUser().getUserId(getActivity());
+                MLog.e("userId="+userId);
                 String userName = UserEntity.getUser().getNickname(getActivity());
                 if (!guideId.isEmpty() && !orderId.isEmpty()) {
                     RequestEvaluate request = new RequestEvaluate(getActivity(), userId, userName, guideId, guideName, orderId, orderType, numStarts1, numStarts2, numStarts3, comment);
