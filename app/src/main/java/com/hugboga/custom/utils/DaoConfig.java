@@ -20,8 +20,8 @@ public class DaoConfig {
             synchronized (DaoConfig.class) {
                 if (daoConfig == null) {
                     daoConfig = new DbManager.DaoConfig()
-                            .setDbName(DBHelper.DB_NAME)
-                            .setDbVersion(new SharedPre(context).getIntValue(SharedPre.RESOURCES_DB_VERSION, ResourcesConstants.RESOURCES_DB_VERSION_DEFAULT));
+                            .setDbName(DBHelper.DB_NAME);
+//                            .setDbVersion(new SharedPre(context).getIntValue(SharedPre.RESOURCES_DB_VERSION, ResourcesConstants.RESOURCES_DB_VERSION_DEFAULT));
                 }
             }
         }
@@ -30,8 +30,8 @@ public class DaoConfig {
 
     public static DbManager.DaoConfig getTmpConfig(Context context) {
         return      new DbManager.DaoConfig()
-                            .setDbName(DBHelper.DB_NAME)
-                            .setDbVersion(new SharedPre(context).getIntValue(SharedPre.RESOURCES_DB_VERSION, ResourcesConstants.RESOURCES_DB_VERSION_DEFAULT));
+                            .setDbName(DBHelper.DB_NAME);
+//                            .setDbVersion(new SharedPre(context).getIntValue(SharedPre.RESOURCES_DB_VERSION, ResourcesConstants.RESOURCES_DB_VERSION_DEFAULT));
     }
 
 }
