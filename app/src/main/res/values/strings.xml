@@ -244,4 +244,6 @@
     <string name="user_have_coupon">%s张可用</string>
     <string name="popup_menu_cancel_order">取消订单</string>
     <string name="popup_menu_phone">客服电话</string>
+    <string name="no_net_tip">网络不给力，包子不高兴了呢！</string>
+    <string name="click_refresh"><u>点击刷新</u></string>
 </resources>

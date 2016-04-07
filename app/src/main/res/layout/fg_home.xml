@@ -4,7 +4,5 @@
     android:layout_height="match_parent">
 
     <include layout="@layout/fg_home_content" />
-
     <include layout="@layout/include_header_search" />
-
 </RelativeLayout>

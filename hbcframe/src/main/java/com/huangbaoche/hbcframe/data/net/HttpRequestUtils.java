@@ -70,12 +70,15 @@ public class HttpRequestUtils {
             return null;
         }
         final DialogUtilInterface dialogUtil = getDialogUtil(mContext);
-        if(mContext instanceof Activity)((Activity) mContext).runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if (dialogUtil != null) dialogUtil.showLoadingDialog();
-            }
-        });
+        if(mContext instanceof Activity) {
+            final HttpRequestOption finalOption1 = option;
+            ((Activity) mContext).runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (dialogUtil != null&& finalOption1.needShowLoading) dialogUtil.showLoadingDialog();
+                }
+            });
+        }
 
         if (!checkAccessKey(mContext)){//Accesskey不能用,请求AccessKey ,回来继续请求上一个请求
             requestAccessKey(mContext,request,listener,option);
