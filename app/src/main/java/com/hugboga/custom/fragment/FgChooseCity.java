@@ -661,7 +661,6 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
         }
         if (dataList.size() > 0) {
             for (CityBean cb : dataList) {
-//                cb.name = cb.name + "，" + cb.placeName;
                 cb.keyWord = keyword;
             }
         }
@@ -719,7 +718,7 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
         }
         if (CountryDateList.size() > 0) {
             for (CityBean cb : CountryDateList) {
-                cb.name = "相关城市，" + cb.name;
+                cb.keyWord = "相关城市";
             }
             CityBean onlyForDisplayCityBean = new CityBean();
             onlyForDisplayCityBean.name = CountryDateList.get(0).placeName + " - 该地点为国家/地区";

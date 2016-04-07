@@ -246,7 +246,11 @@ public class CityAdapter extends BaseAdapter implements View.OnClickListener, On
         }
 
         if(!TextUtils.isEmpty(model.keyWord)){
-            viewHolder.tvTitle.setText(getSpannableString(model.name + "，" + model.placeName, model.keyWord));
+            if(model.keyWord.equals("相关城市")){
+                viewHolder.tvTitle.setText("相关城市，" + model.name);
+            }else{
+                viewHolder.tvTitle.setText(getSpannableString(model.name + "，" + model.placeName, model.keyWord));
+            }
         }else{
             viewHolder.tvTitle.setText(model.name);
         }
@@ -291,7 +295,7 @@ public class CityAdapter extends BaseAdapter implements View.OnClickListener, On
             case R.id.btn_del:
                 // 删除历史item，刷新列表
                 CityBean cityBean = list.get(integer.intValue());
-                deleteHistoryItem(cityBean);
+                deleteHistoryItem(cityBean, integer);
                 break;
         }
 
@@ -302,14 +306,7 @@ public class CityAdapter extends BaseAdapter implements View.OnClickListener, On
      *
      * @param cityBean
      */
-    private void deleteHistoryItem(CityBean cityBean) {
-        Selector selector = null;
-        try {
-            selector = mDbManager.selector(CityBean.class);
-        } catch (DbException e) {
-            e.printStackTrace();
-        }
-
+    private void deleteHistoryItem(CityBean cityBean, int position) {
         String cityHistoryStr = sharedPer.getStringValue(mBusinessType + SharedPre.RESOURCES_CITY_HISTORY);
 
         if (!TextUtils.isEmpty(cityHistoryStr)) {
@@ -321,12 +318,6 @@ public class CityAdapter extends BaseAdapter implements View.OnClickListener, On
             }
             sharedPer.saveStringValue(mBusinessType + SharedPre.RESOURCES_CITY_HISTORY, TextUtils.join(",", cityHistory));
         }
-//        for (CityBean cb : list) {
-//            if (cityBean.cityId == cb.cityId) {
-//                list.remove(cityBean);
-//                break;
-//            }
-//        }
 
         Iterator<CityBean> iterator = list.iterator();
         while(iterator.hasNext()){
@@ -336,9 +327,14 @@ public class CityAdapter extends BaseAdapter implements View.OnClickListener, On
                 if(searchHistoryCount > 0){
                     searchHistoryCount--;
                 }
+                if(position == 0 && searchHistoryCount > 0){
+                    list.get(0).firstLetter = "搜索历史";
+                    list.get(0).isFirst = true;
+                }
                 break;
             }
         }
+
         notifyDataSetChanged();
     }
 
