@@ -194,7 +194,7 @@ public class FgSkuList extends  BaseFragment implements  View.OnClickListener, Z
     @Override
     public void onItemClick(View view, int position) {
         MLog.e("position = " + position);
-        if(position==0||mCityBean==null)return;
+        if(mCityBean==null)return;
         SkuItemBean bean = adapter.getDatas().get(position);
         Bundle bundle = new Bundle();
         bundle.putString(FgWebInfo.WEB_URL, bean.skuDetailUrl);

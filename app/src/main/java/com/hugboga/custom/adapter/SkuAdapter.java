@@ -2,6 +2,7 @@ package com.hugboga.custom.adapter;
 
 import android.content.Context;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.huangbaoche.hbcframe.adapter.ZHeadFootAdapter;
@@ -69,9 +70,9 @@ public class SkuAdapter extends ZHeadFootAdapter<SkuItemBean, SkuVH> {
             vh.tvGuide.setVisibility(bean.guideAmount == 0 ? View.INVISIBLE : View.VISIBLE);
             vh.tvSale.setVisibility(bean.saleAmount == 0 ? View.INVISIBLE : View.VISIBLE);
 
-            viewHolder.imgBg.setLayoutParams(new RelativeLayout.LayoutParams(ImageUtils.getScreenWidth(context),ImageUtils.getResizeHeight(context,750,300)));
-            viewHolder.imgBg.setBackgroundResource(R.mipmap.img_notext);
-            viewHolder.imgBg.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            vh.imgBg.setLayoutParams(new RelativeLayout.LayoutParams(ImageUtils.getScreenWidth(context),ImageUtils.getResizeHeight(context,750,300)));
+            vh.imgBg.setBackgroundResource(R.mipmap.img_notext);
+            vh.imgBg.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
             x.image().bind(vh.imgBg, bean.goodsPicture);
         }
