@@ -570,7 +570,7 @@ public class FgPersonInfo extends BaseFragment {
         HashMap<String, Object> fileMap = new HashMap<>();
         fileMap.put("pic", file);
         fileMap.put("type", "1");
-        fileMap.put("refId", UserEntity.getUser().getUserId());
+        fileMap.put("refId", UserEntity.getUser().getUserId(getActivity()));
         fileMap.put("refType", "4");
         RequestUpLoadFile parser = new RequestUpLoadFile(getActivity(), fileMap);
         requestData(parser);

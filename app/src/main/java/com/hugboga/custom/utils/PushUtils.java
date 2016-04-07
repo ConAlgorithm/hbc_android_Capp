@@ -79,20 +79,6 @@ public class PushUtils {
         }
     }
 
-    /**
-     * 是否对当前用户有效
-     * @param accountID
-     * @return
-     */
-    public boolean isAccountId(String accountID){
-        if(TextUtils.isEmpty(accountID)){
-            return true;
-        }
-        if(UserEntity.getUser()==null || UserEntity.getUser().getUserId()==null){
-            return false;
-        }
-        return UserEntity.getUser().getUserId().equals(accountID);
-    }
 
     /**
      * 获取通知栏标题
