@@ -1,11 +1,16 @@
 package com.huangbaoche.hbcframe.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
+import android.view.MotionEvent;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 
 import com.huangbaoche.hbcframe.BuildConfig;
 import com.huangbaoche.hbcframe.fragment.BaseFragment;
@@ -31,6 +36,22 @@ public class BaseFragmentActivity extends AppCompatActivity  {
         super.onCreate(arg0);
         x.view().inject(this);
 //		addErrorProcess();
+    }
+
+    public boolean isSoftInputShow(){
+        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        return imm.isActive();
+    }
+
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN){
+            if (isSoftInputShow()) {
+                ((InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(BaseFragmentActivity.this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            }
+        }
+        return super.dispatchTouchEvent(event);
     }
 
     //获取fragment个数
