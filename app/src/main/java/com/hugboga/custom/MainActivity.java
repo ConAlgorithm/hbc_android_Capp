@@ -122,8 +122,8 @@ public class MainActivity extends BaseFragmentActivity
         grantPhone();
 
 //        addErrorProcess();
-        UpdateResources.checkLocalDB(this);
-        UpdateResources.checkLocalResource(this);
+//        UpdateResources.checkLocalDB(this);
+//        UpdateResources.checkLocalResource(this);
         setUpDrawer();
         connectIM();
         receivePushMessage(getIntent());
