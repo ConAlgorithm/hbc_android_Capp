@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.adapter.ZBaseAdapter;
 import com.huangbaoche.hbcframe.data.net.DefaultImageCallback;
+import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.huangbaoche.hbcframe.widget.recycler.ZDefaultDivider;
@@ -107,7 +108,7 @@ public class FgSkuList extends  BaseFragment implements  View.OnClickListener, Z
         recyclerView.setNoticeViewTask(this);
         //设置间距
         ZDefaultDivider zDefaultDivider = recyclerView.getItemDecoration();
-        zDefaultDivider.setItemOffsets(0, 2, 0, 2);
+        zDefaultDivider.setItemOffsets(0, 0, 0, 2);
     }
 
     @Override
@@ -123,6 +124,11 @@ public class FgSkuList extends  BaseFragment implements  View.OnClickListener, Z
         Object[] obj = (Object[]) object;
         skuCityBean = (SkuCityBean) obj[2];
         inflateContent();
+    }
+
+    @Override
+    public void error(ExceptionInfo errorInfo, BaseRequest request) {
+
     }
 
     @Override

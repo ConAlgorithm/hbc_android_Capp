@@ -142,7 +142,6 @@ public class FgOrder extends BaseFragment {
     private TextView orderDailyTips;//日租包车 提示
 
 
-
     @ViewInject(R.id.order_commend_layout)
     private View orderCommendLayout;//精品线路 简介 layout
     @ViewInject(R.id.order_commend_content)
@@ -223,7 +222,7 @@ public class FgOrder extends BaseFragment {
     private View paySuccessDetail;//支付成功金额查看更多
     @ViewInject(R.id.order_pay_point)
     private View paySuccessPoint;//支付成功金额提示
-//    @ViewInject(R.id.pay_over_model_layout)
+    //    @ViewInject(R.id.pay_over_model_layout)
 //    private View payOverModeLayout;//支付方式layout
 //    @ViewInject(R.id.pay_over_mode_value)
 //    private TextView payOverMode;//支付方式
@@ -306,17 +305,17 @@ public class FgOrder extends BaseFragment {
         } else {
             rightBtn.setVisibility(View.GONE);
         }
-        if(mBusinessType==-1){
+        if (mBusinessType == -1) {
             fgTitle.setText("订单详情");
         }
-        if(mBusinessType!=3){
+        if (mBusinessType != 3) {
             fgTitle.setText(getString(Constants.TitleMap.get(mBusinessType)));
-        }else{
+        } else {
             fgTitle.setText(getString(Constants.TitleMap.get(mGoodsType)));
         }
         try {
-            if(!EventBus.getDefault().isRegistered(this))
-            EventBus.getDefault().register(this);
+            if (!EventBus.getDefault().isRegistered(this))
+                EventBus.getDefault().register(this);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -334,7 +333,7 @@ public class FgOrder extends BaseFragment {
         initHeader();
         ((TextView) getView().findViewById(R.id.bottom_bar_btn)).setText("立即支付");
         if (mOrderBean == null) return;
-       if (!(mSourceFragment instanceof FgSubmit)) {
+        if (!(mSourceFragment instanceof FgSubmit)) {
             headProgress.setVisibility(View.GONE);
         } else {
             headProgress.setVisibility(View.VISIBLE);
@@ -348,7 +347,8 @@ public class FgOrder extends BaseFragment {
         String serviceTime = mOrderBean.serviceTime;
         try {
             serviceTime = DateUtils.getWeekStrFromDate(serviceTime);
-        } catch (ParseException e) {}
+        } catch (ParseException e) {
+        }
         orderServerTime.setText(serviceTime);
         orderServerTimeDesc.setText("(当地时间)");
         orderServerTimeDesc.setVisibility(View.VISIBLE);
@@ -402,40 +402,40 @@ public class FgOrder extends BaseFragment {
                 orderDailyDay.setVisibility(View.VISIBLE);
                 orderDailyStartLayout.setVisibility(View.VISIBLE);
                 String dailyPlace = mOrderBean.serviceCityName;
-                if (mOrderBean.orderGoodsType!=3&&!TextUtils.isEmpty(mOrderBean.serviceEndCityName)) {
+                if (mOrderBean.orderGoodsType != 3 && !TextUtils.isEmpty(mOrderBean.serviceEndCityName)) {
                     //不是市内包车，并且结束城市不为空
                     dailyPlace += " 至 " + mOrderBean.serviceEndCityName;
                 }
                 orderDailyPlace.setText(dailyPlace);
-                  serviceTime = mOrderBean.serviceTime+ mOrderBean.serviceStartTime;
+                serviceTime = mOrderBean.serviceTime + mOrderBean.serviceStartTime;
                 try {
                     serviceTime = DateUtils.getWeekStrFromDate(serviceTime);
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
                 orderServerTime.setText(serviceTime);
-                if( mOrderBean.orderGoodsType==3){ //市内
-                    if(mOrderBean.isHalfDaily==1){//半日包
+                if (mOrderBean.orderGoodsType == 3) { //市内
+                    if (mOrderBean.isHalfDaily == 1) {//半日包
                         orderDailyDay.setText(getString(R.string.order_daily_days_half, mOrderBean.serviceTime));
-                    }else{
-                        orderDailyDay.setText(getString(R.string.order_daily_days_local, mOrderBean.serviceTime, mOrderBean.serviceEndTime, mOrderBean.totalDays==null?0:mOrderBean.totalDays));
+                    } else {
+                        orderDailyDay.setText(getString(R.string.order_daily_days_local, mOrderBean.serviceTime, mOrderBean.serviceEndTime, mOrderBean.totalDays == null ? 0 : mOrderBean.totalDays));
                     }
                     orderDailyPassLabel.setText("游玩计划");
-                    if(!TextUtils.isEmpty(mOrderBean.journeyComment)){
+                    if (!TextUtils.isEmpty(mOrderBean.journeyComment)) {
                         orderDailyPassLayout.setVisibility(View.VISIBLE);
                         orderDailyPassValue.setText(mOrderBean.journeyComment.toString());
                     } else {
                         orderDailyPassLayout.setVisibility(View.GONE);
                     }
-                }else {
-                    orderDailyDay.setText(getString(R.string.order_daily_days, mOrderBean.serviceTime, mOrderBean.serviceEndTime, mOrderBean.totalDays==null?0:mOrderBean.totalDays));
-                    orderDailyDayDetail.setText(getString(R.string.order_daily_days_detail,mOrderBean.serviceCityName,mOrderBean.inTownDays, mOrderBean.outTownDays));
+                } else {
+                    orderDailyDay.setText(getString(R.string.order_daily_days, mOrderBean.serviceTime, mOrderBean.serviceEndTime, mOrderBean.totalDays == null ? 0 : mOrderBean.totalDays));
+                    orderDailyDayDetail.setText(getString(R.string.order_daily_days_detail, mOrderBean.serviceCityName, mOrderBean.inTownDays, mOrderBean.outTownDays));
                     orderDailyDayDetail.setVisibility(View.VISIBLE);
                     orderDailyPassLabel.setText("游玩城市");
                     if (mOrderBean.passByCity != null && mOrderBean.passByCity.size() > 2) {
                         orderDailyPassLayout.setVisibility(View.VISIBLE);
                         StringBuffer sb = new StringBuffer();
-                        for (int i = 1; i < mOrderBean.passByCity.size()-1; i++) {
+                        for (int i = 1; i < mOrderBean.passByCity.size() - 1; i++) {
                             CityBean cityBean = mOrderBean.passByCity.get(i);
                             sb.append(cityBean.name).append("、");
                         }
@@ -455,10 +455,10 @@ public class FgOrder extends BaseFragment {
                 } else {
                     orderDailyStartDetail.setVisibility(View.GONE);
                 }
-                if(!TextUtils.isEmpty(mOrderBean.dailyTips)){
+                if (!TextUtils.isEmpty(mOrderBean.dailyTips)) {
                     orderDailyTipsLayout.setVisibility(View.VISIBLE);
                     orderDailyTips.setText(mOrderBean.dailyTips);
-                }else{
+                } else {
                     orderDailyTipsLayout.setVisibility(View.GONE);
                 }
                 if (!TextUtils.isEmpty(hotelPhone)) {
@@ -494,21 +494,21 @@ public class FgOrder extends BaseFragment {
                 orderDailyStartLayout.setVisibility(View.VISIBLE);
                 orderDailyPlace.setText(mOrderBean.serviceCityName + "出发");
                 orderServerTime.setText(mOrderBean.lineSubject);
-                if( mOrderBean.orderGoodsType==3){ //市内
-                    if(mOrderBean.isHalfDaily==1){//半日包
+                if (mOrderBean.orderGoodsType == 3) { //市内
+                    if (mOrderBean.isHalfDaily == 1) {//半日包
                         orderDailyDay.setText(getString(R.string.order_daily_days_half, mOrderBean.serviceTime));
-                    }else{
+                    } else {
                         orderDailyDay.setText(getString(R.string.order_daily_days_local, mOrderBean.serviceTime, mOrderBean.serviceEndTime, mOrderBean.totalDays));
                     }
                     orderDailyPassLabel.setText("游玩计划");
-                    if(!TextUtils.isEmpty(mOrderBean.journeyComment)){
+                    if (!TextUtils.isEmpty(mOrderBean.journeyComment)) {
                         orderDailyPassValue.setText(mOrderBean.journeyComment.toString());
                     } else {
                         orderDailyPassLayout.setVisibility(View.GONE);
                     }
-                }else {
+                } else {
                     orderDailyDay.setText(getString(R.string.order_daily_days, mOrderBean.serviceTime, mOrderBean.serviceEndTime, mOrderBean.totalDays));
-                    orderDailyDayDetail.setText(getString(R.string.order_daily_days_detail,mOrderBean.serviceCityName,mOrderBean.inTownDays, mOrderBean.outTownDays));
+                    orderDailyDayDetail.setText(getString(R.string.order_daily_days_detail, mOrderBean.serviceCityName, mOrderBean.inTownDays, mOrderBean.outTownDays));
                     orderDailyDayDetail.setVisibility(View.VISIBLE);
                     orderDailyPassLabel.setText("游玩城市");
                     if (mOrderBean.passByCity != null && mOrderBean.passByCity.size() > 0) {
@@ -527,15 +527,15 @@ public class FgOrder extends BaseFragment {
                 orderCommendLayout.setVisibility(View.VISIBLE);
                 orderCommendContent.setText("\t\t\t" + mOrderBean.lineDescription);
                 orderDailyPassLayout.setVisibility(View.GONE);
-                if (!TextUtils.isEmpty(mOrderBean.startAddress)&& !"null".equals(mOrderBean.startAddress)) {
+                if (!TextUtils.isEmpty(mOrderBean.startAddress) && !"null".equals(mOrderBean.startAddress)) {
                     orderDailyStart.setText(mOrderBean.startAddress);
                 } else {
                     orderDailyStart.setText("暂未填写");
                 }
-                if(!TextUtils.isEmpty(mOrderBean.dailyTips)){
+                if (!TextUtils.isEmpty(mOrderBean.dailyTips)) {
                     orderDailyTipsLayout.setVisibility(View.VISIBLE);
                     orderDailyTips.setText(mOrderBean.dailyTips);
-                }else{
+                } else {
                     orderDailyTipsLayout.setVisibility(View.GONE);
                 }
                 orderChangeTrip.setVisibility(View.VISIBLE);
@@ -573,7 +573,7 @@ public class FgOrder extends BaseFragment {
                 sb.append(Constants.ChildrenSeatMap.get(Integer.valueOf(seats[0])) + "X" + seats[1]);
             }
             orderChildrenSeatValue.setText(sb.toString());
-        }else{
+        } else {
             orderChildrenSeatLayout.setVisibility(View.GONE);
         }
         //价格
@@ -600,7 +600,7 @@ public class FgOrder extends BaseFragment {
         orderPayBottomPrice.setText("" + shouldPay);
         paySuccessPrice.setText(String.valueOf(mOrderBean.orderPriceInfo.actualPay));
         orderPayTotalTitle.setText(Constants.TitleMap2.get(mBusinessType));
-        paySuccessPoint.setVisibility((mOrderBean.additionIsRead == 0)? View.VISIBLE: View.GONE);
+        paySuccessPoint.setVisibility((mOrderBean.additionIsRead == 0) ? View.VISIBLE : View.GONE);
 
         //退款费用
         if (Double.isNaN(mOrderBean.orderPriceInfo.refundPrice)) {
@@ -616,7 +616,7 @@ public class FgOrder extends BaseFragment {
                     .setFailureDrawableId(R.mipmap.journey_head_portrait)
                     .setCircular(true)
                     .build();
-            x.image().bind(guideImg,mOrderBean.orderGuideInfo.guideAvatar,options);
+            x.image().bind(guideImg, mOrderBean.orderGuideInfo.guideAvatar, options);
             guideName.setText(mOrderBean.orderGuideInfo.guideName + "/");
             guideCarInfo.setText(mOrderBean.orderGuideInfo.car);
             guideRateStar.setVisibility(View.VISIBLE);
@@ -697,7 +697,7 @@ public class FgOrder extends BaseFragment {
                 orderPayCouponsArrow.setVisibility(View.VISIBLE);
                 orderPayActualLayout.setVisibility(View.GONE);
                 paySuccessLayout.setVisibility(View.GONE);
-                if (mOrderBean.orderCoupon==null||mOrderBean.orderCoupon.price == null) {
+                if (mOrderBean.orderCoupon == null || mOrderBean.orderCoupon.price == null) {
                     orderPayCoupons.setTextColor(getResources().getColor(R.color.basic_gold));
                     orderPayCoupons.setText("添加");
                 }
@@ -785,7 +785,7 @@ public class FgOrder extends BaseFragment {
     @Override
     protected Callback.Cancelable requestData() {
         orderId = getArguments().getString(KEY_ORDER_ID);
-        RequestOrderDetail request = new RequestOrderDetail(getActivity(),orderId);
+        RequestOrderDetail request = new RequestOrderDetail(getActivity(), orderId);
         return requestData(request);
     }
 
@@ -794,19 +794,20 @@ public class FgOrder extends BaseFragment {
      */
     private void requestPayNo() {
         if (mOrderBean == null) return;
-        String couponId= mOrderBean.orderCoupon==null?"":mOrderBean.orderCoupon.couponID;
-        RequestPayNo request = new RequestPayNo(getActivity(),mOrderBean.orderNo, shouldPay, this.payType, couponId);
+        String couponId = mOrderBean.orderCoupon == null ? "" : mOrderBean.orderCoupon.couponID;
+        RequestPayNo request = new RequestPayNo(getActivity(), mOrderBean.orderNo, shouldPay, this.payType, couponId);
         requestData(request);
     }
 
     /**
      * 取消订单
+     *
      * @param orderID
      * @param cancelPrice
      */
     private void cancelOrder(String orderID, double cancelPrice) {
         if (cancelPrice < 0) cancelPrice = 0;
-        RequestOrderCancel request = new RequestOrderCancel(getActivity(),orderID, cancelPrice, "");
+        RequestOrderCancel request = new RequestOrderCancel(getActivity(), orderID, cancelPrice, "");
         requestData(request);
     }
 
@@ -820,15 +821,15 @@ public class FgOrder extends BaseFragment {
             flushCoupon();
         } else if (parser instanceof RequestPayNo) {
             RequestPayNo mParser = (RequestPayNo) parser;
-            if(mParser.payType ==Constants.PAY_STATE_ALIPAY){
-                payByAlipay((String)mParser.getData());
-            }else if(mParser.payType ==Constants.PAY_STATE_WECHAT){
-                WXpayBean bean = (WXpayBean)mParser.getData();
-                if(bean!=null){
-                    if(bean.coupPay){
+            if (mParser.payType == Constants.PAY_STATE_ALIPAY) {
+                payByAlipay((String) mParser.getData());
+            } else if (mParser.payType == Constants.PAY_STATE_WECHAT) {
+                WXpayBean bean = (WXpayBean) mParser.getData();
+                if (bean != null) {
+                    if (bean.coupPay) {
                         mDialogUtil.showLoadingDialog();
                         mHandler.sendEmptyMessageDelayed(1, 3000);
-                    }else{
+                    } else {
                         WXPay.pay(getActivity(), bean);
                     }
                 }
@@ -906,7 +907,18 @@ public class FgOrder extends BaseFragment {
         }
     };
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.header_left_btn:
+            case R.id.header_right_btn:
+                onClickView(v);
+                break;
+            default:
+                super.onClick(v);
+        }
 
+    }
 
     @Event({R.id.pay_trip_switch_btn,
             R.id.pay_change_trip,
@@ -921,6 +933,7 @@ public class FgOrder extends BaseFragment {
             R.id.guide_btn_chat,
             R.id.guide_btn_call,
             R.id.guide_btn_assessment,
+            R.id.header_left_btn,
             R.id.header_right_btn,
             R.id.order_pay_detail,
             R.id.order_info_tai
@@ -941,6 +954,7 @@ public class FgOrder extends BaseFragment {
                 }
                 break;
             case R.id.header_left_btn:
+                MLog.e("header_left_btn=" + view);
                 onKeyBack();
                 break;
             case R.id.pay_trip_switch_btn://展开详情
@@ -965,8 +979,8 @@ public class FgOrder extends BaseFragment {
                 if (mOrderBean.orderStatus == OrderStatus.INITSTATE) {
                     bundle = new Bundle();
                     bundle.putString(FgCoupon.ORDER_ID, mOrderBean.orderNo);
-                    if(mOrderBean.orderCoupon!=null)
-                    bundle.putString(FgCoupon.KEY_COUPON_ID, mOrderBean.orderCoupon.couponID);
+                    if (mOrderBean.orderCoupon != null)
+                        bundle.putString(FgCoupon.KEY_COUPON_ID, mOrderBean.orderCoupon.couponID);
                     startFragment(new FgCoupon(), bundle);
                 }
                 break;
@@ -989,7 +1003,7 @@ public class FgOrder extends BaseFragment {
                 break;
             case R.id.guide_btn_chat:
                 //车导聊天
-                gotoChatView(mOrderBean.orderGuideInfo.guideID,mOrderBean.orderGuideInfo.guideAvatar,mOrderBean.orderGuideInfo.guideName);
+                gotoChatView(mOrderBean.orderGuideInfo.guideID, mOrderBean.orderGuideInfo.guideAvatar, mOrderBean.orderGuideInfo.guideName);
 //                gotoChatView(mOrderBean.imToken, "S114997482130");
                 break;
             case R.id.guide_btn_call:
@@ -1007,7 +1021,7 @@ public class FgOrder extends BaseFragment {
                 startFragment(new FgAssessment(), bundle);
                 break;
             case R.id.bottom_bar_btn:
-                if(payType==Constants.PAY_STATE_WECHAT&&!WXShareUtils.getInstance(getActivity()).isInstall(true)){
+                if (payType == Constants.PAY_STATE_WECHAT && !WXShareUtils.getInstance(getActivity()).isInstall(true)) {
                     return;
                 }
                 requestPayNo();
@@ -1063,15 +1077,17 @@ public class FgOrder extends BaseFragment {
     }
 
     private int requestIMTokenCount = 0;
+
     /**
      * 开始聊天
      *
      * @param chatId 聊天对象的Id
      */
-    private void gotoChatView( final String chatId,String targetAvatar,String targetName) {
-        String titleJson = getChatInfo(chatId,  targetAvatar, targetName, "3");
-        RongIM.getInstance().startPrivateChat(getActivity(), "G"+chatId, titleJson);
+    private void gotoChatView(final String chatId, String targetAvatar, String targetName) {
+        String titleJson = getChatInfo(chatId, targetAvatar, targetName, "3");
+        RongIM.getInstance().startPrivateChat(getActivity(), "G" + chatId, titleJson);
     }
+
     private String getChatInfo(String userId, String userAvatar, String title, String targetType) {
         ChatInfo chatInfo = new ChatInfo();
         chatInfo.isChat = true;
@@ -1079,8 +1095,9 @@ public class FgOrder extends BaseFragment {
         chatInfo.userAvatar = userAvatar;
         chatInfo.title = title;
         chatInfo.targetType = targetType;
-       return new ParserChatInfo().toJsonString(chatInfo);
+        return new ParserChatInfo().toJsonString(chatInfo);
     }
+
     /**
      * 设置聊一聊未读个数小红点
      *
@@ -1186,8 +1203,8 @@ public class FgOrder extends BaseFragment {
     public void showPopupWindow(View parent) {
 
         View v = LayoutInflater.from(getActivity()).inflate(R.layout.popup_top_right_menu, null);
-        TextView cancel_order = (TextView)v.findViewById(R.id.cancel_order);
-        TextView menu_phone = (TextView)v.findViewById(R.id.menu_phone);
+        TextView cancel_order = (TextView) v.findViewById(R.id.cancel_order);
+        TextView menu_phone = (TextView) v.findViewById(R.id.menu_phone);
         final PopupWindow popup = new PopupWindow(v, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         popup.setBackgroundDrawable(new BitmapDrawable());
         popup.setOutsideTouchable(true);
@@ -1196,7 +1213,7 @@ public class FgOrder extends BaseFragment {
         cancel_order.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    //如果此订单不能取消，直接进行提示
+                //如果此订单不能取消，直接进行提示
                 popup.dismiss();
                 if (!mOrderBean.cancelable && !TextUtils.isEmpty(mOrderBean.cancelText)) {
                     mDialogUtil = DialogUtil.getInstance(getActivity());
@@ -1242,7 +1259,7 @@ public class FgOrder extends BaseFragment {
 
     private void onKeyBack() {
         MLog.e("onKeyBack " + mSourceFragment);
-        if (mSourceFragment != null && (mSourceFragment instanceof  FgSubmit||mSourceFragment instanceof  FgSkuSubmit)&&mOrderBean.orderStatus!=null&&mOrderBean.orderStatus==OrderStatus.INITSTATE) {
+        if (mSourceFragment != null && (mSourceFragment instanceof FgSubmit || mSourceFragment instanceof FgSkuSubmit) && mOrderBean.orderStatus != null && mOrderBean.orderStatus == OrderStatus.INITSTATE) {
             mDialogUtil.showCustomDialog(getString(R.string.app_name), getString(R.string.order_cancel_pay), "返回", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -1267,7 +1284,7 @@ public class FgOrder extends BaseFragment {
                 requestData();
                 break;
             case PAY_CANCEL:
-                Toast.makeText(getActivity(),"支付取消",Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), "支付取消", Toast.LENGTH_LONG).show();
                 break;
             default:
                 break;

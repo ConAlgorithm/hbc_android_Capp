@@ -2,6 +2,7 @@ package com.hugboga.custom.fragment;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import com.huangbaoche.hbcframe.adapter.ZBaseAdapter;
 import com.huangbaoche.hbcframe.data.net.ExceptionErrorCode;
@@ -35,13 +36,20 @@ public class FgHome extends BaseFragment implements View.OnClickListener, ZBaseA
     ZListPageView recyclerView;
     @ViewInject(R.id.swipe)
     ZSwipeRefreshLayout swipeRefreshLayout;
-    @ViewInject(R.id.home_empty_layout)
+
     View emptyView;
+    LinearLayout header;
 
-    private HomeAdapter adapter;
-
+    HomeAdapter adapter;
     @Override
     protected void initHeader() {
+        header = (LinearLayout)View.inflate(getActivity(), R.layout.fg_home_header, null);
+        header.findViewById(R.id.fg_home_menu1).setOnClickListener(this);
+        header.findViewById(R.id.fg_home_menu2).setOnClickListener(this);
+        header.findViewById(R.id.fg_home_menu3).setOnClickListener(this);
+        emptyView = View.inflate(getActivity(), R.layout.include_home_empty, null);
+        emptyView.findViewById(R.id.home_empty_refresh).setOnClickListener(this);
+        header.addView(emptyView);
         getView().findViewById(R.id.header_left_btn).setOnClickListener(this);
         getView().findViewById(R.id.header_right_btn).setOnClickListener(this);
     }
@@ -58,7 +66,7 @@ public class FgHome extends BaseFragment implements View.OnClickListener, ZBaseA
     }
 
     private void initListView() {
-        adapter = new HomeAdapter(getActivity(), this);
+        adapter = new HomeAdapter(getActivity(), this,header);
         recyclerView.setAdapter(adapter);
         recyclerView.setzSwipeRefreshLayout(swipeRefreshLayout);
         RequestHome requestHome = new RequestHome(getActivity());
@@ -105,6 +113,9 @@ public class FgHome extends BaseFragment implements View.OnClickListener, ZBaseA
             case R.id.fg_home_menu3://单次接送
                 startFragment(new FgSingle());
                 break;
+            case R.id.home_empty_refresh://单次接送
+                recyclerView.showPageFirst();
+                break;
         }
     }
 
@@ -123,9 +134,12 @@ public class FgHome extends BaseFragment implements View.OnClickListener, ZBaseA
     }
 
     @Override
-    public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-        if(errorInfo.state== ExceptionErrorCode.ERROR_CODE_NET_NOTFOUND){
+    public void error(ExceptionInfo errorInfo, BaseRequest request) {
+        MLog.e("errorInfo.state = "+errorInfo.state);
+        if(errorInfo.state== ExceptionErrorCode.ERROR_CODE_NET_UNAVAILABLE){
+
             emptyView.setVisibility(View.VISIBLE);
+            MLog.e("emptyView.state = "+emptyView.getVisibility());
         }else{
             super.onDataRequestError(errorInfo, request);
         }

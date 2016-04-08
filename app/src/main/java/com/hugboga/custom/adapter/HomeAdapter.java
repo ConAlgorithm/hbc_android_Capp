@@ -30,26 +30,18 @@ import org.xutils.x;
  */
 public class HomeAdapter extends ZHeadFootAdapter<HomeBean, HomeVH> {
 
+    private  View header;
     FgHome fgHome;
 //    private final ImageOptions options;
 
-    public HomeAdapter(Context context, FgHome fgHome) {
+    public HomeAdapter(Context context, FgHome fgHome,View header) {
         super(context);
         this.fgHome = fgHome;
-//        options = new ImageOptions.Builder()
-//                .setSize(ImageUtils.getScreenWidth(context),ImageUtils.getResizeHeight(context,720,334))
-//                .setCrop(true)
-//                .setLoadingDrawableId(R.mipmap.img_undertext)
-//                .setFailureDrawableId(R.mipmap.img_undertext)
-//                .build();
+        this.header = header;
     }
 
     @Override
     protected View getHeaderView() {
-        View header = View.inflate(fgHome.getActivity(), R.layout.fg_home_header, null);
-        header.findViewById(R.id.fg_home_menu1).setOnClickListener(fgHome);
-        header.findViewById(R.id.fg_home_menu2).setOnClickListener(fgHome);
-        header.findViewById(R.id.fg_home_menu3).setOnClickListener(fgHome);
         return header;
     }
 
