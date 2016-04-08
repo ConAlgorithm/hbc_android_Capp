@@ -53,7 +53,11 @@ public class BaseFragmentActivity extends AppCompatActivity  {
                 }catch(Exception e){}
             }
         }
-        return super.dispatchTouchEvent(event);
+        try {
+            return super.dispatchTouchEvent(event);
+        }catch (Exception e){
+            return false;
+        }
     }
 
     //获取fragment个数
