@@ -118,7 +118,8 @@ public class HttpRequestUtils {
                 finalOption.setBtnEnabled(true);
                 if(dialogUtil !=null){
                     MLog.e("onFinished = "+request.getUrl());
-                    dialogUtil.dismissLoadingDialog();
+                    if (dialogUtil != null&& finalOption.needShowLoading)
+                        dialogUtil.dismissLoadingDialog();
                 }
             }
         });

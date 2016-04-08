@@ -23,7 +23,7 @@
             android:id="@+id/fg_home_menu1"
             style="@style/HomeMenuStyle"
             android:drawableTop="@mipmap/home_menu01"
-            android:text="@string/title_pick" />
+            android:text="@string/title_chinese_transfer" />
 
         <TextView
             android:id="@+id/fg_home_menu2"

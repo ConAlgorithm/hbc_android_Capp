@@ -44,7 +44,7 @@ public class FgChangeMobile extends BaseFragment {
             UserEntity.getUser().setPhone(getActivity(), requestChangeMobile.mobile);
             showTip("更换手机号成功");
             finish();
-            notifyFragment(FgSetting.class, null);
+//            notifyFragment(FgSetting.class, null);
 //            notifyFragment(FgPersonCenter.class,null);
         } else if (request instanceof RequestVerity) {
             RequestVerity requestVerity = (RequestVerity) request;

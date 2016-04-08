@@ -12,12 +12,16 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.net.ServerCodeHandlerInterface;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.data.bean.UserEntity;
+import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.fragment.BaseFragment;
 import com.hugboga.custom.fragment.FgHome;
 import com.hugboga.custom.fragment.FgLogin;
 import com.hugboga.custom.widget.DialogUtil;
 
 import java.util.ArrayList;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by admin on 2016/3/26.
@@ -30,6 +34,7 @@ public class ServerCodeHandler implements ServerCodeHandlerInterface {
             case 10011://AccessKey失效，在切换服务器或者是 服务器找到该AccessKey
                 UserSession.getUser().setAccessKey(mContext,null);
                 HttpRequestUtils.request(mContext,request,listener);
+                EventBus.getDefault().post(new EventAction(EventType.CLICK_USER_LOOUT));
                 return true;
             case 10012://userToken不合法或已失效，登录信息失效，请重新登录;在其他设备上登录
                 UserEntity.getUser().setUserId(mContext, null);
@@ -41,6 +46,7 @@ public class ServerCodeHandler implements ServerCodeHandlerInterface {
                         gotoLogin(mContext,false);
                     }
                 });
+                EventBus.getDefault().post(new EventAction(EventType.CLICK_USER_LOOUT));
                 return true;
             case 10013:
                 //  设备禁止访问，则直接退出重新登录
@@ -51,6 +57,7 @@ public class ServerCodeHandler implements ServerCodeHandlerInterface {
                         gotoLogin(mContext,true);
                     }
                 });
+                EventBus.getDefault().post(new EventAction(EventType.CLICK_USER_LOOUT));
                 return true;
 
         }

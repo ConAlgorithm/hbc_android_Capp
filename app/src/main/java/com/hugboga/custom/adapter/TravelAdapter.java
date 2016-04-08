@@ -23,6 +23,7 @@ import com.hugboga.custom.fragment.FgAssessment;
 import com.hugboga.custom.fragment.FgOrder;
 import com.hugboga.custom.fragment.FgTravel;
 import com.hugboga.custom.utils.DateUtils;
+import com.hugboga.custom.widget.CircularImage;
 import com.hugboga.custom.widget.DialogUtil;
 
 import org.xutils.image.ImageOptions;
@@ -371,7 +372,7 @@ public class TravelAdapter extends BaseAdapter<OrderBean>  {
         @ViewInject(R.id.travel_item_head_layout)
         LinearLayout mHeadLayout; //导游信息
         @ViewInject(R.id.travel_item_head_img)
-        ImageView mHeadImg;//导游头像
+        CircularImage mHeadImg;//导游头像
         @ViewInject(R.id.travel_item_head_title)
         TextView mHeadTitle; //导游名称
         @ViewInject(R.id.travel_item_btn_pay)

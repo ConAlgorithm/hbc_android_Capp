@@ -137,6 +137,7 @@ public class FgHome extends BaseFragment implements View.OnClickListener, ZBaseA
         MLog.e("errorInfo.state = "+errorInfo.state);
         if(errorInfo.state== ExceptionErrorCode.ERROR_CODE_NET_UNAVAILABLE){
             emptyView.setVisibility(View.VISIBLE);
+            needHttpRequest = true;
             MLog.e("emptyView.state = "+emptyView.getVisibility());
         }else{
             super.onDataRequestError(errorInfo, request);

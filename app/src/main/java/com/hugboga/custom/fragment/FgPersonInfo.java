@@ -467,7 +467,6 @@ public class FgPersonInfo extends BaseFragment {
     @Override
     public void onFragmentResult(Bundle bundle) {
         MLog.w(this + " onFragmentResult " + bundle);
-        Toast.makeText(getActivity(), bundle.getString("key", "defaultValue"), Toast.LENGTH_SHORT).show();
     }
 
     @Override

@@ -220,6 +220,7 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
         if (fragment == null) return;
         if (getContentId() == -1)
             throw new RuntimeException("BaseFragment ContentId not null, BaseFragment.setContentId(int)");
+        if(getActivity()!=null)
         ((BaseFragmentActivity) getActivity()).addFragment(fragment);
         collapseSoftInputMethod();
         editTextClearFocus();
