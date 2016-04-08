@@ -108,7 +108,7 @@ public class FgSkuList extends  BaseFragment implements  View.OnClickListener, Z
         recyclerView.setNoticeViewTask(this);
         //设置间距
         ZDefaultDivider zDefaultDivider = recyclerView.getItemDecoration();
-        zDefaultDivider.setItemOffsets(0, 0, 0, 2);
+        zDefaultDivider.setItemOffsets(0, 0, 0, 0);
     }
 
     @Override
@@ -204,7 +204,7 @@ public class FgSkuList extends  BaseFragment implements  View.OnClickListener, Z
     @Override
     public void onItemClick(View view, int position) {
         MLog.e("position = " + position);
-        if(mCityBean==null||adapter.getDatas()==null)return;
+        if(mCityBean==null||adapter.getDatas()==null||adapter.getDatas().isEmpty())return;
         SkuItemBean bean = adapter.getDatas().get(position);
         if(bean==null)return;
         Bundle bundle = new Bundle();
