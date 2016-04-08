@@ -19,6 +19,9 @@ import com.huangbaoche.hbcframe.page.Page;
 
 import java.util.List;
 
+import jp.wasabeef.recyclerview.animators.adapters.AlphaInAnimationAdapter;
+import jp.wasabeef.recyclerview.animators.adapters.AnimationAdapter;
+import jp.wasabeef.recyclerview.animators.adapters.ScaleInAnimationAdapter;
 import jp.wasabeef.recyclerview.animators.adapters.SlideInBottomAnimationAdapter;
 
 public class ZListPageView extends ZListRecyclerView implements IPageList {
@@ -167,7 +170,7 @@ public class ZListPageView extends ZListRecyclerView implements IPageList {
 
     HttpRequestListener pageLoadListener = new HttpRequestListener() {
 
-        SlideInBottomAnimationAdapter myAdapter;
+        AnimationAdapter myAdapter;
 
         @Override
         public void onDataRequestSucceed(BaseRequest request) {
@@ -175,7 +178,7 @@ public class ZListPageView extends ZListRecyclerView implements IPageList {
             if (page.getPageIndex() < 0) {
                 adapter.removeAll(); //清楚现有数据
                 adapter.setOnItemClickListener(onItemClickListener);
-                myAdapter = new SlideInBottomAnimationAdapter(adapter);
+                myAdapter = new AlphaInAnimationAdapter(adapter);
                 setEmptyView(emptyLayout);
                 setAdapter(myAdapter);
             }
