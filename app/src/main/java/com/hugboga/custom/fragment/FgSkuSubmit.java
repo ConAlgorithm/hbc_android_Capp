@@ -31,6 +31,7 @@ import com.hugboga.custom.data.request.RequestSubmitDaily;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.utils.SharedPre;
+import com.hugboga.custom.widget.DialogUtil;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
@@ -507,6 +508,13 @@ public class FgSkuSubmit extends BaseFragment implements View.OnClickListener {
     public void onDataRequestSucceed(BaseRequest request) {
         if (request instanceof RequestPriceSku) {
             carListBean = ((RequestPriceSku) request).getData();
+            carTypeBean = null;
+            skuCarTypeEdit.setText("");
+            totalPrice.setText("--");
+            if(carListBean==null||carListBean.carList==null||carListBean.carList.isEmpty()){
+                DialogUtil.getInstance(getActivity()).showCustomDialog("该日期暂无车辆库存,请重新选择日期");
+                return;
+            }
             if (fgCarSuk == null) {
                 fgCarSuk = new FgCarSuk();
             }

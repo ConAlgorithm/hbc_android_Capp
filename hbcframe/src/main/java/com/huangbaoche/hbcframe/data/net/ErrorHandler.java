@@ -8,6 +8,7 @@ import android.widget.Toast;
 import com.huangbaoche.hbcframe.HbcConfig;
 import com.huangbaoche.hbcframe.R;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
+import com.huangbaoche.hbcframe.util.MLog;
 import com.huangbaoche.hbcframe.widget.DialogUtilInterface;
 
 import java.lang.reflect.InvocationTargetException;
@@ -61,13 +62,6 @@ public  class ErrorHandler implements HttpRequestListener{
             case ExceptionErrorCode.ERROR_CODE_SERVER:
                 errState = "服务器返回错误";
                 ServerException serverException = (ServerException) errorInfo.exception;
-//                if (serverException.getCode() == 10011) {//accessKey不合法
-//                    UserEntity.getUser().setAccessKey(mContext, null);
-//                    execute();
-//                } else if (mDialogUtil != null) {
-//                    mDialogUtil.showCustomDialog(serverException.getMessage(),
-//                            serverException.getCode(), serverException.getOpr());
-//                }
                 ServerCodeHandlerInterface serverCodeHandler = getServerCodeHandler(mActivity);
                 if(!serverCodeHandler.handleServerCode(mActivity,serverException.getMessage(),serverException.getCode(),request,mListener))
                 Toast.makeText(mActivity, serverException.getMessage(), Toast.LENGTH_LONG).show();
@@ -91,11 +85,9 @@ public  class ErrorHandler implements HttpRequestListener{
                 errState = "系统内部错误";
                 break;
         }
+        MLog.e("mActivity = "+mActivity);
+        if(mActivity!=null)
             Toast.makeText(mActivity, mActivity.getString(R.string.request_error,errorInfo.state), Toast.LENGTH_LONG).show();
-        if (errorInfo.exception != null) {
-//			ErrorUpload upload = new ErrorUpload(errorInfo.state, errState, errorInfo.exception);
-//          Common.uploadErrorInfo(mContext, upload);
-        }
     }
 
     @Override
