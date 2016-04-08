@@ -38,18 +38,17 @@ public class FgHome extends BaseFragment implements View.OnClickListener, ZBaseA
     ZSwipeRefreshLayout swipeRefreshLayout;
 
     View emptyView;
-    LinearLayout header;
+    View header;
 
     HomeAdapter adapter;
     @Override
     protected void initHeader() {
-        header = (LinearLayout)View.inflate(getActivity(), R.layout.fg_home_header, null);
+        header = View.inflate(getActivity(), R.layout.fg_home_header, null);
         header.findViewById(R.id.fg_home_menu1).setOnClickListener(this);
         header.findViewById(R.id.fg_home_menu2).setOnClickListener(this);
         header.findViewById(R.id.fg_home_menu3).setOnClickListener(this);
-        emptyView = View.inflate(getActivity(), R.layout.include_home_empty, null);
+        emptyView = header.findViewById(R.id.header_empty);
         emptyView.findViewById(R.id.home_empty_refresh).setOnClickListener(this);
-        header.addView(emptyView);
         getView().findViewById(R.id.header_left_btn).setOnClickListener(this);
         getView().findViewById(R.id.header_right_btn).setOnClickListener(this);
     }
@@ -137,7 +136,6 @@ public class FgHome extends BaseFragment implements View.OnClickListener, ZBaseA
     public void error(ExceptionInfo errorInfo, BaseRequest request) {
         MLog.e("errorInfo.state = "+errorInfo.state);
         if(errorInfo.state== ExceptionErrorCode.ERROR_CODE_NET_UNAVAILABLE){
-
             emptyView.setVisibility(View.VISIBLE);
             MLog.e("emptyView.state = "+emptyView.getVisibility());
         }else{

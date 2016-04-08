@@ -49,6 +49,8 @@ public class FgWebInfo extends BaseFragment implements View.OnKeyListener {
 
 
     WebViewClient webClient = new WebViewClient() {
+
+
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
             webView.loadUrl(url);

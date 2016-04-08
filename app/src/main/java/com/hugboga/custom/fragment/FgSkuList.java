@@ -128,7 +128,7 @@ public class FgSkuList extends  BaseFragment implements  View.OnClickListener, Z
 
     @Override
     public void error(ExceptionInfo errorInfo, BaseRequest request) {
-
+        onDataRequestError(errorInfo,request);
     }
 
     @Override
@@ -204,8 +204,9 @@ public class FgSkuList extends  BaseFragment implements  View.OnClickListener, Z
     @Override
     public void onItemClick(View view, int position) {
         MLog.e("position = " + position);
-        if(mCityBean==null)return;
+        if(mCityBean==null||adapter.getDatas()==null)return;
         SkuItemBean bean = adapter.getDatas().get(position);
+        if(bean==null)return;
         Bundle bundle = new Bundle();
         bundle.putString(FgWebInfo.WEB_URL, bean.skuDetailUrl);
         bundle.putSerializable(FgSkuDetail.WEB_SKU, bean);

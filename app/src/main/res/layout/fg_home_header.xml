@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
    >
     <LinearLayout
+        android:id="@+id/fg_home_header_top"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
@@ -79,5 +80,10 @@
                 android:text="@string/title_rent" />
         </LinearLayout>
     </LinearLayout>
-    <include layout="@layout/include_home_empty"/>
-</LinearLayout>
+    <include
+        android:id="@+id/header_empty"
+        android:layout_below="@id/fg_home_header_top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/include_home_empty"/>
+</RelativeLayout>
