@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -45,7 +46,7 @@ import java.util.TreeSet;
  * 选择城市
  */
 @ContentView(R.layout.fg_city)
-public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLetterChangedListener, AdapterView.OnItemClickListener, View.OnKeyListener, TextWatcher {
+public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLetterChangedListener, AdapterView.OnItemClickListener, View.OnKeyListener, TextWatcher, TextView.OnEditorActionListener {
 
     public static final String KEY_BUNDLE = "bundle";
     public static final String KEY_CITY_ID = "key_city_id";
@@ -133,6 +134,7 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
         cityId = getArguments().getInt(KEY_CITY_ID, -1);
         exceptCityId = (ArrayList<Integer>) getArguments().getSerializable(KEY_CITY_EXCEPT_ID_LIST);
         editSearch.setOnKeyListener(this);
+        editSearch.setOnEditorActionListener(this);
         editSearch.addTextChangedListener(this);
         if ("startAddress".equals(from)) {
             editSearch.setHint("搜索出发城市");
@@ -730,5 +732,20 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
             CountryDateList.add(0, onlyForDisplayCityBean);
         }
         return CountryDateList;
+    }
+
+    @Override
+    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+        /*判断是否是“GO”键*/
+        if(actionId == EditorInfo.IME_ACTION_SEARCH){
+            String keyword = editSearch.getText().toString().trim();
+            if (TextUtils.isEmpty(keyword)) {
+                ToastUtils.showLong("请输入搜索内容");
+                return true;
+            }
+            collapseSoftInputMethod();
+            return true;
+        }
+        return false;
     }
 }

@@ -248,6 +248,8 @@ public class CityAdapter extends BaseAdapter implements View.OnClickListener, On
         if(!TextUtils.isEmpty(model.keyWord)){
             if(model.keyWord.equals("相关城市")){
                 viewHolder.tvTitle.setText("相关城市，" + model.name);
+            }else if(model.isNationality){
+                viewHolder.tvTitle.setText(getSpannableString(model.name, model.keyWord));
             }else{
                 viewHolder.tvTitle.setText(getSpannableString(model.name + "，" + model.placeName, model.keyWord));
             }
