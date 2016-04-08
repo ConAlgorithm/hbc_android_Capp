@@ -115,6 +115,7 @@ public class ZListPageView extends ZListRecyclerView implements IPageList {
     @Override
     public void showPageFirst() {
         if (!isLoading) {
+            removeAllViews();
             loadData(Page.pageType.FIRST);
         } else {
             zSwipeRefreshLayout.setRefreshing(false);
