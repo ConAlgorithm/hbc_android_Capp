@@ -751,7 +751,7 @@ public class FgChangeTrip extends BaseFragment implements View.OnClickListener {
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
             String hour = String.format("%02d", hourOfDay);
             String minuteStr = String.format("%02d", minute);
-            serverDate = hour + ":" + minuteStr;
+            serverDate = hour + ":" + minuteStr+":00";
             serverDateTime.setText(mOrderBean.serviceTime + " " + serverDate + "(当地时间)");
         }
     }
