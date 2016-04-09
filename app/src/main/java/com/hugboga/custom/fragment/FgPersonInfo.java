@@ -294,10 +294,12 @@ public class FgPersonInfo extends BaseFragment {
 
     @PermissionGrant(PermissionRes.CAMERA)
     public void requestPhoneSuccess() {
+        cropPic = ImageUtils.getPhotoFileName();
+        newPic = "new"+cropPic;
         //拍照
         ImageUtils.checkDir(); //检查并创建图片目录
         Intent takeIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        File file = new File(Constants.IMAGE_DIR, Constants.HEAD_IMAGE);
+        File file = new File(Constants.IMAGE_DIR, cropPic);
         takeIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
         startActivityForResult(takeIntent, 1);
     }
@@ -381,18 +383,22 @@ public class FgPersonInfo extends BaseFragment {
     }
 
     private String cropPic = null;
+    private String newPic = null;
     /**
      * 调用系统剪切图片
      */
-    public void cropPhoto(Uri uri) {
-        if(null == uri) return;
-//        File oldFile = new File(Constants.IMAGE_DIR, Constants.HEAD_IMAGE);
+    public void cropPhoto() {
+        try {
+           File oldFile = new File(Constants.IMAGE_DIR, cropPic);
+            File newFile = new File(Constants.IMAGE_DIR, newPic);
+            UCrop.Options options = new UCrop.Options();
+            options.setCompressionFormat(Bitmap.CompressFormat.JPEG);
+            UCrop.of(Uri.fromFile(oldFile), Uri.fromFile(newFile)).withAspectRatio(1f, 1f).withOptions(options).withMaxResultSize(200, 200).start(getActivity(), this);
 
-        cropPic = ImageUtils.getPhotoFileName();
-        File newFile = new File(Constants.IMAGE_DIR, Constants.HEAD_IMAGE_NEW);
-        UCrop.Options options = new UCrop.Options();
-        options.setCompressionFormat(Bitmap.CompressFormat.JPEG);
-        UCrop.of(uri, Uri.fromFile(newFile)).withAspectRatio(1f, 1f).withOptions(options).withMaxResultSize(200, 200).start(getActivity(), this);
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
 
     private String setPicToView(Bitmap mBitmap) {
@@ -492,16 +498,15 @@ public class FgPersonInfo extends BaseFragment {
         switch (requestCode) {
             case 1:
                 if (resultCode == Activity.RESULT_OK) {
-                    cropPhoto(data.getData());//裁剪图片
+                    cropPhoto();//裁剪图片
                 }
                 break;
             case 2:
                 if (resultCode == Activity.RESULT_OK) {
                     try {
-//                        Bitmap bitmap = BitmapFactory.decodeStream(getActivity().getContentResolver().openInputStream(data.getData()));
-//                        FileUtil.saveBitmapToFile(bitmap, Constants.IMAGE_DIR, Constants.HEAD_IMAGE);
-//                        String filePath = data.getData().getPath();
-                        cropPhoto(data.getData());//裁剪图片
+                        Bitmap bitmap = BitmapFactory.decodeStream(getActivity().getContentResolver().openInputStream(data.getData()));
+                        FileUtil.saveBitmapToFile(bitmap, Constants.IMAGE_DIR, cropPic);
+                        cropPhoto();//裁剪图片
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
