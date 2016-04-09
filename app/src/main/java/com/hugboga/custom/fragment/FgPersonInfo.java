@@ -243,6 +243,8 @@ public class FgPersonInfo extends BaseFragment {
 
     @PermissionGrant(PermissionRes.WRITE_EXTERNAL_STORAGE)
     public void requestSdcardSuccess() {
+        cropPic = ImageUtils.getPhotoFileName();
+        newPic = "new"+cropPic;cropPic = ImageUtils.getPhotoFileName();
         //修改头像
         final CharSequence[] items = getResources().getStringArray(R.array.my_info_phone_type);
         AlertDialog.Builder builder1= new AlertDialog.Builder(getActivity()).setTitle("上传头像").setItems(items, new DialogInterface.OnClickListener() {
@@ -294,8 +296,6 @@ public class FgPersonInfo extends BaseFragment {
 
     @PermissionGrant(PermissionRes.CAMERA)
     public void requestPhoneSuccess() {
-        cropPic = ImageUtils.getPhotoFileName();
-        newPic = "new"+cropPic;
         //拍照
         ImageUtils.checkDir(); //检查并创建图片目录
         Intent takeIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
