@@ -5,27 +5,36 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
+
 import com.huangbaoche.hbcframe.data.net.ExceptionErrorCode;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.ServerException;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
+import com.hugboga.custom.BuildConfig;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.constants.ResourcesConstants;
 import com.hugboga.custom.data.bean.UserBean;
 import com.hugboga.custom.data.bean.UserEntity;
+import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestLogin;
 import com.hugboga.custom.data.request.RequestRegister;
 import com.hugboga.custom.data.request.RequestVerity;
 import com.hugboga.custom.widget.DialogUtil;
+
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
+
 import java.util.regex.Pattern;
+
+import de.greenrobot.event.EventBus;
 
 @ContentView(R.layout.fg_register)
 public class FgRegister extends BaseFragment {
@@ -65,7 +74,8 @@ public class FgRegister extends BaseFragment {
                 showTip("注册成功");
                 Bundle bundle = new Bundle();
                 bundle.putBoolean("isLogin", true);
-//                notifyFragment(FgPersonCenter.class,bundle);
+                EventBus.getDefault().post(
+                        new EventAction(EventType.CLICK_USER_LOGIN));
                 finish();
             }
         } else if (request instanceof RequestVerity) {
@@ -74,10 +84,10 @@ public class FgRegister extends BaseFragment {
             setBtnVisible(false);
             time = 59;
             handler.postDelayed(runnable, 0);
-        }else if (request instanceof RequestLogin) {
+        } else if (request instanceof RequestLogin) {
             RequestLogin requestLogin = (RequestLogin) request;
             UserBean userBean = requestLogin.getData();
-            if(userBean!=null){
+            if (userBean != null) {
                 //登录成功
                 UserEntity.getUser().setUserId(getActivity(), userBean.userID);
                 UserEntity.getUser().setUserToken(getActivity(), userBean.userToken);
@@ -89,7 +99,8 @@ public class FgRegister extends BaseFragment {
                 showTip("登录成功");
                 Bundle bundle = new Bundle();
                 bundle.putBoolean("isLogin", true);
-//                notifyFragment(FgPersonCenter.class,bundle);
+                EventBus.getDefault().post(
+                        new EventAction(EventType.CLICK_USER_LOGIN));
                 finish();
             }
         }
@@ -113,32 +124,44 @@ public class FgRegister extends BaseFragment {
     };
 
     @Override
+    public void onStop() {
+        super.onStop();
+        this.getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        this.getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+    }
+
+    @Override
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-            setBtnVisible(true);
-            if (errorInfo.state == ExceptionErrorCode.ERROR_CODE_SERVER) {
-                if (errorInfo.exception instanceof ServerException) {
-                    ServerException se = (ServerException) errorInfo.exception;
-                    if (se.getCode() == 40070010 || se.getCode() == 10014) {
-                        //区号手机号，已经被注册
-                        DialogUtil.getInstance(getActivity()).showCustomDialog("提醒", "此手机号已经注册，是否直接登录？", "取消", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                            }
-                        }, "登录", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                finish();
-                                Bundle bundle = new Bundle();
-                                bundle.putString("areaCode", areaCode);
-                                bundle.putString("phone", phone);
-                                startFragment(new FgLogin(), bundle);
-                            }
-                        }).show();
-                        return;
+        setBtnVisible(true);
+        if (errorInfo.state == ExceptionErrorCode.ERROR_CODE_SERVER) {
+            if (errorInfo.exception instanceof ServerException) {
+                ServerException se = (ServerException) errorInfo.exception;
+                if (se.getCode() == 40070010 || se.getCode() == 10014) {
+                    //区号手机号，已经被注册
+                    DialogUtil.getInstance(getActivity()).showCustomDialog("提醒", "此手机号已经注册，是否直接登录？", "取消", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
                         }
-                    }
+                    }, "登录", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            finish();
+                            Bundle bundle = new Bundle();
+                            bundle.putString("key_area_code", areaCode);
+                            bundle.putString("key_phone", phone);
+                            startFragment(new FgLogin(), bundle);
+                        }
+                    }).show();
+                    return;
                 }
-            super.onDataRequestError(errorInfo, request);
+            }
+        }
+        super.onDataRequestError(errorInfo, request);
     }
 
     @Override
@@ -176,14 +199,14 @@ public class FgRegister extends BaseFragment {
                     showTip("密码必须是4-16位数字或字母");
                     return;
                 }
-//                String channelStr = AppInfo.getVersionChannel(getActivity());
-                Integer channelInt= 1000;
+                String channelStr = BuildConfig.FLAVOR;
+                Integer channelInt = 1000;
                 try {
-//                    channelInt = Integer.valueOf(channelStr);
-                }catch (Exception e){
+                    channelInt = Integer.valueOf(channelStr);
+                } catch (Exception e) {
                     MLog.e("getVersionChannel ", e);
                 }
-                RequestRegister requestRegister = new RequestRegister(getActivity(), areaCode, phone, password, verity,null,channelInt);
+                RequestRegister requestRegister = new RequestRegister(getActivity(), areaCode, phone, password, verity, null, channelInt);
                 requestData(requestRegister);
                 break;
             case R.id.register_login:
@@ -222,7 +245,7 @@ public class FgRegister extends BaseFragment {
             case R.id.register_protocol:
                 FgWebInfo fgWebInfo = new FgWebInfo();
                 Bundle bundle1 = new Bundle();
-                bundle1.putString(FgWebInfo.Web_URL, ResourcesConstants.H5_PROTOCOL);
+                bundle1.putString(FgWebInfo.WEB_URL, ResourcesConstants.H5_PROTOCOL);
                 fgWebInfo.setArguments(bundle1);
                 startFragment(fgWebInfo);
                 break;
@@ -265,16 +288,15 @@ public class FgRegister extends BaseFragment {
     protected void initHeader() {
         //设置标题颜色，返回按钮图片
 //        leftBtn.setImageResource(R.mipmap.top_close);
-        fgTitle.setTextColor(getResources().getColor(R.color.my_content_title_color));
         fgTitle.setText("注册");
         //初始化数据
-        if(mTargetFragment instanceof FgLogin){
+        if (mSourceFragment instanceof FgLogin) {
             String code = getArguments().getString("areaCode");
-            if(code!=null && !code.isEmpty()){
+            if (code != null && !code.isEmpty()) {
                 areaCodeTextView.setText("+" + code);
             }
             String phone = getArguments().getString("phone");
-            if(phone!=null && !phone.isEmpty()){
+            if (phone != null && !phone.isEmpty()) {
                 phoneEditText.setText(phone);
             }
         }

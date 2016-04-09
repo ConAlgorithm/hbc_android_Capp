@@ -3,8 +3,7 @@
     android:id="@+id/activity_head_layout"
     android:layout_width="fill_parent"
     android:layout_height="48dip"
-    android:background="@color/basic_black"
-    >
+    android:background="@drawable/btn_orange">
 
     <ImageView
         android:id="@+id/header_left_btn"
@@ -46,6 +45,7 @@
         android:textColor="@color/basic_white"
         android:textColorHint="@color/basic_white"
         android:textSize="16sp" />
+
     <ImageView
         android:id="@+id/head_search_clean"
         android:layout_width="wrap_content"
@@ -56,6 +56,5 @@
         android:paddingLeft="10dp"
         android:paddingRight="5dp"
         android:paddingTop="5dp"
-        android:paddingBottom="5dp"
-        />
+        android:paddingBottom="5dp" />
 </RelativeLayout>

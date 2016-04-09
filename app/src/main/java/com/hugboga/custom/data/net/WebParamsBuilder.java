@@ -1,6 +1,7 @@
 package com.hugboga.custom.data.net;
 
 import com.huangbaoche.hbcframe.data.net.HbcParamsBuilder;
+import com.hugboga.custom.data.request.RequestWebInfo;
 
 import org.xutils.http.RequestParams;
 import org.xutils.http.annotation.HttpRequest;
@@ -14,8 +15,11 @@ public class WebParamsBuilder extends HbcParamsBuilder {
     @Override
     public String buildUri(RequestParams params, HttpRequest httpRequest) {
         String url = httpRequest.host();
-        url += httpRequest.path();
+        if (params instanceof RequestWebInfo) {
+            url = ((RequestWebInfo) params).getUrl();
+        }
         return url;
     }
+
 
 }

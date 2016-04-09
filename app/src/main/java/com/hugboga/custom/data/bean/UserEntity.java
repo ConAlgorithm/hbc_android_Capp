@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.text.TextUtils;
 
+import com.huangbaoche.hbcframe.data.bean.UserSession;
 import com.hugboga.custom.utils.SharedPre;
 
 
@@ -28,6 +29,9 @@ public class UserEntity {
     private UserEntity() {
     }
 
+    public String getImToken() {
+        return imToken;
+    }
 
     public static UserEntity getUser() {
         if (user == null) {
@@ -50,13 +54,7 @@ public class UserEntity {
         this.accessKey = accessKey;
     }
 
-    public String getUserId() {
-        return userId;
-    }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
 
     public void setUserId(Context active, String userId) {
         SharedPre shared = new SharedPre(active);
@@ -71,6 +69,7 @@ public class UserEntity {
         }
         return userId;
     }
+
     public String getUserToken(Context activity) {
         if (TextUtils.isEmpty(userToken)) {
             SharedPre shared = new SharedPre(activity);
@@ -79,11 +78,12 @@ public class UserEntity {
         return userToken;
     }
 
-    public void setUserToken(Context active,String userToken) {
+    public void setUserToken(Context active, String userToken) {
         SharedPre shared = new SharedPre(active);
         shared.saveStringValue(SharedPre.USERTOKEN, userToken);
         this.userToken = userToken;
     }
+
     public void setNickname(Context active, String nickname) {
         SharedPre shared = new SharedPre(active);
         shared.saveStringValue(SharedPre.NICKNAME, nickname);
@@ -183,7 +183,7 @@ public class UserEntity {
     }
 
     public boolean isLogin(Activity activity) {
-        return !TextUtils.isEmpty(getUserId(activity));
+        return !TextUtils.isEmpty(UserSession.getUser().getUserToken(activity));
     }
 
     public boolean hasNewCoupon() {
@@ -200,9 +200,9 @@ public class UserEntity {
         return weakPasswordMsg;
     }
 
-    public void setWeakPasswordMsg(Context activity,String weakPasswordMsg) {
+    public void setWeakPasswordMsg(Context activity, String weakPasswordMsg) {
         SharedPre shared = new SharedPre(activity);
-         shared.saveStringValue(SharedPre.WEAK_PSW_MESSAGE, weakPasswordMsg);
+        shared.saveStringValue(SharedPre.WEAK_PSW_MESSAGE, weakPasswordMsg);
         this.weakPasswordMsg = weakPasswordMsg;
     }
 
@@ -212,7 +212,7 @@ public class UserEntity {
         return weakPassword;
     }
 
-    public void setWeakPassword(Context activity,boolean weakPassword) {
+    public void setWeakPassword(Context activity, boolean weakPassword) {
         SharedPre shared = new SharedPre(activity);
         shared.saveBooleanValue(SharedPre.IS_WEAK_PSW, weakPassword);
         this.weakPassword = weakPassword;
@@ -224,7 +224,7 @@ public class UserEntity {
         return imToken;
     }
 
-    public void setImToken(Context activity,String imToken) {
+    public void setImToken(Context activity, String imToken) {
         SharedPre shared = new SharedPre(activity);
         shared.saveStringValue(SharedPre.IM_TOKEN, imToken);
         this.imToken = imToken;
@@ -233,6 +233,7 @@ public class UserEntity {
     public void clean(Activity activity) {
         SharedPre shared = new SharedPre(activity);
         shared.clean();
+        UserSession.getUser().setUserToken(activity,null);
         userId = null;
         accessKey = null;
         avatar = null;

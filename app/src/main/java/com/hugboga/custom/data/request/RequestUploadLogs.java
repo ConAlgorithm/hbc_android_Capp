@@ -12,21 +12,20 @@ import org.xutils.http.HttpMethod;
 import org.xutils.http.annotation.HttpRequest;
 
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * 提交LOG
  * Created by admin on 2016/3/7.
  */
 
-@HttpRequest(path = UrlLibs.SERVER_IP_UPLOAD_LOGS,builder = HbcParamsBuilder.class)
+@HttpRequest(path = UrlLibs.SERVER_IP_UPLOAD_LOGS, builder = HbcParamsBuilder.class)
 public class RequestUploadLogs extends BaseRequest<Boolean> {
 
 
-    public RequestUploadLogs(Context context,StringBuffer log) {
+    public RequestUploadLogs(Context context, StringBuffer log) {
         super(context);
         map = new HashMap<>();
-        map.put("log",log.toString());
+        map.put("log", log.toString());
     }
 
     @Override
@@ -34,7 +33,7 @@ public class RequestUploadLogs extends BaseRequest<Boolean> {
         return new ImplParser() {
             @Override
             public Object parseObject(JSONObject obj) throws Throwable {
-                return obj.optBoolean("debug",false);
+                return obj.optBoolean("debug", false);
             }
         };
     }

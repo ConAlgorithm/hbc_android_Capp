@@ -1,10 +1,12 @@
 package com.huangbaoche.hbcframe.data.net;
 
 import android.content.Context;
+import android.net.SSLCertificateSocketFactory;
 
+import com.huangbaoche.hbcframe.util.Common;
 import com.huangbaoche.hbcframe.util.MLog;
 
-import org.apache.http.conn.ssl.SSLSocketFactory;
+import javax.net.ssl.SSLSocketFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,7 +26,7 @@ import javax.net.ssl.TrustManagerFactory;
 /**
  * Created by admin on 2015/10/3.
  */
-public class DefaultSSLSocketFactory extends SSLSocketFactory {
+public class DefaultSSLSocketFactory extends SSLCertificateSocketFactory {
     private SSLContext sslContext = SSLContext.getInstance("TLS");
     private static KeyStore trustStore;
     private static DefaultSSLSocketFactory instance;
@@ -36,8 +38,8 @@ public class DefaultSSLSocketFactory extends SSLSocketFactory {
         if(instance == null) {
             try {
                 try {
-//                    keystorepw = Common.getKeyStorePsw(context);
-//                    keypw = Common.getClientP12Key(context);
+                    keystorepw = Common.getKeyStorePsw(context);
+                    keypw = Common.getClientP12Key(context);
                     long time = System.currentTimeMillis();
                     trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
                     InputStream ins = context.getResources().getAssets().open("client.keystore"); // 下载的证书放到项目中的assets目录中
@@ -57,7 +59,8 @@ public class DefaultSSLSocketFactory extends SSLSocketFactory {
     }
 
     private DefaultSSLSocketFactory() throws UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException, KeyManagementException {
-        super(trustStore);
+        super(10000);
+//        super(trustStore);
         long time = System.currentTimeMillis();
         KeyManagerFactory keymanagerfactory = KeyManagerFactory.getInstance("X509");
         keymanagerfactory.init(trustStore, keypw.toCharArray());

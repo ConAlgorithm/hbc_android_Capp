@@ -41,13 +41,13 @@ public class FgCallBack extends BaseFragment {
             case R.id.call_back_submit:
                 //提交意见
                 String content = contentEditText.getText().toString();
-                if(TextUtils.isEmpty(content)){
+                if (TextUtils.isEmpty(content)) {
                     showTip("请填写内容后再提交");
                     contentEditText.requestFocus();
                     return;
                 }
 
-                RequestCallBack requestCallBack = new RequestCallBack(getActivity(),content);
+                RequestCallBack requestCallBack = new RequestCallBack(getActivity(), content);
                 requestData(requestCallBack);
                 break;
             default:
@@ -69,7 +69,6 @@ public class FgCallBack extends BaseFragment {
     protected void initHeader() {
         //设置标题颜色，返回按钮图片
 //        leftBtn.setImageResource(R.mipmap.top_back_black);
-        fgTitle.setTextColor(getResources().getColor(R.color.my_content_title_color));
         fgTitle.setText("意见反馈");
     }
 

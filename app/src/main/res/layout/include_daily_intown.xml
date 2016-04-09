@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="@color/allbg_gray"
+            android:padding="30dip">
+
+            <LinearLayout
+                android:id="@+id/daily_from_layout"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dip"
+                android:background="@drawable/shape_rounded_rectangle_white">
+
+                <TextView
+                    android:id="@+id/daily_from"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="您在哪个城市出发?"
+                    android:textColorHint="@color/change_mobile_hint"
+                    android:textSize="19sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="20dip">
+
+                <CheckBox
+                    android:id="@+id/daily_is_half"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@drawable/checkbox_style"
+                    android:paddingLeft="5dp"
+                    android:text="半日包" />
+
+                <FrameLayout
+                    android:id="@+id/daily_half_day_question"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="3dp"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="20dp">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:src="@mipmap/question"
+
+                        />
+                </FrameLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/daily_half_start"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dip"
+                android:layout_marginTop="20dip"
+                android:background="@drawable/shape_rounded_rectangle_white"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/daily_half_date_start"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="选择日期"
+                    android:textColorHint="@color/change_mobile_hint"
+                    android:textSize="19sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/daily_time_layout"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dip"
+                android:layout_marginTop="20dip"
+                android:background="@drawable/shape_rounded_rectangle_white">
+
+                <LinearLayout
+                    android:id="@+id/daily_start_layout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="开始日期"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/daily_date_start"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:hint="选择日期"
+                        android:textColorHint="@color/change_mobile_hint"
+                        android:textSize="18sp"
+                        android:layout_marginTop="5dp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="2dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/servicer_center_content_line" />
+
+                <LinearLayout
+                    android:id="@+id/daily_end_layout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="结束日期"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/daily_date_end"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:hint="选择日期"
+                        android:textColorHint="@color/change_mobile_hint"
+                        android:textSize="18sp"
+                        android:layout_marginTop="5dp" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/daily_city_tips"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dip"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/daily_btn"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dip"
+                android:background="@drawable/btn_orange"
+                android:textColor="@color/basic_white"
+                android:text="@string/btn_select_car"
+                android:textSize="18sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/daily_tip"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center_horizontal" />
+
+            <include layout="@layout/include_bottom_promise" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

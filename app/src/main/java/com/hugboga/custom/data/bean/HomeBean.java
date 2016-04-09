@@ -6,7 +6,7 @@ import com.huangbaoche.hbcframe.data.bean.IBaseBean;
  * 首页
  * Created by admin on 2016/3/2.
  */
-public class HomeBean implements IBaseBean{
+public class HomeBean implements IBaseBean {
 
     public String cityId;//城市ID
     public String mainTitle;//主标题

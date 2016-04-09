@@ -1,10 +1,18 @@
 package com.huangbaoche.hbcframe.data.net;
 
 import android.app.Activity;
+import android.content.Context;
 import android.text.TextUtils;
 import android.widget.Toast;
 
+import com.huangbaoche.hbcframe.HbcConfig;
+import com.huangbaoche.hbcframe.R;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
+import com.huangbaoche.hbcframe.util.MLog;
+import com.huangbaoche.hbcframe.widget.DialogUtilInterface;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 /**
  * Created by admin on 2016/2/25.
@@ -12,9 +20,13 @@ import com.huangbaoche.hbcframe.data.request.BaseRequest;
 public  class ErrorHandler implements HttpRequestListener{
 
     private Activity mActivity;
+    private HttpRequestListener mListener;
+    private DialogUtilInterface mDialogUtil;
 
-    public ErrorHandler(Activity activity){
+    public ErrorHandler(Activity activity,HttpRequestListener listener){
         this.mActivity = activity;
+        this.mListener = listener;
+        mDialogUtil = HttpRequestUtils.getDialogUtil(activity);
     }
 
     @Override
@@ -36,66 +48,67 @@ public  class ErrorHandler implements HttpRequestListener{
         // String 的 用于用户提示
 //        int errStrint = R.string.error_other;
         switch (errorInfo.state) {
-            case ExceptionErrorCode.ERROR_CODE_PARSE:
-                errState = "数据解析错误";
-//                errStrint = R.string.error_parser;
-                break;
             case ExceptionErrorCode.ERROR_CODE_NET_UNAVAILABLE:
                 // errState = "网络不可用";
-//                if (mDialogUtil != null)
-//                    mDialogUtil.showSettingDialog();
-                break;
+                if (mDialogUtil != null)
+                    mDialogUtil.showSettingDialog();
+                return;
             case ExceptionErrorCode.ERROR_CODE_NET_TIMEOUT:
                  errState = "数据加载超时";
                 errorInfo.exception = null;
-//                if (mDialogUtil != null)
-//                    mDialogUtil.showOvertimeDialog(new HttpRequestUtils(mContext, this.getParser(), callback));
-                break;
-            case ExceptionErrorCode.ERROR_CODE_NET_NOTFOUND:
-                errState = "404";
-//                errStrint = R.string.error_nofound;
-                break;
-            case ExceptionErrorCode.ERROR_CODE_URL:
-                errState = "URL 地址错误";
-//                errStrint = R.string.error_url;
-                break;
-            case ExceptionErrorCode.ERROR_CODE_NET:
-                errState = "联网失败";
-//                errStrint = R.string.error_net;
-                break;
-            case ExceptionErrorCode.ERROR_CODE_SSL:
-//                errState = "联网失败SSL";
-//                errStrint = R.string.error_ssl;
-//                mDialogUtil.showCustomDialog(mContext.getString(errStrint));
-                break;
+                if (mDialogUtil != null)
+                    mDialogUtil.showOvertimeDialog(request, mListener);
+                return;
             case ExceptionErrorCode.ERROR_CODE_SERVER:
                 errState = "服务器返回错误";
                 ServerException serverException = (ServerException) errorInfo.exception;
-//                if (serverException.getCode() == 10011) {//accessKey不合法
-//                    UserEntity.getUser().setAccessKey(mContext, null);
-//                    execute();
-//                } else if (mDialogUtil != null) {
-//                    mDialogUtil.showCustomDialog(serverException.getMessage(),
-//                            serverException.getCode(), serverException.getOpr());
-//                }
+                ServerCodeHandlerInterface serverCodeHandler = getServerCodeHandler(mActivity);
+                if(!serverCodeHandler.handleServerCode(mActivity,serverException.getMessage(),serverException.getCode(),request,mListener))
                 Toast.makeText(mActivity, serverException.getMessage(), Toast.LENGTH_LONG).show();
                 return;
+            case ExceptionErrorCode.ERROR_CODE_PARSE:
+                errState = "数据解析错误";
+                break;
+            case ExceptionErrorCode.ERROR_CODE_NET_NOTFOUND:
+                errState = "404";
+                break;
+            case ExceptionErrorCode.ERROR_CODE_URL:
+                errState = "URL 地址错误";
+                break;
+            case ExceptionErrorCode.ERROR_CODE_NET:
+                errState = "联网失败";
+                break;
+            case ExceptionErrorCode.ERROR_CODE_SSL:
+                errState = "联网失败SSL";
+                break;
             case ExceptionErrorCode.ERROR_CODE_OTHER:
                 errState = "系统内部错误";
-//                errStrint = R.string.error_other;
                 break;
-
         }
-        if (!TextUtils.isEmpty(errState))
-            Toast.makeText(mActivity, errState, Toast.LENGTH_LONG).show();
-        if (errorInfo.exception != null) {
-//			ErrorUpload upload = new ErrorUpload(errorInfo.state, errState, errorInfo.exception);
-//          Common.uploadErrorInfo(mContext, upload);
-        }
+        MLog.e("mActivity = "+mActivity);
+        if(mActivity!=null)
+            Toast.makeText(mActivity, mActivity.getString(R.string.request_error,errorInfo.state), Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void onDataRequestCancel(BaseRequest request) {
 
+    }
+
+
+    public static ServerCodeHandlerInterface getServerCodeHandler(Context mContext){
+        ServerCodeHandlerInterface handler = null;
+        if(mContext instanceof Activity) {
+            try {
+                if(HbcConfig.serverCodeHandler!=null) {
+                    handler = (ServerCodeHandlerInterface) HbcConfig.serverCodeHandler.newInstance();
+                }
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return handler;
     }
 }

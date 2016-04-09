@@ -4,11 +4,11 @@ import android.annotation.TargetApi;
 import android.content.DialogInterface;
 import android.net.Uri;
 import android.net.http.SslError;
+import android.os.Build;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.webkit.JavascriptInterface;
 import android.webkit.JsResult;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
@@ -18,12 +18,10 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.huangbaoche.hbcframe.data.net.DefaultSSLSocketFactory;
-import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.net.WebAgent;
-import com.hugboga.custom.data.request.RequestWebInfo;
 import com.hugboga.custom.widget.DialogUtil;
 
 import org.xutils.common.Callback;
@@ -42,15 +40,17 @@ import javax.net.ssl.SSLHandshakeException;
 @ContentView(R.layout.fg_webview)
 public class FgWebInfo extends BaseFragment implements View.OnKeyListener {
 
-    public static final String Web_URL = "web_url";
+    public static final String WEB_URL = "web_url";
     public boolean isHttps = false;
     private DialogUtil mDialogUtil;
 
     @ViewInject(R.id.webview)
-    WebView webView;
+    public WebView webView;
 
 
     WebViewClient webClient = new WebViewClient() {
+
+
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
             webView.loadUrl(url);
@@ -84,7 +84,7 @@ public class FgWebInfo extends BaseFragment implements View.OnKeyListener {
         }
 
         private WebResourceResponse processRequest(Uri uri) {
-            MLog.d( "GET: " + uri.toString());
+            MLog.d("GET: " + uri.toString());
             try {
                 // Setup connection
                 URL url = new URL(uri.toString());
@@ -189,25 +189,24 @@ public class FgWebInfo extends BaseFragment implements View.OnKeyListener {
         // 启用javaScript
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setDefaultTextEncodingName("UTF-8");
-        webView.addJavascriptInterface(new WebAgent(this,webView), "javaObj");
+        webView.addJavascriptInterface(new WebAgent(this, webView), "javaObj");
         webView.setOnKeyListener(this);
         webView.setWebViewClient(webClient);
         webView.setWebChromeClient(webChromeClient);
         webView.setBackgroundColor(0x00000000);
-        mDialogUtil =  DialogUtil.getInstance(getActivity());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            WebView.setWebContentsDebuggingEnabled(true);
+        }
+        mDialogUtil = DialogUtil.getInstance(getActivity());
     }
 
     @Override
     protected Callback.Cancelable requestData() {
-        String url = getArguments().getString(Web_URL);
-//        url = "https://res2.huangbaoche.com/h5/gmsg/message.html?messageId=100068621&guideId=200000001445";
-//        url="https://www.baidu.com";
-        url = "http://res.dev.hbc.tech/h5/test/api.html?t="+System.currentTimeMillis();
+        String url = getArguments().getString(WEB_URL);
         if (!TextUtils.isEmpty(url)) {
-            MLog.e("url=" + url);
             webView.loadUrl(url);
         }
-//        webView.loadUrl("http://res.dev.hbc.tech/h5/greg/index.html");
+        MLog.e("url=" + url);
         return null;
     }
 }

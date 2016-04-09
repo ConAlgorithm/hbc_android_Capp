@@ -27,9 +27,10 @@ public class DBHelper extends SQLiteOpenHelper {
 
 
     //The Android's default system path of your application database.
-    public  static String DB_PATH = "/data/data/com.hugboga.custom/databases/";
+    public static String DB_PATH = "/data/data/com.hugboga.custom/databases/";
 
-    public static String DB_NAME = "hbcv2.2.7.db";
+    public static String DB_NAME = "hbcv2.5.0.db";
+    public static String DB_TMP = ".tmp";
 
 
     private SQLiteDatabase myDataBase;
@@ -56,7 +57,7 @@ public class DBHelper extends SQLiteOpenHelper {
         return db;
     }*/
 
-    public DbManager getDbManager(){
+    public DbManager getDbManager() {
         DbManager db = x.getDb(DaoConfig.getInstance(myContext));
         return db;
     }
@@ -88,13 +89,13 @@ public class DBHelper extends SQLiteOpenHelper {
     /**
      * 删除老数据库
      */
-    public void deleteOldDb(){
+    public void deleteOldDb() {
         File fileDir = new File(DB_PATH);
-        if(fileDir.exists() && fileDir.isDirectory()){
+        if (fileDir.exists() && fileDir.isDirectory()) {
             File[] files = fileDir.listFiles();
-            for(File file:files){
+            for (File file : files) {
                 String fileName = file.getName();
-                if(fileName.startsWith("hbc") && !fileName.equals(DB_NAME) && (fileName.endsWith(".db") || fileName.endsWith(".db-journal"))){
+                if (fileName.startsWith("hbc") && !fileName.equals(DB_NAME)&& !fileName.equals(DB_NAME+DB_TMP) && (fileName.endsWith(".db") || fileName.endsWith(".db-journal"))) {
                     file.delete();
                 }
             }
@@ -109,11 +110,22 @@ public class DBHelper extends SQLiteOpenHelper {
     public boolean checkDataBase() {
 
         boolean checkDB = false;
-//        DbUtils db = getDbUtils();
         DbManager db = getDbManager();
         try {
             db.getDatabase();
-//            checkDB = db.tableIsExist(AirPort.class);
+            checkDB = db.getTable(AirPort.class).tableIsExist();
+            MLog.e("checkDataBase " + checkDB);
+        } catch (DbException e) {
+            e.printStackTrace();
+        }
+        return checkDB;
+    }
+    public boolean checkTmpDataBase() {
+
+        boolean checkDB = false;
+        DbManager db = x.getDb(DaoConfig.getTmpConfig(myContext));
+        try {
+            db.getDatabase();
             checkDB = db.getTable(AirPort.class).tableIsExist();
             MLog.e("checkDataBase " + checkDB);
         } catch (DbException e) {
@@ -128,7 +140,7 @@ public class DBHelper extends SQLiteOpenHelper {
      * This is done by transfering bytestream.
      */
     public void copyDataBase() throws IOException {
-MLog.e("copyDataBase");
+        MLog.e("copyDataBase");
         //Open your local db as the input stream
         InputStream myInput = myContext.getAssets().open(DB_NAME);
 
@@ -151,7 +163,7 @@ MLog.e("copyDataBase");
         myInput.close();
     }
 
-    public static boolean copyFile(File file,File newFile){
+    public static boolean copyFile(File file, File newFile) {
         boolean flag = false;
         try {
             InputStream myInput = new FileInputStream(file);
@@ -166,7 +178,7 @@ MLog.e("copyDataBase");
             } catch (IOException e) {
                 e.printStackTrace();
                 flag = false;
-            }finally {
+            } finally {
                 myOutput.flush();
                 myOutput.close();
                 myInput.close();

@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/include_header" />
+
+    <include layout="@layout/include_progress" />
+
+    <LinearLayout
+        android:id="@+id/car_empty_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/basic_white"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dip"
+            android:src="@mipmap/journey_sorry" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dip"
+            android:text="该地区暂无可用车辆" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/viewpager_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/servicer_center_bg"
+        android:clipChildren="false"
+        android:layerType="software">
+
+        <com.hugboga.custom.widget.JazzyViewPager
+            android:id="@+id/jazzy_pager"
+            android:layout_width="match_parent"
+            android:layout_height="120dip"
+            android:layout_marginLeft="120dip"
+            android:layout_marginRight="120dip"
+            android:clipChildren="false" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/car_split_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/servicer_center_bg">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="-1dp"
+            android:background="@drawable/fengexian" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/car_info_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/servicer_center_content_bg">
+
+        <LinearLayout
+            android:id="@+id/car_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:padding="10dip">
+
+            <TextView
+                android:id="@+id/fg_car_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip"
+                android:text="乘坐4人 | 行李3件"
+                android:textColor="@color/basic_black"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/fg_car_intro"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dip"
+                android:gravity="center"
+                android:textColor="@color/basic_gray"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/fg_car_tip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dip"
+                android:gravity="center"
+                android:text="泰国旅行实施司机+地接2人同时陪同的方式\n选车时请务必注意"
+                android:textColor="#FD8C52"
+                android:textSize="15sp"
+                android:visibility="gone" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dip"
+                android:layout_marginTop="10dip"
+                android:visibility="gone"
+                android:background="@color/basic_gray" />
+
+            <FrameLayout
+                android:id="@+id/car_trip_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dip">
+
+                <TextView
+                    android:id="@+id/car_trip_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:text="预估路程" />
+
+                <View
+                    style="@style/dash_line"
+                    android:layout_width="150dip"
+                    android:layout_gravity="center" />
+
+                <TextView
+                    android:id="@+id/car_trip_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:text="--公里" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dip">
+
+                <TextView
+                    android:id="@+id/car_time_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:text="预估时间" />
+
+                <View
+                    style="@style/dash_line"
+                    android:layout_width="150dip"
+                    android:layout_gravity="center" />
+
+                <TextView
+                    android:id="@+id/car_time_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:text="--分钟" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dip">
+
+                <TextView
+                    android:id="@+id/car_total_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:text="费用总计" />
+
+                <View
+                    style="@style/dash_line"
+                    android:layout_width="150dip"
+                    android:layout_gravity="center" />
+
+                <TextView
+                    android:id="@+id/car_total_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:textColor="@color/basic_gold"
+                    android:text="--元" />
+            </FrameLayout>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/bottom_bar_btn"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_margin="20dip"
+            android:background="@drawable/btn_orange"
+            android:textColor="@color/basic_white"
+            android:gravity="center"
+            android:text="@string/submit_btn"
+            android:textSize="18sp"
+            android:layout_below="@id/car_info" />
+
+        <TextView
+            android:id="@+id/car_price_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:drawableLeft="@mipmap/journey_cost"
+            android:drawablePadding="5dip"
+            android:layout_below="@id/bottom_bar_btn"
+            android:text="@string/car_tip" />
+
+        <LinearLayout
+            android:id="@+id/car_mask"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="-15dp"
+            android:background="@color/car_mask_bg"
+            android:visibility="visible"
+            android:gravity="center_horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:src="@mipmap/choose_gesture" />
+
+        </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>

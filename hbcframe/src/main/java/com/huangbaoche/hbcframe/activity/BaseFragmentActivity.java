@@ -1,9 +1,20 @@
 package com.huangbaoche.hbcframe.activity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MotionEvent;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 
+import com.huangbaoche.hbcframe.BuildConfig;
 import com.huangbaoche.hbcframe.fragment.BaseFragment;
+import com.huangbaoche.hbcframe.util.FastClickUtils;
 import com.huangbaoche.hbcframe.util.MLog;
 
 import org.xutils.x;
@@ -26,8 +37,36 @@ public class BaseFragmentActivity extends AppCompatActivity  {
         x.view().inject(this);
 //		addErrorProcess();
     }
+
+    public boolean isSoftInputShow(){
+        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        return imm.isActive();
+    }
+
+
     @Override
-    public void onBackPressed() {
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN){
+            if (isSoftInputShow()) {
+                try {
+                    ((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(BaseFragmentActivity.this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                }catch(Exception e){}
+            }
+        }
+        try {
+            return super.dispatchTouchEvent(event);
+        }catch (Exception e){
+            return false;
+        }
+    }
+
+    //获取fragment个数
+    protected  int getFragmentsSize(){
+        return mFragmentList.size();
+    }
+
+    //是否需要关闭fragment
+    protected void doFragmentBack(){
         if(mFragmentList!=null&&mFragmentList.size()>0){
             for(int i=mFragmentList.size()-1;i>0;i--) {
                 BaseFragment fragment = (BaseFragment) mFragmentList.get(i);
@@ -40,8 +79,19 @@ public class BaseFragmentActivity extends AppCompatActivity  {
                 }
             }
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        doFragmentBack();
         super.onBackPressed();
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return true;
+    }
+
     /**
      * @return void    返回类型
      * @Title addErrorProcess
@@ -55,7 +105,7 @@ public class BaseFragmentActivity extends AppCompatActivity  {
     UncaughtExceptionHandler mUncaughtExceptionHandlernew = new UncaughtExceptionHandler() {
         @Override
         public void uncaughtException(Thread thread, Throwable ex) {
-            ex.printStackTrace();
+           MLog.e("崩溃退出",ex);
             exitApp();
         }
     };
@@ -130,9 +180,28 @@ public class BaseFragmentActivity extends AppCompatActivity  {
             MLog.e("startFragment fragment is null");
             return;
         }
-        if(contentId ==-1)
-            throw new RuntimeException("BaseFragmentActivity ContentId not null, BaseFragment.setContentId(int)");
-        if(bundle!=null)fragment.setArguments(bundle);
-        getSupportFragmentManager().beginTransaction().add(contentId, fragment).addToBackStack(null).commit();
+        BaseFragment tFragment = null;
+        if(mFragmentList !=null&&mFragmentList.size()>0){
+            mFragmentList.get(mFragmentList.size() - 1);
+            for(int i=mFragmentList.size()-1;i>=0;i--){
+                tFragment = mFragmentList.get(i);
+                if(tFragment !=null&&tFragment.getContentId()!=-1)break;
+                tFragment =null;
+            }
+        }
+        if(tFragment!=null) {
+            tFragment.startFragment(fragment, bundle);
+        }else{
+            addFragment(fragment);
+            if(bundle!=null){
+                fragment.setArguments(bundle);
+            }
+            FragmentTransaction transaction = this.getSupportFragmentManager().beginTransaction();
+            transaction.add(contentId, fragment);
+            transaction.addToBackStack(null);
+            transaction.commitAllowingStateLoss();
+        }
+
     }
+
 }

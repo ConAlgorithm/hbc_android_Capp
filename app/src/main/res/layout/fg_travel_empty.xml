@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/travel_bg"
+    android:padding="@dimen/basic_margin_xlarge">
+
+    <Button
+        android:id="@+id/travel_empty_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_margin="@dimen/basic_margin_large"
+        android:background="@drawable/btn_orange"
+        android:text="开启我的行程"
+        android:textColor="@color/basic_white"
+        android:textSize="@dimen/text_size_largex" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/travel_empty_btn"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/basic_margin_large"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/basic_margin_small"
+            android:text="如果您预订了司导服务"
+            android:textSize="@dimen/text_size_largex" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="您将在这里看到行程单"
+            android:textSize="@dimen/text_size_largex" />
+    </LinearLayout>
+
+</RelativeLayout>

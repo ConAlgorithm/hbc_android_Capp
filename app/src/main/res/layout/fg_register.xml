@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/bg_02"
     android:orientation="vertical">
 
     <include layout="@layout/include_header" />
@@ -22,7 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/change_mobile_textbox_height"
             android:layout_marginTop="@dimen/change_mobile_top"
-            android:background="@drawable/textbox"
+            android:background="@drawable/login_textbox"
             android:orientation="horizontal">
 
             <TextView
@@ -99,7 +98,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginRight="@dimen/basic_margin_large"
                 android:layout_toLeftOf="@id/register_getcode_view"
-                android:background="@drawable/textbox"
+                android:background="@drawable/login_textbox"
                 android:hint="验证码(4位数字)"
                 android:inputType="number"
                 android:maxLength="4"
@@ -114,7 +113,7 @@
             android:layout_height="@dimen/change_mobile_textbox_height"
             android:layout_below="@id/register_getcode_layout"
             android:layout_marginTop="@dimen/change_mobile_top"
-            android:background="@drawable/textbox"
+            android:background="@drawable/login_textbox"
             android:hint="设置密码"
             android:inputType="textPassword"
             android:maxLength="16"
@@ -128,7 +127,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/register_password"
             android:layout_marginTop="@dimen/basic_margin_xlarge"
-            android:background="@drawable/login_selector_bg"
+            android:background="@drawable/login2_selector_bg"
             android:text="立即注册"
             android:textColor="@color/basic_white"
             android:textSize="@dimen/text_size_xlarge" />

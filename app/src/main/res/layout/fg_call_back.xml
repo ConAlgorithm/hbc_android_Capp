@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/bg_02"
     android:orientation="vertical">
 
     <include layout="@layout/include_header" />
@@ -23,6 +22,7 @@
             android:layout_marginTop="@dimen/basic_margin_xlarge"
             android:background="@drawable/textbox"
             android:hint="请留下您的宝贵意见"
+            android:maxLength="255"
             android:minLines="5"
             android:gravity="top"
             android:inputType="textMultiLine"

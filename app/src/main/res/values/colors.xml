@@ -7,10 +7,10 @@
     <!-- Basic color -->
     <color name="basic_pick_color">#398bd0</color>
     <color name="basic_send_color">#10c1ad</color>
-    <color name="basic_daily_color">#f2b904</color>
+    <color name="basic_daily_color">#fcce04</color>
     <color name="basic_rent_color">#e25f68</color>
     <color name="basic_commend_color">#7A5CC0</color>
-    <color name="basic_other_color">#00FFFFFF</color>
+    <color name="basic_other_color">#FFFFFF</color>
 
     <color name="basic_white">#FFFFFF</color>
     <color name="basic_black">#000000</color>
@@ -21,12 +21,12 @@
     <color name="basic_call_tip">#787878</color>
 
     <!-- Basic toolbar color -->
-    <color name="basic_pick_toolbar_color">#D8398bd0</color>
-    <color name="basic_send_toolbar_color">#D810c1ad</color>
-    <color name="basic_daily_toolbar_color">#D8f2b904</color>
-    <color name="basic_rent_toolbar_color">#D8e25f68</color>
-    <color name="basic_commend_toolbar_color">#D87A5CC0</color>
-    <color name="basic_other_toolbar_color">#EAFFFFFF</color>
+    <color name="basic_pick_toolbar_color">#398bd0</color>
+    <color name="basic_send_toolbar_color">#10c1ad</color>
+    <color name="basic_daily_toolbar_color">#f2b904</color>
+    <color name="basic_rent_toolbar_color">#e25f68</color>
+    <color name="basic_commend_toolbar_color">#7A5CC0</color>
+    <color name="basic_other_toolbar_color">#FFFFFF</color>
 
     <!-- Home color -->
     <color name="home_menu_text_color">#FFFFFF</color>
@@ -39,17 +39,19 @@
 
     <!--city-->
     <color name="item_title_bg">#E9E9E9</color>
+    <color name="normal_subtitle_color">#242424</color>
 
     <!--progress-->
-    <color name="progress_bg">#77000000</color>
+    <color name="progress_bg">#f7cb0c</color>
+    <color name="car_mask_bg">#77000000</color>
     <color name="progress_text_enable">#FFFFFF</color>
-    <color name="progress_text_disable">#9C9C9C</color>
+    <color name="progress_text_disable">#CCFFFFFF</color>
     <!--pick_flight-->
-    <color name="flight_tap_bg">#AAFFFFFF</color>
+    <color name="flight_tap_bg">#FFFFFF</color>
     <!--submit-->
     <color name="submit_money">#FFDD27</color>
     <!-- Servicer center color -->
-    <color name="servicer_center_bg">#EAFFFFFF</color>
+    <color name="servicer_center_bg">#FFFFFF</color>
     <color name="servicer_center_content_bg">#f9f9f9</color>
     <color name="servicer_center_content_color">#222527</color>
     <color name="servicer_center_content_line">#d7d7d9</color>
@@ -64,8 +66,8 @@
     <color name="my_info_bg">#F9F9F9</color>
     <color name="my_info_menu_title">#696769</color>
 
+    <color name="coupon_layout1_color">#D5D7D9</color>
     <!-- Coupon color -->
-    <color name="coupon_layout1_color">#55D5D7D9</color>
     <color name="coupon_empty_color">#F0F0F0</color>
     <color name="coupon_empty_text">#AAAAAA</color>
 
@@ -75,18 +77,20 @@
     <color name="change_mobile_line">#D7D7D7</color>
     <color name="change_mobile_hint">#c7c7c7</color>
     <color name="change_mobile_getcode">#398bd0</color>
+    <color name="login_unready">#c2bfb1</color>
+    <color name="login_ready">#2c2c2c</color>
 
     <!-- Callback color -->
-    <color name="call_back_bg">#DDf9f9f9</color>
+    <color name="call_back_bg">#f9f9f9</color>
 
     <!-- Login color -->
-    <color name="login_login_bg">#DDF2F4F7</color>
+    <color name="login_login_bg">#FCCE04</color>
     <color name="login_login_color">#6C6C6C</color>
 
     <!-- Travel color -->
     <color name="travel_bg">#F9F9F9</color>
     <color name="travel_tab_lineb">#E8E8E8</color>
-    <color name="travel_tab_bg">#DDF1F0F1</color>
+    <color name="travel_tab_bg">#F1F0F1</color>
     <color name="travel_tab_text_color">#303030</color>
     <color name="travel_tab_text_press_color">#939292</color>
     <color name="travel_tab_bottom_color">#222527</color>
@@ -109,13 +113,17 @@
     <color name="trip_label_color">#FE6C1C</color>
 
     <!--Letter color-->
-    <color name="letter_item_username">#727272</color>
-    <color name="letter_item_message">#0A0A0A</color>
-    <color name="letter_item_time">#C7C7C7</color>
-    <color name="letter_item_line">#FAFAFA</color>
-    <color name="letter_item_order1">#57C59B</color>
-    <color name="letter_item_order2">#A8A8A8</color>
+    <color name="letter_item_username">#000000</color>
+    <color name="letter_item_message">#99000000</color>
+    <color name="letter_item_time">#99000000</color>
+    <color name="letter_item_line">#EEEEEE</color>
+    <color name="letter_item_order1">#FF3D4B</color>
+    <color name="letter_item_order2">#63C8A1</color>
+    <color name="letter_item_order3">#AA000000</color>
     <color name="letter_im_order_color">#7A7A7A</color>
     <color name="letter_im_order_line">#C9C9C9</color>
     <color name="letter_im_order_point">#545454</color>
+
+    <color name="sku_info_bg">#EEEEEE</color>
+    <color name="sku_call">#007cff</color>
 </resources>

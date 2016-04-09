@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/car_sku_layout"
+        android:orientation="vertical"
+        android:gravity="bottom"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#33000000">
+
+        <include layout="@layout/activity_head" />
+
+        <LinearLayout
+            android:id="@+id/car_empty_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/basic_white"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dip"
+                android:src="@mipmap/journey_sorry" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dip"
+                android:text="该地区暂无可用车辆" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/viewpager_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/servicer_center_bg"
+            android:clipChildren="false"
+            android:layerType="software">
+
+            <com.hugboga.custom.widget.JazzyViewPager
+                android:id="@+id/jazzy_pager"
+                android:layout_width="match_parent"
+                android:layout_height="120dip"
+                android:layout_marginLeft="120dip"
+                android:layout_marginRight="120dip"
+                android:clipChildren="false" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/car_split_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/servicer_center_bg">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="-1dp"
+                android:background="@drawable/fengexian" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/car_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:background="@color/allbg_white"
+            android:padding="10dip">
+
+            <TextView
+                android:id="@+id/fg_car_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip"
+                android:textColor="@color/basic_black"
+                android:textSize="20sp" />
+
+            <View
+                style="@style/h_line"
+                android:layout_marginTop="10dp" />
+
+            <TextView
+                android:id="@+id/fg_car_intro"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dip"
+                android:lines="3"
+                android:gravity="center"
+                android:textColor="@color/basic_gray"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/fg_car_tip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dip"
+                android:gravity="center"
+                android:textColor="@color/travel_list_pay_color"
+                android:textSize="15sp"
+                android:text="@string/sku_car_tip"
+                android:visibility="visible" />
+
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

@@ -2,9 +2,9 @@ package com.hugboga.custom.data.request;
 
 import android.content.Context;
 
+import com.huangbaoche.hbcframe.data.net.HbcParamsBuilder;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
-import com.huangbaoche.hbcframe.data.net.HbcParamsBuilder;
 import com.hugboga.custom.data.bean.HomeBean;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.parser.ParserHome;
@@ -13,23 +13,19 @@ import org.xutils.http.HttpMethod;
 import org.xutils.http.annotation.HttpRequest;
 
 import java.util.ArrayList;
-import java.util.Map;
+import java.util.HashMap;
+import java.util.Objects;
 
 /**
+ * 首页数据请求
  * Created by admin on 2016/3/2.
  */
-@HttpRequest(
-        path = UrlLibs.SERVER_IP_HOME,
-        builder = HbcParamsBuilder.class)
+@HttpRequest(path = UrlLibs.SERVER_IP_HOME, builder = HbcParamsBuilder.class)
 public class RequestHome extends BaseRequest<ArrayList<HomeBean>> {
 
     public RequestHome(Context context) {
         super(context);
-    }
-
-    @Override
-    public Map<String, Object> getDataMap() {
-        return null;
+        map = new HashMap<String, Object>();
     }
 
     @Override

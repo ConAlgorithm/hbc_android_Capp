@@ -4,6 +4,9 @@ import android.app.Application;
 import android.content.Context;
 import android.util.Log;
 
+import com.huangbaoche.hbcframe.util.Common;
+import com.huangbaoche.hbcframe.util.MLog;
+
 import org.xutils.x;
 
 /**

@@ -2,9 +2,9 @@ package com.hugboga.custom.data.request;
 
 import android.content.Context;
 
+import com.huangbaoche.hbcframe.data.net.HbcParamsBuilder;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
-import com.huangbaoche.hbcframe.data.net.HbcParamsBuilder;
 import com.hugboga.custom.data.bean.SkuCityBean;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.parser.ParserSkuCity;
@@ -13,6 +13,7 @@ import org.xutils.http.annotation.HttpRequest;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Created by admin on 2016/3/3.
@@ -20,20 +21,15 @@ import java.util.Map;
 @HttpRequest(
         path = UrlLibs.SERVER_IP_CITY_SKU,
         builder = HbcParamsBuilder.class)
-public class RequestSkuList extends BaseRequest<SkuCityBean>{
+public class RequestSkuList extends BaseRequest<Objects[]> {
 
     private final String cityId;
 
-    public RequestSkuList(Context context,String cityId) {
+    public RequestSkuList(Context context, String cityId) {
         super(context);
         this.cityId = cityId;
-    }
-
-    @Override
-    public Map<String, Object> getDataMap() {
-        HashMap<String, Object> map = new HashMap<>();
-        map.put("cityId",cityId);
-        return map;
+        map = new HashMap<>();
+        map.put("cityId", cityId);
     }
 
     @Override

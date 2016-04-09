@@ -6,13 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.CityBean;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -56,7 +54,7 @@ public class HotCityGridViewAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        if(cityBean != null && !TextUtils.isEmpty(cityBean.name)){
+        if (cityBean != null && !TextUtils.isEmpty(cityBean.name)) {
             viewHolder.tv_hot_city_item.setText(cityBean.name);
         }
         return convertView;

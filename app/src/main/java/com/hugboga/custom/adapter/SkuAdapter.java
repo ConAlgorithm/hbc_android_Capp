@@ -1,64 +1,81 @@
 package com.hugboga.custom.adapter;
 
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.RelativeLayout;
 
-import com.huangbaoche.hbcframe.adapter.BaseAdapter;
+import com.huangbaoche.hbcframe.adapter.ZHeadFootAdapter;
+import com.huangbaoche.hbcframe.viewholder.ZBaseViewHolder;
 import com.hugboga.custom.R;
+import com.hugboga.custom.adapter.viewholder.SkuVH;
 import com.hugboga.custom.data.bean.SkuItemBean;
+import com.hugboga.custom.fragment.FgSkuList;
+import com.hugboga.custom.utils.ImageUtils;
+
+import org.xutils.x;
 
 /**
  * Created by admin on 2016/3/3.
  */
-public class SkuAdapter extends BaseAdapter<SkuItemBean> {
+public class SkuAdapter extends ZHeadFootAdapter<SkuItemBean, SkuVH> {
 
-    public SkuAdapter(Context context) {
-        super(context);
+
+    private Context context;
+    private FgSkuList fragment;
+    private View headerView;
+
+    public SkuAdapter(FgSkuList fragment,View headerView) {
+        super(fragment.getActivity());
+        this.context = fragment.getActivity();
+        this.fragment = fragment;
+        this.headerView = headerView;
     }
 
     @Override
-    public View getView(int position, View view, ViewGroup parent) {
-        ViewHolder viewHolder = null;
-        if (view == null) {
-            viewHolder = new ViewHolder();
-            view = LayoutInflater.from(mContext).inflate(R.layout.item_city_sku, null);
-            viewHolder.tvTitle = (TextView) view.findViewById(R.id.item_sku_title);
-            viewHolder.tvLabel = (TextView) view.findViewById(R.id.item_sku_label);
-            viewHolder.tvGuide = (TextView) view.findViewById(R.id.item_sku_guide_number);
-            viewHolder.tvAmount = (TextView) view.findViewById(R.id.item_sku_amount);
-            viewHolder.tvSale  = (TextView) view.findViewById(R.id.item_sku_sale);
-            viewHolder.imgBg = (ImageView) view.findViewById(R.id.item_home_img);
-            view.setTag(viewHolder);
-        } else {
-            viewHolder = (ViewHolder) view.getTag();
-        }
-        SkuItemBean bean =  getItem(position);
-        if(bean!=null){
-            viewHolder.tvTitle.setText(bean.goodsName);
-            viewHolder.tvLabel.setText(bean.salePoints);
-            viewHolder.tvGuide.setText(mContext.getString(R.string.sku_item_guide_number,bean.guideAmount));
-            viewHolder.tvAmount.setText(bean.goodsMinPrice);
-            viewHolder.tvSale.setText(mContext.getString(R.string.sku_sale_number,bean.saleAmount));
-            viewHolder.tvGuide.setVisibility(bean.guideAmount == 0 ? View.GONE : View.VISIBLE);
-            viewHolder.tvSale.setVisibility(bean.saleAmount==0?View.GONE:View.VISIBLE);
-            //x.image().bind(viewHolder.imgBg,bean.picture);
-        }
-
-        return view;
+    protected View getHeaderView() {
+        return headerView;
     }
 
-    final static class ViewHolder {
-        ImageView imgBg;
-        TextView tvTitle;
-        TextView tvLabel;
-        TextView tvGuide;
-        TextView tvAmount;
-        TextView tvSale;
+    @Override
+    protected View getFooterView() {
+        return new View(context);
+    }
 
+    @Override
+    protected int initResource() {
+        return R.layout.item_city_sku;
+    }
+
+    @Override
+    protected ZBaseViewHolder getVH(View view) {
+        return new SkuVH(view);
+    }
+
+    @Override
+    protected void getView(int position, SkuVH vh) {
+        SkuItemBean bean = datas.get(position);
+
+//        if(position == 0){
+//            viewHolder.top_line.setVisibility(View.GONE);
+//        }else{
+//            viewHolder.top_line.setVisibility(View.VISIBLE);
+//        }
+        if (bean != null) {
+            vh.tvTitle.setText(bean.goodsName);
+            vh.tvLabel.setText(bean.keyWords);
+            vh.tvGuide.setText(context.getString(R.string.sku_item_guide_number, bean.guideAmount));
+            vh.tvAmount.setText(bean.goodsMinPrice);
+            vh.tvSale.setText(context.getString(R.string.sku_sale_number, bean.saleAmount));
+            vh.tvGuide.setVisibility(bean.guideAmount == 0 ? View.INVISIBLE : View.VISIBLE);
+            vh.tvSale.setVisibility(bean.saleAmount == 0 ? View.INVISIBLE : View.VISIBLE);
+
+            vh.imgBg.setLayoutParams(new RelativeLayout.LayoutParams(ImageUtils.getScreenWidth(context),ImageUtils.getResizeHeight(context,750,300)));
+            vh.imgBg.setBackgroundResource(R.mipmap.img_notext);
+            vh.imgBg.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
+            x.image().bind(vh.imgBg, bean.goodsPicture);
+        }
     }
 
 }

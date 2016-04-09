@@ -1,126 +1,146 @@
 package com.hugboga.custom.fragment;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.ListView;
+import android.widget.LinearLayout;
 
+import com.huangbaoche.hbcframe.adapter.ZBaseAdapter;
+import com.huangbaoche.hbcframe.data.net.ExceptionErrorCode;
+import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
+import com.huangbaoche.hbcframe.widget.recycler.ZDefaultDivider;
+import com.huangbaoche.hbcframe.widget.recycler.ZListPageView;
+import com.huangbaoche.hbcframe.widget.recycler.ZSwipeRefreshLayout;
 import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.HomeAdapter;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.HomeBean;
 import com.hugboga.custom.data.request.RequestHome;
-import com.manuelpeinado.fadingactionbar.FadingActionBarHelper;
 
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
-import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
-import org.xutils.x;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
 
 /**
  * 首页
  * Created by admin on 2016/3/1.
  */
-
 @ContentView(R.layout.fg_home)
-public class FgHome extends BaseFragment implements AdapterView.OnItemClickListener, View.OnClickListener {
-
+public class FgHome extends BaseFragment implements View.OnClickListener, ZBaseAdapter.OnItemClickListener, ZListPageView.NoticeViewTask {
 
     public static final String FILTER_FLUSH = "com.hugboga.custom.home.flush";
-    @ViewInject(android.R.id.list)
-    ListView listView;
 
+    @ViewInject(R.id.listview)
+    ZListPageView recyclerView;
+    @ViewInject(R.id.swipe)
+    ZSwipeRefreshLayout swipeRefreshLayout;
 
+    View emptyView;
+    View header;
 
-    private ArrayList<HomeBean> dataList;
-    private HomeAdapter adapter;
-
-
+    HomeAdapter adapter;
     @Override
     protected void initHeader() {
-        View header = LayoutInflater.from(getActivity()).inflate(R.layout.fg_home_header, null);
-        listView.addHeaderView(header);
-    }
-
-    @Override
-    protected void initView() {
-        adapter = new HomeAdapter(getActivity());
-        listView.setAdapter(adapter);
-        listView.setOnItemClickListener(this);
-        getView().findViewById(R.id.fg_home_menu3).setOnClickListener(this);
+        header = View.inflate(getActivity(), R.layout.fg_home_header, null);
+        header.findViewById(R.id.fg_home_menu1).setOnClickListener(this);
+        header.findViewById(R.id.fg_home_menu2).setOnClickListener(this);
+        header.findViewById(R.id.fg_home_menu3).setOnClickListener(this);
+        emptyView = header.findViewById(R.id.header_empty);
+        emptyView.findViewById(R.id.home_empty_refresh).setOnClickListener(this);
         getView().findViewById(R.id.header_left_btn).setOnClickListener(this);
         getView().findViewById(R.id.header_right_btn).setOnClickListener(this);
     }
 
-
     @Override
-    protected Callback.Cancelable requestData() {
-        RequestHome requestHome = new RequestHome(getActivity());
-        return requestData(requestHome);
+    protected void initView() {
+        initListView(); //初始化列表
     }
 
     @Override
-    public void onDataRequestSucceed(BaseRequest request) {
-        if (request instanceof RequestHome) {
-            RequestHome requestHome = (RequestHome) request;
-            dataList = requestHome.getData();
-            inflateContent();
+    protected Callback.Cancelable requestData() {
+        loadData();
+        return null;
+    }
+
+    private void initListView() {
+        adapter = new HomeAdapter(getActivity(), this,header);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setzSwipeRefreshLayout(swipeRefreshLayout);
+        RequestHome requestHome = new RequestHome(getActivity());
+        recyclerView.setRequestData(requestHome);
+        recyclerView.setOnItemClickListener(this);
+        recyclerView.setNoticeViewTask(this);
+        //设置间距
+        ZDefaultDivider zDefaultDivider = recyclerView.getItemDecoration();
+        zDefaultDivider.setItemOffsets(0, 2, 0, 2);
+    }
+
+    /**
+     * 加载数据
+     */
+    public void loadData() {
+        if (recyclerView != null) {
+            recyclerView.showPageFirst();
+            adapter.notifyDataSetChanged();
         }
     }
 
     @Override
-    public void inflateContent() {
-        MLog.e("dataList = " + dataList.get(0).mainTitle);
-        adapter.setList(dataList);
-    }
-
-
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        if(position==0)return;
-        FgSkuList fg = new FgSkuList();
-        Bundle bundle = new Bundle();
-        bundle.putString(FgSkuList.KEY_CITY_ID,dataList.get(position-1).cityId);
-        startFragment(fg,bundle);
+    protected void inflateContent() {
     }
 
     @Override
     public void onClick(View v) {
-        MLog.e("onClick="+v);
+        MLog.e("onClick=" + v);
         switch (v.getId()) {
             case R.id.header_left_btn:
                 ((MainActivity) getActivity()).openDrawer();
                 break;
             case R.id.header_right_btn:
-                startFragment(new FgChooseCity());
+                Bundle bundle = new Bundle();
+                bundle.putInt(KEY_BUSINESS_TYPE, Constants.BUSINESS_TYPE_HOME);
+                startFragment(new FgChooseCity(), bundle);
                 break;
             case R.id.fg_home_menu1://中文接送机
-
+                startFragment(new FgTransfer());
                 break;
             case R.id.fg_home_menu2://按天包车
-
+                startFragment(new FgDaily());
                 break;
             case R.id.fg_home_menu3://单次接送
-                MLog.e("FgSingle");
                 startFragment(new FgSingle());
                 break;
-
+            case R.id.home_empty_refresh://单次接送
+                recyclerView.showPageFirst();
+                break;
         }
     }
 
+    @Override
+    public void onItemClick(View view, int position) {
+        HomeBean homeBean = adapter.getDatas().get(position);
+        FgSkuList fg = new FgSkuList();
+        Bundle bundle = new Bundle();
+        bundle.putString(FgSkuList.KEY_CITY_ID, homeBean.cityId);
+        startFragment(fg, bundle);
+    }
 
+    @Override
+    public void notice(Object object) {
+        emptyView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void error(ExceptionInfo errorInfo, BaseRequest request) {
+        MLog.e("errorInfo.state = "+errorInfo.state);
+        if(errorInfo.state== ExceptionErrorCode.ERROR_CODE_NET_UNAVAILABLE){
+            emptyView.setVisibility(View.VISIBLE);
+            needHttpRequest = true;
+            MLog.e("emptyView.state = "+emptyView.getVisibility());
+        }else{
+            super.onDataRequestError(errorInfo, request);
+        }
+    }
 }

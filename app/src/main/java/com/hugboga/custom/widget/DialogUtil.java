@@ -11,12 +11,21 @@ import android.content.Intent;
 import android.net.Uri;
 import android.provider.Settings;
 import android.text.TextUtils;
+import android.util.TypedValue;
+import android.view.View;
+import android.widget.TextView;
 
+import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
+import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
+import com.huangbaoche.hbcframe.data.request.BaseRequest;
+import com.huangbaoche.hbcframe.widget.DialogUtilInterface;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.fragment.BaseFragment;
 import com.hugboga.custom.utils.Common;
 import com.hugboga.custom.utils.PhoneInfo;
+
+import org.xutils.common.util.LogUtil;
 
 /**
  * <p> DialogUtil mDialogUtil = new DialogUtil(activity);
@@ -25,7 +34,7 @@ import com.hugboga.custom.utils.PhoneInfo;
  *
  * @date 2012-6-6 上午10:41:22
  */
-public class DialogUtil {
+public class DialogUtil implements DialogUtilInterface {
     public Activity mContext;
     private Dialog mLoadingDialog;
     private AlertDialog settingDialog;
@@ -58,10 +67,10 @@ public class DialogUtil {
      * @author aceway-liwei
      * @date 2012-6-13 上午09:34:50
      */
-//    public Dialog showLoadingDialog() {
-////		return showLoadingDialog("数据加载中，等待过后更精彩!");
-//        return showLoadingDialog(mContext.getString(R.string.data_load));
-//    }
+    public Dialog showLoadingDialog() {
+//		return showLoadingDialog("数据加载中，等待过后更精彩!");
+        return showLoadingDialog(mContext.getString(R.string.data_load));
+    }
 
     /**
      * @param message 显示的 内容
@@ -71,9 +80,9 @@ public class DialogUtil {
      * @author aceway-liwei
      * @date 2012-6-13 上午09:35:20
      */
-//    public Dialog showLoadingDialog(String message) {
-//        return showLoadingDialog(message, false);
-//    }
+    public Dialog showLoadingDialog(String message) {
+        return showLoadingDialog(message, false);
+    }
 
     /**
      * @param cancelAble 是否能取消 Dialog
@@ -83,9 +92,9 @@ public class DialogUtil {
      * @author aceway-liwei
      * @date 2012-6-13 上午09:35:20
      */
-//    public Dialog showLoadingDialog(boolean cancelAble) {
-//        return showLoadingDialog(mContext.getString(R.string.data_load), cancelAble);
-//    }
+    public Dialog showLoadingDialog(boolean cancelAble) {
+        return showLoadingDialog(mContext.getString(R.string.data_load), cancelAble);
+    }
 
     /**
      * @param message    显示的 内容
@@ -96,7 +105,7 @@ public class DialogUtil {
      * @author aceway-liwei
      * @date 2012-6-13 上午09:35:20
      */
-    /*public Dialog showLoadingDialog(String message, boolean cancelAble) {
+    public Dialog showLoadingDialog(String message, boolean cancelAble) {
         if (mContext.isFinishing()) {
             return mLoadingDialog;
         }
@@ -119,7 +128,7 @@ public class DialogUtil {
             mLoadingDialog.getWindow().setContentView(loadingView);
         }
         return mLoadingDialog;
-    }*/
+    }
 
     /**
      * @Title dismissLoadingDialog
@@ -128,7 +137,7 @@ public class DialogUtil {
      * @date 2012-6-13 上午09:37:05
      */
     public void dismissLoadingDialog() {
-        if (!mContext.isFinishing() && mLoadingDialog != null)
+        if (!mContext.isFinishing() && mLoadingDialog != null&&mLoadingDialog.isShowing())
             mLoadingDialog.dismiss();
     }
 
@@ -167,6 +176,7 @@ public class DialogUtil {
         return settingDialog;
     }
 
+
     /**
      * @return void    返回类型
      * @throws
@@ -190,7 +200,7 @@ public class DialogUtil {
     /**
      * \
      *
-//     * @param syncServices
+     * @param baseRequest
      * @return Dialog    返回类型
      * @throws
      * @Title showOvertimeDialog
@@ -198,7 +208,7 @@ public class DialogUtil {
      * @author aceway-liwei
      * @date 2012-6-13 上午09:45:31
      */
-    /*public Dialog showOvertimeDialog(final HttpRequestUtils syncServices) {
+    public Dialog showOvertimeDialog(final BaseRequest baseRequest, final HttpRequestListener listener) {
         if (overtimeDialog != null && overtimeDialog.isShowing()) {
             return overtimeDialog;
         }
@@ -215,14 +225,14 @@ public class DialogUtil {
                             public void onClick(DialogInterface dialog,
                                                 int whichButton) {
                                 // 联网超时，重新联网
-                                syncServices.execute();
+                                HttpRequestUtils.request(mContext, baseRequest, listener);
                             }
                         })
                 .setNegativeButton(R.string.dialog_btn_cancel, null)
                 .create();
         overtimeDialog.show();
         return overtimeDialog;
-    }*/
+    }
 
     public Dialog showNoRoomDialog() {
         if (noRoomDialog == null) {
@@ -253,13 +263,13 @@ public class DialogUtil {
      * @date 2013-2-26 上午10:25:53
      */
     public Dialog showCustomFinishDialog(String content) {
-        OnClickListener postitiveClick = new OnClickListener() {
+        OnClickListener positiveClick = new OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 mContext.finish();
             }
         };
-        customDialog = showCustomDialog(mContext.getString(R.string.app_name), content, mContext.getString(R.string.dialog_btn_ok), postitiveClick, null, null);
+        customDialog = showCustomDialog(mContext.getString(R.string.app_name), content, mContext.getString(R.string.dialog_btn_ok), positiveClick, null, null);
         return customDialog;
     }
 
@@ -271,7 +281,7 @@ public class DialogUtil {
      * @author aceway-liwei
      */
     public Dialog showCustomFinishDialog(String content, final BaseFragment fragment) {
-        OnClickListener postitiveClick = new OnClickListener() {
+        OnClickListener positiveClick = new OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (fragment != null && fragment.isVisible())
@@ -279,7 +289,7 @@ public class DialogUtil {
             }
         };
         if (fragment.isVisible())
-            customDialog = showCustomDialog(mContext.getString(R.string.app_name), content, mContext.getString(R.string.dialog_btn_ok), postitiveClick, null, null);
+            customDialog = showCustomDialog(mContext.getString(R.string.app_name), content, mContext.getString(R.string.dialog_btn_ok), positiveClick, null, null);
         return customDialog;
     }
 
@@ -302,14 +312,14 @@ public class DialogUtil {
      * 如果需要两个按钮  可以 {@link  #showCustomDialog(String, OnClickListener, OnClickListener)}
      *
      * @param content
-     * @param postitiveClick 确定按钮的 点击事件
+     * @param positiveClick 确定按钮的 点击事件
      * @return Dialog    返回类型
      * @Title showCustomDialog
      * @author aceway-liwei
      * @date 2013-2-26 上午10:25:53
      */
-    public Dialog showCustomDialog(String content, OnClickListener postitiveClick) {
-        customDialog = showCustomDialog(mContext.getString(R.string.app_name), content, mContext.getString(R.string.dialog_btn_ok), postitiveClick, null, null);
+    public Dialog showCustomDialog(String content, OnClickListener positiveClick) {
+        customDialog = showCustomDialog(mContext.getString(R.string.app_name), content, mContext.getString(R.string.dialog_btn_ok), positiveClick, null, null);
         return customDialog;
     }
 
@@ -318,7 +328,7 @@ public class DialogUtil {
      *
      * @param content
      * @param positiveClick 确定按钮的 点击事件
-     * @param negativeClick  取消按钮的点击事件
+     * @param negativeClick 取消按钮的点击事件
      * @return Dialog    返回类型
      * @Title showCustomDialog
      * @author aceway-liwei
@@ -329,7 +339,6 @@ public class DialogUtil {
                 , mContext.getString(R.string.dialog_btn_cancel), negativeClick);
         return customDialog;
     }
-
 
     /**
      * 用户自定义 提示框
@@ -353,7 +362,7 @@ public class DialogUtil {
             customDialog.cancel();
         }
         int iconId = Common.getIdFormDraw(mContext, "alert_dialog_icon");
-        Builder builder = new Builder(mContext);
+        Builder builder = new AlertDialog.Builder(mContext);
         builder.setIcon(iconId)
                 .setTitle(title)
                 .setMessage(content);
@@ -380,99 +389,99 @@ public class DialogUtil {
 //     * @author aceway-liwei
 //     * @date 2013-3-7 下午02:16:02
 //     */
-    /*public Dialog showCustomDialog(String content, final int state, final String opr) {
-        VersionBean versionBean = null;
-        if(state==-999){
-            //强制更新，解析内容
-            versionBean = new VersionBean();
-            try {
-                versionBean.parser(content);
-                content = versionBean.content;
-            } catch (JSONException e) {
-                e.printStackTrace();
-                content = "系统错误";
-            }
-        }
-        final VersionBean finalVersionBean = versionBean;
-        OnClickListener listener = new OnClickListener() {
-            private Intent intent;
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                switch (state) {
-                    case 10012://userToken不合法或已失效，登录信息失效，请重新登录
-                        UserEntity.getUser().setUserId(mContext, null);
-                        UserEntity.getUser().setUserToken(mContext, null);
-                        if (mContext instanceof BaseFragmentActivity) {
-                            BaseFragmentActivity activity = (BaseFragmentActivity) mContext;
-                            BaseFragment fragment = null;
-                            for (Fragment fg : activity.getSupportFragmentManager().getFragments()) {
-                                if (fg != null && fg instanceof BaseFragment) {
-                                    fragment = (BaseFragment) fg;
-                                }
-                            }
-                            if (fragment != null) {
-                                fragment.bringToFront(FgHome.class, new Bundle());
-                                fragment.startFragment(new FgLogin());
-                            }
-                        }
-                        break;
-                    case 10013:
-                        //  设备禁止访问，则直接退出重新登录
-                        UserEntity.getUser().clean(mContext);
-                        if (mContext instanceof BaseFragmentActivity) {
-                            BaseFragmentActivity activity = (BaseFragmentActivity) mContext;
-                            BaseFragment fragment = null;
-                            for (Fragment fg : activity.getSupportFragmentManager().getFragments()) {
-                                if (fg != null && fg instanceof BaseFragment) {
-                                    fragment = (BaseFragment) fg;
-                                }
-                            }
-                            if (fragment != null) {
-                                fragment.bringToFront(FgHome.class, new Bundle());
-                                fragment.startFragment(new FgLogin());
-                            }
-                        }
-                        break;
-                    case -888:
-                        //强制退出
-                        UserEntity.getUser().clean(mContext);
-                        if (mContext instanceof BaseFragmentActivity) {
-                            BaseFragmentActivity activity = (BaseFragmentActivity) mContext;
-                            BaseFragment fragment = null;
-                            for (Fragment fg : activity.getSupportFragmentManager().getFragments()) {
-                                if (fg != null && fg instanceof BaseFragment) {
-                                    fragment = (BaseFragment) fg;
-                                }
-                            }
-                            if (fragment != null) {
-                                fragment.finish();
-                            }
-                        }
-                        System.exit(0); //强制退出
-                        break;
-                    case -999:
-                        //强制更新
-                        if (mContext instanceof BaseFragmentActivity) {
-                            BaseFragmentActivity activity = (BaseFragmentActivity) mContext;
-                            BaseFragment fragment = null;
-                            for (Fragment fg : activity.getSupportFragmentManager().getFragments()) {
-                                if (fg != null && fg instanceof BaseFragment) {
-                                    fragment = (BaseFragment) fg;
-                                }
-                            }
-                            if (fragment != null) {
-                                // 强制更新，并且点击开始下载更新
-                                PushUtils.startDownloadApk(mContext, finalVersionBean.url);
-                            }
-                        }
-                        break;
-                }
-            }
-        };
-        customDialog = showCustomDialog(content, listener);
-        return customDialog;
-    }*/
+//    public Dialog showCustomDialog(String content, final int state, final String opr) {
+//        VersionBean versionBean = null;
+//        if(state==-999){
+//            //强制更新，解析内容
+//            versionBean = new VersionBean();
+//            try {
+//                versionBean.parser(content);
+//                content = versionBean.content;
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//                content = "系统错误";
+//            }
+//        }
+//        final VersionBean finalVersionBean = versionBean;
+//        OnClickListener listener = new OnClickListener() {
+//            private Intent intent;
+//
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                switch (state) {
+//                    case 10012://userToken不合法或已失效，登录信息失效，请重新登录
+//                        UserEntity.getUser().setUserId(mContext, null);
+//                        UserEntity.getUser().setUserToken(mContext, null);
+//                        if (mContext instanceof BaseFragmentActivity) {
+//                            BaseFragmentActivity activity = (BaseFragmentActivity) mContext;
+//                            BaseFragment fragment = null;
+//                            for (Fragment fg : activity.getSupportFragmentManager().getFragments()) {
+//                                if (fg != null && fg instanceof BaseFragment) {
+//                                    fragment = (BaseFragment) fg;
+//                                }
+//                            }
+//                            if (fragment != null) {
+//                                fragment.bringToFront(FgHome.class, new Bundle());
+//                                fragment.startFragment(new FgLogin());
+//                            }
+//                        }
+//                        break;
+//                    case 10013:
+//                        //  设备禁止访问，则直接退出重新登录
+//                        UserEntity.getUser().clean(mContext);
+//                        if (mContext instanceof BaseFragmentActivity) {
+//                            BaseFragmentActivity activity = (BaseFragmentActivity) mContext;
+//                            BaseFragment fragment = null;
+//                            for (Fragment fg : activity.getSupportFragmentManager().getFragments()) {
+//                                if (fg != null && fg instanceof BaseFragment) {
+//                                    fragment = (BaseFragment) fg;
+//                                }
+//                            }
+//                            if (fragment != null) {
+//                                fragment.bringToFront(FgHome.class, new Bundle());
+//                                fragment.startFragment(new FgLogin());
+//                            }
+//                        }
+//                        break;
+//                    case -888:
+//                        //强制退出
+//                        UserEntity.getUser().clean(mContext);
+//                        if (mContext instanceof BaseFragmentActivity) {
+//                            BaseFragmentActivity activity = (BaseFragmentActivity) mContext;
+//                            BaseFragment fragment = null;
+//                            for (Fragment fg : activity.getSupportFragmentManager().getFragments()) {
+//                                if (fg != null && fg instanceof BaseFragment) {
+//                                    fragment = (BaseFragment) fg;
+//                                }
+//                            }
+//                            if (fragment != null) {
+//                                fragment.finish();
+//                            }
+//                        }
+//                        System.exit(0); //强制退出
+//                        break;
+//                    case -999:
+//                        //强制更新
+//                        if (mContext instanceof BaseFragmentActivity) {
+//                            BaseFragmentActivity activity = (BaseFragmentActivity) mContext;
+//                            BaseFragment fragment = null;
+//                            for (Fragment fg : activity.getSupportFragmentManager().getFragments()) {
+//                                if (fg != null && fg instanceof BaseFragment) {
+//                                    fragment = (BaseFragment) fg;
+//                                }
+//                            }
+//                            if (fragment != null) {
+//                                // 强制更新，并且点击开始下载更新
+//                                PushUtils.startDownloadApk(mContext, finalVersionBean.url);
+//                            }
+//                        }
+//                        break;
+//                }
+//            }
+//        };
+//        customDialog = showCustomDialog(content, listener);
+//        return customDialog;
+//    }
 
     private Intent getStartAcitityIntent(int opr) {
         Intent intent = null;
@@ -494,25 +503,27 @@ public class DialogUtil {
 		}*/
         return intent;
     }
-    public void showUpdateDialog(String force, String content, final String url,OnClickListener positiveClick,OnClickListener negativeClick){
-        if(TextUtils.isEmpty(url)) {
-            if(negativeClick!=null)
-                negativeClick.onClick(null,0);
+
+    public void showUpdateDialog(boolean hasUpdate,boolean force, String content, final String url, OnClickListener positiveClick, OnClickListener negativeClick) {
+        LogUtil.e("版本检测 hasUpdate="+hasUpdate+" force="+force);
+        if (TextUtils.isEmpty(url)||!hasUpdate) {
+            if (negativeClick != null)
+                negativeClick.onClick(null, 0);
             return;
         }
         //新版本推送
-        if(content==null){
+        if (content == null) {
             versionDialog = new Builder(mContext).create();
-        }else{
-            versionDialog = new Builder(mContext).setItems(content.split("#"), null).create();
+        } else {
+            versionDialog = new AlertDialog.Builder(mContext).setItems(content.split("#"), null).create();
         }
         versionDialog.setTitle("发现新版本");
         versionDialog.setCancelable(false);
-        if(!force.equals("true")){
-            versionDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "稍后更新",  negativeClick);
+        if (!force) {
+            versionDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "稍后更新", negativeClick);
         }
         versionDialog.setButton(DialogInterface.BUTTON_POSITIVE, "前去更新", positiveClick);
-        if(!versionDialog.isShowing()){
+        if (!versionDialog.isShowing()) {
             versionDialog.show();
         }
     }
@@ -568,7 +579,7 @@ public class DialogUtil {
 			tv_positive.setOnClickListener(updateClickListener);
 		}*/
     //打开浏览器
-    protected void openBrower(String url) {
+    protected void openBrowser(String url) {
 
         Uri uri = Uri.parse(url);
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
@@ -595,9 +606,9 @@ public class DialogUtil {
 
     public void showCallDialog() {
         String[] str = {"境内客服:" + Constants.CALL_NUMBER_IN, "境外客服:" + Constants.CALL_NUMBER_OUT};
-        new Builder(getRootActivity(mContext))
+        AlertDialog dialog = new AlertDialog.Builder(getRootActivity(mContext))
                 .setTitle("联系客服")
-                .setItems(str, new OnClickListener() {
+                .setItems(str, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (which == 0) {
@@ -606,7 +617,10 @@ public class DialogUtil {
                             PhoneInfo.CallDial(mContext, Constants.CALL_NUMBER_OUT);
                         }
                     }
-                }).show();
+                }).create();
+        dialog.setCancelable(true);
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.show();
     }
 
 }

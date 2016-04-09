@@ -11,7 +11,7 @@ import java.util.Set;
 
 /**
  * Save Data To SharePreference Or Get Data from SharePreference
- * 
+ *
  *通过SharedPreferences来存储数据，自定义类型
  */
 public class SharedPre {
@@ -35,6 +35,7 @@ public class SharedPre {
 	public static String RESOURCES_CITY_HISTORY ="resources_city_history";
 	public static String RESOURCES_AIRPORT_HISTORY ="resources_airport_history";
 	public static String RESOURCES_PLACE_HISTORY ="resources_place_history";
+	public static String CACHE_SIZE ="cache_size";
 
 	public SharedPre(Context ctx) {
 		this.ctx = ctx;
@@ -42,7 +43,7 @@ public class SharedPre {
 
 	/**
 	 * Set int value into SharePreference
-	 * 
+	 *
 	 * @param key
 	 * @param value
 	 */
@@ -54,7 +55,7 @@ public class SharedPre {
 		editor.putInt(key, value);
 		editor.commit();
 	}
-	
+
 	public void writeDownStartApplicationTime() {
 		SharedPreferences sp = ctx.getSharedPreferences(FileName, Context.MODE_PRIVATE);
 		long now = System.currentTimeMillis();
@@ -65,12 +66,12 @@ public class SharedPre {
 		//editor.putString("启动时间", now.toString());
 		editor.putLong("nowtimekey", now);
 		editor.commit();
-		
+
 	}
-	
+
 	/**
 	 * Set String value into SharePreference
-	 * 
+	 *
 	 * @param key
 	 * @param value
 	 */
@@ -83,7 +84,7 @@ public class SharedPre {
 	}
 	/**
 	 * Set String value into SharePreference
-	 * 
+	 *
 
 	 * @param key
 	 * @param value
@@ -98,7 +99,7 @@ public class SharedPre {
 
 	/**
 	 * Set Boolean value into SharePreference
-	 * 
+	 *
 
 	 * @param key
 	 * @param value
@@ -111,10 +112,10 @@ public class SharedPre {
 		editor.commit();
 	}
 
-	
+
 	/**
 	 * Set  value into SharePreference
-	 * 
+	 *
 	 * @param key
 	 * @param value
 	 */
@@ -128,7 +129,7 @@ public class SharedPre {
 
 	/**
 	 * Remove key from SharePreference
-	 * 
+	 *
 	 * @param key
 	 */
 	public void removeKey(String key) {
@@ -141,7 +142,7 @@ public class SharedPre {
 
 	/**
 	 *查询是否包含key的值，存在为true，否则为false
-	 * 
+	 *
 	 * @param key
 	 * @return
 	 */
@@ -153,7 +154,7 @@ public class SharedPre {
 
 	/**
 	 * Get all value
-	 * 
+	 *
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
@@ -175,7 +176,7 @@ public class SharedPre {
 	}
 	/**
 	 * Get Integer Value
-	 * 
+	 *
 	 * @param key
 	 * @return
 	 */
@@ -227,7 +228,7 @@ public class SharedPre {
 	}
 	/**
 	 * Get Value, Remove key
-	 * 
+	 *
 	 * @param key
 	 * @return
 	 */

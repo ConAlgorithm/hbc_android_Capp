@@ -7,6 +7,7 @@ import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import org.xutils.http.HttpMethod;
 import org.xutils.http.RequestParams;
 
+import java.lang.reflect.Field;
 import java.util.Map;
 
 /**
@@ -39,6 +40,13 @@ public abstract class BaseRequest<T> extends RequestParams implements InterfaceR
     }
 
     /**
+     * 动态返回相对的路径，如果不为空，注解的path失效
+     * @return
+     */
+    public String getUrl(){
+        return null;
+    }
+    /**
      * 获取解析器
      * @return 解析器
      */
@@ -64,5 +72,25 @@ public abstract class BaseRequest<T> extends RequestParams implements InterfaceR
 
     public void setData(T data) {
         this.data = data;
+    }
+
+    /**
+     * 需要重新build 参数时，调用此方法；比如列表翻页
+     */
+    public void needRebuild(){
+        try {
+            for(Class cls =this.getClass();cls !=Object.class;cls = cls.getSuperclass()){
+                if(cls==RequestParams.class) {
+                    Field field = cls.getDeclaredField("buildUri");
+                    field.setAccessible(true);
+                    field.set(this, "");
+                }
+            }
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
     }
 }

@@ -15,12 +15,12 @@ import java.util.HashMap;
 /**
  * Created by Administrator on 2016/3/12.
  */
-@HttpRequest(path = UrlLibs.SERVER_IP_LOGOUT,builder = HbcParamsBuilder.class)
+@HttpRequest(path = UrlLibs.SERVER_IP_LOGOUT, builder = HbcParamsBuilder.class)
 public class RequestLogout extends BaseRequest {
 
     public RequestLogout(Context context) {
         super(context);
-        map = new HashMap<String,Object>();
+        map = new HashMap<String, Object>();
     }
 
     @Override

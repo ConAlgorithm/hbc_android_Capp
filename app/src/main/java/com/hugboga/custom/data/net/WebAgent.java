@@ -13,9 +13,11 @@ import com.huangbaoche.hbcframe.data.net.ExceptionErrorCode;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
+import com.huangbaoche.hbcframe.data.parser.ServerParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.fragment.BaseFragment;
 import com.huangbaoche.hbcframe.util.MLog;
+import com.huangbaoche.hbcframe.util.WXShareUtils;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.request.RequestWebInfo;
@@ -26,7 +28,6 @@ import com.hugboga.custom.widget.DialogUtil;
 import org.json.JSONObject;
 
 /**
- *
  * 请求代理模式
  * Created by admin on 2016/3/16.
  */
@@ -37,18 +38,18 @@ public class WebAgent implements HttpRequestListener {
     private WebView mWebView;
     private DialogUtil dialog;
 
-    public WebAgent(Activity activity,WebView webView){
+    public WebAgent(Activity activity, WebView webView) {
         this.mActivity = activity;
         this.mWebView = webView;
         dialog = DialogUtil.getInstance(mActivity);
     }
-    public WebAgent(BaseFragment fragment,WebView webView){
+
+    public WebAgent(BaseFragment fragment, WebView webView) {
         this.mFragment = fragment;
         this.mWebView = webView;
         mActivity = fragment.getActivity();
         dialog = DialogUtil.getInstance(mActivity);
     }
-
 
 
     @JavascriptInterface
@@ -85,30 +86,54 @@ public class WebAgent implements HttpRequestListener {
 
     @JavascriptInterface
     public void setBackBtn(final String isBack) {
-        if(mFragment!=null&&mFragment.getView()!=null){
-            boolean isVisible =  Boolean.valueOf(isBack);
-            mFragment.getView().findViewById(R.id.header_left_btn).setVisibility(isVisible? View.VISIBLE:View.GONE);
-        }
-
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (mFragment != null && mFragment.getView() != null) {
+                    boolean isVisible = Boolean.valueOf(isBack);
+                    mFragment.getView().findViewById(R.id.header_left_btn).setVisibility(isVisible ? View.VISIBLE : View.GONE);
+                    View backBtn = mFragment.getView().findViewById(R.id.header_left_btn);
+                    if (backBtn != null) {
+                        backBtn.setVisibility(isVisible ? View.VISIBLE : View.GONE);
+                    }
+                }
+            }
+        });
     }
-
 
 
     @JavascriptInterface
     public void wxShare(final String picUrl, final String title, final String content, final String goUrl) {
         MLog.e("ZWebView-wxShare===>picUrl:" + picUrl + " title:" + title + " content:" + content + " goUrl:" + goUrl);
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
                 // 调用分享操作
-//                WXShareUtils.getInstance(getContext()).orderTwogo(picUrl, title, content, goUrl);
+                WXShareUtils.getInstance(mActivity).share(0, picUrl, title, content, goUrl);
+            }
+        });
+    }
+
+    @JavascriptInterface
+    public void wxShareByType(final int type, final String picUrl, final String title, final String content, final String goUrl) {
+        MLog.e("ZWebView-wxShare===>picUrl:" + picUrl + " title:" + title + " content:" + content + " goUrl:" + goUrl);
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                // 调用分享操作
+                WXShareUtils.getInstance(mActivity).share(type, picUrl, title, content, goUrl);
+            }
+        });
     }
 
 
     @JavascriptInterface
     public void backUrl() {
-        MLog.e("ZWebView-backUrl===>canGoBack  "  );
+        MLog.e("ZWebView-backUrl===>canGoBack  ");
         mActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (mWebView != null&&mWebView.canGoBack()) {
+                if (mWebView != null && mWebView.canGoBack()) {
                     mWebView.goBack();
                 }
             }
@@ -120,20 +145,32 @@ public class WebAgent implements HttpRequestListener {
 
     @JavascriptInterface
     public void httpRequest(final String requestType, final String apiUrl, final String params, final String successFunction, final String failureFunction) {
-        RequestWebInfo request = new RequestWebInfo(mActivity,apiUrl,requestType,params,successFunction,failureFunction);
-        HttpRequestUtils.request(mActivity,request,this,null);
+        MLog.e("ZWebView-wxShare===>requestType:" + requestType + " apiUrl:" + apiUrl + " params:" + params + " successFunction:" + successFunction + " failureFunction:" + failureFunction);
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                RequestWebInfo request = new RequestWebInfo(mActivity, apiUrl, requestType, params, successFunction, failureFunction);
+                HttpRequestUtils.request(mActivity, request, WebAgent.this);
+            }
+        });
     }
 
     @JavascriptInterface
     public void finish() {
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
                 if (mWebView != null) {
-                    if(mFragment !=null){
+                    if (mFragment != null) {
                         mFragment.finish();
-                    }else if(mActivity !=null){
+                    } else if (mActivity != null) {
                         mActivity.finish();
                     }
                 }
+            }
+        });
     }
+
     @JavascriptInterface
     public void gotoLogin(final String jsonObj) {
         MLog.e("ZWebView-gotoLogin===>jsonObj:" + jsonObj);
@@ -158,7 +195,7 @@ public class WebAgent implements HttpRequestListener {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (mFragment != null) {
-                            mFragment.startFragment(new FgLogin(),bundle);
+                            mFragment.startFragment(new FgLogin(), bundle);
                         }
                     }
                 });
@@ -170,27 +207,32 @@ public class WebAgent implements HttpRequestListener {
     @JavascriptInterface
     public void callPhone(final String phone) {
         MLog.e("ZWebView-callPhone===>phone:" + phone);
-        PhoneInfo.CallDial(mActivity, phone);
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                PhoneInfo.CallDial(mActivity, phone);
+            }
+        });
     }
 
     @JavascriptInterface
     public void getUserInfo(final String callBack) {
-                //获取getGuideInfo，并回调
-                try {
-                    JSONObject jsonObject = new JSONObject();
-                    jsonObject.put("id", UserEntity.getUser().getUserId(mActivity));
-                    jsonObject.put("name", UserEntity.getUser().getNickname(mActivity));
-                    jsonObject.put("areacode", UserEntity.getUser().getAreaCode(mActivity));
-                    jsonObject.put("phone", UserEntity.getUser().getPhone(mActivity));
-                    callBack(callBack,jsonObject.toString());
-                }catch (Exception e){
-                    MLog.e("getUserInfo ",e);
-                }
+        //获取getGuideInfo，并回调
+        try {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("id", UserEntity.getUser().getUserId(mActivity));
+            jsonObject.put("ut", UserEntity.getUser().getUserToken(mActivity));
+            jsonObject.put("name", UserEntity.getUser().getNickname(mActivity));
+            jsonObject.put("areacode", UserEntity.getUser().getAreaCode(mActivity));
+            jsonObject.put("phone", UserEntity.getUser().getPhone(mActivity));
+            callBack(callBack, jsonObject.toString());
+        } catch (Exception e) {
+            MLog.e("getUserInfo ", e);
+        }
     }
 
 
-
-    private void callBack(final String callBackMethod,final String callBackResult){
+    private void callBack(final String callBackMethod, final String callBackResult) {
         mActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -202,8 +244,8 @@ public class WebAgent implements HttpRequestListener {
 
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
-        if(request instanceof RequestWebInfo){
-            RequestWebInfo webInfoRequest = (RequestWebInfo)request;
+        if (request instanceof RequestWebInfo) {
+            RequestWebInfo webInfoRequest = (RequestWebInfo) request;
             callBack(webInfoRequest.successCallBack, webInfoRequest.getData());
         }
     }
@@ -215,13 +257,14 @@ public class WebAgent implements HttpRequestListener {
 
     @Override
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-        if(errorInfo.state == ExceptionErrorCode.ERROR_CODE_SERVER){
-            if(request instanceof RequestWebInfo){
-                RequestWebInfo webInfoRequest = (RequestWebInfo)request;
-                callBack(webInfoRequest.failCallBack, webInfoRequest.getData());
+        if (errorInfo.state == ExceptionErrorCode.ERROR_CODE_SERVER) {
+            if (request instanceof RequestWebInfo) {
+                RequestWebInfo webInfoRequest = (RequestWebInfo) request;
+                String errorInfoJson = new ServerParser().errorInfoToStr(errorInfo);
+                callBack(webInfoRequest.failCallBack, errorInfoJson);
             }
-        }else{
-            new ErrorHandler(mActivity).onDataRequestError(errorInfo,request);
+        } else {
+            new ErrorHandler(mActivity, this).onDataRequestError(errorInfo, request);
         }
     }
 }

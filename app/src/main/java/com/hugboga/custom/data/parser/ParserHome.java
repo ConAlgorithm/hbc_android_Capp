@@ -14,21 +14,24 @@ import java.util.ArrayList;
 public class ParserHome extends ImplParser {
 
     @Override
-    public ArrayList<HomeBean> parseObject(JSONObject obj) throws Throwable {
+    public Object[] parseObject(JSONObject obj) throws Throwable {
+        Object[] objs = new Object[2];
+        objs[0] = obj.optInt("resultSize");
         ArrayList<HomeBean> dataList = new ArrayList<>();
         JSONArray array = obj.optJSONArray("listData");
-        if(array!=null){
-            HomeBean bean ;
-            for (int i=0;i<array.length();i++){
-                bean= new HomeBean();
+        if (array != null) {
+            HomeBean bean;
+            for (int i = 0; i < array.length(); i++) {
+                bean = new HomeBean();
                 JSONObject item = array.optJSONObject(i);
                 bean.cityId = item.optString("cityId");
-                bean.mainTitle = item.optString("mainTitle");
-                bean.subTitle = item.optString("subTitle");
-                bean.picture = item.optString("picture");
+                bean.mainTitle = item.isNull("mainTitle") ? null : item.optString("mainTitle", null);
+                bean.subTitle = item.isNull("subTitle") ? null : item.optString("subTitle", null);
+                bean.picture = item.optString("picture", null);
                 dataList.add(bean);
             }
         }
-        return dataList;
+        objs[1] = dataList;
+        return objs;
     }
 }

@@ -19,10 +19,20 @@
     <string name="dialog_btn_again">再来一次</string>
     <string name="complete">完成</string>
 
+    <!--Permission-->
+    <string name="grant_fail_title">授权失败</string>
+    <string name="grant_fail_btn">重新获取</string>
+    <string name="grant_fail_btn_exit">退出应用</string>
+    <string name="grant_fail_phone1">您选择了不再提醒授权，请进入设置-应用中为应用授权</string>
+    <string name="grant_fail_sdcard">权限只是用做存储照片使用，拒绝将不能正常使用</string>
+    <string name="grant_fail_camera">权限只是用做拍摄头像照片使用，拒绝将不能拍摄头像</string>
+    <string name="grant_fail_phone">权限只是用做识别身份使用，拒绝将不能正常使用</string>
+    <string name="grant_fail_im">权限只是用做聊天基础功能使用，拒绝将不能正常使用</string>
+
     <!-- 提示信息 -->
     <string name="two_exit">再按一次退出程序</string>
     <string name="network_error">网络链接错误</string>
-    <string name="no_network">网络不可用</string>
+    <string name="no_network"> 当前网络不可用，请检查网络连接</string>
     <string name="no_room">存储空间不足，建议清除存</string>
     <string name="net_overtime">网络链接超时啦</string>
     <string name="net_error">网络异常，需要关闭！</string>
@@ -61,7 +71,12 @@
     <string name="title_daily_out_town">跨城市包车</string>
     <string name="title_rent">单次接送</string>
     <string name="title_commend">线路包车</string>
+    <string name="title_daily_small">小长途</string>
+    <string name="title_daily_large">大长途</string>
     <string name="title_other">订单详情</string>
+    <string name="title_choose_airport">选择机场</string>
+    <string name="title_transfer">接送机</string>
+    <string name="title_chinese_transfer">中文接送机</string>
 
     <!-- tab-->
     <string name="tab_find">发现</string>
@@ -70,11 +85,12 @@
     <!--首页-->
     <string name="home_main_title">全球10万华人朋友</string>
     <string name="home_sub_title">开车带你玩</string>
+    <string name="contact_service">联系客服</string>
     <!--SKU-->
     <string name="sku_sub_title">精品包车线路</string>
 
     <!-- Search address -->
-    <string name="search_hint_pick">搜索送达目的地</string>
+    <string name="search_hint_pick">请输入城市名称</string>
     <string name="search_hint_send">搜索出发地点</string>
 
     <!-- 页面 progress-->
@@ -112,7 +128,7 @@
     <string name="tip_pick_flight_down_time">飞机降落的当地时间</string>
 
     <!-- 页面 pick_daily -->
-    <string name="daily_tip">下单成功后，会有专属车导为您定制详细行程</string>
+    <string name="daily_tip">下单成功后，会有专属司导为您定制详细行程</string>
     <string name="daily_tap_in_town">市内包车</string>
     <string name="daily_tap_out_town">跨城市包车</string>
     <!-- 页面 pick_flight_customer -->
@@ -130,20 +146,26 @@
     <string name="submit_pick_name">接机牌姓名</string>
     <string name="submit_send_hotel">入住酒店联系电话</string>
     <string name="submit_flight_no">选择起飞航班号</string>
-    <string name="submit_send_hotel_tip">如果您的用车地址是酒店，请填写电话方便车导确认酒店具体位置</string>
+    <string name="submit_send_hotel_tip">如果您的用车地址是酒店，请填写电话方便司导确认酒店具体位置</string>
     <string name="submit_chose_visa">选择签证信息</string>
-    <string name="submit_remark_tip">您可以在这里注明其他需求，以及需要车导知道的其他行程细节</string>
+    <string name="submit_remark_tip">您可以在这里注明其他需求，以及需要司导知道的其他行程细节</string>
     <string name="submit_order_cancel"><u>订单取消规则</u></string>
     <string name="submit_order_tip"><u>预订须知</u></string>
     <string name="submit_order_over_tip"><u>后付费用计价规则</u></string>
     <string name="submit_btn">下一步</string>
     <string name="submit">提交</string>
 
+    <!--私信Letter-->
+    <string name="letter_order_state1">未开始</string>
+    <string name="letter_order_state2">进行中</string>
+    <string name="letter_order_state3">已完成</string>
+    <string name="letter_chat_btn">历史订单</string>
+
     <!-- 页面 pay -->
     <string name="pay_tip_thailand"><u>泰国接机说明</u></string>
     <string name="order_cancel_tip">确定要取消行程吗？</string>
     <string name="order_cancel_tip2" formatted="false">距离服务开始时间24小时前取消及更改，免收退改费,可全额退款;\n服务开始时间24小时内取消及更改，将收取订单金额的100%作为退改费;</string>
-    <string name="order_cancel_tip3">\n跨城市长途包车距离服务开始时间48小时内取消及更改，将产生车导住宿费用，收取订单金额20%用于补偿车导损失。</string>
+    <string name="order_cancel_tip3">\n跨城市长途包车距离服务开始时间48小时内取消及更改，将产生司导住宿费用，收取订单金额20%用于补偿司导损失。</string>
     <string name="pay_time_tip">请在%1$s内付款,以免订单取消</string>
     <string name="order_cancel_pay">订单尚未付款，返回将放弃支付，稍后可在“我的行程”中继续完成支付</string>
     <!-- 承诺promise -->
@@ -168,7 +190,7 @@
     <string name="run_flush">正在刷新&#8230;</string>
     <string name="near_update">最近更新</string>
 
-    <string name="loading_msg">ⓒ 皇包车 2015</string>
+    <string name="loading_msg">ⓒ 皇包车 2016</string>
     <string name="title_activity_splash">SplashActivity</string>
     <string name="title_activity_photo">PhotoActivity</string>
 
@@ -188,15 +210,40 @@
 
     <!-- sku-->
     <string name="sku_item_guide_number">%d位中文司导开车带你玩</string>
-    <string name="up">起</string>
+    <string name="up">起/车</string>
     <string name="sku_sale_number">%d人已体验</string>
+    <string name="sku_car_tip">注意:不同车型会影响总价上下浮动</string>
 
-    <!-- sku-->
-    <string name="person_center_nickname">昵称</string>
+    <!-- 个人中心-->
+    <string name="person_center_nickname">点击登录</string>
+    <string name="person_center_no_nickname">昵称未填写</string>
     <string name="person_center_coupon">优惠券</string>
     <!--登录-->
     <string name="login">登录</string>
     <string name="forget_password">忘记密码</string>
 
     <string name="chat_log">聊天记录</string>
+    <string name="phone_consultation">电话咨询</string>
+    <string name="goto_order">马上去玩</string>
+    <string name="goto_pay">立即支付</string>
+    <string name="order_total">订单总额：</string>
+    <string name="sku_days">包车天数：%s天</string>
+    <string name="user_name">联系人</string>
+    <string name="user_name_hint">请填写联系人姓名</string>
+    <string name="user_phone">联系电话</string>
+    <string name="user_phone_hint">请填写联系人电话</string>
+    <string name="remark">备注</string>
+    <string name="remark_hint">您可以在这里注明其他需求，以及需要司导知道的其他行程细节</string>
+    <string name="select_car_type">选择服务车型</string>
+    <string name="suk_area_code"><![CDATA[区号 > ｜]]></string>
+    <string name="sku_empty_tips">更多精品包车线路即将上限，敬请期待</string>
+    <string name="wx_share_content">全球10万华人朋友开车带你玩！</string>
+    <string name="pay_type">支付方式</string>
+    <string name="guess_you_want">猜你想搜</string>
+
+    <string name="user_have_coupon">%s张可用</string>
+    <string name="popup_menu_cancel_order">取消订单</string>
+    <string name="popup_menu_phone">客服电话</string>
+    <string name="no_net_tip">网络不给力，包子不高兴了呢！</string>
+    <string name="click_refresh"><u>点击刷新</u></string>
 </resources>

@@ -13,6 +13,7 @@ import org.xutils.http.RequestParams;
 import org.xutils.http.annotation.HttpRequest;
 import org.xutils.http.app.ParamsBuilder;
 
+import java.io.File;
 import java.util.Map;
 
 import javax.net.ssl.SSLSocketFactory;
@@ -27,11 +28,18 @@ public class HbcParamsBuilder implements ParamsBuilder {
     public static String KEY_HEADER_AK ="ak";//AccessKey
     public static String KEY_HEADER_UT ="ut";//UserToken
 
+    private Context mContext;
     @Override
     public String buildUri(RequestParams params, HttpRequest httpRequest) {
-        String url = getHost(httpRequest.host());
-        url += httpRequest.path();
-        return url;
+        String host = getHost(httpRequest.host());
+        String path = httpRequest.path();
+        if(params instanceof BaseRequest){
+            BaseRequest request = (BaseRequest)params;
+            mContext = request.getContext();
+            if(!TextUtils.isEmpty(request.getUrl()))
+            path = request.getUrl() ;
+        }
+        return host+path;
     }
 
     @Override
@@ -41,7 +49,7 @@ public class HbcParamsBuilder implements ParamsBuilder {
 
     @Override
     public SSLSocketFactory getSSLSocketFactory() {
-        return null;
+        return DefaultSSLSocketFactory.getSocketFactory(mContext);
     }
 
     @Override
@@ -70,7 +78,12 @@ public class HbcParamsBuilder implements ParamsBuilder {
                 } else {
                     for (Map.Entry<String, Object> entity : map.entrySet()) {
                         if (entity.getValue() != null) {
-                            params.addBodyParameter(entity.getKey(), String.valueOf(entity.getValue()));
+                            if(entity.getValue() instanceof File){
+                                params.setMultipart(true);
+                                params.addBodyParameter(entity.getKey(), (File) entity.getValue());
+                            }else {
+                                params.addBodyParameter(entity.getKey(), String.valueOf(entity.getValue()));
+                            }
                             sb.append(entity.getKey() + "=" + entity.getValue() + "&");
                         }
                     }
@@ -81,9 +94,6 @@ public class HbcParamsBuilder implements ParamsBuilder {
                 MLog.e("header = " +params.getHeaders().get(i).key+":"+params.getHeaders().get(i).value);
             }
             MLog.e(request.getHttpMethod()+" params = " + sb.toString());
-            for (int i=0;i<params.getQueryStringParams().size();i++) {
-                MLog.e("QueryStringParams = " +params.getQueryStringParams().get(i).key+":"+params.getQueryStringParams().get(i).value);
-            }
         }else{
             throw new RuntimeException("params must instanceof BaseRequest");
         }
