@@ -21,6 +21,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -319,12 +320,14 @@ public class MainActivity extends BaseFragmentActivity
     private void setUpDrawer() {
         LayoutInflater inflater = LayoutInflater.from(this);
         View header = inflater.inflate(R.layout.nav_header_main, null);
+        RelativeLayout head_view = (RelativeLayout) header.findViewById(R.id.head_view);
+        head_view.setOnClickListener(this);
         tv_modify_info = (TextView) header.findViewById(R.id.tv_modify_info);//编辑
-        tv_modify_info.setOnClickListener(this);
+//        tv_modify_info.setOnClickListener(this);
         my_icon_head = (CircularImage) header.findViewById(R.id.my_icon_head);//头像
-        my_icon_head.setOnClickListener(this);
+//        my_icon_head.setOnClickListener(this);
         tv_nickname = (TextView) header.findViewById(R.id.tv_nickname);//昵称
-        tv_nickname.setOnClickListener(this);
+//        tv_nickname.setOnClickListener(this);
 
         mLvLeftMenu.addHeaderView(header);
         menuItemAdapter = new MenuItemAdapter(this, mItems);
@@ -485,6 +488,7 @@ public class MainActivity extends BaseFragmentActivity
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.head_view:
             case R.id.tv_modify_info:
             case R.id.my_icon_head:
             case R.id.tv_nickname:
