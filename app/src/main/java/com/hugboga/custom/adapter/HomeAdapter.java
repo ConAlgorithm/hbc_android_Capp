@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -80,7 +81,9 @@ public class HomeAdapter extends ZHeadFootAdapter<HomeBean, HomeVH> {
                 vh.splitLine.setVisibility(View.GONE);
             }
             vh.imgBg.setBackgroundResource(R.mipmap.img_undertext);
-            vh.imgBg.setLayoutParams(new RelativeLayout.LayoutParams(ImageUtils.getScreenWidth(context),ImageUtils.getResizeHeight(context,720,334)));
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ImageUtils.getScreenWidth(context),ImageUtils.getResizeHeight(context,720,334));
+            vh.text_bg.setLayoutParams(params);
+            vh.imgBg.setLayoutParams(params);
 
             x.image().bind(vh.imgBg, homeBean.picture);
         }
