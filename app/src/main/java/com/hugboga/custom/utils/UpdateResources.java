@@ -51,6 +51,7 @@ public class UpdateResources {
                 }
             }
         }else{
+            if (callBack != null)
             callBack.onFinished();
         }
 
