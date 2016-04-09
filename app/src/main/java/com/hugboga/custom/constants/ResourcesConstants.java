@@ -9,8 +9,8 @@ import java.util.HashMap;
  */
 public class ResourcesConstants {
 
-    public static final int RESOURCES_H5_VERSION_DEFAULT = 12811;//默认H5的版本号
-    public static final int RESOURCES_DB_VERSION_DEFAULT = 53;//默认DB的版本号
+    public static final int RESOURCES_H5_VERSION_DEFAULT = 19113;//默认H5的版本号
+    public static final int RESOURCES_DB_VERSION_DEFAULT = 81;//默认DB的版本号
     public static final String RESOURCES_H5_NAME = "h5";//h5
     public static final String RESOURCES_PATH = "Resources";//资源目录路径
     public static final String RESOURCES_LOCAL_NAME = "hbc_h5";//资源名字

@@ -164,6 +164,7 @@ public class FgChat extends BaseFragment implements View.OnClickListener, ZBaseA
             case CLICK_USER_LOOUT:
                 chatLayout.setVisibility(View.GONE);
                 //清理列表数据
+                if(adapter.getDatas()!=null)
                 adapter.getDatas().clear();
                 adapter.notifyDataSetChanged();
                 emptyLayout.setVisibility(View.VISIBLE);

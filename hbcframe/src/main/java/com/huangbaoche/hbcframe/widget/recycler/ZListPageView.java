@@ -1,5 +1,6 @@
 package com.huangbaoche.hbcframe.widget.recycler;
 
+import android.animation.Animator;
 import android.app.Activity;
 import android.content.Context;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -171,7 +172,7 @@ public class ZListPageView extends ZListRecyclerView implements IPageList {
 
     HttpRequestListener pageLoadListener = new HttpRequestListener() {
 
-        AnimationAdapter myAdapter;
+        AnimationAdapter myAdapter ;
 
         @Override
         public void onDataRequestSucceed(BaseRequest request) {
@@ -179,8 +180,14 @@ public class ZListPageView extends ZListRecyclerView implements IPageList {
             if (page.getPageIndex() < 0) {
                 adapter.removeAll(); //清楚现有数据
                 adapter.setOnItemClickListener(onItemClickListener);
-                myAdapter = new AlphaInAnimationAdapter(adapter);
+//                myAdapter = new AlphaInAnimationAdapter(adapter);
                 setEmptyView(emptyLayout);
+                myAdapter = new AnimationAdapter(adapter) {
+                    @Override
+                    protected Animator[] getAnimators(View view) {
+                        return new Animator[0];
+                    }
+                };
                 setAdapter(myAdapter);
             }
             Object[] obj = null;
