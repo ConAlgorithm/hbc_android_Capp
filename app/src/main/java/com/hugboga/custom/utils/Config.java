@@ -12,7 +12,7 @@ import java.net.URLEncoder;
 
 
 public class Config {
-    public static boolean DEBUG_ENABLE = true;
+    public static boolean DEBUG_ENABLE = false;
 
 
     public static final int channelId = 18;//查价 下单的 渠道号
