@@ -2,6 +2,7 @@ package com.hugboga.custom.adapter.viewholder;
 
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.viewholder.ZBaseViewHolder;
@@ -24,6 +25,9 @@ public class HomeVH extends ZBaseViewHolder {
     public ImageView imgBg;
     @ViewInject(R.id.split_line)
     public View splitLine;
+
+    @ViewInject(R.id.text_bg)
+    public LinearLayout text_bg;
 
     public HomeVH(View itemView) {
         super(itemView);
