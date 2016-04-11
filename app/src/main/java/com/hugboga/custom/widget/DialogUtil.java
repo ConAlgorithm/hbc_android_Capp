@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
+import com.huangbaoche.hbcframe.util.MLog;
 import com.huangbaoche.hbcframe.widget.DialogUtilInterface;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
@@ -505,7 +506,7 @@ public class DialogUtil implements DialogUtilInterface {
     }
 
     public void showUpdateDialog(boolean hasUpdate,boolean force, String content, final String url, OnClickListener positiveClick, OnClickListener negativeClick) {
-        LogUtil.e("版本检测 hasUpdate="+hasUpdate+" force="+force);
+        MLog.e("版本检测 hasUpdate="+hasUpdate+" force="+force);
         if (TextUtils.isEmpty(url)||!hasUpdate) {
             if (negativeClick != null)
                 negativeClick.onClick(null, 0);
