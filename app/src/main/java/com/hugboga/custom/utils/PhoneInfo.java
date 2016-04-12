@@ -119,7 +119,7 @@ public class PhoneInfo {
     public static String getVersionChannel(Context context) {
         try {
             ApplicationInfo info = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
-            String channelStr = info.metaData.getString("APP_CHANNEL");
+            String channelStr = String.valueOf(info.metaData.get("APP_CHANNEL"));
             return channelStr;
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();

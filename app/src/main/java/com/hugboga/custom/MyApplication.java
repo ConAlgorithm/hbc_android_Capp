@@ -51,7 +51,7 @@ public class MyApplication extends HbcApplication {
     private void initUrlHost() {
         MLog.e("urlHost=" + BuildConfig.API_SERVER_URL);
         if(TextUtils.isEmpty(BuildConfig.API_SERVER_URL)) {
-            String channel = PhoneInfo.getVersionChannel(this);
+            String channel = BuildConfig.FLAVOR;
             MLog.e("channel=" + channel);
             //根据工程渠道标识，设置访问的服务器全局信息，没有标识则默认访问正式服务器
             if (TextUtils.isEmpty(channel)) channel = "formal";
@@ -84,6 +84,7 @@ public class MyApplication extends HbcApplication {
         HbcConfig.VERSION_CODE = BuildConfig.VERSION_CODE;
         HbcConfig.APP_NAME = getString(R.string.app_name);
         HbcConfig.IS_DEBUG = false;
+        x.Ext.setDebug(HbcConfig.IS_DEBUG);
         HbcConfig.WX_APP_ID = Constants.WX_APP_ID;
     }
 
