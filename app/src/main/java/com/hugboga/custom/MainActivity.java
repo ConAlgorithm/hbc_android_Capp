@@ -257,6 +257,11 @@ public class MainActivity extends BaseFragmentActivity
             MLog.e(request.getData().toString());
         }else if(request instanceof RequestUploadLocation){
             LocationUtils.cleanLocationInfo(MainActivity.this);
+            String cityId = ((RequestUploadLocation) request).getData().cityId;
+            String cityName = ((RequestUploadLocation) request).getData().cityName;
+            String countryId = ((RequestUploadLocation) request).getData().countryId;
+            String countryName = ((RequestUploadLocation) request).getData().countryName;
+            LocationUtils.saveLocationCity(MainActivity.this,cityId,cityName,countryId,countryName);
         }
     }
 

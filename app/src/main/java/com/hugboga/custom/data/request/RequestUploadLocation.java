@@ -8,6 +8,7 @@ import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.huangbaoche.hbcframe.util.PhoneInfo;
 import com.huangbaoche.hbcframe.util.SharedPre;
+import com.hugboga.custom.data.bean.LocationCity;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.parser.ParseLocationCity;
 
@@ -22,7 +23,7 @@ import java.util.TreeMap;
  */
 
 @HttpRequest(path = UrlLibs.UPLOAD_LOCATION, builder = HbcParamsBuilder.class)
-public class RequestUploadLocation extends BaseRequest<String> {
+public class RequestUploadLocation extends BaseRequest<LocationCity> {
 
     public RequestUploadLocation(Context context) {
         super(context);

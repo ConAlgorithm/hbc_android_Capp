@@ -249,4 +249,7 @@
 
     <string name="login_or">或者</string>
     <string name="un_install_wx">没有安装微信</string>
+    <string name="location_city_text">定位城市</string>
+
+
 </resources>

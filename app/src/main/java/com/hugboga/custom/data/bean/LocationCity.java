@@ -6,4 +6,6 @@ package com.hugboga.custom.data.bean;
 public class LocationCity {
     public String cityId;
     public String cityName;
+    public String countryId;
+    public String countryName;
 }

@@ -20,6 +20,13 @@ public class LocationUtils {
         new SharedPre(context).saveStringValue("lng",lng);
     }
 
+    public static void saveLocationCity(Context context,String cityId,String cityName,String countryId,String countryName){
+        new SharedPre(context).saveStringValue("cityId",cityId);
+        new SharedPre(context).saveStringValue("cityName",cityName);
+        new SharedPre(context).saveStringValue("countryId",countryId);
+        new SharedPre(context).saveStringValue("countryName",countryName);
+    }
+
     public static void gpsIsOpen(Context context){
         LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
