@@ -246,4 +246,7 @@
     <string name="popup_menu_phone">客服电话</string>
     <string name="no_net_tip">网络不给力，包子不高兴了呢！</string>
     <string name="click_refresh"><u>点击刷新</u></string>
+
+    <string name="login_or">或者</string>
+    <string name="un_install_wx">没有安装微信</string>
 </resources>

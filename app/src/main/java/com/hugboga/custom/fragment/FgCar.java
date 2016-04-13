@@ -293,6 +293,7 @@ public class FgCar extends BaseFragment implements ViewPager.OnPageChangeListene
                 bundle.putDouble(KEY_DISTANCE, distance);
                 bundle.putBoolean(KEY_NEED_CHILDREN_SEAT, needChildrenSeat);
                 bundle.putBoolean(KEY_NEED_BANNER, needBanner);
+                bundle.putString("umeng_from",umeng_from);
                 startFragment(fg, bundle);
                 break;
             case R.id.car_price_info:

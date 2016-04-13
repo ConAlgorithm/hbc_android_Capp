@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.TextPaint;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.widget.DialogUtil;
+import com.umeng.analytics.MobclickAgent;
 import com.zhy.m.permission.MPermissions;
 
 import org.xutils.view.annotation.Event;
@@ -40,12 +42,21 @@ public abstract class BaseFragment extends com.huangbaoche.hbcframe.fragment.Bas
     protected TextView fgRightBtn; //右按钮
     protected View fgLeftBtn;//左按钮
 
-
+    protected String umeng_from = ""; //友盟统计用 获取从哪个界面进入
+    protected String umeng_key = "";//友盟事件ID
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         contentId = R.id.drawer_layout;
+        getFrom();
         getBusinessType();
+    }
+
+
+    public void getFrom(){
+        if(null != this.getArguments()) {
+            umeng_from = this.getArguments().getString("umeng_from");
+        }
     }
 
     @Override
@@ -91,6 +102,18 @@ public abstract class BaseFragment extends com.huangbaoche.hbcframe.fragment.Bas
                 DialogUtil.getInstance(getActivity()).showCallDialog();
                 break;
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this.getActivity());
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this.getActivity());
     }
 
     @Override
