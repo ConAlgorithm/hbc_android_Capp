@@ -6,17 +6,20 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.huangbaoche.hbcframe.data.bean.UserSession;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.UserBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
@@ -24,6 +27,14 @@ import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestLogin;
 import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.SharedPre;
+import com.hugboga.custom.utils.ToastUtils;
+import com.tencent.mm.sdk.constants.ConstantsAPI;
+import com.tencent.mm.sdk.modelbase.BaseReq;
+import com.tencent.mm.sdk.modelbase.BaseResp;
+import com.tencent.mm.sdk.modelmsg.SendAuth;
+import com.tencent.mm.sdk.openapi.IWXAPI;
+import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
+import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
@@ -39,7 +50,7 @@ import de.greenrobot.event.EventBus;
  * Created by admin on 2016/3/8.
  */
 @ContentView(R.layout.fg_login)
-public class FgLogin extends BaseFragment implements TextWatcher{
+public class FgLogin extends BaseFragment implements TextWatcher, IWXAPIEventHandler {
 
     public static String KEY_PHONE = "key_phone";
     public static String KEY_AREA_CODE = "key_area_code";
@@ -54,6 +65,8 @@ public class FgLogin extends BaseFragment implements TextWatcher{
     private Button loginButton;
     @ViewInject(R.id.iv_pwd_visible)
     private ImageView passwordVisible;
+    @ViewInject(R.id.login_weixin)
+    private Button login_weixin;
 
     boolean isPwdVisibility = false;
     String phone;
@@ -105,6 +118,43 @@ public class FgLogin extends BaseFragment implements TextWatcher{
     }
 
     @Override
+    public void onReq(BaseReq req) {
+        switch (req.getType()) {
+            case ConstantsAPI.COMMAND_GETMESSAGE_FROM_WX:
+                Log.e("======","=====COMMAND_GETMESSAGE_FROM_WX======");
+                break;
+            case ConstantsAPI.COMMAND_SHOWMESSAGE_FROM_WX:
+                Log.e("======","=====COMMAND_SHOWMESSAGE_FROM_WX======");
+                break;
+            default:
+                Log.e("======","=====default======");
+                break;
+        }
+    }
+
+    @Override
+    public void onResp(BaseResp resp) {
+        String result = "";
+
+        switch (resp.errCode) {
+            case BaseResp.ErrCode.ERR_OK:
+                result = "R.string.errcode_success";
+                break;
+            case BaseResp.ErrCode.ERR_USER_CANCEL:
+                result = "R.string.errcode_cancel";
+                break;
+            case BaseResp.ErrCode.ERR_AUTH_DENIED:
+                result = "R.string.errcode_deny";
+                break;
+            default:
+                result = "R.string.errcode_unknown";
+                break;
+        }
+
+        Toast.makeText(this.getActivity(), result, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
     public void onStop() {
         super.onStop();
         this.getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
@@ -136,9 +186,24 @@ public class FgLogin extends BaseFragment implements TextWatcher{
         new IMUtil(getActivity()).conn(UserEntity.getUser().imToken);
     }
 
-    @Event({R.id.login_submit, R.id.change_mobile_areacode, R.id.login_register, R.id.change_mobile_diepwd, R.id.iv_pwd_visible})
+    IWXAPI wxapi;
+    @Event({R.id.login_weixin,R.id.login_submit, R.id.change_mobile_areacode, R.id.login_register, R.id.change_mobile_diepwd, R.id.iv_pwd_visible})
     private void onClickView(View view) {
         switch (view.getId()) {
+            case R.id.login_weixin:
+                wxapi = WXAPIFactory.createWXAPI(this.getActivity(), Constants.WX_APP_ID);
+                wxapi.registerApp(Constants.WX_APP_ID);
+//                boolean isLoginSupported = wxapi.getWXAppSupportAPI() >= com.tencent.mm.sdk.constants.Build.PAY_SUPPORTED_SDK_INT;
+//                if (!isLoginSupported) {
+//                    ToastUtils.showLong(R.string.un_install_wx);
+//                    return;
+//                }
+                SendAuth.Req req = new SendAuth.Req();
+                req.scope = "snsapi_userinfo";
+                req.state = "123";
+                wxapi.sendReq(req);
+                wxapi.handleIntent(this.getActivity().getIntent(),this);
+                break;
             case R.id.login_submit:
                 //登录
                 loginGo();
