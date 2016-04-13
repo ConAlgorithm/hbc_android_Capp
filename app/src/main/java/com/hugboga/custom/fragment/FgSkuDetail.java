@@ -15,12 +15,15 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.widget.DialogUtil;
+import com.umeng.analytics.MobclickAgent;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.TreeMap;
 
 /**
@@ -75,6 +78,7 @@ public class FgSkuDetail extends FgWebInfo {
         callDialog.setItems(callItems, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                uMengClickEvent();
                 WXShareUtils.getInstance(getActivity()).share(which+1, skuItemBean.goodsPicture, title, content, shareUrl);
             }
         });
@@ -84,4 +88,21 @@ public class FgSkuDetail extends FgWebInfo {
         dialog.show();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        uMengClickEvent();
+    }
+
+    private void uMengClickEvent(){
+        Map<String, String> map_value = new HashMap<String, String>();
+        map_value.put("routecity" , skuItemBean.depCityName);
+        map_value.put("routename" , skuItemBean.goodsName);
+        MobclickAgent.onEventValue(this.getActivity(),"launch_route",map_value,1);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
 }

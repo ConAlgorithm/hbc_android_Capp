@@ -44,7 +44,8 @@ public class CityAdapter extends BaseAdapter implements View.OnClickListener, On
     private SharedPre sharedPer;
     private static final int HISTORY_ITEM = 0;
     private static final int HOT_ITEM = 1;
-    private static final int CITY_LIST_ITEM = 2;
+    private static final int LOCATION_ITEM = 2;
+    private static final int CITY_LIST_ITEM = 3;
     private String mBusinessType;
     private DbManager mDbManager;
     private boolean isFirstAccessHotCity = false;
@@ -128,7 +129,9 @@ public class CityAdapter extends BaseAdapter implements View.OnClickListener, On
             return HISTORY_ITEM;
         } else if (cityBean.firstLetter.equals("热门城市")) {
             return HOT_ITEM;
-        } else {
+        } else if (cityBean.firstLetter.equals("定位城市")) {
+            return LOCATION_ITEM;
+        }else {
             return CITY_LIST_ITEM;
         }
     }
@@ -143,6 +146,9 @@ public class CityAdapter extends BaseAdapter implements View.OnClickListener, On
             case HOT_ITEM:
                 convertView = getHotCityView(position, convertView);
                 break;
+            case LOCATION_ITEM:
+                convertView = getLocationCityView(position, convertView);
+                break;
             case CITY_LIST_ITEM:
                 convertView = getAllCityListView(position, convertView, type);
             default:
@@ -154,6 +160,22 @@ public class CityAdapter extends BaseAdapter implements View.OnClickListener, On
 
     public View getHistorySearchView(final int position, View view, int type) {
         return null;
+    }
+
+    public View getLocationCityView(final int position, View view){
+        LocationViewHolder locationViewHolder = null;
+        if(null == view){
+            locationViewHolder = new LocationViewHolder();
+            view = LayoutInflater.from(mContext).inflate(R.layout.location_city_layout,null);
+            locationViewHolder.location_text = (TextView)view.findViewById(R.id.location_city_name);
+            view.setTag(locationViewHolder);
+        }else{
+            if(view.getTag() instanceof  LocationViewHolder){
+                locationViewHolder = (LocationViewHolder)view.getTag();
+            }
+        }
+        locationViewHolder.location_text.setText(new SharedPre(mContext).getStringValue("cityName"));
+        return view;
     }
 
     public View getHotCityView(final int position, View view) {
@@ -372,6 +394,10 @@ public class CityAdapter extends BaseAdapter implements View.OnClickListener, On
     final static class GridViewHolder {
         NoScrollGridView gv_hot_city;
         TextView tvLetter;
+    }
+
+    final static class LocationViewHolder {
+        TextView location_text;
     }
 
 

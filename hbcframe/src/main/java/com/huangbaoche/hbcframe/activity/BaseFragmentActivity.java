@@ -16,6 +16,7 @@ import com.huangbaoche.hbcframe.BuildConfig;
 import com.huangbaoche.hbcframe.fragment.BaseFragment;
 import com.huangbaoche.hbcframe.util.FastClickUtils;
 import com.huangbaoche.hbcframe.util.MLog;
+import com.umeng.analytics.MobclickAgent;
 
 import org.xutils.x;
 
@@ -120,12 +121,14 @@ public class BaseFragmentActivity extends AppCompatActivity  {
     protected void onResume() {
         super.onResume();
         MLog.i("onResume" + this);
+        MobclickAgent.onResume(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         MLog.i("onPause" + this);
+        MobclickAgent.onPause(this);
     }
 
     @Override
