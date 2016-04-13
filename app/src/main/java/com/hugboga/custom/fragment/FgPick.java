@@ -135,6 +135,7 @@ public class FgPick extends BaseFragment {
         Bundle bundle = new Bundle();
         bundle.putSerializable(FgCar.KEY_FLIGHT, flightBean);
         bundle.putSerializable(FgCar.KEY_ARRIVAL, poiBean);
+        bundle.putString("umeng_from",umeng_from);
         fg.setArguments(bundle);
         startFragment(fg);
     }

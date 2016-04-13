@@ -26,6 +26,7 @@ import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.data.request.RequestHome;
 import com.hugboga.custom.data.request.RequestSkuList;
 import com.hugboga.custom.utils.DBHelper;
+import com.umeng.analytics.MobclickAgent;
 
 import org.xutils.DbManager;
 import org.xutils.common.Callback;
@@ -34,6 +35,9 @@ import org.xutils.image.ImageOptions;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 城市SKU列表
@@ -165,9 +169,9 @@ public class FgSkuList extends  BaseFragment implements  View.OnClickListener, Z
 
     }
 
-
+    CityBean cityBean = null;
     private CityBean findCityById(String cityId){
-        CityBean cityBean = null;
+
         DbManager mDbManager = new DBHelper(getActivity()).getDbManager();
         try {
             cityBean = mDbManager.findById(CityBean.class,cityId);
@@ -187,7 +191,10 @@ public class FgSkuList extends  BaseFragment implements  View.OnClickListener, Z
         bundle.putSerializable(FgDaily.KEY_CITY_BEAN,mCityBean);
         switch (v.getId()){
             case R.id.fg_home_menu1://中文接送机
-                startFragment(new FgTransfer());
+                FgTransfer  fgTransfer = new FgTransfer();
+                bundle.putString("umeng_from",mCityBean.name);
+                fgTransfer.setArguments(bundle);
+                startFragment(fgTransfer);
                 break;
             case R.id.fg_home_menu2://按天包车
                 startFragment(new FgDaily(),bundle);
@@ -212,7 +219,16 @@ public class FgSkuList extends  BaseFragment implements  View.OnClickListener, Z
         bundle.putSerializable(FgSkuDetail.WEB_SKU, bean);
         bundle.putSerializable(FgSkuDetail.WEB_CITY, mCityBean);
         startFragment(new FgSkuDetail(),bundle);
+
+        Map<String, String> map_value = new HashMap<String, String>();
+        map_value.put("source" , cityBean.name);
+        MobclickAgent.onEvent(this.getActivity(),"click_route",map_value);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onEvent(this.getActivity(),"launch_city",cityBean.name);
 
+    }
 }

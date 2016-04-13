@@ -43,10 +43,12 @@ import com.hugboga.custom.data.request.RequestOrderDetail;
 import com.hugboga.custom.data.request.RequestPayNo;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.PhoneInfo;
+import com.hugboga.custom.utils.UmengUtils;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.wxapi.WXPay;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
+import com.umeng.analytics.MobclickAgent;
 
 import org.xutils.common.Callback;
 import org.xutils.image.ImageOptions;
@@ -56,6 +58,8 @@ import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
 import java.text.ParseException;
+import java.util.HashMap;
+import java.util.Map;
 
 import de.greenrobot.event.EventBus;
 import io.rong.imkit.RongIM;
@@ -294,6 +298,9 @@ public class FgOrder extends BaseFragment {
     CouponBean couponBean;
     private DialogUtil mDialogUtil;
 
+    String paystyle = "支付宝";
+    //下单过程中、失败重新支付、行程列表、订单详情
+    String paysource = "";
     @Override
     protected void initHeader() {
         setProgressState(3);
@@ -902,10 +909,35 @@ public class FgOrder extends BaseFragment {
             bundle.putInt("orderType", mOrderBean.orderType);
             bundle.putString(KEY_ORDER_ID, mOrderBean.orderNo);
             bundle.putString("from", mSourceFragment.getClass().getSimpleName());
+            bundle.putString("umeng_from",umeng_from);
+
+            uMengClickEvnet();
+
 //            startFragment(new FgPaySuccess(), bundle);
             notifyOrderList(FgTravel.TYPE_ORDER_RUNNING, true, false, false);
         }
     };
+
+
+    //4.为他人订车
+    boolean isForOther = false;
+    //友盟事件统计
+    private void uMengClickEvnet(){
+        Map<String, String> map_value = new HashMap<String, String>();
+        map_value.put("source" , umeng_from);
+        map_value.put("carstyle",mOrderBean.carType+"");
+        map_value.put("paystyle",paystyle);
+        map_value.put("paysource",paysource);
+        if(umeng_key.equalsIgnoreCase("pay_oneday") || umeng_key.equalsIgnoreCase("launch_paysucceed_oneday")) {
+            map_value.put("begincity", mOrderBean.startAddress);
+            if(isForOther) {
+                map_value.put("forother", "是");
+            }else{
+                map_value.put("forother", "否");
+            }
+        }
+        UmengUtils.mobClickEventValue(FgOrder.this.getActivity(),umeng_key,map_value);
+    }
 
     @Override
     public void onClick(View v) {
@@ -966,12 +998,15 @@ public class FgOrder extends BaseFragment {
                 startFragment(new FgChangeTrip(), bundle);
                 break;
             case R.id.pay_type_alipay_layout://
+                paystyle = "支付宝";
                 chosePayType(Constants.PAY_STATE_ALIPAY);
                 break;
             case R.id.pay_type_wechat_layout:
+                paystyle = "微信";
                 chosePayType(Constants.PAY_STATE_WECHAT);
                 break;
             case R.id.pay_type_bank_layout:
+                paystyle = "银行";
                 chosePayType(Constants.PAY_STATE_BANK);
                 break;
             case R.id.pay_coupons_layout:

@@ -18,10 +18,13 @@ import com.hugboga.custom.adapter.HomeAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.HomeBean;
 import com.hugboga.custom.data.request.RequestHome;
+import com.umeng.analytics.MobclickAgent;
 
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
+
+import java.util.HashMap;
 
 /**
  * 首页
@@ -94,17 +97,20 @@ public class FgHome extends BaseFragment implements View.OnClickListener, ZBaseA
     @Override
     public void onClick(View v) {
         MLog.e("onClick=" + v);
+        Bundle bundle = new Bundle();
         switch (v.getId()) {
             case R.id.header_left_btn:
                 ((MainActivity) getActivity()).openDrawer();
                 break;
             case R.id.header_right_btn:
-                Bundle bundle = new Bundle();
                 bundle.putInt(KEY_BUSINESS_TYPE, Constants.BUSINESS_TYPE_HOME);
                 startFragment(new FgChooseCity(), bundle);
                 break;
             case R.id.fg_home_menu1://中文接送机
-                startFragment(new FgTransfer());
+                FgTransfer  fgTransfer = new FgTransfer();
+                bundle.putString("umeng_from","首页");
+                fgTransfer.setArguments(bundle);
+                startFragment(fgTransfer);
                 break;
             case R.id.fg_home_menu2://按天包车
                 startFragment(new FgDaily());
@@ -118,6 +124,12 @@ public class FgHome extends BaseFragment implements View.OnClickListener, ZBaseA
         }
     }
 
+    private  void doUmengClickEvent(){
+        HashMap<String,String> map = new HashMap<String,String>();
+        map.put("source","首页");
+        MobclickAgent.onEvent(this.getActivity(), "click_city", map);
+    }
+
     @Override
     public void onItemClick(View view, int position) {
         HomeBean homeBean = adapter.getDatas().get(position);
@@ -125,6 +137,7 @@ public class FgHome extends BaseFragment implements View.OnClickListener, ZBaseA
         Bundle bundle = new Bundle();
         bundle.putString(FgSkuList.KEY_CITY_ID, homeBean.cityId);
         startFragment(fg, bundle);
+        doUmengClickEvent();
     }
 
     @Override
@@ -142,5 +155,18 @@ public class FgHome extends BaseFragment implements View.OnClickListener, ZBaseA
         }else{
             super.onDataRequestError(errorInfo, request);
         }
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onEvent(this.getActivity(),"launch_discovery");
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
     }
 }

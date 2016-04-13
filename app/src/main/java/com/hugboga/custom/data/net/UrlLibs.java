@@ -243,4 +243,9 @@ public class UrlLibs {
      */
     public static final String GET_USER_COUPON = "trade/v1.0/c/order/home?";
 
+    /**
+     * 上传经纬度  http://api.dev.hbc.tech/poi/v1.0/e/city?longitude=1&latitude=2
+     */
+    public static final String UPLOAD_LOCATION = "poi/v1.0/e/city?";
+
 }
