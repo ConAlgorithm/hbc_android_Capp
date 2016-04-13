@@ -109,6 +109,25 @@
             android:textColor="@color/basic_white"
             android:textSize="@dimen/text_size_xlarge" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginTop="@dimen/basic_margin_xlarge"
+            android:text="@string/login_or"
+            android:gravity="center"
+            android:textColor="@color/basic_white"
+            android:textSize="@dimen/text_size_xlarge" />
+
+        <Button
+            android:id="@+id/login_weixin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/basic_margin_xlarge"
+            android:background="@drawable/login2_selector_bg"
+            android:text="微信登录"
+            android:textColor="@color/basic_white"
+            android:textSize="@dimen/text_size_xlarge" />
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
