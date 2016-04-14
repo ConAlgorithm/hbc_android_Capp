@@ -183,7 +183,7 @@ public class FgLogin extends BaseFragment implements TextWatcher, IWXAPIEventHan
     }
 
     private void connectIM() {
-        new IMUtil(getActivity()).conn(UserEntity.getUser().imToken);
+        new IMUtil(getActivity()).conn(UserEntity.getUser().getImToken(getActivity()));
     }
 
     IWXAPI wxapi;
