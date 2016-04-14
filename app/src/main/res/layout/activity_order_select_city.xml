@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:background="#e7e7e7"
+    android:layout_height="match_parent">>
+<LinearLayout
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:background="#e7e7e7"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/include_header" />
+
+    <LinearLayout
+        android:layout_margin="15dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:background="@color/basic_white"
+        android:layout_height="50dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:textColor="@color/basic_black"
+            android:textSize="15sp"
+            android:layout_marginLeft="20dp"
+            android:gravity="center"
+            android:text="@string/select_city_start"
+            android:layout_height="50dp"/>
+
+        <TextView android:id="@+id/start_city_click"
+            android:layout_width="match_parent"
+            android:textColor="@color/basic_black"
+            android:textSize="15sp"
+            android:text="@string/select_city_tips"
+            android:layout_marginLeft="20dp"
+            android:gravity="left"
+            android:background="@null"
+            android:layout_height="50dp"/>
+    </LinearLayout>
+
+    <RadioGroup
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RadioButton android:id="@+id/full_day"
+            android:layout_width="wrap_content"
+            android:textColor="@color/basic_black"
+            android:textSize="15sp"
+            android:layout_marginLeft="20dp"
+            android:gravity="center"
+            android:button="@drawable/radiobtn_travel"
+            android:text="@string/full_day_travel"
+            android:layout_height="wrap_content"/>
+
+        <RadioButton android:id="@+id/half_day"
+            android:layout_width="wrap_content"
+            android:textColor="@color/basic_black"
+            android:textSize="15sp"
+            android:button="@drawable/radiobtn_travel"
+            android:layout_marginLeft="20dp"
+            android:gravity="center"
+            android:text="@string/half_day_travel"
+            android:background="@null"
+            android:layout_height="wrap_content"/>
+    </RadioGroup>
+    <LinearLayout
+        android:layout_margin="15dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:background="@color/basic_white"
+        android:layout_height="50dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:textColor="@color/basic_black"
+            android:textSize="15sp"
+            android:layout_marginLeft="20dp"
+            android:gravity="center"
+            android:text="@string/people_num_left"
+            android:layout_height="50dp"/>
+
+        <TextView android:id="@+id/people_text_click"
+            android:layout_width="match_parent"
+            android:textColor="@color/basic_black"
+            android:textSize="15sp"
+            android:layout_marginLeft="20dp"
+            android:text="@string/select_people_tips"
+            android:gravity="left"
+            android:background="@null"
+            android:layout_height="50dp"/>
+    </LinearLayout>
+
+
+    <RelativeLayout
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_toLeftOf="@+id/child_no_confirm_click"
+            android:id="@+id/show_child_seat_layout"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:textColor="@color/basic_black"
+                android:textSize="15sp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:gravity="center"
+                android:text="@string/child_seat"
+                android:layout_height="50dp"/>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:background="@color/basic_white"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="30dp"
+                android:textColor="@color/basic_black"
+                android:textSize="15sp"
+                android:gravity="center"
+                android:text="-"
+                android:layout_height="30dp"/>
+            <TextView
+                android:layout_width="1dp"
+                android:background="#e7e7e7"
+                android:textSize="15sp"
+                android:gravity="center"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_height="25dp"/>
+            <TextView android:id="@+id/child_text"
+                android:layout_width="wrap_content"
+                android:textColor="@color/basic_black"
+                android:textSize="15sp"
+                android:gravity="center"
+                android:hint="@string/child_0"
+                android:background="@null"
+                android:layout_height="30dp"/>
+            <TextView
+                android:layout_width="1dp"
+                android:background="#e7e7e7"
+                android:textSize="15sp"
+                android:gravity="center"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_height="25dp"/>
+            <TextView
+                android:layout_width="30dp"
+                android:textColor="@color/basic_black"
+                android:textSize="15sp"
+                android:gravity="center"
+                android:text="+"
+                android:layout_height="30dp"/>
+            </LinearLayout>
+        </LinearLayout>
+        <TextView
+            android:id="@+id/child_no_confirm_click"
+            android:layout_width="wrap_content"
+            android:textColor="@color/basic_black"
+            android:textSize="15sp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="20dp"
+            android:gravity="center"
+            android:drawableRight="@mipmap/icon_pay1"
+            android:text="@string/no_confirm"
+            android:layout_height="50dp"/>
+
+    </RelativeLayout>
+
+
+
+
+
+    <LinearLayout
+        android:layout_margin="15dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:background="@color/basic_white"
+        android:layout_height="50dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:textColor="@color/basic_black"
+            android:textSize="15sp"
+            android:layout_marginLeft="20dp"
+            android:gravity="center"
+            android:text="@string/baggage_nums"
+            android:layout_height="50dp"/>
+
+        <TextView android:id="@+id/baggage_text_click"
+            android:layout_width="match_parent"
+            android:textColor="@color/basic_black"
+            android:textSize="15sp"
+            android:layout_marginLeft="20dp"
+            android:text="@string/select_baggage_tips"
+            android:gravity="left"
+            android:background="@null"
+            android:layout_height="50dp"/>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_marginRight="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/baggage_no_confirm_click"
+            android:layout_width="wrap_content"
+            android:textColor="@color/basic_black"
+            android:textSize="15sp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="20dp"
+            android:gravity="center"
+            android:drawableRight="@mipmap/icon_pay1"
+            android:text="@string/no_confirm"
+            android:layout_height="50dp"/>
+
+        <TextView
+            android:layout_toLeftOf="@id/baggage_no_confirm_click"
+            android:layout_width="match_parent"
+            android:textColor="@color/basic_black"
+            android:textSize="15sp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:gravity="left|center_vertical"
+            android:text="@string/baggage_size"
+            android:layout_height="50dp"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_margin="15dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:background="@color/basic_white"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:id="@+id/start_layout_click"
+            android:layout_margin="15dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:background="@color/basic_white"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_height="50dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:textColor="@color/basic_black"
+                android:textSize="15sp"
+                android:gravity="center"
+                android:text="@string/end_date"
+                android:layout_height="wrap_content"/>
+
+            <TextView android:id="@+id/start_date"
+                android:layout_width="match_parent"
+                android:textColor="@color/basic_black"
+                android:textSize="20sp"
+                android:gravity="center"
+                android:text="@string/select_date"
+                android:background="@null"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+        <TextView android:background="#e7e7e7" android:layout_width="1dp" android:layout_height="50dp"/>
+        <LinearLayout
+            android:id="@+id/end_layout_click"
+            android:layout_margin="15dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:background="@color/basic_white"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_height="50dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:textColor="@color/basic_black"
+                android:textSize="15sp"
+                android:gravity="center"
+                android:text="@string/start_date"
+                android:layout_height="wrap_content"/>
+
+            <TextView android:id="@+id/end_date"
+                android:layout_width="match_parent"
+                android:textColor="@color/basic_black"
+                android:textSize="20sp"
+                android:gravity="center"
+                android:text="@string/select_date"
+                android:background="@null"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_margin="15dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:background="@color/basic_white"
+        android:layout_height="50dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:textColor="@color/basic_black"
+            android:textSize="15sp"
+            android:layout_marginLeft="20dp"
+            android:gravity="center"
+            android:text="@string/go_citys"
+            android:layout_height="50dp"/>
+
+        <TextView android:id="@+id/go_city_text_click"
+            android:layout_width="match_parent"
+            android:textColor="@color/basic_black"
+            android:textSize="15sp"
+            android:text="@string/select_go_citys"
+            android:layout_marginLeft="20dp"
+            android:gravity="left"
+            android:background="@null"
+            android:layout_height="50dp"/>
+    </LinearLayout>
+
+
+    <Button android:id="@+id/next_btn_click"
+        android:layout_width="match_parent"
+        android:layout_margin="15dp"
+        android:layout_height="50dp"
+        android:textColor="@color/basic_white"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:text="@string/go_next"
+        android:background="@color/all_bg_yellow"/>
+
+</LinearLayout>
+    </ScrollView>

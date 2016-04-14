@@ -1,5 +1,6 @@
 package com.hugboga.custom.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -14,6 +15,7 @@ import com.huangbaoche.hbcframe.widget.recycler.ZListPageView;
 import com.huangbaoche.hbcframe.widget.recycler.ZSwipeRefreshLayout;
 import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.OrderSelectCityActivity;
 import com.hugboga.custom.adapter.HomeAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.HomeBean;
@@ -113,7 +115,8 @@ public class FgHome extends BaseFragment implements View.OnClickListener, ZBaseA
                 startFragment(fgTransfer);
                 break;
             case R.id.fg_home_menu2://按天包车
-                startFragment(new FgDaily());
+                startActivity(new Intent(this.getActivity(), OrderSelectCityActivity.class));
+//                startFragment(new FgDaily());
                 break;
             case R.id.fg_home_menu3://单次接送
                 startFragment(new FgSingle());
