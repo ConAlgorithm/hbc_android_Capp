@@ -22,15 +22,11 @@ public class UserEntity {
     private Integer orderPoint; //订单IM消息数
     private Boolean isNewVersion; //是否有新版本
     private boolean hasNewCoupon; //是否有新优惠券
-    public boolean weakPassword;  //布尔值 是否弱密码
-    public String weakPasswordMsg; //弱密码提示文案
-    public String imToken;//聊天token
+    private boolean weakPassword;  //布尔值 是否弱密码
+    private String weakPasswordMsg; //弱密码提示文案
+    private String imToken;//聊天token
 
     private UserEntity() {
-    }
-
-    public String getImToken() {
-        return imToken;
     }
 
     public static UserEntity getUser() {
@@ -53,7 +49,6 @@ public class UserEntity {
         shared.saveStringValue(SharedPre.ACCESSKEY, accessKey);
         this.accessKey = accessKey;
     }
-
 
 
     public void setUserId(Context active, String userId) {
@@ -219,8 +214,10 @@ public class UserEntity {
     }
 
     public String getImToken(Context activity) {
-        SharedPre shared = new SharedPre(activity);
-        imToken = shared.getStringValue(SharedPre.IM_TOKEN);
+        if (imToken == null) {
+            SharedPre shared = new SharedPre(activity);
+            imToken = shared.getStringValue(SharedPre.IM_TOKEN);
+        }
         return imToken;
     }
 
@@ -233,7 +230,7 @@ public class UserEntity {
     public void clean(Activity activity) {
         SharedPre shared = new SharedPre(activity);
         shared.clean();
-        UserSession.getUser().setUserToken(activity,null);
+        UserSession.getUser().setUserToken(activity, null);
         userId = null;
         accessKey = null;
         avatar = null;

@@ -133,7 +133,7 @@ public class FgLogin extends BaseFragment implements TextWatcher{
     }
 
     private void connectIM() {
-        new IMUtil(getActivity()).conn(UserEntity.getUser().imToken);
+        new IMUtil(getActivity()).conn(UserEntity.getUser().getImToken(getActivity()));
     }
 
     @Event({R.id.login_submit, R.id.change_mobile_areacode, R.id.login_register, R.id.change_mobile_diepwd, R.id.iv_pwd_visible})

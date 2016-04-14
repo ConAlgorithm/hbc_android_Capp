@@ -295,7 +295,7 @@ public class MainActivity extends BaseFragmentActivity
 
     private void connectIM() {
         if (UserEntity.getUser().isLogin(this))
-            new IMUtil(this).conn(UserEntity.getUser().imToken);
+            new IMUtil(this).conn(UserEntity.getUser().getImToken(this));
     }
 
     private void initBottomView() {
