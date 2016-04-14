@@ -44,7 +44,15 @@ public class FgTransfer extends BaseFragment {
     protected void initView() {
         fgPick = new FgPick();
         fgSend = new FgSend();
+
+        Bundle bundle = new Bundle();
+        bundle.putString("umeng_from",umeng_from);
+        fgPick.setArguments(bundle);
+        fgSend.setArguments(bundle);
+
+
         fm = getFragmentManager();
+
         FragmentTransaction transaction = fm.beginTransaction();
         transaction.add(R.id.daily_content, fgPick);
 //        transaction.addToBackStack(null);

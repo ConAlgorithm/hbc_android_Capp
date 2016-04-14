@@ -1,21 +1,29 @@
 package com.hugboga.custom;
 
+import android.*;
+import android.Manifest;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -39,6 +47,7 @@ import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.request.RequestPushClick;
 import com.hugboga.custom.data.request.RequestPushToken;
+import com.hugboga.custom.data.request.RequestUploadLocation;
 import com.hugboga.custom.fragment.BaseFragment;
 import com.hugboga.custom.fragment.FgChat;
 import com.hugboga.custom.fragment.FgCoupon;
@@ -52,6 +61,7 @@ import com.hugboga.custom.fragment.FgSetting;
 import com.hugboga.custom.fragment.FgTravel;
 import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.ImageOptionUtils;
+import com.hugboga.custom.utils.LocationUtils;
 import com.hugboga.custom.utils.PermissionRes;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.utils.SharedPre;
@@ -73,6 +83,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import cn.jpush.android.api.JPushInterface;
 import de.greenrobot.event.EventBus;
@@ -84,6 +96,9 @@ public class MainActivity extends BaseFragmentActivity
 
     public static final String PUSH_BUNDLE_MSG = "pushMessage";
     public static final String FILTER_PUSH_DO = "com.hugboga.custom.pushdo";
+
+    private static final int PERMISSION_ACCESS_COARSE_LOCATION = 11;
+    private static final int PERMISSION_ACCESS_FINE_LOCATION = 12;
 
     @ViewInject(R.id.drawer_layout)
     private DrawerLayout drawer;
@@ -123,7 +138,8 @@ public class MainActivity extends BaseFragmentActivity
 //        navigationView.setNavigationItemSelectedListener(this);
         //为服务器授权
         grantPhone();
-
+        initLocation();
+        grantLocation();
 //        addErrorProcess();
 //        UpdateResources.checkLocalDB(this);
 //        UpdateResources.checkLocalResource(this);
@@ -136,6 +152,29 @@ public class MainActivity extends BaseFragmentActivity
         } catch (Exception e) {
             e.printStackTrace();
         }
+//        LocationUtils.openGPSSeting(MainActivity.this);
+    }
+
+    Timer timer;
+    TimerTask timerTask;
+    public void uploadLocation(){
+        timer = new Timer();
+        timerTask = new TimerTask(){
+            @Override
+            public void run() {
+
+                String lat = new SharedPre(MainActivity.this).getStringValue("lat");
+                String lng = new SharedPre(MainActivity.this).getStringValue("lng");
+                Log.e("========","============lat="+lat+"====lng="+lng);
+
+                if(!TextUtils.isEmpty(lat)){
+                    RequestUploadLocation requestUploadLocation = new RequestUploadLocation(MainActivity.this);
+                    HttpRequestUtils.request(MainActivity.this,requestUploadLocation,MainActivity.this);
+
+                }
+            }
+        };
+        timer.schedule(timerTask,0,3000);
     }
 
     /**
@@ -200,6 +239,14 @@ public class MainActivity extends BaseFragmentActivity
     protected void onDestroy() {
         super.onDestroy();
         try {
+            if(timer != null){
+                timer.cancel();
+                timer = null;
+            }
+            if(timerTask != null){
+                timerTask.cancel();
+                timerTask = null;
+            }
             EventBus.getDefault().unregister(this);
         } catch (Exception e) {
             e.printStackTrace();
@@ -210,6 +257,13 @@ public class MainActivity extends BaseFragmentActivity
     public void onDataRequestSucceed(BaseRequest request) {
         if (request instanceof RequestPushToken) {
             MLog.e(request.getData().toString());
+        }else if(request instanceof RequestUploadLocation){
+            LocationUtils.cleanLocationInfo(MainActivity.this);
+            String cityId = ((RequestUploadLocation) request).getData().cityId;
+            String cityName = ((RequestUploadLocation) request).getData().cityName;
+            String countryId = ((RequestUploadLocation) request).getData().countryId;
+            String countryName = ((RequestUploadLocation) request).getData().countryName;
+            LocationUtils.saveLocationCity(MainActivity.this,cityId,cityName,countryId,countryName);
         }
     }
 
@@ -588,6 +642,19 @@ public class MainActivity extends BaseFragmentActivity
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         MPermissions.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
+        switch(requestCode){
+            case PERMISSION_ACCESS_COARSE_LOCATION:
+            case PERMISSION_ACCESS_FINE_LOCATION:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission was granted
+                    MLog.e("==========PERMISSION_GRANTED=========");
+                    requestLocation();
+                } else {
+                    // permission denied
+                    MLog.e("==========denied=========");
+                }
+                break;
+        }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
@@ -619,4 +686,60 @@ public class MainActivity extends BaseFragmentActivity
         }
         return length;
     }
+
+    public void grantLocation(){
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                || ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED ) {
+            ActivityCompat.requestPermissions(this,
+                    new String[] {android.Manifest.permission.ACCESS_COARSE_LOCATION , Manifest.permission.ACCESS_FINE_LOCATION },
+                    PERMISSION_ACCESS_COARSE_LOCATION);
+        }else{
+            requestLocation();
+        }
+    }
+
+
+    public void requestLocation(){
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,0,100,locationListener);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,0,100,locationListener);
+    }
+
+
+    LocationManager locationManager;
+    LocationListener locationListener;
+    public void initLocation(){
+        locationManager = (LocationManager) this.getSystemService(this.LOCATION_SERVICE);
+        locationListener = new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+                String locStr =String.format("%s\n lat=%f \n lng=%f \n(%f meters)", location.getProvider(),
+                                location.getLatitude(), location.getLongitude(), location.getAccuracy());
+
+                LocationUtils.saveLocationInfo(MainActivity.this,location.getLatitude()+"",location.getLongitude()+"");
+                if(timer == null) {
+                    uploadLocation();
+                }
+                MLog.e(locStr);
+            }
+
+            @Override
+            public void onStatusChanged(String provider, int status, Bundle extras) {
+
+            }
+
+            @Override
+            public void onProviderEnabled(String provider) {
+
+            }
+
+            @Override
+            public void onProviderDisabled(String provider) {
+                LocationUtils.cleanLocationInfo(MainActivity.this);
+            }
+        };
+
+    }
+
+
+
 }

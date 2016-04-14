@@ -97,12 +97,12 @@ public class FgHome extends BaseFragment implements View.OnClickListener, ZBaseA
     @Override
     public void onClick(View v) {
         MLog.e("onClick=" + v);
+        Bundle bundle = new Bundle();
         switch (v.getId()) {
             case R.id.header_left_btn:
                 ((MainActivity) getActivity()).openDrawer();
                 break;
             case R.id.header_right_btn:
-                Bundle bundle = new Bundle();
                 bundle.putInt(KEY_BUSINESS_TYPE, Constants.BUSINESS_TYPE_HOME);
                 bundle.putString("source","小搜索按钮");
                 startFragment(new FgChooseCity(), bundle);
@@ -112,7 +112,10 @@ public class FgHome extends BaseFragment implements View.OnClickListener, ZBaseA
                 MobclickAgent.onEvent(getActivity(), "search_trigger", map);
                 break;
             case R.id.fg_home_menu1://中文接送机
-                startFragment(new FgTransfer());
+                FgTransfer  fgTransfer = new FgTransfer();
+                bundle.putString("umeng_from","首页");
+                fgTransfer.setArguments(bundle);
+                startFragment(fgTransfer);
                 break;
             case R.id.fg_home_menu2://按天包车
                 startFragment(new FgDaily());
@@ -126,6 +129,12 @@ public class FgHome extends BaseFragment implements View.OnClickListener, ZBaseA
         }
     }
 
+    private  void doUmengClickEvent(){
+        HashMap<String,String> map = new HashMap<String,String>();
+        map.put("source","首页");
+        MobclickAgent.onEvent(this.getActivity(), "click_city", map);
+    }
+
     @Override
     public void onItemClick(View view, int position) {
         HomeBean homeBean = adapter.getDatas().get(position);
@@ -133,6 +142,7 @@ public class FgHome extends BaseFragment implements View.OnClickListener, ZBaseA
         Bundle bundle = new Bundle();
         bundle.putString(FgSkuList.KEY_CITY_ID, homeBean.cityId);
         startFragment(fg, bundle);
+        doUmengClickEvent();
     }
 
     @Override
@@ -150,5 +160,18 @@ public class FgHome extends BaseFragment implements View.OnClickListener, ZBaseA
         }else{
             super.onDataRequestError(errorInfo, request);
         }
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onEvent(this.getActivity(),"launch_discovery");
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
     }
 }
