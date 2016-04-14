@@ -42,6 +42,7 @@ import com.hugboga.custom.data.request.RequestSubmitPick;
 import com.hugboga.custom.data.request.RequestSubmitRent;
 import com.hugboga.custom.data.request.RequestSubmitSend;
 import com.hugboga.custom.widget.DialogUtil;
+import com.umeng.analytics.MobclickAgent;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
@@ -52,6 +53,7 @@ import org.xutils.view.annotation.ViewInject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 
 import de.greenrobot.event.EventBus;
 
@@ -448,8 +450,12 @@ public class FgSubmit extends BaseFragment implements CompoundButton.OnCheckedCh
                 ArrayList<Integer> exceptId = new ArrayList<>();
                 exceptId.add(dailyBean.startCityID);
                 exceptId.add(dailyBean.terminalCityID);
+                bundle.putString("source","下单过程中");
                 bundle.putSerializable(FgChooseCity.KEY_CITY_EXCEPT_ID_LIST, exceptId);
                 startFragment(new FgChooseCity(), bundle);
+                HashMap<String,String> map = new HashMap<String,String>();
+                map.put("source", "下单过程中");
+                MobclickAgent.onEvent(getActivity(), "search_trigger", map);
                 break;
         }
     }
@@ -552,7 +558,24 @@ public class FgSubmit extends BaseFragment implements CompoundButton.OnCheckedCh
             return;
         }
         if(!UserEntity.getUser().isLogin(getActivity())){
-            startFragment(new FgLogin());
+            Bundle bundle = new Bundle();//用于统计
+            HashMap<String,String> map = new HashMap<String,String>();//用于统计
+            switch (mBusinessType) {
+                case Constants.BUSINESS_TYPE_PICK:
+                    bundle.putString("source","接机订单");
+                    map.put("source", "接机订单");
+                case Constants.BUSINESS_TYPE_SEND:
+                    bundle.putString("source","送机订单");
+                    map.put("source", "送机订单");
+                case Constants.BUSINESS_TYPE_DAILY:
+                    bundle.putString("source","按天包车");
+                    map.put("source", "按天包车");
+                case Constants.BUSINESS_TYPE_RENT:
+                    bundle.putString("source","单次接送");
+                    map.put("source", "单次接送");
+            }
+            startFragment(new FgLogin(), bundle);
+            MobclickAgent.onEvent(getActivity(), "login_trigger", map);
             return;
         }
         hotelPhoneAreaCodeStr = hotelPhoneAreaCodeStr.replace("+", "");

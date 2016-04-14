@@ -57,6 +57,7 @@ import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.UpdateResources;
 import com.hugboga.custom.widget.CircularImage;
+import com.umeng.analytics.MobclickAgent;
 import com.zhy.m.permission.MPermissions;
 import com.zhy.m.permission.PermissionDenied;
 import com.zhy.m.permission.PermissionGrant;
@@ -70,6 +71,7 @@ import org.xutils.x;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import cn.jpush.android.api.JPushInterface;
@@ -438,7 +440,7 @@ public class MainActivity extends BaseFragmentActivity
         switch (position) {
             case Constants.PERSONAL_CENTER_COUPON:
                 //我的优惠券
-                if (isLogin()) {
+                if (isLogin("个人中心首页")) {
                     startFragment(new FgCoupon());
                     UserEntity.getUser().setHasNewCoupon(false);
 //                    couponPoint.setVisibility(View.GONE);
@@ -458,7 +460,7 @@ public class MainActivity extends BaseFragmentActivity
                 break;
             case Constants.PERSONAL_CENTER_SETTING:
                 //我的设置
-                if (isLogin()) {
+                if (isLogin("个人中心首页")) {
 //                    versionPoint.setVisibility(View.GONE);
                     startFragment(new FgSetting());
                 }
@@ -473,15 +475,26 @@ public class MainActivity extends BaseFragmentActivity
 
     /**
      * 判断是否登录
-     *
+     * @param source 来源，用于统计
      * @return
      */
-    private boolean isLogin() {
+    private boolean isLogin(String source) {
         if (UserEntity.getUser().isLogin(this)) {
             return true;
         } else {
-            startFragment(new FgLogin());
-            return false;
+            if(!TextUtils.isEmpty(source)){
+                Bundle bundle = new Bundle();;
+                bundle.putString("source",source);
+                startFragment(new FgLogin(), bundle);
+
+                HashMap<String,String> map = new HashMap<String,String>();
+                map.put("source", source);
+                MobclickAgent.onEvent(MainActivity.this, "login_trigger", map);
+                return false;
+            }else{
+                startFragment(new FgLogin());
+                return false;
+            }
         }
     }
 
@@ -492,7 +505,7 @@ public class MainActivity extends BaseFragmentActivity
             case R.id.tv_modify_info:
             case R.id.my_icon_head:
             case R.id.tv_nickname:
-                if(isLogin()){
+                if(isLogin("个人中心首页")){
                     startFragment(new FgPersonInfo());
                 };
                 break;

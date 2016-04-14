@@ -18,10 +18,13 @@ import com.hugboga.custom.adapter.HomeAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.HomeBean;
 import com.hugboga.custom.data.request.RequestHome;
+import com.umeng.analytics.MobclickAgent;
 
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
+
+import java.util.HashMap;
 
 /**
  * 首页
@@ -101,7 +104,12 @@ public class FgHome extends BaseFragment implements View.OnClickListener, ZBaseA
             case R.id.header_right_btn:
                 Bundle bundle = new Bundle();
                 bundle.putInt(KEY_BUSINESS_TYPE, Constants.BUSINESS_TYPE_HOME);
+                bundle.putString("source","小搜索按钮");
                 startFragment(new FgChooseCity(), bundle);
+
+                HashMap<String,String> map = new HashMap<String,String>();
+                map.put("source", "小搜索按钮");
+                MobclickAgent.onEvent(getActivity(), "search_trigger", map);
                 break;
             case R.id.fg_home_menu1://中文接送机
                 startFragment(new FgTransfer());

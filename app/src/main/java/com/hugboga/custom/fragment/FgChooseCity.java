@@ -25,6 +25,7 @@ import com.hugboga.custom.utils.DBHelper;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.ToastUtils;
 import com.hugboga.custom.widget.SideBar;
+import com.umeng.analytics.MobclickAgent;
 
 import org.xutils.DbManager;
 import org.xutils.common.Callback;
@@ -36,6 +37,7 @@ import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -81,6 +83,7 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
     private ArrayList<CityBean> chooseCityList = new ArrayList<CityBean>();
     private ArrayList<Integer> exceptCityId = new ArrayList<>();
     private String from;
+    private String source = "";
     //    private DbUtils mDbUtils;
     private DbManager mDbManager;
     private SharedPre sharedPer;
@@ -96,6 +99,9 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
     public void onStart() {
         super.onStart();
         this.getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        HashMap<String,String> map = new HashMap<String,String>();
+        map.put("source", source);
+        MobclickAgent.onEvent(getActivity(), "search_launch", map);
     }
 
     protected void initView() {
@@ -133,6 +139,7 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
         from = getArguments().getString(KEY_FROM);
         cityId = getArguments().getInt(KEY_CITY_ID, -1);
         exceptCityId = (ArrayList<Integer>) getArguments().getSerializable(KEY_CITY_EXCEPT_ID_LIST);
+        source = getArguments().getString("source");
         editSearch.setOnKeyListener(this);
         editSearch.setOnEditorActionListener(this);
         editSearch.addTextChangedListener(this);
@@ -459,6 +466,28 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
     }
 
     @Override
+    public boolean onBackPressed() {
+        HashMap<String,String> map = new HashMap<String,String>();
+        map.put("source", source);
+        map.put("searchinput", editSearch.getText().toString().trim());
+        MobclickAgent.onEvent(getActivity(), "search_close", map);
+        return super.onBackPressed();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.header_left_btn:
+                HashMap<String,String> map = new HashMap<String,String>();
+                map.put("source", source);
+                map.put("searchinput", editSearch.getText().toString().trim());
+                MobclickAgent.onEvent(getActivity(), "search_close", map);
+                break;
+        }
+        super.onClick(v);
+    }
+
+    @Override
     public void onItemClick(AdapterView<?> parent, View view,
                             int position, long id) {
         Bundle bundle = new Bundle(getArguments());
@@ -466,6 +495,13 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
         if (cityBean.isNationality) {
             return;
         }
+
+        HashMap<String,String> map = new HashMap<String,String>();
+        map.put("source", source);
+        map.put("searchinput", editSearch.getText().toString().trim());
+        map.put("searchcity", cityBean.name);
+        MobclickAgent.onEvent(getActivity(), "search", map);
+
         //从首页进城市搜索，到城市sku列表
         if (getBusinessType() == Constants.BUSINESS_TYPE_HOME) {
             saveHistoryDate(cityBean);

@@ -13,6 +13,7 @@ import com.hugboga.custom.constants.ResourcesConstants;
 import com.hugboga.custom.data.bean.FlightBean;
 import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.bean.PromiseBean;
+import com.umeng.analytics.MobclickAgent;
 
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
@@ -20,6 +21,7 @@ import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * 接机填写行程
@@ -73,17 +75,24 @@ public class FgPick extends BaseFragment {
 
     @Event({R.id.pick_btn, R.id.pick_where_layout, R.id.pick_flight_layout, R.id.bottom_promise_layout, R.id.submit_order_tip})
     private void onClickView(View view) {
+        HashMap<String,String> map = new HashMap<String,String>();
+        Bundle bundle = new Bundle();
         switch (view.getId()) {
             case R.id.pick_flight_layout:
-                startFragment(new FgPickFlight());
+                bundle.putString("source","下单过程中");
+                startFragment(new FgPickFlight(),bundle);
+                map.put("source", "下单过程中");
+                MobclickAgent.onEvent(getActivity(), "search_trigger", map);
                 break;
             case R.id.pick_where_layout:
                 if (flightBean != null && flightBean.arrivalAirport != null) {
                     FgPoiSearch fg = new FgPoiSearch();
-                    Bundle bundle = new Bundle();
+                    bundle.putString("source","下单过程中");
                     bundle.putInt(FgPoiSearch.KEY_CITY_ID, flightBean.arrivalAirport.cityId);
                     bundle.putString(FgPoiSearch.KEY_LOCATION, flightBean.arrivalAirport.location);
                     startFragment(fg, bundle);
+                    map.put("source", "下单过程中");
+                    MobclickAgent.onEvent(getActivity(), "search_trigger", map);
                 } else {
                     Toast.makeText(getActivity(), "先选择乘坐航班", Toast.LENGTH_LONG).show();
                 }
@@ -92,7 +101,6 @@ public class FgPick extends BaseFragment {
                 showPromiseDialog();
                 break;
             case R.id.submit_order_tip:
-                Bundle bundle = new Bundle();
                 bundle.putString(FgWebInfo.WEB_URL, ResourcesConstants.H5_NOTICE);
                 startFragment(new FgWebInfo(), bundle);
                 break;

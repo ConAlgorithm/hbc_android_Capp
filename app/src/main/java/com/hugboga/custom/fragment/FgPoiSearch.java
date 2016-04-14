@@ -16,6 +16,7 @@ import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.request.RequestPoiSearch;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.widget.ZListView;
+import com.umeng.analytics.MobclickAgent;
 
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
@@ -23,6 +24,7 @@ import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -59,12 +61,13 @@ public class FgPoiSearch extends BaseFragment implements AdapterView.OnItemClick
     private String searchWord="";
     private SharedPre sharedPre;
     private ArrayList<String> placeHistoryArray;
-
+    private String source = "";
 
     @Override
     protected void initHeader() {
         cityId = getArguments().getInt(KEY_CITY_ID, -1);
         location = getArguments().getString(KEY_LOCATION);
+        source = getArguments().getString("source");
         sharedPre = new SharedPre(getActivity());
 //        fgTitle.setText("搜索目的地");
     }
@@ -72,6 +75,28 @@ public class FgPoiSearch extends BaseFragment implements AdapterView.OnItemClick
     @Override
     protected void initView() {
 
+    }
+
+    @Override
+    public boolean onBackPressed() {
+        HashMap<String,String> map = new HashMap<String,String>();
+        map.put("source", source);
+        map.put("searchinput", editSearch.getText().toString().trim());
+        MobclickAgent.onEvent(getActivity(), "search_close", map);
+        return super.onBackPressed();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.header_left_btn:
+                HashMap<String,String> map = new HashMap<String,String>();
+                map.put("source", source);
+                map.put("searchinput", editSearch.getText().toString().trim());
+                MobclickAgent.onEvent(getActivity(), "search_close", map);
+                break;
+        }
+        super.onClick(v);
     }
 
     @Override
@@ -223,6 +248,12 @@ public class FgPoiSearch extends BaseFragment implements AdapterView.OnItemClick
                 editSearch.setText(bean.placeName);
                 search();
             }else{
+                HashMap<String,String> map = new HashMap<String,String>();
+                map.put("source", source);
+                map.put("searchinput", editSearch.getText().toString().trim());
+                map.put("searchcity", bean.placeName);
+                MobclickAgent.onEvent(getActivity(), "search", map);
+
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(KEY_ARRIVAL, bean);
                 finishForResult(bundle);
@@ -280,5 +311,13 @@ public class FgPoiSearch extends BaseFragment implements AdapterView.OnItemClick
     public void onRefresh() {
         sortListView.state = ZListView.RELEASE_To_REFRESH;
         requestKeyword(0);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        HashMap<String,String> map = new HashMap<String,String>();
+        map.put("source", source);
+        MobclickAgent.onEvent(getActivity(), "search_launch", map);
     }
 }

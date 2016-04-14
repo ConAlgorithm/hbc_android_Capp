@@ -26,12 +26,14 @@ import com.hugboga.custom.data.request.RequestLogin;
 import com.hugboga.custom.data.request.RequestRegister;
 import com.hugboga.custom.data.request.RequestVerity;
 import com.hugboga.custom.widget.DialogUtil;
+import com.umeng.analytics.MobclickAgent;
 
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
+import java.util.HashMap;
 import java.util.regex.Pattern;
 
 import de.greenrobot.event.EventBus;
@@ -51,6 +53,7 @@ public class FgRegister extends BaseFragment {
     TextView getCodeBtn; //发送验证码按钮
     @ViewInject(R.id.register_time)
     TextView timeTextView; //验证码倒计时
+    private String source = "";
 
     String areaCode;
     String phone;
@@ -76,6 +79,10 @@ public class FgRegister extends BaseFragment {
                 bundle.putBoolean("isLogin", true);
                 EventBus.getDefault().post(
                         new EventAction(EventType.CLICK_USER_LOGIN));
+
+                HashMap<String,String> map = new HashMap<String,String>();
+                map.put("source", source);
+                MobclickAgent.onEvent(getActivity(), "regist_succeed", map);
                 finish();
             }
         } else if (request instanceof RequestVerity) {
@@ -101,6 +108,10 @@ public class FgRegister extends BaseFragment {
                 bundle.putBoolean("isLogin", true);
                 EventBus.getDefault().post(
                         new EventAction(EventType.CLICK_USER_LOGIN));
+
+                HashMap<String,String> map = new HashMap<String,String>();
+                map.put("source", source);
+                MobclickAgent.onEvent(getActivity(), "regist_succeed", map);
                 finish();
             }
         }
@@ -133,6 +144,9 @@ public class FgRegister extends BaseFragment {
     public void onStart() {
         super.onStart();
         this.getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        HashMap<String,String> map = new HashMap<String,String>();
+        map.put("source", source);
+        MobclickAgent.onEvent(getActivity(), "regist_launch", map);
     }
 
     @Override
@@ -208,6 +222,11 @@ public class FgRegister extends BaseFragment {
                 }
                 RequestRegister requestRegister = new RequestRegister(getActivity(), areaCode, phone, password, verity, null, channelInt);
                 requestData(requestRegister);
+
+                HashMap<String,String> map = new HashMap<String,String>();
+                map.put("source",source);
+                MobclickAgent.onEvent(getActivity(), "regist", map);
+
                 break;
             case R.id.register_login:
                 //跳转到登录
@@ -299,12 +318,12 @@ public class FgRegister extends BaseFragment {
             if (phone != null && !phone.isEmpty()) {
                 phoneEditText.setText(phone);
             }
+            source = getArguments().getString("source");
         }
     }
 
     @Override
     protected void initView() {
-
     }
 
     @Override
