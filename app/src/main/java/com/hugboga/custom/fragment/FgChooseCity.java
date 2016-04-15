@@ -245,6 +245,7 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
         if (chooseType == this.KEY_TYPE_SINGLE) {
             requestHotDate(getBusinessType(), groupId);
             requestHistoryDate(getBusinessType(), groupId);
+            requestLocationDate(getBusinessType(), groupId);
         }
         MLog.e("time=" + (System.currentTimeMillis() - time));
         return null;
@@ -345,6 +346,54 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
                 sourceDateList.add(0, hotCityDate.get(0));
                 adapter.setHotCityList(hotCityDate);
                 adapter.setIsFirstAccessHotCity(false);
+            }
+        } catch (DbException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 查询定位城市
+     * @param orderType
+     * @param groupId
+     */
+    private void requestLocationDate(int orderType, int groupId){
+        String cityHistoryStr = sharedPer.getStringValue("cityId");
+        Selector selector = null;
+        try {
+            selector = mDbManager.selector(CityBean.class);
+        } catch (DbException e) {
+            e.printStackTrace();
+        }
+        WhereBuilder where = WhereBuilder.b();
+        where.and("city_id", "=", cityHistoryStr);
+        selector.where(where);
+        if (orderType == Constants.BUSINESS_TYPE_DAILY) {
+            if (groupId == -1) {
+                selector.and("is_daily", "=", 1);
+            } else {
+                selector.and("group_id", "=", groupId);
+            }
+        } else if (orderType == Constants.BUSINESS_TYPE_RENT) {
+            selector.and("is_single", "=", 1);
+        } else if (orderType == Constants.BUSINESS_TYPE_PICK || orderType == Constants.BUSINESS_TYPE_SEND) {
+            selector.and("is_city_code", "=", 1);
+        } else if (orderType == Constants.BUSINESS_TYPE_HOME) {
+            WhereBuilder whereBuilder = WhereBuilder.b();
+            whereBuilder.and("place_name", "<>", "中国");
+            selector.and(whereBuilder);
+//            WhereBuilder whereBuilder2 = WhereBuilder.b();
+//            whereBuilder2.and("has_airport", "=", 1).or("is_daily", "=", 1).or("is_single", "=", 1);
+//            selector.and(whereBuilder2);
+        }
+
+        try {
+            CityBean bean = (CityBean)selector.findFirst();
+            if(bean != null){
+                bean.firstLetter = "定位城市";
+                bean.isFirst = true;
+                sourceDateList.add(0, bean);
+                adapter.setLocationCount(1);
             }
         } catch (DbException e) {
             e.printStackTrace();
@@ -595,6 +644,8 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
             sideBar.setVisibility(View.INVISIBLE);
             sourceDateList.clear();
             adapter.getHotCityList().clear();
+            adapter.setSearchHistoryCount(0);
+            adapter.setLocationCount(0);
             boolean isSetGuessYouWant = false;
 //            Set<CityBean> set = new LinkedHashSet<CityBean>();//去重复Set
             List<CityBean> dataList = requestDataByKeyword(getBusinessType(), groupId, editSearch.getText().toString().trim(), false);

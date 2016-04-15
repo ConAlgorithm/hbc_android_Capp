@@ -264,6 +264,7 @@ public class MainActivity extends BaseFragmentActivity
             String countryId = ((RequestUploadLocation) request).getData().countryId;
             String countryName = ((RequestUploadLocation) request).getData().countryName;
             LocationUtils.saveLocationCity(MainActivity.this,cityId,cityName,countryId,countryName);
+//            MLog.e("Location: cityId:"+cityId + ",  cityName:"+cityName);
         }
     }
 
@@ -719,7 +720,7 @@ public class MainActivity extends BaseFragmentActivity
                 if(timer == null) {
                     uploadLocation();
                 }
-                MLog.e(locStr);
+//                MLog.e(locStr);
             }
 
             @Override
