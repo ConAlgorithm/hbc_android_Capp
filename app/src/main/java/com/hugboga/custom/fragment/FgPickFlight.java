@@ -11,6 +11,8 @@ import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityBean;
+import com.hugboga.custom.widget.DialogUtil;
+import com.umeng.analytics.MobclickAgent;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import org.xutils.common.Callback;
@@ -19,6 +21,7 @@ import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
 import java.util.Calendar;
+import java.util.HashMap;
 
 /**
  * 接机填写选择航班
@@ -38,6 +41,7 @@ public class FgPickFlight extends BaseFragment {
     private TextView cityTo;
     @ViewInject(R.id.pick_flight_time2)
     private TextView time2;
+    private String source = "";
 
     private int cityFromId = -1;//起始城市ID
     private int cityToId = -1;//到达城市ID
@@ -88,16 +92,26 @@ public class FgPickFlight extends BaseFragment {
                 FgChooseCity city = new FgChooseCity();
                 Bundle bundle = new Bundle();
                 bundle.putString(KEY_FROM, "startAddress");
+                bundle.putString("source","下单过程中");
                 city.setArguments(bundle);
                 startFragment(city);
+
+                HashMap<String,String> map = new HashMap<String,String>();
+                map.put("source", "下单过程中");
+                MobclickAgent.onEvent(getActivity(), "search_trigger", map);
                 break;
             }
             case R.id.pick_flight_to: {
                 FgChooseCity city = new FgChooseCity();
                 Bundle bundle = new Bundle();
                 bundle.putString(KEY_FROM, "end");
+                bundle.putString("source","下单过程中");
                 city.setArguments(bundle);
                 startFragment(city);
+
+                HashMap<String,String> map = new HashMap<String,String>();
+                map.put("source", "下单过程中");
+                MobclickAgent.onEvent(getActivity(), "search_trigger", map);
                 break;
             }
             case R.id.pick_flight_time:
@@ -109,7 +123,6 @@ public class FgPickFlight extends BaseFragment {
 
         }
     }
-
 
     private void selectTap(int index) {
         View view = getView();
@@ -161,6 +174,7 @@ public class FgPickFlight extends BaseFragment {
         setProgressState(0);
         selectTap(0);
         fgTitle.setText(getString(R.string.title_pick_flight));
+        source = getArguments().getString("source");
 //        getView().findViewById(R.id.pick_btn).setBackgroundResource(Constants.BtnBg.get(mBusinessType));
 //        getView().findViewById(R.id.pick_btn2).setBackgroundResource(Constants.BtnBg.get(mBusinessType));
 
@@ -196,6 +210,7 @@ public class FgPickFlight extends BaseFragment {
         bundle.putString(FgPickFlightList.KEY_FLIGHT_NO, noStr.toUpperCase());
         bundle.putString(FgPickFlightList.KEY_FLIGHT_DATE, time1Str);
         bundle.putInt(FgPickFlightList.KEY_FLIGHT_TYPE, 1);
+        bundle.putString("source",source);
         fragment.setArguments(bundle);
         startFragment(fragment);
     }
@@ -225,6 +240,28 @@ public class FgPickFlight extends BaseFragment {
         bundle.putString(FgPickFlightList.KEY_FLIGHT_DATE, time2Str);
         fragment.setArguments(bundle);
         startFragment(fragment);
+    }
+
+    @Override
+    public boolean onBackPressed() {
+        HashMap<String,String> map = new HashMap<String,String>();
+        map.put("source", source);
+        map.put("searchinput", flightNo.getText().toString());
+        MobclickAgent.onEvent(getActivity(), "search_close", map);
+        return super.onBackPressed();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.header_left_btn:
+                HashMap<String,String> map = new HashMap<String,String>();
+                map.put("source", source);
+                map.put("searchinput", flightNo.getText().toString());
+                MobclickAgent.onEvent(getActivity(), "search_close", map);
+                break;
+        }
+        super.onClick(v);
     }
 
     public void showDaySelect(TextView textView) {

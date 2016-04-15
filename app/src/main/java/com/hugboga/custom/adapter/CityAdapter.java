@@ -44,13 +44,14 @@ public class CityAdapter extends BaseAdapter implements View.OnClickListener, On
     private SharedPre sharedPer;
     private static final int HISTORY_ITEM = 0;
     private static final int HOT_ITEM = 1;
-    private static final int LOCATION_ITEM = 2;
-    private static final int CITY_LIST_ITEM = 3;
+    private static final int CITY_LIST_ITEM = 2;
+    private static final int LOCATION_ITEM = 3;
     private String mBusinessType;
     private DbManager mDbManager;
     private boolean isFirstAccessHotCity = false;
     private List<CityBean> hotCityList = new ArrayList<CityBean>();;
     private int searchHistoryCount = 0;
+    private int locationCount = 0;
     private int chooseType = -1;
     private FgChooseCity fragment;
     private HotCityGridViewAdapter hotCityGridViewAdapter;
@@ -92,7 +93,8 @@ public class CityAdapter extends BaseAdapter implements View.OnClickListener, On
     }
 
     public Object getItem(int position) {
-        if (position == searchHistoryCount && hotCityList != null && hotCityList.size() != 0) {
+        if (locationCount > 0 ? position == searchHistoryCount + locationCount : position == searchHistoryCount
+                && hotCityList != null && hotCityList.size() != 0) {
             return hotCityList;
         } else {
             return list.get(position);
@@ -112,13 +114,14 @@ public class CityAdapter extends BaseAdapter implements View.OnClickListener, On
 			MLog.e("getViewTypeCount : 3");
 			return 3;
 		}*/
-        return 3;
+        return 4;
     }
 
     @Override
     public int getItemViewType(int position) {
 //		CityBean cityBean = list.get(position);
         CityBean cityBean = null;
+        MLog.e("why me position:" + position);
         if (getItem(position) instanceof CityBean) {
             cityBean = (CityBean) getItem(position);
         } else if (getItem(position) instanceof List) {
@@ -147,7 +150,7 @@ public class CityAdapter extends BaseAdapter implements View.OnClickListener, On
                 convertView = getHotCityView(position, convertView);
                 break;
             case LOCATION_ITEM:
-                convertView = getLocationCityView(position, convertView);
+                convertView = getAllCityListView(position, convertView, type);
                 break;
             case CITY_LIST_ITEM:
                 convertView = getAllCityListView(position, convertView, type);
@@ -156,10 +159,6 @@ public class CityAdapter extends BaseAdapter implements View.OnClickListener, On
         }
 //		MLog.e("position=" + position + " view=" + view + " viewHolder =" + viewHolder + " , list.size(): " + list.size());
         return convertView;
-    }
-
-    public View getHistorySearchView(final int position, View view, int type) {
-        return null;
     }
 
     public View getLocationCityView(final int position, View view){
@@ -351,9 +350,17 @@ public class CityAdapter extends BaseAdapter implements View.OnClickListener, On
                 if(searchHistoryCount > 0){
                     searchHistoryCount--;
                 }
-                if(position == 0 && searchHistoryCount > 0){
-                    list.get(0).firstLetter = "搜索历史";
-                    list.get(0).isFirst = true;
+
+                if(locationCount > 0){
+                    if(position == 1 && searchHistoryCount > 0){
+                        list.get(1).firstLetter = "搜索历史";
+                        list.get(1).isFirst = true;
+                    }
+                }else{
+                    if(position == 0 && searchHistoryCount > 0){
+                        list.get(0).firstLetter = "搜索历史";
+                        list.get(0).isFirst = true;
+                    }
                 }
                 break;
             }
@@ -436,5 +443,13 @@ public class CityAdapter extends BaseAdapter implements View.OnClickListener, On
 
     public void setChooseType(int chooseType) {
         this.chooseType = chooseType;
+    }
+
+    public int getLocationCount() {
+        return locationCount;
+    }
+
+    public void setLocationCount(int locationCount) {
+        this.locationCount = locationCount;
     }
 }

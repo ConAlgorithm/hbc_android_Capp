@@ -32,6 +32,7 @@ import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.widget.DialogUtil;
+import com.umeng.analytics.MobclickAgent;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
@@ -43,6 +44,7 @@ import org.xutils.view.annotation.ViewInject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 
 import de.greenrobot.event.EventBus;
 
@@ -207,9 +209,13 @@ public class FgSkuSubmit extends BaseFragment implements View.OnClickListener {
                 FgPoiSearch fg = new FgPoiSearch();
                 bundle = new Bundle();
                 bundle.putString(KEY_FROM, "from");
+                bundle.putString("source","下单过程中");
                 bundle.putInt(FgPoiSearch.KEY_CITY_ID, skuBean.depCityId);
                 bundle.putString(FgPoiSearch.KEY_LOCATION, cityBean.location);
                 startFragment(fg, bundle);
+                HashMap<String,String> map = new HashMap<String,String>();
+                map.put("source", "下单过程中");
+                MobclickAgent.onEvent(getActivity(), "search_trigger", map);
                 break;
             case R.id.sku_area_code://电话 区号
                 startFragment(new FgChooseCountry());
@@ -303,7 +309,13 @@ public class FgSkuSubmit extends BaseFragment implements View.OnClickListener {
                 RequestSubmitDaily request = new RequestSubmitDaily(getActivity(), orderBean);
                 requestData(request);
             }else{
-                startFragment(new FgLogin());
+                Bundle bundle = new Bundle();//用于统计
+                bundle.putString("source","SKU下单");
+                startFragment(new FgLogin(), bundle);
+
+                HashMap<String,String> map = new HashMap<String,String>();//用于统计
+                map.put("source", "SKU下单");
+                MobclickAgent.onEvent(getActivity(), "login_trigger", map);
             }
         }
 

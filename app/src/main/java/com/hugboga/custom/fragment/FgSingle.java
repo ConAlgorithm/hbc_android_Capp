@@ -14,6 +14,7 @@ import com.hugboga.custom.constants.ResourcesConstants;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.bean.PromiseBean;
+import com.umeng.analytics.MobclickAgent;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 
@@ -24,6 +25,7 @@ import org.xutils.view.annotation.ViewInject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 
 /**
  * 次租填写行程
@@ -77,18 +79,25 @@ public class FgSingle extends BaseFragment {
 
     @Event({R.id.send_btn, R.id.send_where_layout, R.id.send_to_layout, R.id.send_flight_layout, R.id.send_time_layout, R.id.bottom_promise_layout, R.id.submit_order_tip})
     private void onClickView(View view) {
+        HashMap<String,String> map = new HashMap<String,String>();
+        Bundle bundle = new Bundle();
         switch (view.getId()) {
             case R.id.send_flight_layout:
-                startFragment(new FgChooseCity());
+                bundle.putString("source","下单过程中");
+                startFragment(new FgChooseCity(), bundle);
+                map.put("source", "下单过程中");
+                MobclickAgent.onEvent(getActivity(), "search_trigger", map);
                 break;
             case R.id.send_where_layout:
                 if (cityBean != null) {
                     FgPoiSearch fg = new FgPoiSearch();
-                    Bundle bundle = new Bundle();
+                    bundle.putString("source","下单过程中");
                     bundle.putString(KEY_FROM, "from");
                     bundle.putInt(FgPoiSearch.KEY_CITY_ID, cityBean.cityId);
                     bundle.putString(FgPoiSearch.KEY_LOCATION, cityBean.location);
                     startFragment(fg, bundle);
+                    map.put("source", "下单过程中");
+                    MobclickAgent.onEvent(getActivity(), "search_trigger", map);
                 } else {
                     Toast.makeText(getActivity(), "先选择城市", Toast.LENGTH_LONG).show();
                 }
@@ -96,11 +105,13 @@ public class FgSingle extends BaseFragment {
             case R.id.send_to_layout:
                 if (cityBean != null) {
                     FgPoiSearch fg = new FgPoiSearch();
-                    Bundle bundle = new Bundle();
+                    bundle.putString("source","下单过程中");
                     bundle.putString(KEY_FROM, "to");
                     bundle.putInt(FgPoiSearch.KEY_CITY_ID, cityBean.cityId);
                     bundle.putString(FgPoiSearch.KEY_LOCATION, cityBean.location);
                     startFragment(fg, bundle);
+                    map.put("source", "下单过程中");
+                    MobclickAgent.onEvent(getActivity(), "search_trigger", map);
                 } else {
                     Toast.makeText(getActivity(), "先选择城市", Toast.LENGTH_LONG).show();
                 }
@@ -119,7 +130,6 @@ public class FgSingle extends BaseFragment {
                 startFgCar();
                 break;
             case R.id.submit_order_tip:
-                Bundle bundle = new Bundle();
                 bundle.putString(FgWebInfo.WEB_URL, ResourcesConstants.H5_NOTICE);
                 startFragment(new FgWebInfo(), bundle);
                 break;

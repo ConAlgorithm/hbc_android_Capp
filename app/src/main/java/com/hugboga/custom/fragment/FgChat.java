@@ -20,12 +20,14 @@ import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.parser.ParserChatInfo;
 import com.hugboga.custom.data.request.RequestChatList;
+import com.umeng.analytics.MobclickAgent;
 
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
+import java.util.HashMap;
 import java.util.List;
 
 import de.greenrobot.event.EventBus;
@@ -120,7 +122,13 @@ public class FgChat extends BaseFragment implements View.OnClickListener, ZBaseA
     private void onClickView(View view) {
         switch (view.getId()) {
             case R.id.login_btn:
-                startFragment(new FgLogin());
+                Bundle bundle = new Bundle();
+                bundle.putString("source","私聊页");
+                startFragment(new FgLogin(), bundle);
+
+                HashMap<String,String> map = new HashMap<String,String>();
+                map.put("source", "私聊页");
+                MobclickAgent.onEvent(getActivity(), "login_trigger", map);
                 break;
             case R.id.header_left_btn:
                 MLog.e("left  " + view);
