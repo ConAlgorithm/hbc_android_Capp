@@ -24,14 +24,11 @@ public class UserEntity {
     private boolean hasNewCoupon; //是否有新优惠券
     public boolean weakPassword;  //布尔值 是否弱密码
     public String weakPasswordMsg; //弱密码提示文案
-    public String imToken;//聊天token
+    private String imToken;//聊天token
 
     private UserEntity() {
     }
 
-    public String getImToken() {
-        return imToken;
-    }
 
     public static UserEntity getUser() {
         if (user == null) {
