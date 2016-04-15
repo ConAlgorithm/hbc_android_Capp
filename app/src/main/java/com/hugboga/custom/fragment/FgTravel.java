@@ -31,6 +31,7 @@ import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestTravel;
+import com.umeng.analytics.MobclickAgent;
 
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
@@ -305,7 +306,13 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, OnIt
                 reSetTabView(2);
                 break;
             case R.id.travel_login_btn:
-                startFragment(new FgLogin());
+                Bundle bundle = new Bundle();
+                bundle.putString("source","行程页");
+                startFragment(new FgLogin(),bundle);
+
+                HashMap<String,String> map = new HashMap<String,String>();
+                map.put("source", "行程页");
+                MobclickAgent.onEvent(getActivity(), "login_trigger", map);
                 break;
             default:
                 break;

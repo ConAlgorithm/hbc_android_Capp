@@ -18,6 +18,7 @@ import com.hugboga.custom.data.bean.DailyBean;
 import com.hugboga.custom.data.bean.PromiseBean;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.widget.DialogUtil;
+import com.umeng.analytics.MobclickAgent;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import org.xutils.common.Callback;
@@ -29,6 +30,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 
 /**
  * 市内包车2.2
@@ -115,7 +117,11 @@ public class FgDailyInTown extends BaseFragment implements CompoundButton.OnChec
             case R.id.daily_from_layout:
                 bundle = new Bundle();
                 bundle.putString(KEY_FROM, "startAddress");
+                bundle.putString("source","下单过程中");
                 startFragment(new FgChooseCity(), bundle);
+                HashMap<String,String> map = new HashMap<String,String>();
+                map.put("source", "下单过程中");
+                MobclickAgent.onEvent(getActivity(), "search_trigger", map);
                 break;
             case R.id.daily_start_layout:
             case R.id.daily_half_start:

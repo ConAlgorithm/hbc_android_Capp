@@ -17,6 +17,7 @@ import com.hugboga.custom.data.request.RequestFlightByCity;
 import com.hugboga.custom.data.request.RequestFlightByNo;
 import com.hugboga.custom.utils.DBHelper;
 import com.hugboga.custom.utils.DateUtils;
+import com.umeng.analytics.MobclickAgent;
 
 import org.xutils.DbManager;
 import org.xutils.common.Callback;
@@ -28,6 +29,7 @@ import org.xutils.view.annotation.ViewInject;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -54,11 +56,21 @@ public class FgPickFlightList extends BaseFragment implements AdapterView.OnItem
     private int flightFromCityId;
     private int flightToCityId;
     private DbManager mDbManager;
+    private String source = "";
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        HashMap<String,String> map = new HashMap<String,String>();
+        map.put("source", source);
+        MobclickAgent.onEvent(getActivity(), "search_launch", map);
+    }
 
     @Override
     protected void initHeader() {
         setProgressState(0);
         fgTitle.setText(getString(R.string.title_pick_flight_list));
+        source = getArguments().getString("source");
     }
 
     @Override
@@ -145,6 +157,13 @@ public class FgPickFlightList extends BaseFragment implements AdapterView.OnItem
             Toast.makeText(getActivity(), "机场信息未查到", Toast.LENGTH_LONG).show();
             return;
         }
+
+        HashMap<String,String> map = new HashMap<String,String>();
+        map.put("source", source);
+        map.put("searchinput", flightNo);
+        map.put("searchcity", bean.flightNo);
+        MobclickAgent.onEvent(getActivity(), "search", map);
+
         Bundle bundle = new Bundle();
         bundle.putSerializable(FgPickFlight.KEY_AIRPORT, bean);
         bundle.putString(KEY_FROM, "FlightList");

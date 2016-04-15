@@ -27,6 +27,8 @@ import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestLogin;
 import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.SharedPre;
+import com.hugboga.custom.widget.DialogUtil;
+import com.umeng.analytics.MobclickAgent;
 import com.hugboga.custom.utils.ToastUtils;
 import com.tencent.mm.sdk.constants.ConstantsAPI;
 import com.tencent.mm.sdk.modelbase.BaseReq;
@@ -41,6 +43,7 @@ import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
+import java.util.HashMap;
 import java.util.regex.Pattern;
 
 import de.greenrobot.event.EventBus;
@@ -72,6 +75,7 @@ public class FgLogin extends BaseFragment implements TextWatcher, IWXAPIEventHan
     String phone;
     String areaCode;
     private SharedPre sharedPre;
+    private String source = "";
 
     @Override
     protected void initHeader() {
@@ -85,6 +89,7 @@ public class FgLogin extends BaseFragment implements TextWatcher, IWXAPIEventHan
         if (getArguments() != null) {
             areaCode = getArguments().getString(KEY_AREA_CODE, "");
             phone = getArguments().getString(KEY_PHONE, "");
+            source = getArguments().getString("source", "");
         }
         sharedPre = new SharedPre(getActivity());
         if (TextUtils.isEmpty(areaCode)) {
@@ -164,6 +169,10 @@ public class FgLogin extends BaseFragment implements TextWatcher, IWXAPIEventHan
     public void onStart() {
         super.onStart();
         this.getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+
+        HashMap<String,String> map = new HashMap<String,String>();
+        map.put("source", source);
+        MobclickAgent.onEvent(getActivity(), "login_launch", map);
     }
 
     @Override
@@ -178,12 +187,20 @@ public class FgLogin extends BaseFragment implements TextWatcher, IWXAPIEventHan
             connectIM();
             EventBus.getDefault().post(
                     new EventAction(EventType.CLICK_USER_LOGIN));
+            HashMap<String,String> map = new HashMap<String,String>();
+            map.put("source", source);
+            map.put("loginstyle", "手机号");
+            map.put("head", !TextUtils.isEmpty(user.avatar)? "是":"否");
+            map.put("nickname", !TextUtils.isEmpty(user.nickname)? "是":"否");
+            map.put("phone", !TextUtils.isEmpty(user.mobile)? "是":"否");
+
+            MobclickAgent.onEvent(getActivity(), "login_succeed", map);
             finishForResult(new Bundle());
         }
     }
 
     private void connectIM() {
-        new IMUtil(getActivity()).conn(UserEntity.getUser().imToken);
+        new IMUtil(getActivity()).conn(UserEntity.getUser().getImToken(getActivity()));
     }
 
     IWXAPI wxapi;
@@ -225,7 +242,15 @@ public class FgLogin extends BaseFragment implements TextWatcher, IWXAPIEventHan
                 Bundle bundle2 = new Bundle();
                 bundle2.putString("areaCode", areaCode);
                 bundle2.putString("phone", phone);
+                if(!TextUtils.isEmpty(source)){
+                    bundle2.putString("source", source);
+                }
                 startFragment(new FgRegister(), bundle2);
+
+                HashMap<String,String> map = new HashMap<String,String>();
+                map.put("source", source);
+                MobclickAgent.onEvent(getActivity(), "regist_trigger", map);
+
                 break;
             case R.id.change_mobile_diepwd:
                 //忘记密码
@@ -282,6 +307,10 @@ public class FgLogin extends BaseFragment implements TextWatcher, IWXAPIEventHan
 
         RequestLogin request = new RequestLogin(getActivity(), areaCode, phone, password);
         requestData(request);
+
+        HashMap<String,String> map = new HashMap<String,String>();
+        map.put("source", source);
+        MobclickAgent.onEvent(getActivity(), "login_phone", map);
     }
 
     @Override
@@ -299,6 +328,26 @@ public class FgLogin extends BaseFragment implements TextWatcher, IWXAPIEventHan
 
     }
 
+    @Override
+    public boolean onBackPressed() {
+        HashMap<String,String> map = new HashMap<String,String>();
+        map.put("source", source);
+        MobclickAgent.onEvent(getActivity(), "login_close", map);
+        return super.onBackPressed();
+    }
+
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.header_left_btn:
+                HashMap<String,String> map = new HashMap<String,String>();
+                map.put("source", source);
+                MobclickAgent.onEvent(getActivity(), "login_close", map);
+                break;
+        }
+        super.onClick(v);
+    }
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
 

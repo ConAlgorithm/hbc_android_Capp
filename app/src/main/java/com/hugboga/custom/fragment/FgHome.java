@@ -106,7 +106,12 @@ public class FgHome extends BaseFragment implements View.OnClickListener, ZBaseA
                 break;
             case R.id.header_right_btn:
                 bundle.putInt(KEY_BUSINESS_TYPE, Constants.BUSINESS_TYPE_HOME);
+                bundle.putString("source","小搜索按钮");
                 startFragment(new FgChooseCity(), bundle);
+
+                HashMap<String,String> map = new HashMap<String,String>();
+                map.put("source", "小搜索按钮");
+                MobclickAgent.onEvent(getActivity(), "search_trigger", map);
                 break;
             case R.id.fg_home_menu1://中文接送机
                 FgTransfer  fgTransfer = new FgTransfer();

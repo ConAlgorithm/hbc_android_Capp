@@ -17,6 +17,7 @@ import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.DailyBean;
 import com.hugboga.custom.data.bean.PromiseBean;
 import com.hugboga.custom.utils.DateUtils;
+import com.umeng.analytics.MobclickAgent;
 
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
@@ -28,6 +29,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 
 /**
  * 夸城市包车
@@ -106,18 +108,25 @@ public class FgDailyOutTown extends BaseFragment {
     })
     private void onClickView(View view) {
         Bundle bundle;
+        HashMap<String,String> map = new HashMap<String,String>();
         switch (view.getId()) {
             case R.id.daily_from_layout:
                 bundle = new Bundle();
                 bundle.putString(KEY_FROM, "startAddress");
+                bundle.putString("source","下单过程中");
                 startFragment(new FgChooseCity(), bundle);
+                map.put("source", "下单过程中");
+                MobclickAgent.onEvent(getActivity(), "search_trigger", map);
                 break;
             case R.id.daily_to_layout:
                 if (startBean != null) {
                     bundle = new Bundle();
                     bundle.putString(KEY_FROM, "endAddress");
+                    bundle.putString("source","下单过程中");
                     bundle.putInt(FgChooseCity.KEY_CITY_ID, startBean.cityId);
                     startFragment(new FgChooseCity(), bundle);
+                    map.put("source", "下单过程中");
+                    MobclickAgent.onEvent(getActivity(), "search_trigger", map);
                 } else {
                     Toast.makeText(getActivity(), "先选择起始城市", Toast.LENGTH_LONG).show();
                 }
