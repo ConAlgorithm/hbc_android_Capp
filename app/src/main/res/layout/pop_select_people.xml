@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:gravity="bottom"
+    android:background="@color/basic_white"
     android:layout_height="match_parent">
 
 
@@ -49,15 +50,17 @@
     </RelativeLayout>
 
     <LinearLayout
+        android:id="@+id/mans_layout"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:background="@color/basic_white"
-        android:layout_height="300dp">
+        android:layout_height="200dp">
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_weight="1"
             android:gravity="center"
+            android:background="@color/basic_white"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <TextView
@@ -66,28 +69,29 @@
                 android:layout_centerVertical="true"
                 android:textColor="@color/basic_black"
                 android:text="@string/select_city_man"
+                android:background="@color/basic_white"
                 android:gravity="center"
                 android:textSize="20sp"
                 android:layout_alignParentLeft="true"/>
 
-            <ListView
+            <NumberPicker
                 android:id="@+id/man_list"
-                android:listSelector="#00000000"
                 android:layout_width="match_parent"
-                android:divider="@null"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent" />
 
         </LinearLayout>
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_weight="1"
+            android:background="@color/basic_white"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <LinearLayout
                 android:orientation="horizontal"
                 android:gravity="center"
                 android:layout_width="match_parent"
+                android:background="@color/basic_white"
                 android:layout_height="50dp">
                 <TextView
                     android:layout_width="wrap_content"
@@ -109,14 +113,109 @@
                     android:layout_alignParentLeft="true"/>
             </LinearLayout>
 
-            <ListView
+            <NumberPicker
                 android:id="@+id/child_list"
-                android:listSelector="#00000000"
                 android:layout_width="match_parent"
-                android:divider="@null"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent" />
 
         </LinearLayout>
-    </LinearLayout>
 
+
+    </LinearLayout>
+    <NumberPicker
+        android:id="@+id/baggage_list"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <LinearLayout
+        android:id="@+id/scope_layout"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:background="@color/basic_white"
+        android:layout_height="wrap_content">
+            <LinearLayout
+                android:id="@+id/scope_layout_in"
+                android:layout_margin="15dp"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:background="@color/basic_white"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/in_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/basic_black"
+                    android:text="@string/scope_in"
+                    android:gravity="center"
+                    android:textSize="20sp"
+                    android:layout_alignParentLeft="true"/>
+                <TextView
+                    android:id="@+id/in_tips"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/basic_black"
+                    android:text="@string/scope_tips_city"
+                    android:gravity="center|bottom"
+                    android:textSize="15sp"/>
+            </LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:background="@color/basic_commend_color"
+            android:layout_height="1dp" />
+        <LinearLayout
+            android:id="@+id/scope_layout_out"
+            android:layout_margin="15dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:background="@color/basic_white"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/out_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:textColor="@color/basic_black"
+                android:text="@string/scope_around"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:layout_alignParentLeft="true"/>
+            <TextView
+                android:id="@+id/out_tips"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:textColor="@color/basic_black"
+                android:text="@string/scope_tips_city"
+                android:gravity="center|bottom"
+                android:textSize="15sp"/>
+        </LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:background="@color/basic_commend_color"
+            android:layout_height="1dp" />
+        <LinearLayout
+            android:id="@+id/scope_layout_other"
+            android:layout_margin="15dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:background="@color/basic_white"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/other_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:textColor="@color/basic_black"
+                android:text="@string/scope_other"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:layout_alignParentLeft="true"/>
+
+        </LinearLayout>
+        </LinearLayout>
 </LinearLayout>

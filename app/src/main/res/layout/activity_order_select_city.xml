@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:background="#e7e7e7"
+    android:layout_height="match_parent">>
+<ScrollView
     android:orientation="vertical" android:layout_width="match_parent"
     android:background="#e7e7e7"
     android:layout_height="match_parent">>
@@ -49,6 +53,7 @@
             android:textSize="15sp"
             android:layout_marginLeft="20dp"
             android:gravity="center"
+            android:checked="true"
             android:button="@drawable/radiobtn_travel"
             android:text="@string/full_day_travel"
             android:layout_height="wrap_content"/>
@@ -64,7 +69,7 @@
             android:background="@null"
             android:layout_height="wrap_content"/>
     </RadioGroup>
-    <LinearLayout
+    <RelativeLayout
         android:layout_margin="15dp"
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -72,6 +77,7 @@
         android:layout_height="50dp">
 
         <TextView
+            android:id="@+id/people_left"
             android:layout_width="wrap_content"
             android:textColor="@color/basic_black"
             android:textSize="15sp"
@@ -80,16 +86,32 @@
             android:text="@string/people_num_left"
             android:layout_height="50dp"/>
 
+        <ImageView
+            android:id="@+id/child_no_confirm_click"
+            android:layout_width="wrap_content"
+            android:textColor="@color/basic_black"
+            android:textSize="15sp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="20dp"
+            android:gravity="center"
+            android:src="@mipmap/icon_pay1"
+            android:layout_height="50dp"/>
+
         <TextView android:id="@+id/people_text_click"
             android:layout_width="match_parent"
             android:textColor="@color/basic_black"
+            android:layout_toRightOf="@id/people_left"
+            android:layout_toLeftOf="@id/child_no_confirm_click"
             android:textSize="15sp"
             android:layout_marginLeft="20dp"
             android:text="@string/select_people_tips"
-            android:gravity="left"
+            android:gravity="left|center_vertical"
             android:background="@null"
             android:layout_height="50dp"/>
-    </LinearLayout>
+
+    </RelativeLayout>
 
 
     <RelativeLayout
@@ -100,10 +122,11 @@
         android:layout_height="wrap_content">
 
         <LinearLayout
-            android:layout_toLeftOf="@+id/child_no_confirm_click"
             android:id="@+id/show_child_seat_layout"
             android:orientation="horizontal"
-            android:gravity="center"
+            android:visibility="gone"
+            android:layout_marginLeft="25dp"
+            android:gravity="left|center_vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -111,7 +134,6 @@
                 android:layout_width="wrap_content"
                 android:textColor="@color/basic_black"
                 android:textSize="15sp"
-                android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:gravity="center"
                 android:text="@string/child_seat"
@@ -128,6 +150,7 @@
                 android:textColor="@color/basic_black"
                 android:textSize="15sp"
                 android:gravity="center"
+                android:id="@+id/minus"
                 android:text="-"
                 android:layout_height="30dp"/>
             <TextView
@@ -139,7 +162,7 @@
                 android:layout_marginRight="5dp"
                 android:layout_height="25dp"/>
             <TextView android:id="@+id/child_text"
-                android:layout_width="wrap_content"
+                android:layout_width="60dp"
                 android:textColor="@color/basic_black"
                 android:textSize="15sp"
                 android:gravity="center"
@@ -155,6 +178,7 @@
                 android:layout_marginRight="5dp"
                 android:layout_height="25dp"/>
             <TextView
+                android:id="@+id/add"
                 android:layout_width="30dp"
                 android:textColor="@color/basic_black"
                 android:textSize="15sp"
@@ -163,18 +187,6 @@
                 android:layout_height="30dp"/>
             </LinearLayout>
         </LinearLayout>
-        <TextView
-            android:id="@+id/child_no_confirm_click"
-            android:layout_width="wrap_content"
-            android:textColor="@color/basic_black"
-            android:textSize="15sp"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginLeft="20dp"
-            android:gravity="center"
-            android:drawableRight="@mipmap/icon_pay1"
-            android:text="@string/no_confirm"
-            android:layout_height="50dp"/>
 
     </RelativeLayout>
 
@@ -182,7 +194,7 @@
 
 
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_margin="15dp"
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -190,52 +202,58 @@
         android:layout_height="50dp">
 
         <TextView
+            android:id="@+id/baggage_left"
             android:layout_width="wrap_content"
             android:textColor="@color/basic_black"
             android:textSize="15sp"
+            android:minEms="4"
             android:layout_marginLeft="20dp"
-            android:gravity="center"
+            android:gravity="left|center_vertical"
             android:text="@string/baggage_nums"
             android:layout_height="50dp"/>
 
-        <TextView android:id="@+id/baggage_text_click"
-            android:layout_width="match_parent"
-            android:textColor="@color/basic_black"
-            android:textSize="15sp"
-            android:layout_marginLeft="20dp"
-            android:text="@string/select_baggage_tips"
-            android:gravity="left"
-            android:background="@null"
-            android:layout_height="50dp"/>
-    </LinearLayout>
-
-    <RelativeLayout
-        android:layout_marginRight="15dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
+        <ImageView
             android:id="@+id/baggage_no_confirm_click"
             android:layout_width="wrap_content"
             android:textColor="@color/basic_black"
             android:textSize="15sp"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
             android:layout_marginLeft="20dp"
             android:gravity="center"
-            android:drawableRight="@mipmap/icon_pay1"
-            android:text="@string/no_confirm"
+            android:src="@mipmap/icon_pay1"
             android:layout_height="50dp"/>
 
-        <TextView
+        <TextView android:id="@+id/baggage_text_click"
+            android:layout_width="match_parent"
+            android:textColor="@color/basic_black"
+            android:textSize="15sp"
+            android:layout_marginRight="10dp"
             android:layout_toLeftOf="@id/baggage_no_confirm_click"
+            android:layout_toRightOf="@+id/baggage_left"
+            android:layout_marginLeft="20dp"
+            android:text="@string/select_baggage_tips"
+            android:gravity="left|center_vertical"
+            android:background="@null"
+            android:layout_height="50dp"/>
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_marginRight="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
             android:layout_width="match_parent"
             android:textColor="@color/basic_black"
             android:textSize="15sp"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="40dp"
             android:gravity="left|center_vertical"
             android:text="@string/baggage_size"
-            android:layout_height="50dp"/>
+            android:layout_height="wrap_content"/>
 
     </RelativeLayout>
 
@@ -305,6 +323,8 @@
 
 
     <LinearLayout
+        android:id="@+id/half_day_show"
+        android:visibility="gone"
         android:layout_margin="15dp"
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -344,3 +364,4 @@
 
 </LinearLayout>
     </ScrollView>
+    </LinearLayout>

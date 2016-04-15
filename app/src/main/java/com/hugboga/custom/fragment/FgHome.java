@@ -115,8 +115,9 @@ public class FgHome extends BaseFragment implements View.OnClickListener, ZBaseA
                 startFragment(fgTransfer);
                 break;
             case R.id.fg_home_menu2://按天包车
-                startActivity(new Intent(this.getActivity(), OrderSelectCityActivity.class));
-//                startFragment(new FgDaily());
+//                startActivity(new Intent(this.getActivity(), OrderSelectCityActivity.class));
+                startFragment(new FgOrderSelectCity());
+//                startFragment(new FgDaily());fghstartFragment(new FgOrderSelectCity());
                 break;
             case R.id.fg_home_menu3://单次接送
                 startFragment(new FgSingle());

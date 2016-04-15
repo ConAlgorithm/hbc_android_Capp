@@ -514,4 +514,16 @@ public class DateUtils {
         calendar.add(Calendar.DAY_OF_MONTH, days);
         return calendar.getTime();
     }
+
+
+    public static int compareDate(String startDate,String endDate){
+        try {
+            Date sDate = getDateByStr(startDate, new SimpleDateFormat("yyyy-MM-dd"));
+            Date eDate = getDateByStr(endDate, new SimpleDateFormat("yyyy-MM-dd"));
+            return sDate.compareTo(eDate);
+        }catch (Exception e){
+            e.printStackTrace();
+            return 0;
+        }
+    }
 }

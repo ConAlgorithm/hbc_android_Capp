@@ -276,4 +276,17 @@
     <string name="select_city_child">儿童</string>
     <string name="select_city_child_12">(12岁及以下)</string>
 
+    <string name="select_city_man_child_num">成人%1$s/儿童%2$s</string>
+    <string name="select_city_baggage_num">托运行李%1$s</string>
+
+    <string name="select_scope">请选择包车游玩范围</string>
+
+    <string name="scope_in">%1$s,市内游玩</string>
+    <string name="scope_around">%1$s,周边游完</string>
+    <string name="scope_other">住在其他城市</string>
+    <string name="scope_other_end">在其它城市结束游城</string>
+    <string name="scope_tips_city">包括:%1$s</string>
+
+    <string name="start_end_error">开始日期不能大于结束日期</string>
+
 </resources>

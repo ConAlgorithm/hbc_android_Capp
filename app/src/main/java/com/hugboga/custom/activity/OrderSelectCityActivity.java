@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.huangbaoche.hbcframe.activity.BaseFragmentActivity;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.OrderSelectCityAdapter;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.fragment.FgChooseCity;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
@@ -141,6 +142,7 @@ public class OrderSelectCityActivity extends BaseFragmentActivity {
         }
     }
 
+    public static String KEY_BUSINESS_TYPE = "key_business_Type";
     @OnClick({R.id.header_left_btn, R.id.start_city_click, R.id.people_text_click, R.id.show_child_seat_layout, R.id.child_no_confirm_click, R.id.baggage_text_click, R.id.baggage_no_confirm_click, R.id.start_layout_click, R.id.end_layout_click, R.id.go_city_text_click, R.id.next_btn_click})
     public void onClick(View view) {
         switch (view.getId()) {
@@ -148,7 +150,9 @@ public class OrderSelectCityActivity extends BaseFragmentActivity {
                 finish();
                 break;
             case R.id.start_city_click:
-                startFragment(new FgChooseCity());
+                Bundle bundle = new Bundle();
+                bundle.putInt(KEY_BUSINESS_TYPE, Constants.BUSINESS_TYPE_HOME);
+                startFragment(new FgChooseCity(), bundle);
                 break;
             case R.id.people_text_click:
                 showSelectPeoplePop();
