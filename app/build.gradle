@@ -237,4 +237,5 @@ dependencies {
     compile 'com.zhy:mpermission-api:1.0.0'
     compile 'com.umeng.analytics:analytics:latest.integration'
     compile 'com.jakewharton:butterknife:7.0.0'
+    compile 'com.google.code.gson:gson:2.6.2'
 }
