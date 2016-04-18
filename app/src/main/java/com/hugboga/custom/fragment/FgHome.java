@@ -100,6 +100,7 @@ public class FgHome extends BaseFragment implements View.OnClickListener, ZBaseA
     public void onClick(View v) {
         MLog.e("onClick=" + v);
         Bundle bundle = new Bundle();
+        HashMap<String,String> map = new HashMap<String,String>();
         switch (v.getId()) {
             case R.id.header_left_btn:
                 ((MainActivity) getActivity()).openDrawer();
@@ -109,25 +110,39 @@ public class FgHome extends BaseFragment implements View.OnClickListener, ZBaseA
                 bundle.putString("source","小搜索按钮");
                 startFragment(new FgChooseCity(), bundle);
 
-                HashMap<String,String> map = new HashMap<String,String>();
                 map.put("source", "小搜索按钮");
                 MobclickAgent.onEvent(getActivity(), "search_trigger", map);
                 break;
             case R.id.fg_home_menu1://中文接送机
-                FgTransfer  fgTransfer = new FgTransfer();
-                bundle.putString("umeng_from","首页");
+                FgTransfer fgTransfer = new FgTransfer();
+                bundle.putString("source","首页");
                 fgTransfer.setArguments(bundle);
-                startFragment(fgTransfer);
+                startFragment(fgTransfer, bundle);
+
+                map.put("source", "首页");
+                MobclickAgent.onEvent(getActivity(), "chose_pndairport", map);
                 break;
             case R.id.fg_home_menu2://按天包车
 //                startActivity(new Intent(this.getActivity(), OrderSelectCityActivity.class));
-                startFragment(new FgOrderSelectCity());
+                FgOrderSelectCity fgOrderSelectCity = new FgOrderSelectCity();
+                bundle.putString("source","首页");
+                fgOrderSelectCity.setArguments(bundle);
+                startFragment(fgOrderSelectCity, bundle);
+
+                map.put("source", "首页");
+                MobclickAgent.onEvent(getActivity(), "chose_oneday", map);
 //                startFragment(new FgDaily());fghstartFragment(new FgOrderSelectCity());
                 break;
             case R.id.fg_home_menu3://单次接送
-                startFragment(new FgSingle());
+                FgSingle fgSingle = new FgSingle();
+                bundle.putString("source","首页");
+                fgSingle.setArguments(bundle);
+                startFragment(new FgSingle(), bundle);
+
+                map.put("source", "首页");
+                MobclickAgent.onEvent(getActivity(), "chose_oneway", map);
                 break;
-            case R.id.home_empty_refresh://单次接送
+            case R.id.home_empty_refresh:
                 recyclerView.showPageFirst();
                 break;
         }

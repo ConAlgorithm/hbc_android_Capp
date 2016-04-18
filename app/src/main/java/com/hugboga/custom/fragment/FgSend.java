@@ -15,6 +15,7 @@ import com.hugboga.custom.constants.ResourcesConstants;
 import com.hugboga.custom.data.bean.AirPort;
 import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.bean.PromiseBean;
+import com.umeng.analytics.MobclickAgent;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
@@ -26,6 +27,7 @@ import org.xutils.view.annotation.ViewInject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 
 /**
  * 送机填写行程
@@ -147,8 +149,13 @@ public class FgSend extends BaseFragment {
         bundle.putSerializable(FgCar.KEY_AIRPORT, airPortBean);
         bundle.putSerializable(FgCar.KEY_ARRIVAL, poiBean);
         bundle.putString(FgCar.KEY_TIME, serverDate + " " + serverTime);
+        bundle.putString("source", source);
         fg.setArguments(bundle);
         startFragment(fg);
+
+        HashMap<String,String> map = new HashMap<String,String>();
+        map.put("source", source);
+        MobclickAgent.onEvent(getActivity(), "chosecar_dropoff", map);
     }
 
     @Override
@@ -185,6 +192,9 @@ public class FgSend extends BaseFragment {
 //		fgRightBtn.setVisibility(View.VISIBLE);
 //		setProgressState(0);
 //		fgTitle.setText(getString(R.string.title_send));
+        if (getArguments() != null) {
+            source = getArguments().getString("source","");
+        }
     }
 
 

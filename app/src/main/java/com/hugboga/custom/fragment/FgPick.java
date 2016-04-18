@@ -56,6 +56,9 @@ public class FgPick extends BaseFragment {
     protected void initHeader() {
 //		fgTitle.setText(getString(R.string.title_pick));
 //		setProgressState(0);
+        if (getArguments() != null) {
+            source = getArguments().getString("source","");
+        }
     }
 
     protected void initView() {
@@ -143,10 +146,13 @@ public class FgPick extends BaseFragment {
         Bundle bundle = new Bundle();
         bundle.putSerializable(FgCar.KEY_FLIGHT, flightBean);
         bundle.putSerializable(FgCar.KEY_ARRIVAL, poiBean);
-        bundle.putString("umeng_from",umeng_from);
-        fg.setArguments(bundle);
-        startFragment(fg);
+        bundle.putString("source", source);
+        startFragment(fg, bundle);
+        HashMap<String,String> map = new HashMap<String,String>();
+        map.put("source", source);
+        MobclickAgent.onEvent(getActivity(), "chosecar_pickup", map);
     }
+
 
     @Override
     public int getBusinessType() {

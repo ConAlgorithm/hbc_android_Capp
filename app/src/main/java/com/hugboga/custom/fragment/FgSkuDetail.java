@@ -12,6 +12,7 @@ import com.huangbaoche.hbcframe.util.MLog;
 import com.huangbaoche.hbcframe.util.WXShareUtils;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.widget.DialogUtil;
@@ -36,6 +37,7 @@ public class FgSkuDetail extends FgWebInfo {
     public static final String WEB_SKU = "web_sku";
     public static final String WEB_CITY = "web_city";
     private SkuItemBean skuItemBean;//sku详情
+    private CityBean cityBean;
 
     @Override
     protected void initView() {
@@ -43,6 +45,7 @@ public class FgSkuDetail extends FgWebInfo {
         getView().findViewById(R.id.header_right_btn).setVisibility(WXShareUtils.getInstance(getActivity()).isInstall(false)?View.VISIBLE:View.GONE);
         if(this.getArguments()!=null){
             skuItemBean =  (SkuItemBean)getArguments().getSerializable(WEB_SKU);
+            cityBean =  (CityBean)getArguments().getSerializable(WEB_CITY);
         }
     }
 
@@ -66,7 +69,12 @@ public class FgSkuDetail extends FgWebInfo {
                 if(getArguments()!=null){
                     bundle.putAll(getArguments());
                 }
-                startFragment(new FgSkuSubmit(),bundle);
+                startFragment(new FgSkuSubmit(), bundle);
+
+                HashMap<String,String> map = new HashMap<String, String>();
+                map.put("routecity", cityBean.name);
+                map.put("routename", skuItemBean.goodsName);
+                MobclickAgent.onEventValue(this.getActivity(),"chose_route",map,1);
                 break;
         }
     }

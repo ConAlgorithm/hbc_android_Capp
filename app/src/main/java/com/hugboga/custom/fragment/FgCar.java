@@ -2,6 +2,7 @@ package com.hugboga.custom.fragment;
 
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
@@ -31,6 +32,7 @@ import com.hugboga.custom.data.request.RequestCheckPriceForTransfer;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.JazzyViewPager;
+import com.umeng.analytics.MobclickAgent;
 
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
@@ -38,6 +40,7 @@ import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 
 
@@ -129,6 +132,9 @@ public class FgCar extends BaseFragment implements ViewPager.OnPageChangeListene
         setProgressState(1);
         fgTitle.setText(getString(Constants.TitleMap.get(mGoodsType)));
         mDialogUtil = DialogUtil.getInstance(getActivity());
+        if(getArguments() != null){
+            source = getArguments().getString("source","");
+        }
     }
 
     @Override
@@ -293,8 +299,28 @@ public class FgCar extends BaseFragment implements ViewPager.OnPageChangeListene
                 bundle.putDouble(KEY_DISTANCE, distance);
                 bundle.putBoolean(KEY_NEED_CHILDREN_SEAT, needChildrenSeat);
                 bundle.putBoolean(KEY_NEED_BANNER, needBanner);
-                bundle.putString("umeng_from",umeng_from);
+                bundle.putString("source", source);
                 startFragment(fg, bundle);
+
+                HashMap<String,String> map = new HashMap<String,String>();
+                map.put("source", source);
+//                map.put("source", carBean.);
+                String type = "";
+                switch (mBusinessType) {
+                    case Constants.BUSINESS_TYPE_PICK:
+                        type = "carnext_pickup";
+                        break;
+                    case Constants.BUSINESS_TYPE_SEND:
+                        type = "carnext_dropoff";
+                        break;
+                    case Constants.BUSINESS_TYPE_DAILY:
+                        type = "carnext_oneday";
+                        break;
+                    case Constants.BUSINESS_TYPE_RENT:
+                        type = "carnext_oneway";
+                        break;
+                }
+                MobclickAgent.onEvent(getActivity(), type, map);
                 break;
             case R.id.car_price_info:
                 FgWebInfo fgWebInfo = new FgWebInfo();
