@@ -1,6 +1,7 @@
 package com.hugboga.custom.fragment;
 
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +14,12 @@ import android.widget.TextView;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
+import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
+import com.hugboga.custom.adapter.CarViewpagerAdapter;
+import com.hugboga.custom.constants.CarTypeEnum;
+import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.bean.CarBean;
 import com.hugboga.custom.data.bean.CarInfoBean;
 import com.hugboga.custom.data.bean.DayQuoteBean;
 import com.hugboga.custom.data.bean.SelectCarBean;
@@ -26,6 +32,7 @@ import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -36,7 +43,7 @@ import butterknife.OnClick;
  * Created by dyt on 16/4/16.
  */
 @ContentView(R.layout.activity_select_car)
-public class FGSelectCar extends BaseFragment {
+public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeListener {
 
     @Bind(R.id.header_left_btn)
     ImageView headerLeftBtn;
@@ -133,11 +140,20 @@ public class FGSelectCar extends BaseFragment {
     public String passCities = "1_1_204,1_1_2042";
     public String channelId = "1925283890";
 
+    CarViewpagerAdapter mAdapter;
+    private ArrayList<CarBean> carList = new ArrayList<CarBean>();
     @Override
     protected void initView() {
         RequestGetCarInfo requestGetCarInfo = new RequestGetCarInfo(this.getActivity(),
                 startCityId, endCityId, startDate, endDate, halfDay, adultNum, childrenNum, childseatNum, luggageNum, passCities,channelId);
         HttpRequestUtils.request(this.getActivity(), requestGetCarInfo, this);
+        jazzyPager.setTransitionEffect(JazzyViewPager.TransitionEffect.ZoomIn);
+        mAdapter = new CarViewpagerAdapter(getActivity(), jazzyPager);
+        initListData();
+        mAdapter.setList(carList);
+        jazzyPager.setAdapter(mAdapter);
+        jazzyPager.setOffscreenPageLimit(5);
+        jazzyPager.addOnPageChangeListener(this);
     }
 
     int selctIndex = 0;
@@ -156,14 +172,28 @@ public class FGSelectCar extends BaseFragment {
 
     }
 
+    SelectCarBean carBean;
     public void showContent(){
-        SelectCarBean carBean = cars.get(selctIndex);
+        carBean = cars.get(selctIndex);
         carType.setText(carBean.carDesc);
         carContent.setText("此车型包括:"+carBean.models);
-        mans.setText(String.format(getString(R.string.have_mas),carBean.numOfPerson));
-        baggages.setText(String.format(getString(R.string.have_baggages),carBean.match));
+//        mans.setText(String.format(getString(R.string.have_mas),carBean.numOfPerson));
+//        baggages.setText(String.format(getString(R.string.have_baggages),carBean.match));
         genServiceInfo(false);
         genCarsInfo(false);
+        genTotal();
+    }
+
+    public void genTotal(){
+        carBean = cars.get(selctIndex);
+        mans.setText(String.format(getString(R.string.have_mas),carBean.capOfPerson));
+        baggages.setText(String.format(getString(R.string.have_baggages),carBean.capOfLuggage));
+        carType.setText(carBean.carDesc);
+        carContent.setText("此车型包括:"+carBean.models);
+
+        allDayNum.setText(carBean.totalDays+"天 x"+carBean.numOfPerson+"人");
+        allCharge.setText(carBean.price+"元");
+        perCharge.setText(carBean.avgSpend+"元");
     }
 
     View view = null;
@@ -173,95 +203,146 @@ public class FGSelectCar extends BaseFragment {
     TextView day_line4_money_left,day_line4_money_right;
     TextView day_line2_money_middle,day_line3_money_middle,day_line4_money_middle;
     public void genCarsInfo(boolean isMando){
-        carsMoneyAllInfo.removeAllViews();
-        if(isMando) {
-            if (carsMoneyAllInfo.isShown()) {
-                carsMoneyAllInfo.setVisibility(View.GONE);
-            } else {
-                carsMoneyAllInfo.setVisibility(View.VISIBLE);
+        try {
+            carsMoneyAllInfo.removeAllViews();
+            if (isMando) {
+                if (carsMoneyAllInfo.isShown()) {
+                    carsMoneyAllInfo.setVisibility(View.GONE);
+                } else {
+                    carsMoneyAllInfo.setVisibility(View.VISIBLE);
+                }
             }
-        }
-        SelectCarBean carBean = cars.get(selctIndex);
-        ServiceQuoteSumBean serviceQuoteSumBean = carBean.vehicleQuoteSum;;
-        List<DayQuoteBean> dayQuotes = serviceQuoteSumBean.dayQuotes;
-        DayQuoteBean dayQuoteBean = null;
-        for(int i = 0;i< dayQuotes.size();i++) {
-            dayQuoteBean = dayQuotes.get(i);
-            view = LayoutInflater.from(this.getActivity()).inflate(R.layout.car_quote_item, null);
-            day_all_money_left = (TextView)view.findViewById(R.id.day_all_money_left);
-            day_all_money_right = (TextView)view.findViewById(R.id.day_all_money_right);
-            day_line2_money_left = (TextView)view.findViewById(R.id.day_line2_money_left);
-            day_line2_money_right = (TextView)view.findViewById(R.id.day_line2_money_right);
-            day_line3_money_left = (TextView)view.findViewById(R.id.day_line3_money_left);
-            day_line3_money_right = (TextView)view.findViewById(R.id.day_line3_money_right);
-            day_line4_money_left = (TextView)view.findViewById(R.id.day_line4_money_left);
-            day_line4_money_right = (TextView)view.findViewById(R.id.day_line4_money_right);
-            day_line2_money_middle = (TextView)view.findViewById(R.id.day_line2_money_middle);
-            day_line3_money_middle = (TextView)view.findViewById(R.id.day_line3_money_middle);
-            day_line4_money_middle = (TextView)view.findViewById(R.id.day_line4_money_middle);
+            carBean = cars.get(selctIndex);
+            carsCharge.setText(carBean.vehiclePrice+"元");
+            carsDayNum.setText("x"+carBean.totalDays+"天");
+            ServiceQuoteSumBean serviceQuoteSumBean = carBean.vehicleQuoteSum;
+            List<DayQuoteBean> dayQuotes = serviceQuoteSumBean.dayQuotes;
+            DayQuoteBean dayQuoteBean = null;
+            for (int i = 0; i < dayQuotes.size(); i++) {
+                dayQuoteBean = dayQuotes.get(i);
+                view = LayoutInflater.from(this.getActivity()).inflate(R.layout.car_quote_item, null);
+                day_all_money_left = (TextView) view.findViewById(R.id.day_all_money_left);
+                day_all_money_right = (TextView) view.findViewById(R.id.day_all_money_right);
+                day_line2_money_left = (TextView) view.findViewById(R.id.day_line2_money_left);
+                day_line2_money_right = (TextView) view.findViewById(R.id.day_line2_money_right);
+                day_line3_money_left = (TextView) view.findViewById(R.id.day_line3_money_left);
+                day_line3_money_right = (TextView) view.findViewById(R.id.day_line3_money_right);
+                day_line4_money_left = (TextView) view.findViewById(R.id.day_line4_money_left);
+                day_line4_money_right = (TextView) view.findViewById(R.id.day_line4_money_right);
+                day_line2_money_middle = (TextView) view.findViewById(R.id.day_line2_money_middle);
+                day_line3_money_middle = (TextView) view.findViewById(R.id.day_line3_money_middle);
+                day_line4_money_middle = (TextView) view.findViewById(R.id.day_line4_money_middle);
 
-            day_all_money_left.setText(String.format(getString(R.string.day_all_money),dayQuoteBean.day));
-            day_all_money_right.setText(dayQuoteBean.vehiclePrice+"元");
-            if(dayQuoteBean.longDisPrice != 0) {
-                day_line2_money_middle.setVisibility(View.VISIBLE);
-                day_line2_money_left.setVisibility(View.VISIBLE);
-                day_line2_money_right.setVisibility(View.VISIBLE);
-                day_line2_money_left.setText(getString(R.string.service_money));
-                day_line2_money_right.setText(dayQuoteBean.longDisPrice + "元");
-            }else{
-                day_line2_money_middle.setVisibility(View.GONE);
-                day_line2_money_left.setVisibility(View.GONE);
-                day_line2_money_right.setVisibility(View.GONE);
+                day_all_money_left.setText(String.format(getString(R.string.day_all_money), dayQuoteBean.day));
+                day_all_money_right.setText(dayQuoteBean.totalPrice + "元");
+
+                if (dayQuoteBean.vehiclePrice != 0) {
+                    day_line2_money_middle.setVisibility(View.VISIBLE);
+                    day_line2_money_left.setVisibility(View.VISIBLE);
+                    day_line2_money_right.setVisibility(View.VISIBLE);
+                    day_line2_money_left.setText(getString(R.string.service_money));
+                    day_line2_money_right.setText(dayQuoteBean.vehiclePrice + "元");
+                } else {
+                    day_line2_money_middle.setVisibility(View.GONE);
+                    day_line2_money_left.setVisibility(View.GONE);
+                    day_line2_money_right.setVisibility(View.GONE);
+                }
+
+
+                if (dayQuoteBean.emptyDrivePrice != 0) {
+                    day_line3_money_middle.setVisibility(View.VISIBLE);
+                    day_line3_money_left.setVisibility(View.VISIBLE);
+                    day_line3_money_right.setVisibility(View.VISIBLE);
+                    day_line3_money_left.setText(getString(R.string.emptyDrivePrice));
+                    day_line3_money_right.setText(dayQuoteBean.emptyDrivePrice + "元");
+                } else {
+                    day_line3_money_middle.setVisibility(View.GONE);
+                    day_line3_money_left.setVisibility(View.GONE);
+                    day_line3_money_right.setVisibility(View.GONE);
+                }
+
+                if (dayQuoteBean.longDisPrice != 0) {
+                    day_line4_money_middle.setVisibility(View.VISIBLE);
+                    day_line4_money_left.setVisibility(View.VISIBLE);
+                    day_line4_money_right.setVisibility(View.VISIBLE);
+                    day_line4_money_left.setText(getString(R.string.longDisPrice));
+                    day_line4_money_right.setText(dayQuoteBean.longDisPrice + "元");
+                } else {
+                    day_line4_money_middle.setVisibility(View.GONE);
+                    day_line4_money_left.setVisibility(View.GONE);
+                    day_line4_money_right.setVisibility(View.GONE);
+                }
+
+                carsMoneyAllInfo.addView(view);
             }
-
-            carsMoneyAllInfo.addView(view);
+        }catch (Exception e){
+            e.printStackTrace();
         }
     }
 
 
     public void genServiceInfo(boolean isMando){
-        mansMoneyAllInfo.removeAllViews();
-        if(isMando) {
-            if (mansMoneyAllInfo.isShown()) {
-                mansMoneyAllInfo.setVisibility(View.GONE);
-            } else {
-                mansMoneyAllInfo.setVisibility(View.VISIBLE);
+        try {
+            mansMoneyAllInfo.removeAllViews();
+            if (isMando) {
+                if (mansMoneyAllInfo.isShown()) {
+                    mansMoneyAllInfo.setVisibility(View.GONE);
+                } else {
+                    mansMoneyAllInfo.setVisibility(View.VISIBLE);
+                }
             }
-        }
-        SelectCarBean carBean = cars.get(selctIndex);
-        ServiceQuoteSumBean serviceQuoteSumBean = carBean.serviceQuoteSum;;
-        List<DayQuoteBean> dayQuotes = serviceQuoteSumBean.dayQuotes;
-        DayQuoteBean dayQuoteBean = null;
-        for(int i = 0;i< dayQuotes.size();i++) {
-            dayQuoteBean = dayQuotes.get(i);
-            view = LayoutInflater.from(this.getActivity()).inflate(R.layout.car_quote_item, null);
-            day_all_money_left = (TextView)view.findViewById(R.id.day_all_money_left);
-            day_all_money_right = (TextView)view.findViewById(R.id.day_all_money_right);
-            day_line2_money_left = (TextView)view.findViewById(R.id.day_line2_money_left);
-            day_line2_money_right = (TextView)view.findViewById(R.id.day_line2_money_right);
-            day_line3_money_left = (TextView)view.findViewById(R.id.day_line3_money_left);
-            day_line3_money_right = (TextView)view.findViewById(R.id.day_line3_money_right);
-            day_line4_money_left = (TextView)view.findViewById(R.id.day_line4_money_left);
-            day_line4_money_right = (TextView)view.findViewById(R.id.day_line4_money_right);
-            day_line2_money_middle = (TextView)view.findViewById(R.id.day_line2_money_middle);
-            day_line3_money_middle = (TextView)view.findViewById(R.id.day_line3_money_middle);
-            day_line4_money_middle = (TextView)view.findViewById(R.id.day_line4_money_middle);
+            carBean = cars.get(selctIndex);
+            mansCharge.setText(carBean.servicePrice+"元");
+            mansDayNum.setText("x"+carBean.totalDays+"天");
+            ServiceQuoteSumBean serviceQuoteSumBean = carBean.serviceQuoteSum;
+            List<DayQuoteBean> dayQuotes = serviceQuoteSumBean.dayQuotes;
+            DayQuoteBean dayQuoteBean = null;
+            for (int i = 0; i < dayQuotes.size(); i++) {
+                dayQuoteBean = dayQuotes.get(i);
+                view = LayoutInflater.from(this.getActivity()).inflate(R.layout.car_quote_item, null);
+                day_all_money_left = (TextView) view.findViewById(R.id.day_all_money_left);
+                day_all_money_right = (TextView) view.findViewById(R.id.day_all_money_right);
+                day_line2_money_left = (TextView) view.findViewById(R.id.day_line2_money_left);
+                day_line2_money_right = (TextView) view.findViewById(R.id.day_line2_money_right);
+                day_line3_money_left = (TextView) view.findViewById(R.id.day_line3_money_left);
+                day_line3_money_right = (TextView) view.findViewById(R.id.day_line3_money_right);
+                day_line4_money_left = (TextView) view.findViewById(R.id.day_line4_money_left);
+                day_line4_money_right = (TextView) view.findViewById(R.id.day_line4_money_right);
+                day_line2_money_middle = (TextView) view.findViewById(R.id.day_line2_money_middle);
+                day_line3_money_middle = (TextView) view.findViewById(R.id.day_line3_money_middle);
+                day_line4_money_middle = (TextView) view.findViewById(R.id.day_line4_money_middle);
 
-            day_all_money_left.setText(String.format(getString(R.string.day_all_money),dayQuoteBean.day));
-            day_all_money_right.setText(dayQuoteBean.guideServicePrice+"元");
-            if(dayQuoteBean.stayPrice != 0) {
-                day_line2_money_middle.setVisibility(View.VISIBLE);
-                day_line2_money_left.setVisibility(View.VISIBLE);
-                day_line2_money_right.setVisibility(View.VISIBLE);
-                day_line2_money_left.setText(getString(R.string.service_money));
-                day_line2_money_right.setText(dayQuoteBean.stayPrice + "元");
-            }else{
-                day_line2_money_middle.setVisibility(View.GONE);
-                day_line2_money_left.setVisibility(View.GONE);
-                day_line2_money_right.setVisibility(View.GONE);
+                day_all_money_left.setText(String.format(getString(R.string.day_all_money), dayQuoteBean.day));
+                day_all_money_right.setText(dayQuoteBean.totalPrice + "元");
+
+                if (dayQuoteBean.guideServicePrice != 0) {
+                    day_line2_money_middle.setVisibility(View.VISIBLE);
+                    day_line2_money_left.setVisibility(View.VISIBLE);
+                    day_line2_money_right.setVisibility(View.VISIBLE);
+                    day_line2_money_left.setText(getString(R.string.service_money));
+                    day_line2_money_right.setText(dayQuoteBean.guideServicePrice + "元");
+                } else {
+                    day_line2_money_middle.setVisibility(View.GONE);
+                    day_line2_money_left.setVisibility(View.GONE);
+                    day_line2_money_right.setVisibility(View.GONE);
+                }
+
+                if (dayQuoteBean.stayPrice != 0) {
+                    day_line3_money_middle.setVisibility(View.VISIBLE);
+                    day_line3_money_left.setVisibility(View.VISIBLE);
+                    day_line3_money_right.setVisibility(View.VISIBLE);
+                    day_line3_money_left.setText(getString(R.string.stayPrice));
+                    day_line3_money_right.setText(dayQuoteBean.stayPrice + "元");
+                } else {
+                    day_line3_money_middle.setVisibility(View.GONE);
+                    day_line3_money_left.setVisibility(View.GONE);
+                    day_line3_money_right.setVisibility(View.GONE);
+                }
+
+                mansMoneyAllInfo.addView(view);
             }
-
-            mansMoneyAllInfo.addView(view);
+        }catch (Exception e){
+            e.printStackTrace();
         }
     }
 
@@ -292,16 +373,21 @@ public class FGSelectCar extends BaseFragment {
     @OnClick({R.id.left, R.id.right, R.id.mans_money_show_info, R.id.cars_money_show_info, R.id.next_btn_click})
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.header_left_btn:
+                finish();
+                break;
             case R.id.left:
                 if(selctIndex >=1) {
                     --selctIndex;
                     showContent();
+                    jazzyPager.setCurrentItem(selctIndex);
                 }
                 break;
             case R.id.right:
                 if(selctIndex < cars.size() -1) {
                     ++selctIndex;
                     showContent();
+                    jazzyPager.setCurrentItem(selctIndex);
                 }
                 break;
             case R.id.mans_money_show_info:
@@ -311,7 +397,47 @@ public class FGSelectCar extends BaseFragment {
                 genCarsInfo(true);
                 break;
             case R.id.next_btn_click:
+                startFragment(new FGOrderNew());
                 break;
         }
     }
+
+    private void initListData() {
+        int id = 1;
+        CarBean bean;
+        carList = new ArrayList<CarBean>(16);
+        for (int i = 1; i <= 4; i++) {
+            for (int j = 1; j <= 4; j++) {
+                bean = new CarBean();
+                bean.id = id;
+                bean.carType = i;
+                bean.carSeat = Constants.CarSeatMap.get(j);
+                bean.originalPrice = 0;
+                bean.models = Constants.CarDescInfoMap.get(i).get(j);
+                CarTypeEnum carTypeEnum = CarTypeEnum.getCarType(bean.carType, bean.carSeat);
+                if (carTypeEnum != null) {
+                    bean.imgRes = carTypeEnum.imgRes;
+                }
+                carList.add(bean);
+                id++;
+            }
+        }
+    }
+
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        selctIndex = position;
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
+    }
+
+
 }
