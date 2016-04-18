@@ -46,7 +46,9 @@ public class FgTransfer extends BaseFragment {
         fgSend = new FgSend();
 
         Bundle bundle = new Bundle();
-        bundle.putString("umeng_from",umeng_from);
+        if(getArguments()!=null){
+            bundle.putAll(getArguments());
+        }
         fgPick.setArguments(bundle);
         fgSend.setArguments(bundle);
 

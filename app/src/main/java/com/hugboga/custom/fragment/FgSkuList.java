@@ -189,18 +189,34 @@ public class FgSkuList extends  BaseFragment implements  View.OnClickListener, Z
     public void onClick(View v) {
         Bundle bundle = new Bundle();
         bundle.putSerializable(FgDaily.KEY_CITY_BEAN,mCityBean);
+        HashMap<String,String> map = new HashMap<String,String>();
         switch (v.getId()){
             case R.id.fg_home_menu1://中文接送机
-                FgTransfer  fgTransfer = new FgTransfer();
-                bundle.putString("umeng_from",mCityBean.name);
+                FgTransfer fgTransfer = new FgTransfer();
+                bundle.putString("source",mCityBean.name);
                 fgTransfer.setArguments(bundle);
                 startFragment(fgTransfer);
+
+                map.put("source", mCityBean.name);
+                MobclickAgent.onEvent(getActivity(), "chose_pndairport", map);
                 break;
             case R.id.fg_home_menu2://按天包车
+                FgDaily fgDaily = new FgDaily();
+                bundle.putString("source",mCityBean.name);
+                fgDaily.setArguments(bundle);
                 startFragment(new FgDaily(),bundle);
+
+                map.put("source", mCityBean.name);
+                MobclickAgent.onEvent(getActivity(), "chose_oneday", map);
                 break;
             case R.id.fg_home_menu3://单次接送
+                FgSingle fgSingle = new FgSingle();
+                bundle.putString("source",mCityBean.name);
+                fgSingle.setArguments(bundle);
                 startFragment(new FgSingle(),bundle);
+
+                map.put("source", mCityBean.name);
+                MobclickAgent.onEvent(getActivity(), "chose_oneway", map);
                 break;
             default:
                 super.onClick(v);

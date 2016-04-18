@@ -29,11 +29,13 @@ import com.hugboga.custom.utils.DBCityUtils;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.ScreenUtils;
 import com.hugboga.custom.utils.ToastUtils;
+import com.umeng.analytics.MobclickAgent;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import org.xutils.common.Callback;
 
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 
 import org.xutils.view.annotation.ContentView;
@@ -145,6 +147,7 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
         fgTitle.setText(R.string.select_city_title);
 //        TextView header_title = (TextView) mainView.findViewById(R.id.header_title);
 //        header_title.setText(R.string.select_city_title);
+        source = getArguments().getString("source");
 
     }
 
@@ -427,6 +430,11 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
                 break;
             case R.id.next_btn_click:
                 startFragment(new FGSelectCar());
+                //统计,这代码应该加到点击事件方法的最后边
+                HashMap<String,String> map = new HashMap<String,String>();
+                map.put("source", source);
+//                map.put("begincity", begincity);
+                MobclickAgent.onEventValue(getActivity(), "chosecar_oneday", map,1);
                 break;
         }
     }

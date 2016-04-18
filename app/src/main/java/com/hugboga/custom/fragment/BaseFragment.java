@@ -42,7 +42,7 @@ public abstract class BaseFragment extends com.huangbaoche.hbcframe.fragment.Bas
     protected TextView fgRightBtn; //右按钮
     protected View fgLeftBtn;//左按钮
 
-    protected String umeng_from = ""; //友盟统计用 获取从哪个界面进入
+    protected String source = ""; //友盟统计用 获取从哪个界面进入
     protected String umeng_key = "";//友盟事件ID
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -55,7 +55,7 @@ public abstract class BaseFragment extends com.huangbaoche.hbcframe.fragment.Bas
 
     public void getFrom(){
         if(null != this.getArguments()) {
-            umeng_from = this.getArguments().getString("umeng_from");
+            source = this.getArguments().getString("source");
         }
     }
 

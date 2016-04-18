@@ -909,7 +909,7 @@ public class FgOrder extends BaseFragment {
             bundle.putInt("orderType", mOrderBean.orderType);
             bundle.putString(KEY_ORDER_ID, mOrderBean.orderNo);
             bundle.putString("from", mSourceFragment.getClass().getSimpleName());
-            bundle.putString("umeng_from",umeng_from);
+            bundle.putString("source",source);
 
             uMengClickEvnet();
 
@@ -924,7 +924,7 @@ public class FgOrder extends BaseFragment {
     //友盟事件统计
     private void uMengClickEvnet(){
         Map<String, String> map_value = new HashMap<String, String>();
-        map_value.put("source" , umeng_from);
+        map_value.put("source" , source);
         map_value.put("carstyle",mOrderBean.carType+"");
         map_value.put("paystyle",paystyle);
         map_value.put("paysource",paysource);

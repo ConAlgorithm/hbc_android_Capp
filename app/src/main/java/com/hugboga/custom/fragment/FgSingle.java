@@ -63,6 +63,7 @@ public class FgSingle extends BaseFragment {
 
     protected void initView() {
         cityBean = (CityBean) getArguments().getSerializable(FgDaily.KEY_CITY_BEAN);
+        source = getArguments().getString("source");
         if (cityBean != null) fContent.setText(cityBean.name);
         promiseWait.setVisibility(View.GONE);
         promiseApp.setVisibility(View.GONE);
@@ -174,8 +175,12 @@ public class FgSingle extends BaseFragment {
         bundle.putSerializable(FgCar.KEY_START, startBean);
         bundle.putSerializable(FgCar.KEY_ARRIVAL, arrivalBean);
         bundle.putString(FgCar.KEY_TIME, serverDate + " " + serverTime);
-        fg.setArguments(bundle);
-        startFragment(fg);
+        bundle.putString("source", source);
+        startFragment(fg,bundle);
+
+        HashMap<String,String> map = new HashMap<String,String>();
+        map.put("source", source);
+        MobclickAgent.onEvent(getActivity(), "chosecar_oneway", map);
     }
 
     @Override
