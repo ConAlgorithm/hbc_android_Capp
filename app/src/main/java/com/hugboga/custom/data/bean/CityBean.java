@@ -43,6 +43,9 @@ public class CityBean implements IBaseBean {
     @Column(name = "daily_tip")
     public String dailyTip;//包车注意提示
 
+    @Column(name="neighbourTip")
+    public String neighbourTip;
+
     @Column(name = "has_airport")
     public boolean hasAirport;//0没有开通的机场 1开通 有开通的机场
 

@@ -248,4 +248,9 @@ public class UrlLibs {
      */
     public static final String UPLOAD_LOCATION = "poi/v1.0/e/city?";
 
+    /**
+     * 获取车辆信息
+     */
+    public static final String GET_CAR_INFOS = "price/v1.2/e/dailyPrice?";
+
 }
