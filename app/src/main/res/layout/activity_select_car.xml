@@ -48,7 +48,6 @@
                     android:id="@+id/car_type"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/have_mas"
                     android:layout_marginTop="15dp"
                     android:layout_centerHorizontal="true"
                     android:textColor="#8888"
@@ -66,7 +65,6 @@
                     android:id="@+id/mans"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/have_mas"
                     android:textColor="@color/basic_black"
                     android:textSize="15sp" />
 
@@ -83,7 +81,6 @@
                     android:id="@+id/baggages"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/have_baggages"
                     android:textColor="@color/basic_black"
                     android:textSize="15sp" />
             </LinearLayout>
@@ -93,7 +90,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="15dp"
-                android:text="@string/have_baggages"
                 android:textColor="@color/basic_black"
                 android:textSize="15sp" />
 
@@ -120,7 +116,6 @@
                     android:layout_alignBaseline="@id/mans_left"
                     android:layout_marginLeft="5dp"
                     android:layout_toRightOf="@id/mans_left"
-                    android:text="x5天"
                     android:textColor="@color/basic_red"
                     android:textSize="12sp" />
 
@@ -129,7 +124,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:text="5678元"
                     android:textColor="@color/basic_black"
                     android:textSize="20sp" />
 
@@ -191,7 +185,6 @@
                     android:layout_alignBaseline="@id/cars_left"
                     android:layout_marginLeft="5dp"
                     android:layout_toRightOf="@id/cars_left"
-                    android:text="x5天"
                     android:textColor="@color/basic_red"
                     android:textSize="12sp" />
 
@@ -200,7 +193,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:text="5678元"
                     android:textColor="@color/basic_black"
                     android:textSize="20sp" />
 
@@ -210,7 +202,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/cars_left"
                     android:layout_marginTop="10dp"
-                    android:text="@string/mans_use_money_tips"
+                    android:text="@string/car_use_money_tips"
                     android:textColor="@color/basic_black"
                     android:textSize="15sp" />
 
@@ -253,7 +245,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/all_money"
                     android:textColor="@color/basic_black"
-                    android:textSize="20sp" />
+                    android:textSize="15sp" />
 
                 <TextView
                     android:id="@+id/all_day_num"
@@ -262,7 +254,6 @@
                     android:layout_alignBaseline="@id/all_left"
                     android:layout_marginLeft="5dp"
                     android:layout_toRightOf="@id/all_left"
-                    android:text="x5天"
                     android:textColor="@color/basic_red"
                     android:textSize="12sp" />
 
@@ -271,9 +262,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:text="5678元"
                     android:textColor="@color/basic_black"
-                    android:textSize="20sp" />
+                    android:textSize="15sp" />
 
                 <TextView
                     android:id="@+id/per_left"
@@ -283,7 +273,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/per_money"
                     android:textColor="@color/basic_black"
-                    android:textSize="20sp" />
+                    android:textSize="15sp" />
 
 
                 <TextView
@@ -295,7 +285,7 @@
                     android:layout_alignParentRight="true"
                     android:text="5678元"
                     android:textColor="@color/basic_black"
-                    android:textSize="20sp" />
+                    android:textSize="15sp" />
 
                 <TextView
                     android:id="@+id/befer48_tips"
@@ -308,7 +298,7 @@
                     android:layout_centerHorizontal="true"
                     android:text="@string/befer48_hour"
                     android:textColor="@color/basic_black"
-                    android:textSize="20sp" />
+                    android:textSize="12sp" />
 
             </RelativeLayout>
 
