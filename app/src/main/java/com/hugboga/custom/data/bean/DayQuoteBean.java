@@ -9,6 +9,7 @@ public class DayQuoteBean {
     public int guideServicePrice;
     public int stayPrice;
 
+    public int totalPrice;
 
     public int emptyDrivePrice;
     public int longDisPrice;

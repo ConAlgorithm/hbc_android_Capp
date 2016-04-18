@@ -5,6 +5,8 @@ package com.hugboga.custom.data.bean;
  */
 public class SelectCarBean {
     public int avgSpend;
+    public int capOfLuggage;
+    public int capOfPerson;
     public String carDesc;
     public int carType;
     public int localPrice;
