@@ -18,6 +18,7 @@ import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.widget.DialogUtil;
+import com.umeng.analytics.MobclickAgent;
 import com.zhy.m.permission.MPermissions;
 
 import org.xutils.view.annotation.Event;
@@ -59,6 +60,15 @@ public abstract class BaseFragment extends com.huangbaoche.hbcframe.fragment.Bas
             if (fgLeftBtn != null) fgLeftBtn.setOnClickListener(this);
         }
         return contentView;
+    }
+
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this.getActivity());
+    }
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this.getActivity());
     }
 
     /**

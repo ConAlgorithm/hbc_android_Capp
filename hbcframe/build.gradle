@@ -36,4 +36,6 @@ dependencies {
     compile 'org.xutils:xutils:3.3.18'
     compile 'com.android.support:recyclerview-v7:23.2.0'
     compile 'jp.wasabeef:recyclerview-animators:1.2.2'
+    compile 'com.mani:ThinDownloadManager:1.2.4'
+    compile 'com.umeng.analytics:analytics:5.6.7'
 }

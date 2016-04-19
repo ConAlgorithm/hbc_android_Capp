@@ -50,13 +50,16 @@ import com.hugboga.custom.fragment.FgPersonInfo;
 import com.hugboga.custom.fragment.FgServicerCenter;
 import com.hugboga.custom.fragment.FgSetting;
 import com.hugboga.custom.fragment.FgTravel;
+import com.hugboga.custom.utils.ChannelUtils;
 import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.ImageOptionUtils;
 import com.hugboga.custom.utils.PermissionRes;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.utils.SharedPre;
+import com.hugboga.custom.utils.ToastUtils;
 import com.hugboga.custom.utils.UpdateResources;
 import com.hugboga.custom.widget.CircularImage;
+import com.umeng.analytics.AnalyticsConfig;
 import com.zhy.m.permission.MPermissions;
 import com.zhy.m.permission.PermissionDenied;
 import com.zhy.m.permission.PermissionGrant;
@@ -110,6 +113,7 @@ public class MainActivity extends BaseFragmentActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        setSupportActionBar(toolbar);
+        AnalyticsConfig.setChannel(ChannelUtils.getChannel(this));
         sharedPre = new SharedPre(this);
         initBottomView();
         contentId = R.id.drawer_layout;
@@ -341,6 +345,13 @@ public class MainActivity extends BaseFragmentActivity
      * 刷新左边侧滑栏
      */
     private void refreshContent() {
+        tv_nickname.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                ToastUtils.showLong("versionName"+ChannelUtils.getVersion()+" versionCode="+ ChannelUtils.getVersionCode()  +" channel=" +ChannelUtils.getChannel(MainActivity.this));
+                return false;
+            }
+        });
         if (!UserEntity.getUser().isLogin(this)) {
             my_icon_head.setImageResource(R.mipmap.chat_head);
             tv_nickname.setText(this.getResources().getString(R.string.person_center_nickname));
