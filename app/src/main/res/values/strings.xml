@@ -334,4 +334,6 @@
     <string name="add_passenger">请填写乘车人姓名</string>
     <string name="passenger_phone">乘车人电话</string>
 
+    <string name="no_start_city">请选择开始城市</string>
+
 </resources>
