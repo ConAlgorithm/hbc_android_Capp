@@ -183,6 +183,11 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
 //        emptyViewText.setText(getString(R.string.arrival_empty_text,editSearch.getText().toString().trim()));
     }
 
+    @Override
+    protected Callback.Cancelable requestData(BaseRequest request) {
+        return super.requestData(request);
+    }
+
     private void processSelectedData() {
         ArrayList<CityBean> mChooseCityList = (ArrayList<CityBean>) getArguments().getSerializable(KEY_CITY_LIST_CHOSEN);
         chooseCityList = new ArrayList<>();

@@ -22,15 +22,15 @@
                 android:textSize="20sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="20sp"
+                android:layout_margin="10sp"
                 android:text="Medium Text" />
 
             <TextView
                 android:id="@+id/travel_line"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20sp"
-                android:layout_marginRight="20sp"
+                android:layout_marginLeft="10sp"
+                android:layout_marginRight="10sp"
                 android:drawableLeft="@mipmap/icon_pay1"
                 android:drawablePadding="10dp"
                 android:textSize="18sp"
@@ -41,7 +41,7 @@
                 android:id="@+id/travel_days"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="20sp"
+                android:layout_margin="10sp"
                 android:textSize="18sp"
                 android:drawableLeft="@mipmap/icon_pay1"
                 android:drawablePadding="10dp"
@@ -97,14 +97,14 @@
                     android:gravity="center_vertical"
                     android:text="@string/add_user_phone_left" />
 
-                <EditText
-                    android:id="@+id/area_code"
+                <TextView
+                    android:id="@+id/area_code_click"
                     android:layout_width="wrap_content"
                     android:layout_height="50dp"
                     android:background="@null"
                     android:textSize="18sp"
                     android:ellipsize="end"
-                    android:gravity="center_vertical"
+                    android:gravity="center"
                     android:hint="@string/add_user_phone_area_no"
                     android:lines="1" />
 
@@ -150,14 +150,14 @@
                     android:layout_marginLeft="20sp"
                     android:gravity="center_vertical" />
 
-                <EditText
-                    android:id="@+id/area_code_2"
+                <TextView
+                    android:id="@+id/area_code_2_click"
                     android:layout_width="wrap_content"
                     android:layout_height="50dp"
                     android:background="@null"
                     android:ellipsize="end"
                     android:textSize="18sp"
-                    android:gravity="center_vertical"
+                    android:gravity="center"
                     android:hint="@string/add_user_phone_area_no"
                     android:lines="1" />
 
@@ -203,14 +203,14 @@
                     android:layout_marginLeft="20sp"
                     android:gravity="center_vertical" />
 
-                <EditText
-                    android:id="@+id/area_code_3"
+                <TextView
+                    android:id="@+id/area_code_3_click"
                     android:layout_width="wrap_content"
                     android:layout_height="50dp"
                     android:background="@null"
                     android:textSize="18sp"
                     android:ellipsize="end"
-                    android:gravity="center_vertical"
+                    android:gravity="center"
                     android:hint="@string/add_user_phone_area_no"
                     android:lines="1" />
 
@@ -249,7 +249,7 @@
                     android:layout_height="wrap_content" />
 
                 <TextView
-                    android:id="@+id/add_other_phone"
+                    android:id="@+id/add_other_phone_click"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
@@ -319,14 +319,14 @@
                         android:textSize="18sp"
                         android:text="@string/add_user_phone_left" />
 
-                    <EditText
-                        android:id="@+id/area_code_other"
+                    <TextView
+                        android:id="@+id/area_code_other_click"
                         android:layout_width="wrap_content"
                         android:layout_height="50dp"
                         android:background="@null"
                         android:ellipsize="end"
                         android:textSize="18sp"
-                        android:gravity="center_vertical"
+                        android:gravity="center"
                         android:hint="@string/add_user_phone_area_no"
                         android:lines="1" />
 
@@ -354,7 +354,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20sp"
                 android:background="@color/basic_white"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
@@ -367,7 +366,7 @@
                     android:gravity="center_vertical"
                     android:text="@string/up_time" />
 
-                <EditText
+                <TextView
                     android:id="@+id/up_time_text"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
@@ -375,7 +374,7 @@
                     android:ellipsize="end"
                     android:textSize="18sp"
                     android:gravity="center_vertical"
-                    android:hint="@string/add_passenger"
+                    android:hint="@string/local_time"
                     android:lines="1" />
             </LinearLayout>
 
@@ -409,7 +408,7 @@
                     android:background="@null"
                     android:ellipsize="end"
                     android:gravity="center_vertical"
-                    android:hint="@string/add_passenger"
+                    android:hint="@string/aboard_where"
                     android:lines="1" />
             </LinearLayout>
 
@@ -435,14 +434,14 @@
                     android:gravity="center_vertical"
                     android:text="@string/hotel_phone" />
 
-                <EditText
-                    android:id="@+id/hotel_phone_text_code"
+                <TextView
+                    android:id="@+id/hotel_phone_text_code_click"
                     android:layout_width="wrap_content"
                     android:layout_height="50dp"
                     android:textSize="18sp"
                     android:background="@null"
                     android:ellipsize="end"
-                    android:gravity="center_vertical"
+                    android:gravity="center"
                     android:hint="@string/add_user_phone_area_no"
                     android:lines="1" />
 
@@ -461,7 +460,7 @@
                     android:background="@null"
                     android:ellipsize="end"
                     android:gravity="center_vertical"
-                    android:hint="@string/passenger_phone"
+                    android:hint="@string/hotel_phone"
                     android:lines="1" />
             </LinearLayout>
             <TextView
@@ -501,7 +500,7 @@
             android:layout_centerVertical="true"
             android:id="@+id/all_money_left_text"/>
         <TextView
-            android:layout_width="150dp"
+            android:layout_width="120dp"
             android:layout_height="60dp"
             android:layout_alignParentRight="true"
             android:text="@string/submit_order"
@@ -511,12 +510,12 @@
             android:gravity="center"
             android:background="#f8ca18"
             android:layout_centerVertical="true"
-            android:id="@+id/all_money_submit"/>
+            android:id="@+id/all_money_submit_click"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/order_info"
-            android:layout_toLeftOf="@id/all_money_submit"
+            android:layout_toLeftOf="@id/all_money_submit_click"
             android:textColor="@color/basic_white"
             android:textSize="18sp"
             android:layout_centerVertical="true"
