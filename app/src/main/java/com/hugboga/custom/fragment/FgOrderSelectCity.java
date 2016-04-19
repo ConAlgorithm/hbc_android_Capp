@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -84,7 +85,7 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
     @ViewInject(R.id.end_layout_click)
     LinearLayout endLayoutClick;
     @ViewInject(R.id.go_city_text_click)
-    TextView goCityTextClick;
+    EditText goCityTextClick;
     @ViewInject(R.id.next_btn_click)
     Button nextBtnClick;
     @ViewInject(R.id.half_day_show)
@@ -165,18 +166,21 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
         manList.setMaxValue(11);
         manList.setMinValue(1);
         manList.setValue(1);
+        manList.setClickable(false);
 
         childList.setFormatter(this);
         childList.setOnValueChangedListener(this);
         childList.setMaxValue(11);
         childList.setMinValue(0);
         childList.setValue(0);
+        childList.setClickable(false);
 
         baggageList.setFormatter(this);
         baggageList.setOnValueChangedListener(this);
         baggageList.setMaxValue(11);
         baggageList.setMinValue(0);
         baggageList.setValue(0);
+        baggageList.setClickable(false);
 
     }
 
@@ -243,6 +247,7 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
                 bundle.putString(KEY_FROM, "end");
+                bundle.putString("source","首页");
                 startFragment(new FgChooseCity(), bundle);
                 hideSelectPeoplePop();
             }
@@ -401,6 +406,7 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
             case R.id.start_city_click:
                 Bundle bundle = new Bundle();
                 bundle.putString(KEY_FROM, "startAddress");
+                bundle.putString("source","首页");
                 startFragment(new FgChooseCity(), bundle);
                 break;
             case R.id.people_text_click:
@@ -426,7 +432,11 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
                 }
                 break;
             case R.id.go_city_text_click:
-                showSelectPeoplePop(3);
+                if(TextUtils.isEmpty(startCity)) {
+                    ToastUtils.showLong(R.string.no_start_city);
+                }else{
+                    showSelectPeoplePop(3);
+                }
                 break;
             case R.id.next_btn_click:
                 startFragment(new FGSelectCar());
