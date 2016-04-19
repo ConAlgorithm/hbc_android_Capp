@@ -14,12 +14,16 @@ import com.hugboga.custom.adapter.OverPriceAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.request.RequestOrderCancel;
+import com.hugboga.custom.utils.UmengUtils;
 import com.hugboga.custom.widget.DialogUtil;
 
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 订单退单
@@ -45,6 +49,7 @@ public class FgOrderCancel extends BaseFragment {
 
     private OrderBean orderBean;
     private DialogUtil mDialogUtil;
+    private String paystyle = "";
 
 
     @Override
@@ -53,6 +58,10 @@ public class FgOrderCancel extends BaseFragment {
     }
 
     protected void initView(){
+        if(getArguments()!=null){
+            source = getArguments().getString("source");
+            paystyle = getArguments().getString("paystyle");
+        }
         mDialogUtil = DialogUtil.getInstance(getActivity());
         orderBean = (OrderBean) getArguments().getSerializable(KEY_ORDER);
         OverPriceAdapter adapter = new OverPriceAdapter(getActivity());
@@ -125,6 +134,29 @@ public class FgOrderCancel extends BaseFragment {
         if(cancelPrice<0)cancelPrice=0;
         RequestOrderCancel request = new RequestOrderCancel(getActivity(),orderBean.orderNo,cancelPrice,orderBean.memo);
         requestData(request);
+        uMengClickEvnet();
+    }
+
+    private void uMengClickEvnet(){
+        Map<String, String> map_value = new HashMap<String, String>();
+        map_value.put("source" , source);
+        map_value.put("carstyle",orderBean.carType+"");
+        map_value.put("paystyle",paystyle);
+        map_value.put("paysource",source);
+        map_value.put("clicksource",source);
+        map_value.put("guestcount",orderBean.adult + orderBean.child + "");
+        map_value.put("payableamount",orderBean.orderPriceInfo.shouldPay+"");
+        map_value.put("actualamount", orderBean.orderPriceInfo.actualPay + "");
+
+        if(umeng_key.equalsIgnoreCase("pay_oneday") || umeng_key.equalsIgnoreCase("launch_paysucceed_oneday")) {
+            map_value.put("begincity", orderBean.startAddress);
+//            if(isForOther) {
+//                map_value.put("forother", "是");
+//            }else{
+//                map_value.put("forother", "否");
+//            }
+        }
+        UmengUtils.mobClickEvent(getActivity(), umeng_key, map_value);
     }
 
     @Override

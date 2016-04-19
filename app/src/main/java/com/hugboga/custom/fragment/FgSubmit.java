@@ -574,8 +574,9 @@ public class FgSubmit extends BaseFragment implements CompoundButton.OnCheckedCh
                     bundle.putString("source","单次接送");
                     map.put("source", "单次接送");
             }
-            startFragment(new FgLogin(), bundle);
             MobclickAgent.onEvent(getActivity(), "login_trigger", map);
+
+            startFragment(new FgLogin(), bundle);
             return;
         }
         hotelPhoneAreaCodeStr = hotelPhoneAreaCodeStr.replace("+", "");
@@ -605,6 +606,9 @@ public class FgSubmit extends BaseFragment implements CompoundButton.OnCheckedCh
         }
 
         RequestSubmitBase requestSubmitBase = null;
+        Bundle bundle = new Bundle();//用于统计
+        HashMap<String,String> map = new HashMap<String,String>();//用于统计
+        String type = "";
 
         switch (mBusinessType) {
             case Constants.BUSINESS_TYPE_PICK:
@@ -622,6 +626,7 @@ public class FgSubmit extends BaseFragment implements CompoundButton.OnCheckedCh
                 orderBean.serviceTime = flightBean.arrDate + " " + flightBean.arrivalTime + ":00";
                 orderBean.brandSign = brandSign;
                 requestSubmitBase = new RequestSubmitPick(getActivity(), orderBean);
+                type = "submitorder_pickup";
                 break;
             case Constants.BUSINESS_TYPE_SEND:
                 orderBean.startAddress = arrivalBean.placeName;
@@ -641,6 +646,7 @@ public class FgSubmit extends BaseFragment implements CompoundButton.OnCheckedCh
                     orderBean.flight = flightBean.flightNo;
                 }
                 requestSubmitBase = new RequestSubmitSend(getActivity(), orderBean);
+                type = "submitorder_dropoff";
                 break;
             case Constants.BUSINESS_TYPE_DAILY:
                 if (startBean != null) {
@@ -671,6 +677,7 @@ public class FgSubmit extends BaseFragment implements CompoundButton.OnCheckedCh
                 }
                 orderBean.stayCityListStr = getPassCityStr();
                 requestSubmitBase = new RequestSubmitDaily(getActivity(), orderBean);
+                type = "submitorder_oneday";
                 break;
             case Constants.BUSINESS_TYPE_RENT:
                 orderBean.startAddress = startBean.placeName;
@@ -685,10 +692,18 @@ public class FgSubmit extends BaseFragment implements CompoundButton.OnCheckedCh
                 orderBean.serviceTime = serverTime + ":00";
 //                orderBean.city = serverTime;
                 requestSubmitBase = new RequestSubmitRent(getActivity(), orderBean);
+                type = "submitorder_oneway";
+                break;
+            case Constants.BUSINESS_TYPE_COMMEND:
+                type = "submitorder_route";
                 break;
         }
 
         HttpRequestUtils.request(getActivity(), requestSubmitBase, this, btn);
+
+        map.put("carstyle",carBean.desc);
+        map.put("source", source);
+        MobclickAgent.onEvent(getActivity(), type, map);
     }
 
     /**
@@ -819,6 +834,7 @@ public class FgSubmit extends BaseFragment implements CompoundButton.OnCheckedCh
         expectedCompTime = bundle.getInt(FgCar.KEY_COM_TIME);
         needChildrenSeat = bundle.getBoolean(FgCar.KEY_NEED_CHILDREN_SEAT);
         needBanner = bundle.getBoolean(FgCar.KEY_NEED_BANNER);
+        source = bundle.getString("source");
     }
 
     @Override

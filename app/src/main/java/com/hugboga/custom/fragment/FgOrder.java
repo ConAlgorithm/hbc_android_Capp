@@ -303,6 +303,9 @@ public class FgOrder extends BaseFragment {
     String paysource = "";
     @Override
     protected void initHeader() {
+        if(getArguments() != null){
+            source = getArguments().getString("source");
+        }
         setProgressState(3);
         if (mOrderBean == null) return;
 
@@ -927,7 +930,12 @@ public class FgOrder extends BaseFragment {
         map_value.put("source" , source);
         map_value.put("carstyle",mOrderBean.carType+"");
         map_value.put("paystyle",paystyle);
-        map_value.put("paysource",paysource);
+        map_value.put("paysource",source);
+        map_value.put("clicksource",source);
+        map_value.put("guestcount",mOrderBean.adult + mOrderBean.child + "");
+        map_value.put("payableamount",mOrderBean.orderPriceInfo.shouldPay+"");
+        map_value.put("actualamount",mOrderBean.orderPriceInfo.actualPay+"");
+
         if(umeng_key.equalsIgnoreCase("pay_oneday") || umeng_key.equalsIgnoreCase("launch_paysucceed_oneday")) {
             map_value.put("begincity", mOrderBean.startAddress);
             if(isForOther) {
@@ -936,7 +944,7 @@ public class FgOrder extends BaseFragment {
                 map_value.put("forother", "否");
             }
         }
-        UmengUtils.mobClickEventValue(FgOrder.this.getActivity(),umeng_key,map_value);
+        UmengUtils.mobClickEvent(FgOrder.this.getActivity(), umeng_key, map_value);
     }
 
     @Override
@@ -1267,10 +1275,14 @@ public class FgOrder extends BaseFragment {
                     public void onClick(DialogInterface dialog, int which) {
                         if (mOrderBean.orderStatus == OrderStatus.INITSTATE) {
                             cancelOrder(mOrderBean.orderNo, 0);
+                            uMengClickEvnet();
+
                         } else {
 //                                finish();
                             Bundle bundle = new Bundle();
                             bundle.putSerializable(FgOrderCancel.KEY_ORDER, mOrderBean);
+                            bundle.putString("source", source);
+                            bundle.putString("paystyle",paystyle);
                             startFragment(new FgOrderCancel(), bundle);
                         }
                     }
