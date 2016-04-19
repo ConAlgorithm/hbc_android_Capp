@@ -304,7 +304,7 @@ public class FgCar extends BaseFragment implements ViewPager.OnPageChangeListene
 
                 HashMap<String,String> map = new HashMap<String,String>();
                 map.put("source", source);
-//                map.put("source", carBean.);
+                map.put("carstyle", carBean.desc);
                 String type = "";
                 switch (mBusinessType) {
                     case Constants.BUSINESS_TYPE_PICK:
