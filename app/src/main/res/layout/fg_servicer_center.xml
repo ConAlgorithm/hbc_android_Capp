@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/include_header" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/servicer_center_content_bg"
+        android:fillViewport="false">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/servicer_center_bg"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/servicer_center_top"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:paddingBottom="@dimen/basic_margin_xlarge"
+                android:paddingTop="@dimen/basic_margin_xlarge">
+
+                <TextView
+                    android:id="@+id/servicer_center_top_btn1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawablePadding="@dimen/basic_margin_medium"
+                    android:drawableTop="@mipmap/journey_advisory"
+                    android:gravity="center_horizontal"
+                    android:text="境内客服\n(仅限国内使用)" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="#E0DFDF" />
+
+                <TextView
+                    android:id="@+id/servicer_center_top_btn2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_weight="1"
+                    android:drawablePadding="@dimen/basic_margin_medium"
+                    android:drawableTop="@mipmap/callcenter_img01"
+                    android:gravity="center_horizontal"
+                    android:text="境外客服\n(在国外使用)" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/servicer_center_line"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/servicer_center_top"
+                android:background="@drawable/fengexian" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-2dp"
+                android:layout_below="@id/servicer_center_line"
+                android:background="@color/servicer_center_content_bg"
+                android:gravity="center"
+                android:padding="@dimen/basic_margin_xlarge">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/service_center_btn1"
+                            style="@style/ServicerCenterBtn"
+                            android:drawableTop="@mipmap/call_center_notice"
+                            android:text="预订须知" />
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:background="@color/servicer_center_content_line" />
+
+                        <TextView
+                            android:id="@+id/service_center_btn2"
+                            style="@style/ServicerCenterBtn"
+                            android:drawableTop="@mipmap/call_center_promise"
+                            android:text="服务承诺" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/servicer_center_content_line" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/service_center_btn3"
+                            style="@style/ServicerCenterBtn"
+                            android:drawableTop="@mipmap/call_center_indent"
+                            android:text="订单取消规则" />
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:background="@color/servicer_center_content_line" />
+
+                        <TextView
+                            android:id="@+id/service_center_btn4"
+                            style="@style/ServicerCenterBtn"
+                            android:drawableTop="@mipmap/call_center_cost"
+                            android:text="费用说明" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/servicer_center_content_line" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/service_center_btn5"
+                            style="@style/ServicerCenterBtn"
+                            android:drawableTop="@mipmap/call_center_faq"
+                            android:text="常见问题" />
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:background="@color/servicer_center_content_line" />
+
+                        <TextView
+                            style="@style/ServicerCenterBtn"
+                            android:visibility="invisible"
+                            android:drawableTop="@mipmap/call_center_fingerpost"
+                            android:text="软件指南" />
+                    </LinearLayout>
+                </LinearLayout>
+            </RelativeLayout>
+        </RelativeLayout>
+
+    </ScrollView>
+</LinearLayout>
