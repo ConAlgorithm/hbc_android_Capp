@@ -6,6 +6,7 @@
     android:orientation="vertical">
     <include layout="@layout/include_header" />
     <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -155,7 +156,7 @@
                     android:layout_below="@id/mans_money_all_info"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="10dp"
-                    android:drawableLeft="@mipmap/question"
+                    android:drawableLeft="@mipmap/journey_unfold"
                     android:drawablePadding="5dp"
                     android:gravity="center"
                     android:text="@string/show_all_info"
@@ -225,7 +226,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="10dp"
                     android:drawablePadding="5dp"
-                    android:drawableLeft="@mipmap/question"
+                    android:drawableLeft="@mipmap/journey_unfold"
                     android:gravity="center"
                     android:text="@string/show_all_info"
                     android:textColor="@color/basic_black"
@@ -317,4 +318,24 @@
                 android:textSize="20sp" />
         </LinearLayout>
     </ScrollView>
+    <RelativeLayout
+        android:id="@+id/coupon_listview_empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/coupon_empty_color"
+        android:gravity="center_horizontal"
+        android:paddingTop="@dimen/basic_margin_xlarge"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/basic_margin_xlarge"
+            android:drawablePadding="@dimen/basic_margin_xlarge"
+            android:drawableTop="@mipmap/journey_sorry_quan"
+            android:textSize="15sp"
+            android:text="@string/no_cars_info"
+            android:textColor="@color/coupon_empty_text" />
+
+    </RelativeLayout>
 </LinearLayout>

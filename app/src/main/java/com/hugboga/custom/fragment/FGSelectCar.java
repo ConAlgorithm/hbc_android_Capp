@@ -1,5 +1,6 @@
 package com.hugboga.custom.fragment;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -9,6 +10,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
@@ -109,6 +111,10 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
     TextView befer48Tips;
     @Bind(R.id.next_btn_click)
     Button nextBtnClick;
+    @Bind(R.id.coupon_listview_empty)
+    RelativeLayout coupon_listview_empty;
+    @Bind(R.id.scrollView)
+    ScrollView scrollView;
 
     @Override
     protected void initHeader() {
@@ -137,23 +143,37 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
     public String childrenNum = "1";
     public String childseatNum = "0";
     public String luggageNum = "0";
-    public String passCities = "1_1_204,1_1_2042";
+    public String passCities = "204-1-1,204-1-2";
     public String channelId = "1925283890";
 
     CarViewpagerAdapter mAdapter;
     private ArrayList<CarBean> carList = new ArrayList<CarBean>();
     @Override
     protected void initView() {
+        getArgs();
         RequestGetCarInfo requestGetCarInfo = new RequestGetCarInfo(this.getActivity(),
                 startCityId, endCityId, startDate, endDate, halfDay, adultNum, childrenNum, childseatNum, luggageNum, passCities,channelId);
         HttpRequestUtils.request(this.getActivity(), requestGetCarInfo, this);
         jazzyPager.setTransitionEffect(JazzyViewPager.TransitionEffect.ZoomIn);
         mAdapter = new CarViewpagerAdapter(getActivity(), jazzyPager);
-        initListData();
-        mAdapter.setList(carList);
-        jazzyPager.setAdapter(mAdapter);
-        jazzyPager.setOffscreenPageLimit(5);
-        jazzyPager.addOnPageChangeListener(this);
+//        initListData();
+//        mAdapter.setList(carList);
+//        jazzyPager.setAdapter(mAdapter);
+//        jazzyPager.setOffscreenPageLimit(5);
+//        jazzyPager.addOnPageChangeListener(this);
+    }
+
+    private void getArgs(){
+        startCityId = this.getArguments().getString("startCityId");
+        endCityId = this.getArguments().getString("endCityId");
+        startDate = this.getArguments().getString("startDate");
+        endDate = this.getArguments().getString("endDate");
+        halfDay = this.getArguments().getString("halfDay");
+        adultNum = this.getArguments().getString("adultNum");
+        childrenNum = this.getArguments().getString("childrenNum");
+        childseatNum = this.getArguments().getString("childseatNum");
+        luggageNum = this.getArguments().getString("luggageNum");
+        passCities = this.getArguments().getString("passCities");
     }
 
     int selctIndex = 0;
@@ -166,7 +186,13 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
             CarInfoBean bean = (CarInfoBean) request.getData();
             if(null != bean) {
                 cars = bean.cars;
-                showContent();
+                if(cars.size() == 0){
+                    coupon_listview_empty.setVisibility(View.VISIBLE);
+                    scrollView.setVisibility(View.GONE);
+                }else {
+                    initListData();
+                    showContent();
+                }
             }
         }
 
@@ -174,14 +200,23 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
 
     SelectCarBean carBean;
     public void showContent(){
-        carBean = cars.get(selctIndex);
-        carType.setText(carBean.carDesc);
-        carContent.setText("此车型包括:"+carBean.models);
-//        mans.setText(String.format(getString(R.string.have_mas),carBean.numOfPerson));
-//        baggages.setText(String.format(getString(R.string.have_baggages),carBean.match));
-        genServiceInfo(false);
-        genCarsInfo(false);
-        genTotal();
+        try {
+            carBean = cars.get(selctIndex);
+            carType.setText(carBean.carDesc);
+            carContent.setText("此车型包括:" + carBean.models);
+            if(carBean.match == 0){
+                nextBtnClick.setBackgroundColor(Color.parseColor("#d5dadb"));
+                nextBtnClick.setClickable(false);
+            }else{
+                nextBtnClick.setClickable(true);
+                nextBtnClick.setBackgroundColor(Color.parseColor("#fbd003"));
+            }
+            genServiceInfo(false);
+            genCarsInfo(false);
+            genTotal();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     public void genTotal(){
@@ -208,8 +243,10 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
             if (isMando) {
                 if (carsMoneyAllInfo.isShown()) {
                     carsMoneyAllInfo.setVisibility(View.GONE);
+                    carsMoneyShowInfo.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.journey_unfold,0,0,0);
                 } else {
                     carsMoneyAllInfo.setVisibility(View.VISIBLE);
+                    carsMoneyShowInfo.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.journey_withdraw,0,0,0);
                 }
             }
             carBean = cars.get(selctIndex);
@@ -287,8 +324,10 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
             if (isMando) {
                 if (mansMoneyAllInfo.isShown()) {
                     mansMoneyAllInfo.setVisibility(View.GONE);
+                    mansMoneyShowInfo.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.journey_unfold,0,0,0);
                 } else {
                     mansMoneyAllInfo.setVisibility(View.VISIBLE);
+                    mansMoneyShowInfo.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.journey_withdraw,0,0,0);
                 }
             }
             carBean = cars.get(selctIndex);
@@ -349,6 +388,8 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
     @Override
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
         super.onDataRequestError(errorInfo, request);
+        coupon_listview_empty.setVisibility(View.VISIBLE);
+        scrollView.setVisibility(View.GONE);
     }
 
     @Override
@@ -379,14 +420,12 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
             case R.id.left:
                 if(selctIndex >=1) {
                     --selctIndex;
-                    showContent();
                     jazzyPager.setCurrentItem(selctIndex);
                 }
                 break;
             case R.id.right:
                 if(selctIndex < cars.size() -1) {
                     ++selctIndex;
-                    showContent();
                     jazzyPager.setCurrentItem(selctIndex);
                 }
                 break;
@@ -418,10 +457,26 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
                 if (carTypeEnum != null) {
                     bean.imgRes = carTypeEnum.imgRes;
                 }
-                carList.add(bean);
+                if(isMatchLocal(bean)) {
+                    carList.add(bean);
+                }
                 id++;
             }
         }
+        mAdapter.setList(carList);
+        jazzyPager.setAdapter(mAdapter);
+        jazzyPager.setOffscreenPageLimit(5);
+        jazzyPager.addOnPageChangeListener(this);
+//        mAdapter.notifyDataSetChanged();
+    }
+
+    private boolean isMatchLocal(CarBean bean){
+        for(int i = 0;i<cars.size();i++){
+            if(cars.get(i).carType == bean.carType && cars.get(i).seatCategory == bean.carSeat ){
+                        return true;
+            }
+        }
+        return false;
     }
 
 
@@ -432,6 +487,8 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
     @Override
     public void onPageSelected(int position) {
         selctIndex = position;
+        MLog.e("position========="+position);
+        showContent();
     }
 
     @Override

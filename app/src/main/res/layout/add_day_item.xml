@@ -4,14 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="15dp"
-    android:background="#d3d4d5"
     android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/add_day_item"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="#d3d4d5"
         android:orientation="horizontal">
 
         <TextView

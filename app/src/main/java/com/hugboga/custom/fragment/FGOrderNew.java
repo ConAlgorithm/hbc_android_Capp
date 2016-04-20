@@ -47,10 +47,18 @@ public class FGOrderNew extends BaseFragment {
     TextView headerRightTxt;
     @Bind(R.id.title)
     TextView title;
-    @Bind(R.id.travel_line)
-    TextView travelLine;
-    @Bind(R.id.travel_days)
-    TextView travelDays;
+    @Bind(R.id.city)
+    TextView city;
+    @Bind(R.id.date)
+    TextView date;
+    @Bind(R.id.mans)
+    TextView mans;
+    @Bind(R.id.seat)
+    TextView seat;
+    @Bind(R.id.baggage)
+    TextView baggage;
+    @Bind(R.id.cartype)
+    TextView cartype;
     @Bind(R.id.order_user_name)
     EditText orderUserName;
     @Bind(R.id.area_code_click)
@@ -109,9 +117,27 @@ public class FGOrderNew extends BaseFragment {
 
     }
 
+    String citystr;
+    String datestr;
+    String mansstr;
+    String seatstr;
+    String baggagestr;
+    String cartypestr;
     @Override
     protected void initView() {
+        citystr = this.getArguments().getString("citystr");
+        datestr = this.getArguments().getString("datestr");
+        mansstr = this.getArguments().getString("mansstr");
+        seatstr = this.getArguments().getString("seatstr");
+        baggagestr = this.getArguments().getString("baggagestr");
+        cartypestr = this.getArguments().getString("cartypestr");
 
+        city.setText(citystr);
+        date.setText(datestr);
+        mans.setText(mansstr);
+        seat.setText(seatstr);
+        baggage.setText(baggagestr);
+        cartype.setText(cartypestr);
     }
 
     @Override
