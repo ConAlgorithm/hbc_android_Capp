@@ -99,7 +99,19 @@ public abstract class BaseFragment extends com.huangbaoche.hbcframe.fragment.Bas
                 finish();
                 break;
             case R.id.header_right_txt:
-                DialogUtil.getInstance(getActivity()).showCallDialog();
+                Object o = v.getTag();
+                String source = "";
+                if(o != null && o instanceof String){
+                    source = (String) o;
+                }
+                if(!TextUtils.isEmpty(source)){
+                    String[] strArr = source.split(",");
+                    if (strArr != null && strArr.length == 3) {
+                        DialogUtil.getInstance(getActivity()).showCallDialog(strArr[0],strArr[1],strArr[2]);
+                    }
+                }else{
+                    DialogUtil.getInstance(getActivity()).showCallDialog();
+                }
                 break;
         }
     }

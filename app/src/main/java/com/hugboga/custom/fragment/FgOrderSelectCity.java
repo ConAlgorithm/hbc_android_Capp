@@ -550,5 +550,11 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
         }
     }
 
+    @Override
+    protected int getBusinessType() {
+        mBusinessType = Constants.BUSINESS_TYPE_DAILY;
+        setGoodsType(Constants.BUSINESS_TYPE_DAILY);
+        return mBusinessType;
+    }
 
 }

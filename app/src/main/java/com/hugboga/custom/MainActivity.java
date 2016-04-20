@@ -492,6 +492,7 @@ public class MainActivity extends BaseFragmentActivity
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        HashMap<String,String> map = new HashMap<String,String>();
         switch (position) {
             case Constants.PERSONAL_CENTER_COUPON:
                 //我的优惠券
@@ -508,10 +509,14 @@ public class MainActivity extends BaseFragmentActivity
             case Constants.PERSONAL_CENTER_INTERNAL_SERVICE:
                 //境内客服
                 PhoneInfo.CallDial(MainActivity.this, Constants.CALL_NUMBER_IN);
+                map.put("source", "个人中心呼叫境内客服");
+                MobclickAgent.onEvent(MainActivity.this, "calldomestic_person", map);
                 break;
             case Constants.PERSONAL_CENTER_OVERSEAS_SERVICE:
                 //境外客服
                 PhoneInfo.CallDial(MainActivity.this, Constants.CALL_NUMBER_OUT);
+                map.put("source", "个人中心呼叫境外客服");
+                MobclickAgent.onEvent(MainActivity.this, "calloverseas_person", map);
                 break;
             case Constants.PERSONAL_CENTER_SETTING:
                 //我的设置

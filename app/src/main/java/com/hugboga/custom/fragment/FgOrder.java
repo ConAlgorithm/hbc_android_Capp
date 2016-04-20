@@ -954,6 +954,42 @@ public class FgOrder extends BaseFragment {
             case R.id.header_right_btn:
                 onClickView(v);
                 break;
+            case R.id.header_right_txt:
+                String page = "FgOrder";
+                if (mSourceFragment != null){
+                    if(mSourceFragment instanceof FgSubmit || mSourceFragment instanceof FgSkuSubmit){
+                        page = "立即支付页面";
+                    }else if(mSourceFragment instanceof FgTravel){
+                        page = "订单详情";
+                    }
+                }
+
+                HashMap<String,String> map = new HashMap<String,String>();
+                map.put("source", page);
+
+                switch (mBusinessType) {
+                    case Constants.BUSINESS_TYPE_PICK:
+                        MobclickAgent.onEvent(getActivity(), "callcenter_pickup", map);
+                        v.setTag(page + ",calldomestic_pickup,calldomestic_pickup");
+                        break;
+                    case Constants.BUSINESS_TYPE_SEND:
+                        MobclickAgent.onEvent(getActivity(), "callcenter_dropoff", map);
+                        v.setTag(page + ",calldomestic_dropoff,calloverseas_dropoff");
+                        break;
+                    case Constants.BUSINESS_TYPE_DAILY:
+                        MobclickAgent.onEvent(getActivity(), "callcenter_oneday", map);
+                        v.setTag(page + ",calldomestic_oneday,calloverseas_oneday");
+                        break;
+                    case Constants.BUSINESS_TYPE_RENT:
+                        MobclickAgent.onEvent(getActivity(), "callcenter_oneway", map);
+                        v.setTag(page + ",calldomestic_oneway,calloverseas_oneway");
+                        break;
+                    case Constants.BUSINESS_TYPE_COMMEND:
+                        MobclickAgent.onEvent(getActivity(), "callcenter_route", map);
+                        v.setTag(page + ",calldomestic_route,calloverseas_route");
+                        break;
+                }
+                break;
             default:
                 super.onClick(v);
         }

@@ -30,6 +30,7 @@ import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.request.RequestChangeTrip;
 import com.hugboga.custom.utils.DBHelper;
 import com.hugboga.custom.widget.DialogUtil;
+import com.umeng.analytics.MobclickAgent;
 
 import org.xutils.DbManager;
 import org.xutils.common.Callback;
@@ -41,6 +42,7 @@ import org.xutils.view.annotation.ViewInject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 
 /**
  * Created by admin on 2015/7/18.
@@ -456,9 +458,6 @@ public class FgChangeTrip extends BaseFragment implements View.OnClickListener {
                 bundle.putSerializable(FgChooseCity.KEY_CITY_EXCEPT_ID_LIST, exceptId);
                 startFragment(new FgChooseCity(), bundle);
                 break;
-            default:
-                super.onClick(view);
-                break;
         }
     }
 
@@ -738,7 +737,34 @@ public class FgChangeTrip extends BaseFragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        onClickView(v);
+        switch (v.getId()) {
+            case R.id.header_right_txt:
+                HashMap<String,String> map = new HashMap<String,String>();
+                map.put("source", "修改行程");
+                switch (mBusinessType) {
+                    case Constants.BUSINESS_TYPE_PICK:
+                        MobclickAgent.onEvent(getActivity(), "callcenter_pickup", map);
+                        v.setTag("修改行程,calldomestic_pickup,calldomestic_pickup");
+                        break;
+                    case Constants.BUSINESS_TYPE_SEND:
+                        MobclickAgent.onEvent(getActivity(), "callcenter_dropoff", map);
+                        v.setTag("修改行程,calldomestic_dropoff,calloverseas_dropoff");
+                        break;
+                    case Constants.BUSINESS_TYPE_DAILY:
+                        MobclickAgent.onEvent(getActivity(), "callcenter_oneday", map);
+                        v.setTag("修改行程,calldomestic_oneday,calloverseas_oneday");
+                        break;
+                    case Constants.BUSINESS_TYPE_RENT:
+                        MobclickAgent.onEvent(getActivity(), "callcenter_oneway", map);
+                        v.setTag("修改行程,calldomestic_oneway,calloverseas_oneway");
+                        break;
+                    case Constants.BUSINESS_TYPE_COMMEND:
+                        MobclickAgent.onEvent(getActivity(), "callcenter_route", map);
+                        v.setTag("修改行程,calldomestic_route,calloverseas_route");
+                }
+                break;
+        }
+        super.onClick(v);
     }
 
     /*

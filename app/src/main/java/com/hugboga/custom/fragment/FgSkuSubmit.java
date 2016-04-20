@@ -156,6 +156,7 @@ public class FgSkuSubmit extends BaseFragment implements View.OnClickListener {
             R.id.bottom_bar_btn
     })
     private void onClickView(View view) {
+        HashMap<String,String> map = new HashMap<String,String>();
         switch (view.getId()) {
             case R.id.sku_start_day_layout://开始日期
             case R.id.sku_start_day_edit://开始日期
@@ -213,7 +214,6 @@ public class FgSkuSubmit extends BaseFragment implements View.OnClickListener {
                 bundle.putInt(FgPoiSearch.KEY_CITY_ID, skuBean.depCityId);
                 bundle.putString(FgPoiSearch.KEY_LOCATION, cityBean.location);
                 startFragment(fg, bundle);
-                HashMap<String,String> map = new HashMap<String,String>();
                 map.put("source", "下单过程中");
                 MobclickAgent.onEvent(getActivity(), "search_trigger", map);
                 break;
@@ -222,9 +222,13 @@ public class FgSkuSubmit extends BaseFragment implements View.OnClickListener {
                 break;
             case R.id.sku_info_call_1://电话 国内
                 PhoneInfo.CallDial(getActivity(), Constants.CALL_NUMBER_IN);
+                map.put("source", "提交订单页面");
+                MobclickAgent.onEvent(getActivity(), "calldomestic_route", map);
                 break;
             case R.id.sku_info_call_2://电话 境外
                 PhoneInfo.CallDial(getActivity(), Constants.CALL_NUMBER_OUT);
+                map.put("source", "提交订单页面");
+                MobclickAgent.onEvent(getActivity(), "calloverseas_route", map);
                 break;
             case R.id.bottom_bar_btn:
                 submit();
