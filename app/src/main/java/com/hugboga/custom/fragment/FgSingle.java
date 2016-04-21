@@ -296,4 +296,17 @@ public class FgSingle extends BaseFragment {
         }
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.header_right_txt:
+                    HashMap<String,String> map = new HashMap<String,String>();
+                    map.put("source", "填写行程页面");
+                    MobclickAgent.onEvent(getActivity(), "callcenter_oneway", map);
+                    v.setTag("填写行程页面,calldomestic_oneway,calloverseas_oneway");
+                break;
+        }
+        super.onClick(v);
+    }
+
 }

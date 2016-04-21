@@ -372,7 +372,7 @@ public class MainActivity extends BaseFragmentActivity
                     new LvMenuItem(R.mipmap.personal_center_coupon, "优惠券", ""),
                     new LvMenuItem(R.mipmap.personal_center_customer_service, "客服中心", ""),
                     new LvMenuItem(R.mipmap.personal_center_internal, "境内客服", "仅限国内使用"),
-                    new LvMenuItem(R.mipmap.personal_center_overseas, "活动", ""),
+                    new LvMenuItem(R.mipmap.personal_center_overseas, "境外客服", "仅限国外使用"),
                     new LvMenuItem(R.mipmap.personal_center_setting, "设置", "")
             ));
 
@@ -496,6 +496,7 @@ public class MainActivity extends BaseFragmentActivity
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        HashMap<String,String> map = new HashMap<String,String>();
         switch (position) {
             case Constants.PERSONAL_CENTER_COUPON:
                 //我的优惠券
@@ -512,6 +513,8 @@ public class MainActivity extends BaseFragmentActivity
             case Constants.PERSONAL_CENTER_INTERNAL_SERVICE:
                 //境内客服
                 PhoneInfo.CallDial(MainActivity.this, Constants.CALL_NUMBER_IN);
+                map.put("source", "个人中心呼叫境内客服");
+                MobclickAgent.onEvent(MainActivity.this, "calldomestic_person", map);
                 break;
             case Constants.PERSONAL_CENTER_OVERSEAS_SERVICE:
                 //境外客服

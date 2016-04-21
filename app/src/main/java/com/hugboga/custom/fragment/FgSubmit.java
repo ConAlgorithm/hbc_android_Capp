@@ -916,36 +916,32 @@ public class FgSubmit extends BaseFragment implements CompoundButton.OnCheckedCh
     }
 
     @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.popup_order_children_cancel:
-                popupWindow.dismiss();
-                break;
-            case R.id.popup_order_children_ok:
-                popupWindow.dismiss();
-                child = 0;
-                for (int number : childrenSeatNumbers) {
-                    child += number;
-                }
-                childCount.setText(String.format(getString(R.string.submit_child), child));
-                inflateChildrenSeat();
-                break;
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.header_right_txt:
+                HashMap<String,String> map = new HashMap<String,String>();
+                map.put("source", "提交订单页面");
 
-            case R.id.popup_order_children_item_sub:
-                int index = (int) view.getTag();
-                if (childrenSeatNumbers[index] > 0) {
-                    popupItemNumber[index].setText(String.valueOf(--childrenSeatNumbers[index]));
+                switch (mBusinessType) {
+                    case Constants.BUSINESS_TYPE_PICK:
+                        MobclickAgent.onEvent(getActivity(), "callcenter_pickup", map);
+                        v.setTag("提交订单页面,calldomestic_pickup,calldomestic_pickup");
+                        break;
+                    case Constants.BUSINESS_TYPE_SEND:
+                        MobclickAgent.onEvent(getActivity(), "callcenter_dropoff", map);
+                        v.setTag("提交订单页面,calldomestic_dropoff,calloverseas_dropoff");
+                        break;
+                    case Constants.BUSINESS_TYPE_DAILY:
+                        MobclickAgent.onEvent(getActivity(), "callcenter_oneday", map);
+                        v.setTag("提交订单页面,calldomestic_oneday,calloverseas_oneday");
+                        break;
+                    case Constants.BUSINESS_TYPE_RENT:
+                        MobclickAgent.onEvent(getActivity(), "callcenter_oneway", map);
+                        v.setTag("提交订单页面,calldomestic_oneway,calloverseas_oneway");
+                        break;
                 }
-                break;
-            case R.id.popup_order_children_item_plus:
-                index = (int) view.getTag();
-                if (childrenSeatNumbers[index] < 5) {
-                    popupItemNumber[index].setText(String.valueOf(++childrenSeatNumbers[index]));
-                }
-                break;
-            default:
-                super.onClick(view);
                 break;
         }
+        super.onClick(v);
     }
 }
