@@ -106,11 +106,11 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
     LinearLayout full_day_date_layout;
 
 
-    @Override
-    protected int getBusinessType() {
-        mBusinessType = Constants.BUSINESS_TYPE_DAILY;
-        return mBusinessType;
-    }
+//    @Override
+//    protected int getBusinessType() {
+//        mBusinessType = Constants.BUSINESS_TYPE_DAILY;
+//        return mBusinessType;
+//    }
 
     @Override
     protected void inflateContent() {
