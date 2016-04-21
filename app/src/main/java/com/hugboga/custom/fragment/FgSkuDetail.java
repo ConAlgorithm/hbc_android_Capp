@@ -51,6 +51,7 @@ public class FgSkuDetail extends FgWebInfo {
 
     @Event({R.id.header_right_btn,R.id.phone_consultation,R.id.goto_order})
     private void onClickView(View view){
+        HashMap<String,String> map = new HashMap<String,String>();
         switch (view.getId()){
             case R.id.header_right_btn:
                 if(skuItemBean!=null){
@@ -62,7 +63,10 @@ public class FgSkuDetail extends FgWebInfo {
                 }
                 break;
             case R.id.phone_consultation:
-                DialogUtil.getInstance(getActivity()).showCallDialog();
+                map.put("source", "线路SKU页面");
+                MobclickAgent.onEvent(getActivity(), "callcenter_route", map);
+
+                DialogUtil.getInstance(getActivity()).showCallDialog("线路SKU页面","calldomestic_route","calloverseas_route");
                 break;
             case R.id.goto_order:
                 Bundle bundle =new Bundle();
@@ -71,7 +75,6 @@ public class FgSkuDetail extends FgWebInfo {
                 }
                 startFragment(new FgSkuSubmit(), bundle);
 
-                HashMap<String,String> map = new HashMap<String, String>();
                 map.put("routecity", cityBean.name);
                 map.put("routename", skuItemBean.goodsName);
                 MobclickAgent.onEventValue(this.getActivity(),"chose_route",map,1);
