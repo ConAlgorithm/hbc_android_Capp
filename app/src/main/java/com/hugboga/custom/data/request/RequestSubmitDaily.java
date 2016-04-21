@@ -33,6 +33,24 @@ public class RequestSubmitDaily extends RequestSubmitBase {
         map.put("serviceDepartTime", orderBean.serviceTime + " " + orderBean.serviceStartTime);
         map.put("servicePassCitys", orderBean.stayCityListStr);
         map.put("passbyPois", orderBean.skuPoi);
+        map.put("passbyPois", orderBean.skuPoi);
 
+        map.put("priceChannel", orderBean.priceChannel);
+        map.put("childSeatNum", orderBean.childSeatNum);
+        map.put("luggageNum", orderBean.luggageNum);
+        map.put("realUserName", orderBean.realUserName);
+        map.put("realAreaCode", orderBean.realAreaCode);
+        map.put("realMobile", orderBean.realMobile);
+        map.put("isRealUser", orderBean.isRealUser);
+        map.put("startAddressPoi", orderBean.startAddressPoi);
+        map.put("destAddressPoi", orderBean.destAddressPoi);
+        map.put("userName", orderBean.userName);
+
+//        childSeatNum 儿童座椅数
+//        luggageNum 行李数
+//        realUserName 乘车人姓名
+//        realAreaCode 乘车人区号
+//        realMobile 乘车人电话
+//        isRealUser 为别人下单传入2
     }
 }

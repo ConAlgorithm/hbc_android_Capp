@@ -165,7 +165,7 @@
             </LinearLayout>
         <TextView
             android:layout_width="match_parent"
-            android:background="@color/basic_commend_color"
+            android:background="#e8eaeb"
             android:layout_height="1dp" />
         <LinearLayout
             android:id="@+id/scope_layout_out"
@@ -196,7 +196,7 @@
         </LinearLayout>
         <TextView
             android:layout_width="match_parent"
-            android:background="@color/basic_commend_color"
+            android:background="#e8eaeb"
             android:layout_height="1dp" />
         <LinearLayout
             android:id="@+id/scope_layout_other"

@@ -145,6 +145,8 @@ public class UrlLibs {
     public static final String SERVER_IP_TRADE = "trade/v1.0/c/order/";
 
     public static final String SERVER_IP_TRADE_1_1 = "trade/v1.1/c/order/";
+    public static final String SERVER_IP_TRADE_1_2 = "trade/v1.2/c/order/";
+
     /**
      * 提交订单 接机
      **/
@@ -156,7 +158,7 @@ public class UrlLibs {
     /**
      * 提交订单 日租包车
      **/
-    public static final String SERVER_IP_SUBMIT_DAILY = UrlLibs.SERVER_IP_TRADE_1_1 + "daily?";
+    public static final String SERVER_IP_SUBMIT_DAILY = UrlLibs.SERVER_IP_TRADE_1_2 + "daily?";
     /**
      * 提交订单 单次用车
      **/
