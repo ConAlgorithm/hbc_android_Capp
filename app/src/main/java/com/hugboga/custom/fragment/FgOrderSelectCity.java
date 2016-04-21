@@ -281,7 +281,6 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
     List<String> passCitiesList = new ArrayList<>();
     //1,市内 2,周边 3,其它城市
     private void setDayText(int type,CityBean cityBean){
-        checkNextBtnStatus();
         int tag = Integer.valueOf(currentClickView.getTag().toString());
         TextView text = (TextView)currentClickView.findViewById(R.id.day_go_city_text_click);
         TextView add_tips = (TextView)currentClickView.findViewById(R.id.add_tips);
@@ -332,6 +331,8 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
         }else{
             endCityId = cityId;
         }
+        checkNextBtnStatus();
+
     }
 
     //途径城市
@@ -350,7 +351,6 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
         scope_layout_in.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checkNextBtnStatus();
                 setDayText(1,null);
                 hideSelectPeoplePop();
             }
@@ -358,7 +358,6 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
         scope_layout_out.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checkNextBtnStatus();
                 setDayText(2,null);
                 hideSelectPeoplePop();
             }
@@ -571,14 +570,19 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
                 Bundle bundleCar = new Bundle();
                 bundleCar.putString("startCityId",startBean.cityId+"");
                 bundleCar.putString("endCityId",endCityId);
-                bundleCar.putString("startDate",isHalfTravel?(halfDate+" 00:00:00"):(start_date_str+" 00:00:00"));
-                bundleCar.putString("endDate",end_date_str+" 00:00:00");
+                bundleCar.putString("startDate",isHalfTravel?(halfDate):(start_date_str));
+                bundleCar.putString("endDate",end_date_str);
                 bundleCar.putString("halfDay",isHalfTravel?"1":"0");
                 bundleCar.putString("adultNum",manNum+"");
                 bundleCar.putString("childrenNum",childNum+"");
                 bundleCar.putString("childseatNum",childSeatNums+"");
                 bundleCar.putString("luggageNum",baggageNum+"");
                 bundleCar.putString("passCities",getPassCities());
+
+                bundleCar.putString("startCityName",startBean.name);
+                bundleCar.putString("dayNums",nums+"");
+
+
                 FGSelectCar fgSelectCar = new FGSelectCar();
                 fgSelectCar.setArguments(bundleCar);
                 startFragment(fgSelectCar);

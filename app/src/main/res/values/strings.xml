@@ -347,6 +347,8 @@
     <string name="complete_end_date">请选择结束日期</string>
     <string name="complete_days_info">请完善每天的行程</string>
     <string name="complete_half_start_date">请完善游玩日期</string>
+    <string name="edit_mark_left">备注信息</string>
     <string name="edit_mark">你可以在这里注明其他需求,以及需要车导知道的其他行程细节</string>
+    <string name="all_cost_info">费用详情</string>
 
 </resources>

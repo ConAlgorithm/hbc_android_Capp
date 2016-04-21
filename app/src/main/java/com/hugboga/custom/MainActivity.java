@@ -49,6 +49,7 @@ import com.hugboga.custom.data.request.RequestPushClick;
 import com.hugboga.custom.data.request.RequestPushToken;
 import com.hugboga.custom.data.request.RequestUploadLocation;
 import com.hugboga.custom.fragment.BaseFragment;
+import com.hugboga.custom.fragment.FgActivity;
 import com.hugboga.custom.fragment.FgChat;
 import com.hugboga.custom.fragment.FgCoupon;
 import com.hugboga.custom.fragment.FgHome;
@@ -58,7 +59,9 @@ import com.hugboga.custom.fragment.FgOrder;
 import com.hugboga.custom.fragment.FgPersonInfo;
 import com.hugboga.custom.fragment.FgServicerCenter;
 import com.hugboga.custom.fragment.FgSetting;
+import com.hugboga.custom.fragment.FgSkuDetail;
 import com.hugboga.custom.fragment.FgTravel;
+import com.hugboga.custom.fragment.FgWebInfo;
 import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.ImageOptionUtils;
 import com.hugboga.custom.utils.LocationUtils;
@@ -83,6 +86,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -368,7 +372,7 @@ public class MainActivity extends BaseFragmentActivity
                     new LvMenuItem(R.mipmap.personal_center_coupon, "优惠券", ""),
                     new LvMenuItem(R.mipmap.personal_center_customer_service, "客服中心", ""),
                     new LvMenuItem(R.mipmap.personal_center_internal, "境内客服", "仅限国内使用"),
-                    new LvMenuItem(R.mipmap.personal_center_overseas, "境外客服", "仅限国外使用"),
+                    new LvMenuItem(R.mipmap.personal_center_overseas, "活动", ""),
                     new LvMenuItem(R.mipmap.personal_center_setting, "设置", "")
             ));
 
@@ -511,7 +515,10 @@ public class MainActivity extends BaseFragmentActivity
                 break;
             case Constants.PERSONAL_CENTER_OVERSEAS_SERVICE:
                 //境外客服
-                PhoneInfo.CallDial(MainActivity.this, Constants.CALL_NUMBER_OUT);
+//                PhoneInfo.CallDial(MainActivity.this, Constants.CALL_NUMBER_OUT);
+                Bundle bundle = new Bundle();
+                bundle.putString(FgWebInfo.WEB_URL, "http://res.dev.hbc.tech/h5/cactivity/airchina/index.html?t="+ new Random().nextInt(100000));
+                startFragment(new FgActivity(),bundle);
                 break;
             case Constants.PERSONAL_CENTER_SETTING:
                 //我的设置
