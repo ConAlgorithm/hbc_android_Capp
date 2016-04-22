@@ -30,6 +30,7 @@
             android:hint="姓名需与证件姓名一致"
             android:textColor="@color/basic_black"
             android:textSize="18sp"
+            android:maxLength="50"
             android:background="@null"
             android:id="@+id/name"/>
     </LinearLayout>

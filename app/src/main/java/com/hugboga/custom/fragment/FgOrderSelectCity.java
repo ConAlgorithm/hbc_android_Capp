@@ -699,7 +699,9 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
 
     private void removeDayLayout(int index) {
         full_day_show.removeViewAt(index);
-        passCitiesList.remove(index);
+        if(index < passCitiesList.size()) {
+            passCitiesList.remove(index);
+        }
     }
 
     public void showDaySelect(TextView sDateTime) {
@@ -777,7 +779,6 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
                 halfDate = serverDate;
                 goCityTextClick.setText(serverDate);
                 goCityTextClick.setTextColor(Color.parseColor("#000000"));
-                enableNextBtn();
             }
         }
     }

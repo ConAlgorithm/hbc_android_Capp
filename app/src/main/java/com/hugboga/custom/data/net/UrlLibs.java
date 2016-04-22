@@ -255,4 +255,9 @@ public class UrlLibs {
      */
     public static final String GET_CAR_INFOS = "price/v1.2/e/dailyPrice?";
 
+    /**
+     * 新增投保人
+     */
+    public static final String ADD_INSURE = "insurance/v1.0/c/user/add";
+
 }
