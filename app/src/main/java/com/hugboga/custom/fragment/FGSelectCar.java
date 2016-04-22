@@ -3,6 +3,7 @@ package com.hugboga.custom.fragment;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ import com.hugboga.custom.constants.CarTypeEnum;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CarBean;
 import com.hugboga.custom.data.bean.CarInfoBean;
+import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.DayQuoteBean;
 import com.hugboga.custom.data.bean.SelectCarBean;
 import com.hugboga.custom.data.bean.ServiceQuoteSumBean;
@@ -115,6 +117,10 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
     RelativeLayout coupon_listview_empty;
     @Bind(R.id.scrollView)
     ScrollView scrollView;
+    @Bind(R.id.mans_serviceCityNote)
+    TextView mans_serviceCityNote;
+    @Bind(R.id.cars_serviceCityNote)
+    TextView cars_serviceCityNote;
 
     @Override
     protected void initHeader() {
@@ -169,6 +175,8 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
 //        jazzyPager.addOnPageChangeListener(this);
     }
 
+    CityBean startBean;
+    CityBean endBean;
     private void getArgs(){
         startCityId = this.getArguments().getString("startCityId");
         endCityId = this.getArguments().getString("endCityId");
@@ -183,6 +191,9 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
 
         startCityName = this.getArguments().getString("startCityName");
         dayNums = this.getArguments().getString("dayNums");
+
+        startBean = this.getArguments().getParcelable("startBean");
+        endBean = this.getArguments().getParcelable("endBean");
 
     }
 
@@ -235,6 +246,19 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
         baggages.setText(String.format(getString(R.string.have_baggages),carBean.capOfLuggage));
         carType.setText(carBean.carDesc);
         carContent.setText("此车型包括:"+carBean.models);
+        if(TextUtils.isEmpty(carBean.serviceCityNote)){
+            mans_serviceCityNote.setVisibility(View.GONE);
+        }else{
+            mans_serviceCityNote.setVisibility(View.VISIBLE);
+            mans_serviceCityNote.setText(carBean.serviceCityNote);
+        }
+
+        if(TextUtils.isEmpty(carBean.serviceCityNote)){
+            cars_serviceCityNote.setVisibility(View.GONE);
+        }else{
+            cars_serviceCityNote.setVisibility(View.VISIBLE);
+            cars_serviceCityNote.setText(carBean.serviceCityNote);
+        }
 
         allDayNum.setText(carBean.totalDays+"天 x"+carBean.numOfPerson+"人");
         allCharge.setText(carBean.price+"元");
@@ -463,6 +487,8 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
                 bundleCar.putString("startCityName",startCityName);
                 bundleCar.putString("dayNums",dayNums);
                 bundleCar.putParcelable("carBean",carBean);
+                bundleCar.putParcelable("startBean",startBean);
+                bundleCar.putParcelable("endBean",endBean);
                 fgOrderNew.setArguments(bundleCar);
                 startFragment(fgOrderNew);
                 break;

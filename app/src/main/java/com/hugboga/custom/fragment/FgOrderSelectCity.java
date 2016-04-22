@@ -169,6 +169,11 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
             return;
         }
 
+        if(TextUtils.isEmpty(baggageTextClick.getText())){
+            disableNextBtn();
+            return;
+        }
+
         if(isHalfTravel){
             if(TextUtils.isEmpty(halfDate)){
                 disableNextBtn();
@@ -453,6 +458,7 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
     }
 
     CityBean startBean;
+    CityBean endBean;
     List<CityBean> cityBeanList;
     String scope_in_str = "";
     String scope_around_str = "";
@@ -471,8 +477,10 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
             String fromKey = bundle.getString(KEY_FROM);
             if ("startAddress".equals(fromKey)) {
                 startBean = (CityBean) bundle.getSerializable(FgChooseCity.KEY_CITY);
+                endBean = startBean;
                 if (!startCity.equalsIgnoreCase(startBean.name)) {
                     startCity = startBean.name;
+                    endCityId = startBean.cityId+"";
                     startCityClick.setText(startCity);
                     startCityClick.setTextColor(Color.parseColor("#000000"));
                     DBCityUtils dbCityUtils = new DBCityUtils();
@@ -482,8 +490,8 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
 
                 }
             } else if ("end".equalsIgnoreCase(fromKey)) {
-                CityBean otherCity = (CityBean) bundle.getSerializable(FgChooseCity.KEY_CITY);
-                setDayText(3,otherCity);
+                endBean = (CityBean) bundle.getSerializable(FgChooseCity.KEY_CITY);
+                setDayText(3,endBean);
             }
             checkNextBtnStatus();
         }
@@ -581,6 +589,8 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
 
                 bundleCar.putString("startCityName",startBean.name);
                 bundleCar.putString("dayNums",nums+"");
+                bundleCar.putParcelable("startBean",startBean);
+                bundleCar.putParcelable("endBean",endBean);
 
 
                 FGSelectCar fgSelectCar = new FGSelectCar();
@@ -767,6 +777,7 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
                 halfDate = serverDate;
                 goCityTextClick.setText(serverDate);
                 goCityTextClick.setTextColor(Color.parseColor("#000000"));
+                enableNextBtn();
             }
         }
     }

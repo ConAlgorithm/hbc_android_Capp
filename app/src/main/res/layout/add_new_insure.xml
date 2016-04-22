@@ -4,6 +4,8 @@
     android:background="#e8eaeb"
     android:layout_height="match_parent">
 
+    <include android:id="@+id/header" layout="@layout/include_header" />
+
     <LinearLayout
         android:orientation="horizontal"
         android:layout_marginTop="15dp"
@@ -81,6 +83,7 @@
             android:layout_marginRight="20sp"
             android:layout_marginLeft="20dp"
             android:hint="请选择"
+            android:inputType="none"
             android:textColor="@color/basic_black"
             android:textSize="18sp"
             android:background="@null"
@@ -108,10 +111,30 @@
             android:layout_marginRight="20sp"
             android:layout_marginLeft="20dp"
             android:hint="请选择"
+            android:inputType="none"
             android:textColor="@color/basic_black"
             android:textSize="18sp"
             android:background="@null"
             android:id="@+id/birthday"/>
     </LinearLayout>
-
+    <Button
+        android:id="@+id/next_btn_click"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_margin="25dp"
+        android:background="#d5dadb"
+        android:gravity="center"
+        android:text="完成"
+        android:enabled="false"
+        android:textColor="@color/basic_white"
+        android:textSize="20sp" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:textColor="#8b8c8e"
+        android:textSize="15sp"
+        android:minEms="4"
+        android:text="请认真核对投保人信息,填写有误会影响保险公司理赔"/>
 </LinearLayout>

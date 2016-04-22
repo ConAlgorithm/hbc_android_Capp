@@ -150,6 +150,10 @@ public class FGOrderNew extends BaseFragment {
     String startCityName;
     String dayNums;
     SelectCarBean carBean;
+
+    CityBean startBean;
+    CityBean endBean;
+
     @Override
     protected void initView() {
 
@@ -169,9 +173,17 @@ public class FGOrderNew extends BaseFragment {
         startCityName = this.getArguments().getString("startCityName");
         dayNums = this.getArguments().getString("dayNums");
 
+        startBean = this.getArguments().getParcelable("startBean");
+        endBean = this.getArguments().getParcelable("endBean");
 
         city.setText("城市:"+startCityName);
-        date.setText("用车时间:"+startDate+"到"+endDate);
+        if(halfDay.equalsIgnoreCase("0")){
+            date.setText("用车时间:"+startDate+"到"+endDate);
+            dayNumsText.setText("("+dayNums+"天)");
+        }else{
+            date.setText("用车时间:"+startDate);
+            dayNumsText.setVisibility(View.INVISIBLE);
+        }
         mans.setText("人数:"+adultNum+"成人/"+childrenNum+"儿童");
         seat.setText("儿童座椅:"+childseatNum);
         baggage.setText("托运行李:"+luggageNum);
@@ -363,16 +375,28 @@ public class FGOrderNew extends BaseFragment {
         orderBean.contact = contact;
         orderBean.oneCityTravel = 2;
         orderBean.serviceStartTime = " 00:00:00";
-        orderBean.serviceEndTime = endDate;
         orderBean.serviceTime = startDate;
 
-        orderBean.totalDays = Integer.valueOf(dayNums);
-        orderBean.inTownDays = Integer.valueOf(1);
-        orderBean.outTownDays = Integer.valueOf(dayNums)-1;
+        if(halfDay.equalsIgnoreCase("0")) {
+            orderBean.totalDays = Integer.valueOf(dayNums);
+            orderBean.inTownDays = Integer.valueOf(1);
+            orderBean.outTownDays = Integer.valueOf(dayNums) - 1;
+            orderBean.serviceEndTime = endDate;
+            orderBean.startAddressPoi = startBean.location;
+            orderBean.destAddressPoi = endBean.location;
+        }else{
+            orderBean.serviceEndTime = startDate;
+            orderBean.startAddressPoi = startBean.location;
+            orderBean.destAddressPoi = startBean.location;
+            orderBean.totalDays = 1;
+            orderBean.inTownDays = 1;
+            orderBean.outTownDays = 0;
+        }
 
 
-        orderBean.startAddressPoi = "36.524461,180.155223";
-        orderBean.destAddressPoi = "36.524461,180.155223";
+        orderBean.startAddressPoi = startBean.location;
+        orderBean.destAddressPoi = endBean.location;
+
         orderBean.userName = orderUserName.getText().toString();
         orderBean.stayCityListStr = passCities;
         orderBean.userRemark = mark.getText().toString();
