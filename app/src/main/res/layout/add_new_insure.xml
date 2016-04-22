@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:background="#e8eaeb"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_marginTop="15dp"
+        android:layout_width="match_parent"
+        android:gravity="center_vertical"
+        android:background="@color/basic_white"
+        android:layout_height="60dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:textColor="@color/basic_black"
+            android:textSize="18sp"
+            android:minEms="4"
+            android:text="姓名"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20sp"
+            android:layout_marginLeft="20dp"
+            android:hint="姓名需与证件姓名一致"
+            android:textColor="@color/basic_black"
+            android:textSize="18sp"
+            android:background="@null"
+            android:id="@+id/name"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_marginTop="15dp"
+        android:layout_width="match_parent"
+        android:gravity="center_vertical"
+        android:background="@color/basic_white"
+        android:layout_height="60dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:minEms="4"
+            android:textColor="@color/basic_black"
+            android:textSize="18sp"
+            android:text="护照编号"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20sp"
+            android:layout_marginLeft="20dp"
+            android:hint="G+8位数字或E+18位数字"
+            android:textColor="@color/basic_black"
+            android:textSize="18sp"
+            android:background="@null"
+            android:id="@+id/cardid"/>
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_marginTop="15dp"
+        android:layout_width="match_parent"
+        android:gravity="center_vertical"
+        android:background="@color/basic_white"
+        android:layout_height="60dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:textColor="@color/basic_black"
+            android:textSize="18sp"
+            android:minEms="4"
+            android:text="性别"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20sp"
+            android:layout_marginLeft="20dp"
+            android:hint="请选择"
+            android:textColor="@color/basic_black"
+            android:textSize="18sp"
+            android:background="@null"
+            android:id="@+id/sex"/>
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_marginTop="15dp"
+        android:layout_width="match_parent"
+        android:gravity="center_vertical"
+        android:background="@color/basic_white"
+        android:layout_height="60dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:textColor="@color/basic_black"
+            android:textSize="18sp"
+            android:minEms="4"
+            android:text="出生日期"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20sp"
+            android:layout_marginLeft="20dp"
+            android:hint="请选择"
+            android:textColor="@color/basic_black"
+            android:textSize="18sp"
+            android:background="@null"
+            android:id="@+id/birthday"/>
+    </LinearLayout>
+
+</LinearLayout>

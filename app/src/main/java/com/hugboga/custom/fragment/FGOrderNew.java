@@ -127,6 +127,8 @@ public class FGOrderNew extends BaseFragment {
     RelativeLayout bottom;
     @Bind(R.id.dayNums)
     TextView dayNumsText;
+    @Bind(R.id.mark)
+    EditText mark;
 
     @Override
     protected void initHeader() {
@@ -349,8 +351,7 @@ public class FGOrderNew extends BaseFragment {
         orderBean.seatCategory = carBean.seatCategory;
         orderBean.carType = carBean.carType;
         orderBean.child = Integer.valueOf(childrenNum);
-        ArrayList<String> list = new ArrayList<String>();
-        list.add(childseatNum);
+
         orderBean.destAddress = endCityId;
         orderBean.orderPrice = carBean.price;
         orderBean.priceMark = carBean.pricemark;
@@ -361,7 +362,6 @@ public class FGOrderNew extends BaseFragment {
         orderBean.isHalfDaily =  Integer.valueOf(halfDay);
         orderBean.contact = contact;
         orderBean.oneCityTravel = 2;
-//        orderBean.orderGoodsType = ;
         orderBean.serviceStartTime = " 00:00:00";
         orderBean.serviceEndTime = endDate;
         orderBean.serviceTime = startDate;
@@ -374,6 +374,8 @@ public class FGOrderNew extends BaseFragment {
         orderBean.startAddressPoi = "36.524461,180.155223";
         orderBean.destAddressPoi = "36.524461,180.155223";
         orderBean.userName = orderUserName.getText().toString();
+        orderBean.stayCityListStr = passCities;
+        orderBean.userRemark = mark.getText().toString();
 
 
         orderBean.priceChannel = carBean.price+"";

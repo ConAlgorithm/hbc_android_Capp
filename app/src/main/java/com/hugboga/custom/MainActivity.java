@@ -371,8 +371,8 @@ public class MainActivity extends BaseFragmentActivity
             Arrays.asList(
                     new LvMenuItem(R.mipmap.personal_center_coupon, "优惠券", ""),
                     new LvMenuItem(R.mipmap.personal_center_customer_service, "客服中心", ""),
-                    new LvMenuItem(R.mipmap.personal_center_internal, "境内客服", "仅限国内使用"),
-                    new LvMenuItem(R.mipmap.personal_center_overseas, "境外客服", "仅限国外使用"),
+                    new LvMenuItem(R.mipmap.personal_center_internal, "常用投保人", ""),
+                    new LvMenuItem(R.mipmap.personal_center_overseas, "活动", ""),
                     new LvMenuItem(R.mipmap.personal_center_setting, "设置", "")
             ));
 
