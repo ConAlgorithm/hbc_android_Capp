@@ -260,4 +260,19 @@ public class UrlLibs {
      */
     public static final String ADD_INSURE = "insurance/v1.0/c/user/add";
 
+    /**
+     * 查询投保人
+     */
+    public static final String GET_INSURE_LIST = "insurance/v1.0/c/user/list";
+
+    /**
+     * 删除投保人
+     */
+    public static final String DEL_INSURE_LIST = "insurance/v1.0/c/user/delete";
+
+    /**
+     * 编辑投保人
+     */
+    public static final String EDIT_INSURE_LIST = "insurance/v1.0/c/user/edit";
+
 }

@@ -31,6 +31,8 @@
             android:textColor="@color/basic_black"
             android:textSize="18sp"
             android:maxLength="50"
+            android:lines="1"
+            android:ellipsize="end"
             android:background="@null"
             android:id="@+id/name"/>
     </LinearLayout>
@@ -59,6 +61,9 @@
             android:hint="G+8位数字或E+18位数字"
             android:textColor="@color/basic_black"
             android:textSize="18sp"
+            android:maxLength="50"
+            android:lines="1"
+            android:ellipsize="end"
             android:background="@null"
             android:id="@+id/cardid"/>
     </LinearLayout>
@@ -78,7 +83,7 @@
             android:minEms="4"
             android:text="性别"/>
 
-        <EditText
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginRight="20sp"
@@ -106,7 +111,7 @@
             android:minEms="4"
             android:text="出生日期"/>
 
-        <EditText
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginRight="20sp"

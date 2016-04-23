@@ -526,7 +526,7 @@ public class MainActivity extends BaseFragmentActivity
 //                PhoneInfo.CallDial(MainActivity.this, Constants.CALL_NUMBER_OUT);
                 if(isLogin("活动中心")) {
                     Bundle bundle = new Bundle();
-                    bundle.putString(FgWebInfo.WEB_URL, "http://res.dev.hbc.tech/h5/cactivity/airchina/index.html?t=" + new Random().nextInt(100000));
+                    bundle.putString(FgWebInfo.WEB_URL, "http://res.dev.hbc.tech/h5/cactivity/index.html?t=" + new Random().nextInt(100000));
                     startFragment(new FgActivity(), bundle);
                 }
                 break;

@@ -31,6 +31,7 @@ import com.hugboga.custom.data.bean.SelectCarBean;
 import com.hugboga.custom.data.request.RequestPriceSku;
 import com.hugboga.custom.data.request.RequestSubmitBase;
 import com.hugboga.custom.data.request.RequestSubmitDaily;
+import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.ToastUtils;
 import com.hugboga.custom.widget.DialogUtil;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
@@ -373,11 +374,11 @@ public class FGOrderNew extends BaseFragment {
         orderBean.serviceEndCityName = endCityId;
         orderBean.isHalfDaily =  Integer.valueOf(halfDay);
         orderBean.contact = contact;
-        orderBean.oneCityTravel = 2;
         orderBean.serviceStartTime = " 00:00:00";
         orderBean.serviceTime = startDate;
 
         if(halfDay.equalsIgnoreCase("0")) {
+            orderBean.oneCityTravel = 2;
             orderBean.totalDays = Integer.valueOf(dayNums);
             orderBean.inTownDays = Integer.valueOf(1);
             orderBean.outTownDays = Integer.valueOf(dayNums) - 1;
@@ -385,6 +386,7 @@ public class FGOrderNew extends BaseFragment {
             orderBean.startAddressPoi = startBean.location;
             orderBean.destAddressPoi = endBean.location;
         }else{
+            orderBean.oneCityTravel = 1;
             orderBean.serviceEndTime = startDate;
             orderBean.startAddressPoi = startBean.location;
             orderBean.destAddressPoi = startBean.location;
