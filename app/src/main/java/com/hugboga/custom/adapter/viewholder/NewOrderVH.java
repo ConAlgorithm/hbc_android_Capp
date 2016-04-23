@@ -58,6 +58,13 @@ public class NewOrderVH extends ZBaseViewHolder {
     @ViewInject(R.id.travel_item_btn_assessment)
     public TextView mAssessment; //评价车导
 
+    @ViewInject(R.id.br_layout)
+    public LinearLayout br_layout;
+    @ViewInject(R.id.travel_item_btn_br)
+    public TextView travel_item_btn_br;;
+    @ViewInject(R.id.travel_item_btn_br_tips)
+    public ImageView travel_item_btn_br_tips;
+
     public NewOrderVH(View itemView) {
         super(itemView);
     }

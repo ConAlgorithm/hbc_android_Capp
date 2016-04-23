@@ -98,6 +98,8 @@ public class OrderBean implements IBaseBean {
     public String journeyComment;//行程说明
     public String dailyTips;//注意事项
 
+    public boolean insuranceEnable; //是否投保
+
     //2.5.0
     public String goodsNo;//商品ID
     public String skuPoi;//poi 列表，jsonArray格式

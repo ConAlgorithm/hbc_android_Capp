@@ -84,10 +84,12 @@ public final class Constants {
      * 左侧navigation menu
      */
     public static final int PERSONAL_CENTER_COUPON = 1;
-    public static final int PERSONAL_CENTER_CUSTOMER_SERVICE = 2;
-    public static final int PERSONAL_CENTER_INTERNAL_SERVICE = 3;
-    public static final int PERSONAL_CENTER_OVERSEAS_SERVICE = 4;
-    public static final int PERSONAL_CENTER_SETTING = 5;
+    public static final int PERSONAL_CENTER_CUSTOMER_SERVICE = 5;
+    public static final int PERSONAL_CENTER_INTERNAL_SERVICE = 6;
+    public static final int PERSONAL_CENTER_OVERSEAS_SERVICE = 7;
+    public static final int PERSONAL_CENTER_SETTING = 4;
+    public static final int PERSONAL_CENTER_HD = 3;
+    public static final int PERSONAL_CENTER_BR = 2;
 
     /**
      * 车辆类型

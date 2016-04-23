@@ -371,10 +371,12 @@ public class MainActivity extends BaseFragmentActivity
     private List<LvMenuItem> mItems = new ArrayList<LvMenuItem>(
             Arrays.asList(
                     new LvMenuItem(R.mipmap.personal_center_coupon, "优惠券", ""),
-                    new LvMenuItem(R.mipmap.personal_center_customer_service, "客服中心", ""),
-                    new LvMenuItem(R.mipmap.personal_center_internal, "常用投保人", ""),
-                    new LvMenuItem(R.mipmap.personal_center_overseas, "活动中心", ""),
-                    new LvMenuItem(R.mipmap.personal_center_setting, "设置", "")
+                    new LvMenuItem(R.mipmap.personal_icon_br, "常用投保人", ""),
+                    new LvMenuItem(R.mipmap.personal_icon_hd, "活动", ""),
+                    new LvMenuItem(R.mipmap.personal_center_setting, "设置", ""),
+                    new LvMenuItem(R.mipmap.personal_center_customer_service, "客服中心", "我们的服务介绍和保障"),
+                    new LvMenuItem(R.mipmap.personal_center_internal, "境内客服", "仅限国内使用"),
+                    new LvMenuItem(R.mipmap.personal_center_overseas, "境外客服", "仅限国外使用")
             ));
 
     MenuItemAdapter menuItemAdapter;
@@ -513,21 +515,29 @@ public class MainActivity extends BaseFragmentActivity
                 break;
             case Constants.PERSONAL_CENTER_INTERNAL_SERVICE:
                 //境内客服
-                if(isLogin("常用投保人")) {
-                    FgInsure fgInsure = new FgInsure();
-                    startFragment(fgInsure);
-//                    PhoneInfo.CallDial(MainActivity.this, Constants.CALL_NUMBER_IN);
+                if(isLogin("个人中心首页")) {
+                    PhoneInfo.CallDial(MainActivity.this, Constants.CALL_NUMBER_IN);
 //                    map.put("source", "个人中心呼叫境内客服");
 //                    MobclickAgent.onEvent(MainActivity.this, "calldomestic_person", map);
                 }
                 break;
             case Constants.PERSONAL_CENTER_OVERSEAS_SERVICE:
                 //境外客服
-//                PhoneInfo.CallDial(MainActivity.this, Constants.CALL_NUMBER_OUT);
-                if(isLogin("活动中心")) {
+                if(isLogin("个人中心首页")) {
+                    PhoneInfo.CallDial(MainActivity.this, Constants.CALL_NUMBER_OUT);
+                }
+                break;
+            case Constants.PERSONAL_CENTER_HD:
+                if(isLogin("个人中心首页")) {
                     Bundle bundle = new Bundle();
                     bundle.putString(FgWebInfo.WEB_URL, "http://res.dev.hbc.tech/h5/cactivity/index.html?t=" + new Random().nextInt(100000));
                     startFragment(new FgActivity(), bundle);
+                }
+                break;
+            case Constants.PERSONAL_CENTER_BR:
+                if(isLogin("个人中心首页")) {
+                    FgInsure fgInsure = new FgInsure();
+                    startFragment(fgInsure);
                 }
                 break;
             case Constants.PERSONAL_CENTER_SETTING:

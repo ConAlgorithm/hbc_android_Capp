@@ -7,6 +7,8 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.adapter.ZBaseAdapter;
@@ -19,13 +21,17 @@ import com.hugboga.custom.data.bean.ChatInfo;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.parser.ParserChatInfo;
 import com.hugboga.custom.fragment.BaseFragment;
+import com.hugboga.custom.fragment.FgAddInsure;
 import com.hugboga.custom.fragment.FgAssessment;
+import com.hugboga.custom.fragment.FgInsure;
 import com.hugboga.custom.fragment.FgOrder;
 import com.hugboga.custom.fragment.FgTravel;
+import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.widget.DialogUtil;
 
 import org.xutils.image.ImageOptions;
+import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
 import java.text.ParseException;
@@ -180,7 +186,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
      * @param vh
      * @param orderBean
      */
-    private void setStatusView(NewOrderVH vh, OrderBean orderBean) {
+    private void setStatusView(NewOrderVH vh, final OrderBean orderBean) {
         vh.mAssessment.setOnClickListener(null);
         switch (orderBean.orderStatus) {
             case INITSTATE:
@@ -201,8 +207,32 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                 break;
             case PAYSUCCESS:
                 //预订成功
-                vh.mStatusLayout.setVisibility(View.GONE);
                 vh.mStatus.setTextColor(Color.parseColor("#F3AD5B"));
+
+                if(orderBean.insuranceEnable) {
+                    vh.mStatusLayout.setVisibility(View.VISIBLE);
+                    vh.br_layout.setVisibility(View.VISIBLE);
+                    vh.travel_item_btn_br.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            FgInsure fgAddInsure = new FgInsure();
+                            Bundle bundle = new Bundle();
+                            bundle.putString("orderNo",orderBean.orderNo+"");
+                            fgAddInsure.setArguments(bundle);
+                            fragment.startFragment(fgAddInsure);
+                        }
+                    });
+                    vh.travel_item_btn_br_tips.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            AlertDialogUtils.showAlertDialog(fragment.getActivity(), "保险服务等说明");
+                        }
+                    });
+                }else{
+                    vh.mStatusLayout.setVisibility(View.GONE);
+                    vh.br_layout.setVisibility(View.GONE);
+                }
+
                 break;
             case AGREE:
                 //导游已接单

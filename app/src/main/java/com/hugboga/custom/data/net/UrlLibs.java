@@ -275,4 +275,9 @@ public class UrlLibs {
      */
     public static final String EDIT_INSURE_LIST = "insurance/v1.0/c/user/edit";
 
+    /**
+     * 提交投保人
+     */
+    public static final String SUBMIT_INSURE_LIST = "insurance/v1.0/c/insurance/submit";
+
 }

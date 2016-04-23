@@ -76,6 +76,13 @@ public class InSureListAdapter extends BaseAdapter {
             }
         });
 
+        if(1 == getItem(position).isCheck){
+            checkBox.setChecked(true);
+        }else{
+            checkBox.setChecked(false);
+        }
+
+
         if(1 == getItem(position).isDel){
             checkBox.setVisibility(View.VISIBLE);
         }else{

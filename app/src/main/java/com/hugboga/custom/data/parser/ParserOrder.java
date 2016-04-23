@@ -66,6 +66,7 @@ public class ParserOrder extends ImplParser {
         orderbean.additionIsRead = jsonObj.optInt("additionIsRead");
         orderbean.lineSubject = jsonObj.optString("lineSubject");
         orderbean.lineDescription = jsonObj.optString("lineDescription");
+        orderbean.insuranceEnable = jsonObj.optBoolean("insuranceEnable");
 
         //passByCity
         JSONArray passByCityArray = jsonObj.optJSONArray("passCities");
