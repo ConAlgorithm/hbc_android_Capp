@@ -19,32 +19,14 @@ import org.xutils.view.annotation.Event;
  * Created by admin on 2016/3/17.
  */
 
-@ContentView(R.layout.fg_sku_detail)
+@ContentView(R.layout.fg_activity)
 public class FgActivity extends FgWebInfo {
 
     @Override
     protected void initView() {
         super.initView();
-        getView().findViewById(R.id.header_right_btn).setVisibility(WXShareUtils.getInstance(getActivity()).isInstall(false)? View.VISIBLE:View.GONE);
 
     }
-
-    @Event({R.id.header_right_btn,R.id.phone_consultation,R.id.goto_order})
-    private void onClickView(View view){
-        switch (view.getId()){
-            case R.id.header_right_btn:
-
-                break;
-            case R.id.phone_consultation:
-                DialogUtil.getInstance(getActivity()).showCallDialog();
-                break;
-            case R.id.goto_order:
-
-                break;
-        }
-    }
-
-
 
     @Override
     public void onResume() {

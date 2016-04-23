@@ -37,6 +37,7 @@ public class RequestLogin extends BaseRequest<UserBean> {
         map.put("areaCode", areaCode);
         map.put("mobile", mobile);
         map.put("password", password);
+        map.put("source",1);
         return map;
     }
 

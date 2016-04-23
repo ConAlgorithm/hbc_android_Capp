@@ -23,6 +23,7 @@ public class OrderBean implements IBaseBean {
     public String userName;
 
     public String priceChannel;
+    public String userRemark;
 
 
     public Integer orderType;//1: 接机 2: 送机 3: 市内包车(由日租拆分出来) 4: 次租

@@ -54,6 +54,7 @@ import com.hugboga.custom.fragment.FgChat;
 import com.hugboga.custom.fragment.FgCoupon;
 import com.hugboga.custom.fragment.FgHome;
 import com.hugboga.custom.fragment.FgIMChat;
+import com.hugboga.custom.fragment.FgInsure;
 import com.hugboga.custom.fragment.FgLogin;
 import com.hugboga.custom.fragment.FgOrder;
 import com.hugboga.custom.fragment.FgPersonInfo;
@@ -173,12 +174,12 @@ public class MainActivity extends BaseFragmentActivity
 
                 if(!TextUtils.isEmpty(lat)){
                     RequestUploadLocation requestUploadLocation = new RequestUploadLocation(MainActivity.this);
-                    HttpRequestUtils.request(MainActivity.this,requestUploadLocation,MainActivity.this);
+                    HttpRequestUtils.request(MainActivity.this,requestUploadLocation,MainActivity.this,false);
 
                 }
             }
         };
-        timer.schedule(timerTask,0,3000);
+        timer.schedule(timerTask,0,30000);
     }
 
     /**
@@ -371,8 +372,8 @@ public class MainActivity extends BaseFragmentActivity
             Arrays.asList(
                     new LvMenuItem(R.mipmap.personal_center_coupon, "优惠券", ""),
                     new LvMenuItem(R.mipmap.personal_center_customer_service, "客服中心", ""),
-                    new LvMenuItem(R.mipmap.personal_center_internal, "境内客服", "仅限国内使用"),
-                    new LvMenuItem(R.mipmap.personal_center_overseas, "境外客服", "仅限国外使用"),
+                    new LvMenuItem(R.mipmap.personal_center_internal, "常用投保人", ""),
+                    new LvMenuItem(R.mipmap.personal_center_overseas, "活动中心", ""),
                     new LvMenuItem(R.mipmap.personal_center_setting, "设置", "")
             ));
 
@@ -512,16 +513,22 @@ public class MainActivity extends BaseFragmentActivity
                 break;
             case Constants.PERSONAL_CENTER_INTERNAL_SERVICE:
                 //境内客服
-                PhoneInfo.CallDial(MainActivity.this, Constants.CALL_NUMBER_IN);
-                map.put("source", "个人中心呼叫境内客服");
-                MobclickAgent.onEvent(MainActivity.this, "calldomestic_person", map);
+                if(isLogin("常用投保人")) {
+                    FgInsure fgInsure = new FgInsure();
+                    startFragment(fgInsure);
+//                    PhoneInfo.CallDial(MainActivity.this, Constants.CALL_NUMBER_IN);
+//                    map.put("source", "个人中心呼叫境内客服");
+//                    MobclickAgent.onEvent(MainActivity.this, "calldomestic_person", map);
+                }
                 break;
             case Constants.PERSONAL_CENTER_OVERSEAS_SERVICE:
                 //境外客服
 //                PhoneInfo.CallDial(MainActivity.this, Constants.CALL_NUMBER_OUT);
-                Bundle bundle = new Bundle();
-                bundle.putString(FgWebInfo.WEB_URL, "http://res.dev.hbc.tech/h5/cactivity/airchina/index.html?t="+ new Random().nextInt(100000));
-                startFragment(new FgActivity(),bundle);
+                if(isLogin("活动中心")) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString(FgWebInfo.WEB_URL, "http://res.dev.hbc.tech/h5/cactivity/index.html?t=" + new Random().nextInt(100000));
+                    startFragment(new FgActivity(), bundle);
+                }
                 break;
             case Constants.PERSONAL_CENTER_SETTING:
                 //我的设置

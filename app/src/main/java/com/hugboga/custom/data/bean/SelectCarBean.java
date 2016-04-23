@@ -31,6 +31,8 @@ public class SelectCarBean implements Parcelable{
     public int vehiclePrice;
     public ServiceQuoteSumBean serviceQuoteSum;
     public ServiceQuoteSumBean vehicleQuoteSum;
+    public String serviceCityNote;
+
 
     @Override
     public int describeContents() {
