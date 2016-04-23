@@ -65,6 +65,9 @@ public class FgInsure extends BaseFragment implements HttpRequestListener {
         adapter = new InSureListAdapter(beanList, this.getContext());
         list.setAdapter(adapter);
         orderNo = this.getArguments().getString("orderNo");
+        if(!TextUtils.isEmpty(orderNo)){
+            bottom.setVisibility(View.VISIBLE);
+        }
     }
 
     private void rightBtnDefault() {
