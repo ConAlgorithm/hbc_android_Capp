@@ -16,15 +16,22 @@
             layout="@layout/include_progress" />
     </LinearLayout>
     <!-- 底部按钮-->
-    <include
-        android:id="@+id/submit_bottom"
-        layout="@layout/include_bottom_bar_submit" />
+    <LinearLayout android:id="@+id/bottom_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <include
+            android:id="@+id/submit_bottom"
+            layout="@layout/include_bottom_bar_submit" />
+        <include
+            android:id="@+id/insure_bottom"
+            layout="@layout/include_bottom_bar_submit" />
+    </LinearLayout>
 
     <ScrollView
         android:id="@+id/pay_scroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/submit_bottom"
+        android:layout_above="@id/bottom_layout"
         android:layout_below="@id/submit_head"
         android:fillViewport="true">
 
