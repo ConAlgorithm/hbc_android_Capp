@@ -5,9 +5,11 @@ import android.content.Context;
 import com.huangbaoche.hbcframe.data.net.HbcParamsBuilder;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
+import com.hugboga.custom.data.bean.CheckOpenIdBean;
 import com.hugboga.custom.data.bean.UserBean;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.parser.ParserLogin;
+import com.hugboga.custom.data.parser.ParserLoginCheckOpenId;
 
 import org.xutils.http.HttpMethod;
 import org.xutils.http.annotation.HttpRequest;
@@ -15,28 +17,19 @@ import org.xutils.http.annotation.HttpRequest;
 import java.util.Map;
 import java.util.TreeMap;
 
-/**
- * Created by admin on 2016/3/8.
- */
-@HttpRequest(path = UrlLibs.SERVER_IP_LOGIN, builder = HbcParamsBuilder.class)
-public class RequestLogin extends BaseRequest<UserBean> {
-    public String areaCode;
-    public String mobile;
-    public String password;
+@HttpRequest(path = UrlLibs.GET_ACCESS_TOKEN, builder = HbcParamsBuilder.class)
+public class RequestLoginCheckOpenId extends BaseRequest<UserBean> {
+    public String code;
 
-    public RequestLogin(Context context, String areaCode, String mobile, String password) {
+    public RequestLoginCheckOpenId(Context context, String code) {
         super(context);
-        this.areaCode = areaCode;
-        this.mobile = mobile;
-        this.password = password;
+        this.code = code;
     }
 
     @Override
     public Map<String, Object> getDataMap() {
         TreeMap map = new TreeMap<String, Object>();
-        map.put("areaCode", areaCode);
-        map.put("mobile", mobile);
-        map.put("password", password);
+        map.put("code", code);
         map.put("source", 1);
         return map;
     }

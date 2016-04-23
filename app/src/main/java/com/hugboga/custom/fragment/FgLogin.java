@@ -18,13 +18,18 @@ import android.widget.Toast;
 import com.huangbaoche.hbcframe.data.bean.UserSession;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
+import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.bean.AccessTokenBean;
+import com.hugboga.custom.data.bean.CheckOpenIdBean;
 import com.hugboga.custom.data.bean.UserBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
+import com.hugboga.custom.data.request.RequestAccessToken;
 import com.hugboga.custom.data.request.RequestLogin;
+import com.hugboga.custom.data.request.RequestLoginCheckOpenId;
 import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.widget.DialogUtil;
@@ -53,7 +58,7 @@ import de.greenrobot.event.EventBus;
  * Created by admin on 2016/3/8.
  */
 @ContentView(R.layout.fg_login)
-public class FgLogin extends BaseFragment implements TextWatcher, IWXAPIEventHandler {
+public class FgLogin extends BaseFragment implements TextWatcher {
 
     public static String KEY_PHONE = "key_phone";
     public static String KEY_AREA_CODE = "key_area_code";
@@ -76,10 +81,48 @@ public class FgLogin extends BaseFragment implements TextWatcher, IWXAPIEventHan
     String areaCode;
     private SharedPre sharedPre;
     private String source = "";
+    private IWXAPI wxapi;
+    public static boolean isWXLogin = false;
+    public static String WX_CODE = "";
 
     @Override
     protected void initHeader() {
         fgTitle.setText(getString(R.string.login));
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    public void onEventMainThread(EventAction action) {
+        switch (action.getType()) {
+            case WECHAT_LOGIN_CODE:
+                if(action.getData()!=null && action.getData() instanceof SendAuth.Resp){
+                    SendAuth.Resp resp = (SendAuth.Resp)action.getData();
+                    if(!TextUtils.isEmpty(resp.code) && !TextUtils.isEmpty(resp.state) && resp.state.equals("hbc")){
+                        loginCheckOpenId(resp.code);
+                    }else{
+                        ToastUtils.showLong("获取微信授权失败，请重试");
+                    }
+                    ToastUtils.showLong("code:" + resp.code);
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void loginCheckOpenId(String code){
+        RequestLoginCheckOpenId request = new RequestLoginCheckOpenId(getActivity(), code);
+        requestData(request);
     }
 
     @Override
@@ -123,43 +166,6 @@ public class FgLogin extends BaseFragment implements TextWatcher, IWXAPIEventHan
     }
 
     @Override
-    public void onReq(BaseReq req) {
-        switch (req.getType()) {
-            case ConstantsAPI.COMMAND_GETMESSAGE_FROM_WX:
-                Log.e("======","=====COMMAND_GETMESSAGE_FROM_WX======");
-                break;
-            case ConstantsAPI.COMMAND_SHOWMESSAGE_FROM_WX:
-                Log.e("======","=====COMMAND_SHOWMESSAGE_FROM_WX======");
-                break;
-            default:
-                Log.e("======","=====default======");
-                break;
-        }
-    }
-
-    @Override
-    public void onResp(BaseResp resp) {
-        String result = "";
-
-        switch (resp.errCode) {
-            case BaseResp.ErrCode.ERR_OK:
-                result = "R.string.errcode_success";
-                break;
-            case BaseResp.ErrCode.ERR_USER_CANCEL:
-                result = "R.string.errcode_cancel";
-                break;
-            case BaseResp.ErrCode.ERR_AUTH_DENIED:
-                result = "R.string.errcode_deny";
-                break;
-            default:
-                result = "R.string.errcode_unknown";
-                break;
-        }
-
-        Toast.makeText(this.getActivity(), result, Toast.LENGTH_LONG).show();
-    }
-
-    @Override
     public void onStop() {
         super.onStop();
         this.getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
@@ -196,6 +202,22 @@ public class FgLogin extends BaseFragment implements TextWatcher, IWXAPIEventHan
 
             MobclickAgent.onEvent(getActivity(), "login_succeed", map);
             finishForResult(new Bundle());
+        } else if(request instanceof RequestLoginCheckOpenId){
+            RequestLoginCheckOpenId request1 = (RequestLoginCheckOpenId) request;
+            UserBean userBean = request1.getData();
+            if(userBean.isNotRegister == 1){//未注册，走注册流程
+                FgBindMobile fgBindMobile = new FgBindMobile();
+                Bundle bundle = new Bundle();
+                bundle.putString("openid", userBean.openid);
+                startFragment(fgBindMobile, bundle);
+            }else{//注册了，有用户信息
+                userBean.setUserEntity(getActivity());
+                UserSession.getUser().setUserToken(getActivity(), userBean.userToken);
+                connectIM();
+                EventBus.getDefault().post(
+                        new EventAction(EventType.CLICK_USER_LOGIN));
+                finishForResult(new Bundle());
+            }
         }
     }
 
@@ -203,23 +225,17 @@ public class FgLogin extends BaseFragment implements TextWatcher, IWXAPIEventHan
         new IMUtil(getActivity()).conn(UserEntity.getUser().getImToken(getActivity()));
     }
 
-    IWXAPI wxapi;
     @Event({R.id.login_weixin,R.id.login_submit, R.id.change_mobile_areacode, R.id.login_register, R.id.change_mobile_diepwd, R.id.iv_pwd_visible})
     private void onClickView(View view) {
         switch (view.getId()) {
             case R.id.login_weixin:
                 wxapi = WXAPIFactory.createWXAPI(this.getActivity(), Constants.WX_APP_ID);
                 wxapi.registerApp(Constants.WX_APP_ID);
-//                boolean isLoginSupported = wxapi.getWXAppSupportAPI() >= com.tencent.mm.sdk.constants.Build.PAY_SUPPORTED_SDK_INT;
-//                if (!isLoginSupported) {
-//                    ToastUtils.showLong(R.string.un_install_wx);
-//                    return;
-//                }
                 SendAuth.Req req = new SendAuth.Req();
                 req.scope = "snsapi_userinfo";
-                req.state = "123";
+                req.state = "hbc";
                 wxapi.sendReq(req);
-                wxapi.handleIntent(this.getActivity().getIntent(),this);
+                isWXLogin = true;
                 break;
             case R.id.login_submit:
                 //登录
@@ -320,6 +336,8 @@ public class FgLogin extends BaseFragment implements TextWatcher, IWXAPIEventHan
             areaCode = bundle.getString(FgChooseCountry.KEY_COUNTRY_CODE);
             MLog.e("areaCode+" + areaCode);
             areaCodeTextView.setText("+" + areaCode);
+        }else if(FgBindMobile.class.getSimpleName().equals(from)){
+            finish();
         }
     }
 
@@ -366,4 +384,5 @@ public class FgLogin extends BaseFragment implements TextWatcher, IWXAPIEventHan
         }
 
     }
+
 }

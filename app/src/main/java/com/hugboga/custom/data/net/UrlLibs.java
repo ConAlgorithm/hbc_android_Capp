@@ -68,6 +68,22 @@ public class UrlLibs {
      **/
     public static final String SERVER_IP_LOGIN = SERVER_IP_PUBLIC_UER_CENTER + "login?";
     /**
+     * 微信登录校验openid是否已注册
+     **/
+    public static final String GET_ACCESS_TOKEN = SERVER_IP_PUBLIC_UER_CENTER + "wechat/login/check/openid?";
+    /**
+     * 微信登录校验手机号是否填写
+     **/
+    public static final String WECHAT_CHECK_MOBILE = SERVER_IP_PUBLIC_UER_CENTER + "wechat/login/check/mobile?";
+    /**
+     * 微信绑定手机号
+     **/
+    public static final String WECHAT_BIND_MOBILE = SERVER_IP_PUBLIC_UER_CENTER + "wechat/bind/mobile?";
+    /**
+     * 微信登录通过code获取access_token
+     **/
+//    public static final String GET_ACCESS_TOKEN = "sns/oauth2/access_token?";
+    /**
      * 个人信息
      **/
     public static final String SERVER_IP_INFORMATION = SERVER_IP_PUBLIC_UER_CENTER + "information?";
@@ -79,6 +95,10 @@ public class UrlLibs {
      * 修改密码
      **/
     public static final String SERVER_IP_PASSWORD_UPDATE = SERVER_IP_PUBLIC_UER_CENTER + "password/update?";
+    /**
+     * 微信绑定设置密码
+     **/
+    public static final String WECHAT_SET_PASSWORD = SERVER_IP_PUBLIC_UER_CENTER + "wechat/login/register/mobile?";
     /**
      * 忘记密码
      **/

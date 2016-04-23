@@ -1,6 +1,7 @@
 package com.hugboga.custom.data.bean;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 /**
  * 用户信息bean
@@ -21,7 +22,8 @@ public class UserBean implements IBaseBean {
     public boolean weakPassword;  //布尔值 是否弱密码
     public String weakPasswordMsg; //弱密码提示文案
     public String imToken;//聊天token
-
+    public int isNotRegister;
+    public String openid;
 
     public String getGenderStr() {
         switch (gender) {
@@ -64,10 +66,13 @@ public class UserBean implements IBaseBean {
     }
 
     public void setUserEntity(Context context) {
-        UserEntity.getUser().setUserId(context,this.userID);
+        UserEntity.getUser().setUserId(context, this.userID);
         UserEntity.getUser().setAvatar(context, this.avatar);
         UserEntity.getUser().setNickname(context, this.nickname);
         UserEntity.getUser().setAreaCode(context, this.areaCode);
         UserEntity.getUser().setImToken(context, imToken);
+        if(!TextUtils.isEmpty(openid)) {
+            UserEntity.getUser().setOpenid(context, openid);
+        }
     }
 }

@@ -21,6 +21,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/click_item_bg"
                 android:layout_marginTop="@dimen/basic_margin_xlarge"
+                android:visibility="gone"
                 android:padding="@dimen/basic_margin_xlarge">
 
                 <TextView
@@ -54,6 +55,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/setting_menu_layout1"
+                android:layout_marginTop="@dimen/basic_margin_xlarge"
                 android:background="@drawable/click_item_bg"
                 android:padding="@dimen/basic_margin_xlarge">
 

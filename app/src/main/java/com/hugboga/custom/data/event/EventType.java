@@ -11,5 +11,6 @@ public enum EventType {
     SET_MAIN_PAGE_INDEX,//设置main 页面滚动到第几个tab
     PAY_CANCEL,//取消支付
     CLICK_HEADER_LEFT_BTN_BACK, //点击后退按钮 或者back健
-    START_NEW_FRAGMENT //startfragment
+    START_NEW_FRAGMENT, //startfragment
+    WECHAT_LOGIN_CODE
 }
