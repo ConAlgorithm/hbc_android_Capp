@@ -12,6 +12,20 @@ import java.util.List;
  */
 public class OrderBean implements IBaseBean {
 
+    public String childSeatNum;
+    public String luggageNum;
+    public String realUserName;
+    public String realAreaCode;
+    public String realMobile;
+    public String isRealUser;
+    public String startAddressPoi;
+    public String destAddressPoi;
+    public String userName;
+
+    public String priceChannel;
+    public String userRemark;
+
+
     public Integer orderType;//1: 接机 2: 送机 3: 市内包车(由日租拆分出来) 4: 次租
     public int orderGoodsType;//扩展字段   1: 接机 2: 送机 3: 市内包车(由日租拆分出来) 4: 次租 5: 精品线路(由日租拆分出来) 6: 小长途 (由日租拆分出来)7: 大长途 (由日租拆分出来)
     public String orderNo; //订单号
@@ -83,6 +97,8 @@ public class OrderBean implements IBaseBean {
     public Integer outTownDays;//市外城市天数
     public String journeyComment;//行程说明
     public String dailyTips;//注意事项
+
+    public boolean insuranceEnable; //是否投保
 
     //2.5.0
     public String goodsNo;//商品ID

@@ -8,9 +8,10 @@
 
     <ImageView
         android:id="@+id/item_car_img"
-        android:layout_width="120dp"
-        android:layout_height="60dp"
-        android:src="@mipmap/choose_12seat_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="30dp"
+        android:src="@mipmap/hh5"
         android:scaleType="fitCenter" />
 
     <View

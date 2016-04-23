@@ -1,6 +1,9 @@
 package com.hugboga.custom.data.bean;
 
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import org.xutils.db.annotation.Column;
 import org.xutils.db.annotation.Table;
 
@@ -9,7 +12,7 @@ import org.xutils.db.annotation.Table;
  */
 
 @Table(name = "city")
-public class CityBean implements IBaseBean {
+public class CityBean implements IBaseBean ,Parcelable {
 
 
     @Column(name = "city_id", isId = true)
@@ -85,5 +88,78 @@ public class CityBean implements IBaseBean {
     public String toString() {
         return super.toString() + "{" + "cityId=" + cityId + ",name=" + name + ",groupId=" + groupId+",hasAirport="+hasAirport+" isCityCode="+isCityCode + ",isDaily=" + isDaily + ",isSingle=" + isSingle + "}";
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.cityId);
+        dest.writeString(this.name);
+        dest.writeString(this.firstLetter);
+        dest.writeString(this.enName);
+        dest.writeString(this.location);
+        dest.writeString(this.placeName);
+        dest.writeString(this.areaCode);
+        dest.writeInt(this.groupId);
+        dest.writeByte(childSeatSwitch ? (byte) 1 : (byte) 0);
+        dest.writeByte(isDaily ? (byte) 1 : (byte) 0);
+        dest.writeByte(isSingle ? (byte) 1 : (byte) 0);
+        dest.writeByte(isCityCode ? (byte) 1 : (byte) 0);
+        dest.writeByte(isHot ? (byte) 1 : (byte) 0);
+        dest.writeInt(this.hotWeight);
+        dest.writeString(this.dailyTip);
+        dest.writeString(this.neighbourTip);
+        dest.writeByte(hasAirport ? (byte) 1 : (byte) 0);
+        dest.writeByte(isSelected ? (byte) 1 : (byte) 0);
+        dest.writeByte(isFirst ? (byte) 1 : (byte) 0);
+        dest.writeInt(this.stayDay);
+        dest.writeInt(this.dataType);
+        dest.writeString(this.keyWord);
+        dest.writeByte(isNationality ? (byte) 1 : (byte) 0);
+    }
+
+    public CityBean() {
+    }
+
+    protected CityBean(Parcel in) {
+        this.cityId = in.readInt();
+        this.name = in.readString();
+        this.firstLetter = in.readString();
+        this.enName = in.readString();
+        this.location = in.readString();
+        this.placeName = in.readString();
+        this.areaCode = in.readString();
+        this.groupId = in.readInt();
+        this.childSeatSwitch = in.readByte() != 0;
+        this.isDaily = in.readByte() != 0;
+        this.isSingle = in.readByte() != 0;
+        this.isCityCode = in.readByte() != 0;
+        this.isHot = in.readByte() != 0;
+        this.hotWeight = in.readInt();
+        this.dailyTip = in.readString();
+        this.neighbourTip = in.readString();
+        this.hasAirport = in.readByte() != 0;
+        this.isSelected = in.readByte() != 0;
+        this.isFirst = in.readByte() != 0;
+        this.stayDay = in.readInt();
+        this.dataType = in.readInt();
+        this.keyWord = in.readString();
+        this.isNationality = in.readByte() != 0;
+    }
+
+    public static final Creator<CityBean> CREATOR = new Creator<CityBean>() {
+        @Override
+        public CityBean createFromParcel(Parcel source) {
+            return new CityBean(source);
+        }
+
+        @Override
+        public CityBean[] newArray(int size) {
+            return new CityBean[size];
+        }
+    };
 }
 

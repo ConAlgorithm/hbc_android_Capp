@@ -6,6 +6,7 @@
     android:orientation="vertical">
     <include layout="@layout/include_header" />
     <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -13,14 +14,26 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/car_bg"
+            android:orientation="vertical">
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
-
+                <TextView
+                    android:id="@+id/car_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_centerHorizontal="true"
+                    android:textColor="@color/basic_black"
+                    android:textSize="20sp" />
                 <com.hugboga.custom.widget.JazzyViewPager
                     android:id="@+id/jazzy_pager"
+                    android:layout_below="@id/car_type"
                     android:layout_width="match_parent"
                     android:layout_height="150dp">
 
@@ -44,14 +57,14 @@
                     android:layout_marginRight="20dp"
                     android:src="@mipmap/xc_right" />
 
-                <TextView
-                    android:id="@+id/car_type"
+                <ImageView
+                    android:id="@+id/people_img"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:layout_centerHorizontal="true"
-                    android:textColor="#8888"
-                    android:textSize="20sp" />
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginRight="60dp"
+                    android:src="@mipmap/car_people" />
 
             </RelativeLayout>
 
@@ -65,7 +78,7 @@
                     android:id="@+id/mans"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/basic_black"
+                    android:textColor="#74777a"
                     android:textSize="15sp" />
 
                 <TextView
@@ -73,15 +86,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:background="@color/basic_black"
-                    android:textColor="@color/basic_black"
+                    android:background="#74777a"
                     android:textSize="15sp" />
 
                 <TextView
                     android:id="@+id/baggages"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/basic_black"
+                    android:textColor="#74777a"
                     android:textSize="15sp" />
             </LinearLayout>
 
@@ -92,9 +104,9 @@
                 android:layout_margin="15dp"
                 android:lines="2"
                 android:ellipsize="end"
-                android:textColor="@color/basic_black"
+                android:textColor="#919399"
                 android:textSize="15sp" />
-
+        </LinearLayout>
 
             <RelativeLayout
                 android:id="@+id/mans_charge_layout"
@@ -139,11 +151,20 @@
                     android:textColor="@color/basic_black"
                     android:textSize="15sp" />
 
+                <TextView
+                    android:id="@+id/mans_serviceCityNote"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/mans_charge_tips"
+                    android:layout_marginTop="10dp"
+                    android:textColor="#f88166"
+                    android:textSize="15sp" />
+
                 <LinearLayout
                     android:id="@+id/mans_money_all_info"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/mans_charge_tips"
+                    android:layout_below="@id/mans_serviceCityNote"
                     android:gravity="center"
                     android:visibility="gone"
                     android:orientation="vertical"></LinearLayout>
@@ -155,7 +176,7 @@
                     android:layout_below="@id/mans_money_all_info"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="10dp"
-                    android:drawableLeft="@mipmap/question"
+                    android:drawableLeft="@mipmap/journey_unfold"
                     android:drawablePadding="5dp"
                     android:gravity="center"
                     android:text="@string/show_all_info"
@@ -208,11 +229,20 @@
                     android:textColor="@color/basic_black"
                     android:textSize="15sp" />
 
+                <TextView
+                    android:id="@+id/cars_serviceCityNote"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/cars_charge_tips"
+                    android:layout_marginTop="10dp"
+                    android:textColor="#f88166"
+                    android:textSize="15sp" />
+
                 <LinearLayout
                     android:id="@+id/cars_money_all_info"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/cars_charge_tips"
+                    android:layout_below="@id/cars_serviceCityNote"
                     android:gravity="center"
                     android:visibility="gone"
                     android:orientation="vertical"></LinearLayout>
@@ -225,7 +255,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="10dp"
                     android:drawablePadding="5dp"
-                    android:drawableLeft="@mipmap/question"
+                    android:drawableLeft="@mipmap/journey_unfold"
                     android:gravity="center"
                     android:text="@string/show_all_info"
                     android:textColor="@color/basic_black"
@@ -317,4 +347,24 @@
                 android:textSize="20sp" />
         </LinearLayout>
     </ScrollView>
+    <RelativeLayout
+        android:id="@+id/coupon_listview_empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/coupon_empty_color"
+        android:gravity="center_horizontal"
+        android:paddingTop="@dimen/basic_margin_xlarge"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/basic_margin_xlarge"
+            android:drawablePadding="@dimen/basic_margin_xlarge"
+            android:drawableTop="@mipmap/journey_sorry_quan"
+            android:textSize="15sp"
+            android:text="@string/no_cars_info"
+            android:textColor="@color/coupon_empty_text" />
+
+    </RelativeLayout>
 </LinearLayout>

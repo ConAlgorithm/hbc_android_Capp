@@ -165,6 +165,8 @@ public class UrlLibs {
     public static final String SERVER_IP_TRADE = "trade/v1.0/c/order/";
 
     public static final String SERVER_IP_TRADE_1_1 = "trade/v1.1/c/order/";
+    public static final String SERVER_IP_TRADE_1_2 = "trade/v1.2/c/order/";
+
     /**
      * 提交订单 接机
      **/
@@ -176,7 +178,7 @@ public class UrlLibs {
     /**
      * 提交订单 日租包车
      **/
-    public static final String SERVER_IP_SUBMIT_DAILY = UrlLibs.SERVER_IP_TRADE_1_1 + "daily?";
+    public static final String SERVER_IP_SUBMIT_DAILY = UrlLibs.SERVER_IP_TRADE_1_2 + "daily?";
     /**
      * 提交订单 单次用车
      **/
@@ -272,5 +274,30 @@ public class UrlLibs {
      * 获取车辆信息
      */
     public static final String GET_CAR_INFOS = "price/v1.2/e/dailyPrice?";
+
+    /**
+     * 新增投保人
+     */
+    public static final String ADD_INSURE = "insurance/v1.0/c/user/add";
+
+    /**
+     * 查询投保人
+     */
+    public static final String GET_INSURE_LIST = "insurance/v1.0/c/user/list";
+
+    /**
+     * 删除投保人
+     */
+    public static final String DEL_INSURE_LIST = "insurance/v1.0/c/user/delete";
+
+    /**
+     * 编辑投保人
+     */
+    public static final String EDIT_INSURE_LIST = "insurance/v1.0/c/user/edit";
+
+    /**
+     * 提交投保人
+     */
+    public static final String SUBMIT_INSURE_LIST = "insurance/v1.0/c/insurance/submit";
 
 }

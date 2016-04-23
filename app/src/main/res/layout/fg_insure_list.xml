@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:background="#e8eaeb"
+    android:layout_height="match_parent">
+    <include android:id ="@+id/head"  layout="@layout/include_header" />
+
+    <ListView
+        android:id="@+id/list"
+        android:layout_below="@id/head"
+        android:layout_above="@+id/bottom"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="还没有常用投保人,请新增"
+        android:layout_below="@id/head"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="20dp"
+        android:drawablePadding="10dp"
+        android:gravity="bottom|right"
+        android:textSize="20sp"
+        android:textColor="#707172"
+        android:drawableRight="@mipmap/nobr"
+        android:id="@+id/emptyView"
+        android:layout_gravity="center_horizontal" />
+
+    <RelativeLayout
+        android:id="@+id/bottom"
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"
+        android:visibility="gone"
+        android:background="@color/basic_black"
+        android:layout_height="60dp">
+        <TextView
+            android:layout_width="120dp"
+            android:layout_height="60dp"
+            android:id="@+id/commit"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:background="@color/all_bg_yellow"
+            android:textColor="@color/basic_white"
+            android:text="马上提交"
+            android:layout_alignParentRight="true" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:layout_marginLeft="20dp"
+            android:id="@+id/left"
+            android:textColor="@color/basic_white"
+            android:text="共" />
+        <TextView
+            android:id="@+id/people_num"
+            android:layout_width="wrap_content"
+            android:layout_toRightOf="@id/left"
+            android:layout_height="60dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:textColor="@color/all_bg_yellow"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_toRightOf="@id/people_num"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:textColor="@color/basic_white"
+            android:text="人,投保费由皇包车支付"/>
+
+
+    </RelativeLayout>
+
+
+
+</RelativeLayout>

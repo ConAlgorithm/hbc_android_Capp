@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/basic_gray"
+    android:orientation="vertical">
+    <include layout="@layout/include_header" />
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/mans_charge_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/basic_white"
+                android:padding="15dp">
+
+                <TextView
+                    android:id="@+id/mans_left"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/mans_use_money"
+                    android:textColor="@color/basic_black"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/mans_day_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@id/mans_left"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@id/mans_left"
+                    android:textColor="@color/basic_red"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/mans_charge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:textColor="@color/basic_black"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/mans_charge_tips"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/mans_left"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/mans_use_money_tips"
+                    android:textColor="@color/basic_black"
+                    android:textSize="15sp" />
+
+                <LinearLayout
+                    android:id="@+id/mans_money_all_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/mans_charge_tips"
+                    android:gravity="center"
+                    android:orientation="vertical"></LinearLayout>
+
+
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/cars_charge_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/basic_white"
+                android:padding="15dp">
+
+                <TextView
+                    android:id="@+id/cars_left"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/mans_use_money"
+                    android:textColor="@color/basic_black"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/cars_day_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@id/cars_left"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@id/cars_left"
+                    android:textColor="@color/basic_red"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/cars_charge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:textColor="@color/basic_black"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/cars_charge_tips"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/cars_left"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/car_use_money_tips"
+                    android:textColor="@color/basic_black"
+                    android:textSize="15sp" />
+
+                <LinearLayout
+                    android:id="@+id/cars_money_all_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/cars_charge_tips"
+                    android:gravity="center"
+                    android:orientation="vertical"></LinearLayout>
+
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/basic_white"
+                android:padding="15dp">
+
+                <TextView
+                    android:id="@+id/all_left"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/all_money"
+                    android:textColor="@color/basic_black"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/all_day_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@id/all_left"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@id/all_left"
+                    android:textColor="@color/basic_red"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/all_charge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:textColor="@color/basic_black"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/per_left"
+                    android:layout_marginTop="10dp"
+                    android:layout_below="@id/all_left"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/per_money"
+                    android:textColor="@color/basic_black"
+                    android:textSize="15sp" />
+
+
+                <TextView
+                    android:id="@+id/per_charge"
+                    android:layout_marginTop="10dp"
+                    android:layout_below="@id/all_charge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:textColor="@color/basic_black"
+                    android:textSize="15sp" />
+
+
+            </RelativeLayout>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

@@ -116,8 +116,9 @@
                     android:layout_toLeftOf="@id/child_no_confirm_click"
                     android:layout_toRightOf="@id/people_left"
                     android:background="@null"
+                    android:inputType="none"
                     android:gravity="left|center_vertical"
-                    android:text="@string/select_people_tips"
+                    android:hint="@string/select_people_tips"
                     android:textColor="#888888"
                     android:textSize="15sp" />
 
@@ -247,8 +248,9 @@
                     android:layout_toLeftOf="@id/baggage_no_confirm_click"
                     android:layout_toRightOf="@+id/baggage_left"
                     android:background="@null"
+                    android:inputType="none"
                     android:gravity="left|center_vertical"
-                    android:text="@string/select_baggage_tips"
+                    android:hint="@string/select_baggage_tips"
                     android:textColor="#888888"
                     android:textSize="15sp" />
 
@@ -273,6 +275,7 @@
             </RelativeLayout>
 
             <LinearLayout
+                android:id="@+id/full_day_date_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="15dp"
@@ -370,13 +373,14 @@
                     android:textColor="@color/basic_black"
                     android:textSize="15sp" />
 
-                <EditText
+                <TextView
                     android:id="@+id/go_city_text_click"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginLeft="20dp"
                     android:background="@null"
                     android:gravity="left"
+                    android:maxEms="50"
                     android:lines="1"
                     android:ellipsize="end"
                     android:hint="@string/select_go_citys"
@@ -393,6 +397,7 @@
                 android:background="#d5dadb"
                 android:gravity="center"
                 android:text="@string/go_next"
+                android:enabled="false"
                 android:textColor="@color/basic_white"
                 android:textSize="20sp" />
 

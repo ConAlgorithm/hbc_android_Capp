@@ -253,8 +253,8 @@
     <string name="select_city_title">包车游</string>
     <string name="select_city_start">开始城市</string>
     <string name="baggage_nums">行李数</string>
-    <string name="go_citys">游玩范围</string>
-    <string name="select_go_citys">选择包车游玩范围</string>
+    <string name="go_citys">游玩日期</string>
+    <string name="select_go_citys">选择游玩日期</string>
     <string name="full_day_travel">&#160;按天包车游</string>
     <string name="half_day_travel">&#160;半日包车游</string>
     <string name="people_num_left">出发人数</string>
@@ -291,7 +291,7 @@
     <string name="add_day_tips">当天费用将包含司导住宿补贴</string>
 
     <string name="man_no_confirm_tips">包车是件自由的事儿，填写可能最多的人数即可</string>
-    <string name="baggage_no_confirm_tips">包车是件自由的事儿，填写可能最多的行李数即可</string>
+    <string name="baggage_no_confirm_tips">行李过多会影响你的旅行体验，填写最多行李数即可</string>
 
     <string name="have_mas">乘坐%s人</string>
     <string name="have_baggages">行李%s件</string>
@@ -335,5 +335,20 @@
     <string name="passenger_phone">乘车人电话</string>
 
     <string name="no_start_city">请选择开始城市</string>
+    <string name="select_around_city">当天费用将包含长途补贴</string>
+    <string name="select_other_city">当天费用将包含司导住宿补贴和长途补贴</string>
+    <string name="select_end_city">选择结束城市</string>
+    <string name="select_stay_city">选择住宿城市</string>
+    <string name="no_cars_info">没有相关车辆信息</string>
+
+    <string name="complete_start_city">请选择开始城市</string>
+    <string name="complete_mans">请选择出发人数</string>
+    <string name="complete_start_date">请选择开始日期</string>
+    <string name="complete_end_date">请选择结束日期</string>
+    <string name="complete_days_info">请完善每天的行程</string>
+    <string name="complete_half_start_date">请完善游玩日期</string>
+    <string name="edit_mark_left">备注信息</string>
+    <string name="edit_mark">你可以在这里注明其他需求,以及需要车导知道的其他行程细节</string>
+    <string name="all_cost_info">费用详情</string>
 
 </resources>
