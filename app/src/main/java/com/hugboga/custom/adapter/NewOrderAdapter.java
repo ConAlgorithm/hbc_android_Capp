@@ -217,7 +217,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                         public void onClick(View v) {
                             FgInsure fgAddInsure = new FgInsure();
                             Bundle bundle = new Bundle();
-                            bundle.putString("orderNo",orderBean.orderNo+"");
+                            bundle.putParcelable("orderBean",orderBean);
                             fgAddInsure.setArguments(bundle);
                             fragment.startFragment(fgAddInsure);
                         }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:background="@color/basic_white"
     android:layout_height="match_parent">
 
     <LinearLayout
@@ -16,15 +17,28 @@
             layout="@layout/include_progress" />
     </LinearLayout>
     <!-- 底部按钮-->
-    <LinearLayout android:id="@+id/bottom_layout"
+    <LinearLayout
+        android:id="@+id/bottom_layout"
+        android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <include
+
+        <LinearLayout
+            android:id="@+id/bottom_layout_br"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone">
+
+            <include layout="@layout/include_bottom_add_br_commit" />
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/submit_bottom"
-            layout="@layout/include_bottom_bar_submit" />
-        <include
-            android:id="@+id/insure_bottom"
-            layout="@layout/include_bottom_bar_submit" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <include
+                layout="@layout/include_bottom_bar_submit" />
+        </LinearLayout>
     </LinearLayout>
 
     <ScrollView
@@ -110,6 +124,66 @@
                     android:textSize="@dimen/text_size_large"
                     android:visibility="gone" />
             </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/has_insure_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp">
+                <TextView
+                    android:id="@+id/for_mans_insure"
+                    android:layout_marginLeft="15dp"
+                    android:textSize="13sp"
+                    android:textColor="#f4b3a1"
+                    android:layout_centerVertical="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <ImageView
+                    android:id="@+id/all_insure_question"
+                    android:src="@mipmap/question"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/add_insure_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"/>
+
+            <TextView
+                android:id="@+id/show_all_insure_info"
+                android:layout_width="wrap_content"
+                android:gravity="center"
+                android:textColor="@color/basic_black"
+                android:textSize="13sp"
+                android:text="展开详情"
+                android:drawablePadding="5dp"
+                android:drawableLeft="@mipmap/journey_unfold"
+                android:layout_height="40dp" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/servicer_center_bg"
+                android:scaleType="fitXY"
+                android:src="@drawable/fengexian" />
+        </LinearLayout>
+
+
+
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>
