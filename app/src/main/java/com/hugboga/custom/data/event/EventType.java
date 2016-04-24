@@ -12,6 +12,7 @@ public enum EventType {
     PAY_CANCEL,//取消支付
     CLICK_HEADER_LEFT_BTN_BACK, //点击后退按钮 或者back健
     START_NEW_FRAGMENT, //startfragment
+    WECHAT_LOGIN_CODE,
     EDIT_INSURE, //编辑投保人
     ADD_INSURE, //添加投保人
     EDIT_BACK_INSURE //编辑返回

@@ -143,7 +143,7 @@ public class FgChangeMobile extends BaseFragment {
                     setBtnVisible(true);
                     return;
                 }
-                RequestVerity requestVerity = new RequestVerity(getActivity(), areaCode1, phone1, 3);
+                RequestVerity requestVerity = new RequestVerity(getActivity(), areaCode1, phone1, 5);
                 requestData(requestVerity);
                 break;
             default:

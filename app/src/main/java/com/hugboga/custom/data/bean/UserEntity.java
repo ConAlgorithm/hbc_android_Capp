@@ -25,6 +25,7 @@ public class UserEntity {
     public boolean weakPassword;  //布尔值 是否弱密码
     public String weakPasswordMsg; //弱密码提示文案
     private String imToken;//聊天token
+    private String openid;
 
     private UserEntity() {
     }
@@ -225,6 +226,18 @@ public class UserEntity {
         SharedPre shared = new SharedPre(activity);
         shared.saveStringValue(SharedPre.IM_TOKEN, imToken);
         this.imToken = imToken;
+    }
+
+    public String getOpenid(Context activity) {
+        SharedPre shared = new SharedPre(activity);
+        openid = shared.getStringValue(SharedPre.OPENID);
+        return openid;
+    }
+
+    public void setOpenid(Context activity, String openid) {
+        SharedPre shared = new SharedPre(activity);
+        shared.saveStringValue(SharedPre.OPENID, openid);
+        this.openid = openid;
     }
 
     public void clean(Activity activity) {

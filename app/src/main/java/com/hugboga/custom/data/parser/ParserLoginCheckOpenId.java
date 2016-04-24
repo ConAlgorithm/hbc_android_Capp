@@ -1,6 +1,7 @@
 package com.hugboga.custom.data.parser;
 
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
+import com.hugboga.custom.data.bean.CheckOpenIdBean;
 import com.hugboga.custom.data.bean.UserBean;
 
 import org.json.JSONObject;
@@ -8,10 +9,12 @@ import org.json.JSONObject;
 /**
  * Created by admin on 2016/3/8.
  */
-public class ParserLogin extends ImplParser {
+public class ParserLoginCheckOpenId extends ImplParser {
     @Override
-    public UserBean parseObject(JSONObject jsonObj) throws Throwable {
-        UserBean bean = new UserBean();
+    public CheckOpenIdBean parseObject(JSONObject jsonObj) throws Throwable {
+        CheckOpenIdBean bean = new CheckOpenIdBean();
+        bean.openId = jsonObj.optString("openId");
+        bean.isNotRegister = jsonObj.optInt("isNotRegister", -1);
         bean.avatar = jsonObj.optString("avatar");
         bean.nickname = jsonObj.optString("nickName");
         bean.gender = jsonObj.optString("gender");
@@ -24,8 +27,6 @@ public class ParserLogin extends ImplParser {
         bean.weakPassword = jsonObj.optBoolean("weakPassword");
         bean.weakPasswordMsg = jsonObj.optString("weakPasswordMsg");
         bean.imToken = jsonObj.optString("IMtoken");
-        bean.openid = jsonObj.optString("openid");
-        bean.isNotRegister = jsonObj.optInt("isNotRegister", -1);
         return bean;
     }
 }
