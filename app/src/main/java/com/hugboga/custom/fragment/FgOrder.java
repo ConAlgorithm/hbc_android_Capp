@@ -1010,7 +1010,11 @@ public class FgOrder extends BaseFragment {
             insuranceNo = (TextView)infoView.findViewById(R.id.insuranceNo);
             name.setText(mOrderBean.insuranceList.get(i).insuranceUserName);
             passportNo.setText(mOrderBean.insuranceList.get(i).passportNo);
-            insuranceNo.setText(mOrderBean.insuranceList.get(i).insuranceNo);
+            if(TextUtils.isEmpty(mOrderBean.insuranceList.get(i).insuranceNo)){
+                insuranceNo.setText("---");
+            }else {
+                insuranceNo.setText(mOrderBean.insuranceList.get(i).insuranceNo);
+            }
             add_insure_layout.addView(infoView);
         }
     }
