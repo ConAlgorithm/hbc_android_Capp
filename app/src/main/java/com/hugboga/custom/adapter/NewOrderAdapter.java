@@ -218,6 +218,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                             FgInsure fgAddInsure = new FgInsure();
                             Bundle bundle = new Bundle();
                             bundle.putParcelable("orderBean",orderBean);
+                            bundle.putParcelable("from","orderList");
                             fgAddInsure.setArguments(bundle);
                             fragment.startFragment(fgAddInsure);
                         }

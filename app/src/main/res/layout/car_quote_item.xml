@@ -9,13 +9,14 @@
         android:layout_height="wrap_content"
         android:text="Medium Text"
         android:layout_marginTop="15dp"
-        android:textSize="20dp"
+        android:textSize="15dp"
         android:id="@+id/day_all_money_left"
         android:layout_alignParentLeft="true" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Medium Text"
+        android:textSize="15dp"
         android:layout_marginTop="15dp"
         android:id="@+id/day_all_money_right"
         android:layout_alignParentRight="true"/>

@@ -23,6 +23,7 @@ import com.hugboga.custom.data.bean.InsureResultBean;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestDelInsure;
 import com.hugboga.custom.data.request.RequestEditInsure;
 import com.hugboga.custom.data.request.RequestInsureList;
@@ -63,6 +64,7 @@ public class FgInsure extends BaseFragment implements HttpRequestListener {
 
 
     OrderBean orderBean;
+    String from = "";
     @Override
     protected void initHeader() {
         fgTitle.setText("常用投保人");
@@ -72,6 +74,7 @@ public class FgInsure extends BaseFragment implements HttpRequestListener {
         if( null != this.getArguments()) {
             fgTitle.setText("添加投保人");
             orderBean = this.getArguments().getParcelable("orderBean");
+            from = this.getArguments().getParcelable("from");
             if (null != orderBean && !TextUtils.isEmpty(orderBean.orderNo)) {
                 bottom.setVisibility(View.VISIBLE);
             }
@@ -288,6 +291,7 @@ public class FgInsure extends BaseFragment implements HttpRequestListener {
             bundle.putInt(FgOrder.KEY_GOODS_TYPE, orderBean.orderGoodsType);
             bundle.putString(FgOrder.KEY_ORDER_ID, orderBean.orderNo);
             startFragment(new FgOrder(), bundle);
+            EventBus.getDefault().post(EventType.REFRESH_ORDER_DETAIL);
         }
 
     }

@@ -16,5 +16,6 @@ public enum EventType {
     EDIT_INSURE, //编辑投保人
     ADD_INSURE, //添加投保人
     EDIT_BACK_INSURE, //编辑返回
-    CHECK_INSURE //选择投保人
+    CHECK_INSURE, //选择投保人
+    ADD_INSURE_SUCCESS //添加投保人成功
 }
