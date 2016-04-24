@@ -39,6 +39,7 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
+import com.hugboga.custom.activity.BaseActivity;
 import com.hugboga.custom.adapter.MenuItemAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.LvMenuItem;
@@ -96,7 +97,7 @@ import de.greenrobot.event.EventBus;
 
 
 @ContentView(R.layout.activity_main)
-public class MainActivity extends BaseFragmentActivity
+public class MainActivity extends BaseActivity
         implements ViewPager.OnPageChangeListener, AdapterView.OnItemClickListener, View.OnClickListener, HttpRequestListener {
 
     public static final String PUSH_BUNDLE_MSG = "pushMessage";
