@@ -291,7 +291,6 @@ public class FgInsure extends BaseFragment implements HttpRequestListener {
             bundle.putInt(FgOrder.KEY_GOODS_TYPE, orderBean.orderGoodsType);
             bundle.putString(FgOrder.KEY_ORDER_ID, orderBean.orderNo);
             startFragment(new FgOrder(), bundle);
-            EventBus.getDefault().post(EventType.REFRESH_ORDER_DETAIL);
         }
 
     }
