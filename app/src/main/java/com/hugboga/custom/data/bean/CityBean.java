@@ -12,7 +12,7 @@ import org.xutils.db.annotation.Table;
  */
 
 @Table(name = "city")
-public class CityBean implements IBaseBean ,Parcelable {
+public class CityBean implements IBaseBean ,Parcelable,Cloneable {
 
 
     @Column(name = "city_id", isId = true)
@@ -165,5 +165,16 @@ public class CityBean implements IBaseBean ,Parcelable {
             return new CityBean[size];
         }
     };
+
+    @Override
+    public Object clone() {
+        CityBean cityBean = null;
+        try {
+            cityBean= (CityBean) super.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+        return cityBean;
+    }
 }
 
