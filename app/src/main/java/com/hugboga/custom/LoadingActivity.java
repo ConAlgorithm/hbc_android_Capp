@@ -18,6 +18,7 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
+import com.hugboga.custom.activity.BaseActivity;
 import com.hugboga.custom.data.bean.CheckVersionBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.request.RequestCheckVersion;
@@ -39,7 +40,7 @@ import org.xutils.view.annotation.ContentView;
 import java.io.File;
 
 @ContentView(R.layout.activity_loading)
-public class LoadingActivity extends BaseFragmentActivity implements HttpRequestListener {
+public class LoadingActivity extends BaseActivity implements HttpRequestListener {
 
     AlertDialog versionDialog; //版本更新弹窗
     HttpRequestUtils mHttpUtils;

@@ -20,7 +20,7 @@
         android:layout_toLeftOf="@+id/edit"
         android:layout_centerVertical="true"
         android:gravity="center_vertical"
-        android:layout_marginLeft="25dp"
+        android:layout_marginLeft="20dp"
         android:layout_toRightOf="@id/checkBox"
         android:layout_height="60dp">
 

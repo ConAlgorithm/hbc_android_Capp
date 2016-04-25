@@ -44,6 +44,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
@@ -209,7 +210,15 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
 //        TextView header_title = (TextView) mainView.findViewById(R.id.header_title);
 //        header_title.setText(R.string.select_city_title);
         source = getArguments().getString("source");
+//        showSaveInfo();
+    }
 
+    @Override
+    public void onPause() {
+//        super.onPause();
+//        if(isAddinfo()){
+//            saveInfo();
+//        }
     }
 
     public String format(int value) {
@@ -289,8 +298,16 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
     List<String> passCitiesList = new ArrayList<>();
     List<CityBean> passBeanList = new ArrayList<>();
 
+    public void addPassCityBean(int type,CityBean cityBean){
+        cityBean.cityType = type;
+        passBeanList.add(cityBean);
+    }
+
     //1,市内 2,周边 3,其它城市
     private void setDayText(int type,CityBean cityBean){
+
+        passBeanList.add(cityBean);
+
         int tag = Integer.valueOf(currentClickView.getTag().toString());
         TextView text = (TextView)currentClickView.findViewById(R.id.day_go_city_text_click);
         TextView add_tips = (TextView)currentClickView.findViewById(R.id.add_tips);
@@ -298,16 +315,18 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
         if(type == 1) {
             text.setText(startBean.name + "市内");
             add_tips.setVisibility(View.GONE);
-
+            addPassCityBean(1,cityBean);
         }else if(type == 2){
             text.setText(startBean.name + "周边");
             add_tips.setVisibility(View.VISIBLE);
             add_tips.setText(R.string.select_around_city);
-        }else{
+            addPassCityBean(2,cityBean);
+        }else if(type == 3){
             cityId = cityBean.cityId+"";
             text.setText(cityBean.name);
             add_tips.setVisibility(View.VISIBLE);
             add_tips.setText(R.string.select_other_city);
+            addPassCityBean(3,cityBean);
         }
         if(passCitiesList.size() > tag-1){
             passCitiesList.set((tag - 1), cityId + "-1" + "-" + type);
@@ -362,14 +381,14 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
         scope_layout_in.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setDayText(1,null);
+                setDayText(1,startBean);
                 hideSelectPeoplePop();
             }
         });
         scope_layout_out.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setDayText(2,null);
+                setDayText(2,startBean);
                 hideSelectPeoplePop();
             }
         });
@@ -529,6 +548,77 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
         }
     }
 
+    private  void showSaveInfo(){
+        SavedCityBean savedCityBean = null;
+        try{
+            savedCityBean = Reservoir.get("savedCityBean", SavedCityBean.class);
+            if(null != savedCityBean){
+                startBean = savedCityBean.startCity;
+                startCityClick.setText(startBean.name);
+                manNum = savedCityBean.mansNum;
+                childNum = savedCityBean.childNum;
+                peopleTextClick.setText("成人"+manNum+"\\儿童"+childNum);
+                baggageNum = savedCityBean.baggages;
+                baggageTextClick.setText("托运行李"+baggageNum);
+                childSeatNums = savedCityBean.childSeat;
+                childText.setText("儿童"+childSeatNums);
+                start_date_str = savedCityBean.startDate;
+                startDate.setText(start_date_str);
+                end_date_str = savedCityBean.endDate;
+                endDate.setText(end_date_str);
+                isHalfTravel = savedCityBean.isHalf == 1?true:false;
+                if(isHalfTravel){
+                    halfDay.setChecked(true);
+                }else{
+                    fullDay.setChecked(true);
+                }
+                halfDate = savedCityBean.halfStartDate;
+                goCityTextClick.setText(halfDate);
+
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    private void saveInfo(){
+        SavedCityBean savedCityBean = new SavedCityBean();
+        savedCityBean.startCity = startBean;
+        savedCityBean.baggages = baggageNum;
+        savedCityBean.childSeat = childSeatNums;
+        savedCityBean.childNum = childNum;
+        savedCityBean.startDate = start_date_str;
+        savedCityBean.endDate = end_date_str;
+        savedCityBean.halfStartDate = halfDate;
+        savedCityBean.mansNum = manNum;
+        savedCityBean.isHalf = isHalfTravel?1:0;
+        savedCityBean.passCityList = passCityList;
+
+
+        Reservoir.putAsync("savedCityBean", savedCityBean, new ReservoirPutCallback() {
+            @Override
+            public void onSuccess() {
+                //success
+            }
+
+            @Override
+            public void onFailure(Exception e) {
+                //error
+            }
+        });
+    }
+
+    private boolean isAddinfo(){
+        if(null != startBean || !TextUtils.isEmpty(peopleTextClick.getText())
+                || !TextUtils.isEmpty(baggageTextClick.getText())
+                || !TextUtils.isEmpty(halfDate)
+                || !TextUtils.isEmpty(start_date_str)
+                || !TextUtils.isEmpty(end_date_str)){
+            return true;
+        }
+        return false;
+    }
+
     boolean isHalfTravel = false;
 
     List<CityBean> passCityList = new ArrayList<>();
@@ -548,9 +638,12 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
                     childText.setText(getString(R.string.select_city_child) + childSeatNums);
                 }
                 break;
-            case R.id.header_left_btn:
-                finish();
-                break;
+//            case R.id.header_left_btn:
+//                if(isAddinfo()){
+//                    saveInfo();
+//                }
+//                finish();
+//                break;
             case R.id.start_city_click:
                 Bundle bundle = new Bundle();
                 bundle.putString(KEY_FROM, "startAddress");
@@ -600,31 +693,6 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
                 bundleCar.putParcelable("startBean",startBean);
                 bundleCar.putParcelable("endBean",endBean);
 
-//                SavedCityBean savedCityBean = new SavedCityBean();
-//                savedCityBean.startCity = startBean;
-//                savedCityBean.baggages = baggageNum;
-//                savedCityBean.childSeat = childSeatNums;
-//                savedCityBean.childNum = childNum;
-//                savedCityBean.startDate = start_date_str;
-//                savedCityBean.endDate = end_date_str;
-//                savedCityBean.halfStartDate = halfDate;
-//                savedCityBean.mansNum = manNum;
-//                savedCityBean.isHalf = isHalfTravel?1:0;
-//                savedCityBean.passCityList = passCityList;
-//
-//
-//                Reservoir.putAsync("savedCityBean", savedCityBean, new ReservoirPutCallback() {
-//                    @Override
-//                    public void onSuccess() {
-//                        //success
-//                    }
-//
-//                    @Override
-//                    public void onFailure(Exception e) {
-//                        //error
-//                    }
-//                });
-
 
                 FGSelectCar fgSelectCar = new FGSelectCar();
                 fgSelectCar.setArguments(bundleCar);
@@ -660,6 +728,7 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
         if(resetCity){
             full_day_show.removeAllViews();
             passCitiesList.clear();
+            passBeanList.clear();;
             oldNum = 0;
         }
 
@@ -734,6 +803,7 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
         full_day_show.removeViewAt(index);
         if(index < passCitiesList.size()) {
             passCitiesList.remove(index);
+            passBeanList.remove(index);
         }
     }
 

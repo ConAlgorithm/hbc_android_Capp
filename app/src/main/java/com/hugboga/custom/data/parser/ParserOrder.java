@@ -2,9 +2,13 @@ package com.hugboga.custom.data.parser;
 
 import android.text.TextUtils;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonParser;
+import com.google.gson.reflect.TypeToken;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityBean;
+import com.hugboga.custom.data.bean.InsureListBean;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.OrderContact;
 import com.hugboga.custom.data.bean.OrderPriceInfo;
@@ -14,6 +18,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 订单bean
@@ -67,6 +72,9 @@ public class ParserOrder extends ImplParser {
         orderbean.lineSubject = jsonObj.optString("lineSubject");
         orderbean.lineDescription = jsonObj.optString("lineDescription");
         orderbean.insuranceEnable = jsonObj.optBoolean("insuranceEnable");
+        orderbean.insuranceTips = jsonObj.optString("insuranceTips");
+        Gson gson = new Gson();
+        orderbean.insuranceList = gson.fromJson(jsonObj.optString("insuranceList"), new TypeToken<List<InsureListBean>>(){}.getType());
 
         //passByCity
         JSONArray passByCityArray = jsonObj.optJSONArray("passCities");

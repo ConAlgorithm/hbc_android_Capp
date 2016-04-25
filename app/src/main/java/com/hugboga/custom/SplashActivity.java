@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.huangbaoche.hbcframe.activity.BaseFragmentActivity;
+import com.hugboga.custom.activity.BaseActivity;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.utils.PhoneInfo;
 
@@ -25,7 +26,7 @@ import org.xutils.view.annotation.ViewInject;
 import java.util.ArrayList;
 import java.util.List;
 @ContentView(R.layout.activity_splash)
-public class SplashActivity extends BaseFragmentActivity {
+public class SplashActivity extends BaseActivity {
 
     //引导图片资源
     private static final int[] pics = {R.mipmap.splash_1, R.mipmap.splash_2, R.mipmap.splash_3, R.mipmap.splash_4};

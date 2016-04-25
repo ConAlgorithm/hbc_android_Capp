@@ -42,7 +42,7 @@ public class FgSkuDetail extends FgWebInfo {
     @Override
     protected void initView() {
         super.initView();
-        getView().findViewById(R.id.header_right_btn).setVisibility(WXShareUtils.getInstance(getActivity()).isInstall(false)?View.VISIBLE:View.GONE);
+        getView().findViewById(R.id.header_right_btn).setVisibility(WXShareUtils.getInstance(getActivity()).isInstall(false)?View.VISIBLE:View.VISIBLE);
         if(this.getArguments()!=null){
             skuItemBean =  (SkuItemBean)getArguments().getSerializable(WEB_SKU);
             cityBean =  (CityBean)getArguments().getSerializable(WEB_CITY);

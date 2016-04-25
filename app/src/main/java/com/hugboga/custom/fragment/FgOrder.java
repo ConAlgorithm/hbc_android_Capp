@@ -41,6 +41,7 @@ import com.hugboga.custom.data.parser.ParserChatInfo;
 import com.hugboga.custom.data.request.RequestOrderCancel;
 import com.hugboga.custom.data.request.RequestOrderDetail;
 import com.hugboga.custom.data.request.RequestPayNo;
+import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.utils.UmengUtils;
@@ -60,6 +61,7 @@ import org.xutils.x;
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 import de.greenrobot.event.EventBus;
 import io.rong.imkit.RongIM;
@@ -287,6 +289,36 @@ public class FgOrder extends BaseFragment {
     @ViewInject(R.id.bottom_bar_btn)
     private TextView bottomBtn;
 
+    @ViewInject(R.id.insure_money)
+    private TextView insure_money;
+
+    @ViewInject(R.id.insure_time)
+    private TextView insure_time;
+
+    @ViewInject(R.id.bottom_layout)
+    private LinearLayout bottom_layout;
+    @ViewInject(R.id.bottom_layout_br)
+    private LinearLayout bottom_layout_br;
+    @ViewInject(R.id.insure_question)
+    private ImageView insure_question;
+
+    @ViewInject(R.id.has_insure_layout)
+    private LinearLayout has_insure_layout;
+
+    @ViewInject(R.id.bottom_br_btn_commit)
+    private TextView bottom_br_btn_commit;
+
+
+
+    @ViewInject(R.id.for_mans_insure)
+    private TextView for_mans_insure;
+    @ViewInject(R.id.show_all_insure_info)
+    private TextView show_all_insure_info;
+    @ViewInject(R.id.add_insure_layout)
+    private LinearLayout add_insure_layout;
+
+
+
     private boolean isShowDetail = false;//详细新是否展开
     private int payType = Constants.PAY_STATE_WECHAT;//支付方式
     private OrderBean mOrderBean;//order 实体
@@ -329,6 +361,7 @@ public class FgOrder extends BaseFragment {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 
     @Override
@@ -646,9 +679,18 @@ public class FgOrder extends BaseFragment {
      */
     private void initBottomView() {
         if (mOrderBean.orderStatus == OrderStatus.INITSTATE) {
+
+            bottom_layout.setVisibility(View.VISIBLE);
             submitBottomLayout.setVisibility(View.VISIBLE);
             payTypeLayout.setVisibility(View.VISIBLE);
         } else {
+            if(mOrderBean.insuranceEnable) {
+                bottom_layout.setVisibility(View.VISIBLE);
+                bottom_layout_br.setVisibility(View.VISIBLE);
+                insure_time.setText(mOrderBean.insuranceTips);
+            }else {
+                bottom_layout.setVisibility(View.GONE);
+            }
             submitBottomLayout.setVisibility(View.GONE);
             payTypeLayout.setVisibility(View.GONE);
         }
@@ -829,6 +871,7 @@ public class FgOrder extends BaseFragment {
             mBusinessType = mOrderBean.orderType;
             inflateContent();
             flushCoupon();
+            genAllInsureInfo();
         } else if (parser instanceof RequestPayNo) {
             RequestPayNo mParser = (RequestPayNo) parser;
             if (mParser.payType == Constants.PAY_STATE_ALIPAY) {
@@ -947,9 +990,71 @@ public class FgOrder extends BaseFragment {
         UmengUtils.mobClickEvent(FgOrder.this.getActivity(), umeng_key, map_value);
     }
 
+    private void genAllInsureInfo(){
+
+
+        if(mOrderBean.insuranceList.size() >0){
+            has_insure_layout.setVisibility(View.VISIBLE);
+            bottom_layout.setVisibility(View.GONE);
+        }else{
+            has_insure_layout.setVisibility(View.GONE);
+        }
+        for_mans_insure.setText("正在为"+mOrderBean.insuranceList.size()+"人购买保险...");
+        View infoView = null;
+        TextView name = null;
+        TextView passportNo = null;
+        TextView insuranceNo = null;
+        for(int i = 0;i<mOrderBean.insuranceList.size();i++) {
+            infoView = LayoutInflater.from(this.getActivity()).inflate(R.layout.insure_man_item_list,null);
+            name = (TextView)infoView.findViewById(R.id.name);
+            passportNo = (TextView)infoView.findViewById(R.id.passportNo);
+            insuranceNo = (TextView)infoView.findViewById(R.id.insuranceNo);
+            name.setText(mOrderBean.insuranceList.get(i).insuranceUserName);
+            passportNo.setText(mOrderBean.insuranceList.get(i).passportNo);
+            if(TextUtils.isEmpty(mOrderBean.insuranceList.get(i).insuranceNo)){
+                insuranceNo.setText("---");
+            }else {
+                insuranceNo.setText(mOrderBean.insuranceList.get(i).insuranceNo);
+            }
+            add_insure_layout.addView(infoView);
+        }
+    }
+
+    private void showInsureList(){
+        add_insure_layout.setVisibility(View.VISIBLE);
+        show_all_insure_info.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.journey_withdraw,0,0,0);
+        show_all_insure_info.setText("收起详情");
+    }
+
+    private void hideInsureList(){
+        add_insure_layout.setVisibility(View.GONE);
+        show_all_insure_info.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.journey_unfold,0,0,0);
+        show_all_insure_info.setText("展开详情");
+    }
+
+
+    private void showOrHideInsureList(){
+        if(add_insure_layout.isShown()){
+            hideInsureList();
+        }else{
+            showInsureList();
+        }
+    }
+
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.bottom_br_btn_commit:
+                FgInsure fgAddInsure = new FgInsure();
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("orderBean",mOrderBean);
+                fgAddInsure.setArguments(bundle);
+                startFragment(fgAddInsure);
+                break;
+            case R.id.show_all_insure_info:
+                showOrHideInsureList();
+                break;
             case R.id.header_left_btn:
             case R.id.header_right_btn:
                 onClickView(v);
@@ -1012,12 +1117,38 @@ public class FgOrder extends BaseFragment {
             R.id.header_left_btn,
             R.id.header_right_btn,
             R.id.order_pay_detail,
-            R.id.order_info_tai
+            R.id.order_info_tai,
+            R.id.bottom_br_btn_commit,
+            R.id.show_all_insure_info,
+            R.id.insure_question,
+            R.id.all_insure_question
     })
     private void onClickView(View view) {
         if (mOrderBean == null) return;
         Bundle bundle;
         switch (view.getId()) {
+            case R.id.show_all_insure_info:
+                showOrHideInsureList();
+                break;
+            case R.id.bottom_br_btn_commit:
+                FgInsure fgAddInsure = new FgInsure();
+                Bundle bundleInsure = new Bundle();
+                bundleInsure.putParcelable("orderBean",mOrderBean);
+                fgAddInsure.setArguments(bundleInsure);
+                startFragment(fgAddInsure);
+                break;
+            case R.id.insure_question:
+//                AlertDialogUtils.showAlertDialog(this.getActivity(),"投保提示");
+                Bundle bundleUrl = new Bundle();
+                bundleUrl.putString(FgWebInfo.WEB_URL, "http://res.test.hbc.tech/h5/inApp/custom/insurance.html");
+                startFragment(new FgActivity(), bundleUrl);
+                break;
+            case R.id.all_insure_question:
+//                AlertDialogUtils.showAlertDialog(this.getActivity(),"投保保险提示");
+                Bundle bundleUrlAll = new Bundle();
+                bundleUrlAll.putString(FgWebInfo.WEB_URL, "http://res.test.hbc.tech/h5/inApp/custom/insurance.html");
+                startFragment(new FgActivity(), bundleUrlAll);
+                break;
             case R.id.header_right_btn:
                 if (mOrderBean.orderStatus.code >= OrderStatus.PAYSUCCESS.code && mOrderBean.orderStatus.code <= OrderStatus.SERVICING.code) {
                     showPopupWindow(view);

@@ -38,7 +38,7 @@
             android:layout_height="60dp"
             android:id="@+id/commit"
             android:gravity="center"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:background="@color/all_bg_yellow"
             android:textColor="@color/basic_white"
             android:text="马上提交"
@@ -47,7 +47,7 @@
             android:layout_width="wrap_content"
             android:layout_height="60dp"
             android:gravity="center"
-            android:textSize="20sp"
+            android:textSize="15sp"
             android:layout_marginLeft="20dp"
             android:id="@+id/left"
             android:textColor="@color/basic_white"
@@ -59,15 +59,16 @@
             android:layout_height="60dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
+            android:text="0"
             android:gravity="center"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:textColor="@color/all_bg_yellow"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="60dp"
             android:layout_toRightOf="@id/people_num"
             android:gravity="center"
-            android:textSize="20sp"
+            android:textSize="15sp"
             android:textColor="@color/basic_white"
             android:text="人,投保费由皇包车支付"/>
 

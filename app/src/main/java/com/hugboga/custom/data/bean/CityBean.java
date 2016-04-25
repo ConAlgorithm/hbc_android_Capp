@@ -63,6 +63,8 @@ public class CityBean implements IBaseBean ,Parcelable {
 
     public boolean isNationality = false;
 
+    public int cityType = 1;// 1 市内 2 周边 3,市外
+
 //    @Override
 //    public void parser(JSONObject jsonObj) throws JSONException {
 //        cityId = jsonObj.optInt("cityId");
@@ -119,6 +121,7 @@ public class CityBean implements IBaseBean ,Parcelable {
         dest.writeInt(this.dataType);
         dest.writeString(this.keyWord);
         dest.writeByte(isNationality ? (byte) 1 : (byte) 0);
+        dest.writeInt(cityType);
     }
 
     public CityBean() {
@@ -148,6 +151,7 @@ public class CityBean implements IBaseBean ,Parcelable {
         this.dataType = in.readInt();
         this.keyWord = in.readString();
         this.isNationality = in.readByte() != 0;
+        this.cityType = in.readInt();
     }
 
     public static final Creator<CityBean> CREATOR = new Creator<CityBean>() {

@@ -73,6 +73,7 @@ public class InSureListAdapter extends BaseAdapter {
                 }else{
                     getItem(position).isCheck = 0;
                 }
+                EventBus.getDefault().post(new EventAction(EventType.CHECK_INSURE,getItem(position)));
             }
         });
 

@@ -2,9 +2,12 @@ package com.hugboga.custom.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.design.widget.Snackbar;
 import android.widget.Toast;
 
+import com.github.mrengineer13.snackbar.SnackBar;
 import com.hugboga.custom.MyApplication;
+import com.hugboga.custom.R;
 
 public class ToastUtils {
 
@@ -52,5 +55,17 @@ public class ToastUtils {
 			});
 		}
 	}
+
+
+    public static void showSnackBar(Activity activity,String message){
+            new SnackBar.Builder(activity)
+            .withMessage("This library is awesome!") // OR
+//            .withActionMessage("Action") // OR
+            .withTextColorId(R.color.basic_white)
+            .withBackgroundColorId(R.color.all_bg_yellow).withDuration(SnackBar.SHORT_SNACK).show();
+    }
+
+
+
 
 }

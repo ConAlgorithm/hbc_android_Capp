@@ -4,8 +4,9 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.ThumbnailUtils;
 import android.net.Uri;
-
+import android.os.AsyncTask;
 import android.widget.Toast;
 
 import com.huangbaoche.hbcframe.HbcConfig;
@@ -19,7 +20,12 @@ import com.thin.downloadmanager.DownloadRequest;
 import com.thin.downloadmanager.DownloadStatusListener;
 import com.thin.downloadmanager.ThinDownloadManager;
 
+import org.xutils.common.Callback;
+import org.xutils.image.ImageOptions;
+import org.xutils.x;
 
+import java.io.File;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -61,24 +67,30 @@ public class WXShareUtils {
         if (!iwxapi.isWXAppInstalled()) {
             MLog.e("手机未安装微信");
             if(isShow)
-            new AlertDialog.Builder(mContext).setTitle("手机未安装微信").setPositiveButton("知道了", null).show();
+                new AlertDialog.Builder(mContext).setTitle("手机未安装微信").setPositiveButton("知道了", null).show();
             return false;
         }
         if (!iwxapi.isWXAppSupportAPI()) {
             MLog.e("微信版本太低");
             if(isShow)
-            new AlertDialog.Builder(mContext).setTitle("微信版本太低").setPositiveButton("知道了", null).show();
+                new AlertDialog.Builder(mContext).setTitle("微信版本太低").setPositiveButton("知道了", null).show();
             return false;
         }
         return true;
     }
 
-    public static String getPhotoFileName() {
+    public static String getPhotoFileName(String picUrl) {
         Date date = new Date(System.currentTimeMillis());
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
-        return dateFormat.format(date) + ".jpg";
-    }
+        String end = ".jpg";
+        if(picUrl.endsWith(".jpg") || picUrl.endsWith("jpeg")){
+            end = ".jpg";
+        }else if(picUrl.endsWith(".png")){
+            end = ".png";
+        }
 
+        return dateFormat.format(date) + end;
+    }
     /**
      * 微信分享
      *@param type (0分享到微信好友,1分享到微信朋友圈)
@@ -90,8 +102,15 @@ public class WXShareUtils {
     public void share(final int type, final String picUrl, final String title, final String content, final String goUrl) {
         MLog.e("cache type="+type+" bitmap="+picUrl+" title="+title+" content="+content+" goUrl="+goUrl);
         if (isInstall(true)) {
-            Uri downloadUri = Uri.parse(picUrl);
-            final Uri destinationUri = Uri.parse(mContext.getExternalCacheDir().toString() + getPhotoFileName());
+
+            String picName = picUrl.substring(picUrl.lastIndexOf("/")+1,picUrl.length());
+            String preUrl = picUrl.substring(0,picUrl.lastIndexOf("/"));
+            String smallPic = preUrl + "/s_"+ picName;
+            MLog.e(preUrl+"cache picName==="+picName);
+            MLog.e("cache smallPic==="+smallPic);
+
+            Uri downloadUri = Uri.parse(smallPic);
+            final Uri destinationUri = Uri.parse(mContext.getExternalCacheDir().toString() + getPhotoFileName(picUrl));
             DownloadRequest downloadRequest = new DownloadRequest(downloadUri)
                     .addCustomHeader("Auth-Token", "YourTokenApiKey")
                     .setRetryPolicy(new DefaultRetryPolicy())
@@ -104,6 +123,10 @@ public class WXShareUtils {
                             options.inSampleSize = 2;
                             try {
                                 Bitmap bitmap = BitmapFactory.decodeFile(destinationUri.getPath(), options);
+                                while(bitmap.getByteCount() >= 32*1024){
+                                    options.inSampleSize += 2;
+                                    bitmap = BitmapFactory.decodeFile(destinationUri.getPath(), options);
+                                }
                                 share(type, bitmap, title, content, goUrl);
                             }catch (Exception e){
                                 e.printStackTrace();
