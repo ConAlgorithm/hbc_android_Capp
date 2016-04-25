@@ -2,8 +2,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/bg_01"
     tools:context="com.hugboga.custom.LoadingActivity">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:scaleType="centerCrop"
+        android:background="@mipmap/bg_01"
+        android:layout_height="match_parent" />
 
     <TextView
         android:layout_width="wrap_content"

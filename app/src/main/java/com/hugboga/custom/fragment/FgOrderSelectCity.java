@@ -128,11 +128,7 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    half_day_show.setVisibility(View.GONE);
-                    full_day_show.setVisibility(View.VISIBLE);
-                    full_day_date_layout.setVisibility(View.VISIBLE);
-                    isHalfTravel = false;
-                    checkNextBtnStatus();
+                    showFull();
                 }
             }
         });
@@ -140,15 +136,26 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    half_day_show.setVisibility(View.VISIBLE);
-                    full_day_show.setVisibility(View.GONE);
-                    full_day_date_layout.setVisibility(View.GONE);
-                    isHalfTravel = true;
-                    checkNextBtnStatus();
-
+                    showHalf();
                 }
             }
         });
+    }
+
+    private void showFull(){
+        half_day_show.setVisibility(View.GONE);
+        full_day_show.setVisibility(View.VISIBLE);
+        full_day_date_layout.setVisibility(View.VISIBLE);
+        isHalfTravel = false;
+        checkNextBtnStatus();
+    }
+
+    private void showHalf(){
+        half_day_show.setVisibility(View.VISIBLE);
+        full_day_show.setVisibility(View.GONE);
+        full_day_date_layout.setVisibility(View.GONE);
+        isHalfTravel = true;
+        checkNextBtnStatus();
     }
 
 
@@ -210,12 +217,17 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
 //        TextView header_title = (TextView) mainView.findViewById(R.id.header_title);
 //        header_title.setText(R.string.select_city_title);
         source = getArguments().getString("source");
-//        showSaveInfo();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        showSaveInfo();
     }
 
     @Override
     public void onPause() {
-//        super.onPause();
+        super.onPause();
 //        if(isAddinfo()){
 //            saveInfo();
 //        }
@@ -234,7 +246,7 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
         manList.setOnValueChangedListener(this);
         manList.setMaxValue(11);
         manList.setMinValue(1);
-        manList.setValue(1);
+        manList.setValue(manNum == 0?1:manNum);
         manList.setClickable(false);
         manList.setFocusable(false);
         manList.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
@@ -243,7 +255,7 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
         childList.setOnValueChangedListener(this);
         childList.setMaxValue(11);
         childList.setMinValue(0);
-        childList.setValue(0);
+        childList.setValue(childNum);
         childList.setClickable(false);
         childList.setFocusable(false);
         childList.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
@@ -252,14 +264,14 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
         baggageList.setOnValueChangedListener(this);
         baggageList.setMaxValue(11);
         baggageList.setMinValue(0);
-        baggageList.setValue(0);
+        baggageList.setValue(baggageNum);
         baggageList.setClickable(false);
         baggageList.setFocusable(false);
         baggageList.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
 
     }
 
-    int manNum = 1;
+    int manNum = 0;
     int childNum = 0;
     int childSeatNums = 0;
     int baggageNum = 0;
@@ -299,15 +311,13 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
     List<CityBean> passBeanList = new ArrayList<>();
 
     public void addPassCityBean(int type,CityBean cityBean){
-        cityBean.cityType = type;
-        passBeanList.add(cityBean);
+        CityBean newCityBean = (CityBean)cityBean.clone();
+        newCityBean.cityType = type;
+        passBeanList.add(newCityBean);
     }
 
     //1,市内 2,周边 3,其它城市
     private void setDayText(int type,CityBean cityBean){
-
-        passBeanList.add(cityBean);
-
         int tag = Integer.valueOf(currentClickView.getTag().toString());
         TextView text = (TextView)currentClickView.findViewById(R.id.day_go_city_text_click);
         TextView add_tips = (TextView)currentClickView.findViewById(R.id.add_tips);
@@ -429,6 +439,7 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
                     } else {
                         showChildSeatLayout.setVisibility(View.GONE);
                     }
+                    if(manNum == 0) manNum = 1;
                     peopleTextClick.setText(String.format(getString(R.string.select_city_man_child_num), manNum, childNum));
                     peopleTextClick.setTextColor(Color.parseColor("#000000"));
                 }
@@ -509,8 +520,9 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
                     startCityClick.setText(startCity);
                     startCityClick.setTextColor(Color.parseColor("#000000"));
                     DBCityUtils dbCityUtils = new DBCityUtils();
-                    cityBeanList = dbCityUtils.requestDataByKeyword(startBean.name, false);
-                    initScopeLayoutValue(cityBeanList);
+//                    cityBeanList = dbCityUtils.requestDataByKeyword(startBean.name, false);
+//                    initScopeLayoutValue(cityBeanList);
+                    initScopeLayoutValue();
                     addDayView(true);
 
                 }
@@ -523,8 +535,8 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
     }
 
 
-    public void initScopeLayoutValue(List<CityBean> cityBeanList) {
-        CityBean bean = cityBeanList.get(0);
+    public void initScopeLayoutValue() {
+//        CityBean bean = cityBeanList.get(0);
         if (isHalfTravel) {
             scope_in_str = String.format(getString(R.string.scope_around), "在" + startBean.name + "结束行程");
             scope_around_str = String.format(getString(R.string.scope_in), "在" + startBean.name + "结束行程");
@@ -533,8 +545,8 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
             out_title.setText(scope_in_str);
             in_title.setText(scope_around_str);
             other_title.setText(scope_other_str);
-            out_tips.setText(bean.neighbourTip);
-            in_tips.setText(bean.dailyTip);
+            out_tips.setText(startBean.neighbourTip);
+            in_tips.setText(startBean.dailyTip);
         } else {
             scope_in_str = String.format(getString(R.string.scope_around), "住在" + startBean.name );
             scope_around_str = String.format(getString(R.string.scope_in), "住在" + startBean.name );
@@ -543,8 +555,8 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
             out_title.setText(scope_in_str);
             in_title.setText(scope_around_str);
             other_title.setText(scope_other_str);
-            out_tips.setText(bean.neighbourTip);
-            in_tips.setText(bean.dailyTip);
+            out_tips.setText(startBean.neighbourTip);
+            in_tips.setText(startBean.dailyTip);
         }
     }
 
@@ -554,26 +566,62 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
             savedCityBean = Reservoir.get("savedCityBean", SavedCityBean.class);
             if(null != savedCityBean){
                 startBean = savedCityBean.startCity;
-                startCityClick.setText(startBean.name);
+                initScopeLayoutValue();
+                if(null != startBean) {
+                    startCity = startBean.cityId+"";
+                    startCityClick.setText(startBean.name);
+                }
                 manNum = savedCityBean.mansNum;
                 childNum = savedCityBean.childNum;
-                peopleTextClick.setText("成人"+manNum+"\\儿童"+childNum);
+                if(manNum != 0) {
+                    peopleTextClick.setText("成人" + manNum + "\\儿童" + childNum);
+                }
+                if(childNum != 0){
+                    showChildSeatLayout.setVisibility(View.VISIBLE);
+                }else{
+                    showChildSeatLayout.setVisibility(View.GONE);
+                }
+
                 baggageNum = savedCityBean.baggages;
-                baggageTextClick.setText("托运行李"+baggageNum);
+                if(0!= baggageNum) {
+                    baggageTextClick.setText("托运行李" + baggageNum);
+                }
+
                 childSeatNums = savedCityBean.childSeat;
-                childText.setText("儿童"+childSeatNums);
+                if(0 != childSeatNums) {
+                    childText.setText("儿童" + childSeatNums);
+                }
                 start_date_str = savedCityBean.startDate;
-                startDate.setText(start_date_str);
+
+                if(!TextUtils.isEmpty(start_date_str)) {
+                    startDate.setText(start_date_str);
+                }
                 end_date_str = savedCityBean.endDate;
-                endDate.setText(end_date_str);
+
+                if(!TextUtils.isEmpty(end_date_str)) {
+                    endDate.setText(end_date_str);
+                }
+
                 isHalfTravel = savedCityBean.isHalf == 1?true:false;
                 if(isHalfTravel){
                     halfDay.setChecked(true);
+                    showHalf();
+                    if(null != startBean){
+                        endCityId = startBean.cityId+"";
+                    }
                 }else{
                     fullDay.setChecked(true);
+                    showFull();
                 }
                 halfDate = savedCityBean.halfStartDate;
                 goCityTextClick.setText(halfDate);
+
+                passBeanList = savedCityBean.passCityList;
+                addDayView(false);
+
+//                if(null != passBeanList){
+//
+//                }
 
             }
         }catch (Exception e){
@@ -592,7 +640,7 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
         savedCityBean.halfStartDate = halfDate;
         savedCityBean.mansNum = manNum;
         savedCityBean.isHalf = isHalfTravel?1:0;
-        savedCityBean.passCityList = passCityList;
+        savedCityBean.passCityList = passBeanList;
 
 
         Reservoir.putAsync("savedCityBean", savedCityBean, new ReservoirPutCallback() {
@@ -620,8 +668,6 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
     }
 
     boolean isHalfTravel = false;
-
-    List<CityBean> passCityList = new ArrayList<>();
 
     @Event({R.id.minus, R.id.add, R.id.header_left_btn, R.id.start_city_click, R.id.people_text_click, R.id.show_child_seat_layout, R.id.child_no_confirm_click, R.id.baggage_text_click, R.id.baggage_no_confirm_click, R.id.start_layout_click, R.id.end_layout_click, R.id.go_city_text_click, R.id.next_btn_click})
     private void onClickView(View view) {
@@ -722,7 +768,10 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
     int oldNum = 0;
     int nums = 0;
     public void addDayView(boolean resetCity) {
-        if (isHalfTravel || TextUtils.isEmpty(startCity) || TextUtils.isEmpty(start_date_str) || TextUtils.isEmpty(end_date_str)) {
+        if (isHalfTravel
+                || TextUtils.isEmpty(startCity)
+                || TextUtils.isEmpty(start_date_str)
+                || TextUtils.isEmpty(end_date_str)) {
             return;
         }
         if(resetCity){
@@ -769,7 +818,17 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
         day_text = (TextView) dayView.findViewById(R.id.day_text);
         day_go_city_text_click = (TextView) dayView.findViewById(R.id.day_go_city_text_click);
         day_text.setText("第" + index + "天");
-        day_go_city_text_click.setText("选择包车游玩范围");
+        if(passBeanList.size() >=  index){
+            if(passBeanList.get(index - 1).cityType == 1){
+                day_go_city_text_click.setText(String.format(getString(R.string.scope_in), passBeanList.get(index - 1).name));
+            }else if(passBeanList.get(index - 1).cityType == 2){
+                day_go_city_text_click.setText(String.format(getString(R.string.scope_around), passBeanList.get(index - 1).name));
+            }else if(passBeanList.get(index - 1).cityType == 3){
+                day_go_city_text_click.setText(passBeanList.get(index - 1).name+"");
+            }
+        }else {
+            day_go_city_text_click.setText("选择包车游玩范围");
+        }
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params.setMargins(0, 0, 0, (int) ScreenUtils.d2p(this.getActivity(), 15));
         if((passCitiesList.size()+1) == index){

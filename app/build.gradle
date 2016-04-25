@@ -241,4 +241,5 @@ dependencies {
     compile 'com.mani:ThinDownloadManager:1.2.4'
     compile 'com.anupcowkur:reservoir:2.1'
     compile 'com.github.mrengineer13:snackbar:1.2.0'
+    compile 'com.github.bumptech.glide:glide:3.7.0'
 }
