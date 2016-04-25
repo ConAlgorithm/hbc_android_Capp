@@ -33,6 +33,7 @@ import com.hugboga.custom.data.request.RequestLoginCheckOpenId;
 import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.widget.DialogUtil;
+import com.hugboga.custom.widget.DrawableCenterButton;
 import com.umeng.analytics.MobclickAgent;
 import com.hugboga.custom.utils.ToastUtils;
 import com.tencent.mm.sdk.constants.ConstantsAPI;
@@ -74,7 +75,7 @@ public class FgLogin extends BaseFragment implements TextWatcher {
     @ViewInject(R.id.iv_pwd_visible)
     private ImageView passwordVisible;
     @ViewInject(R.id.login_weixin)
-    private Button login_weixin;
+    private DrawableCenterButton login_weixin;
 
     boolean isPwdVisibility = false;
     String phone;

@@ -109,23 +109,49 @@
             android:textColor="@color/basic_white"
             android:textSize="@dimen/text_size_xlarge" />
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:layout_marginTop="@dimen/basic_margin_xlarge"
-            android:text="@string/login_or"
-            android:gravity="center"
-            android:textColor="@color/basic_white"
-            android:textSize="@dimen/text_size_xlarge" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_margin_xxxlarge"
+            android:gravity="center_vertical">
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1"
+                android:background="@color/basic_white"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_weight="0"
+                android:text="@string/login_or"
+                android:gravity="center"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:textColor="@color/basic_white"
+                android:textSize="@dimen/text_size_xlarge" />
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1"
+                android:background="@color/basic_white"
+                />
 
-        <Button
+        </LinearLayout>
+
+        <com.hugboga.custom.widget.DrawableCenterButton
             android:id="@+id/login_weixin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/basic_margin_xlarge"
-            android:background="@drawable/login2_selector_bg"
+            android:background="@drawable/shape_login_wechat"
+            android:drawablePadding="5dp"
+            android:drawableRight="@mipmap/login_wechat"
+            android:gravity="center_vertical"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
             android:text="微信登录"
-            android:textColor="@color/basic_white"
+            android:textColor="@color/basic_black"
             android:textSize="@dimen/text_size_xlarge" />
 
         <RelativeLayout
