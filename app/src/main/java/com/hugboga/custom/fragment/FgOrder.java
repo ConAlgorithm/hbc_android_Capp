@@ -61,6 +61,7 @@ import org.xutils.x;
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 import de.greenrobot.event.EventBus;
 import io.rong.imkit.RongIM;
@@ -1054,9 +1055,6 @@ public class FgOrder extends BaseFragment {
             case R.id.show_all_insure_info:
                 showOrHideInsureList();
                 break;
-            case R.id.insure_question:
-                AlertDialogUtils.showAlertDialog(this.getActivity(),"投保提示");
-                break;
             case R.id.header_left_btn:
             case R.id.header_right_btn:
                 onClickView(v);
@@ -1140,10 +1138,16 @@ public class FgOrder extends BaseFragment {
                 startFragment(fgAddInsure);
                 break;
             case R.id.insure_question:
-                AlertDialogUtils.showAlertDialog(this.getActivity(),"投保提示");
+//                AlertDialogUtils.showAlertDialog(this.getActivity(),"投保提示");
+                Bundle bundleUrl = new Bundle();
+                bundleUrl.putString(FgWebInfo.WEB_URL, "http://res.test.hbc.tech/h5/inApp/custom/insurance.html");
+                startFragment(new FgActivity(), bundleUrl);
                 break;
             case R.id.all_insure_question:
-                AlertDialogUtils.showAlertDialog(this.getActivity(),"投保保险提示");
+//                AlertDialogUtils.showAlertDialog(this.getActivity(),"投保保险提示");
+                Bundle bundleUrlAll = new Bundle();
+                bundleUrlAll.putString(FgWebInfo.WEB_URL, "http://res.test.hbc.tech/h5/inApp/custom/insurance.html");
+                startFragment(new FgActivity(), bundleUrlAll);
                 break;
             case R.id.header_right_btn:
                 if (mOrderBean.orderStatus.code >= OrderStatus.PAYSUCCESS.code && mOrderBean.orderStatus.code <= OrderStatus.SERVICING.code) {
