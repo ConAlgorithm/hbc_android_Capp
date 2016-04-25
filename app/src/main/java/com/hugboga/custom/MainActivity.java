@@ -70,12 +70,15 @@ import com.hugboga.custom.utils.LocationUtils;
 import com.hugboga.custom.utils.PermissionRes;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.utils.SharedPre;
+import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UpdateResources;
 import com.hugboga.custom.widget.CircularImage;
 import com.umeng.analytics.MobclickAgent;
 import com.zhy.m.permission.MPermissions;
 import com.zhy.m.permission.PermissionDenied;
 import com.zhy.m.permission.PermissionGrant;
+
+import net.grobas.view.PolygonImageView;
 
 import org.xutils.common.util.FileUtil;
 import org.xutils.view.annotation.ContentView;
@@ -113,7 +116,7 @@ public class MainActivity extends BaseActivity
     private ViewPager mViewPager;
 
     private TextView tv_modify_info;//header的修改资料
-    private CircularImage my_icon_head;//header的头像
+    private PolygonImageView my_icon_head;//header的头像
     private TextView tv_nickname;//header的昵称
 
     private TextView tabMenu[] = new TextView[3];
@@ -389,7 +392,7 @@ public class MainActivity extends BaseActivity
         head_view.setOnClickListener(this);
         tv_modify_info = (TextView) header.findViewById(R.id.tv_modify_info);//编辑
 //        tv_modify_info.setOnClickListener(this);
-        my_icon_head = (CircularImage) header.findViewById(R.id.my_icon_head);//头像
+        my_icon_head = (PolygonImageView) header.findViewById(R.id.my_icon_head);//头像
 //        my_icon_head.setOnClickListener(this);
         tv_nickname = (TextView) header.findViewById(R.id.tv_nickname);//昵称
 //        tv_nickname.setOnClickListener(this);
@@ -415,7 +418,8 @@ public class MainActivity extends BaseActivity
         } else {
             tv_modify_info.setVisibility(View.VISIBLE);
             if (!TextUtils.isEmpty(UserEntity.getUser().getAvatar(this))) {
-                x.image().bind(my_icon_head, UserEntity.getUser().getAvatar(this));
+                Tools.showImage(this,my_icon_head,UserEntity.getUser().getAvatar(this));
+//                x.image().bind(my_icon_head, UserEntity.getUser().getAvatar(this));
             } else {
                 my_icon_head.setImageResource(R.mipmap.chat_head);
             }
