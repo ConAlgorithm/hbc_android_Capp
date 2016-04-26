@@ -279,7 +279,7 @@
     <string name="select_city_man_child_num">成人%1$s/儿童%2$s</string>
     <string name="select_city_baggage_num">托运行李%1$s</string>
 
-    <string name="select_scope">请选择包车游玩范围</string>
+    <string name="select_scope">选择包车游玩范围</string>
 
     <string name="scope_in">%s,市内游玩</string>
     <string name="scope_around">%s,周边游玩</string>

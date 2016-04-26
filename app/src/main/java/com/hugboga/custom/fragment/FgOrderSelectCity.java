@@ -363,8 +363,16 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
             for(int i = tag+1;i<full_day_show.getChildCount();i++) {
                View view =  full_day_show.getChildAt(i);
                 view.setTag(null);
-                day_go_city_text_click.setText("选择包车游玩范围");
-                dayView.setBackgroundColor(Color.parseColor("#d3d4d5"));
+
+                TextView endText = (TextView)view.findViewById(R.id.day_go_city_text_click);
+                TextView end_add_tips = (TextView)view.findViewById(R.id.add_tips);
+
+                endText.setText("选择包车游玩范围");
+                end_add_tips.setVisibility(View.GONE);
+                view.setBackgroundColor(Color.parseColor("#d3d4d5"));
+                if(tag < passBeanList.size()) {
+                    passBeanList.remove(tag -1);
+                }
             }
         }
 
