@@ -13,27 +13,18 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
-import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
-import com.hugboga.custom.constants.Constants;
-import com.hugboga.custom.data.bean.CarBean;
 import com.hugboga.custom.data.bean.CityBean;
-import com.hugboga.custom.data.bean.FlightBean;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.OrderContact;
-import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.bean.SelectCarBean;
-import com.hugboga.custom.data.request.RequestPriceSku;
 import com.hugboga.custom.data.request.RequestSubmitBase;
 import com.hugboga.custom.data.request.RequestSubmitDaily;
-import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.ToastUtils;
-import com.hugboga.custom.widget.DialogUtil;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
@@ -49,7 +40,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * Created by dyt on 16/4/18.
+ * Created  on 16/4/18.
  */
 
 @ContentView(R.layout.fg_order_new)
@@ -155,6 +146,9 @@ public class FGOrderNew extends BaseFragment {
     CityBean startBean;
     CityBean endBean;
 
+    public int inNum = 0;
+    public int outNum = 0;
+
     @Override
     protected void initView() {
 
@@ -176,6 +170,10 @@ public class FGOrderNew extends BaseFragment {
 
         startBean = this.getArguments().getParcelable("startBean");
         endBean = this.getArguments().getParcelable("endBean");
+
+        inNum = this.getArguments().getInt("innum");
+        outNum = this.getArguments().getInt("outnum");
+
 
         city.setText("城市:"+startCityName);
         if(halfDay.equalsIgnoreCase("0")){
@@ -380,8 +378,8 @@ public class FGOrderNew extends BaseFragment {
         if(halfDay.equalsIgnoreCase("0")) {
             orderBean.oneCityTravel = 2;
             orderBean.totalDays = Integer.valueOf(dayNums);
-            orderBean.inTownDays = Integer.valueOf(1);
-            orderBean.outTownDays = Integer.valueOf(dayNums) - 1;
+            orderBean.inTownDays = inNum;
+            orderBean.outTownDays = outNum;
             orderBean.serviceEndTime = endDate;
             orderBean.startAddressPoi = startBean.location;
             orderBean.destAddressPoi = endBean.location;

@@ -6,7 +6,7 @@ import com.hugboga.custom.data.bean.UserCouponBean;
 import org.json.JSONObject;
 
 /**
- * Created by dyt on 16/3/31.
+ * Created  on 16/3/31.
  */
 public class ParserGetCoupon extends ImplParser{
 

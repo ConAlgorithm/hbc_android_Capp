@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * Created by dyt on 16/4/23.
+ * Created  on 16/4/23.
  */
 @HttpRequest(path = UrlLibs.DEL_INSURE_LIST, builder = HbcParamsBuilder.class)
 public class RequestDelInsure extends BaseRequest<ArrayList<CouponBean>> {

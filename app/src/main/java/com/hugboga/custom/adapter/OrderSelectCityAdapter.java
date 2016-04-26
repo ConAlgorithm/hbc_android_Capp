@@ -15,10 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-/**
- * Created by dyt on 16/4/14.
- * TODO;有时间了抽取出基类
- */
+
 public class OrderSelectCityAdapter extends BaseAdapter {
 
 

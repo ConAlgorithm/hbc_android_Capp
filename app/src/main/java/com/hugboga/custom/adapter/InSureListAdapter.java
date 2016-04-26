@@ -20,9 +20,7 @@ import java.util.List;
 
 import de.greenrobot.event.EventBus;
 
-/**
- * Created by dyt on 16/4/23.
- */
+
 public class InSureListAdapter extends BaseAdapter {
 
 

@@ -6,7 +6,7 @@ import android.os.Parcelable;
 import java.io.Serializable;
 
 /**
- * Created by dyt on 16/4/16.
+ * Created  on 16/4/16.
  */
 public class SelectCarBean implements Parcelable{
 

@@ -43,7 +43,7 @@ import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
 
 /**
- * Created by dyt on 16/4/22.
+ * Created  on 16/4/22.
  */
 @ContentView(R.layout.fg_insure_list)
 public class FgInsure extends BaseFragment implements HttpRequestListener {
@@ -286,11 +286,17 @@ public class FgInsure extends BaseFragment implements HttpRequestListener {
             adapter.notifyDataSetChanged();
         }else if(request instanceof RequestSubmitInsure){
             ToastUtils.showLong("投保申请已成功提交");
-            Bundle bundle = new Bundle();
-            bundle.putInt(FgOrder.KEY_BUSINESS_TYPE, orderBean.orderType);
-            bundle.putInt(FgOrder.KEY_GOODS_TYPE, orderBean.orderGoodsType);
-            bundle.putString(FgOrder.KEY_ORDER_ID, orderBean.orderNo);
-            startFragment(new FgOrder(), bundle);
+            if(!TextUtils.isEmpty(from)) {
+                finish();
+                Bundle bundle = new Bundle();
+                bundle.putInt(FgOrder.KEY_BUSINESS_TYPE, orderBean.orderType);
+                bundle.putInt(FgOrder.KEY_GOODS_TYPE, orderBean.orderGoodsType);
+                bundle.putString(FgOrder.KEY_ORDER_ID, orderBean.orderNo);
+                startFragment(new FgOrder(), bundle);
+            }else{
+                EventBus.getDefault().post(EventType.ADD_INSURE_SUCCESS);
+                finish();
+            }
         }
 
     }
@@ -338,7 +344,6 @@ public class FgInsure extends BaseFragment implements HttpRequestListener {
     public void onClick() {
         if(!TextUtils.isEmpty(getInsuranceUserId())){
             commitInsure();
-            finish();
         }
     }
 }

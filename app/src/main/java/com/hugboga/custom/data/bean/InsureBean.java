@@ -3,7 +3,7 @@ package com.hugboga.custom.data.bean;
 import java.util.List;
 
 /**
- * Created by dyt on 16/4/23.
+ * Created  on 16/4/23.
  */
 public class InsureBean {
 //    {"data":{"totalSize":2,"resultBean":[

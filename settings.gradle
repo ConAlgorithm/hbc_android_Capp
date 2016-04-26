@@ -1,1 +1,1 @@
-include ':app', ':hbcframe',':IMKit'
+include ':app', ':hbcframe',':IMKit','polygonimageview'

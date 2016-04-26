@@ -7,9 +7,7 @@ import com.hugboga.custom.utils.ChannelUtils;
 import com.umeng.analytics.AnalyticsConfig;
 import com.umeng.analytics.MobclickAgent;
 
-/**
- * Created by dyt on 16/4/24.
- */
+
 public class BaseActivity extends BaseFragmentActivity {
     @Override
     protected void onCreate(Bundle arg0) {

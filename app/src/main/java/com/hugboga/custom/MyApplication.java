@@ -44,7 +44,7 @@ public class MyApplication extends HbcApplication {
         mAppContext = this.getApplicationContext();
         Log.e("hbcApplication", "debug " + BuildConfig.DEBUG);
         try {
-            Reservoir.init(this, 2048);
+            Reservoir.init(this, 4096);
         } catch (Exception e) {
             e.printStackTrace();
         }

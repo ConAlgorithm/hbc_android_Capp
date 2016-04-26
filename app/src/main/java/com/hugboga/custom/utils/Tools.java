@@ -10,11 +10,12 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.FutureTarget;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
+import com.hugboga.custom.widget.GlideCircleTransform;
 
 import java.io.File;
 
 /**
- * Created by dyt on 16/4/25.
+ * Created  on 16/4/25.
  */
 public class Tools {
 
@@ -43,6 +44,10 @@ public class Tools {
             }
         });
     }
+
+//    public static void showCircleImage(Context context,ImageView imageView,String url){
+//        Glide.with(context).load(url).transform(new GlideCircleTransform(context)).into(imageView);
+//    }
 
     public static Bitmap getBitmap(Context context,String url){
         try {

@@ -45,6 +45,8 @@ import com.zhy.m.permission.MPermissions;
 import com.zhy.m.permission.PermissionDenied;
 import com.zhy.m.permission.PermissionGrant;
 
+import net.grobas.view.PolygonImageView;
+
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
@@ -67,7 +69,7 @@ import de.greenrobot.event.EventBus;
 public class FgPersonInfo extends BaseFragment {
 
     @ViewInject(R.id.my_info_menu_head1)
-    CircularImage headImageView;
+    PolygonImageView headImageView;
     @ViewInject(R.id.my_info_nickname)
     TextView nickNameTextView;
     @ViewInject(R.id.my_info_sex)

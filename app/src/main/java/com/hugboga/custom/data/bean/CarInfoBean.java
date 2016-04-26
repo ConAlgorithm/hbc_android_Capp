@@ -3,7 +3,7 @@ package com.hugboga.custom.data.bean;
 import java.util.List;
 
 /**
- * Created by dyt on 16/4/16.
+ * Created  on 16/4/16.
  */
 public class CarInfoBean {
 

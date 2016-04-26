@@ -136,8 +136,12 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
         if (errorHandler == null) {
             errorHandler = new ErrorHandler(getActivity(), this);
         }
+
+//        errorInfo.exception.
         errorHandler.onDataRequestError(errorInfo, request);
         errorHandler = null;
+//        result={"message":"已为用户 111234 购买订单号 R190349171522 的保险","status":80007}
+//        code: 80007, msg: 已为用户 111234 购买订单号 R190349171522 的保险, result: null
     }
 
     @Override

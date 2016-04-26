@@ -4,7 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
- * Created by dyt on 16/4/23.
+ * Created  on 16/4/23.
  */
 public class InsureResultBean implements Parcelable{
 //    {"birthday":"2013-10-10","insuranceUserId":"IU91440316911","name":"李达","passportNo":"G123","sex":1,"userId":"123","userStatus":1},

@@ -8,7 +8,7 @@ import android.content.pm.PackageManager;
 import com.hugboga.custom.MyApplication;
 
 /**
- * Created by dyt on 16/4/19.
+ * Created  on 16/4/19.
  */
 public class ChannelUtils {
 

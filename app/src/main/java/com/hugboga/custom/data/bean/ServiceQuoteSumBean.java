@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by dyt on 16/4/16.
+ * Created  on 16/4/16.
  */
 public class ServiceQuoteSumBean implements Parcelable {
     public int avgSpend;

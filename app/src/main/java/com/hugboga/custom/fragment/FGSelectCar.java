@@ -44,7 +44,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * Created by dyt on 16/4/16.
+ * Created  on 16/4/16.
  */
 @ContentView(R.layout.activity_select_car)
 public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeListener {
@@ -157,6 +157,9 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
     public String carTypeName = "";
     public String dayNums = "";
 
+    public int inNum = 0;
+    public int outNum = 0;
+
     CarViewpagerAdapter mAdapter;
     private ArrayList<CarBean> carList = new ArrayList<CarBean>();
     @Override
@@ -195,6 +198,8 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
         startBean = this.getArguments().getParcelable("startBean");
         endBean = this.getArguments().getParcelable("endBean");
 
+        inNum = this.getArguments().getInt("innum");
+        outNum = this.getArguments().getInt("outnum");
     }
 
     int selctIndex = 0;
@@ -227,10 +232,12 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
             carContent.setText("此车型包括:" + carBean.models);
             if(carBean.match == 0){
                 nextBtnClick.setBackgroundColor(Color.parseColor("#d5dadb"));
+                nextBtnClick.setText("人数已超限，请更换车型");
                 nextBtnClick.setClickable(false);
             }else{
                 nextBtnClick.setClickable(true);
                 nextBtnClick.setBackgroundColor(Color.parseColor("#fbd003"));
+                nextBtnClick.setText("下一步");
             }
             genServiceInfo(false);
             genCarsInfo(false);
@@ -278,9 +285,11 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
                 if (carsMoneyAllInfo.isShown()) {
                     carsMoneyAllInfo.setVisibility(View.GONE);
                     carsMoneyShowInfo.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.journey_unfold,0,0,0);
+                    carsMoneyShowInfo.setText("展开详情");
                 } else {
                     carsMoneyAllInfo.setVisibility(View.VISIBLE);
                     carsMoneyShowInfo.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.journey_withdraw,0,0,0);
+                    carsMoneyShowInfo.setText("收起详情");
                 }
             }
             carBean = cars.get(selctIndex);
@@ -359,9 +368,11 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
                 if (mansMoneyAllInfo.isShown()) {
                     mansMoneyAllInfo.setVisibility(View.GONE);
                     mansMoneyShowInfo.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.journey_unfold,0,0,0);
+                    mansMoneyShowInfo.setText("展开详情");
                 } else {
                     mansMoneyAllInfo.setVisibility(View.VISIBLE);
                     mansMoneyShowInfo.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.journey_withdraw,0,0,0);
+                    mansMoneyShowInfo.setText("收起详情");
                 }
             }
             carBean = cars.get(selctIndex);
@@ -489,6 +500,9 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
                 bundleCar.putParcelable("carBean",carBean);
                 bundleCar.putParcelable("startBean",startBean);
                 bundleCar.putParcelable("endBean",endBean);
+                bundleCar.putInt("outnum",outNum);
+                bundleCar.putInt("innum",inNum);
+
                 fgOrderNew.setArguments(bundleCar);
                 startFragment(fgOrderNew);
                 break;

@@ -19,13 +19,16 @@ import com.hugboga.custom.adapter.viewholder.NewOrderVH;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.ChatInfo;
 import com.hugboga.custom.data.bean.OrderBean;
+import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.parser.ParserChatInfo;
 import com.hugboga.custom.fragment.BaseFragment;
+import com.hugboga.custom.fragment.FgActivity;
 import com.hugboga.custom.fragment.FgAddInsure;
 import com.hugboga.custom.fragment.FgAssessment;
 import com.hugboga.custom.fragment.FgInsure;
 import com.hugboga.custom.fragment.FgOrder;
 import com.hugboga.custom.fragment.FgTravel;
+import com.hugboga.custom.fragment.FgWebInfo;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.widget.DialogUtil;
@@ -226,7 +229,9 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                     vh.travel_item_btn_br_tips.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            AlertDialogUtils.showAlertDialog(fragment.getActivity(), "保险服务等说明");
+                            Bundle bundleUrlAll = new Bundle();
+                            bundleUrlAll.putString(FgWebInfo.WEB_URL, UrlLibs.H5_INSURE_URL);
+                            fragment.startFragment(new FgActivity(), bundleUrlAll);
                         }
                     });
                 }else{

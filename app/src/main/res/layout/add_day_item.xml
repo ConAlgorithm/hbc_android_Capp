@@ -29,7 +29,7 @@
             android:layout_marginLeft="20dp"
             android:background="@null"
             android:gravity="left"
-            android:text="@string/select_go_citys"
+            android:text="@string/select_scope"
             android:textColor="#919293"
             android:textSize="15sp" />
     </LinearLayout>

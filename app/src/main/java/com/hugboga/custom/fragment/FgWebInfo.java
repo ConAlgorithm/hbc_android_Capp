@@ -182,6 +182,16 @@ public class FgWebInfo extends BaseFragment implements View.OnKeyListener {
     protected void initHeader() {
 //        fgTitle.setTextColor(getResources().getColor(R.color.my_content_title_color));
 //        fgTitle.setText("客服中心");
+        fgLeftBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (webView.canGoBack()) {
+                    webView.goBack();
+                }else{
+                    finish();
+                }
+            }
+        });
     }
 
     @Override

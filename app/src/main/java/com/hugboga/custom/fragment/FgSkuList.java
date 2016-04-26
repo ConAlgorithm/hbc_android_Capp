@@ -98,7 +98,7 @@ public class FgSkuList extends  BaseFragment implements  View.OnClickListener, Z
             menu2.setVisibility(mCityBean.isDaily?View.VISIBLE:View.GONE);
             menu3.setVisibility(mCityBean.isSingle?View.VISIBLE:View.GONE);
         }
-        MLog.e(mCityBean.toString());
+//        MLog.e(mCityBean.toString());
     }
 
     @Override
@@ -244,7 +244,9 @@ public class FgSkuList extends  BaseFragment implements  View.OnClickListener, Z
     @Override
     public void onResume() {
         super.onResume();
-        MobclickAgent.onEvent(this.getActivity(),"launch_city",cityBean.name);
+        if(null != cityBean) {
+            MobclickAgent.onEvent(this.getActivity(), "launch_city", cityBean.name);
+        }
 
     }
 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -41,14 +42,22 @@
                 android:layout_marginRight="@dimen/basic_margin_large"
                 android:layout_toLeftOf="@id/my_info_menu_arrow1"
                 android:src="@mipmap/chat_head" />-->
-            <com.hugboga.custom.widget.CircularImage
+            <net.grobas.view.PolygonImageView
                 android:id="@+id/my_info_menu_head1"
-                android:layout_width="50dip"
-                android:layout_height="50dip"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@mipmap/chat_head"
                 android:layout_marginRight="@dimen/basic_margin_large"
                 android:layout_toLeftOf="@id/my_info_menu_arrow1"
-                android:background="@color/basic_white"
-                android:src="@mipmap/chat_head" />
+                app:poly_shadow="false"
+                app:poly_shadow_color="@android:color/black"
+                app:poly_border="false"
+                app:poly_border_color="@android:color/white"
+                app:poly_vertices="0"
+                app:poly_border_width="5dp"
+                app:poly_corner_radius="5"
+                app:poly_rotation_angle="25" />
+
         </RelativeLayout>
 
         <RelativeLayout

@@ -1,6 +1,11 @@
 package com.hugboga.custom.data.net;
 
 
+import android.os.Bundle;
+
+import com.hugboga.custom.fragment.FgActivity;
+import com.hugboga.custom.fragment.FgWebInfo;
+
 public class UrlLibs {
 
     /**
@@ -22,6 +27,22 @@ public class UrlLibs {
     public static String SERVER_IP_HOST_PUBLIC = SERVER_HTTP_SCHEME + SERVER_IP_HOST_PUBLIC_DEFAULT;//主域名
 
 
+    public static String H5_INSURE_DEV = "http://res.dev.hbc.tech/h5/inApp/custom/insurance.html";
+    public static String H5_INSURE_TEST = "http://res.test.hbc.tech/h5/inApp/custom/insurance.html";
+    public static String H5_INSURE_STAGE = "http://res2.huangbaoche.com/h5/inApp/custom/insurance.html";
+    public static String H5_INSURE_FORMAL = "http://res2.huangbaoche.com/h5/inApp/custom/insurance.html";
+
+    public static String H5_CACTIVITY_DEV = "http://res.dev.hbc.tech/h5/cactivity/index.html?userId=";
+    public static String H5_CACTIVITY_TEST = "http://res.test.hbc.tech/h5/cactivity/index.html?userId=";
+    public static String H5_CACTIVITY_STAGE = "http://res2.huangbaoche.com/h5/cactivity/index.html?userId=";
+    public static String H5_CACTIVITY_FORMAL = "http://res2.huangbaoche.com/h5/cactivity/index.html?userId=";
+
+
+
+    public static String H5_INSURE_URL = H5_INSURE_TEST;
+    public static String H5_CACTIVITY_URL = H5_CACTIVITY_TEST;
+
+
     /**
      * url host 的 enum
      */
@@ -30,6 +51,7 @@ public class UrlLibs {
         EXAMINATION(SERVER_IP_HOST_PUBLIC_EXAMINATION),
         STAGE(SERVER_IP_HOST_PUBLIC_STAGE),
         FORMAL(SERVER_IP_HOST_PUBLIC_FORMAL);
+
 
         public String url;
 
@@ -178,7 +200,8 @@ public class UrlLibs {
     /**
      * 提交订单 日租包车
      **/
-    public static final String SERVER_IP_SUBMIT_DAILY = UrlLibs.SERVER_IP_TRADE_1_2 + "daily?";
+    public static final String SERVER_IP_SUBMIT_DAILY12 = UrlLibs.SERVER_IP_TRADE_1_2 + "daily?";
+
     /**
      * 提交订单 单次用车
      **/

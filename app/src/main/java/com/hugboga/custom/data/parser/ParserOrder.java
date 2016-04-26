@@ -73,6 +73,8 @@ public class ParserOrder extends ImplParser {
         orderbean.lineDescription = jsonObj.optString("lineDescription");
         orderbean.insuranceEnable = jsonObj.optBoolean("insuranceEnable");
         orderbean.insuranceTips = jsonObj.optString("insuranceTips");
+        orderbean.insuranceStatus = jsonObj.optString("insuranceStatus");
+        orderbean.insuranceStatusCode = jsonObj.optInt("insuranceStatusCode");
         Gson gson = new Gson();
         orderbean.insuranceList = gson.fromJson(jsonObj.optString("insuranceList"), new TypeToken<List<InsureListBean>>(){}.getType());
 

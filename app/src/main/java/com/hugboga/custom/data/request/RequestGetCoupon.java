@@ -18,7 +18,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 /**
- * Created by dyt on 2016/3/30.
+ * Created  on 2016/3/30.
  */
 @HttpRequest(path = UrlLibs.GET_USER_COUPON, builder = HbcParamsBuilder.class)
 public class RequestGetCoupon extends BaseRequest<UserCouponBean> {

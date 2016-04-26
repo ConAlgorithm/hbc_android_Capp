@@ -14,7 +14,7 @@ import org.xutils.http.annotation.HttpRequest;
 import java.util.HashMap;
 
 /**
- * Created by dyt on 16/4/23.
+ * Created  on 16/4/23.
  */
 @HttpRequest(path = UrlLibs.SUBMIT_INSURE_LIST, builder = HbcParamsBuilder.class)
 public class RequestSubmitInsure extends BaseRequest {

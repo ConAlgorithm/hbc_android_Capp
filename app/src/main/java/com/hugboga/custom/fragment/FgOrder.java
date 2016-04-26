@@ -2,6 +2,7 @@ package com.hugboga.custom.fragment;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -37,6 +38,7 @@ import com.hugboga.custom.data.bean.OrderStatus;
 import com.hugboga.custom.data.bean.WXpayBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
+import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.parser.ParserChatInfo;
 import com.hugboga.custom.data.request.RequestOrderCancel;
 import com.hugboga.custom.data.request.RequestOrderDetail;
@@ -991,15 +993,22 @@ public class FgOrder extends BaseFragment {
     }
 
     private void genAllInsureInfo(){
-
-
         if(mOrderBean.insuranceList.size() >0){
             has_insure_layout.setVisibility(View.VISIBLE);
-            bottom_layout.setVisibility(View.GONE);
-        }else{
-            has_insure_layout.setVisibility(View.GONE);
         }
-        for_mans_insure.setText("正在为"+mOrderBean.insuranceList.size()+"人购买保险...");
+
+        if(mOrderBean.insuranceEnable){
+            bottom_layout.setVisibility(View.VISIBLE);
+        }else{
+            bottom_layout.setVisibility(View.GONE);
+        }
+//        TODO;
+        for_mans_insure.setText(mOrderBean.insuranceStatus);
+        if(mOrderBean.insuranceStatusCode == 1002){
+            for_mans_insure.setTextColor(Color.RED);
+        }else{
+            for_mans_insure.setTextColor(Color.BLACK);
+        }
         View infoView = null;
         TextView name = null;
         TextView passportNo = null;
@@ -1014,7 +1023,7 @@ public class FgOrder extends BaseFragment {
             if(TextUtils.isEmpty(mOrderBean.insuranceList.get(i).insuranceNo)){
                 insuranceNo.setText("---");
             }else {
-                insuranceNo.setText(mOrderBean.insuranceList.get(i).insuranceNo);
+                insuranceNo.setText(mOrderBean.insuranceList.get(i).policyNo);
             }
             add_insure_layout.addView(infoView);
         }
@@ -1140,13 +1149,13 @@ public class FgOrder extends BaseFragment {
             case R.id.insure_question:
 //                AlertDialogUtils.showAlertDialog(this.getActivity(),"投保提示");
                 Bundle bundleUrl = new Bundle();
-                bundleUrl.putString(FgWebInfo.WEB_URL, "http://res.test.hbc.tech/h5/inApp/custom/insurance.html");
+                bundleUrl.putString(FgWebInfo.WEB_URL, UrlLibs.H5_INSURE_URL);
                 startFragment(new FgActivity(), bundleUrl);
                 break;
             case R.id.all_insure_question:
 //                AlertDialogUtils.showAlertDialog(this.getActivity(),"投保保险提示");
                 Bundle bundleUrlAll = new Bundle();
-                bundleUrlAll.putString(FgWebInfo.WEB_URL, "http://res.test.hbc.tech/h5/inApp/custom/insurance.html");
+                bundleUrlAll.putString(FgWebInfo.WEB_URL, UrlLibs.H5_INSURE_URL);
                 startFragment(new FgActivity(), bundleUrlAll);
                 break;
             case R.id.header_right_btn:
@@ -1499,6 +1508,9 @@ public class FgOrder extends BaseFragment {
                 break;
             case PAY_CANCEL:
                 Toast.makeText(getActivity(), "支付取消", Toast.LENGTH_LONG).show();
+                break;
+            case ADD_INSURE_SUCCESS:
+                finish();
                 break;
             default:
                 break;

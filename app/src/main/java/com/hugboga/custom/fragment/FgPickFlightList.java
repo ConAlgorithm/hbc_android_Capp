@@ -187,32 +187,34 @@ public class FgPickFlightList extends BaseFragment implements AdapterView.OnItem
         selector.where("airport_code", "IN", sets);
         try {
             List<AirPort> list = selector.findAll();
-            for (int i = listDate.size() - 1; i >= 0; i--) {
-                FlightBean flightBean = listDate.get(i);
-                for (AirPort airPort : list) {
-                    if (airPort.airportCode.equals(flightBean.depAirportCode))
-                        flightBean.depAirport = airPort;
-                    else if (airPort.airportCode.equals(flightBean.arrivalAirportCode))
-                        flightBean.arrivalAirport = airPort;
-                }
-                if (flightBean.depAirport == null) {
-                    flightBean.depAirport = new AirPort();
-                    flightBean.depAirport.airportName = flightBean.depAirportName;
-                    flightBean.depAirport.cityName = flightBean.depCityName;
-                    if (mBusinessType == Constants.BUSINESS_TYPE_SEND) {
-                        flightBean.serviceStatus = false;
-                        listDate.remove(i);
+            if(null != list) {
+                for (int i = listDate.size() - 1; i >= 0; i--) {
+                    FlightBean flightBean = listDate.get(i);
+                    for (AirPort airPort : list) {
+                        if (airPort.airportCode.equals(flightBean.depAirportCode))
+                            flightBean.depAirport = airPort;
+                        else if (airPort.airportCode.equals(flightBean.arrivalAirportCode))
+                            flightBean.arrivalAirport = airPort;
                     }
-                }
-                if (flightBean.arrivalAirport == null) {
-                    flightBean.arrivalAirport = new AirPort();
-                    flightBean.arrivalAirport.airportName = flightBean.arrAirportName;
-                    flightBean.arrivalAirport.cityName = flightBean.arrCityName;
-                    if (mBusinessType == Constants.BUSINESS_TYPE_PICK) {
-                        flightBean.serviceStatus = false;
-                        listDate.remove(i);
+                    if (flightBean.depAirport == null) {
+                        flightBean.depAirport = new AirPort();
+                        flightBean.depAirport.airportName = flightBean.depAirportName;
+                        flightBean.depAirport.cityName = flightBean.depCityName;
+                        if (mBusinessType == Constants.BUSINESS_TYPE_SEND) {
+                            flightBean.serviceStatus = false;
+                            listDate.remove(i);
+                        }
                     }
+                    if (flightBean.arrivalAirport == null) {
+                        flightBean.arrivalAirport = new AirPort();
+                        flightBean.arrivalAirport.airportName = flightBean.arrAirportName;
+                        flightBean.arrivalAirport.cityName = flightBean.arrCityName;
+                        if (mBusinessType == Constants.BUSINESS_TYPE_PICK) {
+                            flightBean.serviceStatus = false;
+                            listDate.remove(i);
+                        }
 
+                    }
                 }
             }
 
