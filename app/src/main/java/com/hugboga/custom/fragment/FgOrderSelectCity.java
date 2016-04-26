@@ -465,6 +465,7 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
                 Bundle bundle = new Bundle();
                 bundle.putString(KEY_FROM, "end");
                 bundle.putString("source", "首页");
+                bundle.putInt(FgChooseCity.KEY_CITY_ID, startBean.cityId);
                 startFragment(new FgChooseCity(), bundle);
                 hideSelectPeoplePop();
             }

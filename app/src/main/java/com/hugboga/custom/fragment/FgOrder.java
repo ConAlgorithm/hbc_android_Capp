@@ -2,6 +2,7 @@ package com.hugboga.custom.fragment;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -992,16 +993,22 @@ public class FgOrder extends BaseFragment {
     }
 
     private void genAllInsureInfo(){
-
-
         if(mOrderBean.insuranceList.size() >0){
             has_insure_layout.setVisibility(View.VISIBLE);
-            bottom_layout.setVisibility(View.GONE);
+        }
+
+        if(mOrderBean.insuranceEnable){
+            bottom_layout.setVisibility(View.VISIBLE);
         }else{
-            has_insure_layout.setVisibility(View.GONE);
+            bottom_layout.setVisibility(View.GONE);
         }
 //        TODO;
-        for_mans_insure.setText("正在为"+mOrderBean.insuranceList.size()+"人购买保险...");
+        for_mans_insure.setText(mOrderBean.insuranceStatus);
+        if(mOrderBean.insuranceStatusCode == 1002){
+            for_mans_insure.setTextColor(Color.RED);
+        }else{
+            for_mans_insure.setTextColor(Color.BLACK);
+        }
         View infoView = null;
         TextView name = null;
         TextView passportNo = null;
@@ -1501,6 +1508,9 @@ public class FgOrder extends BaseFragment {
                 break;
             case PAY_CANCEL:
                 Toast.makeText(getActivity(), "支付取消", Toast.LENGTH_LONG).show();
+                break;
+            case ADD_INSURE_SUCCESS:
+                finish();
                 break;
             default:
                 break;
