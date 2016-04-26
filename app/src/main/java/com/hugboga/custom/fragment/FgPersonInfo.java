@@ -117,8 +117,9 @@ public class FgPersonInfo extends BaseFragment {
     public void onFragmentResult(Bundle bundle) {
         String from = bundle.getString(KEY_FRAGMENT_NAME);
         if(FgBindMobile.class.getSimpleName().equals(from)){
-            if(bundle.getSerializable("userBean") instanceof UserBean) {
-                userBean = (UserBean) bundle.getSerializable("userBean");
+            Object object = bundle.getSerializable("userBean");
+            if(object != null && object instanceof UserBean){
+                userBean = (UserBean) object;
                 inflateContent();
             }
         }

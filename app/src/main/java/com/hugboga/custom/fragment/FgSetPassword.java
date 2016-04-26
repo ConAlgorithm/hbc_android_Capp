@@ -38,7 +38,7 @@ public class FgSetPassword extends BaseFragment {
 
     private String areaCode;
     private String mobile;
-    private String openid;
+    private String unionid;
 
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
@@ -97,7 +97,7 @@ public class FgSetPassword extends BaseFragment {
                     showTip("两次填写的密码不一致");
                     return;
                 }
-                RequestSetPwd requestSetPwd = new RequestSetPwd(getActivity(), areaCode, mobile, password, openid);
+                RequestSetPwd requestSetPwd = new RequestSetPwd(getActivity(), areaCode, mobile, password, unionid);
                 requestData(requestSetPwd);
                 break;
             default:
@@ -127,7 +127,7 @@ public class FgSetPassword extends BaseFragment {
         if(getArguments() != null){
             areaCode = getArguments().getString("areaCode");
             mobile = getArguments().getString("mobile");
-            openid = getArguments().getString("openid");
+            unionid = getArguments().getString("unionid");
         }
     }
 

@@ -21,7 +21,7 @@ public class SharedPre {
 	public static String USERID ="userId";
 	public static String USERTOKEN ="userToken";
 	public static String IM_TOKEN ="im_Token";
-	public static String OPENID ="openid";
+	public static String UNIONID ="unionid";
 	public static String USERAVATAR ="avatar";
 	public static String NICKNAME ="nickname";
 	public static String PHONE ="login_phone";

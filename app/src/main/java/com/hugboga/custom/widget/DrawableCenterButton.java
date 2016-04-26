@@ -40,4 +40,5 @@ public class DrawableCenterButton extends TextView {
         }
         super.onDraw(canvas);
     }
+
 }

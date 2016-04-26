@@ -23,7 +23,7 @@ public class UserBean implements IBaseBean {
     public String weakPasswordMsg; //弱密码提示文案
     public String imToken;//聊天token
     public int isNotRegister;
-    public String openid;
+    public String unionid;
 
     public String getGenderStr() {
         switch (gender) {
@@ -71,8 +71,8 @@ public class UserBean implements IBaseBean {
         UserEntity.getUser().setNickname(context, this.nickname);
         UserEntity.getUser().setAreaCode(context, this.areaCode);
         UserEntity.getUser().setImToken(context, imToken);
-        if(!TextUtils.isEmpty(openid)) {
-            UserEntity.getUser().setOpenid(context, openid);
+        if(!TextUtils.isEmpty(unionid)) {
+            UserEntity.getUser().setUnionid(context, unionid);
         }
     }
 }

@@ -20,14 +20,14 @@ import java.util.HashMap;
 
 @HttpRequest(path = UrlLibs.WECHAT_SET_PASSWORD, builder = HbcParamsBuilder.class)
 public class RequestSetPwd extends BaseRequest<UserBean> {
-    public RequestSetPwd(Context context, String areaCode, String mobile, String password, String openid) {
+    public RequestSetPwd(Context context, String areaCode, String mobile, String password, String unionid) {
         super(context);
         map = new HashMap<String, Object>();
         try {
             map.put("areaCode", areaCode);
             map.put("mobile", mobile);
             map.put("password", password);
-            map.put("openid", openid);
+            map.put("unionid", unionid);
         } catch (Exception e) {
             e.printStackTrace();
         }
