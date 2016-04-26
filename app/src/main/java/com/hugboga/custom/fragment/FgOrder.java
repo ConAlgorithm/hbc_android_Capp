@@ -37,6 +37,7 @@ import com.hugboga.custom.data.bean.OrderStatus;
 import com.hugboga.custom.data.bean.WXpayBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
+import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.parser.ParserChatInfo;
 import com.hugboga.custom.data.request.RequestOrderCancel;
 import com.hugboga.custom.data.request.RequestOrderDetail;
@@ -999,6 +1000,7 @@ public class FgOrder extends BaseFragment {
         }else{
             has_insure_layout.setVisibility(View.GONE);
         }
+//        TODO;
         for_mans_insure.setText("正在为"+mOrderBean.insuranceList.size()+"人购买保险...");
         View infoView = null;
         TextView name = null;
@@ -1014,7 +1016,7 @@ public class FgOrder extends BaseFragment {
             if(TextUtils.isEmpty(mOrderBean.insuranceList.get(i).insuranceNo)){
                 insuranceNo.setText("---");
             }else {
-                insuranceNo.setText(mOrderBean.insuranceList.get(i).insuranceNo);
+                insuranceNo.setText(mOrderBean.insuranceList.get(i).policyNo);
             }
             add_insure_layout.addView(infoView);
         }
@@ -1140,13 +1142,13 @@ public class FgOrder extends BaseFragment {
             case R.id.insure_question:
 //                AlertDialogUtils.showAlertDialog(this.getActivity(),"投保提示");
                 Bundle bundleUrl = new Bundle();
-                bundleUrl.putString(FgWebInfo.WEB_URL, "http://res.test.hbc.tech/h5/inApp/custom/insurance.html");
+                bundleUrl.putString(FgWebInfo.WEB_URL, UrlLibs.H5_INSURE_URL);
                 startFragment(new FgActivity(), bundleUrl);
                 break;
             case R.id.all_insure_question:
 //                AlertDialogUtils.showAlertDialog(this.getActivity(),"投保保险提示");
                 Bundle bundleUrlAll = new Bundle();
-                bundleUrlAll.putString(FgWebInfo.WEB_URL, "http://res.test.hbc.tech/h5/inApp/custom/insurance.html");
+                bundleUrlAll.putString(FgWebInfo.WEB_URL, UrlLibs.H5_INSURE_URL);
                 startFragment(new FgActivity(), bundleUrlAll);
                 break;
             case R.id.header_right_btn:

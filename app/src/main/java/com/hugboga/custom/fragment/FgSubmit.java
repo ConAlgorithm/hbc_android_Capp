@@ -321,6 +321,10 @@ public class FgSubmit extends BaseFragment implements CompoundButton.OnCheckedCh
             R.id.submit_flight_no_layout,
             R.id.submit_start_place_layout,
             R.id.submit_daily_city_value,
+            R.id.popup_order_children_ok,
+            R.id.popup_order_children_cancel,
+            R.id.popup_order_children_item_plus,
+            R.id.popup_order_children_item_sub
 //            R.id.submit_daily_pass_city_layout,
     })
     private void onClickView(View view) {

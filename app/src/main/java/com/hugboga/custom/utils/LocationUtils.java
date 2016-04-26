@@ -27,9 +27,9 @@ public class LocationUtils {
         new SharedPre(context).saveStringValue("countryName",countryName);
     }
 
-    public static void gpsIsOpen(Context context){
+    public static boolean gpsIsOpen(Context context){
         LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-        locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
     }
 
 

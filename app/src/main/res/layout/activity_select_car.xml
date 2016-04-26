@@ -139,6 +139,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:textColor="@color/basic_black"
+                    android:layout_marginRight="15dp"
                     android:textSize="20sp" />
 
                 <TextView
@@ -230,6 +231,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
+                    android:layout_marginRight="15dp"
                     android:textColor="@color/basic_black"
                     android:textSize="20sp" />
 

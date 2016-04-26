@@ -101,16 +101,15 @@ public class OrderBean implements IBaseBean ,Parcelable{
     public String dailyTips;//注意事项
 
     public boolean insuranceEnable; //是否投保
-
     public String insuranceTips;//添加保险提示;
     public List<InsureListBean> insuranceList;
-
-
 
     //2.5.0
     public String goodsNo;//商品ID
     public String skuPoi;//poi 列表，jsonArray格式
     public List<PoiBean> skuPoiArray;
+
+    public String insuranceStatus;
 
     public String getOrderTypeStr(Context context) {
         switch (orderGoodsType) {
@@ -219,6 +218,7 @@ public class OrderBean implements IBaseBean ,Parcelable{
         dest.writeString(this.goodsNo);
         dest.writeString(this.skuPoi);
         dest.writeList(this.skuPoiArray);
+        dest.writeString(this.insuranceStatus);
     }
 
     public OrderBean() {
@@ -308,6 +308,7 @@ public class OrderBean implements IBaseBean ,Parcelable{
         this.skuPoi = in.readString();
         this.skuPoiArray = new ArrayList<PoiBean>();
         in.readList(this.skuPoiArray, PoiBean.class.getClassLoader());
+        this.insuranceStatus = in.readString();
     }
 
     public static final Creator<OrderBean> CREATOR = new Creator<OrderBean>() {

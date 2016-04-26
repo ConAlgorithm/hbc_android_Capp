@@ -46,6 +46,7 @@ import com.hugboga.custom.data.bean.LvMenuItem;
 import com.hugboga.custom.data.bean.PushMessage;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestPushClick;
 import com.hugboga.custom.data.request.RequestPushToken;
 import com.hugboga.custom.data.request.RequestUploadLocation;
@@ -64,6 +65,7 @@ import com.hugboga.custom.fragment.FgSetting;
 import com.hugboga.custom.fragment.FgSkuDetail;
 import com.hugboga.custom.fragment.FgTravel;
 import com.hugboga.custom.fragment.FgWebInfo;
+import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.ImageOptionUtils;
 import com.hugboga.custom.utils.LocationUtils;
@@ -535,7 +537,7 @@ public class MainActivity extends BaseActivity
             case Constants.PERSONAL_CENTER_HD:
                 if(isLogin("个人中心首页")) {
                     Bundle bundle = new Bundle();
-                    bundle.putString(FgWebInfo.WEB_URL, "http://res.test.hbc.tech/h5/cactivity/index.html?userId="+UserEntity.getUser().getUserId(this.getApplicationContext())+"&t=" + new Random().nextInt(100000));
+                    bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_CACTIVITY_URL+UserEntity.getUser().getUserId(this.getApplicationContext())+"&t=" + new Random().nextInt(100000));
                     startFragment(new FgActivity(), bundle);
                 }
                 break;
@@ -741,6 +743,20 @@ public class MainActivity extends BaseActivity
     LocationManager locationManager;
     LocationListener locationListener;
     public void initLocation(){
+        if(!LocationUtils.gpsIsOpen(this)){
+            AlertDialog dialog = AlertDialogUtils.showAlertDialog(this, "没有开启GPS定位,请到设置里开启", "设置", "取消", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    LocationUtils.openGPSSeting(MainActivity.this);
+                    dialog.dismiss();
+                }
+            }, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+        }
         locationManager = (LocationManager) this.getSystemService(this.LOCATION_SERVICE);
         locationListener = new LocationListener() {
             @Override

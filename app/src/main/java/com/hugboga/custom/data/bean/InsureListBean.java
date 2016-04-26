@@ -20,6 +20,7 @@ public class InsureListBean implements Parcelable{
     public  String  beginTime;//保单生效开始日期
     public  String  endTime;//保单生效结束日期
     public  String  updatetime;//2016-04-18 16:18:03"
+    public  String  policyNo; //新的保单号
 
     @Override
     public int describeContents() {
@@ -41,6 +42,7 @@ public class InsureListBean implements Parcelable{
         dest.writeString(this.beginTime);
         dest.writeString(this.endTime);
         dest.writeString(this.updatetime);
+        dest.writeString(this.policyNo);
     }
 
     public InsureListBean() {
@@ -60,6 +62,7 @@ public class InsureListBean implements Parcelable{
         this.beginTime = in.readString();
         this.endTime = in.readString();
         this.updatetime = in.readString();
+        this.policyNo = in.readString();
     }
 
     public static final Creator<InsureListBean> CREATOR = new Creator<InsureListBean>() {

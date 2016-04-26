@@ -286,6 +286,7 @@ public class FgInsure extends BaseFragment implements HttpRequestListener {
             adapter.notifyDataSetChanged();
         }else if(request instanceof RequestSubmitInsure){
             ToastUtils.showLong("投保申请已成功提交");
+            finish();
             Bundle bundle = new Bundle();
             bundle.putInt(FgOrder.KEY_BUSINESS_TYPE, orderBean.orderType);
             bundle.putInt(FgOrder.KEY_GOODS_TYPE, orderBean.orderGoodsType);
@@ -338,7 +339,6 @@ public class FgInsure extends BaseFragment implements HttpRequestListener {
     public void onClick() {
         if(!TextUtils.isEmpty(getInsuranceUserId())){
             commitInsure();
-            finish();
         }
     }
 }

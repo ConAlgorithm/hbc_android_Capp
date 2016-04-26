@@ -135,7 +135,7 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
                 }
             }
         });
-        showSaveInfo();
+//        showSaveInfo();
         fgLeftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -149,22 +149,22 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
     }
 
     private void showSaveDialog(){
-        android.support.v7.app.AlertDialog dialog =  AlertDialogUtils.showAlertDialog(getContext(), "是否保存本次填写的信息", "保存", "不保存", new DialogInterface.OnClickListener() {
+        android.support.v7.app.AlertDialog dialog =  AlertDialogUtils.showAlertDialog(getContext(), "离开当前页面，所选行程将会丢失，是否继续", "是", "否", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                saveInfo();
+//                saveInfo();
                 dialog.dismiss();
                 finish();
             }
         }, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                try {
-                    Reservoir.clear();
-                    finish();
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
+//                try {
+//                    Reservoir.clear();
+//                    finish();
+//                }catch (Exception e){
+//                    e.printStackTrace();
+//                }
                 dialog.dismiss();
             }
         });
@@ -777,6 +777,11 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
                 FGSelectCar fgSelectCar = new FGSelectCar();
                 fgSelectCar.setArguments(bundleCar);
                 startFragment(fgSelectCar);
+                try{
+                    Reservoir.clear();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
                 //统计,这代码应该加到点击事件方法的最后边
                 HashMap<String, String> map = new HashMap<String, String>();
                 map.put("source", source);

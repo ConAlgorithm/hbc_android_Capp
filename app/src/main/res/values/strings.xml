@@ -291,7 +291,7 @@
     <string name="add_day_tips">当天费用将包含司导住宿补贴</string>
 
     <string name="man_no_confirm_tips">包车是件自由的事儿，填写可能最多的人数即可</string>
-    <string name="baggage_no_confirm_tips">行李过多会影响你的旅行体验，填写最多行李数即可</string>
+    <string name="baggage_no_confirm_tips">请选择可能会携带的最多行李数</string>
 
     <string name="have_mas">乘坐%s人</string>
     <string name="have_baggages">行李%s件</string>

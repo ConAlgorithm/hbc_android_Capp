@@ -232,10 +232,12 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
             carContent.setText("此车型包括:" + carBean.models);
             if(carBean.match == 0){
                 nextBtnClick.setBackgroundColor(Color.parseColor("#d5dadb"));
+                nextBtnClick.setText("人数已超限，请更换车型");
                 nextBtnClick.setClickable(false);
             }else{
                 nextBtnClick.setClickable(true);
                 nextBtnClick.setBackgroundColor(Color.parseColor("#fbd003"));
+                nextBtnClick.setText("下一步");
             }
             genServiceInfo(false);
             genCarsInfo(false);
