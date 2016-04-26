@@ -282,7 +282,7 @@
     <string name="select_scope">请选择包车游玩范围</string>
 
     <string name="scope_in">%s,市内游玩</string>
-    <string name="scope_around">%s,周边游完</string>
+    <string name="scope_around">%s,周边游玩</string>
     <string name="scope_other">住在其他城市</string>
     <string name="scope_other_end">在其它城市结束游城</string>
     <string name="scope_tips_city">包括:%s</string>

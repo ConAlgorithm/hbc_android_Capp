@@ -1,5 +1,7 @@
 package com.hugboga.custom.fragment;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -138,9 +140,32 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
             @Override
             public void onClick(View v) {
                 if(isAddinfo()){
-                    saveInfo();
+                    showSaveDialog();
+                }else{
+                    finish();
                 }
+            }
+        });
+    }
+
+    private void showSaveDialog(){
+        android.support.v7.app.AlertDialog dialog =  AlertDialogUtils.showAlertDialog(getContext(), "是否保存本次填写的信息", "保存", "不保存", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                saveInfo();
+                dialog.dismiss();
                 finish();
+            }
+        }, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                try {
+                    Reservoir.clear();
+                    finish();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+                dialog.dismiss();
             }
         });
     }
@@ -148,9 +173,11 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
     @Override
     public boolean onBackPressed() {
         if(isAddinfo()){
-            saveInfo();
+            showSaveDialog();
+            return true;
+        }else {
+            return super.onBackPressed();
         }
-        return super.onBackPressed();
     }
 
     private void showFull(){
@@ -332,6 +359,13 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
     //1,市内 2,周边 3,其它城市
     private void setDayText(int type,CityBean cityBean){
         int tag = Integer.valueOf(currentClickView.getTag().toString());
+        if(tag < full_day_show.getChildCount()) {
+            for(int i = tag+1;i<full_day_show.getChildCount();i++) {
+               View view =  full_day_show.getChildAt(i);
+                view.setTag(null);
+            }
+        }
+
         TextView text = (TextView)currentClickView.findViewById(R.id.day_go_city_text_click);
         TextView add_tips = (TextView)currentClickView.findViewById(R.id.add_tips);
         String cityId = startBean.cityId+"";
@@ -571,8 +605,8 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
         }
     }
 
+    SavedCityBean savedCityBean = null;
     private  void showSaveInfo(){
-        SavedCityBean savedCityBean = null;
         try{
             savedCityBean = Reservoir.get("savedCityBean", SavedCityBean.class);
             if(null != savedCityBean){
@@ -648,12 +682,12 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
         savedCityBean.baggages = baggageNum;
         savedCityBean.childSeat = childSeatNums;
         savedCityBean.childNum = childNum;
-        savedCityBean.startDate = start_date_str;
-        savedCityBean.endDate = end_date_str;
+        savedCityBean.startDate = isHalfTravel?"":start_date_str;
+        savedCityBean.endDate = isHalfTravel?"":end_date_str;
         savedCityBean.halfStartDate = halfDate;
         savedCityBean.mansNum = manNum;
         savedCityBean.isHalf = isHalfTravel?1:0;
-        savedCityBean.passCityList = passBeanList;
+        savedCityBean.passCityList = isHalfTravel?null:passBeanList;
 
         try {
             Reservoir.put("savedCityBean", savedCityBean);
@@ -712,11 +746,11 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
                 break;
             case R.id.start_layout_click:
                 showDaySelect(startDate);
+                savedCityBean = null;
                 break;
             case R.id.end_layout_click:
-                if (!isHalfTravel) {
-                    showDaySelect(endDate);
-                }
+                showDaySelect(endDate);
+                savedCityBean = null;
                 break;
             case R.id.go_city_text_click:
                 showDaySelect(goCityTextClick);
@@ -814,7 +848,7 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
     TextView day_text, day_go_city_text_click;
 
     View currentClickView = null;
-
+    //生成经过城市列表
     private void genDayViews(int index) {
         dayView = LayoutInflater.from(this.getActivity()).inflate(R.layout.add_day_item, null);
         day_text = (TextView) dayView.findViewById(R.id.day_text);
@@ -832,16 +866,26 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
             dayView.setTag(index);
             dayView.setBackgroundColor(Color.parseColor("#ffffff"));
         }else {
-            day_go_city_text_click.setText("选择包车游玩范围");
+            if((passBeanList.size()+1) == index){
+                dayView.setTag(index);
+                dayView.setBackgroundColor(Color.parseColor("#ffffff"));
+            }else {
+                day_go_city_text_click.setText("选择包车游玩范围");
+                dayView.setBackgroundColor(Color.parseColor("#d3d4d5"));
+            }
         }
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params.setMargins(0, 0, 0, (int) ScreenUtils.d2p(this.getActivity(), 15));
-//        if((passBeanList.size()+1) == index){
-//            dayView.setTag(index);
-//            dayView.setBackgroundColor(Color.parseColor("#ffffff"));
-//        }else{
-//            dayView.setBackgroundColor(Color.parseColor("#d3d4d5"));
-//        }
+
+        if(null == savedCityBean) {
+            if ((passBeanList.size() + 1) == index) {
+                dayView.setTag(index);
+                dayView.setBackgroundColor(Color.parseColor("#ffffff"));
+            } else {
+                dayView.setBackgroundColor(Color.parseColor("#d3d4d5"));
+            }
+        }
+
         dayView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

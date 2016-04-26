@@ -21,4 +21,15 @@ public class AlertDialogUtils {
         });
         dialog.show();
     }
+
+    public static AlertDialog showAlertDialog(Context context, String content, String okText, String cancleText,
+                                       DialogInterface.OnClickListener okClick, DialogInterface.OnClickListener cancleClick){
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        AlertDialog dialog = builder.create();
+        dialog.setMessage(content);
+        dialog.setButton(DialogInterface.BUTTON_POSITIVE,okText, okClick);
+        dialog.setButton(DialogInterface.BUTTON_NEGATIVE, cancleText, cancleClick);
+        dialog.show();
+        return dialog;
+    }
 }

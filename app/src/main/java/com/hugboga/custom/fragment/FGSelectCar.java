@@ -283,9 +283,11 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
                 if (carsMoneyAllInfo.isShown()) {
                     carsMoneyAllInfo.setVisibility(View.GONE);
                     carsMoneyShowInfo.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.journey_unfold,0,0,0);
+                    carsMoneyShowInfo.setText("展开详情");
                 } else {
                     carsMoneyAllInfo.setVisibility(View.VISIBLE);
                     carsMoneyShowInfo.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.journey_withdraw,0,0,0);
+                    carsMoneyShowInfo.setText("收起详情");
                 }
             }
             carBean = cars.get(selctIndex);
@@ -364,9 +366,11 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
                 if (mansMoneyAllInfo.isShown()) {
                     mansMoneyAllInfo.setVisibility(View.GONE);
                     mansMoneyShowInfo.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.journey_unfold,0,0,0);
+                    mansMoneyShowInfo.setText("展开详情");
                 } else {
                     mansMoneyAllInfo.setVisibility(View.VISIBLE);
                     mansMoneyShowInfo.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.journey_withdraw,0,0,0);
+                    mansMoneyShowInfo.setText("收起详情");
                 }
             }
             carBean = cars.get(selctIndex);

@@ -210,7 +210,7 @@
                     android:id="@+id/cars_left"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/mans_use_money"
+                    android:text="@string/car_use_money"
                     android:layout_marginLeft="15dp"
                     android:textColor="@color/basic_black"
                     android:textSize="20sp" />
