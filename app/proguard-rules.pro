@@ -201,7 +201,7 @@
 -keep class com.hugboga.custom.fragment.FgPersonInfo{ *; }
 -keep class com.hugboga.custom.fragment.FgIMChat{ *; }
 -keep class com.hugboga.custom.activity.BaseActivity{ *; }
-
+-keep class com.hugboga.custom.MyApplication{ *; }
 
 -keep class butterknife.** { *; }
 -dontwarn butterknife.internal.**
@@ -214,6 +214,8 @@
 -keepclasseswithmembernames class * {
     @butterknife.* <methods>;
 }
+
+-keep class com.anupcowkur.reservoir.**{*;}
 
 -keep class com.hugboga.custom.data.bean.**{*;}
 

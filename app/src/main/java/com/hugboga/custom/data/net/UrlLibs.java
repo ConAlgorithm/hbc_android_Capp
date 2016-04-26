@@ -178,7 +178,8 @@ public class UrlLibs {
     /**
      * 提交订单 日租包车
      **/
-    public static final String SERVER_IP_SUBMIT_DAILY = UrlLibs.SERVER_IP_TRADE_1_2 + "daily?";
+    public static final String SERVER_IP_SUBMIT_DAILY12 = UrlLibs.SERVER_IP_TRADE_1_2 + "daily?";
+
     /**
      * 提交订单 单次用车
      **/

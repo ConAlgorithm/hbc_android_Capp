@@ -11,7 +11,7 @@ import org.xutils.http.annotation.HttpRequest;
 /**
  * Created by admin on 2016/3/22.
  */
-@HttpRequest(path = UrlLibs.SERVER_IP_SUBMIT_DAILY, builder = HbcParamsBuilder.class)
+@HttpRequest(path = UrlLibs.SERVER_IP_SUBMIT_DAILY12, builder = HbcParamsBuilder.class)
 public class RequestSubmitDaily extends RequestSubmitBase {
     public RequestSubmitDaily(Context context, OrderBean orderBean) {
         super(context, orderBean);

@@ -157,6 +157,9 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
     public String carTypeName = "";
     public String dayNums = "";
 
+    public int inNum = 0;
+    public int outNum = 0;
+
     CarViewpagerAdapter mAdapter;
     private ArrayList<CarBean> carList = new ArrayList<CarBean>();
     @Override
@@ -195,6 +198,8 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
         startBean = this.getArguments().getParcelable("startBean");
         endBean = this.getArguments().getParcelable("endBean");
 
+        inNum = this.getArguments().getInt("innum");
+        outNum = this.getArguments().getInt("outnum");
     }
 
     int selctIndex = 0;
@@ -489,6 +494,9 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
                 bundleCar.putParcelable("carBean",carBean);
                 bundleCar.putParcelable("startBean",startBean);
                 bundleCar.putParcelable("endBean",endBean);
+                bundleCar.putInt("outnum",outNum);
+                bundleCar.putInt("innum",inNum);
+
                 fgOrderNew.setArguments(bundleCar);
                 startFragment(fgOrderNew);
                 break;

@@ -377,6 +377,8 @@ public class FgSkuSubmit extends BaseFragment implements View.OnClickListener {
         orderBean.outTownDays = skuBean.goodsType == 3 ? 0 : skuBean.daysCount;
         orderBean.skuPoi = getPoiStr();
         orderBean.stayCityListStr = getPassCityStr();
+        orderBean.priceChannel = carTypeBean.originalPrice+"";
+        orderBean.userName = contactName;
 
         return orderBean;
     }
