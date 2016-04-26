@@ -70,7 +70,7 @@ public class UrlLibs {
     /**
      * 微信登录校验openid是否已注册
      **/
-    public static final String GET_ACCESS_TOKEN = SERVER_IP_PUBLIC_UER_CENTER + "wechat/login/check/openid?";
+    public static final String GET_ACCESS_TOKEN = SERVER_IP_PUBLIC_UER_CENTER + "wechat/login/check/unionid?";
     /**
      * 微信登录校验手机号是否填写
      **/

@@ -144,7 +144,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/basic_margin_xlarge"
-            android:background="@drawable/shape_login_wechat"
+            android:background="@drawable/login3_selector_bg"
             android:drawablePadding="5dp"
             android:drawableRight="@mipmap/login_wechat"
             android:gravity="center_vertical"

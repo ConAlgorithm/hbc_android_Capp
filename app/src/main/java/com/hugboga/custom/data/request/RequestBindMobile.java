@@ -21,7 +21,7 @@ import java.util.TreeMap;
  */
 @HttpRequest(path = UrlLibs.WECHAT_CHECK_MOBILE, builder = HbcParamsBuilder.class)
 public class RequestBindMobile extends BaseRequest<UserBean> {
-    public String openid;
+    public String unionid;
     public String skip;
     public String areaCode;
     public String mobile;
@@ -33,12 +33,12 @@ public class RequestBindMobile extends BaseRequest<UserBean> {
      * @param areaCode 国家代码
      * @param mobile 电话号码
      * @param captcha 验证码
-     * @param openid 微信openid
+     * @param unionid 微信unionid
      * @param skip 是否跳过绑定手机号
      */
-    public RequestBindMobile(Context context, String areaCode, String mobile, String captcha, String openid, String skip) {
+    public RequestBindMobile(Context context, String areaCode, String mobile, String captcha, String unionid, String skip) {
         super(context);
-        this.openid = openid;
+        this.unionid = unionid;
         this.skip = skip;
         if(!skip.equals("1")) {
             this.areaCode = areaCode;
@@ -55,7 +55,7 @@ public class RequestBindMobile extends BaseRequest<UserBean> {
             map.put("mobile", mobile);
             map.put("captcha", captcha);
         }
-        map.put("openid", openid);
+        map.put("unionid", unionid);
         map.put("skip", skip);
         map.put("source", 1);
         return map;

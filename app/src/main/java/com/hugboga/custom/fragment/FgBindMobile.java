@@ -46,7 +46,7 @@ public class FgBindMobile extends BaseFragment {
 
     private String areaCode = "";
     private String mobile = "";
-    private String openId = "";
+    private String unionid = "";
     private boolean isAfterProcess = false;
 
     @Override
@@ -64,7 +64,7 @@ public class FgBindMobile extends BaseFragment {
                 Bundle bundle = new Bundle();
                 bundle.putString("areaCode",areaCode);
                 bundle.putString("mobile",mobile);
-                bundle.putString("openid",openId);
+                bundle.putString("unionid",unionid);
                 startFragment(fgSetPassword,bundle);
 
             }else { //注册且登录成功
@@ -79,21 +79,16 @@ public class FgBindMobile extends BaseFragment {
             }
         } else if(request instanceof RequestChangeMobile){
             RequestChangeMobile requestChangeMobile = (RequestChangeMobile) request;
-//            BindMobileBean bindMobileBean = requestChangeMobile.getData();
-//            if(bindMobileBean != null){
-//                if(bindMobileBean.isNotRegister != null && bindMobileBean.isNotRegister == 1){
-                    FgSetPassword fgSetPassword = new FgSetPassword();
-                    Bundle bundle = new Bundle();
-                    bundle.putString("areaCode",areaCode);
-                    bundle.putString("mobile",mobile);
-                    if(!TextUtils.isEmpty(openId)){
-                        bundle.putString("openid",openId);
-                    }else{
-                        bundle.putString("openid",UserEntity.getUser().getOpenid(getActivity()));
-                    }
-                    startFragment(fgSetPassword,bundle);
-//                }
-//            }
+            FgSetPassword fgSetPassword = new FgSetPassword();
+            Bundle bundle = new Bundle();
+            bundle.putString("areaCode",areaCode);
+            bundle.putString("mobile",mobile);
+            if(!TextUtils.isEmpty(unionid)){
+                bundle.putString("unionid",unionid);
+            }else{
+                bundle.putString("unionid",UserEntity.getUser().getUnionid(getActivity()));
+            }
+            startFragment(fgSetPassword,bundle);
         }
     }
 
@@ -134,9 +129,9 @@ public class FgBindMobile extends BaseFragment {
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.header_right_txt:
-                if(!TextUtils.isEmpty(openId)){
-                    UserEntity.getUser().setOpenid(getActivity(),openId);
-                    RequestBindMobile request = new RequestBindMobile(getActivity(),null,null,null,openId,"1");
+                if(!TextUtils.isEmpty(unionid)){
+                    UserEntity.getUser().setUnionid(getActivity(), unionid);
+                    RequestBindMobile request = new RequestBindMobile(getActivity(),null,null,null,unionid,"1");
                     requestData(request);
                 }
                 break;
@@ -174,7 +169,7 @@ public class FgBindMobile extends BaseFragment {
                     RequestChangeMobile requestChangeMobile = new RequestChangeMobile(getActivity(),areaCode,mobile,verity);
                     requestData(requestChangeMobile);
                 }else{
-                    RequestBindMobile request = new RequestBindMobile(getActivity(),areaCode,mobile,verity,openId,"0");
+                    RequestBindMobile request = new RequestBindMobile(getActivity(),areaCode,mobile,verity,unionid,"0");
                     requestData(request);
                 }
                 break;
@@ -207,8 +202,13 @@ public class FgBindMobile extends BaseFragment {
 //                    setBtnVisible(true);
 //                    return;
 //                }
-                RequestVerity requestVerity = new RequestVerity(getActivity(), areaCode1, phone1, 5);
-                requestData(requestVerity);
+                if(isAfterProcess){
+                    RequestVerity requestVerity = new RequestVerity(getActivity(), areaCode1, phone1, 5);
+                    requestData(requestVerity);
+                }else {
+                    RequestVerity requestVerity = new RequestVerity(getActivity(), areaCode1, phone1, 4);
+                    requestData(requestVerity);
+                }
                 break;
             default:
                 break;
@@ -242,8 +242,17 @@ public class FgBindMobile extends BaseFragment {
             String areaCode = bundle.getString(FgChooseCountry.KEY_COUNTRY_CODE);
             areaCodeTextView.setText("+" + areaCode);
         }else if(FgSetPassword.class.getSimpleName().equals(from)){
+            Object object = bundle.getSerializable("userBean");
+            UserBean userBean = null;
+            if(object != null && object instanceof UserBean){
+                userBean = (UserBean) object;
+            }
+
             Bundle bundle1 = new Bundle();
             bundle1.putString(KEY_FRAGMENT_NAME, FgBindMobile.class.getSimpleName());
+            if(userBean != null){
+                bundle1.putSerializable("userBean",userBean);
+            }
             finishForResult(bundle1);
         }
     }
@@ -254,7 +263,7 @@ public class FgBindMobile extends BaseFragment {
 //        leftBtn.setImageResource(R.mipmap.top_back_black);
         fgTitle.setText("绑定手机号");
         if(getArguments()!=null){
-            openId = getArguments().getString("openid");
+            unionid = getArguments().getString("unionid");
             isAfterProcess = getArguments().getBoolean("isAfterProcess");
         }
     }

@@ -113,7 +113,6 @@ public class FgLogin extends BaseFragment implements TextWatcher {
                     }else{
                         ToastUtils.showLong("获取微信授权失败，请重试");
                     }
-                    ToastUtils.showLong("code:" + resp.code);
                 }
                 break;
             default:
@@ -209,7 +208,7 @@ public class FgLogin extends BaseFragment implements TextWatcher {
             if(userBean.isNotRegister == 1){//未注册，走注册流程
                 FgBindMobile fgBindMobile = new FgBindMobile();
                 Bundle bundle = new Bundle();
-                bundle.putString("openid", userBean.openid);
+                bundle.putString("unionid", userBean.unionid);
                 startFragment(fgBindMobile, bundle);
             }else{//注册了，有用户信息
                 userBean.setUserEntity(getActivity());
@@ -217,6 +216,14 @@ public class FgLogin extends BaseFragment implements TextWatcher {
                 connectIM();
                 EventBus.getDefault().post(
                         new EventAction(EventType.CLICK_USER_LOGIN));
+
+                HashMap<String,String> map = new HashMap<String,String>();
+                map.put("source", source);
+                map.put("loginstyle", "微信");
+                map.put("head", !TextUtils.isEmpty(userBean.avatar) ? "是" : "否");
+                map.put("nickname", !TextUtils.isEmpty(userBean.nickname) ? "是" : "否");
+                map.put("phone", !TextUtils.isEmpty(userBean.mobile) ? "是" : "否");
+                MobclickAgent.onEvent(getActivity(), "login_succeed", map);
                 finishForResult(new Bundle());
             }
         }
@@ -237,6 +244,11 @@ public class FgLogin extends BaseFragment implements TextWatcher {
                 req.state = "hbc";
                 wxapi.sendReq(req);
                 isWXLogin = true;
+
+                HashMap<String,String> map = new HashMap<String,String>();
+                map.put("source", source);
+                MobclickAgent.onEvent(getActivity(), "login_weixin", map);
+
                 break;
             case R.id.login_submit:
                 //登录
@@ -264,9 +276,9 @@ public class FgLogin extends BaseFragment implements TextWatcher {
                 }
                 startFragment(new FgRegister(), bundle2);
 
-                HashMap<String,String> map = new HashMap<String,String>();
-                map.put("source", source);
-                MobclickAgent.onEvent(getActivity(), "regist_trigger", map);
+                HashMap<String,String> map1 = new HashMap<String,String>();
+                map1.put("source", source);
+                MobclickAgent.onEvent(getActivity(), "regist_trigger", map1);
 
                 break;
             case R.id.change_mobile_diepwd:
