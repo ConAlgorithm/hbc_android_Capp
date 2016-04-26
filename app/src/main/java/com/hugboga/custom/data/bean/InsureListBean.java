@@ -4,7 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
- * Created by dyt on 16/4/24.
+ * Created  on 16/4/24.
  */
 public class InsureListBean implements Parcelable{
     public  String  insuranceUserName;//下保险人

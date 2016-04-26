@@ -25,7 +25,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
- * Created by dyt on 16/4/21.
+ * Created  on 16/4/21.
  */
 @ContentView(R.layout.fg_order_info)
 public class FgOrderInfo extends BaseFragment {

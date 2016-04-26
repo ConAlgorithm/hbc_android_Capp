@@ -7,7 +7,7 @@ import com.hugboga.custom.data.bean.LocationCity;
 import org.json.JSONObject;
 
 /**
- * Created by dyt on 16/4/12.
+ * Created  on 16/4/12.
  */
 
 public class ParseLocationCity extends ImplParser {

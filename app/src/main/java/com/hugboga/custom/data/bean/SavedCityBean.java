@@ -6,7 +6,7 @@ import android.os.Parcelable;
 import java.util.List;
 
 /**
- * Created by dyt on 16/4/22.
+ * Created  on 16/4/22.
  */
 public class SavedCityBean implements Parcelable{
     public CityBean startCity;

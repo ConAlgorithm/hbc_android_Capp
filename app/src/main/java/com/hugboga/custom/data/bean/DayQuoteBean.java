@@ -1,7 +1,7 @@
 package com.hugboga.custom.data.bean;
 
 /**
- * Created by dyt on 16/4/16.
+ * Created  on 16/4/16.
  */
 public class DayQuoteBean {
     public int busySeason;

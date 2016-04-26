@@ -18,7 +18,7 @@ import org.xutils.http.annotation.HttpRequest;
 import java.util.HashMap;
 
 /**
- * Created by dyt on 16/4/16.
+ * Created  on 16/4/16.
  */
 @HttpRequest(path = UrlLibs.GET_CAR_INFOS,builder = HbcParamsBuilder.class)
 public class RequestGetCarInfo extends BaseRequest<CarInfoBean> {

@@ -5,7 +5,7 @@ import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 
 /**
- * Created by dyt on 16/4/16.
+ * Created  on 16/4/16.
  */
 public class AlertDialogUtils {
 

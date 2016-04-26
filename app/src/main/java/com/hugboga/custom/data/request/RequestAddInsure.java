@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * Created by dyt on 16/4/22.
+ * Created  on 16/4/22.
  */
 @HttpRequest(path = UrlLibs.ADD_INSURE, builder = HbcParamsBuilder.class)
 public class RequestAddInsure extends BaseRequest {

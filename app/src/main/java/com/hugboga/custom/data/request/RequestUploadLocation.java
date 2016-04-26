@@ -19,7 +19,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 /**
- * Created by dyt on 2016/4/12.
+ * Created  on 2016/4/12.
  */
 
 @HttpRequest(path = UrlLibs.UPLOAD_LOCATION, builder = HbcParamsBuilder.class)

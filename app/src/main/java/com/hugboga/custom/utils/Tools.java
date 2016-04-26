@@ -15,7 +15,7 @@ import com.hugboga.custom.widget.GlideCircleTransform;
 import java.io.File;
 
 /**
- * Created by dyt on 16/4/25.
+ * Created  on 16/4/25.
  */
 public class Tools {
 

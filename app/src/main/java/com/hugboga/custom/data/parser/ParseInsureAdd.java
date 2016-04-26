@@ -8,7 +8,7 @@ import com.hugboga.custom.data.bean.InsureResultBean;
 import org.json.JSONObject;
 
 /**
- * Created by dyt on 16/4/23.
+ * Created  on 16/4/23.
  */
 public class ParseInsureAdd extends ImplParser {
     @Override

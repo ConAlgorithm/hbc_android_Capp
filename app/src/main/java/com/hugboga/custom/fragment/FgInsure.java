@@ -43,7 +43,7 @@ import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
 
 /**
- * Created by dyt on 16/4/22.
+ * Created  on 16/4/22.
  */
 @ContentView(R.layout.fg_insure_list)
 public class FgInsure extends BaseFragment implements HttpRequestListener {

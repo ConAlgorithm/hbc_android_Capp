@@ -40,7 +40,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * Created by dyt on 16/4/18.
+ * Created  on 16/4/18.
  */
 
 @ContentView(R.layout.fg_order_new)

@@ -44,7 +44,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * Created by dyt on 16/4/16.
+ * Created  on 16/4/16.
  */
 @ContentView(R.layout.activity_select_car)
 public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeListener {

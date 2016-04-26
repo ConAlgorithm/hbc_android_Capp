@@ -53,7 +53,7 @@ import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
 /**
- * Created by dyt on 16/4/14.
+ * Created  on 16/4/14.
  */
 @ContentView(R.layout.activity_order_select_city)
 public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnValueChangeListener, NumberPicker.Formatter {
@@ -363,6 +363,8 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
             for(int i = tag+1;i<full_day_show.getChildCount();i++) {
                View view =  full_day_show.getChildAt(i);
                 view.setTag(null);
+                day_go_city_text_click.setText("选择包车游玩范围");
+                dayView.setBackgroundColor(Color.parseColor("#d3d4d5"));
             }
         }
 
@@ -582,17 +584,6 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
 
 
     public void initScopeLayoutValue() {
-        if (isHalfTravel) {
-            scope_in_str = String.format(getString(R.string.scope_around), "在" + startBean.name + "结束行程");
-            scope_around_str = String.format(getString(R.string.scope_in), "在" + startBean.name + "结束行程");
-            scope_other_str = "在其它城市结束行程";
-
-            out_title.setText(scope_in_str);
-            in_title.setText(scope_around_str);
-            other_title.setText(scope_other_str);
-            out_tips.setText(startBean.neighbourTip);
-            in_tips.setText(startBean.dailyTip);
-        } else {
             scope_in_str = String.format(getString(R.string.scope_around), "住在" + startBean.name );
             scope_around_str = String.format(getString(R.string.scope_in), "住在" + startBean.name );
             scope_other_str = "住在其它城市";
@@ -602,7 +593,6 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
             other_title.setText(scope_other_str);
             out_tips.setText(startBean.neighbourTip);
             in_tips.setText(startBean.dailyTip);
-        }
     }
 
     SavedCityBean savedCityBean = null;

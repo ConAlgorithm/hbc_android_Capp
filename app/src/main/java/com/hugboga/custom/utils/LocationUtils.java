@@ -6,7 +6,7 @@ import android.location.LocationManager;
 import android.provider.Settings;
 
 /**
- * Created by dyt on 16/4/12.
+ * Created  on 16/4/12.
  */
 public class LocationUtils {
 
