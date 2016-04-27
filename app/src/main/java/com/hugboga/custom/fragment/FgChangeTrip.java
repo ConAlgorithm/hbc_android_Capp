@@ -384,18 +384,18 @@ public class FgChangeTrip extends BaseFragment implements View.OnClickListener {
                 adultCount.setText(String.format(getString(R.string.submit_adult), ++adult));
                 break;
             case R.id.submit_child_sub:
-                if (needChildrenSeat) {
-                    showChildrenSeat();
-                    break;
-                }
+//                if (needChildrenSeat) {
+//                    showChildrenSeat();
+//                    break;
+//                }
                 if (child <= 0) break;
                 childCount.setText(String.format(getString(R.string.submit_child), --child));
                 break;
             case R.id.submit_child_plus:
-                if (needChildrenSeat) {
-                    showChildrenSeat();
-                    break;
-                }
+//                if (needChildrenSeat) {
+//                    showChildrenSeat();
+//                    break;
+//                }
                 childCount.setText(String.format(getString(R.string.submit_child), ++child));
                 break;
             case R.id.popup_order_children_item_sub:
