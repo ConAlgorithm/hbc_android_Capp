@@ -201,10 +201,14 @@ public class FgSkuList extends  BaseFragment implements  View.OnClickListener, Z
                 MobclickAgent.onEvent(getActivity(), "chose_pndairport", map);
                 break;
             case R.id.fg_home_menu2://按天包车
-                FgDaily fgDaily = new FgDaily();
-                bundle.putString("source",mCityBean.name);
-                fgDaily.setArguments(bundle);
-                startFragment(new FgDaily(),bundle);
+//                FgDaily fgDaily = new FgDaily();
+//                bundle.putString("source",mCityBean.name);
+//                fgDaily.setArguments(bundle);
+//                startFragment(new FgDaily(),bundle);
+                FgOrderSelectCity fgOrderSelectCity = new FgOrderSelectCity();
+                bundle.putString("source","首页");
+                fgOrderSelectCity.setArguments(bundle);
+                startFragment(fgOrderSelectCity, bundle);
 
                 map.put("source", mCityBean.name);
                 MobclickAgent.onEvent(getActivity(), "chose_oneday", map);

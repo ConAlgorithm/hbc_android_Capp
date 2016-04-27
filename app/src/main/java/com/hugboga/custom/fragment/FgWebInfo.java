@@ -53,7 +53,7 @@ public class FgWebInfo extends BaseFragment implements View.OnKeyListener {
 
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            webView.loadUrl(url);
+//            webView.loadUrl(url);
             return false;
         }
 
