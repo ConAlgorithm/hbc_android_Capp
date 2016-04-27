@@ -320,15 +320,15 @@ public class FGOrderNew extends BaseFragment {
             return;
         }
 
-        if(TextUtils.isEmpty(hotelPhoneTextCodeClick.getText())){
-            ToastUtils.showLong("酒店电话区号不能为空!");
-            return;
-        }
-
-        if(TextUtils.isEmpty(hotelPhoneText.getText())){
-            ToastUtils.showLong("酒店电话不能为空!");
-            return;
-        }
+//        if(TextUtils.isEmpty(hotelPhoneTextCodeClick.getText())){
+//            ToastUtils.showLong("酒店电话区号不能为空!");
+//            return;
+//        }
+//
+//        if(TextUtils.isEmpty(hotelPhoneText.getText())){
+//            ToastUtils.showLong("酒店电话不能为空!");
+//            return;
+//        }
 
         if(phone2Layout.isShown()){
             if(!TextUtils.isEmpty(areaCode2Click.getText()) && !TextUtils.isEmpty(userPhone2.getText())) {

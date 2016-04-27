@@ -217,6 +217,7 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
                     scrollView.setVisibility(View.GONE);
                 }else {
                     initListData();
+                    getMatchCarIndex();
                     showContent();
                 }
             }
@@ -224,9 +225,19 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
 
     }
 
+    private void getMatchCarIndex(){
+        for(int i = 0;i<cars.size();i++){
+            if(cars.get(i).match == 1){
+                selctIndex = i;
+                break;
+            }
+        }
+    }
+
     SelectCarBean carBean;
     public void showContent(){
         try {
+            jazzyPager.setCurrentItem(selctIndex);
             carBean = cars.get(selctIndex);
             carType.setText(carBean.carDesc);
             carContent.setText("此车型包括:" + carBean.models);
