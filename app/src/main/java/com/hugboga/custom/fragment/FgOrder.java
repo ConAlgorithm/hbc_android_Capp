@@ -993,8 +993,10 @@ public class FgOrder extends BaseFragment {
     }
 
     private void genAllInsureInfo(){
-        if(mOrderBean.insuranceList.size() >0){
+        if(mOrderBean.insuranceList.size() > 0){
             has_insure_layout.setVisibility(View.VISIBLE);
+        }else{
+            has_insure_layout.setVisibility(View.GONE);
         }
 
         if(mOrderBean.insuranceEnable){

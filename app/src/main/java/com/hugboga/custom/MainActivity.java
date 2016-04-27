@@ -66,12 +66,14 @@ import com.hugboga.custom.fragment.FgSkuDetail;
 import com.hugboga.custom.fragment.FgTravel;
 import com.hugboga.custom.fragment.FgWebInfo;
 import com.hugboga.custom.utils.AlertDialogUtils;
+import com.hugboga.custom.utils.ChannelUtils;
 import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.ImageOptionUtils;
 import com.hugboga.custom.utils.LocationUtils;
 import com.hugboga.custom.utils.PermissionRes;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.utils.SharedPre;
+import com.hugboga.custom.utils.ToastUtils;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UpdateResources;
 import com.hugboga.custom.widget.CircularImage;
@@ -398,6 +400,13 @@ public class MainActivity extends BaseActivity
 //        my_icon_head.setOnClickListener(this);
         tv_nickname = (TextView) header.findViewById(R.id.tv_nickname);//昵称
 //        tv_nickname.setOnClickListener(this);
+        tv_nickname.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                ToastUtils.showShort("version="+ChannelUtils.getVersion()+" versioncode="+ChannelUtils.getVersionCode()+" channel ="+ChannelUtils.getChannel(MainActivity.this)+"");
+                return false;
+            }
+        });
 
         mLvLeftMenu.addHeaderView(header);
         menuItemAdapter = new MenuItemAdapter(this, mItems);
