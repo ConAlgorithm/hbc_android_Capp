@@ -342,8 +342,10 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
         selector.limit(30);
         try {
             List<CityBean> hotCityDate = selector.findAll();
-            for (CityBean bean : hotCityDate) {
-                bean.firstLetter = "热门城市";
+            if(hotCityDate != null && hotCityDate.size() > 0) {
+                for (CityBean bean : hotCityDate) {
+                    bean.firstLetter = "热门城市";
+                }
             }
             if (hotCityDate != null && hotCityDate.size() > 0 && hotCityDate.get(0) != null) {
                 hotCityDate.get(0).isFirst = true;
