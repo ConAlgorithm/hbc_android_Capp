@@ -330,7 +330,7 @@
     <string name="up_time">上车时间</string>
     <string name="up_site">上车地点</string>
 
-    <string name="passenger">乘车人</string>
+    <string name="passenger">* 乘车人</string>
     <string name="add_passenger">请填写乘车人姓名</string>
     <string name="passenger_phone">乘车人电话</string>
 

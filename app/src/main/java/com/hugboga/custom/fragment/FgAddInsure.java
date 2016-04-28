@@ -239,10 +239,10 @@ public class FgAddInsure extends BaseFragment implements HttpRequestListener {
         DatePickerDialog dpd = DatePickerDialog.newInstance(
                 myDatePickerDialog, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
         cal = Calendar.getInstance();
-        dpd.setMinDate(cal);
+//        dpd.setMinDate(cal);
         cal = Calendar.getInstance();
         cal.set(Calendar.MONTH, cal.get(Calendar.MONTH) + 6);
-        dpd.setMaxDate(cal);
+//        dpd.setMaxDate(cal);
         dpd.show(this.getActivity().getFragmentManager(), "DatePickerDialog");   //显示日期设置对话框
 
     }
