@@ -65,8 +65,6 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
     TextView headerTitle;
     @ViewInject(R.id.header_right_btn)
     ImageView headerRightBtn;
-    @ViewInject(R.id.header_right_txt)
-    TextView headerRightTxt;
     @ViewInject(R.id.start_city_click)
     TextView startCityClick;
     @ViewInject(R.id.full_day)
@@ -251,6 +249,7 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
     }
 
     protected void initHeader() {
+        fgRightBtn.setVisibility(View.VISIBLE);
         fgTitle.setText(R.string.select_city_title);
         source = getArguments().getString("source");
     }
@@ -762,18 +761,18 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
                 bundleCar.putString("endDate",isHalfTravel?(halfDate):(end_date_str));
                 bundleCar.putString("halfDay",isHalfTravel?"1":"0");
                 bundleCar.putString("adultNum",manNum+"");
-                bundleCar.putString("childrenNum",childNum+"");
-                bundleCar.putString("childseatNum",childSeatNums+"");
-                bundleCar.putString("luggageNum",baggageNum+"");
-                bundleCar.putString("passCities",isHalfTravel?"":getPassCities());
+                bundleCar.putString("childrenNum", childNum + "");
+                bundleCar.putString("childseatNum", childSeatNums + "");
+                bundleCar.putString("luggageNum", baggageNum + "");
+                bundleCar.putString("passCities", isHalfTravel ? "" : getPassCities());
 
-                bundleCar.putString("startCityName",startBean.name);
-                bundleCar.putString("dayNums",nums+"");
-                bundleCar.putParcelable("startBean",startBean);
-                bundleCar.putParcelable("endBean",endBean);
-                bundleCar.putInt("outnum",getOutNum());
-                bundleCar.putInt("innum",getInNum());
-
+                bundleCar.putString("startCityName", startBean.name);
+                bundleCar.putString("dayNums", nums + "");
+                bundleCar.putParcelable("startBean", startBean);
+                bundleCar.putParcelable("endBean", endBean);
+                bundleCar.putInt("outnum", getOutNum());
+                bundleCar.putInt("innum", getInNum());
+                bundleCar.putString("source", source);
 
                 FGSelectCar fgSelectCar = new FGSelectCar();
                 fgSelectCar.setArguments(bundleCar);
@@ -784,12 +783,28 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
                     e.printStackTrace();
                 }
                 //统计,这代码应该加到点击事件方法的最后边
-                HashMap<String, String> map = new HashMap<String, String>();
+                HashMap<String,String> map = new HashMap<String,String>();
                 map.put("source", source);
-//                map.put("begincity", begincity);
-                MobclickAgent.onEventValue(getActivity(), "chosecar_oneday", map, 1);
+                map.put("begincity", startBean.name);
+                map.put("guestcount", manNum + childNum + "");
+                map.put("luggagecount", baggageNum + "");
+                map.put("drivedays", getOutNum() + getInNum() + "");
+                MobclickAgent.onEventValue(getActivity(),"chosecar_oneday",map,1);
                 break;
         }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.header_right_txt:
+                HashMap<String,String> map = new HashMap<String,String>();
+                map.put("source", "填写行程页面");
+                MobclickAgent.onEvent(getActivity(), "callcenter_oneday", map);
+                v.setTag("填写行程页面,calldomestic_oneday,calloverseas_oneday");
+                break;
+        }
+        super.onClick(v);
     }
 
     private String getPassCities(){

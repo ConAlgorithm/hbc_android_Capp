@@ -77,7 +77,8 @@ public class FgSkuDetail extends FgWebInfo {
 
                 map.put("routecity", cityBean.name);
                 map.put("routename", skuItemBean.goodsName);
-                MobclickAgent.onEventValue(this.getActivity(),"chose_route",map,1);
+                map.put("quoteprice", skuItemBean.goodsMinPrice);
+                MobclickAgent.onEventValue(getActivity(), "chose_route", map, 1);
                 break;
         }
     }

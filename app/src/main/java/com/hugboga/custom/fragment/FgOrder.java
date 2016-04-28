@@ -851,6 +851,42 @@ public class FgOrder extends BaseFragment {
         String couponId = mOrderBean.orderCoupon == null ? "" : mOrderBean.orderCoupon.couponID;
         RequestPayNo request = new RequestPayNo(getActivity(), mOrderBean.orderNo, shouldPay, this.payType, couponId);
         requestData(request);
+
+        HashMap<String,String> map = new HashMap<String,String>();//用于统计
+        map.put("source", source);
+        map.put("carstyle", mOrderBean.carDesc);
+        if(this.payType == 1){
+            map.put("paystyle", "支付宝");
+        }else if (this.payType == 2){
+            map.put("paystyle", "微信");
+        }
+        map.put("paysource", "下单过程中");//有疑问
+        map.put("guestcount", mOrderBean.adult + mOrderBean.child + "");
+        map.put("payableamount", mOrderBean.orderPriceInfo.shouldPay + "");
+        map.put("actualamount", mOrderBean.orderPriceInfo.actualPay + "");
+        String type = "";
+        switch (mBusinessType) {
+            case Constants.BUSINESS_TYPE_PICK:
+                type = "pay_pickup";
+                break;
+            case Constants.BUSINESS_TYPE_SEND:
+                type = "pay_dropoff";
+                break;
+            case Constants.BUSINESS_TYPE_DAILY:
+                type = "pay_oneday";
+                map.put("begincity", mOrderBean.serviceCityName);
+                map.put("luggagecount", mOrderBean.luggageNum);
+                map.put("drivedays", mOrderBean.totalDays + "");
+//                map.put("forother", );
+                break;
+            case Constants.BUSINESS_TYPE_RENT:
+                type = "pay_oneway";
+                break;
+            case Constants.BUSINESS_TYPE_COMMEND:
+                type = "pay_route";
+                break;
+        }
+        MobclickAgent.onEventValue(getActivity(), type, map, 1);
     }
 
     /**
@@ -929,9 +965,11 @@ public class FgOrder extends BaseFragment {
                     if (TextUtils.equals(resultStatus, "9000")) {
                         mDialogUtil.showLoadingDialog();
                         mHandler.sendEmptyMessageDelayed(1, 3000);
+                        doUMengStatisticForWechatPaySuccesful(true);
                     } else if (TextUtils.equals(resultStatus, "8000")) {
                         Toast.makeText(getActivity(), "支付结果确认中", Toast.LENGTH_SHORT).show();
                     } else {
+                        doUMengStatisticForWechatPaySuccesful(false);
                     }
                     break;
                 }
@@ -958,9 +996,6 @@ public class FgOrder extends BaseFragment {
             bundle.putString(KEY_ORDER_ID, mOrderBean.orderNo);
             bundle.putString("from", mSourceFragment.getClass().getSimpleName());
             bundle.putString("source",source);
-
-            uMengClickEvnet();
-
 //            startFragment(new FgPaySuccess(), bundle);
             notifyOrderList(FgTravel.TYPE_ORDER_RUNNING, true, false, false);
         }
@@ -968,29 +1003,29 @@ public class FgOrder extends BaseFragment {
 
 
     //4.为他人订车
-    boolean isForOther = false;
+//    boolean isForOther = false;
     //友盟事件统计
-    private void uMengClickEvnet(){
-        Map<String, String> map_value = new HashMap<String, String>();
-        map_value.put("source" , source);
-        map_value.put("carstyle",mOrderBean.carType+"");
-        map_value.put("paystyle",paystyle);
-        map_value.put("paysource",source);
-        map_value.put("clicksource",source);
-        map_value.put("guestcount",mOrderBean.adult + mOrderBean.child + "");
-        map_value.put("payableamount",mOrderBean.orderPriceInfo.shouldPay+"");
-        map_value.put("actualamount",mOrderBean.orderPriceInfo.actualPay+"");
-
-        if(umeng_key.equalsIgnoreCase("pay_oneday") || umeng_key.equalsIgnoreCase("launch_paysucceed_oneday")) {
-            map_value.put("begincity", mOrderBean.startAddress);
-            if(isForOther) {
-                map_value.put("forother", "是");
-            }else{
-                map_value.put("forother", "否");
-            }
-        }
-        UmengUtils.mobClickEvent(FgOrder.this.getActivity(), umeng_key, map_value);
-    }
+//    private void uMengClickEvnet(){
+//        Map<String, String> map_value = new HashMap<String, String>();
+//        map_value.put("source" , source);
+//        map_value.put("carstyle",mOrderBean.carType+"");
+//        map_value.put("paystyle",paystyle);
+//        map_value.put("paysource",source);
+//        map_value.put("clicksource", source);
+//        map_value.put("guestcount",mOrderBean.adult + mOrderBean.child + "");
+//        map_value.put("payableamount",mOrderBean.orderPriceInfo.shouldPay+"");
+//        map_value.put("actualamount",mOrderBean.orderPriceInfo.actualPay+"");
+//
+//        if(umeng_key.equalsIgnoreCase("pay_oneday") || umeng_key.equalsIgnoreCase("launch_paysucceed_oneday")) {
+//            map_value.put("begincity", mOrderBean.startAddress);
+//            if(isForOther) {
+//                map_value.put("forother", "是");
+//            }else{
+//                map_value.put("forother", "否");
+//            }
+//        }
+//        UmengUtils.mobClickEvent(FgOrder.this.getActivity(), umeng_key, map_value);
+//    }
 
     private void genAllInsureInfo(){
         if(mOrderBean.insuranceList.size() > 0){
@@ -1453,8 +1488,7 @@ public class FgOrder extends BaseFragment {
                     public void onClick(DialogInterface dialog, int which) {
                         if (mOrderBean.orderStatus == OrderStatus.INITSTATE) {
                             cancelOrder(mOrderBean.orderNo, 0);
-                            uMengClickEvnet();
-
+                            doUMengStatisticForCancelOrder();
                         } else {
 //                                finish();
                             Bundle bundle = new Bundle();
@@ -1507,9 +1541,11 @@ public class FgOrder extends BaseFragment {
         switch (action.getType()) {
             case REFRESH_ORDER_DETAIL:
                 requestData();
+                doUMengStatisticForWechatPaySuccesful(true);
                 break;
             case PAY_CANCEL:
                 Toast.makeText(getActivity(), "支付取消", Toast.LENGTH_LONG).show();
+                doUMengStatisticForWechatPaySuccesful(false);
                 break;
             case ADD_INSURE_SUCCESS:
                 finish();
@@ -1517,6 +1553,92 @@ public class FgOrder extends BaseFragment {
             default:
                 break;
         }
+    }
+
+    /**
+     * 统计支付是否成功
+     * @param isSuccessful 成功传true，失败传false
+     */
+    private void doUMengStatisticForWechatPaySuccesful(boolean isSuccessful) {
+        HashMap<String,String> map = new HashMap<String,String>();//用于统计
+        map.put("source", source);
+        map.put("carstyle", mOrderBean.carDesc);
+        if(this.payType == 1){
+            map.put("paystyle", "支付宝");
+        }else if (this.payType == 2){
+            map.put("paystyle", "微信");
+        }
+        map.put("paysource", "下单过程中");//有疑问
+        map.put("guestcount", mOrderBean.adult + mOrderBean.child + "");
+        map.put("payableamount", mOrderBean.orderPriceInfo.shouldPay + "");
+        map.put("actualamount", mOrderBean.orderPriceInfo.actualPay + "");
+        String type = "";
+        switch (mBusinessType) {
+            case Constants.BUSINESS_TYPE_PICK:
+                type = isSuccessful ? "launch_paysucceed_pickup" : "launch_payfailed_pickup";
+                break;
+            case Constants.BUSINESS_TYPE_SEND:
+                type = isSuccessful ? "launch_paysucceed_dropoff" : "launch_payfailed_dropoff";
+                break;
+            case Constants.BUSINESS_TYPE_DAILY:
+                type = isSuccessful ? "launch_paysucceed_oneday" : "launch_payfailed_oneday";
+                map.put("begincity", mOrderBean.serviceCityName);
+                map.put("luggagecount", mOrderBean.luggageNum);
+                map.put("drivedays", mOrderBean.totalDays + "");
+//                map.put("forother", );
+                break;
+            case Constants.BUSINESS_TYPE_RENT:
+                type = isSuccessful ? "launch_paysucceed_oneway" : "launch_payfailed_oneway";
+                break;
+            case Constants.BUSINESS_TYPE_COMMEND:
+                type = isSuccessful ? "launch_paysucceed_route" : "launch_payfailed_route";
+                break;
+        }
+        MobclickAgent.onEventValue(getActivity(), type, map, 1);
+    }
+
+    /**
+     * 统计取消订单
+     */
+    private void doUMengStatisticForCancelOrder(){
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("source", source);
+        map.put("carstyle", mOrderBean.carType + "");
+        map.put("paystyle", paystyle);
+        map.put("paysource", source);
+        map.put("clicksource", source);
+        map.put("guestcount", mOrderBean.adult + mOrderBean.child + "");
+        map.put("payableamount", mOrderBean.orderPriceInfo.shouldPay + "");
+        map.put("actualamount", mOrderBean.orderPriceInfo.actualPay + "");
+
+        String type = "";
+        switch (mBusinessType) {
+            case Constants.BUSINESS_TYPE_PICK:
+                type = "cancelorder_pickup";
+                break;
+            case Constants.BUSINESS_TYPE_SEND:
+                type = "cancelorder_dropoff";
+                break;
+            case Constants.BUSINESS_TYPE_DAILY:
+                type = "cancelorder_oneday";
+                map.put("begincity", mOrderBean.serviceCityName);
+                map.put("luggagecount", mOrderBean.luggageNum);
+                map.put("drivedays", mOrderBean.totalDays + "");
+//                if(isForOther) {
+//                    map_value.put("forother", "是");
+//                }else{
+//                    map_value.put("forother", "否");
+//                }
+                break;
+            case Constants.BUSINESS_TYPE_RENT:
+                type = "cancelorder_oneway";
+                break;
+            case Constants.BUSINESS_TYPE_COMMEND:
+                type = "cancelorder_route";
+                break;
+        }
+        MobclickAgent.onEventValue(getActivity(), type, map, 1);
+
     }
 
     @Override

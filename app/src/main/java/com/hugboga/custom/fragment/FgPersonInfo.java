@@ -40,6 +40,7 @@ import com.hugboga.custom.utils.ImageUtils;
 import com.hugboga.custom.utils.PermissionRes;
 import com.hugboga.custom.widget.CircleImageView;
 import com.hugboga.custom.widget.CircularImage;
+import com.umeng.analytics.MobclickAgent;
 import com.yalantis.ucrop.UCrop;
 import com.zhy.m.permission.MPermissions;
 import com.zhy.m.permission.PermissionDenied;
@@ -219,14 +220,18 @@ public class FgPersonInfo extends BaseFragment {
                 dialog.show();
                 break;
             case R.id.my_info_menu_layout5:
-                if(!TextUtils.isEmpty(userBean.mobile)){
+                if(userBean != null && !TextUtils.isEmpty(userBean.mobile)){
                     //修改手机号
                     startFragment(new FgChangeMobile());
                 }else {
                     //绑定手机号
                     Bundle bundle = new Bundle();
                     bundle.putBoolean("isAfterProcess",true);
+                    bundle.putString("source","个人信息");
                     startFragment(new FgBindMobile(), bundle);
+                    HashMap<String,String> map = new HashMap<String,String>();
+                    map.put("source", "个人信息");
+                    MobclickAgent.onEvent(getActivity(), "bind_trigger", map);
                 }
                 break;
 

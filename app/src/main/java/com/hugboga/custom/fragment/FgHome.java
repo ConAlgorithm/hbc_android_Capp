@@ -180,12 +180,10 @@ public class FgHome extends BaseFragment implements View.OnClickListener, ZBaseA
         }
     }
 
-
     @Override
     public void onResume() {
         super.onResume();
         MobclickAgent.onEvent(this.getActivity(),"launch_discovery");
-
     }
 
     @Override
