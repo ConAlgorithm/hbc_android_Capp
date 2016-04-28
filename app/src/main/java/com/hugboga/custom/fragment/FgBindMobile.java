@@ -90,6 +90,7 @@ public class FgBindMobile extends BaseFragment {
                 MobclickAgent.onEvent(getActivity(), "bind_succeed", map);
             }
         } else if(request instanceof RequestChangeMobile){
+            //isAfterProcess 绑定手机号
             RequestChangeMobile requestChangeMobile = (RequestChangeMobile) request;
             FgSetPassword fgSetPassword = new FgSetPassword();
             Bundle bundle = new Bundle();
@@ -150,6 +151,9 @@ public class FgBindMobile extends BaseFragment {
                     RequestBindMobile request = new RequestBindMobile(getActivity(),null,null,null,unionid,"1");
                     requestData(request);
                 }
+                break;
+            case R.id.header_left_btn:
+                super.onClick(v);
                 break;
         }
     }
