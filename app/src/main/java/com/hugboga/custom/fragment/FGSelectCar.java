@@ -236,6 +236,7 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
 
     SelectCarBean carBean;
     public void showContent(){
+        changeLeftRightStatus();
         try {
             jazzyPager.setCurrentItem(selctIndex);
             carBean = cars.get(selctIndex);
@@ -465,6 +466,20 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+    }
+
+    private void changeLeftRightStatus(){
+        if(selctIndex == 0){
+            left.setVisibility(View.GONE);
+            right.setVisibility(View.VISIBLE);
+        }else if(selctIndex < (cars.size() -1)){
+            right.setVisibility(View.VISIBLE);
+            left.setVisibility(View.VISIBLE);
+        }else if(selctIndex == (cars.size() -1)){
+            right.setVisibility(View.GONE);
+            left.setVisibility(View.VISIBLE);
+        }
+
     }
 
     @OnClick({R.id.left, R.id.right, R.id.mans_money_show_info, R.id.cars_money_show_info, R.id.next_btn_click})

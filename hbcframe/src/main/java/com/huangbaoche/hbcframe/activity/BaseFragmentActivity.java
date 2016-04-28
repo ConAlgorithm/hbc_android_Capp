@@ -47,12 +47,18 @@ public class BaseFragmentActivity extends AppCompatActivity  {
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
-        if (event.getAction() == MotionEvent.ACTION_DOWN){
-            if (isSoftInputShow()) {
-                try {
-                    ((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(BaseFragmentActivity.this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-                }catch(Exception e){}
+        try {
+            if (!this.getFragmentList().get(this.getFragmentsSize() - 1).getClass().getSimpleName().equalsIgnoreCase("FgIMChat")) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    if (isSoftInputShow()) {
+                        try {
+                            ((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(BaseFragmentActivity.this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                        } catch (Exception e) {
+                        }
+                    }
+                }
             }
+        }catch (Exception e){
         }
         try {
             return super.dispatchTouchEvent(event);

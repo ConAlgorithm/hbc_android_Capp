@@ -9,7 +9,8 @@
     <!-- Hugboga text -->
     <string name="rc_no_message">无留言记录</string>
     <string name="huangbaoche_remind">皇包车提醒您！</string>
-    <string name="huangbaoche_remind_message">文明用语是打开心扉的一把钥匙！</string>
+    <string name="huangbaoche_remind_message">Hi，小包子即将为您服务</string>
+    <string name="huangbaoche_remind_message_user">我是您的司导，请问有什么可以帮您的吗？</string>
 
     <!-- discussion_notification_msg -->
     <string name="rc_discussion_nt_msg_for_rename">"%1$s 修改讨论组名称为 %2$s"</string>

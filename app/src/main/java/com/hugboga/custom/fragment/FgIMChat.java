@@ -122,7 +122,7 @@ public class FgIMChat extends BaseFragment {
     }
 
     private void resetRightBtn() {
-        if (!TextUtils.isEmpty(targetType) && "3".equals(targetType)) {
+        if (!TextUtils.isEmpty(targetType) && "3".equals(targetType)) {//3.客服 1.用户
             fgRightBtn.setVisibility(View.GONE); //显示历史订单按钮
         } else {
             fgRightBtn.setVisibility(View.VISIBLE); //显示历史订单按钮
@@ -417,6 +417,12 @@ public class FgIMChat extends BaseFragment {
             return;
         }
         final RelativeLayout rl = (RelativeLayout) view.findViewById(io.rong.imkit.R.id.empty);
+        TextView show_empty_txt = (TextView) view.findViewById(R.id.show_empty_txt);
+        if("3".equalsIgnoreCase(targetType)) {//3.客服 1.用户
+            show_empty_txt.setText(R.string.huangbaoche_remind_message);
+        }else{
+            show_empty_txt.setText(R.string.huangbaoche_remind_message_user);
+        }
         try {
             int imNumber = 0;
             RongIM rongIM = RongIM.getInstance();
