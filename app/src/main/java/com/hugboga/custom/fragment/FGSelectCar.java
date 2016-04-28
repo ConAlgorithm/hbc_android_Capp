@@ -279,9 +279,9 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
             cars_serviceCityNote.setText(carBean.serviceCityNote);
         }
 
-        allDayNum.setText(carBean.totalDays+"天 x"+carBean.numOfPerson+"人");
-        allCharge.setText(carBean.price+"元");
-        perCharge.setText(carBean.avgSpend+"元");
+        allDayNum.setText(carBean.totalDays+"天 / "+carBean.numOfPerson+"人");
+        allCharge.setText(carBean.price+"");
+        perCharge.setText(carBean.avgSpend+"");
     }
 
     View view = null;
@@ -332,7 +332,7 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
                     day_line2_money_middle.setVisibility(View.VISIBLE);
                     day_line2_money_left.setVisibility(View.VISIBLE);
                     day_line2_money_right.setVisibility(View.VISIBLE);
-                    day_line2_money_left.setText(getString(R.string.service_money));
+                    day_line2_money_left.setText(getString(R.string.vehiclePrice));
                     day_line2_money_right.setText(dayQuoteBean.vehiclePrice + "元");
                 } else {
                     day_line2_money_middle.setVisibility(View.GONE);

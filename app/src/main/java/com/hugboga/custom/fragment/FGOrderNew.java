@@ -310,15 +310,15 @@ public class FGOrderNew extends BaseFragment {
             contact.add(orderContact);
         }
 
-        if(TextUtils.isEmpty(upTimeText.getText())){
-            ToastUtils.showLong("上车时间不能为空!");
-            return;
-        }
+//        if(TextUtils.isEmpty(upTimeText.getText())){
+//            ToastUtils.showLong("上车时间不能为空!");
+//            return;
+//        }
 
-        if(TextUtils.isEmpty(upSiteText.getText())){
-            ToastUtils.showLong("上车地点不能为空!");
-            return;
-        }
+//        if(TextUtils.isEmpty(upSiteText.getText())){
+//            ToastUtils.showLong("上车地点不能为空!");
+//            return;
+//        }
 
 //        if(TextUtils.isEmpty(hotelPhoneTextCodeClick.getText())){
 //            ToastUtils.showLong("酒店电话区号不能为空!");
