@@ -312,6 +312,14 @@ public class FgSkuSubmit extends BaseFragment implements View.OnClickListener {
                 OrderBean orderBean = getOrderByInput();
                 RequestSubmitDaily request = new RequestSubmitDaily(getActivity(), orderBean);
                 requestData(request);
+
+                HashMap<String,String> map = new HashMap<String,String>();//用于统计
+                map.put("carstyle", orderBean.carDesc);
+                map.put("source", source);
+                map.put("guestcount", orderBean.adult + orderBean.child + "");
+                map.put("quoteprice", orderBean.orderPrice + "");
+                map.put("payableamount", orderBean.orderPriceInfo != null ? orderBean.orderPriceInfo.shouldPay + "" : "");
+                MobclickAgent.onEventValue(getActivity(), "submitorder_route" , map, 1);
             }else{
                 Bundle bundle = new Bundle();//用于统计
                 bundle.putString("source","SKU下单");

@@ -25,6 +25,7 @@ import com.hugboga.custom.data.bean.SelectCarBean;
 import com.hugboga.custom.data.request.RequestSubmitBase;
 import com.hugboga.custom.data.request.RequestSubmitDaily;
 import com.hugboga.custom.utils.ToastUtils;
+import com.umeng.analytics.MobclickAgent;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
@@ -33,6 +34,7 @@ import org.xutils.view.annotation.ContentView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.Bind;
@@ -51,8 +53,6 @@ public class FGOrderNew extends BaseFragment {
     TextView headerTitle;
     @Bind(R.id.header_right_btn)
     ImageView headerRightBtn;
-    @Bind(R.id.header_right_txt)
-    TextView headerRightTxt;
     @Bind(R.id.city)
     TextView city;
     @Bind(R.id.date)
@@ -124,6 +124,7 @@ public class FGOrderNew extends BaseFragment {
 
     @Override
     protected void initHeader() {
+        fgRightBtn.setVisibility(View.VISIBLE);
         fgTitle.setText(R.string.select_city_title);
         source = getArguments().getString("source");
     }
@@ -189,14 +190,14 @@ public class FGOrderNew extends BaseFragment {
         cartype.setText("车型:"+carTypeName);
         dayNumsText.setText("("+dayNums+"天)");
 
-        allMoneyLeftText.setText(carBean.price+"");
+        allMoneyLeftText.setText(carBean.price + "");
 
         checkboxOther.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
+                if (isChecked) {
                     forOtherPeopleLayout.setVisibility(View.VISIBLE);
-                }else{
+                } else {
                     forOtherPeopleLayout.setVisibility(View.GONE);
                 }
             }
@@ -273,6 +274,7 @@ public class FGOrderNew extends BaseFragment {
             String orderNo = ((RequestSubmitBase) request).getData();
             Bundle bundle = new Bundle();
             bundle.putString(FgOrder.KEY_ORDER_ID, orderNo);
+            bundle.putString("source",source);
             startFragment(new FgOrder(), bundle);
         }
 
@@ -351,7 +353,24 @@ public class FGOrderNew extends BaseFragment {
         RequestSubmitDaily requestSubmitBase = new RequestSubmitDaily(getActivity(), getOrderByInput());
         requestData(requestSubmitBase);
 
+        doUMengStatistic();
+    }
 
+    private void doUMengStatistic(){
+        HashMap<String,String> map = new HashMap<String,String>();
+        map.put("source", source);
+        map.put("begincity", startBean.name);
+        map.put("carstyle", carBean.carDesc);
+        if(checkboxOther.isChecked()) {
+            map.put("forother", "是");
+        }else{
+            map.put("forother", "否");
+        }
+        map.put("guestcount", adultNum + childrenNum + "");
+        map.put("luggagecount", luggageNum + "");
+        map.put("drivedays", dayNums + "");
+        map.put("payableamount", carBean.price + "");
+        MobclickAgent.onEventValue(getActivity(), "submitorder_oneday", map, 1);
     }
 
 
@@ -455,10 +474,16 @@ public class FGOrderNew extends BaseFragment {
     }
 
 
-
-    @OnClick({R.id.all_money_info,R.id.up_time_text,R.id.header_left_btn, R.id.header_title, R.id.area_code_click, R.id.area_code_2_click, R.id.area_code_3_click, R.id.add_other_phone_click, R.id.area_code_other_click, R.id.hotel_phone_text_code_click, R.id.all_money_submit_click})
+    @OnClick({R.id.all_money_info,R.id.up_time_text,R.id.header_left_btn, R.id.area_code_click, R.id.area_code_2_click, R.id.area_code_3_click, R.id.add_other_phone_click, R.id.area_code_other_click, R.id.hotel_phone_text_code_click, R.id.all_money_submit_click})
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.header_right_txt:
+                HashMap<String,String> map = new HashMap<String,String>();
+                map.put("source", "提交订单页面");
+                MobclickAgent.onEvent(getActivity(), "callcenter_oneday", map);
+                view.setTag("提交订单页面,calldomestic_oneday,calloverseas_oneday");
+                super.onClick(view);
+                break;
             case R.id.all_money_info:
                 FgOrderInfo fgOrderInfo = new FgOrderInfo();
                 Bundle bundleCar = new Bundle();
@@ -472,8 +497,6 @@ public class FGOrderNew extends BaseFragment {
             case R.id.header_left_btn:
                 finish();
                 break;
-            case R.id.header_title:
-                break;
             case R.id.add_other_phone_click:
                 if(!phone2Layout.isShown()) {
                     phone2Layout.setVisibility(View.VISIBLE);
@@ -481,7 +504,6 @@ public class FGOrderNew extends BaseFragment {
                     phone3Layout.setVisibility(View.VISIBLE);
                     addOtherPhoneClick.setTextColor(Color.parseColor("#929394"));
                 }
-
                 break;
             case R.id.area_code_click:
             case R.id.area_code_2_click:

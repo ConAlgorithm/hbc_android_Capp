@@ -3,6 +3,7 @@ package com.hugboga.custom.fragment;
 
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 
@@ -120,6 +121,7 @@ public class FgSetPassword extends BaseFragment {
         //设置标题颜色，返回按钮图片
 //        leftBtn.setImageResource(R.mipmap.top_back_black);
         fgTitle.setText("设置密码");
+        fgLeftBtn.setVisibility(View.INVISIBLE);
     }
 
     @Override

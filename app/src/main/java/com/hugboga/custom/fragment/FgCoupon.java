@@ -24,6 +24,7 @@ import com.hugboga.custom.data.request.RequestCoupon;
 import com.hugboga.custom.data.request.RequestCouponExchange;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.ZListView;
+import com.umeng.analytics.MobclickAgent;
 
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
@@ -31,6 +32,7 @@ import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
 import java.text.ParseException;
+import java.util.HashMap;
 
 /**
  * Created by ZHZEPHI on 2015/7/24.
@@ -75,7 +77,7 @@ public class FgCoupon extends BaseFragment implements AdapterView.OnItemClickLis
 
     @Override
     protected void initView() {
-
+        MobclickAgent.onEvent(getActivity(), "launch_coupon");
     }
 
 
