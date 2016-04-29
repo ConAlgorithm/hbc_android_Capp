@@ -3,6 +3,7 @@ package com.hugboga.custom.data.bean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,7 +21,7 @@ public class SavedCityBean implements Parcelable{
 
     public String startDate;
     public String endDate;
-    public List<CityBean> passCityList;
+    public ArrayList<CityBean> passCityList;
 
 
     @Override

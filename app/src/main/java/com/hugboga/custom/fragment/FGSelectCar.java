@@ -57,6 +57,8 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
     TextView headerTitle;
     @Bind(R.id.header_right_btn)
     ImageView headerRightBtn;
+    @Bind(R.id.header_right_txt)
+    TextView headerRightTxt;
     @Bind(R.id.jazzy_pager)
     JazzyViewPager jazzyPager;
     @Bind(R.id.left)
@@ -181,7 +183,10 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
 
     CityBean startBean;
     CityBean endBean;
+    ArrayList<CityBean> passCityList;
     private void getArgs(){
+        passCityList = (ArrayList<CityBean>) getArguments().getSerializable("passCityList");
+
         startCityId = this.getArguments().getString("startCityId");
         endCityId = this.getArguments().getString("endCityId");
         startDate = this.getArguments().getString("startDate");
@@ -218,6 +223,7 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
                     scrollView.setVisibility(View.GONE);
                 }else {
                     initListData();
+                    getMatchCarIndex();
                     showContent();
                 }
             }
@@ -225,9 +231,20 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
 
     }
 
+    private void getMatchCarIndex(){
+        for(int i = 0;i<cars.size();i++){
+            if(cars.get(i).match == 1){
+                selctIndex = i;
+                break;
+            }
+        }
+    }
+
     SelectCarBean carBean;
     public void showContent(){
+        changeLeftRightStatus();
         try {
+            jazzyPager.setCurrentItem(selctIndex);
             carBean = cars.get(selctIndex);
             carType.setText(carBean.carDesc);
             carContent.setText("此车型包括:" + carBean.models);
@@ -268,9 +285,9 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
             cars_serviceCityNote.setText(carBean.serviceCityNote);
         }
 
-        allDayNum.setText(carBean.totalDays+"天 x"+carBean.numOfPerson+"人");
-        allCharge.setText(carBean.price+"元");
-        perCharge.setText(carBean.avgSpend+"元");
+        allDayNum.setText(carBean.totalDays+"天 / "+carBean.numOfPerson+"人");
+        allCharge.setText(carBean.price+"");
+        perCharge.setText(carBean.avgSpend+"");
     }
 
     View view = null;
@@ -321,7 +338,7 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
                     day_line2_money_middle.setVisibility(View.VISIBLE);
                     day_line2_money_left.setVisibility(View.VISIBLE);
                     day_line2_money_right.setVisibility(View.VISIBLE);
-                    day_line2_money_left.setText(getString(R.string.service_money));
+                    day_line2_money_left.setText(getString(R.string.vehiclePrice));
                     day_line2_money_right.setText(dayQuoteBean.vehiclePrice + "元");
                 } else {
                     day_line2_money_middle.setVisibility(View.GONE);
@@ -457,6 +474,20 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
         ButterKnife.unbind(this);
     }
 
+    private void changeLeftRightStatus(){
+        if(selctIndex == 0){
+            left.setVisibility(View.GONE);
+            right.setVisibility(View.VISIBLE);
+        }else if(selctIndex < (cars.size() -1)){
+            right.setVisibility(View.VISIBLE);
+            left.setVisibility(View.VISIBLE);
+        }else if(selctIndex == (cars.size() -1)){
+            right.setVisibility(View.GONE);
+            left.setVisibility(View.VISIBLE);
+        }
+
+    }
+
     @OnClick({R.id.left, R.id.right, R.id.mans_money_show_info, R.id.cars_money_show_info, R.id.next_btn_click})
     public void onClick(View view) {
         HashMap<String,String> map = new HashMap<String,String>();
@@ -503,13 +534,13 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
                 bundleCar.putString("passCities",passCities);
                 bundleCar.putString("carTypeName",carBean.carDesc);
                 bundleCar.putString("startCityName",startCityName);
-                bundleCar.putString("dayNums", dayNums);
-                bundleCar.putParcelable("carBean", carBean);
-                bundleCar.putParcelable("startBean", startBean);
-                bundleCar.putParcelable("endBean", endBean);
-                bundleCar.putInt("outnum", outNum);
-                bundleCar.putInt("innum", inNum);
-                bundleCar.putString("source", source);
+                bundleCar.putString("dayNums",dayNums);
+                bundleCar.putParcelable("carBean",carBean);
+                bundleCar.putParcelable("startBean",startBean);
+                bundleCar.putParcelable("endBean",endBean);
+                bundleCar.putInt("outnum",outNum);
+                bundleCar.putInt("innum",inNum);
+                bundleCar.putSerializable("passCityList",passCityList);
 
                 fgOrderNew.setArguments(bundleCar);
                 startFragment(fgOrderNew);

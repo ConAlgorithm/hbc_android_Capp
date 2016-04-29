@@ -195,7 +195,7 @@ public class FgChangeTrip extends BaseFragment implements View.OnClickListener {
                 }
                 break;
             case Constants.BUSINESS_TYPE_DAILY:
-                dailyPassCityLayout.setVisibility(View.VISIBLE);
+//                dailyPassCityLayout.setVisibility(View.VISIBLE);
             case Constants.BUSINESS_TYPE_COMMEND:
                 tripLabel.setText(getResources().getString(R.string.trip_tip_label2));
                 pickNameLayout.setVisibility(View.GONE);

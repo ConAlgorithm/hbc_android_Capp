@@ -5,9 +5,10 @@
     tools:context="com.hugboga.custom.LoadingActivity">
 
     <ImageView
+        android:id="@+id/show_ad"
         android:layout_width="match_parent"
         android:scaleType="centerCrop"
-        android:background="@mipmap/bg_01"
+        android:src="@mipmap/bg_01"
         android:layout_height="match_parent" />
 
     <TextView

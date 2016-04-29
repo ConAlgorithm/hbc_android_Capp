@@ -2,8 +2,11 @@ package com.hugboga.custom.fragment;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -23,7 +26,32 @@ import org.xutils.view.annotation.ViewInject;
 import java.util.regex.Pattern;
 
 @ContentView(R.layout.fg_forget_passwd)
-public class FgForgetPasswd extends BaseFragment {
+public class FgForgetPasswd extends BaseFragment implements TextWatcher {
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+        String phone = phoneEditText.getText().toString().trim();
+        String password = passwordEditText.getText().toString();
+        String verity_EditText = verityEditText.getText().toString();
+        if (!TextUtils.isEmpty(phone)
+                &&!TextUtils.isEmpty(password)  &&!TextUtils.isEmpty(verity_EditText)
+                &&Pattern.matches("[\\w]{4,16}", password)) {
+            forget_passwd_submit.setEnabled(true);
+            forget_passwd_submit.setBackgroundColor(getResources().getColor(R.color.login_ready));
+        }else{
+            forget_passwd_submit.setEnabled(false);
+            forget_passwd_submit.setBackgroundColor(getResources().getColor(R.color.login_unready));
+        }
+    }
 
     @ViewInject(R.id.forget_passwd_areacode)
     private TextView areaCodeTextView;
@@ -37,6 +65,9 @@ public class FgForgetPasswd extends BaseFragment {
     TextView getCodeBtn; //发送验证码按钮
     @ViewInject(R.id.forget_passwd_time)
     TextView timeTextView; //验证码倒计时
+    @ViewInject(R.id.forget_passwd_submit)
+    Button forget_passwd_submit; //验证码倒计时
+
 
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
@@ -207,7 +238,9 @@ public class FgForgetPasswd extends BaseFragment {
 
     @Override
     protected void initView() {
-
+        phoneEditText.addTextChangedListener(this);
+        passwordEditText.addTextChangedListener(this);
+        verityEditText.addTextChangedListener(this);
     }
 
     @Override

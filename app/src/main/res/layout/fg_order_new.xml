@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#e8eaeb"
@@ -9,6 +9,7 @@
         android:layout_below="@id/header"
         android:layout_width="match_parent"
         android:layout_above="@+id/bottom"
+        android:layout_weight="1"
         android:layout_height="match_parent">
 
         <LinearLayout
@@ -486,7 +487,7 @@
                     android:gravity="center_vertical"
                     android:text="@string/up_site" />
 
-                <EditText
+                <TextView
                     android:id="@+id/up_site_text"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
@@ -603,7 +604,7 @@
         android:layout_height="60dp"
         android:layout_alignParentBottom="true"
         android:background="@color/basic_black"
-        android:orientation="vertical">
+        android:orientation="vertical">f
 
         <TextView
             android:layout_width="wrap_content"
@@ -647,4 +648,4 @@
             android:id="@+id/all_money_info"/>
     </RelativeLayout>
 
-</RelativeLayout>
+</LinearLayout>

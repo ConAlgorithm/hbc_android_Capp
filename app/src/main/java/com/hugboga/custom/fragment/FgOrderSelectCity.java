@@ -766,13 +766,13 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
                 bundleCar.putString("luggageNum", baggageNum + "");
                 bundleCar.putString("passCities", isHalfTravel ? "" : getPassCities());
 
-                bundleCar.putString("startCityName", startBean.name);
-                bundleCar.putString("dayNums", nums + "");
-                bundleCar.putParcelable("startBean", startBean);
-                bundleCar.putParcelable("endBean", endBean);
-                bundleCar.putInt("outnum", getOutNum());
-                bundleCar.putInt("innum", getInNum());
-                bundleCar.putString("source", source);
+                bundleCar.putString("startCityName",startBean.name);
+                bundleCar.putString("dayNums",nums+"");
+                bundleCar.putParcelable("startBean",startBean);
+                bundleCar.putParcelable("endBean",endBean);
+                bundleCar.putInt("outnum",getOutNum());
+                bundleCar.putInt("innum",getInNum());
+
 
                 FGSelectCar fgSelectCar = new FGSelectCar();
                 fgSelectCar.setArguments(bundleCar);

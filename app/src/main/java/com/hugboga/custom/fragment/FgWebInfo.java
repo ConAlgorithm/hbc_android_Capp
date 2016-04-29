@@ -50,6 +50,11 @@ public class FgWebInfo extends BaseFragment implements View.OnKeyListener {
 
     WebViewClient webClient = new WebViewClient() {
 
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            super.onPageFinished(view, url);
+            fgTitle.setText(view.getTitle());
+        }
 
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -119,10 +124,12 @@ public class FgWebInfo extends BaseFragment implements View.OnKeyListener {
     };
 
     WebChromeClient webChromeClient = new WebChromeClient() {
+
+
         @Override
         public void onReceivedTitle(WebView view, String title) {
             super.onReceivedTitle(view, title);
-            fgTitle.setText(view.getTitle());
+//            fgTitle.setText(view.getTitle());
         }
 
         @Override
