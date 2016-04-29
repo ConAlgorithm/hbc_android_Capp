@@ -14,6 +14,7 @@ import com.hugboga.custom.constants.ResourcesConstants;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.bean.PromiseBean;
+import com.hugboga.custom.data.net.UrlLibs;
 import com.umeng.analytics.MobclickAgent;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
@@ -23,6 +24,7 @@ import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -131,7 +133,7 @@ public class FgSingle extends BaseFragment {
                 startFgCar();
                 break;
             case R.id.submit_order_tip:
-                bundle.putString(FgWebInfo.WEB_URL, ResourcesConstants.H5_NOTICE);
+                bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_NOTICE);
                 startFragment(new FgWebInfo(), bundle);
                 break;
         }

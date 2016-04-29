@@ -542,7 +542,7 @@ public class MainActivity extends BaseActivity
             case Constants.PERSONAL_CENTER_HD:
                 if(isLogin("个人中心首页")) {
                     Bundle bundle = new Bundle();
-                    bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_CACTIVITY_URL+UserEntity.getUser().getUserId(this.getApplicationContext())+"&t=" + new Random().nextInt(100000));
+                    bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_ACTIVITY+UserEntity.getUser().getUserId(this.getApplicationContext())+"&t=" + new Random().nextInt(100000));
                     startFragment(new FgActivity(), bundle);
                 }
                 break;

@@ -33,7 +33,6 @@ public class RequestSubmitDaily extends RequestSubmitBase {
         map.put("serviceDepartTime", orderBean.serviceTime + " " + orderBean.serviceStartTime);
         map.put("servicePassCitys", orderBean.stayCityListStr);
         map.put("passbyPois", orderBean.skuPoi);
-        map.put("passbyPois", orderBean.skuPoi);
 
         map.put("userRemark", orderBean.userRemark);
         map.put("priceChannel", orderBean.priceChannel);
@@ -46,6 +45,8 @@ public class RequestSubmitDaily extends RequestSubmitBase {
         map.put("startAddressPoi", orderBean.startAddressPoi);
         map.put("destAddressPoi", orderBean.destAddressPoi);
         map.put("userName", orderBean.userName);
+
+        map.put("destAddressDetail", orderBean.destAddressDetail);
 
 //        childSeatNum 儿童座椅数
 //        luggageNum 行李数

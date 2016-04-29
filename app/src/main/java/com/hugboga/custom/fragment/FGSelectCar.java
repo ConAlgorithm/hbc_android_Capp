@@ -191,7 +191,7 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
         endCityId = this.getArguments().getString("endCityId");
         startDate = this.getArguments().getString("startDate");
         endDate = this.getArguments().getString("endDate");
-        halfDay = this.getArguments().getString("halfDay");
+//        halfDay = this.getArguments().getString("halfDay");
         adultNum = this.getArguments().getString("adultNum");
         childrenNum = this.getArguments().getString("childrenNum");
         childseatNum = this.getArguments().getString("childseatNum");
@@ -218,6 +218,7 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
             CarInfoBean bean = (CarInfoBean) request.getData();
             if(null != bean) {
                 cars = bean.cars;
+                halfDay = bean.halfDay == 1?"1":"0";
                 if(cars.size() == 0){
                     coupon_listview_empty.setVisibility(View.VISIBLE);
                     scrollView.setVisibility(View.GONE);
@@ -338,7 +339,12 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
                     day_line2_money_middle.setVisibility(View.VISIBLE);
                     day_line2_money_left.setVisibility(View.VISIBLE);
                     day_line2_money_right.setVisibility(View.VISIBLE);
-                    day_line2_money_left.setText(getString(R.string.vehiclePrice));
+                    if(dayQuoteBean.busySeason == 1){
+                        day_line2_money_left.setText(getString(R.string.vehiclePrice)+",旺季");
+                    }else{
+                        day_line2_money_left.setText(getString(R.string.vehiclePrice));
+                    }
+
                     day_line2_money_right.setText(dayQuoteBean.vehiclePrice + "元");
                 } else {
                     day_line2_money_middle.setVisibility(View.GONE);
@@ -351,7 +357,11 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
                     day_line3_money_middle.setVisibility(View.VISIBLE);
                     day_line3_money_left.setVisibility(View.VISIBLE);
                     day_line3_money_right.setVisibility(View.VISIBLE);
-                    day_line3_money_left.setText(getString(R.string.emptyDrivePrice));
+                    if(dayQuoteBean.busySeason == 1){
+                        day_line3_money_left.setText(getString(R.string.emptyDrivePrice)+",旺季");
+                    }else{
+                        day_line3_money_left.setText(getString(R.string.emptyDrivePrice));
+                    }
                     day_line3_money_right.setText(dayQuoteBean.emptyDrivePrice + "元");
                 } else {
                     day_line3_money_middle.setVisibility(View.GONE);
@@ -421,7 +431,11 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
                     day_line2_money_middle.setVisibility(View.VISIBLE);
                     day_line2_money_left.setVisibility(View.VISIBLE);
                     day_line2_money_right.setVisibility(View.VISIBLE);
-                    day_line2_money_left.setText(getString(R.string.service_money));
+                    if(dayQuoteBean.busySeason == 1){
+                        day_line2_money_left.setText(getString(R.string.service_money)+",旺季");
+                    }else{
+                        day_line2_money_left.setText(getString(R.string.service_money));
+                    }
                     day_line2_money_right.setText(dayQuoteBean.guideServicePrice + "元");
                 } else {
                     day_line2_money_middle.setVisibility(View.GONE);
@@ -433,7 +447,11 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
                     day_line3_money_middle.setVisibility(View.VISIBLE);
                     day_line3_money_left.setVisibility(View.VISIBLE);
                     day_line3_money_right.setVisibility(View.VISIBLE);
-                    day_line3_money_left.setText(getString(R.string.stayPrice));
+                    if(dayQuoteBean.busySeason == 1){
+                        day_line3_money_left.setText(getString(R.string.stayPrice)+",旺季");
+                    }else{
+                        day_line3_money_left.setText(getString(R.string.stayPrice));
+                    }
                     day_line3_money_right.setText(dayQuoteBean.stayPrice + "元");
                 } else {
                     day_line3_money_middle.setVisibility(View.GONE);

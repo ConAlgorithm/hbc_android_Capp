@@ -424,6 +424,50 @@
                     </RelativeLayout>
                 </RelativeLayout>
 
+                <LinearLayout
+                    android:id="@+id/real_layout"
+                    android:layout_width="match_parent"
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content">
+
+                <RelativeLayout
+                    android:id="@+id/real_contact_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/real_contact"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/basic_black" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@id/real_contact"
+                        android:text="乘车人"
+                        android:textColor="#9f9e9e" />
+                </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/real_contact_mobile_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/real_contact_mobile"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/basic_black" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@id/real_contact_mobile"
+                        android:text="乘车人电话"
+                        android:textColor="#9f9e9e" />
+                </RelativeLayout>
+            </LinearLayout>
+
                 <RelativeLayout
                     android:id="@+id/pay_placard_layout"
                     android:layout_width="match_parent"

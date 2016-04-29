@@ -50,7 +50,7 @@ public class FgInsure extends BaseFragment implements HttpRequestListener {
     @Bind(R.id.list)
     ListView list;
     @Bind(R.id.emptyView)
-    TextView emptyView;
+    RelativeLayout emptyView;
 
     InSureListAdapter adapter;
     List<InsureResultBean> beanList = new ArrayList<InsureResultBean>();

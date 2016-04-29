@@ -230,7 +230,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                         @Override
                         public void onClick(View v) {
                             Bundle bundleUrlAll = new Bundle();
-                            bundleUrlAll.putString(FgWebInfo.WEB_URL, UrlLibs.H5_INSURE_URL);
+                            bundleUrlAll.putString(FgWebInfo.WEB_URL, UrlLibs.H5_INSURANCE);
                             fragment.startFragment(new FgActivity(), bundleUrlAll);
                         }
                     });

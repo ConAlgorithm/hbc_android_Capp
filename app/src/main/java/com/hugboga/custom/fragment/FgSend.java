@@ -15,6 +15,7 @@ import com.hugboga.custom.constants.ResourcesConstants;
 import com.hugboga.custom.data.bean.AirPort;
 import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.bean.PromiseBean;
+import com.hugboga.custom.data.net.UrlLibs;
 import com.umeng.analytics.MobclickAgent;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
@@ -109,7 +110,7 @@ public class FgSend extends BaseFragment {
                 break;
             case R.id.submit_order_tip:
                 Bundle bundle = new Bundle();
-                bundle.putString(FgWebInfo.WEB_URL, ResourcesConstants.H5_NOTICE);
+                bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_NOTICE);
                 startFragment(new FgWebInfo(), bundle);
                 break;
         }

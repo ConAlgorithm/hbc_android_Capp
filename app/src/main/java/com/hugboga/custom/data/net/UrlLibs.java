@@ -3,8 +3,11 @@ package com.hugboga.custom.data.net;
 
 import android.os.Bundle;
 
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.fragment.FgActivity;
 import com.hugboga.custom.fragment.FgWebInfo;
+
+import java.util.HashMap;
 
 public class UrlLibs {
 
@@ -27,20 +30,49 @@ public class UrlLibs {
     public static String SERVER_IP_HOST_PUBLIC = SERVER_HTTP_SCHEME + SERVER_IP_HOST_PUBLIC_DEFAULT;//主域名
 
 
-    public static String H5_INSURE_DEV = "http://res.dev.hbc.tech/h5/inApp/custom/insurance.html";
-    public static String H5_INSURE_TEST = "http://res.test.hbc.tech/h5/inApp/custom/insurance.html";
-    public static String H5_INSURE_STAGE = "http://res2.huangbaoche.com/h5/inApp/custom/insurance.html";
-    public static String H5_INSURE_FORMAL = "http://res2.huangbaoche.com/h5/inApp/custom/insurance.html";
 
-    public static String H5_CACTIVITY_DEV = "http://res.dev.hbc.tech/h5/cactivity/index.html?userId=";
-    public static String H5_CACTIVITY_TEST = "http://res.test.hbc.tech/h5/cactivity/index.html?userId=";
-    public static String H5_CACTIVITY_STAGE = "http://res2.huangbaoche.com/h5/cactivity/index.html?userId=";
-    public static String H5_CACTIVITY_FORMAL = "http://res2.huangbaoche.com/h5/cactivity/index.html?userId=";
+//    开发环境 host  res.dev.hbc.tech
+//    测试环境 host  res.test.hbc.tech
+//    生产环境 host  res2.huangbaoche.com
+
+    public static String DEV_H5_HOST = "http://res.dev.hbc.tech";
+    public static String TEST_H5_HOST = "http://res.test.hbc.tech";
+    public static String FORMAL_H5_HOST = "http://res2.huangbaoche.com";
+
+    public static String H5_HOST = TEST_H5_HOST;
+
+    public static String H5_ACTIVITY= H5_HOST + "/h5/cactivity/index.html?userId=";//国行
+    public static String H5_ABOUT = H5_HOST+"/h5/inApp/custom/about.html";//  关于我们
+    public static String H5_ADDFEE_C = H5_HOST+"/h5/inApp/custom/addfee_c.html";//  单次接送—后付费用说明
+    public static String H5_ADDFEE_J = H5_HOST+"/h5/inApp/custom/addfee_j.html";//  接机—后付费用说明
+    public static String H5_ADDFEE_R = H5_HOST+"/h5/inApp/custom/addfee_r.html";//  日租—后付费用说明
+    public static String H5_ADDFEE_S = H5_HOST+"/h5/inApp/custom/addfee_s.html";//  送机—后付费用说明
+    public static String H5_ADDFEE_X = H5_HOST+"/h5/inApp/custom/addfee_x.html"; // 后付费用说明
+    public static String H5_CANCEL = H5_HOST+"/h5/inApp/custom/cancel.html"; // 取消规则
+    public static String H5_INSURANCE = H5_HOST+"/h5/inApp/custom/insurance.html"; // 皇包车免费赠送保险说明
+    public static String H5_NOTICE = H5_HOST+"/h5/inApp/custom/notice.html";  //预订须知
+    public static String H5_NOTICE_V2_2 = H5_HOST+"/h5/inApp/custom/notice_v2_2.html"; // 预订须知
+    public static String H5_PRICE = H5_HOST+"/h5/inApp/custom/price.html";  //费用说明
+    public static String H5_PRICE_V2_2 = H5_HOST+"/h5/inApp/custom/price_v2_2.html"; // 费用说明
+    public static String H5_PROBLEM = H5_HOST+"/h5/inApp/custom/problem.html"; //常见问题
+    public static String H5_PROTOCOL = H5_HOST+"/h5/inApp/custom/protocol.html"; // 用户协议
+    public static String H5_SERVICE = H5_HOST+"/h5/inApp/custom/service.html"; // 服务承诺
+
+    public static HashMap<Integer, String> OverPriceMap = new HashMap<Integer, String>();
+
+    static {
+        OverPriceMap.put(Constants.BUSINESS_TYPE_PICK, H5_ADDFEE_J);
+        OverPriceMap.put(Constants.BUSINESS_TYPE_SEND, H5_ADDFEE_S);
+        OverPriceMap.put(Constants.BUSINESS_TYPE_DAILY, H5_ADDFEE_R);
+        OverPriceMap.put(Constants.BUSINESS_TYPE_RENT, H5_ADDFEE_C);
+        OverPriceMap.put(Constants.BUSINESS_TYPE_OTHER, H5_ADDFEE_X);
+    }
 
 
 
-    public static String H5_INSURE_URL = H5_INSURE_TEST;
-    public static String H5_CACTIVITY_URL = H5_CACTIVITY_TEST;
+
+
+
 
 
     /**
@@ -289,14 +321,14 @@ public class UrlLibs {
     public static final String GET_USER_COUPON = "trade/v1.0/c/order/home?";
 
     /**
-     * 上传经纬度  http://api.dev.hbc.tech/poi/v1.0/e/city?longitude=1&latitude=2
+     * 上传经纬度  http://api.dev.hbc.tech/poi/v1.0/c/city?longitude=1&latitude=2
      */
-    public static final String UPLOAD_LOCATION = "poi/v1.0/e/city?";
+    public static final String UPLOAD_LOCATION = "poi/v1.0/c/city?";
 
     /**
      * 获取车辆信息
      */
-    public static final String GET_CAR_INFOS = "price/v1.2/e/dailyPrice?";
+    public static final String GET_CAR_INFOS = "price/v1.2/c/dailyPrice?";
 
     /**
      * 新增投保人

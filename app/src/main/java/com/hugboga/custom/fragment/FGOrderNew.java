@@ -245,6 +245,9 @@ public class FGOrderNew extends BaseFragment {
                 String areaCode = bundle.getString(FgChooseCountry.KEY_COUNTRY_CODE);
                 codeTv.setText("+" + areaCode);
             }
+        }else if (FgPoiSearch.class.getSimpleName().equals(fragmentName)) {
+            PoiBean poiBean = (PoiBean) bundle.getSerializable(FgPoiSearch.KEY_ARRIVAL);
+            upSiteText.setText(poiBean.placeName + "\n" + poiBean.placeDetail);
         }
     }
 
@@ -282,6 +285,7 @@ public class FGOrderNew extends BaseFragment {
             Bundle bundle = new Bundle();
             bundle.putString(FgOrder.KEY_ORDER_ID, orderNo);
             bundle.putString("source",source);
+            bundle.putBoolean("needShowAlert",true);
             startFragment(new FgOrder(), bundle);
         }
 
@@ -431,6 +435,8 @@ public class FGOrderNew extends BaseFragment {
         orderBean.startAddressPoi = startBean.location;
         orderBean.destAddressPoi = endBean.location;
 
+        orderBean.destAddressDetail = upSiteText.getText().toString();
+
         orderBean.userName = orderUserName.getText().toString();
         orderBean.stayCityListStr = passCities;
         orderBean.userRemark = mark.getText().toString();
@@ -439,9 +445,9 @@ public class FGOrderNew extends BaseFragment {
         orderBean.priceChannel = carBean.price+"";
         orderBean.childSeatNum = childseatNum;
         orderBean.luggageNum = luggageNum;
-        orderBean.realUserName = orderUserName.getText().toString();
-        orderBean.realAreaCode = orderUserName.getText().toString();
-        orderBean.realMobile = orderUserName.getText().toString();
+        orderBean.realUserName = orderUserNameOther.getText().toString();
+        orderBean.realAreaCode = areaCodeOtherClick.getText().toString();
+        orderBean.realMobile = userPhoneOther.getText().toString();
         if(checkboxOther.isChecked()) {
             orderBean.isRealUser = "2";
         }else{
@@ -499,8 +505,7 @@ public class FGOrderNew extends BaseFragment {
     }
 
 
-    @OnClick({R.id.up_site_text,R.id.all_money_info,R.id.up_time_text,R.id.header_left_btn, R.id.header_title, R.id.area_code_click, R.id.area_code_2_click, R.id.area_code_3_click, R.id.add_other_phone_click, R.id.area_code_other_click, R.id.hotel_phone_text_code_click, R.id.all_money_submit_click})
-    @OnClick({R.id.all_money_info,R.id.up_time_text,R.id.header_left_btn, R.id.area_code_click, R.id.area_code_2_click, R.id.area_code_3_click, R.id.add_other_phone_click, R.id.area_code_other_click, R.id.hotel_phone_text_code_click, R.id.all_money_submit_click})
+    @OnClick({R.id.header_right_txt,R.id.up_site_text,R.id.all_money_info,R.id.up_time_text,R.id.header_left_btn, R.id.area_code_click, R.id.area_code_2_click, R.id.area_code_3_click, R.id.add_other_phone_click, R.id.area_code_other_click, R.id.hotel_phone_text_code_click, R.id.all_money_submit_click})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.up_site_text:

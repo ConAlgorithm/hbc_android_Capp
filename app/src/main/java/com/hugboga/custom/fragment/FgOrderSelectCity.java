@@ -341,7 +341,7 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
     TextView out_tips, in_tips;
 
 //    List<String> passCitiesList = new ArrayList<>();
-    List<CityBean> passBeanList = new ArrayList<>();
+    ArrayList<CityBean> passBeanList = new ArrayList<>();
 
     //添加经过城市
     public void addPassCityBean(int type,CityBean cityBean,String tag){

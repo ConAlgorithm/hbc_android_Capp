@@ -19,6 +19,7 @@ import com.hugboga.custom.data.bean.CheckVersionBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
+import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.parser.ParserLogout;
 import com.hugboga.custom.data.request.RequestCheckVersion;
 import com.hugboga.custom.data.request.RequestLogout;
@@ -132,8 +133,8 @@ public class FgSetting extends BaseFragment {
             case R.id.setting_menu_layout5:
                 //关于我们
                 Bundle bundle = new Bundle();
-                bundle.putString(FgWebInfo.WEB_URL, ResourcesConstants.H5_ABOUT);
-                startFragment( new FgWebInfo(),bundle);
+                bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_ABOUT);
+                startFragment(new FgWebInfo(),bundle);
                 break;
             case R.id.setting_exit:
                 //退出登录

@@ -320,6 +320,16 @@ public class FgOrder extends BaseFragment {
     @ViewInject(R.id.add_insure_layout)
     private LinearLayout add_insure_layout;
 
+    //乘车人相关
+    @ViewInject(R.id.real_layout)
+    private LinearLayout real_layout;
+
+    @ViewInject(R.id.real_contact_mobile)
+    private TextView real_contact_mobile;
+
+    @ViewInject(R.id.real_contact)
+    private TextView real_contact;
+
 
 
     private boolean isShowDetail = false;//详细新是否展开
@@ -341,6 +351,7 @@ public class FgOrder extends BaseFragment {
     protected void initHeader() {
         if(getArguments() != null){
             source = getArguments().getString("source");
+            needShowAlert= getArguments().getBoolean("needShowAlert",false);
         }
         setProgressState(3);
         if (mOrderBean == null) return;
@@ -706,6 +717,17 @@ public class FgOrder extends BaseFragment {
     private void initContactView() {
         String areaCode;
         orderContactName.setText(mOrderBean.contactName);
+
+        if(!TextUtils.isEmpty(mOrderBean.realAreaCode) || !TextUtils.isEmpty(mOrderBean.realMobile) || !TextUtils.isEmpty(mOrderBean.realUserName)){
+            real_layout.setVisibility(View.VISIBLE);
+            real_contact.setText(mOrderBean.realUserName);
+            real_contact_mobile.setText(mOrderBean.realAreaCode+" "+mOrderBean.realMobile);
+        }else{
+            real_layout.setVisibility(View.GONE);
+        }
+
+
+
         if (mOrderBean.contact != null && mOrderBean.contact.size() > 0) {
             areaCode = mOrderBean.contact.get(0).areaCode;
             if (!TextUtils.isEmpty(areaCode) && areaCode.indexOf("+") < 0) {
@@ -1188,13 +1210,13 @@ public class FgOrder extends BaseFragment {
             case R.id.insure_question:
 //                AlertDialogUtils.showAlertDialog(this.getActivity(),"投保提示");
                 Bundle bundleUrl = new Bundle();
-                bundleUrl.putString(FgWebInfo.WEB_URL, UrlLibs.H5_INSURE_URL);
+                bundleUrl.putString(FgWebInfo.WEB_URL, UrlLibs.H5_INSURANCE);
                 startFragment(new FgActivity(), bundleUrl);
                 break;
             case R.id.all_insure_question:
 //                AlertDialogUtils.showAlertDialog(this.getActivity(),"投保保险提示");
                 Bundle bundleUrlAll = new Bundle();
-                bundleUrlAll.putString(FgWebInfo.WEB_URL, UrlLibs.H5_INSURE_URL);
+                bundleUrlAll.putString(FgWebInfo.WEB_URL, UrlLibs.H5_INSURANCE);
                 startFragment(new FgActivity(), bundleUrlAll);
                 break;
             case R.id.header_right_btn:
@@ -1518,9 +1540,16 @@ public class FgOrder extends BaseFragment {
         return true;
     }
 
+    //是否弹出退出提示
+    boolean needShowAlert = false;
     private void onKeyBack() {
         MLog.e("onKeyBack " + mSourceFragment);
-        if (mSourceFragment != null && (mSourceFragment instanceof FgSubmit || mSourceFragment instanceof FgSkuSubmit) && mOrderBean.orderStatus != null && mOrderBean.orderStatus == OrderStatus.INITSTATE) {
+        if(needShowAlert){
+//        if (mSourceFragment != null
+//                && (mSourceFragment instanceof FgSubmit
+//                || mSourceFragment instanceof FgSkuSubmit)
+//                && mOrderBean.orderStatus != null
+//                && mOrderBean.orderStatus == OrderStatus.INITSTATE) {
             mDialogUtil.showCustomDialog(getString(R.string.app_name), getString(R.string.order_cancel_pay), "返回", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
