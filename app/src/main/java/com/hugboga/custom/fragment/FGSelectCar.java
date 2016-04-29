@@ -180,7 +180,10 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
 
     CityBean startBean;
     CityBean endBean;
+    ArrayList<CityBean> passCityList;
     private void getArgs(){
+        passCityList = (ArrayList<CityBean>) getArguments().getSerializable("passCityList");
+
         startCityId = this.getArguments().getString("startCityId");
         endCityId = this.getArguments().getString("endCityId");
         startDate = this.getArguments().getString("startDate");
@@ -528,6 +531,7 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
                 bundleCar.putParcelable("endBean",endBean);
                 bundleCar.putInt("outnum",outNum);
                 bundleCar.putInt("innum",inNum);
+                bundleCar.putSerializable("passCityList",passCityList);
 
                 fgOrderNew.setArguments(bundleCar);
                 startFragment(fgOrderNew);

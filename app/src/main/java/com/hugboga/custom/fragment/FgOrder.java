@@ -61,6 +61,7 @@ import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -331,6 +332,7 @@ public class FgOrder extends BaseFragment {
 
     CouponBean couponBean;
     private DialogUtil mDialogUtil;
+
 
     String paystyle = "支付宝";
     //下单过程中、失败重新支付、行程列表、订单详情

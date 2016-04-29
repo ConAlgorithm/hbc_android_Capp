@@ -1,5 +1,6 @@
 package com.hugboga.custom.fragment;
 
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -77,6 +78,10 @@ public class FgLogin extends BaseFragment implements TextWatcher {
     @ViewInject(R.id.login_weixin)
     private DrawableCenterButton login_weixin;
 
+    @ViewInject(R.id.login_register)
+    private TextView login_register;
+
+
     boolean isPwdVisibility = false;
     String phone;
     String areaCode;
@@ -127,6 +132,8 @@ public class FgLogin extends BaseFragment implements TextWatcher {
 
     @Override
     protected void initView() {
+        login_register.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
+        login_register.getPaint().setAntiAlias(true);
         String areaCode = null;
         String phone = null;
         if (getArguments() != null) {
@@ -391,8 +398,10 @@ public class FgLogin extends BaseFragment implements TextWatcher {
         if (!TextUtils.isEmpty(areaCode)&&!TextUtils.isEmpty(phone)
                 &&!TextUtils.isEmpty(password)
                 &&Pattern.matches("[\\w]{4,16}", password)) {
+            loginButton.setEnabled(true);
             loginButton.setBackgroundColor(getResources().getColor(R.color.login_ready));
         }else{
+            loginButton.setEnabled(false);
             loginButton.setBackgroundColor(getResources().getColor(R.color.login_unready));
         }
 

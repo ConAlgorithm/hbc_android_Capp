@@ -342,7 +342,7 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
     TextView out_tips, in_tips;
 
 //    List<String> passCitiesList = new ArrayList<>();
-    List<CityBean> passBeanList = new ArrayList<>();
+    ArrayList<CityBean> passBeanList = new ArrayList<>();
 
     //添加经过城市
     public void addPassCityBean(int type,CityBean cityBean,String tag){
@@ -773,7 +773,7 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
                 bundleCar.putParcelable("endBean",endBean);
                 bundleCar.putInt("outnum",getOutNum());
                 bundleCar.putInt("innum",getInNum());
-
+                bundleCar.putSerializable("passCityList",passBeanList);
 
                 FGSelectCar fgSelectCar = new FGSelectCar();
                 fgSelectCar.setArguments(bundleCar);

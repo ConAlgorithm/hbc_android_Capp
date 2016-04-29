@@ -1,11 +1,15 @@
 package com.hugboga.custom.fragment;
 
 import android.content.DialogInterface;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -39,7 +43,7 @@ import java.util.regex.Pattern;
 import de.greenrobot.event.EventBus;
 
 @ContentView(R.layout.fg_register)
-public class FgRegister extends BaseFragment {
+public class FgRegister extends BaseFragment implements TextWatcher {
 
     @ViewInject(R.id.register_areacode)
     private TextView areaCodeTextView;
@@ -54,6 +58,12 @@ public class FgRegister extends BaseFragment {
     @ViewInject(R.id.register_time)
     TextView timeTextView; //验证码倒计时
     private String source = "";
+
+    @ViewInject(R.id.register_protocol)
+    TextView register_protocol;
+
+    @ViewInject(R.id.register_submit)
+    Button register_submit;
 
     String areaCode;
     String phone;
@@ -324,6 +334,42 @@ public class FgRegister extends BaseFragment {
 
     @Override
     protected void initView() {
+        register_protocol.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
+        register_protocol.getPaint().setAntiAlias(true);
+
+        phoneEditText.addTextChangedListener(this);
+        verityEditText.addTextChangedListener(this);
+        passwordEditText.addTextChangedListener(this);
+
+
+    }
+
+
+    @Override
+    public void afterTextChanged(Editable s) {
+        String phone = phoneEditText.getText().toString().trim();
+        String password = passwordEditText.getText().toString();
+        String verity_editText = verityEditText.getText().toString();
+        if (!TextUtils.isEmpty(phone)
+                &&!TextUtils.isEmpty(password)  &&!TextUtils.isEmpty(verity_editText)
+                &&Pattern.matches("[\\w]{4,16}", password)) {
+            register_submit.setEnabled(true);
+            register_submit.setBackgroundColor(getResources().getColor(R.color.login_ready));
+        }else{
+            register_submit.setEnabled(false);
+            register_submit.setBackgroundColor(getResources().getColor(R.color.login_unready));
+        }
+
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
     }
 
     @Override

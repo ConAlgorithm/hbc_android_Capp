@@ -6,8 +6,9 @@
     <string name="title_activity_imchat">聊天</string>
 
     <!-- Basic name -->
-    <string name="call_info_tip">如有问题，请拨打客服电话 4006 1000 66</string>
-    <string name="register_info_tip">注册即表示我同意皇包车用户协议</string>
+    <string name="call_info_tip">如有问题，请拨打客服电话 4006 1000 66</string>用户协议
+    <string name="register_info_tip">注册即表示我同意"皇包车"的 </string>
+    <string name="register_info_tip_protocol">用户协议</string>
     <string name="login_country_search_hint">搜索国家名或国别名代码</string>
 
     <!-- 按钮 -->

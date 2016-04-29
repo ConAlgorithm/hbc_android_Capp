@@ -13,14 +13,18 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityBean;
+import com.hugboga.custom.data.bean.FlightBean;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.OrderContact;
+import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.bean.SelectCarBean;
 import com.hugboga.custom.data.request.RequestSubmitBase;
 import com.hugboga.custom.data.request.RequestSubmitDaily;
@@ -28,6 +32,7 @@ import com.hugboga.custom.utils.ToastUtils;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
+import org.w3c.dom.Text;
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 
@@ -102,7 +107,7 @@ public class FGOrderNew extends BaseFragment {
     @Bind(R.id.up_time_text)
     TextView upTimeText;
     @Bind(R.id.up_site_text)
-    EditText upSiteText;
+    TextView upSiteText;
     @Bind(R.id.hotel_phone_text_code_click)
     TextView hotelPhoneTextCodeClick;
     @Bind(R.id.hotel_phone_text)
@@ -151,7 +156,7 @@ public class FGOrderNew extends BaseFragment {
 
     @Override
     protected void initView() {
-
+        passCityList = (ArrayList<CityBean>) getArguments().getSerializable("passCityList");
 
         carBean = this.getArguments().getParcelable("carBean");
         startCityId = this.getArguments().getString("startCityId");
@@ -237,6 +242,9 @@ public class FGOrderNew extends BaseFragment {
                 String areaCode = bundle.getString(FgChooseCountry.KEY_COUNTRY_CODE);
                 codeTv.setText("+" + areaCode);
             }
+        }else if (FgPoiSearch.class.getSimpleName().equals(fragmentName)) {
+            PoiBean poiBean = (PoiBean) bundle.getSerializable(FgPoiSearch.KEY_ARRIVAL);
+            upSiteText.setText(poiBean.placeName + "\n" + poiBean.placeDetail);
         }
     }
 
@@ -354,9 +362,17 @@ public class FGOrderNew extends BaseFragment {
 
     }
 
-
+    OrderBean orderBean;
+    ArrayList passCityList;
     private OrderBean getOrderByInput() {
-        OrderBean orderBean = new OrderBean();//订单
+        orderBean = new OrderBean();//订单
+
+        passCityList = new ArrayList<CityBean>();
+        if (orderBean.passByCity != null)
+            for (int i = 1; i < orderBean.passByCity.size() - 1; i++) {
+                passCityList.add(orderBean.passByCity.get(i));
+            }
+
         orderBean.adult = Integer.valueOf(adultNum);
         orderBean.carDesc = carTypeName;
         orderBean.seatCategory = carBean.seatCategory;
@@ -454,11 +470,23 @@ public class FGOrderNew extends BaseFragment {
 
     }
 
+    private void startArrivalSearch(int cityId, String location) {
+        if (location != null) {
+            FgPoiSearch fg = new FgPoiSearch();
+            Bundle bundle = new Bundle();
+            bundle.putInt(FgPoiSearch.KEY_CITY_ID, cityId);
+            bundle.putString(FgPoiSearch.KEY_LOCATION, location);
+            startFragment(fg, bundle);
+        }
+    }
 
 
-    @OnClick({R.id.all_money_info,R.id.up_time_text,R.id.header_left_btn, R.id.header_title, R.id.area_code_click, R.id.area_code_2_click, R.id.area_code_3_click, R.id.add_other_phone_click, R.id.area_code_other_click, R.id.hotel_phone_text_code_click, R.id.all_money_submit_click})
+    @OnClick({R.id.up_site_text,R.id.all_money_info,R.id.up_time_text,R.id.header_left_btn, R.id.header_title, R.id.area_code_click, R.id.area_code_2_click, R.id.area_code_3_click, R.id.add_other_phone_click, R.id.area_code_other_click, R.id.hotel_phone_text_code_click, R.id.all_money_submit_click})
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.up_site_text:
+                startArrivalSearch(Integer.valueOf(startCityId), startBean.location);
+            break;
             case R.id.all_money_info:
                 FgOrderInfo fgOrderInfo = new FgOrderInfo();
                 Bundle bundleCar = new Bundle();
@@ -489,9 +517,9 @@ public class FGOrderNew extends BaseFragment {
             case R.id.area_code_other_click:
             case R.id.hotel_phone_text_code_click:
                 FgChooseCountry chooseCountry = new FgChooseCountry();
-                Bundle bundle = new Bundle();
-                bundle.putInt("airportCode", view.getId());
-                startFragment(chooseCountry, bundle);
+                Bundle bundleCode = new Bundle();
+                bundleCode.putInt("airportCode", view.getId());
+                startFragment(chooseCountry, bundleCode);
                 break;
             case R.id.all_money_submit_click:
                 checkData();

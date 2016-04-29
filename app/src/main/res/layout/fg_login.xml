@@ -106,6 +106,7 @@
             android:layout_marginTop="@dimen/basic_margin_xlarge"
             android:background="@drawable/login2_selector_bg"
             android:text="登录"
+            android:enabled="false"
             android:textColor="@color/basic_white"
             android:textSize="@dimen/text_size_xlarge" />
 
@@ -175,7 +176,7 @@
                 android:layout_marginLeft="@dimen/basic_margin_medium"
                 android:layout_toRightOf="@id/tv_account_tips"
                 android:layout_alignTop="@id/tv_account_tips"
-
+                android:textColor="@color/basic_black"
                 android:text="立即注册"
 
                 android:textSize="@dimen/text_size_large" />
