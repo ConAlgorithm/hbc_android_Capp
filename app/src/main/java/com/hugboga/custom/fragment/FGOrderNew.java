@@ -297,7 +297,7 @@ public class FGOrderNew extends BaseFragment {
     private void checkData(){
         contact.clear();
         if(TextUtils.isEmpty(orderUserName.getText())){
-            ToastUtils.showLong("联系人不能为空!");
+            ToastUtils.showLong("联系人姓名不能为空!");
             return;
         }
 
