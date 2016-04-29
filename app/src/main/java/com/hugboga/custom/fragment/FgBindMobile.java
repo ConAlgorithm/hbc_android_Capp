@@ -21,6 +21,7 @@ import com.hugboga.custom.data.request.RequestBindMobile;
 import com.hugboga.custom.data.request.RequestVerity;
 import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.ToastUtils;
+import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONObject;
 import org.w3c.dom.Text;
@@ -28,6 +29,9 @@ import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
+
+import java.util.HashMap;
+
 import de.greenrobot.event.EventBus;
 
 @ContentView(R.layout.fg_bind_mobile)
@@ -65,7 +69,11 @@ public class FgBindMobile extends BaseFragment {
                 bundle.putString("areaCode",areaCode);
                 bundle.putString("mobile",mobile);
                 bundle.putString("unionid",unionid);
-                startFragment(fgSetPassword,bundle);
+                startFragment(fgSetPassword, bundle);
+
+                HashMap<String,String> map = new HashMap<String,String>();
+                map.put("source", source);
+                MobclickAgent.onEvent(getActivity(), "bind_succeed", map);
 
             }else { //注册且登录成功
                 userBean.setUserEntity(getActivity());
@@ -76,8 +84,13 @@ public class FgBindMobile extends BaseFragment {
                 Bundle bundle = new Bundle();
                 bundle.putString(KEY_FRAGMENT_NAME, FgBindMobile.class.getSimpleName());
                 finishForResult(bundle);
+
+                HashMap<String,String> map = new HashMap<String,String>();
+                map.put("source", source);
+                MobclickAgent.onEvent(getActivity(), "bind_succeed", map);
             }
         } else if(request instanceof RequestChangeMobile){
+            //isAfterProcess 绑定手机号
             RequestChangeMobile requestChangeMobile = (RequestChangeMobile) request;
             FgSetPassword fgSetPassword = new FgSetPassword();
             Bundle bundle = new Bundle();
@@ -88,7 +101,11 @@ public class FgBindMobile extends BaseFragment {
             }else{
                 bundle.putString("unionid",UserEntity.getUser().getUnionid(getActivity()));
             }
-            startFragment(fgSetPassword,bundle);
+            startFragment(fgSetPassword, bundle);
+
+            HashMap<String,String> map = new HashMap<String,String>();
+            map.put("source", source);
+            MobclickAgent.onEvent(getActivity(), "bind_succeed", map);
         }
     }
 
@@ -135,6 +152,9 @@ public class FgBindMobile extends BaseFragment {
                     requestData(request);
                 }
                 break;
+            case R.id.header_left_btn:
+                super.onClick(v);
+                break;
         }
     }
 
@@ -172,6 +192,9 @@ public class FgBindMobile extends BaseFragment {
                     RequestBindMobile request = new RequestBindMobile(getActivity(),areaCode,mobile,verity,unionid,"0");
                     requestData(request);
                 }
+                HashMap<String,String> map = new HashMap<String,String>();
+                map.put("source", source);
+                MobclickAgent.onEvent(getActivity(), "bind", map);
                 break;
             case R.id.bind_mobile_areacode:
                 //选择区号
@@ -264,6 +287,7 @@ public class FgBindMobile extends BaseFragment {
         fgTitle.setText("绑定手机号");
         if(getArguments()!=null){
             unionid = getArguments().getString("unionid");
+            source = getArguments().getString("source");
             isAfterProcess = getArguments().getBoolean("isAfterProcess");
         }
     }
@@ -293,4 +317,11 @@ public class FgBindMobile extends BaseFragment {
         return null;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        HashMap<String,String> map = new HashMap<String,String>();
+        map.put("source", source);
+        MobclickAgent.onEvent(getActivity(), "bind_launch", map);
+    }
 }

@@ -1,15 +1,11 @@
 package com.hugboga.custom.fragment;
 
 import android.content.DialogInterface;
-import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -58,12 +54,6 @@ public class FgRegister extends BaseFragment implements TextWatcher {
     @ViewInject(R.id.register_time)
     TextView timeTextView; //验证码倒计时
     private String source = "";
-
-    @ViewInject(R.id.register_protocol)
-    TextView register_protocol;
-
-    @ViewInject(R.id.register_submit)
-    Button register_submit;
 
     String areaCode;
     String phone;
@@ -321,11 +311,11 @@ public class FgRegister extends BaseFragment implements TextWatcher {
         //初始化数据
         if (mSourceFragment instanceof FgLogin) {
             String code = getArguments().getString("areaCode");
-            if (code != null && !code.isEmpty()) {
+            if (!TextUtils.isEmpty(code)) {
                 areaCodeTextView.setText("+" + code);
             }
             String phone = getArguments().getString("phone");
-            if (phone != null && !phone.isEmpty()) {
+            if (!TextUtils.isEmpty(phone)) {
                 phoneEditText.setText(phone);
             }
             source = getArguments().getString("source");
@@ -334,32 +324,14 @@ public class FgRegister extends BaseFragment implements TextWatcher {
 
     @Override
     protected void initView() {
-        register_protocol.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
-        register_protocol.getPaint().setAntiAlias(true);
-
         phoneEditText.addTextChangedListener(this);
         verityEditText.addTextChangedListener(this);
         passwordEditText.addTextChangedListener(this);
-
-
     }
 
-
     @Override
-    public void afterTextChanged(Editable s) {
-        String phone = phoneEditText.getText().toString().trim();
-        String password = passwordEditText.getText().toString();
-        String verity_editText = verityEditText.getText().toString();
-        if (!TextUtils.isEmpty(phone)
-                &&!TextUtils.isEmpty(password)  &&!TextUtils.isEmpty(verity_editText)
-                &&Pattern.matches("[\\w]{4,16}", password)) {
-            register_submit.setEnabled(true);
-            register_submit.setBackgroundColor(getResources().getColor(R.color.login_ready));
-        }else{
-            register_submit.setEnabled(false);
-            register_submit.setBackgroundColor(getResources().getColor(R.color.login_unready));
-        }
-
+    protected Callback.Cancelable requestData() {
+        return null;
     }
 
     @Override
@@ -373,8 +345,17 @@ public class FgRegister extends BaseFragment implements TextWatcher {
     }
 
     @Override
-    protected Callback.Cancelable requestData() {
-        return null;
+    public void afterTextChanged(Editable s) {
+        String phone = phoneEditText.getText().toString().trim();
+        String password = passwordEditText.getText().toString().trim();
+        String verityCode = verityEditText.getText().toString().trim();
+        String areaCode = areaCodeTextView.getText().toString().trim();
+        if (!TextUtils.isEmpty(areaCode)&&!TextUtils.isEmpty(phone)
+                &&!TextUtils.isEmpty(password)&&!TextUtils.isEmpty(verityCode)
+                &&Pattern.matches("[\\w]{4,16}", password)) {
+            registButton.setBackgroundColor(getResources().getColor(R.color.login_ready));
+        }else{
+            registButton.setBackgroundColor(getResources().getColor(R.color.login_unready));
+        }
     }
-
 }

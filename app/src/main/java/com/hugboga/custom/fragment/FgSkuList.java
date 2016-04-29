@@ -214,7 +214,7 @@ public class FgSkuList extends  BaseFragment implements  View.OnClickListener, Z
 //                fgDaily.setArguments(bundle);
 //                startFragment(new FgDaily(),bundle);
                 FgOrderSelectCity fgOrderSelectCity = new FgOrderSelectCity();
-                bundle.putString("source","首页");
+                bundle.putString("source", mCityBean.name);
                 fgOrderSelectCity.setArguments(bundle);
                 startFragment(fgOrderSelectCity, bundle);
 

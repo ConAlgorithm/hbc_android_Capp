@@ -115,8 +115,6 @@ public class FgLogin extends BaseFragment implements TextWatcher {
                     SendAuth.Resp resp = (SendAuth.Resp)action.getData();
                     if(!TextUtils.isEmpty(resp.code) && !TextUtils.isEmpty(resp.state) && resp.state.equals("hbc")){
                         loginCheckOpenId(resp.code);
-                    }else{
-                        ToastUtils.showLong("获取微信授权失败，请重试");
                     }
                 }
                 break;
@@ -216,7 +214,12 @@ public class FgLogin extends BaseFragment implements TextWatcher {
                 FgBindMobile fgBindMobile = new FgBindMobile();
                 Bundle bundle = new Bundle();
                 bundle.putString("unionid", userBean.unionid);
+                bundle.putString("source","提示弹层");
                 startFragment(fgBindMobile, bundle);
+
+                HashMap<String,String> map = new HashMap<String,String>();
+                map.put("source", "提示弹层");
+                MobclickAgent.onEvent(getActivity(), "bind_trigger", map);
             }else{//注册了，有用户信息
                 userBean.setUserEntity(getActivity());
                 UserSession.getUser().setUserToken(getActivity(), userBean.userToken);

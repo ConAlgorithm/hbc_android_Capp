@@ -30,6 +30,7 @@ import com.hugboga.custom.data.bean.SelectCarBean;
 import com.hugboga.custom.data.bean.ServiceQuoteSumBean;
 import com.hugboga.custom.data.request.RequestGetCarInfo;
 import com.hugboga.custom.widget.JazzyViewPager;
+import com.umeng.analytics.MobclickAgent;
 
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
@@ -37,6 +38,7 @@ import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.Bind;
@@ -124,6 +126,7 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
 
     @Override
     protected void initHeader() {
+        fgRightBtn.setVisibility(View.VISIBLE);
         fgTitle.setText(R.string.select_city_title);
         source = getArguments().getString("source");
     }
@@ -487,7 +490,14 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
 
     @OnClick({R.id.left, R.id.right, R.id.mans_money_show_info, R.id.cars_money_show_info, R.id.next_btn_click})
     public void onClick(View view) {
+        HashMap<String,String> map = new HashMap<String,String>();
         switch (view.getId()) {
+            case R.id.header_right_txt:
+                map.put("source", "选车页面");
+                MobclickAgent.onEvent(getActivity(), "callcenter_oneday", map);
+                view.setTag("选车页面,calldomestic_oneday,calloverseas_oneday");
+                super.onClick(view);
+                break;
             case R.id.header_left_btn:
                 finish();
                 break;
@@ -510,7 +520,6 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
                 genCarsInfo(true);
                 break;
             case R.id.next_btn_click:
-
                 FGOrderNew fgOrderNew = new FGOrderNew();
                 Bundle bundleCar = new Bundle();
                 bundleCar.putString("startCityId",startCityId);
@@ -535,6 +544,15 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
 
                 fgOrderNew.setArguments(bundleCar);
                 startFragment(fgOrderNew);
+
+                map.put("source", source);
+                map.put("begincity", startBean.name);
+                map.put("carstyle", carBean.carDesc);
+                map.put("guestcount", adultNum + childrenNum + "");
+                map.put("luggagecount", luggageNum + "");
+                map.put("drivedays", dayNums + "");
+                map.put("payableamount", carBean.price + "");
+                MobclickAgent.onEventValue(getActivity(), "carnext_oneday", map, 1);
                 break;
         }
     }
