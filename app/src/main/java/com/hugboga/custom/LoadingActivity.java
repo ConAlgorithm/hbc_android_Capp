@@ -3,6 +3,7 @@ package com.hugboga.custom;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
@@ -23,12 +24,14 @@ import com.hugboga.custom.data.bean.CheckVersionBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.request.RequestCheckVersion;
 import com.hugboga.custom.service.LogService;
+import com.hugboga.custom.utils.ChannelUtils;
 import com.hugboga.custom.utils.PermissionRes;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.utils.PushUtils;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.UpdateResources;
 import com.hugboga.custom.widget.DialogUtil;
+import com.umeng.analytics.AnalyticsConfig;
 import com.zhy.m.permission.MPermissions;
 import com.zhy.m.permission.PermissionDenied;
 import com.zhy.m.permission.PermissionGrant;
@@ -52,6 +55,13 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
     protected void onStart() {
         super.onStart();
         grantPhone(); //先对手机授权
+    }
+
+    @Override
+    protected void onCreate(Bundle arg0) {
+        super.onCreate(arg0);
+        AnalyticsConfig.setAppkey(this,"55ccb4cfe0f55ab500004a9d");
+        AnalyticsConfig.setChannel("channel"+ ChannelUtils.getChannel(this));
     }
 
     private void initView() {

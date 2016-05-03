@@ -324,11 +324,11 @@ public class FgOrder extends BaseFragment {
     @ViewInject(R.id.real_layout)
     private LinearLayout real_layout;
 
-    @ViewInject(R.id.real_contact_mobile)
-    private TextView real_contact_mobile;
+    @ViewInject(R.id.real_contact_mobile_value)
+    private TextView real_contact_mobile_value;
 
-    @ViewInject(R.id.real_contact)
-    private TextView real_contact;
+    @ViewInject(R.id.real_contact_value)
+    private TextView real_contact_value;
 
 
 
@@ -718,10 +718,12 @@ public class FgOrder extends BaseFragment {
         String areaCode;
         orderContactName.setText(mOrderBean.contactName);
 
-        if(!TextUtils.isEmpty(mOrderBean.realAreaCode) || !TextUtils.isEmpty(mOrderBean.realMobile) || !TextUtils.isEmpty(mOrderBean.realUserName)){
+        if(!TextUtils.isEmpty(mOrderBean.realAreaCode)
+                || !TextUtils.isEmpty(mOrderBean.realMobile)
+                || !TextUtils.isEmpty(mOrderBean.realUserName)){
             real_layout.setVisibility(View.VISIBLE);
-            real_contact.setText(mOrderBean.realUserName);
-            real_contact_mobile.setText(mOrderBean.realAreaCode+" "+mOrderBean.realMobile);
+            real_contact_value.setText(mOrderBean.realUserName);
+            real_contact_mobile_value.setText(mOrderBean.realAreaCode+" "+mOrderBean.realMobile);
         }else{
             real_layout.setVisibility(View.GONE);
         }

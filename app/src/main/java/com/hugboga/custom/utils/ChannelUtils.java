@@ -16,7 +16,7 @@ public class ChannelUtils {
         try {
             ApplicationInfo appInfo = context.getPackageManager()
                     .getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
-            String channel = appInfo.metaData.getInt("APP_CHANNEL",10003)+"";
+            String channel = appInfo.metaData.getString("APP_CHANNEL","10003");
             return channel;
         }catch (Exception e){
             return "not_get";

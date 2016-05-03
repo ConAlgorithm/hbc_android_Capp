@@ -431,9 +431,13 @@ public class FGOrderNew extends BaseFragment {
             orderBean.outTownDays = 0;
         }
 
-
+//TODO;
         orderBean.startAddressPoi = startBean.location;
         orderBean.destAddressPoi = endBean.location;
+
+        orderBean.startAddress = upSiteText.getText().toString();
+        orderBean.startAddressDetail = "";//upSiteText.getText().toString();
+
 
         orderBean.destAddressDetail = upSiteText.getText().toString();
 

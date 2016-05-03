@@ -158,9 +158,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:textColor="@color/basic_black"
+                    android:textColor="#a0a2a3"
                     android:text="@string/scope_tips_city"
-                    android:gravity="center|bottom"
+                    android:gravity="left|bottom"
                     android:textSize="15sp"/>
             </LinearLayout>
         <TextView
@@ -189,9 +189,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:textColor="@color/basic_black"
+                android:textColor="#a0a2a3"
                 android:text="@string/scope_tips_city"
-                android:gravity="center|bottom"
+                android:gravity="left|bottom"
                 android:textSize="15sp"/>
         </LinearLayout>
         <TextView
