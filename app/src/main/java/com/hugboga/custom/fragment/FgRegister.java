@@ -3,12 +3,9 @@ package com.hugboga.custom.fragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -56,8 +53,6 @@ public class FgRegister extends BaseFragment implements TextWatcher {
     TextView getCodeBtn; //发送验证码按钮
     @ViewInject(R.id.register_time)
     TextView timeTextView; //验证码倒计时
-    @ViewInject(R.id.register_submit)
-    Button registButton; //注册按钮
     private String source = "";
 
     String areaCode;

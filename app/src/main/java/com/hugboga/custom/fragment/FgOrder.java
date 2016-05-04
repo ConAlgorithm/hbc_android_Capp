@@ -61,6 +61,7 @@ import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -332,6 +333,7 @@ public class FgOrder extends BaseFragment {
     CouponBean couponBean;
     private DialogUtil mDialogUtil;
 
+
     String paystyle = "支付宝";
     //下单过程中、失败重新支付、行程列表、订单详情
     String paysource = "";
@@ -476,18 +478,18 @@ public class FgOrder extends BaseFragment {
                     orderDailyDay.setText(getString(R.string.order_daily_days, mOrderBean.serviceTime, mOrderBean.serviceEndTime, mOrderBean.totalDays == null ? 0 : mOrderBean.totalDays));
                     orderDailyDayDetail.setText(getString(R.string.order_daily_days_detail, mOrderBean.serviceCityName, mOrderBean.inTownDays, mOrderBean.outTownDays));
                     orderDailyDayDetail.setVisibility(View.VISIBLE);
-                    orderDailyPassLabel.setText("游玩城市");
-                    if (mOrderBean.passByCity != null && mOrderBean.passByCity.size() > 2) {
-                        orderDailyPassLayout.setVisibility(View.VISIBLE);
-                        StringBuffer sb = new StringBuffer();
-                        for (int i = 1; i < mOrderBean.passByCity.size() - 1; i++) {
-                            CityBean cityBean = mOrderBean.passByCity.get(i);
-                            sb.append(cityBean.name).append("、");
-                        }
-                        orderDailyPassValue.setText(sb.toString());
-                    } else {
-                        orderDailyPassLayout.setVisibility(View.GONE);
-                    }
+//                    orderDailyPassLabel.setText("游玩城市");
+//                    if (mOrderBean.passByCity != null && mOrderBean.passByCity.size() > 2) {
+//                        orderDailyPassLayout.setVisibility(View.VISIBLE);
+//                        StringBuffer sb = new StringBuffer();
+//                        for (int i = 1; i < mOrderBean.passByCity.size() - 1; i++) {
+//                            CityBean cityBean = mOrderBean.passByCity.get(i);
+//                            sb.append(cityBean.name).append("、");
+//                        }
+//                        orderDailyPassValue.setText(sb.toString());
+//                    } else {
+//                        orderDailyPassLayout.setVisibility(View.GONE);
+//                    }
                 }
                 if (!TextUtils.isEmpty(mOrderBean.startAddress)) {
                     orderDailyStart.setText(mOrderBean.startAddress);

@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/basic_gray"
+    android:background="#ebeaeb"
     android:orientation="vertical">
     <include layout="@layout/include_header" />
     <ScrollView
@@ -130,7 +130,7 @@
                     android:layout_alignBaseline="@id/mans_left"
                     android:layout_marginLeft="5dp"
                     android:layout_toRightOf="@id/mans_left"
-                    android:textColor="@color/basic_red"
+                    android:textColor="#838485"
                     android:textSize="12sp" />
 
                 <TextView
@@ -138,7 +138,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:textColor="@color/basic_black"
+                    android:textColor="#838485"
                     android:layout_marginRight="15dp"
                     android:textSize="20sp" />
 
@@ -151,7 +151,7 @@
                     android:layout_marginRight="15dp"
                     android:layout_marginTop="10dp"
                     android:text="@string/mans_use_money_tips"
-                    android:textColor="@color/basic_black"
+                    android:textColor="#838485"
                     android:textSize="15sp" />
 
                 <TextView
@@ -223,7 +223,7 @@
                     android:layout_alignBaseline="@id/cars_left"
                     android:layout_marginLeft="5dp"
                     android:layout_toRightOf="@id/cars_left"
-                    android:textColor="@color/basic_red"
+                    android:textColor="#838485"
                     android:textSize="12sp" />
 
                 <TextView
@@ -232,7 +232,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="15dp"
-                    android:textColor="@color/basic_black"
+                    android:textColor="#838485"
                     android:textSize="20sp" />
 
                 <TextView
@@ -244,7 +244,7 @@
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
                     android:text="@string/car_use_money_tips"
-                    android:textColor="@color/basic_black"
+                    android:textColor="#838485"
                     android:textSize="15sp" />
 
                 <TextView
@@ -311,18 +311,33 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignBaseline="@id/all_left"
-                    android:layout_marginLeft="5dp"
                     android:layout_toRightOf="@id/all_left"
-                    android:textColor="@color/basic_red"
+                    android:layout_marginLeft="5dp"
+                    android:textColor="#838485"
+                    android:textSize="12sp" />
+
+
+                <TextView
+                    android:id="@+id/all_charge_yuan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:textColor="@color/basic_black"
+                    android:text=" 元"
+                    android:layout_alignBaseline="@id/all_left"
+                    android:includeFontPadding="false"
                     android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/all_charge"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
+                    android:layout_toLeftOf="@id/all_charge_yuan"
                     android:textColor="@color/basic_black"
-                    android:textSize="15sp" />
+                    android:includeFontPadding="false"
+                    android:textStyle="bold"
+                    android:textSize="20sp" />
+
 
                 <TextView
                     android:id="@+id/per_left"
@@ -336,13 +351,24 @@
 
 
                 <TextView
-                    android:id="@+id/per_charge"
+                    android:id="@+id/per_charge_yuan"
                     android:layout_marginTop="10dp"
                     android:layout_below="@id/all_charge"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:text="5678元"
+                    android:layout_alignBaseline="@id/per_left"
+                    android:text=" 元"
+                    android:textColor="@color/basic_black"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/per_charge"
+                    android:layout_marginTop="10dp"
+                    android:layout_below="@id/all_charge"
+                    android:layout_toLeftOf="@id/per_charge_yuan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:textColor="@color/basic_black"
                     android:textSize="15sp" />
 

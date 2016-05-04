@@ -531,17 +531,13 @@ public class MainActivity extends BaseActivity
                 break;
             case Constants.PERSONAL_CENTER_INTERNAL_SERVICE:
                 //境内客服
-                if(isLogin("个人中心首页")) {
                     PhoneInfo.CallDial(MainActivity.this, Constants.CALL_NUMBER_IN);
 //                    map.put("source", "个人中心呼叫境内客服");
 //                    MobclickAgent.onEvent(MainActivity.this, "calldomestic_person", map);
-                }
                 break;
             case Constants.PERSONAL_CENTER_OVERSEAS_SERVICE:
                 //境外客服
-                if(isLogin("个人中心首页")) {
                     PhoneInfo.CallDial(MainActivity.this, Constants.CALL_NUMBER_OUT);
-                }
                 break;
             case Constants.PERSONAL_CENTER_HD:
                 if(isLogin("个人中心首页")) {

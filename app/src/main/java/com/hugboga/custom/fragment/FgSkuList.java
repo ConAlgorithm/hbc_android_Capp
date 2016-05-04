@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.adapter.ZBaseAdapter;
@@ -26,6 +27,7 @@ import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.data.request.RequestHome;
 import com.hugboga.custom.data.request.RequestSkuList;
 import com.hugboga.custom.utils.DBHelper;
+import com.hugboga.custom.utils.ImageUtils;
 import com.umeng.analytics.MobclickAgent;
 
 import org.xutils.DbManager;
@@ -139,6 +141,8 @@ public class FgSkuList extends  BaseFragment implements  View.OnClickListener, Z
     protected void inflateContent() {
         ImageOptions options = new ImageOptions.Builder().setFailureDrawableId(R.mipmap.img_undertext).build();
         fgTitle.setText(skuCityBean.cityName);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ImageUtils.getScreenWidth(FgSkuList.this.getActivity()),ImageUtils.getResizeHeight(FgSkuList.this.getActivity(),750,400));
+        headerBg.setLayoutParams(params);
         if(skuCityBean.goodsList.size()==0){
             MLog.e("skuCityBean.goodsList.size"+skuCityBean.goodsList.size());
             x.image().loadDrawable(skuCityBean.cityPicture, options, new DefaultImageCallback<Drawable>() {
@@ -161,6 +165,10 @@ public class FgSkuList extends  BaseFragment implements  View.OnClickListener, Z
                 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
                 @Override
                 public void onSuccess(Drawable result) {
+                    int width = result.getIntrinsicWidth();
+                    int height = result.getIntrinsicHeight();
+                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ImageUtils.getScreenWidth(FgSkuList.this.getActivity()),ImageUtils.getResizeHeight(FgSkuList.this.getActivity(),width,height));
+                    headerBg.setLayoutParams(params);
                     headerBg.setBackground(result);
                     MLog.e("cityHeadPicture result" + result);
                 }
