@@ -2,10 +2,10 @@ package com.hugboga.custom.data.request;
 
 import android.content.Context;
 
-import com.huangbaoche.hbcframe.data.net.HbcParamsBuilder;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.data.bean.CarListBean;
+import com.hugboga.custom.data.net.NewParamsBuilder;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.parser.ParserCarList;
 import com.hugboga.custom.utils.Config;
@@ -19,7 +19,7 @@ import java.util.TreeMap;
  * Created by admin on 2016/3/20.
  */
 
-@HttpRequest(path = UrlLibs.SERVER_IP_PRICE_SKU, builder = HbcParamsBuilder.class)
+@HttpRequest(path = UrlLibs.SERVER_IP_PRICE_SKU, builder = NewParamsBuilder.class)
 public class RequestPriceSku extends BaseRequest<CarListBean> {
 
     /**

@@ -78,6 +78,11 @@ public class ParserOrder extends ImplParser {
         Gson gson = new Gson();
         orderbean.insuranceList = gson.fromJson(jsonObj.optString("insuranceList"), new TypeToken<List<InsureListBean>>(){}.getType());
 
+        orderbean.realAreaCode = jsonObj.optString("realAreaCode");
+        orderbean.realMobile = jsonObj.optString("realMobile");
+        orderbean.realUserName = jsonObj.optString("realUserName");
+
+
         //passByCity
         JSONArray passByCityArray = jsonObj.optJSONArray("passCities");
         if (passByCityArray != null && passByCityArray.length() > 0) {

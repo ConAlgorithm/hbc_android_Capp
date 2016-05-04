@@ -13,6 +13,7 @@ import com.hugboga.custom.constants.ResourcesConstants;
 import com.hugboga.custom.data.bean.FlightBean;
 import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.bean.PromiseBean;
+import com.hugboga.custom.data.net.UrlLibs;
 import com.umeng.analytics.MobclickAgent;
 
 import org.xutils.common.Callback;
@@ -104,7 +105,7 @@ public class FgPick extends BaseFragment {
                 showPromiseDialog();
                 break;
             case R.id.submit_order_tip:
-                bundle.putString(FgWebInfo.WEB_URL, ResourcesConstants.H5_NOTICE);
+                bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_NOTICE);
                 startFragment(new FgWebInfo(), bundle);
                 break;
             case R.id.pick_btn:

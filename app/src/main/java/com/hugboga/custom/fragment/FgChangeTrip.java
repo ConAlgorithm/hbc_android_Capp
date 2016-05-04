@@ -9,9 +9,9 @@ import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -21,7 +21,6 @@ import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.AirPort;
-import com.hugboga.custom.data.bean.CarBean;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.FlightBean;
 import com.hugboga.custom.data.bean.OrderBean;
@@ -126,6 +125,9 @@ public class FgChangeTrip extends BaseFragment implements View.OnClickListener {
     @ViewInject(R.id.submit_remark)
     private TextView remark;//备注
 
+    @ViewInject(R.id.edit_not_show)
+    RelativeLayout edit_not_show;
+
 
     @ViewInject(R.id.change_trip_btn)
     private TextView tripBtn;//按钮
@@ -150,6 +152,7 @@ public class FgChangeTrip extends BaseFragment implements View.OnClickListener {
 
     @Override
     protected void initView() {
+        edit_not_show.setVisibility(View.GONE);
         mOrderBean = (OrderBean) getArguments().getSerializable(KEY_ORDER_BEAN);
         mDialogUtil = DialogUtil.getInstance(getActivity());
         dbUtils = new DBHelper(getActivity()).getDbManager();

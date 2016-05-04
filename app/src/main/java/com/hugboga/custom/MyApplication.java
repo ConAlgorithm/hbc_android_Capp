@@ -19,6 +19,7 @@ import com.hugboga.custom.utils.Config;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.widget.DialogUtil;
+import com.tencent.bugly.crashreport.CrashReport;
 
 import org.xutils.x;
 
@@ -44,7 +45,8 @@ public class MyApplication extends HbcApplication {
         mAppContext = this.getApplicationContext();
         Log.e("hbcApplication", "debug " + BuildConfig.DEBUG);
         try {
-            Reservoir.init(this, 4096);
+            CrashReport.initCrashReport(getApplicationContext(), "GvDgYTsjjK68I62K", false);
+//            Reservoir.init(this, 4096);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -3,9 +3,12 @@ package com.hugboga.custom.fragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -17,11 +20,11 @@ import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.BuildConfig;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
-import com.hugboga.custom.constants.ResourcesConstants;
 import com.hugboga.custom.data.bean.UserBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
+import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestLogin;
 import com.hugboga.custom.data.request.RequestRegister;
 import com.hugboga.custom.data.request.RequestVerity;
@@ -54,6 +57,9 @@ public class FgRegister extends BaseFragment implements TextWatcher {
     @ViewInject(R.id.register_time)
     TextView timeTextView; //验证码倒计时
     private String source = "";
+
+    @ViewInject(R.id.register_submit)
+    Button registButton;
 
     String areaCode;
     String phone;
@@ -264,7 +270,7 @@ public class FgRegister extends BaseFragment implements TextWatcher {
             case R.id.register_protocol:
                 FgWebInfo fgWebInfo = new FgWebInfo();
                 Bundle bundle1 = new Bundle();
-                bundle1.putString(FgWebInfo.WEB_URL, ResourcesConstants.H5_PROTOCOL);
+                bundle1.putString(FgWebInfo.WEB_URL, UrlLibs.H5_PROTOCOL);
                 fgWebInfo.setArguments(bundle1);
                 startFragment(fgWebInfo);
                 break;

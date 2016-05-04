@@ -2,7 +2,6 @@ package com.hugboga.custom.fragment;
 
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
@@ -16,7 +15,6 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.CarViewpagerAdapter;
 import com.hugboga.custom.constants.CarTypeEnum;
 import com.hugboga.custom.constants.Constants;
-import com.hugboga.custom.constants.ResourcesConstants;
 import com.hugboga.custom.data.bean.AirPort;
 import com.hugboga.custom.data.bean.CarBean;
 import com.hugboga.custom.data.bean.CarListBean;
@@ -24,6 +22,7 @@ import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.DailyBean;
 import com.hugboga.custom.data.bean.FlightBean;
 import com.hugboga.custom.data.bean.PoiBean;
+import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestCheckPrice;
 import com.hugboga.custom.data.request.RequestCheckPriceForDaily;
 import com.hugboga.custom.data.request.RequestCheckPriceForPickup;
@@ -325,7 +324,7 @@ public class FgCar extends BaseFragment implements ViewPager.OnPageChangeListene
             case R.id.car_price_info:
                 FgWebInfo fgWebInfo = new FgWebInfo();
                 bundle = new Bundle();
-                bundle.putString(FgWebInfo.WEB_URL, ResourcesConstants.H5_PRICE);
+                bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_PRICE);
                 startFragment(fgWebInfo, bundle);
                 break;
             case R.id.car_mask:

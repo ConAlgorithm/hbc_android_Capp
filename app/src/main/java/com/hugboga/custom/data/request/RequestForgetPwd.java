@@ -2,10 +2,10 @@ package com.hugboga.custom.data.request;
 
 import android.content.Context;
 
-import com.huangbaoche.hbcframe.data.net.HbcParamsBuilder;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
+import com.hugboga.custom.data.net.NewParamsBuilder;
 import com.hugboga.custom.data.net.UrlLibs;
 
 import org.xutils.http.HttpMethod;
@@ -16,7 +16,7 @@ import java.util.HashMap;
 /**
  * Created by Administrator on 2016/3/28.
  */
-@HttpRequest(path = UrlLibs.SERVER_IP_PASSWORD_RESET, builder = HbcParamsBuilder.class)
+@HttpRequest(path = UrlLibs.SERVER_IP_PASSWORD_RESET, builder = NewParamsBuilder.class)
 public class RequestForgetPwd extends BaseRequest {
 
     public RequestForgetPwd(Context context, String areaCode, String mobile, String password, String verity) {

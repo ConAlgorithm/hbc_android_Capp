@@ -236,11 +236,11 @@
         android:textColor="@color/basic_daily_color" />
 
     <RelativeLayout
+        android:id="@+id/edit_not_show"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:paddingLeft="15dp"
-        android:visibility="gone"
         android:paddingRight="25dip">
 
         <TextView

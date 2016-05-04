@@ -16,6 +16,7 @@ import com.hugboga.custom.constants.ResourcesConstants;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.DailyBean;
 import com.hugboga.custom.data.bean.PromiseBean;
+import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.utils.DateUtils;
 import com.umeng.analytics.MobclickAgent;
 
@@ -151,7 +152,7 @@ public class FgDailyOutTown extends BaseFragment {
                 break;
             case R.id.submit_order_tip:
                 bundle = new Bundle();
-                bundle.putString(FgWebInfo.WEB_URL, ResourcesConstants.H5_NOTICE);
+                bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_NOTICE_V2_2);
                 startFragment(new FgWebInfo(), bundle);
                 break;
         }

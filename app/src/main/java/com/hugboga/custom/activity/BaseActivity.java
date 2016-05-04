@@ -12,7 +12,6 @@ public class BaseActivity extends BaseFragmentActivity {
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
-        AnalyticsConfig.setChannel("channel"+ChannelUtils.getChannel(this));
     }
 
     @Override

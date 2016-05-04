@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:textColor="@color/basic_black"
-            android:textSize="18sp"
+            android:textSize="15sp"
             android:minEms="4"
             android:text="姓名"/>
 
@@ -29,7 +29,7 @@
             android:layout_marginLeft="20dp"
             android:hint="姓名需与证件姓名一致"
             android:textColor="@color/basic_black"
-            android:textSize="18sp"
+            android:textSize="15sp"
             android:maxLength="50"
             android:lines="1"
             android:ellipsize="end"
@@ -50,7 +50,7 @@
             android:layout_marginLeft="20dp"
             android:minEms="4"
             android:textColor="@color/basic_black"
-            android:textSize="18sp"
+            android:textSize="15sp"
             android:text="护照编号"/>
 
         <EditText
@@ -58,9 +58,9 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="20sp"
             android:layout_marginLeft="20dp"
-            android:hint="G+8位数字或E+18位数字"
+            android:hint="G+8位数字或E+8位数字"
             android:textColor="@color/basic_black"
-            android:textSize="18sp"
+            android:textSize="15sp"
             android:maxLength="50"
             android:lines="1"
             android:ellipsize="end"
@@ -79,7 +79,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:textColor="@color/basic_black"
-            android:textSize="18sp"
+            android:textSize="15sp"
             android:minEms="4"
             android:text="性别"/>
 
@@ -91,7 +91,7 @@
             android:hint="请选择"
             android:inputType="none"
             android:textColor="@color/basic_black"
-            android:textSize="18sp"
+            android:textSize="15sp"
             android:background="@null"
             android:id="@+id/sex"/>
     </LinearLayout>
@@ -107,7 +107,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:textColor="@color/basic_black"
-            android:textSize="18sp"
+            android:textSize="15sp"
             android:minEms="4"
             android:text="出生日期"/>
 
@@ -119,7 +119,7 @@
             android:hint="请选择"
             android:inputType="none"
             android:textColor="@color/basic_black"
-            android:textSize="18sp"
+            android:textSize="15sp"
             android:background="@null"
             android:id="@+id/birthday"/>
     </LinearLayout>

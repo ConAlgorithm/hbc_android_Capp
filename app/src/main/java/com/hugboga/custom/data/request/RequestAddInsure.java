@@ -1,28 +1,22 @@
 package com.hugboga.custom.data.request;
 
 import android.content.Context;
-import android.text.TextUtils;
 
-import com.huangbaoche.hbcframe.data.net.HbcParamsBuilder;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
-import com.hugboga.custom.data.bean.CouponBean;
-import com.hugboga.custom.data.bean.InsureResultBean;
+import com.hugboga.custom.data.net.NewParamsBuilder;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.parser.ParseInsureAdd;
-import com.hugboga.custom.data.parser.ParseInsureList;
-import com.hugboga.custom.data.parser.ParserCoupon;
 
 import org.xutils.http.HttpMethod;
 import org.xutils.http.annotation.HttpRequest;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
  * Created  on 16/4/22.
  */
-@HttpRequest(path = UrlLibs.ADD_INSURE, builder = HbcParamsBuilder.class)
+@HttpRequest(path = UrlLibs.ADD_INSURE, builder = NewParamsBuilder.class)
 public class RequestAddInsure extends BaseRequest {
 
     public RequestAddInsure(Context context, String userId, String name,

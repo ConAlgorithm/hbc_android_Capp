@@ -2,13 +2,12 @@ package com.hugboga.custom.data.request;
 
 import android.content.Context;
 
-import com.huangbaoche.hbcframe.data.net.HbcParamsBuilder;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
-import com.huangbaoche.hbcframe.util.PhoneInfo;
 import com.huangbaoche.hbcframe.util.SharedPre;
 import com.hugboga.custom.data.bean.LocationCity;
+import com.hugboga.custom.data.net.NewParamsBuilder;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.parser.ParseLocationCity;
 
@@ -22,7 +21,7 @@ import java.util.TreeMap;
  * Created  on 2016/4/12.
  */
 
-@HttpRequest(path = UrlLibs.UPLOAD_LOCATION, builder = HbcParamsBuilder.class)
+@HttpRequest(path = UrlLibs.UPLOAD_LOCATION, builder = NewParamsBuilder.class)
 public class RequestUploadLocation extends BaseRequest<LocationCity> {
 
     public RequestUploadLocation(Context context) {
