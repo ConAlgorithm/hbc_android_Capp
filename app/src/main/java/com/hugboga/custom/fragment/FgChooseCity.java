@@ -84,6 +84,7 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
     private ArrayList<Integer> exceptCityId = new ArrayList<>();
     private String from;
     private String source = "";
+    private String startCityName = "";
     //    private DbUtils mDbUtils;
     private DbManager mDbManager;
     private SharedPre sharedPer;
@@ -240,8 +241,10 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
             try {
                 Selector<CityBean> selector = mDbManager.selector(CityBean.class);
                 CityBean cityBean = selector.where("city_id", "=", cityId).findFirst();
-                if (cityBean != null)
+                if (cityBean != null) {
                     groupId = cityBean.groupId;
+                    startCityName = cityBean.name;
+                }
             } catch (DbException e) {
                 e.printStackTrace();
             }
@@ -283,6 +286,9 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
             } else {
                 selector.and("group_id", "=", groupId);
             }
+            if ("end".equals(from) && cityId != -1){
+                selector.and("city_id", "<>", cityId);
+            }
         } else if (orderType == Constants.BUSINESS_TYPE_RENT) {
             selector.and("is_single", "=", 1);
         } else if (orderType == Constants.BUSINESS_TYPE_PICK || orderType == Constants.BUSINESS_TYPE_SEND) {
@@ -323,6 +329,9 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
                 selector.and("is_daily", "=", 1);
             } else {
                 selector.and("group_id", "=", groupId);
+            }
+            if ("end".equals(from) && cityId != -1){
+                selector.and("city_id", "<>", cityId);
             }
         } else if (orderType == Constants.BUSINESS_TYPE_RENT) {
             selector.and("is_single", "=", 1);
@@ -440,6 +449,9 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
                 selector.and("is_daily", "=", 1);
             } else {
                 selector.and("group_id", "=", groupId);
+            }
+            if ("end".equals(from) && cityId != -1){
+                selector.and("city_id", "<>", cityId);
             }
         } else if (orderType == Constants.BUSINESS_TYPE_RENT) {
             selector.and("is_single", "=", 1);
@@ -642,7 +654,6 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
             sideBar.setVisibility(View.VISIBLE);
             sourceDateList.clear();
             requestData();
-
         } else {
             if(TextUtils.isEmpty(s.toString().trim())){
                 return;
@@ -697,6 +708,14 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
                             isSetGuessYouWant = true;
                         }
                         sourceDateList.addAll(finalList);
+                    }else if(sourceDateList.size() == 0) {
+                        if (getBusinessType() == Constants.BUSINESS_TYPE_DAILY) {
+                            if ("end".equals(from) && s.toString().trim().equals(startCityName)) {
+                                emptyViewText.setText(getString(R.string.can_not_choose_start_city_text));
+                            } else {
+                                emptyViewText.setText(getString(R.string.out_of_range_city_text));
+                            }
+                        }
                     }
                     adapter.notifyDataSetChanged();
                 }
@@ -739,7 +758,9 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
             } else {
                 selector.and("group_id", "=", groupId);
             }
-            //条件加不加？？？？
+            if ("end".equals(from) && cityId != -1){
+                selector.and("city_id", "<>", cityId);
+            }
         } else if (orderType == Constants.BUSINESS_TYPE_RENT) {
             selector.and("is_single", "=", 1);
         } else if (orderType == Constants.BUSINESS_TYPE_PICK || orderType == Constants.BUSINESS_TYPE_SEND) {
@@ -794,7 +815,9 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
             } else {
                 selector.and("group_id", "=", groupId);
             }
-            //条件加不加？？？？
+            if ("end".equals(from) && cityId != -1){
+                selector.and("city_id", "<>", cityId);
+            }
         } else if (orderType == Constants.BUSINESS_TYPE_RENT) {
             selector.and("is_single", "=", 1);
         } else if (orderType == Constants.BUSINESS_TYPE_PICK || orderType == Constants.BUSINESS_TYPE_SEND) {
