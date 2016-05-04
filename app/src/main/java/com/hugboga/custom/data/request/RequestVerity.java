@@ -2,9 +2,9 @@ package com.hugboga.custom.data.request;
 
 import android.content.Context;
 
-import com.huangbaoche.hbcframe.data.net.HbcParamsBuilder;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
+import com.hugboga.custom.data.net.NewParamsBuilder;
 import com.hugboga.custom.data.net.UrlLibs;
 
 import org.xutils.http.HttpMethod;
@@ -15,7 +15,7 @@ import java.util.HashMap;
 /**
  * Created by Administrator on 2016/3/14.
  */
-@HttpRequest(path = UrlLibs.SERVER_IP_CAPTCHA, builder = HbcParamsBuilder.class)
+@HttpRequest(path = UrlLibs.SERVER_IP_CAPTCHA, builder = NewParamsBuilder.class)
 public class RequestVerity extends BaseRequest {
     public String areaCode;
     public String mobile;

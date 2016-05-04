@@ -20,11 +20,11 @@ import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.BuildConfig;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
-import com.hugboga.custom.constants.ResourcesConstants;
 import com.hugboga.custom.data.bean.UserBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
+import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestLogin;
 import com.hugboga.custom.data.request.RequestRegister;
 import com.hugboga.custom.data.request.RequestVerity;
@@ -270,7 +270,7 @@ public class FgRegister extends BaseFragment implements TextWatcher {
             case R.id.register_protocol:
                 FgWebInfo fgWebInfo = new FgWebInfo();
                 Bundle bundle1 = new Bundle();
-                bundle1.putString(FgWebInfo.WEB_URL, ResourcesConstants.H5_PROTOCOL);
+                bundle1.putString(FgWebInfo.WEB_URL, UrlLibs.H5_PROTOCOL);
                 fgWebInfo.setArguments(bundle1);
                 startFragment(fgWebInfo);
                 break;

@@ -2,15 +2,13 @@ package com.hugboga.custom.data.request;
 
 import android.content.Context;
 
-import com.huangbaoche.hbcframe.data.net.HbcParamsBuilder;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.data.bean.CarInfoBean;
-import com.hugboga.custom.data.bean.UserCouponBean;
+import com.hugboga.custom.data.net.NewParamsBuilder;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.parser.ParseGetCarInfo;
-import com.hugboga.custom.data.parser.ParserGetCoupon;
 
 import org.xutils.http.HttpMethod;
 import org.xutils.http.annotation.HttpRequest;
@@ -20,7 +18,7 @@ import java.util.HashMap;
 /**
  * Created  on 16/4/16.
  */
-@HttpRequest(path = UrlLibs.GET_CAR_INFOS,builder = HbcParamsBuilder.class)
+@HttpRequest(path = UrlLibs.GET_CAR_INFOS,builder = NewParamsBuilder.class)
 public class RequestGetCarInfo extends BaseRequest<CarInfoBean> {
 
 /**

@@ -2,10 +2,10 @@ package com.hugboga.custom.data.request;
 
 import android.content.Context;
 
-import com.huangbaoche.hbcframe.data.net.HbcParamsBuilder;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.data.bean.UserBean;
+import com.hugboga.custom.data.net.NewParamsBuilder;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.parser.ParserLogin;
 
@@ -18,7 +18,7 @@ import java.util.HashMap;
  * Created by GrandFather on 2016/4/23.
  */
 
-@HttpRequest(path = UrlLibs.WECHAT_SET_PASSWORD, builder = HbcParamsBuilder.class)
+@HttpRequest(path = UrlLibs.WECHAT_SET_PASSWORD, builder = NewParamsBuilder.class)
 public class RequestSetPwd extends BaseRequest<UserBean> {
     public RequestSetPwd(Context context, String areaCode, String mobile, String password, String unionid) {
         super(context);

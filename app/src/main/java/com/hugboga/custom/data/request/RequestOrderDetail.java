@@ -2,10 +2,10 @@ package com.hugboga.custom.data.request;
 
 import android.app.Activity;
 
-import com.huangbaoche.hbcframe.data.net.HbcParamsBuilder;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.data.bean.OrderBean;
+import com.hugboga.custom.data.net.NewParamsBuilder;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.parser.ParserOrder;
 
@@ -17,7 +17,7 @@ import java.util.HashMap;
  * 订单解析类
  * Created by admin on 2015/7/23.
  */
-@HttpRequest(path = UrlLibs.SERVER_IP_ORDER_DETAIL, builder = HbcParamsBuilder.class)
+@HttpRequest(path = UrlLibs.SERVER_IP_ORDER_DETAIL, builder = NewParamsBuilder.class)
 public class RequestOrderDetail extends BaseRequest<OrderBean> {
 
     public RequestOrderDetail(Activity activity, String orderId) {

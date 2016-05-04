@@ -2,12 +2,10 @@ package com.hugboga.custom.data.request;
 
 import android.content.Context;
 
-import com.huangbaoche.hbcframe.data.net.HbcParamsBuilder;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
-import com.hugboga.custom.data.bean.BindMobileBean;
+import com.hugboga.custom.data.net.NewParamsBuilder;
 import com.hugboga.custom.data.net.UrlLibs;
-import com.hugboga.custom.data.parser.ParserBindMobile;
 
 import org.xutils.http.HttpMethod;
 import org.xutils.http.annotation.HttpRequest;
@@ -17,7 +15,7 @@ import java.util.HashMap;
 /**
  * Created by Administrator on 2016/3/12.
  */
-@HttpRequest(path = UrlLibs.WECHAT_BIND_MOBILE, builder = HbcParamsBuilder.class)
+@HttpRequest(path = UrlLibs.WECHAT_BIND_MOBILE, builder = NewParamsBuilder.class)
 public class RequestChangeMobile extends BaseRequest/*<BindMobileBean>*/ {
     public String areaCode;
     public String mobile;

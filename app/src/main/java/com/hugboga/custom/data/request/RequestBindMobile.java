@@ -3,10 +3,10 @@ package com.hugboga.custom.data.request;
 import android.content.Context;
 import android.text.TextUtils;
 
-import com.huangbaoche.hbcframe.data.net.HbcParamsBuilder;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.data.bean.UserBean;
+import com.hugboga.custom.data.net.NewParamsBuilder;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.parser.ParserLogin;
 
@@ -19,7 +19,7 @@ import java.util.TreeMap;
 /**
  *
  */
-@HttpRequest(path = UrlLibs.WECHAT_CHECK_MOBILE, builder = HbcParamsBuilder.class)
+@HttpRequest(path = UrlLibs.WECHAT_CHECK_MOBILE, builder = NewParamsBuilder.class)
 public class RequestBindMobile extends BaseRequest<UserBean> {
     public String unionid;
     public String skip;

@@ -34,8 +34,6 @@ import com.umeng.analytics.MobclickAgent;
 
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
-import org.xutils.view.annotation.Event;
-import org.xutils.view.annotation.ViewInject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -191,7 +189,7 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
         endCityId = this.getArguments().getString("endCityId");
         startDate = this.getArguments().getString("startDate");
         endDate = this.getArguments().getString("endDate");
-//        halfDay = this.getArguments().getString("halfDay");
+        halfDay = this.getArguments().getString("halfDay");
         adultNum = this.getArguments().getString("adultNum");
         childrenNum = this.getArguments().getString("childrenNum");
         childseatNum = this.getArguments().getString("childseatNum");

@@ -2,15 +2,14 @@ package com.hugboga.custom.data.request;
 
 import android.content.Context;
 
-import com.huangbaoche.hbcframe.data.net.HbcParamsBuilder;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.BuildConfig;
 import com.hugboga.custom.constants.ResourcesConstants;
 import com.hugboga.custom.data.bean.CheckVersionBean;
+import com.hugboga.custom.data.net.NewParamsBuilder;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.parser.ParserCheckVersion;
-import com.hugboga.custom.utils.Config;
 
 import org.xutils.http.HttpMethod;
 import org.xutils.http.annotation.HttpRequest;
@@ -20,7 +19,7 @@ import java.util.HashMap;
 /**
  * Created by Administrator on 2016/3/11.
  */
-@HttpRequest(path = UrlLibs.SERVER_IP_CHECK_APP_VERSION, builder = HbcParamsBuilder.class)
+@HttpRequest(path = UrlLibs.SERVER_IP_CHECK_APP_VERSION, builder = NewParamsBuilder.class)
 public class RequestCheckVersion extends BaseRequest<CheckVersionBean> {
     public RequestCheckVersion(Context context,int resVersion) {
         super(context);
