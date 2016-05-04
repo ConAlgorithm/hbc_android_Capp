@@ -22,7 +22,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="15dp"
-            android:text="为了您手机号下过的订单信息可以方便查看，强烈建议您绑定"
+            android:text="绑定手机号后可查看该手机号的历史订单，建议您绑定"
             android:textColor="@color/change_mobile_text"
             android:textSize="@dimen/text_size_large" />
 
