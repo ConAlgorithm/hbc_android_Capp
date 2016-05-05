@@ -405,6 +405,7 @@
         android:textSize="20sp" />
     <RelativeLayout
         android:id="@+id/coupon_listview_empty"
+        android:layout_below="@id/head"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/coupon_empty_color"

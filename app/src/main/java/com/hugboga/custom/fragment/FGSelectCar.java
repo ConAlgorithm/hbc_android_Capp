@@ -221,6 +221,7 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
                 if(cars.size() == 0){
                     coupon_listview_empty.setVisibility(View.VISIBLE);
                     scrollView.setVisibility(View.GONE);
+                    nextBtnClick.setVisibility(View.GONE);
                 }else {
                     initListData();
                     getMatchCarIndex();
