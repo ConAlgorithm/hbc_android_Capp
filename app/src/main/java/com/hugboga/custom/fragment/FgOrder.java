@@ -43,10 +43,8 @@ import com.hugboga.custom.data.parser.ParserChatInfo;
 import com.hugboga.custom.data.request.RequestOrderCancel;
 import com.hugboga.custom.data.request.RequestOrderDetail;
 import com.hugboga.custom.data.request.RequestPayNo;
-import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.PhoneInfo;
-import com.hugboga.custom.utils.UmengUtils;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.wxapi.WXPay;
 import com.tencent.mm.sdk.openapi.IWXAPI;
@@ -61,10 +59,8 @@ import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 
 import de.greenrobot.event.EventBus;
 import io.rong.imkit.RongIM;
@@ -695,16 +691,16 @@ public class FgOrder extends BaseFragment {
     private void initBottomView() {
         if (mOrderBean.orderStatus == OrderStatus.INITSTATE) {
 
-            bottom_layout.setVisibility(View.VISIBLE);
+//            bottom_layout.setVisibility(View.VISIBLE);
             submitBottomLayout.setVisibility(View.VISIBLE);
             payTypeLayout.setVisibility(View.VISIBLE);
         } else {
             if(mOrderBean.insuranceEnable) {
-                bottom_layout.setVisibility(View.VISIBLE);
+//                bottom_layout.setVisibility(View.VISIBLE);
                 bottom_layout_br.setVisibility(View.VISIBLE);
                 insure_time.setText(mOrderBean.insuranceTips);
             }else {
-                bottom_layout.setVisibility(View.GONE);
+                bottom_layout_br.setVisibility(View.GONE);
             }
             submitBottomLayout.setVisibility(View.GONE);
             payTypeLayout.setVisibility(View.GONE);
@@ -1061,9 +1057,9 @@ public class FgOrder extends BaseFragment {
         }
 
         if(mOrderBean.insuranceEnable){
-            bottom_layout.setVisibility(View.VISIBLE);
+            bottom_layout_br.setVisibility(View.VISIBLE);
         }else{
-            bottom_layout.setVisibility(View.GONE);
+            bottom_layout_br.setVisibility(View.GONE);
         }
 //        TODO;
         for_mans_insure.setText(mOrderBean.insuranceStatus);

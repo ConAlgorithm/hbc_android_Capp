@@ -70,7 +70,7 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
     private void initView() {
         show_ad = (ImageView) findViewById(R.id.show_ad);
         UpdateResources.checkLocalDB(this);
-        UpdateResources.checkLocalResource(this);
+//        UpdateResources.checkLocalResource(this);
         if (PhoneInfo.isNewVersion(LoadingActivity.this)) {
             //新版本清空Accesskey，使请求重新获取
             UserEntity.getUser().setAccessKey(LoadingActivity.this, null);

@@ -107,7 +107,7 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
     @Override
     protected void initView() {
         initHeader();
-        initSelectPeoplePop();
+        initSelectPeoplePop(false);
         fullDay.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -407,7 +407,7 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
 
     //途径城市
     String passCities = "";
-    private void initSelectPeoplePop() {
+    private void initSelectPeoplePop(boolean isEndDay) {
         view = LayoutInflater.from(this.getActivity()).inflate(R.layout.pop_select_people, null);
         scope_layout = (LinearLayout) view.findViewById(R.id.scope_layout);
         scope_layout_in = (LinearLayout) view.findViewById(R.id.scope_layout_in);
@@ -418,6 +418,15 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
         other_title = (TextView) view.findViewById(R.id.other_title);
         out_tips = (TextView) view.findViewById(R.id.out_tips);
         in_tips = (TextView) view.findViewById(R.id.in_tips);
+
+        if(isEndDay){
+            in_title.setText("在"+startBean.name+"结束行程,市内游玩");
+            out_title.setText("在"+startBean.name+"结束行程,周边游玩");
+            other_title.setText("在其它城市结束行程");
+        }
+
+
+
         scope_layout_in.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -559,7 +568,9 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
 //                    initScopeLayoutValue(cityBeanList);
                     initScopeLayoutValue();
                     addDayView(true);
-
+                    resetLastText(false);
+                }else{
+                    resetLastText(true);
                 }
             } else if ("end".equalsIgnoreCase(fromKey)) {
                 endBean = (CityBean) bundle.getSerializable(FgChooseCity.KEY_CITY);
@@ -842,6 +853,17 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
 
     }
 
+    //根据第一天的选择改变最后一天的文字显示
+    private void resetLastText(boolean isOtherCity){
+        int count = full_day_show.getChildCount();
+        TextView text = (TextView)(full_day_show.getChildAt(count - 1).findViewById(R.id.day_go_city_text_click));
+        if(isOtherCity) {
+            text.setText("选择结束城市");
+        }else{
+            text.setText("选择包车游玩范围");
+        }
+    }
+
     View dayView;
     TextView day_text, day_go_city_text_click;
 
@@ -872,6 +894,7 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
                 dayView.setBackgroundColor(Color.parseColor("#d3d4d5"));
             }
         }
+
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params.setMargins(0, 0, 0, (int) ScreenUtils.d2p(this.getActivity(), 15));
 
@@ -897,7 +920,11 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
                         bundle.putString("source", "首页");
                         startFragment(new FgChooseCity(), bundle);
                     }else {
+                        if(Integer.valueOf(v.getTag().toString()) == full_day_show.getChildCount()) {
+                            initSelectPeoplePop(true);
+                        }
                         showSelectPeoplePop(3);
+
                     }
                 }
             }
