@@ -26,6 +26,7 @@ import com.hugboga.custom.data.request.RequestADPicture;
 import com.hugboga.custom.data.request.RequestCheckVersion;
 import com.hugboga.custom.service.LogService;
 import com.hugboga.custom.utils.ChannelUtils;
+import com.hugboga.custom.utils.ImageUtils;
 import com.hugboga.custom.utils.PermissionRes;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.utils.PushUtils;
@@ -193,14 +194,30 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
             checkUploadLog(cvBean);
         }else if(request instanceof RequestADPicture){
             RequestADPicture requestADPicture = (RequestADPicture) request;
-            final ADPictureBean adPictureBean = requestADPicture.getData();
-            if(adPictureBean.picList.size() > 0){
-                String imgUrl = adPictureBean.picList.get(0).picture;
-                Tools.showImage(getApplicationContext(),show_ad,imgUrl);
-
+            ADPictureBean adPictureBean = requestADPicture.getData();
+            if(adPictureBean.displayFlag.equalsIgnoreCase("1")){
+                showAd(adPictureBean);
             }
         }
 
+    }
+
+
+    private void showAd(ADPictureBean adPictureBean){
+        try {
+            if (ImageUtils.getScreenWidth(this) <= 720) {
+                String imgUrl = adPictureBean.picList.get(0).picture;
+                Tools.showImage(getApplicationContext(), show_ad, imgUrl);
+            } else if (ImageUtils.getScreenWidth(this) >= 1080) {
+                String imgUrl = adPictureBean.picList.get(2).picture;
+                Tools.showImage(getApplicationContext(), show_ad, imgUrl);
+            } else {
+                String imgUrl = adPictureBean.picList.get(1).picture;
+                Tools.showImage(getApplicationContext(), show_ad, imgUrl);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
     /**
      * 是否开启debug模式

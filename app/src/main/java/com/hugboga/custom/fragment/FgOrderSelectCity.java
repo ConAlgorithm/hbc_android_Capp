@@ -47,7 +47,7 @@ import java.util.HashMap;
  * Created  on 16/4/14.
  */
 @ContentView(R.layout.activity_order_select_city)
-public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnValueChangeListener, NumberPicker.Formatter {
+public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.Formatter {
 
 
     @ViewInject(R.id.header_left_btn)
@@ -252,7 +252,6 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
     //初始化人数,座位选择
     private void init() {
         manList.setFormatter(this);
-        manList.setOnValueChangedListener(this);
         manList.setMaxValue(11);
         manList.setMinValue(1);
         manList.setValue(manNum == 0?1:manNum);
@@ -261,7 +260,6 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
         manList.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
 
         childList.setFormatter(this);
-        childList.setOnValueChangedListener(this);
         childList.setMaxValue(11);
         childList.setMinValue(0);
         childList.setValue(childNum);
@@ -270,7 +268,6 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
         childList.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
 
         baggageList.setFormatter(this);
-        baggageList.setOnValueChangedListener(this);
         baggageList.setMaxValue(11);
         baggageList.setMinValue(0);
         baggageList.setValue(baggageNum);
@@ -300,20 +297,6 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
     int childSeatNums = 0;
     int baggageNum = 0;
 
-    public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-        switch (picker.getId()) {
-            case R.id.man_list:
-                manNum = newVal;
-                break;
-            case R.id.child_list:
-                childNum = newVal;
-                break;
-            case R.id.baggage_list:
-                baggageNum = newVal;
-                break;
-        }
-
-    }
 
     private PopupWindow peoplePop;
     private View view;
@@ -479,9 +462,13 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
             @Override
             public void onClick(View v) {
                 if (baggageList.isShown()) {
+                    baggageNum = baggageList.getValue();
                     baggageTextClick.setText(String.format(getString(R.string.select_city_baggage_num), baggageNum));
                     baggageTextClick.setTextColor(Color.parseColor("#000000"));
                 } else {
+                    childNum = childList.getValue();
+                    manNum = manList.getValue();
+                    baggageList.getValue();
                     if (childNum > 0) {
                         showChildSeatLayout.setVisibility(View.VISIBLE);
                     } else {
@@ -508,6 +495,7 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
 
     //type 1,选人 2,行李 3,选城市范围
     public void showSelectPeoplePop(int type) {
+        init();
         if (null != peoplePop) {
             if (type == 2) {
                 baggageList.setVisibility(View.VISIBLE);

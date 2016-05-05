@@ -13,6 +13,7 @@ public class ADPictureBean {
         public int startSettingId;
         public int status;
         public String updateTime;
+        public String displayFlag;
         /**
          * activityStartId : 89
          * osType : 1
