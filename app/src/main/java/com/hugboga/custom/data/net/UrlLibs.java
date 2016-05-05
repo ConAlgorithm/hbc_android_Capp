@@ -1,11 +1,7 @@
 package com.hugboga.custom.data.net;
 
 
-import android.os.Bundle;
-
 import com.hugboga.custom.constants.Constants;
-import com.hugboga.custom.fragment.FgActivity;
-import com.hugboga.custom.fragment.FgWebInfo;
 
 import java.util.HashMap;
 
@@ -42,21 +38,21 @@ public class UrlLibs {
     public static String H5_HOST = TEST_H5_HOST;
 
     public static String H5_ACTIVITY= H5_HOST + "/h5/cactivity/index.html?userId=";//国行
-    public static String H5_ABOUT = H5_HOST+"/h5/inApp/custom/about.html";//  关于我们
-    public static String H5_ADDFEE_C = H5_HOST+"/h5/inApp/custom/addfee_c.html";//  单次接送—后付费用说明
-    public static String H5_ADDFEE_J = H5_HOST+"/h5/inApp/custom/addfee_j.html";//  接机—后付费用说明
-    public static String H5_ADDFEE_R = H5_HOST+"/h5/inApp/custom/addfee_r.html";//  日租—后付费用说明
-    public static String H5_ADDFEE_S = H5_HOST+"/h5/inApp/custom/addfee_s.html";//  送机—后付费用说明
-    public static String H5_ADDFEE_X = H5_HOST+"/h5/inApp/custom/addfee_x.html"; // 后付费用说明
-    public static String H5_CANCEL = H5_HOST+"/h5/inApp/custom/cancel.html"; // 取消规则
-    public static String H5_INSURANCE = H5_HOST+"/h5/inApp/custom/insurance.html"; // 皇包车免费赠送保险说明
-    public static String H5_NOTICE = H5_HOST+"/h5/inApp/custom/notice.html";  //预订须知
-    public static String H5_NOTICE_V2_2 = H5_HOST+"/h5/inApp/custom/notice_v2_2.html"; // 预订须知
-    public static String H5_PRICE = H5_HOST+"/h5/inApp/custom/price.html";  //费用说明
-    public static String H5_PRICE_V2_2 = H5_HOST+"/h5/inApp/custom/price_v2_2.html"; // 费用说明
-    public static String H5_PROBLEM = H5_HOST+"/h5/inApp/custom/problem.html"; //常见问题
-    public static String H5_PROTOCOL = H5_HOST+"/h5/inApp/custom/protocol.html"; // 用户协议
-    public static String H5_SERVICE = H5_HOST+"/h5/inApp/custom/service.html"; // 服务承诺
+    public static String H5_ABOUT = H5_HOST+"/h5/cinfos/about.html";//  关于我们
+    public static String H5_ADDFEE_C = H5_HOST+"/h5/cinfos/addfee_c.html";//  单次接送—后付费用说明
+    public static String H5_ADDFEE_J = H5_HOST+"/h5/cinfos/addfee_j.html";//  接机—后付费用说明
+    public static String H5_ADDFEE_R = H5_HOST+"/h5/cinfos/addfee_r.html";//  日租—后付费用说明
+    public static String H5_ADDFEE_S = H5_HOST+"/h5/cinfos/addfee_s.html";//  送机—后付费用说明
+    public static String H5_ADDFEE_X = H5_HOST+"/h5/cinfos/addfee_x.html"; // 后付费用说明
+    public static String H5_CANCEL = H5_HOST+"/h5/cinfos/cancel.html"; // 取消规则
+    public static String H5_INSURANCE = H5_HOST+"/h5/cinfos/insurance.html"; // 皇包车免费赠送保险说明
+    public static String H5_NOTICE = H5_HOST+"/h5/cinfos/notice.html";  //预订须知
+    public static String H5_NOTICE_V2_2 = H5_HOST+"/h5/cinfos/notice_v2_2.html"; // 预订须知
+    public static String H5_PRICE = H5_HOST+"/h5/cinfos/price.html";  //费用说明
+    public static String H5_PRICE_V2_2 = H5_HOST+"/h5/cinfos/price_v2_2.html"; // 费用说明
+    public static String H5_PROBLEM = H5_HOST+"/h5/cinfos/problem.html"; //常见问题
+    public static String H5_PROTOCOL = H5_HOST+"/h5/cinfos/protocol.html"; // 用户协议
+    public static String H5_SERVICE = H5_HOST+"/h5/cinfos/service.html"; // 服务承诺
 
     public static HashMap<Integer, String> OverPriceMap = new HashMap<Integer, String>();
 
@@ -354,5 +350,10 @@ public class UrlLibs {
      * 提交投保人
      */
     public static final String SUBMIT_INSURE_LIST = "insurance/v1.0/c/insurance/submit";
+
+    /**
+     * 获取启动图
+     */
+    public static final String GET_AD_PICTURE = "marketing/v1.0/c/activity/effectivestart";
 
 }

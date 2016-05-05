@@ -228,6 +228,6 @@
   **[] $VALUES;
   public *;
 }
-
+-printmapping build/outputs/mapping/release/mapping.txt
 -dontwarn com.tencent.bugly.**
 -keep public class com.tencent.bugly.**{*;}

@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ebeaeb"
     android:orientation="vertical">
-    <include layout="@layout/include_header" />
+    <include android:id="@+id/head" layout="@layout/include_header" />
     <ScrollView
         android:id="@+id/scrollView"
+        android:layout_below="@id/head"
+        android:layout_above="@+id/next_btn_click"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -388,20 +390,22 @@
             </RelativeLayout>
 
 
-            <Button
-                android:id="@+id/next_btn_click"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_margin="15dp"
-                android:background="@color/all_bg_yellow"
-                android:gravity="center"
-                android:text="@string/go_next"
-                android:textColor="@color/basic_white"
-                android:textSize="20sp" />
         </LinearLayout>
     </ScrollView>
+    <Button
+        android:id="@+id/next_btn_click"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_margin="15dp"
+        android:background="@color/all_bg_yellow"
+        android:gravity="center"
+        android:text="@string/go_next"
+        android:textColor="@color/basic_white"
+        android:textSize="20sp" />
     <RelativeLayout
         android:id="@+id/coupon_listview_empty"
+        android:layout_below="@id/head"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/coupon_empty_color"
@@ -420,4 +424,4 @@
             android:textColor="@color/coupon_empty_text" />
 
     </RelativeLayout>
-</LinearLayout>
+</RelativeLayout>

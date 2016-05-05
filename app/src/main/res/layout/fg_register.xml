@@ -129,6 +129,7 @@
             android:layout_marginTop="@dimen/basic_margin_xlarge"
             android:background="@drawable/login2_selector_bg"
             android:text="立即注册"
+            android:enabled="false"
             android:textColor="@color/basic_white"
             android:textSize="@dimen/text_size_xlarge" />
 
