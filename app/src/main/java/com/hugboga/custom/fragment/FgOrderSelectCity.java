@@ -1,12 +1,10 @@
 package com.hugboga.custom.fragment;
 
-import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
-import android.text.Layout;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -14,17 +12,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.NumberPicker;
 import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.anupcowkur.reservoir.Reservoir;
-import com.anupcowkur.reservoir.ReservoirPutCallback;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.OrderSelectCityAdapter;
@@ -39,18 +34,14 @@ import com.hugboga.custom.utils.ToastUtils;
 import com.umeng.analytics.MobclickAgent;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
-import org.w3c.dom.Text;
 import org.xutils.common.Callback;
+import org.xutils.view.annotation.ContentView;
+import org.xutils.view.annotation.Event;
+import org.xutils.view.annotation.ViewInject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.List;
-import java.util.concurrent.ExecutionException;
-
-import org.xutils.view.annotation.ContentView;
-import org.xutils.view.annotation.Event;
-import org.xutils.view.annotation.ViewInject;
 
 /**
  * Created  on 16/4/14.
@@ -293,7 +284,7 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
     private int getOutNum(){
         int outNums = 0;
         for(int i = 0;i<passBeanList.size();i++){
-            if(passBeanList.get(i).cityType == 3) {
+            if(passBeanList.get(i).cityType == 3 || passBeanList.get(i).cityType == 2) {
                 outNums++;
             }
         }

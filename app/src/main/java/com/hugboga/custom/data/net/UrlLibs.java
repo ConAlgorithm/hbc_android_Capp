@@ -1,11 +1,7 @@
 package com.hugboga.custom.data.net;
 
 
-import android.os.Bundle;
-
 import com.hugboga.custom.constants.Constants;
-import com.hugboga.custom.fragment.FgActivity;
-import com.hugboga.custom.fragment.FgWebInfo;
 
 import java.util.HashMap;
 
@@ -354,5 +350,10 @@ public class UrlLibs {
      * 提交投保人
      */
     public static final String SUBMIT_INSURE_LIST = "insurance/v1.0/c/insurance/submit";
+
+    /**
+     * 获取启动图
+     */
+    public static final String GET_AD_PICTURE = "marketing/v1.0/e/activity/effectivestart";
 
 }

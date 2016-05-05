@@ -28,6 +28,7 @@ import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.DayQuoteBean;
 import com.hugboga.custom.data.bean.SelectCarBean;
 import com.hugboga.custom.data.bean.ServiceQuoteSumBean;
+import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestGetCarInfo;
 import com.hugboga.custom.widget.JazzyViewPager;
 import com.umeng.analytics.MobclickAgent;
@@ -504,10 +505,15 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
 
     }
 
-    @OnClick({R.id.left, R.id.right, R.id.mans_money_show_info, R.id.cars_money_show_info, R.id.next_btn_click})
+    @OnClick({R.id.befer48_tips,R.id.left, R.id.right, R.id.mans_money_show_info, R.id.cars_money_show_info, R.id.next_btn_click})
     public void onClick(View view) {
         HashMap<String,String> map = new HashMap<String,String>();
         switch (view.getId()) {
+            case R.id.befer48_tips:
+                Bundle bundle = new Bundle();
+                bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_CANCEL);
+                startFragment(new FgActivity(), bundle);
+                break;
             case R.id.header_right_txt:
                 map.put("source", "选车页面");
                 MobclickAgent.onEvent(getActivity(), "callcenter_oneday", map);

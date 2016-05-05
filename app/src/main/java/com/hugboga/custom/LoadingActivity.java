@@ -8,11 +8,10 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
-import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 
-import com.huangbaoche.hbcframe.activity.BaseFragmentActivity;
 import com.huangbaoche.hbcframe.data.net.ErrorHandler;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
@@ -20,8 +19,10 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.activity.BaseActivity;
+import com.hugboga.custom.data.bean.ADPictureBean;
 import com.hugboga.custom.data.bean.CheckVersionBean;
 import com.hugboga.custom.data.bean.UserEntity;
+import com.hugboga.custom.data.request.RequestADPicture;
 import com.hugboga.custom.data.request.RequestCheckVersion;
 import com.hugboga.custom.service.LogService;
 import com.hugboga.custom.utils.ChannelUtils;
@@ -29,13 +30,13 @@ import com.hugboga.custom.utils.PermissionRes;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.utils.PushUtils;
 import com.hugboga.custom.utils.SharedPre;
+import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UpdateResources;
 import com.hugboga.custom.widget.DialogUtil;
 import com.umeng.analytics.AnalyticsConfig;
 import com.zhy.m.permission.MPermissions;
 import com.zhy.m.permission.PermissionDenied;
 import com.zhy.m.permission.PermissionGrant;
-import com.zhy.m.permission.ShowRequestPermissionRationale;
 
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
@@ -51,6 +52,7 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
     Long start = 0l;
     private ErrorHandler errorHandler;
 
+    ImageView show_ad;
     @Override
     protected void onStart() {
         super.onStart();
@@ -65,6 +67,7 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
     }
 
     private void initView() {
+        show_ad = (ImageView) findViewById(R.id.show_ad);
         UpdateResources.checkLocalDB(this);
         UpdateResources.checkLocalResource(this);
         if (PhoneInfo.isNewVersion(LoadingActivity.this)) {
@@ -112,7 +115,7 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
     }
 
     private void checkVersion() {
-        DialogUtil.getInstance(this).showLoadingDialog();
+//        DialogUtil.getInstance(this).showLoadingDialog();
         int resourcesVersion = new SharedPre(this).getIntValue(SharedPre.RESOURCES_H5_VERSION);
         RequestCheckVersion requestCheckVersion = new RequestCheckVersion(this, resourcesVersion);
         HttpRequestUtils.request(this, requestCheckVersion, this,false);
@@ -159,6 +162,11 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
             RequestCheckVersion requestCheckVersion = (RequestCheckVersion) request;
             final CheckVersionBean cvBean = requestCheckVersion.getData();
             UserEntity.getUser().setIsNewVersion(this, cvBean.hasAppUpdate);//是否有新版本
+
+//            if(cvBean.){
+            RequestADPicture requestADPicture = new RequestADPicture(this);
+            HttpRequestUtils.request(this,requestADPicture,this,false);
+//            }
             DialogUtil.getInstance(this).showUpdateDialog(cvBean.hasAppUpdate,cvBean.force, cvBean.content, cvBean.url, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -183,6 +191,14 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
                 }
             });
             checkUploadLog(cvBean);
+        }else if(request instanceof RequestADPicture){
+            RequestADPicture requestADPicture = (RequestADPicture) request;
+            final ADPictureBean adPictureBean = requestADPicture.getData();
+            if(adPictureBean.picList.size() > 0){
+                String imgUrl = adPictureBean.picList.get(0).picture;
+                Tools.showImage(getApplicationContext(),show_ad,imgUrl);
+
+            }
         }
 
     }
@@ -199,24 +215,25 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
     }
 
     private void checkToNew() {
-        DialogUtil.getInstance(this).dismissLoadingDialog();
-        Long time = System.currentTimeMillis() - start;
-        final Long cha = aLong - time;
-        if (cha <= 0) {
-            handler.sendEmptyMessage(0);
-        } else {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        Thread.sleep(cha);
-                        handler.sendEmptyMessage(0);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }).start();
-        }
+//        DialogUtil.getInstance(this).dismissLoadingDialog();
+        handler.sendEmptyMessageDelayed(200,3000);
+//        Long time = System.currentTimeMillis() - start;
+//        final Long cha = aLong - time;
+//        if (cha <= 0) {
+//            handler.sendEmptyMessage(0);
+//        } else {
+//            new Thread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    try {
+//                        Thread.sleep(cha);
+//                        handler.sendEmptyMessage(0);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            }).start();
+//        }
     }
 
 
