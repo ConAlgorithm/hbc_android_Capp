@@ -242,8 +242,8 @@ public class SharedPre {
 		removeKey(USERID);
 		removeKey(USERTOKEN);
 		removeKey(ACCESSKEY);
-		removeKey(PHONE);
-		removeKey(CODE);
+//		removeKey(PHONE);
+//		removeKey(CODE);
 		removeKey(USERAVATAR);
 		removeKey(NICKNAME);
 		removeKey(ORDER_POINT_NUM);
