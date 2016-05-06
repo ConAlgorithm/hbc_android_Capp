@@ -693,6 +693,7 @@ public class FgOrder extends BaseFragment {
 
 //            bottom_layout.setVisibility(View.VISIBLE);
             submitBottomLayout.setVisibility(View.VISIBLE);
+            bottom_layout_br.setVisibility(View.GONE);
             payTypeLayout.setVisibility(View.VISIBLE);
         } else {
             if(mOrderBean.insuranceEnable) {
