@@ -124,6 +124,8 @@ public class FgPersonInfo extends BaseFragment {
             if(object != null && object instanceof UserBean){
                 userBean = (UserBean) object;
                 inflateContent();
+            }else{
+                requestData();
             }
         }
     }

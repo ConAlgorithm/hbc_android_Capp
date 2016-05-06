@@ -150,6 +150,10 @@ public class UrlLibs {
      **/
     public static final String WECHAT_SET_PASSWORD = SERVER_IP_PUBLIC_UER_CENTER + "wechat/login/register/mobile?";
     /**
+     * 微信跳过后再绑定手机设置密码
+     **/
+    public static final String WECHAT_AFTER_SET_PASSWORD = SERVER_IP_PUBLIC_UER_CENTER + "wechat/update/password?";
+    /**
      * 忘记密码
      **/
     public static final String SERVER_IP_PASSWORD_RESET = SERVER_IP_PUBLIC_UER_CENTER + "password/reset?";
