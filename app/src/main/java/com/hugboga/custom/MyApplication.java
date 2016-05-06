@@ -14,6 +14,7 @@ import com.hugboga.custom.data.net.ServerCodeHandler;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestAccessKey;
 import com.hugboga.custom.widget.DialogUtil;
+import com.tencent.bugly.crashreport.CrashReport;
 
 import org.xutils.x;
 
@@ -30,6 +31,7 @@ public class MyApplication extends HbcApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+        MobclickAgent.setDebugMode(true);
         x.Ext.setDebug(true);
         initUrlHost();
         JPushInterface.setDebugMode(false);    // 设置开启日志,发布时请关闭日志
@@ -39,7 +41,7 @@ public class MyApplication extends HbcApplication {
         mAppContext = this.getApplicationContext();
         Log.e("hbcApplication", "debug " + BuildConfig.DEBUG);
         try {
-//            CrashReport.initCrashReport(this, "900024779", false);
+            CrashReport.initCrashReport(this, "900024779", false);
 //            Reservoir.init(this, 4096);
         } catch (Exception e) {
             e.printStackTrace();
