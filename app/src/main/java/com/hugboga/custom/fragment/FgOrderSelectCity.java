@@ -569,16 +569,17 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
                     initScopeLayoutValue(true);
                     addDayView(true);
                 }
-            } else if ("end".equalsIgnoreCase(fromKey)) {
+            } else if ("end".equalsIgnoreCase(fromKey) || "nearby".equalsIgnoreCase(fromKey)) {
                 endBean = (CityBean) bundle.getSerializable(FgChooseCity.KEY_CITY);
                 setDayText(3,endBean);
 //                if(Integer.valueOf(currentClickView.getTag().toString()) == 1) {
+                if("end".equalsIgnoreCase(fromKey)){
                     if (endBean.cityId == startBean.cityId) {
                         resetLastText(false);
                     } else {
                         resetLastText(true);
                     }
-//                }
+                }
             }
             checkNextBtnStatus();
         }
@@ -935,8 +936,12 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
                 if(null != v.getTag()) {
                     currentClickView = v;
                     TextView text = (TextView)v.findViewById(R.id.day_go_city_text_click);
-                    if(text.getText().toString().equalsIgnoreCase(getString(R.string.select_stay_city))
-                            || text.getText().toString().equalsIgnoreCase(getString(R.string.select_end_city))){
+                    int currentIndex = Integer.valueOf(currentClickView.getTag().toString())-1;
+                    if((!text.getText().toString().equalsIgnoreCase(getString(R.string.select_scope)) && currentIndex != 0) &&
+                            (passBeanList.size() !=0 && passBeanList.size() >currentIndex
+                            && (passBeanList.get(currentIndex).cityType == 2 || passBeanList.get(currentIndex).cityType == 3))
+                    || (text.getText().toString().equalsIgnoreCase(getString(R.string.select_stay_city))
+                            || text.getText().toString().equalsIgnoreCase(getString(R.string.select_end_city)))){
                         Bundle bundle = new Bundle();
                         bundle.putString(KEY_FROM, "nearby");
                         bundle.putString("source", "首页");
