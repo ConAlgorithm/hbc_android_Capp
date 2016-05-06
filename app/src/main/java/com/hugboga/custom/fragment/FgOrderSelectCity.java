@@ -566,25 +566,35 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
                     DBCityUtils dbCityUtils = new DBCityUtils();
 //                    cityBeanList = dbCityUtils.requestDataByKeyword(startBean.name, false);
 //                    initScopeLayoutValue(cityBeanList);
-                    initScopeLayoutValue();
+                    initScopeLayoutValue(true);
                     addDayView(true);
-                    resetLastText(false);
-                }else{
-                    resetLastText(true);
                 }
             } else if ("end".equalsIgnoreCase(fromKey)) {
                 endBean = (CityBean) bundle.getSerializable(FgChooseCity.KEY_CITY);
                 setDayText(3,endBean);
+//                if(Integer.valueOf(currentClickView.getTag().toString()) == 1) {
+                    if (endBean.cityId == startBean.cityId) {
+                        resetLastText(false);
+                    } else {
+                        resetLastText(true);
+                    }
+//                }
             }
             checkNextBtnStatus();
         }
     }
 
 
-    public void initScopeLayoutValue() {
-            scope_in_str = String.format(getString(R.string.scope_around), "住在" + startBean.name );
-            scope_around_str = String.format(getString(R.string.scope_in), "住在" + startBean.name );
+    public void initScopeLayoutValue(boolean isEndDay) {
+        if(isEndDay) {
+            scope_in_str = "在"+startBean.name+"结束行程,市内游玩";
+            scope_around_str = "在"+startBean.name+"结束行程,周边游玩";
+            scope_other_str = "在其它城市结束行程";
+        }else{
+            scope_in_str = String.format(getString(R.string.scope_around), "住在" + startBean.name);
+            scope_around_str = String.format(getString(R.string.scope_in), "住在" + startBean.name);
             scope_other_str = "住在其它城市";
+        }
 
             out_title.setText(scope_in_str);
             in_title.setText(scope_around_str);
@@ -593,13 +603,15 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
             in_tips.setText(startBean.dailyTip);
     }
 
+
+
     SavedCityBean savedCityBean = null;
     private  void showSaveInfo(){
         try{
             savedCityBean = Reservoir.get("savedCityBean", SavedCityBean.class);
             if(null != savedCityBean){
                 startBean = savedCityBean.startCity;
-                initScopeLayoutValue();
+                initScopeLayoutValue(false);
                 if(null != startBean) {
                     startCity = startBean.cityId+"";
                     startCityClick.setText(startBean.name);
@@ -857,10 +869,19 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
     //根据第一天的选择改变最后一天的文字显示
     private void resetLastText(boolean isOtherCity){
         int count = full_day_show.getChildCount();
-        TextView text = (TextView)(full_day_show.getChildAt(count - 1).findViewById(R.id.day_go_city_text_click));
+        int currentIndex = Integer.valueOf(currentClickView.getTag().toString());
+        TextView text = null;
         if(isOtherCity) {
-            text.setText("选择结束城市");
+            for(int i = currentIndex;i< count;i++){
+                text = (TextView)(full_day_show.getChildAt(i).findViewById(R.id.day_go_city_text_click));
+                if(i == count-1){
+                    text.setText("选择结束城市");
+                }else{
+                    text.setText("选择住宿城市");
+                }
+            }
         }else{
+            text = (TextView)(full_day_show.getChildAt(count - 1).findViewById(R.id.day_go_city_text_click));
             text.setText("选择包车游玩范围");
         }
     }
@@ -922,7 +943,10 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
                         startFragment(new FgChooseCity(), bundle);
                     }else {
                         if(Integer.valueOf(v.getTag().toString()) == full_day_show.getChildCount()) {
-                            initSelectPeoplePop(true);
+                            initScopeLayoutValue(true);
+                        }else{
+
+                            initScopeLayoutValue(false);
                         }
                         showSelectPeoplePop(3);
 

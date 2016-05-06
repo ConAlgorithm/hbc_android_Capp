@@ -124,9 +124,9 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                     vh.mServiceTime.setText(orderBean.serviceTime + " 至 " + orderBean.serviceEndTime);
                 }
                 if (orderBean.orderGoodsType == Constants.BUSINESS_TYPE_DAILY) {
-                    vh.mTypeStr.setText("市内包车");
+                    vh.mTypeStr.setText("包车游");
                 } else {
-                    vh.mTypeStr.setText("跨城市包车");
+                    vh.mTypeStr.setText("包车游");
                 }
                 vh.mFrom.setVisibility(View.GONE);
                 vh.mTo.setVisibility(View.GONE);
