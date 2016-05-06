@@ -67,9 +67,9 @@
     <!-- title-->
     <string name="title_pick">中文接机</string>
     <string name="title_send">中文送机</string>
-    <string name="title_daily">按天包车</string>
-    <string name="title_daily_in_town">市内包车</string>
-    <string name="title_daily_out_town">跨城市包车</string>
+    <string name="title_daily">包车游</string>
+    <string name="title_daily_in_town">包车游</string>
+    <string name="title_daily_out_town">包车游</string>
     <string name="title_rent">单次接送</string>
     <string name="title_commend">线路包车</string>
     <string name="title_daily_small">小长途</string>
