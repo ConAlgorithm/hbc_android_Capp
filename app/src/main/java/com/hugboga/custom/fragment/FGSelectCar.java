@@ -545,26 +545,26 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
             case R.id.next_btn_click:
                 FGOrderNew fgOrderNew = new FGOrderNew();
                 Bundle bundleCar = new Bundle();
+                bundleCar.putString("source",source);
                 bundleCar.putString("startCityId",startCityId);
                 bundleCar.putString("endCityId",endCityId);
                 bundleCar.putString("startDate",startDate);
                 bundleCar.putString("endDate",endDate);
                 bundleCar.putString("halfDay",halfDay);
-                bundleCar.putString("adultNum",adultNum);
-                bundleCar.putString("childrenNum",childrenNum);
-                bundleCar.putString("childseatNum",childseatNum);
-                bundleCar.putString("luggageNum",luggageNum);
-                bundleCar.putString("passCities",passCities);
-                bundleCar.putString("carTypeName",carBean.carDesc);
-                bundleCar.putString("startCityName",startCityName);
-                bundleCar.putString("dayNums",dayNums);
-                bundleCar.putParcelable("carBean",carBean);
-                bundleCar.putParcelable("startBean",startBean);
-                bundleCar.putParcelable("endBean",endBean);
-                bundleCar.putInt("outnum",outNum);
-                bundleCar.putInt("innum",inNum);
-                bundleCar.putSerializable("passCityList",passCityList);
-
+                bundleCar.putString("adultNum", adultNum);
+                bundleCar.putString("childrenNum", childrenNum);
+                bundleCar.putString("childseatNum", childseatNum);
+                bundleCar.putString("luggageNum", luggageNum);
+                bundleCar.putString("passCities", passCities);
+                bundleCar.putString("carTypeName", carBean.carDesc);
+                bundleCar.putString("startCityName", startCityName);
+                bundleCar.putString("dayNums", dayNums);
+                bundleCar.putParcelable("carBean", carBean);
+                bundleCar.putParcelable("startBean", startBean);
+                bundleCar.putParcelable("endBean", endBean);
+                bundleCar.putInt("outnum", outNum);
+                bundleCar.putInt("innum", inNum);
+                bundleCar.putSerializable("passCityList", passCityList);
                 fgOrderNew.setArguments(bundleCar);
                 startFragment(fgOrderNew);
 

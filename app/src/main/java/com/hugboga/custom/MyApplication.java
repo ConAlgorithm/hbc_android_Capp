@@ -15,6 +15,7 @@ import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestAccessKey;
 import com.hugboga.custom.widget.DialogUtil;
 import com.tencent.bugly.crashreport.CrashReport;
+import com.umeng.analytics.MobclickAgent;
 
 import org.xutils.x;
 
@@ -31,6 +32,7 @@ public class MyApplication extends HbcApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+        MobclickAgent.setDebugMode(true);
         x.Ext.setDebug(true);
         initUrlHost();
         JPushInterface.setDebugMode(false);    // 设置开启日志,发布时请关闭日志

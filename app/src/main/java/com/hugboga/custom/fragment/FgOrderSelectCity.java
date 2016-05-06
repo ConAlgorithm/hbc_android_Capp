@@ -758,10 +758,11 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
 
                 bundleCar.putString("startCityName",startBean.name);
                 bundleCar.putString("dayNums",nums+"");
-                bundleCar.putParcelable("startBean",startBean);
+                bundleCar.putParcelable("startBean", startBean);
                 bundleCar.putParcelable("endBean",endBean);
-                bundleCar.putInt("outnum",getOutNum());
+                bundleCar.putInt("outnum", getOutNum());
                 bundleCar.putInt("innum",getInNum());
+                bundleCar.putString("source", source);
 
 
                 FGSelectCar fgSelectCar = new FGSelectCar();
