@@ -16,6 +16,7 @@ import com.hugboga.custom.data.bean.UserBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
+import com.hugboga.custom.data.request.RequestAfterSetPwd;
 import com.hugboga.custom.data.request.RequestChangePwd;
 import com.hugboga.custom.data.request.RequestSetPwd;
 import com.hugboga.custom.utils.IMUtil;
@@ -40,25 +41,34 @@ public class FgSetPassword extends BaseFragment {
     private String areaCode;
     private String mobile;
     private String unionid;
+    private UserBean userBean;
+    private boolean isAfterProcess = false;
 
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
         if (request instanceof RequestSetPwd) {
             RequestSetPwd requestSetPwd = (RequestSetPwd) request;
-            UserBean userBean = requestSetPwd.getData();
+//            UserBean userBean = requestSetPwd.getData();
             Bundle bundle = new Bundle();
             if(userBean != null){
                 bundle.putSerializable("userBean",userBean);
-                UserEntity.getUser().setNickname(getActivity(), userBean.nickname);
-                UserEntity.getUser().setAvatar(getActivity(), userBean.avatar);
-                userBean.setUserEntity(getActivity());
-                UserSession.getUser().setUserToken(getActivity(), userBean.userToken);
-                connectIM();
-                EventBus.getDefault().post(
-                        new EventAction(EventType.CLICK_USER_LOGIN));
+//                UserEntity.getUser().setNickname(getActivity(), userBean.nickname);
+//                UserEntity.getUser().setAvatar(getActivity(), userBean.avatar);
+//                userBean.setUserEntity(getActivity());
+//                UserSession.getUser().setUserToken(getActivity(), userBean.userToken);
+//                connectIM();
+//                EventBus.getDefault().post(
+//                        new EventAction(EventType.CLICK_USER_LOGIN));
             }
             showTip("密码设置成功");
             UserEntity.getUser().setWeakPassword(getActivity(), false);
+            bundle.putString(KEY_FRAGMENT_NAME, FgSetPassword.class.getSimpleName());
+            finishForResult(bundle);
+        }else if(request instanceof RequestAfterSetPwd){
+            RequestAfterSetPwd requestAfterSetPwd = (RequestAfterSetPwd) request;
+            showTip("密码设置成功");
+            UserEntity.getUser().setWeakPassword(getActivity(), false);
+            Bundle bundle = new Bundle();
             bundle.putString(KEY_FRAGMENT_NAME, FgSetPassword.class.getSimpleName());
             finishForResult(bundle);
         }
@@ -98,8 +108,13 @@ public class FgSetPassword extends BaseFragment {
                     showTip("两次填写的密码不一致");
                     return;
                 }
-                RequestSetPwd requestSetPwd = new RequestSetPwd(getActivity(), areaCode, mobile, password, unionid);
-                requestData(requestSetPwd);
+                if(isAfterProcess){
+                    RequestAfterSetPwd requestAfterSetPwd = new RequestAfterSetPwd(getActivity(), areaCode, mobile, password);
+                    requestData(requestAfterSetPwd);
+                }else{
+                    RequestSetPwd requestSetPwd = new RequestSetPwd(getActivity(), areaCode, mobile, password, unionid);
+                    requestData(requestSetPwd);
+                }
                 break;
             default:
                 break;
@@ -130,6 +145,8 @@ public class FgSetPassword extends BaseFragment {
             areaCode = getArguments().getString("areaCode");
             mobile = getArguments().getString("mobile");
             unionid = getArguments().getString("unionid");
+            userBean = (UserBean) getArguments().getSerializable("userBean");
+            isAfterProcess = getArguments().getBoolean("isAfterProcess");
         }
     }
 

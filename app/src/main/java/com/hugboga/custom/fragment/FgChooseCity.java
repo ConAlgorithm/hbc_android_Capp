@@ -146,7 +146,7 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
         editSearch.addTextChangedListener(this);
         if ("startAddress".equals(from)) {
             editSearch.setHint("搜索出发城市");
-        } else if ("end".equals(from)) {
+        } else if ("end".equals(from) || "nearby".equals(from)) {
             editSearch.setHint("搜索到达城市");
         } else if (chooseType == KEY_TYPE_MULTIPLY) {
             editSearch.setHint("搜索途经城市");
