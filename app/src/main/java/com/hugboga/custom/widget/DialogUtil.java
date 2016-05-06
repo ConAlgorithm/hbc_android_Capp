@@ -616,19 +616,19 @@ public class DialogUtil implements DialogUtilInterface {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (which == 0) {
-                            PhoneInfo.CallDial(mContext, Constants.CALL_NUMBER_IN);
                             if (source != null && source.length == 3) {
                                 HashMap<String, String> map = new HashMap<String, String>();
                                 map.put("source", source[0]);
                                 MobclickAgent.onEvent(getRootActivity(mContext), source[1], map);
                             }
+                            PhoneInfo.CallDial(mContext, Constants.CALL_NUMBER_IN);
                         } else {
-                            PhoneInfo.CallDial(mContext, Constants.CALL_NUMBER_OUT);
                             if (source != null && source.length == 3) {
                                 HashMap<String, String> map = new HashMap<String, String>();
                                 map.put("source", source[0]);
                                 MobclickAgent.onEvent(getRootActivity(mContext), source[2], map);
                             }
+                            PhoneInfo.CallDial(mContext, Constants.CALL_NUMBER_OUT);
                         }
                     }
                 }).create();

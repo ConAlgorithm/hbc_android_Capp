@@ -110,6 +110,7 @@ public class FgSkuDetail extends FgWebInfo {
         Map<String, String> map_value = new HashMap<String, String>();
         map_value.put("routecity" , skuItemBean.depCityName);
         map_value.put("routename" , skuItemBean.goodsName);
+        map_value.put("quoteprice" , skuItemBean.goodsMinPrice);
         MobclickAgent.onEventValue(this.getActivity(),"launch_route",map_value,1);
     }
 
