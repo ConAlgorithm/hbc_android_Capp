@@ -68,7 +68,18 @@ public class FgBindMobile extends BaseFragment {
                 Bundle bundle = new Bundle();
                 bundle.putString("areaCode",areaCode);
                 bundle.putString("mobile",mobile);
-                bundle.putString("unionid",unionid);
+                bundle.putString("unionid", unionid);
+
+                if(userBean != null){
+                    bundle.putSerializable("userBean",userBean);
+                    UserEntity.getUser().setNickname(getActivity(), userBean.nickname);
+                    UserEntity.getUser().setAvatar(getActivity(), userBean.avatar);
+                    userBean.setUserEntity(getActivity());
+                    UserSession.getUser().setUserToken(getActivity(), userBean.userToken);
+                    connectIM();
+                    EventBus.getDefault().post(
+                            new EventAction(EventType.CLICK_USER_LOGIN));
+                }
                 startFragment(fgSetPassword, bundle);
 
                 HashMap<String,String> map = new HashMap<String,String>();
@@ -96,11 +107,12 @@ public class FgBindMobile extends BaseFragment {
             Bundle bundle = new Bundle();
             bundle.putString("areaCode",areaCode);
             bundle.putString("mobile",mobile);
-            if(!TextUtils.isEmpty(unionid)){
-                bundle.putString("unionid",unionid);
-            }else{
-                bundle.putString("unionid",UserEntity.getUser().getUnionid(getActivity()));
-            }
+            bundle.putBoolean("isAfterProcess",isAfterProcess);
+//            if(!TextUtils.isEmpty(unionid)){
+//                bundle.putString("unionid",unionid);
+//            }else{
+//                bundle.putString("unionid",UserEntity.getUser().getUnionid(getActivity()));
+//            }
             startFragment(fgSetPassword, bundle);
 
             HashMap<String,String> map = new HashMap<String,String>();
