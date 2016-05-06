@@ -573,13 +573,13 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
                 endBean = (CityBean) bundle.getSerializable(FgChooseCity.KEY_CITY);
                 setDayText(3,endBean);
 //                if(Integer.valueOf(currentClickView.getTag().toString()) == 1) {
-                if("end".equalsIgnoreCase(fromKey)){
+//                if("end".equalsIgnoreCase(fromKey)){
                     if (endBean.cityId == startBean.cityId) {
                         resetLastText(false);
                     } else {
                         resetLastText(true);
                     }
-                }
+//                }
             }
             checkNextBtnStatus();
         }
@@ -759,7 +759,7 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
             case R.id.next_btn_click:
                 Bundle bundleCar = new Bundle();
                 bundleCar.putString("startCityId",startBean.cityId+"");
-                bundleCar.putString("endCityId",isHalfTravel?(startBean.cityId+""):endCityId);
+                bundleCar.putString("endCityId",isHalfTravel?(startBean.cityId+""):passBeanList.get(passBeanList.size()-1).cityId+"");//endCityId);
                 bundleCar.putString("startDate",isHalfTravel?(halfDate):(start_date_str));
                 bundleCar.putString("endDate",isHalfTravel?(halfDate):(end_date_str));
                 bundleCar.putString("halfDay",isHalfTravel?"1":"0");

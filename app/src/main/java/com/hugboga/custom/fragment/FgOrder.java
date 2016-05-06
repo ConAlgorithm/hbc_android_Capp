@@ -1056,12 +1056,15 @@ public class FgOrder extends BaseFragment {
         }else{
             has_insure_layout.setVisibility(View.GONE);
         }
-
-        if(mOrderBean.insuranceEnable){
-            bottom_layout_br.setVisibility(View.VISIBLE);
-        }else{
-            bottom_layout_br.setVisibility(View.GONE);
-        }
+//        if (mOrderBean.orderStatus == OrderStatus.INITSTATE) {
+//            if (mOrderBean.insuranceEnable) {
+//                bottom_layout_br.setVisibility(View.VISIBLE);
+//            } else {
+//                bottom_layout_br.setVisibility(View.GONE);
+//            }
+//        }else{
+//
+//        }
 //        TODO;
         for_mans_insure.setText(mOrderBean.insuranceStatus);
         if(mOrderBean.insuranceStatusCode == 1002){
