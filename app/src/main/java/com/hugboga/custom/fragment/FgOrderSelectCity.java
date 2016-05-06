@@ -572,13 +572,13 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
             } else if ("end".equalsIgnoreCase(fromKey)) {
                 endBean = (CityBean) bundle.getSerializable(FgChooseCity.KEY_CITY);
                 setDayText(3,endBean);
-                if(Integer.valueOf(currentClickView.getTag().toString()) == 1) {
+//                if(Integer.valueOf(currentClickView.getTag().toString()) == 1) {
                     if (endBean.cityId == startBean.cityId) {
                         resetLastText(false);
                     } else {
                         resetLastText(true);
                     }
-                }
+//                }
             }
             checkNextBtnStatus();
         }
@@ -868,9 +868,10 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
     //根据第一天的选择改变最后一天的文字显示
     private void resetLastText(boolean isOtherCity){
         int count = full_day_show.getChildCount();
+        int currentIndex = Integer.valueOf(currentClickView.getTag().toString());
         TextView text = null;
         if(isOtherCity) {
-            for(int i = 1;i< count;i++){
+            for(int i = currentIndex;i< count;i++){
                 text = (TextView)(full_day_show.getChildAt(i).findViewById(R.id.day_go_city_text_click));
                 if(i == count-1){
                     text.setText("选择结束城市");
