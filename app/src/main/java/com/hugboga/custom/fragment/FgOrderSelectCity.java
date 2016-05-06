@@ -938,8 +938,9 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
                     if(text.getText().toString().equalsIgnoreCase(getString(R.string.select_stay_city))
                             || text.getText().toString().equalsIgnoreCase(getString(R.string.select_end_city))){
                         Bundle bundle = new Bundle();
-                        bundle.putString(KEY_FROM, "end");
+                        bundle.putString(KEY_FROM, "nearby");
                         bundle.putString("source", "首页");
+                        bundle.putInt(FgChooseCity.KEY_CITY_ID, startBean.cityId);
                         startFragment(new FgChooseCity(), bundle);
                     }else {
                         if(Integer.valueOf(v.getTag().toString()) == full_day_show.getChildCount()) {
