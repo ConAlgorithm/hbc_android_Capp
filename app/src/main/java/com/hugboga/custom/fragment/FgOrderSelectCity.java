@@ -566,7 +566,7 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
                     DBCityUtils dbCityUtils = new DBCityUtils();
 //                    cityBeanList = dbCityUtils.requestDataByKeyword(startBean.name, false);
 //                    initScopeLayoutValue(cityBeanList);
-                    initScopeLayoutValue();
+                    initScopeLayoutValue(true);
                     addDayView(true);
                 }
             } else if ("end".equalsIgnoreCase(fromKey)) {
@@ -585,10 +585,16 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
     }
 
 
-    public void initScopeLayoutValue() {
-            scope_in_str = String.format(getString(R.string.scope_around), "住在" + startBean.name );
-            scope_around_str = String.format(getString(R.string.scope_in), "住在" + startBean.name );
+    public void initScopeLayoutValue(boolean isEndDay) {
+        if(isEndDay) {
+            scope_in_str = "在"+startBean.name+"结束行程,市内游玩";
+            scope_around_str = "在"+startBean.name+"结束行程,周边游玩";
+            scope_other_str = "在其它城市结束行程";
+        }else{
+            scope_in_str = String.format(getString(R.string.scope_around), "住在" + startBean.name);
+            scope_around_str = String.format(getString(R.string.scope_in), "住在" + startBean.name);
             scope_other_str = "住在其它城市";
+        }
 
             out_title.setText(scope_in_str);
             in_title.setText(scope_around_str);
@@ -597,13 +603,15 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
             in_tips.setText(startBean.dailyTip);
     }
 
+
+
     SavedCityBean savedCityBean = null;
     private  void showSaveInfo(){
         try{
             savedCityBean = Reservoir.get("savedCityBean", SavedCityBean.class);
             if(null != savedCityBean){
                 startBean = savedCityBean.startCity;
-                initScopeLayoutValue();
+                initScopeLayoutValue(false);
                 if(null != startBean) {
                     startCity = startBean.cityId+"";
                     startCityClick.setText(startBean.name);
@@ -933,7 +941,10 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
                         startFragment(new FgChooseCity(), bundle);
                     }else {
                         if(Integer.valueOf(v.getTag().toString()) == full_day_show.getChildCount()) {
-                            initSelectPeoplePop(true);
+                            initScopeLayoutValue(true);
+                        }else{
+
+                            initScopeLayoutValue(false);
                         }
                         showSelectPeoplePop(3);
 
