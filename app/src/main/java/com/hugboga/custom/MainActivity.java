@@ -743,8 +743,12 @@ public class MainActivity extends BaseActivity
 
 
     public void requestLocation(){
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,0,100,locationListener);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,0,100,locationListener);
+        try {
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 100, locationListener);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 100, locationListener);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
 

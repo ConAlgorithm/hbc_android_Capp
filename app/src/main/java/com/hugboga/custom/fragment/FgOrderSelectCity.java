@@ -1,12 +1,10 @@
 package com.hugboga.custom.fragment;
 
-import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
-import android.text.Layout;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -14,17 +12,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.NumberPicker;
 import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.anupcowkur.reservoir.Reservoir;
-import com.anupcowkur.reservoir.ReservoirPutCallback;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.OrderSelectCityAdapter;
@@ -39,24 +34,20 @@ import com.hugboga.custom.utils.ToastUtils;
 import com.umeng.analytics.MobclickAgent;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
-import org.w3c.dom.Text;
 import org.xutils.common.Callback;
+import org.xutils.view.annotation.ContentView;
+import org.xutils.view.annotation.Event;
+import org.xutils.view.annotation.ViewInject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.List;
-import java.util.concurrent.ExecutionException;
-
-import org.xutils.view.annotation.ContentView;
-import org.xutils.view.annotation.Event;
-import org.xutils.view.annotation.ViewInject;
 
 /**
  * Created  on 16/4/14.
  */
 @ContentView(R.layout.activity_order_select_city)
-public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnValueChangeListener, NumberPicker.Formatter {
+public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.Formatter {
 
 
     @ViewInject(R.id.header_left_btn)
@@ -116,7 +107,7 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
     @Override
     protected void initView() {
         initHeader();
-        initSelectPeoplePop();
+        initSelectPeoplePop(false);
         fullDay.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -261,7 +252,6 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
     //初始化人数,座位选择
     private void init() {
         manList.setFormatter(this);
-        manList.setOnValueChangedListener(this);
         manList.setMaxValue(11);
         manList.setMinValue(1);
         manList.setValue(manNum == 0?1:manNum);
@@ -270,7 +260,6 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
         manList.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
 
         childList.setFormatter(this);
-        childList.setOnValueChangedListener(this);
         childList.setMaxValue(11);
         childList.setMinValue(0);
         childList.setValue(childNum);
@@ -279,7 +268,6 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
         childList.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
 
         baggageList.setFormatter(this);
-        baggageList.setOnValueChangedListener(this);
         baggageList.setMaxValue(11);
         baggageList.setMinValue(0);
         baggageList.setValue(baggageNum);
@@ -293,7 +281,7 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
     private int getOutNum(){
         int outNums = 0;
         for(int i = 0;i<passBeanList.size();i++){
-            if(passBeanList.get(i).cityType == 3) {
+            if(passBeanList.get(i).cityType == 3 || passBeanList.get(i).cityType == 2) {
                 outNums++;
             }
         }
@@ -309,20 +297,6 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
     int childSeatNums = 0;
     int baggageNum = 0;
 
-    public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-        switch (picker.getId()) {
-            case R.id.man_list:
-                manNum = newVal;
-                break;
-            case R.id.child_list:
-                childNum = newVal;
-                break;
-            case R.id.baggage_list:
-                baggageNum = newVal;
-                break;
-        }
-
-    }
 
     private PopupWindow peoplePop;
     private View view;
@@ -433,7 +407,7 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
 
     //途径城市
     String passCities = "";
-    private void initSelectPeoplePop() {
+    private void initSelectPeoplePop(boolean isEndDay) {
         view = LayoutInflater.from(this.getActivity()).inflate(R.layout.pop_select_people, null);
         scope_layout = (LinearLayout) view.findViewById(R.id.scope_layout);
         scope_layout_in = (LinearLayout) view.findViewById(R.id.scope_layout_in);
@@ -444,6 +418,15 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
         other_title = (TextView) view.findViewById(R.id.other_title);
         out_tips = (TextView) view.findViewById(R.id.out_tips);
         in_tips = (TextView) view.findViewById(R.id.in_tips);
+
+        if(isEndDay){
+            in_title.setText("在"+startBean.name+"结束行程,市内游玩");
+            out_title.setText("在"+startBean.name+"结束行程,周边游玩");
+            other_title.setText("在其它城市结束行程");
+        }
+
+
+
         scope_layout_in.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -488,9 +471,13 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
             @Override
             public void onClick(View v) {
                 if (baggageList.isShown()) {
+                    baggageNum = baggageList.getValue();
                     baggageTextClick.setText(String.format(getString(R.string.select_city_baggage_num), baggageNum));
                     baggageTextClick.setTextColor(Color.parseColor("#000000"));
                 } else {
+                    childNum = childList.getValue();
+                    manNum = manList.getValue();
+                    baggageList.getValue();
                     if (childNum > 0) {
                         showChildSeatLayout.setVisibility(View.VISIBLE);
                     } else {
@@ -517,6 +504,7 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
 
     //type 1,选人 2,行李 3,选城市范围
     public void showSelectPeoplePop(int type) {
+        init();
         if (null != peoplePop) {
             if (type == 2) {
                 baggageList.setVisibility(View.VISIBLE);
@@ -580,7 +568,9 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
 //                    initScopeLayoutValue(cityBeanList);
                     initScopeLayoutValue();
                     addDayView(true);
-
+                    resetLastText(false);
+                }else{
+                    resetLastText(true);
                 }
             } else if ("end".equalsIgnoreCase(fromKey)) {
                 endBean = (CityBean) bundle.getSerializable(FgChooseCity.KEY_CITY);
@@ -864,6 +854,17 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
 
     }
 
+    //根据第一天的选择改变最后一天的文字显示
+    private void resetLastText(boolean isOtherCity){
+        int count = full_day_show.getChildCount();
+        TextView text = (TextView)(full_day_show.getChildAt(count - 1).findViewById(R.id.day_go_city_text_click));
+        if(isOtherCity) {
+            text.setText("选择结束城市");
+        }else{
+            text.setText("选择包车游玩范围");
+        }
+    }
+
     View dayView;
     TextView day_text, day_go_city_text_click;
 
@@ -894,6 +895,7 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
                 dayView.setBackgroundColor(Color.parseColor("#d3d4d5"));
             }
         }
+
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params.setMargins(0, 0, 0, (int) ScreenUtils.d2p(this.getActivity(), 15));
 
@@ -919,7 +921,11 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.OnVa
                         bundle.putString("source", "首页");
                         startFragment(new FgChooseCity(), bundle);
                     }else {
+                        if(Integer.valueOf(v.getTag().toString()) == full_day_show.getChildCount()) {
+                            initSelectPeoplePop(true);
+                        }
                         showSelectPeoplePop(3);
+
                     }
                 }
             }

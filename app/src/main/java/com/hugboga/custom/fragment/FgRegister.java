@@ -359,8 +359,10 @@ public class FgRegister extends BaseFragment implements TextWatcher {
         if (!TextUtils.isEmpty(areaCode)&&!TextUtils.isEmpty(phone)
                 &&!TextUtils.isEmpty(password)&&!TextUtils.isEmpty(verityCode)
                 &&Pattern.matches("[\\w]{4,16}", password)) {
+            registButton.setEnabled(true);
             registButton.setBackgroundColor(getResources().getColor(R.color.login_ready));
         }else{
+            registButton.setEnabled(false);
             registButton.setBackgroundColor(getResources().getColor(R.color.login_unready));
         }
     }
