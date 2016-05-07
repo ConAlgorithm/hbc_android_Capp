@@ -15,16 +15,14 @@ import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
-import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.bean.CarBean;
 import com.hugboga.custom.data.bean.CarListBean;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.OrderContact;
+import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.data.bean.UserEntity;
-import com.hugboga.custom.data.event.EventAction;
-import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestPriceSku;
 import com.hugboga.custom.data.request.RequestSubmitBase;
 import com.hugboga.custom.data.request.RequestSubmitDaily;
@@ -45,8 +43,6 @@ import org.xutils.view.annotation.ViewInject;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
-
-import de.greenrobot.event.EventBus;
 
 /**
  * SKu 下单
@@ -89,7 +85,7 @@ public class FgSkuSubmit extends BaseFragment implements View.OnClickListener {
     private SkuItemBean skuBean;
     private CityBean cityBean;
     private String serverDate;//包车日期，yyyy-MM-dd
-    private String serverTime = "08:00";//时间 HH-mm
+    private String serverTime = "09:00";//时间 HH-mm
     private int adult;//成人数
     private int child;//儿童数
     private boolean needChildrenSeat = false;//是否需要儿童座椅

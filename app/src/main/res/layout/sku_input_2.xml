@@ -29,7 +29,7 @@
             style="@style/skuInfoEdit"
             android:layout_toRightOf="@id/sku_start_time_title"
             android:layout_toLeftOf="@id/sku_start_time_arrow"
-            android:hint="8：00（当地时间）" />
+            android:hint="9：00（当地时间）" />
     </RelativeLayout>
 
     <View style="@style/skuInfoLine" />

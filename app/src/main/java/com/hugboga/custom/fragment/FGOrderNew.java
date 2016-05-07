@@ -258,7 +258,7 @@ public class FGOrderNew extends BaseFragment {
         datePickerDialog.show(this.getActivity().getFragmentManager(), "TimePickerDialog");                //显示日期设置对话框
     }
 
-    String serverTime = "08:00";
+    String serverTime = "09:00";
     /*
          * Function  :       自定义MyDatePickerDialog类，用于实现DatePickerDialog.OnDateSetListener接口，
          *                           当点击日期设置对话框中的“设置”按钮时触发该接口方法
@@ -338,6 +338,23 @@ public class FGOrderNew extends BaseFragment {
 //            ToastUtils.showLong("酒店电话不能为空!");
 //            return;
 //        }
+
+        if(checkboxOther.isChecked()){
+            if(TextUtils.isEmpty(orderUserNameOther.getText())){
+                ToastUtils.showLong("乘车人姓名不能为空!");
+                return;
+            }
+
+            if(TextUtils.isEmpty(areaCodeOtherClick.getText())){
+                ToastUtils.showLong("乘车人电话区号不能为空!");
+                return;
+            }
+
+            if(TextUtils.isEmpty(userPhoneOther.getText())){
+                ToastUtils.showLong("乘车人电话不能为空!");
+                return;
+            }
+        }
 
         if(phone2Layout.isShown()){
             if(!TextUtils.isEmpty(areaCode2Click.getText()) && !TextUtils.isEmpty(userPhone2.getText())) {
