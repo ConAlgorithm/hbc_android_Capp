@@ -423,7 +423,7 @@ public class FGOrderNew extends BaseFragment {
         orderBean.serviceEndCityName = endCityId;
         orderBean.isHalfDaily =  Integer.valueOf(halfDay);
         orderBean.contact = contact;
-        orderBean.serviceStartTime = " 00:00:00";
+        orderBean.serviceStartTime = serverTime+":00";
         orderBean.serviceTime = startDate;
 
         if(halfDay.equalsIgnoreCase("0")) {
@@ -458,6 +458,7 @@ public class FGOrderNew extends BaseFragment {
         orderBean.stayCityListStr = passCities;
         orderBean.userRemark = mark.getText().toString();
 
+        orderBean.serviceDepartTime = serverTime;
 
         orderBean.priceChannel = carBean.price+"";
         orderBean.childSeatNum = childseatNum;

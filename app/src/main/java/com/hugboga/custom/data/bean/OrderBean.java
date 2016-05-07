@@ -113,6 +113,7 @@ public class OrderBean implements IBaseBean ,Parcelable{
     public int insuranceStatusCode;////1001 全部购买 ,1002 出现问题,1003 注销保险,1004 保单处理中
 
 
+    public String serviceDepartTime; //服务时间
 
     public String getOrderTypeStr(Context context) {
         switch (orderGoodsType) {
@@ -223,6 +224,7 @@ public class OrderBean implements IBaseBean ,Parcelable{
         dest.writeList(this.skuPoiArray);
         dest.writeString(this.insuranceStatus);
         dest.writeInt(this.insuranceStatusCode);
+        dest.writeString(this.serviceDepartTime);
     }
 
     public OrderBean() {
@@ -314,6 +316,7 @@ public class OrderBean implements IBaseBean ,Parcelable{
         in.readList(this.skuPoiArray, PoiBean.class.getClassLoader());
         this.insuranceStatus = in.readString();
         this.insuranceStatusCode = in.readInt();
+        this.serviceDepartTime = in.readString();
     }
 
     public static final Creator<OrderBean> CREATOR = new Creator<OrderBean>() {

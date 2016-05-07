@@ -11,16 +11,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
-import android.text.InputFilter;
 import android.text.TextUtils;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
@@ -35,11 +31,8 @@ import com.hugboga.custom.data.request.RequestChangeUserInfo;
 import com.hugboga.custom.data.request.RequestUpLoadFile;
 import com.hugboga.custom.data.request.RequestUserInfo;
 import com.hugboga.custom.utils.FileUtil;
-import com.hugboga.custom.utils.ImageOptionUtils;
 import com.hugboga.custom.utils.ImageUtils;
 import com.hugboga.custom.utils.PermissionRes;
-import com.hugboga.custom.widget.CircleImageView;
-import com.hugboga.custom.widget.CircularImage;
 import com.umeng.analytics.MobclickAgent;
 import com.yalantis.ucrop.UCrop;
 import com.zhy.m.permission.MPermissions;
@@ -169,7 +162,7 @@ public class FgPersonInfo extends BaseFragment {
                 inputServer.setSelection(inputServer.getText().length());
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity()).setView(rl).setTitle("填写昵称").setNegativeButton("取消", null).setPositiveButton("提交", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        String nickStr = inputServer.getText().toString();
+                        String nickStr = inputServer.getText().toString().trim();
                         if (TextUtils.isEmpty(nickStr)) {
                             showTip("没输入昵称，请重新填写");
                             return;

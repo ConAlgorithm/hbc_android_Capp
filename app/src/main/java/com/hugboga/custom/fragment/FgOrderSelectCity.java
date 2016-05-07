@@ -885,13 +885,19 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
                 }
             }
         }else{
-            for(int i = currentIndex;i< count;i++){
-                text = (TextView)(full_day_show.getChildAt(i).findViewById(R.id.day_go_city_text_click));
-                if(i == count-1){
-                    text.setText("选择结束城市");
-                }else{
-                    text.setText("选择包车游玩范围");
-                }            }
+            if((currentIndex +1) == count){
+                text = (TextView) (full_day_show.getChildAt(currentIndex).findViewById(R.id.day_go_city_text_click));
+                text.setText("选择包车游玩范围");
+            }else{
+                for(int i = currentIndex;i< count;i++) {
+                    text = (TextView) (full_day_show.getChildAt(i).findViewById(R.id.day_go_city_text_click));
+                    if (i == count - 1) {
+                        text.setText("选择结束城市");
+                    } else {
+                        text.setText("选择包车游玩范围");
+                    }
+                }
+            }
         }
     }
 
