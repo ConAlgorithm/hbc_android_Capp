@@ -25,9 +25,9 @@ public class SharedPre {
 	public static String USERAVATAR ="avatar";
 	public static String NICKNAME ="nickname";
 	public static String PHONE ="login_phone";
-	public static String LOGIN_PHONE ="login_phone";
+	public static String LOGIN_PHONE ="for_login_phone";
 	public static String CODE ="login_code";
-	public static String LOGIN_CODE ="login_code";
+	public static String LOGIN_CODE ="for_login_code";
 	public static String VERSION ="app_version";
 	public static String IS_NEW_VERSION ="is_new_version";
 	public static String IS_WEAK_PSW ="is_weak_psw";
