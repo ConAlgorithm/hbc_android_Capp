@@ -1,6 +1,5 @@
 package com.hugboga.custom.fragment;
 
-import android.app.DownloadManager;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -25,12 +24,10 @@ import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestDelInsure;
-import com.hugboga.custom.data.request.RequestEditInsure;
 import com.hugboga.custom.data.request.RequestInsureList;
 import com.hugboga.custom.data.request.RequestSubmitInsure;
 import com.hugboga.custom.utils.ToastUtils;
 
-import org.w3c.dom.Text;
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 
@@ -189,7 +186,8 @@ public class FgInsure extends BaseFragment implements HttpRequestListener {
                 final InsureResultBean bean = (InsureResultBean) (action.data);
                 for (int i = 0; i < beanList.size(); i++) {
                     if (beanList.get(i).insuranceUserId.equalsIgnoreCase(bean.insuranceUserId)) {
-                        beanList.set(i, bean);
+                        beanList.remove(i);
+                        beanList.add(0, bean);
                     }
                 }
                 if(null != orderBean){
