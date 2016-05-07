@@ -365,7 +365,11 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
             cityId = cityBean.cityId+"";
             text.setText(cityBean.name);
             add_tips.setVisibility(View.VISIBLE);
-            add_tips.setText(R.string.select_other_city);
+            if(cityBean.cityId == startBean.cityId){
+                add_tips.setText(R.string.select_around_city);
+            }else {
+                add_tips.setText(R.string.select_other_city);
+            }
             addPassCityBean(3,cityBean,currentClickView.getTag().toString());
         }
 //        if(passCitiesList.size() > tag-1){
@@ -881,8 +885,13 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
                 }
             }
         }else{
-            text = (TextView)(full_day_show.getChildAt(count - 1).findViewById(R.id.day_go_city_text_click));
-            text.setText("选择包车游玩范围");
+            for(int i = currentIndex;i< count;i++){
+                text = (TextView)(full_day_show.getChildAt(i).findViewById(R.id.day_go_city_text_click));
+                if(i == count-1){
+                    text.setText("选择结束城市");
+                }else{
+                    text.setText("选择包车游玩范围");
+                }            }
         }
     }
 
