@@ -679,7 +679,7 @@ public class FgChangeTrip extends BaseFragment implements View.OnClickListener {
             orderChildrenSeatLayout.setVisibility(View.GONE);
             return;
         }
-        orderChildrenSeatLayout.setVisibility(child > 0 ? View.VISIBLE : View.GONE);
+        orderChildrenSeatLayout.setVisibility(View.GONE);
         orderChildrenSeatLayout.removeAllViews();
         for (int i = 0; i < childrenSeatNumbers.length; i++) {
             if (childrenSeatNumbers[i] <= 0) continue;
