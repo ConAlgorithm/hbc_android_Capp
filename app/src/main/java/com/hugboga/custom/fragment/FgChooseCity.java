@@ -146,12 +146,14 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
         editSearch.addTextChangedListener(this);
         if ("startAddress".equals(from)) {
             editSearch.setHint("搜索出发城市");
-        } else if ("end".equals(from) || "nearby".equals(from)) {
+        } else if ("end".equals(from)) {
             editSearch.setHint("搜索到达城市");
         } else if (chooseType == KEY_TYPE_MULTIPLY) {
             editSearch.setHint("搜索途经城市");
         } else if (getBusinessType() == Constants.BUSINESS_TYPE_RENT) {
             editSearch.setHint("搜索用车城市");
+        } else if ("lastCity".equals(from) || "nearby".equals(from)) {
+            editSearch.setHint("请输入城市名称");
         }
 
 //        mDbUtils = new DBHelper(getActivity()).getDbUtils();
@@ -286,7 +288,7 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
             } else {
                 selector.and("group_id", "=", groupId);
             }
-            if ("end".equals(from) && cityId != -1){
+            if ("lastCity".equals(from) && cityId != -1){
                 selector.and("city_id", "<>", cityId);
             }
         } else if (orderType == Constants.BUSINESS_TYPE_RENT) {
@@ -330,7 +332,7 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
             } else {
                 selector.and("group_id", "=", groupId);
             }
-            if ("end".equals(from) && cityId != -1){
+            if ("lastCity".equals(from) && cityId != -1){
                 selector.and("city_id", "<>", cityId);
             }
         } else if (orderType == Constants.BUSINESS_TYPE_RENT) {
@@ -390,7 +392,7 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
             } else {
                 selector.and("group_id", "=", groupId);
             }
-            if ("end".equals(from) && cityId != -1){
+            if ("lastCity".equals(from) && cityId != -1){
                 selector.and("city_id", "<>", cityId);
             }
         } else if (orderType == Constants.BUSINESS_TYPE_RENT) {
@@ -453,7 +455,7 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
             } else {
                 selector.and("group_id", "=", groupId);
             }
-            if ("end".equals(from) && cityId != -1){
+            if ("lastCity".equals(from) && cityId != -1){
                 selector.and("city_id", "<>", cityId);
             }
         } else if (orderType == Constants.BUSINESS_TYPE_RENT) {
@@ -713,7 +715,7 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
                         sourceDateList.addAll(finalList);
                     }else if(sourceDateList.size() == 0) {
                         if (getBusinessType() == Constants.BUSINESS_TYPE_DAILY) {
-                            if ("end".equals(from) && s.toString().trim().equals(startCityName)) {
+                            if ("lastCity".equals(from) && s.toString().trim().equals(startCityName)) {
                                 emptyViewText.setText(getString(R.string.can_not_choose_start_city_text));
                             } else {
                                 emptyViewText.setText(getString(R.string.out_of_range_city_text));
@@ -761,7 +763,7 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
             } else {
                 selector.and("group_id", "=", groupId);
             }
-            if ("end".equals(from) && cityId != -1){
+            if ("lastCity".equals(from) && cityId != -1){
                 selector.and("city_id", "<>", cityId);
             }
         } else if (orderType == Constants.BUSINESS_TYPE_RENT) {
@@ -818,7 +820,7 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
             } else {
                 selector.and("group_id", "=", groupId);
             }
-            if ("end".equals(from) && cityId != -1){
+            if ("lastCity".equals(from) && cityId != -1){
                 selector.and("city_id", "<>", cityId);
             }
         } else if (orderType == Constants.BUSINESS_TYPE_RENT) {
