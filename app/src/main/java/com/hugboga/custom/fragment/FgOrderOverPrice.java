@@ -10,7 +10,6 @@ import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.OverPriceAdapter;
 import com.hugboga.custom.constants.Constants;
-import com.hugboga.custom.constants.ResourcesConstants;
 import com.hugboga.custom.data.bean.CouponBean;
 import com.hugboga.custom.data.bean.OrderOverPrice;
 import com.hugboga.custom.data.bean.OrderPriceInfo;
@@ -147,8 +146,12 @@ public class FgOrderOverPrice extends BaseFragment {
     public void onDataRequestSucceed(BaseRequest request) {
         RequestOverPrice mParser = (RequestOverPrice) request;
         mOverPrice = new OrderOverPrice();
-        applyfee = mParser.applyfee;
-        mOverPrice.orderCostApplyInfos = mParser.getData();
+        try {
+            applyfee = mParser.applyfee;
+            mOverPrice.orderCostApplyInfos = mParser.getData();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         inflateContent();
     }
 }
