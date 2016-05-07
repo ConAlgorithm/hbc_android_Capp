@@ -250,8 +250,8 @@ public class FgLogin extends BaseFragment implements TextWatcher {
     private void onClickView(View view) {
         switch (view.getId()) {
             case R.id.login_weixin:
-                if(!WXShareUtils.getInstance(getActivity()).isInstall(true)){
-                    ToastUtils.showLong("未安装微信");
+                if(!WXShareUtils.getInstance(getActivity()).isInstall(false)){
+                    ToastUtils.showLong("手机未安装微信或版本太低");
                     return;
                 }
                 wxapi = WXAPIFactory.createWXAPI(this.getActivity(), Constants.WX_APP_ID);
