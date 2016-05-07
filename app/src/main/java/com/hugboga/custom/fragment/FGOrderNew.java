@@ -539,6 +539,7 @@ public class FGOrderNew extends BaseFragment {
                 FgOrderInfo fgOrderInfo = new FgOrderInfo();
                 Bundle bundleCar = new Bundle();
                 bundleCar.putParcelable("carBean",carBean);
+                bundleCar.putString("halfDay",halfDay);
                 fgOrderInfo.setArguments(bundleCar);
                 startFragment(fgOrderInfo);
                 break;

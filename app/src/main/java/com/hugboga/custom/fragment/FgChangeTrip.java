@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
@@ -123,7 +124,7 @@ public class FgChangeTrip extends BaseFragment implements View.OnClickListener {
     @ViewInject(R.id.submit_flight_no_layout)
     private View flightNOLayout;//航班号,送机填写
     @ViewInject(R.id.submit_remark)
-    private TextView remark;//备注
+    private EditText remark;//备注
 
     @ViewInject(R.id.edit_not_show)
     RelativeLayout edit_not_show;

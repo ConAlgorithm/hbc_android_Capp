@@ -313,7 +313,7 @@
     <string name="longDisPrice">长途补助</string>
     <string name="stayPrice">司导住宿补贴</string>
     <string name="vehiclePrice">用车费用</string>
-    <string name="emptyDrivePrice">空驶费用</string>
+    <string name="emptyDrivePrice">返程补贴</string>
     <string name="car_lines">-----------------------------------------------------------------</string>
     <string name="add_user_name">请填写联系人姓名</string>
     <string name="add_user_name_left">* 联系人&#160;</string>

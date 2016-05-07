@@ -37,7 +37,7 @@ public class RequestSubmitDaily extends RequestSubmitBase {
         map.put("serviceAreaCode", orderBean.serviceAreaCode);
         map.put("serviceAddressTel", orderBean.serviceAddressTel);
 
-
+        map.put("memo", orderBean.memo);
         map.put("userRemark", orderBean.userRemark);
         map.put("priceChannel", orderBean.priceChannel);
         map.put("childSeatNum", orderBean.childSeatNum);

@@ -1,6 +1,5 @@
 package com.hugboga.custom.fragment;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,14 +14,17 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.DayQuoteBean;
 import com.hugboga.custom.data.bean.SelectCarBean;
 import com.hugboga.custom.data.bean.ServiceQuoteSumBean;
+import com.hugboga.custom.data.net.UrlLibs;
 
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created  on 16/4/21.
@@ -79,9 +81,11 @@ public class FgOrderInfo extends BaseFragment {
         fgTitle.setText(R.string.all_cost_info);
     }
 
+    String halfDay = "0";
     @Override
     protected void initView() {
         carBean = this.getArguments().getParcelable("carBean");
+        halfDay = this.getArguments().getString("halfDay");
         showContent();
     }
 
@@ -97,7 +101,13 @@ public class FgOrderInfo extends BaseFragment {
     }
 
     public void genTotal(){
-        allDayNum.setText(carBean.totalDays+"天 x"+carBean.numOfPerson+"人");
+        String days = "";
+        if(halfDay.equalsIgnoreCase("1")){
+            days = "0.5";
+        }else{
+            days = carBean.totalDays+"";
+        }
+        allDayNum.setText(days+"天 X "+carBean.numOfPerson+"人");
         allCharge.setText(carBean.price+"元");
         perCharge.setText(carBean.avgSpend+"元");
     }
@@ -112,7 +122,7 @@ public class FgOrderInfo extends BaseFragment {
         try {
             carsMoneyAllInfo.removeAllViews();
             carsCharge.setText(carBean.vehiclePrice+"元");
-            carsDayNum.setText("x"+carBean.totalDays+"天");
+                carsDayNum.setText(halfDay.equalsIgnoreCase("1")?"x 0.5天":"x"+carBean.totalDays+"天");
             ServiceQuoteSumBean serviceQuoteSumBean = carBean.vehicleQuoteSum;
             List<DayQuoteBean> dayQuotes = serviceQuoteSumBean.dayQuotes;
             DayQuoteBean dayQuoteBean = null;
@@ -138,7 +148,12 @@ public class FgOrderInfo extends BaseFragment {
                     day_line2_money_middle.setVisibility(View.VISIBLE);
                     day_line2_money_left.setVisibility(View.VISIBLE);
                     day_line2_money_right.setVisibility(View.VISIBLE);
-                    day_line2_money_left.setText(getString(R.string.service_money));
+                    if(dayQuoteBean.busySeason == 1){
+                        day_line2_money_left.setText(getString(R.string.vehiclePrice)+",旺季");
+                    }else{
+                        day_line2_money_left.setText(getString(R.string.vehiclePrice));
+                    }
+
                     day_line2_money_right.setText(dayQuoteBean.vehiclePrice + "元");
                 } else {
                     day_line2_money_middle.setVisibility(View.GONE);
@@ -151,7 +166,11 @@ public class FgOrderInfo extends BaseFragment {
                     day_line3_money_middle.setVisibility(View.VISIBLE);
                     day_line3_money_left.setVisibility(View.VISIBLE);
                     day_line3_money_right.setVisibility(View.VISIBLE);
-                    day_line3_money_left.setText(getString(R.string.emptyDrivePrice));
+                    if(dayQuoteBean.busySeason == 1){
+                        day_line3_money_left.setText(getString(R.string.emptyDrivePrice)+",旺季");
+                    }else{
+                        day_line3_money_left.setText(getString(R.string.emptyDrivePrice));
+                    }
                     day_line3_money_right.setText(dayQuoteBean.emptyDrivePrice + "元");
                 } else {
                     day_line3_money_middle.setVisibility(View.GONE);
@@ -183,7 +202,7 @@ public class FgOrderInfo extends BaseFragment {
         try {
             mansMoneyAllInfo.removeAllViews();
             mansCharge.setText(carBean.servicePrice+"元");
-            mansDayNum.setText("x"+carBean.totalDays+"天");
+            mansDayNum.setText(halfDay.equalsIgnoreCase("1")?"x 0.5天":"x"+carBean.totalDays+"天");
             ServiceQuoteSumBean serviceQuoteSumBean = carBean.serviceQuoteSum;
             List<DayQuoteBean> dayQuotes = serviceQuoteSumBean.dayQuotes;
             DayQuoteBean dayQuoteBean = null;
@@ -209,7 +228,11 @@ public class FgOrderInfo extends BaseFragment {
                     day_line2_money_middle.setVisibility(View.VISIBLE);
                     day_line2_money_left.setVisibility(View.VISIBLE);
                     day_line2_money_right.setVisibility(View.VISIBLE);
-                    day_line2_money_left.setText(getString(R.string.service_money));
+                    if(dayQuoteBean.busySeason == 1){
+                        day_line2_money_left.setText(getString(R.string.service_money)+",旺季");
+                    }else{
+                        day_line2_money_left.setText(getString(R.string.service_money));
+                    }
                     day_line2_money_right.setText(dayQuoteBean.guideServicePrice + "元");
                 } else {
                     day_line2_money_middle.setVisibility(View.GONE);
@@ -221,7 +244,11 @@ public class FgOrderInfo extends BaseFragment {
                     day_line3_money_middle.setVisibility(View.VISIBLE);
                     day_line3_money_left.setVisibility(View.VISIBLE);
                     day_line3_money_right.setVisibility(View.VISIBLE);
-                    day_line3_money_left.setText(getString(R.string.stayPrice));
+                    if(dayQuoteBean.busySeason == 1){
+                        day_line3_money_left.setText(getString(R.string.stayPrice)+",旺季");
+                    }else{
+                        day_line3_money_left.setText(getString(R.string.stayPrice));
+                    }
                     day_line3_money_right.setText(dayQuoteBean.stayPrice + "元");
                 } else {
                     day_line3_money_middle.setVisibility(View.GONE);
@@ -233,6 +260,23 @@ public class FgOrderInfo extends BaseFragment {
             }
         }catch (Exception e){
             e.printStackTrace();
+        }
+    }
+
+
+
+    @OnClick({R.id.befer48_tips,R.id.header_left_btn})
+    public void onClick(View view) {
+        HashMap<String,String> map = new HashMap<String,String>();
+        switch (view.getId()) {
+            case R.id.befer48_tips:
+                Bundle bundle = new Bundle();
+                bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_CANCEL);
+                startFragment(new FgActivity(), bundle);
+                break;
+            case R.id.header_left_btn:
+                finish();
+                break;
         }
     }
 
