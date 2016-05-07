@@ -1445,6 +1445,8 @@ public class FgOrder extends BaseFragment {
         } else if (FgCoupon.class.getSimpleName().equals(from)) {
             couponBean = (CouponBean) bundle.getSerializable(FgCoupon.KEY_COUPON);
             flushCoupon();
+        } else if(FgLogin.class.getSimpleName().equals(from)){
+            requestData();
         }
     }
 
