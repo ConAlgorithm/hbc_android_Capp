@@ -16,7 +16,6 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.huangbaoche.hbcframe.activity.BaseFragmentActivity;
 import com.huangbaoche.hbcframe.data.net.ExceptionErrorCode;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
@@ -24,7 +23,6 @@ import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
-import com.hugboga.custom.constants.ResourcesConstants;
 import com.hugboga.custom.data.bean.AirPort;
 import com.hugboga.custom.data.bean.CarBean;
 import com.hugboga.custom.data.bean.CityBean;
@@ -36,6 +34,7 @@ import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
+import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestSubmitBase;
 import com.hugboga.custom.data.request.RequestSubmitDaily;
 import com.hugboga.custom.data.request.RequestSubmitPick;
@@ -429,10 +428,10 @@ public class FgSubmit extends BaseFragment implements CompoundButton.OnCheckedCh
                 showSelectVisa();
                 break;
             case R.id.submit_order_cancel:
-                toWebInfo(ResourcesConstants.H5_CANCEL);
+                toWebInfo(UrlLibs.H5_CANCEL);
                 break;
             case R.id.submit_order_tip:
-                toWebInfo(ResourcesConstants.H5_NOTICE);
+                toWebInfo(UrlLibs.H5_NOTICE);
                 break;
             case R.id.submit_flight_no_layout:
                 startFragment(new FgPickFlight());

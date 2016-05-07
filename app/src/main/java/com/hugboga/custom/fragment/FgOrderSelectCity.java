@@ -569,16 +569,16 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
                     initScopeLayoutValue(true);
                     addDayView(true);
                 }
-            } else if ("end".equalsIgnoreCase(fromKey)) {
+            } else if ("end".equalsIgnoreCase(fromKey) || "nearby".equalsIgnoreCase(fromKey)) {
                 endBean = (CityBean) bundle.getSerializable(FgChooseCity.KEY_CITY);
                 setDayText(3,endBean);
-//                if(Integer.valueOf(currentClickView.getTag().toString()) == 1) {
+                if(Integer.valueOf(currentClickView.getTag().toString()) != full_day_show.getChildCount()) {
                     if (endBean.cityId == startBean.cityId) {
                         resetLastText(false);
                     } else {
                         resetLastText(true);
                     }
-//                }
+                }
             }
             checkNextBtnStatus();
         }
@@ -758,7 +758,7 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
             case R.id.next_btn_click:
                 Bundle bundleCar = new Bundle();
                 bundleCar.putString("startCityId",startBean.cityId+"");
-                bundleCar.putString("endCityId",isHalfTravel?(startBean.cityId+""):endCityId);
+                bundleCar.putString("endCityId",isHalfTravel?(startBean.cityId+""):passBeanList.get(passBeanList.size()-1).cityId+"");//endCityId);
                 bundleCar.putString("startDate",isHalfTravel?(halfDate):(start_date_str));
                 bundleCar.putString("endDate",isHalfTravel?(halfDate):(end_date_str));
                 bundleCar.putString("halfDay",isHalfTravel?"1":"0");
@@ -935,8 +935,12 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
                 if(null != v.getTag()) {
                     currentClickView = v;
                     TextView text = (TextView)v.findViewById(R.id.day_go_city_text_click);
-                    if(text.getText().toString().equalsIgnoreCase(getString(R.string.select_stay_city))
-                            || text.getText().toString().equalsIgnoreCase(getString(R.string.select_end_city))){
+                    int currentIndex = Integer.valueOf(currentClickView.getTag().toString())-1;
+                    if((!text.getText().toString().equalsIgnoreCase(getString(R.string.select_scope)) && currentIndex != 0) &&
+                            (passBeanList.size() !=0 && passBeanList.size() >currentIndex && passBeanList.get(currentIndex - 1).cityType == 3)
+//                            && (passBeanList.get(currentIndex).cityType == 2 || passBeanList.get(currentIndex).cityType == 3))
+                    || (text.getText().toString().equalsIgnoreCase(getString(R.string.select_stay_city))
+                            || text.getText().toString().equalsIgnoreCase(getString(R.string.select_end_city)))){
                         Bundle bundle = new Bundle();
                         bundle.putString(KEY_FROM, "nearby");
                         bundle.putString("source", "首页");

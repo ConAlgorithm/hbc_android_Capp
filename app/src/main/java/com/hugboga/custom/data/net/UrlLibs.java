@@ -54,6 +54,12 @@ public class UrlLibs {
     public static String H5_PROTOCOL = H5_HOST+"/h5/cinfos/protocol.html"; // 用户协议
     public static String H5_SERVICE = H5_HOST+"/h5/cinfos/service.html"; // 服务承诺
 
+    public static String H5_TAI_MANGU = H5_HOST + "/h5/cinfos/tai/BBK.html";//曼谷
+    public static String H5_TAI_PUJIDAO = H5_HOST + "/h5/cinfos/tai/bki.html";//普吉
+    public static String H5_TAI_QINGMAI = H5_HOST + "/h5/cinfos/tai/cnx.html";//清迈
+    public static String H5_TAI_SUMEIDAO = H5_HOST + "/h5/cinfos/tai/VSM.html";//苏梅岛
+
+
     public static HashMap<Integer, String> OverPriceMap = new HashMap<Integer, String>();
 
     static {
