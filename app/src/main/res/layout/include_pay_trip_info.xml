@@ -385,7 +385,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/txt_contact01"
-                        android:layout_marginLeft="76dp"
+                        android:layout_marginLeft="90dp"
                         android:visibility="gone">
 
                         <TextView
