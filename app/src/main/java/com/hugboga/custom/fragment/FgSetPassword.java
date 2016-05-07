@@ -155,4 +155,9 @@ public class FgSetPassword extends BaseFragment {
         return null;
     }
 
+    @Override
+    public boolean onBackPressed() {
+        return true;
+    }
+
 }

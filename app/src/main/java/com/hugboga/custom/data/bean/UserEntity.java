@@ -16,6 +16,8 @@ public class UserEntity {
     private String userToken;//="94b561a28ecbcf49c42fb9abe7746663";//userToken
     private String phone; //手机号
     private String code; //区号
+    private String loginPhone; //用于登录手机号
+    private String loginCode; //用于登录区号
     private String avatar; //头像
     private String nickname; //昵称
     private String version; //记录版本号
@@ -110,8 +112,8 @@ public class UserEntity {
         return avatar;
     }
 
-    public void setPhone(Context active, String phone) {
-        SharedPre shared = new SharedPre(active);
+    public void setPhone(Context activity, String phone) {
+        SharedPre shared = new SharedPre(activity);
         shared.saveStringValue(SharedPre.PHONE, phone);
         this.phone = phone;
     }
@@ -122,6 +124,20 @@ public class UserEntity {
             phone = shared.getStringValue(SharedPre.PHONE);
         }
         return phone;
+    }
+
+    public String getLoginPhone(Context activity) {
+        if (TextUtils.isEmpty(loginPhone)) {
+            SharedPre shared = new SharedPre(activity);
+            loginPhone = shared.getStringValue(SharedPre.LOGIN_PHONE);
+        }
+        return loginPhone;
+    }
+
+    public void setLoginPhone(Context active, String loginPhone) {
+        SharedPre shared = new SharedPre(active);
+        shared.saveStringValue(SharedPre.LOGIN_PHONE, phone);
+        this.loginPhone = loginPhone;
     }
 
     public Integer getOrderPoint(Context activity) {
@@ -150,6 +166,20 @@ public class UserEntity {
         SharedPre shared = new SharedPre(activity);
         shared.saveStringValue(SharedPre.CODE, code);
         this.code = code;
+    }
+
+    public String getLoginAreaCode(Context activity) {
+        if (TextUtils.isEmpty(loginCode)) {
+            SharedPre shared = new SharedPre(activity);
+            loginCode = shared.getStringValue(SharedPre.LOGIN_CODE);
+        }
+        return loginCode;
+    }
+
+    public void setLoginAreaCode(Context activity, String loginCode) {
+        SharedPre shared = new SharedPre(activity);
+        shared.saveStringValue(SharedPre.LOGIN_CODE, loginCode);
+        this.loginCode = loginCode;
     }
 
     public String getVersion(Context activity) {

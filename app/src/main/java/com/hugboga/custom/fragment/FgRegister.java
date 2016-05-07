@@ -77,6 +77,8 @@ public class FgRegister extends BaseFragment implements TextWatcher {
                 UserEntity.getUser().setUserToken(getActivity(), userBean.userToken);
                 UserEntity.getUser().setPhone(getActivity(), phone); //手机号已经不再返回
                 UserEntity.getUser().setAreaCode(getActivity(), areaCode);
+                UserEntity.getUser().setLoginAreaCode(getActivity(), areaCode);
+                UserEntity.getUser().setLoginPhone(getActivity(), phone);
                 UserEntity.getUser().setNickname(getActivity(), userBean.nickname);
                 UserEntity.getUser().setAvatar(getActivity(), userBean.avatar);
                 UserEntity.getUser().setOrderPoint(getActivity(), 0); //清空IM未读的小红点
@@ -106,6 +108,8 @@ public class FgRegister extends BaseFragment implements TextWatcher {
                 UserEntity.getUser().setUserToken(getActivity(), userBean.userToken);
                 UserEntity.getUser().setPhone(getActivity(), phone); //手机号已经不再返回
                 UserEntity.getUser().setAreaCode(getActivity(), areaCode);
+                UserEntity.getUser().setLoginAreaCode(getActivity(), areaCode);
+                UserEntity.getUser().setLoginPhone(getActivity(), phone);
                 UserEntity.getUser().setNickname(getActivity(), userBean.nickname);
                 UserEntity.getUser().setAvatar(getActivity(), userBean.avatar);
                 UserEntity.getUser().setOrderPoint(getActivity(), 0); //清空IM未读的小红点

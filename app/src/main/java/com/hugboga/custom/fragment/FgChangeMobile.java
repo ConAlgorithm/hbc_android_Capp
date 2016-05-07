@@ -42,6 +42,8 @@ public class FgChangeMobile extends BaseFragment {
             RequestChangeMobile requestChangeMobile = (RequestChangeMobile) request;
             UserEntity.getUser().setAreaCode(getActivity(), requestChangeMobile.areaCode);
             UserEntity.getUser().setPhone(getActivity(), requestChangeMobile.mobile);
+            UserEntity.getUser().setLoginAreaCode(getActivity(), requestChangeMobile.areaCode);
+            UserEntity.getUser().setLoginPhone(getActivity(), requestChangeMobile.mobile);
             showTip("更换手机号成功");
             finish();
 //            notifyFragment(FgSetting.class, null);
