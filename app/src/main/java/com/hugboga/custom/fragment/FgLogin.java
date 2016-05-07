@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.huangbaoche.hbcframe.data.bean.UserSession;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
+import com.huangbaoche.hbcframe.util.WXShareUtils;
 import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
@@ -141,7 +142,7 @@ public class FgLogin extends BaseFragment implements TextWatcher {
         }
         sharedPre = new SharedPre(getActivity());
         if (TextUtils.isEmpty(areaCode)) {
-            areaCode = sharedPre.getStringValue(SharedPre.CODE);
+            areaCode = sharedPre.getStringValue(SharedPre.LOGIN_CODE);
         }
         if (!TextUtils.isEmpty(areaCode)) {
             this.areaCode = areaCode;
@@ -150,7 +151,7 @@ public class FgLogin extends BaseFragment implements TextWatcher {
             this.areaCode = "86";
         }
         if (TextUtils.isEmpty(phone)) {
-            phone = sharedPre.getStringValue(SharedPre.PHONE);
+            phone = sharedPre.getStringValue(SharedPre.LOGIN_PHONE);
         }
         if (!TextUtils.isEmpty(phone)) {
             this.phone = phone;
@@ -249,6 +250,10 @@ public class FgLogin extends BaseFragment implements TextWatcher {
     private void onClickView(View view) {
         switch (view.getId()) {
             case R.id.login_weixin:
+                if(!WXShareUtils.getInstance(getActivity()).isInstall(true)){
+                    ToastUtils.showLong("未安装微信");
+                    return;
+                }
                 wxapi = WXAPIFactory.createWXAPI(this.getActivity(), Constants.WX_APP_ID);
                 wxapi.registerApp(Constants.WX_APP_ID);
                 SendAuth.Req req = new SendAuth.Req();

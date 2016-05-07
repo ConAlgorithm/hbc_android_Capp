@@ -127,6 +127,8 @@ public class FgPersonInfo extends BaseFragment {
             }else{
                 requestData();
             }
+        }else if(FgChangeMobile.class.getSimpleName().equals(from)){
+            requestData();
         }
     }
 
