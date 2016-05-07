@@ -285,8 +285,13 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
             cars_serviceCityNote.setVisibility(View.VISIBLE);
             cars_serviceCityNote.setText(carBean.serviceCityNote);
         }
-
-        allDayNum.setText(carBean.totalDays+"天 / "+carBean.numOfPerson+"人");
+        String days = "";
+        if(halfDay.equalsIgnoreCase("1")){
+             days = "0.5";
+        }else{
+             days = carBean.totalDays+"";
+        }
+        allDayNum.setText(days+"天 X "+carBean.numOfPerson+"人");
         allCharge.setText(carBean.price+"");
         perCharge.setText(carBean.avgSpend+"");
     }
@@ -313,7 +318,7 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
             }
             carBean = cars.get(selctIndex);
             carsCharge.setText(carBean.vehiclePrice+"元");
-            carsDayNum.setText("x"+carBean.totalDays+"天");
+            carsDayNum.setText(halfDay.equalsIgnoreCase("1")?"x 0.5天":"x"+carBean.totalDays+"天");
             ServiceQuoteSumBean serviceQuoteSumBean = carBean.vehicleQuoteSum;
             List<DayQuoteBean> dayQuotes = serviceQuoteSumBean.dayQuotes;
             DayQuoteBean dayQuoteBean = null;
@@ -405,7 +410,7 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
             }
             carBean = cars.get(selctIndex);
             mansCharge.setText(carBean.servicePrice+"元");
-            mansDayNum.setText("x"+carBean.totalDays+"天");
+            mansDayNum.setText(halfDay.equalsIgnoreCase("1")?"x 0.5天":"x"+carBean.totalDays+"天");
             ServiceQuoteSumBean serviceQuoteSumBean = carBean.serviceQuoteSum;
             List<DayQuoteBean> dayQuotes = serviceQuoteSumBean.dayQuotes;
             DayQuoteBean dayQuoteBean = null;

@@ -10,7 +10,9 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.net.ErrorHandler;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
@@ -53,6 +55,7 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
     Long start = 0l;
     private ErrorHandler errorHandler;
 
+    TextView bottom_txt;
     ImageView show_ad;
     @Override
     protected void onStart() {
@@ -69,6 +72,7 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
 
     private void initView() {
         show_ad = (ImageView) findViewById(R.id.show_ad);
+        bottom_txt = (TextView) findViewById(R.id.bottom_txt);
         UpdateResources.checkLocalDB(this);
 //        UpdateResources.checkLocalResource(this);
         if (PhoneInfo.isNewVersion(LoadingActivity.this)) {
@@ -76,6 +80,12 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
             UserEntity.getUser().setAccessKey(LoadingActivity.this, null);
         }
         checkVersion();
+        getAD();
+    }
+
+    private void getAD(){
+        RequestADPicture requestADPicture = new RequestADPicture(this);
+        HttpRequestUtils.request(this,requestADPicture,this,false);
     }
 
     /**
@@ -164,10 +174,6 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
             final CheckVersionBean cvBean = requestCheckVersion.getData();
             UserEntity.getUser().setIsNewVersion(this, cvBean.hasAppUpdate);//是否有新版本
 
-//            if(cvBean.){
-            RequestADPicture requestADPicture = new RequestADPicture(this);
-            HttpRequestUtils.request(this,requestADPicture,this,false);
-//            }
             DialogUtil.getInstance(this).showUpdateDialog(cvBean.hasAppUpdate,cvBean.force, cvBean.content, cvBean.url, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -196,6 +202,7 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
             RequestADPicture requestADPicture = (RequestADPicture) request;
             ADPictureBean adPictureBean = requestADPicture.getData();
             if(adPictureBean.displayFlag.equalsIgnoreCase("1")){
+                bottom_txt.setVisibility(View.GONE);
                 showAd(adPictureBean);
             }
         }

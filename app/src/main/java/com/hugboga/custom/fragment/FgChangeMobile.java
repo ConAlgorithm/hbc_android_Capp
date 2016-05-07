@@ -184,7 +184,7 @@ public class FgChangeMobile extends BaseFragment {
     protected void initHeader() {
         //设置标题颜色，返回按钮图片
 //        leftBtn.setImageResource(R.mipmap.top_back_black);
-        fgTitle.setText("更换手机号");
+        fgTitle.setText("修改手机号");
     }
 
     @Override

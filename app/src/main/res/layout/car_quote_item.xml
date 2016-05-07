@@ -62,7 +62,7 @@
         android:layout_below="@id/day_all_money_left"
         android:lines="1"
         android:layout_toLeftOf="@id/day_all_money_right"
-        android:layout_toRightOf="@id/day_all_money_left"
+        android:layout_toRightOf="@id/day_line2_money_left"
         android:text="@string/car_lines"
         android:id="@+id/day_line2_money_middle"/>
 <!---->
@@ -99,7 +99,7 @@
         android:layout_marginTop="15dp"
         android:layout_below="@id/day_line2_money_left"
         android:layout_toLeftOf="@id/day_all_money_right"
-        android:layout_toRightOf="@id/day_all_money_left"
+        android:layout_toRightOf="@id/day_line3_money_left"
         android:text="@string/car_lines"
         android:id="@+id/day_line3_money_middle"/>
 <!---->
@@ -136,7 +136,7 @@
         android:layout_marginTop="15dp"
         android:layout_below="@id/day_line3_money_left"
         android:layout_toLeftOf="@id/day_all_money_right"
-        android:layout_toRightOf="@id/day_all_money_left"
+        android:layout_toRightOf="@id/day_line4_money_left"
         android:text="@string/car_lines"
         android:id="@+id/day_line4_money_middle"/>
 </RelativeLayout>
