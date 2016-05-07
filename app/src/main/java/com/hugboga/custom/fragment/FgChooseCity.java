@@ -390,6 +390,9 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
             } else {
                 selector.and("group_id", "=", groupId);
             }
+            if ("end".equals(from) && cityId != -1){
+                selector.and("city_id", "<>", cityId);
+            }
         } else if (orderType == Constants.BUSINESS_TYPE_RENT) {
             selector.and("is_single", "=", 1);
         } else if (orderType == Constants.BUSINESS_TYPE_PICK || orderType == Constants.BUSINESS_TYPE_SEND) {
