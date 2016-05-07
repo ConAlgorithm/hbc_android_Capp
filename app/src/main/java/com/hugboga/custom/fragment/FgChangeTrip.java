@@ -152,7 +152,9 @@ public class FgChangeTrip extends BaseFragment implements View.OnClickListener {
 
     @Override
     protected void initView() {
-        edit_not_show.setVisibility(View.GONE);
+
+//        edit_not_show.setVisibility(View.GONE);
+
         mOrderBean = (OrderBean) getArguments().getSerializable(KEY_ORDER_BEAN);
         mDialogUtil = DialogUtil.getInstance(getActivity());
         dbUtils = new DBHelper(getActivity()).getDbManager();
@@ -199,6 +201,7 @@ public class FgChangeTrip extends BaseFragment implements View.OnClickListener {
                 break;
             case Constants.BUSINESS_TYPE_DAILY:
 //                dailyPassCityLayout.setVisibility(View.VISIBLE);
+                edit_not_show.setVisibility(View.GONE);
             case Constants.BUSINESS_TYPE_COMMEND:
                 tripLabel.setText(getResources().getString(R.string.trip_tip_label2));
                 pickNameLayout.setVisibility(View.GONE);
