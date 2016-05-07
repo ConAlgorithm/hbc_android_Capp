@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
@@ -123,7 +124,7 @@ public class FgChangeTrip extends BaseFragment implements View.OnClickListener {
     @ViewInject(R.id.submit_flight_no_layout)
     private View flightNOLayout;//航班号,送机填写
     @ViewInject(R.id.submit_remark)
-    private TextView remark;//备注
+    private EditText remark;//备注
 
     @ViewInject(R.id.edit_not_show)
     RelativeLayout edit_not_show;
@@ -152,7 +153,9 @@ public class FgChangeTrip extends BaseFragment implements View.OnClickListener {
 
     @Override
     protected void initView() {
-        edit_not_show.setVisibility(View.GONE);
+
+//        edit_not_show.setVisibility(View.GONE);
+
         mOrderBean = (OrderBean) getArguments().getSerializable(KEY_ORDER_BEAN);
         mDialogUtil = DialogUtil.getInstance(getActivity());
         dbUtils = new DBHelper(getActivity()).getDbManager();
@@ -199,6 +202,7 @@ public class FgChangeTrip extends BaseFragment implements View.OnClickListener {
                 break;
             case Constants.BUSINESS_TYPE_DAILY:
 //                dailyPassCityLayout.setVisibility(View.VISIBLE);
+                edit_not_show.setVisibility(View.GONE);
             case Constants.BUSINESS_TYPE_COMMEND:
                 tripLabel.setText(getResources().getString(R.string.trip_tip_label2));
                 pickNameLayout.setVisibility(View.GONE);
@@ -576,6 +580,7 @@ public class FgChangeTrip extends BaseFragment implements View.OnClickListener {
         orderBean.adult = adult;
         orderBean.child = child;
         orderBean.memo = remark.getText().toString().trim();
+        orderBean.userRemark = remark.getText().toString().trim();
         orderBean.childSeat = new ArrayList<>();
         for (int i = 0; i < childrenSeatNumbers.length; i++) {
             if (childrenSeatNumbers[i] != 0)
@@ -674,7 +679,7 @@ public class FgChangeTrip extends BaseFragment implements View.OnClickListener {
             orderChildrenSeatLayout.setVisibility(View.GONE);
             return;
         }
-        orderChildrenSeatLayout.setVisibility(child > 0 ? View.VISIBLE : View.GONE);
+        orderChildrenSeatLayout.setVisibility(View.GONE);
         orderChildrenSeatLayout.removeAllViews();
         for (int i = 0; i < childrenSeatNumbers.length; i++) {
             if (childrenSeatNumbers[i] <= 0) continue;

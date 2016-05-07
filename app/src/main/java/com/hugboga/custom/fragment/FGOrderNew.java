@@ -13,15 +13,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
-import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityBean;
-import com.hugboga.custom.data.bean.FlightBean;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.OrderContact;
 import com.hugboga.custom.data.bean.PoiBean;
@@ -33,7 +30,6 @@ import com.umeng.analytics.MobclickAgent;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
-import org.w3c.dom.Text;
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 
@@ -262,7 +258,7 @@ public class FGOrderNew extends BaseFragment {
         datePickerDialog.show(this.getActivity().getFragmentManager(), "TimePickerDialog");                //显示日期设置对话框
     }
 
-    String serverTime = "";
+    String serverTime = "09:00";
     /*
          * Function  :       自定义MyDatePickerDialog类，用于实现DatePickerDialog.OnDateSetListener接口，
          *                           当点击日期设置对话框中的“设置”按钮时触发该接口方法
@@ -343,6 +339,23 @@ public class FGOrderNew extends BaseFragment {
 //            return;
 //        }
 
+        if(checkboxOther.isChecked()){
+            if(TextUtils.isEmpty(orderUserNameOther.getText())){
+                ToastUtils.showLong("乘车人姓名不能为空!");
+                return;
+            }
+
+            if(TextUtils.isEmpty(areaCodeOtherClick.getText())){
+                ToastUtils.showLong("乘车人电话区号不能为空!");
+                return;
+            }
+
+            if(TextUtils.isEmpty(userPhoneOther.getText())){
+                ToastUtils.showLong("乘车人电话不能为空!");
+                return;
+            }
+        }
+
         if(phone2Layout.isShown()){
             if(!TextUtils.isEmpty(areaCode2Click.getText()) && !TextUtils.isEmpty(userPhone2.getText())) {
                 userPhone2.getText().toString();
@@ -410,7 +423,7 @@ public class FGOrderNew extends BaseFragment {
         orderBean.serviceEndCityName = endCityId;
         orderBean.isHalfDaily =  Integer.valueOf(halfDay);
         orderBean.contact = contact;
-        orderBean.serviceStartTime = " 00:00:00";
+        orderBean.serviceStartTime = serverTime+":00";
         orderBean.serviceTime = startDate;
 
         if(halfDay.equalsIgnoreCase("0")) {
@@ -445,6 +458,7 @@ public class FGOrderNew extends BaseFragment {
         orderBean.stayCityListStr = passCities;
         orderBean.userRemark = mark.getText().toString();
 
+        orderBean.serviceDepartTime = serverTime;
 
         orderBean.priceChannel = carBean.price+"";
         orderBean.childSeatNum = childseatNum;
@@ -457,6 +471,7 @@ public class FGOrderNew extends BaseFragment {
         }else{
             orderBean.isRealUser = "1";
         }
+
 
         return orderBean;
 
@@ -526,6 +541,7 @@ public class FGOrderNew extends BaseFragment {
                 FgOrderInfo fgOrderInfo = new FgOrderInfo();
                 Bundle bundleCar = new Bundle();
                 bundleCar.putParcelable("carBean",carBean);
+                bundleCar.putString("halfDay",halfDay);
                 fgOrderInfo.setArguments(bundleCar);
                 startFragment(fgOrderInfo);
                 break;

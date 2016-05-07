@@ -449,7 +449,7 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
             @Override
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
-                bundle.putString(KEY_FROM, "end");
+                bundle.putString(KEY_FROM, "lastCity");
                 bundle.putString("source", "首页");
                 bundle.putInt(FgChooseCity.KEY_CITY_ID, startBean.cityId);
                 startFragment(new FgChooseCity(), bundle);
@@ -573,7 +573,7 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
                     initScopeLayoutValue(true);
                     addDayView(true);
                 }
-            } else if ("end".equalsIgnoreCase(fromKey) || "nearby".equalsIgnoreCase(fromKey)) {
+            } else if ("lastCity".equalsIgnoreCase(fromKey) || "nearby".equalsIgnoreCase(fromKey)) {
                 endBean = (CityBean) bundle.getSerializable(FgChooseCity.KEY_CITY);
                 setDayText(3,endBean);
                 if(Integer.valueOf(currentClickView.getTag().toString()) != full_day_show.getChildCount()) {
@@ -885,13 +885,19 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
                 }
             }
         }else{
-            for(int i = currentIndex;i< count;i++){
-                text = (TextView)(full_day_show.getChildAt(i).findViewById(R.id.day_go_city_text_click));
-                if(i == count-1){
-                    text.setText("选择结束城市");
-                }else{
-                    text.setText("选择包车游玩范围");
-                }            }
+            if((currentIndex +1) == count){
+                text = (TextView) (full_day_show.getChildAt(currentIndex).findViewById(R.id.day_go_city_text_click));
+                text.setText("选择包车游玩范围");
+            }else{
+                for(int i = currentIndex;i< count;i++) {
+                    text = (TextView) (full_day_show.getChildAt(i).findViewById(R.id.day_go_city_text_click));
+                    if (i == count - 1) {
+                        text.setText("选择结束城市");
+                    } else {
+                        text.setText("选择包车游玩范围");
+                    }
+                }
+            }
         }
     }
 
