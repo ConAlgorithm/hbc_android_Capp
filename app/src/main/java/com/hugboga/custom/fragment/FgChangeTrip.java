@@ -580,6 +580,7 @@ public class FgChangeTrip extends BaseFragment implements View.OnClickListener {
         orderBean.adult = adult;
         orderBean.child = child;
         orderBean.memo = remark.getText().toString().trim();
+        orderBean.userRemark = remark.getText().toString().trim();
         orderBean.childSeat = new ArrayList<>();
         for (int i = 0; i < childrenSeatNumbers.length; i++) {
             if (childrenSeatNumbers[i] != 0)
