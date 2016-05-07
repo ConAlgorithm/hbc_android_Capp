@@ -10,7 +10,9 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.net.ErrorHandler;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
@@ -53,6 +55,7 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
     Long start = 0l;
     private ErrorHandler errorHandler;
 
+    TextView bottom_txt;
     ImageView show_ad;
     @Override
     protected void onStart() {
@@ -69,14 +72,15 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
 
     private void initView() {
         show_ad = (ImageView) findViewById(R.id.show_ad);
+        bottom_txt = (TextView) findViewById(R.id.bottom_txt);
         UpdateResources.checkLocalDB(this);
 //        UpdateResources.checkLocalResource(this);
         if (PhoneInfo.isNewVersion(LoadingActivity.this)) {
             //新版本清空Accesskey，使请求重新获取
             UserEntity.getUser().setAccessKey(LoadingActivity.this, null);
         }
-        getAD();
         checkVersion();
+        getAD();
     }
 
     private void getAD(){
@@ -198,6 +202,7 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
             RequestADPicture requestADPicture = (RequestADPicture) request;
             ADPictureBean adPictureBean = requestADPicture.getData();
             if(adPictureBean.displayFlag.equalsIgnoreCase("1")){
+                bottom_txt.setVisibility(View.GONE);
                 showAd(adPictureBean);
             }
         }
