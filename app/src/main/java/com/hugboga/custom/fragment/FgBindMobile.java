@@ -311,7 +311,16 @@ public class FgBindMobile extends BaseFragment {
             fgRightBtn.setVisibility(View.INVISIBLE);
         }else{
             fgRightBtn.setVisibility(View.VISIBLE);
+            fgLeftBtn.setVisibility(View.INVISIBLE);
         }
+    }
+
+    @Override
+    public boolean onBackPressed() {
+        if(!isAfterProcess){
+            return true;
+        }
+        return super.onBackPressed();
     }
 
     @Override
