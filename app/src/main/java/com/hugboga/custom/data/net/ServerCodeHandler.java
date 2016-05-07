@@ -40,12 +40,13 @@ public class ServerCodeHandler implements ServerCodeHandlerInterface {
                 UserEntity.getUser().setUserId(mContext, null);
                 UserEntity.getUser().setUserToken(mContext, null);
                 UserSession.getUser().setUserToken(mContext, null);
-                dialogUtil.showCustomDialog(content, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        gotoLogin(mContext,false);
-                    }
-                });
+//                dialogUtil.showCustomDialog(content, new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        gotoLogin(mContext,false);
+//                    }
+//                });
+                gotoLogin(mContext,false);
                 EventBus.getDefault().post(new EventAction(EventType.CLICK_USER_LOOUT));
                 return true;
             case 10013:

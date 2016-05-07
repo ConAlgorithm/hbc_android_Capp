@@ -472,6 +472,7 @@ public class FGOrderNew extends BaseFragment {
             orderBean.isRealUser = "1";
         }
 
+
         return orderBean;
 
 /**
