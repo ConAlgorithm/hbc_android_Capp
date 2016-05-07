@@ -572,14 +572,13 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
             } else if ("end".equalsIgnoreCase(fromKey) || "nearby".equalsIgnoreCase(fromKey)) {
                 endBean = (CityBean) bundle.getSerializable(FgChooseCity.KEY_CITY);
                 setDayText(3,endBean);
-//                if(Integer.valueOf(currentClickView.getTag().toString()) == 1) {
-//                if("end".equalsIgnoreCase(fromKey)){
+                if(Integer.valueOf(currentClickView.getTag().toString()) != full_day_show.getChildCount()) {
                     if (endBean.cityId == startBean.cityId) {
                         resetLastText(false);
                     } else {
                         resetLastText(true);
                     }
-//                }
+                }
             }
             checkNextBtnStatus();
         }
@@ -938,8 +937,8 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
                     TextView text = (TextView)v.findViewById(R.id.day_go_city_text_click);
                     int currentIndex = Integer.valueOf(currentClickView.getTag().toString())-1;
                     if((!text.getText().toString().equalsIgnoreCase(getString(R.string.select_scope)) && currentIndex != 0) &&
-                            (passBeanList.size() !=0 && passBeanList.size() >currentIndex
-                            && (passBeanList.get(currentIndex).cityType == 2 || passBeanList.get(currentIndex).cityType == 3))
+                            (passBeanList.size() !=0 && passBeanList.size() >currentIndex && passBeanList.get(currentIndex - 1).cityType == 3)
+//                            && (passBeanList.get(currentIndex).cityType == 2 || passBeanList.get(currentIndex).cityType == 3))
                     || (text.getText().toString().equalsIgnoreCase(getString(R.string.select_stay_city))
                             || text.getText().toString().equalsIgnoreCase(getString(R.string.select_end_city)))){
                         Bundle bundle = new Bundle();

@@ -286,7 +286,7 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
             cars_serviceCityNote.setText(carBean.serviceCityNote);
         }
 
-        allDayNum.setText(carBean.totalDays+"天 / "+carBean.numOfPerson+"人");
+        allDayNum.setText(carBean.totalDays+"天 X "+carBean.numOfPerson+"人");
         allCharge.setText(carBean.price+"");
         perCharge.setText(carBean.avgSpend+"");
     }

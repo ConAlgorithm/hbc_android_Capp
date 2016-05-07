@@ -75,7 +75,13 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
             //新版本清空Accesskey，使请求重新获取
             UserEntity.getUser().setAccessKey(LoadingActivity.this, null);
         }
+        getAD();
         checkVersion();
+    }
+
+    private void getAD(){
+        RequestADPicture requestADPicture = new RequestADPicture(this);
+        HttpRequestUtils.request(this,requestADPicture,this,false);
     }
 
     /**
@@ -164,10 +170,6 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
             final CheckVersionBean cvBean = requestCheckVersion.getData();
             UserEntity.getUser().setIsNewVersion(this, cvBean.hasAppUpdate);//是否有新版本
 
-//            if(cvBean.){
-            RequestADPicture requestADPicture = new RequestADPicture(this);
-            HttpRequestUtils.request(this,requestADPicture,this,false);
-//            }
             DialogUtil.getInstance(this).showUpdateDialog(cvBean.hasAppUpdate,cvBean.force, cvBean.content, cvBean.url, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {

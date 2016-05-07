@@ -237,7 +237,8 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                 vh.mHeadLayout.setVisibility(View.VISIBLE);
                 if (orderBean.orderGuideInfo != null) {
                     vh.mHeadTitle.setText(orderBean.orderGuideInfo.guideName);
-                    x.image().bind(vh.mHeadImg, orderBean.orderGuideInfo.guideAvatar, options);
+
+                    x.image().bind(vh.mHeadImg, orderBean.orderGuideInfo.guideAvatar);
                 }
                 vh.mBtnChat.setVisibility(View.VISIBLE);
                 vh.mBtnPay.setVisibility(View.GONE);
@@ -251,7 +252,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                 vh.mHeadLayout.setVisibility(View.VISIBLE);
                 if(orderBean.orderGuideInfo!=null){
                     vh.mHeadTitle.setText(orderBean.orderGuideInfo.guideName);
-                    x.image().bind(vh.mHeadImg, orderBean.orderGuideInfo.guideAvatar, options);
+                    x.image().bind(vh.mHeadImg, orderBean.orderGuideInfo.guideAvatar);
                 }
                 vh.mBtnPay.setVisibility(View.GONE);
                 vh.mBtnChat.setVisibility(View.VISIBLE);
@@ -265,7 +266,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                 vh.mHeadLayout.setVisibility(View.VISIBLE);
                 if (orderBean.orderGuideInfo != null) {
                     vh.mHeadTitle.setText(orderBean.orderGuideInfo.guideName);
-                    x.image().bind(vh.mHeadImg, orderBean.orderGuideInfo.guideAvatar, options);
+                    x.image().bind(vh.mHeadImg, orderBean.orderGuideInfo.guideAvatar);
                 }
                 vh.mBtnChat.setVisibility(View.VISIBLE);
                 vh.mBtnPay.setVisibility(View.GONE);
@@ -283,7 +284,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                 vh.mHeadLayout.setVisibility(View.VISIBLE);
                 if(orderBean.orderGuideInfo!=null){
                     vh.mHeadTitle.setText(orderBean.orderGuideInfo.guideName);
-                    x.image().bind(vh.mHeadImg, orderBean.orderGuideInfo.guideAvatar, options);
+                    x.image().bind(vh.mHeadImg, orderBean.orderGuideInfo.guideAvatar);
                 }
                 vh.mBtnPay.setVisibility(View.GONE);
                 vh.mBtnChat.setVisibility(View.VISIBLE);
@@ -303,7 +304,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                 vh.mStatus.setTextColor(Color.parseColor("#BDBDBD"));
                 if(orderBean.orderGuideInfo!=null){
                     vh.mHeadTitle.setText(orderBean.orderGuideInfo.guideName);
-                    x.image().bind(vh.mHeadImg, orderBean.orderGuideInfo.guideAvatar, options);
+                    x.image().bind(vh.mHeadImg, orderBean.orderGuideInfo.guideAvatar);
                 }
                 break;
             case CANCELLED:

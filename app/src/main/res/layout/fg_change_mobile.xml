@@ -130,7 +130,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/basic_margin_xlarge"
             android:background="@drawable/login_selector_bg"
-            android:text="更换手机号"
+            android:text="确定"
             android:textColor="@color/basic_white"
             android:textSize="@dimen/text_size_xlarge" />
 
