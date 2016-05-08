@@ -309,7 +309,7 @@
                     <TextView
                         android:id="@+id/order_commend_date_title"
                         style="@style/orderDetailsCol"
-                        android:layout_width="wrap_content"
+                        android:layout_width="90dp"
                         android:layout_height="wrap_content"
                         android:text="服务时间" />
 
@@ -515,7 +515,7 @@
                     <TextView
                         android:id="@+id/txt_babyseat"
                         style="@style/orderDetailsCol"
-                        android:layout_width="wrap_content"
+                        android:layout_width="90dp"
                         android:layout_height="wrap_content"
                         android:text="安全座椅" />
 

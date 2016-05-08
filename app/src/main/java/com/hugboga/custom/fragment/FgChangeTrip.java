@@ -200,9 +200,9 @@ public class FgChangeTrip extends BaseFragment implements View.OnClickListener {
                     hotelPhoneAreaCode.setText("+" + mOrderBean.serviceAreaCode);
                 }
                 break;
-            case Constants.BUSINESS_TYPE_DAILY:
-//                dailyPassCityLayout.setVisibility(View.VISIBLE);
-                edit_not_show.setVisibility(View.GONE);
+//            case Constants.BUSINESS_TYPE_DAILY:
+////                dailyPassCityLayout.setVisibility(View.VISIBLE);
+//                edit_not_show.setVisibility(View.GONE);
             case Constants.BUSINESS_TYPE_COMMEND:
                 tripLabel.setText(getResources().getString(R.string.trip_tip_label2));
                 pickNameLayout.setVisibility(View.GONE);
@@ -237,6 +237,9 @@ public class FgChangeTrip extends BaseFragment implements View.OnClickListener {
                     }
                     dailyPassCityValue.setText(sb.toString());
                 }
+            case Constants.BUSINESS_TYPE_DAILY:
+//                dailyPassCityLayout.setVisibility(View.VISIBLE);
+                edit_not_show.setVisibility(View.GONE);
                 break;
             case Constants.BUSINESS_TYPE_RENT:
                 tripLabel.setText(getResources().getString(R.string.trip_tip_label1));
@@ -331,8 +334,8 @@ public class FgChangeTrip extends BaseFragment implements View.OnClickListener {
             R.id.submit_adult_plus,
             R.id.submit_child_sub,
             R.id.submit_child_plus,
-            R.id.popup_order_children_item_sub,
-            R.id.popup_order_children_item_plus,
+//            R.id.popup_order_children_item_sub,
+//            R.id.popup_order_children_item_plus,
             R.id.submit_areacode,
             R.id.submit_areacode2,
             R.id.submit_areacode3,
@@ -393,44 +396,44 @@ public class FgChangeTrip extends BaseFragment implements View.OnClickListener {
                 adultCount.setText(String.format(getString(R.string.submit_adult), ++adult));
                 break;
             case R.id.submit_child_sub:
-//                if (needChildrenSeat) {
-//                    showChildrenSeat();
-//                    break;
-//                }
+                if (needChildrenSeat) {
+                    showChildrenSeat();
+                    break;
+                }
                 if (child <= 0) break;
                 childCount.setText(String.format(getString(R.string.submit_child), --child));
                 break;
             case R.id.submit_child_plus:
-//                if (needChildrenSeat) {
-//                    showChildrenSeat();
-//                    break;
-//                }
+                if (needChildrenSeat) {
+                    showChildrenSeat();
+                    break;
+                }
                 childCount.setText(String.format(getString(R.string.submit_child), ++child));
                 break;
-            case R.id.popup_order_children_item_sub:
-                int index = (int) view.getTag();
-                if (childrenSeatNumbers[index] > 0) {
-                    popupItemNumber[index].setText(String.valueOf(--childrenSeatNumbers[index]));
-                }
-                break;
-            case R.id.popup_order_children_item_plus:
-                index = (int) view.getTag();
-                if (childrenSeatNumbers[index] < 5) {
-                    popupItemNumber[index].setText(String.valueOf(++childrenSeatNumbers[index]));
-                }
-                break;
-            case R.id.popup_order_children_cancel:
-                popupWindow.dismiss();
-                break;
-            case R.id.popup_order_children_ok:
-                popupWindow.dismiss();
-                child = 0;
-                for (int number : childrenSeatNumbers) {
-                    child += number;
-                }
-                childCount.setText(String.format(getString(R.string.submit_child), child));
-                inflateChildrenSeat();
-                break;
+//            case R.id.popup_order_children_item_sub:
+//                int index = (int) view.getTag();
+//                if (childrenSeatNumbers[index] > 0) {
+//                    popupItemNumber[index].setText(String.valueOf(--childrenSeatNumbers[index]));
+//                }
+//                break;
+//            case R.id.popup_order_children_item_plus:
+//                index = (int) view.getTag();
+//                if (childrenSeatNumbers[index] < 5) {
+//                    popupItemNumber[index].setText(String.valueOf(++childrenSeatNumbers[index]));
+//                }
+//                break;
+//            case R.id.popup_order_children_cancel:
+//                popupWindow.dismiss();
+//                break;
+//            case R.id.popup_order_children_ok:
+//                popupWindow.dismiss();
+//                child = 0;
+//                for (int number : childrenSeatNumbers) {
+//                    child += number;
+//                }
+//                childCount.setText(String.format(getString(R.string.submit_child), child));
+//                inflateChildrenSeat();
+//                break;
             case R.id.submit_areacode:
             case R.id.submit_areacode2:
             case R.id.submit_areacode3:
@@ -772,6 +775,30 @@ public class FgChangeTrip extends BaseFragment implements View.OnClickListener {
                         MobclickAgent.onEvent(getActivity(), "callcenter_route", map);
                         v.setTag("修改行程,calldomestic_route,calloverseas_route");
                 }
+                break;
+            case R.id.popup_order_children_item_sub:
+                int index = (int) v.getTag();
+                if (childrenSeatNumbers[index] > 0) {
+                    popupItemNumber[index].setText(String.valueOf(--childrenSeatNumbers[index]));
+                }
+                break;
+            case R.id.popup_order_children_item_plus:
+                index = (int) v.getTag();
+                if (childrenSeatNumbers[index] < 5) {
+                    popupItemNumber[index].setText(String.valueOf(++childrenSeatNumbers[index]));
+                }
+                break;
+            case R.id.popup_order_children_cancel:
+                popupWindow.dismiss();
+                break;
+            case R.id.popup_order_children_ok:
+                popupWindow.dismiss();
+                child = 0;
+                for (int number : childrenSeatNumbers) {
+                    child += number;
+                }
+                childCount.setText(String.format(getString(R.string.submit_child), child));
+                inflateChildrenSeat();
                 break;
         }
         super.onClick(v);
