@@ -215,7 +215,8 @@ public class FgChangeTrip extends BaseFragment implements View.OnClickListener {
                 serverDateTime.setText(mOrderBean.serviceTime + " " + mOrderBean.serviceStartTime + "(当地时间)");
                 hotelPhone.setText(mOrderBean.serviceAddressTel);
                 if (!TextUtils.isEmpty(mOrderBean.serviceAreaCode)) {
-                    hotelPhoneAreaCode.setText("+" + mOrderBean.serviceAreaCode);
+                    String phoneNum = mOrderBean.serviceAreaCode.startsWith("+")?mOrderBean.serviceAreaCode:("+" + mOrderBean.serviceAreaCode);
+                    hotelPhoneAreaCode.setText(phoneNum);
                 }
 
 
