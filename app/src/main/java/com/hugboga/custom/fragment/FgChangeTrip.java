@@ -263,6 +263,7 @@ public class FgChangeTrip extends BaseFragment implements View.OnClickListener {
                 phoneLayout2.setVisibility(View.VISIBLE);
             } else if (i == 2) {
                 phoneLayout3.setVisibility(View.VISIBLE);
+                phoneAdd.setTextColor(getActivity().getResources().getColor(R.color.basic_gray));
             }
         }
         // 儿童座椅
