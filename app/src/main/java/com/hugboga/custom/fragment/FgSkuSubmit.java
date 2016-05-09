@@ -549,6 +549,7 @@ public class FgSkuSubmit extends BaseFragment implements View.OnClickListener {
             String orderNo = ((RequestSubmitBase) request).getData();
             Bundle bundle = new Bundle();
             bundle.putString(FgOrder.KEY_ORDER_ID, orderNo);
+            bundle.putBoolean("needShowAlert",true);
             startFragment(new FgOrder(), bundle);
         }
 
