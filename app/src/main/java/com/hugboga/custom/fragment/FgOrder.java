@@ -185,6 +185,8 @@ public class FgOrder extends BaseFragment {
     private View orderVisaLayout;//签证情况
     @ViewInject(R.id.order_remark)
     private TextView orderRemark;//备注
+    @ViewInject(R.id.txt_remark)
+    private TextView txt_remark;//备注left
 
     @ViewInject(R.id.pay_change_trip)
     private TextView orderChangeTrip;//修改行程
@@ -609,8 +611,13 @@ public class FgOrder extends BaseFragment {
         orderPassengerNum.setText(mOrderBean.adult + "成人、" + mOrderBean.child + "儿童");
         if (Constants.VisaInfoMap.containsKey(mOrderBean.visa))
             orderVisa.setText(Constants.VisaInfoMap.get(mOrderBean.visa));
-        if (!TextUtils.isEmpty(mOrderBean.memo)) {
+        if (!TextUtils.isEmpty(mOrderBean.memo) && !TextUtils.isEmpty(mOrderBean.memo.trim())) {
+            orderRemark.setVisibility(View.VISIBLE);
+            txt_remark.setVisibility(View.VISIBLE);
             orderRemark.setText(mOrderBean.memo);
+        }else{
+            orderRemark.setVisibility(View.GONE);
+            txt_remark.setVisibility(View.GONE);
         }
         // 儿童座椅
         if (mOrderBean.childSeat != null && mOrderBean.childSeat.size() > 0) {
