@@ -26,10 +26,7 @@ public class ChannelUtils {
                 return channel.toString();
             }
             return "";
-//            String channel = PackerNg.getMarket(context);
-//            if(TextUtils.isEmpty(channel)){
-//                channel = "DEV";
-//            }
+
         }catch (Exception e){
             return "not_get";
         }
