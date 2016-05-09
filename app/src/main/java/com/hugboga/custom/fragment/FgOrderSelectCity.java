@@ -576,13 +576,14 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
             } else if ("lastCity".equalsIgnoreCase(fromKey) || "nearby".equalsIgnoreCase(fromKey)) {
                 endBean = (CityBean) bundle.getSerializable(FgChooseCity.KEY_CITY);
                 setDayText(3,endBean);
-                if(Integer.valueOf(currentClickView.getTag().toString()) != full_day_show.getChildCount()) {
-                    if (endBean.cityId == startBean.cityId) {
-                        resetLastText(false);
-                    } else {
-                        resetLastText(true);
-                    }
-                }
+                resetLastText();
+//                if(Integer.valueOf(currentClickView.getTag().toString()) != full_day_show.getChildCount()) {
+//                    if (endBean.cityId == startBean.cityId) {
+//                        resetLastText(false);
+//                    } else {
+//                        resetLastText(true);
+//                    }
+//                }
             }
             checkNextBtnStatus();
         }
@@ -857,12 +858,14 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
                 for (int i = oldNum + 1; i <= nums; i++) {
                     genDayViews(i);
                 }
+                resetLastText();
                 oldNum = nums;
             }
         } else if (nums < oldNum) {
             for (int i = oldNum; i > nums; i--) {
                 removeDayLayout(i - 1);
             }
+            resetLastText();
             oldNum = nums;
         } else {
 
@@ -871,31 +874,22 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
     }
 
     //根据第一天的选择改变最后一天的文字显示
-    private void resetLastText(boolean isOtherCity){
+    private void resetLastText(){
         int count = full_day_show.getChildCount();
         int currentIndex = Integer.valueOf(currentClickView.getTag().toString());
         TextView text = null;
-        if(isOtherCity) {
-            for(int i = currentIndex;i< count;i++){
-                text = (TextView)(full_day_show.getChildAt(i).findViewById(R.id.day_go_city_text_click));
-                if(i == count-1){
-                    text.setText("选择结束城市");
-                }else{
-                    text.setText("选择住宿城市");
-                }
+        if(passBeanList.get(currentIndex -1).cityId == startBean.cityId) {
+            for (int i = currentIndex; i < count; i++) {
+                text = (TextView) (full_day_show.getChildAt(i).findViewById(R.id.day_go_city_text_click));
+                text.setText("选择包车游玩范围");
             }
         }else{
-            if((currentIndex +1) == count){
-                text = (TextView) (full_day_show.getChildAt(currentIndex).findViewById(R.id.day_go_city_text_click));
-                text.setText("选择包车游玩范围");
-            }else{
-                for(int i = currentIndex;i< count;i++) {
-                    text = (TextView) (full_day_show.getChildAt(i).findViewById(R.id.day_go_city_text_click));
-                    if (i == count - 1) {
-                        text.setText("选择结束城市");
-                    } else {
-                        text.setText("选择包车游玩范围");
-                    }
+            for (int i = currentIndex; i < count; i++) {
+                text = (TextView) (full_day_show.getChildAt(i).findViewById(R.id.day_go_city_text_click));
+                if (i == count - 1) {
+                    text.setText("选择结束城市");
+                } else {
+                    text.setText("选择住宿城市");
                 }
             }
         }
@@ -951,11 +945,7 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
                     currentClickView = v;
                     TextView text = (TextView)v.findViewById(R.id.day_go_city_text_click);
                     int currentIndex = Integer.valueOf(currentClickView.getTag().toString())-1;
-                    if((!text.getText().toString().equalsIgnoreCase(getString(R.string.select_scope)) && currentIndex != 0) &&
-                            (passBeanList.size() !=0 && passBeanList.size() >currentIndex && passBeanList.get(currentIndex - 1).cityType == 3)
-//                            && (passBeanList.get(currentIndex).cityType == 2 || passBeanList.get(currentIndex).cityType == 3))
-                    || (text.getText().toString().equalsIgnoreCase(getString(R.string.select_stay_city))
-                            || text.getText().toString().equalsIgnoreCase(getString(R.string.select_end_city)))){
+                     if(currentIndex != 0 && passBeanList.get(currentIndex-1).cityType == 3 && startBean.cityId != passBeanList.get(currentIndex -1).cityId){
                         Bundle bundle = new Bundle();
                         bundle.putString(KEY_FROM, "nearby");
                         bundle.putString("source", "首页");

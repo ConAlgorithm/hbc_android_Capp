@@ -120,7 +120,7 @@ public class FgSkuSubmit extends BaseFragment implements View.OnClickListener {
         if (!TextUtils.isEmpty(phone)) {
             skuPhone.setText(phone);
         }
-//        needChildrenSeat = cityBean != null && cityBean.childSeatSwitch;
+        needChildrenSeat =  cityBean != null && cityBean.childSeatSwitch;
     }
 
     @Override
@@ -187,18 +187,18 @@ public class FgSkuSubmit extends BaseFragment implements View.OnClickListener {
                 skuAdultEdit.setText(String.format(getString(R.string.submit_adult), ++adult));
                 break;
             case R.id.submit_child_sub://儿童数减
-//                if (needChildrenSeat) {
-//                    showChildrenSeat();
-//                    break;
-//                }
+                if (needChildrenSeat) {
+                    showChildrenSeat();
+                    break;
+                }
                 if (child <= 0) break;
                 skuChildEdit.setText(String.format(getString(R.string.submit_child), --child));
                 break;
             case R.id.submit_child_plus://儿童数加
-//                if (needChildrenSeat) {
-//                    showChildrenSeat();
-//                    break;
-//                }
+                if (needChildrenSeat) {
+                    showChildrenSeat();
+                    break;
+                }
                 skuChildEdit.setText(String.format(getString(R.string.submit_child), ++child));
                 break;
             case R.id.sku_start_address_layout://出发地点 选poi

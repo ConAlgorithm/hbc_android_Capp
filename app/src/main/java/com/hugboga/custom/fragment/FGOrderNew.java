@@ -445,6 +445,10 @@ public class FGOrderNew extends BaseFragment {
         }
 
 //TODO;
+        orderBean.serviceAddressTel = hotelPhoneText.getText().toString();
+        orderBean.serviceAreaCode = hotelPhoneTextCodeClick.getText().toString();
+
+
         orderBean.startAddressPoi = startBean.location;
         orderBean.destAddressPoi = endBean.location;
 

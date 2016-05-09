@@ -53,7 +53,7 @@ public class FgWebInfo extends BaseFragment implements View.OnKeyListener {
         @Override
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
-            fgTitle.setText(view.getTitle());
+//            fgTitle.setText(view.getTitle());
         }
 
         @Override
@@ -129,7 +129,7 @@ public class FgWebInfo extends BaseFragment implements View.OnKeyListener {
         @Override
         public void onReceivedTitle(WebView view, String title) {
             super.onReceivedTitle(view, title);
-//            fgTitle.setText(view.getTitle());
+            fgTitle.setText(view.getTitle());
         }
 
         @Override

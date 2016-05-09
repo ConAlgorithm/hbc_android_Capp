@@ -48,6 +48,7 @@ public class RequestSubmitDaily extends RequestSubmitBase {
         map.put("startAddressPoi", orderBean.startAddressPoi);
         map.put("destAddressPoi", orderBean.destAddressPoi);
         map.put("userName", orderBean.userName);
+        map.put("memo", orderBean.memo);
 
         map.put("destAddressDetail", orderBean.destAddressDetail);
 
