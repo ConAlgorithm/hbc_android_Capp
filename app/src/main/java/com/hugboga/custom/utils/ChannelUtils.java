@@ -19,7 +19,7 @@ public class ChannelUtils {
         try {
             ApplicationInfo appInfo = context.getPackageManager()
                     .getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
-            String channel = appInfo.metaData.getString("APP_CHANNEL","10003");
+            String channel = appInfo.metaData.getString("APP_CHANNEL","c10003");
 //            String channel = PackerNg.getMarket(context);
 //            if(TextUtils.isEmpty(channel)){
 //                channel = "DEV";

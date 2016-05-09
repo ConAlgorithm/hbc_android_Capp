@@ -67,7 +67,7 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         AnalyticsConfig.setAppkey(this,"55ccb4cfe0f55ab500004a9d");
-        AnalyticsConfig.setChannel("channel"+ ChannelUtils.getChannel(this));
+        AnalyticsConfig.setChannel(ChannelUtils.getChannel(this));
     }
 
     private void initView() {
