@@ -23,6 +23,7 @@ import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.OrderContact;
 import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.bean.SelectCarBean;
+import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.request.RequestSubmitBase;
 import com.hugboga.custom.data.request.RequestSubmitDaily;
 import com.hugboga.custom.utils.ToastUtils;
@@ -374,10 +375,15 @@ public class FGOrderNew extends BaseFragment {
                 contact.add(orderContact);
             }
         }
-        RequestSubmitDaily requestSubmitBase = new RequestSubmitDaily(getActivity(), getOrderByInput());
-        requestData(requestSubmitBase);
-
-        doUMengStatistic();
+        if (UserEntity.getUser().isLogin(getActivity())) {
+            RequestSubmitDaily requestSubmitBase = new RequestSubmitDaily(getActivity(), getOrderByInput());
+            requestData(requestSubmitBase);
+            doUMengStatistic();
+        }else{
+            Bundle bundle = new Bundle();//用于统计
+            bundle.putString("source","包车下单");
+            startFragment(new FgLogin(), bundle);
+        }
     }
 
     private void doUMengStatistic(){

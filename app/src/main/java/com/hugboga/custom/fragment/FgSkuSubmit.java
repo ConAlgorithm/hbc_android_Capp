@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -78,7 +79,7 @@ public class FgSkuSubmit extends BaseFragment implements View.OnClickListener {
     @ViewInject(R.id.sku_user_phone_edit)
     private TextView skuPhone;//用户手机
     @ViewInject(R.id.sku_remark_edit)
-    private TextView remark;//备注
+    private EditText remark;//备注
     @ViewInject(R.id.bottom_bar_total_value)
     private TextView totalPrice;//价钱
 
@@ -383,7 +384,7 @@ public class FgSkuSubmit extends BaseFragment implements View.OnClickListener {
         orderBean.stayCityListStr = getPassCityStr();
         orderBean.priceChannel = carTypeBean.originalPrice+"";
         orderBean.userName = contactName;
-
+        orderBean.userRemark = remark.getText().toString();
         return orderBean;
     }
 
@@ -548,6 +549,7 @@ public class FgSkuSubmit extends BaseFragment implements View.OnClickListener {
             String orderNo = ((RequestSubmitBase) request).getData();
             Bundle bundle = new Bundle();
             bundle.putString(FgOrder.KEY_ORDER_ID, orderNo);
+            bundle.putBoolean("needShowAlert",true);
             startFragment(new FgOrder(), bundle);
         }
 

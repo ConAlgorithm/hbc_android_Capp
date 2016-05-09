@@ -755,6 +755,7 @@ public class FgSubmit extends BaseFragment implements CompoundButton.OnCheckedCh
         bundle.putString(FgOrder.KEY_ORDER_ID, orderId);
         bundle.putString("source",source);
         bringToFront(FgTravel.class, bundle);
+        bundle.putBoolean("needShowAlert",true);
         //下单后再返回,直接到主页
         startFragment(new FgOrder(), bundle);
     }

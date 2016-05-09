@@ -187,6 +187,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                 //等待支付 初始状态
                 vh.mStatusLayout.setVisibility(View.VISIBLE);
                 vh.mPrice.setVisibility(View.VISIBLE);
+                vh.br_layout.setVisibility(View.GONE);
                 if(orderBean.orderPriceInfo!=null){
                     vh.mPrice.setText("应付金额：" + orderBean.orderPriceInfo.shouldPay + "元");
                 }
@@ -226,7 +227,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                         }
                     });
                 }else{
-                    vh.mStatusLayout.setVisibility(View.GONE);
+                    vh.br_layout.setVisibility(View.GONE);
                 }
 
                 break;

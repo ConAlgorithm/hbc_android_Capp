@@ -596,13 +596,13 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
             scope_around_str = "在"+startBean.name+"结束行程,周边游玩";
             scope_other_str = "在其它城市结束行程";
         }else{
-            scope_in_str = String.format(getString(R.string.scope_around), "住在" + startBean.name);
-            scope_around_str = String.format(getString(R.string.scope_in), "住在" + startBean.name);
+            scope_in_str = String.format(getString(R.string.scope_in), "住在" + startBean.name);
+            scope_around_str = String.format(getString(R.string.scope_around), "住在" + startBean.name);
             scope_other_str = "住在其它城市";
         }
 
-            out_title.setText(scope_in_str);
-            in_title.setText(scope_around_str);
+            in_title.setText(scope_in_str);
+            out_title.setText(scope_around_str);
             other_title.setText(scope_other_str);
             out_tips.setText(startBean.neighbourTip);
             in_tips.setText(startBean.dailyTip);
