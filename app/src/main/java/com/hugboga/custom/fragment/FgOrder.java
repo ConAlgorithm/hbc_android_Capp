@@ -1555,7 +1555,8 @@ public class FgOrder extends BaseFragment {
     boolean needShowAlert = false;
     private void onKeyBack() {
         MLog.e("onKeyBack " + mSourceFragment);
-        if(needShowAlert){
+        if(needShowAlert && mOrderBean.orderStatus != null
+                && mOrderBean.orderStatus == OrderStatus.INITSTATE){
 //        if (mSourceFragment != null
 //                && (mSourceFragment instanceof FgSubmit
 //                || mSourceFragment instanceof FgSkuSubmit)
