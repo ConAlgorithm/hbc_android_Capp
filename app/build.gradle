@@ -1,6 +1,5 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
-apply plugin: 'packer'
 
 Properties getProperties() {
     Properties properties = new Properties()
@@ -106,10 +105,10 @@ android {
                 flavor.buildConfigField('String', 'API_SERVER_URL', '"http://api.dev.hbc.tech/"')
                 flavor.manifestPlaceholders(JPUSH_KEY: "a351a47a9106354c59188e16", APP_CHANNEL: "developer", RONG_CLOUD_APP_KEY: "3argexb6r2kve")
                 break;
-            case 'stage':
-                flavor.buildConfigField('String', 'API_SERVER_URL', '"https://api.stage.hbc.tech/"')
-                flavor.manifestPlaceholders(JPUSH_KEY: "a351a47a9106354c59188e16", APP_CHANNEL: "stage", RONG_CLOUD_APP_KEY: "ik1qhw091eiyp")
-                break;
+//            case 'stage':
+//                flavor.buildConfigField('String', 'API_SERVER_URL', '"https://api.stage.hbc.tech/"')
+//                flavor.manifestPlaceholders(JPUSH_KEY: "a351a47a9106354c59188e16", APP_CHANNEL: "stage", RONG_CLOUD_APP_KEY: "ik1qhw091eiyp")
+//                break;
             case 'examination':
                 flavor.buildConfigField('String', 'API_SERVER_URL', '"http://api.test.hbc.tech/"')
                 flavor.manifestPlaceholders(JPUSH_KEY: "a351a47a9106354c59188e16", APP_CHANNEL: "examination", RONG_CLOUD_APP_KEY: "3argexb6r2kve")
@@ -173,5 +172,4 @@ dependencies {
     compile 'com.github.mrengineer13:snackbar:1.2.0'
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'com.tencent.bugly:crashreport:2.1.1'
-    compile 'com.mcxiaoke.gradle:packer-helper:1.0.4'
 }
