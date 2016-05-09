@@ -1373,7 +1373,7 @@ public class FgOrder extends BaseFragment {
      * @param chatId 聊天对象的Id
      */
     private void gotoChatView(final String chatId, String targetAvatar, String targetName) {
-        String titleJson = getChatInfo(chatId, targetAvatar, targetName, "3");
+        String titleJson = getChatInfo(chatId, targetAvatar, targetName, "1");
         RongIM.getInstance().startPrivateChat(getActivity(), "G" + chatId, titleJson);
     }
 
