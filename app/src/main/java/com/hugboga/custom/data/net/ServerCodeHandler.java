@@ -46,7 +46,6 @@ public class ServerCodeHandler implements ServerCodeHandlerInterface {
                         gotoLogin(mContext,false);
                     }
                 });
-                gotoLogin(mContext,false);
                 EventBus.getDefault().post(new EventAction(EventType.CLICK_USER_LOOUT));
                 return true;
             case 10013:
