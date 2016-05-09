@@ -237,7 +237,41 @@ public class FgChangeTrip extends BaseFragment implements View.OnClickListener {
                     }
                     dailyPassCityValue.setText(sb.toString());
                 }
+                break;
             case Constants.BUSINESS_TYPE_DAILY:
+                tripLabel.setText(getResources().getString(R.string.trip_tip_label2));
+                pickNameLayout.setVisibility(View.GONE);
+                pickNameLayout.setVisibility(View.GONE);
+                pickVisaLayout.setVisibility(View.GONE);
+                flightNOLayout.setVisibility(View.GONE);
+                serverDateTimeLayout.setVisibility(View.VISIBLE);
+                serverPlaceLayout.setVisibility(View.VISIBLE);
+                serverPlace.setText(mOrderBean.startAddress);
+                serverDateTime.setText(mOrderBean.serviceTime + " " + mOrderBean.serviceStartTime + "(当地时间)");
+                hotelPhone.setText(mOrderBean.serviceAddressTel);
+                if (!TextUtils.isEmpty(mOrderBean.serviceAreaCode)) {
+                    String phoneNum = mOrderBean.serviceAreaCode.startsWith("+")?mOrderBean.serviceAreaCode:("+" + mOrderBean.serviceAreaCode);
+                    hotelPhoneAreaCode.setText(phoneNum);
+                }
+
+
+                if (mOrderBean.orderGoodsType == 3) {//市内包车
+                    dailyPassCityArrow.setVisibility(View.GONE);
+                    dailyPassCityValue.setClickable(false);
+                    dailyPassCityLayout.setClickable(false);
+                    dailyPassCityValue.setText(mOrderBean.journeyComment.toString());
+                } else {//跨城市
+                    dailyPassCityArrow.setVisibility(View.VISIBLE);
+                    dailyPassCityValue.setClickable(true);
+                    dailyPassCityValue.setFocusable(false);
+                    dailyPassCityLayout.setClickable(true);
+                    StringBuffer sb = new StringBuffer();
+                    for (int i = 0; i < passCityList.size(); i++) {
+                        CityBean city = passCityList.get(i);
+                        sb.append(city.name).append("、");
+                    }
+                    dailyPassCityValue.setText(sb.toString());
+                }
 //                dailyPassCityLayout.setVisibility(View.VISIBLE);
                 edit_not_show.setVisibility(View.GONE);
                 break;
@@ -684,7 +718,7 @@ public class FgChangeTrip extends BaseFragment implements View.OnClickListener {
             orderChildrenSeatLayout.setVisibility(View.GONE);
             return;
         }
-        orderChildrenSeatLayout.setVisibility(View.GONE);
+        orderChildrenSeatLayout.setVisibility(mOrderBean.childSeat != null? View.VISIBLE : View.GONE);
         orderChildrenSeatLayout.removeAllViews();
         for (int i = 0; i < childrenSeatNumbers.length; i++) {
             if (childrenSeatNumbers[i] <= 0) continue;
