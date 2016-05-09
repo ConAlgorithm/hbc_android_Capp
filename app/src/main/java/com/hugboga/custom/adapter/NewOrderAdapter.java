@@ -389,7 +389,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
         }
     }
     private void gotoChatView( final String chatId,String targetAvatar,String targetName) {
-        String titleJson = getChatInfo(chatId,  targetAvatar, targetName, "3");
+        String titleJson = getChatInfo(chatId,  targetAvatar, targetName, "1");
         RongIM.getInstance().startPrivateChat(fragment.getActivity(), "G"+chatId, titleJson);
     }
     private String getChatInfo(String userId, String userAvatar, String title, String targetType) {
