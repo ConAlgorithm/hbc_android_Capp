@@ -106,6 +106,7 @@ public class FgSkuSubmit extends BaseFragment implements View.OnClickListener {
     protected void initView() {
         skuBean = (SkuItemBean) getArguments().getSerializable(FgSkuDetail.WEB_SKU);
         cityBean = (CityBean) getArguments().getSerializable(FgSkuDetail.WEB_CITY);
+        source = getArguments().getString("source");
         MLog.e("skuBean= " + skuBean);
         if (skuBean == null) return;
         skuTitle.setText(skuBean.goodsName);
@@ -315,8 +316,8 @@ public class FgSkuSubmit extends BaseFragment implements View.OnClickListener {
                 map.put("source", source);
                 map.put("guestcount", orderBean.adult + orderBean.child + "");
                 map.put("quoteprice", orderBean.orderPrice + "");
-                map.put("payableamount", orderBean.orderPriceInfo != null ? orderBean.orderPriceInfo.shouldPay + "" : "");
-                MobclickAgent.onEventValue(getActivity(), "submitorder_route" , map, 1);
+//                map.put("payableamount", orderBean.orderPriceInfo != null ? orderBean.orderPriceInfo.shouldPay + "" : "");
+                MobclickAgent.onEventValue(getActivity(), "submitorder_route" , map, orderBean.orderPrice);
             }else{
                 Bundle bundle = new Bundle();//用于统计
                 bundle.putString("source","SKU下单");
@@ -550,6 +551,7 @@ public class FgSkuSubmit extends BaseFragment implements View.OnClickListener {
             Bundle bundle = new Bundle();
             bundle.putString(FgOrder.KEY_ORDER_ID, orderNo);
             bundle.putBoolean("needShowAlert",true);
+            bundle.putString("source", source);
             startFragment(new FgOrder(), bundle);
         }
 

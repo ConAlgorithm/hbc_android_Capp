@@ -376,6 +376,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                     bundle.putInt(FgOrder.KEY_BUSINESS_TYPE, mOrderBean.orderType);
                     bundle.putInt(FgOrder.KEY_GOODS_TYPE, mOrderBean.orderGoodsType);
                     bundle.putString(FgOrder.KEY_ORDER_ID, mOrderBean.orderNo);
+                    bundle.putString("source", mOrderBean.orderType == 5 ? mOrderBean.serviceCityName : "首页");
                     fragment.startFragment(new FgOrder(), bundle);
                     break;
                 case R.id.travel_item_btn_chat:

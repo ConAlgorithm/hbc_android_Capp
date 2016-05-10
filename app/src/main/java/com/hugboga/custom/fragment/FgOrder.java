@@ -893,7 +893,7 @@ public class FgOrder extends BaseFragment {
         map.put("paysource", "下单过程中");//有疑问
         map.put("guestcount", mOrderBean.adult + mOrderBean.child + "");
         map.put("payableamount", mOrderBean.orderPriceInfo.shouldPay + "");
-        map.put("actualamount", mOrderBean.orderPriceInfo.actualPay + "");
+//        map.put("actualamount", mOrderBean.orderPriceInfo.actualPay + "");
         String type = "";
         switch (mBusinessType) {
             case Constants.BUSINESS_TYPE_PICK:
@@ -916,7 +916,7 @@ public class FgOrder extends BaseFragment {
                 type = "pay_route";
                 break;
         }
-        MobclickAgent.onEventValue(getActivity(), type, map, 1);
+        MobclickAgent.onEventValue(getActivity(), type, map, (int)mOrderBean.orderPriceInfo.actualPay);
     }
 
     /**
@@ -1614,7 +1614,7 @@ public class FgOrder extends BaseFragment {
         map.put("paysource", "下单过程中");//有疑问
         map.put("guestcount", mOrderBean.adult + mOrderBean.child + "");
         map.put("payableamount", mOrderBean.orderPriceInfo.shouldPay + "");
-        map.put("actualamount", mOrderBean.orderPriceInfo.actualPay + "");
+//        map.put("actualamount", mOrderBean.orderPriceInfo.actualPay + "");
         String type = "";
         switch (mBusinessType) {
             case Constants.BUSINESS_TYPE_PICK:
@@ -1637,7 +1637,7 @@ public class FgOrder extends BaseFragment {
                 type = isSuccessful ? "launch_paysucceed_route" : "launch_payfailed_route";
                 break;
         }
-        MobclickAgent.onEventValue(getActivity(), type, map, 1);
+        MobclickAgent.onEventValue(getActivity(), type, map, (int)mOrderBean.orderPriceInfo.actualPay);
     }
 
     /**
@@ -1652,7 +1652,7 @@ public class FgOrder extends BaseFragment {
         map.put("clicksource", source);
         map.put("guestcount", mOrderBean.adult + mOrderBean.child + "");
         map.put("payableamount", mOrderBean.orderPriceInfo.shouldPay + "");
-        map.put("actualamount", mOrderBean.orderPriceInfo.actualPay + "");
+//        map.put("actualamount", mOrderBean.orderPriceInfo.actualPay + "");
 
         String type = "";
         switch (mBusinessType) {
@@ -1680,7 +1680,7 @@ public class FgOrder extends BaseFragment {
                 type = "cancelorder_route";
                 break;
         }
-        MobclickAgent.onEventValue(getActivity(), type, map, 1);
+        MobclickAgent.onEventValue(getActivity(), type, map, (int)mOrderBean.orderPriceInfo.actualPay);
 
     }
 

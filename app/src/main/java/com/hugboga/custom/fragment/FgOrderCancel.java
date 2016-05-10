@@ -147,7 +147,7 @@ public class FgOrderCancel extends BaseFragment {
         map.put("clicksource", source);
         map.put("guestcount", orderBean.adult + orderBean.child + "");
         map.put("payableamount", orderBean.orderPriceInfo.shouldPay + "");
-        map.put("actualamount", orderBean.orderPriceInfo.actualPay + "");
+//        map.put("actualamount", orderBean.orderPriceInfo.actualPay + "");
 
         String type = "";
         switch (mBusinessType) {
@@ -175,7 +175,7 @@ public class FgOrderCancel extends BaseFragment {
                 type = "cancelorder_route";
                 break;
         }
-        MobclickAgent.onEventValue(getActivity(), type, map, 1);
+        MobclickAgent.onEventValue(getActivity(), type, map, (int)orderBean.orderPriceInfo.actualPay);
 
     }
 

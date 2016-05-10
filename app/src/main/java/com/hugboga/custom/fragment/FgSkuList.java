@@ -246,6 +246,7 @@ public class FgSkuList extends  BaseFragment implements  View.OnClickListener, Z
         bundle.putString(FgWebInfo.WEB_URL, bean.skuDetailUrl);
         bundle.putSerializable(FgSkuDetail.WEB_SKU, bean);
         bundle.putSerializable(FgSkuDetail.WEB_CITY, mCityBean);
+        bundle.putString("source" , cityBean.name);
         startFragment(new FgSkuDetail(),bundle);
 
         Map<String, String> map_value = new HashMap<String, String>();
@@ -257,7 +258,9 @@ public class FgSkuList extends  BaseFragment implements  View.OnClickListener, Z
     public void onResume() {
         super.onResume();
         if(null != cityBean) {
-            MobclickAgent.onEvent(this.getActivity(), "launch_city", cityBean.name);
+            Map<String, String> map = new HashMap<String, String>();
+            map.put("city" , cityBean.name);
+            MobclickAgent.onEvent(this.getActivity(), "launch_city", map);
         }
 
     }

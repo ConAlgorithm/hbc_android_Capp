@@ -707,7 +707,7 @@ public class FgSubmit extends BaseFragment implements CompoundButton.OnCheckedCh
         map.put("carstyle", carBean.desc);
         map.put("source", source);
         map.put("guestcount", adult + child + "");
-        MobclickAgent.onEventValue(getActivity(), type, map, 1);
+        MobclickAgent.onEventValue(getActivity(), type, map, orderBean.orderPrice);
     }
 
     /**
