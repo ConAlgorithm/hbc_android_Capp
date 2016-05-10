@@ -145,8 +145,8 @@ public class FgOrderCancel extends BaseFragment {
         map.put("paystyle", paystyle);
         map.put("paysource", source);
         map.put("clicksource", source);
-        map.put("guestcount", orderBean.adult + orderBean.child + "");
-        map.put("payableamount", orderBean.orderPriceInfo.shouldPay + "");
+//        map.put("guestcount", orderBean.adult + orderBean.child + "");
+//        map.put("payableamount", orderBean.orderPriceInfo.shouldPay + "");
 //        map.put("actualamount", orderBean.orderPriceInfo.actualPay + "");
 
         String type = "";
@@ -160,8 +160,8 @@ public class FgOrderCancel extends BaseFragment {
             case Constants.BUSINESS_TYPE_DAILY:
                 type = "cancelorder_oneday";
                 map.put("begincity", orderBean.serviceCityName);
-                map.put("luggagecount", orderBean.luggageNum);
-                map.put("drivedays", orderBean.totalDays + "");
+//                map.put("luggagecount", orderBean.luggageNum);
+//                map.put("drivedays", orderBean.totalDays + "");
 //                if(isForOther) {
 //                    map_value.put("forother", "是");
 //                }else{

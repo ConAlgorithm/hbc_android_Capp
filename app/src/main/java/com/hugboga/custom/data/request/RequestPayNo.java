@@ -29,8 +29,8 @@ public class RequestPayNo extends BaseRequest<Object> {
     /**
      * orderID 订单ID<br/>
      * payPrice 支付金额<br/>
-     * couponID 优惠券<br/>
      * payType 1 支付宝 ，2 微信
+     * couponID 优惠券<br/>
      */
     public RequestPayNo(Context context, String orderId, double payPrice, int payType, String couponID){
         super(context);

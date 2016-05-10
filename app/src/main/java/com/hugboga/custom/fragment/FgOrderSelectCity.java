@@ -794,8 +794,8 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
                 HashMap<String,String> map = new HashMap<String,String>();
                 map.put("source", source);
                 map.put("begincity", startBean.name);
-                map.put("guestcount", manNum + childNum + "");
-                map.put("luggagecount", baggageNum + "");
+//                map.put("guestcount", manNum + childNum + "");
+//                map.put("luggagecount", baggageNum + "");
 //                map.put("drivedays", getOutNum() + getInNum() + "");
                 MobclickAgent.onEventValue(getActivity(),"chosecar_oneday",map,isHalfTravel ? 1 : getOutNum()*2 + getInNum()*2);
                 break;
