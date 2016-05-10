@@ -18,6 +18,7 @@ import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.widget.DialogUtil;
 import com.umeng.analytics.MobclickAgent;
 
+import org.xutils.common.util.LogUtil;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
@@ -46,6 +47,7 @@ public class FgSkuDetail extends FgWebInfo {
         if(this.getArguments()!=null){
             skuItemBean =  (SkuItemBean)getArguments().getSerializable(WEB_SKU);
             cityBean =  (CityBean)getArguments().getSerializable(WEB_CITY);
+            source = getArguments().getString("source");
         }
     }
 
@@ -77,8 +79,14 @@ public class FgSkuDetail extends FgWebInfo {
 
                 map.put("routecity", cityBean.name);
                 map.put("routename", skuItemBean.goodsName);
-                map.put("quoteprice", skuItemBean.goodsMinPrice);
-                MobclickAgent.onEventValue(getActivity(), "chose_route", map, 1);
+//                map.put("quoteprice", skuItemBean.goodsMinPrice);
+                int countResult = -1;
+                try {
+                    countResult = Integer.parseInt(skuItemBean.goodsMinPrice);
+                }catch (Exception e){
+                    LogUtil.e(e.toString());
+                }
+                MobclickAgent.onEventValue(getActivity(), "chose_route", map, countResult);
                 break;
         }
     }
@@ -90,7 +98,7 @@ public class FgSkuDetail extends FgWebInfo {
         callDialog.setItems(callItems, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                uMengClickEvent();
+                uMengClickEvent("share_route");
                 WXShareUtils.getInstance(getActivity()).share(which+1, skuItemBean.goodsPicture, title, content, shareUrl);
             }
         });
@@ -103,15 +111,21 @@ public class FgSkuDetail extends FgWebInfo {
     @Override
     public void onResume() {
         super.onResume();
-        uMengClickEvent();
+        uMengClickEvent("launch_route");
     }
 
-    private void uMengClickEvent(){
+    private void uMengClickEvent(String type){
         Map<String, String> map_value = new HashMap<String, String>();
-        map_value.put("routecity" , skuItemBean.depCityName);
+        map_value.put("routecity" , source);
         map_value.put("routename" , skuItemBean.goodsName);
-        map_value.put("quoteprice" , skuItemBean.goodsMinPrice);
-        MobclickAgent.onEventValue(this.getActivity(),"launch_route",map_value,1);
+//        map_value.put("quoteprice" , skuItemBean.goodsMinPrice);
+        int countResult = -1;
+        try {
+            countResult = Integer.parseInt(skuItemBean.goodsMinPrice);
+        }catch (Exception e){
+            LogUtil.e(e.toString());
+        }
+        MobclickAgent.onEventValue(getActivity(), type, map_value, countResult);
     }
 
     @Override

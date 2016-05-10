@@ -399,8 +399,8 @@ public class FGOrderNew extends BaseFragment {
         map.put("guestcount", adultNum + childrenNum + "");
         map.put("luggagecount", luggageNum + "");
         map.put("drivedays", dayNums + "");
-        map.put("payableamount", carBean.price + "");
-        MobclickAgent.onEventValue(getActivity(), "submitorder_oneday", map, 1);
+//        map.put("payableamount", carBean.price + "");
+        MobclickAgent.onEventValue(getActivity(), "submitorder_oneday", map, carBean.price);
     }
 
     OrderBean orderBean;

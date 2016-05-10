@@ -385,6 +385,7 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, OnIt
                 bundle.putInt(KEY_BUSINESS_TYPE, bean.orderType);
                 bundle.putInt(KEY_GOODS_TYPE, bean.orderGoodsType);
                 bundle.putString(FgOrder.KEY_ORDER_ID, bean.orderNo);
+                bundle.putString("source", bean.orderType == 5 ? bean.serviceCityName : "首页");
                 startFragment(new FgOrder(), bundle);
             } else if (view == fgTravelFinish) {
                 OrderBean bean = finishAdapter.getDatas().get(position);
@@ -392,6 +393,7 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, OnIt
                 bundle.putInt(KEY_BUSINESS_TYPE, bean.orderType);
                 bundle.putInt(KEY_GOODS_TYPE, bean.orderGoodsType);
                 bundle.putString(FgOrder.KEY_ORDER_ID, bean.orderNo);
+                bundle.putString("source", bean.orderType == 5 ? bean.serviceCityName : "首页");
                 startFragment(new FgOrder(), bundle);
             } else if (view == fgTravelCancel) {
                 OrderBean bean = cancelAdapter.getDatas().get(position);
@@ -399,6 +401,7 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, OnIt
                 bundle.putInt(KEY_BUSINESS_TYPE, bean.orderType);
                 bundle.putInt(KEY_GOODS_TYPE, bean.orderGoodsType);
                 bundle.putString(FgOrder.KEY_ORDER_ID, bean.orderNo);
+                bundle.putString("source", bean.orderType == 5 ? bean.serviceCityName : "首页");
                 startFragment(new FgOrder(), bundle);
             }
         }
