@@ -891,8 +891,8 @@ public class FgOrder extends BaseFragment {
             map.put("paystyle", "微信");
         }
         map.put("paysource", "下单过程中");//有疑问
-        map.put("guestcount", mOrderBean.adult + mOrderBean.child + "");
-        map.put("payableamount", mOrderBean.orderPriceInfo.shouldPay + "");
+//        map.put("guestcount", mOrderBean.adult + mOrderBean.child + "");
+//        map.put("payableamount", mOrderBean.orderPriceInfo.shouldPay + "");
 //        map.put("actualamount", mOrderBean.orderPriceInfo.actualPay + "");
         String type = "";
         switch (mBusinessType) {
@@ -905,9 +905,8 @@ public class FgOrder extends BaseFragment {
             case Constants.BUSINESS_TYPE_DAILY:
                 type = "pay_oneday";
                 map.put("begincity", mOrderBean.serviceCityName);
-                map.put("luggagecount", mOrderBean.luggageNum);
-                map.put("drivedays", mOrderBean.totalDays + "");
-//                map.put("forother", );
+//                map.put("luggagecount", mOrderBean.luggageNum);
+//                map.put("drivedays", mOrderBean.totalDays + "");
                 break;
             case Constants.BUSINESS_TYPE_RENT:
                 type = "pay_oneway";
@@ -916,7 +915,7 @@ public class FgOrder extends BaseFragment {
                 type = "pay_route";
                 break;
         }
-        MobclickAgent.onEventValue(getActivity(), type, map, (int)mOrderBean.orderPriceInfo.actualPay);
+        MobclickAgent.onEventValue(getActivity(), type, map, (int)shouldPay);
     }
 
     /**
@@ -1030,32 +1029,6 @@ public class FgOrder extends BaseFragment {
             notifyOrderList(FgTravel.TYPE_ORDER_RUNNING, true, false, false);
         }
     };
-
-
-    //4.为他人订车
-//    boolean isForOther = false;
-    //友盟事件统计
-//    private void uMengClickEvnet(){
-//        Map<String, String> map_value = new HashMap<String, String>();
-//        map_value.put("source" , source);
-//        map_value.put("carstyle",mOrderBean.carType+"");
-//        map_value.put("paystyle",paystyle);
-//        map_value.put("paysource",source);
-//        map_value.put("clicksource", source);
-//        map_value.put("guestcount",mOrderBean.adult + mOrderBean.child + "");
-//        map_value.put("payableamount",mOrderBean.orderPriceInfo.shouldPay+"");
-//        map_value.put("actualamount",mOrderBean.orderPriceInfo.actualPay+"");
-//
-//        if(umeng_key.equalsIgnoreCase("pay_oneday") || umeng_key.equalsIgnoreCase("launch_paysucceed_oneday")) {
-//            map_value.put("begincity", mOrderBean.startAddress);
-//            if(isForOther) {
-//                map_value.put("forother", "是");
-//            }else{
-//                map_value.put("forother", "否");
-//            }
-//        }
-//        UmengUtils.mobClickEvent(FgOrder.this.getActivity(), umeng_key, map_value);
-//    }
 
     private void genAllInsureInfo(){
         if(mOrderBean.insuranceList.size() > 0){
@@ -1612,8 +1585,8 @@ public class FgOrder extends BaseFragment {
             map.put("paystyle", "微信");
         }
         map.put("paysource", "下单过程中");//有疑问
-        map.put("guestcount", mOrderBean.adult + mOrderBean.child + "");
-        map.put("payableamount", mOrderBean.orderPriceInfo.shouldPay + "");
+//        map.put("guestcount", mOrderBean.adult + mOrderBean.child + "");
+//        map.put("payableamount", mOrderBean.orderPriceInfo.shouldPay + "");
 //        map.put("actualamount", mOrderBean.orderPriceInfo.actualPay + "");
         String type = "";
         switch (mBusinessType) {
@@ -1626,8 +1599,8 @@ public class FgOrder extends BaseFragment {
             case Constants.BUSINESS_TYPE_DAILY:
                 type = isSuccessful ? "launch_paysucceed_oneday" : "launch_payfailed_oneday";
                 map.put("begincity", mOrderBean.serviceCityName);
-                map.put("luggagecount", mOrderBean.luggageNum);
-                map.put("drivedays", mOrderBean.totalDays + "");
+//                map.put("luggagecount", mOrderBean.luggageNum);
+//                map.put("drivedays", mOrderBean.totalDays + "");
 //                map.put("forother", );
                 break;
             case Constants.BUSINESS_TYPE_RENT:
@@ -1637,7 +1610,7 @@ public class FgOrder extends BaseFragment {
                 type = isSuccessful ? "launch_paysucceed_route" : "launch_payfailed_route";
                 break;
         }
-        MobclickAgent.onEventValue(getActivity(), type, map, (int)mOrderBean.orderPriceInfo.actualPay);
+        MobclickAgent.onEventValue(getActivity(), type, map, (int)shouldPay);
     }
 
     /**
@@ -1650,8 +1623,8 @@ public class FgOrder extends BaseFragment {
         map.put("paystyle", paystyle);
         map.put("paysource", source);
         map.put("clicksource", source);
-        map.put("guestcount", mOrderBean.adult + mOrderBean.child + "");
-        map.put("payableamount", mOrderBean.orderPriceInfo.shouldPay + "");
+//        map.put("guestcount", mOrderBean.adult + mOrderBean.child + "");
+//        map.put("payableamount", mOrderBean.orderPriceInfo.shouldPay + "");
 //        map.put("actualamount", mOrderBean.orderPriceInfo.actualPay + "");
 
         String type = "";
@@ -1665,8 +1638,8 @@ public class FgOrder extends BaseFragment {
             case Constants.BUSINESS_TYPE_DAILY:
                 type = "cancelorder_oneday";
                 map.put("begincity", mOrderBean.serviceCityName);
-                map.put("luggagecount", mOrderBean.luggageNum);
-                map.put("drivedays", mOrderBean.totalDays + "");
+//                map.put("luggagecount", mOrderBean.luggageNum);
+//                map.put("drivedays", mOrderBean.totalDays + "");
 //                if(isForOther) {
 //                    map_value.put("forother", "是");
 //                }else{
@@ -1680,7 +1653,7 @@ public class FgOrder extends BaseFragment {
                 type = "cancelorder_route";
                 break;
         }
-        MobclickAgent.onEventValue(getActivity(), type, map, (int)mOrderBean.orderPriceInfo.actualPay);
+        MobclickAgent.onEventValue(getActivity(), type, map, (int)shouldPay);
 
     }
 

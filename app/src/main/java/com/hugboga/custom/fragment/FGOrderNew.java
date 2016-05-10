@@ -396,9 +396,9 @@ public class FGOrderNew extends BaseFragment {
         }else{
             map.put("forother", "否");
         }
-        map.put("guestcount", adultNum + childrenNum + "");
-        map.put("luggagecount", luggageNum + "");
-        map.put("drivedays", dayNums + "");
+//        map.put("guestcount", adultNum + childrenNum + "");
+//        map.put("luggagecount", luggageNum + "");
+//        map.put("drivedays", dayNums + "");
 //        map.put("payableamount", carBean.price + "");
         MobclickAgent.onEventValue(getActivity(), "submitorder_oneday", map, carBean.price);
     }

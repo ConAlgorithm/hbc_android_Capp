@@ -29,6 +29,7 @@ public class ParserOrder extends ImplParser {
     public OrderBean parseObject(JSONObject jsonObj) throws Throwable {
         OrderBean orderbean = new OrderBean();
         orderbean.orderType = jsonObj.optInt("orderType");
+        orderbean.luggageNum = jsonObj.optString("luggageNumber");
         orderbean.orderGoodsType = jsonObj.optInt("orderGoodsType", Constants.BUSINESS_TYPE_DAILY_LONG);
         orderbean.orderNo = jsonObj.optString("orderNo");
         orderbean.imcount = jsonObj.optInt("imCount");
