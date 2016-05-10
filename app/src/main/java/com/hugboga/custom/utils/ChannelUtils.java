@@ -19,12 +19,14 @@ public class ChannelUtils {
         try {
             ApplicationInfo appInfo = context.getPackageManager()
                     .getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
-            String channel = appInfo.metaData.getString("APP_CHANNEL","10003");
-//            String channel = PackerNg.getMarket(context);
-//            if(TextUtils.isEmpty(channel)){
-//                channel = "DEV";
-//            }
-            return channel;
+            Object channel = appInfo.metaData.get("APP_CHANNEL");
+            if(channel instanceof Integer){
+               return  ""+Integer.valueOf(channel.toString());
+            }else if(channel instanceof String){
+                return channel.toString();
+            }
+            return "";
+
         }catch (Exception e){
             return "not_get";
         }

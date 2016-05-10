@@ -21,7 +21,6 @@ import com.hugboga.custom.data.parser.ParserChatInfo;
 import com.hugboga.custom.fragment.BaseFragment;
 import com.hugboga.custom.fragment.FgAssessment;
 import com.hugboga.custom.fragment.FgOrder;
-import com.hugboga.custom.fragment.FgTravel;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.widget.CircularImage;
 import com.hugboga.custom.widget.DialogUtil;
@@ -31,10 +30,8 @@ import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
 import java.text.ParseException;
-import java.util.HashMap;
 
 import io.rong.imkit.RongIM;
-import io.rong.imlib.RongIMClient;
 
 /**
  * Created by ZHZEPHI on 2015/7/21.
@@ -197,7 +194,7 @@ public class TravelAdapter extends BaseAdapter<OrderBean>  {
         return convertView;
     }
     private void gotoChatView( final String chatId,String targetAvatar,String targetName) {
-        String titleJson = getChatInfo(chatId,  targetAvatar, targetName, "3");
+        String titleJson = getChatInfo(chatId,  targetAvatar, targetName, "1");
         RongIM.getInstance().startPrivateChat(mContext, "G"+chatId, titleJson);
     }
     private String getChatInfo(String userId, String userAvatar, String title, String targetType) {

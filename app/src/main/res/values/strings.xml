@@ -286,6 +286,7 @@
 
     <string name="scope_in">%s,市内游玩</string>
     <string name="scope_around">%s,周边游玩</string>
+    <string name="scope_new_add_tips">（300公里，10小时畅游）</string>
     <string name="scope_other">住在其他城市</string>
     <string name="scope_other_end">在其它城市结束游城</string>
     <string name="scope_tips_city">包括:%s</string>
@@ -296,8 +297,8 @@
     <string name="man_no_confirm_tips">包车是件自由的事儿，填写可能最多的人数即可</string>
     <string name="baggage_no_confirm_tips">需填写大小超过21寸的行李箱个数，建议最大行李箱不超过28寸</string>
 
-    <string name="have_mas">乘坐%s人</string>
-    <string name="have_baggages">行李%s件</string>
+    <string name="have_mas">可乘坐: %s名乘客</string>
+    <string name="have_baggages"> %s个行李箱</string>
 
     <string name="mans_use_money">司导服务费</string>
     <string name="mans_use_money_tips">司导全程陪同,根据需要进行翻译,导游,解说.包含餐费,小费.</string>

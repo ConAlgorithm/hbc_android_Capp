@@ -1,6 +1,5 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
-apply plugin: 'packer'
 
 Properties getProperties() {
     Properties properties = new Properties()
@@ -79,60 +78,22 @@ android {
     //==productFlavors_start==
     productFlavors {
         developer {}
-        stage {}
+//        stage {}
         examination {}
-        formal {}
-//        '10000'{}
-//        '10001'{}
-//        '10002'{}
-//        '10003'{}
-//        '10004'{}
-//        '10005'{}
-//        '10006'{}
-//        '10007'{}
-//        '10008'{}
-//        '10009'{}
-//        '10010'{}
-//        '10011'{}
-//        '10012'{}
-//        '10013'{}
-//        '10014'{}
-//        '10015'{}
-//        '10016'{}
-//        '10017'{}
-//        '10018'{}
-//        '10019'{}
-//        '10020'{}
-//        '10021'{}
-//        '10022'{}
-//        '10023'{}
-//        '10024'{}
-//        '10025'{}
-//        '10026'{}
-//        '10027'{}
-//        '10028'{}
-//        '10029'{}
-//        '10030'{}
-//        '10031'{}
-//        '10032'{}
-//        '10033'{}
-//        '10034'{}
-//        '10035'{}
-//        '10036'{}
-//        '10037'{}
-//        '10038'{}
-//        '10039'{}
-//        '10040'{}
-//        '10041'{}
-//        '10042'{}
-//        '10043'{}
-//        '10044'{}
-//        '10045'{}
-//        '10046'{}
-//        '10047'{}
-//        '10048'{}
-//        '10049'{}
-//        '10050'{}
+        '10000'{}
+        '10001'{}
+        '10002'{}
+        '10003'{}
+        '10004'{}
+        '10005'{}
+        '10006'{}
+        '10007'{}
+        '10008'{}
+        '10009'{}
+        '10010'{}
+        '10011'{}
+        '10012'{}
+        '10013'{}
 
     }
     //==productFlavors_end==
@@ -144,66 +105,28 @@ android {
                 flavor.buildConfigField('String', 'API_SERVER_URL', '"http://api.dev.hbc.tech/"')
                 flavor.manifestPlaceholders(JPUSH_KEY: "a351a47a9106354c59188e16", APP_CHANNEL: "developer", RONG_CLOUD_APP_KEY: "3argexb6r2kve")
                 break;
-            case 'stage':
-                flavor.buildConfigField('String', 'API_SERVER_URL', '"https://api.stage.hbc.tech/"')
-                flavor.manifestPlaceholders(JPUSH_KEY: "a351a47a9106354c59188e16", APP_CHANNEL: "stage", RONG_CLOUD_APP_KEY: "ik1qhw091eiyp")
-                break;
+//            case 'stage':
+//                flavor.buildConfigField('String', 'API_SERVER_URL', '"https://api.stage.hbc.tech/"')
+//                flavor.manifestPlaceholders(JPUSH_KEY: "a351a47a9106354c59188e16", APP_CHANNEL: "stage", RONG_CLOUD_APP_KEY: "ik1qhw091eiyp")
+//                break;
             case 'examination':
                 flavor.buildConfigField('String', 'API_SERVER_URL', '"http://api.test.hbc.tech/"')
                 flavor.manifestPlaceholders(JPUSH_KEY: "a351a47a9106354c59188e16", APP_CHANNEL: "examination", RONG_CLOUD_APP_KEY: "3argexb6r2kve")
                 break;
-//            case 'formal':
-//            case '10000':
-//            case '10001':
-//            case '10002':
-//            case '10003':
-//            case '10004':
-//            case '10005':
-//            case '10006':
-//            case '10007':
-//            case '10008':
-//            case '10009':
-//            case '10010':
-//            case '10011':
-//            case '10012':
-//            case '10013':
-//            case '10014':
-//            case '10015':
-//            case '10016':
-//            case '10017':
-//            case '10018':
-//            case '10019':
-//            case '10020':
-//            case '10021':
-//            case '10022':
-//            case '10023':
-//            case '10024':
-//            case '10025':
-//            case '10026':
-//            case '10027':
-//            case '10028':
-//            case '10029':
-//            case '10030':
-//            case '10031':
-//            case '10032':
-//            case '10033':
-//            case '10034':
-//            case '10035':
-//            case '10036':
-//            case '10037':
-//            case '10038':
-//            case '10039':
-//            case '10040':
-//            case '10041':
-//            case '10042':
-//            case '10043':
-//            case '10044':
-//            case '10045':
-//            case '10046':
-//            case '10047':
-//            case '10048':
-//            case '10049':
-//            case '10050':
+            case '10000':
+            case '10001':
+            case '10002':
+            case '10003':
+            case '10004':
+            case '10005':
+            case '10006':
+            case '10007':
+            case '10008':
+            case '10009':
+            case '10010':
+            case '10011':
+            case '10012':
+            case '10013':
             default:
                 flavor.buildConfigField('String', 'API_SERVER_URL', '"https://api2.huangbaoche.com/"')
                 flavor.manifestPlaceholders(JPUSH_KEY: "580ff852cd505c00c4be92d6", APP_CHANNEL: ""+flavor.name, RONG_CLOUD_APP_KEY: "6tnym1brna4s7")
@@ -248,7 +171,5 @@ dependencies {
     compile 'com.anupcowkur:reservoir:2.1'
     compile 'com.github.mrengineer13:snackbar:1.2.0'
     compile 'com.github.bumptech.glide:glide:3.7.0'
-    compile 'com.tencent.bugly:crashreport:1.2.9'
-    compile 'com.mcxiaoke.gradle:packer-helper:1.0.4'
-//    compile 'com.tencent.bugly:crashreport_upgrade:1.2.9'
+    compile 'com.tencent.bugly:crashreport:2.1.1'
 }
