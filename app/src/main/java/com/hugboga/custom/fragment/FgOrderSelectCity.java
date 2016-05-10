@@ -138,7 +138,7 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
     }
 
     private void showSaveDialog(){
-        android.support.v7.app.AlertDialog dialog =  AlertDialogUtils.showAlertDialog(getContext(), "离开当前页面所选行程将会丢失，确定要离开吗？", "确定离开", "取消", new DialogInterface.OnClickListener() {
+        android.support.v7.app.AlertDialog dialog =  AlertDialogUtils.showAlertDialog(getContext(), "离开当前页面所选行程将会丢失，确定要离开吗？", "离开", "取消", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 //                saveInfo();
