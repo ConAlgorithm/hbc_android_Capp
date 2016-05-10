@@ -80,7 +80,7 @@ public class FgSkuDetail extends FgWebInfo {
                 map.put("routecity", cityBean.name);
                 map.put("routename", skuItemBean.goodsName);
 //                map.put("quoteprice", skuItemBean.goodsMinPrice);
-                int countResult = -1;
+                int countResult = 0;
                 try {
                     countResult = Integer.parseInt(skuItemBean.goodsMinPrice);
                 }catch (Exception e){
@@ -119,7 +119,7 @@ public class FgSkuDetail extends FgWebInfo {
         map_value.put("routecity" , source);
         map_value.put("routename" , skuItemBean.goodsName);
 //        map_value.put("quoteprice" , skuItemBean.goodsMinPrice);
-        int countResult = -1;
+        int countResult = 0;
         try {
             countResult = Integer.parseInt(skuItemBean.goodsMinPrice);
         }catch (Exception e){
