@@ -988,6 +988,13 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
 
     }
 
+    @Override
+    public int getBusinessType() {
+        mBusinessType = Constants.BUSINESS_TYPE_DAILY;
+        setGoodsType(mBusinessType);
+        return mBusinessType;
+    }
+
     String start_date_str = "";
     String end_date_str = "";
     String halfDate = "";
@@ -1053,11 +1060,5 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
         }
     }
 
-    @Override
-    protected int getBusinessType() {
-        mBusinessType = Constants.BUSINESS_TYPE_DAILY;
-        setGoodsType(Constants.BUSINESS_TYPE_DAILY);
-        return mBusinessType;
-    }
 
 }
