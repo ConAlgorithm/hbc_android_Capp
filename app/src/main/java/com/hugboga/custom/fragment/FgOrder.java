@@ -890,7 +890,8 @@ public class FgOrder extends BaseFragment {
         }else if (this.payType == 2){
             map.put("paystyle", "微信");
         }
-        map.put("paysource", "下单过程中");//有疑问
+        map.put("paysource", needShowAlert?"下单过程中":"订单详情");//有疑问
+        map.put("clicksource", needShowAlert?"支付页面":"订单详情");
 //        map.put("guestcount", mOrderBean.adult + mOrderBean.child + "");
 //        map.put("payableamount", mOrderBean.orderPriceInfo.shouldPay + "");
 //        map.put("actualamount", mOrderBean.orderPriceInfo.actualPay + "");
@@ -1584,7 +1585,7 @@ public class FgOrder extends BaseFragment {
         }else if (this.payType == 2){
             map.put("paystyle", "微信");
         }
-        map.put("paysource", "下单过程中");//有疑问
+        map.put("paysource", needShowAlert?"下单过程中":"订单详情");//有疑问
 //        map.put("guestcount", mOrderBean.adult + mOrderBean.child + "");
 //        map.put("payableamount", mOrderBean.orderPriceInfo.shouldPay + "");
 //        map.put("actualamount", mOrderBean.orderPriceInfo.actualPay + "");
@@ -1619,10 +1620,10 @@ public class FgOrder extends BaseFragment {
     private void doUMengStatisticForCancelOrder(){
         Map<String, String> map = new HashMap<String, String>();
         map.put("source", source);
-        map.put("carstyle", mOrderBean.carType + "");
-        map.put("paystyle", paystyle);
-        map.put("paysource", source);
-        map.put("clicksource", source);
+        map.put("carstyle", mOrderBean.carDesc + "");
+        map.put("paystyle", paystyle);//下单过程中、失败重新支付、行程列表、订单详情
+        map.put("paysource", needShowAlert?"下单过程中":"订单详情");
+        map.put("clicksource", needShowAlert?"支付页面":"订单详情");
 //        map.put("guestcount", mOrderBean.adult + mOrderBean.child + "");
 //        map.put("payableamount", mOrderBean.orderPriceInfo.shouldPay + "");
 //        map.put("actualamount", mOrderBean.orderPriceInfo.actualPay + "");
