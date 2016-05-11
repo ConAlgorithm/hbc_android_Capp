@@ -9,6 +9,8 @@ import android.widget.TextView;
 import com.huangbaoche.hbcframe.viewholder.ZBaseViewHolder;
 import com.hugboga.custom.R;
 
+import net.grobas.view.PolygonImageView;
+
 import org.xutils.view.annotation.ViewInject;
 
 /**
@@ -46,7 +48,7 @@ public class NewOrderVH extends ZBaseViewHolder {
     @ViewInject(R.id.travel_item_head_layout)
     public LinearLayout mHeadLayout; //导游信息
     @ViewInject(R.id.travel_item_head_img)
-    public ImageView mHeadImg;//导游头像
+    public PolygonImageView mHeadImg;//导游头像
     @ViewInject(R.id.travel_item_head_title)
     public TextView mHeadTitle; //导游名称
     @ViewInject(R.id.travel_item_btn_pay)
@@ -57,6 +59,13 @@ public class NewOrderVH extends ZBaseViewHolder {
     public TextView mBtnChatNum; //未读消息个数
     @ViewInject(R.id.travel_item_btn_assessment)
     public TextView mAssessment; //评价车导
+
+    @ViewInject(R.id.br_layout)
+    public LinearLayout br_layout;
+    @ViewInject(R.id.travel_item_btn_br)
+    public TextView travel_item_btn_br;;
+    @ViewInject(R.id.travel_item_btn_br_tips)
+    public ImageView travel_item_btn_br_tips;
 
     public NewOrderVH(View itemView) {
         super(itemView);

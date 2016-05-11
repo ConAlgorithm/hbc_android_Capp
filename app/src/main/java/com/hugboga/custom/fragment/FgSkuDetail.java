@@ -12,15 +12,20 @@ import com.huangbaoche.hbcframe.util.MLog;
 import com.huangbaoche.hbcframe.util.WXShareUtils;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.widget.DialogUtil;
+import com.umeng.analytics.MobclickAgent;
 
+import org.xutils.common.util.LogUtil;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.TreeMap;
 
 /**
@@ -33,6 +38,7 @@ public class FgSkuDetail extends FgWebInfo {
     public static final String WEB_SKU = "web_sku";
     public static final String WEB_CITY = "web_city";
     private SkuItemBean skuItemBean;//sku详情
+    private CityBean cityBean;
 
     @Override
     protected void initView() {
@@ -40,11 +46,14 @@ public class FgSkuDetail extends FgWebInfo {
         getView().findViewById(R.id.header_right_btn).setVisibility(WXShareUtils.getInstance(getActivity()).isInstall(false)?View.VISIBLE:View.VISIBLE);
         if(this.getArguments()!=null){
             skuItemBean =  (SkuItemBean)getArguments().getSerializable(WEB_SKU);
+            cityBean =  (CityBean)getArguments().getSerializable(WEB_CITY);
+            source = getArguments().getString("source");
         }
     }
 
     @Event({R.id.header_right_btn,R.id.phone_consultation,R.id.goto_order})
     private void onClickView(View view){
+        HashMap<String,String> map = new HashMap<String,String>();
         switch (view.getId()){
             case R.id.header_right_btn:
                 if(skuItemBean!=null){
@@ -56,14 +65,28 @@ public class FgSkuDetail extends FgWebInfo {
                 }
                 break;
             case R.id.phone_consultation:
-                DialogUtil.getInstance(getActivity()).showCallDialog();
+                map.put("source", "线路SKU页面");
+                MobclickAgent.onEvent(getActivity(), "callcenter_route", map);
+
+                DialogUtil.getInstance(getActivity()).showCallDialog("线路SKU页面","calldomestic_route","calloverseas_route");
                 break;
             case R.id.goto_order:
                 Bundle bundle =new Bundle();
                 if(getArguments()!=null){
                     bundle.putAll(getArguments());
                 }
-                startFragment(new FgSkuSubmit(),bundle);
+                startFragment(new FgSkuSubmit(), bundle);
+
+                map.put("routecity", cityBean.name);
+                map.put("routename", skuItemBean.goodsName);
+//                map.put("quoteprice", skuItemBean.goodsMinPrice);
+                int countResult = 0;
+                try {
+                    countResult = Integer.parseInt(skuItemBean.goodsMinPrice);
+                }catch (Exception e){
+                    LogUtil.e(e.toString());
+                }
+                MobclickAgent.onEventValue(getActivity(), "chose_route", map, countResult);
                 break;
         }
     }
@@ -75,6 +98,7 @@ public class FgSkuDetail extends FgWebInfo {
         callDialog.setItems(callItems, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                uMengClickEvent("share_route");
                 WXShareUtils.getInstance(getActivity()).share(which+1, skuItemBean.goodsPicture, title, content, shareUrl);
             }
         });
@@ -84,4 +108,28 @@ public class FgSkuDetail extends FgWebInfo {
         dialog.show();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        uMengClickEvent("launch_route");
+    }
+
+    private void uMengClickEvent(String type){
+        Map<String, String> map_value = new HashMap<String, String>();
+        map_value.put("routecity" , source);
+        map_value.put("routename" , skuItemBean.goodsName);
+//        map_value.put("quoteprice" , skuItemBean.goodsMinPrice);
+        int countResult = 0;
+        try {
+            countResult = Integer.parseInt(skuItemBean.goodsMinPrice);
+        }catch (Exception e){
+            LogUtil.e(e.toString());
+        }
+        MobclickAgent.onEventValue(getActivity(), type, map_value, countResult);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
 }

@@ -45,11 +45,13 @@ public class CityAdapter extends BaseAdapter implements View.OnClickListener, On
     private static final int HISTORY_ITEM = 0;
     private static final int HOT_ITEM = 1;
     private static final int CITY_LIST_ITEM = 2;
+    private static final int LOCATION_ITEM = 3;
     private String mBusinessType;
     private DbManager mDbManager;
     private boolean isFirstAccessHotCity = false;
     private List<CityBean> hotCityList = new ArrayList<CityBean>();;
     private int searchHistoryCount = 0;
+    private int locationCount = 0;
     private int chooseType = -1;
     private FgChooseCity fragment;
     private HotCityGridViewAdapter hotCityGridViewAdapter;
@@ -91,7 +93,8 @@ public class CityAdapter extends BaseAdapter implements View.OnClickListener, On
     }
 
     public Object getItem(int position) {
-        if (position == searchHistoryCount && hotCityList != null && hotCityList.size() != 0) {
+        if (locationCount > 0 ? position == searchHistoryCount + locationCount : position == searchHistoryCount
+                && hotCityList != null && hotCityList.size() != 0) {
             return hotCityList;
         } else {
             return list.get(position);
@@ -111,13 +114,14 @@ public class CityAdapter extends BaseAdapter implements View.OnClickListener, On
 			MLog.e("getViewTypeCount : 3");
 			return 3;
 		}*/
-        return 3;
+        return 4;
     }
 
     @Override
     public int getItemViewType(int position) {
 //		CityBean cityBean = list.get(position);
         CityBean cityBean = null;
+        MLog.e("why me position:" + position);
         if (getItem(position) instanceof CityBean) {
             cityBean = (CityBean) getItem(position);
         } else if (getItem(position) instanceof List) {
@@ -128,7 +132,9 @@ public class CityAdapter extends BaseAdapter implements View.OnClickListener, On
             return HISTORY_ITEM;
         } else if (cityBean.firstLetter.equals("热门城市")) {
             return HOT_ITEM;
-        } else {
+        } else if (cityBean.firstLetter.equals("定位城市")) {
+            return LOCATION_ITEM;
+        }else {
             return CITY_LIST_ITEM;
         }
     }
@@ -143,6 +149,9 @@ public class CityAdapter extends BaseAdapter implements View.OnClickListener, On
             case HOT_ITEM:
                 convertView = getHotCityView(position, convertView);
                 break;
+            case LOCATION_ITEM:
+                convertView = getAllCityListView(position, convertView, type);
+                break;
             case CITY_LIST_ITEM:
                 convertView = getAllCityListView(position, convertView, type);
             default:
@@ -152,8 +161,20 @@ public class CityAdapter extends BaseAdapter implements View.OnClickListener, On
         return convertView;
     }
 
-    public View getHistorySearchView(final int position, View view, int type) {
-        return null;
+    public View getLocationCityView(final int position, View view){
+        LocationViewHolder locationViewHolder = null;
+        if(null == view){
+            locationViewHolder = new LocationViewHolder();
+            view = LayoutInflater.from(mContext).inflate(R.layout.location_city_layout,null);
+            locationViewHolder.location_text = (TextView)view.findViewById(R.id.location_city_name);
+            view.setTag(locationViewHolder);
+        }else{
+            if(view.getTag() instanceof  LocationViewHolder){
+                locationViewHolder = (LocationViewHolder)view.getTag();
+            }
+        }
+        locationViewHolder.location_text.setText(new SharedPre(mContext).getStringValue("cityName"));
+        return view;
     }
 
     public View getHotCityView(final int position, View view) {
@@ -329,9 +350,17 @@ public class CityAdapter extends BaseAdapter implements View.OnClickListener, On
                 if(searchHistoryCount > 0){
                     searchHistoryCount--;
                 }
-                if(position == 0 && searchHistoryCount > 0){
-                    list.get(0).firstLetter = "搜索历史";
-                    list.get(0).isFirst = true;
+
+                if(locationCount > 0){
+                    if(position == 1 && searchHistoryCount > 0){
+                        list.get(1).firstLetter = "搜索历史";
+                        list.get(1).isFirst = true;
+                    }
+                }else{
+                    if(position == 0 && searchHistoryCount > 0){
+                        list.get(0).firstLetter = "搜索历史";
+                        list.get(0).isFirst = true;
+                    }
                 }
                 break;
             }
@@ -374,6 +403,10 @@ public class CityAdapter extends BaseAdapter implements View.OnClickListener, On
         TextView tvLetter;
     }
 
+    final static class LocationViewHolder {
+        TextView location_text;
+    }
+
 
     /**
      * 根据分类的首字母的Char ascii值获取其第一次出现该首字母的位置
@@ -410,5 +443,13 @@ public class CityAdapter extends BaseAdapter implements View.OnClickListener, On
 
     public void setChooseType(int chooseType) {
         this.chooseType = chooseType;
+    }
+
+    public int getLocationCount() {
+        return locationCount;
+    }
+
+    public void setLocationCount(int locationCount) {
+        this.locationCount = locationCount;
     }
 }

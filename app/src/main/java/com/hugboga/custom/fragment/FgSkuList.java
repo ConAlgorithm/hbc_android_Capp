@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.adapter.ZBaseAdapter;
@@ -26,6 +27,8 @@ import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.data.request.RequestHome;
 import com.hugboga.custom.data.request.RequestSkuList;
 import com.hugboga.custom.utils.DBHelper;
+import com.hugboga.custom.utils.ImageUtils;
+import com.umeng.analytics.MobclickAgent;
 
 import org.xutils.DbManager;
 import org.xutils.common.Callback;
@@ -34,6 +37,9 @@ import org.xutils.image.ImageOptions;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 城市SKU列表
@@ -94,7 +100,7 @@ public class FgSkuList extends  BaseFragment implements  View.OnClickListener, Z
             menu2.setVisibility(mCityBean.isDaily?View.VISIBLE:View.GONE);
             menu3.setVisibility(mCityBean.isSingle?View.VISIBLE:View.GONE);
         }
-        MLog.e(mCityBean.toString());
+//        MLog.e(mCityBean.toString());
     }
 
     @Override
@@ -135,6 +141,8 @@ public class FgSkuList extends  BaseFragment implements  View.OnClickListener, Z
     protected void inflateContent() {
         ImageOptions options = new ImageOptions.Builder().setFailureDrawableId(R.mipmap.img_undertext).build();
         fgTitle.setText(skuCityBean.cityName);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ImageUtils.getScreenWidth(FgSkuList.this.getActivity()),ImageUtils.getResizeHeight(FgSkuList.this.getActivity(),750,400));
+        headerBg.setLayoutParams(params);
         if(skuCityBean.goodsList.size()==0){
             MLog.e("skuCityBean.goodsList.size"+skuCityBean.goodsList.size());
             x.image().loadDrawable(skuCityBean.cityPicture, options, new DefaultImageCallback<Drawable>() {
@@ -157,6 +165,10 @@ public class FgSkuList extends  BaseFragment implements  View.OnClickListener, Z
                 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
                 @Override
                 public void onSuccess(Drawable result) {
+                    int width = result.getIntrinsicWidth();
+                    int height = result.getIntrinsicHeight();
+                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ImageUtils.getScreenWidth(FgSkuList.this.getActivity()),ImageUtils.getResizeHeight(FgSkuList.this.getActivity(),width,height));
+                    headerBg.setLayoutParams(params);
                     headerBg.setBackground(result);
                     MLog.e("cityHeadPicture result" + result);
                 }
@@ -165,9 +177,9 @@ public class FgSkuList extends  BaseFragment implements  View.OnClickListener, Z
 
     }
 
-
+    CityBean cityBean = null;
     private CityBean findCityById(String cityId){
-        CityBean cityBean = null;
+
         DbManager mDbManager = new DBHelper(getActivity()).getDbManager();
         try {
             cityBean = mDbManager.findById(CityBean.class,cityId);
@@ -185,15 +197,38 @@ public class FgSkuList extends  BaseFragment implements  View.OnClickListener, Z
     public void onClick(View v) {
         Bundle bundle = new Bundle();
         bundle.putSerializable(FgDaily.KEY_CITY_BEAN,mCityBean);
+        HashMap<String,String> map = new HashMap<String,String>();
         switch (v.getId()){
             case R.id.fg_home_menu1://中文接送机
-                startFragment(new FgTransfer());
+                FgTransfer fgTransfer = new FgTransfer();
+                bundle.putString("source",mCityBean.name);
+                fgTransfer.setArguments(bundle);
+                startFragment(fgTransfer);
+
+                map.put("source", mCityBean.name);
+                MobclickAgent.onEvent(getActivity(), "chose_pndairport", map);
                 break;
             case R.id.fg_home_menu2://按天包车
-                startFragment(new FgDaily(),bundle);
+//                FgDaily fgDaily = new FgDaily();
+//                bundle.putString("source",mCityBean.name);
+//                fgDaily.setArguments(bundle);
+//                startFragment(new FgDaily(),bundle);
+                FgOrderSelectCity fgOrderSelectCity = new FgOrderSelectCity();
+                bundle.putString("source", mCityBean.name);
+                fgOrderSelectCity.setArguments(bundle);
+                startFragment(fgOrderSelectCity, bundle);
+
+                map.put("source", mCityBean.name);
+                MobclickAgent.onEvent(getActivity(), "chose_oneday", map);
                 break;
             case R.id.fg_home_menu3://单次接送
+                FgSingle fgSingle = new FgSingle();
+                bundle.putString("source",mCityBean.name);
+                fgSingle.setArguments(bundle);
                 startFragment(new FgSingle(),bundle);
+
+                map.put("source", mCityBean.name);
+                MobclickAgent.onEvent(getActivity(), "chose_oneway", map);
                 break;
             default:
                 super.onClick(v);
@@ -211,8 +246,22 @@ public class FgSkuList extends  BaseFragment implements  View.OnClickListener, Z
         bundle.putString(FgWebInfo.WEB_URL, bean.skuDetailUrl);
         bundle.putSerializable(FgSkuDetail.WEB_SKU, bean);
         bundle.putSerializable(FgSkuDetail.WEB_CITY, mCityBean);
+        bundle.putString("source" , cityBean.name);
         startFragment(new FgSkuDetail(),bundle);
+
+        Map<String, String> map_value = new HashMap<String, String>();
+        map_value.put("source" , cityBean.name);
+        MobclickAgent.onEvent(this.getActivity(),"click_route",map_value);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(null != cityBean) {
+            Map<String, String> map = new HashMap<String, String>();
+            map.put("city" , cityBean.name);
+            MobclickAgent.onEvent(this.getActivity(), "launch_city", map);
+        }
 
+    }
 }

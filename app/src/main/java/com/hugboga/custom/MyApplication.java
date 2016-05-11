@@ -13,11 +13,9 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.net.ServerCodeHandler;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestAccessKey;
-import com.hugboga.custom.utils.Common;
-import com.hugboga.custom.utils.Config;
-import com.hugboga.custom.utils.DateUtils;
-import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.widget.DialogUtil;
+import com.tencent.bugly.crashreport.CrashReport;
+import com.umeng.analytics.MobclickAgent;
 
 import org.xutils.x;
 
@@ -34,6 +32,7 @@ public class MyApplication extends HbcApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+        MobclickAgent.setDebugMode(HbcConfig.IS_DEBUG);
         x.Ext.setDebug(true);
         initUrlHost();
         JPushInterface.setDebugMode(false);    // 设置开启日志,发布时请关闭日志
@@ -42,6 +41,12 @@ public class MyApplication extends HbcApplication {
         initConfig();
         mAppContext = this.getApplicationContext();
         Log.e("hbcApplication", "debug " + BuildConfig.DEBUG);
+        try {
+            CrashReport.initCrashReport(this, "900024779", false);
+//            Reservoir.init(this, 4096);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static Context getAppContext() {

@@ -16,7 +16,6 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.huangbaoche.hbcframe.activity.BaseFragmentActivity;
 import com.huangbaoche.hbcframe.data.net.ExceptionErrorCode;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
@@ -24,7 +23,6 @@ import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
-import com.hugboga.custom.constants.ResourcesConstants;
 import com.hugboga.custom.data.bean.AirPort;
 import com.hugboga.custom.data.bean.CarBean;
 import com.hugboga.custom.data.bean.CityBean;
@@ -36,12 +34,14 @@ import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
+import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestSubmitBase;
 import com.hugboga.custom.data.request.RequestSubmitDaily;
 import com.hugboga.custom.data.request.RequestSubmitPick;
 import com.hugboga.custom.data.request.RequestSubmitRent;
 import com.hugboga.custom.data.request.RequestSubmitSend;
 import com.hugboga.custom.widget.DialogUtil;
+import com.umeng.analytics.MobclickAgent;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
@@ -52,6 +52,7 @@ import org.xutils.view.annotation.ViewInject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 
 import de.greenrobot.event.EventBus;
 
@@ -319,6 +320,10 @@ public class FgSubmit extends BaseFragment implements CompoundButton.OnCheckedCh
             R.id.submit_flight_no_layout,
             R.id.submit_start_place_layout,
             R.id.submit_daily_city_value,
+//            R.id.popup_order_children_ok,
+//            R.id.popup_order_children_cancel,
+//            R.id.popup_order_children_item_plus,
+//            R.id.popup_order_children_item_sub,
 //            R.id.submit_daily_pass_city_layout,
     })
     private void onClickView(View view) {
@@ -363,30 +368,30 @@ public class FgSubmit extends BaseFragment implements CompoundButton.OnCheckedCh
                 }
                 childCount.setText(String.format(getString(R.string.submit_child), ++child));
                 break;
-            case R.id.popup_order_children_item_sub:
-                int index = (int) view.getTag();
-                if (childrenSeatNumbers[index] > 0) {
-                    popupItemNumber[index].setText(String.valueOf(--childrenSeatNumbers[index]));
-                }
-                break;
-            case R.id.popup_order_children_item_plus:
-                index = (int) view.getTag();
-                if (childrenSeatNumbers[index] < 5) {
-                    popupItemNumber[index].setText(String.valueOf(++childrenSeatNumbers[index]));
-                }
-                break;
-            case R.id.popup_order_children_cancel:
-                popupWindow.dismiss();
-                break;
-            case R.id.popup_order_children_ok:
-                popupWindow.dismiss();
-                child = 0;
-                for (int number : childrenSeatNumbers) {
-                    child += number;
-                }
-                childCount.setText(String.format(getString(R.string.submit_child), child));
-                inflateChildrenSeat();
-                break;
+//            case R.id.popup_order_children_item_sub:
+//                int index = (int) view.getTag();
+//                if (childrenSeatNumbers[index] > 0) {
+//                    popupItemNumber[index].setText(String.valueOf(--childrenSeatNumbers[index]));
+//                }
+//                break;
+//            case R.id.popup_order_children_item_plus:
+//                index = (int) view.getTag();
+//                if (childrenSeatNumbers[index] < 5) {
+//                    popupItemNumber[index].setText(String.valueOf(++childrenSeatNumbers[index]));
+//                }
+//                break;
+//            case R.id.popup_order_children_cancel:
+//                popupWindow.dismiss();
+//                break;
+//            case R.id.popup_order_children_ok:
+//                popupWindow.dismiss();
+//                child = 0;
+//                for (int number : childrenSeatNumbers) {
+//                    child += number;
+//                }
+//                childCount.setText(String.format(getString(R.string.submit_child), child));
+//                inflateChildrenSeat();
+//                break;
 
             case R.id.submit_areacode:
             case R.id.submit_areacode2:
@@ -423,10 +428,10 @@ public class FgSubmit extends BaseFragment implements CompoundButton.OnCheckedCh
                 showSelectVisa();
                 break;
             case R.id.submit_order_cancel:
-                toWebInfo(ResourcesConstants.H5_CANCEL);
+                toWebInfo(UrlLibs.H5_CANCEL);
                 break;
             case R.id.submit_order_tip:
-                toWebInfo(ResourcesConstants.H5_NOTICE);
+                toWebInfo(UrlLibs.H5_NOTICE);
                 break;
             case R.id.submit_flight_no_layout:
                 startFragment(new FgPickFlight());
@@ -448,8 +453,12 @@ public class FgSubmit extends BaseFragment implements CompoundButton.OnCheckedCh
                 ArrayList<Integer> exceptId = new ArrayList<>();
                 exceptId.add(dailyBean.startCityID);
                 exceptId.add(dailyBean.terminalCityID);
+                bundle.putString("source","下单过程中");
                 bundle.putSerializable(FgChooseCity.KEY_CITY_EXCEPT_ID_LIST, exceptId);
                 startFragment(new FgChooseCity(), bundle);
+                HashMap<String,String> map = new HashMap<String,String>();
+                map.put("source", "下单过程中");
+                MobclickAgent.onEvent(getActivity(), "search_trigger", map);
                 break;
         }
     }
@@ -552,7 +561,25 @@ public class FgSubmit extends BaseFragment implements CompoundButton.OnCheckedCh
             return;
         }
         if(!UserEntity.getUser().isLogin(getActivity())){
-            startFragment(new FgLogin());
+            Bundle bundle = new Bundle();//用于统计
+            HashMap<String,String> map = new HashMap<String,String>();//用于统计
+            switch (mBusinessType) {
+                case Constants.BUSINESS_TYPE_PICK:
+                    bundle.putString("source","接机订单");
+                    map.put("source", "接机订单");
+                case Constants.BUSINESS_TYPE_SEND:
+                    bundle.putString("source","送机订单");
+                    map.put("source", "送机订单");
+                case Constants.BUSINESS_TYPE_DAILY:
+                    bundle.putString("source","按天包车");
+                    map.put("source", "按天包车");
+                case Constants.BUSINESS_TYPE_RENT:
+                    bundle.putString("source","单次接送");
+                    map.put("source", "单次接送");
+            }
+            MobclickAgent.onEvent(getActivity(), "login_trigger", map);
+
+            startFragment(new FgLogin(), bundle);
             return;
         }
         hotelPhoneAreaCodeStr = hotelPhoneAreaCodeStr.replace("+", "");
@@ -582,6 +609,9 @@ public class FgSubmit extends BaseFragment implements CompoundButton.OnCheckedCh
         }
 
         RequestSubmitBase requestSubmitBase = null;
+        Bundle bundle = new Bundle();//用于统计
+        HashMap<String,String> map = new HashMap<String,String>();//用于统计
+        String type = "";
 
         switch (mBusinessType) {
             case Constants.BUSINESS_TYPE_PICK:
@@ -599,6 +629,7 @@ public class FgSubmit extends BaseFragment implements CompoundButton.OnCheckedCh
                 orderBean.serviceTime = flightBean.arrDate + " " + flightBean.arrivalTime + ":00";
                 orderBean.brandSign = brandSign;
                 requestSubmitBase = new RequestSubmitPick(getActivity(), orderBean);
+                type = "submitorder_pickup";
                 break;
             case Constants.BUSINESS_TYPE_SEND:
                 orderBean.startAddress = arrivalBean.placeName;
@@ -618,6 +649,7 @@ public class FgSubmit extends BaseFragment implements CompoundButton.OnCheckedCh
                     orderBean.flight = flightBean.flightNo;
                 }
                 requestSubmitBase = new RequestSubmitSend(getActivity(), orderBean);
+                type = "submitorder_dropoff";
                 break;
             case Constants.BUSINESS_TYPE_DAILY:
                 if (startBean != null) {
@@ -648,6 +680,7 @@ public class FgSubmit extends BaseFragment implements CompoundButton.OnCheckedCh
                 }
                 orderBean.stayCityListStr = getPassCityStr();
                 requestSubmitBase = new RequestSubmitDaily(getActivity(), orderBean);
+                type = "submitorder_oneday";
                 break;
             case Constants.BUSINESS_TYPE_RENT:
                 orderBean.startAddress = startBean.placeName;
@@ -662,10 +695,19 @@ public class FgSubmit extends BaseFragment implements CompoundButton.OnCheckedCh
                 orderBean.serviceTime = serverTime + ":00";
 //                orderBean.city = serverTime;
                 requestSubmitBase = new RequestSubmitRent(getActivity(), orderBean);
+                type = "submitorder_oneway";
+                break;
+            case Constants.BUSINESS_TYPE_COMMEND:
+                type = "submitorder_route";
                 break;
         }
 
         HttpRequestUtils.request(getActivity(), requestSubmitBase, this, btn);
+
+        map.put("carstyle", carBean.desc);
+        map.put("source", source);
+//        map.put("guestcount", adult + child + "");
+        MobclickAgent.onEventValue(getActivity(), type, map, orderBean.orderPrice);
     }
 
     /**
@@ -711,7 +753,9 @@ public class FgSubmit extends BaseFragment implements CompoundButton.OnCheckedCh
         EventBus.getDefault().post(new EventAction(EventType.SET_MAIN_PAGE_INDEX, 2));
         Bundle bundle = new Bundle();
         bundle.putString(FgOrder.KEY_ORDER_ID, orderId);
+        bundle.putString("source",source);
         bringToFront(FgTravel.class, bundle);
+        bundle.putBoolean("needShowAlert",true);
         //下单后再返回,直接到主页
         startFragment(new FgOrder(), bundle);
     }
@@ -795,6 +839,7 @@ public class FgSubmit extends BaseFragment implements CompoundButton.OnCheckedCh
         expectedCompTime = bundle.getInt(FgCar.KEY_COM_TIME);
         needChildrenSeat = bundle.getBoolean(FgCar.KEY_NEED_CHILDREN_SEAT);
         needBanner = bundle.getBoolean(FgCar.KEY_NEED_BANNER);
+        source = bundle.getString("source");
     }
 
     @Override
@@ -876,8 +921,46 @@ public class FgSubmit extends BaseFragment implements CompoundButton.OnCheckedCh
     }
 
     @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.header_right_txt:
+                HashMap<String,String> map = new HashMap<String,String>();
+                map.put("source", "提交订单页面");
+
+                switch (mBusinessType) {
+                    case Constants.BUSINESS_TYPE_PICK:
+                        MobclickAgent.onEvent(getActivity(), "callcenter_pickup", map);
+                        v.setTag("提交订单页面,calldomestic_pickup,calldomestic_pickup");
+                        break;
+                    case Constants.BUSINESS_TYPE_SEND:
+                        MobclickAgent.onEvent(getActivity(), "callcenter_dropoff", map);
+                        v.setTag("提交订单页面,calldomestic_dropoff,calloverseas_dropoff");
+                        break;
+                    case Constants.BUSINESS_TYPE_DAILY:
+                        MobclickAgent.onEvent(getActivity(), "callcenter_oneday", map);
+                        v.setTag("提交订单页面,calldomestic_oneday,calloverseas_oneday");
+                        break;
+                    case Constants.BUSINESS_TYPE_RENT:
+                        MobclickAgent.onEvent(getActivity(), "callcenter_oneway", map);
+                        v.setTag("提交订单页面,calldomestic_oneway,calloverseas_oneway");
+                        break;
+                }
+                break;
+
+
+
+            case R.id.popup_order_children_item_sub:
+                int index = (int) v.getTag();
+                if (childrenSeatNumbers[index] > 0) {
+                    popupItemNumber[index].setText(String.valueOf(--childrenSeatNumbers[index]));
+                }
+                break;
+            case R.id.popup_order_children_item_plus:
+                index = (int) v.getTag();
+                if (childrenSeatNumbers[index] < 5) {
+                    popupItemNumber[index].setText(String.valueOf(++childrenSeatNumbers[index]));
+                }
+                break;
             case R.id.popup_order_children_cancel:
                 popupWindow.dismiss();
                 break;
@@ -890,22 +973,7 @@ public class FgSubmit extends BaseFragment implements CompoundButton.OnCheckedCh
                 childCount.setText(String.format(getString(R.string.submit_child), child));
                 inflateChildrenSeat();
                 break;
-
-            case R.id.popup_order_children_item_sub:
-                int index = (int) view.getTag();
-                if (childrenSeatNumbers[index] > 0) {
-                    popupItemNumber[index].setText(String.valueOf(--childrenSeatNumbers[index]));
-                }
-                break;
-            case R.id.popup_order_children_item_plus:
-                index = (int) view.getTag();
-                if (childrenSeatNumbers[index] < 5) {
-                    popupItemNumber[index].setText(String.valueOf(++childrenSeatNumbers[index]));
-                }
-                break;
-            default:
-                super.onClick(view);
-                break;
         }
+        super.onClick(v);
     }
 }

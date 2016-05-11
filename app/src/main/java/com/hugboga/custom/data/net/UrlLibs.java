@@ -1,6 +1,10 @@
 package com.hugboga.custom.data.net;
 
 
+import com.hugboga.custom.constants.Constants;
+
+import java.util.HashMap;
+
 public class UrlLibs {
 
     /**
@@ -22,6 +26,57 @@ public class UrlLibs {
     public static String SERVER_IP_HOST_PUBLIC = SERVER_HTTP_SCHEME + SERVER_IP_HOST_PUBLIC_DEFAULT;//主域名
 
 
+
+//    开发环境 host  res.dev.hbc.tech
+//    测试环境 host  res.test.hbc.tech
+//    生产环境 host  res2.huangbaoche.com
+
+    public static String DEV_H5_HOST = "http://res.dev.hbc.tech";
+    public static String TEST_H5_HOST = "http://res.test.hbc.tech";
+    public static String FORMAL_H5_HOST = "http://res2.huangbaoche.com";
+
+    public static String H5_HOST = FORMAL_H5_HOST;
+
+    public static String H5_ACTIVITY= H5_HOST + "/h5/cactivity/index.html?userId=";//国行
+    public static String H5_ABOUT = H5_HOST+"/h5/cinfos/about.html";//  关于我们
+    public static String H5_ADDFEE_C = H5_HOST+"/h5/cinfos/addfee_c.html";//  单次接送—后付费用说明
+    public static String H5_ADDFEE_J = H5_HOST+"/h5/cinfos/addfee_j.html";//  接机—后付费用说明
+    public static String H5_ADDFEE_R = H5_HOST+"/h5/cinfos/addfee_r.html";//  日租—后付费用说明
+    public static String H5_ADDFEE_S = H5_HOST+"/h5/cinfos/addfee_s.html";//  送机—后付费用说明
+    public static String H5_ADDFEE_X = H5_HOST+"/h5/cinfos/addfee_x.html"; // 后付费用说明
+    public static String H5_CANCEL = H5_HOST+"/h5/cinfos/cancel.html"; // 取消规则
+    public static String H5_INSURANCE = H5_HOST+"/h5/cinfos/insurance.html"; // 皇包车免费赠送保险说明
+    public static String H5_NOTICE = H5_HOST+"/h5/cinfos/notice.html";  //预订须知
+    public static String H5_NOTICE_V2_2 = H5_HOST+"/h5/cinfos/notice_v2_2.html"; // 预订须知
+    public static String H5_PRICE = H5_HOST+"/h5/cinfos/price.html";  //费用说明
+    public static String H5_PRICE_V2_2 = H5_HOST+"/h5/cinfos/price_v2_2.html"; // 费用说明
+    public static String H5_PROBLEM = H5_HOST+"/h5/cinfos/problem.html"; //常见问题
+    public static String H5_PROTOCOL = H5_HOST+"/h5/cinfos/protocol.html"; // 用户协议
+    public static String H5_SERVICE = H5_HOST+"/h5/cinfos/service.html"; // 服务承诺
+
+    public static String H5_TAI_MANGU = H5_HOST + "/h5/cinfos/tai/BBK.html";//曼谷
+    public static String H5_TAI_PUJIDAO = H5_HOST + "/h5/cinfos/tai/bki.html";//普吉
+    public static String H5_TAI_QINGMAI = H5_HOST + "/h5/cinfos/tai/cnx.html";//清迈
+    public static String H5_TAI_SUMEIDAO = H5_HOST + "/h5/cinfos/tai/VSM.html";//苏梅岛
+
+
+    public static HashMap<Integer, String> OverPriceMap = new HashMap<Integer, String>();
+
+    static {
+        OverPriceMap.put(Constants.BUSINESS_TYPE_PICK, H5_ADDFEE_J);
+        OverPriceMap.put(Constants.BUSINESS_TYPE_SEND, H5_ADDFEE_S);
+        OverPriceMap.put(Constants.BUSINESS_TYPE_DAILY, H5_ADDFEE_R);
+        OverPriceMap.put(Constants.BUSINESS_TYPE_RENT, H5_ADDFEE_C);
+        OverPriceMap.put(Constants.BUSINESS_TYPE_OTHER, H5_ADDFEE_X);
+    }
+
+
+
+
+
+
+
+
     /**
      * url host 的 enum
      */
@@ -30,6 +85,7 @@ public class UrlLibs {
         EXAMINATION(SERVER_IP_HOST_PUBLIC_EXAMINATION),
         STAGE(SERVER_IP_HOST_PUBLIC_STAGE),
         FORMAL(SERVER_IP_HOST_PUBLIC_FORMAL);
+
 
         public String url;
 
@@ -68,6 +124,22 @@ public class UrlLibs {
      **/
     public static final String SERVER_IP_LOGIN = SERVER_IP_PUBLIC_UER_CENTER + "login?";
     /**
+     * 微信登录校验openid是否已注册
+     **/
+    public static final String GET_ACCESS_TOKEN = SERVER_IP_PUBLIC_UER_CENTER + "wechat/login/check/unionid?";
+    /**
+     * 微信登录校验手机号是否填写
+     **/
+    public static final String WECHAT_CHECK_MOBILE = SERVER_IP_PUBLIC_UER_CENTER + "wechat/login/check/mobile?";
+    /**
+     * 微信绑定手机号
+     **/
+    public static final String WECHAT_BIND_MOBILE = SERVER_IP_PUBLIC_UER_CENTER + "wechat/bind/mobile?";
+    /**
+     * 微信登录通过code获取access_token
+     **/
+//    public static final String GET_ACCESS_TOKEN = "sns/oauth2/access_token?";
+    /**
      * 个人信息
      **/
     public static final String SERVER_IP_INFORMATION = SERVER_IP_PUBLIC_UER_CENTER + "information?";
@@ -79,6 +151,14 @@ public class UrlLibs {
      * 修改密码
      **/
     public static final String SERVER_IP_PASSWORD_UPDATE = SERVER_IP_PUBLIC_UER_CENTER + "password/update?";
+    /**
+     * 微信绑定设置密码
+     **/
+    public static final String WECHAT_SET_PASSWORD = SERVER_IP_PUBLIC_UER_CENTER + "wechat/login/register/mobile?";
+    /**
+     * 微信跳过后再绑定手机设置密码
+     **/
+    public static final String WECHAT_AFTER_SET_PASSWORD = SERVER_IP_PUBLIC_UER_CENTER + "wechat/update/password?";
     /**
      * 忘记密码
      **/
@@ -145,6 +225,8 @@ public class UrlLibs {
     public static final String SERVER_IP_TRADE = "trade/v1.0/c/order/";
 
     public static final String SERVER_IP_TRADE_1_1 = "trade/v1.1/c/order/";
+    public static final String SERVER_IP_TRADE_1_2 = "trade/v1.2/c/order/";
+
     /**
      * 提交订单 接机
      **/
@@ -156,7 +238,8 @@ public class UrlLibs {
     /**
      * 提交订单 日租包车
      **/
-    public static final String SERVER_IP_SUBMIT_DAILY = UrlLibs.SERVER_IP_TRADE_1_1 + "daily?";
+    public static final String SERVER_IP_SUBMIT_DAILY12 = UrlLibs.SERVER_IP_TRADE_1_2 + "daily?";
+
     /**
      * 提交订单 单次用车
      **/
@@ -242,5 +325,45 @@ public class UrlLibs {
      * 获取用户优惠卷
      */
     public static final String GET_USER_COUPON = "trade/v1.0/c/order/home?";
+
+    /**
+     * 上传经纬度  http://api.dev.hbc.tech/poi/v1.0/c/city?longitude=1&latitude=2
+     */
+    public static final String UPLOAD_LOCATION = "poi/v1.0/c/city?";
+
+    /**
+     * 获取车辆信息
+     */
+    public static final String GET_CAR_INFOS = "price/v1.2/c/dailyPrice?";
+
+    /**
+     * 新增投保人
+     */
+    public static final String ADD_INSURE = "insurance/v1.0/c/user/add";
+
+    /**
+     * 查询投保人
+     */
+    public static final String GET_INSURE_LIST = "insurance/v1.0/c/user/list";
+
+    /**
+     * 删除投保人
+     */
+    public static final String DEL_INSURE_LIST = "insurance/v1.0/c/user/delete";
+
+    /**
+     * 编辑投保人
+     */
+    public static final String EDIT_INSURE_LIST = "insurance/v1.0/c/user/edit";
+
+    /**
+     * 提交投保人
+     */
+    public static final String SUBMIT_INSURE_LIST = "insurance/v1.0/c/insurance/submit";
+
+    /**
+     * 获取启动图
+     */
+    public static final String GET_AD_PICTURE = "marketing/v1.0/c/activity/effectivestart";
 
 }

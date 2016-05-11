@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -15,16 +16,14 @@ import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
-import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.bean.CarBean;
 import com.hugboga.custom.data.bean.CarListBean;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.OrderContact;
+import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.data.bean.UserEntity;
-import com.hugboga.custom.data.event.EventAction;
-import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestPriceSku;
 import com.hugboga.custom.data.request.RequestSubmitBase;
 import com.hugboga.custom.data.request.RequestSubmitDaily;
@@ -32,6 +31,7 @@ import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.widget.DialogUtil;
+import com.umeng.analytics.MobclickAgent;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
@@ -43,8 +43,7 @@ import org.xutils.view.annotation.ViewInject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-
-import de.greenrobot.event.EventBus;
+import java.util.HashMap;
 
 /**
  * SKu 下单
@@ -80,17 +79,17 @@ public class FgSkuSubmit extends BaseFragment implements View.OnClickListener {
     @ViewInject(R.id.sku_user_phone_edit)
     private TextView skuPhone;//用户手机
     @ViewInject(R.id.sku_remark_edit)
-    private TextView remark;//备注
+    private EditText remark;//备注
     @ViewInject(R.id.bottom_bar_total_value)
     private TextView totalPrice;//价钱
 
     private SkuItemBean skuBean;
     private CityBean cityBean;
     private String serverDate;//包车日期，yyyy-MM-dd
-    private String serverTime = "08:00";//时间 HH-mm
+    private String serverTime = "09:00";//时间 HH-mm
     private int adult;//成人数
     private int child;//儿童数
-    private boolean needChildrenSeat = true;//是否需要儿童座椅
+    private boolean needChildrenSeat = false;//是否需要儿童座椅
     private PopupWindow popupWindow;//弹窗
     private CarListBean carListBean;//车型
     private FgCarSuk fgCarSuk;
@@ -107,6 +106,7 @@ public class FgSkuSubmit extends BaseFragment implements View.OnClickListener {
     protected void initView() {
         skuBean = (SkuItemBean) getArguments().getSerializable(FgSkuDetail.WEB_SKU);
         cityBean = (CityBean) getArguments().getSerializable(FgSkuDetail.WEB_CITY);
+        source = getArguments().getString("source");
         MLog.e("skuBean= " + skuBean);
         if (skuBean == null) return;
         skuTitle.setText(skuBean.goodsName);
@@ -122,7 +122,7 @@ public class FgSkuSubmit extends BaseFragment implements View.OnClickListener {
         if (!TextUtils.isEmpty(phone)) {
             skuPhone.setText(phone);
         }
-        needChildrenSeat = cityBean != null && cityBean.childSeatSwitch;
+        needChildrenSeat =  cityBean != null && cityBean.childSeatSwitch;
     }
 
     @Override
@@ -154,6 +154,7 @@ public class FgSkuSubmit extends BaseFragment implements View.OnClickListener {
             R.id.bottom_bar_btn
     })
     private void onClickView(View view) {
+        HashMap<String,String> map = new HashMap<String,String>();
         switch (view.getId()) {
             case R.id.sku_start_day_layout://开始日期
             case R.id.sku_start_day_edit://开始日期
@@ -207,18 +208,25 @@ public class FgSkuSubmit extends BaseFragment implements View.OnClickListener {
                 FgPoiSearch fg = new FgPoiSearch();
                 bundle = new Bundle();
                 bundle.putString(KEY_FROM, "from");
+                bundle.putString("source","下单过程中");
                 bundle.putInt(FgPoiSearch.KEY_CITY_ID, skuBean.depCityId);
                 bundle.putString(FgPoiSearch.KEY_LOCATION, cityBean.location);
                 startFragment(fg, bundle);
+                map.put("source", "下单过程中");
+                MobclickAgent.onEvent(getActivity(), "search_trigger", map);
                 break;
             case R.id.sku_area_code://电话 区号
                 startFragment(new FgChooseCountry());
                 break;
             case R.id.sku_info_call_1://电话 国内
                 PhoneInfo.CallDial(getActivity(), Constants.CALL_NUMBER_IN);
+                map.put("source", "提交订单页面");
+                MobclickAgent.onEvent(getActivity(), "calldomestic_route", map);
                 break;
             case R.id.sku_info_call_2://电话 境外
                 PhoneInfo.CallDial(getActivity(), Constants.CALL_NUMBER_OUT);
+                map.put("source", "提交订单页面");
+                MobclickAgent.onEvent(getActivity(), "calloverseas_route", map);
                 break;
             case R.id.bottom_bar_btn:
                 submit();
@@ -302,8 +310,22 @@ public class FgSkuSubmit extends BaseFragment implements View.OnClickListener {
                 OrderBean orderBean = getOrderByInput();
                 RequestSubmitDaily request = new RequestSubmitDaily(getActivity(), orderBean);
                 requestData(request);
+
+                HashMap<String,String> map = new HashMap<String,String>();//用于统计
+                map.put("carstyle", orderBean.carDesc);
+                map.put("source", source);
+//                map.put("guestcount", orderBean.adult + orderBean.child + "");
+//                map.put("quoteprice", orderBean.orderPrice + "");
+//                map.put("payableamount", orderBean.orderPriceInfo != null ? orderBean.orderPriceInfo.shouldPay + "" : "");
+                MobclickAgent.onEventValue(getActivity(), "submitorder_route" , map, orderBean.orderPrice);
             }else{
-                startFragment(new FgLogin());
+                Bundle bundle = new Bundle();//用于统计
+                bundle.putString("source","SKU下单");
+                startFragment(new FgLogin(), bundle);
+
+                HashMap<String,String> map = new HashMap<String,String>();//用于统计
+                map.put("source", "SKU下单");
+                MobclickAgent.onEvent(getActivity(), "login_trigger", map);
             }
         }
 
@@ -361,7 +383,9 @@ public class FgSkuSubmit extends BaseFragment implements View.OnClickListener {
         orderBean.outTownDays = skuBean.goodsType == 3 ? 0 : skuBean.daysCount;
         orderBean.skuPoi = getPoiStr();
         orderBean.stayCityListStr = getPassCityStr();
-
+        orderBean.priceChannel = carTypeBean.originalPrice+"";
+        orderBean.userName = contactName;
+        orderBean.userRemark = remark.getText().toString();
         return orderBean;
     }
 
@@ -526,6 +550,8 @@ public class FgSkuSubmit extends BaseFragment implements View.OnClickListener {
             String orderNo = ((RequestSubmitBase) request).getData();
             Bundle bundle = new Bundle();
             bundle.putString(FgOrder.KEY_ORDER_ID, orderNo);
+            bundle.putBoolean("needShowAlert",true);
+            bundle.putString("source", source);
             startFragment(new FgOrder(), bundle);
         }
 

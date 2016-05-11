@@ -2,17 +2,15 @@ package com.hugboga.custom.data.request;
 
 import android.content.Context;
 
-import com.huangbaoche.hbcframe.data.net.HbcParamsBuilder;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
-import com.hugboga.custom.data.bean.SkuCityBean;
+import com.hugboga.custom.data.net.NewParamsBuilder;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.parser.ParserSkuCity;
 
 import org.xutils.http.annotation.HttpRequest;
 
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -20,7 +18,7 @@ import java.util.Objects;
  */
 @HttpRequest(
         path = UrlLibs.SERVER_IP_CITY_SKU,
-        builder = HbcParamsBuilder.class)
+        builder = NewParamsBuilder.class)
 public class RequestSkuList extends BaseRequest<Objects[]> {
 
     private final String cityId;

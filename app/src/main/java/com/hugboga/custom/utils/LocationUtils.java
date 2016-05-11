@@ -6,7 +6,7 @@ import android.location.LocationManager;
 import android.provider.Settings;
 
 /**
- * Created by dyt on 16/4/12.
+ * Created  on 16/4/12.
  */
 public class LocationUtils {
 
@@ -27,9 +27,9 @@ public class LocationUtils {
         new SharedPre(context).saveStringValue("countryName",countryName);
     }
 
-    public static void gpsIsOpen(Context context){
+    public static boolean gpsIsOpen(Context context){
         LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-        locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
     }
 
 

@@ -2,6 +2,7 @@ package com.hugboga.custom.utils;
 
 import android.text.TextUtils;
 
+import java.text.DateFormat;
 import java.text.DateFormatSymbols;
 import java.text.DecimalFormat;
 import java.text.ParseException;
@@ -513,5 +514,46 @@ public class DateUtils {
         calendar.setTime(date);
         calendar.add(Calendar.DAY_OF_MONTH, days);
         return calendar.getTime();
+    }
+
+
+    public static int compareDate(String startDate,String endDate){
+        try {
+            Date sDate = getDateByStr(startDate, new SimpleDateFormat("yyyy-MM-dd"));
+            Date eDate = getDateByStr(endDate, new SimpleDateFormat("yyyy-MM-dd"));
+            return sDate.compareTo(eDate);
+        }catch (Exception e){
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    /**
+     * 两个时间之间相差距离多少天
+     * @param one 时间参数 1：
+     * @param two 时间参数 2：
+     * @return 相差天数
+     */
+    public static long getDistanceDays(String str1, String str2){
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        Date one;
+        Date two;
+        long days=0;
+        try {
+            one = df.parse(str1);
+            two = df.parse(str2);
+            long time1 = one.getTime();
+            long time2 = two.getTime();
+            long diff ;
+            if(time1<time2) {
+                diff = time2 - time1;
+            } else {
+                diff = time1 - time2;
+            }
+            days = diff / (1000 * 60 * 60 * 24);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return days;
     }
 }

@@ -50,10 +50,15 @@ public class FgWebInfo extends BaseFragment implements View.OnKeyListener {
 
     WebViewClient webClient = new WebViewClient() {
 
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            super.onPageFinished(view, url);
+//            fgTitle.setText(view.getTitle());
+        }
 
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            webView.loadUrl(url);
+//            webView.loadUrl(url);
             return false;
         }
 
@@ -119,6 +124,8 @@ public class FgWebInfo extends BaseFragment implements View.OnKeyListener {
     };
 
     WebChromeClient webChromeClient = new WebChromeClient() {
+
+
         @Override
         public void onReceivedTitle(WebView view, String title) {
             super.onReceivedTitle(view, title);
@@ -182,6 +189,16 @@ public class FgWebInfo extends BaseFragment implements View.OnKeyListener {
     protected void initHeader() {
 //        fgTitle.setTextColor(getResources().getColor(R.color.my_content_title_color));
 //        fgTitle.setText("客服中心");
+        fgLeftBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (webView.canGoBack()) {
+                    webView.goBack();
+                }else{
+                    finish();
+                }
+            }
+        });
     }
 
     @Override

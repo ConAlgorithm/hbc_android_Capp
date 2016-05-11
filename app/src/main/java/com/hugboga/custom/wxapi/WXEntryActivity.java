@@ -5,12 +5,19 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.huangbaoche.hbcframe.util.MLog;
+import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.event.EventType;
+import com.hugboga.custom.fragment.FgLogin;
 import com.tencent.mm.sdk.modelbase.BaseReq;
 import com.tencent.mm.sdk.modelbase.BaseResp;
+import com.tencent.mm.sdk.modelmsg.SendAuth;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by ZONGFI on 2015/5/14.
@@ -37,6 +44,13 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
         MLog.e("onResp " + resp.errCode + " " + resp.errStr);
         switch (resp.errCode) {
             case BaseResp.ErrCode.ERR_OK:
+                if(FgLogin.isWXLogin){
+                    SendAuth.Resp sendResp = (SendAuth.Resp) resp;
+//                    FgLogin.WX_CODE = sendResp.code;
+                    FgLogin.isWXLogin = false;
+                    EventBus.getDefault().post(
+                            new EventAction(EventType.WECHAT_LOGIN_CODE,sendResp));
+                }
                 //分享成功
                 Log.i(TAG, "分享成功");
                 break;

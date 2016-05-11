@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="@dimen/default_margin_medium"
@@ -19,14 +20,20 @@
             android:layout_width="@dimen/letter_img_width"
             android:layout_height="@dimen/letter_img_width">
 
-
-            <com.hugboga.custom.widget.CircularImage
+            <net.grobas.view.PolygonImageView
                 android:id="@+id/letter_item_img"
-                android:layout_width="@dimen/letter_img_width"
-                android:layout_height="@dimen/letter_img_width"
-                android:background="#00000000"
-                android:scaleType="centerCrop"
-                android:src="@mipmap/ic_launcher" />
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@mipmap/chat_head"
+                app:poly_shadow="false"
+                app:poly_shadow_color="@android:color/black"
+                app:poly_border="false"
+                app:poly_border_color="@android:color/white"
+                app:poly_vertices="0"
+                app:poly_border_width="5dp"
+                app:poly_corner_radius="5"
+                app:poly_rotation_angle="25" />
+
 
             <TextView
                 android:id="@+id/footer_order_btn_point"

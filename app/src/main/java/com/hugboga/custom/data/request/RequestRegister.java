@@ -2,11 +2,11 @@ package com.hugboga.custom.data.request;
 
 import android.content.Context;
 
-import com.huangbaoche.hbcframe.data.net.HbcParamsBuilder;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.data.bean.UserBean;
+import com.hugboga.custom.data.net.NewParamsBuilder;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.parser.ParserRegister;
 
@@ -18,7 +18,7 @@ import java.util.HashMap;
 /**
  * Created by Administrator on 2016/3/16.
  */
-@HttpRequest(path = UrlLibs.SERVER_IP_REGISTER, builder = HbcParamsBuilder.class)
+@HttpRequest(path = UrlLibs.SERVER_IP_REGISTER, builder = NewParamsBuilder.class)
 public class RequestRegister extends BaseRequest<UserBean> {
     public RequestRegister(Context context, String areaCode, String mobile, String password, String verity, String referrerId, int channel) {
         super(context);

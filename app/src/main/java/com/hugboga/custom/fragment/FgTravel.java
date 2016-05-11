@@ -31,6 +31,7 @@ import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestTravel;
+import com.umeng.analytics.MobclickAgent;
 
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
@@ -305,7 +306,13 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, OnIt
                 reSetTabView(2);
                 break;
             case R.id.travel_login_btn:
-                startFragment(new FgLogin());
+                Bundle bundle = new Bundle();
+                bundle.putString("source","行程页");
+                startFragment(new FgLogin(),bundle);
+
+                HashMap<String,String> map = new HashMap<String,String>();
+                map.put("source", "行程页");
+                MobclickAgent.onEvent(getActivity(), "login_trigger", map);
                 break;
             default:
                 break;
@@ -378,6 +385,7 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, OnIt
                 bundle.putInt(KEY_BUSINESS_TYPE, bean.orderType);
                 bundle.putInt(KEY_GOODS_TYPE, bean.orderGoodsType);
                 bundle.putString(FgOrder.KEY_ORDER_ID, bean.orderNo);
+                bundle.putString("source", bean.orderType == 5 ? bean.serviceCityName : "首页");
                 startFragment(new FgOrder(), bundle);
             } else if (view == fgTravelFinish) {
                 OrderBean bean = finishAdapter.getDatas().get(position);
@@ -385,6 +393,7 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, OnIt
                 bundle.putInt(KEY_BUSINESS_TYPE, bean.orderType);
                 bundle.putInt(KEY_GOODS_TYPE, bean.orderGoodsType);
                 bundle.putString(FgOrder.KEY_ORDER_ID, bean.orderNo);
+                bundle.putString("source", bean.orderType == 5 ? bean.serviceCityName : "首页");
                 startFragment(new FgOrder(), bundle);
             } else if (view == fgTravelCancel) {
                 OrderBean bean = cancelAdapter.getDatas().get(position);
@@ -392,6 +401,7 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, OnIt
                 bundle.putInt(KEY_BUSINESS_TYPE, bean.orderType);
                 bundle.putInt(KEY_GOODS_TYPE, bean.orderGoodsType);
                 bundle.putString(FgOrder.KEY_ORDER_ID, bean.orderNo);
+                bundle.putString("source", bean.orderType == 5 ? bean.serviceCityName : "首页");
                 startFragment(new FgOrder(), bundle);
             }
         }

@@ -200,3 +200,34 @@
 -keep class com.hugboga.custom.data.event.EventAction { *; }
 -keep class com.hugboga.custom.fragment.FgPersonInfo{ *; }
 -keep class com.hugboga.custom.fragment.FgIMChat{ *; }
+-keep class com.hugboga.custom.activity.BaseActivity{ *; }
+-keep class com.hugboga.custom.MyApplication{ *; }
+
+-keep class butterknife.** { *; }
+-dontwarn butterknife.internal.**
+-keep class **$$ViewBinder { *; }
+
+-keepclasseswithmembernames class * {
+    @butterknife.* <fields>;
+}
+
+-keepclasseswithmembernames class * {
+    @butterknife.* <methods>;
+}
+
+-keep class com.anupcowkur.reservoir.**{*;}
+
+-keep class com.hugboga.custom.data.bean.**{*;}
+
+-keep class * implements android.os.Parcelable {
+  public static final android.os.Parcelable$Creator *;
+}
+
+-keep public class * implements com.bumptech.glide.module.GlideModule
+-keep public enum com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$** {
+  **[] $VALUES;
+  public *;
+}
+-printmapping build/outputs/mapping/release/mapping.txt
+-dontwarn com.tencent.bugly.**
+-keep public class com.tencent.bugly.**{*;}

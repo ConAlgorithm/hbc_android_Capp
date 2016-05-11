@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal"
+        android:background="@color/allbg_gray"
         android:paddingLeft="15dp"
         android:paddingRight="25dip"
         android:paddingTop="15dp">
@@ -42,6 +43,7 @@
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingLeft="15dp"
+        android:background="@color/allbg_gray"
         android:paddingRight="25dip"
         android:paddingTop="15dp">
 
@@ -99,6 +101,7 @@
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingLeft="15dp"
+        android:background="@color/allbg_gray"
         android:paddingRight="0dip"
         android:paddingTop="15dp"
         android:visibility="gone">
@@ -164,6 +167,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal"
+        android:background="@color/allbg_gray"
         android:paddingLeft="15dp"
         android:paddingRight="0dip"
         android:paddingTop="15dp"
@@ -236,9 +240,11 @@
         android:textColor="@color/basic_daily_color" />
 
     <RelativeLayout
+        android:id="@+id/edit_not_show"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
+        android:background="@color/allbg_gray"
         android:paddingLeft="15dp"
         android:paddingRight="25dip">
 
@@ -362,6 +368,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal"
+        android:background="@color/allbg_gray"
         android:paddingLeft="15dp"
         android:paddingRight="25dip"
         android:paddingTop="15dp">
@@ -394,6 +401,7 @@
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingLeft="15dp"
+        android:background="@color/allbg_gray"
         android:paddingRight="25dip"
         android:paddingTop="15dp"
         android:visibility="gone">
@@ -426,6 +434,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal"
+        android:background="@color/allbg_gray"
         android:paddingLeft="15dp"
         android:paddingRight="25dip"
         android:paddingTop="15dp"
@@ -458,6 +467,7 @@
         android:id="@+id/submit_hotel_phone_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/allbg_gray"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingLeft="15dp"
@@ -529,6 +539,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal"
+        android:background="@color/allbg_gray"
         android:paddingLeft="15dp"
         android:paddingRight="25dip"
         android:paddingTop="15dp"
@@ -561,6 +572,7 @@
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingLeft="15dp"
+        android:background="@color/allbg_gray"
         android:paddingRight="25dip"
         android:paddingTop="15dp"
         android:visibility="gone">
@@ -593,6 +605,7 @@
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingLeft="15dp"
+        android:background="@color/allbg_gray"
         android:paddingRight="25dip"
         android:layout_marginTop="15dp"
         android:visibility="gone">
@@ -635,6 +648,7 @@
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingLeft="15dp"
+        android:background="@color/allbg_gray"
         android:paddingRight="25dip"
         android:paddingTop="15dp">
 
@@ -665,6 +679,7 @@
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingLeft="15dp"
+        android:background="@color/allbg_gray"
         android:paddingRight="25dip"
         android:paddingTop="15dp"
         android:visibility="gone">

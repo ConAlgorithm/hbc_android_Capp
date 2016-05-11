@@ -7,11 +7,15 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.utils.ToastUtils;
+import com.umeng.analytics.MobclickAgent;
 
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
+
+import java.util.HashMap;
 
 /**
  * 接送机
@@ -32,6 +36,7 @@ public class FgTransfer extends BaseFragment {
     private FgPick fgPick;
     private FgSend fgSend;
     private FragmentManager fm;
+    private int pickOrSend = 1; //1接机 2送机
 
     @Override
     protected void initHeader() {
@@ -44,11 +49,22 @@ public class FgTransfer extends BaseFragment {
     protected void initView() {
         fgPick = new FgPick();
         fgSend = new FgSend();
+
+        Bundle bundle = new Bundle();
+        if(getArguments()!=null){
+            bundle.putAll(getArguments());
+        }
+        fgPick.setArguments(bundle);
+        fgSend.setArguments(bundle);
+
+
         fm = getFragmentManager();
+
         FragmentTransaction transaction = fm.beginTransaction();
         transaction.add(R.id.daily_content, fgPick);
 //        transaction.addToBackStack(null);
         transaction.commit();
+        pickOrSend = 1;
     }
 
     @Override
@@ -68,6 +84,7 @@ public class FgTransfer extends BaseFragment {
         switch (view.getId()) {
             case R.id.daily_layout_1:
                 selectTap(0);
+                pickOrSend = 1;
                 if (!fgPick.isAdded()) {
                     transaction = fm.beginTransaction();
                     transaction.add(R.id.daily_content, fgPick);
@@ -82,6 +99,7 @@ public class FgTransfer extends BaseFragment {
                 break;
             case R.id.daily_layout_2:
                 selectTap(1);
+                pickOrSend = 2;
                 if (!fgSend.isAdded()) {
                     transaction = fm.beginTransaction();
                     transaction.add(R.id.daily_content, fgSend);
@@ -104,6 +122,27 @@ public class FgTransfer extends BaseFragment {
 //        mBusinessType = Constants.BUSINESS_TYPE_DAILY;
 //        return mBusinessType;
 //    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.header_right_txt:
+//                DialogUtil.getInstance(getActivity()).showCallDialog();
+                if(pickOrSend == 1){
+                    HashMap<String,String> map = new HashMap<String,String>();
+                    map.put("source", "填写行程页面");
+                    MobclickAgent.onEvent(getActivity(), "callcenter_pickup", map);
+                    v.setTag("填写行程页面,calldomestic_pickup,calldomestic_pickup");
+                }else if(pickOrSend == 2){
+                    HashMap<String,String> map = new HashMap<String,String>();
+                    map.put("source", "填写行程页面");
+                    MobclickAgent.onEvent(getActivity(), "callcenter_dropoff", map);
+                    v.setTag("填写行程页面,calldomestic_dropoff,calloverseas_dropoff");
+                }
+                break;
+        }
+        super.onClick(v);
+    }
 
     private void selectTap(int index) {
         if (index == 1) {

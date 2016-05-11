@@ -15,7 +15,6 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.CarViewpagerAdapter;
 import com.hugboga.custom.constants.CarTypeEnum;
 import com.hugboga.custom.constants.Constants;
-import com.hugboga.custom.constants.ResourcesConstants;
 import com.hugboga.custom.data.bean.AirPort;
 import com.hugboga.custom.data.bean.CarBean;
 import com.hugboga.custom.data.bean.CarListBean;
@@ -23,6 +22,7 @@ import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.DailyBean;
 import com.hugboga.custom.data.bean.FlightBean;
 import com.hugboga.custom.data.bean.PoiBean;
+import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestCheckPrice;
 import com.hugboga.custom.data.request.RequestCheckPriceForDaily;
 import com.hugboga.custom.data.request.RequestCheckPriceForPickup;
@@ -31,6 +31,7 @@ import com.hugboga.custom.data.request.RequestCheckPriceForTransfer;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.JazzyViewPager;
+import com.umeng.analytics.MobclickAgent;
 
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
@@ -38,6 +39,7 @@ import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 
 
@@ -129,6 +131,9 @@ public class FgCar extends BaseFragment implements ViewPager.OnPageChangeListene
         setProgressState(1);
         fgTitle.setText(getString(Constants.TitleMap.get(mGoodsType)));
         mDialogUtil = DialogUtil.getInstance(getActivity());
+        if(getArguments() != null){
+            source = getArguments().getString("source","");
+        }
     }
 
     @Override
@@ -293,12 +298,33 @@ public class FgCar extends BaseFragment implements ViewPager.OnPageChangeListene
                 bundle.putDouble(KEY_DISTANCE, distance);
                 bundle.putBoolean(KEY_NEED_CHILDREN_SEAT, needChildrenSeat);
                 bundle.putBoolean(KEY_NEED_BANNER, needBanner);
+                bundle.putString("source", source);
                 startFragment(fg, bundle);
+
+                HashMap<String,String> map = new HashMap<String,String>();
+                map.put("source", source);
+                map.put("carstyle", carBean.desc);
+                String type = "";
+                switch (mBusinessType) {
+                    case Constants.BUSINESS_TYPE_PICK:
+                        type = "carnext_pickup";
+                        break;
+                    case Constants.BUSINESS_TYPE_SEND:
+                        type = "carnext_dropoff";
+                        break;
+                    case Constants.BUSINESS_TYPE_DAILY:
+                        type = "carnext_oneday";
+                        break;
+                    case Constants.BUSINESS_TYPE_RENT:
+                        type = "carnext_oneway";
+                        break;
+                }
+                MobclickAgent.onEvent(getActivity(), type, map);
                 break;
             case R.id.car_price_info:
                 FgWebInfo fgWebInfo = new FgWebInfo();
                 bundle = new Bundle();
-                bundle.putString(FgWebInfo.WEB_URL, ResourcesConstants.H5_PRICE);
+                bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_PRICE);
                 startFragment(fgWebInfo, bundle);
                 break;
             case R.id.car_mask:
@@ -400,4 +426,33 @@ public class FgCar extends BaseFragment implements ViewPager.OnPageChangeListene
 
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.header_right_txt:
+                HashMap<String,String> map = new HashMap<String,String>();
+                map.put("source", "选车页面");
+
+                switch (mBusinessType) {
+                    case Constants.BUSINESS_TYPE_PICK:
+                        MobclickAgent.onEvent(getActivity(), "callcenter_pickup", map);
+                        v.setTag("选车页面,calldomestic_pickup,calldomestic_pickup");
+                        break;
+                    case Constants.BUSINESS_TYPE_SEND:
+                        MobclickAgent.onEvent(getActivity(), "callcenter_dropoff", map);
+                        v.setTag("选车页面,calldomestic_dropoff,calloverseas_dropoff");
+                        break;
+                    case Constants.BUSINESS_TYPE_DAILY:
+                        MobclickAgent.onEvent(getActivity(), "callcenter_oneday", map);
+                        v.setTag("选车页面,calldomestic_oneday,calloverseas_oneday");
+                        break;
+                    case Constants.BUSINESS_TYPE_RENT:
+                        MobclickAgent.onEvent(getActivity(), "callcenter_oneway", map);
+                        v.setTag("选车页面,calldomestic_oneway,calloverseas_oneway");
+                        break;
+                }
+                break;
+        }
+        super.onClick(v);
+    }
 }

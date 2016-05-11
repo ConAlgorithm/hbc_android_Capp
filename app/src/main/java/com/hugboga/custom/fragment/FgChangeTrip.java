@@ -9,9 +9,10 @@ import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -21,7 +22,6 @@ import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.AirPort;
-import com.hugboga.custom.data.bean.CarBean;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.FlightBean;
 import com.hugboga.custom.data.bean.OrderBean;
@@ -30,6 +30,7 @@ import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.request.RequestChangeTrip;
 import com.hugboga.custom.utils.DBHelper;
 import com.hugboga.custom.widget.DialogUtil;
+import com.umeng.analytics.MobclickAgent;
 
 import org.xutils.DbManager;
 import org.xutils.common.Callback;
@@ -41,6 +42,7 @@ import org.xutils.view.annotation.ViewInject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 
 /**
  * Created by admin on 2015/7/18.
@@ -122,7 +124,10 @@ public class FgChangeTrip extends BaseFragment implements View.OnClickListener {
     @ViewInject(R.id.submit_flight_no_layout)
     private View flightNOLayout;//航班号,送机填写
     @ViewInject(R.id.submit_remark)
-    private TextView remark;//备注
+    private EditText remark;//备注
+
+    @ViewInject(R.id.edit_not_show)
+    RelativeLayout edit_not_show;
 
 
     @ViewInject(R.id.change_trip_btn)
@@ -148,6 +153,9 @@ public class FgChangeTrip extends BaseFragment implements View.OnClickListener {
 
     @Override
     protected void initView() {
+
+//        edit_not_show.setVisibility(View.GONE);
+
         mOrderBean = (OrderBean) getArguments().getSerializable(KEY_ORDER_BEAN);
         mDialogUtil = DialogUtil.getInstance(getActivity());
         dbUtils = new DBHelper(getActivity()).getDbManager();
@@ -192,8 +200,9 @@ public class FgChangeTrip extends BaseFragment implements View.OnClickListener {
                     hotelPhoneAreaCode.setText("+" + mOrderBean.serviceAreaCode);
                 }
                 break;
-            case Constants.BUSINESS_TYPE_DAILY:
-                dailyPassCityLayout.setVisibility(View.VISIBLE);
+//            case Constants.BUSINESS_TYPE_DAILY:
+////                dailyPassCityLayout.setVisibility(View.VISIBLE);
+//                edit_not_show.setVisibility(View.GONE);
             case Constants.BUSINESS_TYPE_COMMEND:
                 tripLabel.setText(getResources().getString(R.string.trip_tip_label2));
                 pickNameLayout.setVisibility(View.GONE);
@@ -206,7 +215,8 @@ public class FgChangeTrip extends BaseFragment implements View.OnClickListener {
                 serverDateTime.setText(mOrderBean.serviceTime + " " + mOrderBean.serviceStartTime + "(当地时间)");
                 hotelPhone.setText(mOrderBean.serviceAddressTel);
                 if (!TextUtils.isEmpty(mOrderBean.serviceAreaCode)) {
-                    hotelPhoneAreaCode.setText("+" + mOrderBean.serviceAreaCode);
+                    String phoneNum = mOrderBean.serviceAreaCode.startsWith("+")?mOrderBean.serviceAreaCode:("+" + mOrderBean.serviceAreaCode);
+                    hotelPhoneAreaCode.setText(phoneNum);
                 }
 
 
@@ -227,6 +237,43 @@ public class FgChangeTrip extends BaseFragment implements View.OnClickListener {
                     }
                     dailyPassCityValue.setText(sb.toString());
                 }
+                break;
+            case Constants.BUSINESS_TYPE_DAILY:
+                tripLabel.setText(getResources().getString(R.string.trip_tip_label2));
+                pickNameLayout.setVisibility(View.GONE);
+                pickNameLayout.setVisibility(View.GONE);
+                pickVisaLayout.setVisibility(View.GONE);
+                flightNOLayout.setVisibility(View.GONE);
+                serverDateTimeLayout.setVisibility(View.VISIBLE);
+                serverPlaceLayout.setVisibility(View.VISIBLE);
+                serverPlace.setText(mOrderBean.startAddress);
+                serverDateTime.setText(mOrderBean.serviceTime + " " + mOrderBean.serviceStartTime + "(当地时间)");
+                hotelPhone.setText(mOrderBean.serviceAddressTel);
+                if (!TextUtils.isEmpty(mOrderBean.serviceAreaCode)) {
+                    String phoneNum = mOrderBean.serviceAreaCode.startsWith("+")?mOrderBean.serviceAreaCode:("+" + mOrderBean.serviceAreaCode);
+                    hotelPhoneAreaCode.setText(phoneNum);
+                }
+
+
+                if (mOrderBean.orderGoodsType == 3) {//市内包车
+                    dailyPassCityArrow.setVisibility(View.GONE);
+                    dailyPassCityValue.setClickable(false);
+                    dailyPassCityLayout.setClickable(false);
+                    dailyPassCityValue.setText(mOrderBean.journeyComment.toString());
+                } else {//跨城市
+                    dailyPassCityArrow.setVisibility(View.VISIBLE);
+                    dailyPassCityValue.setClickable(true);
+                    dailyPassCityValue.setFocusable(false);
+                    dailyPassCityLayout.setClickable(true);
+                    StringBuffer sb = new StringBuffer();
+                    for (int i = 0; i < passCityList.size(); i++) {
+                        CityBean city = passCityList.get(i);
+                        sb.append(city.name).append("、");
+                    }
+                    dailyPassCityValue.setText(sb.toString());
+                }
+//                dailyPassCityLayout.setVisibility(View.VISIBLE);
+                edit_not_show.setVisibility(View.GONE);
                 break;
             case Constants.BUSINESS_TYPE_RENT:
                 tripLabel.setText(getResources().getString(R.string.trip_tip_label1));
@@ -253,6 +300,7 @@ public class FgChangeTrip extends BaseFragment implements View.OnClickListener {
                 phoneLayout2.setVisibility(View.VISIBLE);
             } else if (i == 2) {
                 phoneLayout3.setVisibility(View.VISIBLE);
+                phoneAdd.setTextColor(getActivity().getResources().getColor(R.color.basic_gray));
             }
         }
         // 儿童座椅
@@ -320,8 +368,8 @@ public class FgChangeTrip extends BaseFragment implements View.OnClickListener {
             R.id.submit_adult_plus,
             R.id.submit_child_sub,
             R.id.submit_child_plus,
-            R.id.popup_order_children_item_sub,
-            R.id.popup_order_children_item_plus,
+//            R.id.popup_order_children_item_sub,
+//            R.id.popup_order_children_item_plus,
             R.id.submit_areacode,
             R.id.submit_areacode2,
             R.id.submit_areacode3,
@@ -396,30 +444,30 @@ public class FgChangeTrip extends BaseFragment implements View.OnClickListener {
                 }
                 childCount.setText(String.format(getString(R.string.submit_child), ++child));
                 break;
-            case R.id.popup_order_children_item_sub:
-                int index = (int) view.getTag();
-                if (childrenSeatNumbers[index] > 0) {
-                    popupItemNumber[index].setText(String.valueOf(--childrenSeatNumbers[index]));
-                }
-                break;
-            case R.id.popup_order_children_item_plus:
-                index = (int) view.getTag();
-                if (childrenSeatNumbers[index] < 5) {
-                    popupItemNumber[index].setText(String.valueOf(++childrenSeatNumbers[index]));
-                }
-                break;
-            case R.id.popup_order_children_cancel:
-                popupWindow.dismiss();
-                break;
-            case R.id.popup_order_children_ok:
-                popupWindow.dismiss();
-                child = 0;
-                for (int number : childrenSeatNumbers) {
-                    child += number;
-                }
-                childCount.setText(String.format(getString(R.string.submit_child), child));
-                inflateChildrenSeat();
-                break;
+//            case R.id.popup_order_children_item_sub:
+//                int index = (int) view.getTag();
+//                if (childrenSeatNumbers[index] > 0) {
+//                    popupItemNumber[index].setText(String.valueOf(--childrenSeatNumbers[index]));
+//                }
+//                break;
+//            case R.id.popup_order_children_item_plus:
+//                index = (int) view.getTag();
+//                if (childrenSeatNumbers[index] < 5) {
+//                    popupItemNumber[index].setText(String.valueOf(++childrenSeatNumbers[index]));
+//                }
+//                break;
+//            case R.id.popup_order_children_cancel:
+//                popupWindow.dismiss();
+//                break;
+//            case R.id.popup_order_children_ok:
+//                popupWindow.dismiss();
+//                child = 0;
+//                for (int number : childrenSeatNumbers) {
+//                    child += number;
+//                }
+//                childCount.setText(String.format(getString(R.string.submit_child), child));
+//                inflateChildrenSeat();
+//                break;
             case R.id.submit_areacode:
             case R.id.submit_areacode2:
             case R.id.submit_areacode3:
@@ -455,9 +503,6 @@ public class FgChangeTrip extends BaseFragment implements View.OnClickListener {
                 exceptId.add(mOrderBean.serviceEndCityid);
                 bundle.putSerializable(FgChooseCity.KEY_CITY_EXCEPT_ID_LIST, exceptId);
                 startFragment(new FgChooseCity(), bundle);
-                break;
-            default:
-                super.onClick(view);
                 break;
         }
     }
@@ -573,7 +618,8 @@ public class FgChangeTrip extends BaseFragment implements View.OnClickListener {
         orderBean.contactName = contactName;
         orderBean.adult = adult;
         orderBean.child = child;
-        orderBean.memo = remark.getText().toString().trim();
+        orderBean.memo = TextUtils.isEmpty(remark.getText())?" ":remark.getText().toString();
+        orderBean.userRemark = remark.getText().toString().trim();
         orderBean.childSeat = new ArrayList<>();
         for (int i = 0; i < childrenSeatNumbers.length; i++) {
             if (childrenSeatNumbers[i] != 0)
@@ -672,7 +718,7 @@ public class FgChangeTrip extends BaseFragment implements View.OnClickListener {
             orderChildrenSeatLayout.setVisibility(View.GONE);
             return;
         }
-        orderChildrenSeatLayout.setVisibility(child > 0 ? View.VISIBLE : View.GONE);
+        orderChildrenSeatLayout.setVisibility(mOrderBean.childSeat != null? View.VISIBLE : View.GONE);
         orderChildrenSeatLayout.removeAllViews();
         for (int i = 0; i < childrenSeatNumbers.length; i++) {
             if (childrenSeatNumbers[i] <= 0) continue;
@@ -738,7 +784,58 @@ public class FgChangeTrip extends BaseFragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        onClickView(v);
+        switch (v.getId()) {
+            case R.id.header_right_txt:
+                HashMap<String,String> map = new HashMap<String,String>();
+                map.put("source", "修改行程");
+                switch (mBusinessType) {
+                    case Constants.BUSINESS_TYPE_PICK:
+                        MobclickAgent.onEvent(getActivity(), "callcenter_pickup", map);
+                        v.setTag("修改行程,calldomestic_pickup,calldomestic_pickup");
+                        break;
+                    case Constants.BUSINESS_TYPE_SEND:
+                        MobclickAgent.onEvent(getActivity(), "callcenter_dropoff", map);
+                        v.setTag("修改行程,calldomestic_dropoff,calloverseas_dropoff");
+                        break;
+                    case Constants.BUSINESS_TYPE_DAILY:
+                        MobclickAgent.onEvent(getActivity(), "callcenter_oneday", map);
+                        v.setTag("修改行程,calldomestic_oneday,calloverseas_oneday");
+                        break;
+                    case Constants.BUSINESS_TYPE_RENT:
+                        MobclickAgent.onEvent(getActivity(), "callcenter_oneway", map);
+                        v.setTag("修改行程,calldomestic_oneway,calloverseas_oneway");
+                        break;
+                    case Constants.BUSINESS_TYPE_COMMEND:
+                        MobclickAgent.onEvent(getActivity(), "callcenter_route", map);
+                        v.setTag("修改行程,calldomestic_route,calloverseas_route");
+                }
+                break;
+            case R.id.popup_order_children_item_sub:
+                int index = (int) v.getTag();
+                if (childrenSeatNumbers[index] > 0) {
+                    popupItemNumber[index].setText(String.valueOf(--childrenSeatNumbers[index]));
+                }
+                break;
+            case R.id.popup_order_children_item_plus:
+                index = (int) v.getTag();
+                if (childrenSeatNumbers[index] < 5) {
+                    popupItemNumber[index].setText(String.valueOf(++childrenSeatNumbers[index]));
+                }
+                break;
+            case R.id.popup_order_children_cancel:
+                popupWindow.dismiss();
+                break;
+            case R.id.popup_order_children_ok:
+                popupWindow.dismiss();
+                child = 0;
+                for (int number : childrenSeatNumbers) {
+                    child += number;
+                }
+                childCount.setText(String.format(getString(R.string.submit_child), child));
+                inflateChildrenSeat();
+                break;
+        }
+        super.onClick(v);
     }
 
     /*

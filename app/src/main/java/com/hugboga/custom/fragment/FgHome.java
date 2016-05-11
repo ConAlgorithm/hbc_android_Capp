@@ -1,5 +1,6 @@
 package com.hugboga.custom.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -18,10 +19,13 @@ import com.hugboga.custom.adapter.HomeAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.HomeBean;
 import com.hugboga.custom.data.request.RequestHome;
+import com.umeng.analytics.MobclickAgent;
 
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
+
+import java.util.HashMap;
 
 /**
  * 首页
@@ -94,28 +98,59 @@ public class FgHome extends BaseFragment implements View.OnClickListener, ZBaseA
     @Override
     public void onClick(View v) {
         MLog.e("onClick=" + v);
+        Bundle bundle = new Bundle();
+        HashMap<String,String> map = new HashMap<String,String>();
         switch (v.getId()) {
             case R.id.header_left_btn:
                 ((MainActivity) getActivity()).openDrawer();
                 break;
             case R.id.header_right_btn:
-                Bundle bundle = new Bundle();
                 bundle.putInt(KEY_BUSINESS_TYPE, Constants.BUSINESS_TYPE_HOME);
+                bundle.putString("source","小搜索按钮");
                 startFragment(new FgChooseCity(), bundle);
+
+                map.put("source", "小搜索按钮");
+                MobclickAgent.onEvent(getActivity(), "search_trigger", map);
                 break;
             case R.id.fg_home_menu1://中文接送机
-                startFragment(new FgTransfer());
+                FgTransfer fgTransfer = new FgTransfer();
+                bundle.putString("source","首页");
+                fgTransfer.setArguments(bundle);
+                startFragment(fgTransfer, bundle);
+
+                map.put("source", "首页");
+                MobclickAgent.onEvent(getActivity(), "chose_pndairport", map);
                 break;
             case R.id.fg_home_menu2://按天包车
-                startFragment(new FgDaily());
+//                startActivity(new Intent(this.getActivity(), OrderSelectCityActivity.class));
+                FgOrderSelectCity fgOrderSelectCity = new FgOrderSelectCity();
+                bundle.putString("source","首页");
+                fgOrderSelectCity.setArguments(bundle);
+                startFragment(fgOrderSelectCity, bundle);
+
+                map.put("source", "首页");
+                MobclickAgent.onEvent(getActivity(), "chose_oneday", map);
+//                startFragment(new FgDaily());fghstartFragment(new FgOrderSelectCity());
                 break;
             case R.id.fg_home_menu3://单次接送
-                startFragment(new FgSingle());
+                FgSingle fgSingle = new FgSingle();
+                bundle.putString("source","首页");
+                fgSingle.setArguments(bundle);
+                startFragment(new FgSingle(), bundle);
+
+                map.put("source", "首页");
+                MobclickAgent.onEvent(getActivity(), "chose_oneway", map);
                 break;
-            case R.id.home_empty_refresh://单次接送
+            case R.id.home_empty_refresh:
                 recyclerView.showPageFirst();
                 break;
         }
+    }
+
+    private  void doUmengClickEvent(){
+        HashMap<String,String> map = new HashMap<String,String>();
+        map.put("source","首页");
+        MobclickAgent.onEvent(this.getActivity(), "click_city", map);
     }
 
     @Override
@@ -125,6 +160,7 @@ public class FgHome extends BaseFragment implements View.OnClickListener, ZBaseA
         Bundle bundle = new Bundle();
         bundle.putString(FgSkuList.KEY_CITY_ID, homeBean.cityId);
         startFragment(fg, bundle);
+        doUmengClickEvent();
     }
 
     @Override
@@ -142,5 +178,16 @@ public class FgHome extends BaseFragment implements View.OnClickListener, ZBaseA
         }else{
             super.onDataRequestError(errorInfo, request);
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onEvent(this.getActivity(),"launch_discovery");
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
     }
 }

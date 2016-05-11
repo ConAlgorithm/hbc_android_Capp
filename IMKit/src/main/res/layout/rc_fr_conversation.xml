@@ -49,13 +49,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:visibility="gone"
                 android:text="@string/huangbaoche_remind"
                 android:textColor="#FFFFFF" />
 
             <TextView
+                android:id="@+id/show_empty_txt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
                 android:text="@string/huangbaoche_remind_message"
                 android:textColor="#FFFFFF" />
 

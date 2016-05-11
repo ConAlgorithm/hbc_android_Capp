@@ -2,10 +2,10 @@ package com.hugboga.custom.data.request;
 
 import android.content.Context;
 
-import com.huangbaoche.hbcframe.data.net.HbcParamsBuilder;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.net.NewParamsBuilder;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.parser.ParserWxPay;
 import com.hugboga.custom.utils.Config;
@@ -21,7 +21,7 @@ import java.util.HashMap;
  * Created by admin on 2016/3/23.
  */
 
-@HttpRequest(path = UrlLibs.SERVER_IP_ORDER_PAY_ID,builder = HbcParamsBuilder.class)
+@HttpRequest(path = UrlLibs.SERVER_IP_ORDER_PAY_ID,builder = NewParamsBuilder.class)
 public class RequestPayNo extends BaseRequest<Object> {
 
     public  int payType;
@@ -29,8 +29,8 @@ public class RequestPayNo extends BaseRequest<Object> {
     /**
      * orderID 订单ID<br/>
      * payPrice 支付金额<br/>
-     * couponID 优惠券<br/>
      * payType 1 支付宝 ，2 微信
+     * couponID 优惠券<br/>
      */
     public RequestPayNo(Context context, String orderId, double payPrice, int payType, String couponID){
         super(context);

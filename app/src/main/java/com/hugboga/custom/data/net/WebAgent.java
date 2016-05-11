@@ -217,7 +217,7 @@ public class WebAgent implements HttpRequestListener {
 
     @JavascriptInterface
     public void getUserInfo(final String callBack) {
-        //获取getGuideInfo，并回调
+        //获取getUserInfo，并回调
         try {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("id", UserEntity.getUser().getUserId(mActivity));

@@ -1,8 +1,5 @@
 package com.hugboga.custom.adapter;
 
-import android.app.Activity;
-import android.app.Fragment;
-import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -17,11 +14,14 @@ import com.hugboga.custom.adapter.viewholder.NewOrderVH;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.ChatInfo;
 import com.hugboga.custom.data.bean.OrderBean;
+import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.parser.ParserChatInfo;
 import com.hugboga.custom.fragment.BaseFragment;
+import com.hugboga.custom.fragment.FgActivity;
 import com.hugboga.custom.fragment.FgAssessment;
+import com.hugboga.custom.fragment.FgInsure;
 import com.hugboga.custom.fragment.FgOrder;
-import com.hugboga.custom.fragment.FgTravel;
+import com.hugboga.custom.fragment.FgWebInfo;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.widget.DialogUtil;
 
@@ -124,9 +124,9 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                     vh.mServiceTime.setText(orderBean.serviceTime + " 至 " + orderBean.serviceEndTime);
                 }
                 if (orderBean.orderGoodsType == Constants.BUSINESS_TYPE_DAILY) {
-                    vh.mTypeStr.setText("市内包车");
+                    vh.mTypeStr.setText("包车游");
                 } else {
-                    vh.mTypeStr.setText("跨城市包车");
+                    vh.mTypeStr.setText("包车游");
                 }
                 vh.mFrom.setVisibility(View.GONE);
                 vh.mTo.setVisibility(View.GONE);
@@ -180,13 +180,14 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
      * @param vh
      * @param orderBean
      */
-    private void setStatusView(NewOrderVH vh, OrderBean orderBean) {
+    private void setStatusView(NewOrderVH vh, final OrderBean orderBean) {
         vh.mAssessment.setOnClickListener(null);
         switch (orderBean.orderStatus) {
             case INITSTATE:
                 //等待支付 初始状态
                 vh.mStatusLayout.setVisibility(View.VISIBLE);
                 vh.mPrice.setVisibility(View.VISIBLE);
+                vh.br_layout.setVisibility(View.GONE);
                 if(orderBean.orderPriceInfo!=null){
                     vh.mPrice.setText("应付金额：" + orderBean.orderPriceInfo.shouldPay + "元");
                 }
@@ -201,8 +202,34 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                 break;
             case PAYSUCCESS:
                 //预订成功
-                vh.mStatusLayout.setVisibility(View.GONE);
                 vh.mStatus.setTextColor(Color.parseColor("#F3AD5B"));
+                vh.mStatusLayout.setVisibility(View.GONE);
+
+                if(orderBean.insuranceEnable) {
+                    vh.br_layout.setVisibility(View.VISIBLE);
+                    vh.travel_item_btn_br.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            FgInsure fgAddInsure = new FgInsure();
+                            Bundle bundle = new Bundle();
+                            bundle.putParcelable("orderBean",orderBean);
+                            bundle.putString("from","orderList");
+                            fgAddInsure.setArguments(bundle);
+                            fragment.startFragment(fgAddInsure);
+                        }
+                    });
+                    vh.travel_item_btn_br_tips.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Bundle bundleUrlAll = new Bundle();
+                            bundleUrlAll.putString(FgWebInfo.WEB_URL, UrlLibs.H5_INSURANCE);
+                            fragment.startFragment(new FgActivity(), bundleUrlAll);
+                        }
+                    });
+                }else{
+                    vh.br_layout.setVisibility(View.GONE);
+                }
+
                 break;
             case AGREE:
                 //导游已接单
@@ -211,7 +238,8 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                 vh.mHeadLayout.setVisibility(View.VISIBLE);
                 if (orderBean.orderGuideInfo != null) {
                     vh.mHeadTitle.setText(orderBean.orderGuideInfo.guideName);
-                    x.image().bind(vh.mHeadImg, orderBean.orderGuideInfo.guideAvatar, options);
+
+                    x.image().bind(vh.mHeadImg, orderBean.orderGuideInfo.guideAvatar);
                 }
                 vh.mBtnChat.setVisibility(View.VISIBLE);
                 vh.mBtnPay.setVisibility(View.GONE);
@@ -225,7 +253,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                 vh.mHeadLayout.setVisibility(View.VISIBLE);
                 if(orderBean.orderGuideInfo!=null){
                     vh.mHeadTitle.setText(orderBean.orderGuideInfo.guideName);
-                    x.image().bind(vh.mHeadImg, orderBean.orderGuideInfo.guideAvatar, options);
+                    x.image().bind(vh.mHeadImg, orderBean.orderGuideInfo.guideAvatar);
                 }
                 vh.mBtnPay.setVisibility(View.GONE);
                 vh.mBtnChat.setVisibility(View.VISIBLE);
@@ -239,7 +267,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                 vh.mHeadLayout.setVisibility(View.VISIBLE);
                 if (orderBean.orderGuideInfo != null) {
                     vh.mHeadTitle.setText(orderBean.orderGuideInfo.guideName);
-                    x.image().bind(vh.mHeadImg, orderBean.orderGuideInfo.guideAvatar, options);
+                    x.image().bind(vh.mHeadImg, orderBean.orderGuideInfo.guideAvatar);
                 }
                 vh.mBtnChat.setVisibility(View.VISIBLE);
                 vh.mBtnPay.setVisibility(View.GONE);
@@ -257,7 +285,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                 vh.mHeadLayout.setVisibility(View.VISIBLE);
                 if(orderBean.orderGuideInfo!=null){
                     vh.mHeadTitle.setText(orderBean.orderGuideInfo.guideName);
-                    x.image().bind(vh.mHeadImg, orderBean.orderGuideInfo.guideAvatar, options);
+                    x.image().bind(vh.mHeadImg, orderBean.orderGuideInfo.guideAvatar);
                 }
                 vh.mBtnPay.setVisibility(View.GONE);
                 vh.mBtnChat.setVisibility(View.VISIBLE);
@@ -277,7 +305,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                 vh.mStatus.setTextColor(Color.parseColor("#BDBDBD"));
                 if(orderBean.orderGuideInfo!=null){
                     vh.mHeadTitle.setText(orderBean.orderGuideInfo.guideName);
-                    x.image().bind(vh.mHeadImg, orderBean.orderGuideInfo.guideAvatar, options);
+                    x.image().bind(vh.mHeadImg, orderBean.orderGuideInfo.guideAvatar);
                 }
                 break;
             case CANCELLED:
@@ -348,6 +376,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                     bundle.putInt(FgOrder.KEY_BUSINESS_TYPE, mOrderBean.orderType);
                     bundle.putInt(FgOrder.KEY_GOODS_TYPE, mOrderBean.orderGoodsType);
                     bundle.putString(FgOrder.KEY_ORDER_ID, mOrderBean.orderNo);
+                    bundle.putString("source", mOrderBean.orderType == 5 ? mOrderBean.serviceCityName : "首页");
                     fragment.startFragment(new FgOrder(), bundle);
                     break;
                 case R.id.travel_item_btn_chat:
@@ -361,7 +390,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
         }
     }
     private void gotoChatView( final String chatId,String targetAvatar,String targetName) {
-        String titleJson = getChatInfo(chatId,  targetAvatar, targetName, "3");
+        String titleJson = getChatInfo(chatId,  targetAvatar, targetName, "1");
         RongIM.getInstance().startPrivateChat(fragment.getActivity(), "G"+chatId, titleJson);
     }
     private String getChatInfo(String userId, String userAvatar, String title, String targetType) {

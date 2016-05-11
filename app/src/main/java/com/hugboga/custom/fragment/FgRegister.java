@@ -3,9 +3,12 @@ package com.hugboga.custom.fragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -17,27 +20,29 @@ import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.BuildConfig;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
-import com.hugboga.custom.constants.ResourcesConstants;
 import com.hugboga.custom.data.bean.UserBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
+import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestLogin;
 import com.hugboga.custom.data.request.RequestRegister;
 import com.hugboga.custom.data.request.RequestVerity;
 import com.hugboga.custom.widget.DialogUtil;
+import com.umeng.analytics.MobclickAgent;
 
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
+import java.util.HashMap;
 import java.util.regex.Pattern;
 
 import de.greenrobot.event.EventBus;
 
 @ContentView(R.layout.fg_register)
-public class FgRegister extends BaseFragment {
+public class FgRegister extends BaseFragment implements TextWatcher {
 
     @ViewInject(R.id.register_areacode)
     private TextView areaCodeTextView;
@@ -51,6 +56,10 @@ public class FgRegister extends BaseFragment {
     TextView getCodeBtn; //发送验证码按钮
     @ViewInject(R.id.register_time)
     TextView timeTextView; //验证码倒计时
+    private String source = "";
+
+    @ViewInject(R.id.register_submit)
+    Button registButton;
 
     String areaCode;
     String phone;
@@ -68,6 +77,8 @@ public class FgRegister extends BaseFragment {
                 UserEntity.getUser().setUserToken(getActivity(), userBean.userToken);
                 UserEntity.getUser().setPhone(getActivity(), phone); //手机号已经不再返回
                 UserEntity.getUser().setAreaCode(getActivity(), areaCode);
+                UserEntity.getUser().setLoginAreaCode(getActivity(), areaCode);
+                UserEntity.getUser().setLoginPhone(getActivity(), phone);
                 UserEntity.getUser().setNickname(getActivity(), userBean.nickname);
                 UserEntity.getUser().setAvatar(getActivity(), userBean.avatar);
                 UserEntity.getUser().setOrderPoint(getActivity(), 0); //清空IM未读的小红点
@@ -76,6 +87,10 @@ public class FgRegister extends BaseFragment {
                 bundle.putBoolean("isLogin", true);
                 EventBus.getDefault().post(
                         new EventAction(EventType.CLICK_USER_LOGIN));
+
+                HashMap<String,String> map = new HashMap<String,String>();
+                map.put("source", source);
+                MobclickAgent.onEvent(getActivity(), "regist_succeed", map);
                 finish();
             }
         } else if (request instanceof RequestVerity) {
@@ -93,6 +108,8 @@ public class FgRegister extends BaseFragment {
                 UserEntity.getUser().setUserToken(getActivity(), userBean.userToken);
                 UserEntity.getUser().setPhone(getActivity(), phone); //手机号已经不再返回
                 UserEntity.getUser().setAreaCode(getActivity(), areaCode);
+                UserEntity.getUser().setLoginAreaCode(getActivity(), areaCode);
+                UserEntity.getUser().setLoginPhone(getActivity(), phone);
                 UserEntity.getUser().setNickname(getActivity(), userBean.nickname);
                 UserEntity.getUser().setAvatar(getActivity(), userBean.avatar);
                 UserEntity.getUser().setOrderPoint(getActivity(), 0); //清空IM未读的小红点
@@ -101,6 +118,10 @@ public class FgRegister extends BaseFragment {
                 bundle.putBoolean("isLogin", true);
                 EventBus.getDefault().post(
                         new EventAction(EventType.CLICK_USER_LOGIN));
+
+                HashMap<String,String> map = new HashMap<String,String>();
+                map.put("source", source);
+                MobclickAgent.onEvent(getActivity(), "regist_succeed", map);
                 finish();
             }
         }
@@ -133,6 +154,9 @@ public class FgRegister extends BaseFragment {
     public void onStart() {
         super.onStart();
         this.getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        HashMap<String,String> map = new HashMap<String,String>();
+        map.put("source", source);
+        MobclickAgent.onEvent(getActivity(), "regist_launch", map);
     }
 
     @Override
@@ -208,6 +232,11 @@ public class FgRegister extends BaseFragment {
                 }
                 RequestRegister requestRegister = new RequestRegister(getActivity(), areaCode, phone, password, verity, null, channelInt);
                 requestData(requestRegister);
+
+                HashMap<String,String> map = new HashMap<String,String>();
+                map.put("source",source);
+                MobclickAgent.onEvent(getActivity(), "regist", map);
+
                 break;
             case R.id.register_login:
                 //跳转到登录
@@ -245,7 +274,7 @@ public class FgRegister extends BaseFragment {
             case R.id.register_protocol:
                 FgWebInfo fgWebInfo = new FgWebInfo();
                 Bundle bundle1 = new Bundle();
-                bundle1.putString(FgWebInfo.WEB_URL, ResourcesConstants.H5_PROTOCOL);
+                bundle1.putString(FgWebInfo.WEB_URL, UrlLibs.H5_PROTOCOL);
                 fgWebInfo.setArguments(bundle1);
                 startFragment(fgWebInfo);
                 break;
@@ -292,19 +321,22 @@ public class FgRegister extends BaseFragment {
         //初始化数据
         if (mSourceFragment instanceof FgLogin) {
             String code = getArguments().getString("areaCode");
-            if (code != null && !code.isEmpty()) {
+            if (!TextUtils.isEmpty(code)) {
                 areaCodeTextView.setText("+" + code);
             }
             String phone = getArguments().getString("phone");
-            if (phone != null && !phone.isEmpty()) {
+            if (!TextUtils.isEmpty(phone)) {
                 phoneEditText.setText(phone);
             }
+            source = getArguments().getString("source");
         }
     }
 
     @Override
     protected void initView() {
-
+        phoneEditText.addTextChangedListener(this);
+        verityEditText.addTextChangedListener(this);
+        passwordEditText.addTextChangedListener(this);
     }
 
     @Override
@@ -312,4 +344,30 @@ public class FgRegister extends BaseFragment {
         return null;
     }
 
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+        String phone = phoneEditText.getText().toString().trim();
+        String password = passwordEditText.getText().toString().trim();
+        String verityCode = verityEditText.getText().toString().trim();
+        String areaCode = areaCodeTextView.getText().toString().trim();
+        if (!TextUtils.isEmpty(areaCode)&&!TextUtils.isEmpty(phone)
+                &&!TextUtils.isEmpty(password)&&!TextUtils.isEmpty(verityCode)
+                &&Pattern.matches("[\\w]{4,16}", password)) {
+            registButton.setEnabled(true);
+            registButton.setBackgroundColor(getResources().getColor(R.color.login_ready));
+        }else{
+            registButton.setEnabled(false);
+            registButton.setBackgroundColor(getResources().getColor(R.color.login_unready));
+        }
+    }
 }

@@ -33,6 +33,7 @@ public class SortCountryAdapter extends BaseAdapter implements SectionIndexer {
     }
 
     public int getCount() {
+        if(null == list) return 0;
         return this.list.size();
     }
 

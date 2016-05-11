@@ -42,8 +42,12 @@ public class FgChangeMobile extends BaseFragment {
             RequestChangeMobile requestChangeMobile = (RequestChangeMobile) request;
             UserEntity.getUser().setAreaCode(getActivity(), requestChangeMobile.areaCode);
             UserEntity.getUser().setPhone(getActivity(), requestChangeMobile.mobile);
+            UserEntity.getUser().setLoginAreaCode(getActivity(), requestChangeMobile.areaCode);
+            UserEntity.getUser().setLoginPhone(getActivity(), requestChangeMobile.mobile);
             showTip("更换手机号成功");
-            finish();
+            Bundle bundle = new Bundle();
+            bundle.putString(KEY_FRAGMENT_NAME, FgChangeMobile.class.getSimpleName());
+            finishForResult(bundle);
 //            notifyFragment(FgSetting.class, null);
 //            notifyFragment(FgPersonCenter.class,null);
         } else if (request instanceof RequestVerity) {
@@ -143,7 +147,7 @@ public class FgChangeMobile extends BaseFragment {
                     setBtnVisible(true);
                     return;
                 }
-                RequestVerity requestVerity = new RequestVerity(getActivity(), areaCode1, phone1, 3);
+                RequestVerity requestVerity = new RequestVerity(getActivity(), areaCode1, phone1, 5);
                 requestData(requestVerity);
                 break;
             default:
@@ -184,7 +188,7 @@ public class FgChangeMobile extends BaseFragment {
     protected void initHeader() {
         //设置标题颜色，返回按钮图片
 //        leftBtn.setImageResource(R.mipmap.top_back_black);
-        fgTitle.setText("更换手机号");
+        fgTitle.setText("修改手机号");
     }
 
     @Override

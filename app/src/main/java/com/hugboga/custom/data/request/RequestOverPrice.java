@@ -2,10 +2,10 @@ package com.hugboga.custom.data.request;
 
 import android.content.Context;
 
-import com.huangbaoche.hbcframe.data.net.HbcParamsBuilder;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.data.bean.OrderCostApplyInfo;
+import com.hugboga.custom.data.net.NewParamsBuilder;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.parser.ParserApplyInfo;
 
@@ -19,7 +19,7 @@ import java.util.HashMap;
 /**
  * Created by admin on 2016/3/24.
  */
-@HttpRequest(path = UrlLibs.SERVER_IP_ORDER_OVER_PRICE, builder = HbcParamsBuilder.class)
+@HttpRequest(path = UrlLibs.SERVER_IP_ORDER_OVER_PRICE, builder = NewParamsBuilder.class)
 public class RequestOverPrice extends BaseRequest<ArrayList<OrderCostApplyInfo>> {
 
     public String applyfee;

@@ -127,6 +127,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/forget_passwd_newpass_layout"
             android:layout_marginTop="@dimen/basic_margin_xlarge"
+            android:enabled="false"
             android:background="@drawable/login2_selector_bg"
             android:text="重置密码"
             android:textColor="@color/basic_white"

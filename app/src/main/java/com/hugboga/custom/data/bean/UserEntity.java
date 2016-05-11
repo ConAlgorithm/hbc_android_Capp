@@ -16,18 +16,22 @@ public class UserEntity {
     private String userToken;//="94b561a28ecbcf49c42fb9abe7746663";//userToken
     private String phone; //手机号
     private String code; //区号
+    private String loginPhone; //用于登录手机号
+    private String loginCode; //用于登录区号
     private String avatar; //头像
     private String nickname; //昵称
     private String version; //记录版本号
     private Integer orderPoint; //订单IM消息数
     private Boolean isNewVersion; //是否有新版本
     private boolean hasNewCoupon; //是否有新优惠券
-    private boolean weakPassword;  //布尔值 是否弱密码
-    private String weakPasswordMsg; //弱密码提示文案
+    public boolean weakPassword;  //布尔值 是否弱密码
+    public String weakPasswordMsg; //弱密码提示文案
     private String imToken;//聊天token
+    private String unionid;
 
     private UserEntity() {
     }
+
 
     public static UserEntity getUser() {
         if (user == null) {
@@ -49,6 +53,7 @@ public class UserEntity {
         shared.saveStringValue(SharedPre.ACCESSKEY, accessKey);
         this.accessKey = accessKey;
     }
+
 
 
     public void setUserId(Context active, String userId) {
@@ -107,8 +112,8 @@ public class UserEntity {
         return avatar;
     }
 
-    public void setPhone(Context active, String phone) {
-        SharedPre shared = new SharedPre(active);
+    public void setPhone(Context activity, String phone) {
+        SharedPre shared = new SharedPre(activity);
         shared.saveStringValue(SharedPre.PHONE, phone);
         this.phone = phone;
     }
@@ -119,6 +124,20 @@ public class UserEntity {
             phone = shared.getStringValue(SharedPre.PHONE);
         }
         return phone;
+    }
+
+    public String getLoginPhone(Context activity) {
+        if (TextUtils.isEmpty(loginPhone)) {
+            SharedPre shared = new SharedPre(activity);
+            loginPhone = shared.getStringValue(SharedPre.LOGIN_PHONE);
+        }
+        return loginPhone;
+    }
+
+    public void setLoginPhone(Context active, String loginPhone) {
+        SharedPre shared = new SharedPre(active);
+        shared.saveStringValue(SharedPre.LOGIN_PHONE, phone);
+        this.loginPhone = loginPhone;
     }
 
     public Integer getOrderPoint(Context activity) {
@@ -147,6 +166,20 @@ public class UserEntity {
         SharedPre shared = new SharedPre(activity);
         shared.saveStringValue(SharedPre.CODE, code);
         this.code = code;
+    }
+
+    public String getLoginAreaCode(Context activity) {
+        if (TextUtils.isEmpty(loginCode)) {
+            SharedPre shared = new SharedPre(activity);
+            loginCode = shared.getStringValue(SharedPre.LOGIN_CODE);
+        }
+        return loginCode;
+    }
+
+    public void setLoginAreaCode(Context activity, String loginCode) {
+        SharedPre shared = new SharedPre(activity);
+        shared.saveStringValue(SharedPre.LOGIN_CODE, loginCode);
+        this.loginCode = loginCode;
     }
 
     public String getVersion(Context activity) {
@@ -214,10 +247,8 @@ public class UserEntity {
     }
 
     public String getImToken(Context activity) {
-        if (imToken == null) {
-            SharedPre shared = new SharedPre(activity);
-            imToken = shared.getStringValue(SharedPre.IM_TOKEN);
-        }
+        SharedPre shared = new SharedPre(activity);
+        imToken = shared.getStringValue(SharedPre.IM_TOKEN);
         return imToken;
     }
 
@@ -227,10 +258,22 @@ public class UserEntity {
         this.imToken = imToken;
     }
 
+    public String getUnionid(Context activity) {
+        SharedPre shared = new SharedPre(activity);
+        unionid = shared.getStringValue(SharedPre.UNIONID);
+        return unionid;
+    }
+
+    public void setUnionid(Context activity, String unionid) {
+        SharedPre shared = new SharedPre(activity);
+        shared.saveStringValue(SharedPre.UNIONID, unionid);
+        this.unionid = unionid;
+    }
+
     public void clean(Activity activity) {
         SharedPre shared = new SharedPre(activity);
         shared.clean();
-        UserSession.getUser().setUserToken(activity, null);
+        UserSession.getUser().setUserToken(activity,null);
         userId = null;
         accessKey = null;
         avatar = null;

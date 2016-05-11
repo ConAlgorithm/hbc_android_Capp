@@ -2,6 +2,7 @@ package com.hugboga.custom.fragment;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -37,6 +38,7 @@ import com.hugboga.custom.data.bean.OrderStatus;
 import com.hugboga.custom.data.bean.WXpayBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
+import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.parser.ParserChatInfo;
 import com.hugboga.custom.data.request.RequestOrderCancel;
 import com.hugboga.custom.data.request.RequestOrderDetail;
@@ -47,6 +49,7 @@ import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.wxapi.WXPay;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
+import com.umeng.analytics.MobclickAgent;
 
 import org.xutils.common.Callback;
 import org.xutils.image.ImageOptions;
@@ -56,6 +59,8 @@ import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
 import java.text.ParseException;
+import java.util.HashMap;
+import java.util.Map;
 
 import de.greenrobot.event.EventBus;
 import io.rong.imkit.RongIM;
@@ -180,6 +185,8 @@ public class FgOrder extends BaseFragment {
     private View orderVisaLayout;//签证情况
     @ViewInject(R.id.order_remark)
     private TextView orderRemark;//备注
+    @ViewInject(R.id.txt_remark)
+    private TextView txt_remark;//备注left
 
     @ViewInject(R.id.pay_change_trip)
     private TextView orderChangeTrip;//修改行程
@@ -283,6 +290,46 @@ public class FgOrder extends BaseFragment {
     @ViewInject(R.id.bottom_bar_btn)
     private TextView bottomBtn;
 
+    @ViewInject(R.id.insure_money)
+    private TextView insure_money;
+
+    @ViewInject(R.id.insure_time)
+    private TextView insure_time;
+
+    @ViewInject(R.id.bottom_layout)
+    private LinearLayout bottom_layout;
+    @ViewInject(R.id.bottom_layout_br)
+    private LinearLayout bottom_layout_br;
+    @ViewInject(R.id.insure_question)
+    private ImageView insure_question;
+
+    @ViewInject(R.id.has_insure_layout)
+    private LinearLayout has_insure_layout;
+
+    @ViewInject(R.id.bottom_br_btn_commit)
+    private TextView bottom_br_btn_commit;
+
+
+
+    @ViewInject(R.id.for_mans_insure)
+    private TextView for_mans_insure;
+    @ViewInject(R.id.show_all_insure_info)
+    private TextView show_all_insure_info;
+    @ViewInject(R.id.add_insure_layout)
+    private LinearLayout add_insure_layout;
+
+    //乘车人相关
+    @ViewInject(R.id.real_layout)
+    private LinearLayout real_layout;
+
+    @ViewInject(R.id.real_contact_mobile_value)
+    private TextView real_contact_mobile_value;
+
+    @ViewInject(R.id.real_contact_value)
+    private TextView real_contact_value;
+
+
+
     private boolean isShowDetail = false;//详细新是否展开
     private int payType = Constants.PAY_STATE_WECHAT;//支付方式
     private OrderBean mOrderBean;//order 实体
@@ -294,8 +341,16 @@ public class FgOrder extends BaseFragment {
     CouponBean couponBean;
     private DialogUtil mDialogUtil;
 
+
+    String paystyle = "支付宝";
+    //下单过程中、失败重新支付、行程列表、订单详情
+    String paysource = "";
     @Override
     protected void initHeader() {
+        if(getArguments() != null){
+            source = getArguments().getString("source");
+            needShowAlert= getArguments().getBoolean("needShowAlert",false);
+        }
         setProgressState(3);
         if (mOrderBean == null) return;
 
@@ -319,6 +374,7 @@ public class FgOrder extends BaseFragment {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 
     @Override
@@ -431,18 +487,18 @@ public class FgOrder extends BaseFragment {
                     orderDailyDay.setText(getString(R.string.order_daily_days, mOrderBean.serviceTime, mOrderBean.serviceEndTime, mOrderBean.totalDays == null ? 0 : mOrderBean.totalDays));
                     orderDailyDayDetail.setText(getString(R.string.order_daily_days_detail, mOrderBean.serviceCityName, mOrderBean.inTownDays, mOrderBean.outTownDays));
                     orderDailyDayDetail.setVisibility(View.VISIBLE);
-                    orderDailyPassLabel.setText("游玩城市");
-                    if (mOrderBean.passByCity != null && mOrderBean.passByCity.size() > 2) {
-                        orderDailyPassLayout.setVisibility(View.VISIBLE);
-                        StringBuffer sb = new StringBuffer();
-                        for (int i = 1; i < mOrderBean.passByCity.size() - 1; i++) {
-                            CityBean cityBean = mOrderBean.passByCity.get(i);
-                            sb.append(cityBean.name).append("、");
-                        }
-                        orderDailyPassValue.setText(sb.toString());
-                    } else {
-                        orderDailyPassLayout.setVisibility(View.GONE);
-                    }
+//                    orderDailyPassLabel.setText("游玩城市");
+//                    if (mOrderBean.passByCity != null && mOrderBean.passByCity.size() > 2) {
+//                        orderDailyPassLayout.setVisibility(View.VISIBLE);
+//                        StringBuffer sb = new StringBuffer();
+//                        for (int i = 1; i < mOrderBean.passByCity.size() - 1; i++) {
+//                            CityBean cityBean = mOrderBean.passByCity.get(i);
+//                            sb.append(cityBean.name).append("、");
+//                        }
+//                        orderDailyPassValue.setText(sb.toString());
+//                    } else {
+//                        orderDailyPassLayout.setVisibility(View.GONE);
+//                    }
                 }
                 if (!TextUtils.isEmpty(mOrderBean.startAddress)) {
                     orderDailyStart.setText(mOrderBean.startAddress);
@@ -555,8 +611,13 @@ public class FgOrder extends BaseFragment {
         orderPassengerNum.setText(mOrderBean.adult + "成人、" + mOrderBean.child + "儿童");
         if (Constants.VisaInfoMap.containsKey(mOrderBean.visa))
             orderVisa.setText(Constants.VisaInfoMap.get(mOrderBean.visa));
-        if (!TextUtils.isEmpty(mOrderBean.memo)) {
+        if (!TextUtils.isEmpty(mOrderBean.memo) && !TextUtils.isEmpty(mOrderBean.memo.trim())) {
+            orderRemark.setVisibility(View.VISIBLE);
+            txt_remark.setVisibility(View.VISIBLE);
             orderRemark.setText(mOrderBean.memo);
+        }else{
+            orderRemark.setVisibility(View.GONE);
+            txt_remark.setVisibility(View.GONE);
         }
         // 儿童座椅
         if (mOrderBean.childSeat != null && mOrderBean.childSeat.size() > 0) {
@@ -636,9 +697,19 @@ public class FgOrder extends BaseFragment {
      */
     private void initBottomView() {
         if (mOrderBean.orderStatus == OrderStatus.INITSTATE) {
+
+//            bottom_layout.setVisibility(View.VISIBLE);
             submitBottomLayout.setVisibility(View.VISIBLE);
+            bottom_layout_br.setVisibility(View.GONE);
             payTypeLayout.setVisibility(View.VISIBLE);
         } else {
+            if(mOrderBean.insuranceEnable) {
+//                bottom_layout.setVisibility(View.VISIBLE);
+                bottom_layout_br.setVisibility(View.VISIBLE);
+                insure_time.setText(mOrderBean.insuranceTips);
+            }else {
+                bottom_layout_br.setVisibility(View.GONE);
+            }
             submitBottomLayout.setVisibility(View.GONE);
             payTypeLayout.setVisibility(View.GONE);
         }
@@ -650,6 +721,19 @@ public class FgOrder extends BaseFragment {
     private void initContactView() {
         String areaCode;
         orderContactName.setText(mOrderBean.contactName);
+
+        if(!TextUtils.isEmpty(mOrderBean.realAreaCode)
+                || !TextUtils.isEmpty(mOrderBean.realMobile)
+                || !TextUtils.isEmpty(mOrderBean.realUserName)){
+            real_layout.setVisibility(View.VISIBLE);
+            real_contact_value.setText(mOrderBean.realUserName);
+            real_contact_mobile_value.setText(mOrderBean.realAreaCode+" "+mOrderBean.realMobile);
+        }else{
+            real_layout.setVisibility(View.GONE);
+        }
+
+
+
         if (mOrderBean.contact != null && mOrderBean.contact.size() > 0) {
             areaCode = mOrderBean.contact.get(0).areaCode;
             if (!TextUtils.isEmpty(areaCode) && areaCode.indexOf("+") < 0) {
@@ -797,6 +881,41 @@ public class FgOrder extends BaseFragment {
         String couponId = mOrderBean.orderCoupon == null ? "" : mOrderBean.orderCoupon.couponID;
         RequestPayNo request = new RequestPayNo(getActivity(), mOrderBean.orderNo, shouldPay, this.payType, couponId);
         requestData(request);
+
+        HashMap<String,String> map = new HashMap<String,String>();//用于统计
+        map.put("source", source);
+        map.put("carstyle", mOrderBean.carDesc);
+        if(this.payType == 1){
+            map.put("paystyle", "支付宝");
+        }else if (this.payType == 2){
+            map.put("paystyle", "微信");
+        }
+        map.put("paysource", "下单过程中");//有疑问
+//        map.put("guestcount", mOrderBean.adult + mOrderBean.child + "");
+//        map.put("payableamount", mOrderBean.orderPriceInfo.shouldPay + "");
+//        map.put("actualamount", mOrderBean.orderPriceInfo.actualPay + "");
+        String type = "";
+        switch (mBusinessType) {
+            case Constants.BUSINESS_TYPE_PICK:
+                type = "pay_pickup";
+                break;
+            case Constants.BUSINESS_TYPE_SEND:
+                type = "pay_dropoff";
+                break;
+            case Constants.BUSINESS_TYPE_DAILY:
+                type = "pay_oneday";
+                map.put("begincity", mOrderBean.serviceCityName);
+//                map.put("luggagecount", mOrderBean.luggageNum);
+//                map.put("drivedays", mOrderBean.totalDays + "");
+                break;
+            case Constants.BUSINESS_TYPE_RENT:
+                type = "pay_oneway";
+                break;
+            case Constants.BUSINESS_TYPE_COMMEND:
+                type = "pay_route";
+                break;
+        }
+        MobclickAgent.onEventValue(getActivity(), type, map, (int)mOrderBean.orderPriceInfo.actualPay);
     }
 
     /**
@@ -819,6 +938,7 @@ public class FgOrder extends BaseFragment {
             mBusinessType = mOrderBean.orderType;
             inflateContent();
             flushCoupon();
+            genAllInsureInfo();
         } else if (parser instanceof RequestPayNo) {
             RequestPayNo mParser = (RequestPayNo) parser;
             if (mParser.payType == Constants.PAY_STATE_ALIPAY) {
@@ -874,9 +994,11 @@ public class FgOrder extends BaseFragment {
                     if (TextUtils.equals(resultStatus, "9000")) {
                         mDialogUtil.showLoadingDialog();
                         mHandler.sendEmptyMessageDelayed(1, 3000);
+                        doUMengStatisticForWechatPaySuccesful(true);
                     } else if (TextUtils.equals(resultStatus, "8000")) {
                         Toast.makeText(getActivity(), "支付结果确认中", Toast.LENGTH_SHORT).show();
                     } else {
+                        doUMengStatisticForWechatPaySuccesful(false);
                     }
                     break;
                 }
@@ -902,17 +1024,128 @@ public class FgOrder extends BaseFragment {
             bundle.putInt("orderType", mOrderBean.orderType);
             bundle.putString(KEY_ORDER_ID, mOrderBean.orderNo);
             bundle.putString("from", mSourceFragment.getClass().getSimpleName());
+            bundle.putString("source",source);
 //            startFragment(new FgPaySuccess(), bundle);
             notifyOrderList(FgTravel.TYPE_ORDER_RUNNING, true, false, false);
         }
     };
 
+    private void genAllInsureInfo(){
+        if(mOrderBean.insuranceList.size() > 0){
+            has_insure_layout.setVisibility(View.VISIBLE);
+        }else{
+            has_insure_layout.setVisibility(View.GONE);
+        }
+//        if (mOrderBean.orderStatus == OrderStatus.INITSTATE) {
+//            if (mOrderBean.insuranceEnable) {
+//                bottom_layout_br.setVisibility(View.VISIBLE);
+//            } else {
+//                bottom_layout_br.setVisibility(View.GONE);
+//            }
+//        }else{
+//
+//        }
+//        TODO;
+        for_mans_insure.setText(mOrderBean.insuranceStatus);
+        if(mOrderBean.insuranceStatusCode == 1002){
+            for_mans_insure.setTextColor(Color.RED);
+        }else{
+            for_mans_insure.setTextColor(Color.BLACK);
+        }
+        View infoView = null;
+        TextView name = null;
+        TextView passportNo = null;
+        TextView insuranceNo = null;
+        for(int i = 0;i<mOrderBean.insuranceList.size();i++) {
+            infoView = LayoutInflater.from(this.getActivity()).inflate(R.layout.insure_man_item_list,null);
+            name = (TextView)infoView.findViewById(R.id.name);
+            passportNo = (TextView)infoView.findViewById(R.id.passportNo);
+            insuranceNo = (TextView)infoView.findViewById(R.id.insuranceNo);
+            name.setText(mOrderBean.insuranceList.get(i).insuranceUserName);
+            passportNo.setText(mOrderBean.insuranceList.get(i).passportNo);
+            if(TextUtils.isEmpty(mOrderBean.insuranceList.get(i).insuranceNo)){
+                insuranceNo.setText("---");
+            }else {
+                insuranceNo.setText(mOrderBean.insuranceList.get(i).policyNo);
+            }
+            add_insure_layout.addView(infoView);
+        }
+    }
+
+    private void showInsureList(){
+        add_insure_layout.setVisibility(View.VISIBLE);
+        show_all_insure_info.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.journey_withdraw,0,0,0);
+        show_all_insure_info.setText("收起详情");
+    }
+
+    private void hideInsureList(){
+        add_insure_layout.setVisibility(View.GONE);
+        show_all_insure_info.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.journey_unfold,0,0,0);
+        show_all_insure_info.setText("展开详情");
+    }
+
+
+    private void showOrHideInsureList(){
+        if(add_insure_layout.isShown()){
+            hideInsureList();
+        }else{
+            showInsureList();
+        }
+    }
+
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.bottom_br_btn_commit:
+                FgInsure fgAddInsure = new FgInsure();
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("orderBean",mOrderBean);
+                fgAddInsure.setArguments(bundle);
+                startFragment(fgAddInsure);
+                break;
+            case R.id.show_all_insure_info:
+                showOrHideInsureList();
+                break;
             case R.id.header_left_btn:
             case R.id.header_right_btn:
                 onClickView(v);
+                break;
+            case R.id.header_right_txt:
+                String page = "FgOrder";
+                if (mSourceFragment != null){
+                    if(mSourceFragment instanceof FgSubmit || mSourceFragment instanceof FgSkuSubmit){
+                        page = "立即支付页面";
+                    }else if(mSourceFragment instanceof FgTravel){
+                        page = "订单详情";
+                    }
+                }
+
+                HashMap<String,String> map = new HashMap<String,String>();
+                map.put("source", page);
+
+                switch (mBusinessType) {
+                    case Constants.BUSINESS_TYPE_PICK:
+                        MobclickAgent.onEvent(getActivity(), "callcenter_pickup", map);
+                        v.setTag(page + ",calldomestic_pickup,calldomestic_pickup");
+                        break;
+                    case Constants.BUSINESS_TYPE_SEND:
+                        MobclickAgent.onEvent(getActivity(), "callcenter_dropoff", map);
+                        v.setTag(page + ",calldomestic_dropoff,calloverseas_dropoff");
+                        break;
+                    case Constants.BUSINESS_TYPE_DAILY:
+                        MobclickAgent.onEvent(getActivity(), "callcenter_oneday", map);
+                        v.setTag(page + ",calldomestic_oneday,calloverseas_oneday");
+                        break;
+                    case Constants.BUSINESS_TYPE_RENT:
+                        MobclickAgent.onEvent(getActivity(), "callcenter_oneway", map);
+                        v.setTag(page + ",calldomestic_oneway,calloverseas_oneway");
+                        break;
+                    case Constants.BUSINESS_TYPE_COMMEND:
+                        MobclickAgent.onEvent(getActivity(), "callcenter_route", map);
+                        v.setTag(page + ",calldomestic_route,calloverseas_route");
+                        break;
+                }
                 break;
             default:
                 super.onClick(v);
@@ -936,12 +1169,38 @@ public class FgOrder extends BaseFragment {
             R.id.header_left_btn,
             R.id.header_right_btn,
             R.id.order_pay_detail,
-            R.id.order_info_tai
+            R.id.order_info_tai,
+            R.id.bottom_br_btn_commit,
+            R.id.show_all_insure_info,
+            R.id.insure_question,
+            R.id.all_insure_question
     })
     private void onClickView(View view) {
         if (mOrderBean == null) return;
         Bundle bundle;
         switch (view.getId()) {
+            case R.id.show_all_insure_info:
+                showOrHideInsureList();
+                break;
+            case R.id.bottom_br_btn_commit:
+                FgInsure fgAddInsure = new FgInsure();
+                Bundle bundleInsure = new Bundle();
+                bundleInsure.putParcelable("orderBean",mOrderBean);
+                fgAddInsure.setArguments(bundleInsure);
+                startFragment(fgAddInsure);
+                break;
+            case R.id.insure_question:
+//                AlertDialogUtils.showAlertDialog(this.getActivity(),"投保提示");
+                Bundle bundleUrl = new Bundle();
+                bundleUrl.putString(FgWebInfo.WEB_URL, UrlLibs.H5_INSURANCE);
+                startFragment(new FgActivity(), bundleUrl);
+                break;
+            case R.id.all_insure_question:
+//                AlertDialogUtils.showAlertDialog(this.getActivity(),"投保保险提示");
+                Bundle bundleUrlAll = new Bundle();
+                bundleUrlAll.putString(FgWebInfo.WEB_URL, UrlLibs.H5_INSURANCE);
+                startFragment(new FgActivity(), bundleUrlAll);
+                break;
             case R.id.header_right_btn:
                 if (mOrderBean.orderStatus.code >= OrderStatus.PAYSUCCESS.code && mOrderBean.orderStatus.code <= OrderStatus.SERVICING.code) {
                     showPopupWindow(view);
@@ -966,12 +1225,15 @@ public class FgOrder extends BaseFragment {
                 startFragment(new FgChangeTrip(), bundle);
                 break;
             case R.id.pay_type_alipay_layout://
+                paystyle = "支付宝";
                 chosePayType(Constants.PAY_STATE_ALIPAY);
                 break;
             case R.id.pay_type_wechat_layout:
+                paystyle = "微信";
                 chosePayType(Constants.PAY_STATE_WECHAT);
                 break;
             case R.id.pay_type_bank_layout:
+                paystyle = "银行";
                 chosePayType(Constants.PAY_STATE_BANK);
                 break;
             case R.id.pay_coupons_layout:
@@ -1084,7 +1346,7 @@ public class FgOrder extends BaseFragment {
      * @param chatId 聊天对象的Id
      */
     private void gotoChatView(final String chatId, String targetAvatar, String targetName) {
-        String titleJson = getChatInfo(chatId, targetAvatar, targetName, "3");
+        String titleJson = getChatInfo(chatId, targetAvatar, targetName, "1");
         RongIM.getInstance().startPrivateChat(getActivity(), "G" + chatId, titleJson);
     }
 
@@ -1163,6 +1425,8 @@ public class FgOrder extends BaseFragment {
         } else if (FgCoupon.class.getSimpleName().equals(from)) {
             couponBean = (CouponBean) bundle.getSerializable(FgCoupon.KEY_COUPON);
             flushCoupon();
+        } else if(FgLogin.class.getSimpleName().equals(from)){
+            requestData();
         }
     }
 
@@ -1232,10 +1496,13 @@ public class FgOrder extends BaseFragment {
                     public void onClick(DialogInterface dialog, int which) {
                         if (mOrderBean.orderStatus == OrderStatus.INITSTATE) {
                             cancelOrder(mOrderBean.orderNo, 0);
+                            doUMengStatisticForCancelOrder();
                         } else {
 //                                finish();
                             Bundle bundle = new Bundle();
                             bundle.putSerializable(FgOrderCancel.KEY_ORDER, mOrderBean);
+                            bundle.putString("source", source);
+                            bundle.putString("paystyle",paystyle);
                             startFragment(new FgOrderCancel(), bundle);
                         }
                     }
@@ -1257,9 +1524,17 @@ public class FgOrder extends BaseFragment {
         return true;
     }
 
+    //是否弹出退出提示
+    boolean needShowAlert = false;
     private void onKeyBack() {
         MLog.e("onKeyBack " + mSourceFragment);
-        if (mSourceFragment != null && (mSourceFragment instanceof FgSubmit || mSourceFragment instanceof FgSkuSubmit) && mOrderBean.orderStatus != null && mOrderBean.orderStatus == OrderStatus.INITSTATE) {
+        if(needShowAlert && mOrderBean.orderStatus != null
+                && mOrderBean.orderStatus == OrderStatus.INITSTATE){
+//        if (mSourceFragment != null
+//                && (mSourceFragment instanceof FgSubmit
+//                || mSourceFragment instanceof FgSkuSubmit)
+//                && mOrderBean.orderStatus != null
+//                && mOrderBean.orderStatus == OrderStatus.INITSTATE) {
             mDialogUtil.showCustomDialog(getString(R.string.app_name), getString(R.string.order_cancel_pay), "返回", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -1282,13 +1557,104 @@ public class FgOrder extends BaseFragment {
         switch (action.getType()) {
             case REFRESH_ORDER_DETAIL:
                 requestData();
+                doUMengStatisticForWechatPaySuccesful(true);
                 break;
             case PAY_CANCEL:
                 Toast.makeText(getActivity(), "支付取消", Toast.LENGTH_LONG).show();
+                doUMengStatisticForWechatPaySuccesful(false);
+                break;
+            case ADD_INSURE_SUCCESS:
+                finish();
                 break;
             default:
                 break;
         }
+    }
+
+    /**
+     * 统计支付是否成功
+     * @param isSuccessful 成功传true，失败传false
+     */
+    private void doUMengStatisticForWechatPaySuccesful(boolean isSuccessful) {
+        HashMap<String,String> map = new HashMap<String,String>();//用于统计
+        map.put("source", source);
+        map.put("carstyle", mOrderBean.carDesc);
+        if(this.payType == 1){
+            map.put("paystyle", "支付宝");
+        }else if (this.payType == 2){
+            map.put("paystyle", "微信");
+        }
+        map.put("paysource", "下单过程中");//有疑问
+//        map.put("guestcount", mOrderBean.adult + mOrderBean.child + "");
+//        map.put("payableamount", mOrderBean.orderPriceInfo.shouldPay + "");
+//        map.put("actualamount", mOrderBean.orderPriceInfo.actualPay + "");
+        String type = "";
+        switch (mBusinessType) {
+            case Constants.BUSINESS_TYPE_PICK:
+                type = isSuccessful ? "launch_paysucceed_pickup" : "launch_payfailed_pickup";
+                break;
+            case Constants.BUSINESS_TYPE_SEND:
+                type = isSuccessful ? "launch_paysucceed_dropoff" : "launch_payfailed_dropoff";
+                break;
+            case Constants.BUSINESS_TYPE_DAILY:
+                type = isSuccessful ? "launch_paysucceed_oneday" : "launch_payfailed_oneday";
+                map.put("begincity", mOrderBean.serviceCityName);
+//                map.put("luggagecount", mOrderBean.luggageNum);
+//                map.put("drivedays", mOrderBean.totalDays + "");
+//                map.put("forother", );
+                break;
+            case Constants.BUSINESS_TYPE_RENT:
+                type = isSuccessful ? "launch_paysucceed_oneway" : "launch_payfailed_oneway";
+                break;
+            case Constants.BUSINESS_TYPE_COMMEND:
+                type = isSuccessful ? "launch_paysucceed_route" : "launch_payfailed_route";
+                break;
+        }
+        MobclickAgent.onEventValue(getActivity(), type, map, (int)mOrderBean.orderPriceInfo.actualPay);
+    }
+
+    /**
+     * 统计取消订单
+     */
+    private void doUMengStatisticForCancelOrder(){
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("source", source);
+        map.put("carstyle", mOrderBean.carType + "");
+        map.put("paystyle", paystyle);
+        map.put("paysource", source);
+        map.put("clicksource", source);
+//        map.put("guestcount", mOrderBean.adult + mOrderBean.child + "");
+//        map.put("payableamount", mOrderBean.orderPriceInfo.shouldPay + "");
+//        map.put("actualamount", mOrderBean.orderPriceInfo.actualPay + "");
+
+        String type = "";
+        switch (mBusinessType) {
+            case Constants.BUSINESS_TYPE_PICK:
+                type = "cancelorder_pickup";
+                break;
+            case Constants.BUSINESS_TYPE_SEND:
+                type = "cancelorder_dropoff";
+                break;
+            case Constants.BUSINESS_TYPE_DAILY:
+                type = "cancelorder_oneday";
+                map.put("begincity", mOrderBean.serviceCityName);
+//                map.put("luggagecount", mOrderBean.luggageNum);
+//                map.put("drivedays", mOrderBean.totalDays + "");
+//                if(isForOther) {
+//                    map_value.put("forother", "是");
+//                }else{
+//                    map_value.put("forother", "否");
+//                }
+                break;
+            case Constants.BUSINESS_TYPE_RENT:
+                type = "cancelorder_oneway";
+                break;
+            case Constants.BUSINESS_TYPE_COMMEND:
+                type = "cancelorder_route";
+                break;
+        }
+        MobclickAgent.onEventValue(getActivity(), type, map, (int)mOrderBean.orderPriceInfo.actualPay);
+
     }
 
     @Override

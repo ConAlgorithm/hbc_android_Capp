@@ -4,6 +4,7 @@ import android.os.Environment;
 
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.PromiseBean;
+import com.hugboga.custom.data.net.UrlLibs;
 
 import java.io.File;
 import java.util.HashMap;
@@ -32,10 +33,10 @@ public final class Constants {
     public static final int PAY_STATE_BANK = 3;//银行
 
 
-    public static final String[][] TaiCityNames = {{"曼谷", ResourcesConstants.H5_TAI_MANGU},
-            {"普吉", ResourcesConstants.H5_TAI_PUJIDAO},
-            {"清迈", ResourcesConstants.H5_TAI_QINGMAI},
-            {"苏梅岛", ResourcesConstants.H5_TAI_SUMEIDAO}};
+    public static final String[][] TaiCityNames = {{"曼谷", UrlLibs.H5_TAI_MANGU},
+            {"普吉", UrlLibs.H5_TAI_PUJIDAO},
+            {"清迈", UrlLibs.H5_TAI_QINGMAI},
+            {"苏梅岛", UrlLibs.H5_TAI_SUMEIDAO}};
     /*
         客服电话
          */
@@ -84,10 +85,12 @@ public final class Constants {
      * 左侧navigation menu
      */
     public static final int PERSONAL_CENTER_COUPON = 1;
-    public static final int PERSONAL_CENTER_CUSTOMER_SERVICE = 2;
-    public static final int PERSONAL_CENTER_INTERNAL_SERVICE = 3;
-    public static final int PERSONAL_CENTER_OVERSEAS_SERVICE = 4;
-    public static final int PERSONAL_CENTER_SETTING = 5;
+    public static final int PERSONAL_CENTER_CUSTOMER_SERVICE = 5;
+    public static final int PERSONAL_CENTER_INTERNAL_SERVICE = 6;
+    public static final int PERSONAL_CENTER_OVERSEAS_SERVICE = 7;
+    public static final int PERSONAL_CENTER_SETTING = 4;
+    public static final int PERSONAL_CENTER_HD = 3;
+    public static final int PERSONAL_CENTER_BR = 2;
 
     /**
      * 车辆类型

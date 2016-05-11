@@ -24,6 +24,8 @@ public class ParserLogin extends ImplParser {
         bean.weakPassword = jsonObj.optBoolean("weakPassword");
         bean.weakPasswordMsg = jsonObj.optString("weakPasswordMsg");
         bean.imToken = jsonObj.optString("IMtoken");
+        bean.unionid = jsonObj.optString("unionid");
+        bean.isNotRegister = jsonObj.optInt("isNotRegister", -1);
         return bean;
     }
 }

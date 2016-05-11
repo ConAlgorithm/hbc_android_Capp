@@ -126,4 +126,7 @@
 
     <color name="sku_info_bg">#EEEEEE</color>
     <color name="sku_call">#007cff</color>
+
+    <color name="border">#B2FF59</color>
+    <color name="shadow">#7CB342</color>
 </resources>

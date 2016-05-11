@@ -17,6 +17,7 @@ import com.hugboga.custom.data.request.RequestFlightByCity;
 import com.hugboga.custom.data.request.RequestFlightByNo;
 import com.hugboga.custom.utils.DBHelper;
 import com.hugboga.custom.utils.DateUtils;
+import com.umeng.analytics.MobclickAgent;
 
 import org.xutils.DbManager;
 import org.xutils.common.Callback;
@@ -28,6 +29,7 @@ import org.xutils.view.annotation.ViewInject;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -54,11 +56,21 @@ public class FgPickFlightList extends BaseFragment implements AdapterView.OnItem
     private int flightFromCityId;
     private int flightToCityId;
     private DbManager mDbManager;
+    private String source = "";
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        HashMap<String,String> map = new HashMap<String,String>();
+        map.put("source", source);
+        MobclickAgent.onEvent(getActivity(), "search_launch", map);
+    }
 
     @Override
     protected void initHeader() {
         setProgressState(0);
         fgTitle.setText(getString(R.string.title_pick_flight_list));
+        source = getArguments().getString("source");
     }
 
     @Override
@@ -145,6 +157,13 @@ public class FgPickFlightList extends BaseFragment implements AdapterView.OnItem
             Toast.makeText(getActivity(), "机场信息未查到", Toast.LENGTH_LONG).show();
             return;
         }
+
+        HashMap<String,String> map = new HashMap<String,String>();
+        map.put("source", source);
+        map.put("searchinput", flightNo);
+        map.put("searchcity", bean.flightNo);
+        MobclickAgent.onEvent(getActivity(), "search", map);
+
         Bundle bundle = new Bundle();
         bundle.putSerializable(FgPickFlight.KEY_AIRPORT, bean);
         bundle.putString(KEY_FROM, "FlightList");
@@ -168,32 +187,34 @@ public class FgPickFlightList extends BaseFragment implements AdapterView.OnItem
         selector.where("airport_code", "IN", sets);
         try {
             List<AirPort> list = selector.findAll();
-            for (int i = listDate.size() - 1; i >= 0; i--) {
-                FlightBean flightBean = listDate.get(i);
-                for (AirPort airPort : list) {
-                    if (airPort.airportCode.equals(flightBean.depAirportCode))
-                        flightBean.depAirport = airPort;
-                    else if (airPort.airportCode.equals(flightBean.arrivalAirportCode))
-                        flightBean.arrivalAirport = airPort;
-                }
-                if (flightBean.depAirport == null) {
-                    flightBean.depAirport = new AirPort();
-                    flightBean.depAirport.airportName = flightBean.depAirportName;
-                    flightBean.depAirport.cityName = flightBean.depCityName;
-                    if (mBusinessType == Constants.BUSINESS_TYPE_SEND) {
-                        flightBean.serviceStatus = false;
-                        listDate.remove(i);
+            if(null != list) {
+                for (int i = listDate.size() - 1; i >= 0; i--) {
+                    FlightBean flightBean = listDate.get(i);
+                    for (AirPort airPort : list) {
+                        if (airPort.airportCode.equals(flightBean.depAirportCode))
+                            flightBean.depAirport = airPort;
+                        else if (airPort.airportCode.equals(flightBean.arrivalAirportCode))
+                            flightBean.arrivalAirport = airPort;
                     }
-                }
-                if (flightBean.arrivalAirport == null) {
-                    flightBean.arrivalAirport = new AirPort();
-                    flightBean.arrivalAirport.airportName = flightBean.arrAirportName;
-                    flightBean.arrivalAirport.cityName = flightBean.arrCityName;
-                    if (mBusinessType == Constants.BUSINESS_TYPE_PICK) {
-                        flightBean.serviceStatus = false;
-                        listDate.remove(i);
+                    if (flightBean.depAirport == null) {
+                        flightBean.depAirport = new AirPort();
+                        flightBean.depAirport.airportName = flightBean.depAirportName;
+                        flightBean.depAirport.cityName = flightBean.depCityName;
+                        if (mBusinessType == Constants.BUSINESS_TYPE_SEND) {
+                            flightBean.serviceStatus = false;
+                            listDate.remove(i);
+                        }
                     }
+                    if (flightBean.arrivalAirport == null) {
+                        flightBean.arrivalAirport = new AirPort();
+                        flightBean.arrivalAirport.airportName = flightBean.arrAirportName;
+                        flightBean.arrivalAirport.cityName = flightBean.arrCityName;
+                        if (mBusinessType == Constants.BUSINESS_TYPE_PICK) {
+                            flightBean.serviceStatus = false;
+                            listDate.remove(i);
+                        }
 
+                    }
                 }
             }
 

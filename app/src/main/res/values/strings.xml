@@ -6,8 +6,9 @@
     <string name="title_activity_imchat">聊天</string>
 
     <!-- Basic name -->
-    <string name="call_info_tip">如有问题，请拨打客服电话 4006 1000 66</string>
-    <string name="register_info_tip">注册即表示我同意皇包车用户协议</string>
+    <string name="call_info_tip">如有问题，请拨打客服电话 4006 1000 66</string>用户协议
+    <string name="register_info_tip">注册即表示我同意"皇包车"的 </string>
+    <string name="register_info_tip_protocol">用户协议</string>
     <string name="login_country_search_hint">搜索国家名或国别名代码</string>
 
     <!-- 按钮 -->
@@ -66,9 +67,9 @@
     <!-- title-->
     <string name="title_pick">中文接机</string>
     <string name="title_send">中文送机</string>
-    <string name="title_daily">按天包车</string>
-    <string name="title_daily_in_town">市内包车</string>
-    <string name="title_daily_out_town">跨城市包车</string>
+    <string name="title_daily">包车游</string>
+    <string name="title_daily_in_town">包车游</string>
+    <string name="title_daily_out_town">包车游</string>
     <string name="title_rent">单次接送</string>
     <string name="title_commend">线路包车</string>
     <string name="title_daily_small">小长途</string>
@@ -207,6 +208,8 @@
     <string name="call_service">呼叫客服</string>
     <string name="empty_text">没有结果</string>
     <string name="empty_city_text">该城市暂未开通服务</string>
+    <string name="can_not_choose_start_city_text">跨城市包车不能选择出发城市哦</string>
+    <string name="out_of_range_city_text">您搜索的城市超出了包车游玩范围</string>
 
     <!-- sku-->
     <string name="sku_item_guide_number">%d位中文司导开车带你玩</string>
@@ -246,4 +249,110 @@
     <string name="popup_menu_phone">客服电话</string>
     <string name="no_net_tip">网络不给力，包子不高兴了呢！</string>
     <string name="click_refresh"><u>点击刷新</u></string>
+
+    <string name="login_or">或者</string>
+    <string name="un_install_wx">没有安装微信</string>
+    <string name="location_city_text">定位城市</string>
+    <string name="select_city_title">包车游</string>
+    <string name="select_city_start">开始城市</string>
+    <string name="baggage_nums">行李数</string>
+    <string name="go_citys">游玩日期</string>
+    <string name="select_go_citys">选择游玩日期</string>
+    <string name="full_day_travel">&#160;按天包车游</string>
+    <string name="half_day_travel">&#160;半日包车游</string>
+    <string name="people_num_left">出发人数</string>
+    <string name="go_next">下一步</string>
+    <string name="no_confirm">暂时不确定</string>
+    <string name="child_seat">儿童座椅</string>
+    <string name="child_0">儿童0</string>
+    <string name="baggage_size">需填写大小介于21-28寸之间的行李箱个数</string>
+
+    <string name="start_date">开始日期</string>
+    <string name="end_date">结束日期</string>
+    <string name="select_date">选择日期</string>
+
+    <string name="select_city_tips">请选择开始包车的城市</string>
+    <string name="select_people_tips">请选择出发人数</string>
+    <string name="select_baggage_tips">请选择行李数</string>
+
+    <string name="select_city_man">成人</string>
+    <string name="select_city_child">儿童</string>
+    <string name="select_city_child_12">(12岁及以下)</string>
+
+    <string name="select_city_man_child_num">成人%1$s/儿童%2$s</string>
+    <string name="select_city_baggage_num">托运行李%1$s</string>
+
+    <string name="select_scope">选择包车游玩范围</string>
+
+    <string name="scope_in">%s,市内游玩</string>
+    <string name="scope_around">%s,周边游玩</string>
+    <string name="scope_new_add_tips">（300公里，10小时畅游）</string>
+    <string name="scope_other">住在其他城市</string>
+    <string name="scope_other_end">在其它城市结束游城</string>
+    <string name="scope_tips_city">包括:%s</string>
+
+    <string name="start_end_error">开始日期不能大于结束日期</string>
+    <string name="add_day_tips">当天费用将包含司导住宿补贴</string>
+
+    <string name="man_no_confirm_tips">包车是件自由的事儿，填写可能最多的人数即可</string>
+    <string name="baggage_no_confirm_tips">需填写大小超过21寸的行李箱个数，建议最大行李箱不超过28寸</string>
+
+    <string name="have_mas">可乘坐: %s名乘客</string>
+    <string name="have_baggages"> %s个行李箱</string>
+
+    <string name="mans_use_money">司导服务费</string>
+    <string name="mans_use_money_tips">司导全程陪同,根据需要进行翻译,导游,解说.包含餐费,小费.</string>
+    <string name="car_use_money">用车费用</string>
+    <string name="car_use_money_tips">包含:油费,停车费,高速费,过路费</string>
+    <string name="all_money">费用总计</string>
+    <string name="per_money">人均费用</string>
+    <string name="befer48_hour">行前48小时可全额退款</string>
+    <string name="show_all_info">展开详情</string>
+
+    <string name="day_all_money">第%s天费用总计</string>
+    <string name="service_money">司导服务费</string>
+    <string name="longDisPrice">长途补助</string>
+    <string name="stayPrice">司导住宿补贴</string>
+    <string name="vehiclePrice">用车费用</string>
+    <string name="emptyDrivePrice">返程补贴</string>
+    <string name="car_lines">-----------------------------------------------------------------</string>
+    <string name="add_user_name">请填写联系人姓名</string>
+    <string name="add_user_name_left">* 联系人&#160;</string>
+    <string name="add_user_phone_left">* 联系电话</string>
+    <string name="add_user_phone_area_no">选择区号></string>
+    <string name="add_user_phone">联系人电话</string>
+    <string name="local_time">09:00(当地时间)</string>
+    <string name="aboard_where">请填写上车地点</string>
+    <string name="hotel_phone">酒店电话</string>
+    <string name="order_tips">选填,行前可以随时联系司导更改</string>
+    <string name="add_other_phone">+ 增加备用电话</string>
+    <string name="for_other_people">为他人订车</string>
+    <string name="total_order">总额:</string>
+    <string name="order_info">明细 ></string>
+    <string name="submit_order">立即支付</string>
+
+    <string name="up_time">上车时间</string>
+    <string name="up_site">上车地点</string>
+
+    <string name="passenger">* 乘车人</string>
+    <string name="add_passenger">请填写乘车人姓名</string>
+    <string name="passenger_phone">乘车人电话</string>
+
+    <string name="no_start_city">请选择开始城市</string>
+    <string name="select_around_city">当天费用将包含长途补贴</string>
+    <string name="select_other_city">当天费用将包含司导住宿补贴和长途补贴</string>
+    <string name="select_end_city">选择结束城市</string>
+    <string name="select_stay_city">选择住宿城市</string>
+    <string name="no_cars_info">没有相关车辆信息</string>
+
+    <string name="complete_start_city">请选择开始城市</string>
+    <string name="complete_mans">请选择出发人数</string>
+    <string name="complete_start_date">请选择开始日期</string>
+    <string name="complete_end_date">请选择结束日期</string>
+    <string name="complete_days_info">请完善每天的行程</string>
+    <string name="complete_half_start_date">请完善游玩日期</string>
+    <string name="edit_mark_left">备注信息</string>
+    <string name="edit_mark">你可以在这里注明其他需求,以及需要车导知道的其他行程细节</string>
+    <string name="all_cost_info">费用详情</string>
+
 </resources>

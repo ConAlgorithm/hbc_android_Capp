@@ -1,7 +1,6 @@
 package com.huangbaoche.hbcframe;
 
 import com.huangbaoche.hbcframe.data.parser.ServerParser;
-import com.huangbaoche.hbcframe.widget.DialogUtilInterface;
 
 /**
  * Created by admin on 2016/2/27.

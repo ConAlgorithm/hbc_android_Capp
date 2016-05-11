@@ -24,8 +24,11 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.fragment.BaseFragment;
 import com.hugboga.custom.utils.Common;
 import com.hugboga.custom.utils.PhoneInfo;
+import com.umeng.analytics.MobclickAgent;
 
 import org.xutils.common.util.LogUtil;
+
+import java.util.HashMap;
 
 /**
  * <p> DialogUtil mDialogUtil = new DialogUtil(activity);
@@ -604,7 +607,7 @@ public class DialogUtil implements DialogUtilInterface {
         }
     }
 
-    public void showCallDialog() {
+    public void showCallDialog(final String... source) {
         String[] str = {"境内客服:" + Constants.CALL_NUMBER_IN, "境外客服:" + Constants.CALL_NUMBER_OUT};
         AlertDialog dialog = new AlertDialog.Builder(getRootActivity(mContext))
                 .setTitle("联系客服")
@@ -612,8 +615,18 @@ public class DialogUtil implements DialogUtilInterface {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (which == 0) {
+                            if (source != null && source.length == 3) {
+                                HashMap<String, String> map = new HashMap<String, String>();
+                                map.put("source", source[0]);
+                                MobclickAgent.onEvent(getRootActivity(mContext), source[1], map);
+                            }
                             PhoneInfo.CallDial(mContext, Constants.CALL_NUMBER_IN);
                         } else {
+                            if (source != null && source.length == 3) {
+                                HashMap<String, String> map = new HashMap<String, String>();
+                                map.put("source", source[0]);
+                                MobclickAgent.onEvent(getRootActivity(mContext), source[2], map);
+                            }
                             PhoneInfo.CallDial(mContext, Constants.CALL_NUMBER_OUT);
                         }
                     }

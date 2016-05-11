@@ -1,21 +1,31 @@
 package com.hugboga.custom;
 
+import android.*;
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -31,38 +41,50 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
+import com.hugboga.custom.activity.BaseActivity;
 import com.hugboga.custom.adapter.MenuItemAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.LvMenuItem;
 import com.hugboga.custom.data.bean.PushMessage;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestPushClick;
 import com.hugboga.custom.data.request.RequestPushToken;
+import com.hugboga.custom.data.request.RequestUploadLocation;
 import com.hugboga.custom.fragment.BaseFragment;
+import com.hugboga.custom.fragment.FgActivity;
 import com.hugboga.custom.fragment.FgChat;
 import com.hugboga.custom.fragment.FgCoupon;
 import com.hugboga.custom.fragment.FgHome;
 import com.hugboga.custom.fragment.FgIMChat;
+import com.hugboga.custom.fragment.FgInsure;
 import com.hugboga.custom.fragment.FgLogin;
 import com.hugboga.custom.fragment.FgOrder;
 import com.hugboga.custom.fragment.FgPersonInfo;
 import com.hugboga.custom.fragment.FgServicerCenter;
 import com.hugboga.custom.fragment.FgSetting;
+import com.hugboga.custom.fragment.FgSkuDetail;
 import com.hugboga.custom.fragment.FgTravel;
+import com.hugboga.custom.fragment.FgWebInfo;
+import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.ChannelUtils;
 import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.ImageOptionUtils;
+import com.hugboga.custom.utils.LocationUtils;
 import com.hugboga.custom.utils.PermissionRes;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.ToastUtils;
+import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UpdateResources;
 import com.hugboga.custom.widget.CircularImage;
-import com.umeng.analytics.AnalyticsConfig;
+import com.umeng.analytics.MobclickAgent;
 import com.zhy.m.permission.MPermissions;
 import com.zhy.m.permission.PermissionDenied;
 import com.zhy.m.permission.PermissionGrant;
+
+import net.grobas.view.PolygonImageView;
 
 import org.xutils.common.util.FileUtil;
 import org.xutils.view.annotation.ContentView;
@@ -73,18 +95,25 @@ import org.xutils.x;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import cn.jpush.android.api.JPushInterface;
 import de.greenrobot.event.EventBus;
 
 
 @ContentView(R.layout.activity_main)
-public class MainActivity extends BaseFragmentActivity
+public class MainActivity extends BaseActivity
         implements ViewPager.OnPageChangeListener, AdapterView.OnItemClickListener, View.OnClickListener, HttpRequestListener {
 
     public static final String PUSH_BUNDLE_MSG = "pushMessage";
     public static final String FILTER_PUSH_DO = "com.hugboga.custom.pushdo";
+
+    private static final int PERMISSION_ACCESS_COARSE_LOCATION = 11;
+    private static final int PERMISSION_ACCESS_FINE_LOCATION = 12;
 
     @ViewInject(R.id.drawer_layout)
     private DrawerLayout drawer;
@@ -93,7 +122,7 @@ public class MainActivity extends BaseFragmentActivity
     private ViewPager mViewPager;
 
     private TextView tv_modify_info;//header的修改资料
-    private CircularImage my_icon_head;//header的头像
+    private PolygonImageView my_icon_head;//header的头像
     private TextView tv_nickname;//header的昵称
 
     private TextView tabMenu[] = new TextView[3];
@@ -113,7 +142,6 @@ public class MainActivity extends BaseFragmentActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        setSupportActionBar(toolbar);
-        AnalyticsConfig.setChannel(ChannelUtils.getChannel(this));
         sharedPre = new SharedPre(this);
         initBottomView();
         contentId = R.id.drawer_layout;
@@ -125,7 +153,8 @@ public class MainActivity extends BaseFragmentActivity
 //        navigationView.setNavigationItemSelectedListener(this);
         //为服务器授权
         grantPhone();
-
+        initLocation();
+        grantLocation();
 //        addErrorProcess();
 //        UpdateResources.checkLocalDB(this);
 //        UpdateResources.checkLocalResource(this);
@@ -138,6 +167,30 @@ public class MainActivity extends BaseFragmentActivity
         } catch (Exception e) {
             e.printStackTrace();
         }
+//        LocationUtils.openGPSSeting(MainActivity.this);
+        MLog.e("umengLog" + getDeviceInfo(this));
+    }
+
+    Timer timer;
+    TimerTask timerTask;
+    public void uploadLocation(){
+        timer = new Timer();
+        timerTask = new TimerTask(){
+            @Override
+            public void run() {
+
+                String lat = new SharedPre(MainActivity.this).getStringValue("lat");
+                String lng = new SharedPre(MainActivity.this).getStringValue("lng");
+                Log.e("========","============lat="+lat+"====lng="+lng);
+
+                if(!TextUtils.isEmpty(lat)){
+                    RequestUploadLocation requestUploadLocation = new RequestUploadLocation(MainActivity.this);
+                    HttpRequestUtils.request(MainActivity.this,requestUploadLocation,MainActivity.this,false);
+
+                }
+            }
+        };
+        timer.schedule(timerTask,0,30000);
     }
 
     /**
@@ -202,6 +255,14 @@ public class MainActivity extends BaseFragmentActivity
     protected void onDestroy() {
         super.onDestroy();
         try {
+            if(timer != null){
+                timer.cancel();
+                timer = null;
+            }
+            if(timerTask != null){
+                timerTask.cancel();
+                timerTask = null;
+            }
             EventBus.getDefault().unregister(this);
         } catch (Exception e) {
             e.printStackTrace();
@@ -212,6 +273,14 @@ public class MainActivity extends BaseFragmentActivity
     public void onDataRequestSucceed(BaseRequest request) {
         if (request instanceof RequestPushToken) {
             MLog.e(request.getData().toString());
+        }else if(request instanceof RequestUploadLocation){
+            LocationUtils.cleanLocationInfo(MainActivity.this);
+            String cityId = ((RequestUploadLocation) request).getData().cityId;
+            String cityName = ((RequestUploadLocation) request).getData().cityName;
+            String countryId = ((RequestUploadLocation) request).getData().countryId;
+            String countryName = ((RequestUploadLocation) request).getData().countryName;
+            LocationUtils.saveLocationCity(MainActivity.this,cityId,cityName,countryId,countryName);
+//            MLog.e("Location: cityId:"+cityId + ",  cityName:"+cityName);
         }
     }
 
@@ -313,10 +382,12 @@ public class MainActivity extends BaseFragmentActivity
     private List<LvMenuItem> mItems = new ArrayList<LvMenuItem>(
             Arrays.asList(
                     new LvMenuItem(R.mipmap.personal_center_coupon, "优惠券", ""),
-                    new LvMenuItem(R.mipmap.personal_center_customer_service, "客服中心", ""),
+                    new LvMenuItem(R.mipmap.personal_icon_br, "常用投保人", ""),
+                    new LvMenuItem(R.mipmap.personal_icon_hd, "活动", ""),
+                    new LvMenuItem(R.mipmap.personal_center_setting, "设置", ""),
+                    new LvMenuItem(R.mipmap.personal_center_customer_service, "客服中心", "我们的服务介绍和保障"),
                     new LvMenuItem(R.mipmap.personal_center_internal, "境内客服", "仅限国内使用"),
-                    new LvMenuItem(R.mipmap.personal_center_overseas, "境外客服", "仅限国外使用"),
-                    new LvMenuItem(R.mipmap.personal_center_setting, "设置", "")
+                    new LvMenuItem(R.mipmap.personal_center_overseas, "境外客服", "仅限国外使用")
             ));
 
     MenuItemAdapter menuItemAdapter;
@@ -328,10 +399,17 @@ public class MainActivity extends BaseFragmentActivity
         head_view.setOnClickListener(this);
         tv_modify_info = (TextView) header.findViewById(R.id.tv_modify_info);//编辑
 //        tv_modify_info.setOnClickListener(this);
-        my_icon_head = (CircularImage) header.findViewById(R.id.my_icon_head);//头像
+        my_icon_head = (PolygonImageView) header.findViewById(R.id.my_icon_head);//头像
 //        my_icon_head.setOnClickListener(this);
         tv_nickname = (TextView) header.findViewById(R.id.tv_nickname);//昵称
 //        tv_nickname.setOnClickListener(this);
+        tv_nickname.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                ToastUtils.showShort("version="+ChannelUtils.getVersion()+" versioncode="+ChannelUtils.getVersionCode()+" channel ="+ChannelUtils.getChannel(MainActivity.this)+"");
+                return false;
+            }
+        });
 
         mLvLeftMenu.addHeaderView(header);
         menuItemAdapter = new MenuItemAdapter(this, mItems);
@@ -345,13 +423,6 @@ public class MainActivity extends BaseFragmentActivity
      * 刷新左边侧滑栏
      */
     private void refreshContent() {
-        tv_nickname.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                ToastUtils.showLong("versionName"+ChannelUtils.getVersion()+" versionCode="+ ChannelUtils.getVersionCode()  +" channel=" +ChannelUtils.getChannel(MainActivity.this));
-                return false;
-            }
-        });
         if (!UserEntity.getUser().isLogin(this)) {
             my_icon_head.setImageResource(R.mipmap.chat_head);
             tv_nickname.setText(this.getResources().getString(R.string.person_center_nickname));
@@ -361,7 +432,8 @@ public class MainActivity extends BaseFragmentActivity
         } else {
             tv_modify_info.setVisibility(View.VISIBLE);
             if (!TextUtils.isEmpty(UserEntity.getUser().getAvatar(this))) {
-                x.image().bind(my_icon_head, UserEntity.getUser().getAvatar(this));
+                Tools.showImage(this,my_icon_head,UserEntity.getUser().getAvatar(this));
+//                x.image().bind(my_icon_head, UserEntity.getUser().getAvatar(this));
             } else {
                 my_icon_head.setImageResource(R.mipmap.chat_head);
             }
@@ -446,10 +518,11 @@ public class MainActivity extends BaseFragmentActivity
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        HashMap<String,String> map = new HashMap<String,String>();
         switch (position) {
             case Constants.PERSONAL_CENTER_COUPON:
                 //我的优惠券
-                if (isLogin()) {
+                if (isLogin("个人中心首页")) {
                     startFragment(new FgCoupon());
                     UserEntity.getUser().setHasNewCoupon(false);
 //                    couponPoint.setVisibility(View.GONE);
@@ -461,15 +534,30 @@ public class MainActivity extends BaseFragmentActivity
                 break;
             case Constants.PERSONAL_CENTER_INTERNAL_SERVICE:
                 //境内客服
-                PhoneInfo.CallDial(MainActivity.this, Constants.CALL_NUMBER_IN);
+                    PhoneInfo.CallDial(MainActivity.this, Constants.CALL_NUMBER_IN);
+//                    map.put("source", "个人中心呼叫境内客服");
+//                    MobclickAgent.onEvent(MainActivity.this, "calldomestic_person", map);
                 break;
             case Constants.PERSONAL_CENTER_OVERSEAS_SERVICE:
                 //境外客服
-                PhoneInfo.CallDial(MainActivity.this, Constants.CALL_NUMBER_OUT);
+                    PhoneInfo.CallDial(MainActivity.this, Constants.CALL_NUMBER_OUT);
+                break;
+            case Constants.PERSONAL_CENTER_HD:
+                if(isLogin("个人中心首页")) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_ACTIVITY+UserEntity.getUser().getUserId(this.getApplicationContext())+"&t=" + new Random().nextInt(100000));
+                    startFragment(new FgActivity(), bundle);
+                }
+                break;
+            case Constants.PERSONAL_CENTER_BR:
+                if(isLogin("个人中心首页")) {
+                    FgInsure fgInsure = new FgInsure();
+                    startFragment(fgInsure);
+                }
                 break;
             case Constants.PERSONAL_CENTER_SETTING:
                 //我的设置
-                if (isLogin()) {
+                if (isLogin("个人中心首页")) {
 //                    versionPoint.setVisibility(View.GONE);
                     startFragment(new FgSetting());
                 }
@@ -484,15 +572,26 @@ public class MainActivity extends BaseFragmentActivity
 
     /**
      * 判断是否登录
-     *
+     * @param source 来源，用于统计
      * @return
      */
-    private boolean isLogin() {
+    private boolean isLogin(String source) {
         if (UserEntity.getUser().isLogin(this)) {
             return true;
         } else {
-            startFragment(new FgLogin());
-            return false;
+            if(!TextUtils.isEmpty(source)){
+                Bundle bundle = new Bundle();;
+                bundle.putString("source",source);
+                startFragment(new FgLogin(), bundle);
+
+                HashMap<String,String> map = new HashMap<String,String>();
+                map.put("source", source);
+                MobclickAgent.onEvent(MainActivity.this, "login_trigger", map);
+                return false;
+            }else{
+                startFragment(new FgLogin());
+                return false;
+            }
         }
     }
 
@@ -503,7 +602,7 @@ public class MainActivity extends BaseFragmentActivity
             case R.id.tv_modify_info:
             case R.id.my_icon_head:
             case R.id.tv_nickname:
-                if(isLogin()){
+                if(isLogin("个人中心首页")){
                     startFragment(new FgPersonInfo());
                 };
                 break;
@@ -586,6 +685,19 @@ public class MainActivity extends BaseFragmentActivity
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         MPermissions.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
+        switch(requestCode){
+            case PERMISSION_ACCESS_COARSE_LOCATION:
+            case PERMISSION_ACCESS_FINE_LOCATION:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission was granted
+                    MLog.e("==========PERMISSION_GRANTED=========");
+                    requestLocation();
+                } else {
+                    // permission denied
+                    MLog.e("==========denied=========");
+                }
+                break;
+        }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
@@ -617,4 +729,123 @@ public class MainActivity extends BaseFragmentActivity
         }
         return length;
     }
+
+    public void grantLocation(){
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                || ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED ) {
+            ActivityCompat.requestPermissions(this,
+                    new String[] {android.Manifest.permission.ACCESS_COARSE_LOCATION , Manifest.permission.ACCESS_FINE_LOCATION },
+                    PERMISSION_ACCESS_COARSE_LOCATION);
+        }else{
+            requestLocation();
+        }
+    }
+
+
+    public void requestLocation(){
+        try {
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 100, locationListener);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 100, locationListener);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+
+    LocationManager locationManager;
+    LocationListener locationListener;
+    public void initLocation(){
+        if(!LocationUtils.gpsIsOpen(this)){
+            AlertDialog dialog = AlertDialogUtils.showAlertDialog(this, "没有开启GPS定位,请到设置里开启", "设置", "取消", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    LocationUtils.openGPSSeting(MainActivity.this);
+                    dialog.dismiss();
+                }
+            }, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+        }
+        locationManager = (LocationManager) this.getSystemService(this.LOCATION_SERVICE);
+        locationListener = new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+                String locStr =String.format("%s\n lat=%f \n lng=%f \n(%f meters)", location.getProvider(),
+                                location.getLatitude(), location.getLongitude(), location.getAccuracy());
+
+                LocationUtils.saveLocationInfo(MainActivity.this,location.getLatitude()+"",location.getLongitude()+"");
+                if(timer == null) {
+                    uploadLocation();
+                }
+//                MLog.e(locStr);
+            }
+
+            @Override
+            public void onStatusChanged(String provider, int status, Bundle extras) {
+
+            }
+
+            @Override
+            public void onProviderEnabled(String provider) {
+
+            }
+
+            @Override
+            public void onProviderDisabled(String provider) {
+                LocationUtils.cleanLocationInfo(MainActivity.this);
+            }
+        };
+
+    }
+
+
+
+    @SuppressLint("NewApi")
+    public static boolean checkPermission(Context context, String permission) {
+        boolean result = false;
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (context.checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED) {
+                result = true;
+            }
+        } else {
+            PackageManager pm = context.getPackageManager();
+            if (pm.checkPermission(permission, context.getPackageName()) == PackageManager.PERMISSION_GRANTED) {
+                result = true;
+            }
+        }
+        return result;
+    }
+
+    public static String getDeviceInfo(Context context) {
+        try {
+            org.json.JSONObject json = new org.json.JSONObject();
+            android.telephony.TelephonyManager tm = (android.telephony.TelephonyManager) context
+                    .getSystemService(Context.TELEPHONY_SERVICE);
+            String device_id = null;
+            if (checkPermission(context, Manifest.permission.READ_PHONE_STATE)) {
+                device_id = tm.getDeviceId();
+            }
+            android.net.wifi.WifiManager wifi = (android.net.wifi.WifiManager) context
+                    .getSystemService(Context.WIFI_SERVICE);
+            String mac = wifi.getConnectionInfo().getMacAddress();
+            json.put("mac", mac);
+            if (TextUtils.isEmpty(device_id)) {
+                device_id = mac;
+            }
+            if (TextUtils.isEmpty(device_id)) {
+                device_id = android.provider.Settings.Secure.getString(context.getContentResolver(),
+                        android.provider.Settings.Secure.ANDROID_ID);
+            }
+            json.put("device_id", device_id);
+            return json.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
 }

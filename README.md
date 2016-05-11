@@ -47,6 +47,11 @@
  * utils:工具类
  * widget：自定义控件
 
-    
-    
+ ## 注意事项   
+* BaseRequest 的 Map<String,Object> getDataMap() 在有翻页的时候不要重写，否则每次取出来的Map都是新创建的，导致翻页有问题 
+     map的初始化可以放在构造方法里
+* 继承BaseRequest 的子类一定要写@HttpRequest 注解，builder = HbcParamsBuilder. class, 公用的处理方法包括拼接host ，添加header公共头信息 ，ssh加密都这个类
+* onEvent 注解只能用于private方法
+* 在重新完子类的方法后，要调用super.方法，除非有特殊处理
+
     

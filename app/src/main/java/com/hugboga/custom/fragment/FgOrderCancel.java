@@ -14,12 +14,17 @@ import com.hugboga.custom.adapter.OverPriceAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.request.RequestOrderCancel;
+import com.hugboga.custom.utils.UmengUtils;
 import com.hugboga.custom.widget.DialogUtil;
+import com.umeng.analytics.MobclickAgent;
 
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 订单退单
@@ -45,6 +50,7 @@ public class FgOrderCancel extends BaseFragment {
 
     private OrderBean orderBean;
     private DialogUtil mDialogUtil;
+    private String paystyle = "";
 
 
     @Override
@@ -53,6 +59,10 @@ public class FgOrderCancel extends BaseFragment {
     }
 
     protected void initView(){
+        if(getArguments()!=null){
+            source = getArguments().getString("source");
+            paystyle = getArguments().getString("paystyle");
+        }
         mDialogUtil = DialogUtil.getInstance(getActivity());
         orderBean = (OrderBean) getArguments().getSerializable(KEY_ORDER);
         OverPriceAdapter adapter = new OverPriceAdapter(getActivity());
@@ -125,6 +135,48 @@ public class FgOrderCancel extends BaseFragment {
         if(cancelPrice<0)cancelPrice=0;
         RequestOrderCancel request = new RequestOrderCancel(getActivity(),orderBean.orderNo,cancelPrice,orderBean.memo);
         requestData(request);
+        uMengStatisticForCancelOrder();
+    }
+
+    private void uMengStatisticForCancelOrder(){
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("source", source);
+        map.put("carstyle", orderBean.carType + "");
+        map.put("paystyle", paystyle);
+        map.put("paysource", source);
+        map.put("clicksource", source);
+//        map.put("guestcount", orderBean.adult + orderBean.child + "");
+//        map.put("payableamount", orderBean.orderPriceInfo.shouldPay + "");
+//        map.put("actualamount", orderBean.orderPriceInfo.actualPay + "");
+
+        String type = "";
+        switch (mBusinessType) {
+            case Constants.BUSINESS_TYPE_PICK:
+                type = "cancelorder_pickup";
+                break;
+            case Constants.BUSINESS_TYPE_SEND:
+                type = "cancelorder_dropoff";
+                break;
+            case Constants.BUSINESS_TYPE_DAILY:
+                type = "cancelorder_oneday";
+                map.put("begincity", orderBean.serviceCityName);
+//                map.put("luggagecount", orderBean.luggageNum);
+//                map.put("drivedays", orderBean.totalDays + "");
+//                if(isForOther) {
+//                    map_value.put("forother", "是");
+//                }else{
+//                    map_value.put("forother", "否");
+//                }
+                break;
+            case Constants.BUSINESS_TYPE_RENT:
+                type = "cancelorder_oneway";
+                break;
+            case Constants.BUSINESS_TYPE_COMMEND:
+                type = "cancelorder_route";
+                break;
+        }
+        MobclickAgent.onEventValue(getActivity(), type, map, (int)orderBean.orderPriceInfo.actualPay);
+
     }
 
     @Override

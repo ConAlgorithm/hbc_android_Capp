@@ -2,9 +2,9 @@ package com.hugboga.custom.data.request;
 
 import android.content.Context;
 
-import com.huangbaoche.hbcframe.data.net.HbcParamsBuilder;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
+import com.hugboga.custom.data.net.NewParamsBuilder;
 import com.hugboga.custom.data.net.UrlLibs;
 
 import org.xutils.http.HttpMethod;
@@ -15,7 +15,7 @@ import java.util.HashMap;
 /**
  * Created by admin on 2016/3/24.
  */
-@HttpRequest(path = UrlLibs.SERVER_IP_GUIDES_COMMENTS, builder = HbcParamsBuilder.class)
+@HttpRequest(path = UrlLibs.SERVER_IP_GUIDES_COMMENTS, builder = NewParamsBuilder.class)
 public class RequestEvaluate extends BaseRequest {
     public RequestEvaluate(Context context, String userId, String userName, String guideID, String guideName, String orderID, int orderType, Integer star1, Integer star2, Integer star3, String comment) {
         super(context);

@@ -11,16 +11,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
-import android.text.InputFilter;
 import android.text.TextUtils;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
@@ -35,15 +31,15 @@ import com.hugboga.custom.data.request.RequestChangeUserInfo;
 import com.hugboga.custom.data.request.RequestUpLoadFile;
 import com.hugboga.custom.data.request.RequestUserInfo;
 import com.hugboga.custom.utils.FileUtil;
-import com.hugboga.custom.utils.ImageOptionUtils;
 import com.hugboga.custom.utils.ImageUtils;
 import com.hugboga.custom.utils.PermissionRes;
-import com.hugboga.custom.widget.CircleImageView;
-import com.hugboga.custom.widget.CircularImage;
+import com.umeng.analytics.MobclickAgent;
 import com.yalantis.ucrop.UCrop;
 import com.zhy.m.permission.MPermissions;
 import com.zhy.m.permission.PermissionDenied;
 import com.zhy.m.permission.PermissionGrant;
+
+import net.grobas.view.PolygonImageView;
 
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
@@ -67,15 +63,15 @@ import de.greenrobot.event.EventBus;
 public class FgPersonInfo extends BaseFragment {
 
     @ViewInject(R.id.my_info_menu_head1)
-    CircularImage headImageView;
+    PolygonImageView headImageView;
     @ViewInject(R.id.my_info_nickname)
     TextView nickNameTextView;
     @ViewInject(R.id.my_info_sex)
     TextView sexTextView;
     @ViewInject(R.id.my_info_age)
     TextView ageTextView;
-    @ViewInject(R.id.my_info_signature)
-    TextView signatureTextView;
+    @ViewInject(R.id.my_info_mobile)
+    TextView mobileTextView;
 
     UserBean userBean;
     Bitmap head;//头像Bitmap
@@ -114,6 +110,22 @@ public class FgPersonInfo extends BaseFragment {
     }
 
     @Override
+    public void onFragmentResult(Bundle bundle) {
+        String from = bundle.getString(KEY_FRAGMENT_NAME);
+        if(FgBindMobile.class.getSimpleName().equals(from)){
+            Object object = bundle.getSerializable("userBean");
+            if(object != null && object instanceof UserBean){
+                userBean = (UserBean) object;
+                inflateContent();
+            }else{
+                requestData();
+            }
+        }else if(FgChangeMobile.class.getSimpleName().equals(from)){
+            requestData();
+        }
+    }
+
+    @Override
     protected void inflateContent() {
 //        BitmapUtils imageUtil = x.image().HttpImageUtils.getInstance(getActivity());
 //        imageUtil.configDefaultLoadingImage(R.mipmap.chat_head);
@@ -132,8 +144,8 @@ public class FgPersonInfo extends BaseFragment {
         if (userBean.ageType != -1) {
             ageTextView.setText(userBean.getAgeStr());
         }
-        if (!TextUtils.isEmpty(userBean.signature)) {
-            signatureTextView.setText(userBean.signature);
+        if (!TextUtils.isEmpty(userBean.mobile)) {
+            mobileTextView.setText(userBean.mobile);
         }
     }
 
@@ -152,7 +164,7 @@ public class FgPersonInfo extends BaseFragment {
                 inputServer.setSelection(inputServer.getText().length());
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity()).setView(rl).setTitle("填写昵称").setNegativeButton("取消", null).setPositiveButton("提交", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        String nickStr = inputServer.getText().toString();
+                        String nickStr = inputServer.getText().toString().trim();
                         if (TextUtils.isEmpty(nickStr)) {
                             showTip("没输入昵称，请重新填写");
                             return;
@@ -205,30 +217,46 @@ public class FgPersonInfo extends BaseFragment {
                 dialog.show();
                 break;
             case R.id.my_info_menu_layout5:
-                //签名
-                final EditText inputServer1 = new EditText(getActivity());
-                inputServer1.setFilters(new InputFilter[]{new InputFilter.LengthFilter(30)});
-                inputServer1.setMinLines(3);
-                inputServer1.setGravity(Gravity.TOP);
-                inputServer1.setText(signatureTextView.getText().toString());
-                inputServer1.setSelection(inputServer1.getText().length());
-                AlertDialog.Builder builder1 = new AlertDialog.Builder(getActivity()).setTitle("填写个性签名").setView(inputServer1)
-                        .setNegativeButton("取消", null).setPositiveButton("提交", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                String nickStr = inputServer1.getText().toString();
-                                if (TextUtils.isEmpty(nickStr)) {
-                                    showTip("没输入个性签名，请重新填写");
-                                    return;
-                                }
-                                signatureTextView.setText(inputServer1.getText().toString());
-                                submitChangeUserInfo(5, inputServer1.getText().toString());
-                            }
-                        });
-                dialog = builder1.create();
-                dialog.setCancelable(true);
-                dialog.setCanceledOnTouchOutside(true);
-                dialog.show();
+                if(userBean != null && !TextUtils.isEmpty(userBean.mobile)){
+                    //修改手机号
+                    startFragment(new FgChangeMobile());
+                }else {
+                    //绑定手机号
+                    Bundle bundle = new Bundle();
+                    bundle.putBoolean("isAfterProcess",true);
+                    bundle.putString("source","个人信息");
+                    startFragment(new FgBindMobile(), bundle);
+                    HashMap<String,String> map = new HashMap<String,String>();
+                    map.put("source", "个人信息");
+                    MobclickAgent.onEvent(getActivity(), "bind_trigger", map);
+                }
                 break;
+
+//            case R.id.my_info_menu_layout5:
+//                //签名
+//                final EditText inputServer1 = new EditText(getActivity());
+//                inputServer1.setFilters(new InputFilter[]{new InputFilter.LengthFilter(30)});
+//                inputServer1.setMinLines(3);
+//                inputServer1.setGravity(Gravity.TOP);
+//                inputServer1.setText(mobileTextView.getText().toString());
+//                inputServer1.setSelection(inputServer1.getText().length());
+//                AlertDialog.Builder builder1 = new AlertDialog.Builder(getActivity()).setTitle("填写个性签名").setView(inputServer1)
+//                        .setNegativeButton("取消", null).setPositiveButton("提交", new DialogInterface.OnClickListener() {
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                String nickStr = inputServer1.getText().toString();
+//                                if (TextUtils.isEmpty(nickStr)) {
+//                                    showTip("没输入个性签名，请重新填写");
+//                                    return;
+//                                }
+//                                mobileTextView.setText(inputServer1.getText().toString());
+//                                submitChangeUserInfo(5, inputServer1.getText().toString());
+//                            }
+//                        });
+//                dialog = builder1.create();
+//                dialog.setCancelable(true);
+//                dialog.setCanceledOnTouchOutside(true);
+//                dialog.show();
+//                break;
             default:
                 break;
         }
@@ -468,11 +496,6 @@ public class FgPersonInfo extends BaseFragment {
     @Override
     protected int getBusinessType() {
         return Constants.BUSINESS_TYPE_OTHER;
-    }
-
-    @Override
-    public void onFragmentResult(Bundle bundle) {
-        MLog.w(this + " onFragmentResult " + bundle);
     }
 
     @Override

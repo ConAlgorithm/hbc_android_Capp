@@ -7,6 +7,7 @@ import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.constants.ResourcesConstants;
+import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.utils.PhoneInfo;
 
 import org.xutils.common.Callback;
@@ -58,23 +59,23 @@ public class FgServicerCenter extends BaseFragment {
                 break;
             case R.id.service_center_btn1:
                 //预订须知
-                toWebInfo(ResourcesConstants.H5_NOTICE);
+                toWebInfo(UrlLibs.H5_NOTICE);
                 break;
             case R.id.service_center_btn2:
                 //服务承诺
-                toWebInfo(ResourcesConstants.H5_SERVICE);
+                toWebInfo(UrlLibs.H5_SERVICE);
                 break;
             case R.id.service_center_btn3:
                 //订单取消规则
-                toWebInfo(ResourcesConstants.H5_CANCEL);
+                toWebInfo(UrlLibs.H5_CANCEL);
                 break;
             case R.id.service_center_btn4:
                 //费用说明
-                toWebInfo(ResourcesConstants.H5_PRICE);
+                toWebInfo(UrlLibs.H5_PRICE);
                 break;
             case R.id.service_center_btn5:
                 //常见问题
-                toWebInfo(ResourcesConstants.H5_PROBLEM);
+                toWebInfo(UrlLibs.H5_PROBLEM);
                 break;
             default:
                 break;
