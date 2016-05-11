@@ -915,7 +915,7 @@ public class FgOrder extends BaseFragment {
                 type = "pay_route";
                 break;
         }
-        MobclickAgent.onEventValue(getActivity(), type, map, (int)mOrderBean.orderPriceInfo.actualPay);
+        MobclickAgent.onEventValue(getActivity(), type, map, 0);
     }
 
     /**
@@ -1601,7 +1601,7 @@ public class FgOrder extends BaseFragment {
                 map.put("begincity", mOrderBean.serviceCityName);
 //                map.put("luggagecount", mOrderBean.luggageNum);
 //                map.put("drivedays", mOrderBean.totalDays + "");
-//                map.put("forother", );
+                map.put("forother", mOrderBean.isRealUser.equalsIgnoreCase("1")?"是":"否");
                 break;
             case Constants.BUSINESS_TYPE_RENT:
                 type = isSuccessful ? "launch_paysucceed_oneway" : "launch_payfailed_oneway";
@@ -1610,7 +1610,7 @@ public class FgOrder extends BaseFragment {
                 type = isSuccessful ? "launch_paysucceed_route" : "launch_payfailed_route";
                 break;
         }
-        MobclickAgent.onEventValue(getActivity(), type, map, (int)mOrderBean.orderPriceInfo.actualPay);
+        MobclickAgent.onEventValue(getActivity(), type, map, 0);
     }
 
     /**
@@ -1645,6 +1645,7 @@ public class FgOrder extends BaseFragment {
 //                }else{
 //                    map_value.put("forother", "否");
 //                }
+                map.put("forother", mOrderBean.isRealUser.equalsIgnoreCase("1")?"是":"否");
                 break;
             case Constants.BUSINESS_TYPE_RENT:
                 type = "cancelorder_oneway";
@@ -1653,7 +1654,7 @@ public class FgOrder extends BaseFragment {
                 type = "cancelorder_route";
                 break;
         }
-        MobclickAgent.onEventValue(getActivity(), type, map, (int)mOrderBean.orderPriceInfo.actualPay);
+        MobclickAgent.onEventValue(getActivity(), type, map, 0);
 
     }
 

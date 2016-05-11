@@ -43,12 +43,6 @@
       <sourceFolder url="file://$MODULE_DIR$/src/10000Debug/jni" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/10000Debug/rs" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/10000Debug/shaders" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/r/androidTest/10000/debug" isTestSource="true" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/aidl/androidTest/10000/debug" isTestSource="true" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/buildConfig/androidTest/10000/debug" isTestSource="true" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/rs/androidTest/10000/debug" isTestSource="true" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/res/rs/androidTest/10000/debug" type="java-test-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/res/resValues/androidTest/10000/debug" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/test10000Debug/res" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/test10000Debug/resources" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/test10000Debug/assets" type="java-test-resource" />
@@ -57,6 +51,12 @@
       <sourceFolder url="file://$MODULE_DIR$/src/test10000Debug/jni" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/test10000Debug/rs" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/test10000Debug/shaders" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/r/androidTest/10000/debug" isTestSource="true" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/aidl/androidTest/10000/debug" isTestSource="true" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/buildConfig/androidTest/10000/debug" isTestSource="true" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/rs/androidTest/10000/debug" isTestSource="true" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/res/rs/androidTest/10000/debug" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/res/resValues/androidTest/10000/debug" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/10000/res" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/10000/resources" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/10000/assets" type="java-resource" />
@@ -164,8 +164,8 @@
     <orderEntry type="library" exported="" name="butterknife-7.0.0" level="project" />
     <orderEntry type="library" exported="" name="android-gif-drawable-1.1.14" level="project" />
     <orderEntry type="library" exported="" name="ThinDownloadManager-1.2.4" level="project" />
-    <orderEntry type="library" exported="" name="mpermission-annotation-1.0.0" level="project" />
     <orderEntry type="library" exported="" name="disklrucache-2.0.2" level="project" />
+    <orderEntry type="library" exported="" name="mpermission-annotation-1.0.0" level="project" />
     <orderEntry type="library" exported="" name="recyclerview-v7-23.2.0" level="project" />
     <orderEntry type="library" exported="" name="snackbar-1.2.0" level="project" />
     <orderEntry type="library" exported="" name="reservoir-2.1" level="project" />
