@@ -18,6 +18,7 @@ import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.OrderContact;
@@ -272,6 +273,14 @@ public class FGOrderNew extends BaseFragment {
             serverTime = hour + ":" + minuteStr;
             upTimeText.setText(serverTime + "(当地时间)");
         }
+    }
+
+
+    @Override
+    public int getBusinessType() {
+        mBusinessType = Constants.BUSINESS_TYPE_DAILY;
+        setGoodsType(mBusinessType);
+        return mBusinessType;
     }
 
     @Override

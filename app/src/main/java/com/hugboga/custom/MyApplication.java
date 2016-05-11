@@ -32,7 +32,7 @@ public class MyApplication extends HbcApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        MobclickAgent.setDebugMode(true);
+        MobclickAgent.setDebugMode(HbcConfig.IS_DEBUG);
         x.Ext.setDebug(true);
         initUrlHost();
         JPushInterface.setDebugMode(false);    // 设置开启日志,发布时请关闭日志

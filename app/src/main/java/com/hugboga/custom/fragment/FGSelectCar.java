@@ -135,6 +135,13 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
 
     }
 
+    @Override
+    public int getBusinessType() {
+        mBusinessType = Constants.BUSINESS_TYPE_DAILY;
+        setGoodsType(mBusinessType);
+        return mBusinessType;
+    }
+
 
     /**
      * http://api.dev.hbc.tech/price/v1.2/e/dailyPrice?

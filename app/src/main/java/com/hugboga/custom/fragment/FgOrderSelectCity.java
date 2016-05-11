@@ -138,7 +138,7 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
     }
 
     private void showSaveDialog(){
-        android.support.v7.app.AlertDialog dialog =  AlertDialogUtils.showAlertDialog(getContext(), "离开当前页面所选行程将会丢失，确定要离开吗？", "确定离开", "取消", new DialogInterface.OnClickListener() {
+        android.support.v7.app.AlertDialog dialog =  AlertDialogUtils.showAlertDialog(getContext(), "离开当前页面所选行程将会丢失，确定要离开吗？", "离开", "取消", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 //                saveInfo();
@@ -988,6 +988,13 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
 
     }
 
+    @Override
+    public int getBusinessType() {
+        mBusinessType = Constants.BUSINESS_TYPE_DAILY;
+        setGoodsType(mBusinessType);
+        return mBusinessType;
+    }
+
     String start_date_str = "";
     String end_date_str = "";
     String halfDate = "";
@@ -1053,11 +1060,5 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
         }
     }
 
-    @Override
-    protected int getBusinessType() {
-        mBusinessType = Constants.BUSINESS_TYPE_DAILY;
-        setGoodsType(Constants.BUSINESS_TYPE_DAILY);
-        return mBusinessType;
-    }
 
 }
