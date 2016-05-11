@@ -1,0 +1,730 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/allbg_gray"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:background="@color/allbg_gray"
+        android:paddingLeft="15dp"
+        android:paddingRight="25dip"
+        android:paddingTop="15dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:text="*"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/submit_connect_name"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@drawable/textbox"
+            android:hint="@string/submit_name"
+            android:imeOptions="actionNext"
+            android:maxLength="10"
+            android:paddingLeft="10dp"
+            android:singleLine="true"
+            android:textSize="@dimen/text_size_large"
+            android:textColorHint="@color/change_mobile_hint" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="15dp"
+        android:background="@color/allbg_gray"
+        android:paddingRight="25dip"
+        android:paddingTop="15dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:text="*"
+            android:textSize="16sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@drawable/textbox"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/submit_areacode"
+                android:layout_width="@dimen/change_mobile_areacode_width"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:hint="区号"
+                android:paddingLeft="@dimen/basic_margin_medium"
+                android:textColor="@color/change_mobile_text"
+                android:textColorHint="@color/change_mobile_hint"
+                android:textSize="@dimen/text_size_large" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/basic_margin_medium"
+                android:layout_marginTop="@dimen/basic_margin_medium"
+                android:background="@color/change_mobile_line" />
+
+            <EditText
+                android:id="@+id/submit_phone"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:hint="联系电话"
+                android:inputType="number"
+                android:maxLength="20"
+                android:textSize="@dimen/text_size_large"
+                android:paddingLeft="@dimen/basic_margin_medium"
+                android:textColor="@color/change_mobile_text"
+                android:textColorHint="@color/change_mobile_hint" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/submit_phone_layout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="15dp"
+        android:background="@color/allbg_gray"
+        android:paddingRight="0dip"
+        android:paddingTop="15dp"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:text="*"
+            android:textSize="16sp"
+            android:visibility="invisible" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:background="@drawable/textbox"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/submit_areacode2"
+                android:layout_width="@dimen/change_mobile_areacode_width"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:hint="区号"
+                android:paddingLeft="@dimen/basic_margin_medium"
+                android:textColor="@color/change_mobile_text"
+                android:textColorHint="@color/change_mobile_hint"
+                android:textSize="@dimen/text_size_large" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/basic_margin_medium"
+                android:layout_marginTop="@dimen/basic_margin_medium"
+                android:background="@color/change_mobile_line" />
+
+            <EditText
+                android:id="@+id/submit_phone2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:hint="填写备用手机号1"
+                android:inputType="number"
+                android:maxLength="20"
+                android:textSize="@dimen/text_size_large"
+                android:paddingLeft="@dimen/basic_margin_medium"
+                android:textColor="@color/change_mobile_text"
+                android:textColorHint="@color/change_mobile_hint" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/submit_phone_del_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:src="@mipmap/phone_delete" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/submit_phone_layout3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:background="@color/allbg_gray"
+        android:paddingLeft="15dp"
+        android:paddingRight="0dip"
+        android:paddingTop="15dp"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:text="*"
+            android:textSize="16sp"
+            android:visibility="invisible" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:background="@drawable/textbox"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/submit_areacode3"
+                android:layout_width="@dimen/change_mobile_areacode_width"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:hint="区号"
+                android:paddingLeft="@dimen/basic_margin_medium"
+                android:textColor="@color/change_mobile_text"
+                android:textColorHint="@color/change_mobile_hint"
+                android:textSize="@dimen/text_size_large" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/basic_margin_medium"
+                android:layout_marginTop="@dimen/basic_margin_medium"
+                android:background="@color/change_mobile_line" />
+
+            <EditText
+                android:id="@+id/submit_phone3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:hint="填写备用手机号2"
+                android:inputType="number"
+                android:maxLength="20"
+                android:textSize="@dimen/text_size_large"
+                android:paddingLeft="@dimen/basic_margin_medium"
+                android:textColor="@color/change_mobile_text"
+                android:textColorHint="@color/change_mobile_hint" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/submit_phone_del_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:src="@mipmap/phone_delete" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/submit_phone_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="5dp"
+        android:padding="5dp"
+        android:text="@string/submit_phone_add"
+        android:textColor="@color/basic_daily_color" />
+
+    <RelativeLayout
+        android:id="@+id/edit_not_show"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:background="@color/allbg_gray"
+        android:paddingLeft="15dp"
+        android:paddingRight="25dip">
+
+        <TextView
+            android:id="@+id/submit_t"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
+            android:text="*"
+            android:textSize="16sp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_toRightOf="@id/submit_t"
+            android:background="@drawable/textbox"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/submit_adult_sub"
+                android:layout_width="30dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="—"
+                android:textColor="@color/basic_black"
+                android:textSize="@dimen/text_size_xlarge" />
+
+            <View style="@style/v_line" />
+
+            <EditText
+                android:id="@+id/submit_adult_1"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:editable="false"
+                android:focusable="false"
+                android:imeOptions="actionNext"
+                android:paddingLeft="@dimen/basic_margin_small"
+                android:paddingRight="@dimen/basic_margin_small"
+                android:text="成人0"
+                android:textSize="@dimen/text_size_large"
+                android:textColor="@color/change_mobile_text"
+                android:textColorHint="@color/change_mobile_hint" />
+
+            <View style="@style/v_line" />
+
+            <TextView
+                android:id="@+id/submit_adult_plus"
+                android:layout_width="30dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="+"
+                android:textColor="@color/basic_black"
+                android:textSize="@dimen/text_size_xlarge" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="20dip"
+            android:background="@drawable/textbox"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/submit_child_sub"
+                android:layout_width="30dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="—"
+                android:textColor="@color/basic_black"
+                android:textSize="@dimen/text_size_xlarge" />
+
+            <View style="@style/v_line" />
+
+            <EditText
+                android:id="@+id/submit_child_1"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:editable="false"
+                android:focusable="false"
+                android:imeOptions="actionNext"
+                android:paddingLeft="@dimen/basic_margin_small"
+                android:paddingRight="@dimen/basic_margin_small"
+                android:text="儿童0"
+                android:textSize="@dimen/text_size_large"
+                android:textColor="@color/change_mobile_text"
+                android:textColorHint="@color/change_mobile_hint" />
+
+            <View style="@style/v_line" />
+
+            <TextView
+                android:id="@+id/submit_child_plus"
+                android:layout_width="30dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="+"
+                android:textColor="@color/basic_black"
+                android:textSize="@dimen/text_size_xlarge" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/submit_child_seat_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="15dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:background="@drawable/shape_rounded_dash"
+        android:orientation="vertical"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/submit_pick_name_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:background="@color/allbg_gray"
+        android:paddingLeft="15dp"
+        android:paddingRight="25dip"
+        android:paddingTop="15dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:text="*"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/submit_pick_name"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@drawable/textbox"
+            android:hint="@string/submit_pick_name"
+            android:maxLength="30"
+            android:paddingLeft="10dp"
+            android:textSize="@dimen/text_size_large"
+            android:singleLine="true"
+            android:textColorHint="@color/change_mobile_hint" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/submit_date_time_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="15dp"
+        android:background="@color/allbg_gray"
+        android:paddingRight="25dip"
+        android:paddingTop="15dp"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:text="*"
+            android:textSize="16sp"
+            android:visibility="invisible" />
+
+        <TextView
+            android:id="@+id/submit_date_time"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@drawable/textbox"
+            android:gravity="center_vertical"
+            android:hint="8:00(当地时间)"
+            android:inputType="phone"
+            android:paddingLeft="10dp"
+            android:singleLine="true"
+            android:textColorHint="@color/change_mobile_hint"
+            android:textSize="@dimen/text_size_large" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/submit_start_place_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:background="@color/allbg_gray"
+        android:paddingLeft="15dp"
+        android:paddingRight="25dip"
+        android:paddingTop="15dp"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:text="*"
+            android:textSize="16sp"
+            android:visibility="invisible" />
+
+        <TextView
+            android:id="@+id/submit_start_place"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@drawable/textbox"
+            android:gravity="center_vertical"
+            android:hint="填写上车地点"
+            android:imeOptions="actionNext"
+            android:maxLength="50"
+            android:paddingLeft="10dp"
+            android:singleLine="true"
+            android:textSize="@dimen/text_size_large"
+            android:textColorHint="@color/change_mobile_hint" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/submit_hotel_phone_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/allbg_gray"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="15dp"
+        android:paddingRight="25dip"
+        android:paddingTop="15dp">
+
+        <TextView
+            android:id="@+id/submit_hotel_phone_star"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:text="*"
+            android:textSize="16sp"
+            android:visibility="invisible" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@drawable/textbox"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/submit_hotel_phone_areacode"
+                android:layout_width="@dimen/change_mobile_areacode_width"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:hint="区号"
+                android:paddingLeft="@dimen/basic_margin_medium"
+                android:textColor="@color/change_mobile_text"
+                android:textColorHint="@color/change_mobile_hint"
+                android:textSize="@dimen/text_size_large" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/basic_margin_medium"
+                android:layout_marginTop="@dimen/basic_margin_medium"
+                android:background="@color/change_mobile_line" />
+
+            <EditText
+                android:id="@+id/submit_hotel_phone"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:hint="@string/submit_send_hotel"
+                android:inputType="number"
+                android:maxLength="20"
+                android:paddingLeft="@dimen/basic_margin_medium"
+                android:textSize="@dimen/text_size_large"
+                android:textColor="@color/change_mobile_text"
+                android:textColorHint="@color/change_mobile_hint" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/submit_hotel_phone_tip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="5dp"
+        android:textColor="#777"
+        android:text="@string/submit_send_hotel_tip"
+        android:textSize="@dimen/text_size_mediumx" />
+
+    <LinearLayout
+        android:id="@+id/submit_pick_visa_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:background="@color/allbg_gray"
+        android:paddingLeft="15dp"
+        android:paddingRight="25dip"
+        android:paddingTop="15dp"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:text="*"
+            android:textSize="16sp"
+            android:visibility="invisible" />
+
+        <TextView
+            android:id="@+id/submit_pick_visa"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@drawable/textbox"
+            android:gravity="center_vertical"
+            android:hint="@string/submit_chose_visa"
+            android:paddingLeft="10dp"
+            android:textColorHint="@color/change_mobile_hint"
+            android:textSize="@dimen/text_size_large" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/submit_flight_no_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="15dp"
+        android:background="@color/allbg_gray"
+        android:paddingRight="25dip"
+        android:paddingTop="15dp"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:text="*"
+            android:textSize="16sp"
+            android:visibility="invisible" />
+
+        <TextView
+            android:id="@+id/submit_flight_no"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/textbox"
+            android:gravity="center_vertical"
+            android:hint="@string/submit_flight_no"
+            android:minHeight="40dp"
+            android:paddingLeft="10dp"
+            android:textColorHint="@color/change_mobile_hint"
+            android:textSize="@dimen/text_size_large" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/submit_daily_pass_city_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="15dp"
+        android:background="@color/allbg_gray"
+        android:paddingRight="25dip"
+        android:layout_marginTop="15dp"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/submit_daily_city_star"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:text="*"
+            android:textSize="16sp"
+            android:visibility="invisible" />
+
+        <EditText
+            android:id="@+id/submit_daily_city_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/submit_daily_city_star"
+            android:background="@drawable/textbox"
+            android:gravity="center_vertical"
+            android:hint="告诉导游你想去的地方"
+            android:minHeight="40dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="20dp"
+            android:textColorHint="@color/change_mobile_hint"
+            android:textSize="@dimen/text_size_large" />
+
+        <ImageView
+            android:id="@+id/submit_daily_city_arrow"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@mipmap/personal_center_right"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="15dp"
+        android:background="@color/allbg_gray"
+        android:paddingRight="25dip"
+        android:paddingTop="15dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:text="*"
+            android:textSize="16sp"
+            android:visibility="invisible" />
+
+        <EditText
+            android:id="@+id/submit_remark"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/textbox"
+            android:hint="@string/submit_remark_tip"
+            android:maxLength="255"
+            android:padding="10dp"
+            android:textSize="@dimen/text_size_large"
+            android:textColorHint="@color/change_mobile_hint" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/submit_transfer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="15dp"
+        android:background="@color/allbg_gray"
+        android:paddingRight="25dip"
+        android:paddingTop="15dp"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:text="*"
+            android:textSize="16sp"
+            android:visibility="invisible" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/textbox"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/submit_transfer_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:textSize="@dimen/text_size_large"
+                android:text="协助办理check in " />
+
+            <TextView
+                android:id="@+id/submit_transfer_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/submit_transfer_label"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/basic_gold"
+                android:layout_centerVertical="true"
+                android:textSize="@dimen/text_size_mediumx"
+                android:text="@string/transfer_check_in" />
+
+            <CheckBox
+                android:id="@+id/submit_transfer_check"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/switch_bg"
+                android:layout_alignParentRight="true"
+                android:background="@null"
+                android:checked="true" />
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>

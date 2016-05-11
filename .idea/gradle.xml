@@ -12,6 +12,7 @@
             <option value="$PROJECT_DIR$/IMKit" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/hbcframe" />
+            <option value="$PROJECT_DIR$/polygonimageview" />
           </set>
         </option>
         <option name="myModules">
@@ -20,6 +21,7 @@
             <option value="$PROJECT_DIR$/IMKit" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/hbcframe" />
+            <option value="$PROJECT_DIR$/polygonimageview" />
           </set>
         </option>
       </GradleProjectSettings>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?><!--未登录-->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_below="@id/toolbar"
+    android:gravity="center"
+    android:visibility="gone">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/chat_logout" />
+
+        <Button
+            android:id="@+id/login_btn"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/btn_orange"
+            android:padding="10dp"
+            android:text="@string/login"
+            android:textColor="@color/basic_white"
+            android:textSize="@dimen/text_size_xlarge" />
+    </LinearLayout>
+</RelativeLayout>

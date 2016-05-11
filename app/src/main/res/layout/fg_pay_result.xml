@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:background="@color/basic_white"
+    >
+    <include layout="@layout/include_header"/>
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/payment_success"
+        android:layout_marginTop="50dip"
+        />
+    <TextView
+        android:id="@+id/flight_empty_no"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="恭喜支付成功!"
+        android:layout_marginTop="20dip"
+        />
+    <TextView
+        android:id="@+id/pay_success_tip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="您可以在我的行程中查看该订单"
+        android:layout_marginTop="30dip"
+        />
+    <Button
+        android:id="@+id/pay_success_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/empty_btn_yellow"
+        android:text="查看订单详情"
+        android:textColor="@color/basic_white"
+        android:layout_marginTop="20dip"
+        android:paddingLeft="10dip"
+        android:paddingRight="10dip"
+        />
+</LinearLayout>

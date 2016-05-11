@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/include_header" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/call_back_bg"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/change_mobile_margin"
+        android:paddingRight="@dimen/change_mobile_margin"
+        android:paddingTop="@dimen/change_mobile_top">
+
+        <EditText
+            android:id="@+id/call_back_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/basic_margin_xlarge"
+            android:background="@drawable/textbox"
+            android:hint="请留下您的宝贵意见"
+            android:maxLength="255"
+            android:minLines="5"
+            android:gravity="top"
+            android:inputType="textMultiLine"
+            android:padding="@dimen/basic_margin_medium"
+            android:textColor="@color/change_mobile_text"
+            android:textColorHint="@color/change_mobile_hint" />
+
+        <Button
+            android:id="@+id/call_back_submit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/call_back_content"
+            android:layout_marginTop="@dimen/basic_margin_xlarge"
+            android:background="@drawable/login_selector_bg"
+            android:text="提交"
+            android:textColor="@color/basic_white"
+            android:textSize="@dimen/text_size_xlarge" />
+
+    </RelativeLayout>
+
+</LinearLayout>
