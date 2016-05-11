@@ -13,7 +13,7 @@ public class OrderPriceInfo implements IBaseBean ,Parcelable{
 
     public double orderPrice;
     public double shouldPay;
-    public double actualPay;
+    public double actualPay;           //实付金额
     public double refundPrice;        // 退款金额
     public double refundablePrice;    // 可退款金额
     public double checkInPrice;

@@ -915,7 +915,7 @@ public class FgOrder extends BaseFragment {
                 type = "pay_route";
                 break;
         }
-        MobclickAgent.onEventValue(getActivity(), type, map, (int)shouldPay);
+        MobclickAgent.onEventValue(getActivity(), type, map, (int)mOrderBean.orderPriceInfo.actualPay);
     }
 
     /**
@@ -1610,7 +1610,7 @@ public class FgOrder extends BaseFragment {
                 type = isSuccessful ? "launch_paysucceed_route" : "launch_payfailed_route";
                 break;
         }
-        MobclickAgent.onEventValue(getActivity(), type, map, (int)shouldPay);
+        MobclickAgent.onEventValue(getActivity(), type, map, (int)mOrderBean.orderPriceInfo.actualPay);
     }
 
     /**
@@ -1653,7 +1653,7 @@ public class FgOrder extends BaseFragment {
                 type = "cancelorder_route";
                 break;
         }
-        MobclickAgent.onEventValue(getActivity(), type, map, (int)shouldPay);
+        MobclickAgent.onEventValue(getActivity(), type, map, (int)mOrderBean.orderPriceInfo.actualPay);
 
     }
 
