@@ -1602,7 +1602,7 @@ public class FgOrder extends BaseFragment {
                 map.put("begincity", mOrderBean.serviceCityName);
 //                map.put("luggagecount", mOrderBean.luggageNum);
 //                map.put("drivedays", mOrderBean.totalDays + "");
-                map.put("forother", mOrderBean.isRealUser.equalsIgnoreCase("1")?"是":"否");
+                map.put("forother", (null != mOrderBean.isRealUser && mOrderBean.isRealUser.equalsIgnoreCase("1"))?"是":"否");
                 break;
             case Constants.BUSINESS_TYPE_RENT:
                 type = isSuccessful ? "launch_paysucceed_oneway" : "launch_payfailed_oneway";
@@ -1620,7 +1620,7 @@ public class FgOrder extends BaseFragment {
     private void doUMengStatisticForCancelOrder(){
         Map<String, String> map = new HashMap<String, String>();
         map.put("source", source);
-        map.put("carstyle", mOrderBean.carDesc + "");
+        map.put("carstyle", mOrderBean.carDesc);
         map.put("paystyle", paystyle);//下单过程中、失败重新支付、行程列表、订单详情
         map.put("paysource", needShowAlert?"下单过程中":"订单详情");
         map.put("clicksource", needShowAlert?"支付页面":"订单详情");
@@ -1641,12 +1641,7 @@ public class FgOrder extends BaseFragment {
                 map.put("begincity", mOrderBean.serviceCityName);
 //                map.put("luggagecount", mOrderBean.luggageNum);
 //                map.put("drivedays", mOrderBean.totalDays + "");
-//                if(isForOther) {
-//                    map_value.put("forother", "是");
-//                }else{
-//                    map_value.put("forother", "否");
-//                }
-                map.put("forother", mOrderBean.isRealUser.equalsIgnoreCase("1")?"是":"否");
+                map.put("forother", (null != mOrderBean.isRealUser && mOrderBean.isRealUser.equalsIgnoreCase("1"))?"是":"否");
                 break;
             case Constants.BUSINESS_TYPE_RENT:
                 type = "cancelorder_oneway";
