@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <!-- <include layout="@layout/include_header"/>
+     <include layout="@layout/include_progress"/>-->
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:background="@color/allbg_gray"
+        android:padding="30dip">
+
+        <LinearLayout
+            android:id="@+id/pick_flight_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dip"
+            android:background="@drawable/shape_rounded_rectangle_white">
+
+            <TextView
+                android:id="@+id/pick_flight_tip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tip_which_flight"
+                android:textColor="@color/change_mobile_hint"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/pick_flight_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tip_which_flight"
+                android:textSize="16sp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/pick_flight_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tip_which_flight"
+                android:layout_marginTop="5dip"
+                android:textColor="@color/change_mobile_hint"
+                android:textSize="16sp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/pick_flight_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tip_which_flight"
+                android:layout_marginTop="5dip"
+                android:textColor="@color/change_mobile_hint"
+                android:textSize="16sp"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/pick_where_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dip"
+            android:layout_marginTop="20dip"
+            android:background="@drawable/shape_rounded_rectangle_white">
+
+            <TextView
+                android:id="@+id/pick_where_tip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tip_where_togo"
+                android:textColor="@color/change_mobile_hint"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/pick_where_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tip_which_flight"
+                android:textSize="16sp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/pick_where_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tip_where_togo"
+                android:layout_marginTop="5dip"
+                android:textColor="@color/change_mobile_hint"
+                android:textSize="16sp"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/pick_btn"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dip"
+            android:background="@drawable/btn_orange"
+            android:textColor="@color/basic_white"
+            android:text="@string/btn_select_car"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/submit_order_tip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:drawableLeft="@mipmap/journey_annotation"
+            android:drawablePadding="5dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/submit_order_tip" />
+
+        <include layout="@layout/include_bottom_promise" />
+    </LinearLayout>
+</LinearLayout>

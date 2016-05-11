@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@color/basic_white"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/submit_head"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <include layout="@layout/include_header" />
+
+        <include layout="@layout/include_progress" />
+    </LinearLayout>
+
+    <include
+        android:id="@+id/submit_bottom"
+        layout="@layout/include_bottom_bar_submit" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/submit_bottom"
+        android:layout_below="@id/submit_head">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <include layout="@layout/include_submit_info" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/servicer_center_bg">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="-1dp"
+                    android:background="@drawable/fengexian" />
+            </LinearLayout>
+
+            <include layout="@layout/include_submit_pick" />
+
+            <LinearLayout
+                android:id="@+id/submit_bottom_tip"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/allbg_gray"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal"
+                android:paddingBottom="20dp"
+                android:paddingTop="20dp">
+
+                <TextView
+                    android:id="@+id/submit_order_cancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@mipmap/journey_annotation"
+                    android:drawablePadding="5dp"
+                    android:text="@string/submit_order_cancel" />
+
+                <View
+                    style="@style/v_line"
+                    android:layout_height="15dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/submit_order_tip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:text="@string/submit_order_tip" />
+            </LinearLayout>
+        </LinearLayout>
+
+    </ScrollView>
+</RelativeLayout>
