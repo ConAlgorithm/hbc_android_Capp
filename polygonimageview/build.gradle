@@ -3,7 +3,10 @@ apply plugin: 'com.android.library'
 android {
     compileSdkVersion 23
     buildToolsVersion '23.0.2'
-
+    lintOptions {
+        abortOnError false
+        disable 'InvalidPackage'
+    }
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 23

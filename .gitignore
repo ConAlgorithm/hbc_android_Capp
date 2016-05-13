@@ -6,6 +6,7 @@
 /app/build
 /hbcframe/build
 /IMKit/build
+local.properties
 build
 gradle
 .gradle
