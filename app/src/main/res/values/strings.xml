@@ -355,4 +355,34 @@
     <string name="edit_mark">你可以在这里注明其他需求,以及需要车导知道的其他行程细节</string>
     <string name="all_cost_info">费用详情</string>
 
+    <string name="noraml_question">常见问题</string>
+    <string name="air_info">航班信息</string>
+    <string name="air_address">送达地</string>
+
+    <string name="input_air_no">请输入航班号(延误免费等)</string>
+    <string name="input_go_where">送您到哪里去</string>
+
+    <string name="air_start_address">出发地</string>
+    <string name="air_end_address">送达机场</string>
+    <string name="air_start_time">出发时间</string>
+
+    <string name="air_start_where">您从哪里出发</string>
+    <string name="air_go_where">送您到哪个机场</string>
+    <string name="air_choose_go_time">请选择出发时间(建议提早出发)</string>
+
+    <string name="choose_by_address">按起降地</string>
+    <string name="choose_by_air_no">按航班号</string>
+
+    <string name="choose_fly">起飞</string>
+    <string name="choose_arrived">到达</string>
+    <string name="choose_from_address">请选择</string>
+    <string name="choose_fly_date">起飞日期</string>
+    <string name="choose_fly_date_tips">请选择日期(当地时间)</string>
+    <string name="choose_bottom_tips">如有中转请选择末趟航班</string>
+    <string name="choose_search">查询</string>
+    <string name="choose_search_history">查询历史</string>
+    <string name="choose_clean_all_history">全部清除</string>
+    <string name="choose_input_air_no">请输入航班号,例如CA979</string>
+
+
 </resources>

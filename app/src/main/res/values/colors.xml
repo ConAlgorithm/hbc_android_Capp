@@ -129,4 +129,8 @@
 
     <color name="border">#B2FF59</color>
     <color name="shadow">#7CB342</color>
+
+    <color name="choose_check_bg">#fad027</color>
+    <color name="choose_normal_bg">#3a3a33</color>
+
 </resources>
