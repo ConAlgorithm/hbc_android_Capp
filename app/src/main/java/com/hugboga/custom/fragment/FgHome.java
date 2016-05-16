@@ -1,9 +1,7 @@
 package com.hugboga.custom.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.LinearLayout;
 
 import com.huangbaoche.hbcframe.adapter.ZBaseAdapter;
 import com.huangbaoche.hbcframe.data.net.ExceptionErrorCode;
@@ -113,10 +111,12 @@ public class FgHome extends BaseFragment implements View.OnClickListener, ZBaseA
                 MobclickAgent.onEvent(getActivity(), "search_trigger", map);
                 break;
             case R.id.fg_home_menu1://中文接送机
-                FgTransfer fgTransfer = new FgTransfer();
+//                FgTransfer fgTransfer = new FgTransfer();
+
+                FgPickSend fgPickSend = new FgPickSend();
                 bundle.putString("source","首页");
-                fgTransfer.setArguments(bundle);
-                startFragment(fgTransfer, bundle);
+                fgPickSend.setArguments(bundle);
+                startFragment(fgPickSend, bundle);
 
                 map.put("source", "首页");
                 MobclickAgent.onEvent(getActivity(), "chose_pndairport", map);

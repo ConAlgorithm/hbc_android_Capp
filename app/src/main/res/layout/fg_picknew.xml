@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="#e0e1e2"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <RelativeLayout
+        android:background="@color/basic_white"
+        android:layout_width="wrap_content"
+        android:minHeight="60dp"
+        android:clickable="true"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/info_left"
+            android:text="@string/air_info"
+            android:textSize="15sp"
+            android:layout_marginLeft="15dp"
+            android:minEms="4"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:id="@+id/rl_info"
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:gravity="center_vertical"
+            android:layout_centerVertical="true"
+            android:paddingBottom="15dp"
+            android:clickable="true"
+            android:descendantFocusability="blocksDescendants"
+            android:paddingTop="15dp"
+            android:layout_toRightOf="@id/info_left"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/info_tips"
+                android:text="@string/input_air_no"
+                android:textSize="15sp"
+                android:layout_marginLeft="15dp"
+                android:textColor="#9d9e9f"
+                android:minEms="4"
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/air_title"
+                android:text="@string/air_info"
+                android:textSize="15sp"
+                android:layout_marginLeft="15dp"
+                android:minEms="4"
+                android:visibility="gone"
+                android:textColor="@color/basic_black"
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/air_detail"
+                android:text="@string/air_info"
+                android:textSize="15sp"
+                android:layout_marginLeft="15dp"
+                android:textColor="#9d9e9f"
+                android:minEms="4"
+                android:visibility="gone"
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_marginTop="1dp"
+        android:background="@color/basic_white"
+        android:layout_width="wrap_content"
+        android:minHeight="60dp"
+        android:clickable="true"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/address_left"
+            android:text="@string/air_address"
+            android:textSize="15sp"
+            android:layout_marginLeft="15dp"
+            android:minEms="4"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:id="@+id/rl_address"
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:gravity="center_vertical"
+            android:clickable="true"
+            android:layout_centerVertical="true"
+            android:paddingBottom="15dp"
+            android:paddingTop="15dp"
+            android:layout_toRightOf="@id/address_left"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/address_tips"
+                android:text="@string/input_go_where"
+                android:textSize="15sp"
+                android:layout_marginLeft="15dp"
+                android:textColor="#9d9e9f"
+                android:clickable="false"
+                android:minEms="4"
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/address_title"
+                android:text="@string/air_info"
+                android:textSize="15sp"
+                android:layout_marginLeft="15dp"
+                android:minEms="4"
+                android:visibility="gone"
+                android:textColor="@color/basic_black"
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/address_detail"
+                android:text="@string/air_info"
+                android:textSize="15sp"
+                android:layout_marginLeft="15dp"
+                android:textColor="#9d9e9f"
+                android:minEms="4"
+                android:visibility="gone"
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+
+        </LinearLayout>
+
+    </RelativeLayout>
+</LinearLayout>

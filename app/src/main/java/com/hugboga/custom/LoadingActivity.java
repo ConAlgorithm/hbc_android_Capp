@@ -36,7 +36,7 @@ import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UpdateResources;
 import com.hugboga.custom.widget.DialogUtil;
-import com.umeng.analytics.AnalyticsConfig;
+import com.umeng.analytics.MobclickAgent;
 import com.zhy.m.permission.MPermissions;
 import com.zhy.m.permission.PermissionDenied;
 import com.zhy.m.permission.PermissionGrant;
@@ -66,8 +66,8 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
-        AnalyticsConfig.setAppkey(this,"55ccb4cfe0f55ab500004a9d");
-        AnalyticsConfig.setChannel(ChannelUtils.getChannel(this));
+        MobclickAgent.UMAnalyticsConfig config = new MobclickAgent.UMAnalyticsConfig(this, "55ccb4cfe0f55ab500004a9d", ChannelUtils.getChannel(this));
+        MobclickAgent.startWithConfigure(config);
     }
 
     private void initView() {
