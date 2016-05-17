@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 
 import org.xutils.common.Callback;
@@ -92,9 +93,8 @@ public class FgChooseAir extends BaseFragment {
                     if (!fgChooseAirAddress.isAdded()) {
                         transaction = fm.beginTransaction();
                         transaction.add(R.id.choose_content, fgChooseAirAddress);
-//                    transaction.addToBackStack(null);
                         transaction.commit();
-                    } else if (!fgChooseAirAddress.isVisible()) {
+                    } else{
                         transaction = fm.beginTransaction();
                         transaction.hide(fgChooseAirNumber);
                         transaction.show(fgChooseAirAddress);
@@ -112,7 +112,7 @@ public class FgChooseAir extends BaseFragment {
                         transaction = fm.beginTransaction();
                         transaction.add(R.id.choose_content, fgChooseAirNumber);
                         transaction.commit();
-                    } else if (!fgChooseAirNumber.isVisible()) {
+                    } else {
                         transaction = fm.beginTransaction();
                         transaction.hide(fgChooseAirAddress);
                         transaction.show(fgChooseAirNumber);
@@ -135,8 +135,16 @@ public class FgChooseAir extends BaseFragment {
     }
 
     @Override
+    public void onFragmentResult(Bundle bundle) {
+        MLog.w(this + " onFragmentResult " + bundle);
+        String from = bundle.getString(KEY_FROM);
+        if ("FlightList".equals(from)) {
+            finishForResult(bundle);
+        }
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
         rootView = inflater.inflate(R.layout.fg_choose_air,null);
         ButterKnife.bind(this, rootView);
         return rootView;

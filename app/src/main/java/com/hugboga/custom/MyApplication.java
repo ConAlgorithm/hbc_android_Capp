@@ -6,6 +6,7 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.anupcowkur.reservoir.Reservoir;
 import com.huangbaoche.hbcframe.HbcApplication;
 import com.huangbaoche.hbcframe.HbcConfig;
 import com.huangbaoche.hbcframe.util.MLog;
@@ -42,7 +43,7 @@ public class MyApplication extends HbcApplication {
         Log.e("hbcApplication", "debug " + BuildConfig.DEBUG);
         try {
 //            CrashReport.initCrashReport(this, "900024779", false);
-//            Reservoir.init(this, 4096);
+            Reservoir.init(this, 4096);
         } catch (Exception e) {
             e.printStackTrace();
         }

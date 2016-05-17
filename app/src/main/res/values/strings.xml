@@ -383,6 +383,7 @@
     <string name="choose_search_history">查询历史</string>
     <string name="choose_clean_all_history">全部清除</string>
     <string name="choose_input_air_no">请输入航班号,例如CA979</string>
+    <string name="choose_input_air_no_left">航班号</string>
 
 
 </resources>
