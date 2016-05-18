@@ -269,4 +269,14 @@
         <item name="android:textSize">@dimen/text_size_large</item>
     </style>
 
+    <style name="widget_pick_send_switch">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:textOff">""</item><!-- 此设置不需要文字，只显示背景图的开关 -->
+        <item name="android:textOn">""</item>
+        <item name="android:thumb">@mipmap/pick_send_thumb_img</item><!--滑块格式9.png -->
+        <item name="android:track">@drawable/pick_send_track</item><!-- 背景图的开关 格式9.png-->
+    </style>
+
+
 </resources>

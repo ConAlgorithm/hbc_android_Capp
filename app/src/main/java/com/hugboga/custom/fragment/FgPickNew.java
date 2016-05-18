@@ -2,20 +2,34 @@ package com.hugboga.custom.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
+import com.hugboga.custom.adapter.CarViewpagerAdapter;
+import com.hugboga.custom.constants.CarTypeEnum;
 import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.bean.AirPort;
+import com.hugboga.custom.data.bean.CarBean;
+import com.hugboga.custom.data.bean.CarListBean;
+import com.hugboga.custom.data.bean.CityBean;
+import com.hugboga.custom.data.bean.DailyBean;
 import com.hugboga.custom.data.bean.FlightBean;
 import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.request.RequestCheckPrice;
 import com.hugboga.custom.utils.ToastUtils;
+import com.hugboga.custom.widget.DialogUtil;
+import com.hugboga.custom.widget.JazzyViewPager;
 
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
+
+import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -49,6 +63,48 @@ public class FgPickNew extends BaseFragment {
     @Bind(R.id.rl_address)
     LinearLayout rlAddress;
 
+
+
+    public static final String KEY_CITY_ID = "KEY_CITY_ID";
+    public static final String KEY_CITY = "KEY_CITY";
+    public static final String KEY_FLIGHT = "KEY_FLIGHT";
+    public static final String KEY_AIRPORT = "KEY_AIRPORT";
+    public static final String KEY_START = "KEY_START";
+    public static final String KEY_ARRIVAL = "KEY_ARRIVAL";
+    public static final String KEY_TIME = "KEY_TIME";
+    public static final String KEY_CAR = "KEY_CAR";
+    public static final String KEY_DAILY = "KEY_DAILY";
+    public static final String KEY_MASK = "KEY_MASK";
+    public static final String KEY_DISTANCE = "KEY_DISTANCE";
+    public static final String KEY_COM_TIME = "KEY_EXPECTED_COMP_TIME";
+    public static final String KEY_URGENT_FLAG = "KEY_URGENT_FLAG";
+    public static final String KEY_NEED_CHILDREN_SEAT = "KEY_NEED_CHILDREN_SEAT";
+    public static final String KEY_NEED_BANNER = "KEY_NEED_BANNER";
+
+
+    private JazzyViewPager mJazzy;
+
+    private FlightBean flightBean;//航班信息 接机
+    private AirPort airPortBean;//机场信息 送机
+    private DailyBean dailyBean;// 日租
+    private CityBean cityBean;//起始目的地 次租
+    private PoiBean startBean;//起始目的地 次租
+    private PoiBean poiBean;//达到目的地
+
+    private CarBean carBean;//车
+    private String serverDate;
+
+    private double distance;//预估路程（单位：公里）
+    private int interval;//预估时间（单位：分钟）
+    private ArrayList<CarBean> carList = new ArrayList<CarBean>();
+    private CarViewpagerAdapter mAdapter;
+    private int cityId;
+    private String airportCode;
+    private int urgentFlag;//是否急单，1是，0非
+    private boolean needChildrenSeat = false;//是否需要儿童座椅
+    private boolean needBanner = true;//是否可以展示接机牌
+    private DialogUtil mDialogUtil;
+
     @Override
     protected void initHeader() {
 
@@ -56,7 +112,7 @@ public class FgPickNew extends BaseFragment {
 
     @Override
     protected void initView() {
-
+        initView(getView());
     }
 
     @Override
@@ -69,7 +125,6 @@ public class FgPickNew extends BaseFragment {
 
     }
 
-    FlightBean flightBean;
 
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
@@ -93,7 +148,77 @@ public class FgPickNew extends BaseFragment {
         }
     }
 
-    PoiBean poiBean;
+    private void initView(View view) {
+        View flGalleryContainer = view.findViewById(R.id.viewpager_layout);
+        flGalleryContainer.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return mJazzy.dispatchTouchEvent(event);
+            }
+        });
+        mJazzy = (JazzyViewPager) view.findViewById(R.id.jazzy_pager);
+        mJazzy.setTransitionEffect(JazzyViewPager.TransitionEffect.ZoomIn);
+        mAdapter = new CarViewpagerAdapter(getActivity(), mJazzy);
+        initListData();
+        mAdapter.setList(carList);
+        mJazzy.setAdapter(mAdapter);
+        mJazzy.setOffscreenPageLimit(5);
+//        mJazzy.addOnPageChangeListener(this);
+    }
+
+    private void initListData() {
+        int id = 1;
+        CarBean bean;
+        carList = new ArrayList<CarBean>(16);
+        for (int i = 1; i <= 4; i++) {
+            for (int j = 1; j <= 4; j++) {
+                bean = new CarBean();
+                bean.id = id;
+                bean.carType = i;
+                bean.carSeat = Constants.CarSeatMap.get(j);
+                bean.originalPrice = 0;
+                bean.models = Constants.CarDescInfoMap.get(i).get(j);
+                CarTypeEnum carTypeEnum = CarTypeEnum.getCarType(bean.carType, bean.carSeat);
+                if (carTypeEnum != null) {
+                    bean.imgRes = carTypeEnum.imgRes;
+                }
+                carList.add(bean);
+                id++;
+            }
+        }
+    }
+
+    private void sortListDataImage() {
+        for (CarBean bean : carList) {
+            CarTypeEnum carTypeEnum = CarTypeEnum.getCarType(bean.carType, bean.carSeat);
+            if (carTypeEnum != null) {
+                bean.imgRes = carTypeEnum.imgRes;
+            }
+        }
+    }
+
+    @Override
+    public void onDataRequestSucceed(BaseRequest request) {
+        if (request instanceof RequestCheckPrice) {
+            RequestCheckPrice requestCheckPrice = (RequestCheckPrice) request;
+            this.distance = ((CarListBean) requestCheckPrice.getData()).distance;
+            this.interval = ((CarListBean) requestCheckPrice.getData()).interval;
+//            processCarList(mParser.carList);
+            carList = ((CarListBean) requestCheckPrice.getData()).carList;
+            sortListDataImage();
+            mAdapter = new CarViewpagerAdapter(getActivity(), mJazzy);
+            mAdapter.setList(carList);
+            mJazzy.setState(null);
+            mJazzy.setAdapter(mAdapter);
+            inflateContent();
+//            if (carList == null || carList.size() == 0) {
+//                carEmptyLayout.setVisibility(View.VISIBLE);
+//            } else {
+//                carEmptyLayout.setVisibility(View.GONE);
+//            }
+        }
+    }
+
     @Override
     public void onFragmentResult(Bundle bundle) {
         String from = bundle.getString(KEY_FRAGMENT_NAME);
