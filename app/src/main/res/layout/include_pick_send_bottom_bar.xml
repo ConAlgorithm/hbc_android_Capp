@@ -2,6 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:background="#2d2b24"
+    android:id="@+id/bottom"
+    android:visibility="gone"
     android:layout_alignParentBottom="true"
     android:layout_height="wrap_content">
 

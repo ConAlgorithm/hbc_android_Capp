@@ -1,17 +1,17 @@
 package com.hugboga.custom.fragment;
 
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
-import com.hugboga.custom.adapter.CarViewpagerAdapter;
-import com.hugboga.custom.constants.CarTypeEnum;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.AirPort;
 import com.hugboga.custom.data.bean.CarBean;
@@ -22,14 +22,12 @@ import com.hugboga.custom.data.bean.FlightBean;
 import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.request.RequestCheckPrice;
+import com.hugboga.custom.data.request.RequestCheckPriceForPickup;
 import com.hugboga.custom.utils.ToastUtils;
 import com.hugboga.custom.widget.DialogUtil;
-import com.hugboga.custom.widget.JazzyViewPager;
 
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
-
-import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -64,7 +62,6 @@ public class FgPickNew extends BaseFragment {
     LinearLayout rlAddress;
 
 
-
     public static final String KEY_CITY_ID = "KEY_CITY_ID";
     public static final String KEY_CITY = "KEY_CITY";
     public static final String KEY_FLIGHT = "KEY_FLIGHT";
@@ -80,9 +77,19 @@ public class FgPickNew extends BaseFragment {
     public static final String KEY_URGENT_FLAG = "KEY_URGENT_FLAG";
     public static final String KEY_NEED_CHILDREN_SEAT = "KEY_NEED_CHILDREN_SEAT";
     public static final String KEY_NEED_BANNER = "KEY_NEED_BANNER";
+    @Bind(R.id.show_cars_layout)
+    LinearLayout showCarsLayout;
+    @Bind(R.id.confirm_journey)
+    TextView confirmJourney;
+    @Bind(R.id.all_money_left)
+    TextView allMoneyLeft;
+    @Bind(R.id.all_money_text)
+    TextView allMoneyText;
+    @Bind(R.id.all_journey_text)
+    TextView allJourneyText;
+    @Bind(R.id.bottom)
+    RelativeLayout bottom;
 
-
-    private JazzyViewPager mJazzy;
 
     private FlightBean flightBean;//航班信息 接机
     private AirPort airPortBean;//机场信息 送机
@@ -94,10 +101,7 @@ public class FgPickNew extends BaseFragment {
     private CarBean carBean;//车
     private String serverDate;
 
-    private double distance;//预估路程（单位：公里）
-    private int interval;//预估时间（单位：分钟）
-    private ArrayList<CarBean> carList = new ArrayList<CarBean>();
-    private CarViewpagerAdapter mAdapter;
+
     private int cityId;
     private String airportCode;
     private int urgentFlag;//是否急单，1是，0非
@@ -112,12 +116,55 @@ public class FgPickNew extends BaseFragment {
 
     @Override
     protected void initView() {
-        initView(getView());
+
+    }
+
+    FragmentManager fm;
+    FgCarNew fgCarNew;
+
+    private void initCarFragment() {
+        fm = getFragmentManager();
+        FragmentTransaction transaction = fm.beginTransaction();
+        if(null != fgCarNew) {
+            transaction.remove(fgCarNew);
+        }
+
+        fgCarNew = new FgCarNew();
+        Bundle bundle = new Bundle();
+        if (getArguments() != null) {
+            bundle.putAll(getArguments());
+        }
+        bundle.putParcelable("carListBean", carListBean);
+        fgCarNew.setArguments(bundle);
+        transaction.add(R.id.show_cars_layout, fgCarNew);
+        transaction.commit();
     }
 
     @Override
     protected Callback.Cancelable requestData() {
         return null;
+    }
+
+    String startLocation, termLocation;
+
+    protected void getData() {
+        cityId = flightBean.arrivalAirport.cityId;
+        airportCode = flightBean.arrivalAirport.airportCode;
+        //出发地，到达地经纬度
+        startLocation = flightBean.arrivalAirport.location;
+        termLocation = poiBean.location;
+        serverDate = flightBean.arrDate + " " + flightBean.arrivalTime;
+        needChildrenSeat = flightBean.arrivalAirport.childSeatSwitch;
+        needBanner = flightBean.arrivalAirport.bannerSwitch;
+        RequestCheckPriceForPickup requestCheckPriceForPickup = new RequestCheckPriceForPickup(getActivity(), mBusinessType, airportCode, cityId, startLocation, termLocation, serverDate);
+        requestData(requestCheckPriceForPickup);
+    }
+
+    CarListBean carListBean;
+
+    private void genBottomData(CarBean carBean) {
+        allMoneyText.setText("￥ " + carBean.originalPrice);
+        allJourneyText.setText("全程预估:" + carListBean.distance + "公里," + carListBean.interval + "分钟");
     }
 
     @Override
@@ -131,11 +178,11 @@ public class FgPickNew extends BaseFragment {
             case AIR_NO:
                 FlightBean bean = (FlightBean) action.getData();
                 if (mBusinessType == Constants.BUSINESS_TYPE_SEND && bean != null) {
-                }else{
+                } else {
                     flightBean = bean;
                     String flightInfoStr = bean.flightNo + " ";
                     flightInfoStr += bean.depAirport.cityName + "-" + bean.arrivalAirport.cityName;
-                    flightInfoStr += "\n当地时间" + bean.arrDate + " " + bean.depTime + "起飞";
+                    flightInfoStr += "\n当地时间" + bean.arrDate + " " + bean.depTime + " 降落";
                     infoTips.setVisibility(View.GONE);
                     airTitle.setVisibility(View.VISIBLE);
                     airDetail.setVisibility(View.VISIBLE);
@@ -143,79 +190,35 @@ public class FgPickNew extends BaseFragment {
                     airDetail.setText(flightInfoStr);
                 }
                 break;
+            case CHANGE_CAR:
+                CarBean carBean = (CarBean) action.getData();
+                genBottomData(carBean);
+                break;
             default:
                 break;
         }
     }
 
-    private void initView(View view) {
-        View flGalleryContainer = view.findViewById(R.id.viewpager_layout);
-        flGalleryContainer.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return mJazzy.dispatchTouchEvent(event);
-            }
-        });
-        mJazzy = (JazzyViewPager) view.findViewById(R.id.jazzy_pager);
-        mJazzy.setTransitionEffect(JazzyViewPager.TransitionEffect.ZoomIn);
-        mAdapter = new CarViewpagerAdapter(getActivity(), mJazzy);
-        initListData();
-        mAdapter.setList(carList);
-        mJazzy.setAdapter(mAdapter);
-        mJazzy.setOffscreenPageLimit(5);
-//        mJazzy.addOnPageChangeListener(this);
-    }
-
-    private void initListData() {
-        int id = 1;
-        CarBean bean;
-        carList = new ArrayList<CarBean>(16);
-        for (int i = 1; i <= 4; i++) {
-            for (int j = 1; j <= 4; j++) {
-                bean = new CarBean();
-                bean.id = id;
-                bean.carType = i;
-                bean.carSeat = Constants.CarSeatMap.get(j);
-                bean.originalPrice = 0;
-                bean.models = Constants.CarDescInfoMap.get(i).get(j);
-                CarTypeEnum carTypeEnum = CarTypeEnum.getCarType(bean.carType, bean.carSeat);
-                if (carTypeEnum != null) {
-                    bean.imgRes = carTypeEnum.imgRes;
-                }
-                carList.add(bean);
-                id++;
-            }
-        }
-    }
-
-    private void sortListDataImage() {
-        for (CarBean bean : carList) {
-            CarTypeEnum carTypeEnum = CarTypeEnum.getCarType(bean.carType, bean.carSeat);
-            if (carTypeEnum != null) {
-                bean.imgRes = carTypeEnum.imgRes;
-            }
-        }
+    @Override
+    public int getBusinessType() {
+        mBusinessType = Constants.BUSINESS_TYPE_PICK;
+        setGoodsType(mBusinessType);
+        return mBusinessType;
     }
 
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
         if (request instanceof RequestCheckPrice) {
             RequestCheckPrice requestCheckPrice = (RequestCheckPrice) request;
-            this.distance = ((CarListBean) requestCheckPrice.getData()).distance;
-            this.interval = ((CarListBean) requestCheckPrice.getData()).interval;
-//            processCarList(mParser.carList);
-            carList = ((CarListBean) requestCheckPrice.getData()).carList;
-            sortListDataImage();
-            mAdapter = new CarViewpagerAdapter(getActivity(), mJazzy);
-            mAdapter.setList(carList);
-            mJazzy.setState(null);
-            mJazzy.setAdapter(mAdapter);
-            inflateContent();
-//            if (carList == null || carList.size() == 0) {
-//                carEmptyLayout.setVisibility(View.VISIBLE);
-//            } else {
-//                carEmptyLayout.setVisibility(View.GONE);
-//            }
+            carListBean = (CarListBean) requestCheckPrice.getData();
+            if (carListBean.carList.size() > 0) {
+                bottom.setVisibility(View.VISIBLE);
+                genBottomData(carListBean.carList.get(0));
+            } else {
+                bottom.setVisibility(View.GONE);
+            }
+
+            initCarFragment();
         }
     }
 
@@ -230,15 +233,14 @@ public class FgPickNew extends BaseFragment {
             addressTitle.setText(poiBean.placeName);
             addressDetail.setText(poiBean.placeDetail);
             collapseSoftInputMethod();
+            getData();
+
         }
     }
 
 
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
         ButterKnife.bind(this, rootView);
         EventBus.getDefault().register(this);
@@ -266,17 +268,19 @@ public class FgPickNew extends BaseFragment {
             case R.id.address_title:
             case R.id.address_detail:
             case R.id.rl_address:
-                if(airDetail.isShown()) {
+                if (airDetail.isShown()) {
                     FgPoiSearch fg = new FgPoiSearch();
                     Bundle bundle = new Bundle();
                     bundle.putString("source", "下单过程中");
                     bundle.putInt(FgPoiSearch.KEY_CITY_ID, flightBean.arrivalAirport.cityId);
                     bundle.putString(FgPoiSearch.KEY_LOCATION, flightBean.arrivalAirport.location);
                     startFragment(fg, bundle);
-                }else{
+                } else {
                     ToastUtils.showShort("请先选择航班");
                 }
                 break;
         }
     }
+
+
 }

@@ -1,17 +1,27 @@
 package com.hugboga.custom.fragment;
 
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
+import com.hugboga.custom.adapter.CarViewpagerAdapter;
 import com.hugboga.custom.data.bean.AirPort;
+import com.hugboga.custom.data.bean.CarBean;
+import com.hugboga.custom.data.bean.CarListBean;
 import com.hugboga.custom.data.bean.PoiBean;
+import com.hugboga.custom.data.request.RequestCheckPrice;
+import com.hugboga.custom.data.request.RequestCheckPriceForTransfer;
 import com.hugboga.custom.utils.ToastUtils;
+import com.hugboga.custom.widget.DialogUtil;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
@@ -19,6 +29,7 @@ import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import butterknife.Bind;
@@ -53,16 +64,54 @@ public class FgSendNew extends BaseFragment {
     TextView timeText;
     @Bind(R.id.rl_starttime)
     RelativeLayout rlStarttime;
+    @Bind(R.id.confirm_journey)
+    TextView confirmJourney;
+    @Bind(R.id.all_money_left)
+    TextView allMoneyLeft;
+    @Bind(R.id.all_money_text)
+    TextView allMoneyText;
+    @Bind(R.id.all_journey_text)
+    TextView allJourneyText;
+    @Bind(R.id.bottom)
+    RelativeLayout bottom;
 
     private AirPort airPortBean;//航班信息
     private PoiBean poiBean;//达到目的地
-    private String serverDate;
     private String serverTime;
+    private String serverDate;
 
 
     @Override
     protected void initHeader() {
 
+    }
+
+    FragmentManager fm;
+    FgCarNew fgCarNew;
+    CarListBean carListBean;
+
+    private void genBottomData(CarBean carBean) {
+        allMoneyText.setText("￥ " + carBean.originalPrice);
+        allJourneyText.setText("全程预估:" + carListBean.distance + "公里," + carListBean.interval + "分钟");
+    }
+
+
+    private void initCarFragment() {
+        fm = getFragmentManager();
+        FragmentTransaction transaction = fm.beginTransaction();
+        if(null != fgCarNew) {
+            transaction.remove(fgCarNew);
+        }
+
+        fgCarNew = new FgCarNew();
+        Bundle bundle = new Bundle();
+        if (getArguments() != null) {
+            bundle.putAll(getArguments());
+        }
+        bundle.putParcelable("carListBean", carListBean);
+        fgCarNew.setArguments(bundle);
+        transaction.add(R.id.show_cars_layout_send, fgCarNew);
+        transaction.commit();
     }
 
     @Override
@@ -78,6 +127,56 @@ public class FgSendNew extends BaseFragment {
     @Override
     protected void inflateContent() {
 
+    }
+
+    public static final String KEY_CITY_ID = "KEY_CITY_ID";
+    public static final String KEY_CITY = "KEY_CITY";
+    public static final String KEY_FLIGHT = "KEY_FLIGHT";
+    public static final String KEY_AIRPORT = "KEY_AIRPORT";
+    public static final String KEY_START = "KEY_START";
+    public static final String KEY_ARRIVAL = "KEY_ARRIVAL";
+    public static final String KEY_TIME = "KEY_TIME";
+    public static final String KEY_CAR = "KEY_CAR";
+    public static final String KEY_DAILY = "KEY_DAILY";
+    public static final String KEY_MASK = "KEY_MASK";
+    public static final String KEY_DISTANCE = "KEY_DISTANCE";
+    public static final String KEY_COM_TIME = "KEY_EXPECTED_COMP_TIME";
+    public static final String KEY_URGENT_FLAG = "KEY_URGENT_FLAG";
+    public static final String KEY_NEED_CHILDREN_SEAT = "KEY_NEED_CHILDREN_SEAT";
+    public static final String KEY_NEED_BANNER = "KEY_NEED_BANNER";
+
+    private CarBean carBean;//车
+
+    private double distance;//预估路程（单位：公里）
+    private int interval;//预估时间（单位：分钟）
+    private ArrayList<CarBean> carList = new ArrayList<CarBean>();
+    ;
+    private CarViewpagerAdapter mAdapter;
+    private int cityId;
+    private String airportCode;
+    private int urgentFlag;//是否急单，1是，0非
+    private boolean needChildrenSeat = false;//是否需要儿童座椅
+    private boolean needBanner = true;//是否可以展示接机牌
+    private DialogUtil mDialogUtil;
+    String startLocation, termLocation;
+
+    private void checkInput(){
+        if(!TextUtils.isEmpty(timeText.getText()) && !TextUtils.isEmpty(addressTips.getText()) && !TextUtils.isEmpty(airTitle.getText())){
+            getData();
+        }
+    }
+
+
+    private void getData() {
+        cityId=airPortBean.cityId;
+        airportCode=airPortBean.airportCode;
+        //出发地，到达地经纬度
+        startLocation=poiBean.location;
+        termLocation=airPortBean.location;
+        needChildrenSeat=airPortBean.childSeatSwitch;
+        needBanner=airPortBean.bannerSwitch;
+        RequestCheckPriceForTransfer requestCheckPriceForTransfer = new RequestCheckPriceForTransfer(getActivity(), mBusinessType, airportCode, cityId, startLocation, termLocation, serverDate+" "+serverTime);
+        requestData(requestCheckPriceForTransfer);
     }
 
     @Override
@@ -107,7 +206,7 @@ public class FgSendNew extends BaseFragment {
                     bundle.putString(FgPoiSearch.KEY_LOCATION, airPortBean.location);
                     fg.setArguments(bundle);
                     startFragment(fg);
-                }else {
+                } else {
                     ToastUtils.showShort("先选择机场");
                 }
                 break;
@@ -131,6 +230,22 @@ public class FgSendNew extends BaseFragment {
     }
 
     @Override
+    public void onDataRequestSucceed(BaseRequest request) {
+        if (request instanceof RequestCheckPrice) {
+            RequestCheckPrice requestCheckPrice = (RequestCheckPrice) request;
+            carListBean = (CarListBean) requestCheckPrice.getData();
+            if (carListBean.carList.size() > 0) {
+                bottom.setVisibility(View.VISIBLE);
+                genBottomData(carListBean.carList.get(0));
+            } else {
+                bottom.setVisibility(View.GONE);
+            }
+
+            initCarFragment();
+        }
+    }
+
+    @Override
     public void onFragmentResult(Bundle bundle) {
         MLog.w(this + " onFragmentResult " + bundle);
         String from = bundle.getString(KEY_FRAGMENT_NAME);
@@ -150,6 +265,7 @@ public class FgSendNew extends BaseFragment {
             airDetail.setText(poiBean.placeDetail);
             collapseSoftInputMethod();
         }
+        checkInput();
     }
 
     public void showDaySelect() {
@@ -198,6 +314,7 @@ public class FgSendNew extends BaseFragment {
             String minuteStr = String.format("%02d", minute);
             serverTime = hour + ":" + minuteStr;
             timeText.setText(serverDate + " " + serverTime);
+            checkInput();
         }
     }
 }

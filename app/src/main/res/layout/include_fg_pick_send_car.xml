@@ -16,7 +16,7 @@
         <com.hugboga.custom.widget.JazzyViewPager
             android:id="@+id/jazzy_pager"
             android:layout_width="match_parent"
-            android:layout_height="180dip"
+            android:layout_height="160dip"
             android:layout_marginLeft="50dip"
             android:layout_marginRight="50dip"
             android:clipChildren="false" />
@@ -47,11 +47,13 @@
                 android:textColor="@color/basic_black"
                 android:textSize="15sp" />
             <TextView
+                android:id="@+id/mans_num"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dip"
                 android:text=" X 4"
                 android:gravity="center"
+                android:drawablePadding="5dp"
                 android:layout_marginLeft="10dp"
                 android:drawableLeft="@mipmap/order_people"
                 android:textColor="@color/basic_black"
@@ -83,7 +85,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dip"
-            android:gravity="center"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:gravity="left"
             android:textColor="@color/basic_gray"
             android:textSize="13sp" />
     </LinearLayout>
@@ -102,6 +106,7 @@
 
     <RelativeLayout
         android:id="@+id/driver_rl"
+        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -170,6 +175,7 @@
         android:id="@+id/driver_tips"
         android:layout_width="match_parent"
         android:layout_height="30dp"
+        android:visibility="gone"
         android:paddingLeft="20dp"
         android:gravity="center_vertical"
         android:layout_alignParentLeft="true"

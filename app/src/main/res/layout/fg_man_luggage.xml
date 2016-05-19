@@ -2,6 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#e8eaeb"
     android:orientation="vertical">
 
     <LinearLayout
@@ -69,14 +70,14 @@
                     android:layout_height="39dp"
                     android:background="@color/basic_white"
                     android:gravity="center"
-                    android:text="9"
+                    android:text="0"
                     android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/m_plus"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:background="#fad027"
+                    android:background="#d5dadb"
                     android:gravity="center"
                     android:text="+"
                     android:textColor="@color/basic_white"
@@ -130,7 +131,7 @@
                     android:id="@+id/c_sub"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:background="#fad027"
+                    android:background="#d5dadb"
                     android:gravity="center"
                     android:text="-"
                     android:textColor="@color/basic_white"
@@ -142,14 +143,14 @@
                     android:layout_height="39dp"
                     android:background="@color/basic_white"
                     android:gravity="center"
-                    android:text="9"
+                    android:text="0"
                     android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/c_plus"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:background="#fad027"
+                    android:background="#d5dadb"
                     android:gravity="center"
                     android:text="+"
                     android:textColor="@color/basic_white"
@@ -214,14 +215,14 @@
                     android:layout_height="39dp"
                     android:background="@color/basic_white"
                     android:gravity="center"
-                    android:text="9"
+                    android:text="0"
                     android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/l_plus"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:background="#fad027"
+                    android:background="#d5dadb"
                     android:gravity="center"
                     android:text="+"
                     android:textColor="@color/basic_white"
@@ -235,6 +236,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:visibility="gone"
             android:orientation="vertical">
 
             <RelativeLayout
@@ -271,7 +273,7 @@
                         android:id="@+id/c_seat_sub"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:background="#fad027"
+                        android:background="#d5dadb"
                         android:gravity="center"
                         android:text="-"
                         android:textColor="@color/basic_white"
@@ -283,14 +285,14 @@
                         android:layout_height="39dp"
                         android:background="@color/basic_white"
                         android:gravity="center"
-                        android:text="9"
+                        android:text="0"
                         android:textSize="20sp" />
 
                     <TextView
                         android:id="@+id/c_seat_plus"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:background="#d5dadb"
+                        android:background="#fad027"
                         android:gravity="center"
                         android:text="+"
                         android:textColor="@color/basic_white"
@@ -301,10 +303,12 @@
 
 
             <RelativeLayout
+                android:id="@+id/free_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/car_info"
                 android:layout_marginTop="1dp"
+                android:visibility="gone"
                 android:background="@color/basic_white"
                 android:clickable="true"
                 android:minHeight="60dp">
@@ -341,16 +345,18 @@
                     android:background="@color/basic_white"
                     android:gravity="center"
                     android:text="x 1"
-                    android:textSize="20sp" />
+                    android:textSize="18sp" />
 
 
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/charge_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/car_info"
                 android:layout_marginTop="1dp"
+                android:visibility="gone"
                 android:background="@color/basic_white"
                 android:clickable="true"
                 android:minHeight="60dp">
@@ -385,8 +391,8 @@
                     android:layout_centerVertical="true"
                     android:layout_marginRight="20dp"
                     android:gravity="center"
-                    android:text="x 9"
-                    android:textSize="20sp" />
+                    android:text="x 0"
+                    android:textSize="18sp" />
 
 
             </RelativeLayout>

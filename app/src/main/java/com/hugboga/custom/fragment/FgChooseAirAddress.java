@@ -111,7 +111,9 @@ public class FgChooseAirAddress extends BaseFragment {
         try {
             Type resultType = new TypeToken<List<SaveStartEndCity>>() {}.getType();
             cityList = Reservoir.get("savedHistoryCityBean", resultType);
-            genHistoryList();
+            if(null != cityList){
+                genHistoryList();
+            }
         }catch (Exception e){
             e.printStackTrace();
         }

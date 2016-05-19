@@ -1,5 +1,6 @@
 package com.hugboga.custom.fragment;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.data.bean.CarBean;
+import com.hugboga.custom.data.bean.CarListBean;
 import com.hugboga.custom.data.bean.ManLuggageBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
@@ -91,12 +94,23 @@ public class FgManLuggage extends BaseFragment {
 
     int mNums = 0;
     int cNums = 0;
-    int LNUms = 0;
+    int lNums = 0;
     int seatNums = 0;
+
+    int maxMans = 0;//最大人数
+    int maxLuuages = 0;//最大行李数
+
     @Override
     protected void initHeader() {
         fgTitle.setText(R.string.man_luggage_title);
+        fgLeftBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         fgRightBtn.setText(R.string.dialog_btn_sure);
+        fgRightBtn.setVisibility(View.VISIBLE);
         fgRightBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -107,9 +121,27 @@ public class FgManLuggage extends BaseFragment {
         });
     }
 
+    CarListBean carListBean;
+    int currentIndex = 0;
+    CarBean carBean;
     @Override
     protected void initView() {
+        carListBean =  this.getArguments().getParcelable("carListBean");
+        currentIndex = this.getArguments().getInt("currentIndex");
+        carBean = carListBean.carList.get(currentIndex);
+        if(!carListBean.supportChildseat){
+            topTips.setVisibility(View.VISIBLE);
+        }
+        mNums = carBean.capOfPerson;
+        lNums = carBean.capOfLuggage;
 
+        maxMans = mNums;
+        maxLuuages = lNums;
+
+        mNum.setText(mNums+"");
+        lNum.setText(lNums+"");
+
+//        showChildSeat.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -139,37 +171,117 @@ public class FgManLuggage extends BaseFragment {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.m_sub:
-                break;
-            case R.id.m_num:
+                if(mNums > 1){
+                    mNums --;
+                    mPlus.setBackgroundColor(Color.parseColor("#fad027"));
+                    cPlus.setBackgroundColor(Color.parseColor("#fad027"));
+                    lPlus.setBackgroundColor(Color.parseColor("#fad027"));
+                    mNum.setText(mNums+"");
+                    if(cNums == 1) {
+                        mSub.setBackgroundColor(Color.parseColor("#d5dadb"));
+                    }
+                }
                 break;
             case R.id.m_plus:
+                if(mNums < (maxMans - cNums)){
+                    mNums ++;
+                    mSub.setBackgroundColor(Color.parseColor("#fad027"));
+                    if(mNums == (maxMans - cNums)){
+                        mPlus.setBackgroundColor(Color.parseColor("#d5dadb"));
+                        cPlus.setBackgroundColor(Color.parseColor("#d5dadb"));
+                        if(lNums == maxLuuages){
+                            lPlus.setBackgroundColor(Color.parseColor("#d5dadb"));
+                        }
+                    }
+                    mNum.setText(mNums+"");
+                }
                 break;
             case R.id.c_sub:
-                break;
-            case R.id.c_num:
+                if(cNums > 0){
+                    if(seatNums > 0){
+                        seatNums --;
+                        cSeatPlus.setBackgroundColor(Color.parseColor("#fad027"));
+                        cSeatNum.setText(seatNums+"");
+                    }
+                    if(seatNums == 0){
+                        cSeatSub.setBackgroundColor(Color.parseColor("#d5dadb"));
+                    }
+                    cNums --;
+                    cPlus.setBackgroundColor(Color.parseColor("#fad027"));
+                    mPlus.setBackgroundColor(Color.parseColor("#fad027"));
+                    lPlus.setBackgroundColor(Color.parseColor("#fad027"));
+                    cNum.setText(cNums+"");
+                    if(cNums == 0) {
+                        showChildSeat.setVisibility(View.GONE);
+                        cSub.setBackgroundColor(Color.parseColor("#d5dadb"));
+                    }
+                }
                 break;
             case R.id.c_plus:
+                if((mNums + cNums) < maxMans){
+                    cNums ++;
+                    cSub.setBackgroundColor(Color.parseColor("#fad027"));
+                    cNum.setText(cNums+"");
+                    if(carListBean.supportChildseat) {
+                        showChildSeat.setVisibility(View.VISIBLE);
+                    }
+
+                    if(cNums == (maxMans - mNums)){
+                        cPlus.setBackgroundColor(Color.parseColor("#d5dadb"));
+                        mPlus.setBackgroundColor(Color.parseColor("#d5dadb"));
+                        if(lNums == maxLuuages){
+                            lPlus.setBackgroundColor(Color.parseColor("#d5dadb"));
+                        }
+                    }
+                }
                 break;
             case R.id.l_sub:
-                break;
-            case R.id.l_num:
+                if(lNums > 0){
+                    lNums --;
+                    lPlus.setBackgroundColor(Color.parseColor("#fad027"));
+                    lNum.setText(lNums+"");
+                    if(lNums == 0) {
+                        lSub.setBackgroundColor(Color.parseColor("#d5dadb"));
+                    }
+                    if((mNums + cNums) < maxMans){
+                        mPlus.setBackgroundColor(Color.parseColor("#fad027"));
+                        cPlus.setBackgroundColor(Color.parseColor("#fad027"));
+                    }
+                }
                 break;
             case R.id.l_plus:
+                if(lNums < (maxLuuages + (maxMans - cNums - mNums))){
+                    lNums ++;
+                    lSub.setBackgroundColor(Color.parseColor("#fad027"));
+                    if(lNums == (maxLuuages + (maxMans - cNums - mNums))){
+                        lPlus.setBackgroundColor(Color.parseColor("#d5dadb"));
+                        mPlus.setBackgroundColor(Color.parseColor("#d5dadb"));
+                        cPlus.setBackgroundColor(Color.parseColor("#d5dadb"));
+                    }
+                    lNum.setText(lNums+"");
+                }
                 break;
             case R.id.c_seat_sub:
-                break;
-            case R.id.c_seat_num:
+                if(seatNums > 0){
+                    seatNums --;
+                    cSeatPlus.setBackgroundColor(Color.parseColor("#fad027"));
+                    cSeatNum.setText(seatNums+"");
+                    if(seatNums == 0){
+                        cSeatSub.setBackgroundColor(Color.parseColor("#d5dadb"));
+                    }
+                }
                 break;
             case R.id.c_seat_plus:
-                break;
-            case R.id.free_c_seat_num:
-                break;
-            case R.id.charge_seat_num:
+                if(seatNums < cNums){
+                    seatNums ++;
+                    if(seatNums == cNums){
+                        cSeatPlus.setBackgroundColor(Color.parseColor("#d5dadb"));
+                    }
+                    cSeatSub.setBackgroundColor(Color.parseColor("#fad027"));
+                    cSeatNum.setText(seatNums+"");
+                }
                 break;
         }
     }
 
-    @OnClick(R.id.top_tips)
-    public void onClick() {
-    }
 }
