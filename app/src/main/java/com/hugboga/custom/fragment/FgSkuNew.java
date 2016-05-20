@@ -72,6 +72,10 @@ public class FgSkuNew extends BaseFragment {
     TextView allMoneyLeft;
     @Bind(R.id.all_money_text)
     TextView allMoneyText;
+    @Bind(R.id.all_money_left_sku)
+    TextView allMoneyLeftSku;
+    @Bind(R.id.all_money_text_sku)
+    TextView allMoneyTextSku;
     @Bind(R.id.all_journey_text)
     TextView allJourneyText;
     @Bind(R.id.bottom)
@@ -166,8 +170,14 @@ public class FgSkuNew extends BaseFragment {
     }
 
     private void genBottomData(CarBean carBean) {
-        allMoneyText.setText("￥ " + carBean.originalPrice);
-        allJourneyText.setText("全程预估:" + carListBean.distance + "公里," + carListBean.interval + "分钟");
+        allMoneyLeft.setVisibility(View.GONE);
+        allMoneyText.setVisibility(View.GONE);
+        allMoneyTextSku.setVisibility(View.GONE);
+        allJourneyText.setVisibility(View.GONE);
+
+        allMoneyLeftSku.setVisibility(View.VISIBLE);
+        allMoneyTextSku.setVisibility(View.VISIBLE);
+        allMoneyTextSku.setText("￥ " + carBean.originalPrice);
     }
 
     public void onEventMainThread(EventAction action) {

@@ -22,6 +22,36 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:gravity="center"
+        android:text="@string/all_cost"
+        android:layout_marginTop="10dp"
+        android:id="@+id/all_money_left_sku"
+        android:layout_marginLeft="20dp"
+        android:textSize="14sp"
+        android:visibility="gone"
+        android:textColor="@color/basic_white"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/confirm_journey"
+        android:layout_alignBottom="@id/all_money_left"
+        android:layout_toRightOf="@id/all_money_left_sku"
+        android:layout_centerVertical="true"
+        android:text="￥500"
+        android:visibility="gone"
+        android:textSize="18sp"
+        android:id="@+id/all_money_text_sku"
+        android:textColor="@color/all_bg_yellow"/>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:gravity="center"
         android:text="@string/all_cost"
         android:layout_marginTop="10dp"
