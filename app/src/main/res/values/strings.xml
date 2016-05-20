@@ -424,5 +424,10 @@
 
     <string name="single_choose_city">请选择城市</string>
     <string name="single_end_city_tips">送您到哪里去</string>
-q
+
+    <string name="sku_go_date">出发日期</string>
+    <string name="sku_go_date_tips">请选择出发日期</string>
+    <string name="sku_new_title">安排您的行程</string>
+
+
 </resources>
