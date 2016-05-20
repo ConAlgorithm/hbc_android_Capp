@@ -219,7 +219,7 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
                 bean = new CarBean();
                 bean.id = id;
                 bean.carType = i;
-                bean.carSeat = Constants.CarSeatMap.get(j);
+                bean.carSeat =  Constants.CarSeatMap.get(j);
                 bean.originalPrice = 0;
                 bean.models = Constants.CarDescInfoMap.get(i).get(j);
                 CarTypeEnum carTypeEnum = CarTypeEnum.getCarType(bean.carType, bean.carSeat);
