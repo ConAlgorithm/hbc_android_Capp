@@ -242,11 +242,12 @@ public class FgChooseAirAddress extends BaseFragment {
         checkNextBtnStatus();
     }
 
-    @OnClick({R.id.from_city, R.id.end_city, R.id.search, R.id.clean_all_history, R.id.exchange,R.id.address_tips, R.id.rl_address})
+    @OnClick({R.id.end_city_tips,R.id.from_city_tips,R.id.from_city, R.id.end_city, R.id.search, R.id.clean_all_history, R.id.exchange,R.id.address_tips, R.id.rl_address})
     public void onClick(View view) {
         FgChooseCity city = new FgChooseCity();
         Bundle bundle = new Bundle();
         switch (view.getId()) {
+            case R.id.from_city_tips:
             case R.id.from_city:
                 bundle.putString(KEY_FROM, "startAddress");
                 bundle.putString("source", "下单过程中");
@@ -257,6 +258,7 @@ public class FgChooseAirAddress extends BaseFragment {
                 map.put("source", "下单过程中");
                 MobclickAgent.onEvent(getActivity(), "search_trigger", map);
                 break;
+            case R.id.end_city_tips:
             case R.id.end_city:
                 bundle.putString(KEY_FROM, "end");
                 bundle.putString("source", "下单过程中");

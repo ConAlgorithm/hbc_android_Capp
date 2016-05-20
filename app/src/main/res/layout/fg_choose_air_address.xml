@@ -23,6 +23,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/choose_fly"
+                android:id="@+id/from_city_tips"
                 android:textColor="#8a8b8d"
                 android:textSize="15sp" />
 
@@ -43,7 +44,7 @@
             android:id="@+id/exchange"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@mipmap/convert" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -56,6 +57,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/choose_arrived"
+                android:id="@+id/end_city_tips"
                 android:textColor="#8a8b8d"
                 android:textSize="15sp" />
 
