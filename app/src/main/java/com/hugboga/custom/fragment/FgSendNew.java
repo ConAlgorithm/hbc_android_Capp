@@ -18,6 +18,7 @@ import com.hugboga.custom.data.bean.AirPort;
 import com.hugboga.custom.data.bean.CarBean;
 import com.hugboga.custom.data.bean.CarListBean;
 import com.hugboga.custom.data.bean.PoiBean;
+import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.request.RequestCheckPrice;
 import com.hugboga.custom.data.request.RequestCheckPriceForTransfer;
 import com.hugboga.custom.utils.ToastUtils;
@@ -163,6 +164,17 @@ public class FgSendNew extends BaseFragment {
     private void checkInput(){
         if(!TextUtils.isEmpty(timeText.getText()) && !TextUtils.isEmpty(addressTips.getText()) && !TextUtils.isEmpty(airTitle.getText())){
             getData();
+        }
+    }
+
+    public void onEventMainThread(EventAction action) {
+        switch (action.getType()) {
+            case CHANGE_CAR:
+                CarBean carBean = (CarBean) action.getData();
+                genBottomData(carBean);
+                break;
+            default:
+                break;
         }
     }
 

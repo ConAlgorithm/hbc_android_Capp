@@ -418,4 +418,11 @@
 
     <string name="man_luggage_not_have">很抱歉，该城市暂不提供儿童座椅</string>
 
+    <string name="city_use_car">用车城市</string>
+    <string name="single_start_city">出发地</string>
+    <string name="single_end_city">目的地</string>
+
+    <string name="single_choose_city">请选择城市</string>
+    <string name="single_end_city_tips">送您到哪里去</string>
+q
 </resources>

@@ -137,10 +137,8 @@ public class FgHome extends BaseFragment implements View.OnClickListener, ZBaseA
 //                bundle.putString("source","首页");
 //                fgSingle.setArguments(bundle);
 //                startFragment(new FgSingle(), bundle);
-
-
-                FgTransfer fgTransfer = new FgTransfer();
-                startFragment(fgTransfer);
+                FgSingleNew fgSingleNew = new FgSingleNew();
+                startFragment(fgSingleNew);
 
                 map.put("source", "首页");
                 MobclickAgent.onEvent(getActivity(), "chose_oneway", map);
