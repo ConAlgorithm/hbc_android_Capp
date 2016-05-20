@@ -175,7 +175,8 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
         this.distance = carListBean.distance;
         this.interval = carListBean.interval;
 //            processCarList(mParser.carList);
-        carList = carListBean.carList;
+//        carList = carListBean.carList;
+        initListData();
         sortListDataImage();
         mAdapter = new CarViewpagerAdapter(getActivity(), mJazzy);
         mAdapter.setList(carList);
@@ -221,15 +222,37 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
                 bean.carType = i;
                 bean.carSeat =  Constants.CarSeatMap.get(j);
                 bean.originalPrice = 0;
-                bean.models = Constants.CarDescInfoMap.get(i).get(j);
+//                bean.models = Constants.CarDescInfoMap.get(i).get(j);
                 CarTypeEnum carTypeEnum = CarTypeEnum.getCarType(bean.carType, bean.carSeat);
                 if (carTypeEnum != null) {
                     bean.imgRes = carTypeEnum.imgRes;
                 }
-                carList.add(bean);
+
+                CarBean newCarBean = isMatchLocal(bean);
+                if(null != newCarBean) {
+                    bean.models = newCarBean.models;
+                    bean.capOfLuggage = newCarBean.capOfLuggage;
+                    bean.desc = newCarBean.desc;
+                    bean.capOfPerson = newCarBean.capOfPerson;
+                    bean.price = newCarBean.price;
+                    carList.add(bean);
+                }
                 id++;
             }
         }
+    }
+
+
+
+
+    private CarBean isMatchLocal(CarBean bean){
+        for(int i = 0;i<carListBean.carList.size();i++){
+            if(carListBean.carList.get(i).carType == bean.carType
+                    && carListBean.carList.get(i).carSeat == bean.carSeat ){
+                return carListBean.carList.get(i);
+            }
+        }
+        return null;
     }
 
     private void sortListDataImage() {
@@ -265,7 +288,7 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
         mJazzy = (JazzyViewPager) view.findViewById(R.id.jazzy_pager);
         mJazzy.setTransitionEffect(JazzyViewPager.TransitionEffect.ZoomIn);
         mAdapter = new CarViewpagerAdapter(getActivity(), mJazzy);
-        initListData();
+//        initListData();
         mAdapter.setList(carList);
         mJazzy.setAdapter(mAdapter);
         mJazzy.setOffscreenPageLimit(5);

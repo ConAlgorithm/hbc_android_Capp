@@ -177,7 +177,7 @@ public class FgSkuNew extends BaseFragment {
 
         allMoneyLeftSku.setVisibility(View.VISIBLE);
         allMoneyTextSku.setVisibility(View.VISIBLE);
-        allMoneyTextSku.setText("￥ " + carBean.originalPrice);
+        allMoneyTextSku.setText("￥ " + carBean.price);
     }
 
     public void onEventMainThread(EventAction action) {

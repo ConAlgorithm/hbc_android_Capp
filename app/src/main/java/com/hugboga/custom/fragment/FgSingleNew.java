@@ -229,7 +229,7 @@ public class FgSingleNew extends BaseFragment {
     CarListBean carListBean;
 
     private void genBottomData(CarBean carBean) {
-        allMoneyText.setText("￥ " + carBean.originalPrice);
+        allMoneyText.setText("￥ " + carBean.price);
         if(null != carListBean) {
             allJourneyText.setText("全程预估:" + carListBean.distance + "公里," + carListBean.interval + "分钟");
         }
