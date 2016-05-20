@@ -114,7 +114,10 @@ public class FgManLuggage extends BaseFragment {
         fgRightBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                bean.mans = mNum.getText().toString();
+                bean.mans = mNums;
+                bean.childs = cNums;
+                bean.luggages = lNums;
+                bean.childSeats = seatNums;
                 EventBus.getDefault().post(new EventAction(EventType.MAN_CHILD_LUUAGE,bean));
                 finish();
             }

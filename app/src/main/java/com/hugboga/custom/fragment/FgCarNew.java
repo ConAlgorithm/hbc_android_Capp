@@ -19,6 +19,7 @@ import com.hugboga.custom.constants.CarTypeEnum;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CarBean;
 import com.hugboga.custom.data.bean.CarListBean;
+import com.hugboga.custom.data.bean.ManLuggageBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.net.UrlLibs;
@@ -122,6 +123,25 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
     @Override
     protected void initHeader() {
 
+    }
+
+    public void onEventMainThread(EventAction action) {
+        switch (action.getType()) {
+            case MAN_CHILD_LUUAGE:
+                ManLuggageBean manLuggageBean = (ManLuggageBean)action.getData();
+                manTips.setVisibility(View.GONE);
+                manText.setVisibility(View.VISIBLE);
+                luggageText.setVisibility(View.VISIBLE);
+                childseatText.setVisibility(View.VISIBLE);
+
+                manText.setText("乘客 x "+(manLuggageBean.mans+manLuggageBean.childs));
+                luggageText.setText("行李箱 x "+manLuggageBean.luggages);
+                childseatText.setText("儿童座椅 x "+(manLuggageBean.childSeats));
+
+                break;
+            default:
+                break;
+        }
     }
 
 
@@ -276,6 +296,7 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
         ButterKnife.bind(this, rootView);
+        EventBus.getDefault().register(this);
         return rootView;
     }
 
@@ -283,6 +304,7 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+        EventBus.getDefault().unregister(this);
     }
 
 

@@ -11,7 +11,9 @@ import java.util.List;
 public class CarAdditionalServicePrice implements Parcelable {
     public String checkInPrice;
     public String pickupSignPrice;
-    public List<CarChildSeatPrice> childSeatPrice;
+    public String childSeatPrice1;
+    public String childSeatPrice2;
+
 
     @Override
     public int describeContents() {
@@ -22,7 +24,8 @@ public class CarAdditionalServicePrice implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.checkInPrice);
         dest.writeString(this.pickupSignPrice);
-        dest.writeTypedList(this.childSeatPrice);
+        dest.writeString(this.childSeatPrice1);
+        dest.writeString(this.childSeatPrice2);
     }
 
     public CarAdditionalServicePrice() {
@@ -31,7 +34,8 @@ public class CarAdditionalServicePrice implements Parcelable {
     protected CarAdditionalServicePrice(Parcel in) {
         this.checkInPrice = in.readString();
         this.pickupSignPrice = in.readString();
-        this.childSeatPrice = in.createTypedArrayList(CarChildSeatPrice.CREATOR);
+        this.childSeatPrice1 = in.readString();
+        this.childSeatPrice2 = in.readString();
     }
 
     public static final Creator<CarAdditionalServicePrice> CREATOR = new Creator<CarAdditionalServicePrice>() {
