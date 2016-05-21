@@ -258,7 +258,7 @@ public class FgManLuggage extends BaseFragment {
     private void hideChildSeatLayout() {
         if(seatNums > 1){
             chargeLayout.setVisibility(View.VISIBLE);
-            chargeSeatNum.setText((seatNums - 1)+"");
+            chargeSeatNum.setText("x"+(seatNums - 1)+"");
         }
 
         if(seatNums == 1){
