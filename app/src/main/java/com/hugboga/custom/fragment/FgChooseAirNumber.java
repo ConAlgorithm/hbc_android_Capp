@@ -129,10 +129,11 @@ public class FgChooseAirNumber extends BaseFragment {
                 historyText.setOnClickListener(new View.OnClickListener(){
                     @Override
                     public void onClick(View v) {
+                        checkNextBtnStatus();
                         int vId = Integer.valueOf(v.getTag().toString()).intValue();
                         for(int i = 0;i< cityList.size();i++) {
                             if(cityList.get(i).id == vId) {
-                                noStr = cityList.get(Integer.valueOf(v.getTag().toString())).airNo;
+                                noStr = cityList.get(i).airNo;
                                 numberTips.setText(noStr);
                             }
                         }

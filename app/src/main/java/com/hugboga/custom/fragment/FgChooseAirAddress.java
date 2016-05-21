@@ -110,7 +110,9 @@ public class FgChooseAirAddress extends BaseFragment {
     private void getSaveInfo(){
         try {
             Type resultType = new TypeToken<List<SaveStartEndCity>>() {}.getType();
-            cityList = Reservoir.get("savedHistoryCityBean", resultType);
+            if(null != resultType) {
+                cityList = Reservoir.get("savedHistoryCityBean", resultType);
+            }
             if(null != cityList){
                 genHistoryList();
             }
@@ -137,13 +139,14 @@ public class FgChooseAirAddress extends BaseFragment {
                 historyText.setOnClickListener(new View.OnClickListener(){
                     @Override
                     public void onClick(View v) {
+                        checkNextBtnStatus();
                         int vId = Integer.valueOf(v.getTag().toString()).intValue();
                         for(int i = 0;i< cityList.size();i++) {
                             if(cityList.get(i).id == vId) {
-                                cityFromId = cityList.get(Integer.valueOf(v.getTag().toString())).startCityId;
-                                cityToId = cityList.get(Integer.valueOf(v.getTag().toString())).endCityId;
-                                fromCityName = cityList.get(Integer.valueOf(v.getTag().toString())).startCityName;
-                                endCityName =cityList.get(Integer.valueOf(v.getTag().toString())).endCityName;
+                                cityFromId = cityList.get(i).startCityId;
+                                cityToId = cityList.get(i).endCityId;
+                                fromCityName = cityList.get(i).startCityName;
+                                endCityName =cityList.get(i).endCityName;
                                 fromCity.setText(fromCityName);
                                 endCity.setText(endCityName);
                             }
@@ -299,7 +302,7 @@ public class FgChooseAirAddress extends BaseFragment {
         String from = fromCity.getText().toString();
         String to = endCity.getText().toString();
         String time1Str = addressTips.getText().toString();
-        if (!TextUtils.isEmpty(from) &&!TextUtils.isEmpty(from) && !TextUtils.isEmpty(time1Str)) {
+        if (!TextUtils.isEmpty(from) &&!TextUtils.isEmpty(to) && !TextUtils.isEmpty(time1Str)) {
             search.setEnabled(true);
             search.setBackgroundColor(Color.parseColor("#fad027"));
         }else{

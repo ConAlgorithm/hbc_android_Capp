@@ -170,49 +170,100 @@ public class FgManLuggage extends BaseFragment {
         ButterKnife.unbind(this);
     }
 
+//    1.首次进入默认显示该车型最多乘客，和最多行李（乘客数全部累加在“大人”中）
+//    2. 每个模块达到最大情况，对应加号是禁用状态
+//    3. 减少1个乘客，可增加一个行李
+//    4. 大人数+儿童数，不能超过最大乘车人数
+//    5. 大人数+用座椅儿童数*座椅系数+不用座椅儿童数+行李箱数，不能超最大乘车人数+最大行李数（24寸）
+//            6. 大人数最小值为1，等于1时，减号禁用；其他最小值为0
+//    7. 座椅系数 1.5
+
+    //检测+1后 是否满足条件5
+    private boolean checkAddNums(int type){//1 成人  2, 儿童 3,行李  4, 儿童座椅  0,检测当前值
+        switch (type){
+            case 1:
+            case 2:
+                return ((mNums + 1 + Math.round(seatNums * 1.5) + (cNums - seatNums)) <= maxMans);
+            case 3:
+                return (lNums+ 1) <= (maxLuuages + (maxMans - (mNums + Math.round(seatNums * 1.5) + (cNums - seatNums)))) ;
+            case 4:
+                return  ((mNums + Math.round((seatNums + 1) * 1.5) + (cNums - seatNums -1)) <= maxMans)
+                        && (seatNums +1) <= cNums;
+            default:
+                return ((mNums + Math.round((seatNums) * 1.5) + (cNums - seatNums)) <= maxMans)
+                        &&  seatNums <= cNums;
+        }
+    }
+
+
+    public void addChangeBg(){
+        if(checkAddNums(2)) {
+            cPlus.setBackgroundColor(Color.parseColor("#fad027"));
+        }else{
+            cPlus.setBackgroundColor(Color.parseColor("#d5dadb"));
+        }
+
+        if(checkAddNums(1)){
+            mPlus.setBackgroundColor(Color.parseColor("#fad027"));
+        }else {
+            mPlus.setBackgroundColor(Color.parseColor("#d5dadb"));
+        }
+
+        if(checkAddNums(3)){
+            lPlus.setBackgroundColor(Color.parseColor("#fad027"));
+        }else {
+            lPlus.setBackgroundColor(Color.parseColor("#d5dadb"));
+        }
+
+        if(checkAddNums(4)) {
+            if(seatNums +1  <= cNums) {
+                cSeatPlus.setBackgroundColor(Color.parseColor("#fad027"));
+            }else{
+                cSeatPlus.setBackgroundColor(Color.parseColor("#d5dadb"));
+            }
+        }else{
+            cSeatPlus.setBackgroundColor(Color.parseColor("#d5dadb"));
+        }
+    }
+
+
+    public void subChangeBg(){
+        addChangeBg();
+    }
+
     @OnClick({R.id.m_sub, R.id.m_num, R.id.m_plus, R.id.c_sub, R.id.c_num, R.id.c_plus, R.id.l_sub, R.id.l_num, R.id.l_plus, R.id.c_seat_sub, R.id.c_seat_num, R.id.c_seat_plus, R.id.free_c_seat_num, R.id.charge_seat_num})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.m_sub:
                 if(mNums > 1){
                     mNums --;
-                    mPlus.setBackgroundColor(Color.parseColor("#fad027"));
-                    cPlus.setBackgroundColor(Color.parseColor("#fad027"));
-                    lPlus.setBackgroundColor(Color.parseColor("#fad027"));
+                    subChangeBg();
                     mNum.setText(mNums+"");
-                    if(cNums == 1) {
+                    if(mNums == 1) {
                         mSub.setBackgroundColor(Color.parseColor("#d5dadb"));
                     }
                 }
                 break;
             case R.id.m_plus:
-                if(mNums < (maxMans - cNums)){
+                if(checkAddNums(1)){
                     mNums ++;
-                    mSub.setBackgroundColor(Color.parseColor("#fad027"));
-                    if(mNums == (maxMans - cNums)){
-                        mPlus.setBackgroundColor(Color.parseColor("#d5dadb"));
-                        cPlus.setBackgroundColor(Color.parseColor("#d5dadb"));
-                        if(lNums == maxLuuages){
-                            lPlus.setBackgroundColor(Color.parseColor("#d5dadb"));
-                        }
-                    }
                     mNum.setText(mNums+"");
+                    mSub.setBackgroundColor(Color.parseColor("#fad027"));
+                    mPlus.setBackgroundColor(Color.parseColor("#fad027"));
+                    addChangeBg();
                 }
                 break;
             case R.id.c_sub:
                 if(cNums > 0){
                     if(seatNums > 0){
                         seatNums --;
-                        cSeatPlus.setBackgroundColor(Color.parseColor("#fad027"));
                         cSeatNum.setText(seatNums+"");
                     }
                     if(seatNums == 0){
                         cSeatSub.setBackgroundColor(Color.parseColor("#d5dadb"));
                     }
                     cNums --;
-                    cPlus.setBackgroundColor(Color.parseColor("#fad027"));
-                    mPlus.setBackgroundColor(Color.parseColor("#fad027"));
-                    lPlus.setBackgroundColor(Color.parseColor("#fad027"));
+                    subChangeBg();
                     cNum.setText(cNums+"");
                     if(cNums == 0) {
                         showChildSeat.setVisibility(View.GONE);
@@ -221,21 +272,14 @@ public class FgManLuggage extends BaseFragment {
                 }
                 break;
             case R.id.c_plus:
-                if((mNums + cNums) < maxMans){
+                if(checkAddNums(2)){
                     cNums ++;
                     cSub.setBackgroundColor(Color.parseColor("#fad027"));
                     cNum.setText(cNums+"");
                     if(carListBean.supportChildseat) {
                         showChildSeat.setVisibility(View.VISIBLE);
                     }
-
-                    if(cNums == (maxMans - mNums)){
-                        cPlus.setBackgroundColor(Color.parseColor("#d5dadb"));
-                        mPlus.setBackgroundColor(Color.parseColor("#d5dadb"));
-                        if(lNums == maxLuuages){
-                            lPlus.setBackgroundColor(Color.parseColor("#d5dadb"));
-                        }
-                    }
+                    addChangeBg();
                 }
                 break;
             case R.id.l_sub:
@@ -246,28 +290,21 @@ public class FgManLuggage extends BaseFragment {
                     if(lNums == 0) {
                         lSub.setBackgroundColor(Color.parseColor("#d5dadb"));
                     }
-                    if((mNums + cNums) < maxMans){
-                        mPlus.setBackgroundColor(Color.parseColor("#fad027"));
-                        cPlus.setBackgroundColor(Color.parseColor("#fad027"));
-                    }
+                    subChangeBg();
                 }
                 break;
             case R.id.l_plus:
-                if(lNums < (maxLuuages + (maxMans - cNums - mNums))){
+                if(checkAddNums(3)){
                     lNums ++;
                     lSub.setBackgroundColor(Color.parseColor("#fad027"));
-                    if(lNums == (maxLuuages + (maxMans - cNums - mNums))){
-                        lPlus.setBackgroundColor(Color.parseColor("#d5dadb"));
-                        mPlus.setBackgroundColor(Color.parseColor("#d5dadb"));
-                        cPlus.setBackgroundColor(Color.parseColor("#d5dadb"));
-                    }
+                    addChangeBg();
                     lNum.setText(lNums+"");
                 }
                 break;
             case R.id.c_seat_sub:
                 if(seatNums > 0){
                     seatNums --;
-                    cSeatPlus.setBackgroundColor(Color.parseColor("#fad027"));
+                    subChangeBg();
                     cSeatNum.setText(seatNums+"");
                     if(seatNums == 0){
                         cSeatSub.setBackgroundColor(Color.parseColor("#d5dadb"));
@@ -275,12 +312,10 @@ public class FgManLuggage extends BaseFragment {
                 }
                 break;
             case R.id.c_seat_plus:
-                if(seatNums < cNums){
+                if(checkAddNums(4)){
                     seatNums ++;
-                    if(seatNums == cNums){
-                        cSeatPlus.setBackgroundColor(Color.parseColor("#d5dadb"));
-                    }
                     cSeatSub.setBackgroundColor(Color.parseColor("#fad027"));
+                    addChangeBg();
                     cSeatNum.setText(seatNums+"");
                 }
                 break;
