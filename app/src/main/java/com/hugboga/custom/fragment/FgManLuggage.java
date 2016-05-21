@@ -301,6 +301,7 @@ public class FgManLuggage extends BaseFragment {
                     if (seatNums > 0) {
                         seatNums--;
                         cSeatNum.setText(seatNums + "");
+                        hideChildSeatLayout();
                     }
                     if (seatNums == 0) {
                         cSeatSub.setBackgroundColor(Color.parseColor("#d5dadb"));
