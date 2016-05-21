@@ -407,7 +407,7 @@
     <string name="man_luggage_12">(12岁及以下)</string>
     <string name="man_luggage_l">行李</string>
     <string name="man_luggage_24">(24寸)</string>
-    <string name="man_luuage_child_seat">儿童座椅</string>
+    <string name="man_luuage_child_seat">儿童座椅(单个占1.5座位)</string>
     <string name="man_luggage_free">免费儿童座椅</string>
     <string name="man_luggage_charge">收费儿童座椅</string>
     <string name="man_luggage_0">￥ 0/次</string>

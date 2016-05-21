@@ -1,6 +1,8 @@
 package com.hugboga.custom.data.parser;
 
+import com.google.gson.Gson;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
+import com.hugboga.custom.data.bean.CarAdditionalServicePrice;
 import com.hugboga.custom.data.bean.CarBean;
 import com.hugboga.custom.data.bean.CarListBean;
 
@@ -20,6 +22,7 @@ public class ParserCheckPrice extends ImplParser {
 
     @Override
     public CarListBean parseObject(JSONObject obj) throws Throwable {
+        Gson gson = new Gson();
         CarListBean carListBean = new CarListBean();
         carListBean.distance = obj.optDouble("distance", 0);
         carListBean.interval = obj.optInt("estTime", 0);
@@ -27,6 +30,7 @@ public class ParserCheckPrice extends ImplParser {
         carListBean.supportChildseat = obj.optBoolean("supportChildseat");
         carListBean.guideFloatSwitch = obj.optInt("guideFloatSwitch", 0);
         carListBean.supportBanner = obj.optBoolean("supportBanner");
+        carListBean.additionalServicePrice = gson.fromJson(obj.optString("additionalServicePrice"), CarAdditionalServicePrice.class);
 
         JSONArray priceList = obj.optJSONArray("cars");
         CarBean bean;

@@ -131,8 +131,17 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
                 ManLuggageBean manLuggageBean = (ManLuggageBean)action.getData();
                 manTips.setVisibility(View.GONE);
                 manText.setVisibility(View.VISIBLE);
-                luggageText.setVisibility(View.VISIBLE);
-                childseatText.setVisibility(View.VISIBLE);
+                if(manLuggageBean.luggages != 0) {
+                    luggageText.setVisibility(View.VISIBLE);
+                }else{
+                    luggageText.setVisibility(View.GONE);
+                }
+
+                if(manLuggageBean.childSeats != 0) {
+                    childseatText.setVisibility(View.VISIBLE);
+                }else{
+                    childseatText.setVisibility(View.GONE);
+                }
 
                 manText.setText("乘客 x "+(manLuggageBean.mans+manLuggageBean.childs));
                 luggageText.setText("行李箱 x "+manLuggageBean.luggages);
