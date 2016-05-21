@@ -165,7 +165,7 @@ public class FgSkuNew extends BaseFragment {
     private void getData(){
         String serverDayTime = serverDate + " " + serverTime + ":00";
         MLog.e("serverDayTime= " + serverDayTime);
-        RequestPriceSku request = new RequestPriceSku(getActivity(), skuBean.goodsNo, serverDayTime);
+        RequestPriceSku request = new RequestPriceSku(getActivity(), skuBean.goodsNo, serverDayTime,cityBean.cityId+"");
         requestData(request);
     }
 

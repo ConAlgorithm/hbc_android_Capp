@@ -2,7 +2,6 @@ package com.hugboga.custom.fragment;
 
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -198,13 +197,13 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
             carEmptyLayout.setVisibility(View.GONE);
         }
 
-        if(null != carListBean.additionalServicePrice && !TextUtils.isEmpty(carListBean.additionalServicePrice.checkInPrice)){
+        if(null != carListBean.additionalServicePrice && null != carListBean.additionalServicePrice.checkInPrice){
             checkinLayout.setVisibility(View.VISIBLE);
             checkinMoney.setText("(服务费 ￥"+carListBean.additionalServicePrice.checkInPrice+")");
         }
-        if(null != carListBean.additionalServicePrice && !TextUtils.isEmpty(carListBean.additionalServicePrice.pickupSignPrice)){
+        if(null != carListBean.additionalServicePrice && null != carListBean.additionalServicePrice.pickupSignPrice){
             waitLayout.setVisibility(View.VISIBLE);
-            waitMoney.setText("(服务费 ￥"+carListBean.additionalServicePrice.checkInPrice+")");
+            waitMoney.setText("(服务费 ￥"+carListBean.additionalServicePrice.pickupSignPrice+")");
         }
         changeText();
     }

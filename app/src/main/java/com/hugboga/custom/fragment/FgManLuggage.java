@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
@@ -99,6 +100,10 @@ public class FgManLuggage extends BaseFragment {
 
     int maxMans = 0;//最大人数
     int maxLuuages = 0;//最大行李数
+    @Bind(R.id.free_layout)
+    RelativeLayout freeLayout;
+    @Bind(R.id.charge_layout)
+    RelativeLayout chargeLayout;
 
     @Override
     protected void initHeader() {
@@ -118,7 +123,7 @@ public class FgManLuggage extends BaseFragment {
                 bean.childs = cNums;
                 bean.luggages = lNums;
                 bean.childSeats = seatNums;
-                EventBus.getDefault().post(new EventAction(EventType.MAN_CHILD_LUUAGE,bean));
+                EventBus.getDefault().post(new EventAction(EventType.MAN_CHILD_LUUAGE, bean));
                 finish();
             }
         });
@@ -127,12 +132,13 @@ public class FgManLuggage extends BaseFragment {
     CarListBean carListBean;
     int currentIndex = 0;
     CarBean carBean;
+
     @Override
     protected void initView() {
-        carListBean =  this.getArguments().getParcelable("carListBean");
+        carListBean = this.getArguments().getParcelable("carListBean");
         currentIndex = this.getArguments().getInt("currentIndex");
         carBean = carListBean.carList.get(currentIndex);
-        if(!carListBean.supportChildseat){
+        if (!carListBean.supportChildseat) {
             topTips.setVisibility(View.VISIBLE);
         }
         mNums = carBean.capOfPerson;
@@ -141,8 +147,8 @@ public class FgManLuggage extends BaseFragment {
         maxMans = mNums;
         maxLuuages = lNums;
 
-        mNum.setText(mNums+"");
-        lNum.setText(lNums+"");
+        mNum.setText(mNums + "");
+        lNum.setText(lNums + "");
 
 //        showChildSeat.setVisibility(View.VISIBLE);
     }
@@ -179,144 +185,183 @@ public class FgManLuggage extends BaseFragment {
 //    7. 座椅系数 1.5
 
     //检测+1后 是否满足条件5
-    private boolean checkAddNums(int type){//1 成人  2, 儿童 3,行李  4, 儿童座椅  0,检测当前值
-        switch (type){
+    private boolean checkAddNums(int type) {//1 成人  2, 儿童 3,行李  4, 儿童座椅  0,检测当前值
+        switch (type) {
             case 1:
             case 2:
                 return ((mNums + 1 + Math.round(seatNums * 1.5) + (cNums - seatNums)) <= maxMans);
             case 3:
-                return (lNums+ 1) <= (maxLuuages + (maxMans - (mNums + Math.round(seatNums * 1.5) + (cNums - seatNums)))) ;
+                return (lNums + 1) <= (maxLuuages + (maxMans - (mNums + Math.round(seatNums * 1.5) + (cNums - seatNums))));
             case 4:
-                return  ((mNums + Math.round((seatNums + 1) * 1.5) + (cNums - seatNums -1)) <= maxMans)
-                        && (seatNums +1) <= cNums;
+                return ((mNums + Math.round((seatNums + 1) * 1.5) + (cNums - seatNums - 1)) <= maxMans)
+                        && (seatNums + 1) <= cNums;
             default:
                 return ((mNums + Math.round((seatNums) * 1.5) + (cNums - seatNums)) <= maxMans)
-                        &&  seatNums <= cNums;
+                        && seatNums <= cNums;
         }
     }
 
 
-    public void addChangeBg(){
-        if(checkAddNums(2)) {
+    public void addChangeBg() {
+        if (checkAddNums(2)) {
             cPlus.setBackgroundColor(Color.parseColor("#fad027"));
-        }else{
+        } else {
             cPlus.setBackgroundColor(Color.parseColor("#d5dadb"));
         }
 
-        if(checkAddNums(1)){
+        if (checkAddNums(1)) {
             mPlus.setBackgroundColor(Color.parseColor("#fad027"));
-        }else {
+        } else {
             mPlus.setBackgroundColor(Color.parseColor("#d5dadb"));
         }
 
-        if(checkAddNums(3)){
+        if (checkAddNums(3)) {
             lPlus.setBackgroundColor(Color.parseColor("#fad027"));
-        }else {
+        } else {
             lPlus.setBackgroundColor(Color.parseColor("#d5dadb"));
         }
 
-        if(checkAddNums(4)) {
-            if(seatNums +1  <= cNums) {
+        if (checkAddNums(4)) {
+            if (seatNums + 1 <= cNums) {
                 cSeatPlus.setBackgroundColor(Color.parseColor("#fad027"));
-            }else{
+            } else {
                 cSeatPlus.setBackgroundColor(Color.parseColor("#d5dadb"));
             }
-        }else{
+        } else {
             cSeatPlus.setBackgroundColor(Color.parseColor("#d5dadb"));
         }
     }
 
 
-    public void subChangeBg(){
+    public void subChangeBg() {
         addChangeBg();
     }
+
+
+    private void showChildSeatLayout() {
+        String seat1 = carListBean.additionalServicePrice.childSeatPrice1;
+        String seat2 = carListBean.additionalServicePrice.childSeatPrice2;
+        if(seatNums == 1 && seat1.equalsIgnoreCase("-1")) {
+            freeLayout.setVisibility(View.VISIBLE);
+        }else if(seatNums == 1){
+            freeCSeatLeft.setText("收费儿童座椅");
+            freeLayout.setVisibility(View.VISIBLE);
+            freeCSeatRight.setText("￥"+seat1+"/次");
+        }
+        if(seatNums > 1){
+            chargeLayout.setVisibility(View.VISIBLE);
+            chargeSeatRight.setText("￥"+seat2+"/次");
+            chargeSeatNum.setText("x"+(seatNums - 1)+"");
+        }
+    }
+
+    private void hideChildSeatLayout() {
+        if(seatNums > 1){
+            chargeLayout.setVisibility(View.VISIBLE);
+            chargeSeatNum.setText((seatNums - 1)+"");
+        }
+
+        if(seatNums == 1){
+            chargeLayout.setVisibility(View.GONE);
+        }
+
+        if(seatNums == 0) {
+            freeLayout.setVisibility(View.GONE);
+            chargeLayout.setVisibility(View.GONE);
+        }
+
+
+    }
+
 
     @OnClick({R.id.m_sub, R.id.m_num, R.id.m_plus, R.id.c_sub, R.id.c_num, R.id.c_plus, R.id.l_sub, R.id.l_num, R.id.l_plus, R.id.c_seat_sub, R.id.c_seat_num, R.id.c_seat_plus, R.id.free_c_seat_num, R.id.charge_seat_num})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.m_sub:
-                if(mNums > 1){
-                    mNums --;
+                if (mNums > 1) {
+                    mNums--;
                     subChangeBg();
-                    mNum.setText(mNums+"");
-                    if(mNums == 1) {
+                    mNum.setText(mNums + "");
+                    if (mNums == 1) {
                         mSub.setBackgroundColor(Color.parseColor("#d5dadb"));
                     }
                 }
                 break;
             case R.id.m_plus:
-                if(checkAddNums(1)){
-                    mNums ++;
-                    mNum.setText(mNums+"");
+                if (checkAddNums(1)) {
+                    mNums++;
+                    mNum.setText(mNums + "");
                     mSub.setBackgroundColor(Color.parseColor("#fad027"));
                     mPlus.setBackgroundColor(Color.parseColor("#fad027"));
                     addChangeBg();
                 }
                 break;
             case R.id.c_sub:
-                if(cNums > 0){
-                    if(seatNums > 0){
-                        seatNums --;
-                        cSeatNum.setText(seatNums+"");
+                if (cNums > 0) {
+                    if (seatNums > 0) {
+                        seatNums--;
+                        cSeatNum.setText(seatNums + "");
                     }
-                    if(seatNums == 0){
+                    if (seatNums == 0) {
                         cSeatSub.setBackgroundColor(Color.parseColor("#d5dadb"));
                     }
-                    cNums --;
+                    cNums--;
                     subChangeBg();
-                    cNum.setText(cNums+"");
-                    if(cNums == 0) {
+                    cNum.setText(cNums + "");
+                    if (cNums == 0) {
                         showChildSeat.setVisibility(View.GONE);
                         cSub.setBackgroundColor(Color.parseColor("#d5dadb"));
                     }
                 }
                 break;
             case R.id.c_plus:
-                if(checkAddNums(2)){
-                    cNums ++;
+                if (checkAddNums(2)) {
+                    cNums++;
                     cSub.setBackgroundColor(Color.parseColor("#fad027"));
-                    cNum.setText(cNums+"");
-                    if(carListBean.supportChildseat) {
+                    cNum.setText(cNums + "");
+                    if (carListBean.supportChildseat) {
                         showChildSeat.setVisibility(View.VISIBLE);
                     }
                     addChangeBg();
                 }
                 break;
             case R.id.l_sub:
-                if(lNums > 0){
-                    lNums --;
+                if (lNums > 0) {
+                    lNums--;
                     lPlus.setBackgroundColor(Color.parseColor("#fad027"));
-                    lNum.setText(lNums+"");
-                    if(lNums == 0) {
+                    lNum.setText(lNums + "");
+                    if (lNums == 0) {
                         lSub.setBackgroundColor(Color.parseColor("#d5dadb"));
                     }
                     subChangeBg();
                 }
                 break;
             case R.id.l_plus:
-                if(checkAddNums(3)){
-                    lNums ++;
+                if (checkAddNums(3)) {
+                    lNums++;
                     lSub.setBackgroundColor(Color.parseColor("#fad027"));
                     addChangeBg();
-                    lNum.setText(lNums+"");
+                    lNum.setText(lNums + "");
                 }
                 break;
             case R.id.c_seat_sub:
-                if(seatNums > 0){
-                    seatNums --;
+                if (seatNums > 0) {
+                    seatNums--;
                     subChangeBg();
-                    cSeatNum.setText(seatNums+"");
-                    if(seatNums == 0){
+                    cSeatNum.setText(seatNums + "");
+                    if (seatNums == 0) {
                         cSeatSub.setBackgroundColor(Color.parseColor("#d5dadb"));
                     }
+                    hideChildSeatLayout();
                 }
                 break;
             case R.id.c_seat_plus:
-                if(checkAddNums(4)){
-                    seatNums ++;
+                if (checkAddNums(4)) {
+                    seatNums++;
                     cSeatSub.setBackgroundColor(Color.parseColor("#fad027"));
                     addChangeBg();
-                    cSeatNum.setText(seatNums+"");
+                    cSeatNum.setText(seatNums + "");
+                    showChildSeatLayout();
                 }
                 break;
         }
