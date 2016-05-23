@@ -275,10 +275,10 @@ public class MainActivity extends BaseActivity
             MLog.e(request.getData().toString());
         }else if(request instanceof RequestUploadLocation){
             LocationUtils.cleanLocationInfo(MainActivity.this);
-            String cityId = ((RequestUploadLocation) request).getData().city.cityId;
-            String cityName = ((RequestUploadLocation) request).getData().city.cityName;
-            String countryId = ((RequestUploadLocation) request).getData().city.countryId;
-            String countryName = ((RequestUploadLocation) request).getData().city.countryName;
+            String cityId = ((RequestUploadLocation) request).getData().cityId;
+            String cityName = ((RequestUploadLocation) request).getData().cityName;
+            String countryId = ((RequestUploadLocation) request).getData().countryId;
+            String countryName = ((RequestUploadLocation) request).getData().countryName;
             LocationUtils.saveLocationCity(MainActivity.this,cityId,cityName,countryId,countryName);
 //            MLog.e("Location: cityId:"+cityId + ",  cityName:"+cityName);
         }

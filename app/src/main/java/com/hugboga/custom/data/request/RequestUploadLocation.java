@@ -6,10 +6,10 @@ import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.huangbaoche.hbcframe.util.SharedPre;
-import com.hugboga.custom.data.bean.LocationData;
+import com.hugboga.custom.data.bean.LocationCity;
 import com.hugboga.custom.data.net.NewParamsBuilder;
 import com.hugboga.custom.data.net.UrlLibs;
-import com.hugboga.custom.data.parser.ParseLocationCity;
+import com.hugboga.custom.data.parser.ParseLocationCityV10;
 
 import org.xutils.http.HttpMethod;
 import org.xutils.http.annotation.HttpRequest;
@@ -22,7 +22,7 @@ import java.util.TreeMap;
  */
 
 @HttpRequest(path = UrlLibs.UPLOAD_LOCATION, builder = NewParamsBuilder.class)
-public class RequestUploadLocation extends BaseRequest<LocationData> {
+public class RequestUploadLocation extends BaseRequest<LocationCity> {
 
     public RequestUploadLocation(Context context) {
         super(context);
@@ -44,7 +44,7 @@ public class RequestUploadLocation extends BaseRequest<LocationData> {
 
     @Override
     public ImplParser getParser() {
-        return new ParseLocationCity();
+        return new ParseLocationCityV10();
     }
 
     @Override
