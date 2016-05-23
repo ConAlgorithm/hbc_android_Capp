@@ -30,6 +30,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -121,7 +122,6 @@ public class MainActivity extends BaseActivity
     @ViewInject(R.id.container)
     private ViewPager mViewPager;
 
-    private TextView tv_modify_info;//header的修改资料
     private PolygonImageView my_icon_head;//header的头像
     private TextView tv_nickname;//header的昵称
 
@@ -379,15 +379,30 @@ public class MainActivity extends BaseActivity
     }
 
 
+//    private List<LvMenuItem> mItems = new ArrayList<LvMenuItem>(
+//            Arrays.asList(
+//                    new LvMenuItem(R.mipmap.personal_center_coupon, "优惠券", ""),
+//                    new LvMenuItem(R.mipmap.personal_icon_br, "常用投保人", ""),
+//                    new LvMenuItem(R.mipmap.personal_icon_hd, "活动", ""),
+//                    new LvMenuItem(R.mipmap.personal_center_setting, "设置", ""),
+//                    new LvMenuItem(R.mipmap.personal_center_customer_service, "客服中心", "我们的服务介绍和保障"),
+//                    new LvMenuItem(R.mipmap.personal_center_internal, "境内客服", "仅限国内使用"),
+//                    new LvMenuItem(R.mipmap.personal_center_overseas, "境外客服", "仅限国外使用")
+//            ));
+
     private List<LvMenuItem> mItems = new ArrayList<LvMenuItem>(
             Arrays.asList(
-                    new LvMenuItem(R.mipmap.personal_center_coupon, "优惠券", ""),
-                    new LvMenuItem(R.mipmap.personal_icon_br, "常用投保人", ""),
-                    new LvMenuItem(R.mipmap.personal_icon_hd, "活动", ""),
-                    new LvMenuItem(R.mipmap.personal_center_setting, "设置", ""),
-                    new LvMenuItem(R.mipmap.personal_center_customer_service, "客服中心", "我们的服务介绍和保障"),
-                    new LvMenuItem(R.mipmap.personal_center_internal, "境内客服", "仅限国内使用"),
-                    new LvMenuItem(R.mipmap.personal_center_overseas, "境外客服", "仅限国外使用")
+                    new LvMenuItem(R.mipmap.personal_icon_invite, "邀请好友赢旅游基金"),
+                    new LvMenuItem(R.mipmap.personal_icon_safe, "常用投保人"),
+                    new LvMenuItem(R.mipmap.personal_icon_collection, "我收藏的司导"),
+                    new LvMenuItem(MenuItemAdapter.ItemType.SPACE),
+                    new LvMenuItem(R.mipmap.personal_icon_activity, "活动"),
+                    new LvMenuItem(MenuItemAdapter.ItemType.SPACE),
+                    new LvMenuItem(R.mipmap.personal_icon_service, "服务规则"),
+                    new LvMenuItem(R.mipmap.personal_icon_call, "联系境内客服", MenuItemAdapter.ItemType.SERVICE),
+                    new LvMenuItem(R.mipmap.personal_icon_call, "联系境外客服", MenuItemAdapter.ItemType.SERVICE),
+                    new LvMenuItem(MenuItemAdapter.ItemType.SPACE),
+                    new LvMenuItem(R.mipmap.personal_icon_install, "设置")
             ));
 
     MenuItemAdapter menuItemAdapter;
@@ -397,12 +412,11 @@ public class MainActivity extends BaseActivity
         View header = inflater.inflate(R.layout.nav_header_main, null);
         RelativeLayout head_view = (RelativeLayout) header.findViewById(R.id.head_view);
         head_view.setOnClickListener(this);
-        tv_modify_info = (TextView) header.findViewById(R.id.tv_modify_info);//编辑
-//        tv_modify_info.setOnClickListener(this);
         my_icon_head = (PolygonImageView) header.findViewById(R.id.my_icon_head);//头像
-//        my_icon_head.setOnClickListener(this);
+        my_icon_head.setOnClickListener(this);
         tv_nickname = (TextView) header.findViewById(R.id.tv_nickname);//昵称
-//        tv_nickname.setOnClickListener(this);
+        tv_nickname.setOnClickListener(this);
+        header.findViewById(R.id.slidemenu_header_coupon_layout).setOnClickListener(this);
         tv_nickname.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
@@ -426,11 +440,8 @@ public class MainActivity extends BaseActivity
         if (!UserEntity.getUser().isLogin(this)) {
             my_icon_head.setImageResource(R.mipmap.chat_head);
             tv_nickname.setText(this.getResources().getString(R.string.person_center_nickname));
-            tv_modify_info.setVisibility(View.INVISIBLE);
-            mItems.get(0).tips = "";
             menuItemAdapter.notifyDataSetChanged();
         } else {
-            tv_modify_info.setVisibility(View.VISIBLE);
             if (!TextUtils.isEmpty(UserEntity.getUser().getAvatar(this))) {
                 Tools.showImage(this,my_icon_head,UserEntity.getUser().getAvatar(this));
 //                x.image().bind(my_icon_head, UserEntity.getUser().getAvatar(this));
@@ -520,45 +531,36 @@ public class MainActivity extends BaseActivity
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         HashMap<String,String> map = new HashMap<String,String>();
         switch (position) {
-            case Constants.PERSONAL_CENTER_COUPON:
-                //我的优惠券
-                if (isLogin("个人中心首页")) {
-                    startFragment(new FgCoupon());
-                    UserEntity.getUser().setHasNewCoupon(false);
-//                    couponPoint.setVisibility(View.GONE);
+            case Constants.PERSONAL_CENTER_FUND://旅游基金
+
+                break;
+            case Constants.PERSONAL_CENTER_BR://常用投保人
+                if(isLogin("个人中心首页")) {
+                    FgInsure fgInsure = new FgInsure();
+                    startFragment(fgInsure);
                 }
                 break;
-            case Constants.PERSONAL_CENTER_CUSTOMER_SERVICE:
-                //客服
-                startFragment(new FgServicerCenter());
+            case Constants.PERSONAL_CENTER_COLLECT://收藏司导
+
                 break;
-            case Constants.PERSONAL_CENTER_INTERNAL_SERVICE:
-                //境内客服
-                    PhoneInfo.CallDial(MainActivity.this, Constants.CALL_NUMBER_IN);
-//                    map.put("source", "个人中心呼叫境内客服");
-//                    MobclickAgent.onEvent(MainActivity.this, "calldomestic_person", map);
-                break;
-            case Constants.PERSONAL_CENTER_OVERSEAS_SERVICE:
-                //境外客服
-                    PhoneInfo.CallDial(MainActivity.this, Constants.CALL_NUMBER_OUT);
-                break;
-            case Constants.PERSONAL_CENTER_HD:
+            case Constants.PERSONAL_CENTER_HD://活动
                 if(isLogin("个人中心首页")) {
                     Bundle bundle = new Bundle();
                     bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_ACTIVITY+UserEntity.getUser().getUserId(this.getApplicationContext())+"&t=" + new Random().nextInt(100000));
                     startFragment(new FgActivity(), bundle);
                 }
                 break;
-            case Constants.PERSONAL_CENTER_BR:
-                if(isLogin("个人中心首页")) {
-                    FgInsure fgInsure = new FgInsure();
-                    startFragment(fgInsure);
-                }
+            case Constants.PERSONAL_CENTER_CUSTOMER_SERVICE://TODO 服务规则
+                startFragment(new FgServicerCenter());
                 break;
-            case Constants.PERSONAL_CENTER_SETTING:
-                //我的设置
+            case Constants.PERSONAL_CENTER_INTERNAL_SERVICE://境内客服
+                PhoneInfo.CallDial(MainActivity.this, Constants.CALL_NUMBER_IN);
+                break;
+            case Constants.PERSONAL_CENTER_OVERSEAS_SERVICE://境外客服
+                PhoneInfo.CallDial(MainActivity.this, Constants.CALL_NUMBER_OUT);
+                break;
+            case Constants.PERSONAL_CENTER_SETTING://设置
                 if (isLogin("个人中心首页")) {
-//                    versionPoint.setVisibility(View.GONE);
                     startFragment(new FgSetting());
                 }
                 break;
@@ -599,14 +601,18 @@ public class MainActivity extends BaseActivity
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.head_view:
-            case R.id.tv_modify_info:
             case R.id.my_icon_head:
             case R.id.tv_nickname:
                 if(isLogin("个人中心首页")){
                     startFragment(new FgPersonInfo());
                 };
                 break;
-
+            case R.id.slidemenu_header_coupon_layout://我的优惠券
+                if (isLogin("个人中心首页")) {
+                    startFragment(new FgCoupon());
+                    UserEntity.getUser().setHasNewCoupon(false);
+                }
+                break;
         }
         drawer.closeDrawer(GravityCompat.START);
     }

@@ -365,5 +365,5 @@ public class UrlLibs {
      * 获取启动图
      */
     public static final String GET_AD_PICTURE = "marketing/v1.0/c/activity/effectivestart";
-
+    
 }

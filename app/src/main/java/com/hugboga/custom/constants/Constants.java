@@ -84,13 +84,18 @@ public final class Constants {
     /**
      * 左侧navigation menu
      */
-    public static final int PERSONAL_CENTER_COUPON = 1;
-    public static final int PERSONAL_CENTER_CUSTOMER_SERVICE = 5;
-    public static final int PERSONAL_CENTER_INTERNAL_SERVICE = 6;
-    public static final int PERSONAL_CENTER_OVERSEAS_SERVICE = 7;
-    public static final int PERSONAL_CENTER_SETTING = 4;
-    public static final int PERSONAL_CENTER_HD = 3;
-    public static final int PERSONAL_CENTER_BR = 2;
+    public static final int PERSONAL_CENTER_FUND = 1;//旅游基金
+    public static final int PERSONAL_CENTER_BR = 2;//常用投保人
+    public static final int PERSONAL_CENTER_COLLECT = 3;//我收藏的司导
+    //4 space
+    public static final int PERSONAL_CENTER_HD = 5;//活动
+    //6 space
+    public static final int PERSONAL_CENTER_CUSTOMER_SERVICE = 7;//服务规则
+    public static final int PERSONAL_CENTER_INTERNAL_SERVICE = 8;//境内客服
+    public static final int PERSONAL_CENTER_OVERSEAS_SERVICE = 9;//境外客服
+    //10 space
+    public static final int PERSONAL_CENTER_SETTING = 11;//设置
+
 
     /**
      * 车辆类型
