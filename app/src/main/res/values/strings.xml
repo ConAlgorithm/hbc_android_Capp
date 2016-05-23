@@ -65,8 +65,8 @@
     <string name="web_error">网络不给力，点击重新加载!</string>
 
     <!-- title-->
-    <string name="title_pick">中文接机</string>
-    <string name="title_send">中文送机</string>
+    <string name="title_pick">接机</string>
+    <string name="title_send">送机</string>
     <string name="title_daily">包车游</string>
     <string name="title_daily_in_town">包车游</string>
     <string name="title_daily_out_town">包车游</string>
@@ -383,6 +383,51 @@
     <string name="choose_search_history">查询历史</string>
     <string name="choose_clean_all_history">全部清除</string>
     <string name="choose_input_air_no">请输入航班号,例如CA979</string>
+    <string name="choose_input_air_no_left">航班号</string>
+
+    <string name="can_sit_man">可乘坐</string>
+
+    <string name="man_luggage_num_left">人数行李数</string>
+    <string name="choose_man_luggage">请选择</string>
+    <string name="child_seat_money">收费儿童座椅</string>
+    <string name="checkin">协助办理登机check in</string>
+    <string name="pick_wait">接机举牌等待</string>
+    <string name="cost_0">(服务费 ￥0)</string>
+    <string name="all_cost">费用总计:</string>
+    <string name="whole_journey">全程预估:</string>
+    <string name="confirm_journey">确认行程</string>
+
+    <string name="del_driver">删除</string>
+    <string name="driver_left">指定司导</string>
+    <string name="driver_time_error">当前司导的服务时间冲突</string>
+
+    <string name="man_luggage_title">乘客及行李数</string>
+    <string name="man_luggage_man">成人</string>
+    <string name="man_luggage_child">儿童</string>
+    <string name="man_luggage_12">(12岁及以下)</string>
+    <string name="man_luggage_l">行李</string>
+    <string name="man_luggage_24">(24寸)</string>
+    <string name="man_luuage_child_seat">儿童座椅(单个占1.5座位)</string>
+    <string name="man_luggage_free">免费儿童座椅</string>
+    <string name="man_luggage_charge">收费儿童座椅</string>
+    <string name="man_luggage_0">￥ 0/次</string>
+    <string name="man_luggage_30">￥ 30/次</string>
+    <string name="man_luggage_tips1">一个儿童也需要占1个座位,如果选用儿童座椅需占1.5个座位</string>
+    <string name="man_luggage_tips2">每减少一位乘客,可增加一个行李箱</string>
+    <string name="man_luggage_tips3">行李箱是指航空公司要求必须托运的行李,最小标准24寸;1个28寸行李等于2个24寸行李的位置</string>
+
+    <string name="man_luggage_not_have">很抱歉，该城市暂不提供儿童座椅</string>
+
+    <string name="city_use_car">用车城市</string>
+    <string name="single_start_city">出发地</string>
+    <string name="single_end_city">目的地</string>
+
+    <string name="single_choose_city">请选择城市</string>
+    <string name="single_end_city_tips">送您到哪里去</string>
+
+    <string name="sku_go_date">出发日期</string>
+    <string name="sku_go_date_tips">请选择出发日期</string>
+    <string name="sku_new_title">安排您的行程</string>
 
 
 </resources>

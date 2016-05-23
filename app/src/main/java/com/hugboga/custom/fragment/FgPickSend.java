@@ -54,7 +54,28 @@ public class FgPickSend extends BaseFragment {
 
     @Override
     protected void initHeader() {
-
+        fgTitle.setText(R.string.title_transfer);
+        fgRightBtn.setText(R.string.noraml_question);
+        fgRightBtn.setVisibility(View.VISIBLE);
+        fgRightBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_PROBLEM);
+                startFragment(new FgWebInfo(), bundle);
+                if(pickOrSend == 1){
+                    HashMap<String,String> map = new HashMap<String,String>();
+                    map.put("source", "填写行程页面");
+                    MobclickAgent.onEvent(getActivity(), "callcenter_pickup", map);
+                    v.setTag("填写行程页面,calldomestic_pickup,calldomestic_pickup");
+                }else if(pickOrSend == 2){
+                    HashMap<String,String> map = new HashMap<String,String>();
+                    map.put("source", "填写行程页面");
+                    MobclickAgent.onEvent(getActivity(), "callcenter_dropoff", map);
+                    v.setTag("填写行程页面,calldomestic_dropoff,calloverseas_dropoff");
+                }
+            }
+        });
     }
 
     @Override
@@ -160,22 +181,6 @@ public class FgPickSend extends BaseFragment {
                     transaction.hide(fgPick);
                     transaction.show(fgSend);
                     transaction.commit();
-                }
-                break;
-            case R.id.header_right_txt:
-                Bundle bundle = new Bundle();
-                bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_PROBLEM);
-                startFragment(new FgWebInfo(), bundle);
-                if(pickOrSend == 1){
-                    HashMap<String,String> map = new HashMap<String,String>();
-                    map.put("source", "填写行程页面");
-                    MobclickAgent.onEvent(getActivity(), "callcenter_pickup", map);
-                    view.setTag("填写行程页面,calldomestic_pickup,calldomestic_pickup");
-                }else if(pickOrSend == 2){
-                    HashMap<String,String> map = new HashMap<String,String>();
-                    map.put("source", "填写行程页面");
-                    MobclickAgent.onEvent(getActivity(), "callcenter_dropoff", map);
-                    view.setTag("填写行程页面,calldomestic_dropoff,calloverseas_dropoff");
                 }
                 break;
         }

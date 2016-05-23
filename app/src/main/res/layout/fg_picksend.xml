@@ -4,6 +4,8 @@
     android:background="@color/basic_white"
     android:layout_height="match_parent">
 
+    <include layout="@layout/include_header"/>
+
     <include layout="@layout/include_header_new"/>
 
     <FrameLayout

@@ -203,23 +203,23 @@ public class UrlLibs {
     /**
      * 查询价格 接机
      **/
-    public static final String SERVER_IP_PRICE_PICKUP = "price/v1.0/c/airportPickupPrice?";
+    public static final String SERVER_IP_PRICE_PICKUP = "price/v1.1/c/airportPickupPrice?";
     /**
      * 查询价格 送机
      **/
-    public static final String SERVER_IP_PRICE_TRANSFER = "price/v1.0/c/airportTransferPrice?";
+    public static final String SERVER_IP_PRICE_TRANSFER = "price/v1.1/c/airportTransferPrice?";
     /**
      * 查询价格 日租包车
      **/
-    public static final String SERVER_IP_PRICE_DAILY = "price/v1.1/c/dailyPrice?";
+    public static final String SERVER_IP_PRICE_DAILY = "price/v1.3/c/dailyPrice?";
     /**
      * 查询价格 单次用车
      **/
-    public static final String SERVER_IP_PRICE_SINGLE = "price/v1.0/c/singlePrice?";
+    public static final String SERVER_IP_PRICE_SINGLE = "price/v1.1/c/singlePrice?";
     /**
      * 查询价格 SKU
      **/
-    public static final String SERVER_IP_PRICE_SKU = "price/v1.0/c/goodsPrice?";
+    public static final String SERVER_IP_PRICE_SKU = "price/v1.1/c/goodsPrice?";
 
     //-------订单类--------
     public static final String SERVER_IP_TRADE = "trade/v1.0/c/order/";
@@ -334,7 +334,7 @@ public class UrlLibs {
     /**
      * 获取车辆信息
      */
-    public static final String GET_CAR_INFOS = "price/v1.2/c/dailyPrice?";
+    public static final String GET_CAR_INFOS = "price/v1.3/c/dailyPrice?";
 
     /**
      * 新增投保人

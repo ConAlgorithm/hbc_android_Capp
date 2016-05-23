@@ -133,10 +133,12 @@ public class FgHome extends BaseFragment implements View.OnClickListener, ZBaseA
 //                startFragment(new FgDaily());fghstartFragment(new FgOrderSelectCity());
                 break;
             case R.id.fg_home_menu3://单次接送
-                FgSingle fgSingle = new FgSingle();
-                bundle.putString("source","首页");
-                fgSingle.setArguments(bundle);
-                startFragment(new FgSingle(), bundle);
+//                FgSingle fgSingle = new FgSingle();
+//                bundle.putString("source","首页");
+//                fgSingle.setArguments(bundle);
+//                startFragment(new FgSingle(), bundle);
+                FgSingleNew fgSingleNew = new FgSingleNew();
+                startFragment(fgSingleNew);
 
                 map.put("source", "首页");
                 MobclickAgent.onEvent(getActivity(), "chose_oneway", map);
