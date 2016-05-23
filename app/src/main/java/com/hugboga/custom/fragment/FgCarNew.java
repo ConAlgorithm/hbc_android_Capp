@@ -124,6 +124,51 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
 
     }
 
+
+    private void showChildSeatLayout(int seatNums) {
+        String seat1 = carListBean.additionalServicePrice.childSeatPrice1;
+        String seat2 = carListBean.additionalServicePrice.childSeatPrice2;
+        if(seatNums == 1 && seat1.equalsIgnoreCase("-1")) {
+            freeSeatLayout.setVisibility(View.VISIBLE);
+        }else if(seatNums == 1){
+            freeCSeatLeft.setText("收费儿童座椅");
+            freeSeatLayout.setVisibility(View.VISIBLE);
+            freeCSeatRight.setText("￥"+seat1+"/次");
+        }
+        if(seatNums > 1){
+            if(!seat1.equalsIgnoreCase("-1")) {
+                freeCSeatLeft.setText("收费儿童座椅");
+                freeSeatLayout.setVisibility(View.VISIBLE);
+                freeCSeatRight.setText("￥" + seat1 + "/次");
+            }else{
+                freeSeatLayout.setVisibility(View.VISIBLE);
+            }
+
+            chargeSeatLayout.setVisibility(View.VISIBLE);
+            freeCSeatRight.setText("￥"+seat2+"/次");
+            childCountText.setText("x"+(seatNums - 1)+"");
+        }
+    }
+
+    private void hideChildSeatLayout(int seatNums) {
+        if(seatNums > 1){
+            chargeSeatLayout.setVisibility(View.VISIBLE);
+            childCountText.setText("x"+(seatNums - 1)+"");
+        }
+
+        if(seatNums == 1){
+            chargeSeatLayout.setVisibility(View.GONE);
+        }
+
+        if(seatNums == 0) {
+            freeSeatLayout.setVisibility(View.GONE);
+            chargeSeatLayout.setVisibility(View.GONE);
+        }
+
+
+    }
+
+
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
             case MAN_CHILD_LUUAGE:
@@ -138,13 +183,18 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
 
                 if(manLuggageBean.childSeats != 0) {
                     childseatText.setVisibility(View.VISIBLE);
+                    showChildSeatLayout(manLuggageBean.childSeats);
                 }else{
+                    hideChildSeatLayout(manLuggageBean.childSeats);
                     childseatText.setVisibility(View.GONE);
                 }
 
                 manText.setText("乘客 x "+(manLuggageBean.mans+manLuggageBean.childs));
                 luggageText.setText("行李箱 x "+manLuggageBean.luggages);
                 childseatText.setText("儿童座椅 x "+(manLuggageBean.childSeats));
+
+
+
 
                 break;
             default:
