@@ -51,7 +51,6 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:textColor="#ffffffff"
-            android:background="@mipmap/show_head_toast_bg"
             android:textSize="30.0dip"
             android:visibility="invisible" />
 

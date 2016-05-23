@@ -427,9 +427,11 @@
 
     <string name="sku_go_date">出发日期</string>
     <string name="sku_go_date_tips">请选择出发日期</string>
-    <string name="sku_new_title">安排您的行程</string>
+    <string name="sku_new_title">安排您的行程</string>当前城市机场
 
     <string name="back_alert_msg">离开当前页面所选行程将会丢失，确定要离开吗？</string>
+    <string name="location_airport">当前城市机场</string>
+    <string name="location_fail">定位失败，请开启GPS</string>
 
 
 </resources>

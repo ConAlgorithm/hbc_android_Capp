@@ -275,10 +275,10 @@ public class MainActivity extends BaseActivity
             MLog.e(request.getData().toString());
         }else if(request instanceof RequestUploadLocation){
             LocationUtils.cleanLocationInfo(MainActivity.this);
-            String cityId = ((RequestUploadLocation) request).getData().cityId;
-            String cityName = ((RequestUploadLocation) request).getData().cityName;
-            String countryId = ((RequestUploadLocation) request).getData().countryId;
-            String countryName = ((RequestUploadLocation) request).getData().countryName;
+            String cityId = ((RequestUploadLocation) request).getData().city.cityId;
+            String cityName = ((RequestUploadLocation) request).getData().city.cityName;
+            String countryId = ((RequestUploadLocation) request).getData().city.countryId;
+            String countryName = ((RequestUploadLocation) request).getData().city.countryName;
             LocationUtils.saveLocationCity(MainActivity.this,cityId,cityName,countryId,countryName);
 //            MLog.e("Location: cityId:"+cityId + ",  cityName:"+cityName);
         }
@@ -744,8 +744,13 @@ public class MainActivity extends BaseActivity
 
     public void requestLocation(){
         try {
-            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 100, locationListener);
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 100, locationListener);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        try {
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 100, locationListener);
         }catch (Exception e){
             e.printStackTrace();
         }

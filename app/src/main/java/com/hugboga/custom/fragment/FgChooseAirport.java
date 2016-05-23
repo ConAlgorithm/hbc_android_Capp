@@ -10,12 +10,16 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.AirportAdapter;
 import com.hugboga.custom.data.bean.AirPort;
+import com.hugboga.custom.data.bean.GPSBean;
+import com.hugboga.custom.data.bean.LocationData;
 import com.hugboga.custom.data.request.RequestAirPort;
+import com.hugboga.custom.data.request.RequestUploadLocationV11;
 import com.hugboga.custom.utils.DBHelper;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.widget.SideBar;
@@ -85,7 +89,14 @@ public class FgChooseAirport extends BaseFragment implements SideBar.OnTouchingL
         sortListView.setAdapter(adapter);
         sideBar.setVisibility(View.VISIBLE);
         initSideBar(sideBar);
+    }
 
+
+    private void getGPSAirport(){
+        if(null != GPSBean.lat && null!= GPSBean.lng) {
+            RequestUploadLocationV11 requestUploadLocationV11 = new RequestUploadLocationV11(getContext());
+            HttpRequestUtils.request(getContext(), requestUploadLocationV11, this, false);
+        }
     }
 
     @Override
@@ -93,6 +104,7 @@ public class FgChooseAirport extends BaseFragment implements SideBar.OnTouchingL
         requestDate(null);
         requestHotDate();
         requestHistoryDate();
+        getGPSAirport();
         return null;
     }
 
@@ -210,6 +222,29 @@ public class FgChooseAirport extends BaseFragment implements SideBar.OnTouchingL
             RequestAirPort mParser = (RequestAirPort) request;
             sourceDateList = mParser.getData();
             inflateContent();
+        }else if(request instanceof RequestUploadLocationV11){
+            RequestUploadLocationV11 mParser = (RequestUploadLocationV11) request;
+            LocationData data = mParser.getData();
+            AirPort airPort;
+            if(data.airports.size() > 0 && !data.city.countryId.equalsIgnoreCase(68+"")){
+                List<AirPort> gpsDateList = new ArrayList<>();
+                for(int i = 0;i < data.airports.size();i++) {
+                    airPort = new AirPort();
+                    if(i == 0) {
+                        airPort.isFirst = true;
+                    }else{
+                        airPort.isFirst = false;
+                    }
+                    airPort.cityFirstLetter = getString(R.string.location_airport);
+                    airPort.cityName = data.city.cityName;
+                    airPort.airportName = data.airports.get(i).airportName;
+                    airPort.airportCode = data.airports.get(i).airportCode;
+                    airPort.airportId = 0;
+                    airPort.cityId = Integer.valueOf(data.city.cityId);
+                    gpsDateList.add(airPort);
+                }
+                adapter.addList(gpsDateList);
+            }
         }
     }
 
@@ -262,7 +297,12 @@ public class FgChooseAirport extends BaseFragment implements SideBar.OnTouchingL
         } else {
             bundle = new Bundle();
         }
-        saveHistoryDate(sourceDateList.get(position));
+
+        AirPort airPort = sourceDateList.get(position);
+        if(TextUtils.isEmpty(airPort.airportName)){
+            return;
+        }
+        saveHistoryDate(airPort);
         bundle.putSerializable(KEY_AIRPORT, sourceDateList.get(position));
         finishForResult(bundle);
     }
