@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.TextView;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
+import com.hugboga.custom.BuildConfig;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.UserEntity;
@@ -30,6 +31,8 @@ public class FgSetting extends BaseFragment {
 
     @ViewInject(R.id.setting_menu_clear_cache_flag)
     TextView cacheSizeTextView;
+    @ViewInject(R.id.setting_menu_version_content_flag)
+    TextView newVersionTextView;
     private SharedPre sharedPre;
     Long cacheSize;
 
@@ -114,6 +117,7 @@ public class FgSetting extends BaseFragment {
 
     @Override
     protected void initHeader() {
+        newVersionTextView.setText("v" + BuildConfig.VERSION_NAME);
         fgTitle.setText("设置");
         sharedPre = new SharedPre(getActivity());
         cacheSize = sharedPre.getLongValue(SharedPre.CACHE_SIZE);

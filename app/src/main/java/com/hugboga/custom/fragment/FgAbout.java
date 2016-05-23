@@ -35,17 +35,11 @@ public class FgAbout extends BaseFragment {
 
     @ViewInject(R.id.about_version_tv)
     TextView versionTV;
-    @ViewInject(R.id.about_version_new_tv)
-    TextView newVersionTV;
 
     @Override
     protected void initHeader() {
         fgTitle.setText(getActivity().getString(R.string.about_title));
         versionTV.setText(getActivity().getString(R.string.about_version, BuildConfig.VERSION_NAME, BuildConfig.VERSION_CODE));
-        if (UserEntity.getUser().getIsNewVersion(getActivity())) {
-            newVersionTV.setText(getActivity().getString(R.string.about_update));
-            newVersionTV.setTextColor(Color.RED);
-        }
     }
 
     @Override
@@ -68,10 +62,6 @@ public class FgAbout extends BaseFragment {
         if (request instanceof RequestCheckVersion) {
             RequestCheckVersion requestCV = (RequestCheckVersion) request;
             final CheckVersionBean checkVersionBean = requestCV.getData();
-            if (!TextUtils.isEmpty(checkVersionBean.url)) {
-                newVersionTV.setText(getActivity().getString(R.string.about_update));
-                newVersionTV.setTextColor(Color.RED);
-            }
             if (TextUtils.isEmpty(checkVersionBean.url)) {
                 DialogUtil.getInstance(getActivity()).showCustomDialog(getActivity().getString(R.string.about_newest));
             }

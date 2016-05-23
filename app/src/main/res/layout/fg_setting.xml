@@ -42,7 +42,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/setting_menu_layout2"
-                android:layout_marginTop="@dimen/basic_margin_xlarge"
+                android:layout_marginTop="@dimen/basic_margin_medium"
                 android:background="@drawable/click_item_bg"
                 android:padding="@dimen/basic_margin_xlarge">
 
@@ -111,11 +111,21 @@
                     android:textSize="@dimen/text_size_largex" />
 
                 <ImageView
+                    android:id="@+id/setting_about_arrow"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:src="@mipmap/personal_center_right" />
+                <TextView
+                    android:id="@+id/setting_menu_version_content_flag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:layout_toLeftOf="@id/setting_about_arrow"
+                    android:textSize="@dimen/text_size_medium"
+                    android:textColor="@color/basic_gray" />
             </RelativeLayout>
             <TextView
                 android:id="@+id/setting_exit"
@@ -125,10 +135,12 @@
                 android:gravity="center"
                 android:padding="15dp"
                 android:textSize="@dimen/text_size_large"
-                android:layout_margin="@dimen/basic_margin_large"
-                android:background="@drawable/shape_rounded_red"
+                android:layout_marginLeft="@dimen/basic_margin_large"
+                android:layout_marginRight="@dimen/basic_margin_large"
+                android:layout_marginTop="20dip"
+                android:background="@drawable/shape_rectangle_orange"
                 android:text="退出登录"
-                android:textColor="@android:color/holo_red_light" />
+                android:textColor="@color/basic_daily_color" />
         </RelativeLayout>
     </ScrollView>
 
