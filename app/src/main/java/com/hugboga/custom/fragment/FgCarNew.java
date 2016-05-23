@@ -192,10 +192,6 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
                 manText.setText("乘客 x "+(manLuggageBean.mans+manLuggageBean.childs));
                 luggageText.setText("行李箱 x "+manLuggageBean.luggages);
                 childseatText.setText("儿童座椅 x "+(manLuggageBean.childSeats));
-
-
-
-
                 break;
             default:
                 break;
