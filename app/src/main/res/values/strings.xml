@@ -384,5 +384,14 @@
     <string name="choose_clean_all_history">全部清除</string>
     <string name="choose_input_air_no">请输入航班号,例如CA979</string>
 
+    <string name="about_copyright">Copyright@2014-2016皇包车</string>
+    <string name="about_version">皇包车 Hi Guides %1$s_%2$s</string>
+    <string name="about_check_update">检测新版本</string>
+    <string name="about_grade">给我评分</string>
+    <string name="about_story">品牌故事</string>
+    <string name="about_title">关于我们</string>
+    <string name="about_update">升级新版</string>
+    <string name="about_no_appstore">设备上没有安装应用市场</string>
+    <string name="about_newest">已是最新版本</string>
 
 </resources>
