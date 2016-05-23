@@ -239,38 +239,44 @@ public class FgManLuggage extends BaseFragment {
 
 
     private void showChildSeatLayout() {
-        String seat1 = carListBean.additionalServicePrice.childSeatPrice1;
-        String seat2 = carListBean.additionalServicePrice.childSeatPrice2;
-        if(seatNums == 1 && seat1.equalsIgnoreCase("-1")) {
-            freeLayout.setVisibility(View.VISIBLE);
-        }else if(seatNums == 1){
-            freeCSeatLeft.setText("收费儿童座椅");
-            freeLayout.setVisibility(View.VISIBLE);
-            freeCSeatRight.setText("￥"+seat1+"/次");
-        }
-        if(seatNums > 1){
-            chargeLayout.setVisibility(View.VISIBLE);
-            chargeSeatRight.setText("￥"+seat2+"/次");
-            chargeSeatNum.setText("x"+(seatNums - 1)+"");
+        try {
+            String seat1 = carListBean.additionalServicePrice.childSeatPrice1;
+            String seat2 = carListBean.additionalServicePrice.childSeatPrice2;
+            if (seatNums == 1 && seat1.equalsIgnoreCase("-1")) {
+                freeLayout.setVisibility(View.VISIBLE);
+            } else if (seatNums == 1) {
+                freeCSeatLeft.setText("收费儿童座椅");
+                freeLayout.setVisibility(View.VISIBLE);
+                freeCSeatRight.setText("￥" + seat1 + "/次");
+            }
+            if (seatNums > 1) {
+                chargeLayout.setVisibility(View.VISIBLE);
+                chargeSeatRight.setText("￥" + seat2 + "/次");
+                chargeSeatNum.setText("x" + (seatNums - 1) + "");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
     }
 
     private void hideChildSeatLayout() {
-        if(seatNums > 1){
-            chargeLayout.setVisibility(View.VISIBLE);
-            chargeSeatNum.setText("x"+(seatNums - 1)+"");
+        try {
+            if (seatNums > 1) {
+                chargeLayout.setVisibility(View.VISIBLE);
+                chargeSeatNum.setText("x" + (seatNums - 1) + "");
+            }
+
+            if (seatNums == 1) {
+                chargeLayout.setVisibility(View.GONE);
+            }
+
+            if (seatNums == 0) {
+                freeLayout.setVisibility(View.GONE);
+                chargeLayout.setVisibility(View.GONE);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
-
-        if(seatNums == 1){
-            chargeLayout.setVisibility(View.GONE);
-        }
-
-        if(seatNums == 0) {
-            freeLayout.setVisibility(View.GONE);
-            chargeLayout.setVisibility(View.GONE);
-        }
-
-
     }
 
 
