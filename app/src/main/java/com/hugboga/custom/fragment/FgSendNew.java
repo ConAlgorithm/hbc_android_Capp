@@ -5,8 +5,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -41,7 +43,7 @@ import butterknife.OnClick;
  * Created  on 16/5/13.
  */
 @ContentView(R.layout.fg_sendnew)
-public class FgSendNew extends BaseFragment {
+public class FgSendNew extends BaseFragment implements View.OnTouchListener {
 
     @Bind(R.id.info_left)
     TextView infoLeft;
@@ -75,6 +77,16 @@ public class FgSendNew extends BaseFragment {
     TextView allJourneyText;
     @Bind(R.id.bottom)
     RelativeLayout bottom;
+    @Bind(R.id.address_layout)
+    LinearLayout addressLayout;
+    @Bind(R.id.time_layout)
+    LinearLayout timeLayout;
+    @Bind(R.id.show_cars_layout_send)
+    LinearLayout showCarsLayoutSend;
+    @Bind(R.id.all_money_left_sku)
+    TextView allMoneyLeftSku;
+    @Bind(R.id.all_money_text_sku)
+    TextView allMoneyTextSku;
 
     private AirPort airPortBean;//航班信息
     private PoiBean poiBean;//达到目的地
@@ -93,7 +105,7 @@ public class FgSendNew extends BaseFragment {
 
     private void genBottomData(CarBean carBean) {
         allMoneyText.setText("￥ " + carBean.price);
-        if(null != carListBean) {
+        if (null != carListBean) {
             allJourneyText.setText("全程预估:" + carListBean.distance + "公里," + carListBean.interval + "分钟");
         }
     }
@@ -102,7 +114,7 @@ public class FgSendNew extends BaseFragment {
     private void initCarFragment() {
         fm = getFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
-        if(null != fgCarNew) {
+        if (null != fgCarNew) {
             transaction.remove(fgCarNew);
         }
 
@@ -163,8 +175,8 @@ public class FgSendNew extends BaseFragment {
     private DialogUtil mDialogUtil;
     String startLocation, termLocation;
 
-    private void checkInput(){
-        if(!TextUtils.isEmpty(timeText.getText()) && !TextUtils.isEmpty(addressTips.getText()) && !TextUtils.isEmpty(airTitle.getText())){
+    private void checkInput() {
+        if (!TextUtils.isEmpty(timeText.getText()) && !TextUtils.isEmpty(addressTips.getText()) && !TextUtils.isEmpty(airTitle.getText())) {
             getData();
         }
     }
@@ -182,14 +194,14 @@ public class FgSendNew extends BaseFragment {
 
 
     private void getData() {
-        cityId=airPortBean.cityId;
-        airportCode=airPortBean.airportCode;
+        cityId = airPortBean.cityId;
+        airportCode = airPortBean.airportCode;
         //出发地，到达地经纬度
-        startLocation=poiBean.location;
-        termLocation=airPortBean.location;
-        needChildrenSeat=airPortBean.childSeatSwitch;
-        needBanner=airPortBean.bannerSwitch;
-        RequestCheckPriceForTransfer requestCheckPriceForTransfer = new RequestCheckPriceForTransfer(getActivity(), mBusinessType, airportCode, cityId, startLocation, termLocation, serverDate+" "+serverTime);
+        startLocation = poiBean.location;
+        termLocation = airPortBean.location;
+        needChildrenSeat = airPortBean.childSeatSwitch;
+        needBanner = airPortBean.bannerSwitch;
+        RequestCheckPriceForTransfer requestCheckPriceForTransfer = new RequestCheckPriceForTransfer(getActivity(), mBusinessType, airportCode, cityId, startLocation, termLocation, serverDate + " " + serverTime);
         requestData(requestCheckPriceForTransfer);
     }
 
@@ -206,13 +218,13 @@ public class FgSendNew extends BaseFragment {
         ButterKnife.unbind(this);
     }
 
-    @OnClick({R.id.info_tips, R.id.air_title, R.id.air_detail, R.id.rl_info, R.id.address_tips, R.id.rl_address, R.id.time_text, R.id.rl_starttime})
+    @OnClick({R.id.address_layout, R.id.air_send_layout, R.id.time_layout,R.id.info_tips, R.id.air_title, R.id.air_detail, R.id.rl_info, R.id.address_tips, R.id.rl_address, R.id.time_text, R.id.rl_starttime})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.info_tips:
             case R.id.air_title:
             case R.id.air_detail:
-            case R.id.rl_info://从哪里出发
+            case R.id.air_send_layout://从哪里出发
                 if (airPortBean != null) {
                     FgPoiSearch fg = new FgPoiSearch();
                     Bundle bundle = new Bundle();
@@ -224,13 +236,15 @@ public class FgSendNew extends BaseFragment {
                     ToastUtils.showShort("先选择机场");
                 }
                 break;
+            case R.id.address_layout:
             case R.id.address_tips://选择机场
                 startFragment(new FgChooseAirport());
                 break;
-            case R.id.rl_address:
-                FgChooseAir fgChooseAir = new FgChooseAir();
-                startFragment(fgChooseAir);
-                break;
+//            case R.id.air_send_layout:
+//                FgChooseAir fgChooseAir = new FgChooseAir();
+//                startFragment(fgChooseAir);
+//                break;
+            case R.id.time_layout:
             case R.id.time_text://出发时间
                 if (airPortBean == null) {
                     ToastUtils.showShort("先选择机场");
@@ -330,5 +344,10 @@ public class FgSendNew extends BaseFragment {
             timeText.setText(serverDate + " " + serverTime);
             checkInput();
         }
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        return true;
     }
 }

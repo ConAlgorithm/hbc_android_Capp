@@ -1,6 +1,7 @@
 package com.hugboga.custom.adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +29,11 @@ public class AirportAdapter extends BaseAdapter {
      */
     public void updateListView(List<AirPort> list) {
         this.list = list;
+        notifyDataSetChanged();
+    }
+
+    public void addList(List<AirPort> list) {
+        this.list.addAll(0,list);
         notifyDataSetChanged();
     }
 
@@ -63,7 +69,7 @@ public class AirportAdapter extends BaseAdapter {
             viewHolder.tvLetter.setVisibility(View.GONE);
         }
 
-        viewHolder.tvTitle.setText(model.cityName + "-" + model.airportName);
+        viewHolder.tvTitle.setText(model.cityName +(TextUtils.isEmpty(model.airportName)?"":"-") + model.airportName);
 
         return view;
 

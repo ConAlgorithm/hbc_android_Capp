@@ -5,11 +5,11 @@ import android.content.Context;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
-import com.huangbaoche.hbcframe.util.SharedPre;
-import com.hugboga.custom.data.bean.LocationCity;
+import com.hugboga.custom.data.bean.GPSBean;
+import com.hugboga.custom.data.bean.LocationData;
 import com.hugboga.custom.data.net.NewParamsBuilder;
 import com.hugboga.custom.data.net.UrlLibs;
-import com.hugboga.custom.data.parser.ParseLocationCityV10;
+import com.hugboga.custom.data.parser.ParseLocationCity;
 
 import org.xutils.http.HttpMethod;
 import org.xutils.http.annotation.HttpRequest;
@@ -18,13 +18,12 @@ import java.util.Map;
 import java.util.TreeMap;
 
 /**
- * Created  on 2016/4/12.
+ * Created  on 16/5/23.
  */
+@HttpRequest(path = UrlLibs.UPLOAD_LOCATION_V11, builder = NewParamsBuilder.class)
+public class RequestUploadLocationV11 extends BaseRequest<LocationData> {
 
-@HttpRequest(path = UrlLibs.UPLOAD_LOCATION, builder = NewParamsBuilder.class)
-public class RequestUploadLocation extends BaseRequest<LocationCity> {
-
-    public RequestUploadLocation(Context context) {
+    public RequestUploadLocationV11(Context context) {
         super(context);
     }
 
@@ -34,8 +33,8 @@ public class RequestUploadLocation extends BaseRequest<LocationCity> {
         Context mContext = getContext();
         TreeMap map = new TreeMap<String, Object>();
         try {
-            map.put("latitude", new SharedPre(mContext).getStringValue("lat"));
-            map.put("longitude", new SharedPre(mContext).getStringValue("lng"));
+            map.put("latitude", GPSBean.lat);
+            map.put("longitude", GPSBean.lng);
         } catch (Exception e) {
             MLog.e(e.toString());
         }
@@ -44,7 +43,7 @@ public class RequestUploadLocation extends BaseRequest<LocationCity> {
 
     @Override
     public ImplParser getParser() {
-        return new ParseLocationCityV10();
+        return new ParseLocationCity();
     }
 
     @Override

@@ -24,7 +24,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_margin="15dp"
                 android:background="@color/basic_white"
                 android:orientation="horizontal">
 
@@ -53,6 +52,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
                 android:orientation="horizontal">
 
                 <RadioButton
@@ -83,7 +84,6 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_margin="15dp"
                 android:background="@color/basic_white"
                 android:orientation="horizontal">
 
@@ -214,7 +214,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_margin="15dp"
+                android:layout_marginTop="1dp"
                 android:background="@color/basic_white"
                 android:orientation="horizontal">
 
@@ -282,7 +282,7 @@
                 android:id="@+id/full_day_date_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="15dp"
+                android:layout_marginTop="10dp"
                 android:background="@color/basic_white"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
@@ -363,7 +363,7 @@
                 android:id="@+id/half_day_show"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_margin="15dp"
+                android:layout_marginTop="10dp"
                 android:background="@color/basic_white"
                 android:orientation="horizontal"
                 android:visibility="gone">
@@ -398,7 +398,6 @@
         android:id="@+id/next_btn_click"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_margin="15dp"
         android:background="#d5dadb"
         android:layout_alignParentBottom="true"
         android:gravity="center"

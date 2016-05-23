@@ -168,11 +168,11 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
 
     }
 
-
+    ManLuggageBean manLuggageBean;
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
             case MAN_CHILD_LUUAGE:
-                ManLuggageBean manLuggageBean = (ManLuggageBean)action.getData();
+                manLuggageBean = (ManLuggageBean)action.getData();
                 manTips.setVisibility(View.GONE);
                 manText.setVisibility(View.VISIBLE);
                 if(manLuggageBean.luggages != 0) {
@@ -192,10 +192,6 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
                 manText.setText("乘客 x "+(manLuggageBean.mans+manLuggageBean.childs));
                 luggageText.setText("行李箱 x "+manLuggageBean.luggages);
                 childseatText.setText("儿童座椅 x "+(manLuggageBean.childSeats));
-
-
-
-
                 break;
             default:
                 break;
@@ -265,6 +261,25 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
         fgCarIntro.setText("此车型包括：" + carBean.models);
         mansNum.setText("x " + carBean.capOfPerson);
         luggageNum.setText("x " + carBean.capOfLuggage);
+
+
+        int selectMansNUm = 0;
+        if(null != manLuggageBean){
+            selectMansNUm = manLuggageBean.mans
+                    + (int)Math.round((manLuggageBean.childSeats) * 1.5)
+                    + (manLuggageBean.childs - manLuggageBean.childSeats);
+          }
+
+        if(null != manLuggageBean
+                && selectMansNUm >= carBean.capOfPerson
+                && (selectMansNUm + manLuggageBean.luggages) >= (carBean.capOfPerson + carBean.capOfLuggage)){
+            manTips.setVisibility(View.VISIBLE);
+            manText.setVisibility(View.GONE);
+            luggageText.setVisibility(View.GONE);
+            childseatText.setVisibility(View.GONE);
+            hideChildSeatLayout(0);
+            manLuggageBean = null;
+        }
     }
 
 
