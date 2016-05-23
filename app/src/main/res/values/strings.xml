@@ -429,5 +429,7 @@
     <string name="sku_go_date_tips">请选择出发日期</string>
     <string name="sku_new_title">安排您的行程</string>
 
+    <string name="back_alert_msg">离开当前页面所选行程将会丢失，确定要离开吗？</string>
+
 
 </resources>

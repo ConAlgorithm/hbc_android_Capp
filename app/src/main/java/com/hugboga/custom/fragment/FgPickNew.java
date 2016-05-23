@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -39,7 +40,7 @@ import de.greenrobot.event.EventBus;
  */
 
 @ContentView(R.layout.fg_picknew)
-public class FgPickNew extends BaseFragment {
+public class FgPickNew extends BaseFragment implements View.OnTouchListener{
     @Bind(R.id.info_left)
     TextView infoLeft;
     @Bind(R.id.info_tips)
@@ -284,5 +285,8 @@ public class FgPickNew extends BaseFragment {
         }
     }
 
-
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        return true;
+    }
 }

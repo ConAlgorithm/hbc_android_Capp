@@ -9,12 +9,14 @@
 
     <ScrollView
         android:layout_width="match_parent"
+        android:clickable="true"
         android:layout_height="match_parent"
         android:layout_above="@id/bottom">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:clickable="true"
             android:orientation="vertical">
 
             <RelativeLayout
@@ -54,8 +56,8 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="15dp"
                         android:minEms="4"
-                        android:text="@string/input_air_no"
-                        android:textColor="#9d9e9f"
+                        android:hint="@string/input_air_no"
+                        android:textColorHint="#9d9e9f"
                         android:textSize="15sp" />
 
                     <TextView
@@ -66,7 +68,7 @@
                         android:layout_marginLeft="15dp"
                         android:layout_marginRight="15dp"
                         android:minEms="4"
-                        android:text="@string/air_info"
+                        android:hint="@string/air_info"
                         android:textColor="@color/basic_black"
                         android:textSize="15sp"
                         android:visibility="gone" />
@@ -79,7 +81,7 @@
                         android:layout_marginLeft="15dp"
                         android:layout_marginRight="15dp"
                         android:minEms="4"
-                        android:text="@string/air_info"
+                        android:hint="@string/air_info"
                         android:textColor="#9d9e9f"
                         android:textSize="15sp"
                         android:visibility="gone" />
