@@ -433,5 +433,7 @@
     <string name="location_airport">当前城市机场</string>
     <string name="location_fail">定位失败，请开启GPS</string>
 
+    <string name="choose_like_driver_order">选择已收藏司导下单</string>
+
 
 </resources>
