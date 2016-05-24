@@ -351,6 +351,28 @@
                 </LinearLayout>
             </LinearLayout>
 
+            <RelativeLayout
+                android:id="@+id/show_like_driver_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:clickable="true"
+                android:minHeight="60dp">
+
+                <TextView
+                    android:id="@+id/choose_driver"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="20dp"
+                    android:gravity="center"
+                    android:text="@string/choose_like_driver_order"
+                    android:textColor="#0263fc"
+                    android:textSize="15sp" />
+
+                <include layout="@layout/include_driver_layout" />
+
+            </RelativeLayout>
+
             <LinearLayout
                 android:id="@+id/full_day_show"
                 android:layout_width="match_parent"
