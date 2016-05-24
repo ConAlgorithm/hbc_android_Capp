@@ -33,6 +33,7 @@ import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestTravel;
 import com.umeng.analytics.MobclickAgent;
 
+import org.greenrobot.eventbus.EventBus;
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
@@ -41,8 +42,6 @@ import org.xutils.view.annotation.ViewInject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import de.greenrobot.event.EventBus;
 
 @ContentView(R.layout.fg_travel)
 public class FgTravel extends BaseFragment implements View.OnClickListener, OnItemClickListener {

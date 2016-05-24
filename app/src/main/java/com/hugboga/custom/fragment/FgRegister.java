@@ -31,6 +31,7 @@ import com.hugboga.custom.data.request.RequestVerity;
 import com.hugboga.custom.widget.DialogUtil;
 import com.umeng.analytics.MobclickAgent;
 
+import org.greenrobot.eventbus.EventBus;
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
@@ -38,8 +39,6 @@ import org.xutils.view.annotation.ViewInject;
 
 import java.util.HashMap;
 import java.util.regex.Pattern;
-
-import de.greenrobot.event.EventBus;
 
 @ContentView(R.layout.fg_register)
 public class FgRegister extends BaseFragment implements TextWatcher {

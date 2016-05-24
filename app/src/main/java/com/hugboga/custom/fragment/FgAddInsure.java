@@ -20,7 +20,6 @@ import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
-import com.huangbaoche.hbcframe.util.WXShareUtils;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.InsureResultBean;
 import com.hugboga.custom.data.bean.UserEntity;
@@ -28,10 +27,9 @@ import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestAddInsure;
 import com.hugboga.custom.data.request.RequestEditInsure;
-import com.hugboga.custom.utils.DateUtils;
-import com.hugboga.custom.utils.ToastUtils;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
+import org.greenrobot.eventbus.EventBus;
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 
@@ -40,7 +38,6 @@ import java.util.Calendar;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import de.greenrobot.event.EventBus;
 
 /**
  * Created  on 16/4/22.

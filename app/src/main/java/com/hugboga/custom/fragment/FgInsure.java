@@ -28,6 +28,7 @@ import com.hugboga.custom.data.request.RequestInsureList;
 import com.hugboga.custom.data.request.RequestSubmitInsure;
 import com.hugboga.custom.utils.ToastUtils;
 
+import org.greenrobot.eventbus.EventBus;
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 
@@ -37,7 +38,6 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import de.greenrobot.event.EventBus;
 
 /**
  * Created  on 16/4/22.

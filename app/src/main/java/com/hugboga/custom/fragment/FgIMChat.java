@@ -35,24 +35,22 @@ import com.zhy.m.permission.MPermissions;
 import com.zhy.m.permission.PermissionDenied;
 import com.zhy.m.permission.PermissionGrant;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
-import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import de.greenrobot.event.EventBus;
 import io.rong.imkit.RongContext;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.RongIMClientWrapper;
 import io.rong.imkit.fragment.ConversationFragment;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
-import io.rong.imlib.model.Message;
 import io.rong.imlib.model.UserInfo;
 
 @ContentView(R.layout.activity_imchat)
@@ -418,9 +416,9 @@ public class FgIMChat extends BaseFragment {
         }
         final RelativeLayout rl = (RelativeLayout) view.findViewById(io.rong.imkit.R.id.empty);
         TextView show_empty_txt = (TextView) view.findViewById(R.id.show_empty_txt);
-        if("3".equalsIgnoreCase(targetType)) {//3.客服 1.用户
+        if ("3".equalsIgnoreCase(targetType)) {//3.客服 1.用户
             show_empty_txt.setText(R.string.huangbaoche_remind_message);
-        }else{
+        } else {
             show_empty_txt.setText(R.string.huangbaoche_remind_message_user);
         }
         try {
@@ -430,7 +428,7 @@ public class FgIMChat extends BaseFragment {
                 RongIMClientWrapper rongIMClientWrapper = rongIM.getRongIMClient();
                 if (rongIMClientWrapper != null) {
                     try {
-                        List<Message> messageList = rongIMClientWrapper.getHistoryMessages(Conversation.ConversationType.PRIVATE, imUserId, -1, 10);
+                        List<io.rong.imlib.model.Message> messageList = rongIMClientWrapper.getHistoryMessages(Conversation.ConversationType.PRIVATE, imUserId, -1, 10);
                         if (messageList != null)
                             imNumber = messageList.size();
                         if (imNumber > 0) {
@@ -459,12 +457,12 @@ public class FgIMChat extends BaseFragment {
             if (rongIM != null) {
                 rongIM.setSendMessageListener(new RongIM.OnSendMessageListener() {
                     @Override
-                    public Message onSend(Message message) {
+                    public io.rong.imlib.model.Message onSend(io.rong.imlib.model.Message message) {
                         return message;
                     }
 
                     @Override
-                    public boolean onSent(Message message, RongIM.SentMessageErrorCode sentMessageErrorCode) {
+                    public boolean onSent(io.rong.imlib.model.Message message, RongIM.SentMessageErrorCode sentMessageErrorCode) {
                         if (rl.getVisibility() == View.VISIBLE) {
                             rl.setVisibility(View.GONE);
                         }
@@ -535,10 +533,11 @@ public class FgIMChat extends BaseFragment {
             handler.onDataRequestError(errorInfo, request);
         }
     };
-    public static String getOrderStatus(OrderStatus orderStatus){
+
+    public static String getOrderStatus(OrderStatus orderStatus) {
         switch (orderStatus) {
             case INITSTATE:     // 未支付
-                return  "未支付";
+                return "未支付";
             case PAYSUCCESS:
             case AGREE:    // 已支付--服务中
                 return "未开始";

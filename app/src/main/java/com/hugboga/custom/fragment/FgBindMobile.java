@@ -6,33 +6,29 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+
 import com.huangbaoche.hbcframe.data.bean.UserSession;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
-import com.hugboga.custom.data.bean.BindMobileBean;
 import com.hugboga.custom.data.bean.UserBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
-import com.hugboga.custom.data.request.RequestChangeMobile;
 import com.hugboga.custom.data.request.RequestBindMobile;
+import com.hugboga.custom.data.request.RequestChangeMobile;
 import com.hugboga.custom.data.request.RequestVerity;
 import com.hugboga.custom.utils.IMUtil;
-import com.hugboga.custom.utils.ToastUtils;
 import com.umeng.analytics.MobclickAgent;
 
-import org.json.JSONObject;
-import org.w3c.dom.Text;
+import org.greenrobot.eventbus.EventBus;
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
 import java.util.HashMap;
-
-import de.greenrobot.event.EventBus;
 
 @ContentView(R.layout.fg_bind_mobile)
 public class FgBindMobile extends BaseFragment {

@@ -41,6 +41,7 @@ import com.zhy.m.permission.PermissionGrant;
 
 import net.grobas.view.PolygonImageView;
 
+import org.greenrobot.eventbus.EventBus;
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
@@ -53,8 +54,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
-
-import de.greenrobot.event.EventBus;
 
 /**
  * personInfo 个人信息

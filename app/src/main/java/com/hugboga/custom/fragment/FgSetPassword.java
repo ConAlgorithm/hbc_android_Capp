@@ -1,23 +1,17 @@
-
 package com.hugboga.custom.fragment;
 
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 
-import com.huangbaoche.hbcframe.data.bean.UserSession;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.UserBean;
 import com.hugboga.custom.data.bean.UserEntity;
-import com.hugboga.custom.data.event.EventAction;
-import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestAfterSetPwd;
-import com.hugboga.custom.data.request.RequestChangePwd;
 import com.hugboga.custom.data.request.RequestSetPwd;
 import com.hugboga.custom.utils.IMUtil;
 
@@ -27,8 +21,6 @@ import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
 import java.util.regex.Pattern;
-
-import de.greenrobot.event.EventBus;
 
 @ContentView(R.layout.fg_set_passwd)
 public class FgSetPassword extends BaseFragment {
