@@ -39,14 +39,14 @@ android {
 
     signingConfigs {
         hbcSign {
-            keyAlias localKeyAlias()
-            keyPassword localKeyPassword()
-            storeFile file(keyStoreFile())
-            storePassword localStorePassword()
+            keyAlias 'hugbogaGuide'
+            keyPassword 'hugbogaGuide@hugboga'
+            storeFile file('D:/ZHZEPHI/keystore/hugboga.jks')
+            storePassword 'hugboga@guide'
         }
     }
     compileSdkVersion 23
-    buildToolsVersion '23.0.2'
+    buildToolsVersion '24.0.0 rc4'
     defaultConfig {
         applicationId "com.hugboga.custom"
         minSdkVersion 15
@@ -171,4 +171,6 @@ dependencies {
     compile 'com.github.mrengineer13:snackbar:1.2.0'
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'com.tencent.bugly:crashreport:2.1.1'
+    compile 'org.xutils:xutils:3.3.34'
+    compile 'org.greenrobot:eventbus:3.0.0'
 }
