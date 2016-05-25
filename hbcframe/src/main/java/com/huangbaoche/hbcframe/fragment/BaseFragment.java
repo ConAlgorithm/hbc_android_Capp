@@ -62,6 +62,7 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
         if (!initView) {
             initView = true;
             getView().setOnTouchListener(this);
+            initHeader(savedInstanceState);
             initHeader();
             initView();
         }
@@ -172,6 +173,10 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
      */
     protected abstract void initHeader();
 
+    /**
+     * 初始化Header
+     */
+    protected void initHeader(Bundle savedInstanceState) {}
 
     /**
      * 初始化界面

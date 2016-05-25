@@ -21,5 +21,12 @@
         <attr name="outlineColor" format="color|reference" />
     </declare-styleable>
 
+    <declare-styleable name="RatingView">
+        <attr name="rating_bg" format="reference" />
+        <attr name="numLevels" format="integer" />
+        <attr name="level" format="integer" />
+        <attr name="touchable" format="boolean" />
+        <attr name="gap" format="dimension"/>
+    </declare-styleable>
 
 </resources>
