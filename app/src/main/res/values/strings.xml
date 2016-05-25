@@ -435,5 +435,12 @@
 
     <string name="choose_like_driver_order">选择已收藏司导下单</string>
 
+    <string name="my_travel_title">我的行程单</string>
+    <string name="my_coupon">优惠券</string>
+    <string name="my_get_money">梦想基金</string>
+    <string name="free_8_insure">赠价值8万元平安保险</string>
+    <string name="back_title">订单退改规则:</string>
+    <string name="huangbaoche_buy">由皇包车支付</string>
+
 
 </resources>
