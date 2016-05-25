@@ -365,5 +365,36 @@ public class UrlLibs {
      * 获取启动图
      */
     public static final String GET_AD_PICTURE = "marketing/v1.0/c/activity/effectivestart";
-    
+
+    /**
+     * 收藏的司导列表
+     */
+    public static final String COLLECT_GUIDES_LIST = "ucenter/v1.0/c/favorite/guides";
+
+    /**
+     * 收藏司导（用户ID）
+     */
+    public static final String COLLECT_GUIDES_ID = "ucenter/v1.0/c/userid/favorite/guide";
+
+    /**
+     * 取消收藏司导（用户ID）
+     */
+    public static final String UNCOLLECT_GUIDES_ID = "ucenter/v1.0/c/userid/unfavor/guide";
+
+    /**
+     * 收藏司导（手机号）
+     */
+    public static final String COLLECT_GUIDES_MOBILE = "ucenter/v1.0/c/mobile/favorite/guide";
+
+    /**
+     * 取消收藏司导（手机号）
+     */
+    public static final String UNCOLLECT_GUIDES_MOBILE = "ucenter/v1.0/c/mobile/unfavor/guide";
+
+    /**
+     * 过滤用户收藏的司导
+     */
+    public static final String COLLECT_GUIDES_FILTER = "ucenter/v1.0/C/favorite/guides/filter";
+
+
 }

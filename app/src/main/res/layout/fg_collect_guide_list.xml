@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <include
+        android:id="@+id/collect_list_header"
+        layout="@layout/include_header" />
+
+    <com.hugboga.custom.widget.ZListView
+        android:id="@+id/collect_list_listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/collect_list_header"
+        android:background="@color/coupon_empty_color"
+        android:divider="@null" />
+    <LinearLayout
+        android:id="@+id/collect_listview_empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/collect_list_header"
+        android:background="@color/coupon_empty_color"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:visibility="gone">
+        <ImageView
+            android:layout_width="110dp"
+            android:layout_height="110dp"
+            android:layout_marginTop="50dp"
+            android:background="@mipmap/nocollection"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textSize="16sp"
+            android:text="@string/collect_guide_empty_prompt1"
+            android:textColor="@color/coupon_empty_text" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:textSize="13sp"
+            android:text="@string/collect_guide_empty_prompt2"
+            android:textColor="@color/coupon_empty_text" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="13sp"
+            android:text="@string/collect_guide_empty_prompt3"
+            android:textColor="@color/coupon_empty_text" />
+    </LinearLayout>
+</RelativeLayout>

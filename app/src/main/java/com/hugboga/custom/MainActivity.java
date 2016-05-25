@@ -56,6 +56,7 @@ import com.hugboga.custom.data.request.RequestUploadLocation;
 import com.hugboga.custom.fragment.BaseFragment;
 import com.hugboga.custom.fragment.FgActivity;
 import com.hugboga.custom.fragment.FgChat;
+import com.hugboga.custom.fragment.FgCollectGuideList;
 import com.hugboga.custom.fragment.FgCoupon;
 import com.hugboga.custom.fragment.FgHome;
 import com.hugboga.custom.fragment.FgIMChat;
@@ -541,7 +542,9 @@ public class MainActivity extends BaseActivity
                 }
                 break;
             case Constants.PERSONAL_CENTER_COLLECT://收藏司导
-
+                if(isLogin("个人中心首页")) {
+                    startFragment(new FgCollectGuideList());
+                }
                 break;
             case Constants.PERSONAL_CENTER_HD://活动
                 if(isLogin("个人中心首页")) {
