@@ -98,11 +98,11 @@ public class CollectGuideAdapter extends BaseAdapter<CollectGuideBean> {
             if (bean.isAppointments()) {
                 holder.appointmentTV.setText(context.getString(R.string.collect_guide_appointments));
                 holder.appointmentTV.setBackgroundResource(R.drawable.shape_rounded_orange);
-                holder.appointmentTV.setTextColor(0xFFFFFFFF);
+                holder.appointmentTV.setTextColor(context.getResources().getColor(R.color.basic_white));
             } else {
                 holder.appointmentTV.setText(context.getString(R.string.collect_guide_unappointments));
                 holder.appointmentTV.setBackgroundResource(R.drawable.shape_rounded_gray_light);
-                holder.appointmentTV.setTextColor(0xFFC9C9C9);
+                holder.appointmentTV.setTextColor(context.getResources().getColor(R.color.basic_gray_light));
             }
             holder.describeTV.setText(context.getString(R.string.collect_guide_describe_filter, bean.carDesc, bean.carModel));
         }

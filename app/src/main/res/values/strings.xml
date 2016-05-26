@@ -405,4 +405,8 @@
     <string name="collect_guide_appointments_plane">预约接送机</string>
     <string name="collect_guide_appointments_car">预约包车游</string>
     <string name="collect_guide_appointments_single">预约单次接送</string>
+
+    <string name="collect">收藏Ta</string>
+    <string name="uncollect">取消收藏</string>
+    <string name="evaluate">去评价</string>
 </resources>

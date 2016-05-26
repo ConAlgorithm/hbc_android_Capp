@@ -26,7 +26,7 @@ public class RequestCollectGuidesFilter extends BaseRequest<ArrayList<CollectGui
     public RequestCollectGuidesFilter(Context context, CollectGuidesFilterParams params, int offset) {
         super(context);
         map = new HashMap<String, Object>();
-        map.put("source", 1);
+        map.put("source", Constants.REQUEST_SOURCE);
         map.put("userId", UserEntity.getUser().getUserId(context));
         map.put("offset", offset);
         map.put("limit", Constants.DEFAULT_PAGESIZE);

@@ -60,7 +60,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="15dip"
                 android:layout_marginTop="5dip"
-                app:gap="6dip"
+                app:gap="4dip"
                 app:rating_bg="@drawable/btn_yellow_ratingbar"
                 app:touchable="false" />
 
