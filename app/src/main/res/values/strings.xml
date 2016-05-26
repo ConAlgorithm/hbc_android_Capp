@@ -465,4 +465,12 @@
     <string name="collect_guide_appointments_single">预约单次接送</string>
 
     <string name="dairy_inout_check">请先输入您的城市/出行时间</string>
+    <string name="coupon_num">%s张优惠券可用</string>
+    <string name="dream_money">梦想基金</string>
+    <string name="insure_8wan">赠价值8万元平安保险</string>
+
+    <string name="free_huangbaoche">由皇包车支付</string>
+    <string name="change_title_txt">订单退改规则</string>
+    <string name="change_detail_txt">服务开始前24小时退订,全额退还费用;小于24小时不可退订,全部费用将扣除用于补偿当地司导</string>
+
 </resources>
