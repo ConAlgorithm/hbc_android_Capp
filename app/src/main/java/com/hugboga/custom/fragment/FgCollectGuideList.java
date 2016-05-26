@@ -10,6 +10,8 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.CollectGuideAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CollectGuideBean;
+import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestCollectGuideList;
 import com.hugboga.custom.data.request.RequestCollectGuidesFilter;
 import com.hugboga.custom.widget.ZListView;
@@ -19,6 +21,8 @@ import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 
 import java.util.List;
+import de.greenrobot.event.EventBus;
+
 
 /**
  * Created by qingcha on 16/5/24.
@@ -110,7 +114,8 @@ public class FgCollectGuideList extends BaseFragment implements AdapterView.OnIt
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+        EventBus.getDefault().post(new EventAction(EventType.CHOOSE_GUIDE,adapter.getItem(position)));
+        finish();
     }
 
     @Override

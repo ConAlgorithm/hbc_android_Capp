@@ -20,5 +20,6 @@ public enum EventType {
     ADD_INSURE_SUCCESS, //添加投保人成功
     AIR_NO,//航班号返回
     MAN_CHILD_LUUAGE, //乘客行李
-    CHANGE_CAR //选择汽车
+    CHANGE_CAR, //选择汽车
+    CHOOSE_GUIDE //收藏选择司导
 }
