@@ -322,17 +322,17 @@
     <string name="add_user_phone_area_no">选择区号></string>
     <string name="add_user_phone">联系人电话</string>
     <string name="local_time">09:00(当地时间)</string>
-    <string name="aboard_where">请填写上车地点</string>
+    <string name="aboard_where">请选择上车地点</string>
     <string name="hotel_phone">酒店电话</string>
     <string name="order_tips">选填,行前可以随时联系司导更改</string>
     <string name="add_other_phone">+ 增加备用电话</string>
     <string name="for_other_people">为他人订车</string>
-    <string name="total_order">总额:</string>
+    <string name="total_order">还需支付:</string>
     <string name="order_info">明细 ></string>
     <string name="submit_order">立即支付</string>
 
-    <string name="up_time">上车时间</string>
-    <string name="up_site">上车地点</string>
+    <string name="up_time">&#160;上车时间</string>
+    <string name="up_site">*上车地点</string>
 
     <string name="passenger">* 乘车人</string>
     <string name="add_passenger">请填写乘车人姓名</string>
@@ -352,7 +352,7 @@
     <string name="complete_days_info">请完善每天的行程</string>
     <string name="complete_half_start_date">请完善游玩日期</string>
     <string name="edit_mark_left">备注信息</string>
-    <string name="edit_mark">你可以在这里注明其他需求,以及需要车导知道的其他行程细节</string>
+    <string name="edit_mark">给司导捎句话</string>
     <string name="all_cost_info">费用详情</string>
 
     <string name="noraml_question">常见问题</string>
@@ -433,5 +433,36 @@
     <string name="location_airport">当前城市机场</string>
     <string name="location_fail">定位失败，请开启GPS</string>
 
+    <string name="choose_like_driver_order">选择已收藏司导下单</string>
 
+    <string name="my_travel_title">我的行程单</string>
+    <string name="my_coupon">优惠券</string>
+    <string name="my_get_money">梦想基金</string>
+    <string name="free_8_insure">赠价值8万元平安保险</string>
+    <string name="back_title">订单退改规则:</string>
+    <string name="huangbaoche_buy">由皇包车支付</string>
+
+    <string name="about_copyright">Copyright@2014-2016皇包车</string>
+    <string name="about_version">皇包车 Hi Guides %1$s_%2$s</string>
+    <string name="about_check_update">检测新版本</string>
+    <string name="about_grade">给我评分</string>
+    <string name="about_story">品牌故事</string>
+    <string name="about_title">关于我们</string>
+    <string name="about_update">升级新版</string>
+    <string name="about_no_appstore">设备上没有安装应用市场</string>
+    <string name="about_newest">已是最新版本</string>
+
+    <string name="collect_guide_describe">%1$s / 乘坐%2$s人 行李%3$s件</string>
+    <string name="collect_guide_describe_filter">%1$s / %2$s</string>
+    <string name="collect_guide_appointments">预约</string>
+    <string name="collect_guide_unappointments">不可预约</string>
+    <string name="collect_guide_title">已收藏司导</string>
+    <string name="collect_guide_empty_prompt1">陛下，您当前暂时还没有收藏司导呢！</string>
+    <string name="collect_guide_empty_prompt2">您可以在完成一段行程后收藏喜欢的司导</string>
+    <string name="collect_guide_empty_prompt3">或收藏朋友给您推荐的司导</string>
+    <string name="collect_guide_appointments_plane">预约接送机</string>
+    <string name="collect_guide_appointments_car">预约包车游</string>
+    <string name="collect_guide_appointments_single">预约单次接送</string>
+
+    <string name="dairy_inout_check">请先输入您的城市/出行时间</string>
 </resources>

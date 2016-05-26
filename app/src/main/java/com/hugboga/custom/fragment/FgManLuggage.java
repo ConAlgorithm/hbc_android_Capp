@@ -189,12 +189,15 @@ public class FgManLuggage extends BaseFragment {
         switch (type) {
             case 1:
             case 2:
-                return ((mNums + 1 + Math.round(seatNums * 1.5) + (cNums - seatNums)) <= maxMans);
+                return ((mNums + 1 + Math.round(seatNums * 1.5) + (cNums - seatNums)) <= maxMans)
+                        && ((mNums + 1 + Math.round((seatNums) * 1.5) + (cNums - seatNums)) + lNums) <= (maxMans + maxLuuages);
             case 3:
-                return (lNums + 1) <= (maxLuuages + (maxMans - (mNums + Math.round(seatNums * 1.5) + (cNums - seatNums))));
+                return (lNums + 1) <= (maxLuuages + (maxMans - (mNums + Math.round(seatNums * 1.5) + (cNums - seatNums))))
+                        && ((mNums + Math.round((seatNums) * 1.5) + (cNums - seatNums)) + lNums + 1) <= (maxMans + maxLuuages);
             case 4:
                 return ((mNums + Math.round((seatNums + 1) * 1.5) + (cNums - seatNums - 1)) <= maxMans)
-                        && (seatNums + 1) <= cNums;
+                        && (seatNums + 1) <= cNums
+                        && ((mNums + Math.round((seatNums + 1) * 1.5) + (cNums - seatNums - 1)) + lNums) <= (maxMans + maxLuuages);
             default:
                 return ((mNums + Math.round((seatNums) * 1.5) + (cNums - seatNums)) <= maxMans)
                         && seatNums <= cNums;

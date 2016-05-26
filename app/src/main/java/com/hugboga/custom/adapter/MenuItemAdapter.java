@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -28,11 +29,28 @@ public class MenuItemAdapter extends BaseAdapter {
         this.mItems = mItems;
     }
 
+    public enum ItemType {
+        DEFAULT, SPACE, SERVICE;
+    }
+
     @Override
     public int getCount() {
         return mItems.size();
     }
 
+    @Override
+    public int getViewTypeCount() {
+        return ItemType.values().length;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (mItems != null && mItems.get(position) != null) {
+            return mItems.get(position).itemType.ordinal();
+        } else {
+            return super.getItemViewType(position);
+        }
+    }
 
     @Override
     public Object getItem(int position) {
@@ -47,24 +65,61 @@ public class MenuItemAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder viewHolder = null;
-        if (convertView == null) {
-            viewHolder = new ViewHolder();
-            convertView = mInflater.inflate(R.layout.slide_menu_item, parent, false);
-            viewHolder.icon = (ImageView) convertView.findViewById(R.id.icon);
-            viewHolder.title = (TextView) convertView.findViewById(R.id.title);
-            viewHolder.tips = (TextView) convertView.findViewById(R.id.tips);
-            convertView.setTag(viewHolder);
-        } else {
-            viewHolder = (ViewHolder) convertView.getTag();
+
+        if (mItems == null || mItems.get(position) == null || mItems.get(position).itemType == null) {
+            return new View(mContext);
         }
 
-        LvMenuItem item = mItems.get(position);
-        viewHolder.icon.setImageResource(item.icon);
-        viewHolder.title.setText(item.name);
-        if (!TextUtils.isEmpty(item.tips)) {
-            viewHolder.tips.setText(item.tips);
+        switch (mItems.get(position).itemType) {
+            case DEFAULT://TODO 活动提示
+                ViewHolder viewHolder = null;
+                if (convertView == null) {
+                    viewHolder = new ViewHolder();
+                    convertView = mInflater.inflate(R.layout.slide_menu_item, parent, false);
+                    viewHolder.icon = (ImageView) convertView.findViewById(R.id.icon);
+                    viewHolder.title = (TextView) convertView.findViewById(R.id.title);
+                    convertView.setTag(viewHolder);
+                } else {
+                    viewHolder = (ViewHolder) convertView.getTag();
+                }
+                LvMenuItem item = mItems.get(position);
+                viewHolder.icon.setImageResource(item.icon);
+                viewHolder.title.setText(item.name);
+                break;
+            case SPACE:
+                SpaceViewHolder spaceViewHolder = null;
+                if (convertView == null) {
+                    spaceViewHolder = new SpaceViewHolder();
+                    convertView = new View(mContext);
+                    spaceViewHolder.spaceView = convertView;
+                    convertView.setTag(spaceViewHolder);
+                } else {
+                    spaceViewHolder = (SpaceViewHolder) convertView.getTag();
+                }
+                AbsListView.LayoutParams params = new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT
+                        , mContext.getResources().getDimensionPixelOffset(R.dimen.basic_margin_large));
+                spaceViewHolder.spaceView.setLayoutParams(params);
+                spaceViewHolder.spaceView.setFocusable(true);
+                break;
+            case SERVICE:
+                ViewHolder serviceViewHolder = null;
+                if (convertView == null) {
+                    serviceViewHolder = new ViewHolder();
+                    convertView = mInflater.inflate(R.layout.slide_menu_item_service, parent, false);
+                    serviceViewHolder.icon = (ImageView) convertView.findViewById(R.id.slide_menu_item_service_icon);
+                    serviceViewHolder.title = (TextView) convertView.findViewById(R.id.slide_menu_item_service_title);
+                    convertView.setTag(serviceViewHolder);
+                } else {
+                    serviceViewHolder = (ViewHolder) convertView.getTag();
+                }
+                LvMenuItem serviceItem = mItems.get(position);
+                serviceViewHolder.icon.setImageResource(serviceItem.icon);
+                serviceViewHolder.title.setText(serviceItem.name);
+                break;
+            default:
+                break;
         }
+
 
         return convertView;
     }
@@ -72,7 +127,9 @@ public class MenuItemAdapter extends BaseAdapter {
     final static class ViewHolder {
         ImageView icon;
         TextView title;
-        TextView tips;
     }
 
+    final static class SpaceViewHolder {
+        View spaceView;
+    }
 }

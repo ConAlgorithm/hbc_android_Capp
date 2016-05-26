@@ -115,74 +115,9 @@
         android:clickable="true"
         android:minHeight="60dp">
 
-        <TextView
-            android:id="@+id/driver_left"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="15dp"
-            android:minEms="4"
-            android:text="@string/driver_left"
-            android:textColor="@color/basic_black"
-            android:textSize="15sp" />
+        <include layout="@layout/include_driver_layout" />
 
-        <TextView
-            android:id="@+id/del_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="20dp"
-            android:drawablePadding="10dp"
-            android:layout_centerVertical="true"
-            android:drawableLeft="@mipmap/icon_guess_you_want"
-            android:text="@string/del_driver"
-            android:textColor="#9e9fa0"
-            android:layout_alignParentRight="true"
-            android:textSize="15sp"/>
+    </RelativeLayout>
 
-        <TextView
-            android:id="@+id/driver_line"
-            android:background="#e1e1e2"
-            android:layout_width="1dp"
-            android:layout_height="30dp"
-            android:layout_toLeftOf="@id/del_text"
-            android:layout_centerVertical="true"/>
-
-        <ImageView
-            android:id="@+id/driver_arrow"
-            android:src="@mipmap/ente_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:layout_toLeftOf="@id/driver_line"
-            android:layout_centerVertical="true"/>
-
-        <TextView
-            android:id="@+id/driver_name"
-            android:layout_width="match_parent"
-            android:layout_marginLeft="20dp"
-            android:text="小包子"
-            android:textColor="@color/basic_black"
-            android:layout_height="wrap_content"
-            android:layout_toLeftOf="@id/driver_arrow"
-            android:layout_toRightOf="@id/driver_left"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"/>
-
-        </RelativeLayout>
-
-    <TextView
-        android:id="@+id/driver_tips"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:visibility="gone"
-        android:paddingLeft="20dp"
-        android:gravity="center_vertical"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@id/driver_rl"
-        android:text="@string/driver_time_error"
-        android:textColor="#fa8f6e"
-        android:background="#fdfed8"
-        android:textSize="15sp" />
 
 </RelativeLayout>
