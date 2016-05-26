@@ -1,10 +1,13 @@
 package com.hugboga.custom.fragment;
 
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -15,6 +18,7 @@ import android.widget.TextView;
 
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.net.UrlLibs;
+import com.hugboga.custom.utils.AlertDialogUtils;
 import com.umeng.analytics.MobclickAgent;
 
 import org.xutils.common.Callback;
@@ -30,7 +34,7 @@ import butterknife.OnClick;
  * Created  on 16/5/13.
  */
 @ContentView(R.layout.fg_picksend)
-public class FgPickSend extends BaseFragment {
+public class FgPickSend extends BaseFragment implements View.OnTouchListener{
     @Bind(R.id.header_left_btn)
     ImageView headerLeftBtn;
     @Bind(R.id.daily_tap_1)
@@ -54,7 +58,49 @@ public class FgPickSend extends BaseFragment {
 
     @Override
     protected void initHeader() {
-
+        fgTitle.setText(R.string.title_transfer);
+        fgRightBtn.setText(R.string.noraml_question);
+        fgLeftBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if((fgPick.isVisible() && !TextUtils.isEmpty(fgPick.airTitle.getText())) || (fgSend.isVisible() && !TextUtils.isEmpty(fgSend.addressTips.getText())) ){
+                    AlertDialogUtils.showAlertDialog(getContext(), getString(R.string.back_alert_msg), "离开", "取消", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            finish();
+                        }
+                    }, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                }else{
+                    finish();
+                }
+            }
+        });
+        fgRightBtn.setVisibility(View.VISIBLE);
+        fgRightBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_PROBLEM);
+                startFragment(new FgWebInfo(), bundle);
+                if(pickOrSend == 1){
+                    HashMap<String,String> map = new HashMap<String,String>();
+                    map.put("source", "填写行程页面");
+                    MobclickAgent.onEvent(getActivity(), "callcenter_pickup", map);
+                    v.setTag("填写行程页面,calldomestic_pickup,calldomestic_pickup");
+                }else if(pickOrSend == 2){
+                    HashMap<String,String> map = new HashMap<String,String>();
+                    map.put("source", "填写行程页面");
+                    MobclickAgent.onEvent(getActivity(), "callcenter_dropoff", map);
+                    v.setTag("填写行程页面,calldomestic_dropoff,calloverseas_dropoff");
+                }
+            }
+        });
     }
 
     @Override
@@ -162,24 +208,11 @@ public class FgPickSend extends BaseFragment {
                     transaction.commit();
                 }
                 break;
-            case R.id.header_right_txt:
-                Bundle bundle = new Bundle();
-                bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_PROBLEM);
-                startFragment(new FgWebInfo(), bundle);
-                if(pickOrSend == 1){
-                    HashMap<String,String> map = new HashMap<String,String>();
-                    map.put("source", "填写行程页面");
-                    MobclickAgent.onEvent(getActivity(), "callcenter_pickup", map);
-                    view.setTag("填写行程页面,calldomestic_pickup,calldomestic_pickup");
-                }else if(pickOrSend == 2){
-                    HashMap<String,String> map = new HashMap<String,String>();
-                    map.put("source", "填写行程页面");
-                    MobclickAgent.onEvent(getActivity(), "callcenter_dropoff", map);
-                    view.setTag("填写行程页面,calldomestic_dropoff,calloverseas_dropoff");
-                }
-                break;
         }
     }
 
-
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        return true;
+    }
 }

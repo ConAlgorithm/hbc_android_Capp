@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <include layout="@layout/include_fg_pick_send_car" />
+
+    <include layout="@layout/include_fg_pick_send_man" />
+
+    <LinearLayout
+        android:id="@+id/car_empty_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/basic_white"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dip"
+            android:src="@mipmap/journey_sorry" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dip"
+            android:text="该地区暂无可用车辆" />
+    </LinearLayout>
+</LinearLayout>

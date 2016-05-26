@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.location.LocationManager;
 import android.provider.Settings;
 
+import com.hugboga.custom.data.bean.GPSBean;
+
 /**
  * Created  on 16/4/12.
  */
@@ -18,6 +20,8 @@ public class LocationUtils {
     public static void saveLocationInfo(Context context,String lat,String lng){
         new SharedPre(context).saveStringValue("lat",lat);
         new SharedPre(context).saveStringValue("lng",lng);
+        GPSBean.lat = lat;
+        GPSBean.lng = lng;
     }
 
     public static void saveLocationCity(Context context,String cityId,String cityName,String countryId,String countryName){

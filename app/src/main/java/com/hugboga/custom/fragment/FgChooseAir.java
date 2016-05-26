@@ -1,17 +1,20 @@
 package com.hugboga.custom.fragment;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 
 import org.xutils.common.Callback;
@@ -41,10 +44,25 @@ public class FgChooseAir extends BaseFragment {
 
     TextView fgTitle;
     ImageView header_left_btn;
+    @Bind(R.id.daily_tap_1)
+    TextView dailyTap1;
+    @Bind(R.id.daily_tap_line1)
+    View dailyTapLine1;
+    @Bind(R.id.daily_layout_1)
+    RelativeLayout dailyLayout1;
+    @Bind(R.id.daily_tap_2)
+    TextView dailyTap2;
+    @Bind(R.id.daily_tap_line2)
+    View dailyTapLine2;
+    @Bind(R.id.daily_layout_2)
+    RelativeLayout dailyLayout2;
+    @Bind(R.id.header_center)
+    LinearLayout headerCenter;
+
     @Override
     protected void initHeader() {
-        fgTitle = (TextView)rootView.findViewById(R.id.header_title);
-        header_left_btn = (ImageView)rootView.findViewById(R.id.header_left_btn);
+        fgTitle = (TextView) rootView.findViewById(R.id.header_title);
+        header_left_btn = (ImageView) rootView.findViewById(R.id.header_left_btn);
 
 
         header_left_btn.setOnClickListener(new View.OnClickListener() {
@@ -66,6 +84,7 @@ public class FgChooseAir extends BaseFragment {
 
     View rootView;
     FragmentTransaction transaction;
+
     @Override
     protected void initView() {
 
@@ -82,45 +101,44 @@ public class FgChooseAir extends BaseFragment {
         transaction = fm.beginTransaction();
         transaction.add(R.id.choose_content, fgChooseAirAddress);
         transaction.commit();
-        address = (RadioButton)rootView.findViewById(R.id.address_radio);
-        number = (RadioButton)rootView.findViewById(R.id.number_radio);
-        address.setChecked(true);
-        address.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked && buttonView.getId() == R.id.address_radio){
-                    if (!fgChooseAirAddress.isAdded()) {
-                        transaction = fm.beginTransaction();
-                        transaction.add(R.id.choose_content, fgChooseAirAddress);
-//                    transaction.addToBackStack(null);
-                        transaction.commit();
-                    } else if (!fgChooseAirAddress.isVisible()) {
-                        transaction = fm.beginTransaction();
-                        transaction.hide(fgChooseAirNumber);
-                        transaction.show(fgChooseAirAddress);
-                        transaction.commit();
-                    }
-                }
-            }
-        });
-
-        number.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked  && buttonView.getId() == R.id.number_radio){
-                    if (!fgChooseAirNumber.isAdded()) {
-                        transaction = fm.beginTransaction();
-                        transaction.add(R.id.choose_content, fgChooseAirNumber);
-                        transaction.commit();
-                    } else if (!fgChooseAirNumber.isVisible()) {
-                        transaction = fm.beginTransaction();
-                        transaction.hide(fgChooseAirAddress);
-                        transaction.show(fgChooseAirNumber);
-                        transaction.commit();
-                    }
-                }
-            }
-        });
+//        address = (RadioButton) rootView.findViewById(R.id.address_radio);
+//        number = (RadioButton) rootView.findViewById(R.id.number_radio);
+//        address.setChecked(true);
+//        address.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                if (isChecked && buttonView.getId() == R.id.address_radio) {
+//                    if (!fgChooseAirAddress.isAdded()) {
+//                        transaction = fm.beginTransaction();
+//                        transaction.add(R.id.choose_content, fgChooseAirAddress);
+//                        transaction.commit();
+//                    } else {
+//                        transaction = fm.beginTransaction();
+//                        transaction.hide(fgChooseAirNumber);
+//                        transaction.show(fgChooseAirAddress);
+//                        transaction.commit();
+//                    }
+//                }
+//            }
+//        });
+//
+//        number.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                if (isChecked && buttonView.getId() == R.id.number_radio) {
+//                    if (!fgChooseAirNumber.isAdded()) {
+//                        transaction = fm.beginTransaction();
+//                        transaction.add(R.id.choose_content, fgChooseAirNumber);
+//                        transaction.commit();
+//                    } else {
+//                        transaction = fm.beginTransaction();
+//                        transaction.hide(fgChooseAirAddress);
+//                        transaction.show(fgChooseAirNumber);
+//                        transaction.commit();
+//                    }
+//                }
+//            }
+//        });
 
     }
 
@@ -135,9 +153,17 @@ public class FgChooseAir extends BaseFragment {
     }
 
     @Override
+    public void onFragmentResult(Bundle bundle) {
+        MLog.w(this + " onFragmentResult " + bundle);
+        String from = bundle.getString(KEY_FROM);
+        if ("FlightList".equals(from)) {
+            finishForResult(bundle);
+        }
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
-        rootView = inflater.inflate(R.layout.fg_choose_air,null);
+        rootView = inflater.inflate(R.layout.fg_choose_air, null);
         ButterKnife.bind(this, rootView);
         return rootView;
     }
@@ -148,15 +174,58 @@ public class FgChooseAir extends BaseFragment {
         ButterKnife.unbind(this);
     }
 
-    @OnClick({R.id.header_left_btn, R.id.header_title, R.id.header_right_txt})
+    private void selectTap(int index) {
+        if (index == 1) {
+            dailyTapLine1.setVisibility(View.GONE);
+            dailyTapLine2.setVisibility(View.VISIBLE);
+            dailyTap1.setTextColor(Color.parseColor("#878787"));
+            dailyTap2.setTextColor(getResources().getColor(R.color.basic_white));
+        } else {
+            dailyTapLine1.setVisibility(View.VISIBLE);
+            dailyTapLine2.setVisibility(View.GONE);
+            dailyTap1.setTextColor(getResources().getColor(R.color.basic_white));
+            dailyTap2.setTextColor(Color.parseColor("#878787"));
+        }
+    }
+
+    private int pickOrSend = 1; //1接机 2送机
+
+    @OnClick({R.id.header_left_btn, R.id.header_title, R.id.daily_layout_1,R.id.daily_layout_2})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.header_left_btn:
                 break;
             case R.id.header_title:
                 break;
-            case R.id.header_right_txt:
+            case R.id.daily_layout_1:
+                selectTap(0);
+                pickOrSend = 1;
+                if (!fgChooseAirAddress.isAdded()) {
+                    transaction = fm.beginTransaction();
+                    transaction.add(R.id.choose_content, fgChooseAirAddress);
+                    transaction.commit();
+                } else {
+                    transaction = fm.beginTransaction();
+                    transaction.hide(fgChooseAirNumber);
+                    transaction.show(fgChooseAirAddress);
+                    transaction.commit();
+                }
+                break;
+            case R.id.daily_layout_2:
+                selectTap(1);
+                pickOrSend = 2;
+                if (!fgChooseAirNumber.isAdded()) {
+                    transaction = fm.beginTransaction();
+                    transaction.add(R.id.choose_content, fgChooseAirNumber);
+                    transaction.commit();
+                } else {
+                    transaction = fm.beginTransaction();
+                    transaction.hide(fgChooseAirAddress);
+                    transaction.show(fgChooseAirNumber);
+                    transaction.commit();
+                }
                 break;
         }
     }
+
 }

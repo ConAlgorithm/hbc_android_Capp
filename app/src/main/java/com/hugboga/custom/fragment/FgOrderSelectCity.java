@@ -25,7 +25,12 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.OrderSelectCityAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityBean;
+import com.hugboga.custom.data.bean.CollectGuideBean;
 import com.hugboga.custom.data.bean.SavedCityBean;
+import com.hugboga.custom.data.bean.UserEntity;
+import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.event.EventType;
+import com.hugboga.custom.data.request.RequestCollectGuidesFilter;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.DBCityUtils;
 import com.hugboga.custom.utils.DateUtils;
@@ -42,6 +47,9 @@ import org.xutils.view.annotation.ViewInject;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+
+import butterknife.ButterKnife;
+import de.greenrobot.event.EventBus;
 
 /**
  * Created  on 16/4/14.
@@ -712,11 +720,38 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
         return false;
     }
 
+
+    private boolean checkParams(){
+        if(null != startBean
+                && isHalfTravel?!TextUtils.isEmpty(halfDate):!TextUtils.isEmpty(start_date_str)
+                && isHalfTravel?!TextUtils.isEmpty(halfDate):!TextUtils.isEmpty(end_date_str)){
+            return true;
+        }else{
+            ToastUtils.showShort(R.string.dairy_inout_check);
+            return false;
+        }
+    }
+
     boolean isHalfTravel = false;
 
-    @Event({R.id.minus, R.id.add, R.id.header_left_btn, R.id.start_city_click, R.id.people_text_click, R.id.show_child_seat_layout, R.id.child_no_confirm_click, R.id.baggage_text_click, R.id.baggage_no_confirm_click, R.id.start_layout_click, R.id.end_layout_click, R.id.go_city_text_click, R.id.next_btn_click})
+    @Event({R.id.choose_driver,R.id.minus, R.id.add, R.id.header_left_btn, R.id.start_city_click, R.id.people_text_click, R.id.show_child_seat_layout, R.id.child_no_confirm_click, R.id.baggage_text_click, R.id.baggage_no_confirm_click, R.id.start_layout_click, R.id.end_layout_click, R.id.go_city_text_click, R.id.next_btn_click})
     private void onClickView(View view) {
         switch (view.getId()) {
+            case R.id.choose_driver:
+                if (UserEntity.getUser().isLogin(getActivity())) {
+                    if(checkParams()) {
+                        FgCollectGuideList fgCollectGuideList = new FgCollectGuideList();
+                        Bundle bundle = new Bundle();
+                        RequestCollectGuidesFilter.CollectGuidesFilterParams params = new RequestCollectGuidesFilter.CollectGuidesFilterParams();
+                        params.startCityId = startBean.cityId;
+                        params.startTime = isHalfTravel?halfDate:start_date_str;
+                        params.endTime = isHalfTravel?halfDate:end_date_str;
+                        bundle.putSerializable(Constants.PARAMS_DATA, params);
+                        fgCollectGuideList.setArguments(bundle);
+                        startFragment(fgCollectGuideList);
+                    }
+                }
+                break;
             case R.id.minus:
                 if (childSeatNums >= 1) {
                     childSeatNums--;
@@ -986,6 +1021,31 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
         dpd.setMaxDate(cal);
         dpd.show(this.getActivity().getFragmentManager(), "DatePickerDialog");   //显示日期设置对话框
 
+    }
+    public void onEventMainThread(EventAction action) {
+        switch (action.getType()) {
+            case CHOOSE_GUIDE:
+                CollectGuideBean collectGuideBean = (CollectGuideBean)action.getData();
+                break;
+            default:
+                break;
+        }
+    }
+
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        ButterKnife.bind(this, rootView);
+        EventBus.getDefault().register(this);
+        return rootView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+        EventBus.getDefault().unregister(this);
     }
 
     @Override

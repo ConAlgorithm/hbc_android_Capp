@@ -9,7 +9,7 @@ import com.huangbaoche.hbcframe.util.SharedPre;
 import com.hugboga.custom.data.bean.LocationCity;
 import com.hugboga.custom.data.net.NewParamsBuilder;
 import com.hugboga.custom.data.net.UrlLibs;
-import com.hugboga.custom.data.parser.ParseLocationCity;
+import com.hugboga.custom.data.parser.ParseLocationCityV10;
 
 import org.xutils.http.HttpMethod;
 import org.xutils.http.annotation.HttpRequest;
@@ -44,7 +44,7 @@ public class RequestUploadLocation extends BaseRequest<LocationCity> {
 
     @Override
     public ImplParser getParser() {
-        return new ParseLocationCity();
+        return new ParseLocationCityV10();
     }
 
     @Override

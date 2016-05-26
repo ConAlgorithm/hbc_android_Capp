@@ -65,8 +65,8 @@
     <string name="web_error">网络不给力，点击重新加载!</string>
 
     <!-- title-->
-    <string name="title_pick">中文接机</string>
-    <string name="title_send">中文送机</string>
+    <string name="title_pick">接机</string>
+    <string name="title_send">送机</string>
     <string name="title_daily">包车游</string>
     <string name="title_daily_in_town">包车游</string>
     <string name="title_daily_out_town">包车游</string>
@@ -322,17 +322,17 @@
     <string name="add_user_phone_area_no">选择区号></string>
     <string name="add_user_phone">联系人电话</string>
     <string name="local_time">09:00(当地时间)</string>
-    <string name="aboard_where">请填写上车地点</string>
+    <string name="aboard_where">请选择上车地点</string>
     <string name="hotel_phone">酒店电话</string>
     <string name="order_tips">选填,行前可以随时联系司导更改</string>
     <string name="add_other_phone">+ 增加备用电话</string>
     <string name="for_other_people">为他人订车</string>
-    <string name="total_order">总额:</string>
+    <string name="total_order">还需支付:</string>
     <string name="order_info">明细 ></string>
     <string name="submit_order">立即支付</string>
 
-    <string name="up_time">上车时间</string>
-    <string name="up_site">上车地点</string>
+    <string name="up_time">&#160;上车时间</string>
+    <string name="up_site">*上车地点</string>
 
     <string name="passenger">* 乘车人</string>
     <string name="add_passenger">请填写乘车人姓名</string>
@@ -352,7 +352,7 @@
     <string name="complete_days_info">请完善每天的行程</string>
     <string name="complete_half_start_date">请完善游玩日期</string>
     <string name="edit_mark_left">备注信息</string>
-    <string name="edit_mark">你可以在这里注明其他需求,以及需要车导知道的其他行程细节</string>
+    <string name="edit_mark">给司导捎句话</string>
     <string name="all_cost_info">费用详情</string>
 
     <string name="noraml_question">常见问题</string>
@@ -383,6 +383,64 @@
     <string name="choose_search_history">查询历史</string>
     <string name="choose_clean_all_history">全部清除</string>
     <string name="choose_input_air_no">请输入航班号,例如CA979</string>
+    <string name="choose_input_air_no_left">航班号</string>
+
+    <string name="can_sit_man">可乘坐</string>
+
+    <string name="man_luggage_num_left">人数行李数</string>
+    <string name="choose_man_luggage">请选择</string>
+    <string name="child_seat_money">收费儿童座椅</string>
+    <string name="checkin">协助办理登机check in</string>
+    <string name="pick_wait">接机举牌等待</string>
+    <string name="cost_0">(服务费 ￥0)</string>
+    <string name="all_cost">费用总计:</string>
+    <string name="whole_journey">全程预估:</string>
+    <string name="confirm_journey">确认行程</string>
+
+    <string name="del_driver">删除</string>
+    <string name="driver_left">指定司导</string>
+    <string name="driver_time_error">当前司导的服务时间冲突</string>
+
+    <string name="man_luggage_title">乘客及行李数</string>
+    <string name="man_luggage_man">成人</string>
+    <string name="man_luggage_child">儿童</string>
+    <string name="man_luggage_12">(12岁及以下)</string>
+    <string name="man_luggage_l">行李</string>
+    <string name="man_luggage_24">(24寸)</string>
+    <string name="man_luuage_child_seat">儿童座椅(单个占1.5座位)</string>
+    <string name="man_luggage_free">免费儿童座椅</string>
+    <string name="man_luggage_charge">收费儿童座椅</string>
+    <string name="man_luggage_0">￥ 0/次</string>
+    <string name="man_luggage_30">￥ 30/次</string>
+    <string name="man_luggage_tips1">一个儿童也需要占1个座位,如果选用儿童座椅需占1.5个座位</string>
+    <string name="man_luggage_tips2">每减少一位乘客,可增加一个行李箱</string>
+    <string name="man_luggage_tips3">行李箱是指航空公司要求必须托运的行李,最小标准24寸;1个28寸行李等于2个24寸行李的位置</string>
+
+    <string name="man_luggage_not_have">很抱歉，该城市暂不提供儿童座椅</string>
+
+    <string name="city_use_car">用车城市</string>
+    <string name="single_start_city">出发地</string>
+    <string name="single_end_city">目的地</string>
+
+    <string name="single_choose_city">请选择城市</string>
+    <string name="single_end_city_tips">送您到哪里去</string>
+
+    <string name="sku_go_date">出发日期</string>
+    <string name="sku_go_date_tips">请选择出发日期</string>
+    <string name="sku_new_title">安排您的行程</string>当前城市机场
+
+    <string name="back_alert_msg">离开当前页面所选行程将会丢失，确定要离开吗？</string>
+    <string name="location_airport">当前城市机场</string>
+    <string name="location_fail">定位失败，请开启GPS</string>
+
+    <string name="choose_like_driver_order">选择已收藏司导下单</string>
+
+    <string name="my_travel_title">我的行程单</string>
+    <string name="my_coupon">优惠券</string>
+    <string name="my_get_money">梦想基金</string>
+    <string name="free_8_insure">赠价值8万元平安保险</string>
+    <string name="back_title">订单退改规则:</string>
+    <string name="huangbaoche_buy">由皇包车支付</string>
 
     <string name="about_copyright">Copyright@2014-2016皇包车</string>
     <string name="about_version">皇包车 Hi Guides %1$s_%2$s</string>
@@ -425,4 +483,6 @@
     <string name="travel_fund_price">旅游基金 %1$s元</string>
     <string name="travel_fund_validity">有效期至：%1$s</string>
     <string name="travel_fund_details">使用明细</string>
+
+    <string name="dairy_inout_check">请先输入您的城市/出行时间</string>
 </resources>

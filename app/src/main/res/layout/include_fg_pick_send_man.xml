@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="5dp"
+    android:background="#e0e1e2"
+    android:orientation="vertical">
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@color/basic_white"
+        android:clickable="true"
+        android:minHeight="60dp">
+
+        <TextView
+            android:id="@+id/man_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:minEms="4"
+            android:text="@string/man_luggage_num_left"
+            android:textColor="@color/basic_black"
+            android:textSize="15sp" />
+
+        <ImageView
+            android:id="@+id/man_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:minEms="4"
+            android:src="@mipmap/ente_icon" />
+
+        <RelativeLayout
+            android:id="@+id/rl_man"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/man_right"
+            android:layout_toRightOf="@id/man_left"
+            android:clickable="true"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:paddingBottom="15dp"
+            android:paddingTop="15dp">
+
+            <TextView
+                android:id="@+id/man_tips"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15dp"
+                android:clickable="false"
+                android:hint="@string/choose_man_luggage"
+                android:minEms="4"
+                android:textColor="#9d9e9f"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/man_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="15dp"
+                android:minEms="4"
+                android:text="@string/air_info"
+                android:textColor="@color/basic_black"
+                android:textSize="15sp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/luggage_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_toRightOf="@id/man_text"
+                android:minEms="4"
+                android:text="@string/air_info"
+                android:textColor="@color/basic_black"
+                android:textSize="15sp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/childseat_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@id/man_text"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"
+                android:minEms="4"
+                android:text="@string/air_info"
+                android:textColor="@color/basic_black"
+                android:textSize="15sp"
+                android:visibility="gone" />
+
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/free_seat_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/car_info"
+        android:layout_marginTop="1dp"
+        android:background="@color/basic_white"
+        android:clickable="true"
+        android:visibility="gone"
+        android:minHeight="60dp">
+
+        <TextView
+            android:id="@+id/free_c_seat_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:text="@string/man_luggage_free"
+            android:textColor="@color/basic_black"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/free_c_seat_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@id/free_c_seat_left"
+            android:text="@string/man_luggage_0"
+            android:textColor="#f95833"
+            android:textSize="15sp" />
+
+
+        <TextView
+            android:id="@+id/free_c_seat_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:background="@color/basic_white"
+            android:gravity="center"
+            android:text="x 1"
+            android:textSize="15sp" />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/charge_seat_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_marginTop="1dp"
+        android:background="@color/basic_white"
+        android:clickable="true"
+        android:minHeight="60dp">
+
+        <TextView
+            android:id="@+id/child_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:minEms="4"
+            android:text="@string/child_seat_money"
+            android:textColor="@color/basic_black"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/child_count_cost"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:layout_toRightOf="@id/child_left"
+            android:minEms="4"
+            android:text="￥30/次"
+            android:textColor="#fb4f27"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/child_count_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:text="x1"
+            android:textSize="15sp" />
+
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/checkin_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:visibility="gone"
+        android:background="@color/basic_white"
+        android:clickable="true"
+        android:minHeight="60dp">
+
+        <TextView
+            android:id="@+id/checkin_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:minEms="4"
+            android:text="@string/checkin"
+            android:textColor="@color/basic_black"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/checkin_money"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/checkin_left"
+            android:minEms="4"
+            android:text="@string/cost_0"
+            android:textColor="#fb4f27"
+            android:textSize="15sp" />
+
+        <CheckBox
+            android:id="@+id/check_switch"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@drawable/switch_bg"
+            android:background="@null"
+            android:checked="false" />
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/wait_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:visibility="gone"
+        android:background="@color/basic_white"
+        android:clickable="true"
+        android:minHeight="60dp">
+
+        <TextView
+            android:id="@+id/wait_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:minEms="4"
+            android:text="@string/pick_wait"
+            android:textColor="@color/basic_black"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/wait_money"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/wait_left"
+            android:minEms="4"
+            android:text="@string/cost_0"
+            android:textColor="#fb4f27"
+            android:textSize="15sp" />
+
+        <CheckBox
+            android:id="@+id/wait_switch"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@drawable/switch_bg"
+            android:background="@null"
+            android:checked="false" />
+
+
+    </RelativeLayout>
+
+</LinearLayout>

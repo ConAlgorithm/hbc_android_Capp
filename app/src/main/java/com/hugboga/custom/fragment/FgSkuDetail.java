@@ -4,29 +4,20 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.webkit.WebView;
 
-import com.huangbaoche.hbcframe.util.MLog;
 import com.huangbaoche.hbcframe.util.WXShareUtils;
 import com.hugboga.custom.R;
-import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.SkuItemBean;
-import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.widget.DialogUtil;
 import com.umeng.analytics.MobclickAgent;
 
 import org.xutils.common.util.LogUtil;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
-import org.xutils.view.annotation.ViewInject;
 
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.TreeMap;
 
 /**
  * Created by admin on 2016/3/17.
@@ -75,7 +66,11 @@ public class FgSkuDetail extends FgWebInfo {
                 if(getArguments()!=null){
                     bundle.putAll(getArguments());
                 }
-                startFragment(new FgSkuSubmit(), bundle);
+                bundle.putSerializable(FgSkuDetail.WEB_SKU,skuItemBean);
+                bundle.putSerializable(FgSkuDetail.WEB_CITY,cityBean);
+                bundle.putString("source",source);
+//                startFragment(new FgSkuSubmit(), source);
+                startFragment(new FgSkuNew(), bundle);
 
                 map.put("routecity", cityBean.name);
                 map.put("routename", skuItemBean.goodsName);

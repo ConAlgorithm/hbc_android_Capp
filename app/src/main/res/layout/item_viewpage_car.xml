@@ -3,8 +3,7 @@
     android:orientation="vertical"
     android:gravity="center_horizontal"
     android:layout_width="match_parent"
-    android:layout_height="120dip"
-    android:paddingTop="5dip">
+    android:layout_height="wrap_content">
 
     <ImageView
         android:id="@+id/item_car_img"
@@ -26,6 +25,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="20dip"
-        android:layout_marginTop="5dip"
-        android:text="sadsads" />
+        android:textColor="@color/basic_black"
+        android:text="测试" />
 </LinearLayout>

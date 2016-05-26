@@ -1,43 +1,178 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:background="@color/basic_white"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#e8eaeb"
+    android:orientation="vertical">
 
-    <include layout="@layout/include_header"/>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:background="@color/basic_white"
+        android:clickable="true"
+        android:minHeight="60dp">
 
-    <RadioGroup
+        <TextView
+            android:id="@+id/number_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:minEms="4"
+            android:text="@string/choose_input_air_no_left"
+            android:textSize="15sp" />
+
+        <LinearLayout
+            android:id="@+id/rl_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/number_left"
+            android:clickable="true"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:paddingBottom="15dp"
+            android:paddingTop="15dp">
+
+            <EditText
+                android:id="@+id/number_tips"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15dp"
+                android:clickable="false"
+                android:hint="@string/choose_input_air_no"
+                android:minEms="4"
+                android:background="@null"
+                android:textColor="@color/basic_black"
+                android:textColorHint="#858687"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:background="@color/basic_white"
+        android:clickable="true"
+        android:minHeight="60dp">
+
+        <TextView
+            android:id="@+id/address_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:minEms="4"
+            android:text="@string/choose_fly_date"
+            android:textSize="15sp" />
+
+        <LinearLayout
+            android:id="@+id/rl_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/address_left"
+            android:clickable="true"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:paddingBottom="15dp"
+            android:paddingTop="15dp">
+
+            <TextView
+                android:id="@+id/address_tips"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15dp"
+                android:clickable="false"
+                android:hint="@string/choose_fly_date_tips"
+                android:minEms="4"
+                android:textColor="@color/basic_black"
+                android:textColorHint="#858687"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+    </RelativeLayout>
+
+    <TextView
         android:layout_width="match_parent"
-        android:orientation="horizontal"
-        android:background="#2d2b24"
+        android:layout_height="40dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="15dp"
+        android:clickable="false"
         android:gravity="center"
-        android:layout_height="60dp">
+        android:hint="@string/choose_bottom_tips"
+        android:minEms="4"
+        android:textColor="#9d9e9f"
+        android:textColorHint="#858687"
+        android:textSize="15sp" />
 
-        <RadioButton
-            android:id="@+id/address_radio"
-            android:text="@string/choose_by_address"
-            android:layout_width="120dp"
+    <Button
+        android:id="@+id/search"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="#d5dadb"
+        android:enabled="false"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:text="@string/choose_search"
+        android:textColor="@color/basic_white"
+        android:textSize="20sp" />
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="#d0d1d3" />
+
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:layout_centerHorizontal="true"
+            android:background="#e8eaeb"
             android:gravity="center"
-            android:textSize="15sp"
-            android:background="@drawable/radio_left_choose"
-            android:textColor="@color/choose_air"
-            android:button="@null"
-            android:layout_height="30dp" />
+            android:text="@string/choose_search_history" />
+    </RelativeLayout>
 
-        <RadioButton
-            android:id="@+id/number_radio"
-            android:text="@string/choose_by_air_no"
-            android:layout_width="120dp"
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:id="@+id/show_history"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:gravity="center"
-            android:textSize="15sp"
-            android:background="@drawable/radio_right_choose"
-            android:textColor="@color/choose_air"
-            android:button="@null"
-            android:layout_height="30dp" />
-    </RadioGroup>
+            android:visibility="gone"
+            android:orientation="vertical">
 
-    <FrameLayout
-        android:id="@+id/daily_content"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent" />
+            <LinearLayout
+                android:id="@+id/history_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"></LinearLayout>
+
+            <TextView
+                android:id="@+id/clean_all_history"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:layout_centerHorizontal="true"
+                android:background="#e8eaeb"
+                android:gravity="center"
+                android:text="@string/choose_clean_all_history" />
+        </LinearLayout>
+    </ScrollView>
+
 </LinearLayout>
