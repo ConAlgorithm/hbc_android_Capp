@@ -464,6 +464,26 @@
     <string name="collect_guide_appointments_car">预约包车游</string>
     <string name="collect_guide_appointments_single">预约单次接送</string>
 
+    <string name="collect">收藏Ta</string>
+    <string name="uncollect">取消收藏</string>
+    <string name="evaluate">去评价</string>
+
+    <string name="invite_friends_title">邀请好友</string>
+    <string name="invite_friends_share">立即分享</string>
+    <string name="invite_friends_copy_promotion_code">复制优惠码</string>
+    <string name="invite_friends_succeed">已邀请成功%1$s位好友  共获得%2$s元</string>
+    <string name="invite_friends_promotion_code">优惠码</string>
+    <string name="invite_friends_rule">规则说明</string>
+    <string name="invite_friends_source_1">首次使用</string>
+    <string name="invite_friends_source_2">首次使用提成</string>
+    <string name="invite_friends_source_3">订单消费</string>
+    <string name="invite_friends_source_4">过期</string>
+
+    <string name="travel_fund_title">旅游基金</string>
+    <string name="travel_fund_price">旅游基金 %1$s元</string>
+    <string name="travel_fund_validity">有效期至：%1$s</string>
+    <string name="travel_fund_details">使用明细</string>
+
     <string name="dairy_inout_check">请先输入您的城市/出行时间</string>
     <string name="coupon_num">%s张优惠券可用</string>
     <string name="dream_money">梦想基金</string>

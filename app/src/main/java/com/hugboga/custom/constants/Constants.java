@@ -36,6 +36,7 @@ public final class Constants {
     public static final String PARAMS_DATA = "data";
 
     public static final int DEFAULT_PAGESIZE = 20;
+    public static final int REQUEST_SOURCE = 1;
 
     public static final String[][] TaiCityNames = {{"曼谷", UrlLibs.H5_TAI_MANGU},
             {"普吉", UrlLibs.H5_TAI_PUJIDAO},
