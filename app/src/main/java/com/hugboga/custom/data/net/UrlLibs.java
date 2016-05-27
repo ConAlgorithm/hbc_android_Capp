@@ -35,7 +35,7 @@ public class UrlLibs {
     public static String TEST_H5_HOST = "http://res.test.hbc.tech";
     public static String FORMAL_H5_HOST = "http://res2.huangbaoche.com";
 
-    public static String H5_HOST = FORMAL_H5_HOST;
+    public static String H5_HOST = TEST_H5_HOST;
 
     public static String H5_ACTIVITY= H5_HOST + "/h5/cactivity/index.html?userId=";//国行
     public static String H5_ABOUT = H5_HOST+"/h5/cinfos/about.html";//  关于我们

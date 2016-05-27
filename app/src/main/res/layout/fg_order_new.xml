@@ -197,7 +197,7 @@
 
 
                         <TextView
-                            android:id="@+id/address_title"
+                            android:id="@+id/man_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
@@ -209,7 +209,7 @@
                             android:textSize="15sp"/>
 
                         <TextView
-                            android:id="@+id/address_detail"
+                            android:id="@+id/man_phone"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
@@ -224,6 +224,108 @@
                     </LinearLayout>
 
                 </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    android:id="@+id/other_layout"
+                    android:visibility="gone"
+                    android:background="@color/basic_white"
+                    android:clickable="true"
+                    android:minHeight="60dp">
+
+                    <TextView
+                        android:id="@+id/other_phone_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="15dp"
+                        android:textColor="@color/basic_black"
+                        android:minEms="4"
+                        android:text="@string/passenger_no_star"
+                        android:textSize="15sp" />
+
+
+                    <LinearLayout
+                        android:id="@+id/other_phone_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@id/other_phone_name"
+                        android:clickable="true"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical"
+                        android:paddingBottom="15dp"
+                        android:paddingTop="15dp">
+
+
+                        <TextView
+                            android:id="@+id/other_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginRight="15dp"
+                            android:minEms="4"
+                            android:text="@string/air_info"
+                            android:textColor="@color/basic_black"
+                            android:textSize="15sp"/>
+
+                        <TextView
+                            android:id="@+id/other_phone"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginRight="15dp"
+                            android:minEms="4"
+                            android:text="@string/air_info"
+                            android:textColor="#9d9e9f"
+                            android:textSize="15sp"/>
+
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    android:background="@color/basic_white"
+                    android:clickable="true"
+                    android:minHeight="60dp">
+
+                    <TextView
+                        android:id="@+id/pick_name_left"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="15dp"
+                        android:textColor="@color/basic_black"
+                        android:minEms="4"
+                        android:text="@string/pick_name_star"
+                        android:textSize="15sp" />
+
+                    <EditText
+                        android:id="@+id/pick_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@id/pick_name_left"
+                        android:layout_marginLeft="15dp"
+                        android:background="@color/basic_white"
+                        android:textColor="@color/basic_black"
+                        android:minEms="4"
+                        android:hint="请填写接机牌姓名"
+                        android:textSize="15sp" />
+
+
+
+                </RelativeLayout>
+
 
                 <RelativeLayout
                 android:layout_width="wrap_content"
@@ -512,7 +614,7 @@
                         android:drawablePadding="10dp"
                         android:drawableLeft="@mipmap/order_right"
                         android:minEms="4"
-                        android:text="@string/dream_money"
+                        android:text="@string/change_detail_txt"
                         android:textSize="15sp" />
 
                     <TextView

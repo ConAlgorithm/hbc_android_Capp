@@ -2,10 +2,9 @@ package com.hugboga.custom.fragment;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
-import android.util.Log;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,9 +16,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
-import com.hugboga.custom.data.bean.ManLuggageBean;
+import com.hugboga.custom.data.bean.ContactUsersBean;
 import com.hugboga.custom.data.event.EventAction;
-import com.hugboga.custom.utils.PhoneInfo;
+import com.hugboga.custom.data.event.EventType;
+import com.hugboga.custom.utils.ToastUtils;
 
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
@@ -27,15 +27,12 @@ import org.xutils.view.annotation.ContentView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
-import static android.R.attr.action;
-import static android.R.attr.data;
-import static android.R.attr.x;
-import static android.support.v7.widget.StaggeredGridLayoutManager.TAG;
-import static com.hugboga.custom.R.id.add_other_phone_click;
-import static com.hugboga.custom.R.id.user_phone_text;
-import static com.hugboga.custom.data.event.EventType.CONTACT;
 import de.greenrobot.event.EventBus;
+
+import static com.hugboga.custom.R.id.add;
+import static com.hugboga.custom.R.id.add_other_phone_click;
+import static com.hugboga.custom.R.id.passenger_phone_text;
+import static com.hugboga.custom.R.id.user_phone_text;
 
 /**
  * Created on 16/5/26.
@@ -112,7 +109,7 @@ public class FgChooseOther extends BaseFragment {
     EditText passengerText;
     @Bind(R.id.passenger_phone_text_code_click)
     TextView passengerPhoneTextCodeClick;
-    @Bind(R.id.passenger_phone_text)
+    @Bind(passenger_phone_text)
     EditText passengerPhoneText;
     @Bind(R.id.message_left)
     TextView messageLeft;
@@ -123,6 +120,8 @@ public class FgChooseOther extends BaseFragment {
     @Bind(R.id.other_layout)
     LinearLayout otherLayout;
 
+
+    ContactUsersBean contactUsersBean;
     @Override
     protected void initHeader() {
         fgLeftBtn.setOnClickListener(new View.OnClickListener() {
@@ -137,6 +136,56 @@ public class FgChooseOther extends BaseFragment {
         fgRightBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(TextUtils.isEmpty(nameText.getText())
+                        || TextUtils.isEmpty(userPhoneText.getText())
+                        || TextUtils.isEmpty(userPhoneTextCodeClick.getText())) {
+                    ToastUtils.showShort("联系人名称和电话不能为空");
+                    return;
+                }
+
+                if(user1Layout.isShown() && (TextUtils.isEmpty(name1Text.getText())
+                        || TextUtils.isEmpty(user1PhoneText.getText())
+                        || TextUtils.isEmpty(user1PhoneTextCodeClick.getText()))) {
+                    ToastUtils.showShort("备用联系人名称和电话不能为空");
+                    return;
+                }
+
+                if(user2Layout.isShown() && (TextUtils.isEmpty(name2Text.getText())
+                        || TextUtils.isEmpty(user2PhoneText.getText())
+                        || TextUtils.isEmpty(user2PhoneTextCodeClick.getText()))) {
+                    ToastUtils.showShort("备用联系人名称和电话不能为空");
+                    return;
+                }
+
+                if(otherCheck.isChecked() && (TextUtils.isEmpty(passengerText.getText())
+                        || TextUtils.isEmpty(passengerPhoneTextCodeClick.getText())
+                        || TextUtils.isEmpty(passengerPhoneText.getText()))) {
+                    ToastUtils.showShort("乘车人名称和电话不能为空");
+                    return;
+                }
+
+                    contactUsersBean = new ContactUsersBean();
+                    contactUsersBean.userName = nameText.getText().toString();
+                    contactUsersBean.phoneCode = userPhoneTextCodeClick.getText().toString();
+                    contactUsersBean.userPhone = userPhoneText.getText().toString();
+
+                    contactUsersBean.user1Name = name1Text.getText().toString();
+                    contactUsersBean.phone1Code = user1PhoneTextCodeClick.getText().toString();
+                    contactUsersBean.user1Phone = user1PhoneText.getText().toString();
+
+                    contactUsersBean.user2Name = name2Text.getText().toString();
+                    contactUsersBean.phone2Code = user2PhoneTextCodeClick.getText().toString();
+                    contactUsersBean.user2Phone = user2PhoneText.getText().toString();
+
+                    contactUsersBean.otherName = passengerText.getText().toString();
+                    contactUsersBean.otherphoneCode = passengerPhoneTextCodeClick.getText().toString();
+                    contactUsersBean.otherPhone = passengerPhoneText.getText().toString();
+                    contactUsersBean.isForOther = otherCheck.isChecked();
+                    contactUsersBean.isSendMessage = messageCheck.isChecked();
+
+                    EventBus.getDefault().post(new EventAction(EventType.CONTACT_BACK, contactUsersBean));
+                    finish();
+
             }
         });
     }
@@ -158,6 +207,65 @@ public class FgChooseOther extends BaseFragment {
                 }
             }
         });
+
+        contactUsersBean = this.getArguments().getParcelable("contactUsersBean");
+        if(null != contactUsersBean){
+            if(!TextUtils.isEmpty(contactUsersBean.userName)) {
+                nameText.setText(contactUsersBean.userName);
+            }
+            if(!TextUtils.isEmpty(contactUsersBean.phoneCode)) {
+                userPhoneTextCodeClick.setText(contactUsersBean.phoneCode);
+            }
+            if(!TextUtils.isEmpty(contactUsersBean.userPhone)) {
+                userPhoneText.setText(contactUsersBean.userPhone);
+            }
+
+            if(!TextUtils.isEmpty(contactUsersBean.user1Name)){
+                user1Layout.setVisibility(View.VISIBLE);
+            }
+            if(!TextUtils.isEmpty(contactUsersBean.user1Name)) {
+                name1Text.setText(contactUsersBean.user1Name);
+            }
+            if(!TextUtils.isEmpty(contactUsersBean.phone1Code)) {
+                user1PhoneTextCodeClick.setText(contactUsersBean.phone1Code);
+            }
+            if(!TextUtils.isEmpty(contactUsersBean.user1Phone)) {
+                user1PhoneText.setText(contactUsersBean.user1Phone);
+            }
+
+            if(!TextUtils.isEmpty(contactUsersBean.user1Name)){
+                user2Layout.setVisibility(View.VISIBLE);
+            }
+
+            if(!TextUtils.isEmpty(contactUsersBean.user2Name)) {
+                name2Text.setText(contactUsersBean.user2Name);
+            }
+            if(!TextUtils.isEmpty(contactUsersBean.phone2Code)) {
+                user2PhoneTextCodeClick.setText(contactUsersBean.phone2Code);
+            }
+            if(!TextUtils.isEmpty(contactUsersBean.user2Phone)) {
+                user2PhoneText.setText(contactUsersBean.user2Phone);
+            }
+
+            if(!TextUtils.isEmpty(contactUsersBean.otherName)) {
+                passengerText.setText(contactUsersBean.otherName);
+            }
+            if(!TextUtils.isEmpty(contactUsersBean.otherphoneCode)) {
+                passengerPhoneTextCodeClick.setText(contactUsersBean.otherphoneCode);
+            }
+            if(!TextUtils.isEmpty(contactUsersBean.otherPhone)) {
+                passengerPhoneText.setText(contactUsersBean.otherPhone);
+            }
+
+            if(contactUsersBean.isForOther) {
+                otherCheck.setChecked(true);
+                otherLayout.setVisibility(View.VISIBLE);
+            }
+            if(contactUsersBean.isSendMessage){
+                messageCheck.setChecked(true);
+            }
+        }
+
     }
 
     @Override
@@ -202,37 +310,47 @@ public class FgChooseOther extends BaseFragment {
 
     private  int clickViewId = -1;//点击的通讯录view id
     public void onEventMainThread(EventAction action) {
-        String[] contact = (String[])action.getData();
-        switch (action.getType()) {
-            case CONTACT:
-                switch (clickViewId) {
-                    case R.id.name_right:
-                        nameText.setText(contact[0]);
-                        userPhoneText.setText("" + contact[1]);
-                        break;
-                    case R.id.name1_right:
-                        name1Text.setText(contact[0]);
-                        user1PhoneText.setText("" + contact[1]);
-                        break;
-                    case R.id.name2_right:
-                        name2Text.setText(contact[0]);
-                        user2PhoneText.setText("" + contact[1]);
-                        break;
-                    case R.id.passenger_right:
-                        passengerText.setText(contact[0]);
-                        passengerPhoneText.setText("" + contact[1]);
-                        break;
-                }
-                break;
-            default:
-                break;
+        if(action.getType() == EventType.CONTACT){
+            String[] contact = (String[])action.getData();
+            switch (action.getType()) {
+                case CONTACT:
+                    switch (clickViewId) {
+                        case R.id.name_right:
+                            nameText.setText(contact[0]);
+                            userPhoneText.setText("" + contact[1]);
+                            break;
+                        case R.id.name1_right:
+                            name1Text.setText(contact[0]);
+                            user1PhoneText.setText("" + contact[1]);
+                            break;
+                        case R.id.name2_right:
+                            name2Text.setText(contact[0]);
+                            user2PhoneText.setText("" + contact[1]);
+                            break;
+                        case R.id.passenger_right:
+                            passengerText.setText(contact[0]);
+                            passengerPhoneText.setText("" + contact[1]);
+                            break;
+                    }
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
 
-    @OnClick({R.id.name_right,R.id.name1_right,R.id.name2_right,R.id.passenger_right,R.id.add_other_phone_click,R.id.user_phone_text_code_click, R.id.user1_phone_text_code_click, R.id.user2_phone_text_code_click, R.id.passenger_phone_text_code_click})
+    @OnClick({R.id.name1_del,R.id.name2_del,R.id.name_right,R.id.name1_right,R.id.name2_right,R.id.passenger_right,R.id.add_other_phone_click,R.id.user_phone_text_code_click, R.id.user1_phone_text_code_click, R.id.user2_phone_text_code_click, R.id.passenger_phone_text_code_click})
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.name1_del:
+                user1Layout.setVisibility(View.GONE);
+                addOtherPhoneClick.setTextColor(Color.parseColor("#2e82f7"));
+                break;
+            case R.id.name2_del:
+                user2Layout.setVisibility(View.GONE);
+                addOtherPhoneClick.setTextColor(Color.parseColor("#2e82f7"));
+                break;
             case R.id.name_right:
             case R.id.name1_right:
             case R.id.name2_right:

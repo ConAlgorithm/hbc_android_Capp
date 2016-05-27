@@ -331,8 +331,10 @@
     <string name="order_info">明细 ></string>
     <string name="submit_order">立即支付</string>
 
+    <string name="passenger_no_star">&#160;乘车人</string>
     <string name="up_time">&#160;上车时间</string>
     <string name="up_site">*上车地点</string>
+    <string name="pick_name_star">*接机牌姓名</string>
 
     <string name="passenger">* 乘车人</string>
     <string name="add_passenger">请填写乘车人姓名</string>

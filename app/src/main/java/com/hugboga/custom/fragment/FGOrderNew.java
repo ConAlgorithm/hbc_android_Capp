@@ -1,12 +1,10 @@
 package com.hugboga.custom.fragment;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -20,14 +18,16 @@ import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityBean;
+import com.hugboga.custom.data.bean.ContactUsersBean;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.OrderContact;
 import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.bean.SelectCarBean;
 import com.hugboga.custom.data.bean.UserEntity;
+import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestSubmitBase;
 import com.hugboga.custom.data.request.RequestSubmitDaily;
-import com.hugboga.custom.utils.ToastUtils;
 import com.umeng.analytics.MobclickAgent;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
@@ -44,8 +44,13 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.hugboga.custom.R.id.man_name;
+import static com.hugboga.custom.R.id.other_layout;
+import static com.hugboga.custom.R.id.other_name;
 import static com.hugboga.custom.R.id.up_right;
 
+
+import de.greenrobot.event.EventBus;
 /**
  * Created  on 16/4/18.
  */
@@ -82,16 +87,10 @@ public class FGOrderNew extends BaseFragment {
     TextView manPhoneName;
     @Bind(R.id.for_other_man)
     TextView forOtherMan;
-    @Bind(R.id.address_title)
-    TextView addressTitle;
-    @Bind(R.id.address_detail)
-    TextView addressDetail;
     @Bind(R.id.man_phone_layout)
     LinearLayout manPhoneLayout;
     @Bind(R.id.up_left)
     TextView upLeft;
-    @Bind(up_right)
-    TextView upRight;
     @Bind(R.id.up_time)
     TextView upTime;
     @Bind(R.id.up_address_left)
@@ -132,12 +131,40 @@ public class FGOrderNew extends BaseFragment {
     TextView allMoneyInfo;
     @Bind(R.id.bottom)
     RelativeLayout bottom;
+    @Bind(man_name)
+    TextView manName;
+    @Bind(R.id.man_phone)
+    TextView manPhone;
+    @Bind(R.id.other_phone_name)
+    TextView otherPhoneName;
+    @Bind(other_name)
+    TextView otherName;
+    @Bind(R.id.other_phone)
+    TextView otherPhone;
+    @Bind(R.id.other_phone_layout)
+    LinearLayout otherPhoneLayout;
+    @Bind(R.id.pick_name_left)
+    TextView pickNameLeft;
+    @Bind(R.id.pick_name)
+    EditText pickName;
+    @Bind(R.id.up_right)
+    TextView upRight;
+    @Bind(other_layout)
+    RelativeLayout otherLayout;
 
     @Override
     protected void initHeader() {
         fgRightBtn.setVisibility(View.VISIBLE);
         fgTitle.setText(R.string.select_city_title);
         source = getArguments().getString("source");
+
+        contactUsersBean = new ContactUsersBean();
+        String userName = UserEntity.getUser().getNickname(this.getActivity());
+        String userPhone = UserEntity.getUser().getPhone(this.getActivity());
+        contactUsersBean.userName = userName;
+        contactUsersBean.userPhone = userPhone;
+        manName.setText(userName);
+        manPhone.setText(userPhone);
     }
 
     String startCityId;
@@ -160,6 +187,7 @@ public class FGOrderNew extends BaseFragment {
 
     public int inNum = 0;
     public int outNum = 0;
+
 
     @Override
     protected void initView() {
@@ -230,6 +258,7 @@ public class FGOrderNew extends BaseFragment {
         // TODO: inflate a fragment view
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
         ButterKnife.bind(this, rootView);
+        EventBus.getDefault().register(this);
         return rootView;
     }
 
@@ -237,6 +266,7 @@ public class FGOrderNew extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -416,6 +446,25 @@ public class FGOrderNew extends BaseFragment {
         MobclickAgent.onEventValue(getActivity(), "submitorder_oneday", map, carBean.price);
     }
 
+    ContactUsersBean contactUsersBean = null;
+
+    public void onEventMainThread(EventAction action) {
+        if(action.getType() == EventType.CONTACT_BACK) {
+            contactUsersBean = (ContactUsersBean) action.getData();
+            if (!TextUtils.isEmpty(contactUsersBean.userName)) {
+                manName.setText(contactUsersBean.userName);
+                manPhone.setText(contactUsersBean.phoneCode + " " + contactUsersBean.userPhone);
+            }
+
+            if (contactUsersBean.isForOther) {
+                otherLayout.setVisibility(View.VISIBLE);
+                otherName.setText(contactUsersBean.otherName);
+                otherPhone.setText(contactUsersBean.otherphoneCode + " " + contactUsersBean.otherPhone);
+            }
+        }
+
+    }
+
     OrderBean orderBean;
     ArrayList passCityList;
 
@@ -544,16 +593,21 @@ public class FGOrderNew extends BaseFragment {
         }
     }
 
-    @OnClick({R.id.for_other_man, R.id.address_title, R.id.address_detail, R.id.man_phone_layout, up_right, R.id.up_address_right, R.id.hotel_phone_text_code_click, R.id.hotel_phone_text})
+    @OnClick({R.id.other_phone_layout,R.id.other_phone_name,R.id.for_other_man, man_name, R.id.man_phone, R.id.man_phone_layout, up_right, R.id.up_address_right, R.id.hotel_phone_text_code_click, R.id.hotel_phone_text})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.man_phone_layout:
             case R.id.for_other_man:
-                startFragment(new FgChooseOther());
+            case R.id.other_phone_layout:
+                FgChooseOther fgChooseOther = new FgChooseOther();
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("contactUsersBean", contactUsersBean);
+                fgChooseOther.setArguments(bundle);
+                startFragment(fgChooseOther);
                 break;
-            case R.id.address_title:
+            case man_name:
                 break;
-            case R.id.address_detail:
+            case R.id.man_phone:
                 break;
             case up_right:
                 break;

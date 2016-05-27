@@ -22,5 +22,6 @@ public enum EventType {
     MAN_CHILD_LUUAGE, //乘客行李
     CHANGE_CAR, //选择汽车
     CHOOSE_GUIDE, //收藏选择司导
-    CONTACT //通讯录选取联系人
+    CONTACT, //通讯录选取联系人
+    CONTACT_BACK //通讯录选取联系人返回显示
 }
