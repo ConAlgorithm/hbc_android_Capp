@@ -398,5 +398,28 @@ public class UrlLibs {
      */
     public static final String COLLECT_GUIDES_FILTER = "ucenter/v1.0/C/favorite/guides/filter";
 
+    /**
+     * 获取邀请码
+     */
+    public static final String GET_INVITATION_CODE = "ucenter/v1.0/c/invitation/code";
 
+    /**
+     * 查询通过邀请用户获得的基金流水
+     */
+    public static final String TRAVELFUND_INVITATION_LOGS = "ucenter/v1.0/c/travelFund/logs/invitation";
+
+    /**
+     * 旅游基金流水
+     */
+    public static final String TRAVELFUND_LOGS = "/ucenter/v1.0/c/travelFund/logs";
+
+    /**
+     * 旅游基金说明
+     */
+    public static final String TRAVELFUND_INTRODUCTION = "ucenter/v1.0/c/travelFund/introduction";
+
+    /**
+     * 邀请说明
+     */
+    public static final String INVITATION_INTRODUCTION = "ucenter/v1.0/c/invitation/introduction";
 }

@@ -75,6 +75,7 @@
             android:layout_marginTop="12dip"
             android:layout_marginBottom="12dip"/>
         <LinearLayout
+            android:id="@+id/slidemenu_header_travelfund_layout"
             android:layout_width="0dip"
             android:layout_height="match_parent"
             android:layout_weight="1"
