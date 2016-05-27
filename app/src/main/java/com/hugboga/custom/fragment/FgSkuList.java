@@ -200,10 +200,15 @@ public class FgSkuList extends  BaseFragment implements  View.OnClickListener, Z
         HashMap<String,String> map = new HashMap<String,String>();
         switch (v.getId()){
             case R.id.fg_home_menu1://中文接送机
-                FgTransfer fgTransfer = new FgTransfer();
+//                FgTransfer fgTransfer = new FgTransfer();
+//                bundle.putString("source",mCityBean.name);
+//                fgTransfer.setArguments(bundle);
+//                startFragment(fgTransfer);
+
+                FgPickSend fgPickSend = new FgPickSend();
                 bundle.putString("source",mCityBean.name);
-                fgTransfer.setArguments(bundle);
-                startFragment(fgTransfer);
+                fgPickSend.setArguments(bundle);
+                startFragment(fgPickSend, bundle);
 
                 map.put("source", mCityBean.name);
                 MobclickAgent.onEvent(getActivity(), "chose_pndairport", map);
@@ -222,10 +227,15 @@ public class FgSkuList extends  BaseFragment implements  View.OnClickListener, Z
                 MobclickAgent.onEvent(getActivity(), "chose_oneday", map);
                 break;
             case R.id.fg_home_menu3://单次接送
-                FgSingle fgSingle = new FgSingle();
+//                FgSingle fgSingle = new FgSingle();
+//                bundle.putString("source",mCityBean.name);
+//                fgSingle.setArguments(bundle);
+//                startFragment(new FgSingle(),bundle);
+
+                FgSingleNew fgSingleNew = new FgSingleNew();
                 bundle.putString("source",mCityBean.name);
-                fgSingle.setArguments(bundle);
-                startFragment(new FgSingle(),bundle);
+                fgSingleNew.setArguments(bundle);
+                startFragment(fgSingleNew);
 
                 map.put("source", mCityBean.name);
                 MobclickAgent.onEvent(getActivity(), "chose_oneway", map);

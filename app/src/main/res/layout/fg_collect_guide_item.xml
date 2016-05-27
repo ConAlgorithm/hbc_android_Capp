@@ -87,6 +87,8 @@
         android:id="@+id/collect_status_layout"
         android:layout_width="match_parent"
         android:layout_height="46dip"
+        android:clickable="true"
+        android:background="@color/basic_white"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -95,6 +97,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
+            android:clickable="true"
             android:orientation="horizontal">
 
             <ImageView
@@ -125,6 +128,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:clickable="true"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -155,6 +159,7 @@
             android:id="@+id/collect_status_single_layout"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:clickable="true"
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="horizontal">

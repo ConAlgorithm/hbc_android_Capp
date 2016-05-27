@@ -158,6 +158,13 @@ public class FGOrderNew extends BaseFragment {
         fgTitle.setText(R.string.select_city_title);
         source = getArguments().getString("source");
 
+        fgLeftBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
         contactUsersBean = new ContactUsersBean();
         String userName = UserEntity.getUser().getNickname(this.getActivity());
         String userPhone = UserEntity.getUser().getPhone(this.getActivity());

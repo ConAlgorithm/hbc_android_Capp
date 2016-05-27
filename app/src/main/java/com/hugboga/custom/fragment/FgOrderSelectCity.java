@@ -51,6 +51,8 @@ import java.util.HashMap;
 import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
 
+import static java.security.AccessController.getContext;
+
 /**
  * Created  on 16/4/14.
  */
@@ -722,13 +724,15 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
 
 
     private boolean checkParams(){
-        if(null != startBean
-                && isHalfTravel?!TextUtils.isEmpty(halfDate):!TextUtils.isEmpty(start_date_str)
-                && isHalfTravel?!TextUtils.isEmpty(halfDate):!TextUtils.isEmpty(end_date_str)){
-            return true;
-        }else{
-            ToastUtils.showShort(R.string.dairy_inout_check);
+        if(null == startBean
+                || TextUtils.isEmpty(peopleTextClick.getText())
+                || TextUtils.isEmpty(baggageTextClick.getText())
+                || isHalfTravel?TextUtils.isEmpty(halfDate):TextUtils.isEmpty(start_date_str)
+                || isHalfTravel?TextUtils.isEmpty(halfDate):TextUtils.isEmpty(end_date_str)){
+            AlertDialogUtils.showAlertDialogOneBtn(this.getActivity(), getString(R.string.dairy_choose_guide),"好的");
             return false;
+        }else{
+            return true;
         }
     }
 
@@ -746,6 +750,10 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
                         params.startCityId = startBean.cityId;
                         params.startTime = isHalfTravel?halfDate:start_date_str;
                         params.endTime = isHalfTravel?halfDate:end_date_str;
+                        params.adultNum = manNum;
+                        params.childrenNum = childNum;
+                        params.childSeatNum = childSeatNums;
+                        params.luggageNum = baggageNum;
                         bundle.putSerializable(Constants.PARAMS_DATA, params);
                         fgCollectGuideList.setArguments(bundle);
                         startFragment(fgCollectGuideList);

@@ -114,8 +114,6 @@ public class FgCollectGuideList extends BaseFragment implements AdapterView.OnIt
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        EventBus.getDefault().post(new EventAction(EventType.CHOOSE_GUIDE,adapter.getItem(position)));
-        finish();
     }
 
     @Override
@@ -131,6 +129,7 @@ public class FgCollectGuideList extends BaseFragment implements AdapterView.OnIt
         if (list != null) {
             if (adapter == null) {
                 adapter = new CollectGuideAdapter(getActivity());
+                adapter.setFragment(this);
                 if (paramsData != null) {
                     adapter.setShowStatusLayout(false);
                 }
