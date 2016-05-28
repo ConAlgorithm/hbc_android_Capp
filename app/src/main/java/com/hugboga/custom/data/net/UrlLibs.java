@@ -35,7 +35,7 @@ public class UrlLibs {
     public static String TEST_H5_HOST = "http://res.test.hbc.tech";
     public static String FORMAL_H5_HOST = "http://res2.huangbaoche.com";
 
-    public static String H5_HOST = FORMAL_H5_HOST;
+    public static String H5_HOST = TEST_H5_HOST;
 
     public static String H5_ACTIVITY= H5_HOST + "/h5/cactivity/index.html?userId=";//国行
     public static String H5_ABOUT = H5_HOST+"/h5/cinfos/about.html";//  关于我们
@@ -367,5 +367,41 @@ public class UrlLibs {
      * 获取启动图
      */
     public static final String GET_AD_PICTURE = "marketing/v1.0/c/activity/effectivestart";
+
+    /**
+     * 收藏的司导列表
+     */
+    public static final String COLLECT_GUIDES_LIST = "ucenter/v1.0/c/favorite/guides";
+
+    /**
+     * 收藏司导（用户ID）
+     */
+    public static final String COLLECT_GUIDES_ID = "ucenter/v1.0/c/userid/favorite/guide";
+
+    /**
+     * 取消收藏司导（用户ID）
+     */
+    public static final String UNCOLLECT_GUIDES_ID = "ucenter/v1.0/c/userid/unfavor/guide";
+
+    /**
+     * 收藏司导（手机号）
+     */
+    public static final String COLLECT_GUIDES_MOBILE = "ucenter/v1.0/c/mobile/favorite/guide";
+
+    /**
+     * 取消收藏司导（手机号）
+     */
+    public static final String UNCOLLECT_GUIDES_MOBILE = "ucenter/v1.0/c/mobile/unfavor/guide";
+
+    /**
+     * 过滤用户收藏的司导
+     */
+    public static final String COLLECT_GUIDES_FILTER = "ucenter/v1.0/c/favorite/guides/filter";
+
+
+    /**
+     *导游是否可用
+     */
+    public static final String  GUIDE_CONFLIC =  "/trade/v1.0/c/order/guides/conflict";
 
 }

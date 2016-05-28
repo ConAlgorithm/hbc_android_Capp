@@ -19,6 +19,7 @@
     <color name="basic_red">#FF0000</color>
     <color name="basic_gold">#FE9601</color>
     <color name="basic_call_tip">#787878</color>
+    <color name="basic_gray_light">#999999</color>
 
     <!-- Basic toolbar color -->
     <color name="basic_pick_toolbar_color">#398bd0</color>
@@ -64,7 +65,7 @@
 
     <!-- My name color -->
     <color name="my_info_bg">#F9F9F9</color>
-    <color name="my_info_menu_title">#696769</color>
+    <color name="my_info_menu_title">#343434</color>
 
     <color name="coupon_layout1_color">#D5D7D9</color>
     <!-- Coupon color -->

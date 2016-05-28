@@ -15,6 +15,10 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="com.hugboga.custom.permission.JPUSH_MESSAGE" />
+    <!-- 读取联系人权限 -->
+    <uses-permission android:name="android.permission.READ_CONTACTS"/>
+    <!-- 拨打电话权限 -->
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
 
     <application
         android:name=".MyApplication"

@@ -11,6 +11,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -45,6 +46,7 @@ import com.hugboga.custom.data.bean.LvMenuItem;
 import com.hugboga.custom.data.bean.PushMessage;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestPushClick;
 import com.hugboga.custom.data.request.RequestPushToken;
@@ -52,6 +54,7 @@ import com.hugboga.custom.data.request.RequestUploadLocation;
 import com.hugboga.custom.fragment.BaseFragment;
 import com.hugboga.custom.fragment.FgActivity;
 import com.hugboga.custom.fragment.FgChat;
+import com.hugboga.custom.fragment.FgCollectGuideList;
 import com.hugboga.custom.fragment.FgCoupon;
 import com.hugboga.custom.fragment.FgHome;
 import com.hugboga.custom.fragment.FgIMChat;
@@ -79,7 +82,6 @@ import com.zhy.m.permission.PermissionGrant;
 
 import net.grobas.view.PolygonImageView;
 
-import org.greenrobot.eventbus.EventBus;
 import org.xutils.common.util.FileUtil;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
@@ -95,6 +97,10 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import cn.jpush.android.api.JPushInterface;
+import de.greenrobot.event.EventBus;
+
+import static android.R.attr.data;
+import de.greenrobot.event.EventBus;
 
 @ContentView(R.layout.activity_main)
 public class MainActivity extends BaseActivity
@@ -112,7 +118,6 @@ public class MainActivity extends BaseActivity
     @ViewInject(R.id.container)
     private ViewPager mViewPager;
 
-    private TextView tv_modify_info;//header的修改资料
     private PolygonImageView my_icon_head;//header的头像
     private TextView tv_nickname;//header的昵称
 
@@ -164,25 +169,24 @@ public class MainActivity extends BaseActivity
 
     Timer timer;
     TimerTask timerTask;
-
-    public void uploadLocation() {
+    public void uploadLocation(){
         timer = new Timer();
-        timerTask = new TimerTask() {
+        timerTask = new TimerTask(){
             @Override
             public void run() {
 
                 String lat = new SharedPre(MainActivity.this).getStringValue("lat");
                 String lng = new SharedPre(MainActivity.this).getStringValue("lng");
-                Log.e("========", "============lat=" + lat + "====lng=" + lng);
+                Log.e("========","============lat="+lat+"====lng="+lng);
 
-                if (!TextUtils.isEmpty(lat)) {
+                if(!TextUtils.isEmpty(lat)){
                     RequestUploadLocation requestUploadLocation = new RequestUploadLocation(MainActivity.this);
-                    HttpRequestUtils.request(MainActivity.this, requestUploadLocation, MainActivity.this, false);
+                    HttpRequestUtils.request(MainActivity.this,requestUploadLocation,MainActivity.this,false);
 
                 }
             }
         };
-        timer.schedule(timerTask, 0, 30000);
+        timer.schedule(timerTask,0,30000);
     }
 
     /**
@@ -247,11 +251,11 @@ public class MainActivity extends BaseActivity
     protected void onDestroy() {
         super.onDestroy();
         try {
-            if (timer != null) {
+            if(timer != null){
                 timer.cancel();
                 timer = null;
             }
-            if (timerTask != null) {
+            if(timerTask != null){
                 timerTask.cancel();
                 timerTask = null;
             }
@@ -265,13 +269,13 @@ public class MainActivity extends BaseActivity
     public void onDataRequestSucceed(BaseRequest request) {
         if (request instanceof RequestPushToken) {
             MLog.e(request.getData().toString());
-        } else if (request instanceof RequestUploadLocation) {
+        }else if(request instanceof RequestUploadLocation){
             LocationUtils.cleanLocationInfo(MainActivity.this);
             String cityId = ((RequestUploadLocation) request).getData().cityId;
             String cityName = ((RequestUploadLocation) request).getData().cityName;
             String countryId = ((RequestUploadLocation) request).getData().countryId;
             String countryName = ((RequestUploadLocation) request).getData().countryName;
-            LocationUtils.saveLocationCity(MainActivity.this, cityId, cityName, countryId, countryName);
+            LocationUtils.saveLocationCity(MainActivity.this,cityId,cityName,countryId,countryName);
 //            MLog.e("Location: cityId:"+cityId + ",  cityName:"+cityName);
         }
     }
@@ -371,15 +375,30 @@ public class MainActivity extends BaseActivity
     }
 
 
+//    private List<LvMenuItem> mItems = new ArrayList<LvMenuItem>(
+//            Arrays.asList(
+//                    new LvMenuItem(R.mipmap.personal_center_coupon, "优惠券", ""),
+//                    new LvMenuItem(R.mipmap.personal_icon_br, "常用投保人", ""),
+//                    new LvMenuItem(R.mipmap.personal_icon_hd, "活动", ""),
+//                    new LvMenuItem(R.mipmap.personal_center_setting, "设置", ""),
+//                    new LvMenuItem(R.mipmap.personal_center_customer_service, "客服中心", "我们的服务介绍和保障"),
+//                    new LvMenuItem(R.mipmap.personal_center_internal, "境内客服", "仅限国内使用"),
+//                    new LvMenuItem(R.mipmap.personal_center_overseas, "境外客服", "仅限国外使用")
+//            ));
+
     private List<LvMenuItem> mItems = new ArrayList<LvMenuItem>(
             Arrays.asList(
-                    new LvMenuItem(R.mipmap.personal_center_coupon, "优惠券", ""),
-                    new LvMenuItem(R.mipmap.personal_icon_br, "常用投保人", ""),
-                    new LvMenuItem(R.mipmap.personal_icon_hd, "活动", ""),
-                    new LvMenuItem(R.mipmap.personal_center_setting, "设置", ""),
-                    new LvMenuItem(R.mipmap.personal_center_customer_service, "客服中心", "我们的服务介绍和保障"),
-                    new LvMenuItem(R.mipmap.personal_center_internal, "境内客服", "仅限国内使用"),
-                    new LvMenuItem(R.mipmap.personal_center_overseas, "境外客服", "仅限国外使用")
+                    new LvMenuItem(R.mipmap.personal_icon_invite, "邀请好友赢旅游基金"),
+                    new LvMenuItem(R.mipmap.personal_icon_safe, "常用投保人"),
+                    new LvMenuItem(R.mipmap.personal_icon_collection, "我收藏的司导"),
+                    new LvMenuItem(MenuItemAdapter.ItemType.SPACE),
+                    new LvMenuItem(R.mipmap.personal_icon_activity, "活动"),
+                    new LvMenuItem(MenuItemAdapter.ItemType.SPACE),
+                    new LvMenuItem(R.mipmap.personal_icon_service, "服务规则"),
+                    new LvMenuItem(R.mipmap.personal_icon_call, "联系境内客服", MenuItemAdapter.ItemType.SERVICE),
+                    new LvMenuItem(R.mipmap.personal_icon_call, "联系境外客服", MenuItemAdapter.ItemType.SERVICE),
+                    new LvMenuItem(MenuItemAdapter.ItemType.SPACE),
+                    new LvMenuItem(R.mipmap.personal_icon_install, "设置")
             ));
 
     MenuItemAdapter menuItemAdapter;
@@ -389,16 +408,15 @@ public class MainActivity extends BaseActivity
         View header = inflater.inflate(R.layout.nav_header_main, null);
         RelativeLayout head_view = (RelativeLayout) header.findViewById(R.id.head_view);
         head_view.setOnClickListener(this);
-        tv_modify_info = (TextView) header.findViewById(R.id.tv_modify_info);//编辑
-//        tv_modify_info.setOnClickListener(this);
         my_icon_head = (PolygonImageView) header.findViewById(R.id.my_icon_head);//头像
-//        my_icon_head.setOnClickListener(this);
+        my_icon_head.setOnClickListener(this);
         tv_nickname = (TextView) header.findViewById(R.id.tv_nickname);//昵称
-//        tv_nickname.setOnClickListener(this);
+        tv_nickname.setOnClickListener(this);
+        header.findViewById(R.id.slidemenu_header_coupon_layout).setOnClickListener(this);
         tv_nickname.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                ToastUtils.showShort("version=" + ChannelUtils.getVersion() + " versioncode=" + ChannelUtils.getVersionCode() + " channel =" + ChannelUtils.getChannel(MainActivity.this) + "");
+                ToastUtils.showShort("version="+ChannelUtils.getVersion()+" versioncode="+ChannelUtils.getVersionCode()+" channel ="+ChannelUtils.getChannel(MainActivity.this)+"");
                 return false;
             }
         });
@@ -418,13 +436,10 @@ public class MainActivity extends BaseActivity
         if (!UserEntity.getUser().isLogin(this)) {
             my_icon_head.setImageResource(R.mipmap.chat_head);
             tv_nickname.setText(this.getResources().getString(R.string.person_center_nickname));
-            tv_modify_info.setVisibility(View.INVISIBLE);
-            mItems.get(0).tips = "";
             menuItemAdapter.notifyDataSetChanged();
         } else {
-            tv_modify_info.setVisibility(View.VISIBLE);
             if (!TextUtils.isEmpty(UserEntity.getUser().getAvatar(this))) {
-                Tools.showImage(this, my_icon_head, UserEntity.getUser().getAvatar(this));
+                Tools.showImage(this,my_icon_head,UserEntity.getUser().getAvatar(this));
 //                x.image().bind(my_icon_head, UserEntity.getUser().getAvatar(this));
             } else {
                 my_icon_head.setImageResource(R.mipmap.chat_head);
@@ -510,47 +525,40 @@ public class MainActivity extends BaseActivity
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        HashMap<String, String> map = new HashMap<String, String>();
+        HashMap<String,String> map = new HashMap<String,String>();
         switch (position) {
-            case Constants.PERSONAL_CENTER_COUPON:
-                //我的优惠券
-                if (isLogin("个人中心首页")) {
-                    startFragment(new FgCoupon());
-                    UserEntity.getUser().setHasNewCoupon(false);
-//                    couponPoint.setVisibility(View.GONE);
-                }
+            case Constants.PERSONAL_CENTER_FUND://旅游基金
+
                 break;
-            case Constants.PERSONAL_CENTER_CUSTOMER_SERVICE:
-                //客服
-                startFragment(new FgServicerCenter());
-                break;
-            case Constants.PERSONAL_CENTER_INTERNAL_SERVICE:
-                //境内客服
-                PhoneInfo.CallDial(MainActivity.this, Constants.CALL_NUMBER_IN);
-//                    map.put("source", "个人中心呼叫境内客服");
-//                    MobclickAgent.onEvent(MainActivity.this, "calldomestic_person", map);
-                break;
-            case Constants.PERSONAL_CENTER_OVERSEAS_SERVICE:
-                //境外客服
-                PhoneInfo.CallDial(MainActivity.this, Constants.CALL_NUMBER_OUT);
-                break;
-            case Constants.PERSONAL_CENTER_HD:
-                if (isLogin("个人中心首页")) {
-                    Bundle bundle = new Bundle();
-                    bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_ACTIVITY + UserEntity.getUser().getUserId(this.getApplicationContext()) + "&t=" + new Random().nextInt(100000));
-                    startFragment(new FgActivity(), bundle);
-                }
-                break;
-            case Constants.PERSONAL_CENTER_BR:
-                if (isLogin("个人中心首页")) {
+            case Constants.PERSONAL_CENTER_BR://常用投保人
+                if(isLogin("个人中心首页")) {
                     FgInsure fgInsure = new FgInsure();
                     startFragment(fgInsure);
                 }
                 break;
-            case Constants.PERSONAL_CENTER_SETTING:
-                //我的设置
+            case Constants.PERSONAL_CENTER_COLLECT://收藏司导
+                if(isLogin("个人中心首页")) {
+                    startFragment(new FgCollectGuideList());
+                }
+                break;
+            case Constants.PERSONAL_CENTER_HD://活动
+                if(isLogin("个人中心首页")) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_ACTIVITY+UserEntity.getUser().getUserId(this.getApplicationContext())+"&t=" + new Random().nextInt(100000));
+                    startFragment(new FgActivity(), bundle);
+                }
+                break;
+            case Constants.PERSONAL_CENTER_CUSTOMER_SERVICE://TODO 服务规则
+                startFragment(new FgServicerCenter());
+                break;
+            case Constants.PERSONAL_CENTER_INTERNAL_SERVICE://境内客服
+                PhoneInfo.CallDial(MainActivity.this, Constants.CALL_NUMBER_IN);
+                break;
+            case Constants.PERSONAL_CENTER_OVERSEAS_SERVICE://境外客服
+                PhoneInfo.CallDial(MainActivity.this, Constants.CALL_NUMBER_OUT);
+                break;
+            case Constants.PERSONAL_CENTER_SETTING://设置
                 if (isLogin("个人中心首页")) {
-//                    versionPoint.setVisibility(View.GONE);
                     startFragment(new FgSetting());
                 }
                 break;
@@ -562,9 +570,26 @@ public class MainActivity extends BaseActivity
 
     }
 
+    // 接收通讯录的选择号码事件
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+            if (resultCode == RESULT_OK) {
+                if (data == null) {
+                    return;
+                }
+                Uri result = data.getData();
+                String[] contact = PhoneInfo.getPhoneContacts(this,result);
+
+                EventBus.getDefault().post(new EventAction(EventType.CONTACT,contact));
+
+                Log.e("============", "contactName = "+contact[0]+", "+contact[1]);
+
+            }
+    }
+
+
     /**
      * 判断是否登录
-     *
      * @param source 来源，用于统计
      * @return
      */
@@ -572,17 +597,16 @@ public class MainActivity extends BaseActivity
         if (UserEntity.getUser().isLogin(this)) {
             return true;
         } else {
-            if (!TextUtils.isEmpty(source)) {
-                Bundle bundle = new Bundle();
-                ;
-                bundle.putString("source", source);
+            if(!TextUtils.isEmpty(source)){
+                Bundle bundle = new Bundle();;
+                bundle.putString("source",source);
                 startFragment(new FgLogin(), bundle);
 
-                HashMap<String, String> map = new HashMap<String, String>();
+                HashMap<String,String> map = new HashMap<String,String>();
                 map.put("source", source);
                 MobclickAgent.onEvent(MainActivity.this, "login_trigger", map);
                 return false;
-            } else {
+            }else{
                 startFragment(new FgLogin());
                 return false;
             }
@@ -593,15 +617,18 @@ public class MainActivity extends BaseActivity
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.head_view:
-            case R.id.tv_modify_info:
             case R.id.my_icon_head:
             case R.id.tv_nickname:
-                if (isLogin("个人中心首页")) {
+                if(isLogin("个人中心首页")){
                     startFragment(new FgPersonInfo());
-                }
-                ;
+                };
                 break;
-
+            case R.id.slidemenu_header_coupon_layout://我的优惠券
+                if (isLogin("个人中心首页")) {
+                    startFragment(new FgCoupon());
+                    UserEntity.getUser().setHasNewCoupon(false);
+                }
+                break;
         }
         drawer.closeDrawer(GravityCompat.START);
     }
@@ -655,8 +682,8 @@ public class MainActivity extends BaseActivity
         if (count > 0) {
             if (count > 99) {
                 bottomPoint2.setText("99+");
-            } else {
-                bottomPoint2.setText("" + count);
+            }else {
+                bottomPoint2.setText(""+count);
             }
             bottomPoint2.setVisibility(View.VISIBLE);
 
@@ -680,7 +707,7 @@ public class MainActivity extends BaseActivity
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         MPermissions.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
-        switch (requestCode) {
+        switch(requestCode){
             case PERMISSION_ACCESS_COARSE_LOCATION:
             case PERMISSION_ACCESS_FINE_LOCATION:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -725,33 +752,28 @@ public class MainActivity extends BaseActivity
         return length;
     }
 
-    public void grantLocation() {
+    public void grantLocation(){
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                || ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                || ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED ) {
             ActivityCompat.requestPermissions(this,
-                    new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION},
+                    new String[] {android.Manifest.permission.ACCESS_COARSE_LOCATION , Manifest.permission.ACCESS_FINE_LOCATION },
                     PERMISSION_ACCESS_COARSE_LOCATION);
-        } else {
+        }else{
             requestLocation();
         }
     }
 
 
-    public void requestLocation() {
+    public void requestLocation(){
         try {
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                // TODO: Consider calling
-                //    ActivityCompat#requestPermissions
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for ActivityCompat#requestPermissions for more details.
-                return;
-            }
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 100, locationListener);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        try {
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 100, locationListener);
-        } catch (Exception e) {
+        }catch (Exception e){
             e.printStackTrace();
         }
     }
@@ -759,9 +781,8 @@ public class MainActivity extends BaseActivity
 
     LocationManager locationManager;
     LocationListener locationListener;
-
-    public void initLocation() {
-        if (!LocationUtils.gpsIsOpen(this)) {
+    public void initLocation(){
+        if(!LocationUtils.gpsIsOpen(this)){
             AlertDialog dialog = AlertDialogUtils.showAlertDialog(this, "没有开启GPS定位,请到设置里开启", "设置", "取消", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -779,11 +800,11 @@ public class MainActivity extends BaseActivity
         locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
-                String locStr = String.format("%s\n lat=%f \n lng=%f \n(%f meters)", location.getProvider(),
-                        location.getLatitude(), location.getLongitude(), location.getAccuracy());
+                String locStr =String.format("%s\n lat=%f \n lng=%f \n(%f meters)", location.getProvider(),
+                                location.getLatitude(), location.getLongitude(), location.getAccuracy());
 
-                LocationUtils.saveLocationInfo(MainActivity.this, location.getLatitude() + "", location.getLongitude() + "");
-                if (timer == null) {
+                LocationUtils.saveLocationInfo(MainActivity.this,location.getLatitude()+"",location.getLongitude()+"");
+                if(timer == null) {
                     uploadLocation();
                 }
 //                MLog.e(locStr);
@@ -806,6 +827,7 @@ public class MainActivity extends BaseActivity
         };
 
     }
+
 
 
     @SuppressLint("NewApi")

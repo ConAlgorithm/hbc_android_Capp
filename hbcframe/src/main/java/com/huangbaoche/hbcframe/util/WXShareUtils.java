@@ -97,7 +97,7 @@ public class WXShareUtils {
 
             String picName = picUrl.substring(picUrl.lastIndexOf("/")+1,picUrl.length());
             String preUrl = picUrl.substring(0,picUrl.lastIndexOf("/"));
-            String smallPic = preUrl + "/s_"+ picName;
+            String smallPic = picUrl;//preUrl + "/s_"+ picName;
             MLog.e(preUrl+"cache picName==="+picName);
             MLog.e("cache smallPic==="+smallPic);
 

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <include
+        android:id="@+id/invite_header"
+        layout="@layout/include_header" />
+
+    <com.hugboga.custom.widget.ZListView
+        android:id="@+id/invite_listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/invite_header"
+        android:background="@color/coupon_empty_color"
+        android:divider="@null" />
+</RelativeLayout>
