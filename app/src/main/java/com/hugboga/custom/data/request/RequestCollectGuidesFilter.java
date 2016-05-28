@@ -36,8 +36,6 @@ public class RequestCollectGuidesFilter extends BaseRequest<ArrayList<CollectGui
             map.put("endTime", params.endTime);
             map.put("startCityId", params.startCityId);
             map.put("orderType", params.orderType);
-            map.put("carType", params.carType);
-            map.put("carClass", params.carClass);
             map.put("adultNum", params.adultNum);
             map.put("childrenNum", params.childrenNum);
             map.put("childSeatNum", params.childSeatNum);
@@ -66,10 +64,6 @@ public class RequestCollectGuidesFilter extends BaseRequest<ArrayList<CollectGui
         public int startCityId;
         //订单类型
         public int orderType;
-        //车型 经济/舒适/豪华/奢华
-        public int carType;
-        //座系 5/7/9/12
-        public int carClass;
         //成人数
         public int adultNum;
         //儿童数

@@ -61,6 +61,7 @@
                 android:layout_height="15dip"
                 android:layout_marginTop="5dip"
                 app:gap="4dip"
+                app:half_bg="@mipmap/collection_icon_star_half"
                 app:rating_bg="@drawable/btn_yellow_ratingbar"
                 app:touchable="false" />
 

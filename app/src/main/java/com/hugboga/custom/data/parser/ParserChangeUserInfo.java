@@ -23,6 +23,7 @@ public class ParserChangeUserInfo extends ImplParser {
         userBean.userToken = jsonObj.optString("userToken");
         userBean.weakPassword = jsonObj.optBoolean("weakPassword");
         userBean.weakPasswordMsg = jsonObj.optString("weakPasswordMsg");
+        userBean.name = jsonObj.optString("name");
         return userBean;
     }
 }

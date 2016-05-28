@@ -56,15 +56,18 @@ import com.hugboga.custom.fragment.FgActivity;
 import com.hugboga.custom.fragment.FgChat;
 import com.hugboga.custom.fragment.FgCollectGuideList;
 import com.hugboga.custom.fragment.FgCoupon;
+import com.hugboga.custom.fragment.FgGuideDetail;
 import com.hugboga.custom.fragment.FgHome;
 import com.hugboga.custom.fragment.FgIMChat;
 import com.hugboga.custom.fragment.FgInsure;
+import com.hugboga.custom.fragment.FgInviteFriends;
 import com.hugboga.custom.fragment.FgLogin;
 import com.hugboga.custom.fragment.FgOrder;
 import com.hugboga.custom.fragment.FgPersonInfo;
 import com.hugboga.custom.fragment.FgServicerCenter;
 import com.hugboga.custom.fragment.FgSetting;
 import com.hugboga.custom.fragment.FgTravel;
+import com.hugboga.custom.fragment.FgTravelFund;
 import com.hugboga.custom.fragment.FgWebInfo;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.ChannelUtils;
@@ -413,6 +416,7 @@ public class MainActivity extends BaseActivity
         tv_nickname = (TextView) header.findViewById(R.id.tv_nickname);//昵称
         tv_nickname.setOnClickListener(this);
         header.findViewById(R.id.slidemenu_header_coupon_layout).setOnClickListener(this);
+        header.findViewById(R.id.slidemenu_header_travelfund_layout).setOnClickListener(this);
         tv_nickname.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
@@ -528,7 +532,10 @@ public class MainActivity extends BaseActivity
         HashMap<String,String> map = new HashMap<String,String>();
         switch (position) {
             case Constants.PERSONAL_CENTER_FUND://旅游基金
-
+                if(isLogin("个人中心首页")) {
+                    FgInviteFriends fgInviteFriends = new FgInviteFriends();
+                    startFragment(fgInviteFriends);
+                }
                 break;
             case Constants.PERSONAL_CENTER_BR://常用投保人
                 if(isLogin("个人中心首页")) {
@@ -555,7 +562,10 @@ public class MainActivity extends BaseActivity
                 PhoneInfo.CallDial(MainActivity.this, Constants.CALL_NUMBER_IN);
                 break;
             case Constants.PERSONAL_CENTER_OVERSEAS_SERVICE://境外客服
-                PhoneInfo.CallDial(MainActivity.this, Constants.CALL_NUMBER_OUT);
+//                PhoneInfo.CallDial(MainActivity.this, Constants.CALL_NUMBER_OUT);
+
+                startFragment(new FgGuideDetail());
+
                 break;
             case Constants.PERSONAL_CENTER_SETTING://设置
                 if (isLogin("个人中心首页")) {
@@ -627,6 +637,11 @@ public class MainActivity extends BaseActivity
                 if (isLogin("个人中心首页")) {
                     startFragment(new FgCoupon());
                     UserEntity.getUser().setHasNewCoupon(false);
+                }
+                break;
+            case R.id.slidemenu_header_travelfund_layout://旅游基金
+                if (isLogin("个人中心首页")) {
+                    startFragment(new FgTravelFund());
                 }
                 break;
         }

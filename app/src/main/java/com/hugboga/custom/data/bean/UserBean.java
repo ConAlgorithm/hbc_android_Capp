@@ -24,6 +24,7 @@ public class UserBean implements IBaseBean {
     public String imToken;//聊天token
     public int isNotRegister;
     public String unionid;
+    public String name;//真实姓名
 
     public String getGenderStr() {
         switch (gender) {

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
+import android.text.TextUtils;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -20,6 +21,9 @@ import java.io.File;
 public class Tools {
 
     public static void showImage(Context context, ImageView imageView, String url){
+        if (TextUtils.isEmpty(url)) {
+            return;
+        }
         Glide.with(context)
                 .load(url)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
