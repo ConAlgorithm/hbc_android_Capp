@@ -402,6 +402,6 @@ public class UrlLibs {
     /**
      *导游是否可用
      */
-    public static final String  GUIDE_CONFLIC =  "/trade/v1.0/c/order/guides/conflict";
+    public static final String  GUIDE_CONFLIC =  "trade/v1.0/c/order/guides/conflict";
 
 }

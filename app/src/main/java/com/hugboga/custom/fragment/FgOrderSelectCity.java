@@ -181,6 +181,7 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
             @Override
             public void onClick(View v) {
                 driver_layout.setVisibility(View.GONE);
+                driver_tips.setVisibility(View.GONE);
                 choose_driver.setVisibility(View.VISIBLE);
                 collectGuideBean = null;
             }
@@ -189,7 +190,7 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
         driver_name.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                goCollectGuid();
+                goCollectGuid(1);
             }
         });
 
@@ -786,25 +787,31 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
     }
 
 
-    private void goCollectGuid() {
+    //type 1 司导列表   2, 预约司导列表
+    private void goCollectGuid(int type) {
         if (UserEntity.getUser().isLogin(getActivity())) {
-            if (checkParams()) {
+            if(type == 1){
                 FgCollectGuideList fgCollectGuideList = new FgCollectGuideList();
-                Bundle bundle = new Bundle();
-                RequestCollectGuidesFilter.CollectGuidesFilterParams params = new RequestCollectGuidesFilter.CollectGuidesFilterParams();
-                params.startCityId = startBean.cityId;
-                params.startTime = isHalfTravel ? halfDate + " 00:00:00" : start_date_str + " 00:00:00";
-                params.endTime = isHalfTravel ? halfDate + " 00:00:00" : end_date_str + " 00:00:00";
-                params.adultNum = manNum;
-                params.childrenNum = childNum;
-                params.childSeatNum = childSeatNums;
-                params.luggageNum = baggageNum;
-                params.orderType = 3;
-                params.totalDays = isHalfTravel ? 1 : nums;
-                params.passCityId = isHalfTravel ? startBean.cityId + "" : getPassCitiesId();
-                bundle.putSerializable(Constants.PARAMS_DATA, params);
-                fgCollectGuideList.setArguments(bundle);
                 startFragment(fgCollectGuideList);
+            }else {
+                if (checkParams()) {
+                    FgCollectGuideList fgCollectGuideList = new FgCollectGuideList();
+                    Bundle bundle = new Bundle();
+                    RequestCollectGuidesFilter.CollectGuidesFilterParams params = new RequestCollectGuidesFilter.CollectGuidesFilterParams();
+                    params.startCityId = startBean.cityId;
+                    params.startTime = isHalfTravel ? halfDate + " 00:00:00" : start_date_str + " 00:00:00";
+                    params.endTime = isHalfTravel ? halfDate + " 00:00:00" : end_date_str + " 00:00:00";
+                    params.adultNum = manNum;
+                    params.childrenNum = childNum;
+                    params.childSeatNum = childSeatNums;
+                    params.luggageNum = baggageNum;
+                    params.orderType = 3;
+                    params.totalDays = isHalfTravel ? 1 : nums;
+                    params.passCityId = isHalfTravel ? startBean.cityId + "" : getPassCitiesId();
+                    bundle.putSerializable(Constants.PARAMS_DATA, params);
+                    fgCollectGuideList.setArguments(bundle);
+                    startFragment(fgCollectGuideList);
+                }
             }
         }
     }
@@ -846,7 +853,7 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
         switch (view.getId()) {
             case R.id.choose_driver:
                 if (UserEntity.getUser().isLogin(getActivity())) {
-                    goCollectGuid();
+                    goCollectGuid(2);
                 }
                 break;
             case R.id.minus:
@@ -1024,23 +1031,27 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
 
     //根据第一天的选择改变最后一天的文字显示
     private void resetLastText(){
-        int count = full_day_show.getChildCount();
-        int currentIndex = Integer.valueOf(currentClickView.getTag().toString());
-        TextView text = null;
-        if(passBeanList.get(currentIndex -1).cityId == startBean.cityId) {
-            for (int i = currentIndex; i < count; i++) {
-                text = (TextView) (full_day_show.getChildAt(i).findViewById(R.id.day_go_city_text_click));
-                text.setText("选择包车游玩范围");
-            }
-        }else{
-            for (int i = currentIndex; i < count; i++) {
-                text = (TextView) (full_day_show.getChildAt(i).findViewById(R.id.day_go_city_text_click));
-                if (i == count - 1) {
-                    text.setText("选择结束城市");
-                } else {
-                    text.setText("选择住宿城市");
+        try {
+            int count = full_day_show.getChildCount();
+            int currentIndex = Integer.valueOf(currentClickView.getTag().toString());
+            TextView text = null;
+            if (passBeanList.get(currentIndex - 1).cityId == startBean.cityId) {
+                for (int i = currentIndex; i < count; i++) {
+                    text = (TextView) (full_day_show.getChildAt(i).findViewById(R.id.day_go_city_text_click));
+                    text.setText("选择包车游玩范围");
+                }
+            } else {
+                for (int i = currentIndex; i < count; i++) {
+                    text = (TextView) (full_day_show.getChildAt(i).findViewById(R.id.day_go_city_text_click));
+                    if (i == count - 1) {
+                        text.setText("选择结束城市");
+                    } else {
+                        text.setText("选择住宿城市");
+                    }
                 }
             }
+        }catch (Exception e){
+            e.printStackTrace();
         }
     }
 

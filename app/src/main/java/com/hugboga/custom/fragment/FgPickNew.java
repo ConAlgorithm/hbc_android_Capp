@@ -18,6 +18,7 @@ import com.hugboga.custom.data.bean.AirPort;
 import com.hugboga.custom.data.bean.CarBean;
 import com.hugboga.custom.data.bean.CarListBean;
 import com.hugboga.custom.data.bean.CityBean;
+import com.hugboga.custom.data.bean.CollectGuideBean;
 import com.hugboga.custom.data.bean.DailyBean;
 import com.hugboga.custom.data.bean.FlightBean;
 import com.hugboga.custom.data.bean.PoiBean;
@@ -34,6 +35,9 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
+
+import static com.hugboga.custom.R.id.driver_layout;
+import static com.hugboga.custom.R.id.driver_name;
 
 /**
  * Created  on 16/5/13.
@@ -115,9 +119,11 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
 
     }
 
+    CollectGuideBean collectGuideBean;
     @Override
     protected void initView() {
 
+        collectGuideBean = (CollectGuideBean)this.getArguments().getSerializable("collectGuideBean");
     }
 
     FragmentManager fm;
@@ -135,6 +141,7 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
         if (getArguments() != null) {
             bundle.putAll(getArguments());
         }
+        bundle.putSerializable("collectGuideBean",collectGuideBean);
         bundle.putParcelable("carListBean", carListBean);
         fgCarNew.setArguments(bundle);
         transaction.add(R.id.show_cars_layout, fgCarNew);

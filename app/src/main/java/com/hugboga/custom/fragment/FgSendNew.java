@@ -19,6 +19,7 @@ import com.hugboga.custom.adapter.CarViewpagerAdapter;
 import com.hugboga.custom.data.bean.AirPort;
 import com.hugboga.custom.data.bean.CarBean;
 import com.hugboga.custom.data.bean.CarListBean;
+import com.hugboga.custom.data.bean.CollectGuideBean;
 import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.request.RequestCheckPrice;
@@ -38,6 +39,9 @@ import java.util.Calendar;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static com.hugboga.custom.R.id.driver_layout;
+import static com.hugboga.custom.R.id.driver_name;
 
 /**
  * Created  on 16/5/13.
@@ -123,15 +127,18 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
         if (getArguments() != null) {
             bundle.putAll(getArguments());
         }
+        bundle.putSerializable("collectGuideBean",collectGuideBean);
         bundle.putParcelable("carListBean", carListBean);
         fgCarNew.setArguments(bundle);
         transaction.add(R.id.show_cars_layout_send, fgCarNew);
         transaction.commit();
     }
 
+
+    CollectGuideBean collectGuideBean;
     @Override
     protected void initView() {
-
+        collectGuideBean = (CollectGuideBean)this.getArguments().getSerializable("collectGuideBean");
     }
 
     @Override

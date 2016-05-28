@@ -16,8 +16,14 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
+import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
+import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
+import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
+import com.hugboga.custom.data.bean.CollectGuideBean;
 import com.hugboga.custom.data.net.UrlLibs;
+import com.hugboga.custom.data.request.RequestGuideConflict;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.umeng.analytics.MobclickAgent;
 
@@ -25,10 +31,16 @@ import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 
 import java.util.HashMap;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static com.hugboga.custom.R.id.driver_layout;
+import static com.hugboga.custom.R.id.driver_name;
+import static com.hugboga.custom.R.id.driver_tips;
+import static com.hugboga.custom.R.id.nums;
 
 /**
  * Created  on 16/5/13.
@@ -103,17 +115,23 @@ public class FgPickSend extends BaseFragment implements View.OnTouchListener{
         });
     }
 
+
+    CollectGuideBean collectGuideBean;
     @Override
     protected void initView() {
 
+        collectGuideBean = (CollectGuideBean)this.getArguments().getSerializable("collectGuideBean");
 
         fgPick = new FgPickNew();
         fgSend = new FgSendNew();
+
 
         Bundle bundle = new Bundle();
         if(getArguments()!=null){
             bundle.putAll(getArguments());
         }
+
+        bundle.putSerializable("collectGuideBean",collectGuideBean);
         fgPick.setArguments(bundle);
         fgSend.setArguments(bundle);
 
@@ -125,6 +143,40 @@ public class FgPickSend extends BaseFragment implements View.OnTouchListener{
 //        transaction.addToBackStack(null);
         transaction.commit();
         pickOrSend = 1;
+    }
+
+
+
+
+    private void checkGuideCoflict(){
+
+//        RequestGuideConflict requestGuideConflict = new RequestGuideConflict(getContext(),3,startBean.cityId,
+//                collectGuideBean.guideId,start_date_str+" 00:00:00"
+//                ,end_date_str+" 00:00:00",getPassCitiesId()
+//                ,nums,collectGuideBean.carType,collectGuideBean.carClass);
+//        HttpRequestUtils.request(getContext(), requestGuideConflict, new HttpRequestListener() {
+//            @Override
+//            public void onDataRequestSucceed(BaseRequest request) {
+//                RequestGuideConflict mRequest = (RequestGuideConflict)request;
+//                List<String> guideList = mRequest.getData();
+//                if(guideList.size() == 0){
+////                    driver_tips.setVisibility(View.VISIBLE);
+//                }else{
+//                    FGOrderNew fgOrderNew = new FGOrderNew();
+//                    startFragment(fgOrderNew);
+//                }
+//            }
+//
+//            @Override
+//            public void onDataRequestCancel(BaseRequest request) {
+//                System.out.print(request);
+//            }
+//
+//            @Override
+//            public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+//                System.out.print(request);
+//            }
+//        });
     }
 
     @Override
