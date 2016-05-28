@@ -331,8 +331,10 @@
     <string name="order_info">明细 ></string>
     <string name="submit_order">立即支付</string>
 
+    <string name="passenger_no_star">&#160;乘车人</string>
     <string name="up_time">&#160;上车时间</string>
     <string name="up_site">*上车地点</string>
+    <string name="pick_name_star">*接机牌姓名</string>
 
     <string name="passenger">* 乘车人</string>
     <string name="add_passenger">请填写乘车人姓名</string>
@@ -501,5 +503,16 @@
     <string name="guide_detail_subtitle_appointment">预约司导</string>
     <string name="guide_detail_subtitle_contact">联系司导</string>
     <string name="guide_detail_subtitle_title">个人资料</string>
+
+    <string name="coupon_num">%s张优惠券可用</string>
+    <string name="dream_money">梦想基金</string>
+    <string name="insure_8wan">赠价值8万元平安保险</string>
+
+    <string name="free_huangbaoche">由皇包车支付</string>
+    <string name="change_title_txt">订单退改规则</string>
+    <string name="change_detail_txt">服务开始前24小时退订,全额退还费用;小于24小时不可退订,全部费用将扣除用于补偿当地司导</string>
+
+    <string name="dairy_choose_guide"> 请填写完所有出行信息，再来选择司导哟！</string>
+    <string name="dairy_modify_alert"> 请在删除指定司导后，再修改出行信息。</string>
 
 </resources>

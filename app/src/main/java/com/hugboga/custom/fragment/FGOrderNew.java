@@ -1,16 +1,14 @@
 package com.hugboga.custom.fragment;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -20,14 +18,16 @@ import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityBean;
+import com.hugboga.custom.data.bean.ContactUsersBean;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.OrderContact;
 import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.bean.SelectCarBean;
 import com.hugboga.custom.data.bean.UserEntity;
+import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestSubmitBase;
 import com.hugboga.custom.data.request.RequestSubmitDaily;
-import com.hugboga.custom.utils.ToastUtils;
 import com.umeng.analytics.MobclickAgent;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
@@ -44,6 +44,13 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.hugboga.custom.R.id.man_name;
+import static com.hugboga.custom.R.id.other_layout;
+import static com.hugboga.custom.R.id.other_name;
+import static com.hugboga.custom.R.id.up_right;
+
+
+import de.greenrobot.event.EventBus;
 /**
  * Created  on 16/4/18.
  */
@@ -58,60 +65,62 @@ public class FGOrderNew extends BaseFragment {
     ImageView headerRightBtn;
     @Bind(R.id.header_right_txt)
     TextView headerRightTxt;
-    @Bind(R.id.city)
-    TextView city;
-    @Bind(R.id.date)
-    TextView date;
-    @Bind(R.id.mans)
-    TextView mans;
-    @Bind(R.id.seat)
-    TextView seat;
-    @Bind(R.id.baggage)
-    TextView baggage;
-    @Bind(R.id.cartype)
-    TextView cartype;
-    @Bind(R.id.order_user_name)
-    EditText orderUserName;
-    @Bind(R.id.area_code_click)
-    TextView areaCodeClick;
-    @Bind(R.id.user_phone)
-    EditText userPhone;
-    @Bind(R.id.phone2_line)
-    TextView phone2Line;
-    @Bind(R.id.area_code_2_click)
-    TextView areaCode2Click;
-    @Bind(R.id.user_phone_2)
-    EditText userPhone2;
-    @Bind(R.id.phone2_layout)
-    LinearLayout phone2Layout;
-    @Bind(R.id.phone3_line)
-    TextView phone3Line;
-    @Bind(R.id.area_code_3_click)
-    TextView areaCode3Click;
-    @Bind(R.id.user_phone_3)
-    EditText userPhone3;
-    @Bind(R.id.phone3_layout)
-    LinearLayout phone3Layout;
-    @Bind(R.id.checkbox_other)
-    CheckBox checkboxOther;
-    @Bind(R.id.add_other_phone_click)
-    TextView addOtherPhoneClick;
-    @Bind(R.id.order_user_name_other)
-    EditText orderUserNameOther;
-    @Bind(R.id.area_code_other_click)
-    TextView areaCodeOtherClick;
-    @Bind(R.id.user_phone_other)
-    EditText userPhoneOther;
-    @Bind(R.id.for_other_people_layout)
-    LinearLayout forOtherPeopleLayout;
-    @Bind(R.id.up_time_text)
-    TextView upTimeText;
-    @Bind(R.id.up_site_text)
-    TextView upSiteText;
+    @Bind(R.id.citys_line_title)
+    TextView citysLineTitle;
+    @Bind(R.id.diary_layout)
+    LinearLayout diaryLayout;
+    @Bind(R.id.start_hospital_title)
+    TextView startHospitalTitle;
+    @Bind(R.id.start_hospital_title_tips)
+    TextView startHospitalTitleTips;
+    @Bind(R.id.end_hospital_title)
+    TextView endHospitalTitle;
+    @Bind(R.id.end_hospital_title_tips)
+    TextView endHospitalTitleTips;
+    @Bind(R.id.car_seat)
+    TextView carSeat;
+    @Bind(R.id.car_seat_tips)
+    TextView carSeatTips;
+    @Bind(R.id.checkin)
+    TextView checkin;
+    @Bind(R.id.man_phone_name)
+    TextView manPhoneName;
+    @Bind(R.id.for_other_man)
+    TextView forOtherMan;
+    @Bind(R.id.man_phone_layout)
+    LinearLayout manPhoneLayout;
+    @Bind(R.id.up_left)
+    TextView upLeft;
+    @Bind(R.id.up_time)
+    TextView upTime;
+    @Bind(R.id.up_address_left)
+    TextView upAddressLeft;
+    @Bind(R.id.up_address_right)
+    TextView upAddressRight;
+    @Bind(R.id.up_address_time)
+    TextView upAddressTime;
     @Bind(R.id.hotel_phone_text_code_click)
     TextView hotelPhoneTextCodeClick;
     @Bind(R.id.hotel_phone_text)
     EditText hotelPhoneText;
+    @Bind(R.id.mark)
+    EditText mark;
+    @Bind(R.id.coupon_left)
+    RadioButton couponLeft;
+    @Bind(R.id.coupon_right)
+    TextView couponRight;
+    @Bind(R.id.dream_left)
+    RadioButton dreamLeft;
+    @Bind(R.id.dream_right)
+    TextView dreamRight;
+    @Bind(R.id.insure_left)
+    TextView insureLeft;
+    @Bind(R.id.insure_right)
+    TextView insureRight;
+    @Bind(R.id.change_title)
+    TextView changeTitle;
+    @Bind(R.id.change_detail)
+    TextView changeDetail;
     @Bind(R.id.all_money_left)
     TextView allMoneyLeft;
     @Bind(R.id.all_money_left_text)
@@ -122,16 +131,47 @@ public class FGOrderNew extends BaseFragment {
     TextView allMoneyInfo;
     @Bind(R.id.bottom)
     RelativeLayout bottom;
-    @Bind(R.id.dayNums)
-    TextView dayNumsText;
-    @Bind(R.id.mark)
-    EditText mark;
+    @Bind(man_name)
+    TextView manName;
+    @Bind(R.id.man_phone)
+    TextView manPhone;
+    @Bind(R.id.other_phone_name)
+    TextView otherPhoneName;
+    @Bind(other_name)
+    TextView otherName;
+    @Bind(R.id.other_phone)
+    TextView otherPhone;
+    @Bind(R.id.other_phone_layout)
+    LinearLayout otherPhoneLayout;
+    @Bind(R.id.pick_name_left)
+    TextView pickNameLeft;
+    @Bind(R.id.pick_name)
+    EditText pickName;
+    @Bind(R.id.up_right)
+    TextView upRight;
+    @Bind(other_layout)
+    RelativeLayout otherLayout;
 
     @Override
     protected void initHeader() {
         fgRightBtn.setVisibility(View.VISIBLE);
         fgTitle.setText(R.string.select_city_title);
         source = getArguments().getString("source");
+
+        fgLeftBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        contactUsersBean = new ContactUsersBean();
+        String userName = UserEntity.getUser().getNickname(this.getActivity());
+        String userPhone = UserEntity.getUser().getPhone(this.getActivity());
+        contactUsersBean.userName = userName;
+        contactUsersBean.userPhone = userPhone;
+        manName.setText(userName);
+        manPhone.setText(userPhone);
     }
 
     String startCityId;
@@ -154,6 +194,7 @@ public class FGOrderNew extends BaseFragment {
 
     public int inNum = 0;
     public int outNum = 0;
+
 
     @Override
     protected void initView() {
@@ -180,33 +221,33 @@ public class FGOrderNew extends BaseFragment {
         inNum = this.getArguments().getInt("innum");
         outNum = this.getArguments().getInt("outnum");
 
-
-        city.setText("城市:"+startCityName);
-        if(halfDay.equalsIgnoreCase("0")){
-            date.setText("用车时间:"+startDate+"到"+endDate);
-            dayNumsText.setText("("+dayNums+"天)");
-        }else{
-            date.setText("用车时间:"+startDate);
-            dayNumsText.setVisibility(View.INVISIBLE);
-        }
-        mans.setText("人数:"+adultNum+"成人/"+childrenNum+"儿童");
-        seat.setText("儿童座椅:"+childseatNum);
-        baggage.setText("托运行李:"+luggageNum);
-        cartype.setText("车型:"+carTypeName);
-        dayNumsText.setText("("+dayNums+"天)");
-
-        allMoneyLeftText.setText(carBean.price + "");
-
-        checkboxOther.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    forOtherPeopleLayout.setVisibility(View.VISIBLE);
-                } else {
-                    forOtherPeopleLayout.setVisibility(View.GONE);
-                }
-            }
-        });
+//
+//        city.setText("城市:" + startCityName);
+//        if (halfDay.equalsIgnoreCase("0")) {
+//            date.setText("用车时间:" + startDate + "到" + endDate);
+//            dayNumsText.setText("(" + dayNums + "天)");
+//        } else {
+//            date.setText("用车时间:" + startDate);
+//            dayNumsText.setVisibility(View.INVISIBLE);
+//        }
+//        mans.setText("人数:" + adultNum + "成人/" + childrenNum + "儿童");
+//        seat.setText("儿童座椅:" + childseatNum);
+//        baggage.setText("托运行李:" + luggageNum);
+//        cartype.setText("车型:" + carTypeName);
+//        dayNumsText.setText("(" + dayNums + "天)");
+//
+//        allMoneyLeftText.setText(carBean.price + "");
+//
+//        checkboxOther.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                if (isChecked) {
+//                    forOtherPeopleLayout.setVisibility(View.VISIBLE);
+//                } else {
+//                    forOtherPeopleLayout.setVisibility(View.GONE);
+//                }
+//            }
+//        });
     }
 
     @Override
@@ -224,6 +265,7 @@ public class FGOrderNew extends BaseFragment {
         // TODO: inflate a fragment view
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
         ButterKnife.bind(this, rootView);
+        EventBus.getDefault().register(this);
         return rootView;
     }
 
@@ -231,6 +273,7 @@ public class FGOrderNew extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -243,9 +286,9 @@ public class FGOrderNew extends BaseFragment {
                 String areaCode = bundle.getString(FgChooseCountry.KEY_COUNTRY_CODE);
                 codeTv.setText("+" + areaCode);
             }
-        }else if (FgPoiSearch.class.getSimpleName().equals(fragmentName)) {
+        } else if (FgPoiSearch.class.getSimpleName().equals(fragmentName)) {
             PoiBean poiBean = (PoiBean) bundle.getSerializable(FgPoiSearch.KEY_ARRIVAL);
-            upSiteText.setText(poiBean.placeName + "\n" + poiBean.placeDetail);
+            upRight.setText(poiBean.placeName + "\n" + poiBean.placeDetail);
         }
     }
 
@@ -255,23 +298,20 @@ public class FGOrderNew extends BaseFragment {
     public void showTimeSelect() {
         Calendar cal = Calendar.getInstance();
         MyTimePickerDialogListener myTimePickerDialog = new MyTimePickerDialogListener();
-        com.wdullaer.materialdatetimepicker.time.TimePickerDialog datePickerDialog = com.wdullaer.materialdatetimepicker.time.TimePickerDialog.newInstance(myTimePickerDialog, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), true);
+        TimePickerDialog datePickerDialog = TimePickerDialog.newInstance(myTimePickerDialog, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), true);
         datePickerDialog.setAccentColor(getActivity().getResources().getColor(R.color.all_bg_yellow));
         datePickerDialog.show(this.getActivity().getFragmentManager(), "TimePickerDialog");                //显示日期设置对话框
     }
 
     String serverTime = "09:00";
-    /*
-         * Function  :       自定义MyDatePickerDialog类，用于实现DatePickerDialog.OnDateSetListener接口，
-         *                           当点击日期设置对话框中的“设置”按钮时触发该接口方法
-         */
+
     class MyTimePickerDialogListener implements TimePickerDialog.OnTimeSetListener {
         @Override
         public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute, int second) {
             String hour = String.format("%02d", hourOfDay);
             String minuteStr = String.format("%02d", minute);
             serverTime = hour + ":" + minuteStr;
-            upTimeText.setText(serverTime + "(当地时间)");
+            upTime.setText(serverTime + "(当地时间)");
         }
     }
 
@@ -290,8 +330,8 @@ public class FGOrderNew extends BaseFragment {
             String orderNo = ((RequestSubmitBase) request).getData();
             Bundle bundle = new Bundle();
             bundle.putString(FgOrder.KEY_ORDER_ID, orderNo);
-            bundle.putString("source",source);
-            bundle.putBoolean("needShowAlert",true);
+            bundle.putString("source", source);
+            bundle.putBoolean("needShowAlert", true);
             startFragment(new FgOrder(), bundle);
         }
 
@@ -300,34 +340,35 @@ public class FGOrderNew extends BaseFragment {
     @Override
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
         super.onDataRequestError(errorInfo, request);
-        MLog.e(errorInfo.toString()+"===========error");
+        MLog.e(errorInfo.toString() + "===========error");
     }
 
     //TODO;时间太紧 文字先写代码里
     List<OrderContact> contact = new ArrayList<OrderContact>();
-    private void checkData(){
+
+    private void checkData() {
         contact.clear();
-        if(TextUtils.isEmpty(orderUserName.getText())){
-            ToastUtils.showLong("联系人姓名不能为空!");
-            return;
-        }
-
-        if(TextUtils.isEmpty(areaCodeClick.getText())){
-            ToastUtils.showLong("联系人区号不能为空!");
-            return;
-        }
-
-        if(TextUtils.isEmpty(userPhone.getText())){
-            ToastUtils.showLong("联系人电话不能为空!");
-            return;
-        }
-
-        if(!TextUtils.isEmpty(areaCodeClick.getText()) && !TextUtils.isEmpty(userPhone.getText())){
-            OrderContact orderContact = new OrderContact();
-            orderContact.areaCode = areaCodeClick.getText().toString();
-            orderContact.tel = userPhone.getText().toString();
-            contact.add(orderContact);
-        }
+//        if (TextUtils.isEmpty(orderUserName.getText())) {
+//            ToastUtils.showLong("联系人姓名不能为空!");
+//            return;
+//        }
+//
+//        if (TextUtils.isEmpty(areaCodeClick.getText())) {
+//            ToastUtils.showLong("联系人区号不能为空!");
+//            return;
+//        }
+//
+//        if (TextUtils.isEmpty(userPhone.getText())) {
+//            ToastUtils.showLong("联系人电话不能为空!");
+//            return;
+//        }
+//
+//        if (!TextUtils.isEmpty(areaCodeClick.getText()) && !TextUtils.isEmpty(userPhone.getText())) {
+//            OrderContact orderContact = new OrderContact();
+//            orderContact.areaCode = areaCodeClick.getText().toString();
+//            orderContact.tel = userPhone.getText().toString();
+//            contact.add(orderContact);
+//        }
 
 //        if(TextUtils.isEmpty(upTimeText.getText())){
 //            ToastUtils.showLong("上车时间不能为空!");
@@ -348,63 +389,63 @@ public class FGOrderNew extends BaseFragment {
 //            ToastUtils.showLong("酒店电话不能为空!");
 //            return;
 //        }
-
-        if(checkboxOther.isChecked()){
-            if(TextUtils.isEmpty(orderUserNameOther.getText())){
-                ToastUtils.showLong("乘车人姓名不能为空!");
-                return;
-            }
-
-            if(TextUtils.isEmpty(areaCodeOtherClick.getText())){
-                ToastUtils.showLong("乘车人电话区号不能为空!");
-                return;
-            }
-
-            if(TextUtils.isEmpty(userPhoneOther.getText())){
-                ToastUtils.showLong("乘车人电话不能为空!");
-                return;
-            }
-        }
-
-        if(phone2Layout.isShown()){
-            if(!TextUtils.isEmpty(areaCode2Click.getText()) && !TextUtils.isEmpty(userPhone2.getText())) {
-                userPhone2.getText().toString();
-                OrderContact orderContact = new OrderContact();
-                orderContact.areaCode = areaCode2Click.getText().toString();
-                orderContact.tel = userPhone2.getText().toString();
-                contact.add(orderContact);
-            }
-        }
-        if(phone3Layout.isShown()) {
-            if(!TextUtils.isEmpty(areaCode3Click.getText()) && !TextUtils.isEmpty(userPhone3.getText())) {
-                userPhone3.getText().toString();
-                OrderContact orderContact = new OrderContact();
-                orderContact.areaCode = areaCode3Click.getText().toString();
-                orderContact.tel = userPhone3.getText().toString();
-                contact.add(orderContact);
-            }
-        }
+//
+//        if (checkboxOther.isChecked()) {
+//            if (TextUtils.isEmpty(orderUserNameOther.getText())) {
+//                ToastUtils.showLong("乘车人姓名不能为空!");
+//                return;
+//            }
+//
+//            if (TextUtils.isEmpty(areaCodeOtherClick.getText())) {
+//                ToastUtils.showLong("乘车人电话区号不能为空!");
+//                return;
+//            }
+//
+//            if (TextUtils.isEmpty(userPhoneOther.getText())) {
+//                ToastUtils.showLong("乘车人电话不能为空!");
+//                return;
+//            }
+//        }
+//
+//        if (phone2Layout.isShown()) {
+//            if (!TextUtils.isEmpty(areaCode2Click.getText()) && !TextUtils.isEmpty(userPhone2.getText())) {
+//                userPhone2.getText().toString();
+//                OrderContact orderContact = new OrderContact();
+//                orderContact.areaCode = areaCode2Click.getText().toString();
+//                orderContact.tel = userPhone2.getText().toString();
+//                contact.add(orderContact);
+//            }
+//        }
+//        if (phone3Layout.isShown()) {
+//            if (!TextUtils.isEmpty(areaCode3Click.getText()) && !TextUtils.isEmpty(userPhone3.getText())) {
+//                userPhone3.getText().toString();
+//                OrderContact orderContact = new OrderContact();
+//                orderContact.areaCode = areaCode3Click.getText().toString();
+//                orderContact.tel = userPhone3.getText().toString();
+//                contact.add(orderContact);
+//            }
+//        }
         if (UserEntity.getUser().isLogin(getActivity())) {
             RequestSubmitDaily requestSubmitBase = new RequestSubmitDaily(getActivity(), getOrderByInput());
             requestData(requestSubmitBase);
             doUMengStatistic();
-        }else{
+        } else {
             Bundle bundle = new Bundle();//用于统计
-            bundle.putString("source","包车下单");
+            bundle.putString("source", "包车下单");
             startFragment(new FgLogin(), bundle);
         }
     }
 
-    private void doUMengStatistic(){
-        HashMap<String,String> map = new HashMap<String,String>();
+    private void doUMengStatistic() {
+        HashMap<String, String> map = new HashMap<String, String>();
         map.put("source", source);
         map.put("begincity", startBean.name);
         map.put("carstyle", carBean.carDesc);
-        if(checkboxOther.isChecked()) {
-            map.put("forother", "是");
-        }else{
-            map.put("forother", "否");
-        }
+//        if (checkboxOther.isChecked()) {
+//            map.put("forother", "是");
+//        } else {
+//            map.put("forother", "否");
+//        }
 //        map.put("guestcount", adultNum + childrenNum + "");
 //        map.put("luggagecount", luggageNum + "");
 //        map.put("drivedays", dayNums + "");
@@ -412,8 +453,28 @@ public class FGOrderNew extends BaseFragment {
         MobclickAgent.onEventValue(getActivity(), "submitorder_oneday", map, carBean.price);
     }
 
+    ContactUsersBean contactUsersBean = null;
+
+    public void onEventMainThread(EventAction action) {
+        if(action.getType() == EventType.CONTACT_BACK) {
+            contactUsersBean = (ContactUsersBean) action.getData();
+            if (!TextUtils.isEmpty(contactUsersBean.userName)) {
+                manName.setText(contactUsersBean.userName);
+                manPhone.setText(contactUsersBean.phoneCode + " " + contactUsersBean.userPhone);
+            }
+
+            if (contactUsersBean.isForOther) {
+                otherLayout.setVisibility(View.VISIBLE);
+                otherName.setText(contactUsersBean.otherName);
+                otherPhone.setText(contactUsersBean.otherphoneCode + " " + contactUsersBean.otherPhone);
+            }
+        }
+
+    }
+
     OrderBean orderBean;
     ArrayList passCityList;
+
     private OrderBean getOrderByInput() {
         orderBean = new OrderBean();//订单
 
@@ -432,16 +493,16 @@ public class FGOrderNew extends BaseFragment {
         orderBean.destAddress = endCityId;
         orderBean.orderPrice = carBean.price;
         orderBean.priceMark = carBean.pricemark;
-        orderBean.serviceCityId  = Integer.valueOf(startCityId);
+        orderBean.serviceCityId = Integer.valueOf(startCityId);
         orderBean.serviceEndCityid = Integer.valueOf(endCityId);
         orderBean.serviceCityName = startCityName;
         orderBean.serviceEndCityName = endCityId;
-        orderBean.isHalfDaily =  Integer.valueOf(halfDay);
+        orderBean.isHalfDaily = Integer.valueOf(halfDay);
         orderBean.contact = contact;
-        orderBean.serviceStartTime = serverTime+":00";
+        orderBean.serviceStartTime = serverTime + ":00";
         orderBean.serviceTime = startDate;
 
-        if(halfDay.equalsIgnoreCase("0")) {
+        if (halfDay.equalsIgnoreCase("0")) {
             orderBean.oneCityTravel = 2;
             orderBean.totalDays = Integer.valueOf(dayNums);
             orderBean.inTownDays = inNum;
@@ -449,7 +510,7 @@ public class FGOrderNew extends BaseFragment {
             orderBean.serviceEndTime = endDate;
             orderBean.startAddressPoi = startBean.location;
             orderBean.destAddressPoi = endBean.location;
-        }else{
+        } else {
             orderBean.oneCityTravel = 1;
             orderBean.serviceEndTime = startDate;
             orderBean.startAddressPoi = startBean.location;
@@ -467,67 +528,64 @@ public class FGOrderNew extends BaseFragment {
         orderBean.startAddressPoi = startBean.location;
         orderBean.destAddressPoi = endBean.location;
 
-        orderBean.startAddress = upSiteText.getText().toString();
+        orderBean.startAddress = upRight.getText().toString();
         orderBean.startAddressDetail = "";//upSiteText.getText().toString();
 
 
-        orderBean.destAddressDetail = upSiteText.getText().toString();
+        orderBean.destAddressDetail = upRight.getText().toString();
 
-        orderBean.userName = orderUserName.getText().toString();
-        orderBean.stayCityListStr = passCities;
-        orderBean.userRemark = mark.getText().toString();
-
-        orderBean.serviceDepartTime = serverTime;
-
-        orderBean.priceChannel = carBean.price+"";
-        orderBean.childSeatNum = childseatNum;
-        orderBean.luggageNum = luggageNum;
-        orderBean.realUserName = orderUserNameOther.getText().toString();
-        orderBean.realAreaCode = areaCodeOtherClick.getText().toString();
-        orderBean.realMobile = userPhoneOther.getText().toString();
-        if(checkboxOther.isChecked()) {
-            orderBean.isRealUser = "2";
-        }else{
-            orderBean.isRealUser = "1";
-        }
+//        orderBean.userName = orderUserName.getText().toString();
+//        orderBean.stayCityListStr = passCities;
+//        orderBean.userRemark = mark.getText().toString();
+//
+//        orderBean.serviceDepartTime = serverTime;
+//
+//        orderBean.priceChannel = carBean.price + "";
+//        orderBean.childSeatNum = childseatNum;
+//        orderBean.luggageNum = luggageNum;
+//        orderBean.realUserName = orderUserNameOther.getText().toString();
+//        orderBean.realAreaCode = areaCodeOtherClick.getText().toString();
+//        orderBean.realMobile = userPhoneOther.getText().toString();
+//        if (checkboxOther.isChecked()) {
+//            orderBean.isRealUser = "2";
+//        } else {
+//            orderBean.isRealUser = "1";
+//        }
 
 
         return orderBean;
 
 /**
-        "priceChannel": model.priceChannel!,                 // C端价格
-                "priceMark": model.priceMark!,                       // 询价系统返回ID
-                "adultNum": model.adultNum!,                         // 成人座位数
-                "childNum": model.childNum!,                         // 小孩座位数
+ "priceChannel": model.priceChannel!,                 // C端价格
+ "priceMark": model.priceMark!,                       // 询价系统返回ID
+ "adultNum": model.adultNum!,                         // 成人座位数
+ "childNum": model.childNum!,                         // 小孩座位数
 
-                "startCityId": model.startCityId!,                  // 服务地城市ID
-                "destCityId": model.destCityId!,                    // 服务终止城市ID
-                "startCityName": model.startCityName!,
-                "destCityName": model.destCityName!,
+ "startCityId": model.startCityId!,                  // 服务地城市ID
+ "destCityId": model.destCityId!,                    // 服务终止城市ID
+ "startCityName": model.startCityName!,
+ "destCityName": model.destCityName!,
 
-                "serviceDate": model.serviceDate!,                  // 服务时间
-                "serviceEndDate": model.serviceEndDate!,            // 服务终止时间
-                "serviceRecTime": model.serviceRecTime!,            // 服务时间
-                "serviceDepartTime": model.serviceDepartTime!,      // 出发时间
+ "serviceDate": model.serviceDate!,                  // 服务时间
+ "serviceEndDate": model.serviceEndDate!,            // 服务终止时间
+ "serviceRecTime": model.serviceRecTime!,            // 服务时间
+ "serviceDepartTime": model.serviceDepartTime!,      // 出发时间
 
-                "startAddressPoi": model.startAddressPoi!,           // 出发地poi(纬度,经度 : 36.524461,180.155223)
-                "destAddressPoi": model.destAddressPoi!,             // 目的地poi(纬度,经度 : 36.524461,180.155223)
-                "distance": model.distance!,                         // 服务距离
-                "expectedCompTime": model.expectedCompTime!,         // 预计服务时间
-                "carTypeId": model.carTypeId!,                       // 车类型：1-经济，2-舒适，3-豪华，4-奢华
-                "carSeatNum": model.carSeatNum!,                     // 车容量，车座数
-                "carDesc": model.carDesc!,                           // 车辆类型描述（所包含的车辆款式）
-                "userAreaCode1": model.userAreaCode1!,               // 用户手机号（默认登录使用手机号）
-                "userMobile1": model.userMobile1!,                   // 用户区号
-                "userName": model.userName!,                         // 客人名字
-                "urgentFlag": model.urgentFlag!,                     // 是否急单
-                "orderChannel": channelId,                           // 渠道编号
-
-
-**/
+ "startAddressPoi": model.startAddressPoi!,           // 出发地poi(纬度,经度 : 36.524461,180.155223)
+ "destAddressPoi": model.destAddressPoi!,             // 目的地poi(纬度,经度 : 36.524461,180.155223)
+ "distance": model.distance!,                         // 服务距离
+ "expectedCompTime": model.expectedCompTime!,         // 预计服务时间
+ "carTypeId": model.carTypeId!,                       // 车类型：1-经济，2-舒适，3-豪华，4-奢华
+ "carSeatNum": model.carSeatNum!,                     // 车容量，车座数
+ "carDesc": model.carDesc!,                           // 车辆类型描述（所包含的车辆款式）
+ "userAreaCode1": model.userAreaCode1!,               // 用户手机号（默认登录使用手机号）
+ "userMobile1": model.userMobile1!,                   // 用户区号
+ "userName": model.userName!,                         // 客人名字
+ "urgentFlag": model.urgentFlag!,                     // 是否急单
+ "orderChannel": channelId,                           // 渠道编号
 
 
-
+ **/
 
 
     }
@@ -542,58 +600,85 @@ public class FGOrderNew extends BaseFragment {
         }
     }
 
-
-    @OnClick({R.id.header_right_txt,R.id.up_site_text,R.id.all_money_info,R.id.up_time_text,R.id.header_left_btn, R.id.area_code_click, R.id.area_code_2_click, R.id.area_code_3_click, R.id.add_other_phone_click, R.id.area_code_other_click, R.id.hotel_phone_text_code_click, R.id.all_money_submit_click})
+    @OnClick({R.id.other_phone_layout,R.id.other_phone_name,R.id.for_other_man, man_name, R.id.man_phone, R.id.man_phone_layout, up_right, R.id.up_address_right, R.id.hotel_phone_text_code_click, R.id.hotel_phone_text})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.up_site_text:
-                startArrivalSearch(Integer.valueOf(startCityId), startBean.location);
-            break;
-            case R.id.header_right_txt:
-                HashMap<String,String> map = new HashMap<String,String>();
-                map.put("source", "提交订单页面");
-                MobclickAgent.onEvent(getActivity(), "callcenter_oneday", map);
-                view.setTag("提交订单页面,calldomestic_oneday,calloverseas_oneday");
-                super.onClick(view);
+            case R.id.man_phone_layout:
+            case R.id.for_other_man:
+            case R.id.other_phone_layout:
+                FgChooseOther fgChooseOther = new FgChooseOther();
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("contactUsersBean", contactUsersBean);
+                fgChooseOther.setArguments(bundle);
+                startFragment(fgChooseOther);
                 break;
-            case R.id.all_money_info:
-                FgOrderInfo fgOrderInfo = new FgOrderInfo();
-                Bundle bundleCar = new Bundle();
-                bundleCar.putParcelable("carBean",carBean);
-                bundleCar.putString("halfDay",halfDay);
-                fgOrderInfo.setArguments(bundleCar);
-                startFragment(fgOrderInfo);
+            case man_name:
                 break;
-            case R.id.up_time_text:
-                showTimeSelect();
+            case R.id.man_phone:
                 break;
-            case R.id.header_left_btn:
-                finish();
+            case up_right:
                 break;
-            case R.id.header_title:
+            case R.id.up_address_right:
                 break;
-            case R.id.add_other_phone_click:
-                if(!phone2Layout.isShown()) {
-                    phone2Layout.setVisibility(View.VISIBLE);
-                }else if(!phone3Layout.isShown()) {
-                    phone3Layout.setVisibility(View.VISIBLE);
-                    addOtherPhoneClick.setTextColor(Color.parseColor("#929394"));
-                }
-
-                break;
-            case R.id.area_code_click:
-            case R.id.area_code_2_click:
-            case R.id.area_code_3_click:
-            case R.id.area_code_other_click:
             case R.id.hotel_phone_text_code_click:
-                FgChooseCountry chooseCountry = new FgChooseCountry();
-                Bundle bundleCode = new Bundle();
-                bundleCode.putInt("airportCode", view.getId());
-                startFragment(chooseCountry, bundleCode);
                 break;
-            case R.id.all_money_submit_click:
-                checkData();
+            case R.id.hotel_phone_text:
                 break;
         }
     }
+
+//
+//    @OnClick({R.id.header_right_txt, R.id.all_money_info, R.id.header_left_btn, R.id.hotel_phone_text_code_click, R.id.all_money_submit_click})
+//    public void onClick(View view) {
+//        switch (view.getId()) {
+////            case R.id.up_site_text:
+////                startArrivalSearch(Integer.valueOf(startCityId), startBean.location);
+////                break;
+//            case R.id.header_right_txt:
+//                HashMap<String, String> map = new HashMap<String, String>();
+//                map.put("source", "提交订单页面");
+//                MobclickAgent.onEvent(getActivity(), "callcenter_oneday", map);
+//                view.setTag("提交订单页面,calldomestic_oneday,calloverseas_oneday");
+//                super.onClick(view);
+//                break;
+//            case R.id.all_money_info:
+//                FgOrderInfo fgOrderInfo = new FgOrderInfo();
+//                Bundle bundleCar = new Bundle();
+//                bundleCar.putParcelable("carBean", carBean);
+//                bundleCar.putString("halfDay", halfDay);
+//                fgOrderInfo.setArguments(bundleCar);
+//                startFragment(fgOrderInfo);
+//                break;
+//            case R.id.up_time:
+//                showTimeSelect();
+//                break;
+//            case R.id.header_left_btn:
+//                finish();
+//                break;
+//            case R.id.header_title:
+//                break;
+////            case R.id.add_other_phone_click:
+////                if (!phone2Layout.isShown()) {
+////                    phone2Layout.setVisibility(View.VISIBLE);
+////                } else if (!phone3Layout.isShown()) {
+////                    phone3Layout.setVisibility(View.VISIBLE);
+////                    addOtherPhoneClick.setTextColor(Color.parseColor("#929394"));
+////                }
+//
+////                break;
+////            case R.id.area_code_click:
+////            case R.id.area_code_2_click:
+////            case R.id.area_code_3_click:
+////            case R.id.area_code_other_click:
+//            case R.id.hotel_phone_text_code_click:
+//                FgChooseCountry chooseCountry = new FgChooseCountry();
+//                Bundle bundleCode = new Bundle();
+//                bundleCode.putInt("airportCode", view.getId());
+//                startFragment(chooseCountry, bundleCode);
+//                break;
+//            case R.id.all_money_submit_click:
+//                checkData();
+//                break;
+//        }
+//    }
 }

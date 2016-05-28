@@ -1,6 +1,5 @@
 package com.hugboga.custom;
 
-import android.*;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
@@ -12,6 +11,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -29,14 +29,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.huangbaoche.hbcframe.activity.BaseFragmentActivity;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
@@ -49,6 +46,7 @@ import com.hugboga.custom.data.bean.LvMenuItem;
 import com.hugboga.custom.data.bean.PushMessage;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestPushClick;
 import com.hugboga.custom.data.request.RequestPushToken;
@@ -68,22 +66,18 @@ import com.hugboga.custom.fragment.FgOrder;
 import com.hugboga.custom.fragment.FgPersonInfo;
 import com.hugboga.custom.fragment.FgServicerCenter;
 import com.hugboga.custom.fragment.FgSetting;
-import com.hugboga.custom.fragment.FgSkuDetail;
 import com.hugboga.custom.fragment.FgTravel;
 import com.hugboga.custom.fragment.FgTravelFund;
 import com.hugboga.custom.fragment.FgWebInfo;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.ChannelUtils;
 import com.hugboga.custom.utils.IMUtil;
-import com.hugboga.custom.utils.ImageOptionUtils;
 import com.hugboga.custom.utils.LocationUtils;
 import com.hugboga.custom.utils.PermissionRes;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.ToastUtils;
 import com.hugboga.custom.utils.Tools;
-import com.hugboga.custom.utils.UpdateResources;
-import com.hugboga.custom.widget.CircularImage;
 import com.umeng.analytics.MobclickAgent;
 import com.zhy.m.permission.MPermissions;
 import com.zhy.m.permission.PermissionDenied;
@@ -95,7 +89,6 @@ import org.xutils.common.util.FileUtil;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
-import org.xutils.x;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -109,6 +102,8 @@ import java.util.TimerTask;
 import cn.jpush.android.api.JPushInterface;
 import de.greenrobot.event.EventBus;
 
+import static android.R.attr.data;
+import de.greenrobot.event.EventBus;
 
 @ContentView(R.layout.activity_main)
 public class MainActivity extends BaseActivity
@@ -584,6 +579,24 @@ public class MainActivity extends BaseActivity
 
 
     }
+
+    // 接收通讯录的选择号码事件
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+            if (resultCode == RESULT_OK) {
+                if (data == null) {
+                    return;
+                }
+                Uri result = data.getData();
+                String[] contact = PhoneInfo.getPhoneContacts(this,result);
+
+                EventBus.getDefault().post(new EventAction(EventType.CONTACT,contact));
+
+                Log.e("============", "contactName = "+contact[0]+", "+contact[1]);
+
+            }
+    }
+
 
     /**
      * 判断是否登录

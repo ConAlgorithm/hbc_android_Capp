@@ -21,5 +21,12 @@ public enum EventType {
     AIR_NO,//航班号返回
     MAN_CHILD_LUUAGE, //乘客行李
     CHANGE_CAR, //选择汽车
-    CHOOSE_GUIDE //收藏选择司导
+    CHOOSE_GUIDE, //收藏选择司导
+    CONTACT, //通讯录选取联系人
+    CONTACT_BACK, //通讯录选取联系人返回显示
+
+    SINGLE_TYPE, //单次接送
+    DAIRY_TYPE, //包车
+    PICK_SEND_TYPE //接送机
+
 }
