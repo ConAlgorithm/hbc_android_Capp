@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.PopupWindow;
 import android.widget.RadioButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.anupcowkur.reservoir.Reservoir;
@@ -29,7 +30,6 @@ import com.hugboga.custom.data.bean.CollectGuideBean;
 import com.hugboga.custom.data.bean.SavedCityBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
-import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestCollectGuidesFilter;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.DBCityUtils;
@@ -51,6 +51,9 @@ import java.util.HashMap;
 import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
 
+import static com.hugboga.custom.R.id.choose_driver;
+import static com.hugboga.custom.R.id.del_text;
+import static com.hugboga.custom.R.id.driver_name;
 import static java.security.AccessController.getContext;
 
 /**
@@ -110,6 +113,20 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
     @ViewInject(R.id.full_day_date_layout)
     LinearLayout full_day_date_layout;
 
+    @ViewInject(R.id.driver_layout)
+    RelativeLayout driver_layout;
+
+    @ViewInject(R.id.del_text)
+    TextView del_text;
+
+    @ViewInject(R.id.driver_name)
+    TextView driver_name;
+
+    @ViewInject(R.id.choose_driver)
+    TextView choose_driver;
+
+
+
     @Override
     protected void inflateContent() {
     }
@@ -145,6 +162,22 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
                 }
             }
         });
+
+        del_text.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                driver_layout.setVisibility(View.GONE);
+                choose_driver.setVisibility(View.VISIBLE);
+            }
+        });
+
+        driver_name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goCollectGuid();
+            }
+        });
+
     }
 
     private void showSaveDialog(){
@@ -728,11 +761,36 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
                 || TextUtils.isEmpty(peopleTextClick.getText())
                 || TextUtils.isEmpty(baggageTextClick.getText())
                 || isHalfTravel?TextUtils.isEmpty(halfDate):TextUtils.isEmpty(start_date_str)
-                || isHalfTravel?TextUtils.isEmpty(halfDate):TextUtils.isEmpty(end_date_str)){
+                || isHalfTravel?TextUtils.isEmpty(halfDate):TextUtils.isEmpty(end_date_str)
+                || isHalfTravel?false:passBeanList.size() != nums){
             AlertDialogUtils.showAlertDialogOneBtn(this.getActivity(), getString(R.string.dairy_choose_guide),"好的");
             return false;
         }else{
             return true;
+        }
+    }
+
+
+    private void goCollectGuid() {
+        if (UserEntity.getUser().isLogin(getActivity())) {
+            if (checkParams()) {
+                FgCollectGuideList fgCollectGuideList = new FgCollectGuideList();
+                Bundle bundle = new Bundle();
+                RequestCollectGuidesFilter.CollectGuidesFilterParams params = new RequestCollectGuidesFilter.CollectGuidesFilterParams();
+                params.startCityId = startBean.cityId;
+                params.startTime = isHalfTravel ? halfDate + " 00:00:00" : start_date_str + " 00:00:00";
+                params.endTime = isHalfTravel ? halfDate + " 00:00:00" : end_date_str + " 00:00:00";
+                params.adultNum = manNum;
+                params.childrenNum = childNum;
+                params.childSeatNum = childSeatNums;
+                params.luggageNum = baggageNum;
+                params.orderType = 3;
+                params.totalDays = isHalfTravel ? 1 : nums;
+                params.passCityId = isHalfTravel ? startBean.cityId + "" : getPassCitiesId();
+                bundle.putSerializable(Constants.PARAMS_DATA, params);
+                fgCollectGuideList.setArguments(bundle);
+                startFragment(fgCollectGuideList);
+            }
         }
     }
 
@@ -743,21 +801,7 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
         switch (view.getId()) {
             case R.id.choose_driver:
                 if (UserEntity.getUser().isLogin(getActivity())) {
-                    if(checkParams()) {
-                        FgCollectGuideList fgCollectGuideList = new FgCollectGuideList();
-                        Bundle bundle = new Bundle();
-                        RequestCollectGuidesFilter.CollectGuidesFilterParams params = new RequestCollectGuidesFilter.CollectGuidesFilterParams();
-                        params.startCityId = startBean.cityId;
-                        params.startTime = isHalfTravel?halfDate:start_date_str;
-                        params.endTime = isHalfTravel?halfDate:end_date_str;
-                        params.adultNum = manNum;
-                        params.childrenNum = childNum;
-                        params.childSeatNum = childSeatNums;
-                        params.luggageNum = baggageNum;
-                        bundle.putSerializable(Constants.PARAMS_DATA, params);
-                        fgCollectGuideList.setArguments(bundle);
-                        startFragment(fgCollectGuideList);
-                    }
+                    goCollectGuid();
                 }
                 break;
             case R.id.minus:
@@ -865,6 +909,18 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
                 passCities += passBeanList.get(i).cityId+"-1-"+passBeanList.get(i).cityType+",";
             }else{
                 passCities += passBeanList.get(i).cityId+"-1-"+passBeanList.get(i).cityType;
+            }
+        }
+        return passCities;
+    }
+
+    private String getPassCitiesId(){
+        passCities= "";
+        for(int i = 0;i<passBeanList.size();i++){
+            if(i != passBeanList.size() -1) {
+                passCities += passBeanList.get(i).cityId+",";
+            }else{
+                passCities += passBeanList.get(i).cityId;
             }
         }
         return passCities;
@@ -1033,13 +1089,17 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
             case CHOOSE_GUIDE:
-                CollectGuideBean collectGuideBean = (CollectGuideBean)action.getData();
+                collectGuideBean = (CollectGuideBean)action.getData();
+                if(null != collectGuideBean){
+                    driver_layout.setVisibility(View.VISIBLE);
+                    driver_name.setText(collectGuideBean.name);
+                }
                 break;
             default:
                 break;
         }
     }
-
+    CollectGuideBean collectGuideBean;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

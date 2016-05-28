@@ -116,7 +116,7 @@ public class CollectGuideAdapter extends BaseAdapter<CollectGuideBean> {
                         if(null != fragment) {
                             fragment.finish();
                         }
-                        EventBus.getDefault().post(new EventAction(EventType.PICK_SEND_TYPE,bean));
+                        EventBus.getDefault().post(new EventAction(EventType.PICK_SEND_TYPE,getItem(Integer.valueOf(v.getTag().toString()))));
                     }
                 });
                 holder.carLayout.setTag(position);
@@ -126,7 +126,7 @@ public class CollectGuideAdapter extends BaseAdapter<CollectGuideBean> {
                         if(null != fragment) {
                             fragment.finish();
                         }
-                        EventBus.getDefault().post(new EventAction(EventType.DAIRY_TYPE,bean));
+                        EventBus.getDefault().post(new EventAction(EventType.DAIRY_TYPE,getItem(Integer.valueOf(v.getTag().toString()))));
                     }
                 });
                 holder.singleLayout.setTag(position);
@@ -136,7 +136,7 @@ public class CollectGuideAdapter extends BaseAdapter<CollectGuideBean> {
                         if(null != fragment) {
                             fragment.finish();
                         }
-                        EventBus.getDefault().post(new EventAction(EventType.SINGLE_TYPE,bean));
+                        EventBus.getDefault().post(new EventAction(EventType.SINGLE_TYPE,getItem(Integer.valueOf(v.getTag().toString()))));
                     }
                 });
             }
