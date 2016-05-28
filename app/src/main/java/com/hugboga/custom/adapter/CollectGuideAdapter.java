@@ -113,30 +113,30 @@ public class CollectGuideAdapter extends BaseAdapter<CollectGuideBean> {
                 holder.planeLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        EventBus.getDefault().post(new EventAction(EventType.PICK_SEND_TYPE,bean));
                         if(null != fragment) {
                             fragment.finish();
                         }
+                        EventBus.getDefault().post(new EventAction(EventType.PICK_SEND_TYPE,bean));
                     }
                 });
                 holder.carLayout.setTag(position);
                 holder.carLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        EventBus.getDefault().post(new EventAction(EventType.DAIRY_TYPE,bean));
                         if(null != fragment) {
                             fragment.finish();
                         }
+                        EventBus.getDefault().post(new EventAction(EventType.DAIRY_TYPE,bean));
                     }
                 });
                 holder.singleLayout.setTag(position);
                 holder.singleLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        EventBus.getDefault().post(new EventAction(EventType.SINGLE_TYPE,bean));
                         if(null != fragment) {
                             fragment.finish();
                         }
+                        EventBus.getDefault().post(new EventAction(EventType.SINGLE_TYPE,bean));
                     }
                 });
             }
