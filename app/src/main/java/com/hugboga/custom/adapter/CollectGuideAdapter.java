@@ -79,6 +79,7 @@ public class CollectGuideAdapter extends BaseAdapter<CollectGuideBean> {
             Tools.showImage(context, holder.avatarIV, bean.avatar);
         }
         holder.nameTV.setText(bean.name);
+        holder.ratingView.setLevel(bean.stars);
         if (isShowStatusLayout) {
             holder.appointmentTV.setVisibility(View.GONE);
             holder.describeTV.setText(context.getString(R.string.collect_guide_describe, bean.carModel, bean.numOfPerson, bean.numOfLuggage));

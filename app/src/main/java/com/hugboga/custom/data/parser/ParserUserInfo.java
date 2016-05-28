@@ -15,6 +15,7 @@ public class ParserUserInfo extends ImplParser {
         userBean.avatar = jsonObj.optString("avatar");
         userBean.nickname = jsonObj.optString("nickName");
         userBean.gender = jsonObj.optString("gender");
+        userBean.name = jsonObj.optString("name");
         userBean.ageType = jsonObj.optInt("ageType", -1);
         userBean.signature = jsonObj.optString("signature");
         userBean.userID = jsonObj.optString("userId");

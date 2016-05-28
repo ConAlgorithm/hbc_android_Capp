@@ -403,5 +403,33 @@ public class UrlLibs {
      *导游是否可用
      */
     public static final String  GUIDE_CONFLIC =  "trade/v1.0/c/order/guides/conflict";
+    /**
+     * 获取邀请码
+     */
+    public static final String GET_INVITATION_CODE = "ucenter/v1.0/c/invitation/code";
 
+    /**
+     * 查询通过邀请用户获得的基金流水
+     */
+    public static final String TRAVELFUND_INVITATION_LOGS = "ucenter/v1.0/c/travelFund/logs/invitation";
+
+    /**
+     * 旅游基金流水
+     */
+    public static final String TRAVELFUND_LOGS = "/ucenter/v1.0/c/travelFund/logs";
+
+    /**
+     * 旅游基金说明
+     */
+    public static final String TRAVELFUND_INTRODUCTION = "ucenter/v1.0/c/travelFund/introduction";
+
+    /**
+     * 邀请说明
+     */
+    public static final String INVITATION_INTRODUCTION = "ucenter/v1.0/c/invitation/introduction";
+
+    /**
+     * 导游详情
+     */
+    public static final String API_GUIDES_DETAIL = "supplier/v1.0/c/guides/detail";
 }

@@ -469,33 +469,39 @@
     <string name="collect">收藏Ta</string>
     <string name="uncollect">取消收藏</string>
     <string name="evaluate">去评价</string>
+    <string name="gender_male">男</string>
+    <string name="gender_female">女</string>
+    <string name="gender_secrecy">保密</string>
+    <string name="yuan">元</string>
+    <string name="share">分享</string>
+    <string name="share_friend">分享好友</string>
+    <string name="share_moments">分享朋友圈</string>
+    <string name="solidus">%1$s&#160;/&#160;%2$s</string>
 
     <string name="invite_friends_title">邀请好友</string>
     <string name="invite_friends_share">立即分享</string>
     <string name="invite_friends_copy_promotion_code">复制优惠码</string>
-    <string name="invite_friends_succeed">已邀请成功%1$s位好友  共获得%2$s元</string>
+    <string name="invite_friends_succeed">已邀请成功%1$s位好友&#160;&#160;&#160;&#160;共获得%2$s元</string>
     <string name="invite_friends_promotion_code">优惠码</string>
     <string name="invite_friends_rule">规则说明</string>
     <string name="invite_friends_source_1">首次使用</string>
     <string name="invite_friends_source_2">首次使用提成</string>
     <string name="invite_friends_source_3">订单消费</string>
     <string name="invite_friends_source_4">过期</string>
+    <string name="invite_friends_copy_succeed">复制成功</string>
+    <string name="invite_friends_share_title">送你30元优惠券，来皇包车一起中文包车游</string>
+    <string name="invite_friends_share_content">邀你体验皇包车的中文包车，让你每一次出境游都自在如乡。</string>
 
     <string name="travel_fund_title">旅游基金</string>
-    <string name="travel_fund_price">旅游基金 %1$s元</string>
+    <string name="travel_fund_price">旅游基金&#160;%1$s元</string>
     <string name="travel_fund_validity">有效期至：%1$s</string>
     <string name="travel_fund_details">使用明细</string>
 
     <string name="dairy_inout_check">请先输入您的城市/出行时间</string>
-    <string name="coupon_num">%s张优惠券可用</string>
-    <string name="dream_money">梦想基金</string>
-    <string name="insure_8wan">赠价值8万元平安保险</string>
 
-    <string name="free_huangbaoche">由皇包车支付</string>
-    <string name="change_title_txt">订单退改规则</string>
-    <string name="change_detail_txt">服务开始前24小时退订,全额退还费用;小于24小时不可退订,全部费用将扣除用于补偿当地司导</string>
-
-    <string name="dairy_choose_guide"> 请填写完所有出行信息，再来选择司导哟！</string>
-    <string name="dairy_modify_alert"> 请在删除指定司导后，再修改出行信息。</string>
+    <string name="guide_detail_subtitle_grade">服务星级</string>
+    <string name="guide_detail_subtitle_appointment">预约司导</string>
+    <string name="guide_detail_subtitle_contact">联系司导</string>
+    <string name="guide_detail_subtitle_title">个人资料</string>
 
 </resources>

@@ -1174,7 +1174,8 @@ public class FgOrder extends BaseFragment {
             R.id.bottom_br_btn_commit,
             R.id.show_all_insure_info,
             R.id.insure_question,
-            R.id.all_insure_question
+            R.id.all_insure_question,
+            R.id.guide_head_img
     })
     private void onClickView(View view) {
         if (mOrderBean == null) return;
@@ -1300,6 +1301,10 @@ public class FgOrder extends BaseFragment {
                         startFragment(fgWebInfo);
                         break;
                     }
+                break;
+            case R.id.guide_head_img:
+                if (mOrderBean == null || mOrderBean.orderGuideInfo == null) return;
+                startFragment(FgGuideDetail.newInstance(mOrderBean.orderGuideInfo.guideID));
                 break;
         }
     }

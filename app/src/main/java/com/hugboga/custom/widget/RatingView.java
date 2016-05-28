@@ -3,6 +3,8 @@ package com.hugboga.custom.widget;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
@@ -19,12 +21,15 @@ public class RatingView extends LinearLayout {
     private static final int DEFAULT_MAX_LEVELS = 5;
 
     private ImageView[] itemIV;
-    private int level;
+    private float level;
     private int maxLevels;
     private boolean touchable;
     private int gap;
     private int width, height;
     private int startX;
+    private int halfBg;
+    private int levelBg;
+    private int itemWidth;
     private int[] distances;
 
     private OnLevelChangedListener listener;
@@ -37,22 +42,27 @@ public class RatingView extends LinearLayout {
         super(context, attrs);
 
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.RatingView);
-        int levelBg = typedArray.getResourceId(R.styleable.RatingView_rating_bg, NONE_VALUE);
+        levelBg = typedArray.getResourceId(R.styleable.RatingView_rating_bg, NONE_VALUE);
         maxLevels = typedArray.getInteger(R.styleable.RatingView_numLevels, DEFAULT_MAX_LEVELS);
         level = typedArray.getInteger(R.styleable.RatingView_level, maxLevels);
         gap = typedArray.getDimensionPixelOffset(R.styleable.RatingView_gap, NONE_VALUE);
         touchable = typedArray.getBoolean(R.styleable.RatingView_touchable, true);
+        halfBg = typedArray.getResourceId(R.styleable.RatingView_half_bg, NONE_VALUE);
+        itemWidth = typedArray.getDimensionPixelOffset(R.styleable.RatingView_item_width, NONE_VALUE);
         typedArray.recycle();
 
         if (level > maxLevels) {
             level = maxLevels;
         }
         this.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+        this.setGravity(Gravity.CENTER);
         this.setOrientation(LinearLayout.HORIZONTAL);
 
         itemIV = new ImageView[maxLevels];
         LayoutParams itemParams;
-        if (gap != NONE_VALUE) {
+        if (itemWidth > 0) {
+            itemParams = new LinearLayout.LayoutParams(itemWidth, itemWidth);
+        } else if (gap != NONE_VALUE) {
             itemParams = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         } else {
             itemParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, 1.0f);
@@ -60,10 +70,10 @@ public class RatingView extends LinearLayout {
         for (int i = 0; i < maxLevels; i++) {
             ImageView imageView = new ImageView(context);
             if (levelBg != NONE_VALUE) {
-                imageView.setImageResource(levelBg);
+                setImageBg(imageView, levelBg);
             }
             if (gap != NONE_VALUE) {
-                itemParams.setMargins(0, 0, gap, 0);
+                itemParams.setMargins(gap / 2, 0, gap / 2, 0);
             }
             imageView.setLayoutParams(itemParams);
             addView(imageView);
@@ -151,37 +161,51 @@ public class RatingView extends LinearLayout {
 
     private void resetAll() {
         for (int i = 0; i < maxLevels; i++) {
+            setImageBg(itemIV[i], levelBg);
             itemIV[i].setSelected(false);
         }
     }
 
+    private void setImageBg(ImageView iv, int resId) {
+        if (itemWidth != NONE_VALUE) {
+            iv.setBackgroundResource(resId);
+        } else {
+            iv.setImageResource(resId);
+        }
+    }
+
     public interface OnLevelChangedListener {
-        public void onLevelChanged(RatingView starView, int level);
+        public void onLevelChanged(RatingView starView, float level);
     }
 
     public void setOnLevelChangedListener(OnLevelChangedListener listener) {
         this.listener = listener;
     }
 
-    public int getLevel() {
+    public float getLevel() {
         return level;
     }
 
-    public void setLevel(int level) {
+    public void setLevel(float level) {
         this.level = level;
+        int levelInt = (int)level;
         resetAll();
         for (int i = 0; i < maxLevels; i++) {
-            if (i <= level - 1) {
+            if (i < levelInt || level - levelInt > 0.7) {
                 itemIV[i].setSelected(true);
+            } else if (halfBg != 0 && level - levelInt >= 0.3) {
+                setImageBg(itemIV[levelInt], halfBg);
             } else {
                 break;
             }
         }
     }
+
     public void setNumLevel(int level) {
         this.level = level;
         this.maxLevels =level;
         for (int i = 0; i < maxLevels; i++) {
+            setImageBg(itemIV[i], levelBg);
             itemIV[i].setSelected(true);
         }
     }
