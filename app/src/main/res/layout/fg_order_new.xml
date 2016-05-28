@@ -614,7 +614,7 @@
                         android:drawablePadding="10dp"
                         android:drawableLeft="@mipmap/order_right"
                         android:minEms="4"
-                        android:text="@string/change_detail_txt"
+                        android:text="@string/insure_8wan"
                         android:textSize="15sp" />
 
                     <TextView

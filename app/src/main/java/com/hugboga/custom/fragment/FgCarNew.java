@@ -130,6 +130,14 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
     RelativeLayout driver_layout;
 
 
+    @Bind(R.id.man_luggage_layout)
+    LinearLayout man_luggage_layout;
+
+    @Bind(R.id.car_layout)
+    LinearLayout car_layout;
+
+
+
     @Override
     protected void initHeader() {
 
@@ -238,6 +246,7 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
     CarBean carBean;
 
     private void genData() {
+
         this.distance = carListBean.distance;
         this.interval = carListBean.interval;
 //            processCarList(mParser.carList);
@@ -269,7 +278,6 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
 
     private void changeText() {
         carBean = carList.get(currentIndex);
-        Integer[] carInfo = Constants.CarSeatInfoMap.get(carBean.carSeat);
         fgCarIntro.setText("此车型包括：" + carBean.models);
         mansNum.setText("x " + carBean.capOfPerson);
         luggageNum.setText("x " + carBean.capOfLuggage);
@@ -357,11 +365,12 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
         if (null != collectGuideBean) {
             driver_layout.setVisibility(View.VISIBLE);
             driverName.setText(collectGuideBean.name);
+            man_luggage_layout.setVisibility(View.GONE);
         }
         delText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                driver_layout.setVisibility(View.GONE);
+                car_layout.setVisibility(View.GONE);
                 collectGuideBean = null;
             }
         });
@@ -393,6 +402,9 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
 
     private void goCollectGuid() {
         if (UserEntity.getUser().isLogin(getActivity())) {
+
+            FgCollectGuideList fgCollectGuideList = new FgCollectGuideList();
+            startFragment(fgCollectGuideList);
 //            if (checkParams()) {
 //                FgCollectGuideList fgCollectGuideList = new FgCollectGuideList();
 //                Bundle bundle = new Bundle();
