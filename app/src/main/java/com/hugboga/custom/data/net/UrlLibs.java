@@ -396,7 +396,12 @@ public class UrlLibs {
     /**
      * 过滤用户收藏的司导
      */
-    public static final String COLLECT_GUIDES_FILTER = "ucenter/v1.0/C/favorite/guides/filter";
+    public static final String COLLECT_GUIDES_FILTER = "ucenter/v1.0/c/favorite/guides/filter";
 
+
+    /**
+     *导游是否可用
+     */
+    public static final String  GUIDE_CONFLIC =  "/trade/v1.0/c/order/guides/conflict";
 
 }

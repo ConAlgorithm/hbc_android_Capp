@@ -105,6 +105,8 @@ public class FgPickSend extends BaseFragment implements View.OnTouchListener{
 
     @Override
     protected void initView() {
+
+
         fgPick = new FgPickNew();
         fgSend = new FgSendNew();
 

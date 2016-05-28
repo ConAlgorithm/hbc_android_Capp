@@ -142,7 +142,7 @@ public class FgHome extends BaseFragment implements View.OnClickListener, ZBaseA
         HashMap<String,String> map = new HashMap<String,String>();
         FgPickSend fgPickSend = new FgPickSend();
         bundle.putString("source","首页");
-        bundle.putSerializable("bean",collectGuideBean);
+        bundle.putSerializable("collectGuideBean",collectGuideBean);
         fgPickSend.setArguments(bundle);
         startFragment(fgPickSend, bundle);
         map.put("source", "首页");
@@ -154,7 +154,7 @@ public class FgHome extends BaseFragment implements View.OnClickListener, ZBaseA
         HashMap<String,String> map = new HashMap<String,String>();
         FgOrderSelectCity fgOrderSelectCity = new FgOrderSelectCity();
         bundle.putString("source","首页");
-        bundle.putSerializable("bean",collectGuideBean);
+        bundle.putSerializable("collectGuideBean",collectGuideBean);
         fgOrderSelectCity.setArguments(bundle);
         startFragment(fgOrderSelectCity, bundle);
 
@@ -166,7 +166,7 @@ public class FgHome extends BaseFragment implements View.OnClickListener, ZBaseA
         Bundle bundle = new Bundle();
         HashMap<String,String> map = new HashMap<String,String>();
         FgSingleNew fgSingleNew = new FgSingleNew();
-        bundle.putSerializable("bean",collectGuideBean);
+        bundle.putSerializable("collectGuideBean",collectGuideBean);
         fgSingleNew.setArguments(bundle);
         startFragment(fgSingleNew);
 
