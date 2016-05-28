@@ -3,6 +3,8 @@ package com.hugboga.custom.widget;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
@@ -27,6 +29,7 @@ public class RatingView extends LinearLayout {
     private int startX;
     private int halfBg;
     private int levelBg;
+    private int itemWidth;
     private int[] distances;
 
     private OnLevelChangedListener listener;
@@ -45,17 +48,21 @@ public class RatingView extends LinearLayout {
         gap = typedArray.getDimensionPixelOffset(R.styleable.RatingView_gap, NONE_VALUE);
         touchable = typedArray.getBoolean(R.styleable.RatingView_touchable, true);
         halfBg = typedArray.getResourceId(R.styleable.RatingView_half_bg, NONE_VALUE);
+        itemWidth = typedArray.getDimensionPixelOffset(R.styleable.RatingView_item_width, NONE_VALUE);
         typedArray.recycle();
 
         if (level > maxLevels) {
             level = maxLevels;
         }
         this.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+        this.setGravity(Gravity.CENTER);
         this.setOrientation(LinearLayout.HORIZONTAL);
 
         itemIV = new ImageView[maxLevels];
         LayoutParams itemParams;
-        if (gap != NONE_VALUE) {
+        if (itemWidth > 0) {
+            itemParams = new LinearLayout.LayoutParams(itemWidth, itemWidth);
+        } else if (gap != NONE_VALUE) {
             itemParams = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         } else {
             itemParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, 1.0f);
@@ -63,10 +70,10 @@ public class RatingView extends LinearLayout {
         for (int i = 0; i < maxLevels; i++) {
             ImageView imageView = new ImageView(context);
             if (levelBg != NONE_VALUE) {
-                imageView.setImageResource(levelBg);
+                setImageBg(imageView, levelBg);
             }
             if (gap != NONE_VALUE) {
-                itemParams.setMargins(0, 0, gap, 0);
+                itemParams.setMargins(gap / 2, 0, gap / 2, 0);
             }
             imageView.setLayoutParams(itemParams);
             addView(imageView);
@@ -154,8 +161,16 @@ public class RatingView extends LinearLayout {
 
     private void resetAll() {
         for (int i = 0; i < maxLevels; i++) {
-            itemIV[i].setImageResource(levelBg);
+            setImageBg(itemIV[i], levelBg);
             itemIV[i].setSelected(false);
+        }
+    }
+
+    private void setImageBg(ImageView iv, int resId) {
+        if (itemWidth != NONE_VALUE) {
+            iv.setBackgroundResource(resId);
+        } else {
+            iv.setImageResource(resId);
         }
     }
 
@@ -179,7 +194,7 @@ public class RatingView extends LinearLayout {
             if (i < levelInt || level - levelInt > 0.7) {
                 itemIV[i].setSelected(true);
             } else if (halfBg != 0 && level - levelInt >= 0.3) {
-                itemIV[levelInt].setImageResource(halfBg);
+                setImageBg(itemIV[levelInt], halfBg);
             } else {
                 break;
             }
@@ -190,7 +205,7 @@ public class RatingView extends LinearLayout {
         this.level = level;
         this.maxLevels =level;
         for (int i = 0; i < maxLevels; i++) {
-            itemIV[i].setImageResource(levelBg);
+            setImageBg(itemIV[i], levelBg);
             itemIV[i].setSelected(true);
         }
     }

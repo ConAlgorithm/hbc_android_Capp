@@ -58,6 +58,7 @@ import com.hugboga.custom.fragment.FgActivity;
 import com.hugboga.custom.fragment.FgChat;
 import com.hugboga.custom.fragment.FgCollectGuideList;
 import com.hugboga.custom.fragment.FgCoupon;
+import com.hugboga.custom.fragment.FgGuideDetail;
 import com.hugboga.custom.fragment.FgHome;
 import com.hugboga.custom.fragment.FgIMChat;
 import com.hugboga.custom.fragment.FgInsure;
@@ -566,7 +567,10 @@ public class MainActivity extends BaseActivity
                 PhoneInfo.CallDial(MainActivity.this, Constants.CALL_NUMBER_IN);
                 break;
             case Constants.PERSONAL_CENTER_OVERSEAS_SERVICE://境外客服
-                PhoneInfo.CallDial(MainActivity.this, Constants.CALL_NUMBER_OUT);
+//                PhoneInfo.CallDial(MainActivity.this, Constants.CALL_NUMBER_OUT);
+
+                startFragment(new FgGuideDetail());
+
                 break;
             case Constants.PERSONAL_CENTER_SETTING://设置
                 if (isLogin("个人中心首页")) {

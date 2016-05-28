@@ -422,4 +422,9 @@ public class UrlLibs {
      * 邀请说明
      */
     public static final String INVITATION_INTRODUCTION = "ucenter/v1.0/c/invitation/introduction";
+
+    /**
+     * 导游详情
+     */
+    public static final String API_GUIDES_DETAIL = "supplier/v1.0/c/guides/detail";
 }

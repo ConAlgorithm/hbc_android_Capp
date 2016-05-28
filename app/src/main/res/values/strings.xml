@@ -474,6 +474,7 @@
     <string name="share">分享</string>
     <string name="share_friend">分享好友</string>
     <string name="share_moments">分享朋友圈</string>
+    <string name="solidus">%1$s&#160;/&#160;%2$s</string>
 
     <string name="invite_friends_title">邀请好友</string>
     <string name="invite_friends_share">立即分享</string>
@@ -495,4 +496,10 @@
     <string name="travel_fund_details">使用明细</string>
 
     <string name="dairy_inout_check">请先输入您的城市/出行时间</string>
+
+    <string name="guide_detail_subtitle_grade">服务星级</string>
+    <string name="guide_detail_subtitle_appointment">预约司导</string>
+    <string name="guide_detail_subtitle_contact">联系司导</string>
+    <string name="guide_detail_subtitle_title">个人资料</string>
+
 </resources>

@@ -28,6 +28,7 @@
         <attr name="touchable" format="boolean" />
         <attr name="gap" format="dimension"/>
         <attr name="half_bg" format="reference"/>
+        <attr name="item_width" format="dimension"/>
     </declare-styleable>
 
 </resources>
