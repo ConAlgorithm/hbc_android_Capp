@@ -19,12 +19,14 @@ public class RatingView extends LinearLayout {
     private static final int DEFAULT_MAX_LEVELS = 5;
 
     private ImageView[] itemIV;
-    private int level;
+    private float level;
     private int maxLevels;
     private boolean touchable;
     private int gap;
     private int width, height;
     private int startX;
+    private int halfBg;
+    private int levelBg;
     private int[] distances;
 
     private OnLevelChangedListener listener;
@@ -37,11 +39,12 @@ public class RatingView extends LinearLayout {
         super(context, attrs);
 
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.RatingView);
-        int levelBg = typedArray.getResourceId(R.styleable.RatingView_rating_bg, NONE_VALUE);
+        levelBg = typedArray.getResourceId(R.styleable.RatingView_rating_bg, NONE_VALUE);
         maxLevels = typedArray.getInteger(R.styleable.RatingView_numLevels, DEFAULT_MAX_LEVELS);
         level = typedArray.getInteger(R.styleable.RatingView_level, maxLevels);
         gap = typedArray.getDimensionPixelOffset(R.styleable.RatingView_gap, NONE_VALUE);
         touchable = typedArray.getBoolean(R.styleable.RatingView_touchable, true);
+        halfBg = typedArray.getResourceId(R.styleable.RatingView_half_bg, NONE_VALUE);
         typedArray.recycle();
 
         if (level > maxLevels) {
@@ -151,37 +154,43 @@ public class RatingView extends LinearLayout {
 
     private void resetAll() {
         for (int i = 0; i < maxLevels; i++) {
+            itemIV[i].setImageResource(levelBg);
             itemIV[i].setSelected(false);
         }
     }
 
     public interface OnLevelChangedListener {
-        public void onLevelChanged(RatingView starView, int level);
+        public void onLevelChanged(RatingView starView, float level);
     }
 
     public void setOnLevelChangedListener(OnLevelChangedListener listener) {
         this.listener = listener;
     }
 
-    public int getLevel() {
+    public float getLevel() {
         return level;
     }
 
-    public void setLevel(int level) {
+    public void setLevel(float level) {
         this.level = level;
+        int levelInt = (int)level;
         resetAll();
         for (int i = 0; i < maxLevels; i++) {
-            if (i <= level - 1) {
+            if (i < levelInt || level - levelInt > 0.7) {
                 itemIV[i].setSelected(true);
+            } else if (halfBg != 0 && level - levelInt >= 0.3) {
+                itemIV[levelInt].setImageResource(halfBg);
             } else {
                 break;
             }
         }
     }
+
     public void setNumLevel(int level) {
         this.level = level;
         this.maxLevels =level;
         for (int i = 0; i < maxLevels; i++) {
+            itemIV[i].setImageResource(levelBg);
             itemIV[i].setSelected(true);
         }
     }

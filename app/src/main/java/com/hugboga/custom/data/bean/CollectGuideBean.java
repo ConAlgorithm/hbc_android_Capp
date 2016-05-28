@@ -18,7 +18,7 @@ public class CollectGuideBean implements Serializable {
     public String name;//司导名字
     public String carDesc;//车型描述 (如经济5坐)
     public String carModel;//车型信息(凯迪拉克 ATS 2.5)
-    public String stars;//评分
+    public float stars;//评分
     public int status;//可预约状态 1.可预约、0.不可预约
     public String avatar;//用户头像
     public int numOfLuggage;//行李数

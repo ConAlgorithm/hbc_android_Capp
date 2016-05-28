@@ -27,6 +27,7 @@
         <attr name="level" format="integer" />
         <attr name="touchable" format="boolean" />
         <attr name="gap" format="dimension"/>
+        <attr name="half_bg" format="reference"/>
     </declare-styleable>
 
 </resources>

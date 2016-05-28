@@ -136,4 +136,6 @@
 
     <color name="invite_friends_basic">#a78d12</color>
     <color name="travel_fund_basic">#fdd631</color>
+
+    <color name="default_bg">#F9F9F9</color>
 </resources>
