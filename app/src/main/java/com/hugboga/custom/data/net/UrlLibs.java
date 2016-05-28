@@ -35,7 +35,7 @@ public class UrlLibs {
     public static String TEST_H5_HOST = "http://res.test.hbc.tech";
     public static String FORMAL_H5_HOST = "http://res2.huangbaoche.com";
 
-    public static String H5_HOST = FORMAL_H5_HOST;
+    public static String H5_HOST = TEST_H5_HOST;
 
     public static String H5_ACTIVITY= H5_HOST + "/h5/cactivity/index.html?userId=";//国行
     public static String H5_ABOUT = H5_HOST+"/h5/cinfos/about.html";//  关于我们
@@ -396,7 +396,12 @@ public class UrlLibs {
     /**
      * 过滤用户收藏的司导
      */
-    public static final String COLLECT_GUIDES_FILTER = "ucenter/v1.0/C/favorite/guides/filter";
+    public static final String COLLECT_GUIDES_FILTER = "ucenter/v1.0/c/favorite/guides/filter";
 
+
+    /**
+     *导游是否可用
+     */
+    public static final String  GUIDE_CONFLIC =  "trade/v1.0/c/order/guides/conflict";
 
 }

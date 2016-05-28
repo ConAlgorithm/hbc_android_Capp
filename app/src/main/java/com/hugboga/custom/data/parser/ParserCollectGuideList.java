@@ -1,6 +1,9 @@
 package com.hugboga.custom.data.parser;
 
+import com.google.gson.Gson;
+import com.google.gson.annotations.SerializedName;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
+import com.hugboga.custom.data.bean.ADPictureBean;
 import com.hugboga.custom.data.bean.CollectGuideBean;
 import com.hugboga.custom.data.bean.CouponBean;
 
@@ -16,17 +19,18 @@ public class ParserCollectGuideList extends ImplParser {
 
     @Override
     public Object parseObject(JSONObject obj) throws Throwable {
-        ArrayList<CollectGuideBean> listDate = new ArrayList<CollectGuideBean>();
-        JSONArray jsonArray = obj.optJSONArray("guides");
-        for (int i = 0; i < jsonArray.length(); i++) {
-            JSONObject segObj = jsonArray.optJSONObject(i);
-            ParserCollectGuideBean parserCollectGuideBean = new ParserCollectGuideBean();
-            CollectGuideBean collectGuideBean = parserCollectGuideBean.parseObject(segObj);
-            if (collectGuideBean != null) {
-                listDate.add(collectGuideBean);
-            }
+        Gson gson = new Gson();
+        CollectGuideList collectGuideList = gson.fromJson(obj.toString(), CollectGuideList.class);
+        if (collectGuideList != null) {
+            return collectGuideList.listDate;
+        } else {
+            return null;
         }
-        return listDate;
+    }
+
+    public static class CollectGuideList {
+        @SerializedName("guides")
+        public ArrayList<CollectGuideBean> listDate;
     }
 }
 

@@ -21,6 +21,7 @@ import com.hugboga.custom.data.bean.AirPort;
 import com.hugboga.custom.data.bean.CarBean;
 import com.hugboga.custom.data.bean.CarListBean;
 import com.hugboga.custom.data.bean.CityBean;
+import com.hugboga.custom.data.bean.CollectGuideBean;
 import com.hugboga.custom.data.bean.DailyBean;
 import com.hugboga.custom.data.bean.FlightBean;
 import com.hugboga.custom.data.bean.PoiBean;
@@ -167,9 +168,25 @@ public class FgSingleNew extends BaseFragment {
         });
     }
 
+
+    CollectGuideBean collectGuideBean;
     @Override
     protected void initView() {
-
+        collectGuideBean = (CollectGuideBean)this.getArguments().getSerializable("collectGuideBean");
+        if(null != collectGuideBean){
+            carListBean =  new CarListBean();
+            ArrayList<CarBean> carList = new ArrayList<>();
+            CarBean carBean = new CarBean();
+            carBean.capOfLuggage = collectGuideBean.numOfLuggage;
+            carBean.capOfPerson = collectGuideBean.numOfPerson;
+            carBean.carType = collectGuideBean.carType;
+            carBean.desc = collectGuideBean.carDesc;
+            carBean.models = collectGuideBean.carModel;
+            carBean.carSeat = collectGuideBean.carClass;
+            carList.add(carBean);
+            carListBean.carList = carList;
+            initCarFragment();
+        }
     }
 
     @Override
@@ -294,6 +311,7 @@ public class FgSingleNew extends BaseFragment {
         if (getArguments() != null) {
             bundle.putAll(getArguments());
         }
+        bundle.putSerializable("collectGuideBean",collectGuideBean);
         bundle.putParcelable("carListBean", carListBean);
         fgCarNew.setArguments(bundle);
         transaction.add(R.id.show_cars_layout_single, fgCarNew);

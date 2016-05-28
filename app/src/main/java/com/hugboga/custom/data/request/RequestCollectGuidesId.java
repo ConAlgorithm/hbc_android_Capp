@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.net.NewParamsBuilder;
 import com.hugboga.custom.data.net.UrlLibs;
@@ -19,14 +20,13 @@ import java.util.HashMap;
 @HttpRequest(path = UrlLibs.COLLECT_GUIDES_ID, builder = NewParamsBuilder.class)
 public class RequestCollectGuidesId extends BaseRequest {
 
-    public RequestCollectGuidesId(Context context) {
+    public RequestCollectGuidesId(Context context, String userId, String guideId, String sharingUserId) {
         super(context);
         map = new HashMap<String, Object>();
-        map.put("source", 1);
-        map.put("userId", UserEntity.getUser().getUserId(context));
-//        map.put("guideId", offset);//司导ID
-//        map.put("sharingUserId", limit);//分享用户ID
-
+        map.put("source", Constants.REQUEST_SOURCE);
+        map.put("userId", userId);
+        map.put("guideId", guideId);//司导ID
+        map.put("sharingUserId", sharingUserId);//非必须 分享用户ID
     }
 
     @Override

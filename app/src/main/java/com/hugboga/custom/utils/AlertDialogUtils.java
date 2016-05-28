@@ -22,6 +22,19 @@ public class AlertDialogUtils {
         dialog.show();
     }
 
+    public static void showAlertDialogOneBtn(Context context,String content,String okText){
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        AlertDialog dialog = builder.create();
+        dialog.setMessage(content);
+        dialog.setButton(DialogInterface.BUTTON_POSITIVE,okText, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
+
     public static AlertDialog showAlertDialog(Context context, String content, String okText, String cancleText,
                                        DialogInterface.OnClickListener okClick, DialogInterface.OnClickListener cancleClick){
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
