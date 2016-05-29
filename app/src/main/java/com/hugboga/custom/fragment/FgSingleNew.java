@@ -26,6 +26,7 @@ import com.hugboga.custom.data.bean.DailyBean;
 import com.hugboga.custom.data.bean.FlightBean;
 import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestCheckPrice;
 import com.hugboga.custom.data.request.RequestCheckPriceForSingle;
@@ -174,18 +175,8 @@ public class FgSingleNew extends BaseFragment {
     protected void initView() {
         collectGuideBean = (CollectGuideBean)this.getArguments().getSerializable("collectGuideBean");
         if(null != collectGuideBean){
-            carListBean =  new CarListBean();
-            ArrayList<CarBean> carList = new ArrayList<>();
-            CarBean carBean = new CarBean();
-            carBean.capOfLuggage = collectGuideBean.numOfLuggage;
-            carBean.capOfPerson = collectGuideBean.numOfPerson;
-            carBean.carType = collectGuideBean.carType;
-            carBean.desc = collectGuideBean.carDesc;
-            carBean.models = collectGuideBean.carModel;
-            carBean.carSeat = collectGuideBean.carClass;
-            carList.add(carBean);
-            carListBean.carList = carList;
-            initCarFragment();
+
+            initCarFragment(false);
         }
     }
 
@@ -281,7 +272,7 @@ public class FgSingleNew extends BaseFragment {
                 bottom.setVisibility(View.GONE);
             }
 
-            initCarFragment();
+            initCarFragment(true);
         }
     }
 
@@ -299,23 +290,25 @@ public class FgSingleNew extends BaseFragment {
     FragmentManager fm;
     FgCarNew fgCarNew;
 
-    private void initCarFragment() {
-        fm = getFragmentManager();
-        FragmentTransaction transaction = fm.beginTransaction();
-        if (null != fgCarNew) {
-            transaction.remove(fgCarNew);
-        }
+    private void initCarFragment(boolean isDataBack) {
+            fm = getFragmentManager();
+            FragmentTransaction transaction = fm.beginTransaction();
+            if (null != fgCarNew) {
+                transaction.remove(fgCarNew);
+            }
 
-        fgCarNew = new FgCarNew();
-        Bundle bundle = new Bundle();
-        if (getArguments() != null) {
-            bundle.putAll(getArguments());
-        }
-        bundle.putSerializable("collectGuideBean",collectGuideBean);
-        bundle.putParcelable("carListBean", carListBean);
-        fgCarNew.setArguments(bundle);
-        transaction.add(R.id.show_cars_layout_single, fgCarNew);
-        transaction.commit();
+            fgCarNew = new FgCarNew();
+            Bundle bundle = new Bundle();
+            if (getArguments() != null) {
+                bundle.putAll(getArguments());
+            }
+            bundle.putSerializable("collectGuideBean", collectGuideBean);
+            bundle.putParcelable("carListBean", carListBean);
+            bundle.putBoolean("isDataBack",isDataBack);
+            fgCarNew.setArguments(bundle);
+            transaction.add(R.id.show_cars_layout_single, fgCarNew);
+            transaction.commit();
+
     }
 
 

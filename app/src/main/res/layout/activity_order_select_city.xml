@@ -402,7 +402,16 @@
                     android:textColor="#0263fc"
                     android:textSize="15sp" />
 
-                <include layout="@layout/include_driver_layout" />
+                <RelativeLayout
+                    android:id="@+id/driver_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:visibility="gone"
+                    android:clickable="true"
+                    android:minHeight="50dp">
+                     <include layout="@layout/include_driver_layout" />
+                </RelativeLayout>
 
             </RelativeLayout>
 
