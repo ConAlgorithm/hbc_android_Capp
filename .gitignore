@@ -16,3 +16,6 @@ out
 gen
 *.DS_Store
 .DS_Store
+app/app.iml
+hbcframe/hbcframe.iml
+polygonimageview/polygonimageview.iml
