@@ -27,6 +27,9 @@ public enum EventType {
 
     SINGLE_TYPE, //单次接送
     DAIRY_TYPE, //包车
-    PICK_SEND_TYPE //接送机
+    PICK_SEND_TYPE, //接送机
+    SINGLE_BACK, //单次接送返回
+    pick_BACK, //接机返回
+    SEND_BACK, //送机返回
 
 }

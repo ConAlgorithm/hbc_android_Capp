@@ -7,9 +7,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_below="@id/car_info"
-        android:id="@+id/driver_layout"
         android:background="@color/basic_white"
-        android:visibility="gone"
         android:clickable="true"
         android:minHeight="60dp">
 
