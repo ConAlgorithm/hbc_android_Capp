@@ -21,6 +21,8 @@ import com.hugboga.custom.adapter.CouponAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CouponBean;
 import com.hugboga.custom.data.bean.MostFitAvailableBean;
+import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestAvailableCoupon;
 import com.hugboga.custom.data.request.RequestCollectGuideList;
 import com.hugboga.custom.data.request.RequestCollectGuidesFilter;
@@ -38,6 +40,8 @@ import org.xutils.view.annotation.ViewInject;
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by ZHZEPHI on 2015/7/24.
@@ -228,6 +232,7 @@ public class FgCoupon extends BaseFragment implements AdapterView.OnItemClickLis
         CouponBean bean = (CouponBean) adapter.getItem(position - 1);
         if (paramsData != null) {
             //TODO
+            EventBus.getDefault().post(new EventAction(EventType.SELECT_COUPON_BACK,bean));
         } else if (!TextUtils.isEmpty(orderId)) {
             //点击回传优惠券
             if (bean != null) {

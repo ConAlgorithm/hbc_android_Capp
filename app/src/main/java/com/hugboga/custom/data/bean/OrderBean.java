@@ -123,6 +123,9 @@ public class OrderBean implements IBaseBean ,Parcelable{
     public String userEx;
     public String realUserEx;
 
+    public String coupId;
+    public String coupPriceInfo;
+
 
     public String getOrderTypeStr(Context context) {
         switch (orderGoodsType) {
@@ -242,6 +245,8 @@ public class OrderBean implements IBaseBean ,Parcelable{
         dest.writeString(this.guideCollectId);
         dest.writeString(this.userEx);
         dest.writeString(this.realUserEx);
+        dest.writeString(this.coupId);
+        dest.writeString(this.coupPriceInfo);
     }
 
     public OrderBean() {
@@ -341,6 +346,8 @@ public class OrderBean implements IBaseBean ,Parcelable{
         this.guideCollectId = in.readString();
         this.userEx = in.readString();
         this.realUserEx = in.readString();
+        this.coupId = in.readString();
+        this.coupPriceInfo = in.readString();
     }
 
     public static final Creator<OrderBean> CREATOR = new Creator<OrderBean>() {

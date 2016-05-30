@@ -59,6 +59,9 @@ public class RequestSubmitDaily extends RequestSubmitBase {
 
         map.put("destAddressDetail", orderBean.destAddressDetail);
 
+        map.put("coupId", orderBean.coupId);
+        map.put("coupPriceInfo", orderBean.coupPriceInfo);
+
 //        childSeatNum 儿童座椅数
 //        luggageNum 行李数
 //        realUserName 乘车人姓名

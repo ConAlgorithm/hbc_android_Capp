@@ -24,6 +24,7 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.ContactUsersBean;
+import com.hugboga.custom.data.bean.CouponBean;
 import com.hugboga.custom.data.bean.MostFitAvailableBean;
 import com.hugboga.custom.data.bean.MostFitBean;
 import com.hugboga.custom.data.bean.OrderBean;
@@ -61,7 +62,7 @@ import static com.hugboga.custom.R.id.car_seat;
 import static com.hugboga.custom.R.id.car_seat_tips;
 import static com.hugboga.custom.R.id.coupon_left;
 import static com.hugboga.custom.R.id.coupon_right;
-import static com.hugboga.custom.R.id.diary_layout;
+import static com.hugboga.custom.R.id.day_layout;
 import static com.hugboga.custom.R.id.dream_left;
 import static com.hugboga.custom.R.id.dream_right;
 import static com.hugboga.custom.R.id.end_hospital_title;
@@ -88,8 +89,14 @@ public class FGOrderNew extends BaseFragment {
     TextView headerRightTxt;
     @Bind(R.id.citys_line_title)
     TextView citysLineTitle;
-    @Bind(diary_layout)
-    LinearLayout diaryLayout;
+    @Bind(R.id.day_layout)
+    LinearLayout day_layout;
+    @Bind(R.id.show_day_layout)
+    LinearLayout show_day_layout;
+
+    @Bind(R.id.day_show_all)
+    TextView day_show_all;
+
     @Bind(start_hospital_title)
     TextView startHospitalTitle;
     @Bind(R.id.start_hospital_title_tips)
@@ -123,11 +130,11 @@ public class FGOrderNew extends BaseFragment {
     EditText hotelPhoneText;
     @Bind(R.id.mark)
     EditText mark;
-    @Bind(coupon_left)
+    @Bind(R.id.coupon_left)
     RadioButton couponLeft;
-    @Bind(coupon_right)
+    @Bind(R.id.coupon_right)
     TextView couponRight;
-    @Bind(dream_left)
+    @Bind(R.id.dream_left)
     RadioButton dreamLeft;
     @Bind(dream_right)
     TextView dreamRight;
@@ -322,11 +329,47 @@ public class FGOrderNew extends BaseFragment {
         }
     }
 
+    boolean showAll = false;
+    View dayView = null;
+    View top_line = null;
+    View bottom_line = null;
+    TextView textView = null;
+    CityBean cityBean;
+    private void genDayView(int dayNUms){
+        day_layout.removeAllViews();
+        for (int i = 0; i < dayNUms; i++) {
+//            public int cityType = 1;// 1 市内 2 周边 3,市外
+            dayView = LayoutInflater.from(getContext()).inflate(R.layout.day_order_item,null);
+            top_line = dayView.findViewById(R.id.top_line);
+            bottom_line = dayView.findViewById(R.id.bottom_line);
+            textView = (TextView)dayView.findViewById(R.id.right_text);
+            cityBean = passCityList.get(i);
+            if(i == 0){
+                top_line.setVisibility(View.INVISIBLE);
+            }else if(i == dayNUms -1){
+                bottom_line.setVisibility(View.INVISIBLE);
+            }else{
+                top_line.setVisibility(View.VISIBLE);
+                bottom_line.setVisibility(View.VISIBLE);
+            }
+            if (cityBean.cityType == 1) {
+                textView.setText("第" + (i + 1) + "天: 住在" + cityBean.name + ",市内游玩");
+            } else if (passCityList.get(i).cityType == 2) {
+                textView.setText("第" + (i + 1) + "天: 住在" + cityBean.name + ",周边游玩");
+            } else if (passCityList.get(i).cityType == 3) {
+                textView.setText("第" + (i + 1) + "天: 住在其它城市" + cityBean.name);
+            }
+            day_layout.addView(dayView);
+        }
+    }
 
     //包车界面
     private void genDairy(){
+        show_day_layout.setVisibility(View.VISIBLE);
+
         if(isHalfTravel){
             citysLineTitle.setText(startBean.name+"-0.5天包车");
+            day_show_all.setVisibility(View.GONE);
         }else{
             citysLineTitle.setText(startBean.name+"-"+dayNums+"天包车");
         }
@@ -338,44 +381,43 @@ public class FGOrderNew extends BaseFragment {
         citys_line_title_tips.setText("当地时间"+startDate+ "("+startWeekDay +") 至"+"  "+endDate+" ("+endWeekDay+")");
 
 
+
         if(isHalfTravel){
-            TextView textView = new TextView(getContext());
+            dayView = LayoutInflater.from(getContext()).inflate(R.layout.day_order_item,null);
+            top_line = dayView.findViewById(R.id.top_line);
+            bottom_line = dayView.findViewById(R.id.bottom_line);
+            textView = (TextView)dayView.findViewById(R.id.right_text);
+            top_line.setVisibility(View.INVISIBLE);
+            bottom_line.setVisibility(View.INVISIBLE);
             textView.setText("半天: " + startCityName + "市内");
-            textView.setCompoundDrawablePadding(10);
-            textView.setPadding(20,0,0,0);
-            textView.setMinHeight(40);
-            textView.setGravity(Gravity.CENTER_VERTICAL);
-            textView.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.dairy_order_page,0,0,0);
-            diaryLayout.addView(textView);
+            day_layout.addView(dayView);
         }
 
         if(!isHalfTravel && null != passCityList) {
-            TextView textView;
-            CityBean cityBean;
-            for (int i = 0; i < passCityList.size(); i++) {
-//            public int cityType = 1;// 1 市内 2 周边 3,市外
-                textView = new TextView(getContext());
-                textView.setCompoundDrawablePadding(10);
-                textView.setPadding(20,0,0,0);
-                textView.setMinHeight(40);
-                textView.setGravity(Gravity.CENTER_VERTICAL);
-                cityBean = passCityList.get(i);
-                if(i == 0){
-                    textView.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.top_line,0,0,0);
-                }else if(i>0 && i < passCityList.size() -1){
-                    textView.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.middle_line,0,0,0);
-                }else{
-                    textView.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.bottom_line,0,0,0);
-                }
 
-                if (cityBean.cityType == 1) {
-                    textView.setText("第" + (i + 1) + "天: 住在" + cityBean.name + ",市内游玩");
-                } else if (passCityList.get(i).cityType == 2) {
-                    textView.setText("第" + (i + 1) + "天: 住在" + cityBean.name + ",周边游玩");
-                } else if (passCityList.get(i).cityType == 3) {
-                    textView.setText("第" + (i + 1) + "天: 住在其它城市" + cityBean.name);
-                }
-                diaryLayout.addView(textView);
+
+            if(passCityList.size() <= 3){
+                day_show_all.setVisibility(View.GONE);
+                genDayView(passCityList.size());
+            }else{
+                day_show_all.setVisibility(View.VISIBLE);
+                day_show_all.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        showAll = !showAll;
+                        if(showAll){
+                            genDayView(passCityList.size());
+                            day_show_all.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.journey_withdraw,0,0,0);
+                            day_show_all.setText("收起详情");
+                        }else{
+                            genDayView(3);
+                            day_show_all.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.journey_unfold,0,0,0);
+                            day_show_all.setText("展开详情");
+                        }
+
+                    }
+                });
+                genDayView(3);
             }
         }
         adultNum = this.getArguments().getString("adultNum");
@@ -451,7 +493,7 @@ public class FGOrderNew extends BaseFragment {
 //    String serviceLocalDays;// 日租市内天数 [日租必填]
 //    String serviceNonlocalDays;// 日租市外天数 [日租必填]
 //    String expectedCompTime; // 接送机预计完成时间[非日租必填]
-
+    MostFitBean mostFitBean;
     private void requestMostFit(){
         RequestMostFit requestMostFit = new RequestMostFit(getContext(),carBean.price+"",carBean.price+"",
                 startDate+" 00:00:00",carBean.carType+"",carBean.seatCategory+"",startCityId+"",
@@ -460,7 +502,7 @@ public class FGOrderNew extends BaseFragment {
             @Override
             public void onDataRequestSucceed(BaseRequest request) {
                 RequestMostFit requestMostFit1 = (RequestMostFit)request;
-                MostFitBean mostFitBean = requestMostFit1.getData();
+                mostFitBean = requestMostFit1.getData();
                 couponRight.setText(mostFitBean.priceInfo + "优惠券");
 
                 allMoneyLeftText.setText("￥" +mostFitBean.actualPrice);
@@ -709,7 +751,7 @@ public class FGOrderNew extends BaseFragment {
     }
 
     ContactUsersBean contactUsersBean = null;
-
+    CouponBean couponBean;
     public void onEventMainThread(EventAction action) {
         if(action.getType() == EventType.CONTACT_BACK) {
             contactUsersBean = (ContactUsersBean) action.getData();
@@ -723,6 +765,9 @@ public class FGOrderNew extends BaseFragment {
                 otherName.setText(contactUsersBean.otherName);
                 otherPhone.setText(contactUsersBean.otherphoneCode + " " + contactUsersBean.otherPhone);
             }
+        }else if(action.getType() == EventType.SELECT_COUPON_BACK){
+            couponBean = (CouponBean) action.getData();
+            couponRight.setText(couponBean.price + "优惠券");
         }
 
     }
@@ -748,7 +793,7 @@ public class FGOrderNew extends BaseFragment {
         orderBean.child = Integer.valueOf(childrenNum);
 
         orderBean.destAddress = endCityId;
-        orderBean.orderPrice = carBean.price;
+
         orderBean.priceMark = carBean.pricemark;
         orderBean.serviceCityId = Integer.valueOf(startCityId);
         orderBean.serviceEndCityid = Integer.valueOf(endCityId);
@@ -810,7 +855,22 @@ public class FGOrderNew extends BaseFragment {
             orderBean.isRealUser = "1";
         }
         orderBean.realSendSms = contactUsersBean.isSendMessage?"1":"0";
-        orderBean.travelFund = travelFund;
+
+        if(dreamLeft.isChecked()) {
+            orderBean.travelFund = travelFund;
+            orderBean.orderPrice = carBean.price - Integer.valueOf(travelFund);
+        }else{
+            if(null == couponBean){
+                orderBean.coupId = mostFitBean.couponId;
+                orderBean.coupPriceInfo = mostFitBean.couponPrice+"";
+                orderBean.orderPrice = (carBean.price - mostFitBean.couponPrice);
+            }else {
+                orderBean.coupId = couponBean.couponID;
+                orderBean.coupPriceInfo = couponBean.price;
+                orderBean.orderPrice = carBean.price - Integer.valueOf(couponBean.price);
+            }
+        }
+
         orderBean.guideCollectId = guideCollectId;
 
         StringBuffer userExJson = new StringBuffer();

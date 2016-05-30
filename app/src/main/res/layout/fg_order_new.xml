@@ -67,16 +67,38 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
 
-                <LinearLayout
-                    android:id="@+id/diary_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginTop="10dp"
-                    android:background="#fdfed8"
-                    android:orientation="vertical">
-                </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/show_day_layout"
+                        android:layout_width="match_parent"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="10dp"
+                        android:background="#fdfed8"
+                        android:visibility="gone"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical"
+                        android:layout_height="wrap_content">
+                        <LinearLayout
+                            android:id="@+id/day_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+                        </LinearLayout>
+                        <TextView
+                            android:id="@+id/day_show_all"
+                            android:layout_width="wrap_content"
+                            android:layout_height="40dp"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="10dp"
+                            android:drawableLeft="@mipmap/journey_unfold"
+                            android:drawablePadding="5dp"
+                            android:gravity="center"
+                            android:text="@string/show_all_info"
+                            android:textColor="@color/basic_black"
+                            android:textSize="15sp" />
+                     </LinearLayout>
+
 
                 <TextView
                     android:id="@+id/start_hospital_title"
