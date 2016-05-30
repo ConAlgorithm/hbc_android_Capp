@@ -25,6 +25,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/basic_white"
                 android:orientation="vertical">
 
                 <TextView
@@ -46,11 +47,24 @@
                     android:layout_marginRight="15dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
+                <TextView
+                    android:id="@+id/citys_line_title_tips"
+                    android:text="@string/my_travel_title"
+                    android:textSize="12sp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="35dp"
+                    android:textColor="#c3c5c5"
+                    android:layout_marginRight="15dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
 
                 <LinearLayout
                     android:id="@+id/diary_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="10dp"
                     android:background="#fdfed8"
                     android:orientation="vertical">
                 </LinearLayout>
@@ -71,8 +85,8 @@
                 <TextView
                     android:id="@+id/start_hospital_title_tips"
                     android:text="@string/my_travel_title"
-                    android:textSize="15sp"
-                    android:layout_marginTop="10dp"
+                    android:textSize="12sp"
+                    android:layout_marginTop="5dp"
                     android:layout_marginLeft="35dp"
                     android:textColor="#c3c5c5"
                     android:layout_marginRight="15dp"
@@ -95,7 +109,7 @@
                 <TextView
                     android:id="@+id/end_hospital_title_tips"
                     android:text="@string/my_travel_title"
-                    android:textSize="15sp"
+                    android:textSize="13sp"
                     android:layout_marginTop="10dp"
                     android:layout_marginLeft="35dp"
                     android:textColor="#c3c5c5"
@@ -123,7 +137,7 @@
                     <TextView
                         android:id="@+id/car_seat_tips"
                         android:text="@string/my_travel_title"
-                        android:textSize="14sp"
+                        android:textSize="12sp"
                         android:textColor="#c3c5c5"
                         android:layout_marginRight="15dp"
                         android:layout_width="match_parent"
@@ -291,6 +305,7 @@
 
 
                 <RelativeLayout
+                    android:id="@+id/pick_name_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="1dp"
@@ -351,33 +366,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="15dp"
-                    android:gravity="center"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="15dp"
-                    android:minEms="4"
-                    android:drawableRight="@mipmap/personalcenter_right"
-                    android:drawablePadding="10dp"
-                    android:textColor="#c3c5c5"
-                    android:textSize="15sp"/>
-
-                <TextView
-                    android:id="@+id/up_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toLeftOf="@id/up_right"
                     android:layout_toRightOf="@id/up_left"
                     android:layout_marginLeft="15dp"
-                    android:gravity="left"
+                    android:gravity="left|center_vertical"
+                    android:hint="@string/local_time"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="15dp"
                     android:minEms="4"
-                    android:text="@string/local_time"
                     android:drawableRight="@mipmap/personalcenter_right"
                     android:drawablePadding="10dp"
-                    android:textColor="#c3c5c5"
+                    android:textColor="@color/basic_black"
                     android:textSize="15sp"/>
+
             </RelativeLayout>
 
 
@@ -402,36 +402,21 @@
 
                     <TextView
                         android:id="@+id/up_address_right"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="15dp"
-                        android:gravity="center"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginRight="15dp"
-                        android:minEms="4"
-                        android:drawableRight="@mipmap/personalcenter_right"
-                        android:drawablePadding="10dp"
-                        android:textColor="#c3c5c5"
-                        android:textSize="15sp"/>
-
-                    <TextView
-                        android:id="@+id/up_address_time"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_toLeftOf="@id/up_address_right"
                         android:layout_toRightOf="@id/up_address_left"
                         android:layout_marginLeft="15dp"
-                        android:gravity="left"
+                        android:gravity="left|center_vertical"
                         android:layout_alignParentRight="true"
                         android:layout_marginRight="15dp"
+                        android:hint="@string/aboard_where"
                         android:minEms="4"
-                        android:text="@string/aboard_where"
                         android:drawableRight="@mipmap/personalcenter_right"
                         android:drawablePadding="10dp"
-                        android:textColor="#c3c5c5"
+                        android:textColor="@color/basic_black"
                         android:textSize="15sp"/>
+
                 </RelativeLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -535,7 +520,9 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="15dp"
+                        android:background="@color/basic_white"
                         android:textColor="@color/basic_black"
+                        android:checked="true"
                         android:minEms="4"
                         android:text="@string/my_coupon"
                         android:textSize="15sp" />
@@ -554,7 +541,7 @@
                         android:drawableRight="@mipmap/personalcenter_right"
                         android:drawablePadding="10dp"
                         android:textColor="#c3c5c5"
-                        android:textSize="15sp"/>
+                        android:textSize="12sp"/>
 
 
                 </RelativeLayout>
@@ -574,22 +561,36 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="15dp"
                         android:textColor="@color/basic_black"
+                        android:background="@color/basic_white"
                         android:minEms="4"
                         android:text="@string/dream_money"
                         android:textSize="15sp" />
 
                     <TextView
-                        android:id="@+id/dream_right"
+                        android:id="@+id/dream_right_tips"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="15dp"
-                        android:gravity="center"
                         android:layout_alignParentRight="true"
                         android:layout_marginRight="15dp"
-                        android:text="@string/coupon_num"
                         android:minEms="4"
+                        android:visibility="gone"
+                        android:text="如何赚取基金?"
+                        android:drawableRight="@mipmap/personalcenter_right"
                         android:drawablePadding="10dp"
+                        android:textColor="#c3c5c5"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/dream_right"
+                        android:layout_toLeftOf="@id/dream_right_tips"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentRight="true"
+                        android:gravity="center"
+                        android:layout_marginRight="15dp"
+                        android:text="￥0"
                         android:textColor="#ec866d"
                         android:textSize="15sp"/>
 
@@ -630,7 +631,7 @@
                         android:minEms="4"
                         android:drawablePadding="10dp"
                         android:textColor="#c3c5c5"
-                        android:textSize="15sp"/>
+                        android:textSize="12sp"/>
 
 
                 </RelativeLayout>
