@@ -99,10 +99,8 @@
     <color name="travel_list_pay_color">#F33E3E</color>
 
     <!-- Coupon color -->
-    <color name="coupon_label_normal">#535353</color>
-    <color name="coupon_label_press">#A0A0A0</color>
-    <color name="coupon_content_normal">#272A2C</color>
-    <color name="coupon_content_press">#67696A</color>
+    <color name="coupon_label_normal">#fccf04</color>
+    <color name="coupon_label_press">#808080</color>
 
     <!-- Assessment color -->
     <color name="assessment_rating_label_color">#F1BB2F</color>

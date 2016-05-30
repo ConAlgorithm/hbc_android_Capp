@@ -28,6 +28,14 @@ public final class UIUtils {
     }
 
     /**
+     *  sp转成为px
+     */
+    public static int sp2px(float spValue) {
+        return (int)(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, spValue,
+                MyApplication.getAppContext().getResources().getDisplayMetrics()) + 0.5f);
+    }
+
+    /**
      *  减去状态栏后的屏幕高度
      */
     public static int getScreenHeight() {

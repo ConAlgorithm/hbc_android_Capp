@@ -55,7 +55,7 @@
     <dimen name="travel_listview_empty_margin">-160dp</dimen>
 
     <!-- Coupon size -->
-    <dimen name="coupon_pay_height">42dp</dimen>
+    <dimen name="coupon_pay_height">45dp</dimen>
     <dimen name="coupon_item_title_width">22dp</dimen>
     <dimen name="coupon_item_titlel_width">64dp</dimen>
     <dimen name="coupon_item_price_text_size">32sp</dimen>

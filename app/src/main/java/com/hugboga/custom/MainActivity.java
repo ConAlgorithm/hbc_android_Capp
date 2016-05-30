@@ -563,9 +563,7 @@ public class MainActivity extends BaseActivity
                 break;
             case Constants.PERSONAL_CENTER_OVERSEAS_SERVICE://境外客服
 //                PhoneInfo.CallDial(MainActivity.this, Constants.CALL_NUMBER_OUT);
-
-                startFragment(new FgGuideDetail());
-
+                startFragment(new FgSetting());
                 break;
             case Constants.PERSONAL_CENTER_SETTING://设置
                 if (isLogin("个人中心首页")) {

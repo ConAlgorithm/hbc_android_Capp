@@ -1,6 +1,7 @@
 package com.hugboga.custom.adapter;
 
 import android.app.Activity;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -19,8 +20,6 @@ import org.xutils.x;
  */
 public class CouponAdapter extends BaseAdapter<CouponBean> {
 
-    public String idStr; //默认选中的优惠券
-
     public CouponAdapter(Activity context) {
         super(context);
     }
@@ -38,59 +37,59 @@ public class CouponAdapter extends BaseAdapter<CouponBean> {
             holder = (ViewHolder) convertView.getTag();
         }
         CouponBean couponBean = getItem(position);
+        if (!TextUtils.isEmpty(couponBean.price) && couponBean.price.contains("元")) {
+            couponBean.price = couponBean.price.substring(0, couponBean.price.indexOf("元"));
+        }
         holder.mPrice.setText(couponBean.price);
         holder.mContent.setText(couponBean.batchName);
         if (couponBean.endDate.equals("0")) {
             holder.mDateBettow.setText("长期有效");
         } else {
-//                holder.mDateBettow.setText("有效期：" + DateUtils.getPointStrFromDate1(couponBean.startDate) + " 至 " + DateUtils.getPointStrFromDate1(couponBean.endDate));
             holder.mDateBettow.setText("有效期：" + couponBean.startDate + " 至 " + couponBean.endDate);
         }
         //根据状态显示不同背景
         if (couponBean.couponStatus.equals(1) || couponBean.couponStatus.equals(98)) {
             //可用
-            holder.mLayout.setBackgroundResource(R.mipmap.coupon_yes);
-            holder.mLabel.setTextColor(mContext.getResources().getColor(R.color.coupon_label_normal));
-            holder.mPrice.setTextColor(mContext.getResources().getColor(R.color.coupon_label_normal));
-            holder.mContent.setTextColor(mContext.getResources().getColor(R.color.coupon_content_normal));
-            holder.mDateBettow.setTextColor(mContext.getResources().getColor(R.color.coupon_content_normal));
+            holder.mLayout.setBackgroundResource(R.mipmap.coupon_available);
+            final int normalColor = mContext.getResources().getColor(R.color.coupon_label_normal);
+            holder.mLabel.setTextColor(normalColor);
+            holder.mPrice.setTextColor(normalColor);
+            holder.lineView.setBackgroundColor(normalColor);
+            holder.yuanTV.setTextColor(normalColor);
         } else if (couponBean.couponStatus.equals(2)) {
             //已使用
-            holder.mLayout.setBackgroundResource(R.mipmap.coupon_used);
-            holder.mLabel.setTextColor(mContext.getResources().getColor(R.color.coupon_label_press));
-            holder.mPrice.setTextColor(mContext.getResources().getColor(R.color.coupon_label_press));
-            holder.mContent.setTextColor(mContext.getResources().getColor(R.color.coupon_content_press));
-            holder.mDateBettow.setTextColor(mContext.getResources().getColor(R.color.coupon_content_press));
+            holder.mLayout.setBackgroundResource(R.mipmap.coupon_unavailable);
+            final int pressColor = mContext.getResources().getColor(R.color.coupon_label_press);
+            holder.mLabel.setTextColor(pressColor);
+            holder.mPrice.setTextColor(pressColor);
+            holder.lineView.setBackgroundColor(pressColor);
+            holder.yuanTV.setTextColor(pressColor);
         } else if (couponBean.couponStatus.equals(-1)) {
             //过期
-            holder.mLayout.setBackgroundResource(R.mipmap.coupon_expired);
-            holder.mLabel.setTextColor(mContext.getResources().getColor(R.color.coupon_label_press));
-            holder.mPrice.setTextColor(mContext.getResources().getColor(R.color.coupon_label_press));
-            holder.mContent.setTextColor(mContext.getResources().getColor(R.color.coupon_content_press));
-            holder.mDateBettow.setTextColor(mContext.getResources().getColor(R.color.coupon_content_press));
-        }
-        if (idStr != null && !idStr.isEmpty() && couponBean.couponID.equals(idStr)) {
-            holder.mSelected.setVisibility(View.VISIBLE);
-        } else {
-            holder.mSelected.setVisibility(View.GONE);
+            holder.mLayout.setBackgroundResource(R.mipmap.coupon_overdue);
+            final int pressColor = mContext.getResources().getColor(R.color.coupon_label_press);
+            holder.mLabel.setTextColor(pressColor);
+            holder.mPrice.setTextColor(pressColor);
+            holder.lineView.setBackgroundColor(pressColor);
+            holder.yuanTV.setTextColor(pressColor);
         }
         return convertView;
     }
 
     class ViewHolder {
-        @ViewInject(R.id.coupon_item_layout)
-        RelativeLayout mLayout;
-        @ViewInject(R.id.coupon_item_title)
+        @ViewInject(R.id.coupon_item_bg)
+        View mLayout;
+        @ViewInject(R.id.coupon_item_type)
         TextView mLabel;
-        @ViewInject(R.id.coupon_item_title)
-        TextView mTitle;
         @ViewInject(R.id.coupon_item_price)
         TextView mPrice;
         @ViewInject(R.id.coupon_item_content)
         TextView mContent;
         @ViewInject(R.id.coupon_item_date_between)
         TextView mDateBettow;
-        @ViewInject(R.id.coupon_item_selected)
-        ImageView mSelected;
+        @ViewInject(R.id.coupon_vertical_line)
+        View lineView;
+        @ViewInject(R.id.coupon_item_yuan_tv)
+        TextView yuanTV;
     }
 }

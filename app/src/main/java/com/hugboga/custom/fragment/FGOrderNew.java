@@ -485,7 +485,7 @@ public class FGOrderNew extends BaseFragment {
                         mostFitAvailableBean.serviceTime = startDate;
                         mostFitAvailableBean.userId = UserEntity.getUser().getUserId(getContext());
                         mostFitAvailableBean.totalDays = dayNums +"";
-                        bundle.putSerializable("mostFitAvailableBean",mostFitAvailableBean);
+                        bundle.putSerializable(Constants.PARAMS_DATA, mostFitAvailableBean);
                         fgCoupon.setArguments(bundle);
                         startFragment(fgCoupon);
                     }

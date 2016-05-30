@@ -127,10 +127,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="3dip"
-                app:item_width="30dip"
+                app:item_width="32dip"
                 app:touchable="false"
-                app:gap="20dip"
+                app:gap="22dip"
                 app:half_bg="@mipmap/collection_icon_star_half"
                 app:rating_bg="@drawable/btn_yellow_ratingbar" />
 
@@ -299,7 +298,7 @@
                     android:layout_width="62dip"
                     android:layout_height="62dip"
                     android:layout_marginLeft="70dip"
-                    android:background="@drawable/selector_order_im" />
+                    android:background="@drawable/selector_order_chat" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
