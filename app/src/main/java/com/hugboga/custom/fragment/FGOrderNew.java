@@ -6,6 +6,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -28,12 +29,14 @@ import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.OrderContact;
 import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.bean.SelectCarBean;
+import com.hugboga.custom.data.bean.TravelFundData;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestMostFit;
 import com.hugboga.custom.data.request.RequestSubmitBase;
 import com.hugboga.custom.data.request.RequestSubmitDaily;
+import com.hugboga.custom.data.request.TrequestTravelFundLogs;
 import com.hugboga.custom.utils.DateUtils;
 import com.umeng.analytics.MobclickAgent;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
@@ -56,6 +59,7 @@ import static com.hugboga.custom.R.id.car_seat;
 import static com.hugboga.custom.R.id.car_seat_tips;
 import static com.hugboga.custom.R.id.coupon_right;
 import static com.hugboga.custom.R.id.diary_layout;
+import static com.hugboga.custom.R.id.dream_right;
 import static com.hugboga.custom.R.id.end_hospital_title;
 import static com.hugboga.custom.R.id.end_hospital_title_tips;
 import static com.hugboga.custom.R.id.man_name;
@@ -121,7 +125,7 @@ public class FGOrderNew extends BaseFragment {
     TextView couponRight;
     @Bind(R.id.dream_left)
     RadioButton dreamLeft;
-    @Bind(R.id.dream_right)
+    @Bind(dream_right)
     TextView dreamRight;
     @Bind(R.id.insure_left)
     TextView insureLeft;
@@ -246,6 +250,24 @@ public class FGOrderNew extends BaseFragment {
         genType(type);
 
         requestMostFit();
+        requestTravelFund();
+
+        couponLeft.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    dreamLeft.setChecked(false);
+                }
+            }
+        });
+        dreamLeft.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    couponLeft.setChecked(false);
+                }
+            }
+        });
 
 //        city.setText("城市:" + startCityName);
 //        if (halfDay.equalsIgnoreCase("0")) {
@@ -364,6 +386,43 @@ public class FGOrderNew extends BaseFragment {
         checkin.setVisibility(View.GONE);
         pick_name_layout.setVisibility(View.GONE);
 
+    }
+
+
+
+    private void requestTravelFund(){
+        TrequestTravelFundLogs request = new TrequestTravelFundLogs(getActivity(), 0);
+        HttpRequestUtils.request(getContext(), request, new HttpRequestListener() {
+            @Override
+            public void onDataRequestSucceed(BaseRequest request) {
+                TrequestTravelFundLogs trequestTravelFundLogs = (TrequestTravelFundLogs)request;
+                TravelFundData travelFundData = trequestTravelFundLogs.getData();
+                int money = Integer.valueOf(travelFundData.getFundAmount());
+                if(0 == money) {
+                    dream_right_tips.setVisibility(View.VISIBLE);
+                    dream_right_tips.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            startFragment(new FgTravelFund());
+                        }
+                    });
+                }else{
+                    dreamRight.setText("￥"+money+);
+                    dream_right_tips.setVisibility(View.GONE);
+                }
+
+            }
+
+            @Override
+            public void onDataRequestCancel(BaseRequest request) {
+
+            }
+
+            @Override
+            public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+
+            }
+        });
     }
 
 //
