@@ -438,4 +438,9 @@ public class UrlLibs {
      * marketing/v1.1/c/coupons/mostFit
      */
     public static final String MOSTFIT = "marketing/v1.1/c/coupons/mostFit";
+
+    /**
+     * 获取可用优惠券
+     */
+    public static final String API_COUPONS_AVAILABLE = "marketing/v1.1/c/coupons/available";
 }
