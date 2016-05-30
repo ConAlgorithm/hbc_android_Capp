@@ -25,6 +25,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingBottom="15dp"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -166,7 +167,6 @@
                     android:text="@string/my_travel_title"
                     android:textSize="15sp"
                     android:layout_marginTop="15dp"
-                    android:layout_marginBottom="15dp"
                     android:background="@color/basic_white"
                     android:layout_marginLeft="15dp"
                     android:textColor="@color/basic_black"
