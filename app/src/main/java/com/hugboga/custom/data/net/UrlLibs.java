@@ -432,4 +432,10 @@ public class UrlLibs {
      * 导游详情
      */
     public static final String API_GUIDES_DETAIL = "supplier/v1.0/c/guides/detail";
+
+    /**
+     * 下单获取最适合的优惠券
+     * marketing/v1.1/c/coupons/mostFit
+     */
+    public static final String MOSTFIT = "marketing/v1.1/c/coupons/mostFit";
 }

@@ -73,8 +73,6 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
     ImageView driverArrow;
     @Bind(driver_name)
     TextView driverName;
-    @Bind(R.id.driver_rl)
-    RelativeLayout driverRl;
     @Bind(R.id.driver_tips)
     TextView driverTips;
     @Bind(R.id.man_left)
@@ -257,7 +255,6 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
         mAdapter.setList(carList);
         mJazzy.setState(null);
         mJazzy.setAdapter(mAdapter);
-        inflateContent();
         if (carList == null || carList.size() == 0) {
             carEmptyLayout.setVisibility(View.VISIBLE);
         } else {
@@ -365,22 +362,39 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
         if (null != collectGuideBean) {
             driver_layout.setVisibility(View.VISIBLE);
             driverName.setText(collectGuideBean.name);
-            man_luggage_layout.setVisibility(View.GONE);
-        }
-        delText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                car_layout.setVisibility(View.GONE);
-                collectGuideBean = null;
+            if(null == carListBean){
+                man_luggage_layout.setVisibility(View.GONE);
+                carListBean =  new CarListBean();
+                ArrayList<CarBean> carList = new ArrayList<>();
+                CarBean carBean = new CarBean();
+                carBean.capOfLuggage = collectGuideBean.numOfLuggage;
+                carBean.capOfPerson = collectGuideBean.numOfPerson;
+                carBean.carType = collectGuideBean.carType;
+                carBean.desc = collectGuideBean.carDesc;
+                carBean.models = collectGuideBean.carModel;
+                carBean.carSeat = collectGuideBean.carClass;
+                carList.add(carBean);
+                carListBean.carList = carList;
+            }else{
+                man_luggage_layout.setVisibility(View.VISIBLE);
             }
-        });
 
-        driverName.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                goCollectGuid();
-            }
-        });
+            delText.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    car_layout.setVisibility(View.GONE);
+                    collectGuideBean = null;
+                }
+            });
+            driverName.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    goCollectGuid();
+                }
+            });
+        }else{
+            man_luggage_layout.setVisibility(View.VISIBLE);
+        }
 
         genData();
     }

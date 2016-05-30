@@ -923,7 +923,8 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
                     bundleCar.putInt("outnum", getOutNum());
                     bundleCar.putInt("innum", getInNum());
                     bundleCar.putString("source", source);
-
+                    bundleCar.putBoolean("isHalfTravel",isHalfTravel);
+                    bundleCar.putSerializable("passCityList", passBeanList);
 
                     FGSelectCar fgSelectCar = new FGSelectCar();
                     fgSelectCar.setArguments(bundleCar);
