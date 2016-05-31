@@ -2,6 +2,7 @@ package com.hugboga.custom.fragment;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -10,10 +11,14 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.ChatInfo;
 import com.hugboga.custom.data.bean.GuidesDetailData;
+import com.hugboga.custom.data.bean.UserEntity;
+import com.hugboga.custom.data.net.ShareUrls;
 import com.hugboga.custom.data.parser.ParserChatInfo;
 import com.hugboga.custom.data.request.RequestGuideDetail;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.utils.Tools;
+import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.RatingView;
 
 import net.grobas.view.PolygonImageView;
@@ -22,6 +27,7 @@ import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
+
 
 import io.rong.imkit.RongIM;
 
@@ -35,6 +41,10 @@ public class FgGuideDetail extends BaseFragment {
     PolygonImageView avatarIV;
     @ViewInject(R.id.guide_detail_name_tv)
     TextView nameTV;
+    @ViewInject(R.id.guide_detail_attestation_iv)
+    ImageView attestationIV;
+    @ViewInject(R.id.guide_detail_location_iv)
+    ImageView locationIV;
     @ViewInject(R.id.guide_detail_location_tv)
     TextView locationTV;
     @ViewInject(R.id.guide_detail_describe_tv)
@@ -49,6 +59,9 @@ public class FgGuideDetail extends BaseFragment {
     View lineView;
     @ViewInject(R.id.guide_detail_car_layout)
     LinearLayout charteredCarLayout;
+
+    @ViewInject(R.id.header_detail_title_tv)
+    TextView titleTV;
 
     private String guideId;
     private GuidesDetailData data;
@@ -71,7 +84,7 @@ public class FgGuideDetail extends BaseFragment {
                 guideId = bundle.getString(Constants.PARAMS_DATA);
             }
         }
-        fgTitle.setText(getString(R.string.guide_detail_subtitle_title));
+        titleTV.setText(getString(R.string.guide_detail_subtitle_title));
     }
 
     @Override
@@ -110,10 +123,22 @@ public class FgGuideDetail extends BaseFragment {
             if (data == null) {
                 return;
             }
+            attestationIV.setVisibility(View.VISIBLE);
+            locationIV.setVisibility(View.VISIBLE);
             Tools.showImage(getActivity(), avatarIV, data.getAvatar());
             nameTV.setText(data.getGuideName());
             locationTV.setText(data.getCityName());
-            describeTV.setText(getString(R.string.solidus, data.getCarBrandName() + data.getCarName(), data.getCarTypeName() + data.getCarClassName()));
+
+            String carName = data.getCarBrandName() + data.getCarName();
+            String carType = data.getCarTypeName() + data.getCarClassName();
+            String describe  = getString(R.string.solidus, carName, carType);
+            int describeWidth = UIUtils.getStringWidth(describeTV, describe);
+            if (describeWidth > UIUtils.getScreenWidth() - UIUtils.dip2px(160)) {
+                describeTV.setText(carName + "\n" + carType);
+            } else {
+                describeTV.setText(describe);
+            }
+
             platenumberTV.setText(data.getCarLicenceNo());
             ratingView.setLevel(data.getServiceStar());
             scoreTV.setText(String.valueOf(data.getServiceStar()));
@@ -125,7 +150,9 @@ public class FgGuideDetail extends BaseFragment {
     }
 
 
-    @Event({R.id.guide_detail_plane_layout, R.id.guide_detail_car_layout, R.id.guide_detail_single_layout, R.id.guide_detail_call_iv, R.id.ogi_evaluate_chat_iv })
+    @Event({R.id.guide_detail_plane_layout, R.id.guide_detail_car_layout,
+            R.id.guide_detail_single_layout, R.id.guide_detail_call_iv, R.id.ogi_evaluate_chat_iv,
+            R.id.header_detail_back_btn, R.id.header_detail_right_1_btn, R.id.header_detail_right_2_btn})
     private void onClickView(View view) {
         switch (view.getId()) {
             case R.id.guide_detail_plane_layout:
@@ -148,6 +175,21 @@ public class FgGuideDetail extends BaseFragment {
                 chatInfo.title = data.getGuideName();
                 chatInfo.targetType = "1";
                 RongIM.getInstance().startPrivateChat(getActivity(), "G" + data.getGuideId(), new ParserChatInfo().toJsonString(chatInfo));
+                break;
+            case R.id.header_detail_back_btn:
+                finish();
+                break;
+            case R.id.header_detail_right_1_btn://收藏
+
+                break;
+            case R.id.header_detail_right_2_btn://分享
+                if (data == null) {
+                    break;
+                }
+                CommonUtils.shareDialog(getActivity(), data.getAvatar(),
+                        getString(R.string.guide_detail_share_title),
+                        getString(R.string.guide_detail_share_title),
+                        ShareUrls.getShareGuideUrl(data, UserEntity.getUser().getUserId(getActivity())));
                 break;
         }
     }

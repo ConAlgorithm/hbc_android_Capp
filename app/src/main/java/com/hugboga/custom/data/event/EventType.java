@@ -31,5 +31,6 @@ public enum EventType {
     SINGLE_BACK, //单次接送返回
     pick_BACK, //接机返回
     SEND_BACK, //送机返回
+    SELECT_COUPON_BACK, //选择优惠券返回
 
 }

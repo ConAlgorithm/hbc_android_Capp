@@ -9,7 +9,7 @@
         android:layout_below="@id/car_info"
         android:background="@color/basic_white"
         android:clickable="true"
-        android:minHeight="60dp">
+        android:minHeight="50dp">
 
         <TextView
             android:id="@+id/driver_left"

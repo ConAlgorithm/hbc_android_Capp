@@ -225,7 +225,7 @@ public class UrlLibs {
     public static final String SERVER_IP_TRADE = "trade/v1.0/c/order/";
 
     public static final String SERVER_IP_TRADE_1_1 = "trade/v1.1/c/order/";
-    public static final String SERVER_IP_TRADE_1_2 = "trade/v1.2/c/order/";
+    public static final String SERVER_IP_TRADE_1_2 = "trade/v1.3/c/order/";
 
     /**
      * 提交订单 接机
@@ -398,11 +398,6 @@ public class UrlLibs {
      */
     public static final String COLLECT_GUIDES_FILTER = "ucenter/v1.0/c/favorite/guides/filter";
 
-
-    /**
-     *导游是否可用
-     */
-    public static final String  GUIDE_CONFLIC =  "trade/v1.0/c/order/guides/conflict";
     /**
      * 获取邀请码
      */
@@ -434,8 +429,18 @@ public class UrlLibs {
     public static final String API_GUIDES_DETAIL = "supplier/v1.0/c/guides/detail";
 
     /**
+     *导游是否可用
+     */
+    public static final String  GUIDE_CONFLIC =  "trade/v1.0/c/order/guides/conflict";
+
+    /**
      * 下单获取最适合的优惠券
      * marketing/v1.1/c/coupons/mostFit
      */
     public static final String MOSTFIT = "marketing/v1.1/c/coupons/mostFit";
+
+    /**
+     * 获取可用优惠券
+     */
+    public static final String API_COUPONS_AVAILABLE = "marketing/v1.1/c/coupons/available";
 }

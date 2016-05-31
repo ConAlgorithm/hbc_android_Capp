@@ -8,7 +8,7 @@
 
     <include
         android:id="@+id/collect_list_header"
-        layout="@layout/include_header" />
+        layout="@layout/include_header_detail" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -21,10 +21,12 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="135dip"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:minHeight="135dip"
                 android:paddingLeft="25dp"
-                android:paddingRight="25dp">
+                android:paddingRight="25dp"
+                android:paddingBottom="20dp">
 
                 <net.grobas.view.PolygonImageView
                     android:id="@+id/guide_detail_avatar_iv"
@@ -49,22 +51,25 @@
                     android:id="@+id/guide_detail_attestation_iv"
                     android:layout_width="50dp"
                     android:layout_height="20dp"
+                    android:visibility="gone"
                     android:layout_marginLeft="6dp"
-                    android:layout_marginTop="24dp"
+                    android:layout_marginTop="25.5dp"
                     android:layout_toRightOf="@id/guide_detail_name_tv"
-                    android:background="#555500ff" />
+                    android:background="@mipmap/sddate_qualification" />
                 <ImageView
                     android:id="@+id/guide_detail_location_iv"
-                    android:layout_width="15dp"
-                    android:layout_height="20dp"
+                    android:layout_width="9dp"
+                    android:layout_height="12dp"
                     android:layout_below="@id/guide_detail_name_tv"
-                    android:layout_marginTop="4dp"
+                    android:visibility="gone"
+                    android:layout_marginTop="7dp"
                     android:layout_toRightOf="@id/guide_detail_avatar_iv"
-                    android:background="#88556600"/>
+                    android:background="@mipmap/sddate_place"/>
                 <TextView
                     android:id="@+id/guide_detail_location_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="3dp"
                     android:layout_below="@id/guide_detail_name_tv"
                     android:layout_marginTop="4dp"
                     android:layout_toRightOf="@id/guide_detail_location_iv"
@@ -78,6 +83,7 @@
                     android:layout_below="@id/guide_detail_location_tv"
                     android:layout_marginTop="4dp"
                     android:layout_toRightOf="@id/guide_detail_avatar_iv"
+                    android:lineSpacingExtra="3dp"
                     android:textColor="@color/basic_gray_light"
                     android:textSize="13sp" />
 
@@ -127,12 +133,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="3dip"
-                app:item_width="30dip"
+                app:item_width="32dip"
                 app:touchable="false"
-                app:gap="20dip"
-                app:half_bg="@mipmap/collection_icon_star_half"
-                app:rating_bg="@drawable/btn_yellow_ratingbar" />
+                app:gap="22dip"
+                app:half_bg="@mipmap/sddate_star_half"
+                app:rating_bg="@drawable/btn_guides_detail_ratingbar" />
 
             <TextView
                 android:id="@+id/guide_detail_score_tv"
@@ -292,14 +297,14 @@
                     android:id="@+id/guide_detail_call_iv"
                     android:layout_width="62dip"
                     android:layout_height="62dip"
-                    android:background="@drawable/selector_order_phone" />
+                    android:background="@drawable/selector_guides_detail_phone" />
 
                 <ImageView
                     android:id="@+id/ogi_evaluate_chat_iv"
                     android:layout_width="62dip"
                     android:layout_height="62dip"
                     android:layout_marginLeft="70dip"
-                    android:background="@drawable/selector_order_im" />
+                    android:background="@drawable/selector_guides_detail_chat" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

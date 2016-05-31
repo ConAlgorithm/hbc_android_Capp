@@ -23,4 +23,5 @@ public class MostFitAvailableBean implements Serializable{
     public String serviceLocalDays;// 日租市内天数 [日租必填]
     public String serviceNonlocalDays;// 日租市外天数 [日租必填]
     public String expectedCompTime; // 接送机预计完成时间[非日租必填]
+    public String orderType; // TYPE_TRANSFER(1, "接机"), TYPE_SEND(2, "送机"), TYPE_DAILY(3, "按天包车"), TYPE_SINGLE(4, "单次用车"), TYPE_ROUTE(5, "精品线路");
 }

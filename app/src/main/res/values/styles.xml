@@ -278,5 +278,4 @@
         <item name="android:track">@drawable/pick_send_track</item><!-- 背景图的开关 格式9.png-->
     </style>
 
-
 </resources>

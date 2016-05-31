@@ -2,8 +2,10 @@ package com.hugboga.custom.utils;
 
 import android.app.Activity;
 import android.graphics.Rect;
+import android.text.TextPaint;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
+import android.widget.TextView;
 
 import com.hugboga.custom.MyApplication;
 
@@ -24,6 +26,14 @@ public final class UIUtils {
      */
     public static int dip2px(float dpValue) {
         return (int)(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dpValue,
+                MyApplication.getAppContext().getResources().getDisplayMetrics()) + 0.5f);
+    }
+
+    /**
+     *  sp转成为px
+     */
+    public static int sp2px(float spValue) {
+        return (int)(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, spValue,
                 MyApplication.getAppContext().getResources().getDisplayMetrics()) + 0.5f);
     }
 
@@ -92,5 +102,10 @@ public final class UIUtils {
         }
         activity = null;
         return statusHeight;
+    }
+
+    public static int getStringWidth(TextView textView, String str) {
+        TextPaint paint = textView.getPaint();
+        return (int)paint.measureText(str);
     }
 }

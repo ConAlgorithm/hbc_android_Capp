@@ -6,6 +6,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -13,6 +14,7 @@ import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
@@ -22,19 +24,23 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.ContactUsersBean;
+import com.hugboga.custom.data.bean.CouponBean;
 import com.hugboga.custom.data.bean.MostFitAvailableBean;
 import com.hugboga.custom.data.bean.MostFitBean;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.OrderContact;
 import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.bean.SelectCarBean;
+import com.hugboga.custom.data.bean.TravelFundData;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestMostFit;
 import com.hugboga.custom.data.request.RequestSubmitBase;
 import com.hugboga.custom.data.request.RequestSubmitDaily;
+import com.hugboga.custom.data.request.TrequestTravelFundLogs;
 import com.hugboga.custom.utils.DateUtils;
+import com.hugboga.custom.utils.ToastUtils;
 import com.umeng.analytics.MobclickAgent;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
@@ -54,8 +60,11 @@ import de.greenrobot.event.EventBus;
 
 import static com.hugboga.custom.R.id.car_seat;
 import static com.hugboga.custom.R.id.car_seat_tips;
+import static com.hugboga.custom.R.id.coupon_left;
 import static com.hugboga.custom.R.id.coupon_right;
-import static com.hugboga.custom.R.id.diary_layout;
+import static com.hugboga.custom.R.id.day_layout;
+import static com.hugboga.custom.R.id.dream_left;
+import static com.hugboga.custom.R.id.dream_right;
 import static com.hugboga.custom.R.id.end_hospital_title;
 import static com.hugboga.custom.R.id.end_hospital_title_tips;
 import static com.hugboga.custom.R.id.man_name;
@@ -80,8 +89,14 @@ public class FGOrderNew extends BaseFragment {
     TextView headerRightTxt;
     @Bind(R.id.citys_line_title)
     TextView citysLineTitle;
-    @Bind(diary_layout)
-    LinearLayout diaryLayout;
+    @Bind(R.id.day_layout)
+    LinearLayout day_layout;
+    @Bind(R.id.show_day_layout)
+    LinearLayout show_day_layout;
+
+    @Bind(R.id.day_show_all)
+    TextView day_show_all;
+
     @Bind(start_hospital_title)
     TextView startHospitalTitle;
     @Bind(R.id.start_hospital_title_tips)
@@ -117,11 +132,11 @@ public class FGOrderNew extends BaseFragment {
     EditText mark;
     @Bind(R.id.coupon_left)
     RadioButton couponLeft;
-    @Bind(coupon_right)
+    @Bind(R.id.coupon_right)
     TextView couponRight;
     @Bind(R.id.dream_left)
     RadioButton dreamLeft;
-    @Bind(R.id.dream_right)
+    @Bind(dream_right)
     TextView dreamRight;
     @Bind(R.id.insure_left)
     TextView insureLeft;
@@ -214,12 +229,14 @@ public class FGOrderNew extends BaseFragment {
     public int inNum = 0;
     public int outNum = 0;
 
+    String orderType = "";
     int type = 1;
     boolean isHalfTravel = false;
     @Override
     protected void initView() {
         passCityList = (ArrayList<CityBean>) getArguments().getSerializable("passCityList");
 
+        guideCollectId = this.getArguments().getString("guideCollectId");
         carBean = this.getArguments().getParcelable("carBean");
         startCityId = this.getArguments().getString("startCityId");
         endCityId = this.getArguments().getString("endCityId");
@@ -242,10 +259,33 @@ public class FGOrderNew extends BaseFragment {
         outNum = this.getArguments().getInt("outnum");
         isHalfTravel = this.getArguments().getBoolean("isHalfTravel");
 
+        orderType = this.getArguments().getString("orderType");
+
         type = this.getArguments().getInt("type");
+
+
+
         genType(type);
 
         requestMostFit();
+        requestTravelFund();
+
+        couponLeft.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    dreamLeft.setChecked(false);
+                }
+            }
+        });
+        dreamLeft.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    couponLeft.setChecked(false);
+                }
+            }
+        });
 
 //        city.setText("城市:" + startCityName);
 //        if (halfDay.equalsIgnoreCase("0")) {
@@ -292,11 +332,47 @@ public class FGOrderNew extends BaseFragment {
         }
     }
 
+    boolean showAll = false;
+    View dayView = null;
+    View top_line = null;
+    View bottom_line = null;
+    TextView textView = null;
+    CityBean cityBean;
+    private void genDayView(int dayNUms){
+        day_layout.removeAllViews();
+        for (int i = 0; i < dayNUms; i++) {
+//            public int cityType = 1;// 1 市内 2 周边 3,市外
+            dayView = LayoutInflater.from(getContext()).inflate(R.layout.day_order_item,null);
+            top_line = dayView.findViewById(R.id.top_line);
+            bottom_line = dayView.findViewById(R.id.bottom_line);
+            textView = (TextView)dayView.findViewById(R.id.right_text);
+            cityBean = passCityList.get(i);
+            if(i == 0){
+                top_line.setVisibility(View.INVISIBLE);
+            }else if(i == dayNUms -1){
+                bottom_line.setVisibility(View.INVISIBLE);
+            }else{
+                top_line.setVisibility(View.VISIBLE);
+                bottom_line.setVisibility(View.VISIBLE);
+            }
+            if (cityBean.cityType == 1) {
+                textView.setText("第" + (i + 1) + "天: 住在" + cityBean.name + ",市内游玩");
+            } else if (passCityList.get(i).cityType == 2) {
+                textView.setText("第" + (i + 1) + "天: 住在" + cityBean.name + ",周边游玩");
+            } else if (passCityList.get(i).cityType == 3) {
+                textView.setText("第" + (i + 1) + "天: 住在其它城市" + cityBean.name);
+            }
+            day_layout.addView(dayView);
+        }
+    }
 
     //包车界面
     private void genDairy(){
+        show_day_layout.setVisibility(View.VISIBLE);
+
         if(isHalfTravel){
             citysLineTitle.setText(startBean.name+"-0.5天包车");
+            day_show_all.setVisibility(View.GONE);
         }else{
             citysLineTitle.setText(startBean.name+"-"+dayNums+"天包车");
         }
@@ -308,43 +384,43 @@ public class FGOrderNew extends BaseFragment {
         citys_line_title_tips.setText("当地时间"+startDate+ "("+startWeekDay +") 至"+"  "+endDate+" ("+endWeekDay+")");
 
 
+
         if(isHalfTravel){
-            TextView textView = new TextView(getContext());
+            dayView = LayoutInflater.from(getContext()).inflate(R.layout.day_order_item,null);
+            top_line = dayView.findViewById(R.id.top_line);
+            bottom_line = dayView.findViewById(R.id.bottom_line);
+            textView = (TextView)dayView.findViewById(R.id.right_text);
+            top_line.setVisibility(View.INVISIBLE);
+            bottom_line.setVisibility(View.INVISIBLE);
             textView.setText("半天: " + startCityName + "市内");
-            textView.setCompoundDrawablePadding(10);
-            textView.setPadding(20,0,0,0);
-            textView.setMinHeight(40);
-            textView.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.top_line,0,0,0);
-            diaryLayout.addView(textView);
+            day_layout.addView(dayView);
         }
 
         if(!isHalfTravel && null != passCityList) {
-            TextView textView;
-            CityBean cityBean;
-            for (int i = 0; i < passCityList.size(); i++) {
-//            public int cityType = 1;// 1 市内 2 周边 3,市外
-                textView = new TextView(getContext());
-                textView.setCompoundDrawablePadding(10);
-                textView.setPadding(20,0,0,0);
-                textView.setMinHeight(40);
-                textView.setGravity(Gravity.CENTER_VERTICAL);
-                cityBean = passCityList.get(i);
-                if(i == 0){
-                    textView.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.top_line,0,0,0);
-                }else if(i>0 && i < passCityList.size() -1){
-                    textView.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.middle_line,0,0,0);
-                }else{
-                    textView.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.bottom_line,0,0,0);
-                }
 
-                if (cityBean.cityType == 1) {
-                    textView.setText("第" + (i + 1) + "天: 住在" + cityBean.name + ",市内游玩");
-                } else if (passCityList.get(i).cityType == 2) {
-                    textView.setText("第" + (i + 1) + "天: 住在" + cityBean.name + ",周边游玩");
-                } else if (passCityList.get(i).cityType == 3) {
-                    textView.setText("第" + (i + 1) + "天: 住在其它城市" + cityBean.name);
-                }
-                diaryLayout.addView(textView);
+
+            if(passCityList.size() <= 3){
+                day_show_all.setVisibility(View.GONE);
+                genDayView(passCityList.size());
+            }else{
+                day_show_all.setVisibility(View.VISIBLE);
+                day_show_all.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        showAll = !showAll;
+                        if(showAll){
+                            genDayView(passCityList.size());
+                            day_show_all.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.journey_withdraw,0,0,0);
+                            day_show_all.setText("收起详情");
+                        }else{
+                            genDayView(3);
+                            day_show_all.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.journey_unfold,0,0,0);
+                            day_show_all.setText("展开详情");
+                        }
+
+                    }
+                });
+                genDayView(3);
             }
         }
         adultNum = this.getArguments().getString("adultNum");
@@ -366,6 +442,48 @@ public class FGOrderNew extends BaseFragment {
 
     }
 
+
+    //旅游基金
+    String travelFund = "0";
+    private void requestTravelFund(){
+        TrequestTravelFundLogs request = new TrequestTravelFundLogs(getActivity(), 0);
+        HttpRequestUtils.request(getContext(), request, new HttpRequestListener() {
+            @Override
+            public void onDataRequestSucceed(BaseRequest request) {
+                TrequestTravelFundLogs trequestTravelFundLogs = (TrequestTravelFundLogs)request;
+                TravelFundData travelFundData = trequestTravelFundLogs.getData();
+                travelFund = travelFundData.getFundAmount();
+                int money = Integer.valueOf(travelFund);
+                if(0 == money) {
+                    dream_right_tips.setVisibility(View.VISIBLE);
+                    dream_right_tips.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            startFragment(new FgTravelFund());
+                        }
+                    });
+                }else{
+                    dreamRight.setText("￥"+money);
+                    if(dreamLeft.isChecked()) {
+                        allMoneyLeftText.setText("￥" + (carBean.price - money) + "");
+                    }
+                    dream_right_tips.setVisibility(View.GONE);
+                }
+
+            }
+
+            @Override
+            public void onDataRequestCancel(BaseRequest request) {
+
+            }
+
+            @Override
+            public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+
+            }
+        });
+    }
+
 //
 //    String useOrderPrice;
 //    String priceChannel;// 渠道价格   [必填]
@@ -379,17 +497,20 @@ public class FGOrderNew extends BaseFragment {
 //    String serviceLocalDays;// 日租市内天数 [日租必填]
 //    String serviceNonlocalDays;// 日租市外天数 [日租必填]
 //    String expectedCompTime; // 接送机预计完成时间[非日租必填]
-
+    MostFitBean mostFitBean;
+    //优惠券
     private void requestMostFit(){
         RequestMostFit requestMostFit = new RequestMostFit(getContext(),carBean.price+"",carBean.price+"",
                 startDate+" 00:00:00",carBean.carType+"",carBean.seatCategory+"",startCityId+"",
-                startBean.areaCode+"",dayNums+"","1234", inNum+"",outNum+"",dayNums+"");
+                startBean.areaCode+"",dayNums+"","1234", inNum+"",outNum+"",dayNums+"",orderType);
         HttpRequestUtils.request(getContext(), requestMostFit, new HttpRequestListener() {
             @Override
             public void onDataRequestSucceed(BaseRequest request) {
                 RequestMostFit requestMostFit1 = (RequestMostFit)request;
-                MostFitBean mostFitBean = requestMostFit1.getData();
-                couponRight.setText(mostFitBean.priceInfo+"优惠券");
+                mostFitBean = requestMostFit1.getData();
+                couponRight.setText(mostFitBean.priceInfo + "优惠券");
+
+                allMoneyLeftText.setText("￥" +mostFitBean.actualPrice);
                 couponRight.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -411,7 +532,8 @@ public class FGOrderNew extends BaseFragment {
                         mostFitAvailableBean.serviceTime = startDate;
                         mostFitAvailableBean.userId = UserEntity.getUser().getUserId(getContext());
                         mostFitAvailableBean.totalDays = dayNums +"";
-                        bundle.putSerializable("mostFitAvailableBean",mostFitAvailableBean);
+                        mostFitAvailableBean.orderType = orderType;
+                        bundle.putSerializable(Constants.PARAMS_DATA, mostFitAvailableBean);
                         fgCoupon.setArguments(bundle);
                         startFragment(fgCoupon);
                     }
@@ -510,7 +632,7 @@ public class FGOrderNew extends BaseFragment {
             bringToFront(FgTravel.class, new Bundle());
             String orderNo = ((RequestSubmitBase) request).getData();
             Bundle bundle = new Bundle();
-            bundle.putString(FgOrder.KEY_ORDER_ID, orderNo);
+            bundle.putString("key_order_id", orderNo);
             bundle.putString("source", source);
             bundle.putBoolean("needShowAlert", true);
             startFragment(new FgOrder(), bundle);
@@ -529,20 +651,20 @@ public class FGOrderNew extends BaseFragment {
 
     private void checkData() {
         contact.clear();
-//        if (TextUtils.isEmpty(orderUserName.getText())) {
-//            ToastUtils.showLong("联系人姓名不能为空!");
-//            return;
-//        }
+        if (TextUtils.isEmpty(manName.getText())) {
+            ToastUtils.showLong("联系人姓名不能为空!");
+            return;
+        }
 //
 //        if (TextUtils.isEmpty(areaCodeClick.getText())) {
 //            ToastUtils.showLong("联系人区号不能为空!");
 //            return;
 //        }
 //
-//        if (TextUtils.isEmpty(userPhone.getText())) {
-//            ToastUtils.showLong("联系人电话不能为空!");
-//            return;
-//        }
+        if (TextUtils.isEmpty(manPhone.getText())) {
+            ToastUtils.showLong("联系人电话不能为空!");
+            return;
+        }
 //
 //        if (!TextUtils.isEmpty(areaCodeClick.getText()) && !TextUtils.isEmpty(userPhone.getText())) {
 //            OrderContact orderContact = new OrderContact();
@@ -556,10 +678,10 @@ public class FGOrderNew extends BaseFragment {
 //            return;
 //        }
 
-//        if(TextUtils.isEmpty(upSiteText.getText())){
-//            ToastUtils.showLong("上车地点不能为空!");
-//            return;
-//        }
+        if(TextUtils.isEmpty(upAddressRight.getText())){
+            ToastUtils.showLong("上车地点不能为空!");
+            return;
+        }
 
 //        if(TextUtils.isEmpty(hotelPhoneTextCodeClick.getText())){
 //            ToastUtils.showLong("酒店电话区号不能为空!");
@@ -635,7 +757,7 @@ public class FGOrderNew extends BaseFragment {
     }
 
     ContactUsersBean contactUsersBean = null;
-
+    CouponBean couponBean;
     public void onEventMainThread(EventAction action) {
         if(action.getType() == EventType.CONTACT_BACK) {
             contactUsersBean = (ContactUsersBean) action.getData();
@@ -649,12 +771,17 @@ public class FGOrderNew extends BaseFragment {
                 otherName.setText(contactUsersBean.otherName);
                 otherPhone.setText(contactUsersBean.otherphoneCode + " " + contactUsersBean.otherPhone);
             }
+        }else if(action.getType() == EventType.SELECT_COUPON_BACK){
+            couponBean = (CouponBean) action.getData();
+            couponRight.setText(couponBean.price + "优惠券");
         }
 
     }
 
     OrderBean orderBean;
     ArrayList<CityBean> passCityList;
+
+    String guideCollectId = null;
 
     private OrderBean getOrderByInput() {
         orderBean = new OrderBean();//订单
@@ -672,7 +799,7 @@ public class FGOrderNew extends BaseFragment {
         orderBean.child = Integer.valueOf(childrenNum);
 
         orderBean.destAddress = endCityId;
-        orderBean.orderPrice = carBean.price;
+
         orderBean.priceMark = carBean.pricemark;
         orderBean.serviceCityId = Integer.valueOf(startCityId);
         orderBean.serviceEndCityid = Integer.valueOf(endCityId);
@@ -715,24 +842,69 @@ public class FGOrderNew extends BaseFragment {
 
         orderBean.destAddressDetail = upRight.getText().toString();
 
-//        orderBean.userName = orderUserName.getText().toString();
-//        orderBean.stayCityListStr = passCities;
-//        orderBean.userRemark = mark.getText().toString();
-//
-//        orderBean.serviceDepartTime = serverTime;
-//
-//        orderBean.priceChannel = carBean.price + "";
-//        orderBean.childSeatNum = childseatNum;
-//        orderBean.luggageNum = luggageNum;
-//        orderBean.realUserName = orderUserNameOther.getText().toString();
-//        orderBean.realAreaCode = areaCodeOtherClick.getText().toString();
-//        orderBean.realMobile = userPhoneOther.getText().toString();
-//        if (checkboxOther.isChecked()) {
-//            orderBean.isRealUser = "2";
-//        } else {
-//            orderBean.isRealUser = "1";
-//        }
+        orderBean.userName = manName.getText().toString();
+        orderBean.stayCityListStr = passCities;
+        orderBean.userRemark = mark.getText().toString();
 
+        orderBean.serviceDepartTime = serverTime;
+
+        orderBean.priceChannel = carBean.price + "";
+        orderBean.childSeatNum = childseatNum;
+        orderBean.luggageNum = luggageNum;
+
+        orderBean.realUserName = contactUsersBean.otherName;
+        orderBean.realAreaCode = contactUsersBean.otherphoneCode;
+        orderBean.realMobile = contactUsersBean.otherPhone;
+        if (contactUsersBean.isForOther) {
+            orderBean.isRealUser = "2";
+        } else {
+            orderBean.isRealUser = "1";
+        }
+        orderBean.realSendSms = contactUsersBean.isSendMessage?"1":"0";
+
+        if(dreamLeft.isChecked()) {
+            orderBean.travelFund = travelFund;
+            orderBean.orderPrice = carBean.price - Integer.valueOf(travelFund);
+        }else{
+            if(null == couponBean && null!= mostFitBean){
+                orderBean.coupId = mostFitBean.couponId;
+                orderBean.coupPriceInfo = mostFitBean.couponPrice+"";
+                orderBean.orderPrice = (carBean.price - mostFitBean.couponPrice);
+            }else if(null != couponBean && null == mostFitBean){
+                orderBean.coupId = couponBean.couponID;
+                orderBean.coupPriceInfo = couponBean.price;
+                orderBean.orderPrice = carBean.price - Integer.valueOf(couponBean.price);
+            }
+        }
+
+        orderBean.guideCollectId = guideCollectId;
+
+        StringBuffer userExJson = new StringBuffer();
+        userExJson.append("[");
+
+        if(!TextUtils.isEmpty(contactUsersBean.userPhone)){
+            userExJson.append("{name:\""+contactUsersBean.userName+"\",areaCode:\""+(null == contactUsersBean.phoneCode?"+86":contactUsersBean.phoneCode)+"\",mobile:\""+contactUsersBean.userPhone+"\"}");
+        }
+
+        if(!TextUtils.isEmpty(contactUsersBean.user1Phone)){
+            userExJson.append(",{name:\""+contactUsersBean.user1Name+"\",areaCode:\""+(null == contactUsersBean.phone1Code?"+86":contactUsersBean.phone1Code)+"\",mobile:\""+contactUsersBean.user1Phone+"\"}");
+        }
+
+        if(!TextUtils.isEmpty(contactUsersBean.user2Phone)){
+            userExJson.append(",{name:\""+contactUsersBean.user2Name+"\",areaCode:\""+(null == contactUsersBean.phone2Code?"+86":contactUsersBean.phone2Code)+"\",mobile:\""+contactUsersBean.user2Phone+"\"}");
+        }
+        userExJson.append("]");
+        orderBean.userEx = userExJson.toString();
+
+
+        StringBuffer realUserExJson = new StringBuffer();
+        realUserExJson.append("[");
+
+        if(!TextUtils.isEmpty(contactUsersBean.otherName)){
+            realUserExJson.append("{name:\""+contactUsersBean.otherName+"\",areaCode:\""+contactUsersBean.otherphoneCode+"\",mobile:\""+contactUsersBean.otherPhone+"\"}");
+        }
+        realUserExJson.append("]");
+        orderBean.realUserEx = realUserExJson.toString();
 
         return orderBean;
 
@@ -781,7 +953,7 @@ public class FGOrderNew extends BaseFragment {
         }
     }
 
-    @OnClick({R.id.other_phone_layout,R.id.other_phone_name,R.id.for_other_man, man_name, R.id.man_phone, R.id.man_phone_layout, up_right, up_address_right, R.id.hotel_phone_text_code_click, R.id.hotel_phone_text})
+    @OnClick({R.id.all_money_submit_click,R.id.other_phone_layout,R.id.other_phone_name,R.id.for_other_man, man_name, R.id.man_phone, R.id.man_phone_layout, up_right, up_address_right, R.id.hotel_phone_text_code_click, R.id.hotel_phone_text})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.man_phone_layout:
@@ -809,7 +981,8 @@ public class FGOrderNew extends BaseFragment {
                 bundleCode.putInt("airportCode", view.getId());
                 startFragment(chooseCountry, bundleCode);
                 break;
-            case R.id.hotel_phone_text:
+            case R.id.all_money_submit_click:
+                checkData();
                 break;
         }
     }

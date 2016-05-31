@@ -115,6 +115,18 @@ public class OrderBean implements IBaseBean ,Parcelable{
 
     public String serviceDepartTime; //服务时间
 
+    public String realSendSms;//1 发送短信 0 不发送 null 不发送
+
+    public String travelFund;//当前订单使用的旅游基金
+    public String guideCollectId;//指定司导ID
+
+    public String userEx;
+    public String realUserEx;
+
+    public String coupId;
+    public String coupPriceInfo;
+
+
     public String getOrderTypeStr(Context context) {
         switch (orderGoodsType) {
             case 1:
@@ -135,6 +147,7 @@ public class OrderBean implements IBaseBean ,Parcelable{
                 return "";
         }
     }
+
 
     @Override
     public int describeContents() {
@@ -174,7 +187,7 @@ public class OrderBean implements IBaseBean ,Parcelable{
         dest.writeString(this.serviceStartTime);
         dest.writeInt(this.expectedCompTime);
         dest.writeList(this.passByCityID);
-        dest.writeTypedList(passByCity);
+        dest.writeTypedList(this.passByCity);
         dest.writeString(this.stayCityListStr);
         dest.writeValue(this.totalDays);
         dest.writeString(this.startAddress);
@@ -194,11 +207,11 @@ public class OrderBean implements IBaseBean ,Parcelable{
         dest.writeValue(this.visa);
         dest.writeString(this.memo);
         dest.writeString(this.payDeadTime);
-        dest.writeByte(cancelable ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.cancelable ? (byte) 1 : (byte) 0);
         dest.writeString(this.cancelText);
         dest.writeString(this.cancelTip);
-        dest.writeByte(canComment ? (byte) 1 : (byte) 0);
-        dest.writeByte(canChat ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.canComment ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.canChat ? (byte) 1 : (byte) 0);
         dest.writeString(this.imToken);
         dest.writeValue(this.orderPrice);
         dest.writeValue(this.checkInPrice);
@@ -218,13 +231,22 @@ public class OrderBean implements IBaseBean ,Parcelable{
         dest.writeValue(this.outTownDays);
         dest.writeString(this.journeyComment);
         dest.writeString(this.dailyTips);
-        dest.writeByte(insuranceEnable ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.insuranceEnable ? (byte) 1 : (byte) 0);
+        dest.writeString(this.insuranceTips);
+        dest.writeTypedList(this.insuranceList);
         dest.writeString(this.goodsNo);
         dest.writeString(this.skuPoi);
         dest.writeList(this.skuPoiArray);
         dest.writeString(this.insuranceStatus);
         dest.writeInt(this.insuranceStatusCode);
         dest.writeString(this.serviceDepartTime);
+        dest.writeString(this.realSendSms);
+        dest.writeString(this.travelFund);
+        dest.writeString(this.guideCollectId);
+        dest.writeString(this.userEx);
+        dest.writeString(this.realUserEx);
+        dest.writeString(this.coupId);
+        dest.writeString(this.coupPriceInfo);
     }
 
     public OrderBean() {
@@ -310,6 +332,8 @@ public class OrderBean implements IBaseBean ,Parcelable{
         this.journeyComment = in.readString();
         this.dailyTips = in.readString();
         this.insuranceEnable = in.readByte() != 0;
+        this.insuranceTips = in.readString();
+        this.insuranceList = in.createTypedArrayList(InsureListBean.CREATOR);
         this.goodsNo = in.readString();
         this.skuPoi = in.readString();
         this.skuPoiArray = new ArrayList<PoiBean>();
@@ -317,6 +341,13 @@ public class OrderBean implements IBaseBean ,Parcelable{
         this.insuranceStatus = in.readString();
         this.insuranceStatusCode = in.readInt();
         this.serviceDepartTime = in.readString();
+        this.realSendSms = in.readString();
+        this.travelFund = in.readString();
+        this.guideCollectId = in.readString();
+        this.userEx = in.readString();
+        this.realUserEx = in.readString();
+        this.coupId = in.readString();
+        this.coupPriceInfo = in.readString();
     }
 
     public static final Creator<OrderBean> CREATOR = new Creator<OrderBean>() {

@@ -20,6 +20,12 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.CouponAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CouponBean;
+import com.hugboga.custom.data.bean.MostFitAvailableBean;
+import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.event.EventType;
+import com.hugboga.custom.data.request.RequestAvailableCoupon;
+import com.hugboga.custom.data.request.RequestCollectGuideList;
+import com.hugboga.custom.data.request.RequestCollectGuidesFilter;
 import com.hugboga.custom.data.request.RequestCoupon;
 import com.hugboga.custom.data.request.RequestCouponExchange;
 import com.hugboga.custom.widget.DialogUtil;
@@ -33,6 +39,9 @@ import org.xutils.view.annotation.ViewInject;
 
 import java.text.ParseException;
 import java.util.HashMap;
+import java.util.List;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by ZHZEPHI on 2015/7/24.
@@ -51,6 +60,9 @@ public class FgCoupon extends BaseFragment implements AdapterView.OnItemClickLis
     EditText carNumberEditText;
     @ViewInject(R.id.coupon_listview_empty)
     RelativeLayout emptyLayout;
+    @ViewInject(R.id.coupon_pay_layout)
+    RelativeLayout payLayout;
+
 
     CouponAdapter adapter;
     private String orderId;
@@ -58,6 +70,31 @@ public class FgCoupon extends BaseFragment implements AdapterView.OnItemClickLis
     private String couponId;
     private int mPageSize = 20;
 
+    private MostFitAvailableBean paramsData;
+
+    @Override
+    protected void initHeader(Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            paramsData = (MostFitAvailableBean) savedInstanceState.getSerializable(Constants.PARAMS_DATA);
+        } else {
+            Bundle bundle = getArguments();
+            if (bundle != null) {
+                paramsData = (MostFitAvailableBean) bundle.getSerializable(Constants.PARAMS_DATA);
+            }
+        }
+        if (paramsData != null) {
+            payLayout.setVisibility(View.GONE);
+        }
+    }
+
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (paramsData != null) {
+            outState.putSerializable(Constants.PARAMS_DATA, paramsData);
+        }
+    }
 
     @Override
     protected void initHeader() {
@@ -68,7 +105,7 @@ public class FgCoupon extends BaseFragment implements AdapterView.OnItemClickLis
             orderPrice = bundle.getDouble(ORDER_PRICE);
         }
 
-        fgTitle.setText("我的优惠券");
+        fgTitle.setText("推荐奖励");
         listView.setEmptyView(emptyLayout);
         listView.setOnItemClickListener(this);
         listView.setonRefreshListener(onRefreshListener);
@@ -102,8 +139,13 @@ public class FgCoupon extends BaseFragment implements AdapterView.OnItemClickLis
 
 
     private Callback.Cancelable runData(String orderId, int pageIndex) {
-        RequestCoupon requestCoupon = new RequestCoupon(getActivity(), orderId, orderPrice, pageIndex, mPageSize);
-        return requestData(requestCoupon);
+        BaseRequest request = null;
+        if (paramsData == null) {
+            request = new RequestCoupon(getActivity(), orderId, orderPrice, pageIndex, mPageSize);
+        } else {
+            request = new RequestAvailableCoupon(getActivity(), paramsData, pageIndex);
+        }
+        return requestData(request);
     }
 
     @Override
@@ -139,30 +181,15 @@ public class FgCoupon extends BaseFragment implements AdapterView.OnItemClickLis
                 break;
         }
     }
-//    @Override
-//    public void onDataRequestSucceed(BaseRequest request) {
 
-    //    }
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
         if (request instanceof RequestCoupon) {
             RequestCoupon mRequest = (RequestCoupon) request;
-            if (mRequest.getData() != null) {
-                if (adapter == null) {
-                    adapter = new CouponAdapter(getActivity());
-                    adapter.idStr = couponId;
-                    listView.setAdapter(adapter);
-                    adapter.setList(mRequest.getData());
-                } else {
-                    adapter.addList(mRequest.getData());
-                }
-            }
-            if (mRequest.getData() != null && mRequest.getData().size() < mPageSize) {
-                listView.onLoadCompleteNone();
-            } else {
-                listView.onLoadComplete();
-            }
-            listView.onRefreshComplete();
+            setData(mRequest.getData());
+        } else if (request instanceof RequestAvailableCoupon) {
+            RequestAvailableCoupon requestAvailableCoupon = (RequestAvailableCoupon) request;
+            setData(requestAvailableCoupon.getData());
         } else if (request instanceof RequestCouponExchange) {
             RequestCouponExchange mParser = (RequestCouponExchange) request;
             requestData();
@@ -176,6 +203,24 @@ public class FgCoupon extends BaseFragment implements AdapterView.OnItemClickLis
         }
     }
 
+    private void setData(List<CouponBean> list) {
+        if (list != null) {
+            if (adapter == null) {
+                adapter = new CouponAdapter(getActivity());
+                listView.setAdapter(adapter);
+                adapter.setList(list);
+            } else {
+                adapter.addList(list);
+            }
+        }
+        if (list != null && list.size() < mPageSize) {
+            listView.onLoadCompleteNone();
+        } else {
+            listView.onLoadComplete();
+        }
+        listView.onRefreshComplete();
+    }
+
     @Override
     protected int getBusinessType() {
         return Constants.BUSINESS_TYPE_OTHER;
@@ -185,7 +230,10 @@ public class FgCoupon extends BaseFragment implements AdapterView.OnItemClickLis
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         CouponBean bean = (CouponBean) adapter.getItem(position - 1);
-        if (!TextUtils.isEmpty(orderId)) {
+        if (paramsData != null) {
+            //TODO
+            EventBus.getDefault().post(new EventAction(EventType.SELECT_COUPON_BACK,bean));
+        } else if (!TextUtils.isEmpty(orderId)) {
             //点击回传优惠券
             if (bean != null) {
                 Bundle bundle = new Bundle();

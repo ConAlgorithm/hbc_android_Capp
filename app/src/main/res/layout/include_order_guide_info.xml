@@ -5,8 +5,8 @@
     android:layout_height="wrap_content"
     android:background="@android:color/white"
     android:orientation="vertical"
-    android:paddingLeft="12dp"
-    android:paddingRight="12dp">
+    android:paddingLeft="17dp"
+    android:paddingRight="17dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -34,7 +34,7 @@
             android:layout_height="40dip"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:background="@drawable/selector_order_im"/>
+            android:background="@drawable/selector_order_chat"/>
         <TextView
             android:id="@+id/ogi_phone_iv"
             android:layout_width="40dip"
@@ -47,7 +47,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="12dp"
             android:layout_toLeftOf="@id/ogi_phone_iv"
             android:layout_toRightOf="@id/ogi_avatar_iv"
             android:gravity="center_vertical"
@@ -67,7 +67,7 @@
                     android:textSize="16sp" />
 
                 <com.hugboga.custom.widget.RatingView
-                    android:id="@+id/ogi_ratingView"
+                    android:id="@+id/ogi_ratingview"
                     android:layout_width="wrap_content"
                     android:layout_height="15dip"
                     android:layout_marginTop="1dip"

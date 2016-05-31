@@ -29,12 +29,16 @@ import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.OrderSelectCityAdapter;
 import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.bean.CarBean;
+import com.hugboga.custom.data.bean.CarInfoBean;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.CollectGuideBean;
 import com.hugboga.custom.data.bean.SavedCityBean;
+import com.hugboga.custom.data.bean.SelectCarBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.request.RequestCollectGuidesFilter;
+import com.hugboga.custom.data.request.RequestGetCarInfo;
 import com.hugboga.custom.data.request.RequestGuideConflict;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.DBCityUtils;
@@ -57,7 +61,10 @@ import java.util.List;
 import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
 
+import static com.hugboga.custom.R.id.all_day_num;
 import static com.hugboga.custom.R.id.driver_tips;
+import static com.hugboga.custom.R.id.luggage_num;
+import static com.hugboga.custom.R.string.collect;
 
 /**
  * Created  on 16/4/14.
@@ -187,12 +194,12 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
             }
         });
 
-        driver_name.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                goCollectGuid(1);
-            }
-        });
+//        driver_name.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                goCollectGuid(1);
+//            }
+//        });
 
     }
 
@@ -815,7 +822,85 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
             }
         }
     }
+    CarInfoBean carBean;
 
+    private void getCarInfo(){
+        final RequestGetCarInfo requestGetCarInfo = new RequestGetCarInfo(this.getActivity(),
+                startBean.cityId+"", isHalfTravel ? (startBean.cityId + "") : passBeanList.get(passBeanList.size() - 1).cityId +"",
+                isHalfTravel ? halfDate + " 00:00:00" : start_date_str + " 00:00:00",
+                isHalfTravel ? halfDate + " 00:00:00" : end_date_str + " 00:00:00",
+                isHalfTravel?"1":"0", manNum+"",
+                childNum+"", childSeatNums+"", baggageNum+"", isHalfTravel ? "" : getPassCities(),"18");
+        HttpRequestUtils.request(this.getActivity(), requestGetCarInfo, new HttpRequestListener() {
+            @Override
+            public void onDataRequestSucceed(BaseRequest request) {
+                RequestGetCarInfo requestGetCarInfo1 = (RequestGetCarInfo)request;
+                carBean = requestGetCarInfo.getData();
+
+                FGOrderNew fgOrderNew = new FGOrderNew();
+                Bundle bundle = new Bundle();
+                bundle.putString("guideCollectId",guideCollectId);
+                bundle.putSerializable("collectGuideBean",collectGuideBean);
+                bundle.putString("source",source);
+
+
+                bundle.putString("startCityId", startBean.cityId + "");
+                bundle.putString("endCityId", isHalfTravel ? (startBean.cityId + "") : passBeanList.get(passBeanList.size() - 1).cityId + "");//endCityId);
+                bundle.putString("startDate", isHalfTravel ? (halfDate) : (start_date_str));
+                bundle.putString("endDate", isHalfTravel ? (halfDate) : (end_date_str));
+                bundle.putString("halfDay", isHalfTravel ? "1" : "0");
+                bundle.putString("adultNum", manNum + "");
+                bundle.putString("childrenNum", childNum + "");
+                bundle.putString("childseatNum", childSeatNums + "");
+                bundle.putString("luggageNum", baggageNum + "");
+                bundle.putString("passCities", isHalfTravel ? "" : getPassCities());
+
+                bundle.putString("startCityName", startBean.name);
+                bundle.putString("dayNums", nums + "");
+                bundle.putParcelable("startBean", startBean);
+                bundle.putParcelable("endBean", endBean);
+                bundle.putInt("outnum", getOutNum());
+                bundle.putInt("innum", getInNum());
+                bundle.putString("source", source);
+                bundle.putBoolean("isHalfTravel",isHalfTravel);
+                bundle.putSerializable("passCityList", passBeanList);
+                bundle.putString("orderType","3");
+                bundle.putParcelable("carBean",getMatchCarBean());
+                bundle.putBoolean("isHalfTravel",isHalfTravel);
+                bundle.putInt("type",1);
+                bundle.putString("orderType","3");
+                fgOrderNew.setArguments(bundle);
+                startFragment(fgOrderNew);
+            }
+
+            @Override
+            public void onDataRequestCancel(BaseRequest request) {
+                System.out.print("1");
+            }
+
+            @Override
+            public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+                System.out.print("2");
+            }
+        });
+    }
+
+    //获取满足条件的car
+    private SelectCarBean getMatchCarBean(){
+        SelectCarBean selectCarBean = null;
+        if(null != carBean &&  null != carBean.cars) {
+            for (int i = 0; i < carBean.cars.size(); i++) {
+                selectCarBean = carBean.cars.get(i);
+                if (selectCarBean.carType == collectGuideBean.carType
+                        && selectCarBean.seatCategory == collectGuideBean.carClass){
+                    return selectCarBean;
+                }
+            }
+        }
+        return selectCarBean;
+    }
+
+    String guideCollectId = "";
 
     private void checkGuideCoflict(){
 
@@ -829,8 +914,7 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
                 if(guideList.size() == 0){
                     driver_tips.setVisibility(View.VISIBLE);
                 }else{
-                    FGOrderNew fgOrderNew = new FGOrderNew();
-                    startFragment(fgOrderNew);
+                    getCarInfo();
                 }
             }
 
@@ -925,6 +1009,7 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
                     bundleCar.putString("source", source);
                     bundleCar.putBoolean("isHalfTravel",isHalfTravel);
                     bundleCar.putSerializable("passCityList", passBeanList);
+                    bundleCar.putString("orderType","3");
 
                     FGSelectCar fgSelectCar = new FGSelectCar();
                     fgSelectCar.setArguments(bundleCar);
@@ -1155,6 +1240,7 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
                 if(null != collectGuideBean){
                     driver_layout.setVisibility(View.VISIBLE);
                     driver_name.setText(collectGuideBean.name);
+                    choose_driver.setVisibility(View.GONE);
                 }
                 break;
             default:
