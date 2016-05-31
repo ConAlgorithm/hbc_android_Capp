@@ -755,7 +755,7 @@ public class FGOrderNew extends BaseFragment {
 
     //SKU参数
     private OrderBean getSKUOrderByInput() {
-        OrderBean orderBean = new OrderBean();//订单
+        orderBean = new OrderBean();//订单
         orderBean.guideCollectId = guideCollectId;
         orderBean.orderType = 5;
         orderBean.goodsNo = skuBean.goodsNo;
@@ -979,7 +979,7 @@ public class FGOrderNew extends BaseFragment {
     }
 
     private OrderBean getOrderByInput() {
-        switch (Integer.valueOf(orderType)){
+        switch (type){
             case 1:
                 orderBean = getDayOrderByInput();
                 break;
