@@ -772,8 +772,8 @@ public class FGOrderNew extends BaseFragment {
         orderBean.serviceTime = startDate;//日期
         orderBean.serviceStartTime = serverTime + ":00";//时间
         orderBean.serviceEndTime = getServiceEndTime(startDate, skuBean.daysCount - 1);
-        orderBean.distance = String.valueOf("1234");//距离
-        orderBean.expectedCompTime = 1234;//耗时
+        orderBean.distance = distance;//距离
+        orderBean.expectedCompTime = 0;//耗时
         orderBean.carDesc = carBean.carDesc;//车型描述
         orderBean.carType = carBean.carType;//车型
         orderBean.seatCategory = carBean.seatCategory;
