@@ -550,7 +550,7 @@ public class FGOrderNew extends BaseFragment {
                         mostFitAvailableBean.serviceCountryId = startBean.areaCode;
                         mostFitAvailableBean.serviceLocalDays = inNum + "";
                         mostFitAvailableBean.serviceNonlocalDays = outNum + "";
-                        mostFitAvailableBean.serviceTime = startDate;
+                        mostFitAvailableBean.serviceTime = startDate + " 00:00:00";
                         mostFitAvailableBean.userId = UserEntity.getUser().getUserId(getContext());
                         mostFitAvailableBean.totalDays = dayNums + "";
                         mostFitAvailableBean.orderType = orderType;
