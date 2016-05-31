@@ -2,8 +2,10 @@ package com.hugboga.custom.utils;
 
 import android.app.Activity;
 import android.graphics.Rect;
+import android.text.TextPaint;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
+import android.widget.TextView;
 
 import com.hugboga.custom.MyApplication;
 
@@ -100,5 +102,10 @@ public final class UIUtils {
         }
         activity = null;
         return statusHeight;
+    }
+
+    public static int getStringWidth(TextView textView, String str) {
+        TextPaint paint = textView.getPaint();
+        return (int)paint.measureText(str);
     }
 }
