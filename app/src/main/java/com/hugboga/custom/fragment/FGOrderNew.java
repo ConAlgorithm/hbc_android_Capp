@@ -634,6 +634,12 @@ public class FGOrderNew extends BaseFragment {
             String orderNo = ((RequestSubmitBase) request).getData();
             Bundle bundle = new Bundle();
             bundle.putString("key_order_id", orderNo);
+            if(couponLeft.isChecked()) {
+                bundle.putString("shouldPay","");
+            }else{
+                bundle.putString("couponId", "");
+            }
+            bundle.putString("shouldPay",orderBean.orderPrice+"");
             bundle.putString("source", source);
             bundle.putBoolean("needShowAlert", true);
             startFragment(new FgChoosePayment(), bundle);
