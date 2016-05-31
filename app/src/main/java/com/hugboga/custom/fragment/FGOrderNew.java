@@ -229,6 +229,7 @@ public class FGOrderNew extends BaseFragment {
     public int inNum = 0;
     public int outNum = 0;
 
+    String orderType = "";
     int type = 1;
     boolean isHalfTravel = false;
     @Override
@@ -257,6 +258,8 @@ public class FGOrderNew extends BaseFragment {
         inNum = this.getArguments().getInt("innum");
         outNum = this.getArguments().getInt("outnum");
         isHalfTravel = this.getArguments().getBoolean("isHalfTravel");
+
+        orderType = this.getArguments().getString("orderType");
 
         type = this.getArguments().getInt("type");
 
@@ -440,6 +443,7 @@ public class FGOrderNew extends BaseFragment {
     }
 
 
+    //旅游基金
     String travelFund = "0";
     private void requestTravelFund(){
         TrequestTravelFundLogs request = new TrequestTravelFundLogs(getActivity(), 0);
@@ -494,10 +498,11 @@ public class FGOrderNew extends BaseFragment {
 //    String serviceNonlocalDays;// 日租市外天数 [日租必填]
 //    String expectedCompTime; // 接送机预计完成时间[非日租必填]
     MostFitBean mostFitBean;
+    //优惠券
     private void requestMostFit(){
         RequestMostFit requestMostFit = new RequestMostFit(getContext(),carBean.price+"",carBean.price+"",
                 startDate+" 00:00:00",carBean.carType+"",carBean.seatCategory+"",startCityId+"",
-                startBean.areaCode+"",dayNums+"","1234", inNum+"",outNum+"",dayNums+"");
+                startBean.areaCode+"",dayNums+"","1234", inNum+"",outNum+"",dayNums+"",orderType);
         HttpRequestUtils.request(getContext(), requestMostFit, new HttpRequestListener() {
             @Override
             public void onDataRequestSucceed(BaseRequest request) {
@@ -527,6 +532,7 @@ public class FGOrderNew extends BaseFragment {
                         mostFitAvailableBean.serviceTime = startDate;
                         mostFitAvailableBean.userId = UserEntity.getUser().getUserId(getContext());
                         mostFitAvailableBean.totalDays = dayNums +"";
+                        mostFitAvailableBean.orderType = orderType;
                         bundle.putSerializable(Constants.PARAMS_DATA, mostFitAvailableBean);
                         fgCoupon.setArguments(bundle);
                         startFragment(fgCoupon);
@@ -860,11 +866,11 @@ public class FGOrderNew extends BaseFragment {
             orderBean.travelFund = travelFund;
             orderBean.orderPrice = carBean.price - Integer.valueOf(travelFund);
         }else{
-            if(null == couponBean){
+            if(null == couponBean && null!= mostFitBean){
                 orderBean.coupId = mostFitBean.couponId;
                 orderBean.coupPriceInfo = mostFitBean.couponPrice+"";
                 orderBean.orderPrice = (carBean.price - mostFitBean.couponPrice);
-            }else {
+            }else if(null != couponBean && null == mostFitBean){
                 orderBean.coupId = couponBean.couponID;
                 orderBean.coupPriceInfo = couponBean.price;
                 orderBean.orderPrice = carBean.price - Integer.valueOf(couponBean.price);

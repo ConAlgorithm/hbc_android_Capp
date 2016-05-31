@@ -37,6 +37,7 @@ public class RequestMostFit extends BaseRequest<MostFitBean> {
     String serviceLocalDays;// 日租市内天数 [日租必填]
     String serviceNonlocalDays;// 日租市外天数 [日租必填]
     String expectedCompTime; // 接送机预计完成时间[非日租必填]
+    String orderType;
 
 
     public RequestMostFit(Context context, String useOrderPrice,
@@ -44,7 +45,7 @@ public class RequestMostFit extends BaseRequest<MostFitBean> {
                           String carTypeId,String carSeatNum,
                           String serviceCityId,String serviceCountryId,
                           String totalDays,String distance,String serviceLocalDays,
-                          String serviceNonlocalDays,String expectedCompTime) {
+                          String serviceNonlocalDays,String expectedCompTime,String orderType) {
         super(context);
         this.useOrderPrice = useOrderPrice;
         this.priceChannel = priceChannel;
@@ -59,7 +60,7 @@ public class RequestMostFit extends BaseRequest<MostFitBean> {
         this.serviceLocalDays = serviceLocalDays;
         this.serviceNonlocalDays = serviceNonlocalDays;
         this.expectedCompTime = expectedCompTime;
-
+        this.orderType = orderType;
 
     }
 
@@ -80,6 +81,7 @@ public class RequestMostFit extends BaseRequest<MostFitBean> {
         map.put("serviceLocalDays", serviceLocalDays);
         map.put("serviceNonlocalDays", serviceNonlocalDays);
         map.put("expectedCompTime", expectedCompTime);
+        map.put("orderType",orderType);
 
         return map;
     }

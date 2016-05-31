@@ -191,6 +191,8 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
     CityBean endBean;
     ArrayList<CityBean> passCityList;
     boolean isHalfTravel = false;
+
+    String orderType = "";
     private void getArgs(){
         passCityList = (ArrayList<CityBean>) getArguments().getSerializable("passCityList");
 
@@ -214,6 +216,8 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
         inNum = this.getArguments().getInt("innum");
         outNum = this.getArguments().getInt("outnum");
         isHalfTravel = this.getArguments().getBoolean("isHalfTravel");
+
+        orderType = this.getArguments().getString("orderType");
     }
 
     int selctIndex = 0;
@@ -581,6 +585,7 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
                 bundleCar.putSerializable("passCityList", passCityList);
                 bundleCar.putBoolean("isHalfTravel",isHalfTravel);
                 bundleCar.putInt("type",1);
+                bundleCar.putString("orderType","3");
                 fgOrderNew.setArguments(bundleCar);
                 startFragment(fgOrderNew);
 
