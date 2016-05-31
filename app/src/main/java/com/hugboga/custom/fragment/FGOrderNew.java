@@ -524,9 +524,13 @@ public class FGOrderNew extends BaseFragment {
             public void onDataRequestSucceed(BaseRequest request) {
                 RequestMostFit requestMostFit1 = (RequestMostFit) request;
                 mostFitBean = requestMostFit1.getData();
-                couponRight.setText((null == mostFitBean.priceInfo?"0":mostFitBean.priceInfo )+ "优惠券");
-
-                allMoneyLeftText.setText("￥" + mostFitBean.actualPrice);
+                if(null == mostFitBean.priceInfo){
+                    couponRight.setText("还没有优惠券");
+                    allMoneyLeftText.setText("￥" + carBean.price);
+                }else{
+                    couponRight.setText((mostFitBean.priceInfo )+ "优惠券");
+                    allMoneyLeftText.setText("￥" + mostFitBean.actualPrice);
+                }
                 couponRight.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -752,6 +756,7 @@ public class FGOrderNew extends BaseFragment {
     //SKU参数
     private OrderBean getSKUOrderByInput() {
         OrderBean orderBean = new OrderBean();//订单
+        orderBean.guideCollectId = guideCollectId;
         orderBean.orderType = 5;
         orderBean.goodsNo = skuBean.goodsNo;
         orderBean.lineSubject = skuBean.goodsName;
@@ -799,6 +804,36 @@ public class FGOrderNew extends BaseFragment {
         orderBean.priceChannel = carBean.price+"";
         orderBean.userName = manName.getText().toString();
         orderBean.userRemark = mark.getText().toString();
+
+
+        StringBuffer userExJson = new StringBuffer();
+        userExJson.append("[");
+
+        if (!TextUtils.isEmpty(contactUsersBean.userPhone)) {
+            userExJson.append("{name:\"" + contactUsersBean.userName + "\",areaCode:\"" + (null == contactUsersBean.phoneCode ? "+86" : contactUsersBean.phoneCode) + "\",mobile:\"" + contactUsersBean.userPhone + "\"}");
+        }
+
+        if (!TextUtils.isEmpty(contactUsersBean.user1Phone)) {
+            userExJson.append(",{name:\"" + contactUsersBean.user1Name + "\",areaCode:\"" + (null == contactUsersBean.phone1Code ? "+86" : contactUsersBean.phone1Code) + "\",mobile:\"" + contactUsersBean.user1Phone + "\"}");
+        }
+
+        if (!TextUtils.isEmpty(contactUsersBean.user2Phone)) {
+            userExJson.append(",{name:\"" + contactUsersBean.user2Name + "\",areaCode:\"" + (null == contactUsersBean.phone2Code ? "+86" : contactUsersBean.phone2Code) + "\",mobile:\"" + contactUsersBean.user2Phone + "\"}");
+        }
+        userExJson.append("]");
+        orderBean.userEx = userExJson.toString();
+
+
+        StringBuffer realUserExJson = new StringBuffer();
+        realUserExJson.append("[");
+
+        if (!TextUtils.isEmpty(contactUsersBean.otherName)) {
+            realUserExJson.append("{name:\"" + contactUsersBean.otherName + "\",areaCode:\"" + contactUsersBean.otherphoneCode + "\",mobile:\"" + contactUsersBean.otherPhone + "\"}");
+        }
+        realUserExJson.append("]");
+        orderBean.realUserEx = realUserExJson.toString();
+
+
         return orderBean;
     }
 
@@ -811,7 +846,6 @@ public class FGOrderNew extends BaseFragment {
         passCity += "," + skuBean.arrCityId + "-0";
         return passCity;
     }
-
 
 
 
