@@ -632,7 +632,7 @@ public class FGOrderNew extends BaseFragment {
             bringToFront(FgTravel.class, new Bundle());
             String orderNo = ((RequestSubmitBase) request).getData();
             Bundle bundle = new Bundle();
-            bundle.putString(FgOrder.KEY_ORDER_ID, orderNo);
+            bundle.putString("key_order_id", orderNo);
             bundle.putString("source", source);
             bundle.putBoolean("needShowAlert", true);
             startFragment(new FgOrder(), bundle);
