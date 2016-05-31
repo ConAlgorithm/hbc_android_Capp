@@ -18,7 +18,9 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.CarBean;
 import com.hugboga.custom.data.bean.CarListBean;
 import com.hugboga.custom.data.bean.CityBean;
+import com.hugboga.custom.data.bean.ManLuggageBean;
 import com.hugboga.custom.data.bean.PoiBean;
+import com.hugboga.custom.data.bean.SelectCarBean;
 import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.net.UrlLibs;
@@ -151,8 +153,9 @@ public class FgSkuNew extends BaseFragment {
             carListBean = ((RequestPriceSku) request).getData();
             carTypeBean = null;
             if (carListBean.carList.size() > 0) {
+                carBean = carListBean.carList.get(0);
                 bottom.setVisibility(View.VISIBLE);
-                genBottomData(carListBean.carList.get(0));
+                genBottomData(carBean);
             } else {
                 bottom.setVisibility(View.GONE);
             }
@@ -161,9 +164,9 @@ public class FgSkuNew extends BaseFragment {
 
     }
 
-
+    String serverDayTime = "";
     private void getData(){
-        String serverDayTime = serverDate + " " + serverTime + ":00";
+        serverDayTime = serverDate + " " + serverTime + ":00";
         MLog.e("serverDayTime= " + serverDayTime);
         RequestPriceSku request = new RequestPriceSku(getActivity(), skuBean.goodsNo, serverDayTime,cityBean.cityId+"");
         requestData(request);
@@ -180,11 +183,73 @@ public class FgSkuNew extends BaseFragment {
         allMoneyTextSku.setText("￥ " + carBean.price);
     }
 
+    private SelectCarBean carBeanAdapter(CarBean carBean){
+        SelectCarBean selectCarBean = new SelectCarBean();
+        selectCarBean.seatCategory = carBean.carSeat;
+        selectCarBean.carType = carBean.carType;
+        selectCarBean.price = carBean.price;
+        selectCarBean.carDesc = carBean.desc;
+        selectCarBean.capOfLuggage = carBean.capOfLuggage;
+        selectCarBean.capOfPerson = carBean.capOfPerson;
+        selectCarBean.localPrice = carBean.localPrice;
+        selectCarBean.models = carBean.models;
+        selectCarBean.pricemark = carBean.pricemark;
+        return selectCarBean;
+    }
+
+    CarBean carBean;
+    ManLuggageBean manLuggageBean;
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
             case CHANGE_CAR:
-                CarBean carBean = (CarBean) action.getData();
+                carBean = (CarBean) action.getData();
                 genBottomData(carBean);
+                break;
+            case MAN_CHILD_LUUAGE:
+                confirmJourney.setBackgroundColor(getContext().getResources().getColor(R.color.all_bg_yellow));
+                manLuggageBean = (ManLuggageBean)action.getData();
+                confirmJourney.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        FGOrderNew fgOrderNew = new FGOrderNew();
+                        Bundle bundle = new Bundle();
+                        bundle.putString("guideCollectId","");
+                        bundle.putSerializable("collectGuideBean",null);
+                        bundle.putString("source",source);
+
+
+                        bundle.putString("startCityId", cityBean.cityId + "");
+                        bundle.putString("endCityId", cityBean.cityId + "");//endCityId);
+                        bundle.putString("startDate", serverDate);
+                        bundle.putString("endDate", serverDate);
+                        bundle.putString("serverDayTime",serverDayTime+":00");
+                        bundle.putString("halfDay", "0");
+                        bundle.putString("adultNum", manLuggageBean.mans + "");
+                        bundle.putString("childrenNum", manLuggageBean.childs + "");
+                        bundle.putString("childseatNum", manLuggageBean.childSeats + "");
+                        bundle.putString("luggageNum", manLuggageBean.luggages + "");
+                        bundle.putString("passCities", "");
+                        bundle.putString("carTypeName", carBean.desc);
+                        bundle.putString("startCityName", cityBean.name);
+                        bundle.putString("dayNums", skuBean.daysCount+"");
+                        bundle.putParcelable("startBean", cityBean);
+                        bundle.putParcelable("endBean", cityBean);
+                        bundle.putInt("outnum", skuBean.daysCount);
+                        bundle.putInt("innum", 0);
+                        bundle.putString("source", source);
+                        bundle.putBoolean("isHalfTravel",false);
+                        bundle.putSerializable("passCityList", null);
+                        bundle.putString("orderType","3");
+                        bundle.putParcelable("carBean",carBeanAdapter(carBean));
+                        bundle.putInt("type",5);
+                        bundle.putString("orderType","5");
+
+                        bundle.putSerializable("web_sku",skuBean);
+                        bundle.putSerializable("web_city",cityBean);
+                        fgOrderNew.setArguments(bundle);
+                        startFragment(fgOrderNew);
+                    }
+                });
                 break;
             default:
                 break;

@@ -134,7 +134,8 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
     @Bind(R.id.car_layout)
     LinearLayout car_layout;
 
-
+    @Bind(R.id.have_data_layout)
+    LinearLayout have_data_layout;
 
     @Override
     protected void initHeader() {
@@ -257,27 +258,28 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
         mJazzy.setAdapter(mAdapter);
         if (carList == null || carList.size() == 0) {
             carEmptyLayout.setVisibility(View.VISIBLE);
+            have_data_layout.setVisibility(View.GONE);
         } else {
             carEmptyLayout.setVisibility(View.GONE);
+            have_data_layout.setVisibility(View.VISIBLE);
+            changeText();
+            if (null != carListBean.additionalServicePrice && null != carListBean.additionalServicePrice.checkInPrice) {
+                checkinLayout.setVisibility(View.VISIBLE);
+                checkinMoney.setText("(服务费 ￥" + carListBean.additionalServicePrice.checkInPrice + ")");
+            }
+            if (null != carListBean.additionalServicePrice && null != carListBean.additionalServicePrice.pickupSignPrice) {
+                waitLayout.setVisibility(View.VISIBLE);
+                waitMoney.setText("(服务费 ￥" + carListBean.additionalServicePrice.pickupSignPrice + ")");
+            }
         }
-
-        if (null != carListBean.additionalServicePrice && null != carListBean.additionalServicePrice.checkInPrice) {
-            checkinLayout.setVisibility(View.VISIBLE);
-            checkinMoney.setText("(服务费 ￥" + carListBean.additionalServicePrice.checkInPrice + ")");
-        }
-        if (null != carListBean.additionalServicePrice && null != carListBean.additionalServicePrice.pickupSignPrice) {
-            waitLayout.setVisibility(View.VISIBLE);
-            waitMoney.setText("(服务费 ￥" + carListBean.additionalServicePrice.pickupSignPrice + ")");
-        }
-        changeText();
     }
 
 
     private void changeText() {
-        carBean = carList.get(currentIndex);
-        fgCarIntro.setText("此车型包括：" + carBean.models);
-        mansNum.setText("x " + carBean.capOfPerson);
-        luggageNum.setText("x " + carBean.capOfLuggage);
+            carBean = carList.get(currentIndex);
+            fgCarIntro.setText("此车型包括：" + carBean.models);
+            mansNum.setText("x " + carBean.capOfPerson);
+            luggageNum.setText("x " + carBean.capOfLuggage);
 
 
         int selectMansNUm = 0;
