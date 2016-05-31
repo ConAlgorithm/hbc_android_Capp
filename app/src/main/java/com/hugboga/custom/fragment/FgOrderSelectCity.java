@@ -854,7 +854,7 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
                 bundle.putString("childseatNum", childSeatNums + "");
                 bundle.putString("luggageNum", baggageNum + "");
                 bundle.putString("passCities", isHalfTravel ? "" : getPassCities());
-
+                bundle.putString("carTypeName", null != getMatchCarBean()?getMatchCarBean().carDesc:"");
                 bundle.putString("startCityName", startBean.name);
                 bundle.putString("dayNums", nums + "");
                 bundle.putParcelable("startBean", startBean);
