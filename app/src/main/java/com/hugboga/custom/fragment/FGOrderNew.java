@@ -520,11 +520,12 @@ public class FGOrderNew extends BaseFragment {
 
                         mostFitAvailableBean.carSeatNum = carBean.seatCategory+"";
                         mostFitAvailableBean.carTypeId = carBean.carType+"";
-                        mostFitAvailableBean.distance = "";
+                        mostFitAvailableBean.distance = "1234";
                         mostFitAvailableBean.expectedCompTime = dayNums+"";
                         mostFitAvailableBean.limit = 0+"";
                         mostFitAvailableBean.offset = 20+"";
                         mostFitAvailableBean.priceChannel = carBean.price+"";
+                        mostFitAvailableBean.useOrderPrice = carBean.price+"";
                         mostFitAvailableBean.serviceCityId = startCityId+"";
                         mostFitAvailableBean.serviceCountryId = startBean.areaCode;
                         mostFitAvailableBean.serviceLocalDays = inNum+"";
