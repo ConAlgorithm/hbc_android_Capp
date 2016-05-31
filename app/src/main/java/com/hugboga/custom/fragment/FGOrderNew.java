@@ -632,17 +632,18 @@ public class FGOrderNew extends BaseFragment {
         if (request instanceof RequestSubmitBase) {
             bringToFront(FgTravel.class, new Bundle());
             String orderNo = ((RequestSubmitBase) request).getData();
-            Bundle bundle = new Bundle();
-            bundle.putString("key_order_id", orderNo);
-            if(couponLeft.isChecked()) {
-                bundle.putString("shouldPay","");
-            }else{
-                bundle.putString("couponId", "");
+
+            FgChoosePayment.RequestParams requestParams = new FgChoosePayment.RequestParams();
+            requestParams.orderId = orderNo;
+            if (couponLeft.isChecked()) {
+                requestParams.shouldPay = 0;
+            } else {
+                requestParams.couponId = "";
             }
-            bundle.putString("shouldPay",orderBean.orderPrice+"");
-            bundle.putString("source", source);
-            bundle.putBoolean("needShowAlert", true);
-            startFragment(new FgChoosePayment(), bundle);
+            requestParams.shouldPay = orderBean.orderPrice;
+            requestParams.source = source;
+            requestParams.needShowAlert = true;
+            startFragment(FgChoosePayment.newInstance(requestParams));
         }
 
     }
