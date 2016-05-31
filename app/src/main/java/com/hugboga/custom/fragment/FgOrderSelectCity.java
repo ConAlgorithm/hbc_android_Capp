@@ -194,12 +194,12 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
             }
         });
 
-        driver_name.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                goCollectGuid(1);
-            }
-        });
+//        driver_name.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                goCollectGuid(1);
+//            }
+//        });
 
     }
 
