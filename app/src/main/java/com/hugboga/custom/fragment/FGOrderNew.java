@@ -635,7 +635,7 @@ public class FGOrderNew extends BaseFragment {
             bundle.putString("key_order_id", orderNo);
             bundle.putString("source", source);
             bundle.putBoolean("needShowAlert", true);
-            startFragment(new FgOrder(), bundle);
+            startFragment(new FgChoosePayment(), bundle);
         }
 
     }
