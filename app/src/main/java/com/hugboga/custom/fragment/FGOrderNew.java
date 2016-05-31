@@ -244,6 +244,8 @@ public class FGOrderNew extends BaseFragment {
 
     SkuItemBean skuBean;
     String serverDayTime = "";
+
+    String distance = "0";
     @Override
     protected void initView() {
         passCityList = (ArrayList<CityBean>) getArguments().getSerializable("passCityList");
@@ -278,6 +280,11 @@ public class FGOrderNew extends BaseFragment {
         skuBean = (SkuItemBean) getArguments().getSerializable("web_sku");
         cityBean = (CityBean) getArguments().getSerializable("web_city");
         serverDayTime = this.getArguments().getString("serverDayTime");
+
+        distance = this.getArguments().getString("distance");
+        if(null == distance){
+            distance = "0";
+        }
 
         genType(type);
 
@@ -518,7 +525,7 @@ public class FGOrderNew extends BaseFragment {
     private void requestMostFit() {
         RequestMostFit requestMostFit = new RequestMostFit(getContext(), carBean.price + "", carBean.price + "",
                 startDate + " 00:00:00", carBean.carType + "", carBean.seatCategory + "", startCityId + "",
-                startBean.areaCode + "", dayNums + "", "1234", inNum + "", outNum + "", dayNums + "", orderType);
+                startBean.areaCode + "", dayNums + "", distance, inNum + "", outNum + "", dayNums + "", orderType);
         HttpRequestUtils.request(getContext(), requestMostFit, new HttpRequestListener() {
             @Override
             public void onDataRequestSucceed(BaseRequest request) {
@@ -540,7 +547,7 @@ public class FGOrderNew extends BaseFragment {
 
                         mostFitAvailableBean.carSeatNum = carBean.seatCategory + "";
                         mostFitAvailableBean.carTypeId = carBean.carType + "";
-                        mostFitAvailableBean.distance = "1234";
+                        mostFitAvailableBean.distance = distance;
                         mostFitAvailableBean.expectedCompTime = dayNums + "";
                         mostFitAvailableBean.limit = 0 + "";
                         mostFitAvailableBean.offset = 20 + "";
