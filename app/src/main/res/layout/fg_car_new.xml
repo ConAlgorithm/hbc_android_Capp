@@ -5,9 +5,15 @@
     android:layout_height="match_parent">
 
 
-    <include layout="@layout/include_fg_pick_send_car" />
+    <LinearLayout
+        android:id="@+id/have_data_layout"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="match_parent">
+        <include layout="@layout/include_fg_pick_send_car" />
 
-    <include layout="@layout/include_fg_pick_send_man" />
+        <include layout="@layout/include_fg_pick_send_man" />
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/car_empty_layout"
@@ -15,6 +21,7 @@
         android:layout_height="match_parent"
         android:background="@color/basic_white"
         android:gravity="center_horizontal"
+        android:layout_marginTop="1dp"
         android:orientation="vertical"
         android:visibility="gone">
 
