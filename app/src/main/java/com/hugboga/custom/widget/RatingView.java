@@ -44,7 +44,7 @@ public class RatingView extends LinearLayout {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.RatingView);
         levelBg = typedArray.getResourceId(R.styleable.RatingView_rating_bg, NONE_VALUE);
         maxLevels = typedArray.getInteger(R.styleable.RatingView_numLevels, DEFAULT_MAX_LEVELS);
-        level = typedArray.getInteger(R.styleable.RatingView_level, maxLevels);
+        level = typedArray.getInteger(R.styleable.RatingView_level, 0);
         gap = typedArray.getDimensionPixelOffset(R.styleable.RatingView_gap, NONE_VALUE);
         touchable = typedArray.getBoolean(R.styleable.RatingView_touchable, true);
         halfBg = typedArray.getResourceId(R.styleable.RatingView_half_bg, NONE_VALUE);
