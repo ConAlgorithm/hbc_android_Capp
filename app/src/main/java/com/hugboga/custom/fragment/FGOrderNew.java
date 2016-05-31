@@ -657,16 +657,38 @@ public class FGOrderNew extends BaseFragment {
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
         if (request instanceof RequestSubmitBase) {
-            bringToFront(FgTravel.class, new Bundle());
+//            bringToFront(FgTravel.class, new Bundle());
             String orderNo = ((RequestSubmitBase) request).getData();
             FgChoosePayment.RequestParams requestParams = new FgChoosePayment.RequestParams();
             requestParams.orderId = orderNo;
+
+            if (null == couponBean && null != mostFitBean) {
+                orderBean.coupId = mostFitBean.couponId;
+                orderBean.coupPriceInfo = mostFitBean.couponPrice + "";
+                orderBean.orderPrice = (carBean.price - mostFitBean.couponPrice);
+            } else if (null != couponBean && null == mostFitBean) {
+                orderBean.coupId = couponBean.couponID;
+                orderBean.coupPriceInfo = couponBean.price;
+                orderBean.orderPrice = carBean.price - Integer.valueOf(couponBean.price);
+            }
+
             if (couponLeft.isChecked()) {
-                requestParams.shouldPay = 0;
+                if (null == couponBean && null != mostFitBean){
+                    requestParams.couponId = mostFitBean.couponId;
+                    requestParams.shouldPay = mostFitBean.actualPrice;
+                }else if (null != couponBean && null == mostFitBean){
+                    requestParams.couponId = couponBean.couponID;
+                    requestParams.shouldPay = couponBean.actualPrice;
+                }
+
             } else {
                 requestParams.couponId = "";
+                if(TextUtils.isEmpty(travelFund)){
+                    requestParams.shouldPay = orderBean.orderPrice;
+                }else{
+                    requestParams.shouldPay = orderBean.orderPrice - Integer.valueOf(travelFund);
+                }
             }
-            requestParams.shouldPay = orderBean.orderPrice;
             requestParams.source = source;
             requestParams.needShowAlert = true;
             startFragment(FgChoosePayment.newInstance(requestParams));
