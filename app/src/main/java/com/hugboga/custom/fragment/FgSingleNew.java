@@ -24,6 +24,7 @@ import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.CollectGuideBean;
 import com.hugboga.custom.data.bean.DailyBean;
 import com.hugboga.custom.data.bean.FlightBean;
+import com.hugboga.custom.data.bean.ManLuggageBean;
 import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
@@ -275,12 +276,58 @@ public class FgSingleNew extends BaseFragment {
             initCarFragment(true);
         }
     }
-
+    ManLuggageBean manLuggageBean;
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
             case CHANGE_CAR:
                 CarBean carBean = (CarBean) action.getData();
                 genBottomData(carBean);
+                break;
+            case MAN_CHILD_LUUAGE:
+                confirmJourney.setBackgroundColor(getContext().getResources().getColor(R.color.all_bg_yellow));
+                manLuggageBean = (ManLuggageBean)action.getData();
+                confirmJourney.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        FGOrderNew fgOrderNew = new FGOrderNew();
+                        Bundle bundle = new Bundle();
+                        bundle.putString("guideCollectId","");
+                        bundle.putSerializable("collectGuideBean",null);
+                        bundle.putString("source",source);
+
+//
+//                        bundle.putString("startCityId", cityBean.cityId + "");
+//                        bundle.putString("endCityId", cityBean.cityId + "");//endCityId);
+//                        bundle.putString("startDate", serverDate);
+//                        bundle.putString("endDate", serverDate);
+//                        bundle.putString("serverDayTime",serverDayTime+":00");
+//                        bundle.putString("halfDay", "0");
+//                        bundle.putString("adultNum", manLuggageBean.mans + "");
+//                        bundle.putString("childrenNum", manLuggageBean.childs + "");
+//                        bundle.putString("childseatNum", manLuggageBean.childSeats + "");
+//                        bundle.putString("luggageNum", manLuggageBean.luggages + "");
+//                        bundle.putString("passCities", "");
+//                        bundle.putString("carTypeName", carBean.desc);
+//                        bundle.putString("startCityName", cityBean.name);
+//                        bundle.putString("dayNums", skuBean.daysCount+"");
+//                        bundle.putParcelable("startBean", cityBean);
+//                        bundle.putParcelable("endBean", cityBean);
+//                        bundle.putInt("outnum", skuBean.daysCount);
+//                        bundle.putInt("innum", 0);
+//                        bundle.putString("source", source);
+//                        bundle.putBoolean("isHalfTravel",false);
+//                        bundle.putSerializable("passCityList", null);
+//                        bundle.putString("orderType","3");
+//                        bundle.putParcelable("carBean",carBeanAdapter(carBean));
+//                        bundle.putInt("type",5);
+//                        bundle.putString("orderType","5");
+//
+//                        bundle.putSerializable("web_sku",skuBean);
+//                        bundle.putSerializable("web_city",cityBean);
+                        fgOrderNew.setArguments(bundle);
+                        startFragment(fgOrderNew);
+                    }
+                });
                 break;
             default:
                 break;

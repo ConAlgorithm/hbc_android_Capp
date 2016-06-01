@@ -662,23 +662,23 @@ public class FGOrderNew extends BaseFragment {
             FgChoosePayment.RequestParams requestParams = new FgChoosePayment.RequestParams();
             requestParams.orderId = orderNo;
 
-            if (null == couponBean && null != mostFitBean) {
-                orderBean.coupId = mostFitBean.couponId;
-                orderBean.coupPriceInfo = mostFitBean.couponPrice + "";
-                orderBean.orderPrice = (carBean.price - mostFitBean.couponPrice);
-            } else if (null != couponBean && null == mostFitBean) {
-                orderBean.coupId = couponBean.couponID;
-                orderBean.coupPriceInfo = couponBean.price;
-                orderBean.orderPrice = carBean.price - Integer.valueOf(couponBean.price);
-            }
+//            if (null == couponBean && null != mostFitBean) {
+//                orderBean.coupId = mostFitBean.couponId;
+//                orderBean.coupPriceInfo = mostFitBean.couponPrice + "";
+//                orderBean.orderPrice = (carBean.price - mostFitBean.couponPrice);
+//            } else if (null != couponBean && null == mostFitBean) {
+//                orderBean.coupId = couponBean.couponID;
+//                orderBean.coupPriceInfo = couponBean.price;
+//                orderBean.orderPrice = carBean.price - Integer.valueOf(couponBean.price);
+//            }
 
             if (couponLeft.isChecked()) {
                 if (null == couponBean && null != mostFitBean){
                     requestParams.couponId = mostFitBean.couponId;
-                    requestParams.shouldPay = mostFitBean.actualPrice;
+                    requestParams.shouldPay = carBean.price - Integer.valueOf(mostFitBean.couponPrice);
                 }else if (null != couponBean && null == mostFitBean){
                     requestParams.couponId = couponBean.couponID;
-                    requestParams.shouldPay = couponBean.actualPrice;
+                    requestParams.shouldPay = carBean.price - Integer.valueOf(couponBean.price);
                 }
 
             } else {
