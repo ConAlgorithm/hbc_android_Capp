@@ -33,4 +33,5 @@ public enum EventType {
     SEND_BACK, //送机返回
     SELECT_COUPON_BACK, //选择优惠券返回
 
+    BACK_HOME,//回首页
 }

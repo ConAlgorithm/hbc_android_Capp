@@ -1026,7 +1026,7 @@ public class FgOrder extends BaseFragment {
             bundle.putString(KEY_ORDER_ID, mOrderBean.orderNo);
             bundle.putString("from", mSourceFragment.getClass().getSimpleName());
             bundle.putString("source",source);
-//            startFragment(new FgPaySuccess(), bundle);
+//            startFragment(new FgPayResult(), bundle);
             notifyOrderList(FgTravel.TYPE_ORDER_RUNNING, true, false, false);
         }
     };
