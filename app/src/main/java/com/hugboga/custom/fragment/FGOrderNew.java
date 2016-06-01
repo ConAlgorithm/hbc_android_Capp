@@ -244,6 +244,8 @@ public class FGOrderNew extends BaseFragment {
 
     SkuItemBean skuBean;
     String serverDayTime = "";
+
+    String distance = "0";
     @Override
     protected void initView() {
         passCityList = (ArrayList<CityBean>) getArguments().getSerializable("passCityList");
@@ -278,6 +280,11 @@ public class FGOrderNew extends BaseFragment {
         skuBean = (SkuItemBean) getArguments().getSerializable("web_sku");
         cityBean = (CityBean) getArguments().getSerializable("web_city");
         serverDayTime = this.getArguments().getString("serverDayTime");
+
+        distance = this.getArguments().getString("distance");
+        if(null == distance){
+            distance = "0";
+        }
 
         genType(type);
 
@@ -518,7 +525,7 @@ public class FGOrderNew extends BaseFragment {
     private void requestMostFit() {
         RequestMostFit requestMostFit = new RequestMostFit(getContext(), carBean.price + "", carBean.price + "",
                 startDate + " 00:00:00", carBean.carType + "", carBean.seatCategory + "", startCityId + "",
-                startBean.areaCode + "", dayNums + "", "1234", inNum + "", outNum + "", dayNums + "", orderType);
+                startBean.areaCode + "", dayNums + "", distance, inNum + "", outNum + "", dayNums + "", orderType);
         HttpRequestUtils.request(getContext(), requestMostFit, new HttpRequestListener() {
             @Override
             public void onDataRequestSucceed(BaseRequest request) {
@@ -540,7 +547,7 @@ public class FGOrderNew extends BaseFragment {
 
                         mostFitAvailableBean.carSeatNum = carBean.seatCategory + "";
                         mostFitAvailableBean.carTypeId = carBean.carType + "";
-                        mostFitAvailableBean.distance = "1234";
+                        mostFitAvailableBean.distance = distance;
                         mostFitAvailableBean.expectedCompTime = dayNums + "";
                         mostFitAvailableBean.limit = 0 + "";
                         mostFitAvailableBean.offset = 20 + "";
@@ -550,7 +557,7 @@ public class FGOrderNew extends BaseFragment {
                         mostFitAvailableBean.serviceCountryId = startBean.areaCode;
                         mostFitAvailableBean.serviceLocalDays = inNum + "";
                         mostFitAvailableBean.serviceNonlocalDays = outNum + "";
-                        mostFitAvailableBean.serviceTime = startDate;
+                        mostFitAvailableBean.serviceTime = startDate + " 00:00:00";
                         mostFitAvailableBean.userId = UserEntity.getUser().getUserId(getContext());
                         mostFitAvailableBean.totalDays = dayNums + "";
                         mostFitAvailableBean.orderType = orderType;
@@ -650,16 +657,38 @@ public class FGOrderNew extends BaseFragment {
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
         if (request instanceof RequestSubmitBase) {
-            bringToFront(FgTravel.class, new Bundle());
+//            bringToFront(FgTravel.class, new Bundle());
             String orderNo = ((RequestSubmitBase) request).getData();
             FgChoosePayment.RequestParams requestParams = new FgChoosePayment.RequestParams();
             requestParams.orderId = orderNo;
+
+//            if (null == couponBean && null != mostFitBean) {
+//                orderBean.coupId = mostFitBean.couponId;
+//                orderBean.coupPriceInfo = mostFitBean.couponPrice + "";
+//                orderBean.orderPrice = (carBean.price - mostFitBean.couponPrice);
+//            } else if (null != couponBean && null == mostFitBean) {
+//                orderBean.coupId = couponBean.couponID;
+//                orderBean.coupPriceInfo = couponBean.price;
+//                orderBean.orderPrice = carBean.price - Integer.valueOf(couponBean.price);
+//            }
+
             if (couponLeft.isChecked()) {
-                requestParams.shouldPay = 0;
+                if (null == couponBean && null != mostFitBean){
+                    requestParams.couponId = mostFitBean.couponId;
+                    requestParams.shouldPay = carBean.price - Integer.valueOf(mostFitBean.couponPrice);
+                }else if (null != couponBean && null == mostFitBean){
+                    requestParams.couponId = couponBean.couponID;
+                    requestParams.shouldPay = carBean.price - Integer.valueOf(couponBean.price);
+                }
+
             } else {
                 requestParams.couponId = "";
+                if(TextUtils.isEmpty(travelFund)){
+                    requestParams.shouldPay = orderBean.orderPrice;
+                }else{
+                    requestParams.shouldPay = orderBean.orderPrice - Integer.valueOf(travelFund);
+                }
             }
-            requestParams.shouldPay = orderBean.orderPrice;
             requestParams.source = source;
             requestParams.needShowAlert = true;
             startFragment(FgChoosePayment.newInstance(requestParams));
@@ -755,7 +784,7 @@ public class FGOrderNew extends BaseFragment {
 
     //SKU参数
     private OrderBean getSKUOrderByInput() {
-        OrderBean orderBean = new OrderBean();//订单
+        orderBean = new OrderBean();//订单
         orderBean.guideCollectId = guideCollectId;
         orderBean.orderType = 5;
         orderBean.goodsNo = skuBean.goodsNo;
@@ -765,8 +794,8 @@ public class FGOrderNew extends BaseFragment {
         orderBean.serviceTime = startDate;//日期
         orderBean.serviceStartTime = serverTime + ":00";//时间
         orderBean.serviceEndTime = getServiceEndTime(startDate, skuBean.daysCount - 1);
-        orderBean.distance = String.valueOf("1234");//距离
-        orderBean.expectedCompTime = 1234;//耗时
+        orderBean.distance = distance;//距离
+        orderBean.expectedCompTime = 0;//耗时
         orderBean.carDesc = carBean.carDesc;//车型描述
         orderBean.carType = carBean.carType;//车型
         orderBean.seatCategory = carBean.seatCategory;
@@ -979,7 +1008,7 @@ public class FGOrderNew extends BaseFragment {
     }
 
     private OrderBean getOrderByInput() {
-        switch (Integer.valueOf(orderType)){
+        switch (type){
             case 1:
                 orderBean = getDayOrderByInput();
                 break;

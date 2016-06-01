@@ -46,6 +46,7 @@ public class RequestAvailableCoupon extends BaseRequest<ArrayList<CouponBean>> {
         map.put("userId", params.userId);
         map.put("totalDays", params.totalDays);
         map.put("orderType", params.orderType);
+        map.put("useOrderPrice", params.useOrderPrice);
     }
 
     @Override
