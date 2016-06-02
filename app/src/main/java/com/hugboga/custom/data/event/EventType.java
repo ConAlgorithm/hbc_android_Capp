@@ -32,5 +32,6 @@ public enum EventType {
     pick_BACK, //接机返回
     SEND_BACK, //送机返回
     SELECT_COUPON_BACK, //选择优惠券返回
+    CHLID_SEAT_PRICE_BACK, //返回儿童座椅价钱
 
 }

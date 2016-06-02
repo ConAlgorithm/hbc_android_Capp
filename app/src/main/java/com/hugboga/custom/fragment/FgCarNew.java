@@ -326,6 +326,9 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
                     bean.desc = newCarBean.desc;
                     bean.capOfPerson = newCarBean.capOfPerson;
                     bean.price = newCarBean.price;
+                    bean.pricemark = newCarBean.pricemark;
+                    bean.priceChannel = newCarBean.priceChannel;
+                    bean.orderChannel = new CarBean().orderChannel;
                     carList.add(bean);
                 }
                 id++;

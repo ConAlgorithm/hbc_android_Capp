@@ -21,6 +21,10 @@ public class CarListBean implements Parcelable,IBaseBean {
     public int guideFloatSwitch;
     public boolean supportBanner;
 
+    public String estTime;
+    public String enableLocal;
+
+
     public CarAdditionalServicePrice additionalServicePrice;
 
 
@@ -40,6 +44,8 @@ public class CarListBean implements Parcelable,IBaseBean {
         dest.writeByte(this.supportChildseat ? (byte) 1 : (byte) 0);
         dest.writeInt(this.guideFloatSwitch);
         dest.writeByte(this.supportBanner ? (byte) 1 : (byte) 0);
+        dest.writeString(this.estTime);
+        dest.writeString(this.enableLocal);
         dest.writeParcelable(this.additionalServicePrice, flags);
     }
 
@@ -56,6 +62,8 @@ public class CarListBean implements Parcelable,IBaseBean {
         this.supportChildseat = in.readByte() != 0;
         this.guideFloatSwitch = in.readInt();
         this.supportBanner = in.readByte() != 0;
+        this.estTime = in.readString();
+        this.enableLocal = in.readString();
         this.additionalServicePrice = in.readParcelable(CarAdditionalServicePrice.class.getClassLoader());
     }
 

@@ -585,7 +585,7 @@ public class FgSubmit extends BaseFragment implements CompoundButton.OnCheckedCh
         hotelPhoneAreaCodeStr = hotelPhoneAreaCodeStr.replace("+", "");
         orderBean.serviceAreaCode = hotelPhoneAreaCodeStr;
         orderBean.serviceAddressTel = hotelPhoneStr;
-        orderBean.expectedCompTime = expectedCompTime;
+        orderBean.expectedCompTime = expectedCompTime+"";
         orderBean.urgentFlag = getArguments().getInt(FgCar.KEY_URGENT_FLAG);
 
 

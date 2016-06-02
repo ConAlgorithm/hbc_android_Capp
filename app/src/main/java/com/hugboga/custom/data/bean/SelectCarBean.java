@@ -3,8 +3,6 @@ package com.hugboga.custom.data.bean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.io.Serializable;
-
 /**
  * Created  on 16/4/16.
  */
@@ -32,6 +30,7 @@ public class SelectCarBean implements Parcelable{
     public ServiceQuoteSumBean serviceQuoteSum;
     public ServiceQuoteSumBean vehicleQuoteSum;
     public String serviceCityNote;
+    public String expectedCompTime;
 
 
     @Override
@@ -62,6 +61,8 @@ public class SelectCarBean implements Parcelable{
         dest.writeInt(this.vehiclePrice);
         dest.writeParcelable(this.serviceQuoteSum, flags);
         dest.writeParcelable(this.vehicleQuoteSum, flags);
+        dest.writeString(this.serviceCityNote);
+        dest.writeString(this.expectedCompTime);
     }
 
     public SelectCarBean() {
@@ -89,6 +90,8 @@ public class SelectCarBean implements Parcelable{
         this.vehiclePrice = in.readInt();
         this.serviceQuoteSum = in.readParcelable(ServiceQuoteSumBean.class.getClassLoader());
         this.vehicleQuoteSum = in.readParcelable(ServiceQuoteSumBean.class.getClassLoader());
+        this.serviceCityNote = in.readString();
+        this.expectedCompTime = in.readString();
     }
 
     public static final Creator<SelectCarBean> CREATOR = new Creator<SelectCarBean>() {

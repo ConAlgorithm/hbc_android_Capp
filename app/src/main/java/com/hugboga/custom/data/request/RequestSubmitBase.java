@@ -32,8 +32,13 @@ public class RequestSubmitBase extends BaseRequest<String> {
         map.put("priceMark", orderBean.priceMark);
         map.put("adultNum", orderBean.adult);
         map.put("childNum", orderBean.child);
-        if (orderBean.childSeat != null)
-            map.put("childSeat", TextUtils.join(",", orderBean.childSeat));
+
+//        if (orderBean.childSeat != null)
+//            map.put("childSeat", TextUtils.join(",", orderBean.childSeat));
+
+
+        map.put("childSeat",orderBean.childSeatStr);
+
         map.put("userName", orderBean.contactName);
         map.put("serviceCityId", orderBean.serviceCityId);
         map.put("serviceEndCityid", orderBean.serviceEndCityid);
