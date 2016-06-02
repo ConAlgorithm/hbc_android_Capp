@@ -20,10 +20,12 @@ import com.hugboga.custom.data.bean.AirPort;
 import com.hugboga.custom.data.bean.CarBean;
 import com.hugboga.custom.data.bean.CarListBean;
 import com.hugboga.custom.data.bean.CollectGuideBean;
+import com.hugboga.custom.data.bean.ManLuggageBean;
 import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.request.RequestCheckPrice;
 import com.hugboga.custom.data.request.RequestCheckPriceForTransfer;
+import com.hugboga.custom.utils.CarUtils;
 import com.hugboga.custom.utils.ToastUtils;
 import com.hugboga.custom.widget.DialogUtil;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
@@ -188,11 +190,59 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
         }
     }
 
+    ManLuggageBean manLuggageBean;
+
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
             case CHANGE_CAR:
-                CarBean carBean = (CarBean) action.getData();
+                carBean = (CarBean) action.getData();
                 genBottomData(carBean);
+                break;
+            case MAN_CHILD_LUUAGE:
+                confirmJourney.setBackgroundColor(getContext().getResources().getColor(R.color.all_bg_yellow));
+                manLuggageBean = (ManLuggageBean)action.getData();
+                confirmJourney.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        FGOrderNew fgOrderNew = new FGOrderNew();
+                        Bundle bundle = new Bundle();
+                        bundle.putString("guideCollectId","");
+                        bundle.putSerializable("collectGuideBean",null);
+                        bundle.putString("source",source);
+
+
+                        bundle.putString("serverTime",serverTime);
+                        bundle.putString("price",carBean.price+"");
+                        bundle.putString("distance",carListBean.distance+"");
+
+                        carBean.expectedCompTime = carListBean.estTime;
+                        bundle.putParcelable("carBean", CarUtils.carBeanAdapter(carBean));
+
+                        bundle.putString("startDate", serverDate);
+                        bundle.putString("endDate", serverDate);
+//                        bundle.putString("serverDayTime",serverDayTime+":00");
+                        bundle.putString("halfDay", "0");
+                        bundle.putString("adultNum", manLuggageBean.mans + "");
+                        bundle.putString("childrenNum", manLuggageBean.childs + "");
+                        bundle.putString("childseatNum", manLuggageBean.childSeats + "");
+                        bundle.putString("luggageNum", manLuggageBean.luggages + "");
+                        bundle.putString("passCities", "");
+                        bundle.putString("carTypeName", carBean.desc);
+                        bundle.putSerializable("carListBean",carListBean);
+                        bundle.putInt("outnum", 0);
+                        bundle.putInt("innum", 0);
+                        bundle.putString("dayNums", "0");
+
+//                        bundle.putParcelable("carBean",carBeanAdapter(carBean));
+                        bundle.putInt("type",4);
+                        bundle.putString("orderType","4");
+
+                        bundle.putParcelable("manLuggageBean",manLuggageBean);
+
+                        fgOrderNew.setArguments(bundle);
+                        startFragment(fgOrderNew);
+                    }
+                });
                 break;
             default:
                 break;
@@ -270,6 +320,7 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
             RequestCheckPrice requestCheckPrice = (RequestCheckPrice) request;
             carListBean = (CarListBean) requestCheckPrice.getData();
             if (carListBean.carList.size() > 0) {
+                carBean = carListBean.carList.get(0);
                 bottom.setVisibility(View.VISIBLE);
                 genBottomData(carListBean.carList.get(0));
             } else {

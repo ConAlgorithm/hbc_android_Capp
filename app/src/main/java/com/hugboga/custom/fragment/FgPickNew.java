@@ -21,10 +21,12 @@ import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.CollectGuideBean;
 import com.hugboga.custom.data.bean.DailyBean;
 import com.hugboga.custom.data.bean.FlightBean;
+import com.hugboga.custom.data.bean.ManLuggageBean;
 import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.request.RequestCheckPrice;
 import com.hugboga.custom.data.request.RequestCheckPriceForPickup;
+import com.hugboga.custom.utils.CarUtils;
 import com.hugboga.custom.utils.ToastUtils;
 import com.hugboga.custom.widget.DialogUtil;
 
@@ -182,27 +184,65 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
 
     }
 
-
+    ManLuggageBean manLuggageBean;
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
             case AIR_NO:
-                FlightBean bean = (FlightBean) action.getData();
-                if (mBusinessType == Constants.BUSINESS_TYPE_SEND && bean != null) {
+                flightBean = (FlightBean) action.getData();
+                if (mBusinessType == Constants.BUSINESS_TYPE_SEND && flightBean != null) {
                 } else {
-                    flightBean = bean;
-                    String flightInfoStr = bean.flightNo + " ";
-                    flightInfoStr += bean.depAirport.cityName + "-" + bean.arrivalAirport.cityName;
-                    flightInfoStr += "\n当地时间" + bean.arrDate + " " + bean.depTime + " 降落";
+                    String flightInfoStr = flightBean.flightNo + " ";
+                    flightInfoStr += flightBean.depAirport.cityName + "-" + flightBean.arrivalAirport.cityName;
+                    flightInfoStr += "\n当地时间" + flightBean.arrDate + " " + flightBean.depTime + " 降落";
                     infoTips.setVisibility(View.GONE);
                     airTitle.setVisibility(View.VISIBLE);
                     airDetail.setVisibility(View.VISIBLE);
-                    airTitle.setText(bean.arrAirportName);
+                    airTitle.setText(flightBean.arrAirportName);
                     airDetail.setText(flightInfoStr);
                 }
                 break;
             case CHANGE_CAR:
-                CarBean carBean = (CarBean) action.getData();
+                carBean = (CarBean) action.getData();
                 genBottomData(carBean);
+                break;
+            case MAN_CHILD_LUUAGE:
+                confirmJourney.setBackgroundColor(getContext().getResources().getColor(R.color.all_bg_yellow));
+                manLuggageBean = (ManLuggageBean)action.getData();
+                confirmJourney.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        FGOrderNew fgOrderNew = new FGOrderNew();
+                        Bundle bundle = new Bundle();
+                        bundle.putString("guideCollectId","");
+                        bundle.putSerializable("collectGuideBean",null);
+                        bundle.putString("source",source);
+
+                        bundle.putSerializable(FgCar.KEY_FLIGHT, flightBean);
+                        bundle.putSerializable(FgCar.KEY_ARRIVAL, poiBean);
+
+
+                        bundle.putString("serverTime",flightBean.arrivalTime);
+                        bundle.putString("price",carBean.price+"");
+                        bundle.putString("distance",carListBean.distance+"");
+
+                        carBean.expectedCompTime = carListBean.estTime;
+                        bundle.putParcelable("carBean", CarUtils.carBeanAdapter(carBean));
+
+                        bundle.putInt("type",1);
+                        bundle.putString("orderType","1");
+
+                        bundle.putParcelable("manLuggageBean",manLuggageBean);
+
+                        bundle.putString("adultNum", manLuggageBean.mans + "");
+                        bundle.putString("childrenNum", manLuggageBean.childs + "");
+                        bundle.putString("childseatNum", manLuggageBean.childSeats + "");
+                        bundle.putString("luggageNum", manLuggageBean.luggages + "");
+
+
+                        fgOrderNew.setArguments(bundle);
+                        startFragment(fgOrderNew);
+                    }
+                });
                 break;
             default:
                 break;
@@ -222,6 +262,7 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
             RequestCheckPrice requestCheckPrice = (RequestCheckPrice) request;
             carListBean = (CarListBean) requestCheckPrice.getData();
             if (carListBean.carList.size() > 0) {
+                carBean = carListBean.carList.get(0);
                 bottom.setVisibility(View.VISIBLE);
                 genBottomData(carListBean.carList.get(0));
             } else {

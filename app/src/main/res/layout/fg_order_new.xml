@@ -238,13 +238,13 @@
                     android:id="@+id/checkin"
                     android:drawablePadding="10dp"
                     android:drawableLeft="@mipmap/order_jp"
-                    android:text="@string/my_travel_title"
+                    android:text="接机举牌等待"
                     android:textSize="15sp"
-                    android:layout_marginTop="15dp"
                     android:background="@color/basic_white"
                     android:layout_marginLeft="15dp"
                     android:textColor="@color/basic_black"
                     android:layout_marginRight="15dp"
+                    android:layout_marginBottom="15dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 

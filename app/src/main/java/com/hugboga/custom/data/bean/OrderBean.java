@@ -129,6 +129,23 @@ public class OrderBean implements IBaseBean ,Parcelable{
     public String childSeatStr; //2.7.0 新加 对应 接口字段 childSeat
 
 
+    public String flightAirportBuiding;
+    public String flightAirportName;
+    public String flightArriveTimeL;
+    public String flightBrandSign;
+    public String flightDestCode;
+    public String flightDestName;
+    public String flightFlyTimeL;
+    public String flightNo;
+    public String isArrivalVisa;
+
+    public String priceFlightBrandSign;///接机牌费用
+
+    public String isFlightSign;//是否选择举牌接机服务
+
+
+
+
     public String getOrderTypeStr(Context context) {
         switch (orderGoodsType) {
             case 1:
@@ -250,6 +267,17 @@ public class OrderBean implements IBaseBean ,Parcelable{
         dest.writeString(this.coupId);
         dest.writeString(this.coupPriceInfo);
         dest.writeString(this.childSeatStr);
+        dest.writeString(this.flightAirportBuiding);
+        dest.writeString(this.flightAirportName);
+        dest.writeString(this.flightArriveTimeL);
+        dest.writeString(this.flightBrandSign);
+        dest.writeString(this.flightDestCode);
+        dest.writeString(this.flightDestName);
+        dest.writeString(this.flightFlyTimeL);
+        dest.writeString(this.flightNo);
+        dest.writeString(this.isArrivalVisa);
+        dest.writeString(this.priceFlightBrandSign);
+        dest.writeString(this.isFlightSign);
     }
 
     public OrderBean() {
@@ -351,6 +379,17 @@ public class OrderBean implements IBaseBean ,Parcelable{
         this.coupId = in.readString();
         this.coupPriceInfo = in.readString();
         this.childSeatStr = in.readString();
+        this.flightAirportBuiding = in.readString();
+        this.flightAirportName = in.readString();
+        this.flightArriveTimeL = in.readString();
+        this.flightBrandSign = in.readString();
+        this.flightDestCode = in.readString();
+        this.flightDestName = in.readString();
+        this.flightFlyTimeL = in.readString();
+        this.flightNo = in.readString();
+        this.isArrivalVisa = in.readString();
+        this.priceFlightBrandSign = in.readString();
+        this.isFlightSign = in.readString();
     }
 
     public static final Creator<OrderBean> CREATOR = new Creator<OrderBean>() {
