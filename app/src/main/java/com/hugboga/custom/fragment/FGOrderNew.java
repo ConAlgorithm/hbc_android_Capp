@@ -324,6 +324,7 @@ public class FGOrderNew extends BaseFragment {
                 genPick();
                 break;
             case 2:
+                genSend();
                 break;
             case 3:
                 genDairy();
@@ -335,6 +336,10 @@ public class FGOrderNew extends BaseFragment {
                 genSKU();
                 break;
         }
+    }
+
+    private  void genSend(){
+
     }
 
 

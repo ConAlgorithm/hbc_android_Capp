@@ -45,6 +45,8 @@ import butterknife.OnClick;
 import static com.hugboga.custom.R.id.driver_layout;
 import static com.hugboga.custom.R.id.driver_name;
 
+import de.greenrobot.event.EventBus;
+
 /**
  * Created  on 16/5/13.
  */
@@ -234,8 +236,8 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
                         bundle.putString("dayNums", "0");
 
 //                        bundle.putParcelable("carBean",carBeanAdapter(carBean));
-                        bundle.putInt("type",4);
-                        bundle.putString("orderType","4");
+                        bundle.putInt("type",2);
+                        bundle.putString("orderType","2");
 
                         bundle.putParcelable("manLuggageBean",manLuggageBean);
 
@@ -266,6 +268,7 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
         ButterKnife.bind(this, rootView);
+        EventBus.getDefault().register(this);
         return rootView;
     }
 
@@ -273,6 +276,7 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+        EventBus.getDefault().unregister(this);
     }
 
     @OnClick({R.id.address_layout, R.id.air_send_layout, R.id.time_layout,R.id.info_tips, R.id.air_title, R.id.air_detail, R.id.rl_info, R.id.address_tips, R.id.rl_address, R.id.time_text, R.id.rl_starttime})
