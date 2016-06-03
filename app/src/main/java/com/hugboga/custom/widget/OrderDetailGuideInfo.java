@@ -82,7 +82,7 @@ public class OrderDetailGuideInfo extends LinearLayout implements HbcViewBehavio
             }
             ((TextView)findViewById(R.id.ogi_name_tv)).setText(guideInfo.guideName);
             ((TextView)findViewById(R.id.ogi_describe_tv)).setText(guideInfo.car);//TODO 折行
-//        ((TextView)findViewById(R.id.ogi_plate_number_tv)).setText(guideInfo.car);//TODO 车牌 CarNumber
+            ((TextView)findViewById(R.id.ogi_plate_number_tv)).setText(guideInfo.CarNumber);
             ((RatingView)findViewById(R.id.ogi_ratingview)).setLevel((float)guideInfo.guideStarLevel);
         }
     }

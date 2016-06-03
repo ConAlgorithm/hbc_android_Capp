@@ -41,6 +41,7 @@ public class OrderDetailAmountView extends LinearLayout implements HbcViewBehavi
         OrderBean orderBean = (OrderBean) _data;
 
         billLayout.removeAllViews();
+        groupLayout.removeAllViews();
         addBillView(R.string.order_detail_cost_chartered, null);//TODO 包车费用 orderPrice
         if (orderBean.orderGoodsType == 1) {//TODO 接机 举牌费用   priceFlightBrandSign
             addBillView(R.string.order_detail_cost_placards, null);

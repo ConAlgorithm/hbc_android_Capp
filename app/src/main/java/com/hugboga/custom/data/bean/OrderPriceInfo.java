@@ -18,6 +18,7 @@ public class OrderPriceInfo implements IBaseBean ,Parcelable{
     public double refundablePrice;    // 可退款金额
     public double checkInPrice;// check in费用
     public double cancelFee;//退改费用
+    public double priceFlightBrandSign;//举牌接机
 
     public void parser(JSONObject jsonObj) throws JSONException {
         if (jsonObj == null) return;
