@@ -1447,25 +1447,32 @@ public class FGOrderNew extends BaseFragment {
         userExJson.append("]");
         orderBean.userEx = userExJson.toString();
 
-        int seat1Count = (+manLuggageBean.childSeats >= 1 ? 1 : 0);
+        int seat1Count = (manLuggageBean.childSeats >= 1 ? 1 : 0);
         int seat2Count = (manLuggageBean.childSeats >= 1 ? (manLuggageBean.childSeats - 1) : 0);
-        int seat1Price = Integer.valueOf(carListBean.additionalServicePrice.childSeatPrice1);
-        int seat2Price = Integer.valueOf(carListBean.additionalServicePrice.childSeatPrice2);
-
-        StringBuffer childSeat = new StringBuffer();
-        childSeat.append("{");
-        childSeat.append("\"").append("childSeatPrice1\":" + seat1Price + ",");
-        childSeat.append("\"").append("childSeatPrice2\":" + seat2Price + ",");
-        childSeat.append("\"").append("childSeatPrice1Count\":" + seat1Count + ",");
-        childSeat.append("\"").append("childSeatPrice2Count\":" + seat2Count + "");
-        childSeat.append("}");
-
-        int seat1PriceTotal = seat1Price * seat1Count;
-        int seat2PriceTotal = seat2Price * seat2Count;
+        int seat1Price = 0;
+        int seat2Price = 0;
+        if (null == carListBean.additionalServicePrice.childSeatPrice1 && null == carListBean.additionalServicePrice.childSeatPrice2) {
+        } else {
+            if (null != carListBean.additionalServicePrice.childSeatPrice1) {
+                seat1Price = Integer.valueOf(carListBean.additionalServicePrice.childSeatPrice1);
+            }
+            if (null != carListBean.additionalServicePrice.childSeatPrice2) {
+                seat2Price = Integer.valueOf(carListBean.additionalServicePrice.childSeatPrice2);
+            }
+            StringBuffer childSeat = new StringBuffer();
+            childSeat.append("{");
+            childSeat.append("\"").append("childSeatPrice1\":" + seat1Price + ",");
+            childSeat.append("\"").append("childSeatPrice2\":" + seat2Price + ",");
+            childSeat.append("\"").append("childSeatPrice1Count\":" + seat1Count + ",");
+            childSeat.append("\"").append("childSeatPrice2Count\":" + seat2Count + "");
+            childSeat.append("}");
+            seat1PriceTotal = seat1Price * seat1Count;
+            seat2PriceTotal = seat2Price * seat2Count;
+            orderBean.childSeatStr = childSeat.toString();
+        }
 
         orderBean.orderPrice = carBean.price + seat1PriceTotal + seat2PriceTotal;
 
-        orderBean.childSeatStr = childSeat.toString();
         orderBean.priceFlightBrandSign = "";
 
 
