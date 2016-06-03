@@ -288,11 +288,15 @@ public class FgInsure extends BaseFragment implements HttpRequestListener {
             if(TextUtils.isEmpty(from)) {
                 EventBus.getDefault().post(EventType.ADD_INSURE_SUCCESS);
             }
-            Bundle bundle = new Bundle();
-            bundle.putInt(FgOrder.KEY_BUSINESS_TYPE, orderBean.orderType);
-            bundle.putInt(FgOrder.KEY_GOODS_TYPE, orderBean.orderGoodsType);
-            bundle.putString(FgOrder.KEY_ORDER_ID, orderBean.orderNo);
-            startFragment(new FgOrder(), bundle);
+//            Bundle bundle = new Bundle();
+//            bundle.putInt(FgOrder.KEY_BUSINESS_TYPE, orderBean.orderType);
+//            bundle.putInt(FgOrder.KEY_GOODS_TYPE, orderBean.orderGoodsType);
+//            bundle.putString(FgOrder.KEY_ORDER_ID, orderBean.orderNo);
+//            startFragment(new FgOrder(), bundle);
+            FgOrderDetail.Params params = new FgOrderDetail.Params();
+            params.orderGoodsType = orderBean.orderGoodsType;
+            params.orderId = orderBean.orderNo;
+            startFragment(FgOrderDetail.newInstance(params));
         }
 
     }

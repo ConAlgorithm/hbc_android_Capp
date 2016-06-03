@@ -7,8 +7,9 @@
 
     <!-- public -->
     <string name="collect">收藏Ta</string>
-    <string name="uncollect">取消收藏</string>
-    <string name="evaluate">去评价</string>
+    <string name="uncollect">已收藏</string>
+    <string name="to_evaluate">去评价</string>
+    <string name="evaluated">已评价</string>
     <string name="gender_male">男</string>
     <string name="gender_female">女</string>
     <string name="gender_secrecy">保密</string>
@@ -180,6 +181,7 @@
     <!-- 页面 pay -->
     <string name="pay_tip_thailand"><u>泰国接机说明</u></string>
     <string name="order_cancel_tip">确定要取消行程吗？</string>
+    <string name="order_cancel_succeed">取消订单成功</string>
     <string name="order_cancel_tip2" formatted="false">距离服务开始时间24小时前取消及更改，免收退改费,可全额退款;\n服务开始时间24小时内取消及更改，将收取订单金额的100%作为退改费;</string>
     <string name="order_cancel_tip3">\n跨城市长途包车距离服务开始时间48小时内取消及更改，将产生司导住宿费用，收取订单金额20%用于补偿司导损失。</string>
     <string name="pay_time_tip">请在%1$s内付款,以免订单取消</string>
@@ -534,9 +536,65 @@
     <string name="par_result_succeed">支付成功！</string>
     <string name="par_result_failure">支付失败！</string>
     <string name="par_result_sum">支付金额:</string>
-    <string name="par_result_succeed_prompt">请等待司导接单</string>
+    <string name="par_result_succeed_prompt">请耐心等待司导接单</string>
     <string name="par_result_back">返回首页</string>
     <string name="par_result_detail">查看订单详情</string>
     <string name="par_result_repay">重新支付</string>
-    <string name="par_result_failure_prompt">请重新支付，超过支付时间订单将被取消</string>
+
+    <string name="insure_info_title">投保信息</string>
+
+    <string name="order_detail_title_default">订单详情</string>
+    <string name="order_detail_title_chartered">包车游</string>
+    <string name="order_detail_title_single">单次接送</string>
+    <string name="order_detail_title_send">中文送机</string>
+    <string name="order_detail_title_pick">中文接机</string>
+    <string name="order_detail_title_route">路线包车游</string>
+    <string name="order_detail_thaw">订单已冻结</string>
+    <string name="order_detail_disputes">正在处理纠纷</string>
+    <string name="order_detail_pay_prompt_1">请在%1$s分钟内付款</string>
+    <string name="order_detail_pay_prompt_2">以免订单取消</string>
+    <string name="order_detail_itinerary">我的行程单</string>
+    <string name="order_detail_order_number">订单号：%1$s</string>
+    <string name="order_detail_price">订单金额</string>
+    <string name="order_detail_travel_info">出行人信息</string>
+    <string name="order_detail_unsubscribe">订单退改规则：</string>
+    <string name="order_detail_unsubscribe_explain">服务开始前24小时退订，全额退还费用；小于24小时不可退订，全部费用将扣除用于补偿当地司导</string>
+    <string name="order_detail_pay">去支付</string>
+    <string name="order_detail_need_pay">还需支付：</string>
+    <string name="order_detail_insurance_info">投保信息</string>
+    <string name="order_detail_info">已为%1$s人购买保险</string>
+    <string name="order_detail">详情</string>
+    <string name="order_detail_cancel">您的订单已取消！</string>
+    <string name="order_detail_finish">服务已结束！</string>
+    <string name="order_detail_prompt_evaluation_1">你给好评，皇包车替你给消费！</string>
+    <string name="order_detail_prompt_evaluation_2">快去给Ta好评吧</string>
+    <string name="order_detail_prompt_travel_end">感谢您选择皇包车的服务</string>
+    <string name="order_detail_receiving">司导已接单！</string>
+    <string name="order_detail_inservice">司导正在为您服务</string>
+    <string name="order_detail_prompt_new_travel">您即将迎来新的旅程</string>
+    <string name="order_detail_predetermined">预定成功！</string>
+    <string name="order_detail_prompt_wait_guide">敬请耐心等待司导接单</string>
+    <string name="order_detail_timeleft">剩余时间：</string>
+    <string name="order_detail_add_insurance">免费添加投保人</string>
+    <string name="order_detail_carpooling">拼车</string>
+    <string name="order_detail_hbc_pay">由皇包车支付</string>
+    <string name="order_detail_local_time">当地时间&#160;%1$s</string>
+    <string name="order_detail_airport_card">接机举牌等待</string>
+    <string name="order_detail_seat_info">（%1$s）</string>
+    <string name="order_detail_flight">航班%1$s&#160;%2$s-%3$s</string>
+    <string name="order_detail_insurance_describe">皇包车帮您购买出境平安险，保额高达8万元</string>
+    <string name="order_detail_get_insurance">赠价值8万的平安保险</string>
+    <string name="order_detail_opean">展开详情</string>
+    <string name="order_detail_close">关闭详情</string>
+    <string name="order_detail_citytype_inside">第%1$s天：住在%2$s，市内游玩"</string>
+    <string name="order_detail_citytype_outside">第%1$s天：住在%2$s，周边游玩"</string>
+    <string name="order_detail_citytype_other">第%1$s天：住在其它城市%2$s"</string>
+    <string name="order_detail_cost_chartered">包车费用</string>
+    <string name="order_detail_cost_child_seats">儿童座椅</string>
+    <string name="order_detail_cost_placards">举牌费用</string>
+    <string name="order_detail_cost_checkin">checkin费用</string>
+    <string name="order_detail_cost_total">费用总计</string>
+    <string name="order_detail_cost_coupon">优惠金额</string>
+    <string name="order_detail_cost_realpay">实付款</string>
+    <string name="order_detail_local_chartered">%1$s-%2$s天包车</string>
 </resources>

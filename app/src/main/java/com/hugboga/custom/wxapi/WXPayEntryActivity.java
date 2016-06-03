@@ -59,9 +59,6 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler, 
         setContentView(R.layout.fg_pay_result);
         this.findViewById(R.id.header_left_btn).setVisibility(View.INVISIBLE);
         ((TextView) this.findViewById(R.id.header_title)).setText(getString(R.string.par_result_title));
-        if (FgChoosePayment.requestParams != null) {
-            ((TextView)findViewById(R.id.par_result_sum_tv)).setText(getString(R.string.sign_rmb) + FgChoosePayment.requestParams.getShouldPay());
-        }
         resultIV = (ImageView) findViewById(R.id.pay_result_iv);
         resultTV = (TextView) findViewById(R.id.pay_result_tv);
         promptTV = (TextView) findViewById(R.id.par_result_prompt_tv);
@@ -94,15 +91,15 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler, 
             if (isPaySucceed) {
                 resultIV.setBackgroundResource(R.mipmap.payment_success);
                 resultTV.setText(getString(R.string.par_result_succeed));
-                promptTV.setText(getString(R.string.par_result_succeed_prompt));
                 leftTV.setText(getString(R.string.par_result_back));
                 rightTV.setText(getString(R.string.par_result_detail));
+                promptTV.setVisibility(View.VISIBLE);
             } else {
                 resultIV.setBackgroundResource(R.mipmap.payment_fail);
                 resultTV.setText(getString(R.string.par_result_failure));
-                promptTV.setText(getString(R.string.par_result_failure_prompt));
                 leftTV.setText(getString(R.string.par_result_detail));
                 rightTV.setText(getString(R.string.par_result_repay));
+                promptTV.setVisibility(View.GONE);
             }
         }
     }

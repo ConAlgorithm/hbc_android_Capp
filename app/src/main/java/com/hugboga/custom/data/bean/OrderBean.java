@@ -3,6 +3,7 @@ package com.hugboga.custom.data.bean;
 import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.TextUtils;
 
 import com.hugboga.custom.R;
 
@@ -100,7 +101,7 @@ public class OrderBean implements IBaseBean ,Parcelable{
     public String journeyComment;//行程说明
     public String dailyTips;//注意事项
 
-    public boolean insuranceEnable; //是否投保
+    public boolean insuranceEnable; //是否可以添加保险 true可以 false不可以
     public String insuranceTips;//添加保险提示;
     public List<InsureListBean> insuranceList;
 
@@ -126,6 +127,14 @@ public class OrderBean implements IBaseBean ,Parcelable{
     public String coupId;
     public String coupPriceInfo;
 
+    public String flightNo;//航班编号
+    public String flightDeptCityName;//起飞机场所在城市
+    public String flightDestCityName;//降落机场所在城市
+    public String serviceTimeStr;//当时间串 例如： 04月21日（周五）10:05
+    public String passengerInfos;//座位信息 乘坐%1$s人、行李箱%2$s件、儿童座椅%3$s个
+
+    public int storeStatus;//导游是否被收藏 0没有 1已收藏
+    public int userCommentStatus;//用户是否给导游评价过 0未评价，1评价过
 
     public String getOrderTypeStr(Context context) {
         switch (orderGoodsType) {
@@ -147,7 +156,6 @@ public class OrderBean implements IBaseBean ,Parcelable{
                 return "";
         }
     }
-
 
     @Override
     public int describeContents() {
@@ -247,6 +255,13 @@ public class OrderBean implements IBaseBean ,Parcelable{
         dest.writeString(this.realUserEx);
         dest.writeString(this.coupId);
         dest.writeString(this.coupPriceInfo);
+        dest.writeString(this.flightNo);
+        dest.writeString(this.flightDeptCityName);
+        dest.writeString(this.flightDestCityName);
+        dest.writeString(this.serviceTimeStr);
+        dest.writeString(this.passengerInfos);
+        dest.writeInt(this.storeStatus);
+        dest.writeInt(this.userCommentStatus);
     }
 
     public OrderBean() {
@@ -348,6 +363,13 @@ public class OrderBean implements IBaseBean ,Parcelable{
         this.realUserEx = in.readString();
         this.coupId = in.readString();
         this.coupPriceInfo = in.readString();
+        this.flightNo = in.readString();
+        this.flightDeptCityName = in.readString();
+        this.flightDestCityName = in.readString();
+        this.serviceTimeStr = in.readString();
+        this.passengerInfos = in.readString();
+        this.storeStatus = in.readInt();
+        this.userCommentStatus = in.readInt();
     }
 
     public static final Creator<OrderBean> CREATOR = new Creator<OrderBean>() {
@@ -361,4 +383,15 @@ public class OrderBean implements IBaseBean ,Parcelable{
             return new OrderBean[size];
         }
     };
+
+    public String getPayDeadTime() {
+        if (TextUtils.isEmpty(payDeadTime)) {
+            payDeadTime = "0";
+        }
+        return payDeadTime;
+    }
+
+    public boolean isCollected() {
+        return storeStatus == 1;
+    }
 }

@@ -374,12 +374,12 @@ public class UrlLibs {
     public static final String COLLECT_GUIDES_LIST = "ucenter/v1.0/c/favorite/guides";
 
     /**
-     * 收藏司导（用户ID）
+     * 收藏司导（司导ID）
      */
     public static final String COLLECT_GUIDES_ID = "ucenter/v1.0/c/userid/favorite/guide";
 
     /**
-     * 取消收藏司导（用户ID）
+     * 取消收藏司导（司导ID）
      */
     public static final String UNCOLLECT_GUIDES_ID = "ucenter/v1.0/c/userid/unfavor/guide";
 

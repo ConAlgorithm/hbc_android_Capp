@@ -50,6 +50,19 @@ public class FgChoosePayment extends BaseFragment {
     public static RequestParams requestParams;
     private DialogUtil mDialogUtil;
 
+
+    public static class RequestParams implements Serializable {
+        public String orderId;
+        public double shouldPay;
+        public String couponId;
+        public String source;
+        public boolean needShowAlert;
+
+        public String getShouldPay() {
+            return String.valueOf(shouldPay);
+        }
+    }
+
     public static FgChoosePayment newInstance(RequestParams params) {
         FgChoosePayment fragment = new FgChoosePayment();
         Bundle bundle = new Bundle();
@@ -59,7 +72,8 @@ public class FgChoosePayment extends BaseFragment {
     }
 
     @Override
-    protected void initHeader(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
             requestParams = (RequestParams)savedInstanceState.getSerializable(Constants.PARAMS_DATA);
         } else {
@@ -68,20 +82,13 @@ public class FgChoosePayment extends BaseFragment {
                 requestParams = (RequestParams)bundle.getSerializable(Constants.PARAMS_DATA);
             }
         }
-        fgTitle.setText(getString(R.string.choose_payment_title));
-        priceTV.setText(requestParams.getShouldPay());
-        try {
-            if (!EventBus.getDefault().isRegistered(this)) {
-                EventBus.getDefault().register(this);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        EventBus.getDefault().register(this);
     }
 
     @Override
     protected void initHeader() {
-
+        fgTitle.setText(getString(R.string.choose_payment_title));
+        priceTV.setText(requestParams.getShouldPay());
     }
 
     @Override
@@ -225,6 +232,7 @@ public class FgChoosePayment extends BaseFragment {
 
             FgPayResult.Params params = new FgPayResult.Params();
             params.payResult = msg.what == 1;//1.支付成功，2.支付失败
+            params.orderId = requestParams.orderId;
             params.paymentAmount = requestParams.getShouldPay();
             startFragment(FgPayResult.newInstance(params));
         }
@@ -259,15 +267,4 @@ public class FgChoosePayment extends BaseFragment {
         }
     };
 
-    public static class RequestParams implements Serializable {
-        public String orderId;
-        public double shouldPay;
-        public String couponId;
-        public String source;
-        public boolean needShowAlert;
-
-        public String getShouldPay() {
-            return String.valueOf(shouldPay);
-        }
-    }
 }

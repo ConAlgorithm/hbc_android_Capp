@@ -10,7 +10,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="110dp"
+        android:layout_height="160dp"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -20,9 +20,11 @@
             android:layout_height="wrap_content"
             android:src="@mipmap/payment_success" />
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
             android:layout_marginLeft="17dp"
             android:layout_marginTop="3dp">
 
@@ -36,41 +38,20 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/par_result_sum_hint_tv"
+                android:id="@+id/par_result_prompt_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/pay_result_tv"
                 android:layout_marginTop="3dp"
-                android:text="@string/par_result_sum"
+                android:text="@string/par_result_succeed_prompt"
                 android:textColor="#333333"
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/par_result_sum_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/pay_result_tv"
-                android:layout_marginTop="3dp"
-                android:layout_toRightOf="@id/par_result_sum_hint_tv"
-                android:textColor="#fe6634"
-                android:text="200"
-                android:textSize="14sp" />
-        </RelativeLayout>
+                android:textSize="15sp" />
+        </LinearLayout>
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/par_result_prompt_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="您可以在我的行程中查看该订单"
-        android:textColor="#333333"
-        android:textSize="14sp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
         android:gravity="center"
         android:orientation="horizontal">
 

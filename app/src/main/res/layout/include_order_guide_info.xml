@@ -4,13 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@android:color/white"
-    android:orientation="vertical"
-    android:paddingLeft="17dp"
-    android:paddingRight="17dp">
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="86dip"
+        android:paddingLeft="17dp"
+        android:paddingRight="17dp"
         android:orientation="horizontal">
 
         <net.grobas.view.PolygonImageView
@@ -29,26 +29,26 @@
             app:poly_vertices="0" />
 
         <TextView
-            android:id="@+id/ogi_im_iv"
+            android:id="@+id/ogi_im_tv"
             android:layout_width="40dip"
             android:layout_height="40dip"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:background="@drawable/selector_order_chat"/>
         <TextView
-            android:id="@+id/ogi_phone_iv"
+            android:id="@+id/ogi_phone_tv"
             android:layout_width="40dip"
             android:layout_height="40dip"
-            android:layout_toLeftOf="@id/ogi_im_iv"
+            android:layout_toLeftOf="@id/ogi_im_tv"
             android:layout_marginRight="10dp"
             android:layout_marginLeft="10dp"
             android:layout_centerVertical="true"
-            android:background="@drawable/selector_order_phone"/>
+            android:background="@drawable/selector_order_cell"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="12dp"
-            android:layout_toLeftOf="@id/ogi_phone_iv"
+            android:layout_toLeftOf="@id/ogi_phone_tv"
             android:layout_toRightOf="@id/ogi_avatar_iv"
             android:gravity="center_vertical"
             android:orientation="vertical">
@@ -70,8 +70,7 @@
                     android:id="@+id/ogi_ratingview"
                     android:layout_width="wrap_content"
                     android:layout_height="15dip"
-                    android:layout_marginTop="1dip"
-                    android:layout_marginLeft="16dp"
+                    android:layout_marginLeft="13dp"
                     app:gap="4dip"
                     app:rating_bg="@drawable/btn_yellow_ratingbar"
                     app:touchable="false" />
@@ -101,12 +100,16 @@
         android:id="@+id/ogi_horizontal_line"
         android:layout_width="match_parent"
         android:layout_height="1px"
+        android:layout_marginLeft="17dp"
+        android:layout_marginRight="17dp"
         android:background="#e8e8e6" />
 
     <LinearLayout
         android:id="@+id/ogi_nav_layout"
         android:layout_width="match_parent"
         android:layout_height="46dip"
+        android:paddingLeft="17dp"
+        android:paddingRight="17dp"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -127,8 +130,18 @@
             android:layout_marginLeft="32dip"
             android:background="@drawable/shape_rounded_gray_light"
             android:gravity="center"
-            android:text="@string/evaluate"
+            android:text="@string/to_evaluate"
             android:textColor="@color/basic_gray_light"
             android:textSize="13sp" />
     </LinearLayout>
+    <TextView
+        android:id="@+id/ogi_prompt_tv"
+        android:layout_width="match_parent"
+        android:layout_height="34dp"
+        android:gravity="center"
+        android:background="#fdd631"
+        android:text="@string/order_detail_prompt_evaluation_1"
+        android:textSize="13sp"
+        android:textColor="#333333"
+        />
 </LinearLayout>

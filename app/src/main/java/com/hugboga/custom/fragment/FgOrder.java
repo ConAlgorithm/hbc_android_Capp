@@ -961,7 +961,7 @@ public class FgOrder extends BaseFragment {
             dialogUtil.showCustomDialog("取消订单成功", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-//                    bringToFront(FgTravel.class,new Bundle());
+                    bringToFront(FgTravel.class,new Bundle());
                     finish();
                 }
             });

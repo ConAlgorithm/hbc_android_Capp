@@ -11,12 +11,12 @@ import org.json.JSONObject;
  */
 public class OrderPriceInfo implements IBaseBean ,Parcelable{
 
-    public double orderPrice;
-    public double shouldPay;
+    public double orderPrice;  //订单金额
+    public double shouldPay;   //应付
     public double actualPay;           //实付金额
     public double refundPrice;        // 退款金额
     public double refundablePrice;    // 可退款金额
-    public double checkInPrice;
+    public double checkInPrice;// check in费用
     public double cancelFee;//退改费用
 
     public void parser(JSONObject jsonObj) throws JSONException {

@@ -32,6 +32,15 @@ public class GuidesDetailData implements Serializable {
     private String guideNo;//导游编号
     private float serviceStar;//导游服务星级
     private String avatar;
+    private int isFavored;//是否被该用户收藏，0否，1是
+
+    public boolean isCollected() {
+        return isFavored == 1;
+    }
+
+    public void setIsFavored(int isFavored) {
+        this.isFavored = isFavored;
+    }
 
     public String getAvatar() {
         return avatar;

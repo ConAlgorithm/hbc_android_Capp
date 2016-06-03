@@ -37,6 +37,7 @@ public class FgCollectGuideList extends BaseFragment implements AdapterView.OnIt
 
     private RequestCollectGuidesFilter.CollectGuidesFilterParams paramsData;
     private CollectGuideAdapter adapter;
+    private List<CollectGuideBean> list = null;
 
     @Override
     protected void initHeader(Bundle savedInstanceState) {
@@ -114,6 +115,13 @@ public class FgCollectGuideList extends BaseFragment implements AdapterView.OnIt
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        if (paramsData == null) {
+            if (list != null && list.size() > 0) {
+                return;
+            }
+            CollectGuideBean bean = new CollectGuideBean();
+            startFragment(FgGuideDetail.newInstance(bean.guideId));
+        }
     }
 
     @Override
