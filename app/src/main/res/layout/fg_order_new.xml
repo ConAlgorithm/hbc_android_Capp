@@ -238,13 +238,13 @@
                     android:id="@+id/checkin"
                     android:drawablePadding="10dp"
                     android:drawableLeft="@mipmap/order_jp"
-                    android:text="@string/my_travel_title"
+                    android:text="接机举牌等待"
                     android:textSize="15sp"
-                    android:layout_marginTop="15dp"
                     android:background="@color/basic_white"
                     android:layout_marginLeft="15dp"
                     android:textColor="@color/basic_black"
                     android:layout_marginRight="15dp"
+                    android:layout_marginBottom="15dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 
@@ -429,13 +429,46 @@
                         android:minEms="4"
                         android:hint="请填写接机牌姓名"
                         android:textSize="15sp" />
+                </RelativeLayout>
 
+                <RelativeLayout
+                    android:id="@+id/airport_name_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    android:visibility="gone"
+                    android:background="@color/basic_white"
+                    android:clickable="true"
+                    android:minHeight="60dp">
 
+                    <TextView
+                        android:id="@+id/airpost_name_left"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="15dp"
+                        android:textColor="@color/basic_black"
+                        android:minEms="4"
+                        android:text="起飞航班"
+                        android:textSize="15sp" />
 
+                    <EditText
+                        android:id="@+id/airport_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@id/airpost_name_left"
+                        android:layout_marginLeft="15dp"
+                        android:background="@color/basic_white"
+                        android:textColor="@color/basic_black"
+                        android:minEms="4"
+                        android:hint="请输入起飞航班号,方便司导协助"
+                        android:textSize="15sp" />
                 </RelativeLayout>
 
 
                 <RelativeLayout
+                    android:id="@+id/single_no_show_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"
@@ -475,6 +508,7 @@
 
 
                 <RelativeLayout
+                    android:id="@+id/single_no_show_address"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="1dp"

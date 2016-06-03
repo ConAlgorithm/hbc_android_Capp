@@ -20,6 +20,16 @@ public class RequestSubmitPick extends RequestSubmitBase {
         map.put("serviceAddressTel", orderBean.serviceAddressTel);
         map.put("flightBrandSign", orderBean.brandSign);
         map.put("isArrivalVisa", orderBean.visa);
+
+        map.put("destAddress",orderBean.destAddress);
+        map.put("isFlightSign",orderBean.isFlightSign);
+        map.put("flightBrandSign",orderBean.flightBrandSign);
+        map.put("carDesc",orderBean.carDesc);
+
+        map.put("childSeat",orderBean.childSeatStr);
+        map.put("priceChannel",orderBean.priceChannel);
+
+
         if (orderBean.flightBean != null) {
             map.put("flightNo", orderBean.flightBean.flightNo);
             map.put("flightAirportCode", orderBean.flightBean.depAirportCode);

@@ -867,7 +867,7 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
                 bundle.putString("orderType","3");
                 bundle.putParcelable("carBean",getMatchCarBean());
                 bundle.putBoolean("isHalfTravel",isHalfTravel);
-                bundle.putInt("type",1);
+                bundle.putInt("type",3);
                 bundle.putString("orderType","3");
                 fgOrderNew.setArguments(bundle);
                 startFragment(fgOrderNew);

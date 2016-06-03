@@ -7,6 +7,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -326,6 +327,9 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
                     bean.desc = newCarBean.desc;
                     bean.capOfPerson = newCarBean.capOfPerson;
                     bean.price = newCarBean.price;
+                    bean.pricemark = newCarBean.pricemark;
+                    bean.priceChannel = newCarBean.priceChannel;
+                    bean.orderChannel = new CarBean().orderChannel;
                     carList.add(bean);
                 }
                 id++;
@@ -397,6 +401,28 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
         }else{
             man_luggage_layout.setVisibility(View.VISIBLE);
         }
+
+        checkSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    EventBus.getDefault().post(new EventAction(EventType.CHECK_SWITCH,true));
+                }else{
+                    EventBus.getDefault().post(new EventAction(EventType.CHECK_SWITCH,false));
+                }
+            }
+        });
+
+        waitSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    EventBus.getDefault().post(new EventAction(EventType.WAIT_SWITCH,true));
+                }else{
+                    EventBus.getDefault().post(new EventAction(EventType.WAIT_SWITCH,false));
+                }
+            }
+        });
 
         genData();
     }

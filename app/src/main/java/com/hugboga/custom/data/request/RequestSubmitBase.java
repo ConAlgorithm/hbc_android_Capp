@@ -32,8 +32,13 @@ public class RequestSubmitBase extends BaseRequest<String> {
         map.put("priceMark", orderBean.priceMark);
         map.put("adultNum", orderBean.adult);
         map.put("childNum", orderBean.child);
-        if (orderBean.childSeat != null)
-            map.put("childSeat", TextUtils.join(",", orderBean.childSeat));
+
+//        if (orderBean.childSeat != null)
+//            map.put("childSeat", TextUtils.join(",", orderBean.childSeat));
+
+
+        map.put("childSeat",orderBean.childSeatStr);
+
         map.put("userName", orderBean.contactName);
         map.put("serviceCityId", orderBean.serviceCityId);
         map.put("serviceEndCityid", orderBean.serviceEndCityid);
@@ -57,19 +62,19 @@ public class RequestSubmitBase extends BaseRequest<String> {
         map.put("carDesc", orderBean.carDesc);
         map.put("userRemark", orderBean.memo);
 
+//        if (orderBean.contact != null && orderBean.contact.size() > 0) {
+//            map.put("userAreaCode1", orderBean.contact.get(0).areaCode);
+//            map.put("userMobile1", orderBean.contact.get(0).tel);
+//        }
+//        if (orderBean.contact.size()>1&&orderBean.contact.get(1) != null) {
+//            map.put("userAreaCode2", orderBean.contact.get(1).areaCode);
+//            map.put("userMobile2", orderBean.contact.get(1).tel);
+//        }
+//        if (orderBean.contact.size()>2&&orderBean.contact.get(2) != null) {
+//            map.put("userAreaCode3", orderBean.contact.get(2).areaCode);
+//            map.put("userMobile3", orderBean.contact.get(2).tel);
+//        }
 
-        if (orderBean.contact != null && orderBean.contact.size() > 0) {
-            map.put("userAreaCode1", orderBean.contact.get(0).areaCode);
-            map.put("userMobile1", orderBean.contact.get(0).tel);
-        }
-        if (orderBean.contact.size()>1&&orderBean.contact.get(1) != null) {
-            map.put("userAreaCode2", orderBean.contact.get(1).areaCode);
-            map.put("userMobile2", orderBean.contact.get(1).tel);
-        }
-        if (orderBean.contact.size()>2&&orderBean.contact.get(2) != null) {
-            map.put("userAreaCode3", orderBean.contact.get(2).areaCode);
-            map.put("userMobile3", orderBean.contact.get(2).tel);
-        }
         if (orderBean.orderType != null && orderBean.orderType.equals(5)) {//如果是SKU  传
             map.put("lineSubject", orderBean.lineSubject);
             map.put("lineDescription", orderBean.lineDescription);
