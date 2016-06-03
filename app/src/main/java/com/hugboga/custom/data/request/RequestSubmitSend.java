@@ -20,8 +20,28 @@ public class RequestSubmitSend extends RequestSubmitBase{
         map.put("serviceAreaCode", orderBean.serviceAreaCode);
         map.put("serviceAddressTel", orderBean.serviceAddressTel);
 
-            map.put("flightAirportCode", orderBean.flightAirportCode);
-            map.put("flightAirportName", orderBean.destAddress);
+        map.put("flightAirportCode", orderBean.flightAirportCode);
+        map.put("flightAirportName", orderBean.destAddress);
+        map.put("checkinPrice",orderBean.checkInPrice);
+        map.put("realSendSms",orderBean.realSendSms);
+
+        map.put("coupId",orderBean.coupId);
+        map.put("userEx",orderBean.userEx);
+
+        map.put("realUserEx",orderBean.realUserEx);
+        map.put("travelFund",orderBean.travelFund);
+        map.put("guideCollectId",orderBean.guideCollectId);
+        map.put("childSeat",orderBean.childSeat);
+
+        map.put("priceActual",orderBean.priceActual);
+        map.put("luggageNumber",orderBean.luggageNum);
+        map.put("coupPriceInfo",orderBean.coupPriceInfo);
+        map.put("userRemark",orderBean.userRemark);
+
+        map.put("orderChannel",orderBean.priceChannel);
+        map.put("serviceTime",orderBean.serviceTime);
+
+
         if(orderBean.flightBean != null){
             map.put("flightFlyTimeL", orderBean.flightBean.depDate + " " + orderBean.flightBean.depTime + ":00");
             map.put("flightArriveTimeL", orderBean.flightBean.arrDate + " " + orderBean.flightBean.arrivalTime + ":00");

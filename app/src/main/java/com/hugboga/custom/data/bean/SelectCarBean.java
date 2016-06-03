@@ -31,6 +31,7 @@ public class SelectCarBean implements Parcelable{
     public ServiceQuoteSumBean vehicleQuoteSum;
     public String serviceCityNote;
     public String expectedCompTime;
+    public int originalPrice;
 
 
     @Override
@@ -63,6 +64,7 @@ public class SelectCarBean implements Parcelable{
         dest.writeParcelable(this.vehicleQuoteSum, flags);
         dest.writeString(this.serviceCityNote);
         dest.writeString(this.expectedCompTime);
+        dest.writeInt(this.originalPrice);
     }
 
     public SelectCarBean() {
@@ -92,6 +94,7 @@ public class SelectCarBean implements Parcelable{
         this.vehicleQuoteSum = in.readParcelable(ServiceQuoteSumBean.class.getClassLoader());
         this.serviceCityNote = in.readString();
         this.expectedCompTime = in.readString();
+        this.originalPrice = in.readInt();
     }
 
     public static final Creator<SelectCarBean> CREATOR = new Creator<SelectCarBean>() {

@@ -21,6 +21,7 @@ public class CarUtils {
         selectCarBean.models = carBean.models;
         selectCarBean.pricemark = carBean.pricemark;
         selectCarBean.expectedCompTime = carBean.expectedCompTime;
+        selectCarBean.originalPrice = carBean.originalPrice;
         return selectCarBean;
     }
 }
