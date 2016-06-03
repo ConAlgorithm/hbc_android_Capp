@@ -37,7 +37,6 @@ public class RequestSubmitSend extends RequestSubmitBase{
         map.put("coupPriceInfo",orderBean.coupPriceInfo);
         map.put("userRemark",orderBean.userRemark);
 
-        map.put("orderChannel",orderBean.priceChannel);
         map.put("serviceTime",orderBean.serviceTime);
 
         map.put("isCheckin",orderBean.isCheckin);
@@ -47,6 +46,12 @@ public class RequestSubmitSend extends RequestSubmitBase{
         map.put("flightNo", orderBean.flightNo);
 
         map.put("priceChannel",orderBean.priceChannel);
+
+        map.put("distance",orderBean.distance);
+        map.put("destAddress",orderBean.destAddress);
+        map.put("destAddressPoi",orderBean.destAddressPoi);
+
+        map.put("orderType",orderBean.orderType);
 
 
 

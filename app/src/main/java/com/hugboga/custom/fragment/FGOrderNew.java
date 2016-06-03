@@ -66,6 +66,7 @@ import de.greenrobot.event.EventBus;
 
 import static com.hugboga.custom.R.id.airport_name;
 import static com.hugboga.custom.R.id.man_name;
+import static com.hugboga.custom.R.id.pick_name;
 import static com.hugboga.custom.R.id.up_address_right;
 import static com.hugboga.custom.R.id.up_right;
 
@@ -147,7 +148,7 @@ public class FGOrderNew extends BaseFragment {
     LinearLayout otherPhoneLayout;
     @Bind(R.id.pick_name_left)
     TextView pickNameLeft;
-    @Bind(R.id.pick_name)
+    @Bind(pick_name)
     EditText pickName;
     @Bind(R.id.up_right)
     TextView upRight;
@@ -313,6 +314,8 @@ public class FGOrderNew extends BaseFragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     dreamLeft.setChecked(false);
+
+
                 }
             }
         });
@@ -385,6 +388,9 @@ public class FGOrderNew extends BaseFragment {
 
         airportNameLayout.setVisibility(View.VISIBLE);
 
+        singleNoShowTime.setVisibility(View.GONE);
+        singleNoShowAddress.setVisibility(View.GONE);
+
         checkin.setText("协助办理登机check in");
         checkin.setVisibility(View.VISIBLE);
         pick_name_layout.setVisibility(View.GONE);
@@ -420,6 +426,9 @@ public class FGOrderNew extends BaseFragment {
 
         carSeat.setText(carBean.carDesc);
         carSeatTips.setText("(" + "乘坐" + (Integer.valueOf(adultNum) + Integer.valueOf(childrenNum)) + "人,行李箱" + luggageNum + "件,儿童座椅" + childseatNum + "个)");
+
+        singleNoShowTime.setVisibility(View.GONE);
+        singleNoShowAddress.setVisibility(View.GONE);
 
         if (isCheckIn) {
             checkin.setVisibility(View.VISIBLE);
@@ -599,10 +608,34 @@ public class FGOrderNew extends BaseFragment {
 
     }
 
+    private void setAllMoney(){
+        if (dreamLeft.isChecked()) {
+            allMoneyLeftText.setText("￥" + (carBean.price - money + seat1PriceTotal + seat2PriceTotal) + "");
+        }else{
+            if (null == mostFitBean.priceInfo) {
+                couponRight.setText("还没有优惠券");
+                allMoneyLeftText.setText("￥" + (carBean.price + seat1PriceTotal + seat2PriceTotal));
+            } else {
+                couponRight.setText((mostFitBean.priceInfo) + "优惠券");
+                allMoneyLeftText.setText("￥" + (mostFitBean.actualPrice + seat1PriceTotal + seat2PriceTotal));
+            }
+
+//            if (null == couponBean && null != mostFitBean) {
+//                requestParams.couponId = mostFitBean.couponId;
+//                requestParams.shouldPay = orderBean.orderPrice - Integer.valueOf(mostFitBean.couponPrice);
+//            } else if (null != couponBean && null == mostFitBean) {
+//                requestParams.couponId = couponBean.couponID;
+//                requestParams.shouldPay = orderBean.orderPrice - Integer.valueOf(couponBean.price);
+//            }
+
+
+        }
+    }
+
 
     //旅游基金
     String travelFund = "0";
-
+    int money = 0;//旅游基金int
     private void requestTravelFund() {
         TrequestTravelFundLogs request = new TrequestTravelFundLogs(getActivity(), 0);
         HttpRequestUtils.request(getContext(), request, new HttpRequestListener() {
@@ -611,7 +644,7 @@ public class FGOrderNew extends BaseFragment {
                 TrequestTravelFundLogs trequestTravelFundLogs = (TrequestTravelFundLogs) request;
                 TravelFundData travelFundData = trequestTravelFundLogs.getData();
                 travelFund = travelFundData.getFundAmount();
-                int money = Integer.valueOf(travelFund);
+                money = Integer.valueOf(travelFund);
                 if (0 == money) {
                     dream_right_tips.setVisibility(View.VISIBLE);
                     dream_right_tips.setOnClickListener(new View.OnClickListener() {
@@ -879,12 +912,21 @@ public class FGOrderNew extends BaseFragment {
             ToastUtils.showLong("联系人电话不能为空!");
             return;
         }
-        if(type != 4) {
+        if(type == 3 || type == 5) {
             if (TextUtils.isEmpty(upAddressRight.getText())) {
                 ToastUtils.showLong("上车地点不能为空!");
                 return;
             }
         }
+
+        if(type == 1){
+            if (TextUtils.isEmpty(pickName.getText())) {
+                ToastUtils.showLong("接机牌姓名不能为空!");
+                return;
+            }
+        }
+
+
         if (UserEntity.getUser().isLogin(getActivity())) {
             switch (type) {
                 case 1:
@@ -1106,6 +1148,7 @@ public class FGOrderNew extends BaseFragment {
 
 
         orderBean.startAddress = upRight.getText().toString();
+
         orderBean.startAddressDetail = "";//upSiteText.getText().toString();
 
 
@@ -1459,6 +1502,8 @@ public class FGOrderNew extends BaseFragment {
         orderBean.flightNo = airportName.getText().toString();
         orderBean.expectedCompTime = carBean.expectedCompTime;
 
+        orderBean.destAddressPoi = airPort.location;
+
 
         orderBean.startAddress = poiBean.placeName;
         orderBean.startAddressDetail = poiBean.placeDetail;
@@ -1543,9 +1588,9 @@ public class FGOrderNew extends BaseFragment {
             seat2PriceTotal = seat2Price * seat2Count;
             orderBean.childSeatStr = childSeat.toString();
         }
-        orderBean.orderPrice = isCheckIn ? (carBean.price + Integer.valueOf(carListBean.additionalServicePrice.checkInPrice)) + seat1PriceTotal + seat2PriceTotal : carBean.originalPrice + seat1PriceTotal + seat2PriceTotal;
+        orderBean.orderPrice = isCheckIn ? (carBean.price + Integer.valueOf(carListBean.additionalServicePrice.checkInPrice)) + seat1PriceTotal + seat2PriceTotal : carBean.price + seat1PriceTotal + seat2PriceTotal;
         orderBean.checkInPrice = isCheckIn ? Integer.valueOf(carListBean.additionalServicePrice.checkInPrice) : null;
-        orderBean.priceChannel = isCheckIn ? "" + (carBean.price + Integer.valueOf(carListBean.additionalServicePrice.checkInPrice) + seat1PriceTotal + seat2PriceTotal) : "" + (carBean.originalPrice + seat1PriceTotal + seat2PriceTotal);
+        orderBean.priceChannel = isCheckIn ? "" + (carBean.price + Integer.valueOf(carListBean.additionalServicePrice.checkInPrice) + seat1PriceTotal + seat2PriceTotal) : "" + (carBean.price + seat1PriceTotal + seat2PriceTotal);
 
         orderBean.flightAirportCode = airPort.airportCode;
         orderBean.flightAirportName = airPort.airportName;
