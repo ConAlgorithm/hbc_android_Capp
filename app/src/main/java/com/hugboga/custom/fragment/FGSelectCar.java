@@ -584,7 +584,7 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
                 bundleCar.putInt("innum", inNum);
                 bundleCar.putSerializable("passCityList", passCityList);
                 bundleCar.putBoolean("isHalfTravel",isHalfTravel);
-                bundleCar.putInt("type",1);
+                bundleCar.putInt("type",3);
                 bundleCar.putString("orderType","3");
                 fgOrderNew.setArguments(bundleCar);
                 startFragment(fgOrderNew);

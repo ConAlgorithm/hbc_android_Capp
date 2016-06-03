@@ -50,7 +50,7 @@ public class OrderBean implements IBaseBean ,Parcelable{
     public String serviceTime;//服务时间[2015-10-03 20:02:34]
     public String serviceEndTime; //包车结束时间
     public String serviceStartTime; //包车起始时间，选填
-    public int expectedCompTime; //预计服务完成时间 接送次 必填
+    public String expectedCompTime; //预计服务完成时间 接送次 必填
     public ArrayList<Integer> passByCityID;
     public ArrayList<CityBean> passByCity;
     public String stayCityListStr;//日租包车
@@ -126,6 +126,29 @@ public class OrderBean implements IBaseBean ,Parcelable{
     public String coupId;
     public String coupPriceInfo;
 
+    public String childSeatStr; //2.7.0 新加 对应 接口字段 childSeat
+
+
+    public String flightAirportBuiding;
+    public String flightAirportName;
+    public String flightArriveTimeL;
+    public String flightBrandSign;
+    public String flightDestCode;
+    public String flightDestName;
+    public String flightFlyTimeL;
+    public String flightNo;
+    public String isArrivalVisa;
+
+    public String priceFlightBrandSign;///接机牌费用
+
+    public String isFlightSign;//是否选择举牌接机服务
+
+    public String priceActual;////使用券时，实际支付价格
+
+    public String isCheckin;////是否协助登机
+
+
+
 
     public String getOrderTypeStr(Context context) {
         switch (orderGoodsType) {
@@ -185,7 +208,7 @@ public class OrderBean implements IBaseBean ,Parcelable{
         dest.writeString(this.serviceTime);
         dest.writeString(this.serviceEndTime);
         dest.writeString(this.serviceStartTime);
-        dest.writeInt(this.expectedCompTime);
+        dest.writeString(this.expectedCompTime);
         dest.writeList(this.passByCityID);
         dest.writeTypedList(this.passByCity);
         dest.writeString(this.stayCityListStr);
@@ -236,7 +259,7 @@ public class OrderBean implements IBaseBean ,Parcelable{
         dest.writeTypedList(this.insuranceList);
         dest.writeString(this.goodsNo);
         dest.writeString(this.skuPoi);
-        dest.writeList(this.skuPoiArray);
+        dest.writeTypedList(this.skuPoiArray);
         dest.writeString(this.insuranceStatus);
         dest.writeInt(this.insuranceStatusCode);
         dest.writeString(this.serviceDepartTime);
@@ -247,6 +270,20 @@ public class OrderBean implements IBaseBean ,Parcelable{
         dest.writeString(this.realUserEx);
         dest.writeString(this.coupId);
         dest.writeString(this.coupPriceInfo);
+        dest.writeString(this.childSeatStr);
+        dest.writeString(this.flightAirportBuiding);
+        dest.writeString(this.flightAirportName);
+        dest.writeString(this.flightArriveTimeL);
+        dest.writeString(this.flightBrandSign);
+        dest.writeString(this.flightDestCode);
+        dest.writeString(this.flightDestName);
+        dest.writeString(this.flightFlyTimeL);
+        dest.writeString(this.flightNo);
+        dest.writeString(this.isArrivalVisa);
+        dest.writeString(this.priceFlightBrandSign);
+        dest.writeString(this.isFlightSign);
+        dest.writeString(this.priceActual);
+        dest.writeString(this.isCheckin);
     }
 
     public OrderBean() {
@@ -283,7 +320,7 @@ public class OrderBean implements IBaseBean ,Parcelable{
         this.serviceTime = in.readString();
         this.serviceEndTime = in.readString();
         this.serviceStartTime = in.readString();
-        this.expectedCompTime = in.readInt();
+        this.expectedCompTime = in.readString();
         this.passByCityID = new ArrayList<Integer>();
         in.readList(this.passByCityID, Integer.class.getClassLoader());
         this.passByCity = in.createTypedArrayList(CityBean.CREATOR);
@@ -336,8 +373,7 @@ public class OrderBean implements IBaseBean ,Parcelable{
         this.insuranceList = in.createTypedArrayList(InsureListBean.CREATOR);
         this.goodsNo = in.readString();
         this.skuPoi = in.readString();
-        this.skuPoiArray = new ArrayList<PoiBean>();
-        in.readList(this.skuPoiArray, PoiBean.class.getClassLoader());
+        this.skuPoiArray = in.createTypedArrayList(PoiBean.CREATOR);
         this.insuranceStatus = in.readString();
         this.insuranceStatusCode = in.readInt();
         this.serviceDepartTime = in.readString();
@@ -348,6 +384,20 @@ public class OrderBean implements IBaseBean ,Parcelable{
         this.realUserEx = in.readString();
         this.coupId = in.readString();
         this.coupPriceInfo = in.readString();
+        this.childSeatStr = in.readString();
+        this.flightAirportBuiding = in.readString();
+        this.flightAirportName = in.readString();
+        this.flightArriveTimeL = in.readString();
+        this.flightBrandSign = in.readString();
+        this.flightDestCode = in.readString();
+        this.flightDestName = in.readString();
+        this.flightFlyTimeL = in.readString();
+        this.flightNo = in.readString();
+        this.isArrivalVisa = in.readString();
+        this.priceFlightBrandSign = in.readString();
+        this.isFlightSign = in.readString();
+        this.priceActual = in.readString();
+        this.isCheckin = in.readString();
     }
 
     public static final Creator<OrderBean> CREATOR = new Creator<OrderBean>() {

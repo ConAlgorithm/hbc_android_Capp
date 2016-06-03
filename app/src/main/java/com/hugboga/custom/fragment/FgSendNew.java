@@ -20,10 +20,12 @@ import com.hugboga.custom.data.bean.AirPort;
 import com.hugboga.custom.data.bean.CarBean;
 import com.hugboga.custom.data.bean.CarListBean;
 import com.hugboga.custom.data.bean.CollectGuideBean;
+import com.hugboga.custom.data.bean.ManLuggageBean;
 import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.request.RequestCheckPrice;
 import com.hugboga.custom.data.request.RequestCheckPriceForTransfer;
+import com.hugboga.custom.utils.CarUtils;
 import com.hugboga.custom.utils.ToastUtils;
 import com.hugboga.custom.widget.DialogUtil;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
@@ -42,6 +44,9 @@ import butterknife.OnClick;
 
 import static com.hugboga.custom.R.id.driver_layout;
 import static com.hugboga.custom.R.id.driver_name;
+import static u.aly.au.W;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * Created  on 16/5/13.
@@ -188,11 +193,48 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
         }
     }
 
+    ManLuggageBean manLuggageBean;
+    boolean isCheck = false;
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
+            case CHECK_SWITCH:
+                isCheck = (boolean)action.getData();
+                break;
             case CHANGE_CAR:
-                CarBean carBean = (CarBean) action.getData();
+                carBean = (CarBean) action.getData();
                 genBottomData(carBean);
+                break;
+            case MAN_CHILD_LUUAGE:
+                confirmJourney.setBackgroundColor(getContext().getResources().getColor(R.color.all_bg_yellow));
+                manLuggageBean = (ManLuggageBean)action.getData();
+                confirmJourney.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        FGOrderNew fgOrderNew = new FGOrderNew();
+                        Bundle bundle = new Bundle();
+                        bundle.putString("guideCollectId","");
+                        bundle.putSerializable("collectGuideBean",null);
+                        bundle.putString("source",source);
+                        carBean.expectedCompTime = carListBean.estTime;
+                        bundle.putParcelable("carBean", CarUtils.carBeanAdapter(carBean));
+                        bundle.putParcelable("carListBean",carListBean);
+                        bundle.putParcelable("airPortBean",airPortBean);
+                        bundle.putParcelable("poiBean",poiBean);
+                        bundle.putString("serverTime",  serverTime);
+                        bundle.putString("serverDate",  serverDate);
+                        bundle.putString("adultNum", manLuggageBean.mans + "");
+                        bundle.putString("childrenNum", manLuggageBean.childs + "");
+                        bundle.putString("childseatNum", manLuggageBean.childSeats + "");
+                        bundle.putString("luggageNum", manLuggageBean.luggages + "");
+                        bundle.putSerializable("carListBean",carListBean);
+                        bundle.putInt("type",2);
+                        bundle.putString("orderType","2");
+                        bundle.putBoolean("needCheckin",isCheck);
+                        bundle.putParcelable("manLuggageBean",manLuggageBean);
+                        fgOrderNew.setArguments(bundle);
+                        startFragment(fgOrderNew);
+                    }
+                });
                 break;
             default:
                 break;
@@ -216,6 +258,7 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
         ButterKnife.bind(this, rootView);
+        EventBus.getDefault().register(this);
         return rootView;
     }
 
@@ -223,6 +266,7 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+        EventBus.getDefault().unregister(this);
     }
 
     @OnClick({R.id.address_layout, R.id.air_send_layout, R.id.time_layout,R.id.info_tips, R.id.air_title, R.id.air_detail, R.id.rl_info, R.id.address_tips, R.id.rl_address, R.id.time_text, R.id.rl_starttime})
@@ -270,6 +314,7 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
             RequestCheckPrice requestCheckPrice = (RequestCheckPrice) request;
             carListBean = (CarListBean) requestCheckPrice.getData();
             if (carListBean.carList.size() > 0) {
+                carBean = carListBean.carList.get(0);
                 bottom.setVisibility(View.VISIBLE);
                 genBottomData(carListBean.carList.get(0));
             } else {

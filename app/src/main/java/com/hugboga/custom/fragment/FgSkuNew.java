@@ -20,11 +20,11 @@ import com.hugboga.custom.data.bean.CarListBean;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.ManLuggageBean;
 import com.hugboga.custom.data.bean.PoiBean;
-import com.hugboga.custom.data.bean.SelectCarBean;
 import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestPriceSku;
+import com.hugboga.custom.utils.CarUtils;
 import com.umeng.analytics.MobclickAgent;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
@@ -183,19 +183,7 @@ public class FgSkuNew extends BaseFragment {
         allMoneyTextSku.setText("￥ " + carBean.price);
     }
 
-    private SelectCarBean carBeanAdapter(CarBean carBean){
-        SelectCarBean selectCarBean = new SelectCarBean();
-        selectCarBean.seatCategory = carBean.carSeat;
-        selectCarBean.carType = carBean.carType;
-        selectCarBean.price = carBean.price;
-        selectCarBean.carDesc = carBean.desc;
-        selectCarBean.capOfLuggage = carBean.capOfLuggage;
-        selectCarBean.capOfPerson = carBean.capOfPerson;
-        selectCarBean.localPrice = carBean.localPrice;
-        selectCarBean.models = carBean.models;
-        selectCarBean.pricemark = carBean.pricemark;
-        return selectCarBean;
-    }
+
 
     CarBean carBean;
     ManLuggageBean manLuggageBean;
@@ -239,11 +227,9 @@ public class FgSkuNew extends BaseFragment {
                         bundle.putString("source", source);
                         bundle.putBoolean("isHalfTravel",false);
                         bundle.putSerializable("passCityList", null);
-                        bundle.putString("orderType","3");
-                        bundle.putParcelable("carBean",carBeanAdapter(carBean));
+                        bundle.putParcelable("carBean", CarUtils.carBeanAdapter(carBean));
                         bundle.putInt("type",5);
                         bundle.putString("orderType","5");
-
                         bundle.putSerializable("web_sku",skuBean);
                         bundle.putSerializable("web_city",cityBean);
                         fgOrderNew.setArguments(bundle);

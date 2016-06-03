@@ -20,9 +20,13 @@ import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.bean.AirPort;
+import com.hugboga.custom.data.bean.CarListBean;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.ContactUsersBean;
 import com.hugboga.custom.data.bean.CouponBean;
+import com.hugboga.custom.data.bean.FlightBean;
+import com.hugboga.custom.data.bean.ManLuggageBean;
 import com.hugboga.custom.data.bean.MostFitAvailableBean;
 import com.hugboga.custom.data.bean.MostFitBean;
 import com.hugboga.custom.data.bean.OrderBean;
@@ -37,6 +41,9 @@ import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestMostFit;
 import com.hugboga.custom.data.request.RequestSubmitBase;
 import com.hugboga.custom.data.request.RequestSubmitDaily;
+import com.hugboga.custom.data.request.RequestSubmitPick;
+import com.hugboga.custom.data.request.RequestSubmitRent;
+import com.hugboga.custom.data.request.RequestSubmitSend;
 import com.hugboga.custom.data.request.TrequestTravelFundLogs;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.ToastUtils;
@@ -57,19 +64,11 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
 
-import static com.hugboga.custom.R.id.car_seat;
-import static com.hugboga.custom.R.id.car_seat_tips;
-import static com.hugboga.custom.R.id.dream_right;
-import static com.hugboga.custom.R.id.end_hospital_title;
-import static com.hugboga.custom.R.id.end_hospital_title_tips;
+import static com.hugboga.custom.R.id.airport_name;
 import static com.hugboga.custom.R.id.man_name;
-import static com.hugboga.custom.R.id.other_layout;
-import static com.hugboga.custom.R.id.other_name;
-import static com.hugboga.custom.R.id.start_hospital_title;
-import static com.hugboga.custom.R.id.start_hospital_title_tips;
+import static com.hugboga.custom.R.id.pick_name;
 import static com.hugboga.custom.R.id.up_address_right;
 import static com.hugboga.custom.R.id.up_right;
-import static com.hugboga.custom.R.string.remark;
 
 /**
  * Created  on 16/4/18.
@@ -94,7 +93,6 @@ public class FGOrderNew extends BaseFragment {
 
     @Bind(R.id.day_show_all)
     TextView day_show_all;
-
 
 
     @Bind(R.id.checkin)
@@ -150,7 +148,7 @@ public class FGOrderNew extends BaseFragment {
     LinearLayout otherPhoneLayout;
     @Bind(R.id.pick_name_left)
     TextView pickNameLeft;
-    @Bind(R.id.pick_name)
+    @Bind(pick_name)
     EditText pickName;
     @Bind(R.id.up_right)
     TextView upRight;
@@ -194,11 +192,21 @@ public class FGOrderNew extends BaseFragment {
     TextView upAddressRight;
     @Bind(R.id.dream_right)
     TextView dreamRight;
+    @Bind(R.id.airpost_name_left)
+    TextView airpostNameLeft;
+    @Bind(airport_name)
+    EditText airportName;
+    @Bind(R.id.airport_name_layout)
+    RelativeLayout airportNameLayout;
+    @Bind(R.id.single_no_show_time)
+    RelativeLayout singleNoShowTime;
+    @Bind(R.id.single_no_show_address)
+    RelativeLayout singleNoShowAddress;
 
     @Override
     protected void initHeader() {
         fgRightBtn.setVisibility(View.VISIBLE);
-        fgTitle.setText(R.string.select_city_title);
+        fgTitle.setText("确认订单");
         source = getArguments().getString("source");
 
         fgLeftBtn.setOnClickListener(new View.OnClickListener() {
@@ -227,9 +235,8 @@ public class FGOrderNew extends BaseFragment {
     String childseatNum;
     String luggageNum;
     String passCities;
-    String carTypeName;
     String startCityName;
-    String dayNums;
+    String dayNums = "0";
     SelectCarBean carBean;
 
     CityBean startBean;
@@ -246,12 +253,23 @@ public class FGOrderNew extends BaseFragment {
     String serverDayTime = "";
 
     String distance = "0";
+    CarListBean carListBean;
+    ManLuggageBean manLuggageBean;
+
+
+    private FlightBean flightBean;//航班信息 接机
+    private PoiBean poiBean;//达到目的地
+
+
     @Override
     protected void initView() {
         passCityList = (ArrayList<CityBean>) getArguments().getSerializable("passCityList");
 
+        manLuggageBean = (ManLuggageBean) getArguments().getParcelable("manLuggageBean");
+        carListBean = this.getArguments().getParcelable("carListBean");
         guideCollectId = this.getArguments().getString("guideCollectId");
         carBean = this.getArguments().getParcelable("carBean");
+
         startCityId = this.getArguments().getString("startCityId");
         endCityId = this.getArguments().getString("endCityId");
         startDate = this.getArguments().getString("startDate");
@@ -262,7 +280,7 @@ public class FGOrderNew extends BaseFragment {
         childseatNum = this.getArguments().getString("childseatNum");
         luggageNum = this.getArguments().getString("luggageNum");
         passCities = this.getArguments().getString("passCities");
-        carTypeName = this.getArguments().getString("carTypeName");
+
         startCityName = this.getArguments().getString("startCityName");
         dayNums = this.getArguments().getString("dayNums");
 
@@ -282,7 +300,7 @@ public class FGOrderNew extends BaseFragment {
         serverDayTime = this.getArguments().getString("serverDayTime");
 
         distance = this.getArguments().getString("distance");
-        if(null == distance){
+        if (null == distance) {
             distance = "0";
         }
 
@@ -296,6 +314,8 @@ public class FGOrderNew extends BaseFragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     dreamLeft.setChecked(false);
+
+
                 }
             }
         });
@@ -313,13 +333,16 @@ public class FGOrderNew extends BaseFragment {
     private void genType(int type) {
         switch (type) {
             case 1:
-                genDairy();
+                genPick();
                 break;
             case 2:
+                genSend();
                 break;
             case 3:
+                genDairy();
                 break;
             case 4:
+                genSingle();
                 break;
             case 5:
                 genSKU();
@@ -327,12 +350,135 @@ public class FGOrderNew extends BaseFragment {
         }
     }
 
+
+    AirPort airPort;
+    boolean isCheckIn = false;
+    String serverDate;
+
+    private void genSend() {
+        airPort = this.getArguments().getParcelable("airPortBean");
+        poiBean = this.getArguments().getParcelable("poiBean");
+        adultNum = this.getArguments().getString("adultNum");
+        childrenNum = this.getArguments().getString("childrenNum");
+        childseatNum = this.getArguments().getString("childseatNum");
+        luggageNum = this.getArguments().getString("luggageNum");
+        manLuggageBean = this.getArguments().getParcelable("manLuggageBean");
+        carListBean = this.getArguments().getParcelable("carListBean");
+        type = this.getArguments().getInt("type");
+        orderType = this.getArguments().getString("orderType");
+        isCheckIn = this.getArguments().getBoolean("needCheckin");
+        serverDate = this.getArguments().getString("serverDate");
+        serverTime = this.getArguments().getString("serverTime");
+        carBean = this.getArguments().getParcelable("carBean");
+
+
+        citysLineTitle.setText("当地时间" + serverDate + "(" + DateUtils.getWeekOfDate(serverDate) + ")" + "  " + serverTime);
+        citys_line_title_tips.setVisibility(View.GONE);
+
+
+        startHospitalTitle.setText(poiBean.placeName);
+        startHospitalTitleTips.setVisibility(View.VISIBLE);
+        startHospitalTitleTips.setText(poiBean.placeDetail);
+
+        endHospitalTitle.setText(airPort.airportName);
+        endHospitalTitleTips.setVisibility(View.GONE);
+
+        carSeat.setText(carBean.carDesc);
+        carSeatTips.setText("(" + "乘坐" + (Integer.valueOf(adultNum) + Integer.valueOf(childrenNum)) + "人,行李箱" + luggageNum + "件,儿童座椅" + childseatNum + "个)");
+
+        airportNameLayout.setVisibility(View.VISIBLE);
+
+        singleNoShowTime.setVisibility(View.GONE);
+        singleNoShowAddress.setVisibility(View.GONE);
+
+        checkin.setText("协助办理登机check in");
+        checkin.setVisibility(View.VISIBLE);
+        pick_name_layout.setVisibility(View.GONE);
+        if (isCheckIn) {
+            checkin.setVisibility(View.VISIBLE);
+        } else {
+            checkin.setVisibility(View.GONE);
+        }
+    }
+
+
+    private void genPick() {
+        flightBean = (FlightBean) this.getArguments().getSerializable(FgCar.KEY_FLIGHT);
+        poiBean = (PoiBean) this.getArguments().getSerializable(FgCar.KEY_ARRIVAL);
+
+
+        carBean = this.getArguments().getParcelable("carBean");
+        carListBean = this.getArguments().getParcelable("carListBean");
+
+        adultNum = this.getArguments().getString("adultNum");
+        childrenNum = this.getArguments().getString("childrenNum");
+        childseatNum = this.getArguments().getString("childseatNum");
+        luggageNum = this.getArguments().getString("luggageNum");
+
+        citysLineTitle.setText("当地时间" + flightBean.arrivalTime + "(" + DateUtils.getWeekOfDate(flightBean.depDate) + ")");
+        citys_line_title_tips.setText("航班" + flightBean.arrivalAirport.airportCode + " " + flightBean.depAirport.cityName + "-" + flightBean.arrivalAirport.cityName);
+
+
+        startHospitalTitle.setText(flightBean.arrivalAirport.airportName);
+        startHospitalTitleTips.setVisibility(View.GONE);
+        endHospitalTitle.setText(poiBean.placeName);
+        endHospitalTitleTips.setText(poiBean.placeDetail);
+
+        carSeat.setText(carBean.carDesc);
+        carSeatTips.setText("(" + "乘坐" + (Integer.valueOf(adultNum) + Integer.valueOf(childrenNum)) + "人,行李箱" + luggageNum + "件,儿童座椅" + childseatNum + "个)");
+
+        singleNoShowTime.setVisibility(View.GONE);
+        singleNoShowAddress.setVisibility(View.GONE);
+
+        if (isCheckIn) {
+            checkin.setVisibility(View.VISIBLE);
+        } else {
+            checkin.setVisibility(View.GONE);
+        }
+    }
+
+    PoiBean endPoi;
+    PoiBean startPoi;
+
+    private void genSingle() {
+        endPoi = (PoiBean) this.getArguments().getSerializable("KEY_ARRIVAL");
+        startPoi = (PoiBean) this.getArguments().getSerializable("KEY_START");
+        startBean = (CityBean) this.getArguments().getSerializable("KEY_CITY");
+
+        serverDate = this.getArguments().getString("serverDate");
+        serverTime = this.getArguments().getString("serverTime");
+
+
+        adultNum = this.getArguments().getString("adultNum");
+        childrenNum = this.getArguments().getString("childrenNum");
+        childseatNum = this.getArguments().getString("childseatNum");
+        luggageNum = this.getArguments().getString("luggageNum");
+
+        citysLineTitle.setText("当地时间" + startDate + "(" + DateUtils.getWeekOfDate(startDate) + ")");
+
+        startHospitalTitle.setText(startPoi.placeName);
+        startHospitalTitleTips.setText(startPoi.placeDetail);
+        endHospitalTitle.setText(endPoi.placeName);
+        endHospitalTitleTips.setText(endPoi.placeDetail);
+
+        singleNoShowTime.setVisibility(View.GONE);
+        singleNoShowAddress.setVisibility(View.GONE);
+
+        carSeat.setText(carBean.carDesc);
+        carSeatTips.setText("(" + "乘坐" + (Integer.valueOf(adultNum) + Integer.valueOf(childrenNum)) + "人,行李箱" + luggageNum + "件,儿童座椅" + childseatNum + "个)");
+
+
+        citys_line_title_tips.setVisibility(View.GONE);
+        checkin.setVisibility(View.GONE);
+        pick_name_layout.setVisibility(View.GONE);
+    }
+
     private void genSKU() {
         skuTitle.setText(skuBean.goodsName);
         skuDay.setText(getString(R.string.sku_days, skuBean.daysCount));
         skuCityLine.setText(skuBean.places);
         skuLayout.setVisibility(View.VISIBLE);
-        citysLineTitle.setText("当地时间"+startDate+"("+DateUtils.getWeekOfDate(startDate)+")");
+        citysLineTitle.setText("当地时间" + startDate + "(" + DateUtils.getWeekOfDate(startDate) + ")");
         citys_line_title_tips.setVisibility(View.GONE);
 
         adultNum = this.getArguments().getString("adultNum");
@@ -348,7 +494,7 @@ public class FGOrderNew extends BaseFragment {
         pick_name_layout.setVisibility(View.GONE);
 
 
-        carSeat.setText(carTypeName);
+        carSeat.setText(carBean.carDesc);
         carSeatTips.setText("(" + "乘坐" + (Integer.valueOf(adultNum) + Integer.valueOf(childrenNum)) + "人,行李箱" + luggageNum + "件,儿童座椅" + childseatNum + "个)");
 
     }
@@ -401,6 +547,7 @@ public class FGOrderNew extends BaseFragment {
         String startWeekDay = "";
         startWeekDay = DateUtils.getWeekOfDate(startDate);
 
+
         String endWeekDay = "";
         endWeekDay = DateUtils.getWeekOfDate(endDate);
         citys_line_title_tips.setText("当地时间" + startDate + "(" + startWeekDay + ") 至" + "  " + endDate + " (" + endWeekDay + ")");
@@ -418,8 +565,6 @@ public class FGOrderNew extends BaseFragment {
         }
 
         if (!isHalfTravel && null != passCityList) {
-
-
             if (passCityList.size() <= 3) {
                 day_show_all.setVisibility(View.GONE);
                 genDayView(passCityList.size());
@@ -449,7 +594,7 @@ public class FGOrderNew extends BaseFragment {
         childseatNum = this.getArguments().getString("childseatNum");
         luggageNum = this.getArguments().getString("luggageNum");
 
-        carSeat.setText(carTypeName);
+        carSeat.setText(carBean.carDesc);
         carSeatTips.setText("(" + "乘坐" + (Integer.valueOf(adultNum) + Integer.valueOf(childrenNum)) + "人,行李箱" + luggageNum + "件,儿童座椅" + childseatNum + "个)");
 
 
@@ -463,10 +608,34 @@ public class FGOrderNew extends BaseFragment {
 
     }
 
+    private void setAllMoney(){
+        if (dreamLeft.isChecked()) {
+            allMoneyLeftText.setText("￥" + (carBean.price - money + seat1PriceTotal + seat2PriceTotal) + "");
+        }else{
+            if (null == mostFitBean.priceInfo) {
+                couponRight.setText("还没有优惠券");
+                allMoneyLeftText.setText("￥" + (carBean.price + seat1PriceTotal + seat2PriceTotal));
+            } else {
+                couponRight.setText((mostFitBean.priceInfo) + "优惠券");
+                allMoneyLeftText.setText("￥" + (mostFitBean.actualPrice + seat1PriceTotal + seat2PriceTotal));
+            }
+
+//            if (null == couponBean && null != mostFitBean) {
+//                requestParams.couponId = mostFitBean.couponId;
+//                requestParams.shouldPay = orderBean.orderPrice - Integer.valueOf(mostFitBean.couponPrice);
+//            } else if (null != couponBean && null == mostFitBean) {
+//                requestParams.couponId = couponBean.couponID;
+//                requestParams.shouldPay = orderBean.orderPrice - Integer.valueOf(couponBean.price);
+//            }
+
+
+        }
+    }
+
 
     //旅游基金
     String travelFund = "0";
-
+    int money = 0;//旅游基金int
     private void requestTravelFund() {
         TrequestTravelFundLogs request = new TrequestTravelFundLogs(getActivity(), 0);
         HttpRequestUtils.request(getContext(), request, new HttpRequestListener() {
@@ -475,7 +644,7 @@ public class FGOrderNew extends BaseFragment {
                 TrequestTravelFundLogs trequestTravelFundLogs = (TrequestTravelFundLogs) request;
                 TravelFundData travelFundData = trequestTravelFundLogs.getData();
                 travelFund = travelFundData.getFundAmount();
-                int money = Integer.valueOf(travelFund);
+                money = Integer.valueOf(travelFund);
                 if (0 == money) {
                     dream_right_tips.setVisibility(View.VISIBLE);
                     dream_right_tips.setOnClickListener(new View.OnClickListener() {
@@ -487,7 +656,7 @@ public class FGOrderNew extends BaseFragment {
                 } else {
                     dreamRight.setText("￥" + money);
                     if (dreamLeft.isChecked()) {
-                        allMoneyLeftText.setText("￥" + (carBean.price - money) + "");
+                        allMoneyLeftText.setText("￥" + (carBean.price - money + seat1PriceTotal + seat2PriceTotal) + "");
                     }
                     dream_right_tips.setVisibility(View.GONE);
                 }
@@ -521,22 +690,61 @@ public class FGOrderNew extends BaseFragment {
 //    String expectedCompTime; // 接送机预计完成时间[非日租必填]
     MostFitBean mostFitBean;
 
+
+    String date4MostFit = null;
+    String startCityId4MostFit = null;
+    String areaCode4MostFit = null;
+
     //优惠券
     private void requestMostFit() {
+        switch (type) {
+            case 1:
+                startCityId4MostFit = flightBean.arrivalAirport.cityId + "";
+                date4MostFit = flightBean.arrDate + " " + flightBean.arrivalTime + ":00";
+                areaCode4MostFit = flightBean.arrivalAirport.areaCode;
+                break;
+            case 2:
+                startCityId4MostFit = poiBean.id + "";
+                date4MostFit = serverDate + " " + serverTime + ":00";
+                areaCode4MostFit = airPort.areaCode + "";
+                break;
+            case 3:
+                startCityId4MostFit = startCityId;
+                date4MostFit = startDate + " 00:00:00";
+                areaCode4MostFit = startBean.areaCode + "";
+                break;
+            case 4:
+                date4MostFit = serverDate + " " + serverTime + ":00";
+                startCityId4MostFit = startPoi.id + "";
+                areaCode4MostFit = startBean.areaCode;
+                break;
+            case 5:
+                startCityId4MostFit = startCityId;
+                date4MostFit = startDate + " 00:00:00";
+                areaCode4MostFit = startBean.areaCode + "";
+                break;
+
+        }
+
         RequestMostFit requestMostFit = new RequestMostFit(getContext(), carBean.price + "", carBean.price + "",
-                startDate + " 00:00:00", carBean.carType + "", carBean.seatCategory + "", startCityId + "",
-                startBean.areaCode + "", dayNums + "", distance, inNum + "", outNum + "", dayNums + "", orderType);
+                date4MostFit,
+                carBean.carType + "",
+                carBean.seatCategory + "",
+                startCityId4MostFit,
+                areaCode4MostFit,
+                (null == dayNums ? "0" : dayNums) + "",
+                distance, inNum + "", outNum + "", (null == dayNums ? "0" : dayNums) + "", orderType);
         HttpRequestUtils.request(getContext(), requestMostFit, new HttpRequestListener() {
             @Override
             public void onDataRequestSucceed(BaseRequest request) {
                 RequestMostFit requestMostFit1 = (RequestMostFit) request;
                 mostFitBean = requestMostFit1.getData();
-                if(null == mostFitBean.priceInfo){
+                if (null == mostFitBean.priceInfo) {
                     couponRight.setText("还没有优惠券");
-                    allMoneyLeftText.setText("￥" + carBean.price);
-                }else{
-                    couponRight.setText((mostFitBean.priceInfo )+ "优惠券");
-                    allMoneyLeftText.setText("￥" + mostFitBean.actualPrice);
+                    allMoneyLeftText.setText("￥" + (carBean.price + seat1PriceTotal + seat2PriceTotal));
+                } else {
+                    couponRight.setText((mostFitBean.priceInfo) + "优惠券");
+                    allMoneyLeftText.setText("￥" + (mostFitBean.actualPrice + seat1PriceTotal + seat2PriceTotal));
                 }
                 couponRight.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -548,18 +756,18 @@ public class FGOrderNew extends BaseFragment {
                         mostFitAvailableBean.carSeatNum = carBean.seatCategory + "";
                         mostFitAvailableBean.carTypeId = carBean.carType + "";
                         mostFitAvailableBean.distance = distance;
-                        mostFitAvailableBean.expectedCompTime = dayNums + "";
+                        mostFitAvailableBean.expectedCompTime = (null == carBean.expectedCompTime) ? "" : carBean.expectedCompTime + "";
                         mostFitAvailableBean.limit = 0 + "";
                         mostFitAvailableBean.offset = 20 + "";
                         mostFitAvailableBean.priceChannel = carBean.price + "";
                         mostFitAvailableBean.useOrderPrice = carBean.price + "";
-                        mostFitAvailableBean.serviceCityId = startCityId + "";
-                        mostFitAvailableBean.serviceCountryId = startBean.areaCode;
+                        mostFitAvailableBean.serviceCityId = startCityId4MostFit + "";
+                        mostFitAvailableBean.serviceCountryId = areaCode4MostFit;
                         mostFitAvailableBean.serviceLocalDays = inNum + "";
                         mostFitAvailableBean.serviceNonlocalDays = outNum + "";
-                        mostFitAvailableBean.serviceTime = startDate + " 00:00:00";
+                        mostFitAvailableBean.serviceTime = date4MostFit;
                         mostFitAvailableBean.userId = UserEntity.getUser().getUserId(getContext());
-                        mostFitAvailableBean.totalDays = dayNums + "";
+                        mostFitAvailableBean.totalDays = (null == dayNums) ? "0" : dayNums + "";
                         mostFitAvailableBean.orderType = orderType;
                         bundle.putSerializable(Constants.PARAMS_DATA, mostFitAvailableBean);
                         fgCoupon.setArguments(bundle);
@@ -661,31 +869,20 @@ public class FGOrderNew extends BaseFragment {
             String orderNo = ((RequestSubmitBase) request).getData();
             FgChoosePayment.RequestParams requestParams = new FgChoosePayment.RequestParams();
             requestParams.orderId = orderNo;
-
-//            if (null == couponBean && null != mostFitBean) {
-//                orderBean.coupId = mostFitBean.couponId;
-//                orderBean.coupPriceInfo = mostFitBean.couponPrice + "";
-//                orderBean.orderPrice = (carBean.price - mostFitBean.couponPrice);
-//            } else if (null != couponBean && null == mostFitBean) {
-//                orderBean.coupId = couponBean.couponID;
-//                orderBean.coupPriceInfo = couponBean.price;
-//                orderBean.orderPrice = carBean.price - Integer.valueOf(couponBean.price);
-//            }
-
             if (couponLeft.isChecked()) {
-                if (null == couponBean && null != mostFitBean){
+                if (null == couponBean && null != mostFitBean) {
                     requestParams.couponId = mostFitBean.couponId;
-                    requestParams.shouldPay = carBean.price - Integer.valueOf(mostFitBean.couponPrice);
-                }else if (null != couponBean && null == mostFitBean){
+                    requestParams.shouldPay = orderBean.orderPrice - Integer.valueOf(mostFitBean.couponPrice);
+                } else if (null != couponBean && null == mostFitBean) {
                     requestParams.couponId = couponBean.couponID;
-                    requestParams.shouldPay = carBean.price - Integer.valueOf(couponBean.price);
+                    requestParams.shouldPay = orderBean.orderPrice - Integer.valueOf(couponBean.price);
                 }
 
             } else {
                 requestParams.couponId = "";
-                if(TextUtils.isEmpty(travelFund)){
+                if (TextUtils.isEmpty(travelFund)) {
                     requestParams.shouldPay = orderBean.orderPrice;
-                }else{
+                } else {
                     requestParams.shouldPay = orderBean.orderPrice - Integer.valueOf(travelFund);
                 }
             }
@@ -715,13 +912,41 @@ public class FGOrderNew extends BaseFragment {
             ToastUtils.showLong("联系人电话不能为空!");
             return;
         }
-        if (TextUtils.isEmpty(upAddressRight.getText())) {
-            ToastUtils.showLong("上车地点不能为空!");
-            return;
+        if(type == 3 || type == 5) {
+            if (TextUtils.isEmpty(upAddressRight.getText())) {
+                ToastUtils.showLong("上车地点不能为空!");
+                return;
+            }
         }
+
+        if(type == 1){
+            if (TextUtils.isEmpty(pickName.getText())) {
+                ToastUtils.showLong("接机牌姓名不能为空!");
+                return;
+            }
+        }
+
+
         if (UserEntity.getUser().isLogin(getActivity())) {
-            RequestSubmitDaily requestSubmitBase = new RequestSubmitDaily(getActivity(), getOrderByInput());
-            requestData(requestSubmitBase);
+            switch (type) {
+                case 1:
+                    RequestSubmitPick requestSubmitPick = new RequestSubmitPick(getActivity(), getOrderByInput());
+                    requestData(requestSubmitPick);
+                    break;
+                case 2:
+                    RequestSubmitSend requestSubmitSend = new RequestSubmitSend(getActivity(), getOrderByInput());
+                    requestData(requestSubmitSend);
+                    break;
+                case 3:
+                case 5:
+                    RequestSubmitDaily requestSubmitBase = new RequestSubmitDaily(getActivity(), getOrderByInput());
+                    requestData(requestSubmitBase);
+                    break;
+                case 4:
+                    RequestSubmitRent requestSubmitRent = new RequestSubmitRent(getActivity(), getOrderByInput());
+                    requestData(requestSubmitRent);
+                    break;
+            }
             doUMengStatistic();
         } else {
             Bundle bundle = new Bundle();//用于统计
@@ -733,8 +958,8 @@ public class FGOrderNew extends BaseFragment {
     private void doUMengStatistic() {
         HashMap<String, String> map = new HashMap<String, String>();
         map.put("source", source);
-        map.put("begincity", startBean.name);
-        map.put("carstyle", carBean.carDesc);
+//        map.put("begincity", startBean.name);
+//        map.put("carstyle", carBean.carDesc);
 //        if (checkboxOther.isChecked()) {
 //            map.put("forother", "是");
 //        } else {
@@ -773,7 +998,7 @@ public class FGOrderNew extends BaseFragment {
         try {
             String[] ymd = date.split("-");
             Calendar calendar = Calendar.getInstance();
-            calendar.set(Integer.valueOf(ymd[0]), Integer.valueOf(ymd[1])-1, Integer.valueOf(ymd[2]));
+            calendar.set(Integer.valueOf(ymd[0]), Integer.valueOf(ymd[1]) - 1, Integer.valueOf(ymd[2]));
             calendar.add(Calendar.DAY_OF_YEAR, day);
             return DateUtils.dateDateFormat.format(calendar.getTime());
         } catch (Exception e) {
@@ -795,7 +1020,7 @@ public class FGOrderNew extends BaseFragment {
         orderBean.serviceStartTime = serverTime + ":00";//时间
         orderBean.serviceEndTime = getServiceEndTime(startDate, skuBean.daysCount - 1);
         orderBean.distance = distance;//距离
-        orderBean.expectedCompTime = 0;//耗时
+//        orderBean.expectedCompTime = 0;//耗时
         orderBean.carDesc = carBean.carDesc;//车型描述
         orderBean.carType = carBean.carType;//车型
         orderBean.seatCategory = carBean.seatCategory;
@@ -830,7 +1055,7 @@ public class FGOrderNew extends BaseFragment {
         orderBean.outTownDays = skuBean.goodsType == 3 ? 0 : skuBean.daysCount;
         orderBean.skuPoi = "";
         orderBean.stayCityListStr = getPassCityStr();
-        orderBean.priceChannel = carBean.price+"";
+        orderBean.priceChannel = carBean.price + "";
         orderBean.userName = manName.getText().toString();
         orderBean.userRemark = mark.getText().toString();
 
@@ -877,65 +1102,53 @@ public class FGOrderNew extends BaseFragment {
     }
 
 
-
     OrderBean orderBean;
     ArrayList<CityBean> passCityList;
 
     String guideCollectId = null;
+
     //包车参数
-    private OrderBean getDayOrderByInput(){
+    private OrderBean getDayOrderByInput() {
         orderBean = new OrderBean();//订单
-        passCityList = new ArrayList<CityBean>();
-        if (orderBean.passByCity != null)
-            for (int i = 1; i < orderBean.passByCity.size() - 1; i++) {
-                passCityList.add(orderBean.passByCity.get(i));
-            }
 
         orderBean.adult = Integer.valueOf(adultNum);
-        orderBean.carDesc = carTypeName;
+        orderBean.carDesc = carBean.carDesc;
         orderBean.seatCategory = carBean.seatCategory;
         orderBean.carType = carBean.carType;
         orderBean.child = Integer.valueOf(childrenNum);
 
         orderBean.destAddress = endCityId;
+        orderBean.destAddressDetail = endBean.placeName;
 
         orderBean.priceMark = carBean.pricemark;
-        orderBean.serviceCityId = Integer.valueOf(startCityId);
-        orderBean.serviceEndCityid = Integer.valueOf(endCityId);
-        orderBean.serviceCityName = startCityName;
-        orderBean.serviceEndCityName = endCityId;
-        orderBean.isHalfDaily = Integer.valueOf(halfDay);
+
         orderBean.contact = contact;
         orderBean.serviceStartTime = serverTime + ":00";
         orderBean.serviceTime = startDate;
 
-        if (halfDay.equalsIgnoreCase("0")) {
-            orderBean.oneCityTravel = 2;
-            orderBean.totalDays = Integer.valueOf(dayNums);
-            orderBean.inTownDays = inNum;
-            orderBean.outTownDays = outNum;
-            orderBean.serviceEndTime = endDate;
-            orderBean.startAddressPoi = startBean.location;
-            orderBean.destAddressPoi = endBean.location;
-        } else {
-            orderBean.oneCityTravel = 1;
-            orderBean.serviceEndTime = startDate;
-            orderBean.startAddressPoi = startBean.location;
-            orderBean.destAddressPoi = startBean.location;
-            orderBean.totalDays = 1;
-            orderBean.inTownDays = 1;
-            orderBean.outTownDays = 0;
-        }
+        orderBean.serviceEndTime = endDate;
+        orderBean.outTownDays = outNum;
+        orderBean.inTownDays = inNum;
 
-//TODO;
+        orderBean.oneCityTravel = outNum == 0 ? 1 : 2;//1：市内畅游  2：跨城市
+
         orderBean.serviceAddressTel = hotelPhoneText.getText().toString();
         orderBean.serviceAreaCode = hotelPhoneTextCodeClick.getText().toString();
 
+        orderBean.orderType = 1;
 
-        orderBean.startAddressPoi = startBean.location;
-        orderBean.destAddressPoi = endBean.location;
+        orderBean.serviceCityId = startBean.cityId;
+        orderBean.serviceEndCityid = endBean.cityId;
+        orderBean.serviceCityName = startBean.name;
+        orderBean.serviceEndCityName = endBean.name;
+
+        orderBean.totalDays = (inNum + outNum);
+
+        orderBean.isHalfDaily = isHalfTravel ? 1 : 0;
+
 
         orderBean.startAddress = upRight.getText().toString();
+
         orderBean.startAddressDetail = "";//upSiteText.getText().toString();
 
 
@@ -1007,58 +1220,419 @@ public class FGOrderNew extends BaseFragment {
         return orderBean;
     }
 
+
+    int seat1PriceTotal;
+    int seat2PriceTotal;
+
+    private OrderBean getPickOrderByInput() {
+        orderBean = new OrderBean();//订单
+
+        orderBean.flight = flightBean.flightNo;
+        orderBean.flightBean = flightBean;
+        orderBean.startAddress = flightBean.arrivalAirport.airportName;
+        //出发地，到达地经纬度
+        orderBean.startLocation = flightBean.arrivalAirport.location;
+        orderBean.terminalLocation = poiBean.location;
+
+        orderBean.carDesc = carBean.carDesc;
+
+        orderBean.destAddress = poiBean.placeName;
+        orderBean.destAddressDetail = poiBean.placeDetail;
+
+        orderBean.serviceCityId = flightBean.arrivalAirport.cityId;
+        orderBean.serviceTime = flightBean.arrDate + " " + flightBean.arrivalTime + ":00";
+        orderBean.brandSign = pickName.getText().toString();
+
+        orderBean.flightNo = flightBean.flightNo;
+        orderBean.flightFlyTimeL = flightBean.arrDate;
+        orderBean.flightArriveTimeL = flightBean.arrivalTime;
+        orderBean.flightAirportBuiding = flightBean.arrivalAirport.airportName;
+        orderBean.flightAirportCode = flightBean.arrivalAirport.airportCode;
+        orderBean.flightAirportName = flightBean.arrAirportName;
+        orderBean.flightDestCode = flightBean.depAirportCode;
+        orderBean.flightDestName = flightBean.depAirportName;
+        orderBean.priceFlightBrandSign = carListBean.additionalServicePrice.pickupSignPrice;
+        orderBean.isFlightSign = carListBean.supportBanner ? "1" : "0";
+
+        orderBean.flightBrandSign = pickName.getText().toString();
+
+        orderBean.adult = Integer.valueOf(adultNum);
+        orderBean.seatCategory = carBean.seatCategory;
+        orderBean.carType = carBean.carType;
+        orderBean.child = Integer.valueOf(childrenNum);
+
+        orderBean.distance = distance;
+
+        orderBean.priceMark = carBean.pricemark;
+
+        orderBean.serviceAddressTel = hotelPhoneText.getText().toString();
+        orderBean.serviceAreaCode = hotelPhoneTextCodeClick.getText().toString();
+
+
+        orderBean.userName = manName.getText().toString();
+        orderBean.stayCityListStr = passCities;
+        orderBean.userRemark = mark.getText().toString();
+
+        orderBean.serviceDepartTime = serverTime;
+
+        orderBean.priceChannel = carBean.price + "";
+        orderBean.childSeatNum = childseatNum;
+        orderBean.luggageNum = luggageNum;
+
+        orderBean.realUserName = contactUsersBean.otherName;
+        orderBean.realAreaCode = contactUsersBean.otherphoneCode;
+        orderBean.realMobile = contactUsersBean.otherPhone;
+        if (contactUsersBean.isForOther) {
+            orderBean.isRealUser = "2";
+        } else {
+            orderBean.isRealUser = "1";
+        }
+        orderBean.realSendSms = contactUsersBean.isSendMessage ? "1" : "0";
+
+        if (dreamLeft.isChecked()) {
+            orderBean.travelFund = travelFund;
+        } else {
+            if (null == couponBean && null != mostFitBean) {
+                orderBean.coupId = mostFitBean.couponId;
+                orderBean.coupPriceInfo = mostFitBean.couponPrice + "";
+                orderBean.priceActual = mostFitBean.actualPrice+"";
+            } else if (null != couponBean && null == mostFitBean) {
+                orderBean.coupId = couponBean.couponID;
+                orderBean.coupPriceInfo = couponBean.price;
+                orderBean.priceActual = couponBean.actualPrice+"";
+            }
+        }
+        orderBean.expectedCompTime = carBean.expectedCompTime;
+        orderBean.guideCollectId = guideCollectId;
+
+        StringBuffer userExJson = new StringBuffer();
+        userExJson.append("[");
+
+        if (!TextUtils.isEmpty(contactUsersBean.userPhone)) {
+            userExJson.append("{name:\"" + contactUsersBean.userName + "\",areaCode:\"" + (null == contactUsersBean.phoneCode ? "+86" : contactUsersBean.phoneCode) + "\",mobile:\"" + contactUsersBean.userPhone + "\"}");
+        }
+
+        if (!TextUtils.isEmpty(contactUsersBean.user1Phone)) {
+            userExJson.append(",{name:\"" + contactUsersBean.user1Name + "\",areaCode:\"" + (null == contactUsersBean.phone1Code ? "+86" : contactUsersBean.phone1Code) + "\",mobile:\"" + contactUsersBean.user1Phone + "\"}");
+        }
+
+        if (!TextUtils.isEmpty(contactUsersBean.user2Phone)) {
+            userExJson.append(",{name:\"" + contactUsersBean.user2Name + "\",areaCode:\"" + (null == contactUsersBean.phone2Code ? "+86" : contactUsersBean.phone2Code) + "\",mobile:\"" + contactUsersBean.user2Phone + "\"}");
+        }
+        userExJson.append("]");
+        orderBean.userEx = userExJson.toString();
+
+        int seat1Count = (manLuggageBean.childSeats >= 1 ? 1 : 0);
+        int seat2Count = (manLuggageBean.childSeats >= 1 ? (manLuggageBean.childSeats - 1) : 0);
+        int seat1Price = 0;
+        int seat2Price = 0;
+        if (null == carListBean.additionalServicePrice.childSeatPrice1 && null == carListBean.additionalServicePrice.childSeatPrice2) {
+            orderBean.orderPrice  = carBean.price;
+        } else {
+            if (null != carListBean.additionalServicePrice.childSeatPrice1) {
+                seat1Price = Integer.valueOf(carListBean.additionalServicePrice.childSeatPrice1);
+            }
+            if (null != carListBean.additionalServicePrice.childSeatPrice2) {
+                seat2Price = Integer.valueOf(carListBean.additionalServicePrice.childSeatPrice2);
+            }
+            StringBuffer childSeat = new StringBuffer();
+            childSeat.append("{");
+            childSeat.append("\"").append("childSeatPrice1\":" + seat1Price + ",");
+            childSeat.append("\"").append("childSeatPrice2\":" + seat2Price + ",");
+            childSeat.append("\"").append("childSeatPrice1Count\":" + seat1Count + ",");
+            childSeat.append("\"").append("childSeatPrice2Count\":" + seat2Count + "");
+            childSeat.append("}");
+            seat1PriceTotal = seat1Price * seat1Count;
+            seat2PriceTotal = seat2Price * seat2Count;
+
+            orderBean.orderPrice = carBean.price + seat1PriceTotal + seat2PriceTotal;
+
+            orderBean.childSeatStr = childSeat.toString();
+        }
+
+
+        StringBuffer realUserExJson = new StringBuffer();
+        realUserExJson.append("[");
+
+        if (!TextUtils.isEmpty(contactUsersBean.otherName)) {
+            realUserExJson.append("{name:\"" + contactUsersBean.otherName + "\",areaCode:\"" + contactUsersBean.otherphoneCode + "\",mobile:\"" + contactUsersBean.otherPhone + "\"}");
+        }
+        realUserExJson.append("]");
+        orderBean.realUserEx = realUserExJson.toString();
+        return orderBean;
+    }
+
+
+    private OrderBean getSingleOrderByInput() {
+        orderBean = new OrderBean();//订单
+        orderBean.adult = Integer.valueOf(adultNum);
+        orderBean.carDesc = carBean.carDesc;
+        orderBean.seatCategory = carBean.seatCategory;
+        orderBean.carType = carBean.carType;
+        orderBean.child = Integer.valueOf(childrenNum);
+        orderBean.destAddress = endCityId;
+        orderBean.serviceCityId = Integer.valueOf(startCityId);
+        orderBean.serviceEndCityid = Integer.valueOf(endCityId);
+        orderBean.serviceCityName = startCityName;
+        orderBean.serviceEndCityName = endCityId;
+        orderBean.contact = contact;
+        orderBean.serviceStartTime = serverTime + ":00";
+        orderBean.serviceTime = serverDate + " " + serverTime + ":00";
+
+        orderBean.startAddress = startPoi.placeName;
+        orderBean.startAddressDetail = startPoi.placeDetail;
+        orderBean.startLocation = startPoi.location;
+
+        orderBean.destAddress = endPoi.placeName;
+        orderBean.destAddressDetail = endPoi.placeDetail;
+        orderBean.terminalLocation = endPoi.location;
+        orderBean.distance = distance;
+
+        orderBean.priceMark = carBean.pricemark;
+
+        orderBean.serviceAddressTel = hotelPhoneText.getText().toString();
+        orderBean.serviceAreaCode = hotelPhoneTextCodeClick.getText().toString();
+
+
+        orderBean.userName = manName.getText().toString();
+        orderBean.stayCityListStr = passCities;
+        orderBean.userRemark = mark.getText().toString();
+
+        orderBean.serviceDepartTime = serverTime;
+
+        orderBean.priceChannel = (carBean.price + seat1PriceTotal + seat2PriceTotal) + "";
+        orderBean.childSeatNum = childseatNum;
+        orderBean.luggageNum = luggageNum;
+
+        orderBean.realUserName = contactUsersBean.otherName;
+        orderBean.realAreaCode = contactUsersBean.otherphoneCode;
+        orderBean.realMobile = contactUsersBean.otherPhone;
+        if (contactUsersBean.isForOther) {
+            orderBean.isRealUser = "2";
+        } else {
+            orderBean.isRealUser = "1";
+        }
+        orderBean.realSendSms = contactUsersBean.isSendMessage ? "1" : "0";
+
+        if (dreamLeft.isChecked()) {
+            orderBean.travelFund = travelFund;
+        } else {
+            if (null == couponBean && null != mostFitBean) {
+                orderBean.coupId = mostFitBean.couponId;
+                orderBean.coupPriceInfo = mostFitBean.couponPrice + "";
+                orderBean.priceActual = mostFitBean.actualPrice+"";
+            } else if (null != couponBean && null == mostFitBean) {
+                orderBean.coupId = couponBean.couponID;
+                orderBean.coupPriceInfo = couponBean.price;
+                orderBean.priceActual = couponBean.actualPrice+"";
+            }
+        }
+        orderBean.expectedCompTime = carBean.expectedCompTime;
+        orderBean.guideCollectId = guideCollectId;
+
+        StringBuffer userExJson = new StringBuffer();
+        userExJson.append("[");
+
+        if (!TextUtils.isEmpty(contactUsersBean.userPhone)) {
+            userExJson.append("{name:\"" + contactUsersBean.userName + "\",areaCode:\"" + (null == contactUsersBean.phoneCode ? "+86" : contactUsersBean.phoneCode) + "\",mobile:\"" + contactUsersBean.userPhone + "\"}");
+        }
+
+        if (!TextUtils.isEmpty(contactUsersBean.user1Phone)) {
+            userExJson.append(",{name:\"" + contactUsersBean.user1Name + "\",areaCode:\"" + (null == contactUsersBean.phone1Code ? "+86" : contactUsersBean.phone1Code) + "\",mobile:\"" + contactUsersBean.user1Phone + "\"}");
+        }
+
+        if (!TextUtils.isEmpty(contactUsersBean.user2Phone)) {
+            userExJson.append(",{name:\"" + contactUsersBean.user2Name + "\",areaCode:\"" + (null == contactUsersBean.phone2Code ? "+86" : contactUsersBean.phone2Code) + "\",mobile:\"" + contactUsersBean.user2Phone + "\"}");
+        }
+        userExJson.append("]");
+        orderBean.userEx = userExJson.toString();
+
+        int seat1Count = (manLuggageBean.childSeats >= 1 ? 1 : 0);
+        int seat2Count = (manLuggageBean.childSeats >= 1 ? (manLuggageBean.childSeats - 1) : 0);
+        int seat1Price = 0;
+        int seat2Price = 0;
+        if (null == carListBean.additionalServicePrice.childSeatPrice1 && null == carListBean.additionalServicePrice.childSeatPrice2) {
+        } else {
+            if (null != carListBean.additionalServicePrice.childSeatPrice1) {
+                seat1Price = Integer.valueOf(carListBean.additionalServicePrice.childSeatPrice1);
+            }
+            if (null != carListBean.additionalServicePrice.childSeatPrice2) {
+                seat2Price = Integer.valueOf(carListBean.additionalServicePrice.childSeatPrice2);
+            }
+            StringBuffer childSeat = new StringBuffer();
+            childSeat.append("{");
+            childSeat.append("\"").append("childSeatPrice1\":" + seat1Price + ",");
+            childSeat.append("\"").append("childSeatPrice2\":" + seat2Price + ",");
+            childSeat.append("\"").append("childSeatPrice1Count\":" + seat1Count + ",");
+            childSeat.append("\"").append("childSeatPrice2Count\":" + seat2Count + "");
+            childSeat.append("}");
+            seat1PriceTotal = seat1Price * seat1Count;
+            seat2PriceTotal = seat2Price * seat2Count;
+            orderBean.childSeatStr = childSeat.toString();
+        }
+
+        orderBean.orderPrice = carBean.price + seat1PriceTotal + seat2PriceTotal;
+
+        orderBean.priceFlightBrandSign = "";
+
+
+        StringBuffer realUserExJson = new StringBuffer();
+        realUserExJson.append("[");
+
+        if (!TextUtils.isEmpty(contactUsersBean.otherName)) {
+            realUserExJson.append("{name:\"" + contactUsersBean.otherName + "\",areaCode:\"" + contactUsersBean.otherphoneCode + "\",mobile:\"" + contactUsersBean.otherPhone + "\"}");
+        }
+        realUserExJson.append("]");
+        orderBean.realUserEx = realUserExJson.toString();
+        return orderBean;
+    }
+
+    private OrderBean getSendOrderByInput() {
+        orderBean = new OrderBean();//订单
+
+        orderBean.serviceAreaCode = hotelPhoneTextCodeClick.getText().toString();
+        orderBean.serviceAddressTel = hotelPhoneText.getText().toString();
+        orderBean.urgentFlag = carBean.urgentFlag;
+
+        orderBean.expectedCompTime = carBean.expectedCompTime;
+        orderBean.guideCollectId = guideCollectId;
+        orderBean.orderType = type;
+        orderBean.carType = carBean.carType;
+        orderBean.seatCategory = carBean.seatCategory;
+        orderBean.carDesc = carBean.carDesc;
+        orderBean.contactName = manName.getText().toString();
+        orderBean.memo = mark.getText().toString().trim();
+        orderBean.childSeatNum = childseatNum;
+        orderBean.luggageNum = luggageNum;
+        orderBean.isCheckin = isCheckIn ? "1" : "0";
+
+        orderBean.flightNo = airportName.getText().toString();
+        orderBean.expectedCompTime = carBean.expectedCompTime;
+
+        orderBean.destAddressPoi = airPort.location;
+
+
+        orderBean.startAddress = poiBean.placeName;
+        orderBean.startAddressDetail = poiBean.placeDetail;
+        //出发地，到达地经纬度
+        orderBean.startLocation = poiBean.location;
+        orderBean.terminalLocation = poiBean.location;
+        orderBean.priceMark = carBean.pricemark;
+        orderBean.destAddress = airPort.airportName;
+        orderBean.flightAirportCode = airPort.airportCode;
+        orderBean.serviceCityId = airPort.cityId;
+        orderBean.serviceTime = serverDate + " " + serverTime + ":00";
+
+        orderBean.adult = Integer.valueOf(adultNum);
+        orderBean.seatCategory = carBean.seatCategory;
+        orderBean.carType = carBean.carType;
+        orderBean.child = Integer.valueOf(childrenNum);
+
+        orderBean.userRemark = mark.getText().toString();
+        orderBean.distance = carListBean.distance+"";
+
+        orderBean.realUserName = contactUsersBean.otherName;
+        orderBean.realAreaCode = contactUsersBean.otherphoneCode;
+        orderBean.realMobile = contactUsersBean.otherPhone;
+        if (contactUsersBean.isForOther) {
+            orderBean.isRealUser = "2";
+        } else {
+            orderBean.isRealUser = "1";
+        }
+        orderBean.realSendSms = contactUsersBean.isSendMessage ? "1" : "0";
+
+        if (dreamLeft.isChecked()) {
+            orderBean.travelFund = travelFund;
+        } else {
+            if (null == couponBean && null != mostFitBean) {
+                orderBean.coupId = mostFitBean.couponId;
+                orderBean.coupPriceInfo = mostFitBean.couponPrice + "";
+                orderBean.priceActual = mostFitBean.actualPrice + "";
+            } else if (null != couponBean && null == mostFitBean) {
+                orderBean.coupId = couponBean.couponID;
+                orderBean.coupPriceInfo = couponBean.price;
+                orderBean.priceActual = couponBean.actualPrice + "";
+            }
+        }
+
+        StringBuffer userExJson = new StringBuffer();
+        userExJson.append("[");
+
+        if (!TextUtils.isEmpty(contactUsersBean.userPhone)) {
+            userExJson.append("{name:\"" + contactUsersBean.userName + "\",areaCode:\"" + (null == contactUsersBean.phoneCode ? "+86" : contactUsersBean.phoneCode) + "\",mobile:\"" + contactUsersBean.userPhone + "\"}");
+        }
+
+        if (!TextUtils.isEmpty(contactUsersBean.user1Phone)) {
+            userExJson.append(",{name:\"" + contactUsersBean.user1Name + "\",areaCode:\"" + (null == contactUsersBean.phone1Code ? "+86" : contactUsersBean.phone1Code) + "\",mobile:\"" + contactUsersBean.user1Phone + "\"}");
+        }
+
+        if (!TextUtils.isEmpty(contactUsersBean.user2Phone)) {
+            userExJson.append(",{name:\"" + contactUsersBean.user2Name + "\",areaCode:\"" + (null == contactUsersBean.phone2Code ? "+86" : contactUsersBean.phone2Code) + "\",mobile:\"" + contactUsersBean.user2Phone + "\"}");
+        }
+        userExJson.append("]");
+        orderBean.userEx = userExJson.toString();
+
+        int seat1Count = (manLuggageBean.childSeats >= 1 ? 1 : 0);
+        int seat2Count = (manLuggageBean.childSeats >= 1 ? (manLuggageBean.childSeats - 1) : 0);
+        int seat1Price = 0;
+        int seat2Price = 0;
+        if (null == carListBean.additionalServicePrice.childSeatPrice1 && null == carListBean.additionalServicePrice.childSeatPrice2) {
+        } else {
+            if (null != carListBean.additionalServicePrice.childSeatPrice1) {
+                seat1Price = Integer.valueOf(carListBean.additionalServicePrice.childSeatPrice1);
+            }
+            if (null != carListBean.additionalServicePrice.childSeatPrice2) {
+                seat2Price = Integer.valueOf(carListBean.additionalServicePrice.childSeatPrice2);
+            }
+            StringBuffer childSeat = new StringBuffer();
+            childSeat.append("{");
+            childSeat.append("\"").append("childSeatPrice1\":" + seat1Price + ",");
+            childSeat.append("\"").append("childSeatPrice2\":" + seat2Price + ",");
+            childSeat.append("\"").append("childSeatPrice1Count\":" + seat1Count + ",");
+            childSeat.append("\"").append("childSeatPrice2Count\":" + seat2Count + "");
+            childSeat.append("}");
+            seat1PriceTotal = seat1Price * seat1Count;
+            seat2PriceTotal = seat2Price * seat2Count;
+            orderBean.childSeatStr = childSeat.toString();
+        }
+        orderBean.orderPrice = isCheckIn ? (carBean.price + Integer.valueOf(carListBean.additionalServicePrice.checkInPrice)) + seat1PriceTotal + seat2PriceTotal : carBean.price + seat1PriceTotal + seat2PriceTotal;
+        orderBean.checkInPrice = isCheckIn ? Integer.valueOf(carListBean.additionalServicePrice.checkInPrice) : null;
+        orderBean.priceChannel = isCheckIn ? "" + (carBean.price + Integer.valueOf(carListBean.additionalServicePrice.checkInPrice) + seat1PriceTotal + seat2PriceTotal) : "" + (carBean.price + seat1PriceTotal + seat2PriceTotal);
+
+        orderBean.flightAirportCode = airPort.airportCode;
+        orderBean.flightAirportName = airPort.airportName;
+
+
+        StringBuffer realUserExJson = new StringBuffer();
+        realUserExJson.append("[");
+
+        if (!TextUtils.isEmpty(contactUsersBean.otherName)) {
+            realUserExJson.append("{name:\"" + contactUsersBean.otherName + "\",areaCode:\"" + contactUsersBean.otherphoneCode + "\",mobile:\"" + contactUsersBean.otherPhone + "\"}");
+        }
+        realUserExJson.append("]");
+        orderBean.realUserEx = realUserExJson.toString();
+        return orderBean;
+    }
+
     private OrderBean getOrderByInput() {
-        switch (type){
+        switch (type) {
             case 1:
-                orderBean = getDayOrderByInput();
+                orderBean = getPickOrderByInput();
                 break;
             case 2:
+                orderBean = getSendOrderByInput();
                 break;
             case 3:
+                orderBean = getDayOrderByInput();
                 break;
             case 4:
+                orderBean = getSingleOrderByInput();
                 break;
             case 5:
                 orderBean = getSKUOrderByInput();
                 break;
         }
-
-
         return orderBean;
-
-/**
- "priceChannel": model.priceChannel!,                 // C端价格
- "priceMark": model.priceMark!,                       // 询价系统返回ID
- "adultNum": model.adultNum!,                         // 成人座位数
- "childNum": model.childNum!,                         // 小孩座位数
-
- "startCityId": model.startCityId!,                  // 服务地城市ID
- "destCityId": model.destCityId!,                    // 服务终止城市ID
- "startCityName": model.startCityName!,
- "destCityName": model.destCityName!,
-
- "serviceDate": model.serviceDate!,                  // 服务时间
- "serviceEndDate": model.serviceEndDate!,            // 服务终止时间
- "serviceRecTime": model.serviceRecTime!,            // 服务时间
- "serviceDepartTime": model.serviceDepartTime!,      // 出发时间
-
- "startAddressPoi": model.startAddressPoi!,           // 出发地poi(纬度,经度 : 36.524461,180.155223)
- "destAddressPoi": model.destAddressPoi!,             // 目的地poi(纬度,经度 : 36.524461,180.155223)
- "distance": model.distance!,                         // 服务距离
- "expectedCompTime": model.expectedCompTime!,         // 预计服务时间
- "carTypeId": model.carTypeId!,                       // 车类型：1-经济，2-舒适，3-豪华，4-奢华
- "carSeatNum": model.carSeatNum!,                     // 车容量，车座数
- "carDesc": model.carDesc!,                           // 车辆类型描述（所包含的车辆款式）
- "userAreaCode1": model.userAreaCode1!,               // 用户手机号（默认登录使用手机号）
- "userMobile1": model.userMobile1!,                   // 用户区号
- "userName": model.userName!,                         // 客人名字
- "urgentFlag": model.urgentFlag!,                     // 是否急单
- "orderChannel": channelId,                           // 渠道编号
-
-
- **/
-
-
     }
 
     private void startArrivalSearch(int cityId, String location) {
@@ -1091,7 +1665,7 @@ public class FGOrderNew extends BaseFragment {
                 showTimeSelect();
                 break;
             case up_address_right:
-                startArrivalSearch(Integer.valueOf(startCityId), startBean.location);
+                startArrivalSearch(Integer.valueOf((null == startCityId) ? poiBean.id + "" : startCityId), (null == startBean) ? poiBean.location : startBean.location);
                 break;
             case R.id.hotel_phone_text_code_click:
                 FgChooseCountry chooseCountry = new FgChooseCountry();
@@ -1104,59 +1678,4 @@ public class FGOrderNew extends BaseFragment {
                 break;
         }
     }
-
-//
-//    @OnClick({R.id.header_right_txt, R.id.all_money_info, R.id.header_left_btn, R.id.hotel_phone_text_code_click, R.id.all_money_submit_click})
-//    public void onClick(View view) {
-//        switch (view.getId()) {
-////            case R.id.up_site_text:
-////                startArrivalSearch(Integer.valueOf(startCityId), startBean.location);
-////                break;
-//            case R.id.header_right_txt:
-//                HashMap<String, String> map = new HashMap<String, String>();
-//                map.put("source", "提交订单页面");
-//                MobclickAgent.onEvent(getActivity(), "callcenter_oneday", map);
-//                view.setTag("提交订单页面,calldomestic_oneday,calloverseas_oneday");
-//                super.onClick(view);
-//                break;
-//            case R.id.all_money_info:
-//                FgOrderInfo fgOrderInfo = new FgOrderInfo();
-//                Bundle bundleCar = new Bundle();
-//                bundleCar.putParcelable("carBean", carBean);
-//                bundleCar.putString("halfDay", halfDay);
-//                fgOrderInfo.setArguments(bundleCar);
-//                startFragment(fgOrderInfo);
-//                break;
-//            case R.id.up_time:
-//                showTimeSelect();
-//                break;
-//            case R.id.header_left_btn:
-//                finish();
-//                break;
-//            case R.id.header_title:
-//                break;
-////            case R.id.add_other_phone_click:
-////                if (!phone2Layout.isShown()) {
-////                    phone2Layout.setVisibility(View.VISIBLE);
-////                } else if (!phone3Layout.isShown()) {
-////                    phone3Layout.setVisibility(View.VISIBLE);
-////                    addOtherPhoneClick.setTextColor(Color.parseColor("#929394"));
-////                }
-//
-////                break;
-////            case R.id.area_code_click:
-////            case R.id.area_code_2_click:
-////            case R.id.area_code_3_click:
-////            case R.id.area_code_other_click:
-//            case R.id.hotel_phone_text_code_click:
-//                FgChooseCountry chooseCountry = new FgChooseCountry();
-//                Bundle bundleCode = new Bundle();
-//                bundleCode.putInt("airportCode", view.getId());
-//                startFragment(chooseCountry, bundleCode);
-//                break;
-//            case R.id.all_money_submit_click:
-//                checkData();
-//                break;
-//        }
-//    }
 }

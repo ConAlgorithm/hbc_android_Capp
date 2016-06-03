@@ -133,12 +133,15 @@ public class FgManLuggage extends BaseFragment {
     int currentIndex = 0;
     CarBean carBean;
 
+    boolean supportChildseat = true;
     @Override
     protected void initView() {
         carListBean = this.getArguments().getParcelable("carListBean");
         currentIndex = this.getArguments().getInt("currentIndex");
         carBean = carListBean.carList.get(currentIndex);
-        if (!carListBean.supportChildseat) {
+        if (null == carListBean.additionalServicePrice || (null == carListBean.additionalServicePrice.childSeatPrice1
+                && null  == carListBean.additionalServicePrice.childSeatPrice2)) {
+            supportChildseat = false;
             topTips.setVisibility(View.VISIBLE);
         }
         mNums = carBean.capOfPerson;
@@ -329,7 +332,7 @@ public class FgManLuggage extends BaseFragment {
                     cNums++;
                     cSub.setBackgroundColor(Color.parseColor("#fad027"));
                     cNum.setText(cNums + "");
-                    if (carListBean.supportChildseat) {
+                    if (supportChildseat) {
                         showChildSeat.setVisibility(View.VISIBLE);
                     }
                     addChangeBg();

@@ -342,7 +342,7 @@ public class FgSkuSubmit extends BaseFragment implements View.OnClickListener {
         orderBean.serviceStartTime = serverTime + ":00";//时间
         orderBean.serviceEndTime = getServiceEndTime(serverDate, skuBean.daysCount - 1);
         orderBean.distance = String.valueOf(carListBean.distance);//距离
-        orderBean.expectedCompTime = carListBean.interval;//耗时
+        orderBean.expectedCompTime = carListBean.interval+"";//耗时
         orderBean.carDesc = carTypeBean.desc;//车型描述
         orderBean.carType = carTypeBean.carType;//车型
         orderBean.seatCategory = carTypeBean.carSeat;
