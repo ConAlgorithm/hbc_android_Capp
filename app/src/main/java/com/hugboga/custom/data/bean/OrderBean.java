@@ -127,18 +127,13 @@ public class OrderBean implements IBaseBean ,Parcelable{
     public String coupId;
     public String coupPriceInfo;
 
-<<<<<<< HEAD
-    public String flightNo;//航班编号
     public String flightDeptCityName;//起飞机场所在城市
     public String flightDestCityName;//降落机场所在城市
     public String serviceTimeStr;//当时间串 例如： 04月21日（周五）10:05
     public String passengerInfos;//座位信息 乘坐%1$s人、行李箱%2$s件、儿童座椅%3$s个
-
     public int storeStatus;//导游是否被收藏 0没有 1已收藏
     public int userCommentStatus;//用户是否给导游评价过 0未评价，1评价过
-=======
     public String childSeatStr; //2.7.0 新加 对应 接口字段 childSeat
-
 
     public String flightAirportBuiding;
     public String flightAirportName;
@@ -157,10 +152,6 @@ public class OrderBean implements IBaseBean ,Parcelable{
     public String priceActual;////使用券时，实际支付价格
 
     public String isCheckin;////是否协助登机
-
-
-
->>>>>>> cc16b10e86287524927b731bca9bd38d53d807c4
 
     public String getOrderTypeStr(Context context) {
         switch (orderGoodsType) {
@@ -281,15 +272,12 @@ public class OrderBean implements IBaseBean ,Parcelable{
         dest.writeString(this.realUserEx);
         dest.writeString(this.coupId);
         dest.writeString(this.coupPriceInfo);
-<<<<<<< HEAD
-        dest.writeString(this.flightNo);
         dest.writeString(this.flightDeptCityName);
         dest.writeString(this.flightDestCityName);
         dest.writeString(this.serviceTimeStr);
         dest.writeString(this.passengerInfos);
         dest.writeInt(this.storeStatus);
         dest.writeInt(this.userCommentStatus);
-=======
         dest.writeString(this.childSeatStr);
         dest.writeString(this.flightAirportBuiding);
         dest.writeString(this.flightAirportName);
@@ -304,7 +292,6 @@ public class OrderBean implements IBaseBean ,Parcelable{
         dest.writeString(this.isFlightSign);
         dest.writeString(this.priceActual);
         dest.writeString(this.isCheckin);
->>>>>>> cc16b10e86287524927b731bca9bd38d53d807c4
     }
 
     public OrderBean() {
@@ -405,15 +392,12 @@ public class OrderBean implements IBaseBean ,Parcelable{
         this.realUserEx = in.readString();
         this.coupId = in.readString();
         this.coupPriceInfo = in.readString();
-<<<<<<< HEAD
-        this.flightNo = in.readString();
         this.flightDeptCityName = in.readString();
         this.flightDestCityName = in.readString();
         this.serviceTimeStr = in.readString();
         this.passengerInfos = in.readString();
         this.storeStatus = in.readInt();
         this.userCommentStatus = in.readInt();
-=======
         this.childSeatStr = in.readString();
         this.flightAirportBuiding = in.readString();
         this.flightAirportName = in.readString();
@@ -428,7 +412,6 @@ public class OrderBean implements IBaseBean ,Parcelable{
         this.isFlightSign = in.readString();
         this.priceActual = in.readString();
         this.isCheckin = in.readString();
->>>>>>> cc16b10e86287524927b731bca9bd38d53d807c4
     }
 
     public static final Creator<OrderBean> CREATOR = new Creator<OrderBean>() {
