@@ -14,6 +14,7 @@ public class OrderGuideInfo implements IBaseBean ,Parcelable {
     public String guideTel;//车导电话
     public double guideStarLevel;//车导级别
     public String car;//车描述
+    public String CarNumber;//车牌
 
     @Override
     public int describeContents() {
@@ -28,6 +29,7 @@ public class OrderGuideInfo implements IBaseBean ,Parcelable {
         dest.writeString(this.guideTel);
         dest.writeDouble(this.guideStarLevel);
         dest.writeString(this.car);
+        dest.writeString(this.CarNumber);
     }
 
     public OrderGuideInfo() {
@@ -40,6 +42,7 @@ public class OrderGuideInfo implements IBaseBean ,Parcelable {
         this.guideTel = in.readString();
         this.guideStarLevel = in.readDouble();
         this.car = in.readString();
+        this.CarNumber = in.readString();
     }
 
     public static final Creator<OrderGuideInfo> CREATOR = new Creator<OrderGuideInfo>() {

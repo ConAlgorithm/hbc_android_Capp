@@ -379,31 +379,45 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, OnIt
         @Override
         public void onItemClick(View v, int position) {
             MLog.e("view = " + view);
+            //Fixme qingcha
+            OrderBean bean = null;
             if (view == fgTravelRunning) {
-                OrderBean bean = runningAdapter.getDatas().get(position);
-                Bundle bundle = new Bundle();
-                bundle.putInt(KEY_BUSINESS_TYPE, bean.orderType);
-                bundle.putInt(KEY_GOODS_TYPE, bean.orderGoodsType);
-                bundle.putString(FgOrder.KEY_ORDER_ID, bean.orderNo);
-                bundle.putString("source", bean.orderType == 5 ? bean.serviceCityName : "首页");
-                startFragment(new FgOrder(), bundle);
+                bean = runningAdapter.getDatas().get(position);
             } else if (view == fgTravelFinish) {
-                OrderBean bean = finishAdapter.getDatas().get(position);
-                Bundle bundle = new Bundle();
-                bundle.putInt(KEY_BUSINESS_TYPE, bean.orderType);
-                bundle.putInt(KEY_GOODS_TYPE, bean.orderGoodsType);
-                bundle.putString(FgOrder.KEY_ORDER_ID, bean.orderNo);
-                bundle.putString("source", bean.orderType == 5 ? bean.serviceCityName : "首页");
-                startFragment(new FgOrder(), bundle);
+                bean = finishAdapter.getDatas().get(position);
             } else if (view == fgTravelCancel) {
-                OrderBean bean = cancelAdapter.getDatas().get(position);
-                Bundle bundle = new Bundle();
-                bundle.putInt(KEY_BUSINESS_TYPE, bean.orderType);
-                bundle.putInt(KEY_GOODS_TYPE, bean.orderGoodsType);
-                bundle.putString(FgOrder.KEY_ORDER_ID, bean.orderNo);
-                bundle.putString("source", bean.orderType == 5 ? bean.serviceCityName : "首页");
-                startFragment(new FgOrder(), bundle);
+                bean = cancelAdapter.getDatas().get(position);
             }
+            FgOrderDetail.Params params = new FgOrderDetail.Params();
+            params.orderGoodsType = bean.orderGoodsType;
+            params.orderId = bean.orderNo;
+            params.source = bean.orderType == 5 ? bean.serviceCityName : "首页";
+            startFragment(FgOrderDetail.newInstance(params));
+//            if (view == fgTravelRunning) {
+//                OrderBean bean = runningAdapter.getDatas().get(position);
+//                Bundle bundle = new Bundle();
+//                bundle.putInt(KEY_BUSINESS_TYPE, bean.orderType);
+//                bundle.putInt(KEY_GOODS_TYPE, bean.orderGoodsType);
+//                bundle.putString(FgOrder.KEY_ORDER_ID, bean.orderNo);
+//                bundle.putString("source", bean.orderType == 5 ? bean.serviceCityName : "首页");
+//                startFragment(new FgOrder(), bundle);
+//            } else if (view == fgTravelFinish) {
+//                OrderBean bean = finishAdapter.getDatas().get(position);
+//                Bundle bundle = new Bundle();
+//                bundle.putInt(KEY_BUSINESS_TYPE, bean.orderType);
+//                bundle.putInt(KEY_GOODS_TYPE, bean.orderGoodsType);
+//                bundle.putString(FgOrder.KEY_ORDER_ID, bean.orderNo);
+//                bundle.putString("source", bean.orderType == 5 ? bean.serviceCityName : "首页");
+//                startFragment(new FgOrder(), bundle);
+//            } else if (view == fgTravelCancel) {
+//                OrderBean bean = cancelAdapter.getDatas().get(position);
+//                Bundle bundle = new Bundle();
+//                bundle.putInt(KEY_BUSINESS_TYPE, bean.orderType);
+//                bundle.putInt(KEY_GOODS_TYPE, bean.orderGoodsType);
+//                bundle.putString(FgOrder.KEY_ORDER_ID, bean.orderNo);
+//                bundle.putString("source", bean.orderType == 5 ? bean.serviceCityName : "首页");
+//                startFragment(new FgOrder(), bundle);
+//            }
         }
     }
 

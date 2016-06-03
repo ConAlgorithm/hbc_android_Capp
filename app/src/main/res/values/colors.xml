@@ -136,4 +136,5 @@
     <color name="travel_fund_basic">#fdd631</color>
 
     <color name="default_bg">#F9F9F9</color>
+    <color name="default_dividing_line">#44999999</color>
 </resources>

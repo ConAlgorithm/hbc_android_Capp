@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/default_bg"
+    android:orientation="vertical">
+    <com.hugboga.custom.widget.OrderDetailTitleBar
+        android:id="@+id/order_detail_title_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <com.hugboga.custom.widget.OrderDetailFloatView
+        android:id="@+id/order_detail_float_view"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <ScrollView
+        android:layout_below="@id/order_detail_title_layout"
+        android:layout_above="@id/order_detail_float_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:id="@+id/order_detail_group_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <com.hugboga.custom.widget.OrderDetailStateView
+                android:id="@+id/order_detail_state_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+            <com.hugboga.custom.widget.OrderDetailGuideInfo
+                android:id="@+id/order_detail_guideinfo_view"
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"/>
+            <com.hugboga.custom.widget.OrderDetailItineraryView
+                android:id="@+id/order_detail_itinerary_view"
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <com.hugboga.custom.widget.OrderDetailAmountView
+                android:id="@+id/order_detail_amount_view"
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <com.hugboga.custom.widget.OrderDetailInfoView
+                android:id="@+id/order_detail_info_view"
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <include layout="@layout/view_order_detail_explain" />
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

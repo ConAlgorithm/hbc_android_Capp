@@ -20,11 +20,11 @@ import java.util.HashMap;
 @HttpRequest(path = UrlLibs.UNCOLLECT_GUIDES_ID, builder = NewParamsBuilder.class)
 public class RequestUncollectGuidesId extends BaseRequest {
 
-    public RequestUncollectGuidesId(Context context, String userId, String guideId) {
+    public RequestUncollectGuidesId(Context context, String guideId) {
         super(context);
         map = new HashMap<String, Object>();
         map.put("source", Constants.REQUEST_SOURCE);
-        map.put("userId", userId);
+        map.put("userId", UserEntity.getUser().getUserId(context));
         map.put("guideId", guideId);//司导ID
     }
 
