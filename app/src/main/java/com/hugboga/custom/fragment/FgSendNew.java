@@ -44,6 +44,7 @@ import butterknife.OnClick;
 
 import static com.hugboga.custom.R.id.driver_layout;
 import static com.hugboga.custom.R.id.driver_name;
+import static u.aly.au.W;
 
 import de.greenrobot.event.EventBus;
 
@@ -193,9 +194,12 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
     }
 
     ManLuggageBean manLuggageBean;
-
+    boolean isCheck = false;
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
+            case CHECK_SWITCH:
+                isCheck = (boolean)action.getData();
+                break;
             case CHANGE_CAR:
                 carBean = (CarBean) action.getData();
                 genBottomData(carBean);
@@ -211,36 +215,21 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
                         bundle.putString("guideCollectId","");
                         bundle.putSerializable("collectGuideBean",null);
                         bundle.putString("source",source);
-
-
-                        bundle.putString("serverTime",serverTime);
-                        bundle.putString("price",carBean.price+"");
-                        bundle.putString("distance",carListBean.distance+"");
-
                         carBean.expectedCompTime = carListBean.estTime;
                         bundle.putParcelable("carBean", CarUtils.carBeanAdapter(carBean));
-
-                        bundle.putString("startDate", serverDate);
-                        bundle.putString("endDate", serverDate);
-//                        bundle.putString("serverDayTime",serverDayTime+":00");
-                        bundle.putString("halfDay", "0");
+                        bundle.putParcelable("airPortBean",airPortBean);
+                        bundle.putParcelable("poiBean",poiBean);
+                        bundle.putString("serverTime",  serverTime);
+                        bundle.putString("serverDate",  serverDate);
                         bundle.putString("adultNum", manLuggageBean.mans + "");
                         bundle.putString("childrenNum", manLuggageBean.childs + "");
                         bundle.putString("childseatNum", manLuggageBean.childSeats + "");
                         bundle.putString("luggageNum", manLuggageBean.luggages + "");
-                        bundle.putString("passCities", "");
-                        bundle.putString("carTypeName", carBean.desc);
                         bundle.putSerializable("carListBean",carListBean);
-                        bundle.putInt("outnum", 0);
-                        bundle.putInt("innum", 0);
-                        bundle.putString("dayNums", "0");
-
-//                        bundle.putParcelable("carBean",carBeanAdapter(carBean));
                         bundle.putInt("type",2);
                         bundle.putString("orderType","2");
-
+                        bundle.putBoolean("needCheckin",isCheck);
                         bundle.putParcelable("manLuggageBean",manLuggageBean);
-
                         fgOrderNew.setArguments(bundle);
                         startFragment(fgOrderNew);
                     }
