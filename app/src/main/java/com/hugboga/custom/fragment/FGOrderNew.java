@@ -64,6 +64,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
 
+import static com.hugboga.custom.R.id.insure_money;
 import static com.hugboga.custom.R.id.man_name;
 import static com.hugboga.custom.R.id.up_address_right;
 import static com.hugboga.custom.R.id.up_right;
@@ -1076,6 +1077,10 @@ public class FGOrderNew extends BaseFragment {
         orderBean.serviceStartTime = serverTime + ":00";
         orderBean.serviceTime = startDate;
 
+        orderBean.serviceEndTime = endDate;
+        orderBean.outTownDays = outNum;
+        orderBean.inTownDays = inNum;
+
         orderBean.oneCityTravel = outNum == 0 ? 1 : 2;//1：市内畅游  2：跨城市
 
         orderBean.serviceAddressTel = hotelPhoneText.getText().toString();
@@ -1083,7 +1088,15 @@ public class FGOrderNew extends BaseFragment {
 
         orderBean.orderType = 1;
 
+        orderBean.serviceCityId = startBean.cityId;
+        orderBean.serviceEndCityid = endBean.cityId;
+        orderBean.serviceCityName = startBean.name;
+        orderBean.serviceEndCityName = endBean.name;
+
+        orderBean.totalDays = (inNum + outNum);
+
         orderBean.isHalfDaily = isHalfTravel?1:0;
+
 
 
         orderBean.startAddress = upRight.getText().toString();
