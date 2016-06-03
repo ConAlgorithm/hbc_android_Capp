@@ -22,7 +22,6 @@ public class RequestSubmitSend extends RequestSubmitBase{
 
         map.put("flightAirportCode", orderBean.flightAirportCode);
         map.put("flightAirportName", orderBean.destAddress);
-        map.put("checkinPrice",orderBean.checkInPrice);
         map.put("realSendSms",orderBean.realSendSms);
 
         map.put("coupId",orderBean.coupId);
@@ -40,6 +39,10 @@ public class RequestSubmitSend extends RequestSubmitBase{
 
         map.put("orderChannel",orderBean.priceChannel);
         map.put("serviceTime",orderBean.serviceTime);
+
+        map.put("isCheckin",orderBean.isCheckin);
+        map.put("checkInPrice",orderBean.checkInPrice);
+        map.put("childSeat",orderBean.childSeatStr);
 
 
         if(orderBean.flightBean != null){

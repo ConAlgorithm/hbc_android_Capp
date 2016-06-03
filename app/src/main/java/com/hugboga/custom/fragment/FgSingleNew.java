@@ -312,6 +312,10 @@ public class FgSingleNew extends BaseFragment {
                         bundle.putString("endCityId", cityBean.cityId + "");//endCityId);
                         bundle.putString("startDate", serverDate);
                         bundle.putString("endDate", serverDate);
+
+                        bundle.putString("serverTime",  serverTime);
+                        bundle.putString("serverDate",  serverDate);
+
 //                        bundle.putString("serverDayTime",serverDayTime+":00");
                         bundle.putString("halfDay", "0");
                         bundle.putString("adultNum", manLuggageBean.mans + "");

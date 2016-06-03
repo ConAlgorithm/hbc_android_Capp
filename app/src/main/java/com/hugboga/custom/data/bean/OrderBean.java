@@ -145,6 +145,8 @@ public class OrderBean implements IBaseBean ,Parcelable{
 
     public String priceActual;////使用券时，实际支付价格
 
+    public String isCheckin;////是否协助登机
+
 
 
 
@@ -281,6 +283,7 @@ public class OrderBean implements IBaseBean ,Parcelable{
         dest.writeString(this.priceFlightBrandSign);
         dest.writeString(this.isFlightSign);
         dest.writeString(this.priceActual);
+        dest.writeString(this.isCheckin);
     }
 
     public OrderBean() {
@@ -394,6 +397,7 @@ public class OrderBean implements IBaseBean ,Parcelable{
         this.priceFlightBrandSign = in.readString();
         this.isFlightSign = in.readString();
         this.priceActual = in.readString();
+        this.isCheckin = in.readString();
     }
 
     public static final Creator<OrderBean> CREATOR = new Creator<OrderBean>() {

@@ -233,7 +233,7 @@ public class FGOrderNew extends BaseFragment {
     String passCities;
     String carTypeName;
     String startCityName;
-    String dayNums;
+    String dayNums = "0";
     SelectCarBean carBean;
 
     CityBean startBean;
@@ -366,6 +366,7 @@ public class FGOrderNew extends BaseFragment {
         serverTime = this.getArguments().getString("serverTime");
         carBean = this.getArguments().getParcelable("carBean");
 
+
         citysLineTitle.setText("当地时间" + serverDate + "(" + DateUtils.getWeekOfDate(serverDate) + ")" + "  " + serverTime);
         citys_line_title_tips.setVisibility(View.GONE);
 
@@ -396,6 +397,8 @@ public class FGOrderNew extends BaseFragment {
     private void genPick() {
         flightBean = (FlightBean) this.getArguments().getSerializable(FgCar.KEY_FLIGHT);
         poiBean = (PoiBean) this.getArguments().getSerializable(FgCar.KEY_ARRIVAL);
+
+        carListBean = this.getArguments().getParcelable("carListBean");
 
         adultNum = this.getArguments().getString("adultNum");
         childrenNum = this.getArguments().getString("childrenNum");
@@ -428,6 +431,10 @@ public class FGOrderNew extends BaseFragment {
         endPoi = (PoiBean) this.getArguments().getSerializable("KEY_ARRIVAL");
         startPoi = (PoiBean) this.getArguments().getSerializable("KEY_START");
         startBean = (CityBean) this.getArguments().getSerializable("KEY_CITY");
+
+        serverDate = this.getArguments().getString("serverDate");
+        serverTime = this.getArguments().getString("serverTime");
+
 
         adultNum = this.getArguments().getString("adultNum");
         childrenNum = this.getArguments().getString("childrenNum");
@@ -523,6 +530,8 @@ public class FGOrderNew extends BaseFragment {
         }
         String startWeekDay = "";
         startWeekDay = DateUtils.getWeekOfDate(startDate);
+
+
 
         String endWeekDay = "";
         endWeekDay = DateUtils.getWeekOfDate(endDate);
@@ -651,7 +660,7 @@ public class FGOrderNew extends BaseFragment {
     private void requestMostFit() {
         switch (type) {
             case 1:
-                startCityId4MostFit = startCityId;
+                startCityId4MostFit = flightBean.arrivalAirport.cityId+"";
                 date4MostFit = flightBean.arrDate + " " + flightBean.arrivalTime + ":00";
                 areaCode4MostFit = flightBean.arrivalAirport.areaCode;
                 break;
@@ -666,9 +675,9 @@ public class FGOrderNew extends BaseFragment {
                 areaCode4MostFit = startBean.areaCode + "";
                 break;
             case 4:
-                date4MostFit = flightBean.arrDate + " " + flightBean.arrivalTime + ":00";
-                startCityId4MostFit = flightBean.arrivalAirport.cityId + "";
-                areaCode4MostFit = flightBean.arrivalAirport.areaCode;
+                date4MostFit = serverDate + " " + serverTime + ":00";
+                startCityId4MostFit = startPoi.id + "";
+                areaCode4MostFit = startBean.areaCode;
                 break;
             case 5:
                 startCityId4MostFit = startCityId;
@@ -708,18 +717,18 @@ public class FGOrderNew extends BaseFragment {
                         mostFitAvailableBean.carSeatNum = carBean.seatCategory + "";
                         mostFitAvailableBean.carTypeId = carBean.carType + "";
                         mostFitAvailableBean.distance = distance;
-                        mostFitAvailableBean.expectedCompTime = carBean.expectedCompTime + "";
+                        mostFitAvailableBean.expectedCompTime = (null == carBean.expectedCompTime)?"":carBean.expectedCompTime + "";
                         mostFitAvailableBean.limit = 0 + "";
                         mostFitAvailableBean.offset = 20 + "";
                         mostFitAvailableBean.priceChannel = carBean.price + "";
                         mostFitAvailableBean.useOrderPrice = carBean.price + "";
-                        mostFitAvailableBean.serviceCityId = startCityId + "";
-                        mostFitAvailableBean.serviceCountryId = (null == startBean) ? flightBean.arrivalAirport.areaCode : startBean.areaCode;
+                        mostFitAvailableBean.serviceCityId = startCityId4MostFit + "";
+                        mostFitAvailableBean.serviceCountryId = areaCode4MostFit;
                         mostFitAvailableBean.serviceLocalDays = inNum + "";
                         mostFitAvailableBean.serviceNonlocalDays = outNum + "";
-                        mostFitAvailableBean.serviceTime = startDate + " 00:00:00";
+                        mostFitAvailableBean.serviceTime = date4MostFit;
                         mostFitAvailableBean.userId = UserEntity.getUser().getUserId(getContext());
-                        mostFitAvailableBean.totalDays = dayNums + "";
+                        mostFitAvailableBean.totalDays = (null == dayNums)?"0":dayNums + "";
                         mostFitAvailableBean.orderType = orderType;
                         bundle.putSerializable(Constants.PARAMS_DATA, mostFitAvailableBean);
                         fgCoupon.setArguments(bundle);
@@ -1051,11 +1060,6 @@ public class FGOrderNew extends BaseFragment {
     //包车参数
     private OrderBean getDayOrderByInput() {
         orderBean = new OrderBean();//订单
-        passCityList = new ArrayList<CityBean>();
-        if (orderBean.passByCity != null)
-            for (int i = 1; i < orderBean.passByCity.size() - 1; i++) {
-                passCityList.add(orderBean.passByCity.get(i));
-            }
 
         orderBean.adult = Integer.valueOf(adultNum);
         orderBean.carDesc = carTypeName;
@@ -1063,9 +1067,8 @@ public class FGOrderNew extends BaseFragment {
         orderBean.carType = carBean.carType;
         orderBean.child = Integer.valueOf(childrenNum);
 
-
         orderBean.destAddress = endCityId;
-        orderBean.destAddressDetail = poiBean.placeDetail;
+        orderBean.destAddressDetail = endBean.placeName;
 
         orderBean.priceMark = carBean.pricemark;
 
@@ -1073,10 +1076,14 @@ public class FGOrderNew extends BaseFragment {
         orderBean.serviceStartTime = serverTime + ":00";
         orderBean.serviceTime = startDate;
 
+        orderBean.oneCityTravel = outNum == 0 ? 1 : 2;//1：市内畅游  2：跨城市
+
         orderBean.serviceAddressTel = hotelPhoneText.getText().toString();
         orderBean.serviceAreaCode = hotelPhoneTextCodeClick.getText().toString();
 
         orderBean.orderType = 1;
+
+        orderBean.isHalfDaily = isHalfTravel?1:0;
 
 
         orderBean.startAddress = upRight.getText().toString();
@@ -1189,21 +1196,20 @@ public class FGOrderNew extends BaseFragment {
         orderBean.carType = carBean.carType;
         orderBean.child = Integer.valueOf(childrenNum);
         orderBean.destAddress = endCityId;
-        orderBean.serviceCityId = Integer.valueOf(startCityId);
-        orderBean.serviceEndCityid = Integer.valueOf(endCityId);
-        orderBean.serviceCityName = startCityName;
-        orderBean.serviceEndCityName = endCityId;
-        orderBean.contact = contact;
-        orderBean.serviceStartTime = serverTime + ":00";
-        orderBean.serviceTime = startDate + " " + serverTime + ":00";
 
-        orderBean.startAddress = startPoi.placeName;
-        orderBean.startAddressDetail = startPoi.placeDetail;
-        orderBean.startLocation = startPoi.location;
-
-        orderBean.destAddress = endPoi.placeName;
-        orderBean.destAddressDetail = endPoi.placeDetail;
-        orderBean.terminalLocation = endPoi.location;
+//        orderBean.serviceCityName = startCityName;
+//        orderBean.serviceEndCityName = endCityId;
+//        orderBean.contact = contact;
+//        orderBean.serviceStartTime = serverTime + ":00";
+//        orderBean.serviceTime = startDate + " " + serverTime + ":00";
+//
+//        orderBean.startAddress = startPoi.placeName;
+//        orderBean.startAddressDetail = startPoi.placeDetail;
+//        orderBean.startLocation = startPoi.location;
+//
+//        orderBean.destAddress = endPoi.placeName;
+//        orderBean.destAddressDetail = endPoi.placeDetail;
+//        orderBean.terminalLocation = endPoi.location;
         orderBean.distance = distance;
 
         orderBean.priceMark = carBean.pricemark;
@@ -1263,10 +1269,20 @@ public class FGOrderNew extends BaseFragment {
         userExJson.append("]");
         orderBean.userEx = userExJson.toString();
 
-        int seat1Count = (+manLuggageBean.childSeats >= 1 ? 1 : 0);
+        int seat1Count = (manLuggageBean.childSeats >= 1 ? 1 : 0);
         int seat2Count = (manLuggageBean.childSeats >= 1 ? (manLuggageBean.childSeats - 1) : 0);
-        int seat1Price = Integer.valueOf(carListBean.additionalServicePrice.childSeatPrice1);
-        int seat2Price = Integer.valueOf(carListBean.additionalServicePrice.childSeatPrice2);
+        int seat1Price = 0;
+        int seat2Price = 0;
+        if(null == carListBean.additionalServicePrice.childSeatPrice1 && null == carListBean.additionalServicePrice.childSeatPrice2){
+
+        }else {
+            if(null != carListBean.additionalServicePrice.childSeatPrice1) {
+                seat1Price = Integer.valueOf(carListBean.additionalServicePrice.childSeatPrice1);
+            }
+            if(null != carListBean.additionalServicePrice.childSeatPrice2) {
+                seat2Price = Integer.valueOf(carListBean.additionalServicePrice.childSeatPrice2);
+            }
+        }
 
         StringBuffer childSeat = new StringBuffer();
         childSeat.append("{");
@@ -1308,7 +1324,7 @@ public class FGOrderNew extends BaseFragment {
         orderBean.serviceEndCityName = endCityId;
         orderBean.contact = contact;
         orderBean.serviceStartTime = serverTime + ":00";
-        orderBean.serviceTime = startDate + " " + serverTime + ":00";
+        orderBean.serviceTime = serverDate + " " + serverTime + ":00";
 
         orderBean.startAddress = startPoi.placeName;
         orderBean.startAddressDetail = startPoi.placeDetail;
@@ -1426,6 +1442,7 @@ public class FGOrderNew extends BaseFragment {
         orderBean.memo = mark.getText().toString().trim();
         orderBean.childSeatNum = childseatNum;
         orderBean.luggageNum = luggageNum;
+        orderBean.isCheckin = isCheckIn?"1":"0";
 
 
         orderBean.startAddress = poiBean.placeName;
@@ -1488,7 +1505,7 @@ public class FGOrderNew extends BaseFragment {
         }
         userExJson.append("]");
         orderBean.userEx = userExJson.toString();
-        int seat1Count = (+manLuggageBean.childSeats >= 1 ? 1 : 0);
+        int seat1Count = (manLuggageBean.childSeats >= 1 ? 1 : 0);
         int seat2Count = (manLuggageBean.childSeats >= 1 ? (manLuggageBean.childSeats - 1) : 0);
         int seat1Price = Integer.valueOf(carListBean.additionalServicePrice.childSeatPrice1);
         int seat2Price = Integer.valueOf(carListBean.additionalServicePrice.childSeatPrice2);
