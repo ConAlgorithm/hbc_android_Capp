@@ -1251,8 +1251,14 @@ public class FGOrderNew extends BaseFragment {
         orderBean.flightAirportName = flightBean.arrAirportName;
         orderBean.flightDestCode = flightBean.depAirportCode;
         orderBean.flightDestName = flightBean.depAirportName;
-        orderBean.priceFlightBrandSign = carListBean.additionalServicePrice.pickupSignPrice;
+
+        if(null != carListBean.additionalServicePrice.pickupSignPrice) {
+            orderBean.priceFlightBrandSign = carListBean.additionalServicePrice.pickupSignPrice;
+        }
+
+
         orderBean.isFlightSign = carListBean.supportBanner ? "1" : "0";
+
 
         orderBean.flightBrandSign = pickName.getText().toString();
 
