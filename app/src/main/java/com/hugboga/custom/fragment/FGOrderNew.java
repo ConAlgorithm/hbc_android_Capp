@@ -608,30 +608,6 @@ public class FGOrderNew extends BaseFragment {
 
     }
 
-    private void setAllMoney(){
-        if (dreamLeft.isChecked()) {
-            allMoneyLeftText.setText("￥" + (carBean.price - money + seat1PriceTotal + seat2PriceTotal) + "");
-        }else{
-            if (null == mostFitBean.priceInfo) {
-                couponRight.setText("还没有优惠券");
-                allMoneyLeftText.setText("￥" + (carBean.price + seat1PriceTotal + seat2PriceTotal));
-            } else {
-                couponRight.setText((mostFitBean.priceInfo) + "优惠券");
-                allMoneyLeftText.setText("￥" + (mostFitBean.actualPrice + seat1PriceTotal + seat2PriceTotal));
-            }
-
-//            if (null == couponBean && null != mostFitBean) {
-//                requestParams.couponId = mostFitBean.couponId;
-//                requestParams.shouldPay = orderBean.orderPrice - Integer.valueOf(mostFitBean.couponPrice);
-//            } else if (null != couponBean && null == mostFitBean) {
-//                requestParams.couponId = couponBean.couponID;
-//                requestParams.shouldPay = orderBean.orderPrice - Integer.valueOf(couponBean.price);
-//            }
-
-
-        }
-    }
-
 
     //旅游基金
     String travelFund = "0";
@@ -1332,8 +1308,11 @@ public class FGOrderNew extends BaseFragment {
         int seat2Count = (manLuggageBean.childSeats >= 1 ? (manLuggageBean.childSeats - 1) : 0);
         int seat1Price = 0;
         int seat2Price = 0;
-        if (null == carListBean.additionalServicePrice.childSeatPrice1 && null == carListBean.additionalServicePrice.childSeatPrice2) {
+        if (null == carListBean.additionalServicePrice.childSeatPrice1
+                && null == carListBean.additionalServicePrice.childSeatPrice2) {
             orderBean.orderPrice  = carBean.price;
+            orderBean.childSeatStr = "";
+            orderBean.priceChannel = carBean.price + "";
         } else {
             if (null != carListBean.additionalServicePrice.childSeatPrice1) {
                 seat1Price = Integer.valueOf(carListBean.additionalServicePrice.childSeatPrice1);
@@ -1352,7 +1331,7 @@ public class FGOrderNew extends BaseFragment {
             seat2PriceTotal = seat2Price * seat2Count;
 
             orderBean.orderPrice = carBean.price + seat1PriceTotal + seat2PriceTotal;
-
+            orderBean.priceChannel = (carBean.price + seat1PriceTotal + seat2PriceTotal) + "";
             orderBean.childSeatStr = childSeat.toString();
         }
 

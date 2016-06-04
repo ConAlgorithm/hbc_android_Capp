@@ -3,6 +3,7 @@ package com.hugboga.custom.data.bean;
 import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.TextUtils;
 
 import com.hugboga.custom.R;
 
@@ -134,24 +135,12 @@ public class OrderBean implements IBaseBean ,Parcelable{
     public int userCommentStatus;//用户是否给导游评价过 0未评价，1评价过
     public String childSeatStr; //2.7.0 新加 对应 接口字段 childSeat
 
-    public String flightAirportBuiding;
-    public String flightAirportName;
-    public String flightArriveTimeL;
-    public String flightBrandSign;
-    public String flightDestCode;
-    public String flightDestName;
-    public String flightFlyTimeL;
-    public String flightNo;
+
     public String isArrivalVisa;
-
     public String priceFlightBrandSign;///接机牌费用
-
     public String isFlightSign;//是否选择举牌接机服务
-
     public String priceActual;////使用券时，实际支付价格
-
     public String isCheckin;////是否协助登机
-    public String childSeatStr; //2.7.0 新加 对应 接口字段 childSeat
 
 
     public String flightAirportBuiding;
@@ -162,15 +151,8 @@ public class OrderBean implements IBaseBean ,Parcelable{
     public String flightDestName;
     public String flightFlyTimeL;
     public String flightNo;
-    public String isArrivalVisa;
 
-    public String priceFlightBrandSign;///接机牌费用
 
-    public String isFlightSign;//是否选择举牌接机服务
-
-    public String priceActual;////使用券时，实际支付价格
-
-    public String isCheckin;////是否协助登机
 
 
 
