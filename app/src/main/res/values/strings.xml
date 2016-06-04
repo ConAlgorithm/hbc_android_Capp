@@ -350,8 +350,8 @@
 
     <string name="passenger_no_star">&#160;乘车人</string>
     <string name="up_time">&#160;上车时间</string>
-    <string name="up_site">*上车地点</string>
-    <string name="pick_name_star">*接机牌姓名</string>
+    <string name="up_site">* 上车地点</string>
+    <string name="pick_name_star">* 接机牌姓名</string>
 
     <string name="passenger">* 乘车人</string>
     <string name="add_passenger">请填写乘车人姓名</string>
@@ -542,6 +542,8 @@
     <string name="par_result_repay">重新支付</string>
 
     <string name="insure_info_title">投保信息</string>
+    <string name="insure_info_passport">护照号:%1$s</string>
+    <string name="insure_info_policy_num">保单号:%1$s</string>
 
     <string name="order_detail_title_default">订单详情</string>
     <string name="order_detail_title_chartered">包车游</string>
@@ -551,7 +553,7 @@
     <string name="order_detail_title_route">路线包车游</string>
     <string name="order_detail_thaw">订单已冻结</string>
     <string name="order_detail_disputes">正在处理纠纷</string>
-    <string name="order_detail_pay_prompt_1">请在%1$s分钟内付款</string>
+    <string name="order_detail_pay_prompt_1">请在%1$s内付款</string>
     <string name="order_detail_pay_prompt_2">以免订单取消</string>
     <string name="order_detail_itinerary">我的行程单</string>
     <string name="order_detail_order_number">订单号：%1$s</string>
@@ -566,7 +568,7 @@
     <string name="order_detail">详情</string>
     <string name="order_detail_cancel">您的订单已取消！</string>
     <string name="order_detail_finish">服务已结束！</string>
-    <string name="order_detail_prompt_evaluation_1">你给好评，皇包车替你给消费！</string>
+    <string name="order_detail_prompt_evaluation_1">你给好评，皇包车替你给小费！</string>
     <string name="order_detail_prompt_evaluation_2">快去给Ta好评吧</string>
     <string name="order_detail_prompt_travel_end">感谢您选择皇包车的服务</string>
     <string name="order_detail_receiving">司导已接单！</string>
@@ -597,4 +599,5 @@
     <string name="order_detail_cost_coupon">优惠金额</string>
     <string name="order_detail_cost_realpay">实付款</string>
     <string name="order_detail_local_chartered">%1$s-%2$s天包车</string>
+
 </resources>

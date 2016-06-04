@@ -10,15 +10,21 @@ import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.ChatInfo;
+import com.hugboga.custom.data.bean.CollectGuideBean;
 import com.hugboga.custom.data.bean.GuidesDetailData;
 import com.hugboga.custom.data.bean.UserEntity;
+import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.net.ShareUrls;
 import com.hugboga.custom.data.parser.ParserChatInfo;
+import com.hugboga.custom.data.request.RequestCollectGuidesId;
 import com.hugboga.custom.data.request.RequestGuideDetail;
+import com.hugboga.custom.data.request.RequestUncollectGuidesId;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
+import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.RatingView;
 
 import net.grobas.view.PolygonImageView;
@@ -29,6 +35,7 @@ import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
 
+import de.greenrobot.event.EventBus;
 import io.rong.imkit.RongIM;
 
 /**
@@ -59,12 +66,15 @@ public class FgGuideDetail extends BaseFragment {
     View lineView;
     @ViewInject(R.id.guide_detail_car_layout)
     LinearLayout charteredCarLayout;
-
     @ViewInject(R.id.header_detail_title_tv)
     TextView titleTV;
+    @ViewInject(R.id.header_detail_right_1_btn)
+    ImageView collectIV;
 
     private String guideId;
     private GuidesDetailData data;
+    private DialogUtil mDialogUtil;
+    private CollectGuideBean collectBean;
 
     public static FgGuideDetail newInstance(String guideId) {
         FgGuideDetail fragment = new FgGuideDetail();
@@ -75,7 +85,8 @@ public class FgGuideDetail extends BaseFragment {
     }
 
     @Override
-    protected void initHeader(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
             guideId = savedInstanceState.getString(Constants.PARAMS_DATA);
         } else {
@@ -84,7 +95,7 @@ public class FgGuideDetail extends BaseFragment {
                 guideId = bundle.getString(Constants.PARAMS_DATA);
             }
         }
-        titleTV.setText(getString(R.string.guide_detail_subtitle_title));
+        mDialogUtil = DialogUtil.getInstance(getActivity());
     }
 
     @Override
@@ -97,7 +108,7 @@ public class FgGuideDetail extends BaseFragment {
 
     @Override
     protected void initHeader() {
-
+        titleTV.setText(getString(R.string.guide_detail_subtitle_title));
     }
 
     @Override
@@ -123,6 +134,8 @@ public class FgGuideDetail extends BaseFragment {
             if (data == null) {
                 return;
             }
+            beanConversion();
+
             attestationIV.setVisibility(View.VISIBLE);
             locationIV.setVisibility(View.VISIBLE);
             Tools.showImage(getActivity(), avatarIV, data.getAvatar());
@@ -142,10 +155,19 @@ public class FgGuideDetail extends BaseFragment {
             platenumberTV.setText(data.getCarLicenceNo());
             ratingView.setLevel(data.getServiceStar());
             scoreTV.setText(String.valueOf(data.getServiceStar()));
+            collectIV.setSelected(data.isCollected());
             if (!data.isShowCharteredCar()) {
                 lineView.setVisibility(View.GONE);
                 charteredCarLayout.setVisibility(View.GONE);
             }
+        } else if (_request instanceof RequestUncollectGuidesId) {//取消收藏
+            data.setIsFavored(0);
+            collectIV.setSelected(false);
+            EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_UPDATE_COLLECT, 0));
+        } else if (_request instanceof RequestCollectGuidesId) {//收藏
+            data.setIsFavored(1);
+            collectIV.setSelected(true);
+            EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_UPDATE_COLLECT, 1));
         }
     }
 
@@ -156,10 +178,16 @@ public class FgGuideDetail extends BaseFragment {
     private void onClickView(View view) {
         switch (view.getId()) {
             case R.id.guide_detail_plane_layout:
+                finish();
+                EventBus.getDefault().post(new EventAction(EventType.PICK_SEND_TYPE, beanConversion()));
                 break;
             case R.id.guide_detail_car_layout:
+                finish();
+                EventBus.getDefault().post(new EventAction(EventType.DAIRY_TYPE, beanConversion()));
                 break;
             case R.id.guide_detail_single_layout:
+                finish();
+                EventBus.getDefault().post(new EventAction(EventType.SINGLE_TYPE, beanConversion()));
                 break;
             case R.id.guide_detail_call_iv:
                 if (data == null) {
@@ -180,7 +208,17 @@ public class FgGuideDetail extends BaseFragment {
                 finish();
                 break;
             case R.id.header_detail_right_1_btn://收藏
-
+                if (data == null) {
+                    return;
+                }
+                mDialogUtil.showLoadingDialog();
+                BaseRequest baseRequest = null;
+                if (data.isCollected()) {
+                    baseRequest = new RequestUncollectGuidesId(getActivity(), data.getGuideId());
+                } else {
+                    baseRequest = new RequestCollectGuidesId(getActivity(), data.getGuideId());
+                }
+                requestData(baseRequest);
                 break;
             case R.id.header_detail_right_2_btn://分享
                 if (data == null) {
@@ -192,5 +230,23 @@ public class FgGuideDetail extends BaseFragment {
                         ShareUrls.getShareGuideUrl(data, UserEntity.getUser().getUserId(getActivity())));
                 break;
         }
+    }
+
+    private CollectGuideBean beanConversion() {
+        if (collectBean == null) {
+            collectBean = new CollectGuideBean();
+            collectBean.guideId = data.getGuideId();
+            collectBean.name = data.getGuideName();
+            collectBean.stars = data.getServiceStar();
+            collectBean.carClass = data.getCarClass();
+            collectBean.carType = data.getCarType();
+            collectBean.numOfLuggage = data.getCarLuggageNum();
+            collectBean.numOfPerson = data.getCarSeatNum();
+            collectBean.avatar = data.getAvatar();
+            collectBean.carDesc = data.getCarTypeName() + data.getCarClassName();
+            collectBean.carModel = data.getCarBrandName() + data.getCarName();
+//          status;//可预约状态 1.可预约、0.不可预约
+        }
+        return collectBean;
     }
 }

@@ -194,8 +194,9 @@ public class FgOrderDetail extends BaseFragment {
                 FgChoosePayment.RequestParams requestParams = new FgChoosePayment.RequestParams();
                 requestParams.orderId = orderBean.orderNo;
                 requestParams.shouldPay = orderBean.orderPriceInfo.shouldPay;
-                requestParams.couponId = "" + orderBean.orderPriceInfo.shouldPay;
+//                requestParams.couponId = "" + orderBean.orderPriceInfo.shouldPay;
                 requestParams.source = source;
+
                 startFragment(FgChoosePayment.newInstance(requestParams));
                 break;
             case ORDER_DETAIL_INSURANCE_H5://皇包车免费赠送保险
@@ -219,21 +220,8 @@ public class FgOrderDetail extends BaseFragment {
                 fgAddInsure.setArguments(insureBundle);
                 startFragment(fgAddInsure);
                 break;
-            case ORDER_DETAIL_GUIDE_COLLECT://收藏
-                if (orderBean.orderGuideInfo == null) {
-                    return;
-                }
-                mDialogUtil.showLoadingDialog();
-                BaseRequest baseRequest = null;
-                if (orderBean.isCollected()) {
-                    baseRequest = new RequestUncollectGuidesId(getActivity(), orderBean.orderGuideInfo.guideID);
-                } else {
-                    baseRequest = new RequestCollectGuidesId(getActivity(), orderBean.orderGuideInfo.guideID);
-                }
-                requestData(baseRequest);
-                break;
-            case ORDER_DETAIL_GUIDE_EVALUATION://TODO 功能 评价司导 FgEvaluate
-
+            case ORDER_DETAIL_LIST_INSURER://投保人列表
+                startFragment(new FgInsureInfo());
                 break;
             case ORDER_DETAIL_GUIDE_CALL://联系司导
                 if (orderBean.orderGuideInfo == null) {
@@ -264,9 +252,26 @@ public class FgOrderDetail extends BaseFragment {
                 orderBean.storeStatus = (int) action.getData();
                 updateCollectViewText();
                 break;
+            case ORDER_DETAIL_GUIDE_COLLECT://收藏
+                if (orderBean.orderGuideInfo == null) {
+                    return;
+                }
+                mDialogUtil.showLoadingDialog();
+                BaseRequest baseRequest = null;
+                if (orderBean.isCollected()) {
+                    baseRequest = new RequestUncollectGuidesId(getActivity(), orderBean.orderGuideInfo.guideID);
+                } else {
+                    baseRequest = new RequestCollectGuidesId(getActivity(), orderBean.orderGuideInfo.guideID);
+                }
+                requestData(baseRequest);
+                break;
             case ORDER_DETAIL_UPDATE_EVALUATION://更新评价UI
                 break;
+            case ORDER_DETAIL_GUIDE_EVALUATION://TODO 功能 评价司导 FgEvaluate
+                break;
             case ORDER_DETAIL_UPDATE_INFO://更新个人信息UI
+                break;
+            case ORDER_DETAIL_TOURIST_INFO://出行人信息
                 break;
             default:
                 break;

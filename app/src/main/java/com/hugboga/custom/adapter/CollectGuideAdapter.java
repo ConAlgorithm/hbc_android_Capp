@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.adapter.BaseAdapter;
@@ -14,6 +15,7 @@ import com.hugboga.custom.data.bean.CollectGuideBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.fragment.FgCollectGuideList;
+import com.hugboga.custom.fragment.FgGuideDetail;
 import com.hugboga.custom.fragment.FgOrderSelectCity;
 import com.hugboga.custom.fragment.FgPickSend;
 import com.hugboga.custom.fragment.FgSingleNew;
@@ -167,6 +169,16 @@ public class CollectGuideAdapter extends BaseAdapter<CollectGuideBean> {
             }
             holder.describeTV.setText(context.getString(R.string.collect_guide_describe_filter, bean.carDesc, bean.carModel));
         }
+
+        holder.topLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(fragment == null) {
+                    return;
+                }
+                fragment.startFragment(FgGuideDetail.newInstance(bean.guideId));
+            }
+        });
         return convertView;
     }
 
@@ -195,6 +207,8 @@ public class CollectGuideAdapter extends BaseAdapter<CollectGuideBean> {
         View leftLine;
         @ViewInject(R.id.collect_vertical_line_right)
         View rightLine;
+        @ViewInject(R.id.collect_guide_item_top_layout)
+        RelativeLayout topLayout;
 
     }
 }

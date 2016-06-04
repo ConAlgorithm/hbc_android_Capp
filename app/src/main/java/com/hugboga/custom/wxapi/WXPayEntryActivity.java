@@ -10,6 +10,7 @@ import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.fragment.FgAbout;
 import com.hugboga.custom.fragment.FgChoosePayment;
+import com.hugboga.custom.fragment.FgOrderDetail;
 import com.hugboga.custom.fragment.FgTravel;
 import com.hugboga.custom.widget.DialogUtil;
 import com.tencent.mm.sdk.constants.ConstantsAPI;
@@ -52,6 +53,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler, 
 
     private IWXAPI api;
     private boolean isPaySucceed = false;
+    private DialogUtil mDialogUtil;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -69,6 +71,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler, 
 
         api = WXAPIFactory.createWXAPI(this, Constants.WX_APP_ID);
         api.handleIntent(getIntent(), this);
+        mDialogUtil = DialogUtil.getInstance(WXPayEntryActivity.this);
     }
 
     @Override
@@ -90,12 +93,14 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler, 
             isPaySucceed = resp.errCode == BaseResp.ErrCode.ERR_OK;
             if (isPaySucceed) {
                 resultIV.setBackgroundResource(R.mipmap.payment_success);
+                resultTV.setTextColor(0xFF7CBD55);
                 resultTV.setText(getString(R.string.par_result_succeed));
                 leftTV.setText(getString(R.string.par_result_back));
                 rightTV.setText(getString(R.string.par_result_detail));
                 promptTV.setVisibility(View.VISIBLE);
             } else {
                 resultIV.setBackgroundResource(R.mipmap.payment_fail);
+                resultTV.setTextColor(0xFFC94449);
                 resultTV.setText(getString(R.string.par_result_failure));
                 leftTV.setText(getString(R.string.par_result_detail));
                 rightTV.setText(getString(R.string.par_result_repay));
@@ -109,18 +114,16 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler, 
         switch (v.getId()) {
             case R.id.par_result_left_tv:
                 if (isPaySucceed) {//回首页
-//                    EventBus.getDefault().post(new EventAction(EventType.BACK_HOME));
+                    mHandler.sendEmptyMessageDelayed(1, 2000);
                     finish();
-                } else {//订单详情
-//                    startFragment(new FgAbout());// FIXME: qingcha
+                } else {//订单详情ORDER_DETAIL
+                    mHandler.sendEmptyMessageDelayed(2, 2000);
                     finish();
                 }
                 break;
             case R.id.par_result_right_tv:
                 if (isPaySucceed) {//订单详情
-//                    startFragment(new FgAbout());// FIXME: qingcha
-//                    finish();
-//                    bringToFront(FgAbout.class, new Bundle());
+                    mHandler.sendEmptyMessageDelayed(2, 2000);
                     finish();
                 } else {//重新支付
                     finish();
@@ -133,4 +136,17 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler, 
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         return super.onKeyUp(keyCode, event);
     }
+
+    Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            mDialogUtil.dismissLoadingDialog();
+            if (msg.what == 1) {
+                EventBus.getDefault().post(new EventAction(EventType.BACK_HOME));
+            } else if (msg.what == 2) {
+                EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL));
+            }
+        }
+    };
+
 }

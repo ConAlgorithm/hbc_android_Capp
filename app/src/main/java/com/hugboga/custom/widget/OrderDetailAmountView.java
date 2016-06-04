@@ -42,16 +42,20 @@ public class OrderDetailAmountView extends LinearLayout implements HbcViewBehavi
 
         billLayout.removeAllViews();
         groupLayout.removeAllViews();
-        addBillView(R.string.order_detail_cost_chartered, null);//TODO 包车费用 orderPrice
-        if (orderBean.orderGoodsType == 1) {//TODO 接机 举牌费用   priceFlightBrandSign
-            addBillView(R.string.order_detail_cost_placards, null);
-        } else if(orderBean.orderGoodsType == 2) {//送机 checkin费用  orderPriceInfo.checkInPrice
-            addBillView(R.string.order_detail_cost_checkin, null);
+        addBillView(R.string.order_detail_cost_chartered, "" + orderBean.orderPriceInfo.orderPrice);//TODO 包车费用 orderPrice
+        if (orderBean.orderGoodsType == 1) {//接机 举牌费用
+            addBillView(R.string.order_detail_cost_placards, "" + orderBean.priceFlightBrandSign);
+        } else if(orderBean.orderGoodsType == 2) {//送机 checkin费用
+            addBillView(R.string.order_detail_cost_checkin, "" + orderBean.orderPriceInfo.checkInPrice);
         }
-        addBillView(R.string.order_detail_cost_child_seats, null);//TODO 儿童座椅 childSeat childSeatPrice1+childSeatPrice2
+        String childSeat = null;
+        if (orderBean.childSeat != null && orderBean.childSeat.size() >= 2) {
+            childSeat = orderBean.childSeat.get(0) + orderBean.childSeat.get(1);
+        }
+        addBillView(R.string.order_detail_cost_child_seats, childSeat);//TODO 儿童座椅 childSeat childSeatPrice1+childSeatPrice2
 
         addGroupView(R.string.order_detail_cost_total, null);//TODO 费用总计 shouldPay
-        addGroupView(R.string.order_detail_cost_coupon, null);//TODO 优惠金额 coupons
+        addGroupView(R.string.order_detail_cost_coupon, "" + orderBean.orderPriceInfo.coupons);//TODO 优惠金额 coupons 旅游基金
 
         double realSum = orderBean.orderStatus == OrderStatus.INITSTATE ? orderBean.orderPriceInfo.shouldPay : orderBean.orderPriceInfo.actualPay;
         addGroupView(R.string.order_detail_cost_realpay, String.valueOf(realSum));//TODO 实付款 1 shouldPay actualPay
