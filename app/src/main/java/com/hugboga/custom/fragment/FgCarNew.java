@@ -400,7 +400,7 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
             driverName.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    goCollectGuid();
+//                    goCollectGuid();
                 }
             });
         }else{

@@ -983,10 +983,16 @@ public class FGOrderNew extends BaseFragment {
         return null;
     }
 
+
+    //TODO 需要后期优化
     //SKU参数
     private OrderBean getSKUOrderByInput() {
         orderBean = new OrderBean();//订单
-        orderBean.guideCollectId = guideCollectId;
+
+        if(!TextUtils.isEmpty(guideCollectId)) {
+            orderBean.guideCollectId = guideCollectId;
+        }
+
         orderBean.orderType = 5;
         orderBean.goodsNo = skuBean.goodsNo;
         orderBean.lineSubject = skuBean.goodsName;
@@ -1165,7 +1171,9 @@ public class FGOrderNew extends BaseFragment {
             }
         }
 
-        orderBean.guideCollectId = guideCollectId;
+        if(!TextUtils.isEmpty(guideCollectId)) {
+            orderBean.guideCollectId = guideCollectId;
+        }
 
         StringBuffer userExJson = new StringBuffer();
         userExJson.append("[");
@@ -1285,7 +1293,10 @@ public class FGOrderNew extends BaseFragment {
             }
         }
         orderBean.expectedCompTime = carBean.expectedCompTime;
-        orderBean.guideCollectId = guideCollectId;
+
+        if(!TextUtils.isEmpty(guideCollectId)) {
+            orderBean.guideCollectId = guideCollectId;
+        }
 
         StringBuffer userExJson = new StringBuffer();
         userExJson.append("[");
@@ -1419,7 +1430,9 @@ public class FGOrderNew extends BaseFragment {
             }
         }
         orderBean.expectedCompTime = carBean.expectedCompTime;
-        orderBean.guideCollectId = guideCollectId;
+        if(!TextUtils.isEmpty(guideCollectId)) {
+            orderBean.guideCollectId = guideCollectId;
+        }
 
         StringBuffer userExJson = new StringBuffer();
         userExJson.append("[");
@@ -1499,7 +1512,10 @@ public class FGOrderNew extends BaseFragment {
         orderBean.urgentFlag = carBean.urgentFlag;
 
         orderBean.expectedCompTime = carBean.expectedCompTime;
-        orderBean.guideCollectId = guideCollectId;
+
+        if(!TextUtils.isEmpty(guideCollectId)) {
+            orderBean.guideCollectId = guideCollectId;
+        }
         orderBean.orderType = type;
         orderBean.carType = carBean.carType;
         orderBean.seatCategory = carBean.seatCategory;
