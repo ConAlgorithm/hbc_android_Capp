@@ -1314,25 +1314,31 @@ public class FGOrderNew extends BaseFragment {
             orderBean.childSeatStr = "";
             orderBean.priceChannel = carBean.price + "";
         } else {
-            if (null != carListBean.additionalServicePrice.childSeatPrice1) {
-                seat1Price = Integer.valueOf(carListBean.additionalServicePrice.childSeatPrice1);
-            }
-            if (null != carListBean.additionalServicePrice.childSeatPrice2) {
-                seat2Price = Integer.valueOf(carListBean.additionalServicePrice.childSeatPrice2);
-            }
-            StringBuffer childSeat = new StringBuffer();
-            childSeat.append("{");
-            childSeat.append("\"").append("childSeatPrice1\":" + seat1Price + ",");
-            childSeat.append("\"").append("childSeatPrice2\":" + seat2Price + ",");
-            childSeat.append("\"").append("childSeatPrice1Count\":" + seat1Count + ",");
-            childSeat.append("\"").append("childSeatPrice2Count\":" + seat2Count + "");
-            childSeat.append("}");
-            seat1PriceTotal = seat1Price * seat1Count;
-            seat2PriceTotal = seat2Price * seat2Count;
+            if(manLuggageBean.childSeats != 0) {
+                if (null != carListBean.additionalServicePrice.childSeatPrice1) {
+                    seat1Price = Integer.valueOf(carListBean.additionalServicePrice.childSeatPrice1);
+                }
+                if (null != carListBean.additionalServicePrice.childSeatPrice2) {
+                    seat2Price = Integer.valueOf(carListBean.additionalServicePrice.childSeatPrice2);
+                }
+                StringBuffer childSeat = new StringBuffer();
+                childSeat.append("{");
+                childSeat.append("\"").append("childSeatPrice1\":" + seat1Price + ",");
+                childSeat.append("\"").append("childSeatPrice2\":" + seat2Price + ",");
+                childSeat.append("\"").append("childSeatPrice1Count\":" + seat1Count + ",");
+                childSeat.append("\"").append("childSeatPrice2Count\":" + seat2Count + "");
+                childSeat.append("}");
+                seat1PriceTotal = seat1Price * seat1Count;
+                seat2PriceTotal = seat2Price * seat2Count;
 
-            orderBean.orderPrice = carBean.price + seat1PriceTotal + seat2PriceTotal;
-            orderBean.priceChannel = (carBean.price + seat1PriceTotal + seat2PriceTotal) + "";
-            orderBean.childSeatStr = childSeat.toString();
+                orderBean.orderPrice = carBean.price + seat1PriceTotal + seat2PriceTotal;
+                orderBean.priceChannel = (carBean.price + seat1PriceTotal + seat2PriceTotal) + "";
+                orderBean.childSeatStr = childSeat.toString();
+            }else{
+                orderBean.orderPrice  = carBean.price;
+                orderBean.childSeatStr = "";
+                orderBean.priceChannel = carBean.price + "";
+            }
         }
 
 
@@ -1436,24 +1442,37 @@ public class FGOrderNew extends BaseFragment {
         int seat2Count = (manLuggageBean.childSeats >= 1 ? (manLuggageBean.childSeats - 1) : 0);
         int seat1Price = 0;
         int seat2Price = 0;
-        if (null == carListBean.additionalServicePrice.childSeatPrice1 && null == carListBean.additionalServicePrice.childSeatPrice2) {
+        if (null == carListBean.additionalServicePrice.childSeatPrice1
+                && null == carListBean.additionalServicePrice.childSeatPrice2) {
+            orderBean.orderPrice  = carBean.price;
+            orderBean.childSeatStr = "";
+            orderBean.priceChannel = carBean.price + "";
         } else {
-            if (null != carListBean.additionalServicePrice.childSeatPrice1) {
-                seat1Price = Integer.valueOf(carListBean.additionalServicePrice.childSeatPrice1);
+            if(manLuggageBean.childSeats != 0) {
+                if (null != carListBean.additionalServicePrice.childSeatPrice1) {
+                    seat1Price = Integer.valueOf(carListBean.additionalServicePrice.childSeatPrice1);
+                }
+                if (null != carListBean.additionalServicePrice.childSeatPrice2) {
+                    seat2Price = Integer.valueOf(carListBean.additionalServicePrice.childSeatPrice2);
+                }
+                StringBuffer childSeat = new StringBuffer();
+                childSeat.append("{");
+                childSeat.append("\"").append("childSeatPrice1\":" + seat1Price + ",");
+                childSeat.append("\"").append("childSeatPrice2\":" + seat2Price + ",");
+                childSeat.append("\"").append("childSeatPrice1Count\":" + seat1Count + ",");
+                childSeat.append("\"").append("childSeatPrice2Count\":" + seat2Count + "");
+                childSeat.append("}");
+                seat1PriceTotal = seat1Price * seat1Count;
+                seat2PriceTotal = seat2Price * seat2Count;
+
+                orderBean.orderPrice = carBean.price + seat1PriceTotal + seat2PriceTotal;
+                orderBean.priceChannel = (carBean.price + seat1PriceTotal + seat2PriceTotal) + "";
+                orderBean.childSeatStr = childSeat.toString();
+            }else{
+                orderBean.orderPrice  = carBean.price;
+                orderBean.childSeatStr = "";
+                orderBean.priceChannel = carBean.price + "";
             }
-            if (null != carListBean.additionalServicePrice.childSeatPrice2) {
-                seat2Price = Integer.valueOf(carListBean.additionalServicePrice.childSeatPrice2);
-            }
-            StringBuffer childSeat = new StringBuffer();
-            childSeat.append("{");
-            childSeat.append("\"").append("childSeatPrice1\":" + seat1Price + ",");
-            childSeat.append("\"").append("childSeatPrice2\":" + seat2Price + ",");
-            childSeat.append("\"").append("childSeatPrice1Count\":" + seat1Count + ",");
-            childSeat.append("\"").append("childSeatPrice2Count\":" + seat2Count + "");
-            childSeat.append("}");
-            seat1PriceTotal = seat1Price * seat1Count;
-            seat2PriceTotal = seat2Price * seat2Count;
-            orderBean.childSeatStr = childSeat.toString();
         }
 
         orderBean.orderPrice = carBean.price + seat1PriceTotal + seat2PriceTotal;
@@ -1561,25 +1580,39 @@ public class FGOrderNew extends BaseFragment {
         int seat2Count = (manLuggageBean.childSeats >= 1 ? (manLuggageBean.childSeats - 1) : 0);
         int seat1Price = 0;
         int seat2Price = 0;
-        if (null == carListBean.additionalServicePrice.childSeatPrice1 && null == carListBean.additionalServicePrice.childSeatPrice2) {
+        if (null == carListBean.additionalServicePrice.childSeatPrice1
+                && null == carListBean.additionalServicePrice.childSeatPrice2) {
+            orderBean.orderPrice  = carBean.price;
+            orderBean.childSeatStr = "";
+            orderBean.priceChannel = carBean.price + "";
         } else {
-            if (null != carListBean.additionalServicePrice.childSeatPrice1) {
-                seat1Price = Integer.valueOf(carListBean.additionalServicePrice.childSeatPrice1);
+            if(manLuggageBean.childSeats != 0) {
+                if (null != carListBean.additionalServicePrice.childSeatPrice1) {
+                    seat1Price = Integer.valueOf(carListBean.additionalServicePrice.childSeatPrice1);
+                }
+                if (null != carListBean.additionalServicePrice.childSeatPrice2) {
+                    seat2Price = Integer.valueOf(carListBean.additionalServicePrice.childSeatPrice2);
+                }
+                StringBuffer childSeat = new StringBuffer();
+                childSeat.append("{");
+                childSeat.append("\"").append("childSeatPrice1\":" + seat1Price + ",");
+                childSeat.append("\"").append("childSeatPrice2\":" + seat2Price + ",");
+                childSeat.append("\"").append("childSeatPrice1Count\":" + seat1Count + ",");
+                childSeat.append("\"").append("childSeatPrice2Count\":" + seat2Count + "");
+                childSeat.append("}");
+                seat1PriceTotal = seat1Price * seat1Count;
+                seat2PriceTotal = seat2Price * seat2Count;
+
+                orderBean.orderPrice = carBean.price + seat1PriceTotal + seat2PriceTotal;
+                orderBean.priceChannel = (carBean.price + seat1PriceTotal + seat2PriceTotal) + "";
+                orderBean.childSeatStr = childSeat.toString();
+            }else{
+                orderBean.orderPrice  = carBean.price;
+                orderBean.childSeatStr = "";
+                orderBean.priceChannel = carBean.price + "";
             }
-            if (null != carListBean.additionalServicePrice.childSeatPrice2) {
-                seat2Price = Integer.valueOf(carListBean.additionalServicePrice.childSeatPrice2);
-            }
-            StringBuffer childSeat = new StringBuffer();
-            childSeat.append("{");
-            childSeat.append("\"").append("childSeatPrice1\":" + seat1Price + ",");
-            childSeat.append("\"").append("childSeatPrice2\":" + seat2Price + ",");
-            childSeat.append("\"").append("childSeatPrice1Count\":" + seat1Count + ",");
-            childSeat.append("\"").append("childSeatPrice2Count\":" + seat2Count + "");
-            childSeat.append("}");
-            seat1PriceTotal = seat1Price * seat1Count;
-            seat2PriceTotal = seat2Price * seat2Count;
-            orderBean.childSeatStr = childSeat.toString();
         }
+
         orderBean.orderPrice = isCheckIn ? (carBean.price + Integer.valueOf(carListBean.additionalServicePrice.checkInPrice)) + seat1PriceTotal + seat2PriceTotal : carBean.price + seat1PriceTotal + seat2PriceTotal;
         orderBean.checkInPrice = isCheckIn ? Integer.valueOf(carListBean.additionalServicePrice.checkInPrice) : null;
         orderBean.priceChannel = isCheckIn ? "" + (carBean.price + Integer.valueOf(carListBean.additionalServicePrice.checkInPrice) + seat1PriceTotal + seat2PriceTotal) : "" + (carBean.price + seat1PriceTotal + seat2PriceTotal);
