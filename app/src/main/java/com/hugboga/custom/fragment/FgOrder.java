@@ -961,7 +961,7 @@ public class FgOrder extends BaseFragment {
             dialogUtil.showCustomDialog("取消订单成功", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-//                    bringToFront(FgTravel.class,new Bundle());
+                    bringToFront(FgTravel.class,new Bundle());
                     finish();
                 }
             });
@@ -1026,7 +1026,7 @@ public class FgOrder extends BaseFragment {
             bundle.putString(KEY_ORDER_ID, mOrderBean.orderNo);
             bundle.putString("from", mSourceFragment.getClass().getSimpleName());
             bundle.putString("source",source);
-//            startFragment(new FgPaySuccess(), bundle);
+//            startFragment(new FgPayResult(), bundle);
             notifyOrderList(FgTravel.TYPE_ORDER_RUNNING, true, false, false);
         }
     };

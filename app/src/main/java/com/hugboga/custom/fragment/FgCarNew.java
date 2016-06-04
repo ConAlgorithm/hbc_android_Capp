@@ -145,27 +145,32 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
 
 
     private void showChildSeatLayout(int seatNums) {
-        String seat1 = carListBean.additionalServicePrice.childSeatPrice1;
-        String seat2 = carListBean.additionalServicePrice.childSeatPrice2;
-        if (seatNums == 1 && seat1.equalsIgnoreCase("-1")) {
-            freeSeatLayout.setVisibility(View.VISIBLE);
-        } else if (seatNums == 1) {
-            freeCSeatLeft.setText("收费儿童座椅");
-            freeSeatLayout.setVisibility(View.VISIBLE);
-            freeCSeatRight.setText("￥" + seat1 + "/次");
-        }
-        if (seatNums > 1) {
-            if (!seat1.equalsIgnoreCase("-1")) {
+        if(null == carListBean.additionalServicePrice.childSeatPrice1
+                && null == carListBean.additionalServicePrice.childSeatPrice2){
+
+        }else {
+            String seat1 = carListBean.additionalServicePrice.childSeatPrice1;
+            String seat2 = carListBean.additionalServicePrice.childSeatPrice2;
+            if (seatNums == 1 && null == seat1) {
+                freeSeatLayout.setVisibility(View.VISIBLE);
+            } else if (seatNums == 1) {
                 freeCSeatLeft.setText("收费儿童座椅");
                 freeSeatLayout.setVisibility(View.VISIBLE);
                 freeCSeatRight.setText("￥" + seat1 + "/次");
-            } else {
-                freeSeatLayout.setVisibility(View.VISIBLE);
             }
+            if (seatNums > 1) {
+                if (null != seat1) {
+                    freeCSeatLeft.setText("收费儿童座椅");
+                    freeSeatLayout.setVisibility(View.VISIBLE);
+                    freeCSeatRight.setText("￥" + seat1 + "/次");
+                } else {
+                    freeSeatLayout.setVisibility(View.VISIBLE);
+                }
 
-            chargeSeatLayout.setVisibility(View.VISIBLE);
-            freeCSeatRight.setText("￥" + seat2 + "/次");
-            childCountText.setText("x" + (seatNums - 1) + "");
+                chargeSeatLayout.setVisibility(View.VISIBLE);
+                freeCSeatRight.setText("￥" + seat2 + "/次");
+                childCountText.setText("x" + (seatNums - 1) + "");
+            }
         }
     }
 
@@ -395,7 +400,7 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
             driverName.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    goCollectGuid();
+//                    goCollectGuid();
                 }
             });
         }else{

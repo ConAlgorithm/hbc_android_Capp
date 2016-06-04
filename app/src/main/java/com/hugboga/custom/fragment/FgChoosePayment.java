@@ -4,17 +4,23 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alipay.sdk.app.PayTask;
+import com.huangbaoche.hbcframe.data.net.ExceptionErrorCode;
+import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
+import com.huangbaoche.hbcframe.data.net.ServerException;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.WXShareUtils;
 import com.hugboga.custom.R;
 import com.hugboga.custom.alipay.PayResult;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.WXpayBean;
+import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestOrderDetail;
 import com.hugboga.custom.data.request.RequestPayNo;
 import com.hugboga.custom.widget.DialogUtil;
@@ -29,6 +35,8 @@ import org.xutils.view.annotation.ViewInject;
 
 import java.io.Serializable;
 
+import de.greenrobot.event.EventBus;
+
 /**
  * Created by qingcha on 16/5/31.
  * 部分代码及逻辑来自FgOrder
@@ -39,8 +47,21 @@ public class FgChoosePayment extends BaseFragment {
     @ViewInject(R.id.choose_payment_price_tv)
     TextView priceTV;
 
-    private RequestParams requestParams;
+    public static RequestParams requestParams;
     private DialogUtil mDialogUtil;
+
+
+    public static class RequestParams implements Serializable {
+        public String orderId;
+        public double shouldPay;
+        public String couponId;
+        public String source;
+        public boolean needShowAlert;
+
+        public String getShouldPay() {
+            return String.valueOf(shouldPay);
+        }
+    }
 
     public static FgChoosePayment newInstance(RequestParams params) {
         FgChoosePayment fragment = new FgChoosePayment();
@@ -51,7 +72,8 @@ public class FgChoosePayment extends BaseFragment {
     }
 
     @Override
-    protected void initHeader(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
             requestParams = (RequestParams)savedInstanceState.getSerializable(Constants.PARAMS_DATA);
         } else {
@@ -60,13 +82,13 @@ public class FgChoosePayment extends BaseFragment {
                 requestParams = (RequestParams)bundle.getSerializable(Constants.PARAMS_DATA);
             }
         }
-        fgTitle.setText(getString(R.string.choose_payment_title));
-        priceTV.setText(String.valueOf(requestParams.shouldPay));
+        EventBus.getDefault().register(this);
     }
 
     @Override
     protected void initHeader() {
-
+        fgTitle.setText(getString(R.string.choose_payment_title));
+        priceTV.setText(requestParams.getShouldPay());
     }
 
     @Override
@@ -92,13 +114,30 @@ public class FgChoosePayment extends BaseFragment {
 
     @Override
     protected Callback.Cancelable requestData() {
-        RequestOrderDetail request = new RequestOrderDetail(getActivity(), requestParams.orderId);
-        return requestData(request);
+        return null;
     }
 
     @Override
     protected void inflateContent() {
 
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    public void onEventMainThread(EventAction action) {
+        switch (action.getType()) {
+            case BACK_HOME:
+                Bundle bundle = new Bundle();
+                bundle.putString(KEY_FRAGMENT_NAME, this.getClass().getSimpleName());
+                bringToFront(FgTravel.class, bundle);
+                break;
+            default:
+                break;
+        }
     }
 
     @Event({R.id.choose_payment_alipay_layout, R.id.choose_payment_wechat_layout,})
@@ -136,6 +175,19 @@ public class FgChoosePayment extends BaseFragment {
         }
     }
 
+    @Override
+    public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest parser) {
+        if (errorInfo.state == ExceptionErrorCode.ERROR_CODE_SERVER) {
+            ServerException exception = (ServerException) errorInfo.exception;
+            if (exception.getCode() == 2) {
+                mDialogUtil.showLoadingDialog();
+                mHandler.sendEmptyMessageDelayed(1, 3000);
+                return;
+            }
+        }
+        super.onDataRequestError(errorInfo, parser);
+    }
+
     private void payByAlipay(final String payInfo) {
         if (!TextUtils.isEmpty(payInfo)) {
             if ("couppay".equals(payInfo)) {
@@ -167,7 +219,7 @@ public class FgChoosePayment extends BaseFragment {
         @Override
         public void handleMessage(Message msg) {
             mDialogUtil.dismissLoadingDialog();
-            finish();
+//            finish();
 //            Bundle bundle = new Bundle();
 //            int overPrice = 0;
 //            bundle.putInt("pay", overPrice);
@@ -175,8 +227,14 @@ public class FgChoosePayment extends BaseFragment {
 //            bundle.putString(KEY_ORDER_ID, mOrderBean.orderNo);
 //            bundle.putString("from", mSourceFragment.getClass().getSimpleName());
 //            bundle.putString("source",source);
-//            startFragment(new FgPaySuccess(), bundle);
+//            startFragment(new FgPayResult(), bundle);
 //            notifyOrderList(FgTravel.TYPE_ORDER_RUNNING, true, false, false);
+
+            FgPayResult.Params params = new FgPayResult.Params();
+            params.payResult = msg.what == 1;//1.支付成功，2.支付失败
+            params.orderId = requestParams.orderId;
+            params.paymentAmount = requestParams.getShouldPay();
+            startFragment(FgPayResult.newInstance(params));
         }
     };
 
@@ -188,11 +246,13 @@ public class FgChoosePayment extends BaseFragment {
                     PayResult payResult = new PayResult((String) msg.obj);
                     String resultInfo = payResult.getResult();
                     String resultStatus = payResult.getResultStatus();
-                    if (TextUtils.equals(resultStatus, "9000")) {
+                    if (TextUtils.equals(resultStatus, "9000")) {//支付成功
                         mDialogUtil.showLoadingDialog();
                         mHandler.sendEmptyMessageDelayed(1, 3000);
                     } else if (TextUtils.equals(resultStatus, "8000")) {
                         Toast.makeText(getActivity(), "支付结果确认中", Toast.LENGTH_SHORT).show();
+                    } else {//支付失败
+                        mHandler.sendEmptyMessage(2);
                     }
                     break;
                 }
@@ -207,11 +267,4 @@ public class FgChoosePayment extends BaseFragment {
         }
     };
 
-    public static class RequestParams implements Serializable {
-        public String orderId;
-        public double shouldPay;
-        public String couponId;
-        public String source;
-        public boolean needShowAlert;
-    }
 }

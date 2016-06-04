@@ -114,7 +114,8 @@
                 android:id="@+id/show_cars_layout_sku"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#e0e1e2"
+                android:layout_marginTop="1dp"
+                android:background="@color/basic_white"
                 android:orientation="vertical"/>
 
         </LinearLayout>

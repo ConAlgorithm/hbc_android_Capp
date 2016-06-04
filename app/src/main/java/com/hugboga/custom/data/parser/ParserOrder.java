@@ -143,6 +143,14 @@ public class ParserOrder extends ImplParser {
         orderbean.outTownDays = jsonObj.optInt("serviceNonlocalDays");
         orderbean.journeyComment = jsonObj.optString("journeyComment");
         orderbean.dailyTips = jsonObj.optString("dailyOrderTips");
+        orderbean.dailyTips = jsonObj.optString("dailyOrderTips");
+        orderbean.flightNo = jsonObj.optString("flightNo");
+        orderbean.flightDeptCityName = jsonObj.optString("flightDeptCityName");
+        orderbean.flightDestCityName = jsonObj.optString("flightDestCityName");
+        orderbean.serviceTimeStr = jsonObj.optString("serviceTimeStr");
+        orderbean.passengerInfos = jsonObj.optString("passengerInfos");
+        orderbean.storeStatus = jsonObj.optInt("storeStatus");
+        orderbean.userCommentStatus = jsonObj.optInt("userCommentStatus");
         return orderbean;
     }
 }

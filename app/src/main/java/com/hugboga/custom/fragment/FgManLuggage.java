@@ -244,7 +244,7 @@ public class FgManLuggage extends BaseFragment {
     }
 
 
-    private void showChildSeatLayout() {
+    private void manLuggageShowChildSeatLayout() {
         try {
             String seat1 = carListBean.additionalServicePrice.childSeatPrice1;
             String seat2 = carListBean.additionalServicePrice.childSeatPrice2;
@@ -374,7 +374,7 @@ public class FgManLuggage extends BaseFragment {
                     cSeatSub.setBackgroundColor(Color.parseColor("#fad027"));
                     addChangeBg();
                     cSeatNum.setText(seatNums + "");
-                    showChildSeatLayout();
+                    manLuggageShowChildSeatLayout();
                 }
                 break;
         }

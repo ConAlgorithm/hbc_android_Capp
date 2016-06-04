@@ -3,6 +3,7 @@ package com.hugboga.custom.data.bean;
 import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.TextUtils;
 
 import com.hugboga.custom.R;
 
@@ -100,7 +101,7 @@ public class OrderBean implements IBaseBean ,Parcelable{
     public String journeyComment;//行程说明
     public String dailyTips;//注意事项
 
-    public boolean insuranceEnable; //是否投保
+    public boolean insuranceEnable; //是否可以添加保险 true可以 false不可以
     public String insuranceTips;//添加保险提示;
     public List<InsureListBean> insuranceList;
 
@@ -126,7 +127,20 @@ public class OrderBean implements IBaseBean ,Parcelable{
     public String coupId;
     public String coupPriceInfo;
 
+    public String flightDeptCityName;//起飞机场所在城市
+    public String flightDestCityName;//降落机场所在城市
+    public String serviceTimeStr;//当时间串 例如： 04月21日（周五）10:05
+    public String passengerInfos;//座位信息 乘坐%1$s人、行李箱%2$s件、儿童座椅%3$s个
+    public int storeStatus;//导游是否被收藏 0没有 1已收藏
+    public int userCommentStatus;//用户是否给导游评价过 0未评价，1评价过
     public String childSeatStr; //2.7.0 新加 对应 接口字段 childSeat
+
+
+    public String isArrivalVisa;
+    public String priceFlightBrandSign;///接机牌费用
+    public String isFlightSign;//是否选择举牌接机服务
+    public String priceActual;////使用券时，实际支付价格
+    public String isCheckin;////是否协助登机
 
 
     public String flightAirportBuiding;
@@ -137,15 +151,8 @@ public class OrderBean implements IBaseBean ,Parcelable{
     public String flightDestName;
     public String flightFlyTimeL;
     public String flightNo;
-    public String isArrivalVisa;
 
-    public String priceFlightBrandSign;///接机牌费用
 
-    public String isFlightSign;//是否选择举牌接机服务
-
-    public String priceActual;////使用券时，实际支付价格
-
-    public String isCheckin;////是否协助登机
 
 
 
@@ -270,6 +277,12 @@ public class OrderBean implements IBaseBean ,Parcelable{
         dest.writeString(this.realUserEx);
         dest.writeString(this.coupId);
         dest.writeString(this.coupPriceInfo);
+        dest.writeString(this.flightDeptCityName);
+        dest.writeString(this.flightDestCityName);
+        dest.writeString(this.serviceTimeStr);
+        dest.writeString(this.passengerInfos);
+        dest.writeInt(this.storeStatus);
+        dest.writeInt(this.userCommentStatus);
         dest.writeString(this.childSeatStr);
         dest.writeString(this.flightAirportBuiding);
         dest.writeString(this.flightAirportName);
@@ -398,6 +411,26 @@ public class OrderBean implements IBaseBean ,Parcelable{
         this.isFlightSign = in.readString();
         this.priceActual = in.readString();
         this.isCheckin = in.readString();
+        this.flightDeptCityName = in.readString();
+        this.flightDestCityName = in.readString();
+        this.serviceTimeStr = in.readString();
+        this.passengerInfos = in.readString();
+        this.storeStatus = in.readInt();
+        this.userCommentStatus = in.readInt();
+        this.childSeatStr = in.readString();
+        this.flightAirportBuiding = in.readString();
+        this.flightAirportName = in.readString();
+        this.flightArriveTimeL = in.readString();
+        this.flightBrandSign = in.readString();
+        this.flightDestCode = in.readString();
+        this.flightDestName = in.readString();
+        this.flightFlyTimeL = in.readString();
+        this.flightNo = in.readString();
+        this.isArrivalVisa = in.readString();
+        this.priceFlightBrandSign = in.readString();
+        this.isFlightSign = in.readString();
+        this.priceActual = in.readString();
+        this.isCheckin = in.readString();
     }
 
     public static final Creator<OrderBean> CREATOR = new Creator<OrderBean>() {
@@ -411,4 +444,15 @@ public class OrderBean implements IBaseBean ,Parcelable{
             return new OrderBean[size];
         }
     };
+
+    public String getPayDeadTime() {
+        if (TextUtils.isEmpty(payDeadTime)) {
+            payDeadTime = "0";
+        }
+        return payDeadTime;
+    }
+
+    public boolean isCollected() {
+        return storeStatus == 1;
+    }
 }

@@ -24,7 +24,7 @@
         android:layout_height="match_parent"
         android:layout_alignParentRight="true"
         android:padding="@dimen/fab_margin"
-        android:src="@mipmap/sddate_collection" />
+        android:src="@drawable/selector_guide_detail_collect" />
     <ImageView
         android:id="@+id/header_detail_right_2_btn"
         android:layout_width="?android:attr/actionBarSize"
