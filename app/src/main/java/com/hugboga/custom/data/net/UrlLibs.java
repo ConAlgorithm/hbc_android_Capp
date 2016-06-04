@@ -454,4 +454,9 @@ public class UrlLibs {
 
 
 
+
+    /**
+     * 修改订单
+     */
+    public static final String API_ORDER_EDIT = "trade/v1.1/c/order/edit";
 }

@@ -7,6 +7,7 @@
     android:orientation="vertical">
 
     <RelativeLayout
+        android:id="@+id/collect_guide_item_top_layout"
         android:layout_width="match_parent"
         android:layout_height="86dip"
         android:layout_marginLeft="12dp"

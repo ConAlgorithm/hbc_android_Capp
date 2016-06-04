@@ -70,12 +70,14 @@ public class FgPayResult extends BaseFragment {
         fgLeftBtn.setVisibility(View.INVISIBLE);
         if (params.payResult) {
             resultIV.setBackgroundResource(R.mipmap.payment_success);
+            resultTV.setTextColor(0xFF7CBD55);
             resultTV.setText(getString(R.string.par_result_succeed));
             leftTV.setText(getString(R.string.par_result_back));
             rightTV.setText(getString(R.string.par_result_detail));
             promptTV.setVisibility(View.VISIBLE);
         } else {
             resultIV.setBackgroundResource(R.mipmap.payment_fail);
+            resultTV.setTextColor(0xFFC94449);
             resultTV.setText(getString(R.string.par_result_failure));
             leftTV.setText(getString(R.string.par_result_detail));
             rightTV.setText(getString(R.string.par_result_repay));
@@ -133,10 +135,11 @@ public class FgPayResult extends BaseFragment {
      *  订单详情
      * */
     private void intentOrderDetail() {
+        clearFragmentList();
         FgOrderDetail.Params orderParams = new FgOrderDetail.Params();
         orderParams.orderId = params.orderId;
         orderParams.isUpdate = true;
-        Bundle bundle =new Bundle();
+        Bundle bundle = new Bundle();
         bundle.putSerializable(Constants.PARAMS_DATA, orderParams);
         bringToFront(FgOrderDetail.class, bundle);
     }
