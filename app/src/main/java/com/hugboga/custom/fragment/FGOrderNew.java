@@ -25,6 +25,7 @@ import com.hugboga.custom.data.bean.CarListBean;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.ContactUsersBean;
 import com.hugboga.custom.data.bean.CouponBean;
+import com.hugboga.custom.data.bean.DeductionBean;
 import com.hugboga.custom.data.bean.FlightBean;
 import com.hugboga.custom.data.bean.ManLuggageBean;
 import com.hugboga.custom.data.bean.MostFitAvailableBean;
@@ -38,6 +39,7 @@ import com.hugboga.custom.data.bean.TravelFundData;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
+import com.hugboga.custom.data.request.RequestDeduction;
 import com.hugboga.custom.data.request.RequestMostFit;
 import com.hugboga.custom.data.request.RequestSubmitBase;
 import com.hugboga.custom.data.request.RequestSubmitDaily;
@@ -613,13 +615,13 @@ public class FGOrderNew extends BaseFragment {
     String travelFund = "0";
     int money = 0;//旅游基金int
     private void requestTravelFund() {
-        TrequestTravelFundLogs request = new TrequestTravelFundLogs(getActivity(), 0);
-        HttpRequestUtils.request(getContext(), request, new HttpRequestListener() {
+        RequestDeduction requestDeduction = new RequestDeduction(getActivity(),carBean.price+"");
+        HttpRequestUtils.request(getActivity(), requestDeduction, new HttpRequestListener() {
             @Override
             public void onDataRequestSucceed(BaseRequest request) {
-                TrequestTravelFundLogs trequestTravelFundLogs = (TrequestTravelFundLogs) request;
-                TravelFundData travelFundData = trequestTravelFundLogs.getData();
-                travelFund = travelFundData.getFundAmount();
+                DeductionBean deductionBean = ((RequestDeduction)request).getData();
+
+                travelFund = deductionBean.deduction;
                 money = Integer.valueOf(travelFund);
                 if (0 == money) {
                     dream_right_tips.setVisibility(View.VISIBLE);
@@ -632,11 +634,10 @@ public class FGOrderNew extends BaseFragment {
                 } else {
                     dreamRight.setText("￥" + money);
                     if (dreamLeft.isChecked()) {
-                        allMoneyLeftText.setText("￥" + (carBean.price - money + seat1PriceTotal + seat2PriceTotal) + "");
+                        allMoneyLeftText.setText("￥" + (deductionBean.priceToPay + seat1PriceTotal + seat2PriceTotal) + "");
                     }
                     dream_right_tips.setVisibility(View.GONE);
                 }
-
             }
 
             @Override
@@ -649,6 +650,44 @@ public class FGOrderNew extends BaseFragment {
 
             }
         });
+
+//
+//        TrequestTravelFundLogs request = new TrequestTravelFundLogs(getActivity(), 0);
+//        HttpRequestUtils.request(getContext(), request, new HttpRequestListener() {
+//            @Override
+//            public void onDataRequestSucceed(BaseRequest request) {
+//                TrequestTravelFundLogs trequestTravelFundLogs = (TrequestTravelFundLogs) request;
+//                TravelFundData travelFundData = trequestTravelFundLogs.getData();
+//                travelFund = travelFundData.getFundAmount();
+//                money = Integer.valueOf(travelFund);
+//                if (0 == money) {
+//                    dream_right_tips.setVisibility(View.VISIBLE);
+//                    dream_right_tips.setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//                            startFragment(new FgTravelFund());
+//                        }
+//                    });
+//                } else {
+//                    dreamRight.setText("￥" + money);
+//                    if (dreamLeft.isChecked()) {
+//                        allMoneyLeftText.setText("￥" + (carBean.price - money + seat1PriceTotal + seat2PriceTotal) + "");
+//                    }
+//                    dream_right_tips.setVisibility(View.GONE);
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onDataRequestCancel(BaseRequest request) {
+//
+//            }
+//
+//            @Override
+//            public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+//
+//            }
+//        });
     }
 
     //
