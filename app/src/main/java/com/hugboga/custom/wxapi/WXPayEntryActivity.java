@@ -109,9 +109,10 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler, 
         switch (v.getId()) {
             case R.id.par_result_left_tv:
                 if (isPaySucceed) {//回首页
-//                    EventBus.getDefault().post(new EventAction(EventType.BACK_HOME));
+//                    EventBus.getDefault().post(new EventAction(EventType.ORDER_GO_HOME));
                     finish();
                 } else {//订单详情
+//                    EventBus.getDefault().post(new EventAction(EventType.SHOW_ORDER_DETAIL,"1213"));
 //                    startFragment(new FgAbout());// FIXME: qingcha
                     finish();
                 }

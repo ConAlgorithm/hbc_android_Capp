@@ -52,4 +52,7 @@ public enum EventType {
     ORDER_DETAIL_UPDATE_COLLECT,//更新收藏UI
     ORDER_DETAIL_UPDATE_EVALUATION,//更新评价UI
     ORDER_DETAIL_UPDATE_INFO,//更新个人信息UI
+
+    SHOW_ORDER_DETAIL,//显示订单详情
+    ORDER_GO_HOME,//支付成功回首页
 }

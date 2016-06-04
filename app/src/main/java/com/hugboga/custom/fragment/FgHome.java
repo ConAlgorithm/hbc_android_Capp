@@ -131,6 +131,21 @@ public class FgHome extends BaseFragment implements View.OnClickListener, ZBaseA
                 collectGuideBean = (CollectGuideBean)action.getData();
                 goPickSend(collectGuideBean);
                 break;
+
+//            case SHOW_ORDER_DETAIL:
+//                String orderId = (String)action.getData();
+//                FgOrderDetail.Params orderParams = new FgOrderDetail.Params();
+//                orderParams.orderId = orderId;
+//                orderParams.isUpdate = true;
+//                Bundle bundle =new Bundle();
+//                bundle.putSerializable(Constants.PARAMS_DATA, orderParams);
+//                bringToFront(FgOrderDetail.class, bundle);
+//                break;
+//            case ORDER_GO_HOME:
+//                Bundle bundle2 = new Bundle();
+//                bundle2.putString(KEY_FRAGMENT_NAME, this.getClass().getSimpleName());
+//                bringToFront(FgTravel.class, bundle2);
+//                break;
             default:
                 break;
         }
