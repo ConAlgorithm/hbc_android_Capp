@@ -524,6 +524,10 @@ public class FGOrderNew extends BaseFragment {
                 top_line.setVisibility(View.VISIBLE);
                 bottom_line.setVisibility(View.VISIBLE);
             }
+
+            if(dayNUms == 1){
+                bottom_line.setVisibility(View.INVISIBLE);
+            }
             if (cityBean.cityType == 1) {
                 textView.setText("第" + (i + 1) + "天: 住在" + cityBean.name + ",市内游玩");
             } else if (passCityList.get(i).cityType == 2) {
