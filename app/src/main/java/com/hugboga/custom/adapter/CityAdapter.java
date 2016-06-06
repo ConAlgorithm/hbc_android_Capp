@@ -286,15 +286,16 @@ public class CityAdapter extends BaseAdapter implements View.OnClickListener, On
         } else {
             viewHolder.imgDel.setVisibility(View.INVISIBLE);
             viewHolder.imgIcon.setVisibility(View.INVISIBLE);
+            if (model.isSelected) {
+                viewHolder.imgIcon.setVisibility(View.VISIBLE);
+            } else {
+                viewHolder.imgIcon.setVisibility(View.INVISIBLE);
+            }
+            if (model.isNationality) {
+                viewHolder.ll_item.setClickable(false);
+            }
         }
-        if (model.isSelected) {
-            viewHolder.imgIcon.setVisibility(View.VISIBLE);
-        } else {
-            viewHolder.imgIcon.setVisibility(View.INVISIBLE);
-        }
-        if (model.isNationality) {
-            viewHolder.ll_item.setClickable(false);
-        }
+
         return view;
     }
 
