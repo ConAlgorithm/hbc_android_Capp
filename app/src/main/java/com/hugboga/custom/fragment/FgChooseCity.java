@@ -364,6 +364,7 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
                 sourceDateList.add(0, hotCityDate.get(0));
                 adapter.setHotCityList(hotCityDate);
                 adapter.setIsFirstAccessHotCity(false);
+                adapter.notifyDataSetChanged();
             }
         } catch (DbException e) {
             e.printStackTrace();
