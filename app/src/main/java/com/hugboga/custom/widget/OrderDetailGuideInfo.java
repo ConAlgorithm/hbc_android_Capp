@@ -83,7 +83,7 @@ public class OrderDetailGuideInfo extends LinearLayout implements HbcViewBehavio
                 Tools.showImage(getContext(), avatarIV, guideInfo.guideAvatar);
             }
             ((TextView)findViewById(R.id.ogi_name_tv)).setText(guideInfo.guideName);
-            ((TextView)findViewById(R.id.ogi_describe_tv)).setText(guideInfo.car);//TODO 折行
+            ((TextView)findViewById(R.id.ogi_describe_tv)).setText(guideInfo.guideCarType);
             ((TextView)findViewById(R.id.ogi_plate_number_tv)).setText(guideInfo.CarNumber);
             ((RatingView)findViewById(R.id.ogi_ratingview)).setLevel((float)guideInfo.guideStarLevel);
         }

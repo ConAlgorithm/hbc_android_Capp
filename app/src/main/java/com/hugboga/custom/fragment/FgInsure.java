@@ -17,6 +17,7 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.InSureListAdapter;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.InsureBean;
 import com.hugboga.custom.data.bean.InsureResultBean;
 import com.hugboga.custom.data.bean.OrderBean;
@@ -296,7 +297,9 @@ public class FgInsure extends BaseFragment implements HttpRequestListener {
             FgOrderDetail.Params params = new FgOrderDetail.Params();
             params.orderGoodsType = orderBean.orderGoodsType;
             params.orderId = orderBean.orderNo;
-            startFragment(FgOrderDetail.newInstance(params));
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(Constants.PARAMS_DATA, params);
+            bringToFront(FgOrderDetail.class, bundle);
         }
 
     }

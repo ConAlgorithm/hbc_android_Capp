@@ -505,6 +505,17 @@
     <string name="evaluate_subtitle_grade">为司导打分</string>
     <string name="evaluate_submit">确认提交</string>
     <string name="evaluate_et_hint">其它意见或建议</string>
+    <string name="evaluate_title">我的评价</string>
+
+    <!--<string name="evaluate_title">Ta没有获得奖励还需要继续努力，感谢您的评价~</string>-->
+    <!--<string name="evaluate_title">打5星好评，可帮Ta争取到皇包车的¥小费奖励哦！</string>-->
+    <!--<string name="evaluate_title">满意</string>-->
+    <!--<string name="evaluate_title">一般</string>-->
+    <!--<string name="evaluate_title">不满意</string>-->
+    <!--<string name="evaluate_title">非常不满</string>-->
+    <!--<string name="evaluate_title">满意</string>-->
+    <!--<string name="evaluate_title">您的鼓励是我们最大的动力</string>-->
+    <!--<string name="evaluate_title">希望有机会为您提供更好的服务</string>-->
 
     <string name="dairy_inout_check">请先输入您的城市/出行时间</string>
 
@@ -597,6 +608,7 @@
     <string name="order_detail_cost_checkin">checkin费用</string>
     <string name="order_detail_cost_total">费用总计</string>
     <string name="order_detail_cost_coupon">优惠金额</string>
+    <string name="order_detail_cost_travelfund">旅游基金</string>
     <string name="order_detail_cost_realpay">实付款</string>
     <string name="order_detail_local_chartered">%1$s-%2$s天包车</string>
 

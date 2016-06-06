@@ -3,12 +3,10 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/default_dividing_line"
+    android:background="@color/default_bg"
     >
 
-    <include
-        android:id="@+id/collect_list_header"
-        layout="@layout/include_header" />
+    <include layout="@layout/include_header" />
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -65,8 +63,8 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
+                android:hint="个人姓名"
                 android:minEms="4"
-                android:text="@string/air_info"
                 android:textColor="@color/basic_black"
                 android:textSize="15sp"/>
 
@@ -77,21 +75,21 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
+                android:hint="手机号"
                 android:textColorHint="#9a9a9a"
                 android:minEms="4"
                 android:textColor="@color/basic_black"
                 android:textSize="15sp"/>
-
 
         </LinearLayout>
 
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/other_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="1px"
-        android:id="@+id/other_layout"
         android:background="@color/basic_white"
         android:clickable="true"
         android:minHeight="46dp">
@@ -129,7 +127,7 @@
         android:id="@+id/pick_name_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="1dp"
+        android:layout_marginTop="1px"
         android:background="@color/basic_white"
         android:clickable="true"
         android:minHeight="46dp">
@@ -165,7 +163,7 @@
         android:id="@+id/single_no_show_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="1dp"
+        android:layout_marginTop="1px"
         android:background="@color/basic_white"
         android:clickable="true"
         android:minHeight="46dp">
@@ -202,7 +200,7 @@
         android:id="@+id/single_no_show_address"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="1dp"
+        android:layout_marginTop="1px"
         android:background="@color/basic_white"
         android:clickable="true"
         android:minHeight="46dp">
@@ -299,7 +297,7 @@
         android:id="@+id/airport_name_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="1dp"
+        android:layout_marginTop="1px"
         android:background="@color/basic_white"
         android:clickable="true"
         android:minHeight="46dp">
@@ -333,7 +331,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:orientation="horizontal"
-        android:layout_marginTop="1dp"
+        android:layout_marginTop="1px"
         android:minHeight="50dp"
         android:gravity="left|top"
         android:background="@color/basic_white"

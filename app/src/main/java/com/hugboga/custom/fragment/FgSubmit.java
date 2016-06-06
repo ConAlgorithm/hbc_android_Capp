@@ -751,13 +751,19 @@ public class FgSubmit extends BaseFragment implements CompoundButton.OnCheckedCh
 
     private void goToOrder(String orderId) {
         EventBus.getDefault().post(new EventAction(EventType.SET_MAIN_PAGE_INDEX, 2));
+//        Bundle bundle = new Bundle();
+//        bundle.putString(FgOrder.KEY_ORDER_ID, orderId);
+//        bundle.putString("source",source);
+//        bringToFront(FgTravel.class, bundle);
+//        bundle.putBoolean("needShowAlert",true);
+//        //下单后再返回,直接到主页
+//        startFragment(new FgOrder(), bundle);
+        FgOrderDetail.Params params = new FgOrderDetail.Params();
+        params.orderId = orderId;
+        params.source = source;
         Bundle bundle = new Bundle();
-        bundle.putString(FgOrder.KEY_ORDER_ID, orderId);
-        bundle.putString("source",source);
-        bringToFront(FgTravel.class, bundle);
-        bundle.putBoolean("needShowAlert",true);
-        //下单后再返回,直接到主页
-        startFragment(new FgOrder(), bundle);
+        bundle.putSerializable(Constants.PARAMS_DATA, params);
+        startFragment(new FgOrderDetail(), bundle);
     }
 
     private void showSelectVisa() {

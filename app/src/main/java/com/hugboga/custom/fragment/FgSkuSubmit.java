@@ -548,11 +548,18 @@ public class FgSkuSubmit extends BaseFragment implements View.OnClickListener {
         } else if (request instanceof RequestSubmitBase) {
             bringToFront(FgTravel.class, new Bundle());
             String orderNo = ((RequestSubmitBase) request).getData();
+//            Bundle bundle = new Bundle();
+//            bundle.putString(FgOrder.KEY_ORDER_ID, orderNo);
+//            bundle.putBoolean("needShowAlert",true);
+//            bundle.putString("source", source);
+//            startFragment(new FgOrder(), bundle);
+
+            FgOrderDetail.Params params = new FgOrderDetail.Params();
+            params.orderId = orderNo;
+            params.source = source;
             Bundle bundle = new Bundle();
-            bundle.putString(FgOrder.KEY_ORDER_ID, orderNo);
-            bundle.putBoolean("needShowAlert",true);
-            bundle.putString("source", source);
-            startFragment(new FgOrder(), bundle);
+            bundle.putSerializable(Constants.PARAMS_DATA, params);
+            startFragment(new FgOrderDetail(), bundle);
         }
 
     }
