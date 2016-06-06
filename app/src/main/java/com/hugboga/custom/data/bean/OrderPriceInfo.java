@@ -18,7 +18,8 @@ public class OrderPriceInfo implements IBaseBean ,Parcelable{
     public double refundablePrice;    // 可退款金额
     public double checkInPrice;// check in费用
     public double cancelFee;//退改费用
-    public double priceFlightBrandSign;//举牌接机
+    public double priceFlightBrandSign;//举牌费用
+    public double coupons;//优惠金额
 
     public void parser(JSONObject jsonObj) throws JSONException {
         if (jsonObj == null) return;
@@ -29,6 +30,8 @@ public class OrderPriceInfo implements IBaseBean ,Parcelable{
         refundPrice = jsonObj.optDouble("refundPrice");
         refundablePrice = jsonObj.optDouble("refundablePrice");
         cancelFee = jsonObj.optDouble("cancelFee", 0);
+        priceFlightBrandSign = jsonObj.optDouble("priceFlightBrandSign", 0);
+        coupons = jsonObj.optDouble("coupons", 0);
     }
 
     @Override
@@ -45,6 +48,8 @@ public class OrderPriceInfo implements IBaseBean ,Parcelable{
         dest.writeDouble(this.refundablePrice);
         dest.writeDouble(this.checkInPrice);
         dest.writeDouble(this.cancelFee);
+        dest.writeDouble(this.priceFlightBrandSign);
+        dest.writeDouble(this.coupons);
     }
 
     public OrderPriceInfo() {
@@ -58,6 +63,8 @@ public class OrderPriceInfo implements IBaseBean ,Parcelable{
         this.refundablePrice = in.readDouble();
         this.checkInPrice = in.readDouble();
         this.cancelFee = in.readDouble();
+        this.priceFlightBrandSign = in.readDouble();
+        this.coupons = in.readDouble();
     }
 
     public static final Creator<OrderPriceInfo> CREATOR = new Creator<OrderPriceInfo>() {

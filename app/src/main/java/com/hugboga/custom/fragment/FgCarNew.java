@@ -38,6 +38,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
 
+import static com.hugboga.custom.R.id.child_count_cost;
 import static com.hugboga.custom.R.id.choose_driver;
 import static com.hugboga.custom.R.id.del_text;
 import static com.hugboga.custom.R.id.driver_name;
@@ -98,7 +99,7 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
     TextView freeCSeatNum;
     @Bind(R.id.child_left)
     TextView childLeft;
-    @Bind(R.id.child_count_cost)
+    @Bind(child_count_cost)
     TextView childCountCost;
     @Bind(R.id.child_count_text)
     TextView childCountText;
@@ -168,7 +169,7 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
                 }
 
                 chargeSeatLayout.setVisibility(View.VISIBLE);
-                freeCSeatRight.setText("￥" + seat2 + "/次");
+                childCountCost.setText("￥" + seat2 + "/次");
                 childCountText.setText("x" + (seatNums - 1) + "");
             }
         }

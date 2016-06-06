@@ -384,10 +384,20 @@
                     android:textSize="15sp" />
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/full_day_show"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:orientation="vertical"
+                android:visibility="gone">
+            </LinearLayout>
+
             <RelativeLayout
                 android:id="@+id/show_like_driver_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="25dp"
                 android:clickable="true">
 
                 <TextView
@@ -395,7 +405,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="15dp"
                     android:minHeight="50dp"
                     android:gravity="center"
                     android:text="@string/choose_like_driver_order"
@@ -410,20 +420,10 @@
                     android:visibility="gone"
                     android:clickable="true"
                     android:minHeight="50dp">
-                     <include layout="@layout/include_driver_layout" />
+                    <include layout="@layout/include_driver_layout" />
                 </RelativeLayout>
 
             </RelativeLayout>
-
-            <LinearLayout
-                android:id="@+id/full_day_show"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="15dp"
-                android:orientation="vertical"
-                android:visibility="gone"></LinearLayout>
-
 
 
         </LinearLayout>

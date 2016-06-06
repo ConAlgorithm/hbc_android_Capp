@@ -325,6 +325,18 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
         }
     }
 
+    public void clearFragmentList() {
+        if (getActivity() instanceof BaseFragmentActivity) {
+            ArrayList<BaseFragment> fragmentList = ((BaseFragmentActivity) getActivity()).getFragmentList();
+            for (int i = fragmentList.size() - 1; i >= 1; i--) {
+                BaseFragment fg = (BaseFragment) fragmentList.get(i);
+                if (fg != null) {
+                    fg.finish();
+                }
+            }
+        }
+    }
+
     /**
      * 点击 back键的时候触发该方法，如果返回false，返回事件交给上层处理。如果返回true，则表示自己处理事件
      *

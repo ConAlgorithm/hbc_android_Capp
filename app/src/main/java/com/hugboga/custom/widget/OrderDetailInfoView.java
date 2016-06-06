@@ -48,7 +48,7 @@ public class OrderDetailInfoView extends LinearLayout implements HbcViewBehavior
             return;
         }
         final OrderBean orderBean = (OrderBean) _data;
-        nameTV.setText(orderBean.userName);
+        nameTV.setText(orderBean.contactName);
         if (orderBean.insuranceEnable && orderBean.orderStatus == OrderStatus.INITSTATE) { //是否添加保险
             insuranceInfoLayout.setVisibility(View.GONE);
             insuranceGetLayout.setVisibility(View.VISIBLE);
@@ -69,8 +69,10 @@ public class OrderDetailInfoView extends LinearLayout implements HbcViewBehavior
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.order_detail_info_layout://出行人信息
+                EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_TOURIST_INFO));
                 break;
-            case R.id.order_detail_insurance_info_layout://投保人信息
+            case R.id.order_detail_insurance_info_layout://投保人list
+                EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_LIST_INSURER));
                 break;
             case R.id.order_detail_insurance_get_layout://添加投保人
                 EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_ADD_INSURER));

@@ -135,6 +135,14 @@ public class FgChoosePayment extends BaseFragment {
                 bundle.putString(KEY_FRAGMENT_NAME, this.getClass().getSimpleName());
                 bringToFront(FgTravel.class, bundle);
                 break;
+            case ORDER_DETAIL:
+                clearFragmentList();
+                FgOrderDetail.Params orderParams = new FgOrderDetail.Params();
+                orderParams.orderId = requestParams.orderId;
+                orderParams.isUpdate = true;
+                Bundle detailBundle =new Bundle();
+                detailBundle.putSerializable(Constants.PARAMS_DATA, orderParams);
+                startFragment(new FgOrderDetail(), detailBundle);
             default:
                 break;
         }
@@ -266,5 +274,4 @@ public class FgChoosePayment extends BaseFragment {
             inflateContent();
         }
     };
-
 }

@@ -63,10 +63,12 @@ public class OrderDetailGuideInfo extends LinearLayout implements HbcViewBehavio
                 lineView.setVisibility(View.VISIBLE);
                 navLayout.setVisibility(View.VISIBLE);
                 promptTV.setVisibility(View.VISIBLE);
+                collectTV.setText(getContext().getString(orderBean.isCollected() ? R.string.uncollect : R.string.collect));
             } else if (orderBean.orderStatus == OrderStatus.COMPLETE) {//7:服务完成已评价
                 lineView.setVisibility(View.VISIBLE);
                 navLayout.setVisibility(View.VISIBLE);
                 promptTV.setVisibility(View.GONE);
+                collectTV.setText(getContext().getString(orderBean.isCollected() ? R.string.uncollect : R.string.collect));
             } else {
                 lineView.setVisibility(View.GONE);
                 navLayout.setVisibility(View.GONE);

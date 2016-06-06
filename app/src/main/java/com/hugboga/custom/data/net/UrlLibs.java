@@ -443,4 +443,20 @@ public class UrlLibs {
      * 获取可用优惠券
      */
     public static final String API_COUPONS_AVAILABLE = "marketing/v1.1/c/coupons/available";
+
+    /**
+     * 获取可用优惠券
+     */
+    public static final String DEDUCTION = "ucenter/v1.0/e/travelFund/deduction";
+
+
+
+
+
+
+
+    /**
+     * 修改订单
+     */
+    public static final String API_ORDER_EDIT = "trade/v1.1/c/order/edit";
 }
