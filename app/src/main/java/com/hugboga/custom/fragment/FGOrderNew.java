@@ -392,6 +392,7 @@ public class FGOrderNew extends BaseFragment {
 
         singleNoShowTime.setVisibility(View.GONE);
         singleNoShowAddress.setVisibility(View.GONE);
+        allMoneyLeftText.setText("￥" + (carBean.price + OrderUtils.getSeat1PriceTotal(carListBean,manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean,manLuggageBean)));
 
         checkin.setText("协助办理登机check in");
         checkin.setVisibility(View.VISIBLE);
@@ -428,6 +429,7 @@ public class FGOrderNew extends BaseFragment {
 
         carSeat.setText(carBean.carDesc);
         carSeatTips.setText("(" + "乘坐" + (Integer.valueOf(adultNum) + Integer.valueOf(childrenNum)) + "人,行李箱" + luggageNum + "件,儿童座椅" + childseatNum + "个)");
+        allMoneyLeftText.setText("￥" + (carBean.price + OrderUtils.getSeat1PriceTotal(carListBean,manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean,manLuggageBean)));
 
         singleNoShowTime.setVisibility(View.GONE);
         singleNoShowAddress.setVisibility(View.GONE);
@@ -468,6 +470,7 @@ public class FGOrderNew extends BaseFragment {
 
         carSeat.setText(carBean.carDesc);
         carSeatTips.setText("(" + "乘坐" + (Integer.valueOf(adultNum) + Integer.valueOf(childrenNum)) + "人,行李箱" + luggageNum + "件,儿童座椅" + childseatNum + "个)");
+        allMoneyLeftText.setText("￥" + (carBean.price + OrderUtils.getSeat1PriceTotal(carListBean,manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean,manLuggageBean)));
 
 
         citys_line_title_tips.setVisibility(View.GONE);
@@ -495,6 +498,7 @@ public class FGOrderNew extends BaseFragment {
         checkin.setVisibility(View.GONE);
         pick_name_layout.setVisibility(View.GONE);
 
+        allMoneyLeftText.setText("￥" + (carBean.price + OrderUtils.getSeat1PriceTotal(carListBean,manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean,manLuggageBean)));
 
         carSeat.setText(carBean.carDesc);
         carSeatTips.setText("(" + "乘坐" + (Integer.valueOf(adultNum) + Integer.valueOf(childrenNum)) + "人,行李箱" + luggageNum + "件,儿童座椅" + childseatNum + "个)");
@@ -543,7 +547,6 @@ public class FGOrderNew extends BaseFragment {
     //包车界面
     private void genDairy() {
         show_day_layout.setVisibility(View.VISIBLE);
-
         if (isHalfTravel) {
             citysLineTitle.setText(startBean.name + "-0.5天包车");
             day_show_all.setVisibility(View.GONE);
@@ -605,6 +608,9 @@ public class FGOrderNew extends BaseFragment {
         endHospitalTitleTips.setVisibility(View.GONE);
         checkin.setVisibility(View.GONE);
         pick_name_layout.setVisibility(View.GONE);
+
+        allMoneyLeftText.setText("￥" + (carBean.price + OrderUtils.getSeat1PriceTotal(carListBean,manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean,manLuggageBean)));
+
 
     }
 
@@ -754,12 +760,10 @@ public class FGOrderNew extends BaseFragment {
 
             @Override
             public void onDataRequestCancel(BaseRequest request) {
-                System.out.print("a发生大幅");
             }
 
             @Override
             public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-                System.out.print("a发生大幅");
             }
         });
 
@@ -777,7 +781,6 @@ public class FGOrderNew extends BaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
         ButterKnife.bind(this, rootView);
         EventBus.getDefault().register(this);
@@ -864,7 +867,6 @@ public class FGOrderNew extends BaseFragment {
     @Override
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
         super.onDataRequestError(errorInfo, request);
-        MLog.e(errorInfo.toString() + "===========error");
     }
 
     //TODO;时间太紧 文字先写代码里
@@ -962,124 +964,14 @@ public class FGOrderNew extends BaseFragment {
         }
     }
 
-    private String getServiceEndTime(String date, int day) {
-        try {
-            String[] ymd = date.split("-");
-            Calendar calendar = Calendar.getInstance();
-            calendar.set(Integer.valueOf(ymd[0]), Integer.valueOf(ymd[1]) - 1, Integer.valueOf(ymd[2]));
-            calendar.add(Calendar.DAY_OF_YEAR, day);
-            return DateUtils.dateDateFormat.format(calendar.getTime());
-        } catch (Exception e) {
-            MLog.e("解析时间格式错误", e);
-        }
-        return null;
-    }
-
-
-    //TODO 需要后期优化
     //SKU参数
     private OrderBean getSKUOrderByInput() {
+        return new OrderUtils().getSKUOrderByInput(guideCollectId, skuBean,
+                 startDate,  serverTime,  distance,
+                carBean, adultNum, childrenNum,
+                 startBean,  getPassCityStr(),
+                 contactUsersBean, mark.getText().toString(), manName.getText().toString());
 
-        return new OrderUtils().getDayOrderByInput(adultNum,  carBean,
-                 childrenNum,  endCityId,
-                 endBean, contact,
-                 serverTime,  startDate,
-                 endDate,  outNum,  inNum,
-         serviceAddressTel, serviceAreaCode,
-                 startBean, isHalfTravel,
-         startAddress, destAddressDetail,
-                manName.getText().toString(), passCities, mark.getText().toString(),
-                 childseatNum, luggageNum,
-                 contactUsersBean ,
-                    dreamLeft.isChecked(), travelFund,
-                 couponBean, mostFitBean,
-                 guideCollectId)
-
-
-        orderBean = new OrderBean();//订单
-
-        if (!TextUtils.isEmpty(guideCollectId)) {
-            orderBean.guideCollectId = guideCollectId;
-        }
-
-        orderBean.orderType = 5;
-        orderBean.goodsNo = skuBean.goodsNo;
-        orderBean.lineSubject = skuBean.goodsName;
-        orderBean.lineDescription = skuBean.salePoints;
-        orderBean.orderGoodsType = skuBean.goodsType;
-        orderBean.serviceTime = startDate;//日期
-        orderBean.serviceStartTime = serverTime + ":00";//时间
-        orderBean.serviceEndTime = getServiceEndTime(startDate, skuBean.daysCount - 1);
-        orderBean.distance = distance;//距离
-//        orderBean.expectedCompTime = 0;//耗时
-        orderBean.carDesc = carBean.carDesc;//车型描述
-        orderBean.carType = carBean.carType;//车型
-        orderBean.seatCategory = carBean.seatCategory;
-        orderBean.orderPrice = carBean.price;
-        orderBean.priceMark = carBean.pricemark;
-        orderBean.urgentFlag = carBean.urgentFlag;
-        orderBean.adult = Integer.valueOf(adultNum);//成人数
-        orderBean.child = Integer.valueOf(childrenNum);//儿童数
-        orderBean.contactName = "";
-        orderBean.contact = new ArrayList<OrderContact>();
-        OrderContact orderContact = new OrderContact();
-        orderContact.areaCode = "+86";
-        orderContact.tel = "";
-        orderBean.contact.add(orderContact);
-        orderBean.memo = mark.getText().toString().trim();
-        if (startBean != null) {
-            orderBean.startAddress = startBean.placeName;
-            orderBean.startAddressDetail = "";
-            orderBean.startLocation = startBean.location;
-        }
-        orderBean.serviceCityId = skuBean.depCityId;
-        orderBean.serviceCityName = skuBean.depCityName;
-        //出发地，到达地经纬度
-        orderBean.terminalLocation = null;
-        orderBean.destAddress = skuBean.arrCityName;
-        orderBean.serviceEndCityid = skuBean.arrCityId;
-        orderBean.serviceEndCityName = skuBean.arrCityName;
-        orderBean.totalDays = skuBean.daysCount;
-        orderBean.oneCityTravel = skuBean.goodsType == 3 ? 1 : 2;//1：市内畅游  2：跨城市
-        orderBean.isHalfDaily = 0;
-        orderBean.inTownDays = skuBean.goodsType == 3 ? skuBean.daysCount : 0;
-        orderBean.outTownDays = skuBean.goodsType == 3 ? 0 : skuBean.daysCount;
-        orderBean.skuPoi = "";
-        orderBean.stayCityListStr = getPassCityStr();
-        orderBean.priceChannel = carBean.price + "";
-        orderBean.userName = manName.getText().toString();
-        orderBean.userRemark = mark.getText().toString();
-
-
-        StringBuffer userExJson = new StringBuffer();
-        userExJson.append("[");
-
-        if (!TextUtils.isEmpty(contactUsersBean.userPhone)) {
-            userExJson.append("{name:\"" + contactUsersBean.userName + "\",areaCode:\"" + (null == contactUsersBean.phoneCode ? "+86" : contactUsersBean.phoneCode) + "\",mobile:\"" + contactUsersBean.userPhone + "\"}");
-        }
-
-        if (!TextUtils.isEmpty(contactUsersBean.user1Phone)) {
-            userExJson.append(",{name:\"" + contactUsersBean.user1Name + "\",areaCode:\"" + (null == contactUsersBean.phone1Code ? "+86" : contactUsersBean.phone1Code) + "\",mobile:\"" + contactUsersBean.user1Phone + "\"}");
-        }
-
-        if (!TextUtils.isEmpty(contactUsersBean.user2Phone)) {
-            userExJson.append(",{name:\"" + contactUsersBean.user2Name + "\",areaCode:\"" + (null == contactUsersBean.phone2Code ? "+86" : contactUsersBean.phone2Code) + "\",mobile:\"" + contactUsersBean.user2Phone + "\"}");
-        }
-        userExJson.append("]");
-        orderBean.userEx = userExJson.toString();
-
-
-        StringBuffer realUserExJson = new StringBuffer();
-        realUserExJson.append("[");
-
-        if (!TextUtils.isEmpty(contactUsersBean.otherName)) {
-            realUserExJson.append("{name:\"" + contactUsersBean.otherName + "\",areaCode:\"" + contactUsersBean.otherphoneCode + "\",mobile:\"" + contactUsersBean.otherPhone + "\"}");
-        }
-        realUserExJson.append("]");
-        orderBean.realUserEx = realUserExJson.toString();
-
-
-        return orderBean;
     }
 
     private String getPassCityStr() {
