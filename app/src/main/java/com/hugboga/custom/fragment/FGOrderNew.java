@@ -32,10 +32,10 @@ import com.hugboga.custom.data.bean.MostFitAvailableBean;
 import com.hugboga.custom.data.bean.MostFitBean;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.OrderContact;
+import com.hugboga.custom.data.bean.OrderInfoBean;
 import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.bean.SelectCarBean;
 import com.hugboga.custom.data.bean.SkuItemBean;
-import com.hugboga.custom.data.bean.TravelFundData;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
@@ -46,7 +46,6 @@ import com.hugboga.custom.data.request.RequestSubmitDaily;
 import com.hugboga.custom.data.request.RequestSubmitPick;
 import com.hugboga.custom.data.request.RequestSubmitRent;
 import com.hugboga.custom.data.request.RequestSubmitSend;
-import com.hugboga.custom.data.request.TrequestTravelFundLogs;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.ToastUtils;
 import com.umeng.analytics.MobclickAgent;
@@ -881,26 +880,26 @@ public class FGOrderNew extends BaseFragment {
     public void onDataRequestSucceed(BaseRequest request) {
         if (request instanceof RequestSubmitBase) {
 //            bringToFront(FgTravel.class, new Bundle());
-            String orderNo = ((RequestSubmitBase) request).getData();
+            OrderInfoBean orderInfoBean = ((RequestSubmitBase) request).getData();
             FgChoosePayment.RequestParams requestParams = new FgChoosePayment.RequestParams();
-            requestParams.orderId = orderNo;
+            requestParams.orderId = orderInfoBean.getOrderno();
             if (couponLeft.isChecked()) {
                 if (null == couponBean && null != mostFitBean) {
                     requestParams.couponId = mostFitBean.couponId;
-                    requestParams.shouldPay = orderBean.orderPrice - Integer.valueOf(mostFitBean.couponPrice);
                 } else if (null != couponBean && null == mostFitBean) {
                     requestParams.couponId = couponBean.couponID;
-                    requestParams.shouldPay = orderBean.orderPrice - Integer.valueOf(couponBean.price);
                 }
 
-            } else {
-                requestParams.couponId = "";
-                if (TextUtils.isEmpty(travelFund)) {
-                    requestParams.shouldPay = orderBean.orderPrice;
-                } else {
-                    requestParams.shouldPay = orderBean.orderPrice - Integer.valueOf(travelFund);
-                }
             }
+//            else {
+//                requestParams.couponId = "";
+//                if (TextUtils.isEmpty(travelFund)) {
+//                    requestParams.shouldPay = orderBean.orderPrice;
+//                } else {
+//                    requestParams.shouldPay = orderBean.orderPrice - Integer.valueOf(travelFund);
+//                }
+//            }
+            requestParams.shouldPay = orderInfoBean.getPriceActual();
             requestParams.source = source;
             requestParams.needShowAlert = true;
             startFragment(FgChoosePayment.newInstance(requestParams));
@@ -1197,16 +1196,16 @@ public class FGOrderNew extends BaseFragment {
 
         if (dreamLeft.isChecked()) {
             orderBean.travelFund = travelFund;
-            orderBean.orderPrice = carBean.price - Integer.valueOf(travelFund);
+            orderBean.orderPrice = carBean.price;
         } else {
             if (null == couponBean && null != mostFitBean) {
                 orderBean.coupId = mostFitBean.couponId;
                 orderBean.coupPriceInfo = mostFitBean.couponPrice + "";
-                orderBean.orderPrice = (carBean.price - mostFitBean.couponPrice);
+                orderBean.orderPrice = carBean.price;
             } else if (null != couponBean && null == mostFitBean) {
                 orderBean.coupId = couponBean.couponID;
                 orderBean.coupPriceInfo = couponBean.price;
-                orderBean.orderPrice = carBean.price - Integer.valueOf(couponBean.price);
+                orderBean.orderPrice = carBean.price;
             }
         }
 
@@ -1569,6 +1568,8 @@ public class FGOrderNew extends BaseFragment {
         orderBean.expectedCompTime = carBean.expectedCompTime;
 
         orderBean.destAddressPoi = airPort.location;
+
+        orderBean.destAddressDetail = poiBean.placeDetail;
 
 
         orderBean.startAddress = poiBean.placeName;
