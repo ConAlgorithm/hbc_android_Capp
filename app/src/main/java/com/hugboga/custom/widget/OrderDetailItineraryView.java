@@ -61,10 +61,7 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
             addItemView(R.mipmap.order_time, getContext().getString(R.string.order_detail_local_chartered, orderBean.serviceCityName, orderBean.totalDays), null, localTime);
         } else {
             //主标题：当地时间   副标题："航班HKJHKJ 东京-北京"
-            String flight = null;
-            if (!TextUtils.isEmpty(orderBean.startAddress)) {
-                flight = getContext().getString(R.string.order_detail_flight, orderBean.flightNo, orderBean.flightDeptCityName, orderBean.flightDestCityName);
-            }
+            String flight = getContext().getString(R.string.order_detail_flight, orderBean.flightNo, orderBean.flightDeptCityName, orderBean.flightDestCityName);
             addItemView(R.mipmap.order_time, localTime, null, flight);
         }
 
@@ -74,8 +71,8 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
             routeView.update(orderBean.passByCity);
         }
 
-        if (!TextUtils.isEmpty(orderBean.serviceCityName)) {//出发地
-            addItemView(R.mipmap.order_place, orderBean.serviceCityName, null, orderBean.startAddressDetail);
+        if (!TextUtils.isEmpty(orderBean.startAddress)) {//出发地
+            addItemView(R.mipmap.order_place, orderBean.startAddress, null, orderBean.startAddressDetail);
         }
 
         if (!TextUtils.isEmpty(orderBean.destAddress)) {//目的地

@@ -68,7 +68,7 @@ public class CityAdapter extends BaseAdapter implements View.OnClickListener, On
 
 //    private void generateHotCityData(){
 //        for (CityBean cb : list){
-//            if(!TextUtils.isEmpty(cb.firstLetter) && cb.firstLetter.equals("热门城市")){
+//            if(!TextUtils.isEmpty(cb.firstLetter) && cb.firstLetter.equalsIgnoreCase("热门城市")){
 //                hotCityList.add(cb);
 //            }
 //        }
@@ -128,11 +128,11 @@ public class CityAdapter extends BaseAdapter implements View.OnClickListener, On
             cityBean = (CityBean) ((List) getItem(position)).get(0);
         }
 
-        if (cityBean.firstLetter.equals("搜索历史")) {
+        if (cityBean.firstLetter.equalsIgnoreCase("搜索历史")) {
             return HISTORY_ITEM;
-        } else if (cityBean.firstLetter.equals("热门城市")) {
+        } else if (cityBean.firstLetter.equalsIgnoreCase("热门城市")) {
             return HOT_ITEM;
-        } else if (cityBean.firstLetter.equals("定位城市")) {
+        } else if (cityBean.firstLetter.equalsIgnoreCase("定位城市")) {
             return LOCATION_ITEM;
         }else {
             return CITY_LIST_ITEM;
@@ -250,7 +250,7 @@ public class CityAdapter extends BaseAdapter implements View.OnClickListener, On
         }
         //如果当前位置等于该分类首字母的Char的位置 ，则认为是第一次出现
         if (model.isFirst) {
-            if(!TextUtils.isEmpty(model.firstLetter) && model.firstLetter.equals(mContext.getString(R.string.guess_you_want))){
+            if(!TextUtils.isEmpty(model.firstLetter) && model.firstLetter.equalsIgnoreCase(mContext.getString(R.string.guess_you_want))){
                 Drawable drawable= mContext.getResources().getDrawable(R.mipmap.icon_guess_you_want);
                 drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
                 viewHolder.tvLetter.setCompoundDrawables(drawable, null, null, null);
@@ -267,7 +267,7 @@ public class CityAdapter extends BaseAdapter implements View.OnClickListener, On
         }
 
         if(!TextUtils.isEmpty(model.keyWord)){
-            if(model.keyWord.equals("相关城市")){
+            if(model.keyWord.equalsIgnoreCase("相关城市")){
                 viewHolder.tvTitle.setText("相关城市，" + model.name);
             }else if(model.isNationality){
                 viewHolder.tvTitle.setText(getSpannableString(model.name, model.keyWord));

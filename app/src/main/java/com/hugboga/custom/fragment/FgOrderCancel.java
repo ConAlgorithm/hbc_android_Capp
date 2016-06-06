@@ -106,10 +106,16 @@ public class FgOrderCancel extends BaseFragment {
     }
 
     private void goBackOrderFg() {
+//        Bundle bundle = new Bundle();
+//        bundle.putInt(KEY_BUSINESS_TYPE, orderBean.orderType);
+//        bundle.putString(FgOrder.KEY_ORDER_ID, orderBean.orderNo);
+//        bringToFront(FgOrder.class, bundle);
+        FgOrderDetail.Params params = new FgOrderDetail.Params();
+        params.orderGoodsType = orderBean.orderGoodsType;
+        params.orderId = orderBean.orderNo;
         Bundle bundle = new Bundle();
-        bundle.putInt(KEY_BUSINESS_TYPE, orderBean.orderType);
-        bundle.putString(FgOrder.KEY_ORDER_ID, orderBean.orderNo);
-        bringToFront(FgOrder.class, bundle);
+        bundle.putSerializable(Constants.PARAMS_DATA, params);
+        bringToFront(FgOrderDetail.class, bundle);
     }
 
     @Event({R.id.order_cancel_btn})

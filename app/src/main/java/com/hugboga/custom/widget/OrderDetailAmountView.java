@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.OrderBean;
+import com.hugboga.custom.data.bean.OrderPriceInfo;
 import com.hugboga.custom.data.bean.OrderStatus;
 import com.hugboga.custom.utils.UIUtils;
 
@@ -42,23 +43,23 @@ public class OrderDetailAmountView extends LinearLayout implements HbcViewBehavi
 
         billLayout.removeAllViews();
         groupLayout.removeAllViews();
-        addBillView(R.string.order_detail_cost_chartered, "" + orderBean.orderPriceInfo.orderPrice);//TODO 包车费用 orderPrice
+
+        OrderPriceInfo priceInfo = orderBean.orderPriceInfo;
+        addBillView(R.string.order_detail_cost_chartered, "" + priceInfo.orderPrice);//包车费用
         if (orderBean.orderGoodsType == 1) {//接机 举牌费用
-            addBillView(R.string.order_detail_cost_placards, "" + orderBean.priceFlightBrandSign);
+            addBillView(R.string.order_detail_cost_placards, "" + priceInfo.flightBrandSignPrice);
         } else if(orderBean.orderGoodsType == 2) {//送机 checkin费用
-            addBillView(R.string.order_detail_cost_checkin, "" + orderBean.orderPriceInfo.checkInPrice);
+            addBillView(R.string.order_detail_cost_checkin, "" + priceInfo.checkInPrice);
         }
-        String childSeat = null;
-        if (orderBean.childSeat != null && orderBean.childSeat.size() >= 2) {
-            childSeat = orderBean.childSeat.get(0) + orderBean.childSeat.get(1);
+        addBillView(R.string.order_detail_cost_child_seats, "" + priceInfo.childSeatPrice);//儿童座椅
+        addGroupView(R.string.order_detail_cost_total, "" + priceInfo.shouldPay);//费用总计
+        if (priceInfo.couponPrice != 0) {
+            addGroupView(R.string.order_detail_cost_coupon, "" + priceInfo.couponPrice);//优惠金额
         }
-        addBillView(R.string.order_detail_cost_child_seats, childSeat);//TODO 儿童座椅 childSeat childSeatPrice1+childSeatPrice2
-
-        addGroupView(R.string.order_detail_cost_total, null);//TODO 费用总计 shouldPay
-        addGroupView(R.string.order_detail_cost_coupon, "" + orderBean.orderPriceInfo.coupons);//TODO 优惠金额 coupons 旅游基金
-
-        double realSum = orderBean.orderStatus == OrderStatus.INITSTATE ? orderBean.orderPriceInfo.shouldPay : orderBean.orderPriceInfo.actualPay;
-        addGroupView(R.string.order_detail_cost_realpay, String.valueOf(realSum));//TODO 实付款 1 shouldPay actualPay
+        if (priceInfo.travelFundPrice != 0) {
+            addGroupView(R.string.order_detail_cost_travelfund, "" + priceInfo.travelFundPrice);//旅游基金
+        }
+        addGroupView(R.string.order_detail_cost_realpay, "" +priceInfo.actualPay);//实付款
     }
 
     private void addBillView(int titleID, String price) {

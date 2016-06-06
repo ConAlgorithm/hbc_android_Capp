@@ -247,7 +247,7 @@ public class UrlLibs {
     /**
      * 取消订单
      **/
-    public static final String SERVER_IP_ORDER_CANCEL = UrlLibs.SERVER_IP_TRADE + "cancel?";
+    public static final String SERVER_IP_ORDER_CANCEL =  "trade/v1.0/c/order/cancel?";
     /**
      * 修改订单
      **/
@@ -459,4 +459,14 @@ public class UrlLibs {
      * 修改订单
      */
     public static final String API_ORDER_EDIT = "trade/v1.1/c/order/edit";
+
+    /**
+     * C端评价v1.1
+     */
+    public static final String API_EVALUATE_NEW = "supplier/v1.1/c/guide/comments/create";
+
+    /**
+     * 获取各个星级的标签列表
+     */
+    public static final String API_EVALUATE_TAG = "supplier/v1.0/c/guides/comments/labels/OrderType";
 }

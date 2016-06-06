@@ -13,7 +13,7 @@ public class OrderGuideInfo implements IBaseBean ,Parcelable {
     public String guideID;//车导ID
     public String guideTel;//车导电话
     public double guideStarLevel;//车导级别
-    public String car;//车描述
+    public String guideCarType;//车描述
     public String CarNumber;//车牌
 
     @Override
@@ -28,7 +28,7 @@ public class OrderGuideInfo implements IBaseBean ,Parcelable {
         dest.writeString(this.guideID);
         dest.writeString(this.guideTel);
         dest.writeDouble(this.guideStarLevel);
-        dest.writeString(this.car);
+        dest.writeString(this.guideCarType);
         dest.writeString(this.CarNumber);
     }
 
@@ -41,7 +41,7 @@ public class OrderGuideInfo implements IBaseBean ,Parcelable {
         this.guideID = in.readString();
         this.guideTel = in.readString();
         this.guideStarLevel = in.readDouble();
-        this.car = in.readString();
+        this.guideCarType = in.readString();
         this.CarNumber = in.readString();
     }
 

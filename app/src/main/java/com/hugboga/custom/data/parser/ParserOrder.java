@@ -7,6 +7,7 @@ import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.bean.AppraisementBean;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.InsureListBean;
 import com.hugboga.custom.data.bean.OrderBean;
@@ -151,6 +152,8 @@ public class ParserOrder extends ImplParser {
         orderbean.passengerInfos = jsonObj.optString("passengerInfos");
         orderbean.storeStatus = jsonObj.optInt("storeStatus");
         orderbean.userCommentStatus = jsonObj.optInt("userCommentStatus");
+//        orderbean.appraisement = new AppraisementBean();
+//        orderbean.appraisement.parser(jsonObj.optJSONObject("appraisement"));
         return orderbean;
     }
 }

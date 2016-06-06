@@ -21,6 +21,7 @@ import com.hugboga.custom.fragment.FgActivity;
 import com.hugboga.custom.fragment.FgAssessment;
 import com.hugboga.custom.fragment.FgInsure;
 import com.hugboga.custom.fragment.FgOrder;
+import com.hugboga.custom.fragment.FgOrderDetail;
 import com.hugboga.custom.fragment.FgWebInfo;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.widget.DialogUtil;
@@ -372,12 +373,19 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                 case R.id.travel_item_btn_pay:
                     MLog.e("立即支付 " + mOrderBean.orderNo);
                     //立即支付，进入订单详情
+//                    bundle = new Bundle();
+//                    bundle.putInt(FgOrder.KEY_BUSINESS_TYPE, mOrderBean.orderType);
+//                    bundle.putInt(FgOrder.KEY_GOODS_TYPE, mOrderBean.orderGoodsType);
+//                    bundle.putString(FgOrder.KEY_ORDER_ID, mOrderBean.orderNo);
+//                    bundle.putString("source", mOrderBean.orderType == 5 ? mOrderBean.serviceCityName : "首页");
+//                    fragment.startFragment(new FgOrder(), bundle);
+                    FgOrderDetail.Params params = new FgOrderDetail.Params();
+                    params.orderGoodsType = mOrderBean.orderGoodsType;
+                    params.orderId = mOrderBean.orderNo;
+                    params.source =  mOrderBean.orderType == 5 ? mOrderBean.serviceCityName : "首页";
                     bundle = new Bundle();
-                    bundle.putInt(FgOrder.KEY_BUSINESS_TYPE, mOrderBean.orderType);
-                    bundle.putInt(FgOrder.KEY_GOODS_TYPE, mOrderBean.orderGoodsType);
-                    bundle.putString(FgOrder.KEY_ORDER_ID, mOrderBean.orderNo);
-                    bundle.putString("source", mOrderBean.orderType == 5 ? mOrderBean.serviceCityName : "首页");
-                    fragment.startFragment(new FgOrder(), bundle);
+                    bundle.putSerializable(Constants.PARAMS_DATA, params);
+                    fragment.startFragment(new FgOrderDetail(), bundle);
                     break;
                 case R.id.travel_item_btn_chat:
                     MLog.e("进入聊天" + mOrderBean.orderNo);

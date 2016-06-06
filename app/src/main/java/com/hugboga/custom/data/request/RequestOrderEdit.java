@@ -1,6 +1,7 @@
 package com.hugboga.custom.data.request;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.google.gson.Gson;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
@@ -39,7 +40,7 @@ public class RequestOrderEdit extends BaseRequest<GuidesDetailData> {
         map.put("userMobile3", params.userMobile3);
         map.put("userRemark", params.userRemark);
         map.put("userName", params.userName);
-        map.put("isArrivalVisa", 0);
+        map.put("isArrivalVisa", params.isArrivalVisa);
         map.put("serviceDate", params.serviceDate);
         map.put("serviceRecTime", params.serviceRecTime);
         map.put("servicePassCitys", params.servicePassCitys);
@@ -60,20 +61,18 @@ public class RequestOrderEdit extends BaseRequest<GuidesDetailData> {
 
     @Override
     public HttpMethod getHttpMethod() {
-        return HttpMethod.GET;
+        return HttpMethod.POST;
     }
 
     private static class DataParser extends ImplParser {
         @Override
         public Object parseObject(JSONObject obj) throws Throwable {
-            Gson gson = new Gson();
-            GuidesDetailData guidesDetailData = gson.fromJson(obj.toString(), GuidesDetailData.class);
-            return guidesDetailData;
+            return obj.toString();
         }
     }
 
     public static class Params implements Serializable {
-        public String orderNo;//目的地酒店或者区域电话号码
+        public String orderNo;
         public int orderType;//可选1-接机；2-送机；3-日租；4-次租
         public int adultNum;//成人座位数
         public int childNum;//小孩座位数

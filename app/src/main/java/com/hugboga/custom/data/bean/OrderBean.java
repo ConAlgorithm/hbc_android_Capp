@@ -7,6 +7,7 @@ import android.text.TextUtils;
 
 import com.hugboga.custom.R;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +27,7 @@ public class OrderBean implements IBaseBean ,Parcelable{
     public String userName;
 
     public String priceChannel;
-    public String userRemark;
+    public String userRemark;//备注信息
 
 
     public Integer orderType;//1: 接机 2: 送机 3: 市内包车(由日租拆分出来) 4: 次租
@@ -156,6 +157,8 @@ public class OrderBean implements IBaseBean ,Parcelable{
 
 
 
+
+//    public AppraisementBean appraisement;//评价内容
 
     public String getOrderTypeStr(Context context) {
         switch (orderGoodsType) {
@@ -297,6 +300,7 @@ public class OrderBean implements IBaseBean ,Parcelable{
         dest.writeString(this.isFlightSign);
         dest.writeString(this.priceActual);
         dest.writeString(this.isCheckin);
+//        dest.writeSerializable(this.appraisement);
     }
 
     public OrderBean() {
@@ -431,6 +435,7 @@ public class OrderBean implements IBaseBean ,Parcelable{
         this.isFlightSign = in.readString();
         this.priceActual = in.readString();
         this.isCheckin = in.readString();
+//        this.appraisement = (AppraisementBean)in.readSerializable();
     }
 
     public static final Creator<OrderBean> CREATOR = new Creator<OrderBean>() {

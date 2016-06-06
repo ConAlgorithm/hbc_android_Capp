@@ -63,6 +63,7 @@ import com.hugboga.custom.fragment.FgInsure;
 import com.hugboga.custom.fragment.FgInviteFriends;
 import com.hugboga.custom.fragment.FgLogin;
 import com.hugboga.custom.fragment.FgOrder;
+import com.hugboga.custom.fragment.FgOrderDetail;
 import com.hugboga.custom.fragment.FgPersonInfo;
 import com.hugboga.custom.fragment.FgServicerCenter;
 import com.hugboga.custom.fragment.FgSetting;
@@ -331,11 +332,15 @@ public class MainActivity extends BaseActivity
     }
 
     private void gotoOrder(PushMessage message) {
-        Bundle bundle = new Bundle();
-        bundle.putInt(BaseFragment.KEY_BUSINESS_TYPE, message.orderType);
-        bundle.putInt(BaseFragment.KEY_GOODS_TYPE, message.goodsType);
-        bundle.putString(FgOrder.KEY_ORDER_ID, message.orderID);
-        startFragment(new FgOrder(), bundle);
+//        Bundle bundle = new Bundle();
+//        bundle.putInt(BaseFragment.KEY_BUSINESS_TYPE, message.orderType);
+//        bundle.putInt(BaseFragment.KEY_GOODS_TYPE, message.goodsType);
+//        bundle.putString(FgOrder.KEY_ORDER_ID, message.orderID);
+//        startFragment(new FgOrder(), bundle);
+        FgOrderDetail.Params params = new FgOrderDetail.Params();
+        params.orderGoodsType = message.orderType;
+        params.orderId = message.orderID;
+        startFragment(FgOrderDetail.newInstance(params));
     }
 
     public void onEventMainThread(EventAction action) {

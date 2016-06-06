@@ -1,5 +1,7 @@
 package com.hugboga.custom.utils;
 
+import android.util.Log;
+
 import com.hugboga.custom.constants.CarTypeEnum;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CarBean;
@@ -53,6 +55,7 @@ public class CarUtils {
                 CarTypeEnum carTypeEnum = CarTypeEnum.getCarType(bean.carType, bean.carSeat);
                 if (carTypeEnum != null) {
                     bean.imgRes = carTypeEnum.imgRes;
+                    Log.e("==============",bean.imgRes+"");
                 }
 
                 CarBean newCarBean = isMatchLocal(bean,checkCarList);

@@ -16,9 +16,9 @@
         <com.hugboga.custom.widget.JazzyViewPager
             android:id="@+id/jazzy_pager"
             android:layout_width="match_parent"
-            android:layout_height="160dip"
-            android:layout_marginLeft="50dip"
-            android:layout_marginRight="50dip"
+            android:layout_height="180dip"
+            android:layout_marginLeft="70dip"
+            android:layout_marginRight="70dip"
             android:clipChildren="false" />
     </LinearLayout>
 

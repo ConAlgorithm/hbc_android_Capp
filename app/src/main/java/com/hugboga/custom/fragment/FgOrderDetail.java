@@ -32,6 +32,7 @@ import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.HbcViewBehavior;
 import com.hugboga.custom.widget.OrderDetailFloatView;
 import com.hugboga.custom.widget.OrderDetailGuideInfo;
+import com.hugboga.custom.widget.OrderDetailInfoView;
 import com.hugboga.custom.widget.OrderDetailTitleBar;
 
 import org.xutils.common.Callback;
@@ -67,6 +68,9 @@ public class FgOrderDetail extends BaseFragment {
 
     @ViewInject(R.id.order_detail_float_view)
     private OrderDetailFloatView floatView;
+
+    @ViewInject(R.id.order_detail_info_view)
+    private OrderDetailInfoView infoView;
 
     @ViewInject(R.id.order_detail_group_layout)
     private LinearLayout groupLayout;
@@ -193,10 +197,8 @@ public class FgOrderDetail extends BaseFragment {
             case ORDER_DETAIL_PAY://立即支付
                 FgChoosePayment.RequestParams requestParams = new FgChoosePayment.RequestParams();
                 requestParams.orderId = orderBean.orderNo;
-                requestParams.shouldPay = orderBean.orderPriceInfo.shouldPay;
-//                requestParams.couponId = "" + orderBean.orderPriceInfo.shouldPay;
+                requestParams.shouldPay = orderBean.orderPriceInfo.actualPay;
                 requestParams.source = source;
-
                 startFragment(FgChoosePayment.newInstance(requestParams));
                 break;
             case ORDER_DETAIL_INSURANCE_H5://皇包车免费赠送保险
@@ -213,7 +215,7 @@ public class FgOrderDetail extends BaseFragment {
             case ORDER_DETAIL_MORE://更多
                 showPopupWindow();
                 break;
-            case ORDER_DETAIL_ADD_INSURER://添加投保人 copy FgOrder
+            case ORDER_DETAIL_ADD_INSURER://添加投保人 copy FgOrder //TODO 数据更新问题
                 FgInsure fgAddInsure = new FgInsure();
                 Bundle insureBundle = new Bundle();
                 insureBundle.putParcelable("orderBean", orderBean);
@@ -268,10 +270,19 @@ public class FgOrderDetail extends BaseFragment {
             case ORDER_DETAIL_UPDATE_EVALUATION://更新评价UI
                 break;
             case ORDER_DETAIL_GUIDE_EVALUATION://TODO 功能 评价司导 FgEvaluate
+                startFragment(FgEvaluate.newInstance(orderBean));
                 break;
             case ORDER_DETAIL_UPDATE_INFO://更新个人信息UI
+//                if (action.getData() instanceof String && !TextUtils.isEmpty((String)action.getData())) {
+//                    ((TextView) infoView.findViewById(R.id.order_detail_info_name_tv)).setText((String)action.getData());
+                    requestData();
+//                }
                 break;
             case ORDER_DETAIL_TOURIST_INFO://出行人信息
+                if (orderBean == null) {
+                    return;
+                }
+                startFragment(FgOrderEdit.newInstance(orderBean));
                 break;
             default:
                 break;
