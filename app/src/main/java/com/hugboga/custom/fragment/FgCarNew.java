@@ -25,6 +25,7 @@ import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.net.UrlLibs;
+import com.hugboga.custom.utils.CarUtils;
 import com.hugboga.custom.widget.JazzyViewPager;
 
 import org.xutils.common.Callback;
@@ -38,6 +39,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
 
+import static com.hugboga.custom.R.id.child_count_cost;
 import static com.hugboga.custom.R.id.choose_driver;
 import static com.hugboga.custom.R.id.del_text;
 import static com.hugboga.custom.R.id.driver_name;
@@ -98,7 +100,7 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
     TextView freeCSeatNum;
     @Bind(R.id.child_left)
     TextView childLeft;
-    @Bind(R.id.child_count_cost)
+    @Bind(child_count_cost)
     TextView childCountCost;
     @Bind(R.id.child_count_text)
     TextView childCountText;
@@ -145,27 +147,32 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
 
 
     private void showChildSeatLayout(int seatNums) {
-        String seat1 = carListBean.additionalServicePrice.childSeatPrice1;
-        String seat2 = carListBean.additionalServicePrice.childSeatPrice2;
-        if (seatNums == 1 && seat1.equalsIgnoreCase("-1")) {
-            freeSeatLayout.setVisibility(View.VISIBLE);
-        } else if (seatNums == 1) {
-            freeCSeatLeft.setText("收费儿童座椅");
-            freeSeatLayout.setVisibility(View.VISIBLE);
-            freeCSeatRight.setText("￥" + seat1 + "/次");
-        }
-        if (seatNums > 1) {
-            if (!seat1.equalsIgnoreCase("-1")) {
+        if(null == carListBean.additionalServicePrice.childSeatPrice1
+                && null == carListBean.additionalServicePrice.childSeatPrice2){
+
+        }else {
+            String seat1 = carListBean.additionalServicePrice.childSeatPrice1;
+            String seat2 = carListBean.additionalServicePrice.childSeatPrice2;
+            if (seatNums == 1 && null == seat1) {
+                freeSeatLayout.setVisibility(View.VISIBLE);
+            } else if (seatNums == 1) {
                 freeCSeatLeft.setText("收费儿童座椅");
                 freeSeatLayout.setVisibility(View.VISIBLE);
                 freeCSeatRight.setText("￥" + seat1 + "/次");
-            } else {
-                freeSeatLayout.setVisibility(View.VISIBLE);
             }
+            if (seatNums > 1) {
+                if (null != seat1) {
+                    freeCSeatLeft.setText("收费儿童座椅");
+                    freeSeatLayout.setVisibility(View.VISIBLE);
+                    freeCSeatRight.setText("￥" + seat1 + "/次");
+                } else {
+                    freeSeatLayout.setVisibility(View.VISIBLE);
+                }
 
-            chargeSeatLayout.setVisibility(View.VISIBLE);
-            freeCSeatRight.setText("￥" + seat2 + "/次");
-            childCountText.setText("x" + (seatNums - 1) + "");
+                chargeSeatLayout.setVisibility(View.VISIBLE);
+                childCountCost.setText("￥" + seat2 + "/次");
+                childCountText.setText("x" + (seatNums - 1) + "");
+            }
         }
     }
 
@@ -245,6 +252,20 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
     CarListBean carListBean;
     CarBean carBean;
 
+
+    private void genCar(){
+        mAdapter = new CarViewpagerAdapter(getActivity(), mJazzy);
+        if(null != collectGuideBean) {
+            carList = guideCarList;
+            carListBean.carList = guideCarList;
+        }else{
+            carList = carListBean.carList;
+        }
+        mAdapter.setList(carList);
+        mJazzy.setState(null);
+        mJazzy.setAdapter(mAdapter);
+    }
+
     private void genData() {
 
         this.distance = carListBean.distance;
@@ -253,10 +274,7 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
 //        carList = carListBean.carList;
         initListData();
         sortListDataImage();
-        mAdapter = new CarViewpagerAdapter(getActivity(), mJazzy);
-        mAdapter.setList(carList);
-        mJazzy.setState(null);
-        mJazzy.setAdapter(mAdapter);
+        genCar();
         if (carList == null || carList.size() == 0) {
             carEmptyLayout.setVisibility(View.VISIBLE);
             have_data_layout.setVisibility(View.GONE);
@@ -368,23 +386,19 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
         if (null != collectGuideBean) {
             driver_layout.setVisibility(View.VISIBLE);
             driverName.setText(collectGuideBean.name);
-            if(null == carListBean){
-                man_luggage_layout.setVisibility(View.GONE);
-                carListBean =  new CarListBean();
-                ArrayList<CarBean> carList = new ArrayList<>();
-                CarBean carBean = new CarBean();
-                carBean.capOfLuggage = collectGuideBean.numOfLuggage;
-                carBean.capOfPerson = collectGuideBean.numOfPerson;
-                carBean.carType = collectGuideBean.carType;
-                carBean.desc = collectGuideBean.carDesc;
-                carBean.models = collectGuideBean.carModel;
-                carBean.carSeat = collectGuideBean.carClass;
-                carList.add(carBean);
-                carListBean.carList = carList;
-            }else{
-                man_luggage_layout.setVisibility(View.VISIBLE);
-            }
-
+            man_luggage_layout.setVisibility(View.GONE);
+            carListBean =  new CarListBean();
+            ArrayList<CarBean> carList = new ArrayList<>();
+            CarBean carBean = new CarBean();
+            carBean.capOfLuggage = collectGuideBean.numOfLuggage;
+            carBean.capOfPerson = collectGuideBean.numOfPerson;
+            carBean.carType = collectGuideBean.carType;
+            carBean.desc = collectGuideBean.carDesc + collectGuideBean.carClass+"座";
+            carBean.models = collectGuideBean.carModel;
+            carBean.carSeat = collectGuideBean.carClass;
+            carBean.imgRes = CarUtils.getCarImgs(collectGuideBean.carType,collectGuideBean.carClass);
+            carList.add(carBean);
+            guideCarList = carList;
             delText.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -392,14 +406,17 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
                     collectGuideBean = null;
                 }
             });
+            man_luggage_layout.setVisibility(View.VISIBLE);
             driverName.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    goCollectGuid();
+//                    goCollectGuid();
                 }
             });
+            genCar();
         }else{
             man_luggage_layout.setVisibility(View.VISIBLE);
+            genData();
         }
 
         checkSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -423,8 +440,6 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
                 }
             }
         });
-
-        genData();
     }
 
     private boolean checkParams() {
@@ -472,6 +487,7 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
     private double distance;//预估路程（单位：公里）
     private int interval;//预估时间（单位：分钟）
     private List<CarBean> carList = new ArrayList<CarBean>();
+    private ArrayList<CarBean> guideCarList = new ArrayList<CarBean>();
     private CarViewpagerAdapter mAdapter;
 
     private void initView(View view) {

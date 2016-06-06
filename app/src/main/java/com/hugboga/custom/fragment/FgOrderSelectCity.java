@@ -784,8 +784,8 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
                 || TextUtils.isEmpty(peopleTextClick.getText())
                 || TextUtils.isEmpty(baggageTextClick.getText())
                 || isHalfTravel?TextUtils.isEmpty(halfDate):TextUtils.isEmpty(start_date_str)
-                || isHalfTravel?TextUtils.isEmpty(halfDate):TextUtils.isEmpty(end_date_str)
-                || isHalfTravel?false:passBeanList.size() != nums){
+                || isHalfTravel?TextUtils.isEmpty(halfDate):TextUtils.isEmpty(end_date_str)){
+//                || isHalfTravel?false:passBeanList.size() != nums){
             AlertDialogUtils.showAlertDialogOneBtn(this.getActivity(), getString(R.string.dairy_choose_guide),"好的");
             return false;
         }else{
@@ -814,7 +814,7 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
                     params.luggageNum = baggageNum;
                     params.orderType = 3;
                     params.totalDays = isHalfTravel ? 1 : nums;
-                    params.passCityId = isHalfTravel ? startBean.cityId + "" : getPassCitiesId();
+                    params.passCityId = startBean.cityId+"";//isHalfTravel ? startBean.cityId + "" : getPassCitiesId();
                     bundle.putSerializable(Constants.PARAMS_DATA, params);
                     fgCollectGuideList.setArguments(bundle);
                     startFragment(fgCollectGuideList);

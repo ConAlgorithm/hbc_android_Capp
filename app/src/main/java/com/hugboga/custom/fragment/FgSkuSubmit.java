@@ -546,20 +546,25 @@ public class FgSkuSubmit extends BaseFragment implements View.OnClickListener {
             bundle.putSerializable(FgCarSuk.KEY_CAR_LIST, carListBean);
             startFragment(fgCarSuk, bundle);
         } else if (request instanceof RequestSubmitBase) {
-            bringToFront(FgTravel.class, new Bundle());
-            String orderNo = ((RequestSubmitBase) request).getData();
+//            bringToFront(FgTravel.class, new Bundle());
+//<<<<<<< HEAD
+//            String orderNo = ((RequestSubmitBase) request).getData();
+//=======
+//            String orderNo = ((RequestSubmitBase) request).getData();
+//>>>>>>> 4f0be5442df3272fb6d4a00769fa3b4badf3e2f1
 //            Bundle bundle = new Bundle();
 //            bundle.putString(FgOrder.KEY_ORDER_ID, orderNo);
 //            bundle.putBoolean("needShowAlert",true);
 //            bundle.putString("source", source);
 //            startFragment(new FgOrder(), bundle);
+//<<<<<<< HEAD
 
-            FgOrderDetail.Params params = new FgOrderDetail.Params();
-            params.orderId = orderNo;
-            params.source = source;
-            Bundle bundle = new Bundle();
-            bundle.putSerializable(Constants.PARAMS_DATA, params);
-            startFragment(new FgOrderDetail(), bundle);
+//            FgOrderDetail.Params params = new FgOrderDetail.Params();
+//            params.orderId = orderNo;//todo
+//            params.source = source;
+//            Bundle bundle = new Bundle();
+//            bundle.putSerializable(Constants.PARAMS_DATA, params);
+//            startFragment(new FgOrderDetail(), bundle);
         }
 
     }

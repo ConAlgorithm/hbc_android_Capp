@@ -1,6 +1,7 @@
 package com.hugboga.custom.data.request;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.net.NewParamsBuilder;
@@ -28,6 +29,11 @@ public class RequestSubmitPick extends RequestSubmitBase {
 
         map.put("childSeat",orderBean.childSeatStr);
         map.put("priceChannel",orderBean.priceChannel);
+
+
+        if(!TextUtils.isEmpty(orderBean.priceFlightBrandSign)){
+            map.put("pickupSignPrice",orderBean.priceFlightBrandSign);
+        }
 
 
         if (orderBean.flightBean != null) {

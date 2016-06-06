@@ -30,7 +30,7 @@
             android:layout_marginRight="20dp"
             android:drawablePadding="10dp"
             android:layout_centerVertical="true"
-            android:drawableLeft="@mipmap/icon_guess_you_want"
+            android:drawableLeft="@mipmap/deleat"
             android:text="@string/del_driver"
             android:textColor="#9e9fa0"
             android:layout_alignParentRight="true"

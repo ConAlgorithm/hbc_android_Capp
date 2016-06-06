@@ -136,6 +136,14 @@ public class OrderBean implements IBaseBean ,Parcelable{
     public int userCommentStatus;//用户是否给导游评价过 0未评价，1评价过
     public String childSeatStr; //2.7.0 新加 对应 接口字段 childSeat
 
+
+    public String isArrivalVisa;
+    public String priceFlightBrandSign;///接机牌费用
+    public String isFlightSign;//是否选择举牌接机服务
+    public String priceActual;////使用券时，实际支付价格
+    public String isCheckin;////是否协助登机
+
+
     public String flightAirportBuiding;
     public String flightAirportName;
     public String flightArriveTimeL;
@@ -144,15 +152,11 @@ public class OrderBean implements IBaseBean ,Parcelable{
     public String flightDestName;
     public String flightFlyTimeL;
     public String flightNo;
-    public String isArrivalVisa;
 
-    public String priceFlightBrandSign;///接机牌费用
 
-    public String isFlightSign;//是否选择举牌接机服务
 
-    public String priceActual;////使用券时，实际支付价格
 
-    public String isCheckin;////是否协助登机
+
 
 //    public AppraisementBean appraisement;//评价内容
 
@@ -176,6 +180,7 @@ public class OrderBean implements IBaseBean ,Parcelable{
                 return "";
         }
     }
+
 
     @Override
     public int describeContents() {
@@ -396,6 +401,20 @@ public class OrderBean implements IBaseBean ,Parcelable{
         this.realUserEx = in.readString();
         this.coupId = in.readString();
         this.coupPriceInfo = in.readString();
+        this.childSeatStr = in.readString();
+        this.flightAirportBuiding = in.readString();
+        this.flightAirportName = in.readString();
+        this.flightArriveTimeL = in.readString();
+        this.flightBrandSign = in.readString();
+        this.flightDestCode = in.readString();
+        this.flightDestName = in.readString();
+        this.flightFlyTimeL = in.readString();
+        this.flightNo = in.readString();
+        this.isArrivalVisa = in.readString();
+        this.priceFlightBrandSign = in.readString();
+        this.isFlightSign = in.readString();
+        this.priceActual = in.readString();
+        this.isCheckin = in.readString();
         this.flightDeptCityName = in.readString();
         this.flightDestCityName = in.readString();
         this.serviceTimeStr = in.readString();

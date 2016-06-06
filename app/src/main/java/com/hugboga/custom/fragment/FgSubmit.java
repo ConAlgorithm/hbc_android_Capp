@@ -732,11 +732,11 @@ public class FgSubmit extends BaseFragment implements CompoundButton.OnCheckedCh
     public void onDataRequestSucceed(BaseRequest request) {
         if (request instanceof RequestSubmitBase) {
             RequestSubmitBase mParser = (RequestSubmitBase) request;
-            if (TextUtils.isEmpty(mParser.getData())) {
-                Toast.makeText(getActivity(), "下单失败", Toast.LENGTH_LONG).show();
-                return;
-            }
-            goToOrder(mParser.getData());
+//            if (TextUtils.isEmpty(mParser.getData())) {
+//                Toast.makeText(getActivity(), "下单失败", Toast.LENGTH_LONG).show();
+//                return;
+//            }
+//            goToOrder(mParser.getData());
         }
     }
 

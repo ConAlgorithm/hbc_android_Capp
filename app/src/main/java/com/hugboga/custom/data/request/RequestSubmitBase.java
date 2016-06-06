@@ -1,11 +1,12 @@
 package com.hugboga.custom.data.request;
 
 import android.content.Context;
-import android.text.TextUtils;
 
+import com.google.gson.Gson;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.data.bean.OrderBean;
+import com.hugboga.custom.data.bean.OrderInfoBean;
 import com.hugboga.custom.utils.Config;
 
 import org.json.JSONObject;
@@ -17,7 +18,7 @@ import java.util.TreeMap;
  * 下单请求公用基类
  * Created by admin on 2016/3/22.
  */
-public class RequestSubmitBase extends BaseRequest<String> {
+public class RequestSubmitBase extends BaseRequest<OrderInfoBean> {
 
     public RequestSubmitBase(Context context, OrderBean orderBean) {
         super(context);
@@ -61,6 +62,7 @@ public class RequestSubmitBase extends BaseRequest<String> {
         map.put("carSeatNum", orderBean.seatCategory);
         map.put("carDesc", orderBean.carDesc);
         map.put("userRemark", orderBean.memo);
+        map.put("userEx", orderBean.userEx);
 
 //        if (orderBean.contact != null && orderBean.contact.size() > 0) {
 //            map.put("userAreaCode1", orderBean.contact.get(0).areaCode);
@@ -94,9 +96,16 @@ public class RequestSubmitBase extends BaseRequest<String> {
     @Override
     public ImplParser getParser() {
         return new ImplParser() {
+//            @Override
+//            public String parseObject(JSONObject obj) throws Throwable {
+//                return obj.optString("orderno");
+//            }
+
             @Override
-            public String parseObject(JSONObject obj) throws Throwable {
-                return obj.optString("orderno");
+            public OrderInfoBean parseObject(JSONObject obj) throws Throwable {
+                Gson gson = new Gson();
+                OrderInfoBean  orderInfoBean = gson.fromJson(obj.toString(),OrderInfoBean.class);
+                return orderInfoBean;
             }
         };
     }

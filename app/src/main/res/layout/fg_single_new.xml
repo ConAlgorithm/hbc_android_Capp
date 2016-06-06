@@ -255,6 +255,7 @@
             <LinearLayout
                 android:id="@+id/show_cars_layout_single"
                 android:layout_width="match_parent"
+                android:layout_marginTop="1dp"
                 android:layout_height="match_parent"
                 android:background="@color/basic_white"
                 android:orientation="vertical"/>
