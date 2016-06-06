@@ -144,6 +144,10 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
     @Override
     protected void initView() {
         collectGuideBean = (CollectGuideBean)this.getArguments().getSerializable("collectGuideBean");
+        if(null != collectGuideBean){
+            initCarFragment();
+        }
+
     }
 
     @Override

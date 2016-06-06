@@ -124,8 +124,11 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
     CollectGuideBean collectGuideBean;
     @Override
     protected void initView() {
-
         collectGuideBean = (CollectGuideBean)this.getArguments().getSerializable("collectGuideBean");
+        if(null != collectGuideBean){
+
+            initCarFragment();
+        }
     }
 
     FragmentManager fm;
