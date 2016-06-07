@@ -8,9 +8,6 @@ import org.json.JSONObject;
 
 import java.util.List;
 
-/**
- * Created by dyt on 16/5/28.
- */
 
 public class ParseGuideConflict extends ImplParser {
 

@@ -25,6 +25,7 @@ import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.net.UrlLibs;
+import com.hugboga.custom.data.request.RequestCollectGuidesFilter;
 import com.hugboga.custom.utils.CarUtils;
 import com.hugboga.custom.widget.JazzyViewPager;
 
@@ -43,6 +44,7 @@ import static com.hugboga.custom.R.id.child_count_cost;
 import static com.hugboga.custom.R.id.choose_driver;
 import static com.hugboga.custom.R.id.del_text;
 import static com.hugboga.custom.R.id.driver_name;
+import static com.hugboga.custom.R.id.nums;
 
 
 /**
@@ -348,7 +350,22 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
             driverName.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    goCollectGuid();
+//                    FgCollectGuideList fgCollectGuideList = new FgCollectGuideList();
+//                    Bundle bundle = new Bundle();
+//                    RequestCollectGuidesFilter.CollectGuidesFilterParams params = new RequestCollectGuidesFilter.CollectGuidesFilterParams();
+//                    params.startCityId = startBean.cityId;
+//                    params.startTime = isHalfTravel ? halfDate + " 00:00:00" : start_date_str + " 00:00:00";
+//                    params.endTime = isHalfTravel ? halfDate + " 00:00:00" : end_date_str + " 00:00:00";
+//                    params.adultNum = collectGuideBean.numOfPerson;
+//                    params.childrenNum = collectGuideBean.numOfPerson;
+//                    params.childSeatNum = collectGuideBean.carClass;
+//                    params.luggageNum = collectGuideBean.numOfLuggage;
+//                    params.orderType = 5;
+//                    params.totalDays = 0;
+//                    params.passCityId = startBean.cityId+"";
+//                    bundle.putSerializable(Constants.PARAMS_DATA, params);
+//                    fgCollectGuideList.setArguments(bundle);
+//                    startFragment(fgCollectGuideList);
                 }
             });
             genCar();

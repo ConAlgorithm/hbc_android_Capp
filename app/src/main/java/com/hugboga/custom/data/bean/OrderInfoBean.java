@@ -1,8 +1,5 @@
 package com.hugboga.custom.data.bean;
 
-/**
- * Created by dyt on 16/6/6.
- */
 
 public class OrderInfoBean  implements  IBaseBean{
 

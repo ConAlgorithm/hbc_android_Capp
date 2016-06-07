@@ -6,10 +6,6 @@ import com.hugboga.custom.data.bean.MostFitBean;
 
 import org.json.JSONObject;
 
-/**
- * Created by dyt on 16/5/29.
- */
-
 
 public class ParseMostFit extends ImplParser {
     @Override
