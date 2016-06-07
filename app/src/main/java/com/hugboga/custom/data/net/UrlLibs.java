@@ -36,6 +36,10 @@ public class UrlLibs {
     public static String FORMAL_H5_HOST = "http://res2.huangbaoche.com";
 
     public static String H5_HOST = TEST_H5_HOST;
+    public static  String SHARE_BASE_URL = "http://test.wechat.huangbaoche.com/";
+
+
+
 
     public static String H5_ACTIVITY= H5_HOST + "/h5/cactivity/index.html?userId=";//国行
     public static String H5_ABOUT = H5_HOST+"/h5/cinfos/about.html";//  关于我们
@@ -69,12 +73,6 @@ public class UrlLibs {
         OverPriceMap.put(Constants.BUSINESS_TYPE_RENT, H5_ADDFEE_C);
         OverPriceMap.put(Constants.BUSINESS_TYPE_OTHER, H5_ADDFEE_X);
     }
-
-
-
-
-
-
 
 
     /**
@@ -224,7 +222,7 @@ public class UrlLibs {
     //-------订单类--------
     public static final String SERVER_IP_TRADE = "trade/v1.3/c/order/";
 
-    public static final String SERVER_IP_TRADE_1_1 = "trade/v1.2/c/order/";
+    public static final String SERVER_IP_TRADE_1_1 = "trade/v1.1/c/order/";
     public static final String SERVER_IP_TRADE_1_2 = "trade/v1.3/c/order/";
 
     /**
@@ -448,12 +446,6 @@ public class UrlLibs {
      * 获取可用优惠券
      */
     public static final String DEDUCTION = "ucenter/v1.0/e/travelFund/deduction";
-
-
-
-
-
-
 
     /**
      * 修改订单
