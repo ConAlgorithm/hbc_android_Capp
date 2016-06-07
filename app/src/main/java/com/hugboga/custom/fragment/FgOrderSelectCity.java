@@ -905,7 +905,7 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
     private void checkGuideCoflict(){
 
         RequestGuideConflict requestGuideConflict = new RequestGuideConflict(getContext(),3,startBean.cityId,
-                collectGuideBean.guideId,start_date_str+" 00:00:00",end_date_str+" 00:00:00",getPassCitiesId(),nums,collectGuideBean.carType,collectGuideBean.carClass);
+                collectGuideBean.guideId,(isHalfTravel?halfDate:start_date_str)+" 00:00:00",(isHalfTravel?halfDate:end_date_str)+" 00:00:00",getPassCitiesId(),nums,collectGuideBean.carType,collectGuideBean.carClass);
         HttpRequestUtils.request(getContext(), requestGuideConflict, new HttpRequestListener() {
             @Override
             public void onDataRequestSucceed(BaseRequest request) {
