@@ -224,7 +224,7 @@ public class UrlLibs {
     //-------订单类--------
     public static final String SERVER_IP_TRADE = "trade/v1.3/c/order/";
 
-    public static final String SERVER_IP_TRADE_1_1 = "trade/v1.1/c/order/";
+    public static final String SERVER_IP_TRADE_1_1 = "trade/v1.2/c/order/";
     public static final String SERVER_IP_TRADE_1_2 = "trade/v1.3/c/order/";
 
     /**
@@ -458,7 +458,7 @@ public class UrlLibs {
     /**
      * 修改订单
      */
-    public static final String API_ORDER_EDIT = "trade/v1.1/c/order/edit";
+    public static final String API_ORDER_EDIT = "trade/v1.2/c/order/edit";
 
     /**
      * C端评价v1.1
