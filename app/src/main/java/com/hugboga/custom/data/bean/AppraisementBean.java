@@ -11,7 +11,7 @@ import java.util.ArrayList;
 /**
  * Created by qingcha on 16/6/6.
  */
-public class AppraisementBean implements Serializable, IBaseBean{
+public class AppraisementBean implements Serializable {
     public String orderNo;
     public String content;//内容
     public float totalScore;//总分
@@ -23,9 +23,9 @@ public class AppraisementBean implements Serializable, IBaseBean{
         public boolean checked;
     }
 
-    public void parser(JSONObject jsonObj) throws JSONException {
-        Gson gson = new Gson();
-        gson.fromJson(jsonObj.toString(), AppraisementBean.class);
-    }
+//    public void parser(JSONObject jsonObj) throws JSONException {
+//        Gson gson = new Gson();
+//        gson.fromJson(jsonObj.toString(), AppraisementBean.class);
+//    }
 
 }

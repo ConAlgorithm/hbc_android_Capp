@@ -507,15 +507,16 @@
     <string name="evaluate_et_hint">其它意见或建议</string>
     <string name="evaluate_title">我的评价</string>
 
-    <!--<string name="evaluate_title">Ta没有获得奖励还需要继续努力，感谢您的评价~</string>-->
-    <!--<string name="evaluate_title">打5星好评，可帮Ta争取到皇包车的¥小费奖励哦！</string>-->
-    <!--<string name="evaluate_title">满意</string>-->
-    <!--<string name="evaluate_title">一般</string>-->
-    <!--<string name="evaluate_title">不满意</string>-->
-    <!--<string name="evaluate_title">非常不满</string>-->
-    <!--<string name="evaluate_title">满意</string>-->
-    <!--<string name="evaluate_title">您的鼓励是我们最大的动力</string>-->
-    <!--<string name="evaluate_title">希望有机会为您提供更好的服务</string>-->
+    <string name="evaluate_active_evaluated_get">Ta已获得皇包车的¥%1$s小费奖励，感谢您的肯定！</string>
+    <string name="evaluate_active_evaluated">Ta没有获得奖励还需要继续努力，感谢您的评价~</string>
+    <string name="evaluate_active">打5星好评，可帮Ta争取到皇包车的¥%1$s小费奖励哦！</string>
+    <string name="evaluate_star_very_satisfied">非常满意</string>
+    <string name="evaluate_star_satisfied">满意</string>
+    <string name="evaluate_star_ordinary">一般</string>
+    <string name="evaluate_star_unsatisfactory">不满意</string>
+    <string name="evaluate_star_very_unsatisfactory">非常不满</string>
+    <string name="evaluate_evaluated_satisfied">您的鼓励是我们最大的动力</string>
+    <string name="evaluate_evaluated_ordinary">希望有机会为您提供更好的服务</string>
 
     <string name="dairy_inout_check">请先输入您的城市/出行时间</string>
 

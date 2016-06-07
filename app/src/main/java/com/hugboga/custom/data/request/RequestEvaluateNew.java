@@ -52,13 +52,13 @@ public class RequestEvaluateNew extends BaseRequest<String> {
     }
 
     public static class RequestParams {
-        private String fromUname;
-        private String guideId;
-        private String guideName;
-        private String orderNo;
-        private int orderType;
-        private int totalScore;
-        private String labels;
-        private String content;
+        public String fromUname;
+        public String guideId;
+        public String guideName;
+        public String orderNo;
+        public int orderType;
+        public int totalScore;
+        public String labels;
+        public String content;
     }
 }

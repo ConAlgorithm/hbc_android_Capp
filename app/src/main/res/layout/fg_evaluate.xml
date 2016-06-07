@@ -125,10 +125,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 app:gap="22dip"
-                app:half_bg="@mipmap/collection_icon_star_half"
                 app:item_width="32dip"
-                app:rating_bg="@drawable/btn_yellow_ratingbar"
-                app:touchable="false" />
+                app:rating_bg="@drawable/btn_yellow_ratingbar" />
 
             <TextView
                 android:id="@+id/evaluate_score_tv"

@@ -28,25 +28,28 @@ public class RequestOrderEdit extends BaseRequest<GuidesDetailData> {
         map = new HashMap<String, Object>();
         map.put("orderNo", params.orderNo);
         map.put("orderType", params.orderType);
-        map.put("adultNum", params.orderType);
-        map.put("childNum", params.childNum);
         map.put("serviceAddressTel", params.serviceAddressTel);
         map.put("serviceAreaCode", params.serviceAreaCode);
-        map.put("userAreaCode1", params.userAreaCode1);
-        map.put("userMobile1", params.userMobile1);
-        map.put("userAreaCode2", params.userAreaCode2);
-        map.put("userMobile2", params.userMobile2);
-        map.put("userAreaCode3", params.userAreaCode3);
-        map.put("userMobile3", params.userMobile3);
         map.put("userRemark", params.userRemark);
-        map.put("userName", params.userName);
+        if (!TextUtils.isEmpty(params.startAddress)) {
+            map.put("startAddress", params.startAddress);
+        }
+        if (!TextUtils.isEmpty(params.flightBrandSign)) {
+            map.put("flightBrandSign", params.flightBrandSign);
+        }
+        if (!TextUtils.isEmpty(params.flightNo)) {
+            map.put("flightNo", params.flightNo);
+        }
+        map.put("userEx", params.userEx);
+        if (!TextUtils.isEmpty(params.realUserEx)) {
+            map.put("realUserEx", params.realUserEx);
+        }
+        map.put("adultNum", params.adultNum);
+        map.put("childNum", params.childNum);
         map.put("isArrivalVisa", params.isArrivalVisa);
         map.put("serviceDate", params.serviceDate);
         map.put("serviceRecTime", params.serviceRecTime);
         map.put("servicePassCitys", params.servicePassCitys);
-        map.put("startAddress", params.startAddress);
-        map.put("flightBrandSign", params.flightBrandSign);
-        map.put("flightNo", params.flightNo);
         map.put("flightAirportCode", params.flightAirportCode);
         map.put("flightAirportName", params.flightAirportName);
         map.put("flightFlyTimeL", params.flightFlyTimeL);
@@ -78,14 +81,7 @@ public class RequestOrderEdit extends BaseRequest<GuidesDetailData> {
         public int childNum;//小孩座位数
         public String serviceAddressTel;//目的地酒店或者区域电话号码
         public String serviceAreaCode;//目的地区域
-        public String userAreaCode1;//区域号1
-        public String userMobile1;//用户手机号1
-        public String userAreaCode2;//区域号2
-        public String userMobile2;//用户手机号2
-        public String userAreaCode3;//区域号3
-        public String userMobile3;//用户手机号3
         public String userRemark;//备注
-        public String userName;//联系人姓名
         public int isArrivalVisa;//是否落地签
         public String serviceDate;//服务时间
         public String serviceRecTime;//日租服务时间的时分秒
@@ -98,5 +94,7 @@ public class RequestOrderEdit extends BaseRequest<GuidesDetailData> {
         public String flightFlyTimeL;//送机起飞时间
         public String flightArriveTimeL;//送机到达时间
         public String flightAirportBuiding;//送机航站楼
+        public String userEx;
+        public String realUserEx;
     }
 }

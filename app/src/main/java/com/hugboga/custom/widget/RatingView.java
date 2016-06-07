@@ -6,6 +6,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -80,28 +81,20 @@ public class RatingView extends LinearLayout {
             itemIV[i] = imageView;
         }
         setLevel(level);
-        this.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                RatingView.this.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                height = RatingView.this.getHeight();
-                if (gap != NONE_VALUE) {
-                    for (int i = 0; i < maxLevels; i++){
-                        width += itemIV[i].getWidth() + gap;
-                    }
-                } else {
-                    width = RatingView.this.getWidth();
-                }
+    }
 
-                int s = width / maxLevels;
-                if (distances == null) {
-                    distances = new int[maxLevels];
-                    for (int i = 0; i < maxLevels; i++) {
-                        distances[i] = (i + 1) * s;
-                    }
-                }
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        height = getMeasuredHeight();
+        width = getMeasuredWidth();
+        int s = width / maxLevels;
+        if (distances == null) {
+            distances = new int[maxLevels];
+            for (int i = 0; i < maxLevels; i++) {
+                distances[i] = (i + 1) * s;
             }
-        });
+        }
     }
 
     @Override
@@ -193,7 +186,7 @@ public class RatingView extends LinearLayout {
         for (int i = 0; i < maxLevels; i++) {
             if (i < levelInt || level - levelInt > 0.7) {
                 itemIV[i].setSelected(true);
-            } else if (halfBg != 0 && level - levelInt >= 0.3) {
+            } else if (halfBg != NONE_VALUE && level - levelInt >= 0.3) {
                 setImageBg(itemIV[levelInt], halfBg);
             } else {
                 break;

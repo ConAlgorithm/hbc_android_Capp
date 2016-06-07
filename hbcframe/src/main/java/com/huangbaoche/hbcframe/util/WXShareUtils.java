@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.widget.Toast;
 
 import com.huangbaoche.hbcframe.HbcConfig;
+import com.huangbaoche.hbcframe.R;
 import com.tencent.mm.sdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.sdk.modelmsg.WXMediaMessage;
 import com.tencent.mm.sdk.modelmsg.WXWebpageObject;
@@ -100,7 +101,6 @@ public class WXShareUtils {
             String smallPic = picUrl;//preUrl + "/s_"+ picName;
             MLog.e(preUrl+"cache picName==="+picName);
             MLog.e("cache smallPic==="+smallPic);
-
             Uri downloadUri = Uri.parse(smallPic);
             final Uri destinationUri = Uri.parse(mContext.getExternalCacheDir().toString() + getPhotoFileName(picUrl));
             DownloadRequest downloadRequest = new DownloadRequest(downloadUri)
@@ -136,11 +136,9 @@ public class WXShareUtils {
 
                         }
                     });
-
             ThinDownloadManager downloadManager;
             downloadManager = new ThinDownloadManager();
             downloadManager.add(downloadRequest);
-
 //            x.image().loadFile(picUrl, null, new Callback.CacheCallback<File>() {
 //                @Override
 //                public boolean onCache(File result) {
@@ -192,13 +190,19 @@ public class WXShareUtils {
         WXMediaMessage msg = new WXMediaMessage(webpage);
         msg.title = title;
         msg.description = content;
-        msg.setThumbImage(bitmap);
-
+        if (bitmap != null) {
+            msg.setThumbImage(bitmap);
+        }
         SendMessageToWX.Req req = new SendMessageToWX.Req();
         req.transaction = String.valueOf(System.currentTimeMillis());
         req.message = msg;
         req.scene = type == TYPE_SESSION ? SendMessageToWX.Req.WXSceneSession : SendMessageToWX.Req.WXSceneTimeline;
         iwxapi.sendReq(req);
+    }
+
+    public void share(final int type, final int resID, final String title, final String content, final String goUrl) {
+        Bitmap thumb = BitmapFactory.decodeResource(mContext.getResources(), resID);
+        share(type, thumb, title, content, goUrl);
     }
 
 }
