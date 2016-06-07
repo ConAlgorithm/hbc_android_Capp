@@ -12,9 +12,7 @@ import com.hugboga.custom.data.parser.ParseGetAD;
 import org.xutils.http.HttpMethod;
 import org.xutils.http.annotation.HttpRequest;
 
-/**
- * Created by dyt on 16/5/4.
- */
+
 @HttpRequest(path = UrlLibs.GET_AD_PICTURE, builder = NewParamsBuilder.class)
 public class RequestADPicture extends BaseRequest<ADPictureBean> {
 

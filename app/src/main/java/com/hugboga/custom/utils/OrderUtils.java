@@ -23,9 +23,7 @@ import java.util.List;
 
 import static android.R.attr.type;
 
-/**
- * Created by dyt on 16/6/6.
- */
+
 
 public class OrderUtils {
 

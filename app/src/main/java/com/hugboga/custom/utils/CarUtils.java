@@ -9,9 +9,6 @@ import com.hugboga.custom.data.bean.SelectCarBean;
 
 import java.util.ArrayList;
 
-/**
- * Created by dyt on 16/6/1.
- */
 
 public class CarUtils {
 

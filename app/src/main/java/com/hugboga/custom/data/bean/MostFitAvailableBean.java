@@ -3,7 +3,6 @@ package com.hugboga.custom.data.bean;
 import java.io.Serializable;
 
 /**
- * Created by dyt on 16/5/29.
  * 获取可用优惠券
  */
 

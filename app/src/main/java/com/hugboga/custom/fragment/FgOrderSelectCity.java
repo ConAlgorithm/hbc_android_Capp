@@ -142,6 +142,7 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
     protected void inflateContent() {
     }
 
+    boolean isFromGuideList = false;
     @Override
     protected void initView() {
         initHeader();
@@ -152,6 +153,7 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
         if(null != collectGuideBean){
             driver_layout.setVisibility(View.VISIBLE);
             driver_name.setText(collectGuideBean.name);
+            isFromGuideList = true;
         }
 
 
@@ -191,15 +193,18 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
                 driver_tips.setVisibility(View.GONE);
                 choose_driver.setVisibility(View.VISIBLE);
                 collectGuideBean = null;
+                isFromGuideList = false;
             }
         });
 
-//        driver_name.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                goCollectGuid(1);
-//            }
-//        });
+        driver_name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    if (UserEntity.getUser().isLogin(getActivity())) {
+                        goCollectGuid(2);
+                    }
+            }
+        });
 
     }
 
@@ -905,7 +910,7 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
     private void checkGuideCoflict(){
 
         RequestGuideConflict requestGuideConflict = new RequestGuideConflict(getContext(),3,startBean.cityId,
-                collectGuideBean.guideId,start_date_str+" 00:00:00",end_date_str+" 00:00:00",getPassCitiesId(),nums,collectGuideBean.carType,collectGuideBean.carClass);
+                collectGuideBean.guideId,(isHalfTravel?halfDate:start_date_str)+" 00:00:00",(isHalfTravel?halfDate:end_date_str)+" 00:00:00",getPassCitiesId(),nums,collectGuideBean.carType,collectGuideBean.carClass);
         HttpRequestUtils.request(getContext(), requestGuideConflict, new HttpRequestListener() {
             @Override
             public void onDataRequestSucceed(BaseRequest request) {

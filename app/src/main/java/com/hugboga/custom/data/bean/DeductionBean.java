@@ -3,9 +3,7 @@ package com.hugboga.custom.data.bean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-/**
- * Created by dyt on 16/6/4.
- */
+
 
 public class DeductionBean implements Parcelable{
 

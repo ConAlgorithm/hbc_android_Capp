@@ -14,9 +14,6 @@ import org.xutils.http.annotation.HttpRequest;
 import java.util.HashMap;
 import java.util.List;
 
-/**
- * Created by dyt on 16/5/28.
- */
 
 @HttpRequest(path = UrlLibs.GUIDE_CONFLIC, builder = NewParamsBuilder.class)
 public class RequestGuideConflict extends BaseRequest<List<String>> {
