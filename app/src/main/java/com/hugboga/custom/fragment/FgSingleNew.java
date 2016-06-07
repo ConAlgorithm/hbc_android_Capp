@@ -268,9 +268,9 @@ public class FgSingleNew extends BaseFragment {
             RequestCheckPrice requestCheckPrice = (RequestCheckPrice) request;
             carListBean = (CarListBean) requestCheckPrice.getData();
             if (carListBean.carList.size() > 0) {
-                carBean = carListBean.carList.get(0);
+                carBean = CarUtils.initCarListData(carListBean.carList).get(0);//carListBean.carList.get(0);
                 bottom.setVisibility(View.VISIBLE);
-                genBottomData(carListBean.carList.get(0));
+                genBottomData(carBean);
             } else {
                 bottom.setVisibility(View.GONE);
             }

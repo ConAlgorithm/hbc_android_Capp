@@ -17,9 +17,6 @@ import org.xutils.http.annotation.HttpRequest;
 
 import static u.aly.au.U;
 
-/**
- * Created by dyt on 16/5/29.
- */
 
 @HttpRequest(path = UrlLibs.MOSTFIT, builder = NewParamsBuilder.class)
 public class RequestMostFit extends BaseRequest<MostFitBean> {

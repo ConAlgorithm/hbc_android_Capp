@@ -1,8 +1,6 @@
 package com.hugboga.custom.data.bean;
 
-/**
- * Created by dyt on 16/5/29.
- */
+
 
 public class MostFitBean {
 
