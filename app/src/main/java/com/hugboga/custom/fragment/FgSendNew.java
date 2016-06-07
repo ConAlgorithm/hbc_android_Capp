@@ -192,7 +192,9 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
     String startLocation, termLocation;
 
     private void checkInput() {
-        if (!TextUtils.isEmpty(timeText.getText()) && !TextUtils.isEmpty(addressTips.getText()) && !TextUtils.isEmpty(airTitle.getText())) {
+        if (!TextUtils.isEmpty(timeText.getText())
+                && !TextUtils.isEmpty(addressTips.getText())
+                && !TextUtils.isEmpty(airTitle.getText())) {
             getData();
         }
     }
@@ -337,6 +339,8 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
             airPortBean = (AirPort) bundle.getSerializable(FgChooseAirport.KEY_AIRPORT);
             addressTips.setText(airPortBean.cityName + " " + airPortBean.airportName);
             poiBean = null;
+            airTitle.setText("");
+            airDetail.setText("");
             infoTips.setVisibility(View.VISIBLE);
             airTitle.setVisibility(View.GONE);
             airDetail.setVisibility(View.GONE);
