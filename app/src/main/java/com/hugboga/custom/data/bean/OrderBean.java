@@ -21,7 +21,7 @@ public class OrderBean implements IBaseBean ,Parcelable{
     public String realUserName;
     public String realAreaCode;
     public String realMobile;
-    public String isRealUser;
+    public String isRealUser;// 是否有乘车人   1-没有乘车人信息   2-有乘车人信息
     public String startAddressPoi;
     public String destAddressPoi;
     public String userName;
@@ -153,12 +153,11 @@ public class OrderBean implements IBaseBean ,Parcelable{
     public String flightFlyTimeL;
     public String flightNo;
 
+    public ArrayList<OrderContactBean> userList;//乘车人
+    public ArrayList<OrderContactBean> realUserList;//联系人
+    public int priceCommentReward;//好评奖励金额
 
-
-
-
-
-//    public AppraisementBean appraisement;//评价内容
+    public AppraisementBean appraisement;//评价内容
 
     public String getOrderTypeStr(Context context) {
         switch (orderGoodsType) {
@@ -300,7 +299,10 @@ public class OrderBean implements IBaseBean ,Parcelable{
         dest.writeString(this.isFlightSign);
         dest.writeString(this.priceActual);
         dest.writeString(this.isCheckin);
-//        dest.writeSerializable(this.appraisement);
+        dest.writeTypedList(this.userList);
+        dest.writeTypedList(this.realUserList);
+        dest.writeInt(this.priceCommentReward);
+        dest.writeSerializable(this.appraisement);
     }
 
     public OrderBean() {
@@ -435,7 +437,10 @@ public class OrderBean implements IBaseBean ,Parcelable{
         this.isFlightSign = in.readString();
         this.priceActual = in.readString();
         this.isCheckin = in.readString();
-//        this.appraisement = (AppraisementBean)in.readSerializable();
+        this.priceCommentReward = in.readInt();
+        this.userList = in.createTypedArrayList(OrderContactBean.CREATOR);
+        this.realUserList = in.createTypedArrayList(OrderContactBean.CREATOR);
+        this.appraisement = (AppraisementBean)in.readSerializable();
     }
 
     public static final Creator<OrderBean> CREATOR = new Creator<OrderBean>() {
@@ -460,4 +465,6 @@ public class OrderBean implements IBaseBean ,Parcelable{
     public boolean isCollected() {
         return storeStatus == 1;
     }
+
+
 }

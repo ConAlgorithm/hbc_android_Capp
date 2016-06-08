@@ -9,9 +9,10 @@ import android.widget.TextView;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.bean.EvaluateTagBean;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.OrderGuideInfo;
-import com.hugboga.custom.data.bean.OrderStatus;
+import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.request.RequestEvaluateNew;
 import com.hugboga.custom.data.request.RequestEvaluateTag;
 import com.hugboga.custom.utils.Tools;
@@ -25,22 +26,20 @@ import net.grobas.view.PolygonImageView;
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
+import org.xutils.view.annotation.Event;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import butterknife.OnClick;
 
 /**
  * Created by qingcha on 16/5/29.
  */
 @ContentView(R.layout.fg_evaluate)
-public class FgEvaluate extends BaseFragment implements TagGroup.OnTagItemClickListener {
+public class FgEvaluate extends BaseFragment implements TagGroup.OnTagItemClickListener, RatingView.OnLevelChangedListener {
 
     //RequestEvaluateTag
     //RequestEvaluateNew
     //appraisement AppraisementBean
-
 
     @ViewInject(R.id.evaluate_avatar_iv)
     PolygonImageView avatarIV;
@@ -62,12 +61,13 @@ public class FgEvaluate extends BaseFragment implements TagGroup.OnTagItemClickL
     TagGroup tagGroup;
     @ViewInject(R.id.evaluate_comment_et)
     EditText commentET;
+    @ViewInject(R.id.evaluate_submit_tv)
+    TextView submitTV;
 
     private final static int DEFAULT_TAG_COUNTS = 6;
 
     private OrderBean orderBean;
     private DialogUtil mDialogUtil;
-    ArrayList<String> listData;
 
     public static FgEvaluate newInstance(OrderBean orderBean) {
         FgEvaluate fragment = new FgEvaluate();
@@ -103,7 +103,9 @@ public class FgEvaluate extends BaseFragment implements TagGroup.OnTagItemClickL
     protected void initHeader() {
         fgTitle.setText(getActivity().getString(R.string.evaluate_title));
         final OrderGuideInfo guideInfo = orderBean.orderGuideInfo;
-
+        if (guideInfo == null) {
+            return;
+        }
         if (TextUtils.isEmpty(guideInfo.guideAvatar)) {
             avatarIV.setImageResource(R.mipmap.collection_icon_pic);
         } else {
@@ -114,25 +116,43 @@ public class FgEvaluate extends BaseFragment implements TagGroup.OnTagItemClickL
         describeTV.setText(guideInfo.guideCarType);//TODO 折行
         plateNumberTV.setText(guideInfo.CarNumber);
 
-//        if (orderBean.userCommentStatus == 0 && orderBean.appraisement != null) {//已评价
-//            scoreRatingview.setLevel(orderBean.appraisement.totalScore);
-//            commentET.setText(orderBean.appraisement.content);
-//        }
+        boolean isEvaluated = orderBean.userCommentStatus == 1 && orderBean.appraisement != null;//是否评价过
+        if (isEvaluated) {//已评价
+            ratingview.setLevel(orderBean.appraisement.totalScore);
+            commentET.setText(orderBean.appraisement.content);
+            commentET.setEnabled(false);
+            commentET.setBackgroundColor(0x00000000);
+            submitTV.setVisibility(View.GONE);
+            if (orderBean.appraisement.totalScore >= 5) {
+                scoreTV.setText(getContext().getString(R.string.evaluate_evaluated_satisfied));
+            } else {
+                scoreTV.setText(getContext().getString(R.string.evaluate_evaluated_ordinary));
+            }
+//                    addTag(listData, AddTagState.MORE_BTN);
+            ratingview.setOnLevelChangedListener(null);
+        } else {
+            commentET.setEnabled(true);
+            commentET.setBackgroundResource(R.drawable.border_evaluate_comment);
+            submitTV.setVisibility(View.VISIBLE);
+            requestData(new RequestEvaluateTag(getContext(), orderBean.orderType));
+        }
 
-        listData = new ArrayList<String>(7);
-        listData.add("车很干净");
-        listData.add("漂移 你懂吗？");
-        listData.add("司机很帅的啊 哈哈");
-        listData.add("这SB不认识路");
-        listData.add("车很干净");
-        listData.add("好快");
-        listData.add("车很干净7");
-        listData.add("车很干净8");
-        listData.add("好快9");
-        listData.add("车很干净0");
+        if (orderBean.priceCommentReward != 0 ) {//活动
+            String activeText = null;
+            if (isEvaluated && orderBean.appraisement.totalScore >= 5) {
+                activeText = getContext().getString(R.string.evaluate_active_evaluated_get, orderBean.priceCommentReward);
+            } else if (isEvaluated) {
+                activeText = getContext().getString(R.string.evaluate_active_evaluated);
+            } else {//未评价
+                activeText = getContext().getString(R.string.evaluate_active, orderBean.priceCommentReward);
+            }
+            activeTV.setText(activeText);
+            activeTV.setVisibility(View.VISIBLE);
+        } else {
+            activeTV.setVisibility(View.GONE);
+        }
 
         tagGroup.setOnTagItemClickListener(this);
-        addTag(listData, AddTagState.MORE_BTN);
     }
 
     @Override
@@ -151,12 +171,20 @@ public class FgEvaluate extends BaseFragment implements TagGroup.OnTagItemClickL
     }
 
     @Override
-    public void onTagClick(View view, int position) {
-        if (getString(R.string.more).equals(view.getTag())) {
-            tagGroup.removeView(view);
-            addTag(listData, AddTagState.SURPLUS);
+    public void onLevelChanged(RatingView starView, float level) {
+        scoreTV.setText(getScoreString(Math.round(level)));
+
+    }
+
+    @Override
+    public void onTagClick(View _view, int position) {
+        if (getString(R.string.more).equals(_view.getTag())) {
+            TextView moreView = (TextView) _view;
+            tagGroup.removeView(_view);
+//            addTag(listData, AddTagState.SURPLUS);
+            tagGroup.addView(moreView);
         } else {
-            view.setSelected(!view.isSelected());
+            _view.setSelected(!_view.isSelected());
         }
     }
 
@@ -204,14 +232,22 @@ public class FgEvaluate extends BaseFragment implements TagGroup.OnTagItemClickL
         return;
     }
 
-    @OnClick({R.id.evaluate_submit_tv})
-    public void onClick(View view) {
+    @Event({R.id.evaluate_submit_tv})
+    private void onClickView(View view) {
         switch (view.getId()) {
             case R.id.evaluate_submit_tv:
+                mDialogUtil.showLoadingDialog();
                 RequestEvaluateNew.RequestParams params = new RequestEvaluateNew.RequestParams();
-//                mDialogUtil.showLoadingDialog();
-//                RequestEvaluateNew request = new RequestEvaluateNew(getActivity(), pageIndex);
-//                requestData(request);
+                params.fromUname = UserEntity.getUser().getNickname(getActivity());
+                params.guideId = orderBean.orderGuideInfo.guideID;
+                params.guideName = orderBean.orderGuideInfo.guideName;
+                params.orderNo = orderBean.orderNo;
+                params.orderType = orderBean.orderType;
+                params.totalScore = Math.round(ratingview.getLevel());
+//                params.labels = ;
+                params.content = TextUtils.isEmpty(commentET.getText()) ? "" : commentET.getText().toString();
+                RequestEvaluateNew request = new RequestEvaluateNew(getActivity(), params);
+                requestData(request);
                 break;
         }
     }
@@ -219,9 +255,35 @@ public class FgEvaluate extends BaseFragment implements TagGroup.OnTagItemClickL
     @Override
     public void onDataRequestSucceed(BaseRequest _request) {
         if (_request instanceof RequestEvaluateNew) {
-            RequestEvaluateNew request = (RequestEvaluateNew) _request;
+            orderBean.userCommentStatus = 1;
         } else if (_request instanceof RequestEvaluateTag) {
+            RequestEvaluateTag request = (RequestEvaluateTag) _request;
+            EvaluateTagBean tagBean = request.getData();
+            //        addTag(listData, AddTagState.MORE_BTN);
+            ratingview.setOnLevelChangedListener(this);
+        }
+    }
+
+    private String getScoreString(int totalScore) {
+        int resultStrId = 0;
+        switch (totalScore) {
+            case 1:
+                resultStrId = R.string.evaluate_star_very_unsatisfactory;
+                break;
+            case 2:
+                resultStrId = R.string.evaluate_star_unsatisfactory;
+                break;
+            case 3:
+                resultStrId = R.string.evaluate_star_ordinary;
+                break;
+            case 4:
+                resultStrId = R.string.evaluate_star_satisfied;
+                break;
+            case 5:
+                resultStrId = R.string.evaluate_star_very_satisfied;
+                break;
 
         }
+        return getContext().getString(resultStrId);
     }
 }

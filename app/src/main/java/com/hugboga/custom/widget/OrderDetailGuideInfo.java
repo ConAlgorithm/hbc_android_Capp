@@ -55,7 +55,8 @@ public class OrderDetailGuideInfo extends LinearLayout implements HbcViewBehavio
             return;
         }
         OrderBean orderBean = (OrderBean) _data;
-        if (orderBean.orderStatus == OrderStatus.INITSTATE || orderBean.orderStatus == OrderStatus.PAYSUCCESS) {//1:未付款 || 2:已付款
+        final OrderGuideInfo guideInfo = orderBean.orderGuideInfo;
+        if (orderBean.orderStatus == OrderStatus.INITSTATE || orderBean.orderStatus == OrderStatus.PAYSUCCESS || guideInfo == null) {//1:未付款 || 2:已付款
             setVisibility(View.GONE);
         } else {
             setVisibility(View.VISIBLE);
@@ -74,8 +75,6 @@ public class OrderDetailGuideInfo extends LinearLayout implements HbcViewBehavio
                 navLayout.setVisibility(View.GONE);
                 promptTV.setVisibility(View.GONE);
             }
-
-            final OrderGuideInfo guideInfo = orderBean.orderGuideInfo;
 
             if (TextUtils.isEmpty(guideInfo.guideAvatar)) {
                 avatarIV.setImageResource(R.mipmap.collection_icon_pic);

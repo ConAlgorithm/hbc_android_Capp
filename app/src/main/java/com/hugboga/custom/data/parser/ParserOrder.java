@@ -12,6 +12,7 @@ import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.InsureListBean;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.OrderContact;
+import com.hugboga.custom.data.bean.OrderContactBean;
 import com.hugboga.custom.data.bean.OrderPriceInfo;
 import com.hugboga.custom.data.bean.OrderStatus;
 
@@ -152,7 +153,12 @@ public class ParserOrder extends ImplParser {
         orderbean.passengerInfos = jsonObj.optString("passengerInfos");
         orderbean.storeStatus = jsonObj.optInt("storeStatus");
         orderbean.userCommentStatus = jsonObj.optInt("userCommentStatus");
-//        orderbean.appraisement = new AppraisementBean();
+        orderbean.realSendSms = jsonObj.optString("realSendSms");
+        orderbean.isRealUser = jsonObj.optString("isRealUser");
+        orderbean.priceCommentReward = jsonObj.optInt("priceCommentReward");
+        orderbean.userList = gson.fromJson(jsonObj.optString("userList"), new TypeToken<List<OrderContactBean>>(){}.getType());
+        orderbean.realUserList = gson.fromJson(jsonObj.optString("realUserList"), new TypeToken<List<OrderContactBean>>(){}.getType());
+        orderbean.appraisement = gson.fromJson(jsonObj.optString("appraisement"), AppraisementBean.class);
 //        orderbean.appraisement.parser(jsonObj.optJSONObject("appraisement"));
         return orderbean;
     }

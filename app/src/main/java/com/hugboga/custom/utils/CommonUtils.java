@@ -24,11 +24,17 @@ public final class CommonUtils {
 
     public static void showToast(int resId) {
         try {
-            if (toast == null) {
-                toast = Toast.makeText(MyApplication.getAppContext(), resId, Toast.LENGTH_SHORT);
-            } else {
+//            if (toast == null) {
+//                toast = Toast.makeText(MyApplication.getAppContext(), resId, Toast.LENGTH_SHORT);
+//            } else {
+//                toast.cancel();
+//            }
+//            toast.show();
+            if (toast != null) {
                 toast.cancel();
+                toast = null;
             }
+            toast = Toast.makeText(MyApplication.getAppContext(), resId, Toast.LENGTH_SHORT);
             toast.show();
         } catch (Exception e) {
             e.printStackTrace();
@@ -37,11 +43,17 @@ public final class CommonUtils {
 
     public static void showToast(String msg) {
         try {
-            if (toast == null) {
-                toast = Toast.makeText(MyApplication.getAppContext(), msg, Toast.LENGTH_SHORT);
-            } else {
+//            if (toast == null) {
+//                toast = Toast.makeText(MyApplication.getAppContext(), msg, Toast.LENGTH_SHORT);
+//            } else {
+//                toast.cancel();
+//            }
+//            toast.show();
+            if (toast != null) {
                 toast.cancel();
+                toast = null;
             }
+            toast = Toast.makeText(MyApplication.getAppContext(), msg, Toast.LENGTH_SHORT);
             toast.show();
         } catch (Exception e) {
             e.printStackTrace();
@@ -81,7 +93,24 @@ public final class CommonUtils {
         callDialog.setItems(callItems, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                WXShareUtils.getInstance(context).share(which + 1, picUrl, title, content, shareUrl);
+                WXShareUtils.getInstance(context).share(which + 1, Tools.getBitmap(context, picUrl), title, content, shareUrl);
+            }
+        });
+        AlertDialog dialog = callDialog.create();
+        dialog.setCancelable(true);
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.show();
+    }
+
+    public static void shareDialog(final Context context, final int resID
+            , final String title, final String content, final String shareUrl) {
+        final AlertDialog.Builder callDialog = new AlertDialog.Builder(context);
+        callDialog.setTitle(context.getString(R.string.share));
+        final String [] callItems = new String[]{context.getString(R.string.share_friend), context.getString(R.string.share_moments)};
+        callDialog.setItems(callItems, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                WXShareUtils.getInstance(context).share(which + 1, resID, title, content, shareUrl);
             }
         });
         AlertDialog dialog = callDialog.create();

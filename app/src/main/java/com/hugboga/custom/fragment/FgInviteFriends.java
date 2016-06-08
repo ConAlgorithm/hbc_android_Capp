@@ -154,13 +154,12 @@ public class FgInviteFriends extends BaseFragment implements View.OnClickListene
                 if (TextUtils.isEmpty(headerCodeTV.getText().toString())) {
                     return;
                 }
-                //TODO qingcha share_coupon、shareUrl
                 String shareUrl = ShareUrls.getShareThirtyCouponUrl(UserEntity.getUser().getAvatar(getActivity()),
                         UserEntity.getUser().getNickname(getActivity()),
                         headerCodeTV.getText().toString());
-//                CommonUtils.shareDialog(getActivity(), qingcha share_coupon,
-//                        getString(R.string.invite_friends_share_title), getString(R.string.invite_friends_share_content), shareUrl);
-                break;
+                CommonUtils.shareDialog(getActivity(), R.mipmap.share_coupon,
+                        getString(R.string.invite_friends_share_title), getString(R.string.invite_friends_share_content), shareUrl);
+            break;
             case R.id.header_invite_friends_copy_tv:
                 if (!TextUtils.isEmpty(headerCodeTV.getText())) {
                     ClipboardManager cm = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);

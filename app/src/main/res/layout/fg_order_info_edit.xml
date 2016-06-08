@@ -3,7 +3,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/default_bg"
+    android:background="#e8eaeb"
     >
 
     <include layout="@layout/include_header" />
@@ -89,7 +89,7 @@
         android:id="@+id/other_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="1px"
+        android:layout_marginTop="1dp"
         android:background="@color/basic_white"
         android:clickable="true"
         android:minHeight="46dp">
@@ -106,7 +106,7 @@
             android:textSize="15sp" />
 
 
-        <EditText
+        <TextView
             android:id="@+id/other_phone_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -127,7 +127,7 @@
         android:id="@+id/pick_name_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="1px"
+        android:layout_marginTop="1dp"
         android:background="@color/basic_white"
         android:clickable="true"
         android:minHeight="46dp">
@@ -163,7 +163,7 @@
         android:id="@+id/single_no_show_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="1px"
+        android:layout_marginTop="1dp"
         android:background="@color/basic_white"
         android:clickable="true"
         android:minHeight="46dp">
@@ -200,7 +200,7 @@
         android:id="@+id/single_no_show_address"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="1px"
+        android:layout_marginTop="1dp"
         android:background="@color/basic_white"
         android:clickable="true"
         android:minHeight="46dp">
@@ -240,7 +240,7 @@
         android:id="@+id/hotel_phone_layout"
         android:layout_width="match_parent"
         android:layout_height="46dp"
-        android:layout_marginTop="1px"
+        android:layout_marginTop="1dp"
         android:background="@color/basic_white"
         android:gravity="center_vertical"
         android:orientation="horizontal">
@@ -297,7 +297,7 @@
         android:id="@+id/airport_name_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="1px"
+        android:layout_marginTop="1dp"
         android:background="@color/basic_white"
         android:clickable="true"
         android:minHeight="46dp">
@@ -331,7 +331,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:orientation="horizontal"
-        android:layout_marginTop="1px"
+        android:layout_marginTop="1dp"
         android:minHeight="50dp"
         android:gravity="left|top"
         android:background="@color/basic_white"

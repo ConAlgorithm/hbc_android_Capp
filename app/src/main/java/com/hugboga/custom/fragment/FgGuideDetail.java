@@ -226,7 +226,7 @@ public class FgGuideDetail extends BaseFragment {
                 }
                 CommonUtils.shareDialog(getActivity(), data.getAvatar(),
                         getString(R.string.guide_detail_share_title),
-                        getString(R.string.guide_detail_share_title),
+                        getString(R.string.guide_detail_share_content),
                         ShareUrls.getShareGuideUrl(data, UserEntity.getUser().getUserId(getActivity())));
                 break;
         }
