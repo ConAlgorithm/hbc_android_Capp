@@ -116,9 +116,6 @@ public class CollectGuideAdapter extends BaseAdapter<CollectGuideBean> {
                 holder.planeLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(null != fragment) {
-                            fragment.finish();
-                        }
                         EventBus.getDefault().post(new EventAction(EventType.PICK_SEND_TYPE,getItem(Integer.valueOf(v.getTag().toString()))));
                     }
                 });
@@ -126,9 +123,6 @@ public class CollectGuideAdapter extends BaseAdapter<CollectGuideBean> {
                 holder.carLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(null != fragment) {
-                            fragment.finish();
-                        }
                         EventBus.getDefault().post(new EventAction(EventType.DAIRY_TYPE,getItem(Integer.valueOf(v.getTag().toString()))));
                     }
                 });
@@ -136,9 +130,6 @@ public class CollectGuideAdapter extends BaseAdapter<CollectGuideBean> {
                 holder.singleLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(null != fragment) {
-                            fragment.finish();
-                        }
                         EventBus.getDefault().post(new EventAction(EventType.SINGLE_TYPE,getItem(Integer.valueOf(v.getTag().toString()))));
                     }
                 });

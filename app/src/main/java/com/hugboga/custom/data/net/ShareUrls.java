@@ -3,8 +3,10 @@ package com.hugboga.custom.data.net;
 
 import android.support.v4.util.ArrayMap;
 import android.text.TextUtils;
+
 import com.hugboga.custom.data.bean.GuidesDetailData;
 import com.hugboga.custom.utils.CommonUtils;
+
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -15,17 +17,15 @@ public final class ShareUrls {
 
     private ShareUrls() {}
 
-    private static final String SHARE_BASE_URL = "http://dev.wechat.huangbaoche.com/";
-
     /**
      * 分享司导
      */
-    private static final String SHARE_GUIDE = SHARE_BASE_URL + "h5/cactivity/shareGuide/index.html";
+    private static final String SHARE_GUIDE = UrlLibs.SHARE_BASE_URL + "h5/cactivity/shareGuide/index.html";
 
     /**
      * 邀请好友页面，30元大礼包
      */
-    private static final String SHARE_THIRTY_COUPON = SHARE_BASE_URL + "h5/cactivity/toFriends/index.html";
+    private static final String SHARE_THIRTY_COUPON = UrlLibs.SHARE_BASE_URL + "h5/cactivity/toFriends/index.html";
 
     /**
      * 分享司导
