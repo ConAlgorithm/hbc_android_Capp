@@ -591,11 +591,11 @@ public class MainActivity extends BaseActivity
                 if (data == null) {
                     return;
                 }
-//                if(PICK_CONTACTS == requestCode) {
+                if(PICK_CONTACTS == requestCode) {
                     Uri result = data.getData();
                     String[] contact = PhoneInfo.getPhoneContacts(this, result);
                     EventBus.getDefault().post(new EventAction(EventType.CONTACT, contact));
-//                }
+                }
             }
     }
 
