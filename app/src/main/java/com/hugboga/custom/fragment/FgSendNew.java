@@ -413,8 +413,4 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
         }
     }
 
-    @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        return true;
-    }
 }
