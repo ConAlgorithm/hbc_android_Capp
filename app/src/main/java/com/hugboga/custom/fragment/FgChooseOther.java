@@ -233,8 +233,9 @@ public class FgChooseOther extends BaseFragment {
                 user1PhoneText.setText(contactUsersBean.user1Phone);
             }
 
-            if(!TextUtils.isEmpty(contactUsersBean.user1Name)){
+            if(!TextUtils.isEmpty(contactUsersBean.user2Name)){
                 user2Layout.setVisibility(View.VISIBLE);
+                addOtherPhoneClick.setTextColor(Color.parseColor("#929394"));
             }
 
             if(!TextUtils.isEmpty(contactUsersBean.user2Name)) {
