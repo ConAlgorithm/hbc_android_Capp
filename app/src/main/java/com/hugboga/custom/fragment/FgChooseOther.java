@@ -361,7 +361,7 @@ public class FgChooseOther extends BaseFragment {
                 Intent intent = new Intent();
                 intent.setAction(Intent.ACTION_PICK);
                 intent.setData(ContactsContract.Contacts.CONTENT_URI);
-                startActivityForResult(intent, PICK_CONTACTS);
+                getActivity().startActivityForResult(intent, PICK_CONTACTS);
                     break;
             case R.id.add_other_phone_click:
                 if(user1Layout.isShown()) {

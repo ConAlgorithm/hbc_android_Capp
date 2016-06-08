@@ -657,7 +657,7 @@ public class FGOrderNew extends BaseFragment {
                         }
                     });
                 } else {
-                    dreamRight.setText("￥" + money);
+                    dreamRight.setText("￥" + (deductionBean.deduction + deductionBean.leftAmount));
                     if (dreamLeft.isChecked()) {
                         allMoneyLeftText.setText("￥" + (deductionBean.priceToPay + OrderUtils.getSeat1PriceTotal(carListBean,manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean,manLuggageBean)) + "");
                     }
