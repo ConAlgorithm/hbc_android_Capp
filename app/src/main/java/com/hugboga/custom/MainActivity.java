@@ -582,20 +582,20 @@ public class MainActivity extends BaseActivity
 
     }
 
+    //通讯录
+    private  final int PICK_CONTACTS = 101;
     // 接收通讯录的选择号码事件
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
+        super.onActivityResult(requestCode, resultCode, data);
             if (resultCode == RESULT_OK) {
                 if (data == null) {
                     return;
                 }
-                Uri result = data.getData();
-                String[] contact = PhoneInfo.getPhoneContacts(this,result);
-
-                EventBus.getDefault().post(new EventAction(EventType.CONTACT,contact));
-
-                Log.e("============", "contactName = "+contact[0]+", "+contact[1]);
-
+//                if(PICK_CONTACTS == requestCode) {
+                    Uri result = data.getData();
+                    String[] contact = PhoneInfo.getPhoneContacts(this, result);
+                    EventBus.getDefault().post(new EventAction(EventType.CONTACT, contact));
+//                }
             }
     }
 

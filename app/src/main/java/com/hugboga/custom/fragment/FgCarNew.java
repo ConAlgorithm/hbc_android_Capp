@@ -2,6 +2,7 @@ package com.hugboga.custom.fragment;
 
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -321,6 +322,28 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
     @Override
     protected void initView() {
         initView(getView());
+
+        checkSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    EventBus.getDefault().post(new EventAction(EventType.CHECK_SWITCH,true));
+                }else{
+                    EventBus.getDefault().post(new EventAction(EventType.CHECK_SWITCH,false));
+                }
+            }
+        });
+
+        waitSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    EventBus.getDefault().post(new EventAction(EventType.WAIT_SWITCH,true));
+                }else{
+                    EventBus.getDefault().post(new EventAction(EventType.WAIT_SWITCH,false));
+                }
+            }
+        });
         carListBean = this.getArguments().getParcelable("carListBean");
         collectGuideBean = (CollectGuideBean) this.getArguments().getSerializable("collectGuideBean");
         if (null != collectGuideBean) {
@@ -374,27 +397,6 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
             genData();
         }
 
-        checkSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    EventBus.getDefault().post(new EventAction(EventType.CHECK_SWITCH,true));
-                }else{
-                    EventBus.getDefault().post(new EventAction(EventType.CHECK_SWITCH,false));
-                }
-            }
-        });
-
-        waitSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    EventBus.getDefault().post(new EventAction(EventType.WAIT_SWITCH,true));
-                }else{
-                    EventBus.getDefault().post(new EventAction(EventType.WAIT_SWITCH,false));
-                }
-            }
-        });
     }
 
     private JazzyViewPager mJazzy;
@@ -474,6 +476,7 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
                 Bundle bundle = new Bundle();
                 bundle.putParcelable("carListBean", carListBean);
                 bundle.putInt("currentIndex", currentIndex);
+                bundle.putParcelable("manLuggageBean",manLuggageBean);
                 fgManLuggage.setArguments(bundle);
                 startFragment(fgManLuggage);
                 break;

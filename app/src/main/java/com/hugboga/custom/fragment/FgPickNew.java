@@ -3,6 +3,7 @@ package com.hugboga.custom.fragment;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -25,6 +26,7 @@ import com.hugboga.custom.data.bean.ManLuggageBean;
 import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestCheckPrice;
 import com.hugboga.custom.data.request.RequestCheckPriceForPickup;
 import com.hugboga.custom.utils.CarUtils;
@@ -176,8 +178,34 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
 
     CarListBean carListBean;
 
+    boolean checkInChecked = false;
+    boolean waitChecked = false;
+
     private void genBottomData(CarBean carBean) {
-        allMoneyText.setText("￥ " + carBean.price);
+
+        if(checkInChecked){
+            if (TextUtils.isEmpty(carListBean.additionalServicePrice.checkInPrice)) {
+                allMoneyText.setText("￥ " + carBean.price);
+            }else{
+                allMoneyText.setText("￥ " + (carBean.price + Integer.valueOf(carListBean.additionalServicePrice.checkInPrice)));
+            }
+        }else {
+            allMoneyText.setText("￥ " + carBean.price);
+        }
+
+
+        if(waitChecked) {
+            if (TextUtils.isEmpty(carListBean.additionalServicePrice.pickupSignPrice)) {
+                allMoneyText.setText("￥ " + carBean.price);
+            } else {
+                allMoneyText.setText("￥ " + (carBean.price + Integer.valueOf(carListBean.additionalServicePrice.pickupSignPrice)));
+            }
+        }else{
+            allMoneyText.setText("￥ " + carBean.price);
+        }
+
+
+
         if(null != carListBean) {
             allJourneyText.setText("全程预估:" + carListBean.distance + "公里," + carListBean.interval + "分钟");
         }
@@ -191,6 +219,16 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
     ManLuggageBean manLuggageBean;
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
+            case CHECK_SWITCH:
+                checkInChecked = (boolean)action.getData();
+                genBottomData(carBean);
+                break;
+
+            case WAIT_SWITCH:
+                waitChecked = (boolean)action.getData();
+                genBottomData(carBean);
+                break;
+
             case AIR_NO:
                 flightBean = (FlightBean) action.getData();
                 if (mBusinessType == Constants.BUSINESS_TYPE_SEND && flightBean != null) {
@@ -337,8 +375,5 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
         }
     }
 
-    @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        return true;
-    }
+
 }

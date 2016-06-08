@@ -20,6 +20,7 @@ import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.parser.ParserChatInfo;
 import com.hugboga.custom.fragment.BaseFragment;
 import com.hugboga.custom.fragment.FgAssessment;
+import com.hugboga.custom.fragment.FgEvaluate;
 import com.hugboga.custom.fragment.FgOrder;
 import com.hugboga.custom.fragment.FgOrderDetail;
 import com.hugboga.custom.utils.DateUtils;
@@ -393,13 +394,14 @@ public class TravelAdapter extends BaseAdapter<OrderBean>  {
             switch (v.getId()){
                 case R.id.travel_item_btn_assessment:
                     MLog.e("评价车导2 " + mOrderBean.orderNo + " orderType = " + mOrderBean.orderType);
-                    Bundle bundle = new Bundle();
-                    bundle.putString(FgAssessment.GUIDE_ID, mOrderBean.orderGuideInfo.guideID);
-                    bundle.putString(FgAssessment.ORDER_ID, mOrderBean.orderNo);
-                    bundle.putInt(FgAssessment.ORDER_TYPE, mOrderBean.orderType);
-                    bundle.putInt(BaseFragment.KEY_BUSINESS_TYPE, mOrderBean.orderType);
-                    bundle.putString(FgAssessment.GUIDE_NAME, mOrderBean.orderGuideInfo.guideName);
-                    fragment.startFragment(new FgAssessment(), bundle);
+//                    Bundle bundle = new Bundle();
+//                    bundle.putString(FgAssessment.GUIDE_ID, mOrderBean.orderGuideInfo.guideID);
+//                    bundle.putString(FgAssessment.ORDER_ID, mOrderBean.orderNo);
+//                    bundle.putInt(FgAssessment.ORDER_TYPE, mOrderBean.orderType);
+//                    bundle.putInt(BaseFragment.KEY_BUSINESS_TYPE, mOrderBean.orderType);
+//                    bundle.putString(FgAssessment.GUIDE_NAME, mOrderBean.orderGuideInfo.guideName);
+//                    fragment.startFragment(new FgAssessment(), bundle);
+                    fragment.startFragment(FgEvaluate.newInstance(mOrderBean));
                     break;
                 case R.id.travel_item_btn_pay:
                     OrderBean mOrderBean = (OrderBean)v.getTag();

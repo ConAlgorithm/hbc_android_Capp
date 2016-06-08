@@ -5,10 +5,10 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.huangbaoche.hbcframe.HbcConfig;
-import com.huangbaoche.hbcframe.R;
 import com.tencent.mm.sdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.sdk.modelmsg.WXMediaMessage;
 import com.tencent.mm.sdk.modelmsg.WXWebpageObject;
@@ -96,6 +96,9 @@ public class WXShareUtils {
         MLog.e("cache type="+type+" bitmap="+picUrl+" title="+title+" content="+content+" goUrl="+goUrl);
         if (isInstall(true)) {
 
+            if(TextUtils.isEmpty(picUrl)){
+                return;
+            }
             String picName = picUrl.substring(picUrl.lastIndexOf("/")+1,picUrl.length());
             String preUrl = picUrl.substring(0,picUrl.lastIndexOf("/"));
             String smallPic = picUrl;//preUrl + "/s_"+ picName;

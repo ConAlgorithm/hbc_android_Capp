@@ -25,7 +25,7 @@ import de.greenrobot.event.EventBus;
 public class OrderDetailGuideInfo extends LinearLayout implements HbcViewBehavior, View.OnClickListener {
 
     private PolygonImageView avatarIV;
-    private TextView collectTV, promptTV;
+    private TextView collectTV, promptTV, evaluateTV;
     private View lineView;
     private LinearLayout navLayout;
 
@@ -38,12 +38,13 @@ public class OrderDetailGuideInfo extends LinearLayout implements HbcViewBehavio
         inflate(context, R.layout.include_order_guide_info, this);
         avatarIV = (PolygonImageView) findViewById(R.id.ogi_avatar_iv);
         collectTV = (TextView) findViewById(R.id.ogi_collect_tv);
+        evaluateTV = (TextView) findViewById(R.id.ogi_evaluate_tv);
         promptTV = (TextView) findViewById(R.id.ogi_prompt_tv);
         lineView = findViewById(R.id.ogi_horizontal_line);
         navLayout = (LinearLayout) findViewById(R.id.ogi_nav_layout);
 
         collectTV.setOnClickListener(this);
-        findViewById(R.id.ogi_evaluate_tv).setOnClickListener(this);
+        evaluateTV.setOnClickListener(this);
         findViewById(R.id.ogi_im_tv).setOnClickListener(this);
         findViewById(R.id.ogi_phone_tv).setOnClickListener(this);
         avatarIV.setOnClickListener(this);
@@ -60,16 +61,20 @@ public class OrderDetailGuideInfo extends LinearLayout implements HbcViewBehavio
             setVisibility(View.GONE);
         } else {
             setVisibility(View.VISIBLE);
-            if (orderBean.orderStatus == OrderStatus.NOT_EVALUATED) {//6:服务完成未评价
-                lineView.setVisibility(View.VISIBLE);
-                navLayout.setVisibility(View.VISIBLE);
-                promptTV.setVisibility(View.VISIBLE);
-                collectTV.setText(getContext().getString(orderBean.isCollected() ? R.string.uncollect : R.string.collect));
-            } else if (orderBean.orderStatus == OrderStatus.COMPLETE) {//7:服务完成已评价
-                lineView.setVisibility(View.VISIBLE);
-                navLayout.setVisibility(View.VISIBLE);
-                promptTV.setVisibility(View.GONE);
-                collectTV.setText(getContext().getString(orderBean.isCollected() ? R.string.uncollect : R.string.collect));
+            if (orderBean.orderStatus == OrderStatus.NOT_EVALUATED || orderBean.orderStatus == OrderStatus.COMPLETE) {//6:服务完成
+                if (orderBean.isEvaluated()) {
+                    lineView.setVisibility(View.VISIBLE);
+                    navLayout.setVisibility(View.VISIBLE);
+                    promptTV.setVisibility(View.GONE);
+                    collectTV.setText(getContext().getString(guideInfo.isCollected() ? R.string.uncollect : R.string.collect));
+                    evaluateTV.setText(getContext().getString( R.string.evaluated));
+                } else {
+                    lineView.setVisibility(View.VISIBLE);
+                    navLayout.setVisibility(View.VISIBLE);
+                    promptTV.setVisibility(View.VISIBLE);
+                    collectTV.setText(getContext().getString(guideInfo.isCollected() ? R.string.uncollect : R.string.collect));
+                    evaluateTV.setText(getContext().getString( R.string.to_evaluate));
+                }
             } else {
                 lineView.setVisibility(View.GONE);
                 navLayout.setVisibility(View.GONE);
@@ -82,8 +87,8 @@ public class OrderDetailGuideInfo extends LinearLayout implements HbcViewBehavio
                 Tools.showImage(getContext(), avatarIV, guideInfo.guideAvatar);
             }
             ((TextView)findViewById(R.id.ogi_name_tv)).setText(guideInfo.guideName);
-            ((TextView)findViewById(R.id.ogi_describe_tv)).setText(guideInfo.guideCarType);
-            ((TextView)findViewById(R.id.ogi_plate_number_tv)).setText(guideInfo.CarNumber);
+            ((TextView)findViewById(R.id.ogi_describe_tv)).setText(guideInfo.guideCar);
+            ((TextView)findViewById(R.id.ogi_plate_number_tv)).setText(guideInfo.carNumber);
             ((RatingView)findViewById(R.id.ogi_ratingview)).setLevel((float)guideInfo.guideStarLevel);
         }
     }

@@ -27,4 +27,26 @@ public class EvaluateTagBean {
         public int orderType;
         public int starType;
     }
+
+    public ArrayList<EvaluateTagBean.EvaluateTag> getCurrentList(int level) {
+        ArrayList<EvaluateTagBean.EvaluateTag> resultList = null;
+        switch (level) {
+            case 1:
+                resultList = oneStarTags;
+                break;
+            case 2:
+                resultList = twoStarTags;
+                break;
+            case 3:
+                resultList = threeStarTags;
+                break;
+            case 4:
+                resultList = fourStarTags;
+                break;
+            case 5:
+                resultList = fiveStarTags;
+                break;
+        }
+        return resultList;
+    }
 }

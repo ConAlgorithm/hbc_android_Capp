@@ -67,14 +67,16 @@ public class OrderDetailStateView extends LinearLayout implements HbcViewBehavio
             case ARRIVED://已接单(3:已接单,4:已到达)
                 setStyleOther(0xFFF1FFE8, 0xFF7CBD55, R.string.order_detail_receiving, R.string.order_detail_prompt_new_travel, R.mipmap.order_order);
                 break;
-            case SERVICING://5:服务中
+            case SERVICING://5:服务完成
                 setStyleOther(0xFFE1FDFF, 0xFF32C0CA, R.string.order_detail_receiving, R.string.order_detail_inservice, R.mipmap.order_service);
                 break;
-            case NOT_EVALUATED://6:服务完成未评价
-                setStyleOther(0xFFDEDCDD, 0xFF333333, R.string.order_detail_finish, R.string.order_detail_prompt_evaluation_2, R.mipmap.order_serviceover);
-                break;
-            case COMPLETE://7:服务完成已评价
-                setStyleOther(0xFFDEDCDD, 0xFF333333, R.string.order_detail_finish, R.string.order_detail_prompt_travel_end, R.mipmap.order_end);
+            case NOT_EVALUATED://6:
+            case COMPLETE://7:服务完成
+                if (!orderBean.isEvaluated()) {//服务完成未评价
+                    setStyleOther(0xFFDEDCDD, 0xFF333333, R.string.order_detail_finish, R.string.order_detail_prompt_evaluation_2, R.mipmap.order_serviceover);
+                } else {//服务完成已评价
+                    setStyleOther(0xFFDEDCDD, 0xFF333333, R.string.order_detail_finish, R.string.order_detail_prompt_travel_end, R.mipmap.order_end);
+                }
                 break;
             case CANCELLED:
             case REFUNDED://已取消(8:已取消,9:已退款)

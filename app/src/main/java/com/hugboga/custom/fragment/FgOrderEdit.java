@@ -380,10 +380,10 @@ public class FgOrderEdit extends BaseFragment {
         requestParams.realUserEx = getRealUserExJson();
         requestParams.serviceRecTime = orderBean.serviceStartTime;
 
-        requestParams.adultNum = orderBean.adult;
-        requestParams.childNum = orderBean.child;
-        requestParams.isArrivalVisa = orderBean.visa;
-        requestParams.serviceDate = orderBean.serviceTime;
+//        requestParams.adultNum = orderBean.adult;
+//        requestParams.childNum = orderBean.child;
+//        requestParams.isArrivalVisa = orderBean.visa;
+//        requestParams.serviceDate = orderBean.serviceTime;
 
 //        requestParams.servicePassCitys = getRealUserExJson();
 //        requestParams.flightAirportCode = orderBean.flightAirportCode;//送机航班机场三字码

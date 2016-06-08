@@ -134,10 +134,11 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="15dp"
+                android:visibility="gone"
                 android:text="满意"
                 android:textColor="#ffd533"
                 android:textSize="14sp" />
-            <com.hugboga.custom.widget.TagGroup
+            <com.hugboga.custom.widget.EvaluateTagGroup
                 android:id="@+id/evaluate_taggroup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -149,6 +150,7 @@
                 />
             <EditText
                 android:id="@+id/evaluate_comment_et"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
@@ -164,6 +166,7 @@
 
             <TextView
                 android:id="@+id/evaluate_submit_tv"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="43dp"
                 android:layout_marginLeft="40dp"

@@ -19,6 +19,7 @@
     <string name="share_moments">分享朋友圈</string>
     <string name="solidus">%1$s&#160;/&#160;%2$s</string>
     <string name="more">更多</string>
+    <string name="pick_up">收起</string>
     <string name="sign_rmb">¥</string>
 
     <!-- Basic name -->
@@ -506,6 +507,7 @@
     <string name="evaluate_submit">确认提交</string>
     <string name="evaluate_et_hint">其它意见或建议</string>
     <string name="evaluate_title">我的评价</string>
+    <string name="evaluate_succeed">评价成功!</string>
 
     <string name="evaluate_active_evaluated_get">Ta已获得皇包车的¥%1$s小费奖励，感谢您的肯定！</string>
     <string name="evaluate_active_evaluated">Ta没有获得奖励还需要继续努力，感谢您的评价~</string>

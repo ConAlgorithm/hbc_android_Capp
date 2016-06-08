@@ -134,15 +134,23 @@ public class FgManLuggage extends BaseFragment {
     CarBean carBean;
 
     boolean supportChildseat = true;
+    ManLuggageBean manLuggageBean;
+    String seat1 = "";
+    String seat2 = "";
     @Override
     protected void initView() {
         carListBean = this.getArguments().getParcelable("carListBean");
         currentIndex = this.getArguments().getInt("currentIndex");
+        manLuggageBean = this.getArguments().getParcelable("manLuggageBean");
+
         carBean = carListBean.carList.get(currentIndex);
         if (null == carListBean.additionalServicePrice || (null == carListBean.additionalServicePrice.childSeatPrice1
                 && null  == carListBean.additionalServicePrice.childSeatPrice2)) {
             supportChildseat = false;
             topTips.setVisibility(View.VISIBLE);
+        }else{
+            seat1 = carListBean.additionalServicePrice.childSeatPrice1;
+            seat2 = carListBean.additionalServicePrice.childSeatPrice2;
         }
         mNums = carBean.capOfPerson;
         lNums = carBean.capOfLuggage;
@@ -153,7 +161,28 @@ public class FgManLuggage extends BaseFragment {
         mNum.setText(mNums + "");
         lNum.setText(lNums + "");
 
+        initData(manLuggageBean);
+
 //        showChildSeat.setVisibility(View.VISIBLE);
+    }
+
+    private void initData(ManLuggageBean manLuggageBean){
+        if(null != manLuggageBean){
+            mNums = manLuggageBean.mans;
+            lNums = manLuggageBean.luggages;
+            cNums = manLuggageBean.childs;
+
+            mNum.setText(manLuggageBean.mans + "");
+            lNum.setText(manLuggageBean.luggages + "");
+            cNum.setText(manLuggageBean.childs+"");
+            if(manLuggageBean.childSeats > 0){
+                seatNums = manLuggageBean.childSeats;
+                cSeatNum.setText(seatNums+"");
+                showChildSeat.setVisibility(View.VISIBLE);
+                manLuggageShowChildSeatLayout();
+            }
+            subChangeBg();
+        }
     }
 
     @Override
@@ -241,13 +270,40 @@ public class FgManLuggage extends BaseFragment {
 
     public void subChangeBg() {
         addChangeBg();
+        if(mNums == 1){
+            mSub.setBackgroundColor(Color.parseColor("#d5dadb"));
+        }else{
+            mSub.setBackgroundColor(Color.parseColor("#fad027"));
+        }
+
+        if(cNums == 0){
+            cSub.setBackgroundColor(Color.parseColor("#d5dadb"));
+        }else{
+            cSub.setBackgroundColor(Color.parseColor("#fad027"));
+        }
+
+        if(lNums == 0){
+            lSub.setBackgroundColor(Color.parseColor("#d5dadb"));
+        }else{
+            lSub.setBackgroundColor(Color.parseColor("#fad027"));
+        }
+
+        if(lNums == 0){
+            lSub.setBackgroundColor(Color.parseColor("#d5dadb"));
+        }else{
+            lSub.setBackgroundColor(Color.parseColor("#fad027"));
+        }
+
+        if (seatNums  == 0) {
+            cSeatSub.setBackgroundColor(Color.parseColor("#d5dadb"));
+        } else {
+            cSeatSub.setBackgroundColor(Color.parseColor("#fad027"));
+        }
     }
 
 
     private void manLuggageShowChildSeatLayout() {
         try {
-            String seat1 = carListBean.additionalServicePrice.childSeatPrice1;
-            String seat2 = carListBean.additionalServicePrice.childSeatPrice2;
             if (seatNums == 1 && seat1.equalsIgnoreCase("-1")) {
                 freeLayout.setVisibility(View.VISIBLE);
             } else if (seatNums == 1) {

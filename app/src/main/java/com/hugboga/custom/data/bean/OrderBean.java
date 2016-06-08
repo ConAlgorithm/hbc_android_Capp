@@ -132,7 +132,6 @@ public class OrderBean implements IBaseBean ,Parcelable{
     public String flightDestCityName;//降落机场所在城市
     public String serviceTimeStr;//当时间串 例如： 04月21日（周五）10:05
     public String passengerInfos;//座位信息 乘坐%1$s人、行李箱%2$s件、儿童座椅%3$s个
-    public int storeStatus;//导游是否被收藏 0没有 1已收藏
     public int userCommentStatus;//用户是否给导游评价过 0未评价，1评价过
     public String childSeatStr; //2.7.0 新加 对应 接口字段 childSeat
 
@@ -283,7 +282,6 @@ public class OrderBean implements IBaseBean ,Parcelable{
         dest.writeString(this.flightDestCityName);
         dest.writeString(this.serviceTimeStr);
         dest.writeString(this.passengerInfos);
-        dest.writeInt(this.storeStatus);
         dest.writeInt(this.userCommentStatus);
         dest.writeString(this.childSeatStr);
         dest.writeString(this.flightAirportBuiding);
@@ -421,7 +419,6 @@ public class OrderBean implements IBaseBean ,Parcelable{
         this.flightDestCityName = in.readString();
         this.serviceTimeStr = in.readString();
         this.passengerInfos = in.readString();
-        this.storeStatus = in.readInt();
         this.userCommentStatus = in.readInt();
         this.childSeatStr = in.readString();
         this.flightAirportBuiding = in.readString();
@@ -462,9 +459,10 @@ public class OrderBean implements IBaseBean ,Parcelable{
         return payDeadTime;
     }
 
-    public boolean isCollected() {
-        return storeStatus == 1;
+    /**
+     * 是否评价过
+     * */
+    public boolean isEvaluated() {
+        return userCommentStatus == 1;
     }
-
-
 }

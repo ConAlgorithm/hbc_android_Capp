@@ -265,8 +265,8 @@ public class FgPickSend extends BaseFragment implements View.OnTouchListener{
         }
     }
 
-    @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        return true;
-    }
+//    @Override
+//    public boolean onTouch(View v, MotionEvent event) {
+//        return true;
+//    }
 }
