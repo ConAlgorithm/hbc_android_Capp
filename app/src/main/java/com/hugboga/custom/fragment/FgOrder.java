@@ -679,7 +679,7 @@ public class FgOrder extends BaseFragment {
                     .build();
             x.image().bind(guideImg, mOrderBean.orderGuideInfo.guideAvatar, options);
             guideName.setText(mOrderBean.orderGuideInfo.guideName + "/");
-            guideCarInfo.setText(mOrderBean.orderGuideInfo.guideCarType);
+            guideCarInfo.setText(mOrderBean.orderGuideInfo.guideCar);
             guideRateStar.setVisibility(View.VISIBLE);
             guideRateStar.setRating((float) mOrderBean.orderGuideInfo.guideStarLevel);
             guideRateStarValue.setText("" + mOrderBean.orderGuideInfo.guideStarLevel);

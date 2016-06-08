@@ -179,10 +179,10 @@ public class FgOrderDetail extends BaseFragment {
             });
             notifyOrderList(FgTravel.TYPE_ORDER_CANCEL, true, false, true);
         } else if (_request instanceof RequestUncollectGuidesId) {//取消收藏
-            orderBean.storeStatus = 0;
+            orderBean.orderGuideInfo.storeStatus = 0;
             updateCollectViewText();
         } else if (_request instanceof RequestCollectGuidesId) {//收藏
-            orderBean.storeStatus = 1;
+            orderBean.orderGuideInfo.storeStatus = 1;
             updateCollectViewText();
         }
     }
@@ -251,7 +251,7 @@ public class FgOrderDetail extends BaseFragment {
                 startFragment(FgGuideDetail.newInstance(orderBean.orderGuideInfo.guideID));
                 break;
             case ORDER_DETAIL_UPDATE_COLLECT://更新收藏UI
-                orderBean.storeStatus = (int) action.getData();
+                orderBean.orderGuideInfo.storeStatus = (int) action.getData();
                 updateCollectViewText();
                 break;
             case ORDER_DETAIL_GUIDE_COLLECT://收藏
@@ -260,7 +260,7 @@ public class FgOrderDetail extends BaseFragment {
                 }
                 mDialogUtil.showLoadingDialog();
                 BaseRequest baseRequest = null;
-                if (orderBean.isCollected()) {
+                if (orderBean.orderGuideInfo.isCollected()) {
                     baseRequest = new RequestUncollectGuidesId(getActivity(), orderBean.orderGuideInfo.guideID);
                 } else {
                     baseRequest = new RequestCollectGuidesId(getActivity(), orderBean.orderGuideInfo.guideID);
@@ -268,6 +268,7 @@ public class FgOrderDetail extends BaseFragment {
                 requestData(baseRequest);
                 break;
             case ORDER_DETAIL_UPDATE_EVALUATION://更新评价UI
+                requestData();
                 break;
             case ORDER_DETAIL_GUIDE_EVALUATION://TODO 功能 评价司导 FgEvaluate
                 startFragment(FgEvaluate.newInstance(orderBean));
@@ -292,7 +293,7 @@ public class FgOrderDetail extends BaseFragment {
 
     private void updateCollectViewText() {
         TextView collectTV = (TextView)guideInfoView.findViewById(R.id.ogi_collect_tv);
-        collectTV.setText(getContext().getString(orderBean.isCollected() ? R.string.uncollect : R.string.collect));
+        collectTV.setText(getContext().getString(orderBean.orderGuideInfo.isCollected() ? R.string.uncollect : R.string.collect));
     }
 
     /**

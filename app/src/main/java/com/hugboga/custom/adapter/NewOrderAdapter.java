@@ -19,6 +19,7 @@ import com.hugboga.custom.data.parser.ParserChatInfo;
 import com.hugboga.custom.fragment.BaseFragment;
 import com.hugboga.custom.fragment.FgActivity;
 import com.hugboga.custom.fragment.FgAssessment;
+import com.hugboga.custom.fragment.FgEvaluate;
 import com.hugboga.custom.fragment.FgInsure;
 import com.hugboga.custom.fragment.FgOrder;
 import com.hugboga.custom.fragment.FgOrderDetail;
@@ -361,14 +362,16 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.travel_item_btn_assessment:
-                    MLog.e("评价车导2 " + mOrderBean.orderNo + " orderType = " + mOrderBean.orderType);
-                    Bundle bundle = new Bundle();
-                    bundle.putString(FgAssessment.GUIDE_ID, mOrderBean.orderGuideInfo.guideID);
-                    bundle.putString(FgAssessment.ORDER_ID, mOrderBean.orderNo);
-                    bundle.putInt(FgAssessment.ORDER_TYPE, mOrderBean.orderType);
-                    bundle.putInt(BaseFragment.KEY_BUSINESS_TYPE, mOrderBean.orderType);
-                    bundle.putString(FgAssessment.GUIDE_NAME, mOrderBean.orderGuideInfo.guideName);
-                    fragment.startFragment(new FgAssessment(), bundle);
+//                    MLog.e("评价车导2 " + mOrderBean.orderNo + " orderType = " + mOrderBean.orderType);
+//                    Bundle bundle = new Bundle();
+//                    bundle.putString(FgAssessment.GUIDE_ID, mOrderBean.orderGuideInfo.guideID);
+//                    bundle.putString(FgAssessment.ORDER_ID, mOrderBean.orderNo);
+//                    bundle.putInt(FgAssessment.ORDER_TYPE, mOrderBean.orderType);
+//                    bundle.putInt(BaseFragment.KEY_BUSINESS_TYPE, mOrderBean.orderType);
+//                    bundle.putString(FgAssessment.GUIDE_NAME, mOrderBean.orderGuideInfo.guideName);
+//                    fragment.startFragment(new FgAssessment(), bundle);
+
+                    fragment.startFragment(FgEvaluate.newInstance(mOrderBean));
                     break;
                 case R.id.travel_item_btn_pay:
                     MLog.e("立即支付 " + mOrderBean.orderNo);
@@ -383,7 +386,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                     params.orderGoodsType = mOrderBean.orderGoodsType;
                     params.orderId = mOrderBean.orderNo;
                     params.source =  mOrderBean.orderType == 5 ? mOrderBean.serviceCityName : "首页";
-                    bundle = new Bundle();
+                    Bundle bundle = new Bundle();
                     bundle.putSerializable(Constants.PARAMS_DATA, params);
                     fragment.startFragment(new FgOrderDetail(), bundle);
                     break;

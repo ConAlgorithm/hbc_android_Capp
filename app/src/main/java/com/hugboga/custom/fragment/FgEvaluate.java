@@ -2,6 +2,7 @@ package com.hugboga.custom.fragment;
 
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -9,17 +10,20 @@ import android.widget.TextView;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.bean.AppraisementBean;
 import com.hugboga.custom.data.bean.EvaluateTagBean;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.OrderGuideInfo;
 import com.hugboga.custom.data.bean.UserEntity;
+import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestEvaluateNew;
 import com.hugboga.custom.data.request.RequestEvaluateTag;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.Tools;
-import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.DialogUtil;
+import com.hugboga.custom.widget.EvaluateTagGroup;
 import com.hugboga.custom.widget.RatingView;
-import com.hugboga.custom.widget.TagGroup;
 
 import net.grobas.view.PolygonImageView;
 
@@ -28,18 +32,13 @@ import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.view.annotation.Event;
 
-import java.util.ArrayList;
-import java.util.List;
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by qingcha on 16/5/29.
  */
 @ContentView(R.layout.fg_evaluate)
-public class FgEvaluate extends BaseFragment implements TagGroup.OnTagItemClickListener, RatingView.OnLevelChangedListener {
-
-    //RequestEvaluateTag
-    //RequestEvaluateNew
-    //appraisement AppraisementBean
+public class FgEvaluate extends BaseFragment implements RatingView.OnLevelChangedListener {
 
     @ViewInject(R.id.evaluate_avatar_iv)
     PolygonImageView avatarIV;
@@ -58,16 +57,16 @@ public class FgEvaluate extends BaseFragment implements TagGroup.OnTagItemClickL
     @ViewInject(R.id.evaluate_ratingView)
     RatingView ratingview;
     @ViewInject(R.id.evaluate_taggroup)
-    TagGroup tagGroup;
+    EvaluateTagGroup tagGroup;
     @ViewInject(R.id.evaluate_comment_et)
     EditText commentET;
     @ViewInject(R.id.evaluate_submit_tv)
     TextView submitTV;
 
-    private final static int DEFAULT_TAG_COUNTS = 6;
-
     private OrderBean orderBean;
     private DialogUtil mDialogUtil;
+    private boolean isFirstIn = true;
+    private boolean isEvaluated = false;
 
     public static FgEvaluate newInstance(OrderBean orderBean) {
         FgEvaluate fragment = new FgEvaluate();
@@ -106,6 +105,15 @@ public class FgEvaluate extends BaseFragment implements TagGroup.OnTagItemClickL
         if (guideInfo == null) {
             return;
         }
+        fgLeftBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isEvaluated) {
+                    EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_UPDATE_EVALUATION));
+                }
+                finish();
+            }
+        });
         if (TextUtils.isEmpty(guideInfo.guideAvatar)) {
             avatarIV.setImageResource(R.mipmap.collection_icon_pic);
         } else {
@@ -113,27 +121,34 @@ public class FgEvaluate extends BaseFragment implements TagGroup.OnTagItemClickL
         }
         nameTV.setText(guideInfo.guideName);
         scoreRatingview.setLevel((float)guideInfo.guideStarLevel);
-        describeTV.setText(guideInfo.guideCarType);//TODO 折行
-        plateNumberTV.setText(guideInfo.CarNumber);
+        describeTV.setText(guideInfo.guideCar);//TODO 折行
+        plateNumberTV.setText(guideInfo.carNumber);
 
         boolean isEvaluated = orderBean.userCommentStatus == 1 && orderBean.appraisement != null;//是否评价过
         if (isEvaluated) {//已评价
             ratingview.setLevel(orderBean.appraisement.totalScore);
-            commentET.setText(orderBean.appraisement.content);
+            if (TextUtils.isEmpty(orderBean.appraisement.content)) {
+                commentET.setVisibility(View.GONE);
+            } else {
+                commentET.setVisibility(View.VISIBLE);
+                commentET.setText(orderBean.appraisement.content);
+            }
             commentET.setEnabled(false);
             commentET.setBackgroundColor(0x00000000);
             submitTV.setVisibility(View.GONE);
+            scoreTV.setVisibility(View.VISIBLE);
             if (orderBean.appraisement.totalScore >= 5) {
                 scoreTV.setText(getContext().getString(R.string.evaluate_evaluated_satisfied));
             } else {
                 scoreTV.setText(getContext().getString(R.string.evaluate_evaluated_ordinary));
             }
-//                    addTag(listData, AddTagState.MORE_BTN);
             ratingview.setOnLevelChangedListener(null);
+            ratingview.setTouchable(false);
+            tagGroup.setTagEnabled(false);
+            tagGroup.setEvaluatedData(orderBean.appraisement.guideLabels);
         } else {
             commentET.setEnabled(true);
             commentET.setBackgroundResource(R.drawable.border_evaluate_comment);
-            submitTV.setVisibility(View.VISIBLE);
             requestData(new RequestEvaluateTag(getContext(), orderBean.orderType));
         }
 
@@ -151,8 +166,6 @@ public class FgEvaluate extends BaseFragment implements TagGroup.OnTagItemClickL
         } else {
             activeTV.setVisibility(View.GONE);
         }
-
-        tagGroup.setOnTagItemClickListener(this);
     }
 
     @Override
@@ -172,64 +185,14 @@ public class FgEvaluate extends BaseFragment implements TagGroup.OnTagItemClickL
 
     @Override
     public void onLevelChanged(RatingView starView, float level) {
+        if (isFirstIn) {
+            isFirstIn = false;
+            submitTV.setVisibility(View.VISIBLE);
+            commentET.setVisibility(View.VISIBLE);
+            scoreTV.setVisibility(View.VISIBLE);
+        }
         scoreTV.setText(getScoreString(Math.round(level)));
-
-    }
-
-    @Override
-    public void onTagClick(View _view, int position) {
-        if (getString(R.string.more).equals(_view.getTag())) {
-            TextView moreView = (TextView) _view;
-            tagGroup.removeView(_view);
-//            addTag(listData, AddTagState.SURPLUS);
-            tagGroup.addView(moreView);
-        } else {
-            _view.setSelected(!_view.isSelected());
-        }
-    }
-
-    /**
-     * ADDALL 添加全部
-     * SURPLUS 添加剩余的tag
-     * MOREBTN 添加更多btn
-     * */
-    public enum AddTagState {
-        ADDALL, SURPLUS, MORE_BTN
-    }
-
-    private void addTag(ArrayList<String> _listData, AddTagState state) {
-        if (_listData == null) {
-            return;
-        }
-
-        final int size = _listData.size();
-        List<String> listData = _listData;
-
-        if (state == AddTagState.SURPLUS && DEFAULT_TAG_COUNTS < size) {
-            listData = _listData.subList(DEFAULT_TAG_COUNTS, size);
-            if (listData == null) {
-                return;
-            }
-        }
-
-        ArrayList<View> viewList = new ArrayList<View>(size);
-        for (int i = 0; i < size; i++) {
-            TextView tagTV = new TextView(getActivity());
-            tagTV.setPadding(UIUtils.dip2px(24), UIUtils.dip2px(5), UIUtils.dip2px(24), UIUtils.dip2px(6));
-            if (state == AddTagState.MORE_BTN && i == DEFAULT_TAG_COUNTS) {
-                tagTV.setText(getString(R.string.more));
-                tagTV.setBackgroundResource(R.drawable.shape_evaluate_more);
-                tagTV.setTag(getString(R.string.more));
-                viewList.add(tagTV);
-                tagGroup.setTags(viewList);
-                return;
-            }
-            tagTV.setText(_listData.get(i));
-            tagTV.setBackgroundResource(R.drawable.shape_evaluate_tag);
-            viewList.add(tagTV);
-        }
-        tagGroup.setTags(viewList);
-        return;
+        tagGroup.setLevelChanged((int)level);
     }
 
     @Event({R.id.evaluate_submit_tv})
@@ -244,7 +207,7 @@ public class FgEvaluate extends BaseFragment implements TagGroup.OnTagItemClickL
                 params.orderNo = orderBean.orderNo;
                 params.orderType = orderBean.orderType;
                 params.totalScore = Math.round(ratingview.getLevel());
-//                params.labels = ;
+                params.labels = tagGroup.getRequestTagIds();
                 params.content = TextUtils.isEmpty(commentET.getText()) ? "" : commentET.getText().toString();
                 RequestEvaluateNew request = new RequestEvaluateNew(getActivity(), params);
                 requestData(request);
@@ -256,10 +219,18 @@ public class FgEvaluate extends BaseFragment implements TagGroup.OnTagItemClickL
     public void onDataRequestSucceed(BaseRequest _request) {
         if (_request instanceof RequestEvaluateNew) {
             orderBean.userCommentStatus = 1;
+            if (orderBean.appraisement == null) {
+                orderBean.appraisement = new AppraisementBean();
+            }
+            orderBean.appraisement.totalScore = Math.round(ratingview.getLevel());
+            orderBean.appraisement.content = TextUtils.isEmpty(commentET.getText()) ? "" : commentET.getText().toString();
+            initHeader();
+            CommonUtils.showToast(R.string.evaluate_succeed);
+            isEvaluated = true;
         } else if (_request instanceof RequestEvaluateTag) {
             RequestEvaluateTag request = (RequestEvaluateTag) _request;
             EvaluateTagBean tagBean = request.getData();
-            //        addTag(listData, AddTagState.MORE_BTN);
+            tagGroup.initTagView(tagBean);
             ratingview.setOnLevelChangedListener(this);
         }
     }

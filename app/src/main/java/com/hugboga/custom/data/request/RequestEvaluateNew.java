@@ -41,7 +41,7 @@ public class RequestEvaluateNew extends BaseRequest<String> {
 
     @Override
     public HttpMethod getHttpMethod() {
-        return HttpMethod.GET;
+        return HttpMethod.POST;
     }
 
     private static class DataParser extends ImplParser {
