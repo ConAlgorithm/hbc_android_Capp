@@ -22,6 +22,7 @@ import com.hugboga.custom.data.bean.CarListBean;
 import com.hugboga.custom.data.bean.CollectGuideBean;
 import com.hugboga.custom.data.bean.ManLuggageBean;
 import com.hugboga.custom.data.bean.PoiBean;
+import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.request.RequestCheckPrice;
 import com.hugboga.custom.data.request.RequestCheckPriceForTransfer;
@@ -216,29 +217,35 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
                 confirmJourney.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        FGOrderNew fgOrderNew = new FGOrderNew();
-                        Bundle bundle = new Bundle();
-                        bundle.putString("guideCollectId","");
-                        bundle.putSerializable("collectGuideBean",null);
-                        bundle.putString("source",source);
-                        carBean.expectedCompTime = carListBean.estTime;
-                        bundle.putParcelable("carBean", CarUtils.carBeanAdapter(carBean));
-                        bundle.putParcelable("carListBean",carListBean);
-                        bundle.putParcelable("airPortBean",airPortBean);
-                        bundle.putParcelable("poiBean",poiBean);
-                        bundle.putString("serverTime",  serverTime);
-                        bundle.putString("serverDate",  serverDate);
-                        bundle.putString("adultNum", manLuggageBean.mans + "");
-                        bundle.putString("childrenNum", manLuggageBean.childs + "");
-                        bundle.putString("childseatNum", manLuggageBean.childSeats + "");
-                        bundle.putString("luggageNum", manLuggageBean.luggages + "");
-                        bundle.putSerializable("carListBean",carListBean);
-                        bundle.putInt("type",2);
-                        bundle.putString("orderType","2");
-                        bundle.putBoolean("needCheckin",isCheck);
-                        bundle.putParcelable("manLuggageBean",manLuggageBean);
-                        fgOrderNew.setArguments(bundle);
-                        startFragment(fgOrderNew);
+                        if(UserEntity.getUser().isLogin(getActivity())) {
+                            FGOrderNew fgOrderNew = new FGOrderNew();
+                            Bundle bundle = new Bundle();
+                            bundle.putString("guideCollectId", "");
+                            bundle.putSerializable("collectGuideBean", null);
+                            bundle.putString("source", source);
+                            carBean.expectedCompTime = carListBean.estTime;
+                            bundle.putParcelable("carBean", CarUtils.carBeanAdapter(carBean));
+                            bundle.putParcelable("carListBean", carListBean);
+                            bundle.putParcelable("airPortBean", airPortBean);
+                            bundle.putParcelable("poiBean", poiBean);
+                            bundle.putString("serverTime", serverTime);
+                            bundle.putString("serverDate", serverDate);
+                            bundle.putString("adultNum", manLuggageBean.mans + "");
+                            bundle.putString("childrenNum", manLuggageBean.childs + "");
+                            bundle.putString("childseatNum", manLuggageBean.childSeats + "");
+                            bundle.putString("luggageNum", manLuggageBean.luggages + "");
+                            bundle.putSerializable("carListBean", carListBean);
+                            bundle.putInt("type", 2);
+                            bundle.putString("orderType", "2");
+                            bundle.putBoolean("needCheckin", isCheck);
+                            bundle.putParcelable("manLuggageBean", manLuggageBean);
+                            fgOrderNew.setArguments(bundle);
+                            startFragment(fgOrderNew);
+                        }else{
+                            Bundle bundle = new Bundle();//用于统计
+                            bundle.putString("source", "包车下单");
+                            startFragment(new FgLogin(), bundle);
+                        }
                     }
                 });
                 break;

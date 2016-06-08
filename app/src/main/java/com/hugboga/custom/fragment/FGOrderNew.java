@@ -39,6 +39,7 @@ import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
+import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestDeduction;
 import com.hugboga.custom.data.request.RequestMostFit;
 import com.hugboga.custom.data.request.RequestSubmitBase;
@@ -215,6 +216,16 @@ public class FGOrderNew extends BaseFragment {
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+
+        fgRightBtn.setText(R.string.noraml_question);
+        fgRightBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_PROBLEM);
+                startFragment(new FgWebInfo(), bundle);
             }
         });
 
@@ -633,7 +644,11 @@ public class FGOrderNew extends BaseFragment {
                     dream_right_tips.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            startFragment(new FgTravelFund());
+                            if(0== money){
+                                startFragment(new FgInviteFriends());
+                            }else {
+                                startFragment(new FgTravelFund());
+                            }
                         }
                     });
                 } else {

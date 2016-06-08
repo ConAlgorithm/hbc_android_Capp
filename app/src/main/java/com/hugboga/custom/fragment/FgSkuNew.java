@@ -21,6 +21,7 @@ import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.ManLuggageBean;
 import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.bean.SkuItemBean;
+import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestPriceSku;
@@ -199,41 +200,47 @@ public class FgSkuNew extends BaseFragment {
                 confirmJourney.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        FGOrderNew fgOrderNew = new FGOrderNew();
-                        Bundle bundle = new Bundle();
-                        bundle.putString("guideCollectId","");
-                        bundle.putSerializable("collectGuideBean",null);
-                        bundle.putString("source",source);
+                        if(UserEntity.getUser().isLogin(getActivity())) {
+                            FGOrderNew fgOrderNew = new FGOrderNew();
+                            Bundle bundle = new Bundle();
+                            bundle.putString("guideCollectId", "");
+                            bundle.putSerializable("collectGuideBean", null);
+                            bundle.putString("source", source);
 
 
-                        bundle.putString("startCityId", cityBean.cityId + "");
-                        bundle.putString("endCityId", cityBean.cityId + "");//endCityId);
-                        bundle.putString("startDate", serverDate);
-                        bundle.putString("endDate", serverDate);
-                        bundle.putString("serverDayTime",serverDayTime+":00");
-                        bundle.putString("halfDay", "0");
-                        bundle.putString("adultNum", manLuggageBean.mans + "");
-                        bundle.putString("childrenNum", manLuggageBean.childs + "");
-                        bundle.putString("childseatNum", manLuggageBean.childSeats + "");
-                        bundle.putString("luggageNum", manLuggageBean.luggages + "");
-                        bundle.putString("passCities", "");
-                        bundle.putString("carTypeName", carBean.desc);
-                        bundle.putString("startCityName", cityBean.name);
-                        bundle.putString("dayNums", skuBean.daysCount+"");
-                        bundle.putParcelable("startBean", cityBean);
-                        bundle.putParcelable("endBean", cityBean);
-                        bundle.putInt("outnum", skuBean.daysCount);
-                        bundle.putInt("innum", 0);
-                        bundle.putString("source", source);
-                        bundle.putBoolean("isHalfTravel",false);
-                        bundle.putSerializable("passCityList", null);
-                        bundle.putParcelable("carBean", CarUtils.carBeanAdapter(carBean));
-                        bundle.putInt("type",5);
-                        bundle.putString("orderType","5");
-                        bundle.putSerializable("web_sku",skuBean);
-                        bundle.putSerializable("web_city",cityBean);
-                        fgOrderNew.setArguments(bundle);
-                        startFragment(fgOrderNew);
+                            bundle.putString("startCityId", cityBean.cityId + "");
+                            bundle.putString("endCityId", cityBean.cityId + "");//endCityId);
+                            bundle.putString("startDate", serverDate);
+                            bundle.putString("endDate", serverDate);
+                            bundle.putString("serverDayTime", serverDayTime + ":00");
+                            bundle.putString("halfDay", "0");
+                            bundle.putString("adultNum", manLuggageBean.mans + "");
+                            bundle.putString("childrenNum", manLuggageBean.childs + "");
+                            bundle.putString("childseatNum", manLuggageBean.childSeats + "");
+                            bundle.putString("luggageNum", manLuggageBean.luggages + "");
+                            bundle.putString("passCities", "");
+                            bundle.putString("carTypeName", carBean.desc);
+                            bundle.putString("startCityName", cityBean.name);
+                            bundle.putString("dayNums", skuBean.daysCount + "");
+                            bundle.putParcelable("startBean", cityBean);
+                            bundle.putParcelable("endBean", cityBean);
+                            bundle.putInt("outnum", skuBean.daysCount);
+                            bundle.putInt("innum", 0);
+                            bundle.putString("source", source);
+                            bundle.putBoolean("isHalfTravel", false);
+                            bundle.putSerializable("passCityList", null);
+                            bundle.putParcelable("carBean", CarUtils.carBeanAdapter(carBean));
+                            bundle.putInt("type", 5);
+                            bundle.putString("orderType", "5");
+                            bundle.putSerializable("web_sku", skuBean);
+                            bundle.putSerializable("web_city", cityBean);
+                            fgOrderNew.setArguments(bundle);
+                            startFragment(fgOrderNew);
+                        }else{
+                            Bundle bundle = new Bundle();//用于统计
+                            bundle.putString("source", "包车下单");
+                            startFragment(new FgLogin(), bundle);
+                        }
                     }
                 });
                 break;

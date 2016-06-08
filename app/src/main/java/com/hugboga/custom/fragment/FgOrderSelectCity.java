@@ -202,6 +202,10 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
             public void onClick(View v) {
                     if (UserEntity.getUser().isLogin(getActivity())) {
                         goCollectGuid(2);
+                    }else{
+                        Bundle bundle = new Bundle();//用于统计
+                        bundle.putString("source", "包车下单");
+                        startFragment(new FgLogin(), bundle);
                     }
             }
         });
@@ -825,6 +829,10 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
                     startFragment(fgCollectGuideList);
                 }
             }
+        }else{
+            Bundle bundle = new Bundle();//用于统计
+            bundle.putString("source", "包车下单");
+            startFragment(new FgLogin(), bundle);
         }
     }
     CarInfoBean carBean;
@@ -943,6 +951,10 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
             case R.id.choose_driver:
                 if (UserEntity.getUser().isLogin(getActivity())) {
                     goCollectGuid(2);
+                }else{
+                    Bundle bundle = new Bundle();//用于统计
+                    bundle.putString("source", "包车下单");
+                    startFragment(new FgLogin(), bundle);
                 }
                 break;
             case R.id.minus:
