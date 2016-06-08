@@ -805,35 +805,35 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
 
     //type 1 司导列表   2, 预约司导列表
     private void goCollectGuid(int type) {
-        if (UserEntity.getUser().isLogin(getActivity())) {
             if(type == 1){
                 FgCollectGuideList fgCollectGuideList = new FgCollectGuideList();
                 startFragment(fgCollectGuideList);
             }else {
                 if (checkParams()) {
-                    FgCollectGuideList fgCollectGuideList = new FgCollectGuideList();
-                    Bundle bundle = new Bundle();
-                    RequestCollectGuidesFilter.CollectGuidesFilterParams params = new RequestCollectGuidesFilter.CollectGuidesFilterParams();
-                    params.startCityId = startBean.cityId;
-                    params.startTime = isHalfTravel ? halfDate + " 00:00:00" : start_date_str + " 00:00:00";
-                    params.endTime = isHalfTravel ? halfDate + " 00:00:00" : end_date_str + " 00:00:00";
-                    params.adultNum = manNum;
-                    params.childrenNum = childNum;
-                    params.childSeatNum = childSeatNums;
-                    params.luggageNum = baggageNum;
-                    params.orderType = 3;
-                    params.totalDays = isHalfTravel ? 1 : nums;
-                    params.passCityId = startBean.cityId+"";//isHalfTravel ? startBean.cityId + "" : getPassCitiesId();
-                    bundle.putSerializable(Constants.PARAMS_DATA, params);
-                    fgCollectGuideList.setArguments(bundle);
-                    startFragment(fgCollectGuideList);
+                    if (UserEntity.getUser().isLogin(getActivity())) {
+                        FgCollectGuideList fgCollectGuideList = new FgCollectGuideList();
+                        Bundle bundle = new Bundle();
+                        RequestCollectGuidesFilter.CollectGuidesFilterParams params = new RequestCollectGuidesFilter.CollectGuidesFilterParams();
+                        params.startCityId = startBean.cityId;
+                        params.startTime = isHalfTravel ? halfDate + " 00:00:00" : start_date_str + " 00:00:00";
+                        params.endTime = isHalfTravel ? halfDate + " 00:00:00" : end_date_str + " 00:00:00";
+                        params.adultNum = manNum;
+                        params.childrenNum = childNum;
+                        params.childSeatNum = childSeatNums;
+                        params.luggageNum = baggageNum;
+                        params.orderType = 3;
+                        params.totalDays = isHalfTravel ? 1 : nums;
+                        params.passCityId = startBean.cityId + "";//isHalfTravel ? startBean.cityId + "" : getPassCitiesId();
+                        bundle.putSerializable(Constants.PARAMS_DATA, params);
+                        fgCollectGuideList.setArguments(bundle);
+                        startFragment(fgCollectGuideList);
+                    }
+                }else{
+                    Bundle bundle = new Bundle();//用于统计
+                    bundle.putString("source", "包车下单");
+                    startFragment(new FgLogin(), bundle);
                 }
             }
-        }else{
-            Bundle bundle = new Bundle();//用于统计
-            bundle.putString("source", "包车下单");
-            startFragment(new FgLogin(), bundle);
-        }
     }
     CarInfoBean carBean;
 
