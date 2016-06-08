@@ -340,6 +340,7 @@ public class FgChooseOther extends BaseFragment {
         }
     }
 
+    private  final int PICK_CONTACTS = 101;
 
     @OnClick({R.id.name1_del,R.id.name2_del,R.id.name_right,R.id.name1_right,R.id.name2_right,R.id.passenger_right,R.id.add_other_phone_click,R.id.user_phone_text_code_click, R.id.user1_phone_text_code_click, R.id.user2_phone_text_code_click, R.id.passenger_phone_text_code_click})
     public void onClick(View view) {
@@ -360,7 +361,7 @@ public class FgChooseOther extends BaseFragment {
                 Intent intent = new Intent();
                 intent.setAction(Intent.ACTION_PICK);
                 intent.setData(ContactsContract.Contacts.CONTENT_URI);
-                startActivityForResult(intent, 0);
+                startActivityForResult(intent, PICK_CONTACTS);
                     break;
             case R.id.add_other_phone_click:
                 if(user1Layout.isShown()) {
