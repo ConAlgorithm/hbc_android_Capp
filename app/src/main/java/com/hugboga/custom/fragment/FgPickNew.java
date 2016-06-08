@@ -30,6 +30,7 @@ import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestCheckPrice;
 import com.hugboga.custom.data.request.RequestCheckPriceForPickup;
 import com.hugboga.custom.utils.CarUtils;
+import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.utils.ToastUtils;
 import com.hugboga.custom.widget.DialogUtil;
 
@@ -182,29 +183,26 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
     boolean waitChecked = false;
 
     private void genBottomData(CarBean carBean) {
+        int total = carBean.price;
+        if(null != manLuggageBean){
+            int seat1Price = OrderUtils.getSeat1PriceTotal(carListBean,manLuggageBean);
+            int seat2Price = OrderUtils.getSeat2PriceTotal(carListBean,manLuggageBean);
+            total += seat1Price + seat2Price;
+        }
 
         if(checkInChecked){
-            if (TextUtils.isEmpty(carListBean.additionalServicePrice.checkInPrice)) {
-                allMoneyText.setText("￥ " + carBean.price);
-            }else{
-                allMoneyText.setText("￥ " + (carBean.price + Integer.valueOf(carListBean.additionalServicePrice.checkInPrice)));
+            if (!TextUtils.isEmpty(carListBean.additionalServicePrice.checkInPrice)) {
+                total += Integer.valueOf(carListBean.additionalServicePrice.checkInPrice);
             }
-        }else {
-            allMoneyText.setText("￥ " + carBean.price);
         }
 
 
         if(waitChecked) {
-            if (TextUtils.isEmpty(carListBean.additionalServicePrice.pickupSignPrice)) {
-                allMoneyText.setText("￥ " + carBean.price);
-            } else {
-                allMoneyText.setText("￥ " + (carBean.price + Integer.valueOf(carListBean.additionalServicePrice.pickupSignPrice)));
+            if (!TextUtils.isEmpty(carListBean.additionalServicePrice.pickupSignPrice)) {
+                total += Integer.valueOf(carListBean.additionalServicePrice.pickupSignPrice);
             }
-        }else{
-            allMoneyText.setText("￥ " + carBean.price);
         }
-
-
+        allMoneyText.setText("￥ " + total);
 
         if(null != carListBean) {
             allJourneyText.setText("全程预估:" + carListBean.distance + "公里," + carListBean.interval + "分钟");
@@ -250,6 +248,7 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
             case MAN_CHILD_LUUAGE:
                 confirmJourney.setBackgroundColor(getContext().getResources().getColor(R.color.all_bg_yellow));
                 manLuggageBean = (ManLuggageBean)action.getData();
+                genBottomData(carBean);
                 confirmJourney.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

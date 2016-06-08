@@ -26,6 +26,7 @@ import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestPriceSku;
 import com.hugboga.custom.utils.CarUtils;
+import com.hugboga.custom.utils.OrderUtils;
 import com.umeng.analytics.MobclickAgent;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
@@ -181,7 +182,15 @@ public class FgSkuNew extends BaseFragment {
 
         allMoneyLeftSku.setVisibility(View.VISIBLE);
         allMoneyTextSku.setVisibility(View.VISIBLE);
-        allMoneyTextSku.setText("￥ " + carBean.price);
+
+        int total = carBean.price;
+        if(null != manLuggageBean){
+            int seat1Price = OrderUtils.getSeat1PriceTotal(carListBean,manLuggageBean);
+            int seat2Price = OrderUtils.getSeat2PriceTotal(carListBean,manLuggageBean);
+            total += seat1Price + seat2Price;
+        }
+
+        allMoneyTextSku.setText("￥ " + total);
     }
 
 
