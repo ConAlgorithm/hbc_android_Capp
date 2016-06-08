@@ -53,16 +53,15 @@ public class OrderDetailTitleBar extends LinearLayout implements HbcViewBehavior
         otherIV.setImageResource(R.mipmap.top_more);
         otherIV.setOnClickListener(this);
 
-        //orderGoodsType 1: 接机 2: 送机 3: 市内包车(由日租拆分出来) 4: 次租 5: 精品线路(由日租拆分出来) 6: 小长途 (由日租拆分出来)7: 大长途 (由日租拆分出来)
-        //title类型：中文送机、中文接机、包车游(3\6\7)、单次接送、路线包车游
+        //orderGoodsType //1: 接机 2: 送机 3: 市内包车(由日租拆分出来) 4: 次租 5线路包车
+        //title类型：中文接机、中文送机、包车游、单次接送、路线包车游
         titleTextMap = new ArrayMap<Integer, Integer>(5);
         titleTextMap.put(1, R.string.order_detail_title_pick);
         titleTextMap.put(2, R.string.order_detail_title_send);
+        titleTextMap.put(3, R.string.order_detail_title_chartered);
         titleTextMap.put(4, R.string.order_detail_title_single);
         titleTextMap.put(5, R.string.order_detail_title_route);
-        titleTextMap.put(3, R.string.order_detail_title_chartered);
-        titleTextMap.put(6, R.string.order_detail_title_chartered);
-        titleTextMap.put(7, R.string.order_detail_title_chartered);
+
     }
 
     @Override
@@ -72,7 +71,7 @@ public class OrderDetailTitleBar extends LinearLayout implements HbcViewBehavior
         }
         OrderBean orderBean = (OrderBean) _data;
 
-        setTitle(orderBean.orderGoodsType);
+        setTitle(orderBean.orderType);
     }
 
     public void setTitle(int orderGoodsType) {

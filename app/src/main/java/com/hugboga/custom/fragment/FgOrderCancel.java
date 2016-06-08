@@ -111,7 +111,7 @@ public class FgOrderCancel extends BaseFragment {
 //        bundle.putString(FgOrder.KEY_ORDER_ID, orderBean.orderNo);
 //        bringToFront(FgOrder.class, bundle);
         FgOrderDetail.Params params = new FgOrderDetail.Params();
-        params.orderGoodsType = orderBean.orderGoodsType;
+        params.orderType = orderBean.orderType;
         params.orderId = orderBean.orderNo;
         Bundle bundle = new Bundle();
         bundle.putSerializable(Constants.PARAMS_DATA, params);

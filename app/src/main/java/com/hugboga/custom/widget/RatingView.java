@@ -135,10 +135,10 @@ public class RatingView extends LinearLayout {
         if (level != getLevelFromX(moveX)) {
             level = getLevelFromX(moveX);
             if (level != NONE_VALUE) {
-                setLevel(level);
                 if (listener != null) {
                     listener.onLevelChanged(RatingView.this, level);
                 }
+                setLevel(level);
             }
         }
     }
@@ -150,6 +150,12 @@ public class RatingView extends LinearLayout {
             }
         }
         return -1;
+    }
+
+    public void setAllItemBg(int id) {
+        for (int i = 0; i < maxLevels; i++) {
+            setImageBg(itemIV[i], levelBg);
+        }
     }
 
     private void resetAll() {

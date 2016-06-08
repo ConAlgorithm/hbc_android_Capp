@@ -338,7 +338,7 @@ public class MainActivity extends BaseActivity
 //        bundle.putString(FgOrder.KEY_ORDER_ID, message.orderID);
 //        startFragment(new FgOrder(), bundle);
         FgOrderDetail.Params params = new FgOrderDetail.Params();
-        params.orderGoodsType = message.orderType;
+        params.orderType = message.orderType;
         params.orderId = message.orderID;
         startFragment(FgOrderDetail.newInstance(params));
     }

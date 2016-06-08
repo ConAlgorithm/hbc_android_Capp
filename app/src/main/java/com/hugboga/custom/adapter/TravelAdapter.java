@@ -406,7 +406,7 @@ public class TravelAdapter extends BaseAdapter<OrderBean>  {
                 case R.id.travel_item_btn_pay:
                     OrderBean mOrderBean = (OrderBean)v.getTag();
                     FgOrderDetail.Params params = new FgOrderDetail.Params();
-                    params.orderGoodsType = mOrderBean.orderGoodsType;
+                    params.orderType = mOrderBean.orderType;
                     params.orderId = mOrderBean.orderNo;
                     fragment.startFragment(FgOrderDetail.newInstance(params));
 //

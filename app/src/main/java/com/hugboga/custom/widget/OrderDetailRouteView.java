@@ -62,22 +62,7 @@ public class OrderDetailRouteView extends LinearLayout implements View.OnClickLi
 
         for (int i = 0; i < size; i++) {
             OrderDetailRouteItemView itemView = new OrderDetailRouteItemView(getContext());
-
-            CityBean cityBean = passCityList.get(i);
-            int resultTextId = 0;
-            switch (cityBean.cityType) {
-                case 1:
-                    resultTextId = R.string.order_detail_citytype_inside;
-                    break;
-                case 2:
-                    resultTextId = R.string.order_detail_citytype_outside;
-                    break;
-                case 3:
-                    resultTextId = R.string.order_detail_citytype_other;
-                    break;
-            }
-            itemView.setText(getContext().getString(resultTextId, (i + 1), cityBean.name));
-
+            itemView.setText(passCityList.get(i).description);
             itemView.setStyle(i, size);
             if (i < DEFAULT_SHOW_COUNT) {
                 itemLayout.addView(itemView);

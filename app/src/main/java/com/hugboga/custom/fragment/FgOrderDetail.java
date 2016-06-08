@@ -53,13 +53,6 @@ import io.rong.imkit.RongIM;
 @ContentView(R.layout.fg_order_detail)
 public class FgOrderDetail extends BaseFragment {
 
-    //OrderDetailTitleBar
-    //OrderDetailStateView
-    //TODO OrderDetailGuideInfo
-    //TODO OrderDetailItineraryView
-    //TODO OrderDetailAmountView
-    //改动规则
-
     @ViewInject(R.id.order_detail_title_layout)
     private OrderDetailTitleBar titleBar;
 
@@ -82,9 +75,9 @@ public class FgOrderDetail extends BaseFragment {
 
     public static class Params implements Serializable {
         public String orderId;
-        public int orderGoodsType;
         public String source;
         public boolean isUpdate;
+        public int orderType;
     }
 
     public static FgOrderDetail newInstance(Params params) {
@@ -112,7 +105,7 @@ public class FgOrderDetail extends BaseFragment {
                 params = (Params)bundle.getSerializable(Constants.PARAMS_DATA);
             }
         }
-        titleBar.setTitle(params.orderGoodsType);
+        titleBar.setTitle(params.orderType);
         if (params.isUpdate) {
             requestData();
         }
@@ -215,7 +208,7 @@ public class FgOrderDetail extends BaseFragment {
             case ORDER_DETAIL_MORE://更多
                 showPopupWindow();
                 break;
-            case ORDER_DETAIL_ADD_INSURER://添加投保人 copy FgOrder //TODO 数据更新问题
+            case ORDER_DETAIL_ADD_INSURER://添加投保人 copy FgOrder
                 FgInsure fgAddInsure = new FgInsure();
                 Bundle insureBundle = new Bundle();
                 insureBundle.putParcelable("orderBean", orderBean);
@@ -270,14 +263,11 @@ public class FgOrderDetail extends BaseFragment {
             case ORDER_DETAIL_UPDATE_EVALUATION://更新评价UI
                 requestData();
                 break;
-            case ORDER_DETAIL_GUIDE_EVALUATION://TODO 功能 评价司导 FgEvaluate
+            case ORDER_DETAIL_GUIDE_EVALUATION://评价司导
                 startFragment(FgEvaluate.newInstance(orderBean));
                 break;
             case ORDER_DETAIL_UPDATE_INFO://更新个人信息UI
-//                if (action.getData() instanceof String && !TextUtils.isEmpty((String)action.getData())) {
-//                    ((TextView) infoView.findViewById(R.id.order_detail_info_name_tv)).setText((String)action.getData());
-                    requestData();
-//                }
+                requestData();
                 break;
             case ORDER_DETAIL_TOURIST_INFO://出行人信息
                 if (orderBean == null) {

@@ -52,7 +52,7 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
             routeTV.setVisibility(View.GONE);
         }
 
-        carpoolTV.setVisibility(View.GONE);//TODO 拼车 后端找产品确认
+        carpoolTV.setVisibility(orderBean.carPool ? View.VISIBLE : View.GONE);//拼车
 
         //"当地时间 04月21日（周五）10:05" orderBean.serviceTime
         String localTime = getContext().getString(R.string.order_detail_local_time, orderBean.serviceTimeStr);
@@ -61,7 +61,13 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
             addItemView(R.mipmap.order_time, getContext().getString(R.string.order_detail_local_chartered, orderBean.serviceCityName, orderBean.totalDays), null, localTime);
         } else {
             //主标题：当地时间   副标题："航班HKJHKJ 东京-北京"
-            String flight = getContext().getString(R.string.order_detail_flight, orderBean.flightNo, orderBean.flightDeptCityName, orderBean.flightDestCityName);
+            String flight = "";
+            if (!TextUtils.isEmpty(orderBean.flightNo)) {
+                flight = getContext().getString(R.string.order_detail_flight, orderBean.flightNo);
+            }
+            if (!TextUtils.isEmpty(orderBean.flightDeptCityName) && !TextUtils.isEmpty(orderBean.flightDestCityName)) {
+                flight += getContext().getString(R.string.separator, orderBean.flightDeptCityName, orderBean.flightDestCityName);
+            }
             addItemView(R.mipmap.order_time, localTime, null, flight);
         }
 

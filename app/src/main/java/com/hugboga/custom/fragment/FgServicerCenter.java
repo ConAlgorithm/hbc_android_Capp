@@ -105,7 +105,7 @@ public class FgServicerCenter extends BaseFragment {
 
     @Override
     protected void initHeader() {
-        fgTitle.setText("客服中心");
+        fgTitle.setText("服务规则");
     }
 
     @Override

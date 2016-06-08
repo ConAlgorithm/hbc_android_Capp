@@ -126,7 +126,7 @@
                 android:layout_gravity="center_horizontal"
                 app:gap="22dip"
                 app:item_width="32dip"
-                app:rating_bg="@drawable/btn_yellow_ratingbar" />
+                app:rating_bg="@drawable/selector_evaluate_ratingbar" />
 
             <TextView
                 android:id="@+id/evaluate_score_tv"
