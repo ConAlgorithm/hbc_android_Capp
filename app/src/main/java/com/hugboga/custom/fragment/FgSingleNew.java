@@ -34,6 +34,7 @@ import com.hugboga.custom.data.request.RequestCheckPrice;
 import com.hugboga.custom.data.request.RequestCheckPriceForSingle;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.CarUtils;
+import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.widget.DialogUtil;
 import com.umeng.analytics.MobclickAgent;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
@@ -51,6 +52,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
+
+import static com.hugboga.custom.utils.OrderUtils.getSeat1PriceTotal;
 
 /**
  * Created  on 16/5/20.
@@ -257,7 +260,13 @@ public class FgSingleNew extends BaseFragment {
     CarListBean carListBean;
 
     private void genBottomData(CarBean carBean) {
-        allMoneyText.setText("￥ " + carBean.price);
+        if(null != manLuggageBean){
+            int seat1Price = OrderUtils.getSeat1PriceTotal(carListBean,manLuggageBean);
+            int seat2Price = OrderUtils.getSeat2PriceTotal(carListBean,manLuggageBean);
+            allMoneyText.setText("￥ " + (carBean.price + seat1Price + seat2Price));
+        }else {
+            allMoneyText.setText("￥ " + carBean.price);
+        }
         if(null != carListBean) {
             allJourneyText.setText("全程预估:" + carListBean.distance + "公里," + carListBean.interval + "分钟");
         }
@@ -289,6 +298,7 @@ public class FgSingleNew extends BaseFragment {
             case MAN_CHILD_LUUAGE:
                 confirmJourney.setBackgroundColor(getContext().getResources().getColor(R.color.all_bg_yellow));
                 manLuggageBean = (ManLuggageBean)action.getData();
+                genBottomData(carBean);
                 confirmJourney.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
