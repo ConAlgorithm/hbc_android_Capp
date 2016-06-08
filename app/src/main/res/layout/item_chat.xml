@@ -17,6 +17,7 @@
 
         <RelativeLayout
             android:id="@+id/letter_item_img_layout"
+            android:background="@color/basic_white"
             android:layout_width="@dimen/letter_img_width"
             android:layout_height="@dimen/letter_img_width">
 
