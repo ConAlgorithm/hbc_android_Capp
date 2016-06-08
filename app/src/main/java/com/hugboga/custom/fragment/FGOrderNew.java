@@ -1,7 +1,10 @@
 package com.hugboga.custom.fragment;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,6 +52,7 @@ import com.hugboga.custom.data.request.RequestSubmitRent;
 import com.hugboga.custom.data.request.RequestSubmitSend;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.OrderUtils;
+import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.utils.ToastUtils;
 import com.umeng.analytics.MobclickAgent;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
@@ -67,6 +71,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
 
+import static android.app.Activity.RESULT_OK;
 import static com.hugboga.custom.R.id.airport_name;
 import static com.hugboga.custom.R.id.man_name;
 import static com.hugboga.custom.R.id.pick_name;
@@ -1090,6 +1095,7 @@ public class FGOrderNew extends BaseFragment {
         }
         return orderBean;
     }
+
 
     private void startArrivalSearch(int cityId, String location) {
         if (location != null) {
