@@ -63,6 +63,7 @@ public class RequestSubmitBase extends BaseRequest<OrderInfoBean> {
         map.put("carDesc", orderBean.carDesc);
         map.put("userRemark", orderBean.memo);
         map.put("userEx", orderBean.userEx);
+        map.put("priceActual",orderBean.priceActual);
 
 //        if (orderBean.contact != null && orderBean.contact.size() > 0) {
 //            map.put("userAreaCode1", orderBean.contact.get(0).areaCode);

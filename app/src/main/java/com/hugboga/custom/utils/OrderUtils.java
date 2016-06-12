@@ -178,6 +178,7 @@ public class OrderUtils {
         orderBean.realUserName = contactUsersBean.otherName;
         orderBean.realAreaCode = contactUsersBean.otherphoneCode;
         orderBean.realMobile = contactUsersBean.otherPhone;
+
         if (contactUsersBean.isForOther) {
             orderBean.isRealUser = "2";
         } else {
