@@ -198,6 +198,8 @@ public class FgLogin extends BaseFragment implements TextWatcher {
             UserEntity.getUser().setLoginAreaCode(getActivity(), mRequest.areaCode);
             UserEntity.getUser().setLoginPhone(getActivity(), mRequest.mobile);
             UserSession.getUser().setUserToken(getActivity(), user.userToken);
+//            UserEntity.getUser().setUserName(getActivity(),mRequest.);
+
             connectIM();
             EventBus.getDefault().post(
                     new EventAction(EventType.CLICK_USER_LOGIN));

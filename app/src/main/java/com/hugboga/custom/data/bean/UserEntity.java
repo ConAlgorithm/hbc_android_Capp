@@ -29,6 +29,20 @@ public class UserEntity {
     private String imToken;//聊天token
     private String unionid;
 
+    public String getUserName(Context activity) {
+        if (userName == null) {
+            SharedPre shared = new SharedPre(activity);
+            userName = shared.getStringValue(SharedPre.USERNAME);
+        }
+        return userName;
+    }
+
+    public void setUserName(Context activity,String userName) {
+        this.userName = userName;
+    }
+
+    private String userName;//真实姓名
+
     private UserEntity() {
     }
 
