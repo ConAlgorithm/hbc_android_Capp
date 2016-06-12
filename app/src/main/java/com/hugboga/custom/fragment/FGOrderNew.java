@@ -235,7 +235,7 @@ public class FGOrderNew extends BaseFragment {
         });
 
         contactUsersBean = new ContactUsersBean();
-        String userName = UserEntity.getUser().getNickname(this.getActivity());
+        String userName = UserEntity.getUser().getUserName(this.getActivity());
         String userPhone = UserEntity.getUser().getPhone(this.getActivity());
         contactUsersBean.userName = userName;
         contactUsersBean.userPhone = userPhone;
