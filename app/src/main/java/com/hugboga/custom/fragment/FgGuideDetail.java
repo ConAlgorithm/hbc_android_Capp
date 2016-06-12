@@ -7,6 +7,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
+import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.ChatInfo;
@@ -35,8 +36,12 @@ import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
 
+import java.util.HashMap;
+
 import de.greenrobot.event.EventBus;
 import io.rong.imkit.RongIM;
+
+import static com.tencent.bugly.crashreport.inner.InnerAPI.context;
 
 /**
  * Created by qingcha on 16/5/28.
@@ -176,18 +181,37 @@ public class FgGuideDetail extends BaseFragment {
             R.id.guide_detail_single_layout, R.id.guide_detail_call_iv, R.id.ogi_evaluate_chat_iv,
             R.id.header_detail_back_btn, R.id.header_detail_right_1_btn, R.id.header_detail_right_2_btn})
     private void onClickView(View view) {
+        Bundle bundle = new Bundle();
+        HashMap<String,String> map = new HashMap<String,String>();
         switch (view.getId()) {
             case R.id.guide_detail_plane_layout:
                 finish();
-                EventBus.getDefault().post(new EventAction(EventType.PICK_SEND_TYPE, beanConversion()));
+                FgPickSend fgPickSend = new FgPickSend();
+                bundle.putString("source","首页");
+                bundle.putSerializable("collectGuideBean",beanConversion());
+                fgPickSend.setArguments(bundle);
+                startFragment(fgPickSend, bundle);
+
+//                EventBus.getDefault().post(new EventAction(EventType.PICK_SEND_TYPE, beanConversion()));
                 break;
             case R.id.guide_detail_car_layout:
                 finish();
-                EventBus.getDefault().post(new EventAction(EventType.DAIRY_TYPE, beanConversion()));
+                FgOrderSelectCity fgOrderSelectCity = new FgOrderSelectCity();
+                bundle.putString("source","首页");
+                bundle.putSerializable("collectGuideBean",beanConversion());
+                fgOrderSelectCity.setArguments(bundle);
+                startFragment(fgOrderSelectCity, bundle);
+
+//                EventBus.getDefault().post(new EventAction(EventType.DAIRY_TYPE, beanConversion()));
                 break;
             case R.id.guide_detail_single_layout:
                 finish();
-                EventBus.getDefault().post(new EventAction(EventType.SINGLE_TYPE, beanConversion()));
+                FgSingleNew fgSingleNew = new FgSingleNew();
+                bundle.putSerializable("collectGuideBean",beanConversion());
+                fgSingleNew.setArguments(bundle);
+                startFragment(fgSingleNew);
+
+//                EventBus.getDefault().post(new EventAction(EventType.SINGLE_TYPE, beanConversion()));
                 break;
             case R.id.guide_detail_call_iv:
                 if (data == null) {
