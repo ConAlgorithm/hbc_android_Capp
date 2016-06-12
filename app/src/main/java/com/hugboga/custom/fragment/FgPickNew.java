@@ -271,11 +271,11 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
                     public void onClick(View v) {
                         if(UserEntity.getUser().isLogin(getActivity())) {
                             if(null != collectGuideBean) {
-                                String sTime = serverDate+" "+""+":00";
-                                OrderUtils.checkGuideCoflict(getContext(), 4, cityBean.cityId,
+                                String sTime = serverDate+":00";
+                                OrderUtils.checkGuideCoflict(getContext(), 1, cityId,
                                         null != collectGuideBean ? collectGuideBean.guideId : null, sTime,
                                         DateUtils.getToTime(sTime,Integer.valueOf(carListBean.estTime)),
-                                        cityBean.cityId + "", 0, carBean.carType, carBean.carSeat,
+                                        cityId + "", 0, carBean.carType, carBean.carSeat,
                                         new HttpRequestListener() {
                                             @Override
                                             public void onDataRequestSucceed(BaseRequest request) {
