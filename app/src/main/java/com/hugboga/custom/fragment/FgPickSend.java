@@ -99,6 +99,7 @@ public class FgPickSend extends BaseFragment implements View.OnTouchListener{
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
                 bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_PROBLEM);
+                bundle.putBoolean(FgWebInfo.CONTACT_SERVICE, true);
                 startFragment(new FgWebInfo(), bundle);
                 if(pickOrSend == 1){
                     HashMap<String,String> map = new HashMap<String,String>();

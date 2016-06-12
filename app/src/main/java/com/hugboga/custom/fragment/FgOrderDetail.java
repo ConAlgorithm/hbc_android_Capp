@@ -216,7 +216,7 @@ public class FgOrderDetail extends BaseFragment {
                 startFragment(fgAddInsure);
                 break;
             case ORDER_DETAIL_LIST_INSURER://投保人列表
-                startFragment(new FgInsureInfo());
+                startFragment(FgInsureInfo.newInstance(orderBean));
                 break;
             case ORDER_DETAIL_GUIDE_CALL://联系司导
                 if (orderBean.orderGuideInfo == null) {
@@ -269,8 +269,10 @@ public class FgOrderDetail extends BaseFragment {
             case ORDER_DETAIL_UPDATE_INFO://更新个人信息UI
                 requestData();
                 break;
-            case ORDER_DETAIL_UPDATE://刷新数据
-                requestData();
+            case ADD_INSURE_SUCCESS://更新添加投保人
+                if (orderBean.orderNo.equals(action.getData())) {
+                    requestData();
+                }
                 break;
             case ORDER_DETAIL_TOURIST_INFO://出行人信息
                 if (orderBean == null) {

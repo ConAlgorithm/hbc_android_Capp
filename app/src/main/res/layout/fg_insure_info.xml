@@ -6,7 +6,7 @@
     android:orientation="vertical">
     <include layout="@layout/include_header" />
 
-    <com.hugboga.custom.widget.ZListView
+    <ListView
         android:id="@+id/insure_info_listview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
