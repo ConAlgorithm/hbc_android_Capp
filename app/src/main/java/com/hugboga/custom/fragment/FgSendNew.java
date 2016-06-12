@@ -141,6 +141,7 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
 
 
     private void initCarFragment() {
+        showCarsLayoutSend.setVisibility(View.VISIBLE);
         fm = getFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
         if (null != fgCarNew) {
@@ -372,6 +373,10 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
             infoTips.setVisibility(View.VISIBLE);
             airTitle.setVisibility(View.GONE);
             airDetail.setVisibility(View.GONE);
+            timeText.setText("");
+            showCarsLayoutSend.setVisibility(View.GONE);
+            bottom.setVisibility(View.GONE);
+
         } else if (FgPoiSearch.class.getSimpleName().equals(from)) {
             poiBean = (PoiBean) bundle.getSerializable("arrival");
             infoTips.setVisibility(View.GONE);

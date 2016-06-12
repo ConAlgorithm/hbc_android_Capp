@@ -53,6 +53,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
 
+import static android.view.View.GONE;
 import static com.hugboga.custom.utils.OrderUtils.getSeat1PriceTotal;
 
 /**
@@ -214,28 +215,33 @@ public class FgSingleNew extends BaseFragment {
             startBean = null;
             arrivalBean = null;
             startTips.setVisibility(View.VISIBLE);
-            startTitle.setVisibility(View.GONE);
-            startDetail.setVisibility(View.GONE);
+            startTitle.setVisibility(GONE);
+            startDetail.setVisibility(GONE);
             startTitle.setText("");
             startDetail.setText("");
 
             endTips.setVisibility(View.VISIBLE);
-            endTitle.setVisibility(View.GONE);
-            endDetail.setVisibility(View.GONE);
+            endTitle.setVisibility(GONE);
+            endDetail.setVisibility(GONE);
             endTitle.setText("");
             endDetail.setText("");
+
+            bottom.setVisibility(GONE);
+            showCarsLayoutSingle.setVisibility(GONE);
+            timeText.setText("");
+
         } else if (FgPoiSearch.class.getSimpleName().equals(from)) {
             String fromKey = bundle.getString(KEY_FROM);
             if ("from".equals(fromKey)) {
                 startBean = (PoiBean) bundle.getSerializable(FgPoiSearch.KEY_ARRIVAL);
-                startTips.setVisibility(View.GONE);
+                startTips.setVisibility(GONE);
                 startTitle.setVisibility(View.VISIBLE);
                 startDetail.setVisibility(View.VISIBLE);
                 startTitle.setText(startBean.placeName);
                 startDetail.setText(startBean.placeDetail);
             } else if ("to".equals(fromKey)) {
                 arrivalBean = (PoiBean) bundle.getSerializable(FgPoiSearch.KEY_ARRIVAL);
-                endTips.setVisibility(View.GONE);
+                endTips.setVisibility(GONE);
                 endTitle.setVisibility(View.VISIBLE);
                 endDetail.setVisibility(View.VISIBLE);
                 endTitle.setText(arrivalBean.placeName);
@@ -282,7 +288,7 @@ public class FgSingleNew extends BaseFragment {
                 bottom.setVisibility(View.VISIBLE);
                 genBottomData(carBean);
             } else {
-                bottom.setVisibility(View.GONE);
+                bottom.setVisibility(GONE);
             }
 
             initCarFragment(true);
@@ -368,6 +374,7 @@ public class FgSingleNew extends BaseFragment {
     FgCarNew fgCarNew;
 
     private void initCarFragment(boolean isDataBack) {
+            showCarsLayoutSingle.setVisibility(View.VISIBLE);
             fm = getFragmentManager();
             FragmentTransaction transaction = fm.beginTransaction();
             if (null != fgCarNew) {
