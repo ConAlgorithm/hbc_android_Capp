@@ -46,12 +46,14 @@ public class OrderDetailAmountView extends LinearLayout implements HbcViewBehavi
 
         OrderPriceInfo priceInfo = orderBean.orderPriceInfo;
         addBillView(R.string.order_detail_cost_chartered, "" + (int)priceInfo.orderPrice);//包车费用
-        if (orderBean.orderGoodsType == 1) {//接机 举牌费用
+        if (orderBean.orderGoodsType == 1 && priceInfo.flightBrandSignPrice > 0) {//接机 举牌费用
             addBillView(R.string.order_detail_cost_placards, "" + (int)priceInfo.flightBrandSignPrice);
-        } else if(orderBean.orderGoodsType == 2) {//送机 checkin费用
+        } else if(orderBean.orderGoodsType == 2 && priceInfo.checkInPrice > 0) {//送机 checkin费用
             addBillView(R.string.order_detail_cost_checkin, "" + (int)priceInfo.checkInPrice);
         }
-        addBillView(R.string.order_detail_cost_child_seats, "" + (int)priceInfo.childSeatPrice);//儿童座椅
+        if (priceInfo.childSeatPrice > 0) {
+            addBillView(R.string.order_detail_cost_child_seats, "" + (int)priceInfo.childSeatPrice);//儿童座椅
+        }
         addGroupView(R.string.order_detail_cost_total, "" + (int)priceInfo.shouldPay);//费用总计
         if (priceInfo.couponPrice != 0) {
             addGroupView(R.string.order_detail_cost_coupon, "" + (int)priceInfo.couponPrice);//优惠金额

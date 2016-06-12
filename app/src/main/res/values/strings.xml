@@ -187,7 +187,7 @@
     <string name="order_cancel_tip2" formatted="false">距离服务开始时间24小时前取消及更改，免收退改费,可全额退款;\n服务开始时间24小时内取消及更改，将收取订单金额的100%作为退改费;</string>
     <string name="order_cancel_tip3">\n跨城市长途包车距离服务开始时间48小时内取消及更改，将产生司导住宿费用，收取订单金额20%用于补偿司导损失。</string>
     <string name="pay_time_tip">请在%1$s内付款,以免订单取消</string>
-    <string name="order_cancel_pay">订单尚未付款，返回将放弃支付，稍后可在“我的行程”中继续完成支付</string>
+    <string name="order_cancel_pay">下单后24小时订单将被取消，请尽快完成支付</string>
     <!-- 承诺promise -->
     <string name="promise_title_all">一价全包</string>
     <string name="promise_title_wait">免费等待</string>

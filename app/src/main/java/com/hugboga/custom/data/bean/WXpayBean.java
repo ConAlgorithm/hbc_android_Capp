@@ -13,5 +13,6 @@ public class WXpayBean  {
     public String prepayid;
     public String sign;
     public String timestamp;
+    public boolean travelFundPay;//true的时候 全部旅游基金支付
 
 }

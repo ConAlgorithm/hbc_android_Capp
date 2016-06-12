@@ -82,9 +82,6 @@ public class FgCoupon extends BaseFragment implements AdapterView.OnItemClickLis
                 paramsData = (MostFitAvailableBean) bundle.getSerializable(Constants.PARAMS_DATA);
             }
         }
-        if (paramsData != null) {
-            payLayout.setVisibility(View.GONE);
-        }
     }
 
 
