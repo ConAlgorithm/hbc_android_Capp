@@ -265,7 +265,7 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
                             startFragment(fgOrderNew);
                         }else{
                             Bundle bundle = new Bundle();//用于统计
-                            bundle.putString("source", "包车下单");
+                            bundle.putString("source", "送机下单");
                             startFragment(new FgLogin(), bundle);
                         }
                     }

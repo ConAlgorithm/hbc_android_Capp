@@ -359,7 +359,7 @@ public class FgSingleNew extends BaseFragment {
                             startFragment(fgOrderNew);
                         }else{
                             Bundle bundle = new Bundle();//用于统计
-                            bundle.putString("source", "包车下单");
+                            bundle.putString("source", "单次接送下单");
                             startFragment(new FgLogin(), bundle);
                         }
                     }
