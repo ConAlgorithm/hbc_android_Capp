@@ -478,6 +478,8 @@ public class MainActivity extends BaseActivity
     public void onBackPressed() {
         if (getFragmentList().size() > mSectionsPagerAdapter.getCount()) {
             doFragmentBack();
+        } else if (mViewPager.getCurrentItem() != 0) {
+            mViewPager.setCurrentItem(0);
         } else {
             if (drawer.isDrawerOpen(GravityCompat.START)) {
                 drawer.closeDrawer(GravityCompat.START);
