@@ -31,6 +31,7 @@ import com.hugboga.custom.data.bean.ServiceQuoteSumBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestGetCarInfo;
+import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.widget.JazzyViewPager;
 import com.umeng.analytics.MobclickAgent;
 
@@ -600,9 +601,9 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
 //                map.put("payableamount", carBean.price + "");
                     MobclickAgent.onEventValue(getActivity(), "carnext_oneday", map, carBean.price);
                 }else{
-                    Bundle bundle = new Bundle();//用于统计
-                    bundle.putString("source", "包车下单");
-                    startFragment(new FgLogin(), bundle);
+                    Bundle bundle1 = new Bundle();//用于统计
+                    bundle1.putString("source", "包车下单");
+                    startFragment(new FgLogin(), bundle1);
                 }
                 break;
         }

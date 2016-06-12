@@ -13,6 +13,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
+import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
@@ -34,6 +36,7 @@ import com.hugboga.custom.data.request.RequestCheckPrice;
 import com.hugboga.custom.data.request.RequestCheckPriceForSingle;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.CarUtils;
+import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.widget.DialogUtil;
 import com.umeng.analytics.MobclickAgent;
@@ -309,54 +312,32 @@ public class FgSingleNew extends BaseFragment {
                     @Override
                     public void onClick(View v) {
                         if(UserEntity.getUser().isLogin(getActivity())) {
-                            FGOrderNew fgOrderNew = new FGOrderNew();
-                            Bundle bundle = new Bundle();
-                            bundle.putString("guideCollectId", "");
-                            bundle.putSerializable("collectGuideBean", null);
-                            bundle.putString("source", source);
 
-                            bundle.putSerializable("KEY_CITY", cityBean);
-                            bundle.putSerializable("KEY_ARRIVAL", arrivalBean);
-                            bundle.putSerializable("KEY_START", startBean);
+                            if(null != collectGuideBean) {
+                                String sTime = serverDate+" "+serverTime+":00";
+                                OrderUtils.checkGuideCoflict(getContext(), 4, cityBean.cityId,
+                                        null != collectGuideBean ? collectGuideBean.guideId : null, sTime,
+                                        DateUtils.getToTime(sTime,Integer.valueOf(carListBean.estTime)),
+                                        cityBean.cityId + "", 0, carBean.carType, carBean.carSeat,
+                                        new HttpRequestListener() {
+                                            @Override
+                                            public void onDataRequestSucceed(BaseRequest request) {
+                                                goOrder();
+                                            }
 
-                            bundle.putString("serverTime", serverTime);
-                            bundle.putString("price", carBean.price + "");
-                            bundle.putString("distance", carListBean.distance + "");
+                                            @Override
+                                            public void onDataRequestCancel(BaseRequest request) {
 
-                            carBean.expectedCompTime = carListBean.estTime;
-                            bundle.putParcelable("carBean", CarUtils.carBeanAdapter(carBean));
+                                            }
 
-                            bundle.putString("startCityId", cityBean.cityId + "");
-                            bundle.putString("endCityId", cityBean.cityId + "");//endCityId);
-                            bundle.putString("startDate", serverDate);
-                            bundle.putString("endDate", serverDate);
+                                            @Override
+                                            public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
 
-                            bundle.putString("serverTime", serverTime);
-                            bundle.putString("serverDate", serverDate);
-
-//                        bundle.putString("serverDayTime",serverDayTime+":00");
-                            bundle.putString("halfDay", "0");
-                            bundle.putString("adultNum", manLuggageBean.mans + "");
-                            bundle.putString("childrenNum", manLuggageBean.childs + "");
-                            bundle.putString("childseatNum", manLuggageBean.childSeats + "");
-                            bundle.putString("luggageNum", manLuggageBean.luggages + "");
-                            bundle.putString("passCities", "");
-                            bundle.putString("carTypeName", carBean.desc);
-                            bundle.putString("startCityName", cityBean.name);
-                            bundle.putParcelable("cityBean", cityBean);
-                            bundle.putSerializable("carListBean", carListBean);
-                            bundle.putInt("outnum", 0);
-                            bundle.putInt("innum", 0);
-                            bundle.putString("dayNums", "0");
-
-//                        bundle.putParcelable("carBean",carBeanAdapter(carBean));
-                            bundle.putInt("type", 4);
-                            bundle.putString("orderType", "4");
-
-                            bundle.putParcelable("manLuggageBean", manLuggageBean);
-
-                            fgOrderNew.setArguments(bundle);
-                            startFragment(fgOrderNew);
+                                            }
+                                        });
+                            }else{
+                                goOrder();
+                            }
                         }else{
                             Bundle bundle = new Bundle();//用于统计
                             bundle.putString("source", "单次接送下单");
@@ -368,6 +349,57 @@ public class FgSingleNew extends BaseFragment {
             default:
                 break;
         }
+    }
+
+    private void goOrder(){
+        FGOrderNew fgOrderNew = new FGOrderNew();
+        Bundle bundle = new Bundle();
+        bundle.putString("guideCollectId", collectGuideBean == null ? "" : collectGuideBean.guideId);
+        bundle.putSerializable("collectGuideBean", collectGuideBean == null ? null : collectGuideBean);
+        bundle.putString("source", source);
+
+        bundle.putSerializable("KEY_CITY", cityBean);
+        bundle.putSerializable("KEY_ARRIVAL", arrivalBean);
+        bundle.putSerializable("KEY_START", startBean);
+
+        bundle.putString("serverTime", serverTime);
+        bundle.putString("price", carBean.price + "");
+        bundle.putString("distance", carListBean.distance + "");
+
+        carBean.expectedCompTime = carListBean.estTime;
+        bundle.putParcelable("carBean", CarUtils.carBeanAdapter(carBean));
+
+        bundle.putString("startCityId", cityBean.cityId + "");
+        bundle.putString("endCityId", cityBean.cityId + "");//endCityId);
+        bundle.putString("startDate", serverDate);
+        bundle.putString("endDate", serverDate);
+
+        bundle.putString("serverTime", serverTime);
+        bundle.putString("serverDate", serverDate);
+
+//                        bundle.putString("serverDayTime",serverDayTime+":00");
+        bundle.putString("halfDay", "0");
+        bundle.putString("adultNum", manLuggageBean.mans + "");
+        bundle.putString("childrenNum", manLuggageBean.childs + "");
+        bundle.putString("childseatNum", manLuggageBean.childSeats + "");
+        bundle.putString("luggageNum", manLuggageBean.luggages + "");
+        bundle.putString("passCities", "");
+        bundle.putString("carTypeName", carBean.desc);
+        bundle.putString("startCityName", cityBean.name);
+        bundle.putParcelable("cityBean", cityBean);
+        bundle.putSerializable("carListBean", carListBean);
+        bundle.putInt("outnum", 0);
+        bundle.putInt("innum", 0);
+        bundle.putString("dayNums", "0");
+
+//                        bundle.putParcelable("carBean",carBeanAdapter(carBean));
+        bundle.putInt("type", 4);
+        bundle.putString("orderType", "4");
+
+        bundle.putParcelable("manLuggageBean", manLuggageBean);
+
+        fgOrderNew.setArguments(bundle);
+        startFragment(fgOrderNew);
     }
 
     FragmentManager fm;
