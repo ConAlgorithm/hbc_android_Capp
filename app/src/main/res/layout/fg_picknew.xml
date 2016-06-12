@@ -166,7 +166,7 @@
             </RelativeLayout>
 
             <LinearLayout
-                android:id="@+id/show_cars_layout"
+                android:id="@+id/show_cars_layout_pick"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="1dp"

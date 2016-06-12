@@ -44,6 +44,8 @@ import de.greenrobot.event.EventBus;
 
 import static com.hugboga.custom.R.id.driver_layout;
 import static com.hugboga.custom.R.id.driver_name;
+import static com.hugboga.custom.data.event.EventType.CHANGE_CAR;
+import static com.hugboga.custom.data.event.EventType.MAN_CHILD_LUUAGE;
 
 /**
  * Created  on 16/5/13.
@@ -72,6 +74,9 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
     @Bind(R.id.rl_address)
     LinearLayout rlAddress;
 
+    @Bind(R.id.show_cars_layout_pick)
+    LinearLayout show_cars_layout_pick;
+
 
     public static final String KEY_CITY_ID = "KEY_CITY_ID";
     public static final String KEY_CITY = "KEY_CITY";
@@ -88,8 +93,7 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
     public static final String KEY_URGENT_FLAG = "KEY_URGENT_FLAG";
     public static final String KEY_NEED_CHILDREN_SEAT = "KEY_NEED_CHILDREN_SEAT";
     public static final String KEY_NEED_BANNER = "KEY_NEED_BANNER";
-    @Bind(R.id.show_cars_layout)
-    LinearLayout showCarsLayout;
+
     @Bind(R.id.confirm_journey)
     TextView confirmJourney;
     @Bind(R.id.all_money_left)
@@ -137,10 +141,11 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
 
     FragmentManager fm;
     FgCarNew fgCarNew;
-
+    FragmentTransaction transaction;
     private void initCarFragment() {
+        show_cars_layout_pick.setVisibility(View.VISIBLE);
         fm = getFragmentManager();
-        FragmentTransaction transaction = fm.beginTransaction();
+        transaction = fm.beginTransaction();
         if(null != fgCarNew) {
             transaction.remove(fgCarNew);
         }
@@ -153,7 +158,7 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
         bundle.putSerializable("collectGuideBean",collectGuideBean);
         bundle.putParcelable("carListBean", carListBean);
         fgCarNew.setArguments(bundle);
-        transaction.add(R.id.show_cars_layout, fgCarNew);
+        transaction.add(R.id.show_cars_layout_pick, fgCarNew);
         transaction.commit();
     }
 
@@ -239,6 +244,15 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
                     airDetail.setVisibility(View.VISIBLE);
                     airTitle.setText(flightBean.arrAirportName);
                     airDetail.setText(flightInfoStr);
+
+                    poiBean = null;
+                    addressTips.setVisibility(View.VISIBLE);
+                    addressTitle.setVisibility(View.GONE);
+                    addressDetail.setVisibility(View.GONE);
+
+                    bottom.setVisibility(View.GONE);
+                    show_cars_layout_pick.setVisibility(View.GONE);
+
                 }
                 break;
             case CHANGE_CAR:
