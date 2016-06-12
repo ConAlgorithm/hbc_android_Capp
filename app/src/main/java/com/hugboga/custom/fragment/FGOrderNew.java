@@ -987,6 +987,7 @@ public class FGOrderNew extends BaseFragment {
             }
         } else if (action.getType() == EventType.SELECT_COUPON_BACK) {
             couponBean = (CouponBean) action.getData();
+            mostFitBean = null;
             couponRight.setText(couponBean.price + "优惠券");
 
             if (couponLeft.isChecked()) {

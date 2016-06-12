@@ -1,8 +1,10 @@
 package com.hugboga.custom.data.bean;
 
 
+import android.os.Parcel;
+import android.os.Parcelable;
 
-public class MostFitBean {
+public class MostFitBean implements  IBaseBean,Parcelable{
 
     /**
      * actualPrice : 153
@@ -57,4 +59,78 @@ public class MostFitBean {
         public String startTime;
         public int status;
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.actualPrice);
+        dest.writeString(this.applyArea);
+        dest.writeString(this.applyCar);
+        dest.writeString(this.applyCarClass);
+        dest.writeString(this.applyType);
+        dest.writeString(this.batchChannel);
+        dest.writeString(this.bindDateTime);
+        dest.writeString(this.bindUserId);
+        dest.writeInt(this.bindUserType);
+        dest.writeString(this.content);
+        dest.writeString(this.couponBatchId);
+        dest.writeString(this.couponBatchName);
+        dest.writeString(this.couponCode);
+        dest.writeString(this.couponId);
+        dest.writeInt(this.couponPrice);
+        dest.writeInt(this.couponType);
+        dest.writeString(this.createTime);
+        dest.writeInt(this.distanceUpperLimit);
+        dest.writeInt(this.durationUpperLimit);
+        dest.writeString(this.endTime);
+        dest.writeString(this.orderRuleRemark);
+        dest.writeString(this.priceInfo);
+        dest.writeString(this.startTime);
+        dest.writeInt(this.status);
+    }
+
+    public MostFitBean() {
+    }
+
+    protected MostFitBean(Parcel in) {
+        this.actualPrice = in.readInt();
+        this.applyArea = in.readString();
+        this.applyCar = in.readString();
+        this.applyCarClass = in.readString();
+        this.applyType = in.readString();
+        this.batchChannel = in.readString();
+        this.bindDateTime = in.readString();
+        this.bindUserId = in.readString();
+        this.bindUserType = in.readInt();
+        this.content = in.readString();
+        this.couponBatchId = in.readString();
+        this.couponBatchName = in.readString();
+        this.couponCode = in.readString();
+        this.couponId = in.readString();
+        this.couponPrice = in.readInt();
+        this.couponType = in.readInt();
+        this.createTime = in.readString();
+        this.distanceUpperLimit = in.readInt();
+        this.durationUpperLimit = in.readInt();
+        this.endTime = in.readString();
+        this.orderRuleRemark = in.readString();
+        this.priceInfo = in.readString();
+        this.startTime = in.readString();
+        this.status = in.readInt();
+    }
+
+    public static final Creator<MostFitBean> CREATOR = new Creator<MostFitBean>() {
+        @Override
+        public MostFitBean createFromParcel(Parcel source) {
+            return new MostFitBean(source);
+        }
+
+        @Override
+        public MostFitBean[] newArray(int size) {
+            return new MostFitBean[size];
+        }
+    };
 }
