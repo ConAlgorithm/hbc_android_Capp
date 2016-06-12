@@ -20,6 +20,7 @@ import com.hugboga.custom.adapter.viewholder.NewOrderVH;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.ChatInfo;
 import com.hugboga.custom.data.bean.OrderBean;
+import com.hugboga.custom.data.bean.OrderStatus;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.parser.ParserChatInfo;
 import com.hugboga.custom.fragment.BaseFragment;
@@ -292,7 +293,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
             case AGREE://导游已接单
             case ARRIVED://导游已到达
             case SERVICING://服务中
-                vh.mStatus.setText("服务中");
+                vh.mStatus.setText(orderBean.orderStatus.name);
                 vh.mStatusLayout.setVisibility(View.VISIBLE);
                 vh.lineView.setVisibility(View.VISIBLE);
                 vh.mPrice.setVisibility(View.GONE);
