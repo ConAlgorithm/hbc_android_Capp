@@ -335,8 +335,7 @@ public class FGOrderNew extends BaseFragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     dreamLeft.setChecked(false);
-
-
+                    allMoneyLeftText.setText("￥" + (mostFitBean.actualPrice  + OrderUtils.getSeat1PriceTotal(carListBean,manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean,manLuggageBean)));
                 }
             }
         });
@@ -345,9 +344,13 @@ public class FGOrderNew extends BaseFragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     couponLeft.setChecked(false);
+                    allMoneyLeftText.setText("￥" + (Integer.valueOf(deductionBean.priceToPay) + OrderUtils.getSeat1PriceTotal(carListBean,manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean,manLuggageBean)) + "");
 
-
-                }
+                    if(null == deductionBean.priceToPay) {
+                        allMoneyLeftText.setText("￥" + (carBean.price + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean)));
+                    }else{
+                        allMoneyLeftText.setText("￥" + (carBean.price - Integer.valueOf(deductionBean.priceToPay) + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean)));
+                    }
             }
         });
     }
@@ -639,13 +642,13 @@ public class FGOrderNew extends BaseFragment {
     //旅游基金
     String travelFund = "0";
     int money = 0;//旅游基金int
-
+    DeductionBean deductionBean;
     private void requestTravelFund() {
         RequestDeduction requestDeduction = new RequestDeduction(getActivity(), carBean.price + "");
         HttpRequestUtils.request(getActivity(), requestDeduction, new HttpRequestListener() {
             @Override
             public void onDataRequestSucceed(BaseRequest request) {
-                DeductionBean deductionBean = ((RequestDeduction) request).getData();
+                deductionBean = ((RequestDeduction) request).getData();
 
                 travelFund = deductionBean.deduction;
                 money = Integer.valueOf(travelFund);
@@ -662,7 +665,7 @@ public class FGOrderNew extends BaseFragment {
                         }
                     });
                 } else {
-                    dreamRight.setText("￥" + (deductionBean.deduction + deductionBean.leftAmount));
+                    dreamRight.setText("￥" + (Integer.valueOf(deductionBean.deduction) + Integer.valueOf(deductionBean.leftAmount)));
                     if (dreamLeft.isChecked()) {
                         allMoneyLeftText.setText("￥" + (Integer.valueOf(deductionBean.priceToPay) + OrderUtils.getSeat1PriceTotal(carListBean,manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean,manLuggageBean)) + "");
                     }
