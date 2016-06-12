@@ -1,7 +1,10 @@
 package com.hugboga.custom.utils;
 
+import android.content.Context;
 import android.text.TextUtils;
 
+import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
+import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.data.bean.AirPort;
 import com.hugboga.custom.data.bean.CarListBean;
@@ -16,13 +19,13 @@ import com.hugboga.custom.data.bean.OrderContact;
 import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.bean.SelectCarBean;
 import com.hugboga.custom.data.bean.SkuItemBean;
+import com.hugboga.custom.data.request.RequestGuideConflict;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
 import static android.R.attr.type;
-
 
 
 public class OrderUtils {
@@ -559,6 +562,8 @@ public class OrderUtils {
             orderBean.startAddressDetail = "";
             orderBean.startLocation = startBean.location;
         }
+        orderBean.realSendSms = contactUsersBean.isSendMessage ? "1" : "0";
+
         orderBean.serviceCityId = skuBean.depCityId;
         orderBean.serviceCityName = skuBean.depCityName;
         //出发地，到达地经纬度
@@ -582,5 +587,16 @@ public class OrderUtils {
 
 
         return orderBean;
+    }
+
+    public static void checkGuideCoflict(Context context,int orderType,int cityId,String guideIds,
+                                         String startTime,String endTime,String passCityId,
+                                         int totalDay,int carType,int carClass,HttpRequestListener listener){
+
+        RequestGuideConflict requestGuideConflict = new RequestGuideConflict(context,orderType,cityId,
+                guideIds,startTime,
+                endTime,passCityId,totalDay,
+                carType,carClass);
+        HttpRequestUtils.request(context, requestGuideConflict,listener);
     }
 }
