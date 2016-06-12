@@ -71,7 +71,7 @@ public class MenuItemAdapter extends BaseAdapter {
         }
 
         switch (mItems.get(position).itemType) {
-            case DEFAULT://TODO 活动提示
+            case DEFAULT:
                 ViewHolder viewHolder = null;
                 if (convertView == null) {
                     viewHolder = new ViewHolder();

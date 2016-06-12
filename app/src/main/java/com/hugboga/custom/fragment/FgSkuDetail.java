@@ -40,6 +40,12 @@ public class FgSkuDetail extends FgWebInfo {
             cityBean =  (CityBean)getArguments().getSerializable(WEB_CITY);
             source = getArguments().getString("source");
         }
+        fgLeftBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     @Event({R.id.header_right_btn,R.id.phone_consultation,R.id.goto_order})

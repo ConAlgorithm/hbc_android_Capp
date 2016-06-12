@@ -27,7 +27,7 @@ public class GuidesDetailData implements Serializable {
     private int countryId;
     private String countryName;//司导所在国家
     private String guideId;//导游id
-    private int guideLevel;//3全显示 5不显示包车
+    private int guideLevel;//5不显示包车
     private String guideName;//导游姓名
     private String guideNo;//导游编号
     private float serviceStar;//导游服务星级
@@ -143,6 +143,6 @@ public class GuidesDetailData implements Serializable {
     }
 
     public boolean isShowCharteredCar() {
-        return guideLevel == 3;
+        return guideLevel != 5;
     }
 }

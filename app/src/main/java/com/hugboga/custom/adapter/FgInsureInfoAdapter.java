@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.huangbaoche.hbcframe.adapter.BaseAdapter;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.CollectGuideBean;
+import com.hugboga.custom.data.bean.InsureListBean;
 import com.hugboga.custom.data.bean.InsureResultBean;
 import com.hugboga.custom.data.bean.TravelFundData;
 import com.hugboga.custom.utils.Tools;
@@ -23,7 +24,7 @@ import java.util.List;
 /**
  * Created by qingcha on 16/6/3.
  */
-public class FgInsureInfoAdapter extends BaseAdapter<InsureResultBean> {
+public class FgInsureInfoAdapter extends BaseAdapter<InsureListBean> {
 
     public FgInsureInfoAdapter(Context context) {
         super(context);
@@ -40,12 +41,12 @@ public class FgInsureInfoAdapter extends BaseAdapter<InsureResultBean> {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        final InsureResultBean bean = getItem(position);
-        holder.nameTV.setText(bean.name);
+        final InsureListBean bean = getItem(position);
+        holder.nameTV.setText(bean.insuranceUserName);
         holder.passportTV.setText(mContext.getString(R.string.insure_info_passport, bean.passportNo));
         holder.policyNumTV.setText(mContext.getString(R.string.insure_info_policy_num, TextUtils.isEmpty(bean.insuranceUserId) ? "----" : bean.insuranceUserId));
         holder.stateTV.setText(bean.getUserStatusString());
-        if (bean.userStatus == 4 || bean.userStatus == 7 || bean.userStatus == 8) {//失败的情况
+        if (bean.insuranceStatus == 4 || bean.insuranceStatus == 7 || bean.insuranceStatus == 8) {//失败的情况
             holder.stateTV.setTextColor(0xFFFE6635);
         } else {
             holder.stateTV.setTextColor(0xFF979797);
