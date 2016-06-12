@@ -46,11 +46,25 @@
             android:id="@+id/travel_item_status"
             android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
+            android:layout_height="36dp"
+            android:gravity="center_vertical"
             android:text="等待支付"
             android:textSize="13sp"
-            android:textColor="#fbd11a" />
+            android:textColor="#fce274" />
+        <TextView
+            android:id="@+id/travel_item_citys"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:layout_alignParentLeft="true"
+            android:layout_toLeftOf="@id/travel_item_status"
+            android:layout_marginRight="25dp"
+            android:lineSpacingExtra="3dp"
+            android:layout_centerVertical="true"
+            android:textSize="16sp"
+            android:text="中文送机"
+            android:textColor="#333333" />
     </RelativeLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -63,7 +77,7 @@
             android:layout_marginTop="0.5dp"
             android:layout_width="18dp"
             android:layout_height="18dp"
-            android:background="#343434"
+            android:background="@mipmap/order_time"
             />
         <TextView
             android:id="@+id/order_item_time_tv"
@@ -75,61 +89,75 @@
             android:textColor="#333333"
             />
         <TextView
-            android:id="@+id/order_item_time_hint_tv"
+            android:id="@+id/order_item_time_local_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="3dp"
             android:text="(台北时间)"
             android:textSize="13sp"
             android:textColor="#999999"
             />
     </LinearLayout>
     <LinearLayout
+        android:id="@+id/order_item_start_address_layout"
         android:layout_width="match_parent"
-        android:layout_height="22dp"
+        android:layout_height="wrap_content"
+        android:minHeight="22dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="13dp"
-        android:gravity="center_vertical"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
         android:orientation="horizontal">
         <ImageView
-            android:layout_marginTop="0.5dp"
+            android:id="@+id/order_item_start_address_iv"
+            android:layout_marginTop="1.5dp"
             android:layout_width="18dp"
             android:layout_height="18dp"
             android:background="#343434"
             />
         <TextView
+            android:id="@+id/order_item_start_address_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:lineSpacingExtra="2dp"
             android:layout_marginLeft="6dp"
+            android:maxLines="2"
+            android:ellipsize="end"
             android:text="经济5坐"
             android:textSize="14sp"
             android:textColor="#333333"
             />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="(台北时间)"
-            android:textSize="13sp"
-            android:textColor="#999999"
-            />
     </LinearLayout>
     <LinearLayout
+        android:id="@+id/order_item_end_address_layout"
         android:layout_width="match_parent"
-        android:layout_height="22dp"
+        android:layout_height="wrap_content"
+        android:minHeight="22dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="13dp"
-        android:gravity="center_vertical"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
         android:orientation="horizontal">
         <ImageView
-            android:layout_marginTop="0.5dp"
+            android:id="@+id/order_item_end_address_iv"
+            android:layout_marginTop="1.5dp"
             android:layout_width="18dp"
             android:layout_height="18dp"
             android:background="#343434"
             />
         <TextView
+            android:id="@+id/order_item_end_address_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="6dp"
+            android:lineSpacingExtra="2dp"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
             android:text="经济5坐"
+            android:maxLines="2"
+            android:ellipsize="end"
             android:textSize="14sp"
             android:textColor="#333333"
             />
@@ -144,6 +172,7 @@
         android:background="@color/default_dividing_line"
         />
     <RelativeLayout
+        android:id="@+id/travel_item_status_layout"
         android:layout_width="match_parent"
         android:layout_height="42dp"
         android:layout_marginLeft="13dp"
@@ -212,6 +241,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:textSize="13sp"
                 android:textColor="@color/travel_list_pay_color" />
         </LinearLayout>
 
@@ -253,7 +283,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/btn_round_travel"
                 android:text="立即支付"
-                android:textSize="@dimen/text_size_large"
+                android:textSize="13sp"
                 android:visibility="gone" />
 
             <TextView
@@ -270,7 +300,7 @@
     </RelativeLayout>
     <View
         android:layout_width="match_parent"
-        android:layout_height="10dp"
+        android:layout_height="5dp"
         android:background="#eeeeee"
         />
 </LinearLayout>
