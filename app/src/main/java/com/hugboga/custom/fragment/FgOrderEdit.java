@@ -337,7 +337,7 @@ public class FgOrderEdit extends BaseFragment {
             case R.id.up_right:
                 showTimeSelect();
             case R.id.up_address_right:
-                startArrivalSearch(orderBean.serviceCityId, orderBean.startLocation);//TODO 上车ID 和地址
+                startArrivalSearch(orderBean.serviceCityId, orderBean.startLocation);
                 break;
         }
     }
@@ -379,26 +379,15 @@ public class FgOrderEdit extends BaseFragment {
         requestParams.userEx = getUserExJson();
         requestParams.realUserEx = getRealUserExJson();
         requestParams.serviceRecTime = orderBean.serviceStartTime;
-
-//        requestParams.adultNum = orderBean.adult;
-//        requestParams.childNum = orderBean.child;
-//        requestParams.isArrivalVisa = orderBean.visa;
-//        requestParams.serviceDate = orderBean.serviceTime;
-
-//        requestParams.servicePassCitys = getRealUserExJson();
-//        requestParams.flightAirportCode = orderBean.flightAirportCode;//送机航班机场三字码
-//        requestParams.flightAirportName = getRealUserExJson();//送机机场名称
-//        requestParams.flightFlyTimeL = getRealUserExJson();
-//        requestParams.flightArriveTimeL = getRealUserExJson();
-//        requestParams.flightAirportBuiding = getRealUserExJson();
         requestData(new RequestOrderEdit(getActivity(), requestParams));
-        Log.i("aa", "hotelPhoneTextCodeClick.getText().toString() "+hotelPhoneTextCodeClick.getText().toString()+" -- "+hotelPhoneText.getText().toString());
     }
 
     @Override
     public void onDataRequestSucceed(BaseRequest _request) {
         if (_request instanceof RequestOrderEdit) {
             CommonUtils.showToast("信息修改成功");
+            EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_UPDATE_INFO, contactUsersBean.userName));
+            finish();
         }
     }
 

@@ -43,6 +43,9 @@ public class RequestOrderEdit extends BaseRequest<GuidesDetailData> {
         map.put("userEx", params.userEx);
         if (!TextUtils.isEmpty(params.realUserEx)) {
             map.put("realUserEx", params.realUserEx);
+            map.put("isRealUser", 2);
+        } else {
+            map.put("isRealUser", 1);
         }
         map.put("adultNum", params.adultNum);
         map.put("childNum", params.childNum);
@@ -96,5 +99,6 @@ public class RequestOrderEdit extends BaseRequest<GuidesDetailData> {
         public String flightAirportBuiding;//送机航站楼
         public String userEx;
         public String realUserEx;
+        public String isRealUser;//有乘车人 必须传入为2 没有1
     }
 }
