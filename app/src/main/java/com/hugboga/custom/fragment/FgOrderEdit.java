@@ -135,7 +135,7 @@ public class FgOrderEdit extends BaseFragment {
     }
 
     @Override
-    protected void initHeader() {//TODO 接机牌判断
+    protected void initHeader() {
         fgTitle.setText("出行人信息");
         fgLeftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -412,7 +412,7 @@ public class FgOrderEdit extends BaseFragment {
 
     private String getRealUserExJson() {
         StringBuffer realUserExJson = new StringBuffer();
-        if (!TextUtils.isEmpty(contactUsersBean.otherName)) {
+        if (contactUsersBean.isForOther && !TextUtils.isEmpty(contactUsersBean.otherName)) {
             realUserExJson.append("[");
             realUserExJson.append("{name:\"" + contactUsersBean.otherName + "\",areaCode:\"" + contactUsersBean.otherphoneCode + "\",mobile:\"" + contactUsersBean.otherPhone + "\"}");
             realUserExJson.append("]");

@@ -3,6 +3,7 @@ package com.hugboga.custom.adapter;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -21,6 +22,7 @@ import com.hugboga.custom.fragment.FgPickSend;
 import com.hugboga.custom.fragment.FgSingleNew;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.widget.RatingView;
+import com.umeng.analytics.MobclickAgent;
 
 import net.grobas.view.PolygonImageView;
 
@@ -28,6 +30,7 @@ import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import de.greenrobot.event.EventBus;
 

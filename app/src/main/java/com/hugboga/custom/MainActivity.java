@@ -608,23 +608,27 @@ public class MainActivity extends BaseActivity
      * @return
      */
     private boolean isLogin(String source) {
-        if (UserEntity.getUser().isLogin(this)) {
-            return true;
-        } else {
-            if(!TextUtils.isEmpty(source)){
-                Bundle bundle = new Bundle();;
-                bundle.putString("source",source);
-                startFragment(new FgLogin(), bundle);
+        try {
+            if (UserEntity.getUser().isLogin(this)) {
+                return true;
+            } else {
+                if(!TextUtils.isEmpty(source)){
+                    Bundle bundle = new Bundle();;
+                    bundle.putString("source",source);
+                    startFragment(new FgLogin(), bundle);
 
-                HashMap<String,String> map = new HashMap<String,String>();
-                map.put("source", source);
-                MobclickAgent.onEvent(MainActivity.this, "login_trigger", map);
-                return false;
-            }else{
-                startFragment(new FgLogin());
-                return false;
+                    HashMap<String,String> map = new HashMap<String,String>();
+                    map.put("source", source);
+                    MobclickAgent.onEvent(MainActivity.this, "login_trigger", map);
+                    return false;
+                }else{
+                    startFragment(new FgLogin());
+                    return false;
+                }
             }
+        } catch (Exception e) {
         }
+        return false;
     }
 
     @Override

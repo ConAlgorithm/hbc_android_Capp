@@ -41,6 +41,8 @@ import javax.net.ssl.SSLHandshakeException;
 public class FgWebInfo extends BaseFragment implements View.OnKeyListener {
 
     public static final String WEB_URL = "web_url";
+    public static final String CONTACT_SERVICE = "contact_service";
+
     public boolean isHttps = false;
     private DialogUtil mDialogUtil;
 
@@ -199,6 +201,16 @@ public class FgWebInfo extends BaseFragment implements View.OnKeyListener {
                 }
             }
         });
+        if (this.getArguments().getBoolean(CONTACT_SERVICE, false)) {
+            fgRightBtn.setVisibility(View.VISIBLE);
+            fgRightBtn.setText("联系客服");
+            fgRightBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mDialogUtil.showCallDialog();
+                }
+            });
+        }
     }
 
     @Override
