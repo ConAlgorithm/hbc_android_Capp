@@ -72,6 +72,7 @@ public class UserBean implements IBaseBean {
         UserEntity.getUser().setNickname(context, this.nickname);
         UserEntity.getUser().setAreaCode(context, this.areaCode);
         UserEntity.getUser().setImToken(context, imToken);
+        UserEntity.getUser().setUserName(context, name);
         if(!TextUtils.isEmpty(unionid)) {
             UserEntity.getUser().setUnionid(context, unionid);
         }

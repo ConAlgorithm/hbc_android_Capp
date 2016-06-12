@@ -235,7 +235,10 @@ public class FGOrderNew extends BaseFragment {
         });
 
         contactUsersBean = new ContactUsersBean();
-        String userName = UserEntity.getUser().getNickname(this.getActivity());
+        String userName = UserEntity.getUser().getUserName(this.getActivity());
+        if(TextUtils.isEmpty(userName)){
+            userName = UserEntity.getUser().getNickname(getActivity());
+        }
         String userPhone = UserEntity.getUser().getPhone(this.getActivity());
         contactUsersBean.userName = userName;
         contactUsersBean.userPhone = userPhone;
@@ -342,6 +345,8 @@ public class FGOrderNew extends BaseFragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     couponLeft.setChecked(false);
+
+
                 }
             }
         });

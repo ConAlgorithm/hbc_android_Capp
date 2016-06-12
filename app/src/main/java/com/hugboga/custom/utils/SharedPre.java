@@ -24,6 +24,7 @@ public class SharedPre {
 	public static String UNIONID ="unionid";
 	public static String USERAVATAR ="avatar";
 	public static String NICKNAME ="nickname";
+	public static String USERNAME = "username";
 	public static String PHONE ="login_phone";
 	public static String LOGIN_PHONE ="for_login_phone";
 	public static String CODE ="login_code";
@@ -240,6 +241,7 @@ public class SharedPre {
 		removeKey(key);
 		return value;
 	}
+
 	public void clean() {
 		removeKey(USERID);
 		removeKey(USERTOKEN);
@@ -251,5 +253,6 @@ public class SharedPre {
 		removeKey(ORDER_POINT_NUM);
 		removeKey(IS_WEAK_PSW);
 		removeKey(WEAK_PSW_MESSAGE);
+		removeKey(USERNAME);
 	}
 }
