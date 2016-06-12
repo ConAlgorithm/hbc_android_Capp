@@ -30,7 +30,7 @@ public class OrderBean implements IBaseBean ,Parcelable{
     public String userRemark;//备注信息
 
 
-    public Integer orderType;//1: 接机 2: 送机 3: 市内包车(由日租拆分出来) 4: 次租
+    public Integer orderType;//1: 接机 2: 送机 3: 市内包车(由日租拆分出来) 4: 次租 5线路包车
     public int orderGoodsType;//扩展字段   1: 接机 2: 送机 3: 市内包车(由日租拆分出来) 4: 次租 5: 精品线路(由日租拆分出来) 6: 小长途 (由日租拆分出来)7: 大长途 (由日租拆分出来)
     public String orderNo; //订单号
     //    public String orderID;
@@ -155,6 +155,7 @@ public class OrderBean implements IBaseBean ,Parcelable{
     public ArrayList<OrderContactBean> userList;//乘车人
     public ArrayList<OrderContactBean> realUserList;//联系人
     public int priceCommentReward;//好评奖励金额
+    public boolean carPool = false;//是否拼车
 
     public AppraisementBean appraisement;//评价内容
 
@@ -301,6 +302,7 @@ public class OrderBean implements IBaseBean ,Parcelable{
         dest.writeTypedList(this.realUserList);
         dest.writeInt(this.priceCommentReward);
         dest.writeSerializable(this.appraisement);
+        dest.writeByte(this.carPool ? (byte) 1 : (byte) 0);
     }
 
     public OrderBean() {
@@ -438,6 +440,7 @@ public class OrderBean implements IBaseBean ,Parcelable{
         this.userList = in.createTypedArrayList(OrderContactBean.CREATOR);
         this.realUserList = in.createTypedArrayList(OrderContactBean.CREATOR);
         this.appraisement = (AppraisementBean)in.readSerializable();
+        this.carPool = in.readByte() != 0;
     }
 
     public static final Creator<OrderBean> CREATOR = new Creator<OrderBean>() {
@@ -464,5 +467,27 @@ public class OrderBean implements IBaseBean ,Parcelable{
      * */
     public boolean isEvaluated() {
         return userCommentStatus == 1;
+    }
+
+    /**
+     * 保单状态
+     * */
+    public String getInsuranceStatus() {
+        String resultStr = "";
+        switch (insuranceStatusCode) {
+            case 1001:
+                resultStr = "全部购买";
+                break;
+            case 1002:
+                resultStr = "出现问题";
+                break;
+            case 1003:
+                resultStr = "注销保险";
+                break;
+            case 1004:
+                resultStr = "保单处理中";
+                break;
+        }
+        return resultStr;
     }
 }

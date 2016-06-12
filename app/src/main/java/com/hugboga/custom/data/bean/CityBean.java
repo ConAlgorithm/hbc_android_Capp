@@ -52,6 +52,9 @@ public class CityBean implements IBaseBean ,Parcelable,Cloneable {
     @Column(name = "has_airport")
     public boolean hasAirport;//0没有开通的机场 1开通 有开通的机场
 
+    @Column(name="description")
+    public String description;
+
     public boolean isSelected = false;//是否被选择
     public boolean isFirst = false;//是否第一个首字母出现
 
@@ -122,6 +125,7 @@ public class CityBean implements IBaseBean ,Parcelable,Cloneable {
         dest.writeString(this.keyWord);
         dest.writeByte(isNationality ? (byte) 1 : (byte) 0);
         dest.writeInt(cityType);
+        dest.writeString(description);
     }
 
     public CityBean() {
@@ -152,6 +156,7 @@ public class CityBean implements IBaseBean ,Parcelable,Cloneable {
         this.keyWord = in.readString();
         this.isNationality = in.readByte() != 0;
         this.cityType = in.readInt();
+        this.description = in.readString();
     }
 
     public static final Creator<CityBean> CREATOR = new Creator<CityBean>() {

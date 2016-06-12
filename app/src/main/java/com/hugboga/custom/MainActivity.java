@@ -338,7 +338,7 @@ public class MainActivity extends BaseActivity
 //        bundle.putString(FgOrder.KEY_ORDER_ID, message.orderID);
 //        startFragment(new FgOrder(), bundle);
         FgOrderDetail.Params params = new FgOrderDetail.Params();
-        params.orderGoodsType = message.orderType;
+        params.orderType = message.orderType;
         params.orderId = message.orderID;
         startFragment(FgOrderDetail.newInstance(params));
     }
@@ -478,6 +478,8 @@ public class MainActivity extends BaseActivity
     public void onBackPressed() {
         if (getFragmentList().size() > mSectionsPagerAdapter.getCount()) {
             doFragmentBack();
+        } else if (mViewPager.getCurrentItem() != 0) {
+            mViewPager.setCurrentItem(0);
         } else {
             if (drawer.isDrawerOpen(GravityCompat.START)) {
                 drawer.closeDrawer(GravityCompat.START);

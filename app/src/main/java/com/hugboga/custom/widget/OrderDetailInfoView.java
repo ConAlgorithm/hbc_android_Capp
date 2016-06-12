@@ -24,6 +24,7 @@ public class OrderDetailInfoView extends LinearLayout implements HbcViewBehavior
     private RelativeLayout insuranceGetLayout;
     private TextView nameTV;
     private TextView insurerTV;
+    private TextView insurerStateTV;
 
     public OrderDetailInfoView(Context context) {
         this(context, null);
@@ -38,6 +39,7 @@ public class OrderDetailInfoView extends LinearLayout implements HbcViewBehavior
 
         insuranceInfoLayout = (RelativeLayout) findViewById(R.id.order_detail_insurance_info_layout);
         insurerTV = (TextView) findViewById(R.id.order_detail_insurer_tv);
+        insurerStateTV = (TextView) findViewById(R.id.order_detail_insurer_state_tv);
 
         insuranceGetLayout = (RelativeLayout) findViewById(R.id.order_detail_insurance_get_layout);
     }
@@ -49,7 +51,7 @@ public class OrderDetailInfoView extends LinearLayout implements HbcViewBehavior
         }
         final OrderBean orderBean = (OrderBean) _data;
         nameTV.setText(orderBean.contactName);
-        if (orderBean.insuranceEnable && orderBean.orderStatus == OrderStatus.INITSTATE) { //是否添加保险
+        if (orderBean.orderStatus == OrderStatus.INITSTATE) {
             insuranceInfoLayout.setVisibility(View.GONE);
             insuranceGetLayout.setVisibility(View.VISIBLE);
             insuranceGetLayout.setOnClickListener(this);
@@ -58,6 +60,7 @@ public class OrderDetailInfoView extends LinearLayout implements HbcViewBehavior
             insuranceInfoLayout.setOnClickListener(this);
             insuranceGetLayout.setVisibility(View.GONE);
             insurerTV.setText(getContext().getString(R.string.order_detail_info, orderBean.insuranceList.size()));
+            insurerStateTV.setText(orderBean.getInsuranceStatus());
         } else {
             insuranceInfoLayout.setVisibility(View.GONE);
             insuranceGetLayout.setVisibility(View.GONE);
@@ -73,9 +76,6 @@ public class OrderDetailInfoView extends LinearLayout implements HbcViewBehavior
                 break;
             case R.id.order_detail_insurance_info_layout://投保人list
                 EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_LIST_INSURER));
-                break;
-            case R.id.order_detail_insurance_get_layout://添加投保人
-                EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_ADD_INSURER));
                 break;
         }
     }

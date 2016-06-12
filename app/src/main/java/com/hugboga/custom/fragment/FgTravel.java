@@ -389,7 +389,7 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, OnIt
                 bean = cancelAdapter.getDatas().get(position);
             }
             FgOrderDetail.Params params = new FgOrderDetail.Params();
-            params.orderGoodsType = bean.orderGoodsType;
+            params.orderType = bean.orderType;
             params.orderId = bean.orderNo;
             params.source = bean.orderType == 5 ? bean.serviceCityName : "首页";
             startFragment(FgOrderDetail.newInstance(params));

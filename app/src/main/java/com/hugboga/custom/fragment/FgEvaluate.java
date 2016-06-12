@@ -66,7 +66,7 @@ public class FgEvaluate extends BaseFragment implements RatingView.OnLevelChange
     private OrderBean orderBean;
     private DialogUtil mDialogUtil;
     private boolean isFirstIn = true;
-    private boolean isEvaluated = false;
+    private boolean isSubmitEvaluated = false;//是否提交过评价，提交了通知详情页更新。
 
     public static FgEvaluate newInstance(OrderBean orderBean) {
         FgEvaluate fragment = new FgEvaluate();
@@ -108,7 +108,7 @@ public class FgEvaluate extends BaseFragment implements RatingView.OnLevelChange
         fgLeftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isEvaluated) {
+                if (isSubmitEvaluated) {
                     EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_UPDATE_EVALUATION));
                 }
                 finish();
@@ -124,8 +124,7 @@ public class FgEvaluate extends BaseFragment implements RatingView.OnLevelChange
         describeTV.setText(guideInfo.guideCar);//TODO 折行
         plateNumberTV.setText(guideInfo.carNumber);
 
-        boolean isEvaluated = orderBean.userCommentStatus == 1 && orderBean.appraisement != null;//是否评价过
-        if (isEvaluated) {//已评价
+        if (isEvaluated()) {//已评价
             ratingview.setLevel(orderBean.appraisement.totalScore);
             if (TextUtils.isEmpty(orderBean.appraisement.content)) {
                 commentET.setVisibility(View.GONE);
@@ -152,11 +151,11 @@ public class FgEvaluate extends BaseFragment implements RatingView.OnLevelChange
             requestData(new RequestEvaluateTag(getContext(), orderBean.orderType));
         }
 
-        if (orderBean.priceCommentReward != 0 ) {//活动
+        if (isActive()) {//活动
             String activeText = null;
-            if (isEvaluated && orderBean.appraisement.totalScore >= 5) {
+            if (isEvaluated() && orderBean.appraisement.totalScore >= 5) {
                 activeText = getContext().getString(R.string.evaluate_active_evaluated_get, orderBean.priceCommentReward);
-            } else if (isEvaluated) {
+            } else if (isEvaluated()) {
                 activeText = getContext().getString(R.string.evaluate_active_evaluated);
             } else {//未评价
                 activeText = getContext().getString(R.string.evaluate_active, orderBean.priceCommentReward);
@@ -166,6 +165,20 @@ public class FgEvaluate extends BaseFragment implements RatingView.OnLevelChange
         } else {
             activeTV.setVisibility(View.GONE);
         }
+    }
+
+    /**
+     * 是否评价过
+     * */
+    private boolean isEvaluated() {
+        return orderBean.userCommentStatus == 1 && orderBean.appraisement != null;
+    }
+
+    /**
+     * 是否有活动
+     * */
+    private boolean isActive() {
+        return orderBean.priceCommentReward != 0;
     }
 
     @Override
@@ -193,6 +206,13 @@ public class FgEvaluate extends BaseFragment implements RatingView.OnLevelChange
         }
         scoreTV.setText(getScoreString(Math.round(level)));
         tagGroup.setLevelChanged((int)level);
+        if (!isEvaluated() && isActive()) {
+            if ((int)level == 5) {
+                ratingview.setAllItemBg(R.drawable.selector_evaluate_ratingbar_full);
+            } else {
+                ratingview.setAllItemBg(R.drawable.selector_evaluate_ratingbar);
+            }
+        }
     }
 
     @Event({R.id.evaluate_submit_tv})
@@ -226,7 +246,7 @@ public class FgEvaluate extends BaseFragment implements RatingView.OnLevelChange
             orderBean.appraisement.content = TextUtils.isEmpty(commentET.getText()) ? "" : commentET.getText().toString();
             initHeader();
             CommonUtils.showToast(R.string.evaluate_succeed);
-            isEvaluated = true;
+            isSubmitEvaluated = true;
         } else if (_request instanceof RequestEvaluateTag) {
             RequestEvaluateTag request = (RequestEvaluateTag) _request;
             EvaluateTagBean tagBean = request.getData();

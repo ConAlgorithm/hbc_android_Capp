@@ -78,12 +78,21 @@
             android:textColor="#333333"
             android:textSize="14sp" />
         <ImageView
+            android:id="@+id/order_detail_insurer_arrow_iv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:src="@mipmap/personalcenter_right" />
-
+        <TextView
+            android:id="@+id/order_detail_insurer_state_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/order_detail_insurer_arrow_iv"
+            android:layout_marginRight="5dp"
+            android:layout_centerVertical="true"
+            android:textColor="#999999"
+            android:textSize="13sp" />
     </RelativeLayout>
     <RelativeLayout
         android:id="@+id/order_detail_insurance_get_layout"
