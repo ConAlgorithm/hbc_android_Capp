@@ -62,8 +62,12 @@ import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
 
 import static com.hugboga.custom.R.id.all_day_num;
+import static com.hugboga.custom.R.id.baggage_text_click;
 import static com.hugboga.custom.R.id.driver_tips;
 import static com.hugboga.custom.R.id.luggage_num;
+import static com.hugboga.custom.R.id.people_text_click;
+import static com.hugboga.custom.R.id.start_city_click;
+import static com.hugboga.custom.R.id.start_layout_click;
 import static com.hugboga.custom.R.string.collect;
 
 /**
@@ -79,13 +83,13 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
     TextView headerTitle;
     @ViewInject(R.id.header_right_btn)
     ImageView headerRightBtn;
-    @ViewInject(R.id.start_city_click)
+    @ViewInject(start_city_click)
     TextView startCityClick;
     @ViewInject(R.id.full_day)
     RadioButton fullDay;
     @ViewInject(R.id.half_day)
     RadioButton halfDay;
-    @ViewInject(R.id.people_text_click)
+    @ViewInject(people_text_click)
     TextView peopleTextClick;
     @ViewInject(R.id.child_text)
     TextView childText;
@@ -93,13 +97,13 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
     LinearLayout showChildSeatLayout;
     @ViewInject(R.id.child_no_confirm_click)
     ImageView childNoConfirmClick;
-    @ViewInject(R.id.baggage_text_click)
+    @ViewInject(baggage_text_click)
     TextView baggageTextClick;
     @ViewInject(R.id.baggage_no_confirm_click)
     ImageView baggageNoConfirmClick;
     @ViewInject(R.id.start_date)
     TextView startDate;
-    @ViewInject(R.id.start_layout_click)
+    @ViewInject(start_layout_click)
     LinearLayout startLayoutClick;
     @ViewInject(R.id.end_date)
     TextView endDate;
@@ -827,11 +831,11 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
                         bundle.putSerializable(Constants.PARAMS_DATA, params);
                         fgCollectGuideList.setArguments(bundle);
                         startFragment(fgCollectGuideList);
+                    }else{
+                        Bundle bundle = new Bundle();//用于统计
+                        bundle.putString("source", "包车下单");
+                        startFragment(new FgLogin(), bundle);
                     }
-                }else{
-                    Bundle bundle = new Bundle();//用于统计
-                    bundle.putString("source", "包车下单");
-                    startFragment(new FgLogin(), bundle);
                 }
             }
     }
@@ -945,60 +949,86 @@ public class FgOrderSelectCity extends BaseFragment implements  NumberPicker.For
 
     boolean isHalfTravel = false;
 
-    @Event({R.id.choose_driver,R.id.minus, R.id.add, R.id.header_left_btn, R.id.start_city_click, R.id.people_text_click, R.id.show_child_seat_layout, R.id.child_no_confirm_click, R.id.baggage_text_click, R.id.baggage_no_confirm_click, R.id.start_layout_click, R.id.end_layout_click, R.id.go_city_text_click, R.id.next_btn_click})
+    @Event({R.id.choose_driver,R.id.minus, R.id.add, R.id.header_left_btn, start_city_click, people_text_click, R.id.show_child_seat_layout, R.id.child_no_confirm_click, baggage_text_click, R.id.baggage_no_confirm_click, start_layout_click, R.id.end_layout_click, R.id.go_city_text_click, R.id.next_btn_click})
     private void onClickView(View view) {
         switch (view.getId()) {
             case R.id.choose_driver:
-                if (UserEntity.getUser().isLogin(getActivity())) {
                     goCollectGuid(2);
-                }else{
-                    Bundle bundle = new Bundle();//用于统计
-                    bundle.putString("source", "包车下单");
-                    startFragment(new FgLogin(), bundle);
-                }
                 break;
             case R.id.minus:
-                if (childSeatNums >= 1) {
-                    childSeatNums--;
-                    childText.setText(getString(R.string.select_city_child) + childSeatNums);
+                if(null != collectGuideBean){
+                    ToastUtils.showShort(R.string.alert_del_after_edit);
+                }else {
+                    if (childSeatNums >= 1) {
+                        childSeatNums--;
+                        childText.setText(getString(R.string.select_city_child) + childSeatNums);
+                    }
                 }
                 break;
             case R.id.add:
-                if (childSeatNums <= 10) {
-                    childSeatNums++;
-                    childText.setText(getString(R.string.select_city_child) + childSeatNums);
+                if(null != collectGuideBean){
+                    ToastUtils.showShort(R.string.alert_del_after_edit);
+                }else {
+                    if (childSeatNums <= 10) {
+                        childSeatNums++;
+                        childText.setText(getString(R.string.select_city_child) + childSeatNums);
+                    }
                 }
                 break;
-            case R.id.start_city_click:
-                Bundle bundle = new Bundle();
-                bundle.putString(KEY_FROM, "startAddress");
-                bundle.putString("source", "首页");
-                startFragment(new FgChooseCity(), bundle);
+            case start_city_click:
+                if(null != collectGuideBean && !TextUtils.isEmpty(startCityClick.getText())){
+                    ToastUtils.showShort(R.string.alert_del_after_edit);
+                }else {
+                    Bundle bundle = new Bundle();
+                    bundle.putString(KEY_FROM, "startAddress");
+                    bundle.putString("source", "首页");
+                    startFragment(new FgChooseCity(), bundle);
+                }
                 break;
-            case R.id.people_text_click:
-                showSelectPeoplePop(1);
+            case people_text_click:
+                if(null != collectGuideBean && !TextUtils.isEmpty(peopleTextClick.getText())){
+                    ToastUtils.showShort(R.string.alert_del_after_edit);
+                }else {
+                    showSelectPeoplePop(1);
+                }
                 break;
             case R.id.show_child_seat_layout:
                 break;
             case R.id.child_no_confirm_click:
                 AlertDialogUtils.showAlertDialog(this.getActivity(), getString(R.string.man_no_confirm_tips));
                 break;
-            case R.id.baggage_text_click:
-                showSelectPeoplePop(2);
+            case baggage_text_click:
+                if(null != collectGuideBean && !TextUtils.isEmpty(baggageTextClick.getText())){
+                    ToastUtils.showShort(R.string.alert_del_after_edit);
+                }else {
+                    showSelectPeoplePop(2);
+                }
                 break;
             case R.id.baggage_no_confirm_click:
                 AlertDialogUtils.showAlertDialog(this.getActivity(), getString(R.string.baggage_no_confirm_tips));
                 break;
-            case R.id.start_layout_click:
-                showDaySelect(startDate);
-                savedCityBean = null;
+            case start_layout_click:
+                if(null != collectGuideBean && !TextUtils.isEmpty(startDate.getText())){
+                    ToastUtils.showShort(R.string.alert_del_after_edit);
+                }else {
+                    showDaySelect(startDate);
+                    savedCityBean = null;
+                }
                 break;
             case R.id.end_layout_click:
-                showDaySelect(endDate);
-                savedCityBean = null;
+                if(null != collectGuideBean && !TextUtils.isEmpty(endDate.getText())){
+                    ToastUtils.showShort(R.string.alert_del_after_edit);
+                }else {
+                    showDaySelect(endDate);
+                    savedCityBean = null;
+                }
                 break;
             case R.id.go_city_text_click:
-                showDaySelect(goCityTextClick);
+                if(null != collectGuideBean && !TextUtils.isEmpty(goCityTextClick.getText())){
+                    ToastUtils.showShort(R.string.alert_del_after_edit);
+                }else {
+                    showDaySelect(goCityTextClick);
+                }
                 break;
             case R.id.next_btn_click:
 
