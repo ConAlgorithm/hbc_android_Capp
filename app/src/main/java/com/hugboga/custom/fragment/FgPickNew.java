@@ -12,6 +12,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
+import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
@@ -30,6 +32,7 @@ import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestCheckPrice;
 import com.hugboga.custom.data.request.RequestCheckPriceForPickup;
 import com.hugboga.custom.utils.CarUtils;
+import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.utils.ToastUtils;
 import com.hugboga.custom.widget.DialogUtil;
@@ -267,30 +270,31 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
                     @Override
                     public void onClick(View v) {
                         if(UserEntity.getUser().isLogin(getActivity())) {
-                            FGOrderNew fgOrderNew = new FGOrderNew();
-                            Bundle bundle = new Bundle();
-                            bundle.putString("guideCollectId", "");
-                            bundle.putSerializable("collectGuideBean", null);
-                            bundle.putString("source", source);
-                            bundle.putSerializable(FgCar.KEY_FLIGHT, flightBean);
-                            bundle.putSerializable(FgCar.KEY_ARRIVAL, poiBean);
-                            bundle.putString("serverTime", flightBean.arrivalTime);
-                            bundle.putParcelable("carListBean", carListBean);
-                            bundle.putString("price", carBean.price + "");
-                            bundle.putString("distance", carListBean.distance + "");
-                            carBean.expectedCompTime = carListBean.estTime;
-                            bundle.putParcelable("carBean", CarUtils.carBeanAdapter(carBean));
-                            bundle.putInt("type", 1);
-                            bundle.putString("orderType", "1");
-                            bundle.putParcelable("manLuggageBean", manLuggageBean);
-                            bundle.putString("adultNum", manLuggageBean.mans + "");
-                            bundle.putString("childrenNum", manLuggageBean.childs + "");
-                            bundle.putString("childseatNum", manLuggageBean.childSeats + "");
-                            bundle.putString("luggageNum", manLuggageBean.luggages + "");
+                            if(null != collectGuideBean) {
+                                String sTime = serverDate+" "+""+":00";
+                                OrderUtils.checkGuideCoflict(getContext(), 4, cityBean.cityId,
+                                        null != collectGuideBean ? collectGuideBean.guideId : null, sTime,
+                                        DateUtils.getToTime(sTime,Integer.valueOf(carListBean.estTime)),
+                                        cityBean.cityId + "", 0, carBean.carType, carBean.carSeat,
+                                        new HttpRequestListener() {
+                                            @Override
+                                            public void onDataRequestSucceed(BaseRequest request) {
+                                                goOrder();
+                                            }
 
+                                            @Override
+                                            public void onDataRequestCancel(BaseRequest request) {
 
-                            fgOrderNew.setArguments(bundle);
-                            startFragment(fgOrderNew);
+                                            }
+
+                                            @Override
+                                            public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+
+                                            }
+                                        });
+                            }else{
+                                goOrder();
+                            }
                         }else{
                             Bundle bundle = new Bundle();//用于统计
                             bundle.putString("source", "接机下单");
@@ -302,6 +306,34 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
             default:
                 break;
         }
+    }
+
+
+    private void goOrder(){
+        FGOrderNew fgOrderNew = new FGOrderNew();
+        Bundle bundle = new Bundle();
+        bundle.putString("guideCollectId", "");
+        bundle.putSerializable("collectGuideBean", null);
+        bundle.putString("source", source);
+        bundle.putSerializable(FgCar.KEY_FLIGHT, flightBean);
+        bundle.putSerializable(FgCar.KEY_ARRIVAL, poiBean);
+        bundle.putString("serverTime", flightBean.arrivalTime);
+        bundle.putParcelable("carListBean", carListBean);
+        bundle.putString("price", carBean.price + "");
+        bundle.putString("distance", carListBean.distance + "");
+        carBean.expectedCompTime = carListBean.estTime;
+        bundle.putParcelable("carBean", CarUtils.carBeanAdapter(carBean));
+        bundle.putInt("type", 1);
+        bundle.putString("orderType", "1");
+        bundle.putParcelable("manLuggageBean", manLuggageBean);
+        bundle.putString("adultNum", manLuggageBean.mans + "");
+        bundle.putString("childrenNum", manLuggageBean.childs + "");
+        bundle.putString("childseatNum", manLuggageBean.childSeats + "");
+        bundle.putString("luggageNum", manLuggageBean.luggages + "");
+
+
+        fgOrderNew.setArguments(bundle);
+        startFragment(fgOrderNew);
     }
 
     @Override

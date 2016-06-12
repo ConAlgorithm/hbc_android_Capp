@@ -766,8 +766,8 @@ public class FGOrderNew extends BaseFragment {
                         mostFitAvailableBean.carTypeId = carBean.carType + "";
                         mostFitAvailableBean.distance = distance;
                         mostFitAvailableBean.expectedCompTime = (null == carBean.expectedCompTime) ? "" : carBean.expectedCompTime + "";
-                        mostFitAvailableBean.limit = 0 + "";
-                        mostFitAvailableBean.offset = 20 + "";
+                        mostFitAvailableBean.limit = 20 + "";
+                        mostFitAvailableBean.offset = 0 + "";
                         mostFitAvailableBean.priceChannel = carBean.price + "";
                         mostFitAvailableBean.useOrderPrice = carBean.price + "";
                         mostFitAvailableBean.serviceCityId = startCityId4MostFit + "";
