@@ -166,7 +166,7 @@ public class OrderUtils {
         orderBean.totalDays = (inNum + outNum);
         orderBean.isHalfDaily = isHalfTravel ? 1 : 0;
         orderBean.startAddress = startAddress;//upRight.getText().toString();
-        orderBean.startAddressDetail = "";//upSiteText.getText().toString();
+        orderBean.startAddressDetail = destAddressDetail;//upSiteText.getText().toString();
         orderBean.destAddressDetail = destAddressDetail;//upRight.getText().toString();
         orderBean.userName = userName;//manName.getText().toString();
         orderBean.stayCityListStr = passCities;
@@ -178,6 +178,7 @@ public class OrderUtils {
         orderBean.realUserName = contactUsersBean.otherName;
         orderBean.realAreaCode = contactUsersBean.otherphoneCode;
         orderBean.realMobile = contactUsersBean.otherPhone;
+
 
         if (contactUsersBean.isForOther) {
             orderBean.isRealUser = "2";
@@ -526,7 +527,8 @@ public class OrderUtils {
                                         String startDate, String serverTime, String distance,
                                         SelectCarBean carBean,String adultNum,String childrenNum,
                                         CityBean startBean, String getPassCityStr,
-                                        ContactUsersBean contactUsersBean,String userRemark,String userName){
+                                        ContactUsersBean contactUsersBean,
+                                        String userRemark,String userName){
         OrderBean orderBean = new OrderBean();//订单
 
         if (!TextUtils.isEmpty(guideCollectId)) {

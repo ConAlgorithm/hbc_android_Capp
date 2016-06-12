@@ -159,7 +159,7 @@ public class FGOrderNew extends BaseFragment {
     @Bind(pick_name)
     EditText pickName;
     @Bind(R.id.up_right)
-    TextView upRight;
+    TextView upRight;//上车时间
 
     @Bind(R.id.citys_line_title_tips)
     TextView citys_line_title_tips;
@@ -197,7 +197,7 @@ public class FGOrderNew extends BaseFragment {
     @Bind(R.id.other_layout)
     RelativeLayout otherLayout;
     @Bind(R.id.up_address_right)
-    TextView upAddressRight;
+    TextView upAddressRight;//上车地点
     @Bind(R.id.dream_right)
     TextView dreamRight;
     @Bind(R.id.airpost_name_left)
@@ -1026,7 +1026,7 @@ public class FGOrderNew extends BaseFragment {
                 endDate, outNum, inNum,
                 hotelPhoneText.getText().toString(), hotelPhoneTextCodeClick.getText().toString(),
                 startBean, isHalfTravel,
-                upRight.getText().toString(), endBean.placeName,
+                startBean.name, endBean.placeName,
                 manName.getText().toString(), passCities, mark.getText().toString(),
                 childseatNum, luggageNum,
                 contactUsersBean,
