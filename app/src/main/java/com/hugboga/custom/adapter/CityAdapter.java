@@ -128,11 +128,11 @@ public class CityAdapter extends BaseAdapter implements View.OnClickListener, On
             cityBean = (CityBean) ((List) getItem(position)).get(0);
         }
 
-        if (cityBean.firstLetter.equalsIgnoreCase("搜索历史")) {
+        if (cityBean.firstLetter != null && cityBean.firstLetter.equalsIgnoreCase("搜索历史")) {
             return HISTORY_ITEM;
-        } else if (cityBean.firstLetter.equalsIgnoreCase("热门城市")) {
+        } else if (cityBean.firstLetter != null && cityBean.firstLetter.equalsIgnoreCase("热门城市")) {
             return HOT_ITEM;
-        } else if (cityBean.firstLetter.equalsIgnoreCase("定位城市")) {
+        } else if (cityBean.firstLetter != null && cityBean.firstLetter.equalsIgnoreCase("定位城市")) {
             return LOCATION_ITEM;
         }else {
             return CITY_LIST_ITEM;
