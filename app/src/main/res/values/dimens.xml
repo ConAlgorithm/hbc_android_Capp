@@ -49,7 +49,7 @@
     <!-- Travel size -->
     <dimen name="travel_tab_height">42dp</dimen>
     <dimen name="travel_tab_bottom_width">68dp</dimen>
-    <dimen name="travel_tab_bottom_line_hegith">3dp</dimen>
+    <dimen name="travel_tab_bottom_line_hegith">4dp</dimen>
     <dimen name="travel_item_point_width">16dp</dimen>
     <dimen name="travel_item_head_width">32dp</dimen>
     <dimen name="travel_listview_empty_margin">-160dp</dimen>
