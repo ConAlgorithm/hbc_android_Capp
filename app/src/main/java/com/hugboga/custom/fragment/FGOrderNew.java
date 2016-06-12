@@ -832,7 +832,7 @@ public class FGOrderNew extends BaseFragment {
                 codeTv.setText("+" + areaCode);
             }
         } else if (FgPoiSearch.class.getSimpleName().equals(fragmentName)) {
-            PoiBean poiBean = (PoiBean) bundle.getSerializable(FgPoiSearch.KEY_ARRIVAL);
+            poiBean = (PoiBean) bundle.getSerializable(FgPoiSearch.KEY_ARRIVAL);
             upAddressRight.setText(poiBean.placeName + "\n" + poiBean.placeDetail);
         }
     }
@@ -1003,7 +1003,7 @@ public class FGOrderNew extends BaseFragment {
                  startDate,  serverTime,  distance,
                 carBean, adultNum, childrenNum,
                  startBean,  getPassCityStr(),
-                 contactUsersBean, mark.getText().toString(), manName.getText().toString());
+                 contactUsersBean, mark.getText().toString(), manName.getText().toString(),poiBean);
 
     }
 
@@ -1038,7 +1038,7 @@ public class FGOrderNew extends BaseFragment {
                 contactUsersBean,
                 dreamLeft.isChecked(), travelFund,
                 couponBean, mostFitBean,
-                guideCollectId);
+                guideCollectId,poiBean);
     }
 
     private OrderBean getPickOrderByInput() {

@@ -139,15 +139,15 @@ public class OrderUtils {
                                          ContactUsersBean contactUsersBean ,
                                          boolean dreamLeftIscheck,String travelFund,
                                          CouponBean couponBean,MostFitBean mostFitBean,
-                                         String guideCollectId) {
+                                         String guideCollectId,PoiBean poiBean) {
         OrderBean orderBean = new OrderBean();//订单
         orderBean.adult = Integer.valueOf(adultNum);
         orderBean.carDesc = carBean.carDesc;
         orderBean.seatCategory = carBean.seatCategory;
         orderBean.carType = carBean.carType;
         orderBean.child = Integer.valueOf(childrenNum);
-        orderBean.destAddress = endCityId;
-        orderBean.destAddressDetail = endBean.placeName;
+        orderBean.destAddress = poiBean.placeName;
+        orderBean.destAddressDetail = poiBean.placeDetail;
         orderBean.priceMark = carBean.pricemark;
         orderBean.contact = contact;
         orderBean.serviceStartTime = serverTime + ":00";
@@ -334,7 +334,6 @@ public class OrderUtils {
         orderBean.seatCategory = carBean.seatCategory;
         orderBean.carType = carBean.carType;
         orderBean.child = Integer.valueOf(childrenNum);
-        orderBean.destAddress = endCityId;
         orderBean.serviceCityId = Integer.valueOf(startCityId);
         orderBean.serviceEndCityid = Integer.valueOf(endCityId);
         orderBean.serviceCityName = startCityName;
@@ -528,7 +527,7 @@ public class OrderUtils {
                                         SelectCarBean carBean,String adultNum,String childrenNum,
                                         CityBean startBean, String getPassCityStr,
                                         ContactUsersBean contactUsersBean,
-                                        String userRemark,String userName){
+                                        String userRemark,String userName,PoiBean poiBean){
         OrderBean orderBean = new OrderBean();//订单
 
         if (!TextUtils.isEmpty(guideCollectId)) {
@@ -571,7 +570,8 @@ public class OrderUtils {
         orderBean.serviceCityName = skuBean.depCityName;
         //出发地，到达地经纬度
         orderBean.terminalLocation = null;
-        orderBean.destAddress = skuBean.arrCityName;
+        orderBean.destAddress = poiBean.placeName;
+        orderBean.destAddressDetail = poiBean.placeDetail;
         orderBean.serviceEndCityid = skuBean.arrCityId;
         orderBean.serviceEndCityName = skuBean.arrCityName;
         orderBean.totalDays = skuBean.daysCount;
