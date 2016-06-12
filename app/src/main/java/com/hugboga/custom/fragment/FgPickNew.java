@@ -312,8 +312,8 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
     private void goOrder(){
         FGOrderNew fgOrderNew = new FGOrderNew();
         Bundle bundle = new Bundle();
-        bundle.putString("guideCollectId", "");
-        bundle.putSerializable("collectGuideBean", null);
+        bundle.putString("guideCollectId", collectGuideBean == null ? "" : collectGuideBean.guideId);
+        bundle.putSerializable("collectGuideBean", collectGuideBean == null ? null : collectGuideBean);
         bundle.putString("source", source);
         bundle.putSerializable(FgCar.KEY_FLIGHT, flightBean);
         bundle.putSerializable(FgCar.KEY_ARRIVAL, poiBean);

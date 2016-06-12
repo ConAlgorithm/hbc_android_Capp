@@ -1,10 +1,7 @@
 package com.hugboga.custom.fragment;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,12 +17,13 @@ import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
-import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.AirPort;
+import com.hugboga.custom.data.bean.CarBean;
 import com.hugboga.custom.data.bean.CarListBean;
 import com.hugboga.custom.data.bean.CityBean;
+import com.hugboga.custom.data.bean.CollectGuideBean;
 import com.hugboga.custom.data.bean.ContactUsersBean;
 import com.hugboga.custom.data.bean.CouponBean;
 import com.hugboga.custom.data.bean.DeductionBean;
@@ -50,9 +48,9 @@ import com.hugboga.custom.data.request.RequestSubmitDaily;
 import com.hugboga.custom.data.request.RequestSubmitPick;
 import com.hugboga.custom.data.request.RequestSubmitRent;
 import com.hugboga.custom.data.request.RequestSubmitSend;
+import com.hugboga.custom.utils.CarUtils;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.OrderUtils;
-import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.utils.ToastUtils;
 import com.umeng.analytics.MobclickAgent;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
@@ -71,7 +69,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
 
-import static android.app.Activity.RESULT_OK;
 import static com.hugboga.custom.R.id.airport_name;
 import static com.hugboga.custom.R.id.man_name;
 import static com.hugboga.custom.R.id.pick_name;
@@ -281,7 +278,7 @@ public class FGOrderNew extends BaseFragment {
     private FlightBean flightBean;//航班信息 接机
     private PoiBean poiBean;//达到目的地
 
-
+    CollectGuideBean collectGuideBean;
     @Override
     protected void initView() {
         passCityList = (ArrayList<CityBean>) getArguments().getSerializable("passCityList");
@@ -289,6 +286,9 @@ public class FGOrderNew extends BaseFragment {
         manLuggageBean = (ManLuggageBean) getArguments().getParcelable("manLuggageBean");
         carListBean = this.getArguments().getParcelable("carListBean");
         guideCollectId = this.getArguments().getString("guideCollectId");
+
+        collectGuideBean = this.getArguments().getParcelable("collectGuideBean");
+
         carBean = this.getArguments().getParcelable("carBean");
 
         startCityId = this.getArguments().getString("startCityId");
@@ -376,6 +376,15 @@ public class FGOrderNew extends BaseFragment {
     }
 
 
+    private String getCarDesc(){
+        if(null != collectGuideBean) {
+            return collectGuideBean.carDesc + collectGuideBean.carClass + "座";
+        }else{
+            return carBean.carDesc;
+        }
+    }
+
+
     AirPort airPort;
     boolean isCheckIn = false;
     String serverDate;
@@ -396,7 +405,6 @@ public class FGOrderNew extends BaseFragment {
         serverTime = this.getArguments().getString("serverTime");
         carBean = this.getArguments().getParcelable("carBean");
 
-
         citysLineTitle.setText("当地时间" + serverDate + "(" + DateUtils.getWeekOfDate(serverDate) + ")" + "  " + serverTime);
         citys_line_title_tips.setVisibility(View.GONE);
 
@@ -408,7 +416,7 @@ public class FGOrderNew extends BaseFragment {
         endHospitalTitle.setText(airPort.airportName);
         endHospitalTitleTips.setVisibility(View.GONE);
 
-        carSeat.setText(carBean.carDesc);
+        carSeat.setText(getCarDesc());
         carSeatTips.setText("(" + "乘坐" + (Integer.valueOf(adultNum) + Integer.valueOf(childrenNum)) + "人,行李箱" + luggageNum + "件,儿童座椅" + childseatNum + "个)");
 
         airportNameLayout.setVisibility(View.VISIBLE);
@@ -450,7 +458,7 @@ public class FGOrderNew extends BaseFragment {
         endHospitalTitle.setText(poiBean.placeName);
         endHospitalTitleTips.setText(poiBean.placeDetail);
 
-        carSeat.setText(carBean.carDesc);
+        carSeat.setText(getCarDesc());
         carSeatTips.setText("(" + "乘坐" + (Integer.valueOf(adultNum) + Integer.valueOf(childrenNum)) + "人,行李箱" + luggageNum + "件,儿童座椅" + childseatNum + "个)");
         allMoneyLeftText.setText("￥" + (carBean.price + OrderUtils.getSeat1PriceTotal(carListBean,manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean,manLuggageBean)));
 
@@ -491,7 +499,7 @@ public class FGOrderNew extends BaseFragment {
         singleNoShowTime.setVisibility(View.GONE);
         singleNoShowAddress.setVisibility(View.GONE);
 
-        carSeat.setText(carBean.carDesc);
+        carSeat.setText(getCarDesc());
         carSeatTips.setText("(" + "乘坐" + (Integer.valueOf(adultNum) + Integer.valueOf(childrenNum)) + "人,行李箱" + luggageNum + "件,儿童座椅" + childseatNum + "个)");
         allMoneyLeftText.setText("￥" + (carBean.price + OrderUtils.getSeat1PriceTotal(carListBean,manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean,manLuggageBean)));
 
@@ -523,7 +531,7 @@ public class FGOrderNew extends BaseFragment {
 
         allMoneyLeftText.setText("￥" + (carBean.price + OrderUtils.getSeat1PriceTotal(carListBean,manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean,manLuggageBean)));
 
-        carSeat.setText(carBean.carDesc);
+        carSeat.setText(getCarDesc());
         carSeatTips.setText("(" + "乘坐" + (Integer.valueOf(adultNum) + Integer.valueOf(childrenNum)) + "人,行李箱" + luggageNum + "件,儿童座椅" + childseatNum + "个)");
 
     }
@@ -622,7 +630,7 @@ public class FGOrderNew extends BaseFragment {
         childseatNum = this.getArguments().getString("childseatNum");
         luggageNum = this.getArguments().getString("luggageNum");
 
-        carSeat.setText(carBean.carDesc);
+        carSeat.setText(getCarDesc());
         carSeatTips.setText("(" + "乘坐" + (Integer.valueOf(adultNum) + Integer.valueOf(childrenNum)) + "人,行李箱" + luggageNum + "件,儿童座椅" + childseatNum + "个)");
         startHospitalTitle.setVisibility(View.GONE);
         startHospitalTitleTips.setVisibility(View.GONE);
