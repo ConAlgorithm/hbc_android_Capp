@@ -62,8 +62,12 @@ public class TravelFundAdapter extends BaseAdapter<TravelFundData.TravelFundBean
         holder.nameTV.setText(bean.getUsername());
         holder.sourceTV.setText(bean.getSource());
         holder.dateTV.setText(bean.getCreateDate());
-        holder.amountTV.setText(bean.getAmount());
-
+        holder.amountTV.setText("" + bean.getAmount());
+        if (bean.getAmount() >= 0) {
+            holder.signTV.setVisibility(View.VISIBLE);
+        } else {
+            holder.signTV.setVisibility(View.GONE);
+        }
         return convertView;
     }
 

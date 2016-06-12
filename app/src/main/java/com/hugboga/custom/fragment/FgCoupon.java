@@ -105,7 +105,7 @@ public class FgCoupon extends BaseFragment implements AdapterView.OnItemClickLis
             orderPrice = bundle.getDouble(ORDER_PRICE);
         }
 
-        fgTitle.setText("推荐奖励");
+        fgTitle.setText("优惠券");
         listView.setEmptyView(emptyLayout);
         listView.setOnItemClickListener(this);
         listView.setonRefreshListener(onRefreshListener);

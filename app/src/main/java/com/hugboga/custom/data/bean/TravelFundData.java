@@ -64,8 +64,8 @@ public class TravelFundData implements Serializable {
         private int gender;
         private int source;
 
-        public String getAmount() {
-            return String.valueOf(amount);
+        public double getAmount() {
+            return amount;
         }
 
         public String getAvatar() {

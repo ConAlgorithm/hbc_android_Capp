@@ -269,6 +269,9 @@ public class FgOrderDetail extends BaseFragment {
             case ORDER_DETAIL_UPDATE_INFO://更新个人信息UI
                 requestData();
                 break;
+            case ORDER_DETAIL_UPDATE://刷新数据
+                requestData();
+                break;
             case ORDER_DETAIL_TOURIST_INFO://出行人信息
                 if (orderBean == null) {
                     return;
@@ -362,6 +365,7 @@ public class FgOrderDetail extends BaseFragment {
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
                 bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_PROBLEM);
+                bundle.putBoolean(FgWebInfo.CONTACT_SERVICE, true);
                 startFragment(new FgWebInfo(), bundle);
                 popup.dismiss();
             }
