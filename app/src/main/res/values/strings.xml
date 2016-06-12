@@ -21,6 +21,7 @@
     <string name="more">更多</string>
     <string name="pick_up">收起</string>
     <string name="sign_rmb">¥</string>
+    <string name="separator">%1$s-%2$s</string>
 
     <!-- Basic name -->
     <string name="call_info_tip">如有问题，请拨打客服电话 4006 1000 66</string>用户协议
@@ -597,14 +598,11 @@
     <string name="order_detail_local_time">当地时间&#160;%1$s</string>
     <string name="order_detail_airport_card">接机举牌等待</string>
     <string name="order_detail_seat_info">（%1$s）</string>
-    <string name="order_detail_flight">航班%1$s&#160;%2$s-%3$s</string>
+    <string name="order_detail_flight">航班%1$s&#160;</string>
     <string name="order_detail_insurance_describe">皇包车帮您购买出境平安险，保额高达8万元</string>
     <string name="order_detail_get_insurance">赠价值8万的平安保险</string>
     <string name="order_detail_opean">展开详情</string>
     <string name="order_detail_close">关闭详情</string>
-    <string name="order_detail_citytype_inside">第%1$s天：住在%2$s，市内游玩"</string>
-    <string name="order_detail_citytype_outside">第%1$s天：住在%2$s，周边游玩"</string>
-    <string name="order_detail_citytype_other">第%1$s天：住在其它城市%2$s"</string>
     <string name="order_detail_cost_chartered">包车费用</string>
     <string name="order_detail_cost_child_seats">儿童座椅</string>
     <string name="order_detail_cost_placards">举牌费用</string>
@@ -614,5 +612,7 @@
     <string name="order_detail_cost_travelfund">旅游基金</string>
     <string name="order_detail_cost_realpay">实付款</string>
     <string name="order_detail_local_chartered">%1$s-%2$s天包车</string>
+
+    <string name="alert_del_after_edit">请在删除指定司导后，再修改出行信息</string>
 
 </resources>

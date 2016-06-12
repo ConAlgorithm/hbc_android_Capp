@@ -139,11 +139,11 @@ public class FgNewOrder extends BaseFragment implements ZBaseAdapter.OnItemClick
 //                bundle.putString(FgOrder.KEY_ORDER_ID, order.orderNo);
 //                startFragment(new FgOrder(), bundle);
                 FgOrderDetail.Params params = new FgOrderDetail.Params();
-                params.orderGoodsType = order.orderGoodsType;
+                params.orderType = order.orderType;
                 params.orderId = order.orderNo;
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(Constants.PARAMS_DATA, params);
-                startFragment(new FgOrder(), bundle);
+                startFragment(new FgOrderDetail(), bundle);
             }
         }
     }

@@ -383,7 +383,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
 //                    bundle.putString("source", mOrderBean.orderType == 5 ? mOrderBean.serviceCityName : "首页");
 //                    fragment.startFragment(new FgOrder(), bundle);
                     FgOrderDetail.Params params = new FgOrderDetail.Params();
-                    params.orderGoodsType = mOrderBean.orderGoodsType;
+                    params.orderType = mOrderBean.orderType;
                     params.orderId = mOrderBean.orderNo;
                     params.source =  mOrderBean.orderType == 5 ? mOrderBean.serviceCityName : "首页";
                     Bundle bundle = new Bundle();
