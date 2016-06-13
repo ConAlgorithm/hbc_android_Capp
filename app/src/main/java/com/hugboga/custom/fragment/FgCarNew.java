@@ -27,7 +27,9 @@ import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestCollectGuidesFilter;
+import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.CarUtils;
+import com.hugboga.custom.utils.ToastUtils;
 import com.hugboga.custom.widget.JazzyViewPager;
 
 import org.xutils.common.Callback;
@@ -41,6 +43,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
 
+import static android.R.attr.type;
 import static com.hugboga.custom.R.id.child_count_cost;
 import static com.hugboga.custom.R.id.choose_driver;
 import static com.hugboga.custom.R.id.del_text;
@@ -180,6 +183,10 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
         }
     }
 
+    int cityId = -1;
+    String startTime = null;
+    String endTime = null;
+
     private void hideChildSeatLayout(int seatNums) {
         if (seatNums > 1) {
             chargeSeatLayout.setVisibility(View.VISIBLE);
@@ -200,6 +207,9 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
 
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
+            case GUIDE_ERROR_TIME:
+                driverTips.setVisibility(View.VISIBLE);
+                break;
             case MAN_CHILD_LUUAGE:
                 manLuggageBean = (ManLuggageBean) action.getData();
                 manTips.setVisibility(View.GONE);
@@ -328,6 +338,10 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
     protected void initView() {
         initView(getView());
 
+        cityId = this.getArguments().getInt("cityId");
+        startTime = this.getArguments().getString("startTime");
+        endTime = this.getArguments().getString("endTime");
+
         checkSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -404,22 +418,26 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
             driverName.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    FgCollectGuideList fgCollectGuideList = new FgCollectGuideList();
-//                    Bundle bundle = new Bundle();
-//                    RequestCollectGuidesFilter.CollectGuidesFilterParams params = new RequestCollectGuidesFilter.CollectGuidesFilterParams();
-//                    params.startCityId = startBean.cityId;
-//                    params.startTime = isHalfTravel ? halfDate + " 00:00:00" : start_date_str + " 00:00:00";
-//                    params.endTime = isHalfTravel ? halfDate + " 00:00:00" : end_date_str + " 00:00:00";
-//                    params.adultNum = collectGuideBean.numOfPerson;
-//                    params.childrenNum = collectGuideBean.numOfPerson;
-//                    params.childSeatNum = collectGuideBean.carClass;
-//                    params.luggageNum = collectGuideBean.numOfLuggage;
-//                    params.orderType = 5;
-//                    params.totalDays = 0;
-//                    params.passCityId = startBean.cityId+"";
-//                    bundle.putSerializable(Constants.PARAMS_DATA, params);
-//                    fgCollectGuideList.setArguments(bundle);
-//                    startFragment(fgCollectGuideList);
+                    if(TextUtils.isEmpty(startTime)){
+                        AlertDialogUtils.showAlertDialogOneBtn(getActivity(), getString(R.string.dairy_choose_guide), "好的");
+                    }else {
+                        FgCollectGuideList fgCollectGuideList = new FgCollectGuideList();
+                        Bundle bundle = new Bundle();
+                        RequestCollectGuidesFilter.CollectGuidesFilterParams params = new RequestCollectGuidesFilter.CollectGuidesFilterParams();
+                        params.startCityId = cityId;
+                        params.startTime = startTime;
+                        params.endTime = endTime;
+                        params.adultNum = collectGuideBean.numOfPerson;
+                        params.childrenNum = collectGuideBean.numOfPerson;
+                        params.childSeatNum = collectGuideBean.carClass;
+                        params.luggageNum = collectGuideBean.numOfLuggage;
+                        params.orderType = type;
+                        params.totalDays = 0;
+                        params.passCityId = cityId + "";
+                        bundle.putSerializable(Constants.PARAMS_DATA, params);
+                        fgCollectGuideList.setArguments(bundle);
+                        startFragment(fgCollectGuideList);
+                    }
                 }
             });
             genCar();

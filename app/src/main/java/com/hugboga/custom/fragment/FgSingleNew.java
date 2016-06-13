@@ -35,6 +35,7 @@ import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestCheckPrice;
 import com.hugboga.custom.data.request.RequestCheckPriceForSingle;
+import com.hugboga.custom.data.request.RequestGuideConflict;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.CarUtils;
 import com.hugboga.custom.utils.DateUtils;
@@ -51,6 +52,7 @@ import org.xutils.view.annotation.ContentView;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -339,7 +341,13 @@ public class FgSingleNew extends BaseFragment {
                                         new HttpRequestListener() {
                                             @Override
                                             public void onDataRequestSucceed(BaseRequest request) {
-                                                goOrder();
+                                                RequestGuideConflict requestGuideConflict = (RequestGuideConflict)request;
+                                                List<String> list = requestGuideConflict.getData();
+                                                if(list.size() > 0) {
+                                                    goOrder();
+                                                }else{
+                                                    EventBus.getDefault().post(new EventAction(EventType.GUIDE_ERROR_TIME));
+                                                }
                                             }
 
                                             @Override
@@ -438,6 +446,14 @@ public class FgSingleNew extends BaseFragment {
             bundle.putSerializable("collectGuideBean", collectGuideBean);
             bundle.putParcelable("carListBean", carListBean);
             bundle.putBoolean("isDataBack",isDataBack);
+
+            if(isDataBack) {
+                String sTime = serverDate + " " + serverTime+":00";
+                bundle.putInt("cityId", cityId);
+                bundle.putString("startTime", sTime);
+                bundle.putString("endTime", DateUtils.getToTime(sTime,Integer.valueOf(carListBean.estTime)));
+             }
+
             fgCarNew.setArguments(bundle);
             transaction.add(R.id.show_cars_layout_single, fgCarNew);
             transaction.commit();

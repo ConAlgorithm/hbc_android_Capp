@@ -26,8 +26,10 @@ import com.hugboga.custom.data.bean.ManLuggageBean;
 import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestCheckPrice;
 import com.hugboga.custom.data.request.RequestCheckPriceForTransfer;
+import com.hugboga.custom.data.request.RequestGuideConflict;
 import com.hugboga.custom.utils.CarUtils;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.OrderUtils;
@@ -42,6 +44,7 @@ import org.xutils.view.annotation.ContentView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -253,7 +256,13 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
                                         new HttpRequestListener() {
                                             @Override
                                             public void onDataRequestSucceed(BaseRequest request) {
-                                                goOrder();
+                                                RequestGuideConflict requestGuideConflict = (RequestGuideConflict)request;
+                                                List<String> list = requestGuideConflict.getData();
+                                                if(list.size() > 0) {
+                                                    goOrder();
+                                                }else{
+                                                    EventBus.getDefault().post(new EventAction(EventType.GUIDE_ERROR_TIME));
+                                                }
                                             }
 
                                             @Override
