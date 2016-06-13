@@ -278,7 +278,7 @@ public class FgSkuNew extends BaseFragment {
         if (getArguments() != null) {
             bundle.putAll(getArguments());
         }
-        bundle.putSerializable("carListBean", carListBean);
+        bundle.putParcelable("carListBean", carListBean);
         fgCarNew.setArguments(bundle);
         transaction.add(R.id.show_cars_layout_sku, fgCarNew);
         transaction.commit();
