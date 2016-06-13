@@ -27,6 +27,9 @@ public class ParserLogin extends ImplParser {
         bean.unionid = jsonObj.optString("unionid");
         bean.isNotRegister = jsonObj.optInt("isNotRegister", -1);
         bean.name = jsonObj.optString("name");
+        bean.isNotRegister = jsonObj.optInt("isNotRegister", -1);
+        bean.travelFund = jsonObj.optInt("travelFund", 0);
+        bean.coupons = jsonObj.optInt("coupons", 0);
         return bean;
     }
 }

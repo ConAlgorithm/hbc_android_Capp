@@ -91,7 +91,7 @@ public class OrderDetailAmountView extends LinearLayout implements HbcViewBehavi
         }
         String priceText = getContext().getString(R.string.sign_rmb) + price;
         if (titleID == R.string.order_detail_cost_coupon) {
-            priceText = "- " + priceText;
+            priceText = getContext().getString(R.string.sign_rmb) + " -" + price;
         } else if (titleID == R.string.order_detail_cost_realpay) {
             priceTV.setTextColor(0xFFFE6732);
         }

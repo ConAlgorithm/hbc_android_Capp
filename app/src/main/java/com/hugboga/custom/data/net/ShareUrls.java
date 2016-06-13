@@ -30,15 +30,10 @@ public final class ShareUrls {
     /**
      * 分享司导
      */
-    public static String getShareGuideUrl(GuidesDetailData data, String userName) {
+    public static String getShareGuideUrl(GuidesDetailData data, String userId) {
         ArrayMap<String, String> params = new ArrayMap<String, String>();
-        params.put("gid", data.getGuideId());//司导ID
-        params.put("avatar", data.getAvatar());//司导头像
-        params.put("gcity", CommonUtils.getEncodedString(data.getCityName()));//司导服务城市
-        params.put("glevel", String.valueOf(data.getServiceStar()));//司导星级
-//        params.put("gdes", "");//对司导的评价
-        params.put("uname", CommonUtils.getEncodedString(userName));//做出评价的用户昵称
-        params.put("name", CommonUtils.getEncodedString(data.getGuideName()));//司导名称
+        params.put("gid", CommonUtils.getEncodedString(data.getGuideId()));//司导ID
+        params.put("uid", userId);
         return getUri(SHARE_GUIDE, params);
     }
 

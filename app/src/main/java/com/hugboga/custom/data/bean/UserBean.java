@@ -25,6 +25,8 @@ public class UserBean implements IBaseBean {
     public int isNotRegister;
     public String unionid;
     public String name;//真实姓名
+    public int travelFund;//旅游基金
+    public int coupons;//优惠券
 
     public String getGenderStr() {
         switch (gender) {
@@ -73,8 +75,11 @@ public class UserBean implements IBaseBean {
         UserEntity.getUser().setAreaCode(context, this.areaCode);
         UserEntity.getUser().setImToken(context, imToken);
         UserEntity.getUser().setUserName(context, name);
+        UserEntity.getUser().setPhone(context, mobile);
         if(!TextUtils.isEmpty(unionid)) {
             UserEntity.getUser().setUnionid(context, unionid);
         }
+        UserEntity.getUser().setTravelFund(context, travelFund);
+        UserEntity.getUser().setCoupons(context, coupons);
     }
 }
