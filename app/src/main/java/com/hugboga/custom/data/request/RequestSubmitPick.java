@@ -17,8 +17,7 @@ public class RequestSubmitPick extends RequestSubmitBase {
     public RequestSubmitPick(Context context, OrderBean orderBean) {
         super(context, orderBean);
         map.put("memo", orderBean.memo);
-        map.put("serviceAreaCode", orderBean.serviceAreaCode);
-        map.put("serviceAddressTel", orderBean.serviceAddressTel);
+
         map.put("flightBrandSign", orderBean.brandSign);
         map.put("isArrivalVisa", orderBean.visa);
 
@@ -34,7 +33,6 @@ public class RequestSubmitPick extends RequestSubmitBase {
         if(!TextUtils.isEmpty(orderBean.priceFlightBrandSign)){
             map.put("pickupSignPrice",orderBean.priceFlightBrandSign);
         }
-
 
         if (orderBean.flightBean != null) {
             map.put("flightNo", orderBean.flightBean.flightNo);

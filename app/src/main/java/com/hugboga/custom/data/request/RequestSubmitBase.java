@@ -1,6 +1,7 @@
 package com.hugboga.custom.data.request;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.google.gson.Gson;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
@@ -66,6 +67,18 @@ public class RequestSubmitBase extends BaseRequest<OrderInfoBean> {
         map.put("userRemark", orderBean.memo);
         map.put("userEx", orderBean.userEx);
         map.put("priceActual",orderBean.priceActual);
+
+        map.put("serviceAreaCode", orderBean.serviceAreaCode);
+        map.put("serviceAddressTel", orderBean.serviceAddressTel);
+
+        map.put("realUserEx",orderBean.realUserEx);
+        map.put("userEx",orderBean.userEx);
+        map.put("realSendSms",orderBean.realSendSms);
+        map.put("travelFund",orderBean.travelFund);
+        map.put("guideCollectId",orderBean.guideCollectId);
+
+        map.put("coupId", orderBean.coupId);
+        map.put("coupPriceInfo", orderBean.coupPriceInfo);
 
 //        if (orderBean.contact != null && orderBean.contact.size() > 0) {
 //            map.put("userAreaCode1", orderBean.contact.get(0).areaCode);
