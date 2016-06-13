@@ -269,10 +269,10 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
         mAdapter = new CarViewpagerAdapter(getActivity(), mJazzy);
         if(null != collectGuideBean) {
             carList = guideCarList;
-            if(null == carListBean){
-                carListBean = new CarListBean();
-            }
-            carListBean.carList = guideCarList;
+//            if(null == carListBean){
+//                carListBean = new CarListBean();
+//            }
+//            carListBean.carList = guideCarList;
         }else{
             carList = oldCarList;
         }
@@ -395,18 +395,17 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
                     mAdapter = new CarViewpagerAdapter(getActivity(), mJazzy);
                     mAdapter.setList(oldCarList);
                     mJazzy.setAdapter(mAdapter);
-                    carBean = carList.get(currentIndex);
-                    fgCarIntro.setText("此车型包括：" + carBean.models);
-                    mansNum.setText("x " + carBean.capOfPerson);
-                    luggageNum.setText("x " + carBean.capOfLuggage);
-
-                    manTips.setVisibility(View.VISIBLE);
-                    manText.setText("");
-                    luggageText.setText("");
-                    childseatText.setText("");
-
-
-                    EventBus.getDefault().post(new EventAction(EventType.GUIDE_DEL,carBean));
+                    if(null != carList) {
+                        carBean = carList.get(currentIndex);
+                        fgCarIntro.setText("此车型包括：" + carBean.models);
+                        mansNum.setText("x " + carBean.capOfPerson);
+                        luggageNum.setText("x " + carBean.capOfLuggage);
+                        manTips.setVisibility(View.VISIBLE);
+                        manText.setText("");
+                        luggageText.setText("");
+                        childseatText.setText("");
+                    }
+                    EventBus.getDefault().post(new EventAction(EventType.GUIDE_DEL, carBean));
                 }
             });
 
@@ -440,7 +439,11 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
                     }
                 }
             });
-            genCar();
+            if(null == carListBean){
+                genCar();
+            }else{
+                genData();
+            }
         }else{
             man_luggage_layout.setVisibility(View.VISIBLE);
             genData();

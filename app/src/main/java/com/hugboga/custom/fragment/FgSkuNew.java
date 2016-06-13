@@ -3,6 +3,7 @@ package com.hugboga.custom.fragment;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -191,6 +192,8 @@ public class FgSkuNew extends BaseFragment {
             total += seat1Price + seat2Price;
         }
 
+        allMoneyText.setText("￥ " + total);
+
         allMoneyTextSku.setText("￥ " + total);
     }
 
@@ -207,6 +210,7 @@ public class FgSkuNew extends BaseFragment {
             case MAN_CHILD_LUUAGE:
                 confirmJourney.setBackgroundColor(getContext().getResources().getColor(R.color.all_bg_yellow));
                 manLuggageBean = (ManLuggageBean)action.getData();
+                genBottomData(carBean);
                 confirmJourney.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

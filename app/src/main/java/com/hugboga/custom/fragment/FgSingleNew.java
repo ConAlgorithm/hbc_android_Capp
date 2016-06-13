@@ -60,6 +60,8 @@ import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
 
 import static android.view.View.GONE;
+import static com.hugboga.custom.data.event.EventType.CHANGE_CAR;
+import static com.hugboga.custom.data.event.EventType.MAN_CHILD_LUUAGE;
 import static com.hugboga.custom.utils.OrderUtils.getSeat1PriceTotal;
 
 /**
@@ -189,7 +191,6 @@ public class FgSingleNew extends BaseFragment {
     protected void initView() {
         collectGuideBean = (CollectGuideBean)this.getArguments().getSerializable("collectGuideBean");
         if(null != collectGuideBean){
-
             initCarFragment(false);
         }
     }
@@ -275,13 +276,14 @@ public class FgSingleNew extends BaseFragment {
     CarListBean carListBean;
 
     private void genBottomData(CarBean carBean) {
+        int total = carBean.price;
         if(null != manLuggageBean){
             int seat1Price = OrderUtils.getSeat1PriceTotal(carListBean,manLuggageBean);
             int seat2Price = OrderUtils.getSeat2PriceTotal(carListBean,manLuggageBean);
-            allMoneyText.setText("￥ " + (carBean.price + seat1Price + seat2Price));
-        }else {
-            allMoneyText.setText("￥ " + carBean.price);
+            total += seat1Price + seat2Price;
         }
+
+        allMoneyText.setText("￥ " + total);
         if(null != carListBean) {
             allJourneyText.setText("全程预估:" + carListBean.distance + "公里," + carListBean.interval + "分钟");
         }
@@ -314,9 +316,10 @@ public class FgSingleNew extends BaseFragment {
                 collectGuideBean = null;
                 confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
                 confirmJourney.setOnClickListener(null);
-
                 carBean = (CarBean) action.getData();
-                genBottomData(carBean);
+                if(null != carBean) {
+                    genBottomData(carBean);
+                }
 
                 break;
             case CHANGE_CAR:

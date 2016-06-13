@@ -141,15 +141,14 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
     protected void initView() {
         collectGuideBean = (CollectGuideBean)this.getArguments().getSerializable("collectGuideBean");
         if(null != collectGuideBean){
-
-            initCarFragment();
+            initCarFragment(false);
         }
     }
 
     FragmentManager fm;
     FgCarNew fgCarNew;
     FragmentTransaction transaction;
-    private void initCarFragment() {
+    private void initCarFragment(boolean isDataBack) {
         show_cars_layout_pick.setVisibility(View.VISIBLE);
         fm = getFragmentManager();
         transaction = fm.beginTransaction();
@@ -164,6 +163,14 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
         }
         bundle.putSerializable("collectGuideBean",collectGuideBean);
         bundle.putParcelable("carListBean", carListBean);
+
+        if(isDataBack) {
+            String sTime = serverDate +":00";
+            bundle.putInt("cityId", cityId);
+            bundle.putString("startTime", sTime);
+            bundle.putString("endTime", DateUtils.getToTime(sTime,Integer.valueOf(carListBean.estTime)));
+        }
+
         fgCarNew.setArguments(bundle);
         transaction.add(R.id.show_cars_layout_pick, fgCarNew);
         transaction.commit();
@@ -229,6 +236,15 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
     ManLuggageBean manLuggageBean;
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
+            case GUIDE_DEL:
+                collectGuideBean = null;
+                confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
+                confirmJourney.setOnClickListener(null);
+                carBean = (CarBean) action.getData();
+                if(null != carBean) {
+                    genBottomData(carBean);
+                }
+                break;
             case CHECK_SWITCH:
                 checkInChecked = (boolean)action.getData();
                 genBottomData(carBean);
@@ -258,7 +274,7 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
                     addressDetail.setVisibility(View.GONE);
 
                     bottom.setVisibility(View.GONE);
-                    show_cars_layout_pick.setVisibility(View.GONE);
+//                    show_cars_layout_pick.setVisibility(View.GONE);
 
                 }
                 break;
@@ -313,11 +329,6 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
                     }
                 });
                 break;
-            case GUIDE_DEL:
-                collectGuideBean = null;
-                confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
-                confirmJourney.setOnClickListener(null);
-                break;
             default:
                 break;
         }
@@ -364,14 +375,18 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
             RequestCheckPrice requestCheckPrice = (RequestCheckPrice) request;
             carListBean = (CarListBean) requestCheckPrice.getData();
             if (carListBean.carList.size() > 0) {
-                carBean = CarUtils.initCarListData(carListBean.carList).get(0);
+                if(null == collectGuideBean) {
+                    carBean = CarUtils.initCarListData(carListBean.carList).get(0);//carListBean.carList.get(0);
+                }else {
+                    carBean = CarUtils.isMatchLocal(CarUtils.getNewCarBean(collectGuideBean), carListBean.carList);
+                }
                 bottom.setVisibility(View.VISIBLE);
                 genBottomData(carBean);
             } else {
                 bottom.setVisibility(View.GONE);
             }
 
-            initCarFragment();
+            initCarFragment(true);
         }
     }
 

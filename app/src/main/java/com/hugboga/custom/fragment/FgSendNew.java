@@ -1,5 +1,6 @@
 package com.hugboga.custom.fragment;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -231,6 +232,15 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
     boolean waitChecked = false;
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
+            case GUIDE_DEL:
+                collectGuideBean = null;
+                confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
+                confirmJourney.setOnClickListener(null);
+                carBean = (CarBean) action.getData();
+                if(null != carBean) {
+                    genBottomData(carBean);
+                }
+                break;
             case CHECK_SWITCH:
                 checkInChecked = (boolean)action.getData();
                 genBottomData(carBean);
