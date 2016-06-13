@@ -76,6 +76,7 @@
                 android:id="@+id/travelfund_name_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="6dp"
                 android:textColor="#333333"
                 android:textSize="15sp" />
 
@@ -83,7 +84,6 @@
                 android:id="@+id/travelfund_source_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="6dp"
                 android:textColor="@color/invite_friends_basic"
                 android:textSize="12sp" />
         </LinearLayout>

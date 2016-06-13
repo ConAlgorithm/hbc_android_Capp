@@ -27,6 +27,7 @@ import com.hugboga.custom.data.request.RequestCollectGuidesId;
 import com.hugboga.custom.data.request.RequestOrderCancel;
 import com.hugboga.custom.data.request.RequestOrderDetail;
 import com.hugboga.custom.data.request.RequestUncollectGuidesId;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.HbcViewBehavior;
@@ -51,7 +52,7 @@ import io.rong.imkit.RongIM;
  *
  */
 @ContentView(R.layout.fg_order_detail)
-public class FgOrderDetail extends BaseFragment {
+public class FgOrderDetail extends BaseFragment implements View.OnClickListener{
 
     @ViewInject(R.id.order_detail_title_layout)
     private OrderDetailTitleBar titleBar;
@@ -62,12 +63,11 @@ public class FgOrderDetail extends BaseFragment {
     @ViewInject(R.id.order_detail_float_view)
     private OrderDetailFloatView floatView;
 
-    @ViewInject(R.id.order_detail_info_view)
-    private OrderDetailInfoView infoView;
-
     @ViewInject(R.id.order_detail_group_layout)
     private LinearLayout groupLayout;
 
+    @ViewInject(R.id.order_detail_empty_tv)
+    private TextView emptyTV;
 
     private Params params;
     private OrderBean orderBean;
@@ -106,6 +106,7 @@ public class FgOrderDetail extends BaseFragment {
             }
         }
         titleBar.setTitle(params.orderType);
+        emptyTV.setVisibility(View.VISIBLE);
         if (params.isUpdate) {
             requestData();
         }
@@ -149,6 +150,7 @@ public class FgOrderDetail extends BaseFragment {
     @Override
     public void onDataRequestSucceed(BaseRequest _request) {
         if (_request instanceof RequestOrderDetail) {
+            emptyTV.setVisibility(View.GONE);
             RequestOrderDetail mParser = (RequestOrderDetail) _request;
             orderBean = mParser.getData();
 
@@ -162,15 +164,19 @@ public class FgOrderDetail extends BaseFragment {
                 }
             }
         } else if (_request instanceof RequestOrderCancel) {//取消订单
-            DialogUtil dialogUtil = DialogUtil.getInstance(getActivity());
-            dialogUtil.showCustomDialog(getContext().getString(R.string.order_cancel_succeed), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    bringToFront(FgTravel.class,new Bundle());
-                    finish();
-                }
-            });
-            notifyOrderList(FgTravel.TYPE_ORDER_CANCEL, true, false, true);
+//            DialogUtil dialogUtil = DialogUtil.getInstance(getActivity());
+//            dialogUtil.showCustomDialog(getContext().getString(R.string.order_cancel_succeed), new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialog, int which) {
+//                    bringToFront(FgTravel.class,new Bundle());
+//                    finish();
+//                }
+//            });
+//            notifyOrderList(FgTravel.TYPE_ORDER_CANCEL, true, false, true);
+//            CommonUtils.showToast();
+            CommonUtils.showToast(R.string.order_detail_cancel_oeder);
+            requestData();
+            EventBus.getDefault().post(new EventAction(EventType.CLICK_USER_LOGIN));
         } else if (_request instanceof RequestUncollectGuidesId) {//取消收藏
             orderBean.orderGuideInfo.storeStatus = 0;
             updateCollectViewText();
@@ -181,8 +187,13 @@ public class FgOrderDetail extends BaseFragment {
     }
 
     @Override
-    public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-        super.onDataRequestError(errorInfo, request);
+    public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest _request) {
+        super.onDataRequestError(errorInfo, _request);
+        if (_request instanceof RequestOrderDetail) {
+            emptyTV.setVisibility(View.GONE);
+            emptyTV.setText(R.string.data_load_error_retry);
+            emptyTV.setOnClickListener(this);
+        }
     }
 
     public void onEventMainThread(EventAction action) {
@@ -288,6 +299,17 @@ public class FgOrderDetail extends BaseFragment {
         }
     }
 
+    @Override
+    public void onClick(View v) {
+        super.onClick(v);
+        switch (v.getId()) {
+            case R.id.order_detail_empty_tv:
+                emptyTV.setOnClickListener(null);
+                emptyTV.setText("");
+                requestData();
+                break;
+        }
+    }
 
     private void updateCollectViewText() {
         TextView collectTV = (TextView)guideInfoView.findViewById(R.id.ogi_collect_tv);
@@ -299,6 +321,7 @@ public class FgOrderDetail extends BaseFragment {
      */
     private void cancelOrder(String orderID, double cancelPrice) {
         if (cancelPrice < 0) cancelPrice = 0;
+        mDialogUtil.showLoadingDialog();
         RequestOrderCancel request = new RequestOrderCancel(getActivity(), orderID, cancelPrice, "");
         requestData(request);
     }
@@ -318,7 +341,6 @@ public class FgOrderDetail extends BaseFragment {
      */
     public void showPopupWindow() {
         View menuLayout = LayoutInflater.from(getActivity()).inflate(R.layout.popup_top_right_menu, null);
-        menuLayout.setBackgroundColor(0xFF000000);
         TextView cancelOrderTV = (TextView)menuLayout.findViewById(R.id.cancel_order);
         TextView commonProblemTV = (TextView)menuLayout.findViewById(R.id.menu_phone);
         commonProblemTV.setText("常见问题");

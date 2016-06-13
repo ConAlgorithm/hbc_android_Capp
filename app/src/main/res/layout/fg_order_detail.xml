@@ -53,4 +53,16 @@
         </LinearLayout>
     </ScrollView>
 
+    <TextView
+        android:id="@+id/order_detail_empty_tv"
+        android:layout_below="@id/order_detail_title_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="50dp"
+        android:gravity="center"
+        android:background="@color/default_bg"
+        android:textColor="#515151"
+        android:textSize="18sp"
+        android:visibility="gone"
+        />
 </RelativeLayout>

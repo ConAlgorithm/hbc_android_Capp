@@ -99,23 +99,7 @@ public class FgChoosePayment extends BaseFragment {
         fgLeftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mDialogUtil.showCustomDialog(getString(R.string.app_name), getString(R.string.order_cancel_pay), "确定离开", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        clearFragmentList();
-                        FgOrderDetail.Params orderParams = new FgOrderDetail.Params();
-                        orderParams.orderId = requestParams.orderId;
-                        orderParams.isUpdate = true;
-                        Bundle detailBundle =new Bundle();
-                        detailBundle.putSerializable(Constants.PARAMS_DATA, orderParams);
-                        startFragment(new FgOrderDetail(), detailBundle);
-                    }
-                }, "继续支付", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                });
+                backWarn();
             }
         });
     }
@@ -159,7 +143,7 @@ public class FgChoosePayment extends BaseFragment {
             case BACK_HOME:
                 Bundle bundle = new Bundle();
                 bundle.putString(KEY_FRAGMENT_NAME, this.getClass().getSimpleName());
-                bringToFront(FgTravel.class, bundle);
+                bringToFront(FgHome.class, bundle);
                 break;
             case ORDER_DETAIL:
                 clearFragmentList();
@@ -306,4 +290,30 @@ public class FgChoosePayment extends BaseFragment {
             inflateContent();
         }
     };
+
+    @Override
+    public boolean onBackPressed() {
+        backWarn();
+        return true;
+    }
+
+    private void backWarn() {
+        mDialogUtil.showCustomDialog(getString(R.string.app_name), getString(R.string.order_cancel_pay), "确定离开", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                clearFragmentList();
+                FgOrderDetail.Params orderParams = new FgOrderDetail.Params();
+                orderParams.orderId = requestParams.orderId;
+                orderParams.isUpdate = true;
+                Bundle detailBundle =new Bundle();
+                detailBundle.putSerializable(Constants.PARAMS_DATA, orderParams);
+                startFragment(new FgOrderDetail(), detailBundle);
+            }
+        }, "继续支付", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+    }
 }
