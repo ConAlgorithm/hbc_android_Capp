@@ -46,6 +46,7 @@ import static com.hugboga.custom.R.id.choose_driver;
 import static com.hugboga.custom.R.id.del_text;
 import static com.hugboga.custom.R.id.driver_name;
 import static com.hugboga.custom.R.id.nums;
+import static com.hugboga.custom.R.id.show_cars_layout_pick;
 
 
 /**
@@ -260,7 +261,7 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
             carList = guideCarList;
             carListBean.carList = guideCarList;
         }else{
-            carList = carListBean.carList;
+            carList = oldCarList;
         }
         carList = CarUtils.initCarListData(carList);
         mAdapter.setList(carList);
@@ -319,6 +320,7 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
     }
     CollectGuideBean collectGuideBean;
 
+
     @Override
     protected void initView() {
         initView(getView());
@@ -345,6 +347,9 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
             }
         });
         carListBean = this.getArguments().getParcelable("carListBean");
+        if(null != carListBean) {
+            oldCarList = carListBean.carList;
+        }
         collectGuideBean = (CollectGuideBean) this.getArguments().getSerializable("collectGuideBean");
         if (null != collectGuideBean) {
             driver_layout.setVisibility(View.VISIBLE);
@@ -352,7 +357,7 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
             man_luggage_layout.setVisibility(View.GONE);
             carListBean =  new CarListBean();
             ArrayList<CarBean> carList = new ArrayList<>();
-            CarBean carBean = new CarBean();
+            final CarBean carBean = new CarBean();
             carBean.capOfLuggage = collectGuideBean.numOfLuggage;
             carBean.capOfPerson = collectGuideBean.numOfPerson;
             carBean.carType = collectGuideBean.carType;
@@ -365,8 +370,14 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
             delText.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    car_layout.setVisibility(View.GONE);
+                    if(null != oldCarList) {
+                        driver_layout.setVisibility(View.GONE);
+                        genData();
+                    }else{
+                        car_layout.setVisibility(View.GONE);
+                    }
                     collectGuideBean = null;
+                    EventBus.getDefault().post(new EventAction(EventType.GUIDE_DEL));
                 }
             });
 
@@ -409,6 +420,7 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
     private int interval;//预估时间（单位：分钟）
     private ArrayList<CarBean> carList = new ArrayList<CarBean>();
     private ArrayList<CarBean> guideCarList = new ArrayList<CarBean>();
+    private ArrayList<CarBean> oldCarList = null;
     private CarViewpagerAdapter mAdapter;
 
     private void initView(View view) {
