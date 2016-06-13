@@ -194,12 +194,16 @@ public class OrderUtils {
                 orderBean.coupId = mostFitBean.couponId;
                 orderBean.coupPriceInfo = mostFitBean.couponPrice + "";
                 orderBean.orderPrice = carBean.price;
-                orderBean.priceActual = mostFitBean.actualPrice+"";
+                if(mostFitBean.actualPrice != 0) {
+                    orderBean.priceActual = mostFitBean.actualPrice + "";
+                }
             } else if (null != couponBean && null == mostFitBean) {
                 orderBean.coupId = couponBean.couponID;
                 orderBean.coupPriceInfo = couponBean.price;
                 orderBean.orderPrice = carBean.price;
-                orderBean.priceActual = couponBean.actualPrice+"";
+                if(couponBean.actualPrice != 0) {
+                    orderBean.priceActual = couponBean.actualPrice + "";
+                }
             }
         }
         if(!TextUtils.isEmpty(guideCollectId)) {
@@ -278,13 +282,17 @@ public class OrderUtils {
             if (null == couponBean && null != mostFitBean) {
                 orderBean.coupId = mostFitBean.couponId;
                 orderBean.coupPriceInfo = mostFitBean.couponPrice + "";
-                orderBean.priceActual = mostFitBean.actualPrice+"";
                 orderBean.orderPrice = carBean.price;
+                if(mostFitBean.actualPrice != 0) {
+                    orderBean.priceActual = mostFitBean.actualPrice + "";
+                }
             } else if (null != couponBean && null == mostFitBean) {
                 orderBean.coupId = couponBean.couponID;
                 orderBean.coupPriceInfo = couponBean.price;
-                orderBean.priceActual = couponBean.actualPrice+"";
                 orderBean.orderPrice = carBean.price;
+                if(couponBean.actualPrice != 0) {
+                    orderBean.priceActual = couponBean.actualPrice + "";
+                }
             }
         }
         orderBean.expectedCompTime = carBean.expectedCompTime;
@@ -384,13 +392,17 @@ public class OrderUtils {
             if (null == couponBean && null != mostFitBean) {
                 orderBean.coupId = mostFitBean.couponId;
                 orderBean.coupPriceInfo = mostFitBean.couponPrice + "";
-                orderBean.priceActual = mostFitBean.actualPrice+"";
                 orderBean.orderPrice = carBean.price;
+                if(mostFitBean.actualPrice != 0) {
+                    orderBean.priceActual = mostFitBean.actualPrice + "";
+                }
             } else if (null != couponBean && null == mostFitBean) {
                 orderBean.coupId = couponBean.couponID;
                 orderBean.coupPriceInfo = couponBean.price;
-                orderBean.priceActual = couponBean.actualPrice+"";
                 orderBean.orderPrice = carBean.price;
+                if(couponBean.actualPrice != 0) {
+                    orderBean.priceActual = couponBean.actualPrice + "";
+                }
             }
         }
         orderBean.expectedCompTime = carBean.expectedCompTime;
@@ -486,13 +498,17 @@ public class OrderUtils {
             if (null == couponBean && null != mostFitBean) {
                 orderBean.coupId = mostFitBean.couponId;
                 orderBean.coupPriceInfo = mostFitBean.couponPrice + "";
-                orderBean.priceActual = mostFitBean.actualPrice + "";
                 orderBean.orderPrice = carBean.price;
+                if(mostFitBean.actualPrice != 0) {
+                    orderBean.priceActual = mostFitBean.actualPrice + "";
+                }
             } else if (null != couponBean && null == mostFitBean) {
                 orderBean.coupId = couponBean.couponID;
                 orderBean.coupPriceInfo = couponBean.price;
-                orderBean.priceActual = couponBean.actualPrice + "";
                 orderBean.orderPrice = carBean.price;
+                if(couponBean.actualPrice != 0) {
+                    orderBean.priceActual = couponBean.actualPrice + "";
+                }
             }
         }
         orderBean.userEx = getUserExJson(contactUsersBean);
@@ -527,7 +543,10 @@ public class OrderUtils {
                                         SelectCarBean carBean,String adultNum,String childrenNum,
                                         CityBean startBean, String getPassCityStr,
                                         ContactUsersBean contactUsersBean,
-                                        String userRemark,String userName,PoiBean poiBean){
+                                        String userRemark,String userName,PoiBean poiBean,
+                                        boolean dreamLeftischeck,
+                                        String travelFund,CouponBean couponBean,MostFitBean mostFitBean,
+                                        CarListBean carListBean,ManLuggageBean manLuggageBean){
         OrderBean orderBean = new OrderBean();//订单
 
         if (!TextUtils.isEmpty(guideCollectId)) {
@@ -547,7 +566,6 @@ public class OrderUtils {
         orderBean.carDesc = carBean.carDesc;//车型描述
         orderBean.carType = carBean.carType;//车型
         orderBean.seatCategory = carBean.seatCategory;
-        orderBean.orderPrice = carBean.price;
         orderBean.priceMark = carBean.pricemark;
         orderBean.urgentFlag = carBean.urgentFlag;
         orderBean.adult = Integer.valueOf(adultNum);//成人数
@@ -565,6 +583,27 @@ public class OrderUtils {
             orderBean.startLocation = startBean.location;
         }
         orderBean.realSendSms = contactUsersBean.isSendMessage ? "1" : "0";
+
+        if (dreamLeftischeck) {
+            orderBean.travelFund = travelFund;
+            orderBean.orderPrice = carBean.price;
+        } else {
+            if (null == couponBean && null != mostFitBean) {
+                orderBean.coupId = mostFitBean.couponId;
+                orderBean.coupPriceInfo = mostFitBean.couponPrice + "";
+                orderBean.orderPrice = carBean.price;
+                if(mostFitBean.actualPrice != 0) {
+                    orderBean.priceActual = mostFitBean.actualPrice + "";
+                }
+            } else if (null != couponBean && null == mostFitBean) {
+                orderBean.coupId = couponBean.couponID;
+                orderBean.coupPriceInfo = couponBean.price;
+                orderBean.orderPrice = carBean.price;
+                if(couponBean.actualPrice != 0) {
+                    orderBean.priceActual = couponBean.actualPrice + "";
+                }
+            }
+        }
 
         orderBean.serviceCityId = skuBean.depCityId;
         orderBean.serviceCityName = skuBean.depCityName;
@@ -584,6 +623,23 @@ public class OrderUtils {
         orderBean.priceChannel = carBean.price + "";
         orderBean.userName = userName;//manName.getText().toString();
         orderBean.userRemark = userRemark;//mark.getText().toString();
+
+        if (null == carListBean.additionalServicePrice.childSeatPrice1
+                && null == carListBean.additionalServicePrice.childSeatPrice2) {
+            orderBean.orderPrice  = carBean.price;
+            orderBean.childSeatStr = "";
+            orderBean.priceChannel = carBean.price + "";
+        } else {
+            if(manLuggageBean.childSeats != 0) {
+                orderBean.orderPrice = carBean.price + getSeat1PriceTotal(carListBean,manLuggageBean) + getSeat2PriceTotal(carListBean,manLuggageBean);
+                orderBean.priceChannel = (carBean.price + getSeat1PriceTotal(carListBean,manLuggageBean) + getSeat2PriceTotal(carListBean,manLuggageBean)) + "";
+                orderBean.childSeatStr = getChileSeatJson(carListBean,manLuggageBean);
+            }else{
+                orderBean.orderPrice  = carBean.price;
+                orderBean.childSeatStr = "";
+                orderBean.priceChannel = carBean.price + "";
+            }
+        }
 
         orderBean.userEx = getUserExJson(contactUsersBean);
         orderBean.realUserEx = getRealUserExJson(contactUsersBean);

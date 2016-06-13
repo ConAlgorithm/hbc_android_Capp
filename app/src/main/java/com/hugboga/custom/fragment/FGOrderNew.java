@@ -1012,7 +1012,8 @@ public class FGOrderNew extends BaseFragment {
                  startDate,  serverTime,  distance,
                 carBean, adultNum, childrenNum,
                  startBean,  getPassCityStr(),
-                 contactUsersBean, mark.getText().toString(), manName.getText().toString(),poiBean);
+                 contactUsersBean, mark.getText().toString(), manName.getText().toString(),poiBean,dreamLeft.isChecked(),
+                travelFund, couponBean, mostFitBean,carListBean,manLuggageBean);
 
     }
 
