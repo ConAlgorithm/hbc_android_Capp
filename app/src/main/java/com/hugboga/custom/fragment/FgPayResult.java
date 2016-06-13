@@ -116,7 +116,7 @@ public class FgPayResult extends BaseFragment {
                 if (params.payResult) {//回首页
                     Bundle bundle =new Bundle();
                     bundle.putString(KEY_FRAGMENT_NAME, this.getClass().getSimpleName());
-                    bringToFront(FgTravel.class, bundle);
+                    bringToFront(FgHome.class, bundle);
                 } else {//订单详情
                     intentOrderDetail();
                 }
@@ -149,7 +149,7 @@ public class FgPayResult extends BaseFragment {
         if (params.payResult) {
             Bundle bundle =new Bundle();
             bundle.putString(KEY_FRAGMENT_NAME, this.getClass().getSimpleName());
-            bringToFront(FgTravel.class, bundle);
+            bringToFront(FgHome.class, bundle);
         } else {
             finish();
         }

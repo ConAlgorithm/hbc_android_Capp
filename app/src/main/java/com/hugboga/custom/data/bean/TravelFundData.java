@@ -38,6 +38,10 @@ public class TravelFundData implements Serializable {
         return String.valueOf(fundAmount);
     }
 
+    public int getFundAmountInt() {
+        return fundAmount;
+    }
+
     public ArrayList<TravelFundBean> getLogs() {
         return logs;
     }
@@ -102,31 +106,6 @@ public class TravelFundData implements Serializable {
                     break;
                 case 2:
                     result = MyApplication.getAppContext().getString(R.string.gender_secrecy);
-                    break;
-                default:
-                    result = "";
-                    break;
-            }
-            return result;
-        }
-
-        /**
-         * 来源：1.首次使用、2.首次使用提成、3.订单消费、4.过期；
-         * */
-        public String getSource() {
-            String result = null;
-            switch (source) {
-                case 1:
-                    result = MyApplication.getAppContext().getString(R.string.invite_friends_source_1);
-                    break;
-                case 2:
-                    result = MyApplication.getAppContext().getString(R.string.invite_friends_source_2);
-                    break;
-                case 3:
-                    result = MyApplication.getAppContext().getString(R.string.invite_friends_source_3);
-                    break;
-                case 4:
-                    result = MyApplication.getAppContext().getString(R.string.invite_friends_source_4);
                     break;
                 default:
                     result = "";

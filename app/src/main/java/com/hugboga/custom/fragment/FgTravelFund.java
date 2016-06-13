@@ -121,7 +121,12 @@ public class FgTravelFund extends BaseFragment {
             sp.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             amountTV.setText(sp);
 
-            effectiveDateTV.setText(getString(R.string.travel_fund_validity, travelFundData.getEffectiveDate()));
+            if (travelFundData.getFundAmountInt() <= 0) {
+                effectiveDateTV.setVisibility(View.GONE);
+            } else {
+                effectiveDateTV.setVisibility(View.VISIBLE);
+                effectiveDateTV.setText(getString(R.string.travel_fund_validity, travelFundData.getEffectiveDate()));
+            }
 
             listView.onRefreshComplete();
         } else if (_request instanceof RequestTravelFundIntroduction) {

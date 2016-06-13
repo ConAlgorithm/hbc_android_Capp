@@ -33,7 +33,7 @@ public final class ShareUrls {
     public static String getShareGuideUrl(GuidesDetailData data, String userId) {
         ArrayMap<String, String> params = new ArrayMap<String, String>();
         params.put("gid", CommonUtils.getEncodedString(data.getGuideId()));//司导ID
-        params.put("uid", userId);
+        params.put("uid", CommonUtils.getEncodedString(userId));
         return getUri(SHARE_GUIDE, params);
     }
 

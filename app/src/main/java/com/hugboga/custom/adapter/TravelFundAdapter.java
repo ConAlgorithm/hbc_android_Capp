@@ -4,12 +4,15 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.adapter.BaseAdapter;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.TravelFundData;
+import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.utils.Tools;
+import com.hugboga.custom.utils.UIUtils;
 
 import net.grobas.view.PolygonImageView;
 
@@ -49,18 +52,30 @@ public class TravelFundAdapter extends BaseAdapter<TravelFundData.TravelFundBean
                 holder.amountTV.setTextColor(basicColor);
                 holder.unitTV.setTextColor(basicColor);
                 holder.signTV.setTextColor(basicColor);
+                holder.avatarIV.setLayoutParams(new RelativeLayout.LayoutParams(0, UIUtils.dip2px(76)));
+                holder.sourceTV.setTextSize(14);
             }
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
         TravelFundData.TravelFundBean bean = getItem(position);
-        if (TextUtils.isEmpty(bean.getAvatar())) {
-            holder.avatarIV.setImageResource(R.mipmap.collection_icon_pic);
+        if (!isFgTravelFund) {
+            if (TextUtils.isEmpty(bean.getAvatar())) {
+                holder.avatarIV.setImageResource(R.mipmap.collection_icon_pic);
+            } else {
+                Tools.showImage(mContext, holder.avatarIV, bean.getAvatar());
+            }
+            holder.nameTV.setText(bean.getUsername());
+            holder.sourceTV.setText(bean.getDesc());
         } else {
-            Tools.showImage(mContext, holder.avatarIV, bean.getAvatar());
+            holder.nameTV.setVisibility(View.GONE);
+            String sourceStr = bean.getDesc();
+            if (!TextUtils.equals(UserEntity.getUser().getUserName(mContext), bean.getUsername())) {
+                sourceStr = bean.getUsername() + sourceStr;
+            }
+            holder.sourceTV.setText(sourceStr);
         }
-        holder.nameTV.setText(bean.getUsername());
-        holder.sourceTV.setText(bean.getSource());
+
         holder.dateTV.setText(bean.getCreateDate());
         holder.amountTV.setText("" + bean.getAmount());
         if (bean.getAmount() >= 0) {

@@ -9,6 +9,7 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.style.ImageSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -26,6 +27,7 @@ import com.hugboga.custom.data.parser.ParserChatInfo;
 import com.hugboga.custom.fragment.BaseFragment;
 import com.hugboga.custom.fragment.FgActivity;
 import com.hugboga.custom.fragment.FgEvaluate;
+import com.hugboga.custom.fragment.FgGuideDetail;
 import com.hugboga.custom.fragment.FgInsure;
 import com.hugboga.custom.fragment.FgOrderDetail;
 import com.hugboga.custom.fragment.FgWebInfo;
@@ -308,6 +310,8 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                     } else {
                         x.image().bind(vh.mHeadImg, orderBean.orderGuideInfo.guideAvatar);
                     }
+                    vh.mHeadTitle.setOnClickListener(new TravelOnClickListener(orderBean));
+                    vh.mHeadImg.setOnClickListener(new TravelOnClickListener(orderBean));
                 }
                 vh.mBtnChat.setVisibility(View.VISIBLE);
                 break;
@@ -327,6 +331,8 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                     } else {
                         x.image().bind(vh.mHeadImg, orderBean.orderGuideInfo.guideAvatar);
                     }
+                    vh.mHeadTitle.setOnClickListener(new TravelOnClickListener(orderBean));
+                    vh.mHeadImg.setOnClickListener(new TravelOnClickListener(orderBean));
                 }
                 vh.mBtnChat.setVisibility(View.VISIBLE);
 
@@ -429,7 +435,14 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                     if(mOrderBean.orderGuideInfo!=null&&mOrderBean.orderGuideInfo.guideID!=null){
                         gotoChatView(mOrderBean.orderGuideInfo.guideID,mOrderBean.orderGuideInfo.guideAvatar,mOrderBean.orderGuideInfo.guideName);
                     }
-
+                    break;
+                case R.id.travel_item_head_img:
+                case R.id.travel_item_head_title:
+                    Log.i("aa", "测试一下 点击点击");
+                    if(fragment == null || mOrderBean.orderGuideInfo == null || mOrderBean.orderGuideInfo.guideID == null) {
+                        return;
+                    }
+                    fragment.startFragment(FgGuideDetail.newInstance(mOrderBean.orderGuideInfo.guideID));
                     break;
             }
         }
