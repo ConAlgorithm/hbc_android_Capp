@@ -230,6 +230,7 @@ public class FgCoupon extends BaseFragment implements AdapterView.OnItemClickLis
         if (paramsData != null) {
             //TODO
             EventBus.getDefault().post(new EventAction(EventType.SELECT_COUPON_BACK,bean));
+            finish();
         } else if (!TextUtils.isEmpty(orderId)) {
             //点击回传优惠券
             if (bean != null) {

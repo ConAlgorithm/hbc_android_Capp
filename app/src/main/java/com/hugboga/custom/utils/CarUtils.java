@@ -5,6 +5,7 @@ import android.util.Log;
 import com.hugboga.custom.constants.CarTypeEnum;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CarBean;
+import com.hugboga.custom.data.bean.CollectGuideBean;
 import com.hugboga.custom.data.bean.SelectCarBean;
 
 import java.util.ArrayList;
@@ -86,6 +87,20 @@ public class CarUtils {
         }
         return null;
     }
+
+    public static  CarBean getNewCarBean(CollectGuideBean collectGuideBean) {
+        CarBean carBean = new CarBean();
+        carBean.capOfLuggage = collectGuideBean.numOfLuggage;
+        carBean.capOfPerson = collectGuideBean.numOfPerson;
+        carBean.carType = collectGuideBean.carType;
+        carBean.desc = collectGuideBean.carDesc + collectGuideBean.carClass+"座";
+        carBean.models = collectGuideBean.carModel;
+        carBean.carSeat = collectGuideBean.carClass;
+        carBean.imgRes = CarUtils.getCarImgs(collectGuideBean.carType,collectGuideBean.carClass);
+        return carBean;
+    }
+
+
 
 
 }

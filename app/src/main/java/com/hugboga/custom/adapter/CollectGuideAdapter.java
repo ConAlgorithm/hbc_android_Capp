@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.adapter.BaseAdapter;
+import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.CollectGuideBean;
 import com.hugboga.custom.data.event.EventAction;
@@ -35,6 +36,7 @@ import java.util.HashMap;
 import de.greenrobot.event.EventBus;
 
 import static android.R.attr.fragment;
+import static android.R.attr.targetActivity;
 
 
 /**
@@ -119,21 +121,42 @@ public class CollectGuideAdapter extends BaseAdapter<CollectGuideBean> {
                 holder.planeLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        EventBus.getDefault().post(new EventAction(EventType.PICK_SEND_TYPE,getItem(Integer.valueOf(v.getTag().toString()))));
+                        Bundle bundle = new Bundle();
+                        HashMap<String,String> map = new HashMap<String,String>();
+                        FgPickSend fgPickSend = new FgPickSend();
+                        bundle.putString("source","首页");
+                        bundle.putSerializable("collectGuideBean",bean);
+                        fgPickSend.setArguments(bundle);
+                        ((MainActivity)context).startFragment(fgPickSend, bundle);
+//                        EventBus.getDefault().post(new EventAction(EventType.PICK_SEND_TYPE,getItem(Integer.valueOf(v.getTag().toString()))));
                     }
                 });
                 holder.carLayout.setTag(position);
                 holder.carLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        EventBus.getDefault().post(new EventAction(EventType.DAIRY_TYPE,getItem(Integer.valueOf(v.getTag().toString()))));
+                        Bundle bundle = new Bundle();
+                        HashMap<String,String> map = new HashMap<String,String>();
+                        FgOrderSelectCity fgOrderSelectCity = new FgOrderSelectCity();
+                        bundle.putString("source","首页");
+                        bundle.putSerializable("collectGuideBean",bean);
+                        fgOrderSelectCity.setArguments(bundle);
+                        ((MainActivity)context).startFragment(fgOrderSelectCity, bundle);
+
+//                        EventBus.getDefault().post(new EventAction(EventType.DAIRY_TYPE,getItem(Integer.valueOf(v.getTag().toString()))));
                     }
                 });
                 holder.singleLayout.setTag(position);
                 holder.singleLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        EventBus.getDefault().post(new EventAction(EventType.SINGLE_TYPE,getItem(Integer.valueOf(v.getTag().toString()))));
+                        Bundle bundle = new Bundle();
+                        HashMap<String,String> map = new HashMap<String,String>();
+                        FgSingleNew fgSingleNew = new FgSingleNew();
+                        bundle.putSerializable("collectGuideBean",bean);
+                        fgSingleNew.setArguments(bundle);
+                        ((MainActivity)context).startFragment(fgSingleNew);
+//                        EventBus.getDefault().post(new EventAction(EventType.SINGLE_TYPE,getItem(Integer.valueOf(v.getTag().toString()))));
                     }
                 });
             }
@@ -149,7 +172,7 @@ public class CollectGuideAdapter extends BaseAdapter<CollectGuideBean> {
                 holder.appointmentTV.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        EventBus.getDefault().post(new EventAction(EventType.CHOOSE_GUIDE,getItem(Integer.valueOf(v.getTag().toString()))));
+                        EventBus.getDefault().post(new EventAction(EventType.CHOOSE_GUIDE,bean));
                         if(null != fragment) {
                             fragment.finish();
                         }

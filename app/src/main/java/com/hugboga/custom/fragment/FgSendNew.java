@@ -1,5 +1,6 @@
 package com.hugboga.custom.fragment;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -12,6 +13,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
+import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
@@ -24,9 +27,12 @@ import com.hugboga.custom.data.bean.ManLuggageBean;
 import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestCheckPrice;
 import com.hugboga.custom.data.request.RequestCheckPriceForTransfer;
+import com.hugboga.custom.data.request.RequestGuideConflict;
 import com.hugboga.custom.utils.CarUtils;
+import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.utils.ToastUtils;
 import com.hugboga.custom.widget.DialogUtil;
@@ -39,6 +45,7 @@ import org.xutils.view.annotation.ContentView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -140,7 +147,8 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
     }
 
 
-    private void initCarFragment() {
+    private void initCarFragment(boolean isDataBack) {
+        showCarsLayoutSend.setVisibility(View.VISIBLE);
         fm = getFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
         if (null != fgCarNew) {
@@ -154,6 +162,12 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
         }
         bundle.putSerializable("collectGuideBean",collectGuideBean);
         bundle.putParcelable("carListBean", carListBean);
+        if(isDataBack) {
+            String sTime = serverDate +":00";
+            bundle.putInt("cityId", cityId);
+            bundle.putString("startTime", sTime);
+            bundle.putString("endTime", DateUtils.getToTime(sTime,Integer.valueOf(carListBean.estTime)));
+        }
         fgCarNew.setArguments(bundle);
         transaction.add(R.id.show_cars_layout_send, fgCarNew);
         transaction.commit();
@@ -165,7 +179,7 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
     protected void initView() {
         collectGuideBean = (CollectGuideBean)this.getArguments().getSerializable("collectGuideBean");
         if(null != collectGuideBean){
-            initCarFragment();
+            initCarFragment(false);
         }
 
     }
@@ -224,6 +238,18 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
     boolean waitChecked = false;
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
+            case CHANGE_GUIDE:
+                collectGuideBean = (CollectGuideBean)action.getData();
+                break;
+            case GUIDE_DEL:
+                collectGuideBean = null;
+                confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
+                confirmJourney.setOnClickListener(null);
+                carBean = (CarBean) action.getData();
+                if(null != carBean) {
+                    genBottomData(carBean);
+                }
+                break;
             case CHECK_SWITCH:
                 checkInChecked = (boolean)action.getData();
                 genBottomData(carBean);
@@ -239,32 +265,41 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
                     @Override
                     public void onClick(View v) {
                         if(UserEntity.getUser().isLogin(getActivity())) {
-                            FGOrderNew fgOrderNew = new FGOrderNew();
-                            Bundle bundle = new Bundle();
-                            bundle.putString("guideCollectId", "");
-                            bundle.putSerializable("collectGuideBean", null);
-                            bundle.putString("source", source);
-                            carBean.expectedCompTime = carListBean.estTime;
-                            bundle.putParcelable("carBean", CarUtils.carBeanAdapter(carBean));
-                            bundle.putParcelable("carListBean", carListBean);
-                            bundle.putParcelable("airPortBean", airPortBean);
-                            bundle.putParcelable("poiBean", poiBean);
-                            bundle.putString("serverTime", serverTime);
-                            bundle.putString("serverDate", serverDate);
-                            bundle.putString("adultNum", manLuggageBean.mans + "");
-                            bundle.putString("childrenNum", manLuggageBean.childs + "");
-                            bundle.putString("childseatNum", manLuggageBean.childSeats + "");
-                            bundle.putString("luggageNum", manLuggageBean.luggages + "");
-                            bundle.putSerializable("carListBean", carListBean);
-                            bundle.putInt("type", 2);
-                            bundle.putString("orderType", "2");
-                            bundle.putBoolean("needCheckin", checkInChecked);
-                            bundle.putParcelable("manLuggageBean", manLuggageBean);
-                            fgOrderNew.setArguments(bundle);
-                            startFragment(fgOrderNew);
+
+                            if(null != collectGuideBean) {
+                                String sTime = serverDate + " " + serverTime+":00";
+                                OrderUtils.checkGuideCoflict(getContext(), 1, cityId,
+                                        null != collectGuideBean ? collectGuideBean.guideId : null, sTime,
+                                        DateUtils.getToTime(sTime,Integer.valueOf(carListBean.estTime)),
+                                        cityId + "", 0, carBean.carType, carBean.carSeat,
+                                        new HttpRequestListener() {
+                                            @Override
+                                            public void onDataRequestSucceed(BaseRequest request) {
+                                                RequestGuideConflict requestGuideConflict = (RequestGuideConflict)request;
+                                                List<String> list = requestGuideConflict.getData();
+                                                if(list.size() > 0) {
+                                                    goOrder();
+                                                }else{
+                                                    EventBus.getDefault().post(new EventAction(EventType.GUIDE_ERROR_TIME));
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onDataRequestCancel(BaseRequest request) {
+
+                                            }
+
+                                            @Override
+                                            public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+
+                                            }
+                                        });
+                            }else{
+                                goOrder();
+                            }
                         }else{
                             Bundle bundle = new Bundle();//用于统计
-                            bundle.putString("source", "包车下单");
+                            bundle.putString("source", "送机下单");
                             startFragment(new FgLogin(), bundle);
                         }
                     }
@@ -273,6 +308,32 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
             default:
                 break;
         }
+    }
+
+    private void goOrder(){
+        FGOrderNew fgOrderNew = new FGOrderNew();
+        Bundle bundle = new Bundle();
+        bundle.putString("guideCollectId", collectGuideBean == null ? "" : collectGuideBean.guideId);
+        bundle.putSerializable("collectGuideBean", collectGuideBean == null ? null : collectGuideBean);
+        bundle.putString("source", source);
+        carBean.expectedCompTime = carListBean.estTime;
+        bundle.putParcelable("carBean", CarUtils.carBeanAdapter(carBean));
+        bundle.putParcelable("carListBean", carListBean);
+        bundle.putParcelable("airPortBean", airPortBean);
+        bundle.putParcelable("poiBean", poiBean);
+        bundle.putString("serverTime", serverTime);
+        bundle.putString("serverDate", serverDate);
+        bundle.putString("adultNum", manLuggageBean.mans + "");
+        bundle.putString("childrenNum", manLuggageBean.childs + "");
+        bundle.putString("childseatNum", manLuggageBean.childSeats + "");
+        bundle.putString("luggageNum", manLuggageBean.luggages + "");
+        bundle.putParcelable("carListBean", carListBean);
+        bundle.putInt("type", 2);
+        bundle.putString("orderType", "2");
+        bundle.putBoolean("needCheckin", checkInChecked);
+        bundle.putParcelable("manLuggageBean", manLuggageBean);
+        fgOrderNew.setArguments(bundle);
+        startFragment(fgOrderNew);
     }
 
 
@@ -348,14 +409,18 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
             RequestCheckPrice requestCheckPrice = (RequestCheckPrice) request;
             carListBean = (CarListBean) requestCheckPrice.getData();
             if (carListBean.carList.size() > 0) {
-                carBean = CarUtils.initCarListData(carListBean.carList).get(0);
+                if(null == collectGuideBean) {
+                    carBean = CarUtils.initCarListData(carListBean.carList).get(0);
+                }else {
+                    carBean = CarUtils.isMatchLocal(CarUtils.getNewCarBean(collectGuideBean), carListBean.carList);
+                }
                 bottom.setVisibility(View.VISIBLE);
                 genBottomData(carBean);
             } else {
                 bottom.setVisibility(View.GONE);
             }
 
-            initCarFragment();
+            initCarFragment(true);
         }
     }
 
@@ -372,6 +437,11 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
             infoTips.setVisibility(View.VISIBLE);
             airTitle.setVisibility(View.GONE);
             airDetail.setVisibility(View.GONE);
+            timeText.setText("");
+//            showCarsLayoutSend.setVisibility(View.GONE);
+            bottom.setVisibility(View.GONE);
+            checkInput();
+
         } else if (FgPoiSearch.class.getSimpleName().equals(from)) {
             poiBean = (PoiBean) bundle.getSerializable("arrival");
             infoTips.setVisibility(View.GONE);
@@ -380,8 +450,8 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
             airTitle.setText(poiBean.placeName);
             airDetail.setText(poiBean.placeDetail);
             collapseSoftInputMethod();
+            checkInput();
         }
-        checkInput();
     }
 
     public void showDaySelect() {

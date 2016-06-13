@@ -618,4 +618,8 @@
 
     <string name="alert_del_after_edit">请在删除指定司导后，再修改出行信息</string>
 
+    <string name="guide_error_city">当前司导不可服务该城市</string>
+    <string name="guide_error_time">司导无法在所选时间段内进行服务</string>
+
+
 </resources>

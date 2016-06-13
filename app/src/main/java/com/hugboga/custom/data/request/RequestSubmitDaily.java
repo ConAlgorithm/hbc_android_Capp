@@ -21,8 +21,8 @@ public class RequestSubmitDaily extends RequestSubmitBase {
         map.put("destCityName", orderBean.serviceEndCityName);
         map.put("serviceDate", orderBean.serviceTime);
         map.put("serviceEndDate", orderBean.serviceEndTime);
-        map.put("serviceTimeL", null);
-        map.put("serviceEndTimeL", null);
+//        map.put("serviceTimeL", null);
+//        map.put("serviceEndTimeL", null);
         map.put("oneCityTravel", orderBean.oneCityTravel);
         map.put("isHalfDaily", orderBean.isHalfDaily);
         map.put("serviceLocalDays", orderBean.inTownDays);
@@ -33,9 +33,6 @@ public class RequestSubmitDaily extends RequestSubmitBase {
         map.put("serviceDepartTime", orderBean.serviceTime + " " + orderBean.serviceStartTime);
         map.put("servicePassCitys", orderBean.stayCityListStr);
         map.put("passbyPois", orderBean.skuPoi);
-
-        map.put("serviceAreaCode", orderBean.serviceAreaCode);
-        map.put("serviceAddressTel", orderBean.serviceAddressTel);
 
         map.put("userRemark", orderBean.userRemark);
         map.put("priceChannel", orderBean.priceChannel);

@@ -1,5 +1,6 @@
 package com.hugboga.custom.fragment;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -12,6 +13,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
+import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
@@ -29,13 +32,17 @@ import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestCheckPrice;
 import com.hugboga.custom.data.request.RequestCheckPriceForPickup;
+import com.hugboga.custom.data.request.RequestGuideConflict;
 import com.hugboga.custom.utils.CarUtils;
+import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.utils.ToastUtils;
 import com.hugboga.custom.widget.DialogUtil;
 
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
+
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -44,6 +51,8 @@ import de.greenrobot.event.EventBus;
 
 import static com.hugboga.custom.R.id.driver_layout;
 import static com.hugboga.custom.R.id.driver_name;
+import static com.hugboga.custom.data.event.EventType.CHANGE_CAR;
+import static com.hugboga.custom.data.event.EventType.MAN_CHILD_LUUAGE;
 
 /**
  * Created  on 16/5/13.
@@ -72,6 +81,9 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
     @Bind(R.id.rl_address)
     LinearLayout rlAddress;
 
+    @Bind(R.id.show_cars_layout_pick)
+    LinearLayout show_cars_layout_pick;
+
 
     public static final String KEY_CITY_ID = "KEY_CITY_ID";
     public static final String KEY_CITY = "KEY_CITY";
@@ -88,8 +100,7 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
     public static final String KEY_URGENT_FLAG = "KEY_URGENT_FLAG";
     public static final String KEY_NEED_CHILDREN_SEAT = "KEY_NEED_CHILDREN_SEAT";
     public static final String KEY_NEED_BANNER = "KEY_NEED_BANNER";
-    @Bind(R.id.show_cars_layout)
-    LinearLayout showCarsLayout;
+
     @Bind(R.id.confirm_journey)
     TextView confirmJourney;
     @Bind(R.id.all_money_left)
@@ -130,17 +141,17 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
     protected void initView() {
         collectGuideBean = (CollectGuideBean)this.getArguments().getSerializable("collectGuideBean");
         if(null != collectGuideBean){
-
-            initCarFragment();
+            initCarFragment(false);
         }
     }
 
     FragmentManager fm;
     FgCarNew fgCarNew;
-
-    private void initCarFragment() {
+    FragmentTransaction transaction;
+    private void initCarFragment(boolean isDataBack) {
+        show_cars_layout_pick.setVisibility(View.VISIBLE);
         fm = getFragmentManager();
-        FragmentTransaction transaction = fm.beginTransaction();
+        transaction = fm.beginTransaction();
         if(null != fgCarNew) {
             transaction.remove(fgCarNew);
         }
@@ -152,8 +163,16 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
         }
         bundle.putSerializable("collectGuideBean",collectGuideBean);
         bundle.putParcelable("carListBean", carListBean);
+
+        if(isDataBack) {
+            String sTime = serverDate +":00";
+            bundle.putInt("cityId", cityId);
+            bundle.putString("startTime", sTime);
+            bundle.putString("endTime", DateUtils.getToTime(sTime,Integer.valueOf(carListBean.estTime)));
+        }
+
         fgCarNew.setArguments(bundle);
-        transaction.add(R.id.show_cars_layout, fgCarNew);
+        transaction.add(R.id.show_cars_layout_pick, fgCarNew);
         transaction.commit();
     }
 
@@ -217,6 +236,20 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
     ManLuggageBean manLuggageBean;
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
+
+            case CHANGE_GUIDE:
+                collectGuideBean = (CollectGuideBean)action.getData();
+                break;
+
+            case GUIDE_DEL:
+                collectGuideBean = null;
+                confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
+                confirmJourney.setOnClickListener(null);
+                carBean = (CarBean) action.getData();
+                if(null != carBean) {
+                    genBottomData(carBean);
+                }
+                break;
             case CHECK_SWITCH:
                 checkInChecked = (boolean)action.getData();
                 genBottomData(carBean);
@@ -239,6 +272,15 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
                     airDetail.setVisibility(View.VISIBLE);
                     airTitle.setText(flightBean.arrAirportName);
                     airDetail.setText(flightInfoStr);
+
+                    poiBean = null;
+                    addressTips.setVisibility(View.VISIBLE);
+                    addressTitle.setVisibility(View.GONE);
+                    addressDetail.setVisibility(View.GONE);
+
+                    bottom.setVisibility(View.GONE);
+//                    show_cars_layout_pick.setVisibility(View.GONE);
+
                 }
                 break;
             case CHANGE_CAR:
@@ -248,38 +290,44 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
             case MAN_CHILD_LUUAGE:
                 confirmJourney.setBackgroundColor(getContext().getResources().getColor(R.color.all_bg_yellow));
                 manLuggageBean = (ManLuggageBean)action.getData();
-                genBottomData(carBean);
                 confirmJourney.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if(UserEntity.getUser().isLogin(getActivity())) {
-                            FGOrderNew fgOrderNew = new FGOrderNew();
-                            Bundle bundle = new Bundle();
-                            bundle.putString("guideCollectId", "");
-                            bundle.putSerializable("collectGuideBean", null);
-                            bundle.putString("source", source);
-                            bundle.putSerializable(FgCar.KEY_FLIGHT, flightBean);
-                            bundle.putSerializable(FgCar.KEY_ARRIVAL, poiBean);
-                            bundle.putString("serverTime", flightBean.arrivalTime);
-                            bundle.putParcelable("carListBean", carListBean);
-                            bundle.putString("price", carBean.price + "");
-                            bundle.putString("distance", carListBean.distance + "");
-                            carBean.expectedCompTime = carListBean.estTime;
-                            bundle.putParcelable("carBean", CarUtils.carBeanAdapter(carBean));
-                            bundle.putInt("type", 1);
-                            bundle.putString("orderType", "1");
-                            bundle.putParcelable("manLuggageBean", manLuggageBean);
-                            bundle.putString("adultNum", manLuggageBean.mans + "");
-                            bundle.putString("childrenNum", manLuggageBean.childs + "");
-                            bundle.putString("childseatNum", manLuggageBean.childSeats + "");
-                            bundle.putString("luggageNum", manLuggageBean.luggages + "");
+                            if(null != collectGuideBean) {
+                                String sTime = serverDate+":00";
+                                OrderUtils.checkGuideCoflict(getContext(), 1, cityId,
+                                        null != collectGuideBean ? collectGuideBean.guideId : null, sTime,
+                                        DateUtils.getToTime(sTime,Integer.valueOf(carListBean.estTime)),
+                                        cityId + "", 0, carBean.carType, carBean.carSeat,
+                                        new HttpRequestListener() {
+                                            @Override
+                                            public void onDataRequestSucceed(BaseRequest request) {
+                                                RequestGuideConflict requestGuideConflict = (RequestGuideConflict)request;
+                                                List<String> list = requestGuideConflict.getData();
+                                                if(list.size() > 0) {
+                                                    goOrder();
+                                                }else{
+                                                    EventBus.getDefault().post(new EventAction(EventType.GUIDE_ERROR_TIME));
+                                                }
+                                            }
 
+                                            @Override
+                                            public void onDataRequestCancel(BaseRequest request) {
 
-                            fgOrderNew.setArguments(bundle);
-                            startFragment(fgOrderNew);
+                                            }
+
+                                            @Override
+                                            public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+
+                                            }
+                                        });
+                            }else{
+                                goOrder();
+                            }
                         }else{
                             Bundle bundle = new Bundle();//用于统计
-                            bundle.putString("source", "包车下单");
+                            bundle.putString("source", "接机下单");
                             startFragment(new FgLogin(), bundle);
                         }
                     }
@@ -288,6 +336,34 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
             default:
                 break;
         }
+    }
+
+
+    private void goOrder(){
+        FGOrderNew fgOrderNew = new FGOrderNew();
+        Bundle bundle = new Bundle();
+        bundle.putString("guideCollectId", collectGuideBean == null ? "" : collectGuideBean.guideId);
+        bundle.putSerializable("collectGuideBean", collectGuideBean == null ? null : collectGuideBean);
+        bundle.putString("source", source);
+        bundle.putSerializable(FgCar.KEY_FLIGHT, flightBean);
+        bundle.putSerializable(FgCar.KEY_ARRIVAL, poiBean);
+        bundle.putString("serverTime", flightBean.arrivalTime);
+        bundle.putParcelable("carListBean", carListBean);
+        bundle.putString("price", carBean.price + "");
+        bundle.putString("distance", carListBean.distance + "");
+        carBean.expectedCompTime = carListBean.estTime;
+        bundle.putParcelable("carBean", CarUtils.carBeanAdapter(carBean));
+        bundle.putInt("type", 1);
+        bundle.putString("orderType", "1");
+        bundle.putParcelable("manLuggageBean", manLuggageBean);
+        bundle.putString("adultNum", manLuggageBean.mans + "");
+        bundle.putString("childrenNum", manLuggageBean.childs + "");
+        bundle.putString("childseatNum", manLuggageBean.childSeats + "");
+        bundle.putString("luggageNum", manLuggageBean.luggages + "");
+        bundle.putParcelable("carListBean", carListBean);
+
+        fgOrderNew.setArguments(bundle);
+        startFragment(fgOrderNew);
     }
 
     @Override
@@ -303,14 +379,18 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
             RequestCheckPrice requestCheckPrice = (RequestCheckPrice) request;
             carListBean = (CarListBean) requestCheckPrice.getData();
             if (carListBean.carList.size() > 0) {
-                carBean = CarUtils.initCarListData(carListBean.carList).get(0);
+                if(null == collectGuideBean) {
+                    carBean = CarUtils.initCarListData(carListBean.carList).get(0);//carListBean.carList.get(0);
+                }else {
+                    carBean = CarUtils.isMatchLocal(CarUtils.getNewCarBean(collectGuideBean), carListBean.carList);
+                }
                 bottom.setVisibility(View.VISIBLE);
                 genBottomData(carBean);
             } else {
                 bottom.setVisibility(View.GONE);
             }
 
-            initCarFragment();
+            initCarFragment(true);
         }
     }
 
