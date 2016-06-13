@@ -379,6 +379,7 @@ public class FgOrderEdit extends BaseFragment {
         requestParams.userEx = getUserExJson();
         requestParams.realUserEx = getRealUserExJson();
         requestParams.serviceRecTime = orderBean.serviceStartTime;
+        requestParams.realSendSms = contactUsersBean.isSendMessage ? 1 : 0;
         requestData(new RequestOrderEdit(getActivity(), requestParams));
     }
 

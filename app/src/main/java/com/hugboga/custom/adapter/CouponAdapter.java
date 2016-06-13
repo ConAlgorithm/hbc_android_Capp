@@ -37,9 +37,6 @@ public class CouponAdapter extends BaseAdapter<CouponBean> {
             holder = (ViewHolder) convertView.getTag();
         }
         CouponBean couponBean = getItem(position);
-        if (!TextUtils.isEmpty(couponBean.price) && couponBean.price.contains("元")) {
-            couponBean.price = couponBean.price.substring(0, couponBean.price.indexOf("元"));
-        }
         holder.mPrice.setText(couponBean.price);
         holder.mContent.setText(couponBean.batchName);
         if (couponBean.endDate.equals("0")) {
@@ -55,7 +52,6 @@ public class CouponAdapter extends BaseAdapter<CouponBean> {
             holder.mLabel.setTextColor(normalColor);
             holder.mPrice.setTextColor(normalColor);
             holder.lineView.setBackgroundColor(normalColor);
-            holder.yuanTV.setTextColor(normalColor);
         } else if (couponBean.couponStatus.equals(2)) {
             //已使用
             holder.mLayout.setBackgroundResource(R.mipmap.coupon_unavailable);
@@ -63,7 +59,6 @@ public class CouponAdapter extends BaseAdapter<CouponBean> {
             holder.mLabel.setTextColor(pressColor);
             holder.mPrice.setTextColor(pressColor);
             holder.lineView.setBackgroundColor(pressColor);
-            holder.yuanTV.setTextColor(pressColor);
         } else if (couponBean.couponStatus.equals(-1)) {
             //过期
             holder.mLayout.setBackgroundResource(R.mipmap.coupon_overdue);
@@ -71,7 +66,6 @@ public class CouponAdapter extends BaseAdapter<CouponBean> {
             holder.mLabel.setTextColor(pressColor);
             holder.mPrice.setTextColor(pressColor);
             holder.lineView.setBackgroundColor(pressColor);
-            holder.yuanTV.setTextColor(pressColor);
         }
         return convertView;
     }
@@ -89,7 +83,5 @@ public class CouponAdapter extends BaseAdapter<CouponBean> {
         TextView mDateBettow;
         @ViewInject(R.id.coupon_vertical_line)
         View lineView;
-        @ViewInject(R.id.coupon_item_yuan_tv)
-        TextView yuanTV;
     }
 }

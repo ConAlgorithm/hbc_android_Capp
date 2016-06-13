@@ -424,7 +424,7 @@ public class UrlLibs {
     /**
      * 导游详情
      */
-    public static final String API_GUIDES_DETAIL = "supplier/v1.0/c/guides/detail";
+    public static final String API_GUIDES_DETAIL = "ucenter/v1.0/c/favorite/guide/detail";
 
     /**
      *导游是否可用

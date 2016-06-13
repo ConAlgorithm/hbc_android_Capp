@@ -292,8 +292,8 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                     vh.br_layout.setVisibility(View.GONE);
                 }
                 break;
-            case AGREE://导游已接单
-            case ARRIVED://导游已到达
+            case AGREE://司导已接单
+            case ARRIVED://司导已到达
             case SERVICING://服务中
                 vh.mStatus.setText(orderBean.orderStatus.name);
                 vh.mStatusLayout.setVisibility(View.VISIBLE);

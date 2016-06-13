@@ -58,6 +58,7 @@ public class RequestOrderEdit extends BaseRequest<GuidesDetailData> {
         map.put("flightFlyTimeL", params.flightFlyTimeL);
         map.put("flightArriveTimeL", params.flightArriveTimeL);
         map.put("flightAirportBuiding", params.flightAirportBuiding);
+        map.put("realSendSms", params.realSendSms);
     }
 
     @Override
@@ -100,5 +101,6 @@ public class RequestOrderEdit extends BaseRequest<GuidesDetailData> {
         public String userEx;
         public String realUserEx;
         public String isRealUser;//有乘车人 必须传入为2 没有1
+        public int realSendSms;//是否给乘车人发送短信 0 不发送 1 发送
     }
 }
