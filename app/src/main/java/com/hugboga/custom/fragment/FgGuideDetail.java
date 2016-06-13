@@ -173,7 +173,7 @@ public class FgGuideDetail extends BaseFragment {
             ArrayList<Integer> serviceTypes = data.getServiceTypes();
             if (serviceTypes != null) {
                 boolean isShowPlane = false;
-                boolean isShowCar = false;false
+                boolean isShowCar = false;
                 boolean isShowSingle = false;
                 final int arraySize = serviceTypes.size();
                 for (int i = 0; i < arraySize; i++) {
