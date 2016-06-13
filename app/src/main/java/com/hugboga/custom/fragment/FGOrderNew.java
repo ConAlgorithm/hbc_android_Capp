@@ -288,7 +288,7 @@ public class FGOrderNew extends BaseFragment {
         carListBean = this.getArguments().getParcelable("carListBean");
         guideCollectId = this.getArguments().getString("guideCollectId");
 
-        collectGuideBean = this.getArguments().getParcelable("collectGuideBean");
+        collectGuideBean = (CollectGuideBean)this.getArguments().getSerializable("collectGuideBean");
 
         carBean = this.getArguments().getParcelable("carBean");
 

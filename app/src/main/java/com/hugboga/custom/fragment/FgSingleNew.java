@@ -231,7 +231,9 @@ public class FgSingleNew extends BaseFragment {
             endDetail.setText("");
 
             bottom.setVisibility(GONE);
-            showCarsLayoutSingle.setVisibility(GONE);
+            if(null == collectGuideBean) {
+                showCarsLayoutSingle.setVisibility(GONE);
+            }
             timeText.setText("");
 
         } else if (FgPoiSearch.class.getSimpleName().equals(from)) {
