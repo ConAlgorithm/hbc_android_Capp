@@ -219,7 +219,7 @@ public class FgSkuNew extends BaseFragment {
                             bundle.putString("guideCollectId", "");
                             bundle.putSerializable("collectGuideBean", null);
                             bundle.putString("source", source);
-
+                            bundle.putParcelable("carListBean",carListBean);
 
                             bundle.putString("startCityId", cityBean.cityId + "");
                             bundle.putString("endCityId", cityBean.cityId + "");//endCityId);

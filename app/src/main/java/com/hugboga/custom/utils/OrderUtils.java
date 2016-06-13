@@ -620,7 +620,7 @@ public class OrderUtils {
         orderBean.userName = userName;//manName.getText().toString();
         orderBean.userRemark = userRemark;//mark.getText().toString();
 
-        if (null == carListBean.additionalServicePrice.childSeatPrice1
+        if (null == carListBean.additionalServicePrice || null == carListBean.additionalServicePrice.childSeatPrice1
                 && null == carListBean.additionalServicePrice.childSeatPrice2) {
             orderBean.orderPrice  = carBean.price;
             orderBean.childSeatStr = "";
