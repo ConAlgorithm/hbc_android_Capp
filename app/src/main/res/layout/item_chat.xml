@@ -27,7 +27,7 @@
                 android:layout_height="48dp"
                 android:src="@mipmap/chat_head"
                 app:poly_shadow="false"
-                app:poly_shadow_color="@android:color/black"
+                app:poly_shadow_color="@android:color/white"
                 app:poly_border="false"
                 app:poly_border_color="@android:color/white"
                 app:poly_vertices="0"

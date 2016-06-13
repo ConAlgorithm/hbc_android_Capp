@@ -1,6 +1,7 @@
 package com.hugboga.custom.fragment;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -36,6 +37,8 @@ import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
 
+import java.util.ArrayList;
+
 import de.greenrobot.event.EventBus;
 import io.rong.imkit.RongIM;
 
@@ -63,10 +66,16 @@ public class FgGuideDetail extends BaseFragment {
     RatingView ratingView;
     @ViewInject(R.id.guide_detail_score_tv)
     TextView scoreTV;
-    @ViewInject(R.id.guide_detail_line)
-    View lineView;
+    @ViewInject(R.id.guide_detail_right_line)
+    View rightLineView;
+    @ViewInject(R.id.guide_detail_left_line)
+    View leftLineView;
+    @ViewInject(R.id.guide_detail_plane_layout)
+    LinearLayout planeLayout;
     @ViewInject(R.id.guide_detail_car_layout)
     LinearLayout charteredCarLayout;
+    @ViewInject(R.id.guide_detail_single_layout)
+    LinearLayout singleLayout;
     @ViewInject(R.id.header_detail_title_tv)
     TextView titleTV;
     @ViewInject(R.id.header_detail_right_1_btn)
@@ -139,7 +148,11 @@ public class FgGuideDetail extends BaseFragment {
 
             attestationIV.setVisibility(View.VISIBLE);
             locationIV.setVisibility(View.VISIBLE);
-            Tools.showImage(getActivity(), avatarIV, data.getAvatar());
+            if (TextUtils.isEmpty(data.getAvatar())) {
+                avatarIV.setImageResource(R.mipmap.collection_icon_pic);
+            } else {
+                Tools.showImage(getActivity(), avatarIV, data.getAvatar());
+            }
             nameTV.setText(data.getGuideName());
             locationTV.setText(data.getCityName());
 
@@ -157,9 +170,34 @@ public class FgGuideDetail extends BaseFragment {
             ratingView.setLevel(data.getServiceStar());
             scoreTV.setText(String.valueOf(data.getServiceStar()));
             collectIV.setSelected(data.isCollected());
-            if (!data.isShowCharteredCar()) {
-                lineView.setVisibility(View.GONE);
-                charteredCarLayout.setVisibility(View.GONE);
+
+            ArrayList<Integer> serviceTypes = data.getServiceTypes();
+            if (serviceTypes != null) {
+                boolean isShowPlane = false;
+                boolean isShowCar = false;
+                boolean isShowSingle = false;
+                final int arraySize = serviceTypes.size();
+                for (int i = 0; i < arraySize; i++) {
+                    switch (serviceTypes.get(i)) {
+                        case 1://可以预约接送机
+                            isShowPlane = true;
+                            break;
+                        case 3://可以预约包车
+                            isShowCar = true;
+                            break;
+                        case 4://可以预约单次接送
+                            isShowSingle = true;
+                            break;
+                    }
+                }
+                planeLayout.setVisibility(isShowPlane ? View.VISIBLE : View.GONE);
+                charteredCarLayout.setVisibility(isShowCar ? View.VISIBLE : View.GONE);
+                singleLayout.setVisibility(isShowSingle ? View.VISIBLE : View.GONE);
+
+                //控制分割线的隐藏
+                leftLineView.setVisibility(isShowPlane && isShowCar ? View.VISIBLE : View.GONE);
+                boolean isShowRightLine = (isShowSingle && isShowCar) || (isShowSingle && isShowPlane);
+                rightLineView.setVisibility(isShowRightLine ? View.VISIBLE : View.GONE);
             }
         } else if (_request instanceof RequestUncollectGuidesId) {//取消收藏
             data.setIsFavored(0);

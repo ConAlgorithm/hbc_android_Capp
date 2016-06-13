@@ -201,6 +201,7 @@
                 </LinearLayout>
 
                 <View
+                    android:id="@+id/guide_detail_left_line"
                     android:layout_width="1px"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
@@ -231,7 +232,7 @@
                 </LinearLayout>
 
                 <View
-                    android:id="@+id/guide_detail_line"
+                    android:id="@+id/guide_detail_right_line"
                     android:layout_width="1px"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
