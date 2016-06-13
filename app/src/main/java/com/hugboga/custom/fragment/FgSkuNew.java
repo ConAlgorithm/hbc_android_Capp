@@ -3,6 +3,7 @@ package com.hugboga.custom.fragment;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -101,6 +102,7 @@ public class FgSkuNew extends BaseFragment {
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
                 bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_PROBLEM);
+                bundle.putBoolean(FgWebInfo.CONTACT_SERVICE, true);
                 startFragment(new FgWebInfo(), bundle);
 
                 HashMap<String, String> map = new HashMap<String, String>();
@@ -153,7 +155,6 @@ public class FgSkuNew extends BaseFragment {
     public void onDataRequestSucceed(BaseRequest request) {
         if (request instanceof RequestPriceSku) {
             carListBean = ((RequestPriceSku) request).getData();
-            carTypeBean = null;
             if (carListBean.carList.size() > 0) {
                 carBean = carListBean.carList.get(0);
                 bottom.setVisibility(View.VISIBLE);
@@ -190,6 +191,8 @@ public class FgSkuNew extends BaseFragment {
             total += seat1Price + seat2Price;
         }
 
+        allMoneyText.setText("￥ " + total);
+
         allMoneyTextSku.setText("￥ " + total);
     }
 
@@ -215,7 +218,7 @@ public class FgSkuNew extends BaseFragment {
                             bundle.putString("guideCollectId", "");
                             bundle.putSerializable("collectGuideBean", null);
                             bundle.putString("source", source);
-
+                            bundle.putParcelable("carListBean",carListBean);
 
                             bundle.putString("startCityId", cityBean.cityId + "");
                             bundle.putString("endCityId", cityBean.cityId + "");//endCityId);
@@ -247,7 +250,7 @@ public class FgSkuNew extends BaseFragment {
                             startFragment(fgOrderNew);
                         }else{
                             Bundle bundle = new Bundle();//用于统计
-                            bundle.putString("source", "包车下单");
+                            bundle.putString("source", "sku下单");
                             startFragment(new FgLogin(), bundle);
                         }
                     }

@@ -39,7 +39,7 @@ public class OrderDetailFloatView extends LinearLayout implements HbcViewBehavio
             removeAllViews();
             inflate(getContext(), R.layout.view_order_detail_pay, this);
             TextView needPayTV = (TextView) findViewById(R.id.order_detail_pay_price_tv);
-            needPayTV.setText(String.valueOf(orderBean.orderPriceInfo.shouldPay));
+            needPayTV.setText(String.valueOf(orderBean.orderPriceInfo.actualPay));
             findViewById(R.id.order_detail_pay_tv).setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {//立即支付

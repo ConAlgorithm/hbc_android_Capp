@@ -12,7 +12,7 @@ public class InsureListBean implements Parcelable{
     public  String  createtime;//下保险时间
     public  String  orderNo;//C120341171520",
     public  String  insuranceUserId;//IU91440316919",
-    public  String  insuranceStatus;
+    public int insuranceStatus;
     public  String  source;
     public  String  userId;
     public  String  hbcFee;//保险金额
@@ -34,7 +34,7 @@ public class InsureListBean implements Parcelable{
         dest.writeString(this.createtime);
         dest.writeString(this.orderNo);
         dest.writeString(this.insuranceUserId);
-        dest.writeString(this.insuranceStatus);
+        dest.writeInt(this.insuranceStatus);
         dest.writeString(this.source);
         dest.writeString(this.userId);
         dest.writeString(this.hbcFee);
@@ -54,7 +54,7 @@ public class InsureListBean implements Parcelable{
         this.createtime = in.readString();
         this.orderNo = in.readString();
         this.insuranceUserId = in.readString();
-        this.insuranceStatus = in.readString();
+        this.insuranceStatus = in.readInt();
         this.source = in.readString();
         this.userId = in.readString();
         this.hbcFee = in.readString();
@@ -76,4 +76,34 @@ public class InsureListBean implements Parcelable{
             return new InsureListBean[size];
         }
     };
+
+    public String getUserStatusString() {
+        String result = null;
+        switch (insuranceStatus) {
+            case 1:
+            case 2:
+                result = "购买中";
+                break;
+            case 3:
+                result = "购买成功";
+                break;
+            case 4:
+                result = "购买失败";
+                break;
+            case 5:
+                result = "注销中";
+                break;
+            case 6:
+                result = "注销成功";
+                break;
+            case 7:
+                result = "注销失败";
+                break;
+            case 8:
+                result = "有问题";
+                break;
+        }
+        return result;
+    }
+
 }

@@ -261,7 +261,7 @@ public class UrlLibs {
     /**
      * 订单详情
      **/
-    public static final String SERVER_IP_ORDER_DETAIL = UrlLibs.SERVER_IP_TRADE_1_1 + "detail?";
+    public static final String SERVER_IP_ORDER_DETAIL = "trade/v1.2/c/order/detail?";
     /**
      * 订单增项费用
      **/
@@ -424,7 +424,7 @@ public class UrlLibs {
     /**
      * 导游详情
      */
-    public static final String API_GUIDES_DETAIL = "supplier/v1.0/c/guides/detail";
+    public static final String API_GUIDES_DETAIL = "ucenter/v1.0/c/favorite/guide/detail";
 
     /**
      *导游是否可用

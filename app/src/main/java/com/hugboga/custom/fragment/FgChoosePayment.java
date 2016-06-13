@@ -1,5 +1,6 @@
 package com.hugboga.custom.fragment;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -18,6 +19,7 @@ import com.huangbaoche.hbcframe.util.WXShareUtils;
 import com.hugboga.custom.R;
 import com.hugboga.custom.alipay.PayResult;
 import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.WXpayBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
@@ -89,14 +91,22 @@ public class FgChoosePayment extends BaseFragment {
     protected void initHeader() {
         fgTitle.setText(getString(R.string.choose_payment_title));
         priceTV.setText(requestParams.getShouldPay());
-    }
-
-    @Override
-    protected void initView() {
         // 将该app注册到微信
         IWXAPI msgApi = WXAPIFactory.createWXAPI(getActivity(), Constants.WX_APP_ID);
         msgApi.registerApp(Constants.WX_APP_ID);
         mDialogUtil = DialogUtil.getInstance(getActivity());
+
+        fgLeftBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                backWarn();
+            }
+        });
+    }
+
+    @Override
+    protected void initView() {
+
     }
 
     @Override
@@ -133,7 +143,7 @@ public class FgChoosePayment extends BaseFragment {
             case BACK_HOME:
                 Bundle bundle = new Bundle();
                 bundle.putString(KEY_FRAGMENT_NAME, this.getClass().getSimpleName());
-                bringToFront(FgTravel.class, bundle);
+                bringToFront(FgHome.class, bundle);
                 break;
             case ORDER_DETAIL:
                 clearFragmentList();
@@ -168,11 +178,17 @@ public class FgChoosePayment extends BaseFragment {
         if (request instanceof RequestPayNo) {
             RequestPayNo mParser = (RequestPayNo) request;
             if (mParser.payType == Constants.PAY_STATE_ALIPAY) {
-                payByAlipay((String) mParser.getData());
+                if ("travelFundPay".equals(mParser.getData())) {//全部使用旅游基金支付的时候
+                    mHandler.sendEmptyMessageDelayed(1, 3000);
+                } else {
+                    payByAlipay((String) mParser.getData());
+                }
             } else if (mParser.payType == Constants.PAY_STATE_WECHAT) {
                 WXpayBean bean = (WXpayBean) mParser.getData();
                 if (bean != null) {
-                    if (bean.coupPay) {
+                    if (bean.travelFundPay) {//全部使用旅游基金支付的时候
+                        mHandler.sendEmptyMessageDelayed(1, 3000);
+                    } else if (bean.coupPay) {
                         mDialogUtil.showLoadingDialog();
                         mHandler.sendEmptyMessageDelayed(1, 3000);
                     } else {
@@ -274,4 +290,30 @@ public class FgChoosePayment extends BaseFragment {
             inflateContent();
         }
     };
+
+    @Override
+    public boolean onBackPressed() {
+        backWarn();
+        return true;
+    }
+
+    private void backWarn() {
+        mDialogUtil.showCustomDialog(getString(R.string.app_name), getString(R.string.order_cancel_pay), "确定离开", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                clearFragmentList();
+                FgOrderDetail.Params orderParams = new FgOrderDetail.Params();
+                orderParams.orderId = requestParams.orderId;
+                orderParams.isUpdate = true;
+                Bundle detailBundle =new Bundle();
+                detailBundle.putSerializable(Constants.PARAMS_DATA, orderParams);
+                startFragment(new FgOrderDetail(), detailBundle);
+            }
+        }, "继续支付", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+    }
 }

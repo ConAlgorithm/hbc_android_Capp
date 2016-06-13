@@ -45,21 +45,23 @@ public class OrderDetailAmountView extends LinearLayout implements HbcViewBehavi
         groupLayout.removeAllViews();
 
         OrderPriceInfo priceInfo = orderBean.orderPriceInfo;
-        addBillView(R.string.order_detail_cost_chartered, "" + priceInfo.orderPrice);//包车费用
-        if (orderBean.orderGoodsType == 1) {//接机 举牌费用
-            addBillView(R.string.order_detail_cost_placards, "" + priceInfo.flightBrandSignPrice);
-        } else if(orderBean.orderGoodsType == 2) {//送机 checkin费用
-            addBillView(R.string.order_detail_cost_checkin, "" + priceInfo.checkInPrice);
+        addBillView(R.string.order_detail_cost_chartered, "" + (int)priceInfo.orderPrice);//包车费用
+        if (orderBean.orderGoodsType == 1 && priceInfo.flightBrandSignPrice > 0) {//接机 举牌费用
+            addBillView(R.string.order_detail_cost_placards, "" + (int)priceInfo.flightBrandSignPrice);
+        } else if(orderBean.orderGoodsType == 2 && priceInfo.checkInPrice > 0) {//送机 checkin费用
+            addBillView(R.string.order_detail_cost_checkin, "" + (int)priceInfo.checkInPrice);
         }
-        addBillView(R.string.order_detail_cost_child_seats, "" + priceInfo.childSeatPrice);//儿童座椅
-        addGroupView(R.string.order_detail_cost_total, "" + priceInfo.shouldPay);//费用总计
+        if (priceInfo.childSeatPrice > 0) {
+            addBillView(R.string.order_detail_cost_child_seats, "" + (int)priceInfo.childSeatPrice);//儿童座椅
+        }
+        addGroupView(R.string.order_detail_cost_total, "" + (int)priceInfo.shouldPay);//费用总计
         if (priceInfo.couponPrice != 0) {
-            addGroupView(R.string.order_detail_cost_coupon, "" + priceInfo.couponPrice);//优惠金额
+            addGroupView(R.string.order_detail_cost_coupon, "" + (int)priceInfo.couponPrice);//优惠金额
         }
         if (priceInfo.travelFundPrice != 0) {
-            addGroupView(R.string.order_detail_cost_travelfund, "" + priceInfo.travelFundPrice);//旅游基金
+            addGroupView(R.string.order_detail_cost_travelfund, "" + (int)priceInfo.travelFundPrice);//旅游基金
         }
-        addGroupView(R.string.order_detail_cost_realpay, "" +priceInfo.actualPay);//实付款
+        addGroupView(R.string.order_detail_cost_realpay, "" + (int)priceInfo.actualPay);//实付款
     }
 
     private void addBillView(int titleID, String price) {
@@ -89,7 +91,7 @@ public class OrderDetailAmountView extends LinearLayout implements HbcViewBehavi
         }
         String priceText = getContext().getString(R.string.sign_rmb) + price;
         if (titleID == R.string.order_detail_cost_coupon) {
-            priceText = "- " + priceText;
+            priceText = getContext().getString(R.string.sign_rmb) + " -" + price;
         } else if (titleID == R.string.order_detail_cost_realpay) {
             priceTV.setTextColor(0xFFFE6732);
         }

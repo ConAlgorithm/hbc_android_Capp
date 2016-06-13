@@ -82,9 +82,6 @@ public class FgCoupon extends BaseFragment implements AdapterView.OnItemClickLis
                 paramsData = (MostFitAvailableBean) bundle.getSerializable(Constants.PARAMS_DATA);
             }
         }
-        if (paramsData != null) {
-            payLayout.setVisibility(View.GONE);
-        }
     }
 
 
@@ -105,7 +102,7 @@ public class FgCoupon extends BaseFragment implements AdapterView.OnItemClickLis
             orderPrice = bundle.getDouble(ORDER_PRICE);
         }
 
-        fgTitle.setText("推荐奖励");
+        fgTitle.setText("优惠券");
         listView.setEmptyView(emptyLayout);
         listView.setOnItemClickListener(this);
         listView.setonRefreshListener(onRefreshListener);
@@ -233,6 +230,7 @@ public class FgCoupon extends BaseFragment implements AdapterView.OnItemClickLis
         if (paramsData != null) {
             //TODO
             EventBus.getDefault().post(new EventAction(EventType.SELECT_COUPON_BACK,bean));
+            finish();
         } else if (!TextUtils.isEmpty(orderId)) {
             //点击回传优惠券
             if (bean != null) {

@@ -61,6 +61,7 @@
                 android:textColor="@android:color/white"
                 />
             <TextView
+                android:id="@+id/slidemenu_header_coupon_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="15sp"
@@ -89,6 +90,7 @@
                 android:textColor="@android:color/white"
                 />
             <TextView
+                android:id="@+id/slidemenu_header_travelfund_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="15sp"

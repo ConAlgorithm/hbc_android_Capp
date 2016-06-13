@@ -67,7 +67,7 @@ public class OrderDetailStateView extends LinearLayout implements HbcViewBehavio
             case ARRIVED://已接单(3:已接单,4:已到达)
                 setStyleOther(0xFFF1FFE8, 0xFF7CBD55, R.string.order_detail_receiving, R.string.order_detail_prompt_new_travel, R.mipmap.order_order);
                 break;
-            case SERVICING://5:服务完成
+            case SERVICING://5:服务中
                 setStyleOther(0xFFE1FDFF, 0xFF32C0CA, R.string.order_detail_receiving, R.string.order_detail_inservice, R.mipmap.order_service);
                 break;
             case NOT_EVALUATED://6:

@@ -58,7 +58,11 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
         String localTime = getContext().getString(R.string.order_detail_local_time, orderBean.serviceTimeStr);
         if (orderBean.orderGoodsType == 3 || orderBean.orderGoodsType == 5 || orderBean.orderGoodsType == 6 || orderBean.orderGoodsType == 7) {
             //主标题：东京-6天包车  副标题：当地时间
-            addItemView(R.mipmap.order_time, getContext().getString(R.string.order_detail_local_chartered, orderBean.serviceCityName, orderBean.totalDays), null, localTime);
+            String totalDays = "" + orderBean.totalDays;
+            if (orderBean.isHalfDaily == 1) {//半日包
+                totalDays = getContext().getString(R.string.order_detail_half_day);
+            }
+            addItemView(R.mipmap.order_time, getContext().getString(R.string.order_detail_local_chartered, orderBean.serviceCityName, totalDays), null, localTime);
         } else {
             //主标题：当地时间   副标题："航班HKJHKJ 东京-北京"
             String flight = "";

@@ -227,7 +227,7 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
         String key = "";
         for (int i = 0; i < sourceDateList.size(); i++) {
             CityBean model = sourceDateList.get(i);
-            if (key.equals(model.firstLetter)) {
+            if (null == model.firstLetter || (model.firstLetter).equalsIgnoreCase(key)) {
                 model.isFirst = false;
             } else {
                 model.isFirst = true;

@@ -19,26 +19,32 @@ import org.xutils.view.annotation.ViewInject;
  */
 public class NewOrderVH extends ZBaseViewHolder {
 
-    @ViewInject(R.id.travel_item_line)
-    public View mLineView; // 业务线
     @ViewInject(R.id.travel_item_typestr)
     public TextView mTypeStr; //订单类型
     @ViewInject(R.id.travel_item_cartype)
     public TextView mCarType; //车辆类型
-    @ViewInject(R.id.travel_item_datetime)
-    public TextView mServiceTime; //服务时间
-    @ViewInject(R.id.travel_item_commend_start_address)
-    public TextView mCommendStartAddress; //出发地
-    @ViewInject(R.id.travel_item_datetime_type)
-    public TextView mServiceTimeLocl; //当地城市时间
-    @ViewInject(R.id.travel_item_days)
-    public TextView mDays; //日租天数
-    @ViewInject(R.id.travel_item_from)
-    public TextView mFrom; //出发地址
-    @ViewInject(R.id.travel_item_to)
-    public TextView mTo; //到达地址
+    @ViewInject(R.id.order_item_time_tv)
+    public TextView timeTV;
     @ViewInject(R.id.travel_item_citys)
-    public TextView mCitys; //包车城市指向
+    public TextView citysTV;
+    @ViewInject(R.id.order_item_time_local_tv)
+    public TextView timeLocalTV;
+    @ViewInject(R.id.order_item_start_address_tv)
+    public TextView startAddressTV;
+    @ViewInject(R.id.order_item_end_address_tv)
+    public TextView endAddressTV;
+    @ViewInject(R.id.order_item_start_address_iv)
+    public ImageView startAddressIV;
+    @ViewInject(R.id.order_item_end_address_iv)
+    public ImageView endAddressIV;
+    @ViewInject(R.id.order_item_start_address_layout)
+    public LinearLayout startAddressLayout;
+    @ViewInject(R.id.order_item_end_address_layout)
+    public LinearLayout endAddressLayout;
+    @ViewInject(R.id.order_list_line)
+    public View lineView;
+    @ViewInject(R.id.order_list_vertical_line)
+    public View verticalLine;
     @ViewInject(R.id.travel_item_status)
     public TextView mStatus; //订单状态
     @ViewInject(R.id.travel_item_status_layout)
@@ -59,7 +65,6 @@ public class NewOrderVH extends ZBaseViewHolder {
     public TextView mBtnChatNum; //未读消息个数
     @ViewInject(R.id.travel_item_btn_assessment)
     public TextView mAssessment; //评价车导
-
     @ViewInject(R.id.br_layout)
     public LinearLayout br_layout;
     @ViewInject(R.id.travel_item_btn_br)

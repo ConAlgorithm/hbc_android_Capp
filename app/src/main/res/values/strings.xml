@@ -70,6 +70,7 @@
     <string name="arrival_tip_hotel">如果您的目的地是酒店,请搜索酒店名称</string>
     <string name="arrival_tip_same">留意相似名称的地点,确认地址是否正确</string>
     <string name="arrival_empty_text">没有找到与『%s』相关的结果 请重新输入</string>
+    <string name="data_load_error_retry">加载失败，点击重试！</string>
 
 
     <string name="error_parser">解析错误</string>
@@ -187,7 +188,7 @@
     <string name="order_cancel_tip2" formatted="false">距离服务开始时间24小时前取消及更改，免收退改费,可全额退款;\n服务开始时间24小时内取消及更改，将收取订单金额的100%作为退改费;</string>
     <string name="order_cancel_tip3">\n跨城市长途包车距离服务开始时间48小时内取消及更改，将产生司导住宿费用，收取订单金额20%用于补偿司导损失。</string>
     <string name="pay_time_tip">请在%1$s内付款,以免订单取消</string>
-    <string name="order_cancel_pay">订单尚未付款，返回将放弃支付，稍后可在“我的行程”中继续完成支付</string>
+    <string name="order_cancel_pay">下单后24小时订单将被取消，请尽快完成支付</string>
     <!-- 承诺promise -->
     <string name="promise_title_all">一价全包</string>
     <string name="promise_title_wait">免费等待</string>
@@ -610,9 +611,15 @@
     <string name="order_detail_cost_total">费用总计</string>
     <string name="order_detail_cost_coupon">优惠金额</string>
     <string name="order_detail_cost_travelfund">旅游基金</string>
-    <string name="order_detail_cost_realpay">实付款</string>
+    <string name="order_detail_cost_realpay">支付金额</string>
     <string name="order_detail_local_chartered">%1$s-%2$s天包车</string>
+    <string name="order_detail_half_day">0.5</string>
+    <string name="order_detail_cancel_oeder">取消订单成功</string>
 
     <string name="alert_del_after_edit">请在删除指定司导后，再修改出行信息</string>
+
+    <string name="guide_error_city">当前司导不可服务该城市</string>
+    <string name="guide_error_time">司导无法在所选时间段内进行服务</string>
+
 
 </resources>

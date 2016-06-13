@@ -40,11 +40,13 @@ public class OrderDetailRouteItemView extends TextView {
     }
 
     public enum StyleType {
-        TOP, BOTTOM, ALL
+        ONE, TOP, BOTTOM, ALL
     }
 
     public void setStyle(int index, int size) {
-        if (index == 0) {
+        if (size == 1) {
+            this.styleType = StyleType.ONE;
+        } else if (index == 0) {
             this.styleType = StyleType.TOP;
         } else if (index == size - 1) {
             this.styleType = StyleType.BOTTOM;
@@ -67,21 +69,23 @@ public class OrderDetailRouteItemView extends TextView {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        switch (styleType) {
-            case TOP:
-                rect.top = getHeight() / 2.0f;
-                rect.bottom = getHeight();
-                break;
-            case BOTTOM:
-                rect.top = 0;
-                rect.bottom = getHeight() / 2.0f;
-                break;
-            case ALL:
-                rect.top = 0;
-                rect.bottom = getHeight();
-                break;
+        if (styleType != StyleType.ONE) {
+            switch (styleType) {
+                case TOP:
+                    rect.top = getHeight() / 2.0f;
+                    rect.bottom = getHeight();
+                    break;
+                case BOTTOM:
+                    rect.top = 0;
+                    rect.bottom = getHeight() / 2.0f;
+                    break;
+                case ALL:
+                    rect.top = 0;
+                    rect.bottom = getHeight();
+                    break;
+            }
+            canvas.drawRect(rect, paint);
         }
-        canvas.drawRect(rect, paint);
         float circleCX = (rect.right - rect.left) / 2.0f + rect.left;
         canvas.drawCircle(circleCX, getHeight() / 2.0f, UIUtils.dip2px(3), paint);
     }

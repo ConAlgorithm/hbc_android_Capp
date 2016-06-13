@@ -348,10 +348,14 @@ public class FgChooseOther extends BaseFragment {
             case R.id.name1_del:
                 user1Layout.setVisibility(View.GONE);
                 addOtherPhoneClick.setTextColor(Color.parseColor("#2e82f7"));
+                name1Text.setText("");
+                user1PhoneText.setText("");
                 break;
             case R.id.name2_del:
                 user2Layout.setVisibility(View.GONE);
                 addOtherPhoneClick.setTextColor(Color.parseColor("#2e82f7"));
+                name2Text.setText("");
+                user2PhoneText.setText("");
                 break;
             case R.id.name_right:
             case R.id.name1_right:

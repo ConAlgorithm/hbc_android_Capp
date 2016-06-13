@@ -22,6 +22,7 @@ public class ParserWxPay extends ImplParser {
             bean.prepayid = obj.optString("prepayid");
             bean.sign = obj.optString("sign");
             bean.timestamp = obj.optString("timestamp");
+            bean.travelFundPay = obj.optBoolean("travelFundPay", false);
         }
         return bean;
     }

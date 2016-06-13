@@ -12,6 +12,8 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
+import static u.aly.au.S;
+
 /**
  * @author Zongfi
  * @datetime 2014-1-6 下午3:15:01
@@ -568,6 +570,22 @@ public class DateUtils {
             return cal.get(Calendar.DAY_OF_WEEK);
         }catch (Exception e){
             return 0;
+        }
+    }
+
+
+    public static String getToTime(String time,int toTime){
+        try {
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.MINUTE, toTime);
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date tmpDate = format.parse(time);
+            Calendar cal = new GregorianCalendar();
+            cal.set(tmpDate.getYear(), tmpDate.getMonth(), tmpDate.getDay());
+            calendar.add(Calendar.MINUTE, toTime);
+            return format.format(calendar.getTime());
+        }catch (Exception e){
+            return "";
         }
     }
 

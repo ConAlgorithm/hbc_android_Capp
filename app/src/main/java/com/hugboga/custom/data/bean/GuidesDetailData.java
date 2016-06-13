@@ -1,6 +1,7 @@
 package com.hugboga.custom.data.bean;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * Created by qingcha on 16/5/28.
@@ -27,12 +28,13 @@ public class GuidesDetailData implements Serializable {
     private int countryId;
     private String countryName;//司导所在国家
     private String guideId;//导游id
-    private int guideLevel;//3全显示 5不显示包车
+    private int guideLevel;//5不显示包车
     private String guideName;//导游姓名
     private String guideNo;//导游编号
     private float serviceStar;//导游服务星级
     private String avatar;
     private int isFavored;//是否被该用户收藏，0否，1是
+    private ArrayList<Integer> serviceTypes;//服务类型列表 1.接送机，2.包车，3.单次接送
 
     public boolean isCollected() {
         return isFavored == 1;
@@ -142,7 +144,7 @@ public class GuidesDetailData implements Serializable {
         return serviceStar;
     }
 
-    public boolean isShowCharteredCar() {
-        return guideLevel == 3;
+    public ArrayList<Integer> getServiceTypes() {
+        return serviceTypes;
     }
 }
