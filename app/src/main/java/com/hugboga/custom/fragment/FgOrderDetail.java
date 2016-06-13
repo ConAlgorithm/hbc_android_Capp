@@ -274,6 +274,9 @@ public class FgOrderDetail extends BaseFragment {
                     requestData();
                 }
                 break;
+            case ORDER_DETAIL_UPDATE://更新数据
+                requestData();
+                break;
             case ORDER_DETAIL_TOURIST_INFO://出行人信息
                 if (orderBean == null) {
                     return;

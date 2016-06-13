@@ -1,6 +1,7 @@
 package com.hugboga.custom.fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -224,6 +225,7 @@ public class FgGuideDetail extends BaseFragment {
                 if (data == null) {
                     break;
                 }
+                Log.i("aa", "url " +ShareUrls.getShareGuideUrl(data, UserEntity.getUser().getNickname(getActivity())));
                 CommonUtils.shareDialog(getActivity(), data.getAvatar(),
                         getString(R.string.guide_detail_share_title),
                         getString(R.string.guide_detail_share_content),

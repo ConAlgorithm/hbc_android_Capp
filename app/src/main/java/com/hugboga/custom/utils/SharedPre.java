@@ -40,6 +40,8 @@ public class SharedPre {
 	public static String RESOURCES_AIRPORT_HISTORY ="resources_airport_history";
 	public static String RESOURCES_PLACE_HISTORY ="resources_place_history";
 	public static String CACHE_SIZE ="cache_size";
+	public static String TRAVELFUND ="travelFund";
+	public static String COUPONS = "coupons";
 
 	public SharedPre(Context ctx) {
 		this.ctx = ctx;
