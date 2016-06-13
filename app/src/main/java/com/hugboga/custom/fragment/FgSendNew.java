@@ -238,6 +238,9 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
     boolean waitChecked = false;
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
+            case CHANGE_GUIDE:
+                collectGuideBean = (CollectGuideBean)action.getData();
+                break;
             case GUIDE_DEL:
                 collectGuideBean = null;
                 confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
@@ -406,7 +409,11 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
             RequestCheckPrice requestCheckPrice = (RequestCheckPrice) request;
             carListBean = (CarListBean) requestCheckPrice.getData();
             if (carListBean.carList.size() > 0) {
-                carBean = CarUtils.initCarListData(carListBean.carList).get(0);
+                if(null == collectGuideBean) {
+                    carBean = CarUtils.initCarListData(carListBean.carList).get(0);
+                }else {
+                    carBean = CarUtils.isMatchLocal(CarUtils.getNewCarBean(collectGuideBean), carListBean.carList);
+                }
                 bottom.setVisibility(View.VISIBLE);
                 genBottomData(carBean);
             } else {
@@ -431,8 +438,9 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
             airTitle.setVisibility(View.GONE);
             airDetail.setVisibility(View.GONE);
             timeText.setText("");
-            showCarsLayoutSend.setVisibility(View.GONE);
+//            showCarsLayoutSend.setVisibility(View.GONE);
             bottom.setVisibility(View.GONE);
+            checkInput();
 
         } else if (FgPoiSearch.class.getSimpleName().equals(from)) {
             poiBean = (PoiBean) bundle.getSerializable("arrival");
@@ -442,8 +450,8 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
             airTitle.setText(poiBean.placeName);
             airDetail.setText(poiBean.placeDetail);
             collapseSoftInputMethod();
+            checkInput();
         }
-        checkInput();
     }
 
     public void showDaySelect() {

@@ -236,6 +236,11 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
     ManLuggageBean manLuggageBean;
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
+
+            case CHANGE_GUIDE:
+                collectGuideBean = (CollectGuideBean)action.getData();
+                break;
+
             case GUIDE_DEL:
                 collectGuideBean = null;
                 confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));

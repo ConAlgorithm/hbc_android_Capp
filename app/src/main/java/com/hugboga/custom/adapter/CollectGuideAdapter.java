@@ -172,7 +172,7 @@ public class CollectGuideAdapter extends BaseAdapter<CollectGuideBean> {
                 holder.appointmentTV.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        EventBus.getDefault().post(new EventAction(EventType.CHOOSE_GUIDE,getItem(Integer.valueOf(v.getTag().toString()))));
+                        EventBus.getDefault().post(new EventAction(EventType.CHOOSE_GUIDE,bean));
                         if(null != fragment) {
                             fragment.finish();
                         }
@@ -183,6 +183,17 @@ public class CollectGuideAdapter extends BaseAdapter<CollectGuideBean> {
                 holder.appointmentTV.setText(context.getString(R.string.collect_guide_unappointments));
                 holder.appointmentTV.setBackgroundResource(R.drawable.shape_rounded_gray_light);
                 holder.appointmentTV.setTextColor(context.getResources().getColor(R.color.basic_gray_light));
+
+                holder.appointmentTV.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        EventBus.getDefault().post(new EventAction(EventType.CHOOSE_GUIDE,bean));
+                        if(null != fragment) {
+                            fragment.finish();
+                        }
+                    }
+                });
+
             }
             holder.describeTV.setText(context.getString(R.string.collect_guide_describe_filter, bean.carDesc, bean.carModel));
         }

@@ -61,5 +61,6 @@ public enum EventType {
     ORDER_GO_HOME,//支付成功回首页
     GUIDE_ERROR_TIME,//司导无法在所选时间段内进行服务
     GUIDE_DEL,//删除司导
+    CHANGE_GUIDE,//换司导
 
 }
