@@ -147,7 +147,7 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
     }
 
 
-    private void initCarFragment() {
+    private void initCarFragment(boolean isDataBack) {
         showCarsLayoutSend.setVisibility(View.VISIBLE);
         fm = getFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
@@ -162,6 +162,12 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
         }
         bundle.putSerializable("collectGuideBean",collectGuideBean);
         bundle.putParcelable("carListBean", carListBean);
+        if(isDataBack) {
+            String sTime = serverDate +":00";
+            bundle.putInt("cityId", cityId);
+            bundle.putString("startTime", sTime);
+            bundle.putString("endTime", DateUtils.getToTime(sTime,Integer.valueOf(carListBean.estTime)));
+        }
         fgCarNew.setArguments(bundle);
         transaction.add(R.id.show_cars_layout_send, fgCarNew);
         transaction.commit();
@@ -173,7 +179,7 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
     protected void initView() {
         collectGuideBean = (CollectGuideBean)this.getArguments().getSerializable("collectGuideBean");
         if(null != collectGuideBean){
-            initCarFragment();
+            initCarFragment(false);
         }
 
     }
@@ -318,7 +324,7 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
         bundle.putString("childrenNum", manLuggageBean.childs + "");
         bundle.putString("childseatNum", manLuggageBean.childSeats + "");
         bundle.putString("luggageNum", manLuggageBean.luggages + "");
-        bundle.putSerializable("carListBean", carListBean);
+        bundle.putParcelable("carListBean", carListBean);
         bundle.putInt("type", 2);
         bundle.putString("orderType", "2");
         bundle.putBoolean("needCheckin", checkInChecked);
@@ -407,7 +413,7 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
                 bottom.setVisibility(View.GONE);
             }
 
-            initCarFragment();
+            initCarFragment(true);
         }
     }
 

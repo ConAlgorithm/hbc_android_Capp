@@ -415,7 +415,7 @@ public class FgSingleNew extends BaseFragment {
         bundle.putString("carTypeName", carBean.desc);
         bundle.putString("startCityName", cityBean.name);
         bundle.putParcelable("cityBean", cityBean);
-        bundle.putSerializable("carListBean", carListBean);
+        bundle.putParcelable("carListBean", carListBean);
         bundle.putInt("outnum", 0);
         bundle.putInt("innum", 0);
         bundle.putString("dayNums", "0");

@@ -356,7 +356,7 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
         bundle.putString("childrenNum", manLuggageBean.childs + "");
         bundle.putString("childseatNum", manLuggageBean.childSeats + "");
         bundle.putString("luggageNum", manLuggageBean.luggages + "");
-
+        bundle.putParcelable("carListBean", carListBean);
 
         fgOrderNew.setArguments(bundle);
         startFragment(fgOrderNew);
