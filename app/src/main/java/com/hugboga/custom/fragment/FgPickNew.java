@@ -252,12 +252,16 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
                 break;
             case CHECK_SWITCH:
                 checkInChecked = (boolean)action.getData();
-                genBottomData(carBean);
+                if(null != carBean) {
+                    genBottomData(carBean);
+                }
                 break;
 
             case WAIT_SWITCH:
                 waitChecked = (boolean)action.getData();
-                genBottomData(carBean);
+                if(null != carBean) {
+                    genBottomData(carBean);
+                }
                 break;
 
             case AIR_NO:
@@ -285,11 +289,17 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
                 break;
             case CHANGE_CAR:
                 carBean = (CarBean) action.getData();
-                genBottomData(carBean);
+                if(null != carBean) {
+                    genBottomData(carBean);
+                }
                 break;
             case MAN_CHILD_LUUAGE:
                 confirmJourney.setBackgroundColor(getContext().getResources().getColor(R.color.all_bg_yellow));
                 manLuggageBean = (ManLuggageBean)action.getData();
+                if(null != carBean) {
+                    genBottomData(carBean);
+                }
+                genBottomData(carBean);
                 confirmJourney.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
