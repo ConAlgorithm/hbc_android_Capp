@@ -398,7 +398,6 @@ public class FGOrderNew extends BaseFragment {
         childseatNum = this.getArguments().getString("childseatNum");
         luggageNum = this.getArguments().getString("luggageNum");
         manLuggageBean = this.getArguments().getParcelable("manLuggageBean");
-        carListBean = this.getArguments().getParcelable("carListBean");
         type = this.getArguments().getInt("type");
         orderType = this.getArguments().getString("orderType");
         isCheckIn = this.getArguments().getBoolean("needCheckin");
@@ -443,7 +442,6 @@ public class FGOrderNew extends BaseFragment {
 
 
         carBean = this.getArguments().getParcelable("carBean");
-        carListBean = this.getArguments().getParcelable("carListBean");
 
         adultNum = this.getArguments().getString("adultNum");
         childrenNum = this.getArguments().getString("childrenNum");

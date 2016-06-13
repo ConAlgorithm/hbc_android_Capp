@@ -155,7 +155,6 @@ public class FgSkuNew extends BaseFragment {
     public void onDataRequestSucceed(BaseRequest request) {
         if (request instanceof RequestPriceSku) {
             carListBean = ((RequestPriceSku) request).getData();
-            carTypeBean = null;
             if (carListBean.carList.size() > 0) {
                 carBean = carListBean.carList.get(0);
                 bottom.setVisibility(View.VISIBLE);
