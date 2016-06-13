@@ -1,6 +1,7 @@
 package com.hugboga.custom.fragment;
 
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -290,7 +291,11 @@ public class FgSingleNew extends BaseFragment {
             RequestCheckPrice requestCheckPrice = (RequestCheckPrice) request;
             carListBean = (CarListBean) requestCheckPrice.getData();
             if (carListBean.carList.size() > 0) {
-                carBean = CarUtils.initCarListData(carListBean.carList).get(0);//carListBean.carList.get(0);
+                if(null == collectGuideBean) {
+                    carBean = CarUtils.initCarListData(carListBean.carList).get(0);//carListBean.carList.get(0);
+                }else {
+                    carBean = CarUtils.isMatchLocal(CarUtils.getNewCarBean(collectGuideBean), carListBean.carList);
+                }
                 bottom.setVisibility(View.VISIBLE);
                 genBottomData(carBean);
             } else {
@@ -303,6 +308,15 @@ public class FgSingleNew extends BaseFragment {
     ManLuggageBean manLuggageBean;
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
+            case GUIDE_DEL:
+                collectGuideBean = null;
+                confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
+                confirmJourney.setOnClickListener(null);
+
+                carBean = (CarBean) action.getData();
+                genBottomData(carBean);
+
+                break;
             case CHANGE_CAR:
                 carBean = (CarBean) action.getData();
                 genBottomData(carBean);

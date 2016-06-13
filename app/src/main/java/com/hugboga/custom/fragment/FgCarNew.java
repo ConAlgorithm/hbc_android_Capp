@@ -259,6 +259,9 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
         mAdapter = new CarViewpagerAdapter(getActivity(), mJazzy);
         if(null != collectGuideBean) {
             carList = guideCarList;
+            if(null == carListBean){
+                carListBean = new CarListBean();
+            }
             carListBean.carList = guideCarList;
         }else{
             carList = oldCarList;
@@ -355,18 +358,14 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
             driver_layout.setVisibility(View.VISIBLE);
             driverName.setText(collectGuideBean.name);
             man_luggage_layout.setVisibility(View.GONE);
-            carListBean =  new CarListBean();
-            ArrayList<CarBean> carList = new ArrayList<>();
-            final CarBean carBean = new CarBean();
-            carBean.capOfLuggage = collectGuideBean.numOfLuggage;
-            carBean.capOfPerson = collectGuideBean.numOfPerson;
-            carBean.carType = collectGuideBean.carType;
-            carBean.desc = collectGuideBean.carDesc + collectGuideBean.carClass+"座";
-            carBean.models = collectGuideBean.carModel;
-            carBean.carSeat = collectGuideBean.carClass;
-            carBean.imgRes = CarUtils.getCarImgs(collectGuideBean.carType,collectGuideBean.carClass);
-            carList.add(carBean);
-            guideCarList = carList;
+            if(null != carListBean) {
+                carBean = CarUtils.isMatchLocal(CarUtils.getNewCarBean(collectGuideBean), carListBean.carList);
+            }else{
+                carBean = CarUtils.getNewCarBean(collectGuideBean);
+            }
+            final ArrayList<CarBean> newCarList = new ArrayList<>();
+            newCarList.add(carBean);
+            guideCarList = newCarList;
             delText.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -377,7 +376,23 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
                         car_layout.setVisibility(View.GONE);
                     }
                     collectGuideBean = null;
-                    EventBus.getDefault().post(new EventAction(EventType.GUIDE_DEL));
+                    carListBean.carList = oldCarList;
+                    carList = oldCarList;
+                    mAdapter = new CarViewpagerAdapter(getActivity(), mJazzy);
+                    mAdapter.setList(oldCarList);
+                    mJazzy.setAdapter(mAdapter);
+                    carBean = carList.get(currentIndex);
+                    fgCarIntro.setText("此车型包括：" + carBean.models);
+                    mansNum.setText("x " + carBean.capOfPerson);
+                    luggageNum.setText("x " + carBean.capOfLuggage);
+
+                    manTips.setVisibility(View.VISIBLE);
+                    manText.setText("");
+                    luggageText.setText("");
+                    childseatText.setText("");
+
+
+                    EventBus.getDefault().post(new EventAction(EventType.GUIDE_DEL,carBean));
                 }
             });
 
@@ -437,7 +452,7 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
 //        initListData();
         mAdapter.setList(carList);
         mJazzy.setAdapter(mAdapter);
-        mJazzy.setOffscreenPageLimit(5);
+        mJazzy.setOffscreenPageLimit(1);
         mJazzy.addOnPageChangeListener(this);
 
         carPriceInfo.setOnClickListener(new View.OnClickListener() {
