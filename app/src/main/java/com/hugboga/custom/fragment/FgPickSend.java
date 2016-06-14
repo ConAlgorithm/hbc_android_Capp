@@ -278,7 +278,7 @@ public class FgPickSend extends BaseFragment implements View.OnTouchListener{
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
             case ONBACKPRESS:
-                backPress();
+//                backPress();
                 break;
             default:
                 break;
@@ -292,9 +292,4 @@ public class FgPickSend extends BaseFragment implements View.OnTouchListener{
         return true;
     }
 
-
-//    @Override
-//    public boolean onTouch(View v, MotionEvent event) {
-//        return true;
-//    }
 }

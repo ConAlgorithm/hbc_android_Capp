@@ -513,4 +513,9 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
     }
 
 
+    @Override
+    public boolean onBackPressed() {
+        return false;
+    }
+
 }

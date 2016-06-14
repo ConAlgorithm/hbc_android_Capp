@@ -465,5 +465,10 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
         }
     }
 
+    @Override
+    public boolean onBackPressed() {
+        return false;
+    }
+
 
 }
