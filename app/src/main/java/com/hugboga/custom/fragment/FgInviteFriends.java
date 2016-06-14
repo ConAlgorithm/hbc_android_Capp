@@ -155,7 +155,7 @@ public class FgInviteFriends extends BaseFragment implements View.OnClickListene
                     return;
                 }
                 String shareUrl = ShareUrls.getShareThirtyCouponUrl(UserEntity.getUser().getAvatar(getActivity()),
-                        UserEntity.getUser().getNickname(getActivity()),
+                        UserEntity.getUser().getUserName(getActivity()),
                         headerCodeTV.getText().toString());
                 CommonUtils.shareDialog(getActivity(), R.mipmap.share_coupon,
                         getString(R.string.invite_friends_share_title), getString(R.string.invite_friends_share_content), shareUrl);
