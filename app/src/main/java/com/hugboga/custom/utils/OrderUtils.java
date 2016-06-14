@@ -214,6 +214,22 @@ public class OrderUtils {
 
         orderBean.userEx = getUserExJson(contactUsersBean);
         orderBean.realUserEx = getRealUserExJson(contactUsersBean);
+
+        ManLuggageBean manLuggageBean = new ManLuggageBean();
+        manLuggageBean.childSeats = Integer.valueOf(childseatNum);
+        manLuggageBean.childs = Integer.valueOf(childrenNum);
+
+
+        if(manLuggageBean.childSeats != 0) {
+            orderBean.orderPrice = carBean.price;
+            orderBean.priceChannel = carBean.price+"";
+            orderBean.childSeatStr = getChileSeatJson(null,manLuggageBean);
+        }else{
+            orderBean.orderPrice  = carBean.price;
+            orderBean.childSeatStr = "";
+            orderBean.priceChannel = carBean.price + "";
+        }
+
         return orderBean;
     }
 
