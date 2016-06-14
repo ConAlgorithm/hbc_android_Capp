@@ -341,7 +341,13 @@ public class FGOrderNew extends BaseFragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     dreamLeft.setChecked(false);
-                    allMoneyLeftText.setText("￥" + (mostFitBean.actualPrice  + OrderUtils.getSeat1PriceTotal(carListBean,manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean,manLuggageBean)));
+                    if(mostFitBean.actualPrice == 0){
+                        allMoneyLeftText.setText("￥" + (carBean.price  + OrderUtils.getSeat1PriceTotal(carListBean,manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean,manLuggageBean)));
+
+                    }else{
+                        allMoneyLeftText.setText("￥" + (mostFitBean.actualPrice  + OrderUtils.getSeat1PriceTotal(carListBean,manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean,manLuggageBean)));
+
+                    }
                 }
             }
         });
