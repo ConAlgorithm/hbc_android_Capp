@@ -18,6 +18,7 @@ import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
+import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.CarViewpagerAdapter;
 import com.hugboga.custom.data.bean.AirPort;
@@ -29,6 +30,7 @@ import com.hugboga.custom.data.bean.DailyBean;
 import com.hugboga.custom.data.bean.FlightBean;
 import com.hugboga.custom.data.bean.ManLuggageBean;
 import com.hugboga.custom.data.bean.PoiBean;
+import com.hugboga.custom.data.bean.PushMessage;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
@@ -40,6 +42,7 @@ import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.CarUtils;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.OrderUtils;
+import com.hugboga.custom.utils.PushUtils;
 import com.hugboga.custom.widget.DialogUtil;
 import com.umeng.analytics.MobclickAgent;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
@@ -63,6 +66,7 @@ import static android.view.View.GONE;
 import static com.hugboga.custom.data.event.EventType.CHANGE_CAR;
 import static com.hugboga.custom.data.event.EventType.MAN_CHILD_LUUAGE;
 import static com.hugboga.custom.utils.OrderUtils.getSeat1PriceTotal;
+import static com.tencent.bugly.crashreport.inner.InnerAPI.context;
 
 /**
  * Created  on 16/5/20.
@@ -189,6 +193,14 @@ public class FgSingleNew extends BaseFragment {
     CollectGuideBean collectGuideBean;
     @Override
     protected void initView() {
+
+        PushMessage pushMessage = new PushMessage();
+        pushMessage.title = "title";
+        pushMessage.content = "content";
+        PushUtils.showNotification(pushMessage);
+
+
+
         collectGuideBean = (CollectGuideBean)this.getArguments().getSerializable("collectGuideBean");
         if(null != collectGuideBean){
             initCarFragment(false);
