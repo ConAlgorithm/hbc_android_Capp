@@ -205,7 +205,7 @@ public class FgSkuNew extends BaseFragment {
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
             case ONBACKPRESS:
-                backPress();
+//                backPress();
                 break;
             case CHANGE_CAR:
                 carBean = (CarBean) action.getData();
