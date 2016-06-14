@@ -22,6 +22,7 @@ import com.hugboga.custom.fragment.FgOrderSelectCity;
 import com.hugboga.custom.fragment.FgPickSend;
 import com.hugboga.custom.fragment.FgSingleNew;
 import com.hugboga.custom.utils.Tools;
+import com.hugboga.custom.widget.CircleImageView;
 import com.hugboga.custom.widget.RatingView;
 import com.umeng.analytics.MobclickAgent;
 
@@ -201,7 +202,7 @@ public class CollectGuideAdapter extends BaseAdapter<CollectGuideBean> {
 
     class ViewHolder {
         @ViewInject(R.id.collect_avatar_iv)
-        PolygonImageView avatarIV;
+        CircleImageView avatarIV;
         @ViewInject(R.id.collect_name_tv)
         TextView nameTV;
         @ViewInject(R.id.collect_ratingView)

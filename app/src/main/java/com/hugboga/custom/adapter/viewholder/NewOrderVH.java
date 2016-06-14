@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.viewholder.ZBaseViewHolder;
 import com.hugboga.custom.R;
+import com.hugboga.custom.widget.CircleImageView;
 
 import net.grobas.view.PolygonImageView;
 
@@ -54,7 +55,7 @@ public class NewOrderVH extends ZBaseViewHolder {
     @ViewInject(R.id.travel_item_head_layout)
     public LinearLayout mHeadLayout; //导游信息
     @ViewInject(R.id.travel_item_head_img)
-    public PolygonImageView mHeadImg;//导游头像
+    public CircleImageView mHeadImg;//导游头像
     @ViewInject(R.id.travel_item_head_title)
     public TextView mHeadTitle; //导游名称
     @ViewInject(R.id.travel_item_btn_pay)

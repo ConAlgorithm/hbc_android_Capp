@@ -6,6 +6,7 @@ import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -35,6 +36,7 @@ public class FgTravelFund extends BaseFragment {
     private ZListView listView;
     private LinearLayout footerItemsLayout;
     private TextView amountTV, effectiveDateTV;
+    private FrameLayout titleLayout;
 
     private TravelFundAdapter adapter;
 
@@ -50,6 +52,7 @@ public class FgTravelFund extends BaseFragment {
         headerView.findViewById(R.id.header_travel_fund_explain_iv).setLayoutParams(imgParams);
         amountTV = (TextView) headerView.findViewById(R.id.header_travel_fund_amount_tv);
         effectiveDateTV = (TextView) headerView.findViewById(R.id.header_travel_fund_effectivedate_tv);
+        titleLayout = (FrameLayout) headerView.findViewById(R.id.header_travel_fund_title_layout);
         listView.addHeaderView(headerView);
 
         View footerView = inflater.inflate(R.layout.footer_invite_friends, null);
@@ -104,6 +107,9 @@ public class FgTravelFund extends BaseFragment {
                     adapter = new TravelFundAdapter(getActivity());
                     adapter.setFgTravelFund(true);
                     listView.setAdapter(adapter);
+                    if (listData == null || listData.size() <= 0) {
+                        titleLayout.setVisibility(View.GONE);
+                    }
                 }
                 adapter.addList(listData);
                 if (listData != null && listData.size() < Constants.DEFAULT_PAGESIZE) {
