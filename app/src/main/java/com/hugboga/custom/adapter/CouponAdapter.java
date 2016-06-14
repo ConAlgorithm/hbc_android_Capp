@@ -20,6 +20,8 @@ import org.xutils.x;
  */
 public class CouponAdapter extends BaseAdapter<CouponBean> {
 
+    public String idStr; //默认选中的优惠券
+
     public CouponAdapter(Activity context) {
         super(context);
     }
@@ -67,6 +69,11 @@ public class CouponAdapter extends BaseAdapter<CouponBean> {
             holder.mPrice.setTextColor(pressColor);
             holder.lineView.setBackgroundColor(pressColor);
         }
+        if (idStr != null && !idStr.isEmpty() && couponBean.couponID.equals(idStr)) {
+            holder.mSelected.setVisibility(View.VISIBLE);
+        } else {
+            holder.mSelected.setVisibility(View.GONE);
+        }
         return convertView;
     }
 
@@ -83,5 +90,7 @@ public class CouponAdapter extends BaseAdapter<CouponBean> {
         TextView mDateBettow;
         @ViewInject(R.id.coupon_vertical_line)
         View lineView;
+        @ViewInject(R.id.coupon_item_selected)
+        ImageView mSelected;
     }
 }

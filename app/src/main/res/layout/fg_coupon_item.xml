@@ -65,5 +65,11 @@
             android:textColor="#212528"
             android:textSize="@dimen/text_size_medium" />
     </LinearLayout>
-
+    <ImageView
+        android:id="@+id/coupon_item_selected"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_alignParentRight="true"
+        android:src="@mipmap/coupon_selected" />
 </RelativeLayout>
