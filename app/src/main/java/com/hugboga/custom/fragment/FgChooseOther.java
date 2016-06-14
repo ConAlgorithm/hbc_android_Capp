@@ -318,19 +318,23 @@ public class FgChooseOther extends BaseFragment {
                     switch (clickViewId) {
                         case R.id.name_right:
                             nameText.setText(contact[0]);
-                            userPhoneText.setText("" + contact[1]);
+                            String userPhone = contact[1];
+                            userPhoneText.setText(userPhone.replaceAll("+86",""));
                             break;
                         case R.id.name1_right:
+                            String user1Phone = contact[1];
                             name1Text.setText(contact[0]);
-                            user1PhoneText.setText("" + contact[1]);
+                            user1PhoneText.setText(user1Phone.replaceAll("+86",""));
                             break;
                         case R.id.name2_right:
+                            String user2Phone = contact[1];
                             name2Text.setText(contact[0]);
-                            user2PhoneText.setText("" + contact[1]);
+                            user2PhoneText.setText(user2Phone.replaceAll("+86",""));
                             break;
                         case R.id.passenger_right:
+                            String passPhone = contact[1];
                             passengerText.setText(contact[0]);
-                            passengerPhoneText.setText("" + contact[1]);
+                            passengerPhoneText.setText(passPhone.replaceAll("+86",""));
                             break;
                     }
                     break;

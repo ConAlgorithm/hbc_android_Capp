@@ -532,6 +532,11 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
             case R.id.childseat_text:
                 FgManLuggage fgManLuggage = new FgManLuggage();
                 Bundle bundle = new Bundle();
+                if(null != collectGuideBean){
+                    carListBean.carList = guideCarList;
+                }else{
+                    carListBean.carList = oldCarList;
+                }
                 bundle.putParcelable("carListBean", carListBean);
                 bundle.putInt("currentIndex", currentIndex);
                 bundle.putParcelable("manLuggageBean",manLuggageBean);
