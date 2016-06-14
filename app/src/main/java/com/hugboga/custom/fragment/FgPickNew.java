@@ -221,10 +221,10 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
                 total += Integer.valueOf(carListBean.additionalServicePrice.pickupSignPrice);
             }
         }
-        allMoneyText.setText("￥ " + total);
+        allMoneyText.setText("￥" + total);
 
         if(null != carListBean) {
-            allJourneyText.setText("全程预估:" + carListBean.distance + "公里," + carListBean.interval + "分钟");
+            allJourneyText.setText("全程预估: " + carListBean.distance + "公里," + carListBean.interval + "分钟");
         }
     }
 
