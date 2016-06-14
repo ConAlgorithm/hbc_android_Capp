@@ -22,8 +22,9 @@ public class CouponAdapter extends BaseAdapter<CouponBean> {
 
     public String idStr; //默认选中的优惠券
 
-    public CouponAdapter(Activity context) {
+    public CouponAdapter(Activity context,String idStr) {
         super(context);
+        this.idStr = idStr;
     }
 
     @Override
@@ -69,7 +70,7 @@ public class CouponAdapter extends BaseAdapter<CouponBean> {
             holder.mPrice.setTextColor(pressColor);
             holder.lineView.setBackgroundColor(pressColor);
         }
-        if (idStr != null && !idStr.isEmpty() && couponBean.couponID.equals(idStr)) {
+        if (!TextUtils.isEmpty(idStr) && couponBean.couponID.equals(idStr)) {
             holder.mSelected.setVisibility(View.VISIBLE);
         } else {
             holder.mSelected.setVisibility(View.GONE);

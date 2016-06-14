@@ -72,6 +72,8 @@ public class FgCoupon extends BaseFragment implements AdapterView.OnItemClickLis
 
     private MostFitAvailableBean paramsData;
 
+    private String idStr = null;
+
     @Override
     protected void initHeader(Bundle savedInstanceState) {
         if (savedInstanceState != null) {
@@ -80,6 +82,7 @@ public class FgCoupon extends BaseFragment implements AdapterView.OnItemClickLis
             Bundle bundle = getArguments();
             if (bundle != null) {
                 paramsData = (MostFitAvailableBean) bundle.getSerializable(Constants.PARAMS_DATA);
+                idStr = bundle.getString("idStr");
             }
         }
     }
@@ -203,7 +206,7 @@ public class FgCoupon extends BaseFragment implements AdapterView.OnItemClickLis
     private void setData(List<CouponBean> list) {
         if (list != null) {
             if (adapter == null) {
-                adapter = new CouponAdapter(getActivity());
+                adapter = new CouponAdapter(getActivity(),idStr);
                 listView.setAdapter(adapter);
                 adapter.setList(list);
             } else {

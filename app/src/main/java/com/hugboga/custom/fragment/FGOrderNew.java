@@ -341,8 +341,14 @@ public class FGOrderNew extends BaseFragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     dreamLeft.setChecked(false);
-                    if(mostFitBean.actualPrice == 0){
-                        allMoneyLeftText.setText("￥" + (carBean.price  + OrderUtils.getSeat1PriceTotal(carListBean,manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean,manLuggageBean)));
+                    if(null == mostFitBean ||mostFitBean.actualPrice == 0){
+                        int showPrice = 0;
+                        if(null != couponBean){
+                            showPrice = (int)(couponBean.actualPrice);
+                        }else{
+                            showPrice = carBean.price;
+                        }
+                        allMoneyLeftText.setText("￥" + (showPrice  + OrderUtils.getSeat1PriceTotal(carListBean,manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean,manLuggageBean)));
 
                     }else{
                         allMoneyLeftText.setText("￥" + (mostFitBean.actualPrice  + OrderUtils.getSeat1PriceTotal(carListBean,manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean,manLuggageBean)));
@@ -736,7 +742,7 @@ public class FGOrderNew extends BaseFragment {
     String date4MostFit = null;
     String startCityId4MostFit = null;
     String areaCode4MostFit = null;
-
+    String idStr = "";
     //优惠券
     private void requestMostFit() {
         switch (type) {
@@ -812,6 +818,15 @@ public class FGOrderNew extends BaseFragment {
                         mostFitAvailableBean.totalDays = (null == dayNums) ? "0" : dayNums + "";
                         mostFitAvailableBean.orderType = orderType;
                         bundle.putSerializable(Constants.PARAMS_DATA, mostFitAvailableBean);
+                        if(null != mostFitBean){
+                            idStr = mostFitBean.couponId;
+                            bundle.putString("idStr",mostFitBean.couponId);
+                        }else if(null != couponBean){
+                            idStr = couponBean.couponID;
+                            bundle.putString("idStr",couponBean.couponID);
+                        }else{
+                            bundle.putString("idStr","");
+                        }
                         fgCoupon.setArguments(bundle);
                         startFragment(fgCoupon);
                     }
@@ -1020,12 +1035,20 @@ public class FGOrderNew extends BaseFragment {
             }
         } else if (action.getType() == EventType.SELECT_COUPON_BACK) {
             couponBean = (CouponBean) action.getData();
-            mostFitBean = null;
-            couponRight.setText(couponBean.price + "优惠券");
-
-            if (couponLeft.isChecked()) {
-                allMoneyLeftText.setText("￥" + (couponBean.actualPrice  + OrderUtils.getSeat1PriceTotal(carListBean,manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean,manLuggageBean)));
+            if(couponBean.couponID.equalsIgnoreCase(idStr)){
+                idStr = null;
+                couponBean = null;
+                couponRight.setText("");
+                if (couponLeft.isChecked()) {
+                    allMoneyLeftText.setText("￥" + (carBean.price  + OrderUtils.getSeat1PriceTotal(carListBean,manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean,manLuggageBean)));
+                }
+            }else{
+                couponRight.setText(couponBean.price + "优惠券");
+                if (couponLeft.isChecked()) {
+                    allMoneyLeftText.setText("￥" + (couponBean.actualPrice  + OrderUtils.getSeat1PriceTotal(carListBean,manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean,manLuggageBean)));
+                }
             }
+            mostFitBean = null;
 
         }
     }
