@@ -478,6 +478,7 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, OnIt
         MLog.e(this + " onEventMainThread " + action.getType());
         switch (action.getType()) {
             case CLICK_USER_LOGIN:
+            case FGTRAVEL_UPDATE:
                 contentLayout.setVisibility(View.VISIBLE);
                 logoutLayout.setVisibility(View.GONE);
                 requestData();

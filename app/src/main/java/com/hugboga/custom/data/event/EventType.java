@@ -35,6 +35,7 @@ public enum EventType {
     CHLID_SEAT_PRICE_BACK, //返回儿童座椅价钱
     CHECK_SWITCH,//办理登机
     WAIT_SWITCH,//接机等待
+    FGTRAVEL_UPDATE,//登录
 
     BACK_HOME,//回首页
     ORDER_DETAIL,//回详情

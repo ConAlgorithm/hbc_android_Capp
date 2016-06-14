@@ -7,6 +7,8 @@ import android.widget.TextView;
 
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.event.EventType;
 
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
@@ -14,6 +16,8 @@ import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
 import java.io.Serializable;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * 支付成功
@@ -114,15 +118,18 @@ public class FgPayResult extends BaseFragment {
         switch (view.getId()){
             case R.id.par_result_left_tv:
                 if (params.payResult) {//回首页
-                    Bundle bundle =new Bundle();
+                    EventBus.getDefault().post(new EventAction(EventType.FGTRAVEL_UPDATE));
+                    Bundle bundle = new Bundle();
                     bundle.putString(KEY_FRAGMENT_NAME, this.getClass().getSimpleName());
                     bringToFront(FgHome.class, bundle);
+                    EventBus.getDefault().post(new EventAction(EventType.SET_MAIN_PAGE_INDEX, 0));
                 } else {//订单详情
                     intentOrderDetail();
                 }
                 break;
             case R.id.par_result_right_tv:
                 if (params.payResult) {//订单详情
+                    EventBus.getDefault().post(new EventAction(EventType.FGTRAVEL_UPDATE));
                     intentOrderDetail();
                 } else {//重新支付
                     finish();
@@ -135,13 +142,10 @@ public class FgPayResult extends BaseFragment {
      *  订单详情
      * */
     private void intentOrderDetail() {
-        clearFragmentList();
+        clearFragment();
         FgOrderDetail.Params orderParams = new FgOrderDetail.Params();
         orderParams.orderId = params.orderId;
-        orderParams.isUpdate = true;
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(Constants.PARAMS_DATA, orderParams);
-        bringToFront(FgOrderDetail.class, bundle);
+        startFragment(FgOrderDetail.newInstance(orderParams));
     }
 
     @Override

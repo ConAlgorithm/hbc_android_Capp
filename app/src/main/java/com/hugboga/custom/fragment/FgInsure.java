@@ -289,6 +289,7 @@ public class FgInsure extends BaseFragment implements HttpRequestListener {
 //            if(TextUtils.isEmpty(from)) {
                 EventBus.getDefault().post(new EventAction(EventType.ADD_INSURE_SUCCESS, orderBean.orderNo));
 //            }
+            EventBus.getDefault().post(new EventAction(EventType.FGTRAVEL_UPDATE));
 //            Bundle bundle = new Bundle();
 //            bundle.putInt(FgOrder.KEY_BUSINESS_TYPE, orderBean.orderType);
 //            bundle.putInt(FgOrder.KEY_GOODS_TYPE, orderBean.orderGoodsType);

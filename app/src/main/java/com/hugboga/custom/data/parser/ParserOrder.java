@@ -106,6 +106,15 @@ public class ParserOrder extends ImplParser {
                 orderbean.childSeat.add(seat);
             }
         }
+
+        JSONArray cancelRules = jsonObj.optJSONArray("cancelRules");
+        if (cancelRules != null && cancelRules.length() > 0) {
+            orderbean.cancelRules = new ArrayList<String>(cancelRules.length());
+            for (int i = 0; i < cancelRules.length(); i++) {
+                orderbean.cancelRules.add(cancelRules.optString(i));
+            }
+        }
+
         //contact
         orderbean.contact = new ArrayList<OrderContact>();
         orderbean.cancelText = jsonObj.optString("cancelText");
