@@ -512,4 +512,5 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
         }
     }
 
+
 }
