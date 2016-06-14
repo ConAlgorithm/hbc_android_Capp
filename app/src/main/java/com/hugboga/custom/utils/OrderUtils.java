@@ -146,8 +146,8 @@ public class OrderUtils {
         orderBean.seatCategory = carBean.seatCategory;
         orderBean.carType = carBean.carType;
         orderBean.child = Integer.valueOf(childrenNum);
-        orderBean.destAddress = poiBean.placeName;
-        orderBean.destAddressDetail = poiBean.placeDetail;
+        orderBean.destAddress = startBean.name;
+        orderBean.destAddressDetail = startBean.placeName;
         orderBean.priceMark = carBean.pricemark;
         orderBean.contact = contact;
         orderBean.serviceStartTime = serverTime + ":00";
@@ -165,9 +165,11 @@ public class OrderUtils {
         orderBean.serviceEndCityName = endBean.name;
         orderBean.totalDays = (inNum + outNum);
         orderBean.isHalfDaily = isHalfTravel ? 1 : 0;
-        orderBean.startAddress = startAddress;//upRight.getText().toString();
-        orderBean.startAddressDetail = destAddressDetail;//upSiteText.getText().toString();
-        orderBean.destAddressDetail = destAddressDetail;//upRight.getText().toString();
+
+        orderBean.startAddress = poiBean.placeName;//upRight.getText().toString();
+        orderBean.startAddressDetail = poiBean.placeDetail;//upSiteText.getText().toString();
+
+
         orderBean.userName = userName;//manName.getText().toString();
         orderBean.stayCityListStr = passCities;
         orderBean.userRemark = userRemark;//mark.getText().toString();
