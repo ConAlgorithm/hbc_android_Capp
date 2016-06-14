@@ -103,9 +103,9 @@ public class UrlLibs {
     public static final String SERVER_IP_UPLOAD_LOGS = "pt/v1.0/log/stream?";
 
     //首页
-    public static final String SERVER_IP_HOME = "basicdata/v1.0/p/home/citys/contents?";
+    public static final String SERVER_IP_HOME = "basicdata/v1.1/p/home/citys/contents?";
     //SKU
-    public static final String SERVER_IP_CITY_SKU = "goods/v1.0/p/home/cityGoods?";
+    public static final String SERVER_IP_CITY_SKU = "goods/v1.1/p/home/cityGoods?";
 
     //-------个人信息--------
     public static final String SERVER_IP_PUBLIC_UER_CENTER = "ucenter/v1.0/c/user/";
