@@ -75,7 +75,7 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
 
     @ViewInject(R.id.header_left_btn)
     ImageView headerLeftBtn;
-    @ViewInject(R.id.header_title)fgselectci
+    @ViewInject(R.id.header_title)
     TextView headerTitle;
     @ViewInject(R.id.header_right_btn)
     ImageView headerRightBtn;
