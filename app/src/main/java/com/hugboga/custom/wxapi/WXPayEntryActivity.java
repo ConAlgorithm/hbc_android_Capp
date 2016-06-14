@@ -114,18 +114,19 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler, 
         switch (v.getId()) {
             case R.id.par_result_left_tv:
                 if (isPaySucceed) {//回首页
-                    mHandler.sendEmptyMessageDelayed(1, 2000);
+                    EventBus.getDefault().post(new EventAction(EventType.BACK_HOME));
                     finish();
                 } else {//订单详情ORDER_DETAIL
-                    mHandler.sendEmptyMessageDelayed(2, 2000);
+                    EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL));
                     finish();
                 }
                 break;
             case R.id.par_result_right_tv:
                 if (isPaySucceed) {//订单详情
-                    mHandler.sendEmptyMessageDelayed(2, 2000);
+                    EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL, 1));
                     finish();
                 } else {//重新支付
+                    EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL));
                     finish();
                 }
                 break;
@@ -136,17 +137,5 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler, 
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         return super.onKeyUp(keyCode, event);
     }
-
-    Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            mDialogUtil.dismissLoadingDialog();
-            if (msg.what == 1) {
-                EventBus.getDefault().post(new EventAction(EventType.BACK_HOME));
-            } else if (msg.what == 2) {
-                EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL));
-            }
-        }
-    };
 
 }

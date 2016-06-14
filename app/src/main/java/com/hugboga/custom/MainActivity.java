@@ -129,8 +129,8 @@ public class MainActivity extends BaseActivity
 
     private PolygonImageView my_icon_head;//header的头像
     private TextView tv_nickname;//header的昵称
-    private TextView couponTV;
-    private TextView travelFundTV;
+    private TextView couponTV, couponUnitTV;
+    private TextView travelFundTV, travelFundUnitTV;
 
     private TextView tabMenu[] = new TextView[3];
 
@@ -307,6 +307,8 @@ public class MainActivity extends BaseActivity
             user.setUserEntity(MainActivity.this);
             couponTV.setText("" + user.coupons);
             travelFundTV.setText("" + user.travelFund);
+            couponUnitTV.setText("张");
+            travelFundUnitTV.setText("元");
         }
     }
 
@@ -381,6 +383,7 @@ public class MainActivity extends BaseActivity
                 if (index >= 0 && index < 3)
                     mViewPager.setCurrentItem(index);
                 break;
+            case ONBACKPRESS:
             case CLICK_HEADER_LEFT_BTN_BACK:
                 if (getFragmentsSize() == mSectionsPagerAdapter.getCount()) {
                     drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED); //打开
@@ -448,6 +451,9 @@ public class MainActivity extends BaseActivity
         tv_nickname.setOnClickListener(this);
         couponTV = (TextView) header.findViewById(R.id.slidemenu_header_coupon_tv);//优惠券
         travelFundTV = (TextView) header.findViewById(R.id.slidemenu_header_travelfund_tv);//旅游基金
+        couponUnitTV = (TextView) header.findViewById(R.id.slidemenu_header_coupon_unit_tv);
+        travelFundUnitTV = (TextView) header.findViewById(R.id.slidemenu_header_travelfund_unit_tv);
+
         header.findViewById(R.id.slidemenu_header_coupon_layout).setOnClickListener(this);
         header.findViewById(R.id.slidemenu_header_travelfund_layout).setOnClickListener(this);
         tv_nickname.setOnLongClickListener(new View.OnLongClickListener() {
@@ -473,8 +479,11 @@ public class MainActivity extends BaseActivity
             my_icon_head.setImageResource(R.mipmap.chat_head);
             tv_nickname.setText(this.getResources().getString(R.string.person_center_nickname));
             menuItemAdapter.notifyDataSetChanged();
-            couponTV.setText("--");
-            travelFundTV.setText("--");
+            couponTV.setText("");
+            travelFundTV.setText("");
+            couponUnitTV.setText("--");
+            travelFundUnitTV.setText("--");
+            tv_nickname.setTextColor(0xFF999999);
         } else {
             if (!TextUtils.isEmpty(UserEntity.getUser().getAvatar(this))) {
                 Tools.showImage(this,my_icon_head,UserEntity.getUser().getAvatar(this));
@@ -482,7 +491,7 @@ public class MainActivity extends BaseActivity
             } else {
                 my_icon_head.setImageResource(R.mipmap.chat_head);
             }
-
+            tv_nickname.setTextColor(0xFF3c3731);
             if (!TextUtils.isEmpty(UserEntity.getUser().getNickname(this))) {
                 tv_nickname.setText(UserEntity.getUser().getNickname(this));
             } else {
@@ -490,6 +499,8 @@ public class MainActivity extends BaseActivity
             }
             couponTV.setText("" + UserEntity.getUser().getCoupons(this));
             travelFundTV.setText("" + UserEntity.getUser().getTravelFund(this));
+            couponUnitTV.setText("张");
+            travelFundUnitTV.setText("元");
 
         }
     }

@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.DrawerLayout;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -22,6 +23,8 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.CollectGuideBean;
+import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestGuideConflict;
 import com.hugboga.custom.utils.AlertDialogUtils;
@@ -41,7 +44,7 @@ import static com.hugboga.custom.R.id.driver_layout;
 import static com.hugboga.custom.R.id.driver_name;
 import static com.hugboga.custom.R.id.driver_tips;
 import static com.hugboga.custom.R.id.nums;
-
+import de.greenrobot.event.EventBus;
 /**
  * Created  on 16/5/13.
  */
@@ -68,6 +71,25 @@ public class FgPickSend extends BaseFragment implements View.OnTouchListener{
     @Bind(R.id.daily_content)
     FrameLayout dailyContent;
 
+    private  void backPress(){
+        if((fgPick.isVisible() && !TextUtils.isEmpty(fgPick.airTitle.getText())) || (fgSend.isVisible() && !TextUtils.isEmpty(fgSend.addressTips.getText())) ){
+            AlertDialogUtils.showAlertDialog(getContext(), getString(R.string.back_alert_msg), "离开", "取消", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                    finish();
+                }
+            }, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+        }else{
+            finish();
+        }
+    }
+
     @Override
     protected void initHeader() {
         fgTitle.setText(R.string.title_transfer);
@@ -75,22 +97,7 @@ public class FgPickSend extends BaseFragment implements View.OnTouchListener{
         fgLeftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if((fgPick.isVisible() && !TextUtils.isEmpty(fgPick.airTitle.getText())) || (fgSend.isVisible() && !TextUtils.isEmpty(fgSend.addressTips.getText())) ){
-                    AlertDialogUtils.showAlertDialog(getContext(), getString(R.string.back_alert_msg), "离开", "取消", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                            finish();
-                        }
-                    }, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
-                }else{
-                    finish();
-                }
+                backPress();
             }
         });
         fgRightBtn.setVisibility(View.VISIBLE);
@@ -199,6 +206,7 @@ public class FgPickSend extends BaseFragment implements View.OnTouchListener{
         // TODO: inflate a fragment view
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
         ButterKnife.bind(this, rootView);
+        EventBus.getDefault().register(this);
         return rootView;
     }
 
@@ -206,6 +214,7 @@ public class FgPickSend extends BaseFragment implements View.OnTouchListener{
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+        EventBus.getDefault().unregister(this);
     }
 
     private void selectTap(int index) {
@@ -266,8 +275,19 @@ public class FgPickSend extends BaseFragment implements View.OnTouchListener{
         }
     }
 
-//    @Override
-//    public boolean onTouch(View v, MotionEvent event) {
-//        return true;
-//    }
+    public void onEventMainThread(EventAction action) {
+        switch (action.getType()) {
+            case PICK_SEND_ONBACKPRESS:
+                backPress();
+                break;
+            default:
+                break;
+        }
+    }
+
+    public boolean onBackPressed() {
+        backPress();
+        return true;
+    }
+
 }

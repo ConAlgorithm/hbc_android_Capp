@@ -110,7 +110,7 @@
         android:layout_marginTop="15dp"
         android:textSize="15dp"
         android:visibility="gone"
-        android:textColor="#838485"
+        android:textColor="@color/basic_red"
         android:layout_marginLeft="30dp"
         android:layout_below="@id/day_line3_money_left"
         android:id="@+id/day_line4_money_left"

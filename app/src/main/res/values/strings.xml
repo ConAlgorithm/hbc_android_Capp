@@ -395,8 +395,8 @@
     <string name="choose_by_address">按起降地</string>
     <string name="choose_by_air_no">按航班号</string>
 
-    <string name="choose_fly">起飞</string>
-    <string name="choose_arrived">到达</string>
+    <string name="choose_fly">起飞城市</string>
+    <string name="choose_arrived">到达城市</string>
     <string name="choose_from_address">请选择</string>
     <string name="choose_fly_date">起飞日期</string>
     <string name="choose_fly_date_tips">请选择日期(当地时间)</string>
@@ -421,7 +421,6 @@
 
     <string name="del_driver">删除</string>
     <string name="driver_left">指定司导</string>
-    <string name="driver_time_error">当前司导的服务时间冲突</string>
 
     <string name="man_luggage_title">乘客及行李数</string>
     <string name="man_luggage_man">成人</string>
@@ -434,9 +433,11 @@
     <string name="man_luggage_charge">收费儿童座椅</string>
     <string name="man_luggage_0">￥ 0/次</string>
     <string name="man_luggage_30">￥ 30/次</string>
-    <string name="man_luggage_tips1">一个儿童也需要占1个座位,如果选用儿童座椅需占1.5个座位</string>
-    <string name="man_luggage_tips2">每减少一位乘客,可增加一个行李箱</string>
-    <string name="man_luggage_tips3">行李箱是指航空公司要求必须托运的行李,最小标准24寸;1个28寸行李等于2个24寸行李的位置</string>
+    <string name="man_luggage_tips1">请填写可能的最多人数和行李数，供司导参考</string>
+    <string name="man_luggage_tips2">每减少1位乘客，可增加1个24寸行李</string>
+    <string name="man_luggage_tips3">1个28寸行李等于2个24寸行李的位置大小，携带的行李不要超出车的容量以免影响服务</string>
+    <string name="man_luggage_tips4">如需儿童座椅，出行前请与司导联系，确认需要何种年龄段的的儿童安全座椅</string>
+
 
     <string name="man_luggage_not_have">很抱歉，该城市暂不提供儿童座椅</string>
 
@@ -618,8 +619,9 @@
 
     <string name="alert_del_after_edit">请在删除指定司导后，再修改出行信息</string>
 
-    <string name="guide_error_city">当前司导不可服务该城市</string>
-    <string name="guide_error_time">司导无法在所选时间段内进行服务</string>
+    <string name="guide_error_time">因为城市或服务时间冲突，该司导暂无法提供服务</string>
+
+    <string name="no_price_error">暂无报价</string>
 
 
 </resources>

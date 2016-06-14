@@ -57,6 +57,7 @@ public class ParserOrder extends ImplParser {
         orderbean.distance = jsonObj.optString("distance");
         orderbean.contactName = jsonObj.optString("userName");
         orderbean.brandSign = jsonObj.optString("flightBrandSign");
+        orderbean.flightBrandSign = jsonObj.optString("flightBrandSign");
         orderbean.flightAirportCode = jsonObj.optString("flightAirportCode");
         orderbean.adult = jsonObj.optInt("adultNum");
         orderbean.child = jsonObj.optInt("childNum");
@@ -105,6 +106,15 @@ public class ParserOrder extends ImplParser {
                 orderbean.childSeat.add(seat);
             }
         }
+
+        JSONArray cancelRules = jsonObj.optJSONArray("cancelRules");
+        if (cancelRules != null && cancelRules.length() > 0) {
+            orderbean.cancelRules = new ArrayList<String>(cancelRules.length());
+            for (int i = 0; i < cancelRules.length(); i++) {
+                orderbean.cancelRules.add(cancelRules.optString(i));
+            }
+        }
+
         //contact
         orderbean.contact = new ArrayList<OrderContact>();
         orderbean.cancelText = jsonObj.optString("cancelText");
@@ -150,6 +160,7 @@ public class ParserOrder extends ImplParser {
         orderbean.flightDeptCityName = jsonObj.optString("flightDeptCityName");
         orderbean.flightDestCityName = jsonObj.optString("flightDestCityName");
         orderbean.serviceTimeStr = jsonObj.optString("serviceTimeStr");
+        orderbean.serviceEndTimeStr = jsonObj.optString("serviceEndTimeStr");
         orderbean.passengerInfos = jsonObj.optString("passengerInfos");
         orderbean.userCommentStatus = jsonObj.optInt("userCommentStatus");
         orderbean.realSendSms = jsonObj.optString("realSendSms");

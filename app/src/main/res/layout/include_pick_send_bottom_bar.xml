@@ -16,7 +16,7 @@
         android:background="#d5dadb"
         android:id="@+id/confirm_journey"
         android:layout_alignParentRight="true"
-        android:textSize="14sp"
+        android:textSize="18sp"
         android:textColor="@color/basic_white"/>
 
     <TextView
@@ -43,6 +43,7 @@
         android:layout_toRightOf="@id/all_money_left_sku"
         android:layout_centerVertical="true"
         android:text="￥500"
+        android:layout_marginLeft="5dp"
         android:visibility="gone"
         android:textSize="18sp"
         android:id="@+id/all_money_text_sku"

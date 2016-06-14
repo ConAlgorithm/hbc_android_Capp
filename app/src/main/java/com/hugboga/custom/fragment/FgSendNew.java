@@ -122,6 +122,9 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
     CarListBean carListBean;
 
     private void genBottomData(CarBean carBean) {
+        if(null == carBean){
+            return;
+        }
         int total = carBean.price;
         if(null != manLuggageBean){
             int seat1Price = OrderUtils.getSeat1PriceTotal(carListBean,manLuggageBean);
@@ -139,10 +142,10 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
                 total += Integer.valueOf(carListBean.additionalServicePrice.pickupSignPrice);
             }
         }
-        allMoneyText.setText("￥ " + total);
+        allMoneyText.setText("￥" + total);
 
         if(null != carListBean) {
-            allJourneyText.setText("全程预估:" + carListBean.distance + "公里," + carListBean.interval + "分钟");
+            allJourneyText.setText("全程预估: " + carListBean.distance + "公里," + carListBean.interval + "分钟");
         }
     }
 
@@ -166,7 +169,11 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
             String sTime = serverDate +":00";
             bundle.putInt("cityId", cityId);
             bundle.putString("startTime", sTime);
-            bundle.putString("endTime", DateUtils.getToTime(sTime,Integer.valueOf(carListBean.estTime)));
+            if(TextUtils.isEmpty(carListBean.estTime)){
+                bundle.putString("endTime", DateUtils.getToTime(sTime, 0));
+            }else {
+                bundle.putString("endTime", DateUtils.getToTime(sTime, Integer.valueOf(carListBean.estTime)));
+            }
         }
         fgCarNew.setArguments(bundle);
         transaction.add(R.id.show_cars_layout_send, fgCarNew);
@@ -252,15 +259,23 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
                 break;
             case CHECK_SWITCH:
                 checkInChecked = (boolean)action.getData();
-                genBottomData(carBean);
+                if(null != carBean) {
+                    genBottomData(carBean);
+                }
                 break;
             case CHANGE_CAR:
                 carBean = (CarBean) action.getData();
-                genBottomData(carBean);
+                if(null != carBean) {
+                    genBottomData(carBean);
+                }
                 break;
             case MAN_CHILD_LUUAGE:
                 confirmJourney.setBackgroundColor(getContext().getResources().getColor(R.color.all_bg_yellow));
                 manLuggageBean = (ManLuggageBean)action.getData();
+                if(null != carBean) {
+                    genBottomData(carBean);
+                }
+                genBottomData(carBean);
                 confirmJourney.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -502,6 +517,12 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
             timeText.setText(serverDate + " " + serverTime);
             checkInput();
         }
+    }
+
+
+    @Override
+    public boolean onBackPressed() {
+        return true;
     }
 
 }

@@ -61,6 +61,8 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
             String totalDays = "" + orderBean.totalDays;
             if (orderBean.isHalfDaily == 1) {//半日包
                 totalDays = getContext().getString(R.string.order_detail_half_day);
+            } else if (orderBean.totalDays > 1 && !TextUtils.isEmpty(orderBean.serviceEndTimeStr)) {
+                localTime = localTime + " - " + orderBean.serviceEndTimeStr;
             }
             addItemView(R.mipmap.order_time, getContext().getString(R.string.order_detail_local_chartered, orderBean.serviceCityName, totalDays), null, localTime);
         } else {

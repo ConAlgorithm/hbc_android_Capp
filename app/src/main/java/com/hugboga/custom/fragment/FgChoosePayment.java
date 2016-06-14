@@ -141,15 +141,20 @@ public class FgChoosePayment extends BaseFragment {
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
             case BACK_HOME:
+                EventBus.getDefault().post(new EventAction(EventType.FGTRAVEL_UPDATE));
+                clearFragment();
                 Bundle bundle = new Bundle();
                 bundle.putString(KEY_FRAGMENT_NAME, this.getClass().getSimpleName());
                 bringToFront(FgHome.class, bundle);
+                EventBus.getDefault().post(new EventAction(EventType.SET_MAIN_PAGE_INDEX, 0));
                 break;
             case ORDER_DETAIL:
-                clearFragmentList();
+                if (action.getData() instanceof Integer && (int)action.getData() == 1) {
+                    EventBus.getDefault().post(new EventAction(EventType.FGTRAVEL_UPDATE));
+                }
+                clearFragment();
                 FgOrderDetail.Params orderParams = new FgOrderDetail.Params();
                 orderParams.orderId = requestParams.orderId;
-                orderParams.isUpdate = true;
                 Bundle detailBundle =new Bundle();
                 detailBundle.putSerializable(Constants.PARAMS_DATA, orderParams);
                 startFragment(new FgOrderDetail(), detailBundle);
@@ -301,13 +306,10 @@ public class FgChoosePayment extends BaseFragment {
         mDialogUtil.showCustomDialog(getString(R.string.app_name), getString(R.string.order_cancel_pay), "确定离开", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                clearFragmentList();
+                clearFragment();
                 FgOrderDetail.Params orderParams = new FgOrderDetail.Params();
                 orderParams.orderId = requestParams.orderId;
-                orderParams.isUpdate = true;
-                Bundle detailBundle =new Bundle();
-                detailBundle.putSerializable(Constants.PARAMS_DATA, orderParams);
-                startFragment(new FgOrderDetail(), detailBundle);
+                startFragment(FgOrderDetail.newInstance(orderParams));
             }
         }, "继续支付", new DialogInterface.OnClickListener() {
             @Override

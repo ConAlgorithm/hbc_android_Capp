@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -225,7 +226,6 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
         if (FastClickUtils.isFastClick()) {
             return;
         }
-        MLog.e("startFragment " + this);
         if (fragment == null) return;
         if (getContentId() == -1)
             throw new RuntimeException("BaseFragment ContentId not null, BaseFragment.setContentId(int)");
@@ -236,7 +236,11 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
         if (bundle != null) {
             fragment.setArguments(bundle);
         }
-        fragment.setSourceFragment(this);
+        try {
+            fragment.setSourceFragment(this);
+        }catch (Exception e) {
+            //java.lang.NullPointerException: Attempt to invoke virtual method 
+        }
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.add(contentId, fragment);
         transaction.addToBackStack(null);
@@ -332,6 +336,25 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
                 BaseFragment fg = (BaseFragment) fragmentList.get(i);
                 if (fg != null) {
                     fg.finish();
+                }
+            }
+        }
+    }
+
+    public void clearFragment() {
+        if (getActivity() instanceof BaseFragmentActivity) {
+            ArrayList<BaseFragment> fragmentList = ((BaseFragmentActivity) getActivity()).getFragmentList();
+            for (int i = fragmentList.size() - 1; i >= 1; i--) {
+                BaseFragment fg = (BaseFragment) fragmentList.get(i);
+                if (fg != null) {
+                    String simpleName = fg.getClass().getSimpleName();
+                    if ("FgHome".equals(simpleName) || "FgChat".equals(simpleName) || "FgTravel".equals(simpleName)) {
+                        return;
+                    }
+                    ((BaseFragmentActivity)getActivity()).removeFragment(fg);
+                    FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                    transaction.remove(fg);
+                    transaction.commitAllowingStateLoss();
                 }
             }
         }

@@ -24,7 +24,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/choose_fly"
                 android:id="@+id/from_city_tips"
-                android:textColor="#8a8b8d"
+                android:textColor="@color/basic_black"
                 android:textSize="15sp" />
 
             <TextView
@@ -44,6 +44,8 @@
             android:id="@+id/exchange"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:src="@mipmap/convert" />
 
         <LinearLayout
@@ -58,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/choose_arrived"
                 android:id="@+id/end_city_tips"
-                android:textColor="#8a8b8d"
+                android:textColor="@color/basic_black"
                 android:textSize="15sp" />
 
             <TextView
@@ -92,6 +94,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
             android:minEms="4"
+            android:textColor="@color/basic_black"
             android:text="@string/choose_fly_date"
             android:textSize="15sp" />
 

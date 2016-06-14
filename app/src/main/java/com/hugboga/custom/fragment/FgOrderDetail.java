@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -68,7 +69,11 @@ public class FgOrderDetail extends BaseFragment implements View.OnClickListener{
 
     @ViewInject(R.id.order_detail_empty_tv)
     private TextView emptyTV;
+    @ViewInject(R.id.order_detail_explain_tv)
+    private TextView explainTV;
 
+    private PopupWindow popup;
+    private View menuLayout;
     private Params params;
     private OrderBean orderBean;
     private DialogUtil mDialogUtil;
@@ -76,7 +81,6 @@ public class FgOrderDetail extends BaseFragment implements View.OnClickListener{
     public static class Params implements Serializable {
         public String orderId;
         public String source;
-        public boolean isUpdate;
         public int orderType;
     }
 
@@ -107,9 +111,18 @@ public class FgOrderDetail extends BaseFragment implements View.OnClickListener{
         }
         titleBar.setTitle(params.orderType);
         emptyTV.setVisibility(View.VISIBLE);
-        if (params.isUpdate) {
-            requestData();
-        }
+        titleBar.findViewById(R.id.header_detail_right_1_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPopupWindow();
+            }
+        });
+        titleBar.findViewById(R.id.header_detail_right_2_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDialogUtil.showCallDialog();
+            }
+        });
     }
 
     @Override
@@ -163,6 +176,13 @@ public class FgOrderDetail extends BaseFragment implements View.OnClickListener{
                     ((HbcViewBehavior) item).update(orderBean);
                 }
             }
+            if (orderBean.cancelRules != null && orderBean.cancelRules.size() > 0) {
+                String explainStr = "";
+                for (int i = 0; i < orderBean.cancelRules.size(); i++) {
+                    explainStr += orderBean.cancelRules.get(i);
+                }
+                explainTV.setText(explainStr);
+            }
         } else if (_request instanceof RequestOrderCancel) {//取消订单
 //            DialogUtil dialogUtil = DialogUtil.getInstance(getActivity());
 //            dialogUtil.showCustomDialog(getContext().getString(R.string.order_cancel_succeed), new DialogInterface.OnClickListener() {
@@ -213,12 +233,12 @@ public class FgOrderDetail extends BaseFragment implements View.OnClickListener{
             case ORDER_DETAIL_BACK://返回
                 finish();
                 break;
-            case ORDER_DETAIL_CALL://联系客服
-                mDialogUtil.showCallDialog();
-                break;
-            case ORDER_DETAIL_MORE://更多
-                showPopupWindow();
-                break;
+//            case ORDER_DETAIL_CALL://联系客服
+//                mDialogUtil.showCallDialog();
+//                break;
+//            case ORDER_DETAIL_MORE://更多
+//                showPopupWindow();
+//                break;
             case ORDER_DETAIL_ADD_INSURER://添加投保人 copy FgOrder
                 FgInsure fgAddInsure = new FgInsure();
                 Bundle insureBundle = new Bundle();
@@ -340,7 +360,12 @@ public class FgOrderDetail extends BaseFragment implements View.OnClickListener{
      * 右上角的菜单，取消订单 联系客服
      */
     public void showPopupWindow() {
-        View menuLayout = LayoutInflater.from(getActivity()).inflate(R.layout.popup_top_right_menu, null);
+        if (popup != null && popup.isShowing()) {
+            return;
+        }
+        if (menuLayout == null) {
+            menuLayout  = LayoutInflater.from(getActivity()).inflate(R.layout.popup_top_right_menu, null);
+        }
         TextView cancelOrderTV = (TextView)menuLayout.findViewById(R.id.cancel_order);
         TextView commonProblemTV = (TextView)menuLayout.findViewById(R.id.menu_phone);
         commonProblemTV.setText("常见问题");
@@ -350,7 +375,11 @@ public class FgOrderDetail extends BaseFragment implements View.OnClickListener{
             cancelOrderTV.setVisibility(View.GONE);
         }
 
-        final PopupWindow popup = new PopupWindow(menuLayout, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        if (popup != null) {
+            popup.showAsDropDown(titleBar.findViewById(R.id.header_detail_right_1_btn));
+            return;
+        }
+        popup = new PopupWindow(menuLayout, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         popup.setBackgroundDrawable(new BitmapDrawable());
         popup.setOutsideTouchable(true);
         popup.setFocusable(true);

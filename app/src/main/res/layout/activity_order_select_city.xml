@@ -402,18 +402,6 @@
                 android:layout_marginBottom="25dp"
                 android:clickable="true">
 
-                <TextView
-                    android:id="@+id/choose_driver"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="15dp"
-                    android:minHeight="50dp"
-                    android:gravity="center"
-                    android:text="@string/choose_like_driver_order"
-                    android:textColor="#0263fc"
-                    android:textSize="15sp" />
-
                 <RelativeLayout
                     android:id="@+id/driver_layout"
                     android:layout_width="match_parent"
@@ -424,6 +412,21 @@
                     android:minHeight="50dp">
                     <include layout="@layout/include_driver_layout" />
                 </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/choose_driver"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="13dp"
+                    android:minHeight="50dp"
+                    android:gravity="center"
+                    android:text="@string/choose_like_driver_order"
+                    android:textColor="#0263fc"
+                    android:textSize="15sp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_toRightOf="@+id/driver_layout"
+                    android:layout_toEndOf="@+id/driver_layout"
+                    android:layout_marginStart="13dp" />
 
             </RelativeLayout>
 

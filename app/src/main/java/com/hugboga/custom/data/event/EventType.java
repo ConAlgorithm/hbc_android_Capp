@@ -35,6 +35,7 @@ public enum EventType {
     CHLID_SEAT_PRICE_BACK, //返回儿童座椅价钱
     CHECK_SWITCH,//办理登机
     WAIT_SWITCH,//接机等待
+    FGTRAVEL_UPDATE,//登录
 
     BACK_HOME,//回首页
     ORDER_DETAIL,//回详情
@@ -62,5 +63,7 @@ public enum EventType {
     GUIDE_ERROR_TIME,//司导无法在所选时间段内进行服务
     GUIDE_DEL,//删除司导
     CHANGE_GUIDE,//换司导
+    ONBACKPRESS,//触发后退键
+    PICK_SEND_ONBACKPRESS,//接送backpress
 
 }

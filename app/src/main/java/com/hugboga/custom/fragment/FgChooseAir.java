@@ -99,7 +99,7 @@ public class FgChooseAir extends BaseFragment {
         fm = getFragmentManager();
 
         transaction = fm.beginTransaction();
-        transaction.add(R.id.choose_content, fgChooseAirAddress);
+        transaction.add(R.id.choose_content, fgChooseAirNumber);
         transaction.commit();
 //        address = (RadioButton) rootView.findViewById(R.id.address_radio);
 //        number = (RadioButton) rootView.findViewById(R.id.number_radio);

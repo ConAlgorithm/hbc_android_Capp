@@ -298,10 +298,10 @@ public class FgGuideDetail extends BaseFragment {
             collectBean.carClass = data.getCarClass();
             collectBean.carType = data.getCarType();
             collectBean.numOfLuggage = data.getCarLuggageNum();
-            collectBean.numOfPerson = data.getCarSeatNum();
+            collectBean.numOfPerson = data.getCarPersonNum();
             collectBean.avatar = data.getAvatar();
-            collectBean.carDesc = data.getCarTypeName() + data.getCarClassName();
-            collectBean.carModel = data.getCarBrandName() + data.getCarName();
+            collectBean.carDesc = data.getCarDesc();
+            collectBean.carModel = data.getCarDesc();;
 //          status;//可预约状态 1.可预约、0.不可预约
         }
         return collectBean;

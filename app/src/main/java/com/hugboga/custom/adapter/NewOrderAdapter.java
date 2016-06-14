@@ -145,7 +145,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                         vh.endAddressLayout.setVisibility(View.GONE);
                     } else {
                         vh.endAddressLayout.setVisibility(View.VISIBLE);
-                        vh.endAddressIV.setBackgroundResource(R.mipmap.order_place);
+                        vh.endAddressIV.setBackgroundResource(R.mipmap.order_flag);
                         vh.endAddressTV.setText(orderBean.destAddress + " " + orderBean.destAddressDetail);
                     }
                     break;
@@ -171,7 +171,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                         vh.endAddressLayout.setVisibility(View.GONE);
                     } else {
                         vh.endAddressLayout.setVisibility(View.VISIBLE);
-                        vh.endAddressIV.setBackgroundResource(R.mipmap.order_place);
+                        vh.endAddressIV.setBackgroundResource(R.mipmap.order_flag);
                         vh.endAddressTV.setText(orderBean.destAddress + " " + orderBean.destAddressDetail);
                     }
                     break;
@@ -221,7 +221,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                         vh.endAddressLayout.setVisibility(View.GONE);
                     } else {
                         vh.endAddressLayout.setVisibility(View.VISIBLE);
-                        vh.endAddressIV.setBackgroundResource(R.mipmap.order_place);
+                        vh.endAddressIV.setBackgroundResource(R.mipmap.order_flag);
                         vh.endAddressTV.setText(orderBean.destAddress + " " + orderBean.destAddressDetail);
                     }
                     break;
@@ -308,7 +308,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                     if (TextUtils.isEmpty(orderBean.orderGuideInfo.guideAvatar)) {
                         vh.mHeadImg.setImageResource(R.mipmap.collection_icon_pic);
                     } else {
-                        x.image().bind(vh.mHeadImg, orderBean.orderGuideInfo.guideAvatar);
+                        Tools.showImage(context, vh.mHeadImg, orderBean.orderGuideInfo.guideAvatar);
                     }
                     vh.mHeadTitle.setOnClickListener(new TravelOnClickListener(orderBean));
                     vh.mHeadImg.setOnClickListener(new TravelOnClickListener(orderBean));
@@ -329,7 +329,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                     if (TextUtils.isEmpty(orderBean.orderGuideInfo.guideAvatar)) {
                         vh.mHeadImg.setImageResource(R.mipmap.collection_icon_pic);
                     } else {
-                        x.image().bind(vh.mHeadImg, orderBean.orderGuideInfo.guideAvatar);
+                        Tools.showImage(context, vh.mHeadImg, orderBean.orderGuideInfo.guideAvatar);
                     }
                     vh.mHeadTitle.setOnClickListener(new TravelOnClickListener(orderBean));
                     vh.mHeadImg.setOnClickListener(new TravelOnClickListener(orderBean));
@@ -438,7 +438,6 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                     break;
                 case R.id.travel_item_head_img:
                 case R.id.travel_item_head_title:
-                    Log.i("aa", "测试一下 点击点击");
                     if(fragment == null || mOrderBean.orderGuideInfo == null || mOrderBean.orderGuideInfo.guideID == null) {
                         return;
                     }

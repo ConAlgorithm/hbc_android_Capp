@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.data.bean.CouponBean;
+import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.net.NewParamsBuilder;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.parser.ParserCoupon;
@@ -32,6 +33,7 @@ public class RequestCoupon extends BaseRequest<ArrayList<CouponBean>> {
         map.put("status", "1,2,98");
         map.put("offset", offset);
         map.put("limit", limit);
+        map.put("userId", UserEntity.getUser().getUserId(getContext()));
     }
 
     @Override

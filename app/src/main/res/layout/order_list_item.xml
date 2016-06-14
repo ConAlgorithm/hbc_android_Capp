@@ -192,21 +192,11 @@
                 android:orientation="horizontal"
                 android:visibility="gone">
 
-                <net.grobas.view.PolygonImageView
+                <com.hugboga.custom.widget.CircleImageView
                     android:id="@+id/travel_item_head_img"
                     android:layout_width="26dp"
                     android:layout_height="26dp"
-                    android:src="@mipmap/journey_head_portrait"
-                    app:poly_shadow="false"
-                    app:poly_shadow_color="@android:color/black"
-                    app:poly_border="false"
-                    app:poly_border_color="@android:color/white"
-                    app:poly_vertices="0"
-                    app:poly_border_width="5dp"
-                    app:poly_corner_radius="5"
-                    app:poly_rotation_angle="25" />
-
-
+                    android:src="@mipmap/journey_head_portrait"/>
                 <TextView
                     android:id="@+id/travel_item_head_title"
                     android:layout_width="wrap_content"

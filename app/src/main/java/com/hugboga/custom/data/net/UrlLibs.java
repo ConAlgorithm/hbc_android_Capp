@@ -35,8 +35,10 @@ public class UrlLibs {
     public static String TEST_H5_HOST = "http://res.test.hbc.tech";
     public static String FORMAL_H5_HOST = "http://res2.huangbaoche.com";
 
-    public static String H5_HOST = TEST_H5_HOST;
-    public static  String SHARE_BASE_URL = "http://test.wechat.huangbaoche.com/";
+    public static String H5_HOST = FORMAL_H5_HOST;
+
+    public static  String SHARE_BASE_URL = "http://res.wechat.huangbaoche.com/";
+    public static  String SHARE_APPID = "wx62ad814ba9bf0b68";//测试wx1354271c597184ee 线上wx62ad814ba9bf0b68
 
 
 
@@ -103,9 +105,9 @@ public class UrlLibs {
     public static final String SERVER_IP_UPLOAD_LOGS = "pt/v1.0/log/stream?";
 
     //首页
-    public static final String SERVER_IP_HOME = "basicdata/v1.0/p/home/citys/contents?";
+    public static final String SERVER_IP_HOME = "basicdata/v1.1/p/home/citys/contents?";
     //SKU
-    public static final String SERVER_IP_CITY_SKU = "goods/v1.0/p/home/cityGoods?";
+    public static final String SERVER_IP_CITY_SKU = "goods/v1.1/p/home/cityGoods?";
 
     //-------个人信息--------
     public static final String SERVER_IP_PUBLIC_UER_CENTER = "ucenter/v1.0/c/user/";
