@@ -47,11 +47,11 @@ public class OrderDetailTitleBar extends LinearLayout implements HbcViewBehavior
 
         serviceIV = (ImageView)findViewById(R.id.header_detail_right_2_btn);
         serviceIV.setImageResource(R.mipmap.service);
-        serviceIV.setOnClickListener(this);
+//        serviceIV.setOnClickListener(this);
 
         otherIV = (ImageView)findViewById(R.id.header_detail_right_1_btn);
         otherIV.setImageResource(R.mipmap.top_more);
-        otherIV.setOnClickListener(this);
+//        otherIV.setOnClickListener(this);
 
         //orderGoodsType //1: 接机 2: 送机 3: 市内包车(由日租拆分出来) 4: 次租 5线路包车
         //title类型：中文接机、中文送机、包车游、单次接送、路线包车游
@@ -94,12 +94,12 @@ public class OrderDetailTitleBar extends LinearLayout implements HbcViewBehavior
             case R.id.header_detail_back_btn:
                 type = EventType.ORDER_DETAIL_BACK;
                 break;
-            case R.id.header_detail_right_1_btn:
-                type = EventType.ORDER_DETAIL_MORE;
-                break;
-            case R.id.header_detail_right_2_btn:
-                type = EventType.ORDER_DETAIL_CALL;
-                break;
+//            case R.id.header_detail_right_1_btn:
+//                type = EventType.ORDER_DETAIL_MORE;
+//                break;
+//            case R.id.header_detail_right_2_btn:
+//                type = EventType.ORDER_DETAIL_CALL;
+//                break;
         }
         EventBus.getDefault().post(new EventAction(type));
     }
