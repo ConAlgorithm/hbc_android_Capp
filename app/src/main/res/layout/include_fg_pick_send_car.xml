@@ -17,8 +17,8 @@
             android:id="@+id/jazzy_pager"
             android:layout_width="match_parent"
             android:layout_height="120dip"
-            android:layout_marginLeft="70dip"
-            android:layout_marginRight="70dip"
+            android:layout_marginLeft="80dip"
+            android:layout_marginRight="80dip"
             android:clipChildren="false" />
     </LinearLayout>
 

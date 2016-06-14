@@ -395,8 +395,8 @@
     <string name="choose_by_address">按起降地</string>
     <string name="choose_by_air_no">按航班号</string>
 
-    <string name="choose_fly">起飞</string>
-    <string name="choose_arrived">到达</string>
+    <string name="choose_fly">起飞城市</string>
+    <string name="choose_arrived">到达城市</string>
     <string name="choose_from_address">请选择</string>
     <string name="choose_fly_date">起飞日期</string>
     <string name="choose_fly_date_tips">请选择日期(当地时间)</string>
