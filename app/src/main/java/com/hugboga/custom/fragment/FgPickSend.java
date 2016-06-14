@@ -285,8 +285,6 @@ public class FgPickSend extends BaseFragment implements View.OnTouchListener{
         }
     }
 
-
-    @Override
     public boolean onBackPressed() {
         backPress();
         return true;
