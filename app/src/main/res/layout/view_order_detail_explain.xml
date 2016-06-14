@@ -16,7 +16,7 @@
         android:text="@string/order_detail_unsubscribe"
         />
     <TextView
-        android:id="@+id/order_detail_state_top_tv"
+        android:id="@+id/order_detail_explain_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"

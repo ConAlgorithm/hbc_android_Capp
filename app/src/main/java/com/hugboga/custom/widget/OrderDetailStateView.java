@@ -37,8 +37,6 @@ public class OrderDetailStateView extends LinearLayout implements HbcViewBehavio
         super(context, attrs);
         setOrientation(LinearLayout.HORIZONTAL);
         setGravity(Gravity.CENTER);
-//        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, UIUtils.dip2px(60));
-
         inflate(context, R.layout.view_order_detail_state, this);
         stateIV = (ImageView) findViewById(R.id.order_detail_state_iv);
         topTV = (TextView) findViewById(R.id.order_detail_state_top_tv);

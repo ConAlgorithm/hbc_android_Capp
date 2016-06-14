@@ -247,6 +247,7 @@ public class FgEvaluate extends BaseFragment implements RatingView.OnLevelChange
             initHeader();
             CommonUtils.showToast(R.string.evaluate_succeed);
             isSubmitEvaluated = true;
+            EventBus.getDefault().post(new EventAction(EventType.FGTRAVEL_UPDATE));
         } else if (_request instanceof RequestEvaluateTag) {
             RequestEvaluateTag request = (RequestEvaluateTag) _request;
             EvaluateTagBean tagBean = request.getData();

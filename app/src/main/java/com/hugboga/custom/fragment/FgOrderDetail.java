@@ -68,6 +68,9 @@ public class FgOrderDetail extends BaseFragment implements View.OnClickListener{
 
     @ViewInject(R.id.order_detail_empty_tv)
     private TextView emptyTV;
+    @ViewInject(R.id.order_detail_explain_tv)
+    private TextView explainTV;
+
 
     private Params params;
     private OrderBean orderBean;
@@ -76,7 +79,6 @@ public class FgOrderDetail extends BaseFragment implements View.OnClickListener{
     public static class Params implements Serializable {
         public String orderId;
         public String source;
-        public boolean isUpdate;
         public int orderType;
     }
 
@@ -107,9 +109,6 @@ public class FgOrderDetail extends BaseFragment implements View.OnClickListener{
         }
         titleBar.setTitle(params.orderType);
         emptyTV.setVisibility(View.VISIBLE);
-        if (params.isUpdate) {
-            requestData();
-        }
     }
 
     @Override
@@ -162,6 +161,13 @@ public class FgOrderDetail extends BaseFragment implements View.OnClickListener{
                 if (item instanceof HbcViewBehavior) {
                     ((HbcViewBehavior) item).update(orderBean);
                 }
+            }
+            if (orderBean.cancelRules != null && orderBean.cancelRules.size() > 0) {
+                String explainStr = "";
+                for (int i = 0; i < orderBean.cancelRules.size(); i++) {
+                    explainStr += orderBean.cancelRules.get(i);
+                }
+                explainTV.setText(explainStr);
             }
         } else if (_request instanceof RequestOrderCancel) {//取消订单
 //            DialogUtil dialogUtil = DialogUtil.getInstance(getActivity());

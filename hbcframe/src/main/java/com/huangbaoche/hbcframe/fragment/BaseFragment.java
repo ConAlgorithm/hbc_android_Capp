@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -332,6 +333,25 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
                 BaseFragment fg = (BaseFragment) fragmentList.get(i);
                 if (fg != null) {
                     fg.finish();
+                }
+            }
+        }
+    }
+
+    public void clearFragment() {
+        if (getActivity() instanceof BaseFragmentActivity) {
+            ArrayList<BaseFragment> fragmentList = ((BaseFragmentActivity) getActivity()).getFragmentList();
+            for (int i = fragmentList.size() - 1; i >= 1; i--) {
+                BaseFragment fg = (BaseFragment) fragmentList.get(i);
+                if (fg != null) {
+                    String simpleName = fg.getClass().getSimpleName();
+                    if ("FgHome".equals(simpleName) || "FgChat".equals(simpleName) || "FgTravel".equals(simpleName)) {
+                        return;
+                    }
+                    ((BaseFragmentActivity)getActivity()).removeFragment(fg);
+                    FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                    transaction.remove(fg);
+                    transaction.commitAllowingStateLoss();
                 }
             }
         }

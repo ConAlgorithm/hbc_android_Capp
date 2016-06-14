@@ -438,7 +438,6 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                     break;
                 case R.id.travel_item_head_img:
                 case R.id.travel_item_head_title:
-                    Log.i("aa", "测试一下 点击点击");
                     if(fragment == null || mOrderBean.orderGuideInfo == null || mOrderBean.orderGuideInfo.guideID == null) {
                         return;
                     }
