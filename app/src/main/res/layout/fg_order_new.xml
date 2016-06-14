@@ -847,7 +847,7 @@
             android:gravity="center"
             android:text="@string/progress_order"
             android:textColor="@color/basic_white"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/all_money_info"

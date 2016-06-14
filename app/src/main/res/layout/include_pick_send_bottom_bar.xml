@@ -16,7 +16,7 @@
         android:background="#d5dadb"
         android:id="@+id/confirm_journey"
         android:layout_alignParentRight="true"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:textColor="@color/basic_white"/>
 
     <TextView
