@@ -2,7 +2,7 @@ package com.hugboga.custom.utils;
 
 import android.util.Log;
 
-import com.hugboga.custom.constants.CarTypeEnum;
+import com.hugboga.custom.constants.ChooseCarTypeEnum;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CarBean;
 import com.hugboga.custom.data.bean.CollectGuideBean;
@@ -30,7 +30,7 @@ public class CarUtils {
     }
 
     public static int getCarImgs(int carType,int carSeat){
-        CarTypeEnum carTypeEnum = CarTypeEnum.getCarType(carType, carSeat);
+        ChooseCarTypeEnum carTypeEnum = ChooseCarTypeEnum.getCarType(carType, carSeat);
         if (carTypeEnum != null) {
             return carTypeEnum.imgRes;
         }
@@ -50,7 +50,7 @@ public class CarUtils {
                 bean.carSeat = Constants.CarSeatMap.get(j);
                 bean.originalPrice = 0;
 //                bean.models = Constants.CarDescInfoMap.get(i).get(j);
-                CarTypeEnum carTypeEnum = CarTypeEnum.getCarType(bean.carType, bean.carSeat);
+                ChooseCarTypeEnum carTypeEnum = ChooseCarTypeEnum.getCarType(bean.carType, bean.carSeat);
                 if (carTypeEnum != null) {
                     bean.imgRes = carTypeEnum.imgRes;
                     Log.e("==============",bean.imgRes+"");
