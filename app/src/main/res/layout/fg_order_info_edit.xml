@@ -269,7 +269,8 @@
             android:hint="@string/add_user_phone_area_no"
             android:lines="1" />
 
-        <TextView
+        <View
+            android:id="@+id/hotel_phone_line_view"
             android:layout_width="1dp"
             android:layout_height="45dp"
             android:layout_marginLeft="20sp"

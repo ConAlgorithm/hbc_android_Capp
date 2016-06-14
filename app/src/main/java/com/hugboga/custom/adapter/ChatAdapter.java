@@ -11,6 +11,7 @@ import com.hugboga.custom.adapter.viewholder.ChatVH;
 import com.hugboga.custom.data.bean.ChatBean;
 import com.hugboga.custom.data.bean.ChatOrderBean;
 import com.hugboga.custom.utils.DateUtils;
+import com.hugboga.custom.utils.Tools;
 
 import org.xutils.image.ImageOptions;
 import org.xutils.x;
@@ -51,7 +52,7 @@ public class ChatAdapter extends ZBaseAdapter<ChatBean, ChatVH> {
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            x.image().bind(vh.mImage, chatBean.targetAvatar);
+            Tools.showImage(context, vh.mImage, chatBean.targetAvatar);
             flushOrder(vh, chatBean);
             flushPoint(vh, chatBean);
         }

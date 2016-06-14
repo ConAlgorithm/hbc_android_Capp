@@ -226,7 +226,6 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
         if (FastClickUtils.isFastClick()) {
             return;
         }
-        MLog.e("startFragment " + this);
         if (fragment == null) return;
         if (getContentId() == -1)
             throw new RuntimeException("BaseFragment ContentId not null, BaseFragment.setContentId(int)");
@@ -237,7 +236,11 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
         if (bundle != null) {
             fragment.setArguments(bundle);
         }
-        fragment.setSourceFragment(this);
+        try {
+            fragment.setSourceFragment(this);
+        }catch (Exception e) {
+            //java.lang.NullPointerException: Attempt to invoke virtual method 
+        }
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.add(contentId, fragment);
         transaction.addToBackStack(null);

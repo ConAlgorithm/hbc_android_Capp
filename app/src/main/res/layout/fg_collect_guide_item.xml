@@ -14,21 +14,12 @@
         android:layout_marginRight="12dp"
         android:orientation="horizontal">
 
-        <net.grobas.view.PolygonImageView
+        <com.hugboga.custom.widget.CircleImageView
             android:id="@+id/collect_avatar_iv"
             android:layout_width="46dp"
             android:layout_height="46dp"
             android:layout_marginTop="15dp"
-            android:src="@mipmap/collection_icon_pic"
-            app:poly_border="false"
-            app:poly_border_color="@android:color/white"
-            app:poly_border_width="5dp"
-            app:poly_corner_radius="5"
-            app:poly_rotation_angle="25"
-            app:poly_shadow="false"
-            app:poly_shadow_color="@android:color/black"
-            app:poly_vertices="0" />
-
+            android:src="@mipmap/collection_icon_pic"/>
         <TextView
             android:id="@+id/collect_appointment_tv"
             android:layout_width="80dip"

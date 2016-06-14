@@ -9,7 +9,6 @@ import com.huangbaoche.hbcframe.viewholder.ZBaseViewHolder;
 import com.hugboga.custom.R;
 import com.hugboga.custom.widget.ChildListView;
 import com.hugboga.custom.widget.CircleImageView;
-import com.hugboga.custom.widget.CircularImage;
 
 import net.grobas.view.PolygonImageView;
 
@@ -22,7 +21,7 @@ import org.xutils.view.annotation.ViewInject;
 public class ChatVH extends ZBaseViewHolder {
 
     @ViewInject(R.id.letter_item_img)
-    public PolygonImageView mImage; //头像
+    public CircleImageView mImage; //头像
     @ViewInject(R.id.footer_order_btn_point)
     public TextView mUnReadCount;
     @ViewInject(R.id.letter_item_username)
