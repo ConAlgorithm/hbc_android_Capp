@@ -160,6 +160,7 @@ public class ParserOrder extends ImplParser {
         orderbean.flightDeptCityName = jsonObj.optString("flightDeptCityName");
         orderbean.flightDestCityName = jsonObj.optString("flightDestCityName");
         orderbean.serviceTimeStr = jsonObj.optString("serviceTimeStr");
+        orderbean.serviceEndTimeStr = jsonObj.optString("serviceEndTimeStr");
         orderbean.passengerInfos = jsonObj.optString("passengerInfos");
         orderbean.userCommentStatus = jsonObj.optInt("userCommentStatus");
         orderbean.realSendSms = jsonObj.optString("realSendSms");
