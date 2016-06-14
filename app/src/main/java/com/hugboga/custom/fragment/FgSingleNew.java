@@ -193,14 +193,6 @@ public class FgSingleNew extends BaseFragment {
     CollectGuideBean collectGuideBean;
     @Override
     protected void initView() {
-
-        PushMessage pushMessage = new PushMessage();
-        pushMessage.title = "title";
-        pushMessage.content = "content";
-        PushUtils.showNotification(pushMessage);
-
-
-
         collectGuideBean = (CollectGuideBean)this.getArguments().getSerializable("collectGuideBean");
         if(null != collectGuideBean){
             initCarFragment(false);
