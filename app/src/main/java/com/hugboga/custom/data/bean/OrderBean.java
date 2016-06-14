@@ -130,7 +130,8 @@ public class OrderBean implements IBaseBean ,Parcelable{
 
     public String flightDeptCityName;//起飞机场所在城市
     public String flightDestCityName;//降落机场所在城市
-    public String serviceTimeStr;//当时间串 例如： 04月21日（周五）10:05
+    public String serviceTimeStr;//当地时间串 开始时间例如： 04月21日（周五）10:05
+    public String serviceEndTimeStr;//当地时间串 结束时间
     public String passengerInfos;//座位信息 乘坐%1$s人、行李箱%2$s件、儿童座椅%3$s个
     public int userCommentStatus;//用户是否给导游评价过 0未评价，1评价过
     public String childSeatStr; //2.7.0 新加 对应 接口字段 childSeat
@@ -283,6 +284,7 @@ public class OrderBean implements IBaseBean ,Parcelable{
         dest.writeString(this.flightDeptCityName);
         dest.writeString(this.flightDestCityName);
         dest.writeString(this.serviceTimeStr);
+        dest.writeString(this.serviceEndTimeStr);
         dest.writeString(this.passengerInfos);
         dest.writeInt(this.userCommentStatus);
         dest.writeString(this.childSeatStr);
@@ -422,6 +424,7 @@ public class OrderBean implements IBaseBean ,Parcelable{
         this.flightDeptCityName = in.readString();
         this.flightDestCityName = in.readString();
         this.serviceTimeStr = in.readString();
+        this.serviceEndTimeStr = in.readString();
         this.passengerInfos = in.readString();
         this.userCommentStatus = in.readInt();
         this.childSeatStr = in.readString();
