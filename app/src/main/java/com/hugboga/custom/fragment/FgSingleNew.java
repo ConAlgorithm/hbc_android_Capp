@@ -43,6 +43,7 @@ import com.hugboga.custom.utils.CarUtils;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.utils.PushUtils;
+import com.hugboga.custom.utils.ToastUtils;
 import com.hugboga.custom.widget.DialogUtil;
 import com.umeng.analytics.MobclickAgent;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
@@ -469,6 +470,11 @@ public class FgSingleNew extends BaseFragment {
         bundle.putSerializable("collectGuideBean", collectGuideBean);
         bundle.putParcelable("carListBean", carListBean);
         bundle.putBoolean("isDataBack", isDataBack);
+
+        if(null != carListBean && carListBean.carList.size() == 0 && null != collectGuideBean){
+            ToastUtils.showShort(R.string.no_price_error);
+            return;
+        }
 
         if (isDataBack) {
             String sTime = serverDate + " " + serverTime + ":00";

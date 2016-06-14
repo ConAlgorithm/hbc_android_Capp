@@ -621,5 +621,7 @@
 
     <string name="guide_error_time">因为城市或服务时间冲突，该司导暂无法提供服务</string>
 
+    <string name="no_price_error">暂无报价</string>
+
 
 </resources>

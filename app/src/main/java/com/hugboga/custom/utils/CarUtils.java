@@ -93,7 +93,7 @@ public class CarUtils {
         carBean.capOfLuggage = collectGuideBean.numOfLuggage;
         carBean.capOfPerson = collectGuideBean.numOfPerson;
         carBean.carType = collectGuideBean.carType;
-        carBean.desc = collectGuideBean.carDesc + collectGuideBean.carClass+"座";
+        carBean.desc = collectGuideBean.carDesc;
         carBean.models = collectGuideBean.carModel;
         carBean.carSeat = collectGuideBean.carClass;
         carBean.imgRes = CarUtils.getCarImgs(collectGuideBean.carType,collectGuideBean.carClass);
