@@ -168,7 +168,11 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
             String sTime = serverDate +":00";
             bundle.putInt("cityId", cityId);
             bundle.putString("startTime", sTime);
-            bundle.putString("endTime", DateUtils.getToTime(sTime,Integer.valueOf(carListBean.estTime)));
+            if(TextUtils.isEmpty(carListBean.estTime)){
+                bundle.putString("endTime", DateUtils.getToTime(sTime, 0));
+            }else {
+                bundle.putString("endTime", DateUtils.getToTime(sTime, Integer.valueOf(carListBean.estTime)));
+            }
         }
 
         fgCarNew.setArguments(bundle);

@@ -416,9 +416,11 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
                 }
             });
 
-            fgCarIntro.setText("此车型包括：" + carBean.models);
-            mansNum.setText("x " + carBean.capOfPerson);
-            luggageNum.setText("x " + carBean.capOfLuggage);
+            if(null != carBean) {
+                fgCarIntro.setText("此车型包括：" + carBean.models);
+                mansNum.setText("x " + carBean.capOfPerson);
+                luggageNum.setText("x " + carBean.capOfLuggage);
+            }
 
             man_luggage_layout.setVisibility(View.VISIBLE);
             driverName.setOnClickListener(new View.OnClickListener() {

@@ -282,6 +282,7 @@ public class FgSingleNew extends BaseFragment {
 
     CarListBean carListBean;
 
+
     private void genBottomData(CarBean carBean) {
         int total = carBean.price;
         if (null != manLuggageBean) {
@@ -473,7 +474,11 @@ public class FgSingleNew extends BaseFragment {
             String sTime = serverDate + " " + serverTime + ":00";
             bundle.putInt("cityId", cityId);
             bundle.putString("startTime", sTime);
-            bundle.putString("endTime", DateUtils.getToTime(sTime, Integer.valueOf(carListBean.estTime)));
+            if(TextUtils.isEmpty(carListBean.estTime)){
+                bundle.putString("endTime", DateUtils.getToTime(sTime, 0));
+            }else {
+                bundle.putString("endTime", DateUtils.getToTime(sTime, Integer.valueOf(carListBean.estTime)));
+            }
         }
 
         fgCarNew.setArguments(bundle);

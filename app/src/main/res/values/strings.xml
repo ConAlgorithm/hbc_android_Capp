@@ -421,7 +421,6 @@
 
     <string name="del_driver">删除</string>
     <string name="driver_left">指定司导</string>
-    <string name="driver_time_error">当前司导的服务时间冲突</string>
 
     <string name="man_luggage_title">乘客及行李数</string>
     <string name="man_luggage_man">成人</string>
@@ -618,7 +617,6 @@
 
     <string name="alert_del_after_edit">请在删除指定司导后，再修改出行信息</string>
 
-    <string name="guide_error_city">当前司导不可服务该城市</string>
     <string name="guide_error_time">因为城市或服务时间冲突，该司导暂无法提供服务</string>
 
 
