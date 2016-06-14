@@ -122,6 +122,9 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
     CarListBean carListBean;
 
     private void genBottomData(CarBean carBean) {
+        if(null == carBean){
+            return;
+        }
         int total = carBean.price;
         if(null != manLuggageBean){
             int seat1Price = OrderUtils.getSeat1PriceTotal(carListBean,manLuggageBean);

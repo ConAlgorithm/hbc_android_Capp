@@ -285,6 +285,9 @@ public class FgSingleNew extends BaseFragment {
 
 
     private void genBottomData(CarBean carBean) {
+        if(null == carBean){
+            return;
+        }
         int total = carBean.price;
         if (null != manLuggageBean) {
             int seat1Price = OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean);
@@ -314,8 +317,11 @@ public class FgSingleNew extends BaseFragment {
             } else {
                 bottom.setVisibility(GONE);
             }
-
-            initCarFragment(true);
+            if(null != carBean) {
+                initCarFragment(true);
+            }else{
+                ToastUtils.showShort(R.string.no_price_error);
+            }
         }
     }
 

@@ -206,6 +206,9 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
     boolean waitChecked = false;
 
     private void genBottomData(CarBean carBean) {
+        if(null == carBean){
+            return;
+        }
         int total = carBean.price;
         if(null != manLuggageBean){
             int seat1Price = OrderUtils.getSeat1PriceTotal(carListBean,manLuggageBean);

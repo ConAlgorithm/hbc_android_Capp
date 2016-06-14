@@ -533,6 +533,10 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
             case R.id.man_text:
             case R.id.luggage_text:
             case R.id.childseat_text:
+                if(null == carListBean || null == carListBean.carList){
+                    ToastUtils.showShort(R.string.no_price_error);
+                    return;
+                }
                 FgManLuggage fgManLuggage = new FgManLuggage();
                 Bundle bundle = new Bundle();
                 if(null != collectGuideBean){
