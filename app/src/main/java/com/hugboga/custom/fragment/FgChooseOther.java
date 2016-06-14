@@ -1,9 +1,13 @@
 package com.hugboga.custom.fragment;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,10 +33,10 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
 
-import static com.hugboga.custom.R.id.add;
 import static com.hugboga.custom.R.id.add_other_phone_click;
 import static com.hugboga.custom.R.id.passenger_phone_text;
 import static com.hugboga.custom.R.id.user_phone_text;
+import static com.tencent.bugly.crashreport.inner.InnerAPI.context;
 
 /**
  * Created on 16/5/26.
@@ -197,6 +201,7 @@ public class FgChooseOther extends BaseFragment {
 
     @Override
     protected void initView() {
+        getPermission();
         otherCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -319,22 +324,22 @@ public class FgChooseOther extends BaseFragment {
                         case R.id.name_right:
                             nameText.setText(contact[0]);
                             String userPhone = contact[1];
-                            userPhoneText.setText(userPhone.replaceAll("+86",""));
+                            userPhoneText.setText(""+userPhone.replace("+86",""));
                             break;
                         case R.id.name1_right:
                             String user1Phone = contact[1];
                             name1Text.setText(contact[0]);
-                            user1PhoneText.setText(user1Phone.replaceAll("+86",""));
+                            user1PhoneText.setText(""+user1Phone.replace("+86",""));
                             break;
                         case R.id.name2_right:
                             String user2Phone = contact[1];
                             name2Text.setText(contact[0]);
-                            user2PhoneText.setText(user2Phone.replaceAll("+86",""));
+                            user2PhoneText.setText(""+user2Phone.replace("+86",""));
                             break;
                         case R.id.passenger_right:
                             String passPhone = contact[1];
                             passengerText.setText(contact[0]);
-                            passengerPhoneText.setText(passPhone.replaceAll("+86",""));
+                            passengerPhoneText.setText(""+passPhone.replace("+86",""));
                             break;
                     }
                     break;
@@ -388,6 +393,16 @@ public class FgChooseOther extends BaseFragment {
                 bundleCode.putInt("airportCode", view.getId());
                 startFragment(chooseCountry, bundleCode);
                 break;
+        }
+    }
+
+
+    private void getPermission() {
+        if (ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.READ_CONTACTS)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(getActivity(),
+                    new String[]{android.Manifest.permission.READ_CONTACTS},
+                    1);
         }
     }
 }
