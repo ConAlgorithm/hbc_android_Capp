@@ -312,6 +312,9 @@ public class FgSingleNew extends BaseFragment {
     ManLuggageBean manLuggageBean;
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
+            case ONBACKPRESS:
+                backPress();
+                break;
             case CHANGE_GUIDE:
                 collectGuideBean = (CollectGuideBean)action.getData();
                 break;
@@ -594,4 +597,32 @@ public class FgSingleNew extends BaseFragment {
                 break;
         }
     }
+
+    private  void backPress(){
+        if((!TextUtils.isEmpty(useCityTips.getText())) ){
+            AlertDialogUtils.showAlertDialog(getContext(), getString(R.string.back_alert_msg), "离开", "取消", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                    finish();
+                }
+            }, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+        }else{
+            finish();
+        }
+    }
+
+
+    @Override
+    public boolean onBackPressed() {
+        backPress();
+        return true;
+    }
+
+
 }

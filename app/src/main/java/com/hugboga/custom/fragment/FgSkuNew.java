@@ -1,5 +1,6 @@
 package com.hugboga.custom.fragment;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -26,6 +27,7 @@ import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestPriceSku;
+import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.CarUtils;
 import com.hugboga.custom.utils.OrderUtils;
 import com.umeng.analytics.MobclickAgent;
@@ -202,6 +204,9 @@ public class FgSkuNew extends BaseFragment {
     ManLuggageBean manLuggageBean;
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
+            case ONBACKPRESS:
+                backPress();
+                break;
             case CHANGE_CAR:
                 carBean = (CarBean) action.getData();
                 if(null != carBean) {
@@ -367,5 +372,31 @@ public class FgSkuNew extends BaseFragment {
             case R.id.confirm_journey:
                 break;
         }
+    }
+
+    private  void backPress(){
+        if((!TextUtils.isEmpty(timeText.getText())) ){
+            AlertDialogUtils.showAlertDialog(getContext(), getString(R.string.back_alert_msg), "离开", "取消", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                    finish();
+                }
+            }, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+        }else{
+            finish();
+        }
+    }
+
+
+    @Override
+    public boolean onBackPressed() {
+        backPress();
+        return true;
     }
 }
