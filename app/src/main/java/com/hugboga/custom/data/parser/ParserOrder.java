@@ -57,6 +57,7 @@ public class ParserOrder extends ImplParser {
         orderbean.distance = jsonObj.optString("distance");
         orderbean.contactName = jsonObj.optString("userName");
         orderbean.brandSign = jsonObj.optString("flightBrandSign");
+        orderbean.flightBrandSign = jsonObj.optString("flightBrandSign");
         orderbean.flightAirportCode = jsonObj.optString("flightAirportCode");
         orderbean.adult = jsonObj.optInt("adultNum");
         orderbean.child = jsonObj.optInt("childNum");

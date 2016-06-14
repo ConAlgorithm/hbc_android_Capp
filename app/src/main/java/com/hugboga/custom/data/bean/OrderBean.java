@@ -423,14 +423,6 @@ public class OrderBean implements IBaseBean ,Parcelable{
         this.passengerInfos = in.readString();
         this.userCommentStatus = in.readInt();
         this.childSeatStr = in.readString();
-        this.flightAirportBuiding = in.readString();
-        this.flightAirportName = in.readString();
-        this.flightArriveTimeL = in.readString();
-        this.flightBrandSign = in.readString();
-        this.flightDestCode = in.readString();
-        this.flightDestName = in.readString();
-        this.flightFlyTimeL = in.readString();
-        this.flightNo = in.readString();
         this.isArrivalVisa = in.readString();
         this.priceFlightBrandSign = in.readString();
         this.isFlightSign = in.readString();
