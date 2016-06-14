@@ -433,9 +433,11 @@
     <string name="man_luggage_charge">收费儿童座椅</string>
     <string name="man_luggage_0">￥ 0/次</string>
     <string name="man_luggage_30">￥ 30/次</string>
-    <string name="man_luggage_tips1">一个儿童也需要占1个座位,如果选用儿童座椅需占1.5个座位</string>
-    <string name="man_luggage_tips2">每减少一位乘客,可增加一个行李箱</string>
-    <string name="man_luggage_tips3">行李箱是指航空公司要求必须托运的行李,最小标准24寸;1个28寸行李等于2个24寸行李的位置</string>
+    <string name="man_luggage_tips1">请填写可能的最多人数和行李数，供司导参考</string>
+    <string name="man_luggage_tips2">每减少1位乘客，可增加1个24寸行李</string>
+    <string name="man_luggage_tips3">1个28寸行李等于2个24寸行李的位置大小，携带的行李不要超出车的容量以免影响服务</string>
+    <string name="man_luggage_tips4">如需儿童座椅，出行前请与司导联系，确认需要何种年龄段的的儿童安全座椅</string>
+
 
     <string name="man_luggage_not_have">很抱歉，该城市暂不提供儿童座椅</string>
 
