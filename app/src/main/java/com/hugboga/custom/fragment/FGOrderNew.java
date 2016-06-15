@@ -565,6 +565,9 @@ public class FGOrderNew extends BaseFragment {
         citysLineTitle.setText("当地时间" + startDate + "(" + DateUtils.getWeekOfDate(startDate) + ")");
         citys_line_title_tips.setVisibility(GONE);
 
+        if(null != skuBean.passCityList && skuBean.passCityList.size() > 0) {
+            hotelPhoneTextCodeClick.setText("+" + skuBean.passCityList.get(0).areaCode);
+        }
 
         adultNum = this.getArguments().getString("adultNum");
         childrenNum = this.getArguments().getString("childrenNum");
