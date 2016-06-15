@@ -94,7 +94,6 @@ public class FgChoosePayment extends BaseFragment {
         // 将该app注册到微信
         IWXAPI msgApi = WXAPIFactory.createWXAPI(getActivity(), Constants.WX_APP_ID);
         msgApi.registerApp(Constants.WX_APP_ID);
-        mDialogUtil = DialogUtil.getInstance(getActivity());
 
         fgLeftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -303,6 +302,7 @@ public class FgChoosePayment extends BaseFragment {
     }
 
     private void backWarn() {
+        mDialogUtil = DialogUtil.getInstance(getActivity());
         mDialogUtil.showCustomDialog(getString(R.string.app_name), getString(R.string.order_cancel_pay), "确定离开", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
