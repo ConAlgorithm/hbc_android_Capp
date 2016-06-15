@@ -167,7 +167,8 @@ public class FgOrderEdit extends BaseFragment {
                 pickName.setText(orderBean.flightBrandSign);
             }
             if (!TextUtils.isEmpty(orderBean.serviceAreaCode)) {
-                hotelPhoneTextCodeClick.setText("+" + orderBean.serviceAreaCode);
+                String serviceCode = orderBean.serviceAreaCode;
+                hotelPhoneTextCodeClick.setText("+" + serviceCode.replace("+",""));
             }
             if (!TextUtils.isEmpty(orderBean.serviceAddressTel)) {
                 hotelPhoneText.setText(orderBean.serviceAddressTel);

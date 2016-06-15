@@ -86,6 +86,8 @@ public class ParserOrder extends ImplParser {
         orderbean.realMobile = jsonObj.optString("realMobile");
         orderbean.realUserName = jsonObj.optString("realUserName");
 
+        orderbean.isFlightSign = jsonObj.optString("isFlightSign");
+
 
         //passByCity
         JSONArray passByCityArray = jsonObj.optJSONArray("passCities");
