@@ -1136,7 +1136,7 @@ public class FGOrderNew extends BaseFragment {
                 serverTime, childseatNum, luggageNum,
                 contactUsersBean, dreamLeft.isChecked(),
                 travelFund, couponBean, mostFitBean,
-                guideCollectId, manLuggageBean);
+                guideCollectId, manLuggageBean,isCheckIn);
     }
 
 

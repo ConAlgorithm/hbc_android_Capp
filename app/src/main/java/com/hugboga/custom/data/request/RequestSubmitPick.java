@@ -22,7 +22,6 @@ public class RequestSubmitPick extends RequestSubmitBase {
         map.put("isArrivalVisa", orderBean.visa);
 
         map.put("destAddress",orderBean.destAddress);
-        map.put("isFlightSign",orderBean.isFlightSign);
         map.put("flightBrandSign",orderBean.flightBrandSign);
         map.put("carDesc",orderBean.carDesc);
 
@@ -33,6 +32,7 @@ public class RequestSubmitPick extends RequestSubmitBase {
         if(!TextUtils.isEmpty(orderBean.priceFlightBrandSign)){
             map.put("pickupSignPrice",orderBean.priceFlightBrandSign);
         }
+        map.put("isFlightSign",orderBean.isCheckin);
 
         if (orderBean.flightBean != null) {
             map.put("flightNo", orderBean.flightBean.flightNo);
