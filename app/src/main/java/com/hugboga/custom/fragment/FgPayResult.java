@@ -118,12 +118,14 @@ public class FgPayResult extends BaseFragment {
         switch (view.getId()){
             case R.id.par_result_left_tv:
                 if (params.payResult) {//回首页
+                    clearFragmentList();
                     EventBus.getDefault().post(new EventAction(EventType.FGTRAVEL_UPDATE));
                     Bundle bundle = new Bundle();
                     bundle.putString(KEY_FRAGMENT_NAME, this.getClass().getSimpleName());
                     bringToFront(FgHome.class, bundle);
                     EventBus.getDefault().post(new EventAction(EventType.SET_MAIN_PAGE_INDEX, 0));
                 } else {//订单详情
+                    clearFragmentList();
                     FgOrderDetail.Params orderParams = new FgOrderDetail.Params();
                     orderParams.orderId = params.orderId;
                     Bundle bundle = new Bundle();
@@ -134,6 +136,7 @@ public class FgPayResult extends BaseFragment {
             case R.id.par_result_right_tv:
                 if (params.payResult) {//订单详情
                     EventBus.getDefault().post(new EventAction(EventType.FGTRAVEL_UPDATE));
+                    clearFragmentList();
                     FgOrderDetail.Params orderParams = new FgOrderDetail.Params();
                     orderParams.orderId = params.orderId;
                     Bundle bundle = new Bundle();

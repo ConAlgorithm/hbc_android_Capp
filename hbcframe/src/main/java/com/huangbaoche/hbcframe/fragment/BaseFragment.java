@@ -335,6 +335,10 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
             for (int i = fragmentList.size() - 1; i >= 1; i--) {
                 BaseFragment fg = (BaseFragment) fragmentList.get(i);
                 if (fg != null) {
+                    String simpleName = fg.getClass().getSimpleName();
+                    if ("FgHome".equals(simpleName) || "FgChat".equals(simpleName) || "FgTravel".equals(simpleName)) {
+                        return;
+                    }
                     fg.finish();
                 }
             }
