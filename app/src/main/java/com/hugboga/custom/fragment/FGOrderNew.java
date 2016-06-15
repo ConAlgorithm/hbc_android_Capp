@@ -439,7 +439,9 @@ public class FGOrderNew extends BaseFragment {
         manLuggageBean = this.getArguments().getParcelable("manLuggageBean");
         type = this.getArguments().getInt("type");
         orderType = this.getArguments().getString("orderType");
+
         isCheckIn = this.getArguments().getBoolean("needCheckin");
+
         serverDate = this.getArguments().getString("serverDate");
         serverTime = this.getArguments().getString("serverTime");
         carBean = this.getArguments().getParcelable("carBean");
@@ -474,6 +476,7 @@ public class FGOrderNew extends BaseFragment {
             }
             checkin.setVisibility(View.VISIBLE);
         } else {
+            checkInOrPickupPrice = 0;
             checkin.setVisibility(GONE);
         }
     }
@@ -500,11 +503,12 @@ public class FGOrderNew extends BaseFragment {
         endHospitalTitle.setText(poiBean.placeName);
         endHospitalTitleTips.setText(poiBean.placeDetail);
 
+        isCheckIn = this.getArguments().getBoolean("needCheckin");
+
         carSeat.setText(getCarDesc());
 
         genCarInfoText();
 
-        allMoneyLeftText.setText("￥" + (carBean.price + OrderUtils.getSeat1PriceTotal(carListBean,manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean,manLuggageBean)));
 
         singleNoShowTime.setVisibility(GONE);
         singleNoShowAddress.setVisibility(GONE);
@@ -517,7 +521,8 @@ public class FGOrderNew extends BaseFragment {
                 allMoneyLeftText.setText("￥" + (carBean.price + checkInOrPickupPrice + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean)));
             }
         } else {
-                checkin.setVisibility(GONE);
+            checkInOrPickupPrice = 0;
+            checkin.setVisibility(GONE);
         }
     }
 
