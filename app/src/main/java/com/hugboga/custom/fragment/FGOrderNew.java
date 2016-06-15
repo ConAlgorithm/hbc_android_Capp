@@ -1068,12 +1068,12 @@ public class FGOrderNew extends BaseFragment {
                 couponBean = null;
                 couponRight.setText("");
                 if (couponLeft.isChecked()) {
-                    allMoneyLeftText.setText("￥" + (carBean.price  + OrderUtils.getSeat1PriceTotal(carListBean,manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean,manLuggageBean)));
+                    allMoneyLeftText.setText("￥" + (carBean.price + checkInOrPickupPrice + OrderUtils.getSeat1PriceTotal(carListBean,manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean,manLuggageBean)));
                 }
             }else{
                 couponRight.setText(couponBean.price + "优惠券");
                 if (couponLeft.isChecked()) {
-                    allMoneyLeftText.setText("￥" + (couponBean.actualPrice  + OrderUtils.getSeat1PriceTotal(carListBean,manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean,manLuggageBean)));
+                    allMoneyLeftText.setText("￥" + (couponBean.actualPrice + checkInOrPickupPrice + OrderUtils.getSeat1PriceTotal(carListBean,manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean,manLuggageBean)));
                 }
             }
             mostFitBean = null;

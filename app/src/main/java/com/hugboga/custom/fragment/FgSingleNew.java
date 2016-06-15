@@ -190,6 +190,13 @@ public class FgSingleNew extends BaseFragment {
 
             }
         });
+
+        cityBean = this.getArguments().getParcelable("cityBean");
+        if(null != cityBean){
+            useCityTips.setText(cityBean.name);
+        }
+
+
     }
 
 
