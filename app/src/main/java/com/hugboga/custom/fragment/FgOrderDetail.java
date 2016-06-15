@@ -421,4 +421,12 @@ public class FgOrderDetail extends BaseFragment implements View.OnClickListener{
             }
         });
     }
+
+    @Override
+    public void onFragmentResult(Bundle bundle) {
+        String from = bundle.getString(KEY_FRAGMENT_NAME);
+        if (FgPayResult.class.getSimpleName().equals(from)) {
+            requestData();
+        }
+    }
 }
