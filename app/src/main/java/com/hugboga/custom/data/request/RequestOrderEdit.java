@@ -71,6 +71,11 @@ public class RequestOrderEdit extends BaseRequest<GuidesDetailData> {
         return HttpMethod.POST;
     }
 
+    @Override
+    public String getUrlErrorCode() {
+        return "40053";
+    }
+
     private static class DataParser extends ImplParser {
         @Override
         public Object parseObject(JSONObject obj) throws Throwable {

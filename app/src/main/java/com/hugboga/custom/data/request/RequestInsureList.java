@@ -42,4 +42,9 @@ public class RequestInsureList extends BaseRequest<ArrayList<CouponBean>> {
     public HttpMethod getHttpMethod() {
         return HttpMethod.GET;
     }
+
+    @Override
+    public String getUrlErrorCode() {
+        return "40044";
+    }
 }

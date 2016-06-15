@@ -44,4 +44,9 @@ public class RequestChangeMobile extends BaseRequest/*<BindMobileBean>*/ {
     public HttpMethod getHttpMethod() {
         return HttpMethod.POST;
     }
+
+    @Override
+    public String getUrlErrorCode() {
+        return "40010";
+    }
 }

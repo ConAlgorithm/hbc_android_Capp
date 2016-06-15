@@ -35,6 +35,11 @@ public class RequestInvitationIntroduction extends BaseRequest<String[]> {
         return HttpMethod.GET;
     }
 
+    @Override
+    public String getUrlErrorCode() {
+        return "40045";
+    }
+
     private static class DataParser extends ImplParser {
         @Override
         public Object parseObject(JSONObject obj) throws Throwable {

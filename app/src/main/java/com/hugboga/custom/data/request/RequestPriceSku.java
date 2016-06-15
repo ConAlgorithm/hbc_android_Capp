@@ -40,4 +40,10 @@ public class RequestPriceSku extends BaseRequest<CarListBean> {
     public ImplParser getParser() {
         return new ParserCarList();
     }
+
+
+    @Override
+    public String getUrlErrorCode() {
+        return "40057";
+    }
 }

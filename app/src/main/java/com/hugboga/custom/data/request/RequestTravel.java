@@ -32,4 +32,9 @@ public class RequestTravel extends BaseRequest {
     public ImplParser getParser() {
         return new ParserTravel();
     }
+
+    @Override
+    public String getUrlErrorCode() {
+        return "40074";
+    }
 }

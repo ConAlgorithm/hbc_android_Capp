@@ -31,5 +31,8 @@ public class RequestOrderDetail extends BaseRequest<OrderBean> {
         return new ParserOrder();
     }
 
-
+    @Override
+    public String getUrlErrorCode() {
+        return "40052";
+    }
 }

@@ -38,4 +38,9 @@ public class RequestUnCollectGuidesMobile extends BaseRequest {
     public HttpMethod getHttpMethod() {
         return HttpMethod.POST;
     }
+
+    @Override
+    public String getUrlErrorCode() {
+        return "40078";
+    }
 }

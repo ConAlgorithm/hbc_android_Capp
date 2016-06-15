@@ -50,4 +50,9 @@ public class RequestOverPrice extends BaseRequest<ArrayList<OrderCostApplyInfo>>
             }
         };
     }
+
+    @Override
+    public String getUrlErrorCode() {
+        return "40054";
+    }
 }

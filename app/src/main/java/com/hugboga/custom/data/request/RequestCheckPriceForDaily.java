@@ -25,4 +25,9 @@ public class RequestCheckPriceForDaily extends RequestCheckPrice {
         map.put("halfDay", bean.isHalfDay ? 1 : 0);
     }
 
+    @Override
+    public String getUrlErrorCode() {
+        return "40016";
+    }
+
 }

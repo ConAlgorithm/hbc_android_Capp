@@ -34,4 +34,9 @@ public class RequestSkuList extends BaseRequest<Objects[]> {
     public ImplParser getParser() {
         return new ParserSkuCity();
     }
+
+    @Override
+    public String getUrlErrorCode() {
+        return "40064";
+    }
 }

@@ -55,6 +55,11 @@ public class RequestCollectGuidesFilter extends BaseRequest<ArrayList<CollectGui
         return HttpMethod.GET;
     }
 
+    @Override
+    public String getUrlErrorCode() {
+        return "40022";
+    }
+
     public static class CollectGuidesFilterParams implements Serializable {
         //开始日期 yyyy-MM-dd HH:mm:ss
         public String startTime;

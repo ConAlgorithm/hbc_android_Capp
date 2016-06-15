@@ -32,4 +32,9 @@ public class RequestChatList extends BaseRequest<ArrayList<ChatBean>> {
     public ImplParser getParser() {
         return new ParserChatList();
     }
+
+    @Override
+    public String getUrlErrorCode() {
+        return "40014";
+    }
 }
