@@ -5,7 +5,6 @@ import android.content.Context;
 import android.widget.Toast;
 
 import com.huangbaoche.hbcframe.HbcConfig;
-import com.huangbaoche.hbcframe.R;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.huangbaoche.hbcframe.widget.DialogUtilInterface;
@@ -60,7 +59,7 @@ public  class ErrorHandler implements HttpRequestListener{
                 ServerException serverException = (ServerException) errorInfo.exception;
                 ServerCodeHandlerInterface serverCodeHandler = getServerCodeHandler(mActivity);
                 if(!serverCodeHandler.handleServerCode(mActivity,serverException.getMessage(),serverException.getCode(),request,mListener))
-                Toast.makeText(mActivity, serverException.getMessage()+""+serverException.getErrorCode(), Toast.LENGTH_LONG).show();
+                Toast.makeText(mActivity, serverException.getMessage()+"-"+serverException.getErrorCode(), Toast.LENGTH_LONG).show();
                 return;
             case ExceptionErrorCode.ERROR_CODE_PARSE:
                 errState = "数据解析错误";
@@ -82,8 +81,10 @@ public  class ErrorHandler implements HttpRequestListener{
                 break;
         }
         MLog.e("mActivity = "+mActivity);
-        if(mActivity!=null)
-            Toast.makeText(mActivity, mActivity.getString(R.string.request_error,errorInfo.state), Toast.LENGTH_LONG).show();
+        if(mActivity!=null){
+            Toast.makeText(mActivity, errState, Toast.LENGTH_LONG).show();
+        }
+//            Toast.makeText(mActivity, mActivity.getString(R.string.request_error,errorInfo.state), Toast.LENGTH_LONG).show();
     }
 
     @Override
