@@ -63,6 +63,7 @@ import de.greenrobot.event.EventBus;
 
 import static com.hugboga.custom.R.id.baggage_text_click;
 import static com.hugboga.custom.R.id.people_text_click;
+import static com.hugboga.custom.R.id.start;
 import static com.hugboga.custom.R.id.start_city_click;
 import static com.hugboga.custom.R.id.start_layout_click;
 
@@ -148,6 +149,15 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
     protected void initView() {
         initHeader();
         initSelectPeoplePop(false);
+
+        startBean = this.getArguments().getParcelable("cityBean");
+
+        if(null !=startBean){
+            endBean = startBean;
+            startCity = startBean.name;
+            endCityId = startBean.cityId + "";
+            startCityClick.setText(startCity);
+        }
 
 
         collectGuideBean = (CollectGuideBean) this.getArguments().getSerializable("collectGuideBean");

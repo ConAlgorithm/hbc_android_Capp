@@ -99,7 +99,7 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
             addItemView(R.mipmap.order_car, orderBean.carDesc, passengerInfos, null);
         }
 
-        if (orderBean.orderGoodsType == 1) {//接机
+        if (orderBean.orderGoodsType == 1  && "1".equalsIgnoreCase(orderBean.isFlightSign)) {//接机
             addItemView(R.mipmap.order_jp, getContext().getString(R.string.order_detail_airport_card));
         }
 

@@ -202,7 +202,7 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
 
     CarListBean carListBean;
 
-    boolean checkInChecked = false;
+    boolean checkInChecked = true;
     boolean waitChecked = false;
 
     private void genBottomData(CarBean carBean) {
@@ -216,14 +216,14 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
             total += seat1Price + seat2Price;
         }
 
-        if(checkInChecked){
-            if (!TextUtils.isEmpty(carListBean.additionalServicePrice.checkInPrice)) {
-                total += Integer.valueOf(carListBean.additionalServicePrice.checkInPrice);
-            }
-        }
+//        if(checkInChecked){
+//            if (!TextUtils.isEmpty(carListBean.additionalServicePrice.checkInPrice)) {
+//                total += Integer.valueOf(carListBean.additionalServicePrice.checkInPrice);
+//            }
+//        }
 
 
-        if(waitChecked) {
+        if(checkInChecked) {
             if (!TextUtils.isEmpty(carListBean.additionalServicePrice.pickupSignPrice)) {
                 total += Integer.valueOf(carListBean.additionalServicePrice.pickupSignPrice);
             }
@@ -266,7 +266,7 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
                 break;
 
             case WAIT_SWITCH:
-                waitChecked = (boolean)action.getData();
+                checkInChecked = (boolean)action.getData();
                 if(null != carBean) {
                     genBottomData(carBean);
                 }
@@ -379,6 +379,8 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
         bundle.putString("childseatNum", manLuggageBean.childSeats + "");
         bundle.putString("luggageNum", manLuggageBean.luggages + "");
         bundle.putParcelable("carListBean", carListBean);
+
+        bundle.putBoolean("needCheckin", checkInChecked);
 
         fgOrderNew.setArguments(bundle);
         startFragment(fgOrderNew);
