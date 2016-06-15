@@ -39,4 +39,9 @@ public class RequestDeduction extends BaseRequest<DeductionBean> {
         return HttpMethod.GET;
     }
 
+    @Override
+    public String getUrlErrorCode() {
+        return "40027";
+    }
+
 }

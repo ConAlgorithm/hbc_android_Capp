@@ -66,4 +66,9 @@ public class RequestSubmitDaily extends RequestSubmitBase {
 //        realMobile 乘车人电话
 //        isRealUser 为别人下单传入2
     }
+
+    @Override
+    public String getUrlErrorCode() {
+        return "40066";
+    }
 }

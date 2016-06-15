@@ -45,4 +45,9 @@ public class RequestSubmitPick extends RequestSubmitBase {
             map.put("flightAirportBuiding", orderBean.flightBean == null ? null : orderBean.flightBean.arrTerminal);
         }
     }
+
+    @Override
+    public String getUrlErrorCode() {
+        return "40068";
+    }
 }

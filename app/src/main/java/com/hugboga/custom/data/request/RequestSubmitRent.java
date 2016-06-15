@@ -51,4 +51,9 @@ public class RequestSubmitRent extends RequestSubmitBase {
         map.put("destAddressDetail", orderBean.destAddressDetail);
 
     }
+
+    @Override
+    public String getUrlErrorCode() {
+        return "40069";
+    }
 }

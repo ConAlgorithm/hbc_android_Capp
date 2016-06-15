@@ -44,6 +44,11 @@ public class RequestEvaluateNew extends BaseRequest<String> {
         return HttpMethod.POST;
     }
 
+    @Override
+    public String getUrlErrorCode() {
+        return "40031";
+    }
+
     private static class DataParser extends ImplParser {
         @Override
         public Object parseObject(JSONObject obj) throws Throwable {

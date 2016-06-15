@@ -2,7 +2,6 @@ package com.huangbaoche.hbcframe.data.net;
 
 import android.app.Activity;
 import android.content.Context;
-import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.huangbaoche.hbcframe.HbcConfig;
@@ -10,9 +9,6 @@ import com.huangbaoche.hbcframe.R;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.huangbaoche.hbcframe.widget.DialogUtilInterface;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 
 /**
  * Created by admin on 2016/2/25.
@@ -64,7 +60,7 @@ public  class ErrorHandler implements HttpRequestListener{
                 ServerException serverException = (ServerException) errorInfo.exception;
                 ServerCodeHandlerInterface serverCodeHandler = getServerCodeHandler(mActivity);
                 if(!serverCodeHandler.handleServerCode(mActivity,serverException.getMessage(),serverException.getCode(),request,mListener))
-                Toast.makeText(mActivity, serverException.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(mActivity, serverException.getMessage()+""+serverException.getErrorCode(), Toast.LENGTH_LONG).show();
                 return;
             case ExceptionErrorCode.ERROR_CODE_PARSE:
                 errState = "数据解析错误";

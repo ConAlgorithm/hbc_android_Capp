@@ -59,4 +59,9 @@ public class RequestAvailableCoupon extends BaseRequest<ArrayList<CouponBean>> {
         return HttpMethod.GET;
     }
 
+    @Override
+    public String getUrlErrorCode() {
+        return "40007";
+    }
+
 }

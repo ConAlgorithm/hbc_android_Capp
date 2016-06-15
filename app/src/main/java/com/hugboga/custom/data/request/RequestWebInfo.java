@@ -41,6 +41,11 @@ public class RequestWebInfo extends BaseRequest<String> {
     }
 
     @Override
+    public String getUrlErrorCode() {
+        return "40085";
+    }
+
+    @Override
     public HttpMethod getHttpMethod() {
         HttpMethod requestMethod = HttpMethod.valueOf(method.toUpperCase());
         if (requestMethod == null) requestMethod = HttpMethod.POST;

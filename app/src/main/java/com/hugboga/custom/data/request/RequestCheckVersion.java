@@ -39,4 +39,9 @@ public class RequestCheckVersion extends BaseRequest<CheckVersionBean> {
     public HttpMethod getHttpMethod() {
         return HttpMethod.POST;
     }
+
+    @Override
+    public String getUrlErrorCode() {
+        return "40020";
+    }
 }

@@ -329,10 +329,10 @@ public class UrlLibs {
     /**
      * 上传经纬度  http://api.dev.hbc.tech/poi/v1.0/c/city?longitude=1&latitude=2
      */
-    public static final String UPLOAD_LOCATION = "poi/v1.0/e/city?";
+    public static final String UPLOAD_LOCATION = "poi/v1.0/c/city?";
 
 //    http://api.dev.hbc.tech/poi/v1.1/e/city?latitude=37.547054&longitude=126.959328
-    public static final String UPLOAD_LOCATION_V11 = "poi/v1.1/e/city?";
+    public static final String UPLOAD_LOCATION_V11 = "poi/v1.1/c/city?";
     /**
      * 获取车辆信息
      */

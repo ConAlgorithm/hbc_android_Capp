@@ -88,4 +88,9 @@ public class RequestMostFit extends BaseRequest<MostFitBean> {
         return new ParseMostFit();
     }
 
+    @Override
+    public String getUrlErrorCode() {
+        return "40049";
+    }
+
 }

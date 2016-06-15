@@ -31,4 +31,9 @@ public class RequestFlightByCity extends BaseRequest<ArrayList<FlightBean>> {
     public ImplParser getParser() {
         return new ParserFlightByCity();
     }
+
+    @Override
+    public String getUrlErrorCode() {
+        return "40033";
+    }
 }

@@ -40,5 +40,10 @@ public class RequestTest extends BaseRequest<TestBean> {
         return HttpMethod.POST;
     }
 
+    @Override
+    public String getUrlErrorCode() {
+        return "40071";
+    }
+
 
 }

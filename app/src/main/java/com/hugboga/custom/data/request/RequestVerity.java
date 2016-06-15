@@ -40,4 +40,9 @@ public class RequestVerity extends BaseRequest {
         return HttpMethod.POST;
     }
 
+    @Override
+    public String getUrlErrorCode() {
+        return "40084";
+    }
+
 }

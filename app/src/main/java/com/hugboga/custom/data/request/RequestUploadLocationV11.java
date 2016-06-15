@@ -50,4 +50,9 @@ public class RequestUploadLocationV11 extends BaseRequest<LocationData> {
     public HttpMethod getHttpMethod() {
         return HttpMethod.GET;
     }
+
+    @Override
+    public String getUrlErrorCode() {
+        return "40081";
+    }
 }
