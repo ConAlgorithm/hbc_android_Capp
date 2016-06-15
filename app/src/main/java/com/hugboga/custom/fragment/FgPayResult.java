@@ -124,28 +124,27 @@ public class FgPayResult extends BaseFragment {
                     bringToFront(FgHome.class, bundle);
                     EventBus.getDefault().post(new EventAction(EventType.SET_MAIN_PAGE_INDEX, 0));
                 } else {//订单详情
-                    intentOrderDetail();
+                    FgOrderDetail.Params orderParams = new FgOrderDetail.Params();
+                    orderParams.orderId = params.orderId;
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(Constants.PARAMS_DATA, orderParams);
+                    bringToFront(FgOrderDetail.class, bundle);
                 }
                 break;
             case R.id.par_result_right_tv:
                 if (params.payResult) {//订单详情
                     EventBus.getDefault().post(new EventAction(EventType.FGTRAVEL_UPDATE));
-                    intentOrderDetail();
+                    FgOrderDetail.Params orderParams = new FgOrderDetail.Params();
+                    orderParams.orderId = params.orderId;
+                    Bundle bundle = new Bundle();
+                    bundle.putString(FgChooseCountry.KEY_FRAGMENT_NAME, FgPayResult.class.getSimpleName());
+                    bundle.putSerializable(Constants.PARAMS_DATA, orderParams);
+                    bringToFront(FgOrderDetail.class, bundle);
                 } else {//重新支付
                     finish();
                 }
                 break;
         }
-    }
-
-    /**
-     *  订单详情
-     * */
-    private void intentOrderDetail() {
-        clearFragment();
-        FgOrderDetail.Params orderParams = new FgOrderDetail.Params();
-        orderParams.orderId = params.orderId;
-        startFragment(FgOrderDetail.newInstance(orderParams));
     }
 
     @Override
@@ -159,4 +158,5 @@ public class FgPayResult extends BaseFragment {
         }
         return true;
     }
+
 }
