@@ -77,7 +77,7 @@
                     android:id="@+id/m_plus"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:background="#d5dadb"
+                    android:background="#fad027"
                     android:gravity="center"
                     android:text="+"
                     android:textColor="@color/basic_white"
@@ -150,7 +150,7 @@
                     android:id="@+id/c_plus"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:background="#d5dadb"
+                    android:background="#fad027"
                     android:gravity="center"
                     android:text="+"
                     android:textColor="@color/basic_white"
@@ -222,7 +222,7 @@
                     android:id="@+id/l_plus"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:background="#d5dadb"
+                    android:background="#fad027"
                     android:gravity="center"
                     android:text="+"
                     android:textColor="@color/basic_white"
@@ -475,6 +475,32 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:text="@string/man_luggage_tips3"
+                android:textSize="15sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:gravity="left|top"
+                android:text="●"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:text="@string/man_luggage_tips4"
                 android:textSize="15sp" />
         </LinearLayout>
 

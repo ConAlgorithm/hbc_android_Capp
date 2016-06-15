@@ -36,6 +36,27 @@ public class GuidesDetailData implements Serializable {
     private int isFavored;//是否被该用户收藏，0否，1是
     private ArrayList<Integer> serviceTypes;//服务类型列表 1.接送机，2.包车，3.单次接送
 
+    public int getCarPersonNum() {
+        return carPersonNum;
+    }
+
+    public void setCarPersonNum(int carPersonNum) {
+        this.carPersonNum = carPersonNum;
+    }
+
+    private int carPersonNum;// 乘坐人数上限
+
+    public String getCarDesc() {
+        return carDesc;
+    }
+
+    public void setCarDesc(String carDesc) {
+        this.carDesc = carDesc;
+    }
+
+    private String carDesc;// 车型描述
+
+
     public boolean isCollected() {
         return isFavored == 1;
     }

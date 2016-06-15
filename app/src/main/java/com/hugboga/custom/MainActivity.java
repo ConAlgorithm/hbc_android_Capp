@@ -383,6 +383,7 @@ public class MainActivity extends BaseActivity
                 if (index >= 0 && index < 3)
                     mViewPager.setCurrentItem(index);
                 break;
+            case ONBACKPRESS:
             case CLICK_HEADER_LEFT_BTN_BACK:
                 if (getFragmentsSize() == mSectionsPagerAdapter.getCount()) {
                     drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED); //打开

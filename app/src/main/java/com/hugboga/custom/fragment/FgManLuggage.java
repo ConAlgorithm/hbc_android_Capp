@@ -152,14 +152,18 @@ public class FgManLuggage extends BaseFragment {
             seat1 = carListBean.additionalServicePrice.childSeatPrice1;
             seat2 = carListBean.additionalServicePrice.childSeatPrice2;
         }
-        mNums = carBean.capOfPerson;
+        mNums = carBean.capOfPerson - 2;
         lNums = carBean.capOfLuggage;
 
-        maxMans = mNums;
+        maxMans = carBean.capOfPerson;
         maxLuuages = lNums;
 
         mNum.setText(mNums + "");
         lNum.setText(lNums + "");
+
+        if (mNums == 1) {
+            mSub.setBackgroundColor(Color.parseColor("#d5dadb"));
+        }
 
         initData(manLuggageBean);
 

@@ -918,57 +918,38 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
     String guideCollectId = "";
 
     private void checkGuideCoflict() {
-        OrderUtils.checkGuideCoflict(getContext(), 3, startBean.cityId,
-                collectGuideBean.guideId, (isHalfTravel ? halfDate : start_date_str) + " 00:00:00",
-                (isHalfTravel ? halfDate : end_date_str) + " 00:00:00", getPassCitiesId(),
-                nums, collectGuideBean.carType, collectGuideBean.carClass,
-                new HttpRequestListener() {
-                    @Override
-                    public void onDataRequestSucceed(BaseRequest request) {
-                        RequestGuideConflict mRequest = (RequestGuideConflict) request;
-                        List<String> guideList = mRequest.getData();
-                        if (guideList.size() == 0) {
-                            driver_tips.setVisibility(View.VISIBLE);
-                        } else {
-                            getCarInfo();
+        if (((manNum + Math.round(childSeatNums * 1.5) + (childNum - childSeatNums)) <= collectGuideBean.numOfPerson)
+                && ((manNum + Math.round((childSeatNums) * 1.5) + (childNum - childSeatNums)) + baggageNum)
+                <= (collectGuideBean.numOfPerson + collectGuideBean.numOfLuggage)) {
+            OrderUtils.checkGuideCoflict(getContext(), 3, startBean.cityId,
+                    collectGuideBean.guideId, (isHalfTravel ? halfDate : start_date_str) + " 00:00:00",
+                    (isHalfTravel ? halfDate : end_date_str) + " 00:00:00", getPassCitiesId(),
+                    nums, collectGuideBean.carType, collectGuideBean.carClass,
+                    new HttpRequestListener() {
+                        @Override
+                        public void onDataRequestSucceed(BaseRequest request) {
+                            RequestGuideConflict mRequest = (RequestGuideConflict) request;
+                            List<String> guideList = mRequest.getData();
+                            if (guideList.size() == 0) {
+                                driver_tips.setVisibility(View.VISIBLE);
+                            } else {
+                                getCarInfo();
+                            }
                         }
-                    }
 
-                    @Override
-                    public void onDataRequestCancel(BaseRequest request) {
-                        System.out.print(request);
-                    }
+                        @Override
+                        public void onDataRequestCancel(BaseRequest request) {
+                            System.out.print(request);
+                        }
 
-                    @Override
-                    public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-                        System.out.print(request);
-                    }
-                });
-//
-//        RequestGuideConflict requestGuideConflict = new RequestGuideConflict(getContext(),3,startBean.cityId,
-//                collectGuideBean.guideId,(isHalfTravel?halfDate:start_date_str)+" 00:00:00",(isHalfTravel?halfDate:end_date_str)+" 00:00:00",getPassCitiesId(),nums,collectGuideBean.carType,collectGuideBean.carClass);
-//        HttpRequestUtils.request(getContext(), requestGuideConflict, new HttpRequestListener() {
-//            @Override
-//            public void onDataRequestSucceed(BaseRequest request) {
-//                RequestGuideConflict mRequest = (RequestGuideConflict)request;
-//                List<String> guideList = mRequest.getData();
-//                if(guideList.size() == 0){
-//                    driver_tips.setVisibility(View.VISIBLE);
-//                }else{
-//                    getCarInfo();
-//                }
-//            }
-//
-//            @Override
-//            public void onDataRequestCancel(BaseRequest request) {
-//                System.out.print(request);
-//            }
-//
-//            @Override
-//            public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-//                System.out.print(request);
-//            }
-//        });
+                        @Override
+                        public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+                            System.out.print(request);
+                        }
+                    });
+        } else {
+            driver_tips.setVisibility(View.VISIBLE);
+        }
     }
 
     boolean isHalfTravel = false;
@@ -980,23 +961,15 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
                 goCollectGuid(2);
                 break;
             case R.id.minus:
-                if (null != collectGuideBean) {
-                    ToastUtils.showShort(R.string.alert_del_after_edit);
-                } else {
-                    if (childSeatNums >= 1) {
-                        childSeatNums--;
-                        childText.setText(getString(R.string.select_city_child) + childSeatNums);
-                    }
+                if (childSeatNums >= 1) {
+                    childSeatNums--;
+                    childText.setText(getString(R.string.select_city_child) + childSeatNums);
                 }
                 break;
             case R.id.add:
-                if (null != collectGuideBean) {
-                    ToastUtils.showShort(R.string.alert_del_after_edit);
-                } else {
-                    if (childSeatNums <= 10) {
-                        childSeatNums++;
-                        childText.setText(getString(R.string.select_city_child) + childSeatNums);
-                    }
+                if (childSeatNums <= 10) {
+                    childSeatNums++;
+                    childText.setText(getString(R.string.select_city_child) + childSeatNums);
                 }
                 break;
             case start_city_click:

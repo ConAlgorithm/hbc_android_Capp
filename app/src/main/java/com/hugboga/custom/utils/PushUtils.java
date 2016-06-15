@@ -17,6 +17,7 @@ import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.hugboga.custom.MainActivity;
+import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.PushMessage;
@@ -111,10 +112,11 @@ public class PushUtils {
      * @param pushMessage
      */
 //    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    public static void showNotification(Context context, PushMessage pushMessage) {
+    public static void showNotification(PushMessage pushMessage) {
 
+        Context context = MyApplication.getAppContext();
         //设置通知消息属性
-        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager notificationManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
         Notification.Builder mBuilder = new Notification.Builder(context);
         mBuilder.setContentTitle(PushUtils.pushTitle(context, pushMessage.title)); //设置标题
         String content = PushUtils.pushContent(pushMessage.content);
