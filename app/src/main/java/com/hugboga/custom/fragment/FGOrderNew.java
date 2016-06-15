@@ -565,14 +565,15 @@ public class FGOrderNew extends BaseFragment {
         citysLineTitle.setText("当地时间" + startDate + "(" + DateUtils.getWeekOfDate(startDate) + ")");
         citys_line_title_tips.setVisibility(GONE);
 
-        if(null != skuBean.passCityList && skuBean.passCityList.size() > 0) {
-            hotelPhoneTextCodeClick.setText("+" + skuBean.passCityList.get(0).areaCode);
-        }
-
+        startBean = this.getArguments().getParcelable("startBean");
         adultNum = this.getArguments().getString("adultNum");
         childrenNum = this.getArguments().getString("childrenNum");
         childseatNum = this.getArguments().getString("childseatNum");
         luggageNum = this.getArguments().getString("luggageNum");
+
+        if(null != startBean) {
+            hotelPhoneTextCodeClick.setText("+" + startBean.areaCode);
+        }
 
         startHospitalTitle.setVisibility(GONE);
         startHospitalTitleTips.setVisibility(GONE);
