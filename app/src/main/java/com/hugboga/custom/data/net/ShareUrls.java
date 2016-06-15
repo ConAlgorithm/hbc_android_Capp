@@ -55,8 +55,7 @@ public final class ShareUrls {
         params.put("avatar", avatar);
         params.put("name", CommonUtils.getEncodedString(name));
         params.put("qcode", qcode);//邀请码
-        String result = SHARE_BASE_WECHAT_URL + getUri(SHARE_THIRTY_COUPON, params) + getScope("snsapi_userinfo");
-        return result;
+        return SHARE_BASE_WECHAT_URL + getUri(SHARE_THIRTY_COUPON, params) + getScope("snsapi_userinfo");
     }
 
     private static String getUri(String _baseUrl, ArrayMap<String, String> _params ) {
