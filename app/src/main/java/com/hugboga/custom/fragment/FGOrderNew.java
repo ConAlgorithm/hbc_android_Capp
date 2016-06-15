@@ -331,6 +331,8 @@ public class FGOrderNew extends BaseFragment {
             distance = "0";
         }
 
+
+
         genType(type);
 
         requestMostFit();
@@ -426,6 +428,10 @@ public class FGOrderNew extends BaseFragment {
     private void genSend() {
         airPort = this.getArguments().getParcelable("airPortBean");
         poiBean = this.getArguments().getParcelable("poiBean");
+
+        hotelPhoneTextCodeClick.setText("+"+airPort.areaCode);
+
+
         adultNum = this.getArguments().getString("adultNum");
         childrenNum = this.getArguments().getString("childrenNum");
         childseatNum = this.getArguments().getString("childseatNum");
@@ -476,6 +482,7 @@ public class FGOrderNew extends BaseFragment {
         flightBean = (FlightBean) this.getArguments().getSerializable(FgCar.KEY_FLIGHT);
         poiBean = (PoiBean) this.getArguments().getSerializable(FgCar.KEY_ARRIVAL);
 
+        hotelPhoneTextCodeClick.setText("+"+flightBean.arrivalAirport.areaCode);
 
         carBean = this.getArguments().getParcelable("carBean");
 
@@ -558,6 +565,7 @@ public class FGOrderNew extends BaseFragment {
         citysLineTitle.setText("当地时间" + startDate + "(" + DateUtils.getWeekOfDate(startDate) + ")");
         citys_line_title_tips.setVisibility(GONE);
 
+
         adultNum = this.getArguments().getString("adultNum");
         childrenNum = this.getArguments().getString("childrenNum");
         childseatNum = this.getArguments().getString("childseatNum");
@@ -639,6 +647,8 @@ public class FGOrderNew extends BaseFragment {
             textView.setText("半天: " + startCityName + "市内");
             day_layout.addView(dayView);
         }
+
+        hotelPhoneTextCodeClick.setText("+"+startBean.areaCode);
 
         if (!isHalfTravel && null != passCityList) {
             if (passCityList.size() <= 3) {
