@@ -126,7 +126,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler, 
                     EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL, 1));
                     finish();
                 } else {//重新支付
-                    EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL));
+//                    EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL));
                     finish();
                 }
                 break;

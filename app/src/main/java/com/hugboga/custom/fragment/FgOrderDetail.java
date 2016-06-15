@@ -210,7 +210,7 @@ public class FgOrderDetail extends BaseFragment implements View.OnClickListener{
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest _request) {
         super.onDataRequestError(errorInfo, _request);
         if (_request instanceof RequestOrderDetail) {
-            emptyTV.setVisibility(View.GONE);
+            emptyTV.setVisibility(View.VISIBLE);
             emptyTV.setText(R.string.data_load_error_retry);
             emptyTV.setOnClickListener(this);
         }
@@ -278,18 +278,12 @@ public class FgOrderDetail extends BaseFragment implements View.OnClickListener{
                 orderBean.orderGuideInfo.storeStatus = (int) action.getData();
                 updateCollectViewText();
                 break;
-            case ORDER_DETAIL_GUIDE_COLLECT://收藏
-                if (orderBean.orderGuideInfo == null) {
+            case ORDER_DETAIL_GUIDE_COLLECT://收藏 只可收藏不可取消
+                if (orderBean.orderGuideInfo == null || orderBean.orderGuideInfo.isCollected()) {
                     return;
                 }
                 mDialogUtil.showLoadingDialog();
-                BaseRequest baseRequest = null;
-                if (orderBean.orderGuideInfo.isCollected()) {
-                    baseRequest = new RequestUncollectGuidesId(getActivity(), orderBean.orderGuideInfo.guideID);
-                } else {
-                    baseRequest = new RequestCollectGuidesId(getActivity(), orderBean.orderGuideInfo.guideID);
-                }
-                requestData(baseRequest);
+                requestData(new RequestCollectGuidesId(getActivity(), orderBean.orderGuideInfo.guideID));
                 break;
             case ORDER_DETAIL_UPDATE_EVALUATION://更新评价UI
                 requestData();

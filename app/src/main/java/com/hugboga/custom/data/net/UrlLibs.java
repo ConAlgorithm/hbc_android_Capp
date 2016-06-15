@@ -447,7 +447,7 @@ public class UrlLibs {
     /**
      * 获取可用优惠券
      */
-    public static final String DEDUCTION = "ucenter/v1.0/e/travelFund/deduction";
+    public static final String DEDUCTION = "ucenter/v1.0/c/travelFund/deduction";
 
     /**
      * 修改订单
