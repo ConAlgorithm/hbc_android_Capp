@@ -29,10 +29,9 @@ public class RequestSubmitPick extends RequestSubmitBase {
         map.put("priceChannel",orderBean.priceChannel);
 
 
-        if(!TextUtils.isEmpty(orderBean.priceFlightBrandSign)){
-            map.put("pickupSignPrice",orderBean.priceFlightBrandSign);
-        }
-        map.put("isFlightSign",orderBean.isCheckin);
+        map.put("priceFlightBrandSign",orderBean.priceFlightBrandSign);
+        map.put("isFlightSign",orderBean.isFlightSign);
+
 
         if (orderBean.flightBean != null) {
             map.put("flightNo", orderBean.flightBean.flightNo);
