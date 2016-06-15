@@ -320,6 +320,7 @@ public class FgChoosePayment extends BaseFragment {
         dialogUtil.showCustomDialog(getString(R.string.app_name), getString(R.string.order_cancel_pay), "确定离开", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                clearFragmentList();
                 FgOrderDetail.Params orderParams = new FgOrderDetail.Params();
                 orderParams.orderId = requestParams.orderId;
                 Bundle bundle = new Bundle();
