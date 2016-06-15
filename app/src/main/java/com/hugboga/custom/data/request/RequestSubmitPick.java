@@ -27,7 +27,7 @@ public class RequestSubmitPick extends RequestSubmitBase {
 
         map.put("childSeat",orderBean.childSeatStr);
         map.put("priceChannel",orderBean.priceChannel);
-
+        map.put("userRemark", orderBean.userRemark);
 
         map.put("priceFlightBrandSign",orderBean.priceFlightBrandSign);
         map.put("isFlightSign",orderBean.isFlightSign);
