@@ -279,6 +279,7 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
         carList = CarUtils.initCarListData(carList);
         mAdapter.setList(carList);
         mJazzy.setState(null);
+        mJazzy.setOffscreenPageLimit(3);
         mJazzy.setTransitionEffect(JazzyViewPager.TransitionEffect.Tablet);
         mJazzy.setAdapter(mAdapter);
     }

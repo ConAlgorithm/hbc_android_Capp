@@ -10,15 +10,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/basic_white"
-        android:clipChildren="false"
-        android:layerType="software">
+        android:clipChildren="false">
 
         <com.hugboga.custom.widget.JazzyViewPager
             android:id="@+id/jazzy_pager"
             android:layout_width="match_parent"
             android:layout_height="120dip"
-            android:layout_marginLeft="80dip"
-            android:layout_marginRight="80dip"
+            android:layout_marginRight="80dp"
+            android:layout_marginLeft="80dp"
             android:clipChildren="false" />
     </LinearLayout>
 
