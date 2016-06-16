@@ -2,6 +2,7 @@ package com.hugboga.custom.fragment;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -57,8 +58,8 @@ public class FgPayResult extends BaseFragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void initHeader(Bundle savedInstanceState) {
+        super.initHeader(savedInstanceState);
         if (savedInstanceState != null) {
             params = (Params)savedInstanceState.getSerializable(Constants.PARAMS_DATA);
         } else {
