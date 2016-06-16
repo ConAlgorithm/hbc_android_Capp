@@ -3,6 +3,7 @@ package com.hugboga.custom.widget;
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.OrderBean;
+import com.hugboga.custom.data.bean.OrderPriceInfo;
 
 /**
  * Created by qingcha on 16/6/2.
@@ -98,11 +100,12 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
             }
             addItemView(R.mipmap.order_car, orderBean.carDesc, passengerInfos, null);
         }
-
+        OrderPriceInfo priceInfo = orderBean.orderPriceInfo;
         if (orderBean.orderGoodsType == 1  && "1".equalsIgnoreCase(orderBean.isFlightSign)) {//接机
             addItemView(R.mipmap.order_jp, getContext().getString(R.string.order_detail_airport_card));
+        } else if (orderBean.orderGoodsType == 2 && "1".equals(orderBean.isCheckin)) {//送机checkin
+            addItemView(R.mipmap.order_jp, getContext().getString(R.string.order_detail_checkin));
         }
-
     }
 
     private void addItemView(int iconId, String title) {

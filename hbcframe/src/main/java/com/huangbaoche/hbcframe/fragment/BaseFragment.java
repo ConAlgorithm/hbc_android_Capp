@@ -14,6 +14,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import com.huangbaoche.hbcframe.activity.BaseFragmentActivity;
+import com.huangbaoche.hbcframe.data.net.DefaultSSLSocketFactory;
 import com.huangbaoche.hbcframe.data.net.ErrorHandler;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
@@ -343,6 +344,7 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
                 }
             }
         }
+        DefaultSSLSocketFactory.resetSSLSocketFactory(getActivity());
     }
 
     public void clearFragment() {
@@ -362,6 +364,7 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
                 }
             }
         }
+        DefaultSSLSocketFactory.resetSSLSocketFactory(getActivity());
     }
 
     /**

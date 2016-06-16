@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alipay.sdk.app.PayTask;
+import com.huangbaoche.hbcframe.data.net.DefaultSSLSocketFactory;
 import com.huangbaoche.hbcframe.data.net.ExceptionErrorCode;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.ServerException;
@@ -323,9 +324,7 @@ public class FgChoosePayment extends BaseFragment {
                 clearFragmentList();
                 FgOrderDetail.Params orderParams = new FgOrderDetail.Params();
                 orderParams.orderId = requestParams.orderId;
-                Bundle bundle = new Bundle();
-                bundle.putSerializable(Constants.PARAMS_DATA, orderParams);
-                bringToFront(FgOrderDetail.class, bundle);
+                startFragment(FgOrderDetail.newInstance(orderParams));
             }
         }, "继续支付", new DialogInterface.OnClickListener() {
             @Override

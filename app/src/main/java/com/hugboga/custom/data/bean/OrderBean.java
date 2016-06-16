@@ -141,7 +141,7 @@ public class OrderBean implements IBaseBean ,Parcelable{
     public String priceFlightBrandSign;///接机牌费用
     public String isFlightSign;//是否选择举牌接机服务
     public String priceActual;////使用券时，实际支付价格
-    public String isCheckin;////是否协助登机
+    public String isCheckin;////是否协助登机 1选择
 
 
     public String flightAirportBuiding;

@@ -599,6 +599,7 @@
     <string name="order_detail_hbc_pay">由皇包车支付</string>
     <string name="order_detail_local_time">当地时间&#160;%1$s</string>
     <string name="order_detail_airport_card">接机举牌等待</string>
+    <string name="order_detail_checkin">协助办理登机check in</string>
     <string name="order_detail_seat_info">（%1$s）</string>
     <string name="order_detail_flight">航班%1$s&#160;</string>
     <string name="order_detail_insurance_describe">皇包车帮您购买出境平安险，保额高达8万元</string>

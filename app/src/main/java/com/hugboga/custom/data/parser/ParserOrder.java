@@ -166,6 +166,7 @@ public class ParserOrder extends ImplParser {
         orderbean.passengerInfos = jsonObj.optString("passengerInfos");
         orderbean.userCommentStatus = jsonObj.optInt("userCommentStatus");
         orderbean.realSendSms = jsonObj.optString("realSendSms");
+        orderbean.isCheckin = jsonObj.optString("isCheckin");
         orderbean.isRealUser = jsonObj.optString("isRealUser");
         orderbean.priceCommentReward = jsonObj.optInt("priceCommentReward");
         orderbean.userList = gson.fromJson(jsonObj.optString("userList"), new TypeToken<List<OrderContactBean>>(){}.getType());

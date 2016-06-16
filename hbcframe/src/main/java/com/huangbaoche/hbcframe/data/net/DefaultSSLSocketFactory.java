@@ -34,6 +34,27 @@ public class DefaultSSLSocketFactory extends SSLCertificateSocketFactory {
     private static String keystorepw = "";//32
     private static String keypw = "";//6
 
+    public static void resetSSLSocketFactory(Context context) {
+        try {
+            try {
+                instance = null;
+                keystorepw = Common.getKeyStorePsw(context);
+                keypw = Common.getClientP12Key(context);
+                long time = System.currentTimeMillis();
+                trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
+                InputStream ins = context.getResources().getAssets().open("client.keystore"); // 下载的证书放到项目中的assets目录中
+                trustStore.load(ins, keystorepw.toCharArray());
+                MLog.e("trustStore load time = " + (System.currentTimeMillis() - time));
+            } catch (Throwable var1) {
+                MLog.e(var1.getMessage(), var1);
+            }
+
+            instance = new DefaultSSLSocketFactory();
+        } catch (Throwable var1) {
+            MLog.e(var1.getMessage(), var1);
+        }
+    }
+
     public static DefaultSSLSocketFactory getSocketFactory(Context context) {
         if(instance == null) {
             try {

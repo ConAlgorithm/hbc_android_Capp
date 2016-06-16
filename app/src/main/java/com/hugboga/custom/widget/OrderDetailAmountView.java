@@ -13,6 +13,7 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.OrderPriceInfo;
 import com.hugboga.custom.data.bean.OrderStatus;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.UIUtils;
 
 /**
@@ -48,7 +49,7 @@ public class OrderDetailAmountView extends LinearLayout implements HbcViewBehavi
         addBillView(R.string.order_detail_cost_chartered, "" + (int)priceInfo.orderPrice);//包车费用
         if (orderBean.orderGoodsType == 1 && priceInfo.flightBrandSignPrice > 0) {//接机 举牌费用
             addBillView(R.string.order_detail_cost_placards, "" + (int)priceInfo.flightBrandSignPrice);
-        } else if(orderBean.orderGoodsType == 2 && priceInfo.checkInPrice > 0) {//送机 checkin费用
+        } else if(orderBean.orderGoodsType == 2 && !Double.isNaN(priceInfo.checkInPrice) && priceInfo.checkInPrice > 0) {//送机 checkin费用
             addBillView(R.string.order_detail_cost_checkin, "" + (int)priceInfo.checkInPrice);
         }
         if (priceInfo.childSeatPrice > 0) {
