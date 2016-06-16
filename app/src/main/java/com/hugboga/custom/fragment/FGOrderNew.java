@@ -212,7 +212,7 @@ public class FGOrderNew extends BaseFragment {
 
     @Bind(R.id.hospital_layout)
     LinearLayout hospital_layout;
-
+    String userName;
     @Override
     protected void initHeader() {
         fgRightBtn.setVisibility(View.VISIBLE);
@@ -238,7 +238,7 @@ public class FGOrderNew extends BaseFragment {
         });
 
         contactUsersBean = new ContactUsersBean();
-        String userName = UserEntity.getUser().getUserName(this.getActivity());
+        userName = UserEntity.getUser().getUserName(this.getActivity());
         if(TextUtils.isEmpty(userName)){
             userName = UserEntity.getUser().getNickname(getActivity());
         }
