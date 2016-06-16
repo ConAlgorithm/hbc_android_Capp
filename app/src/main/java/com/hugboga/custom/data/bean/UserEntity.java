@@ -32,14 +32,16 @@ public class UserEntity {
     private int coupons;//优惠卷
 
     public String getUserName(Context activity) {
-        if (userName == null) {
+//        if (userName == null) {
             SharedPre shared = new SharedPre(activity);
             userName = shared.getStringValue(SharedPre.USERNAME);
-        }
+//        }
         return userName;
     }
 
     public void setUserName(Context activity,String userName) {
+        SharedPre shared = new SharedPre(activity);
+        shared.saveStringValue(SharedPre.USERNAME, userName);
         this.userName = userName;
     }
 

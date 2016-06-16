@@ -90,12 +90,14 @@ public class FgPersonInfo extends BaseFragment {
             userBean = requestUserInfo.getData();
             UserEntity.getUser().setNickname(getActivity(), userBean.nickname);
             UserEntity.getUser().setAvatar(getActivity(), userBean.avatar);
+            UserEntity.getUser().setUserName(getActivity(), userBean.name);
             inflateContent();
         } else if (request instanceof RequestChangeUserInfo) {
             RequestChangeUserInfo requestChangeUserInfo = (RequestChangeUserInfo) request;
             userBean = requestChangeUserInfo.getData();
             UserEntity.getUser().setNickname(getActivity(), userBean.nickname);
             UserEntity.getUser().setAvatar(getActivity(), userBean.avatar);
+            UserEntity.getUser().setUserName(getActivity(), userBean.name);
             inflateContent();
             EventBus.getDefault().post(
                     new EventAction(EventType.CLICK_USER_LOGIN));
