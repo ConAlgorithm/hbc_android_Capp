@@ -89,7 +89,7 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
             addItemView(R.mipmap.order_place, orderBean.startAddress, null, orderBean.startAddressDetail);
         }
 
-        if (!TextUtils.isEmpty(orderBean.destAddress)) {//目的地
+        if (!TextUtils.isEmpty(orderBean.destAddress) && orderBean.orderType != 3) {//目的地
             addItemView(R.mipmap.order_flag, orderBean.destAddress, null, orderBean.destAddressDetail);
         }
 
