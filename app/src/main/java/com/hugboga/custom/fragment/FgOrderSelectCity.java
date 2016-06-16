@@ -1069,11 +1069,11 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
                     fgSelectCar.setArguments(bundleCar);
                     startFragment(fgSelectCar);
                 }
-                try {
-                    Reservoir.clear();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+//                try {
+//                    Reservoir.clear();
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
                 //统计,这代码应该加到点击事件方法的最后边
                 HashMap<String, String> map = new HashMap<String, String>();
                 map.put("source", source);
