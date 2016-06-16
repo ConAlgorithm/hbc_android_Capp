@@ -78,6 +78,12 @@ public class FgChoosePayment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void initHeader(Bundle savedInstanceState) {
+        super.initHeader(savedInstanceState);
         if (savedInstanceState != null) {
             requestParams = (RequestParams)savedInstanceState.getSerializable(Constants.PARAMS_DATA);
         } else {
@@ -86,7 +92,6 @@ public class FgChoosePayment extends BaseFragment {
                 requestParams = (RequestParams)bundle.getSerializable(Constants.PARAMS_DATA);
             }
         }
-        EventBus.getDefault().register(this);
     }
 
     @Override

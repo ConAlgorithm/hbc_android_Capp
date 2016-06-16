@@ -183,6 +183,18 @@ public class FgOrderDetail extends BaseFragment implements View.OnClickListener{
                 }
                 explainTV.setText(explainStr);
             }
+            if (floatView.findViewById(R.id.order_detail_pay_tv) != null) {
+                floatView.findViewById(R.id.order_detail_pay_tv).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        FgChoosePayment.RequestParams requestParams = new FgChoosePayment.RequestParams();
+                        requestParams.orderId = orderBean.orderNo;
+                        requestParams.shouldPay = orderBean.orderPriceInfo.actualPay;
+                        requestParams.source = source;
+                        startFragment(FgChoosePayment.newInstance(requestParams));
+                    }
+                });
+            }
         } else if (_request instanceof RequestOrderCancel) {//取消订单
 //            DialogUtil dialogUtil = DialogUtil.getInstance(getActivity());
 //            dialogUtil.showCustomDialog(getContext().getString(R.string.order_cancel_succeed), new DialogInterface.OnClickListener() {
@@ -218,13 +230,14 @@ public class FgOrderDetail extends BaseFragment implements View.OnClickListener{
 
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
-            case ORDER_DETAIL_PAY://立即支付
-                FgChoosePayment.RequestParams requestParams = new FgChoosePayment.RequestParams();
-                requestParams.orderId = orderBean.orderNo;
-                requestParams.shouldPay = orderBean.orderPriceInfo.actualPay;
-                requestParams.source = source;
-                startFragment(FgChoosePayment.newInstance(requestParams));
-                break;
+//            case ORDER_DETAIL_PAY://立即支付
+//                FgChoosePayment.RequestParams requestParams = new FgChoosePayment.RequestParams();
+//                requestParams.orderId = orderBean.orderNo;
+//                requestParams.shouldPay = orderBean.orderPriceInfo.actualPay;
+//                requestParams.source = source;
+//                Log.i("aa", "FgOrderDetail 2222 "+  orderBean.orderNo);
+//                startFragment(FgChoosePayment.newInstance(requestParams));
+//                break;
             case ORDER_DETAIL_INSURANCE_H5://皇包车免费赠送保险
                 Bundle bundle = new Bundle();
                 bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_INSURANCE);
