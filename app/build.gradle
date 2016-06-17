@@ -52,7 +52,7 @@ android {
         minSdkVersion 15
         targetSdkVersion 23
         versionCode 100060
-        versionName "2.7.0"
+        versionName "2.8.0"
         signingConfig signingConfigs.hbcSign
         ndk {
             //设置支持的SO库架构
@@ -175,4 +175,5 @@ dependencies {
     compile 'com.github.mrengineer13:snackbar:1.2.0'
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'com.tencent.bugly:crashreport:2.1.1'
+    compile 'com.github.orhanobut:logger:1.12'
 }
