@@ -1,1 +1,2 @@
 include ':app', ':hbcframe',':IMKit','polygonimageview'
+include ':viewpagerindicator'

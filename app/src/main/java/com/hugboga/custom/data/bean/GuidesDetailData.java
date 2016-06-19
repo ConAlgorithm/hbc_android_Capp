@@ -35,6 +35,26 @@ public class GuidesDetailData implements Serializable {
     private String avatar;
     private int isFavored;//是否被该用户收藏，0否，1是
     private ArrayList<Integer> serviceTypes;//服务类型列表 1.接送机，2.包车，3.单次接送
+    private ArrayList<String> carPhotosL;//全图
+    private ArrayList<String> carPhotosS;//缩略图
+    private int commentNum;//评价数
+    private ArrayList<EvaluateItemData> comments;
+
+    public ArrayList<EvaluateItemData> getComments() {
+        return comments;
+    }
+
+    public int getCommentNum() {
+        return commentNum;
+    }
+
+    public ArrayList<String> getCarPhotosS() {
+        return carPhotosS;
+    }
+
+    public ArrayList<String> getCarPhotosL() {
+        return carPhotosL;
+    }
 
     public boolean isCollected() {
         return isFavored == 1;

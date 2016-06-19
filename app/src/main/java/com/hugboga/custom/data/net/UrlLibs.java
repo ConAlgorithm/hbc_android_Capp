@@ -461,4 +461,9 @@ public class UrlLibs {
      * 获取各个星级的标签列表
      */
     public static final String API_EVALUATE_TAG = "supplier/v1.0/c/guides/comments/labels/OrderType";
+
+    /**
+     * 司导个人页的导游评价列表
+     */
+    public static final String API_COMMENTS_LIST = "supplier/v1.0/c/guide/commentsForGuideDetail";
 }

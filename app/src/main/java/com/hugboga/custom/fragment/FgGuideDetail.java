@@ -1,14 +1,19 @@
 package com.hugboga.custom.fragment;
 
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
+import com.huangbaoche.hbcframe.widget.recycler.ZDefaultDivider;
 import com.hugboga.custom.R;
+import com.hugboga.custom.adapter.GuideCarPhotosAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.ChatInfo;
 import com.hugboga.custom.data.bean.CollectGuideBean;
@@ -26,6 +31,7 @@ import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.DialogUtil;
+import com.hugboga.custom.widget.EvaluateListItemView;
 import com.hugboga.custom.widget.RatingView;
 
 import net.grobas.view.PolygonImageView;
@@ -45,7 +51,7 @@ import io.rong.imkit.RongIM;
  * Created by qingcha on 16/5/28.
  */
 @ContentView(R.layout.fg_guide_detail)
-public class FgGuideDetail extends BaseFragment {
+public class FgGuideDetail extends BaseFragment implements GuideCarPhotosAdapter.OnItemClickListener {
 
     @ViewInject(R.id.guide_detail_avatar_iv)
     PolygonImageView avatarIV;
@@ -79,11 +85,18 @@ public class FgGuideDetail extends BaseFragment {
     TextView titleTV;
     @ViewInject(R.id.header_detail_right_1_btn)
     ImageView collectIV;
+    @ViewInject(R.id.guide_detail_evaluate_item)
+    EvaluateListItemView evaluateItemView;
+    @ViewInject(R.id.guide_detail_photo_recyclerview)
+    RecyclerView carRecyclerView;
+    @ViewInject(R.id.guide_detail_subtitle_photo_layout)
+    FrameLayout carPhotosLayout;
 
     private String guideId;
     private GuidesDetailData data;
     private DialogUtil mDialogUtil;
     private CollectGuideBean collectBean;
+    private GuideCarPhotosAdapter carPhotosAdapter;
 
     public static FgGuideDetail newInstance(String guideId) {
         FgGuideDetail fragment = new FgGuideDetail();
@@ -198,6 +211,28 @@ public class FgGuideDetail extends BaseFragment {
                 boolean isShowRightLine = (isShowSingle && isShowCar) || (isShowSingle && isShowPlane);
                 rightLineView.setVisibility(isShowRightLine ? View.VISIBLE : View.GONE);
             }
+            evaluateItemView.setGuideDetailData(FgGuideDetail.this, data);
+
+            if (data.getCarPhotosS() != null && data.getCarPhotosS().size() > 0) {
+                carRecyclerView.setVisibility(View.VISIBLE);
+                carPhotosLayout.setVisibility(View.VISIBLE);
+                if (carPhotosAdapter == null) {
+                    LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+                    layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+                    carRecyclerView.setLayoutManager(layoutManager);
+                    carRecyclerView.setHorizontalScrollBarEnabled(false);
+                    ZDefaultDivider zDefaultDivider = new ZDefaultDivider();
+                    zDefaultDivider.setItemOffsets(UIUtils.dip2px(3), 0, UIUtils.dip2px(3), 0);
+                    carRecyclerView.addItemDecoration(zDefaultDivider);
+                    carPhotosAdapter = new GuideCarPhotosAdapter(getContext());
+                    carRecyclerView.setAdapter(carPhotosAdapter);
+                    carPhotosAdapter.setItemClickListener(this);
+                }
+                carPhotosAdapter.setData(data.getCarPhotosS());
+            } else {
+                carRecyclerView.setVisibility(View.GONE);
+                carPhotosLayout.setVisibility(View.GONE);
+            }
         } else if (_request instanceof RequestUncollectGuidesId) {//取消收藏
             data.setIsFavored(0);
             collectIV.setSelected(false);
@@ -220,22 +255,16 @@ public class FgGuideDetail extends BaseFragment {
             case R.id.guide_detail_plane_layout:
                 finish();
                 FgPickSend fgPickSend = new FgPickSend();
-                bundle.putString("source","首页");
                 bundle.putSerializable("collectGuideBean",beanConversion());
                 fgPickSend.setArguments(bundle);
                 startFragment(fgPickSend, bundle);
-
-//                EventBus.getDefault().post(new EventAction(EventType.PICK_SEND_TYPE, beanConversion()));
                 break;
             case R.id.guide_detail_car_layout:
                 finish();
                 FgOrderSelectCity fgOrderSelectCity = new FgOrderSelectCity();
-                bundle.putString("source","首页");
                 bundle.putSerializable("collectGuideBean",beanConversion());
                 fgOrderSelectCity.setArguments(bundle);
                 startFragment(fgOrderSelectCity, bundle);
-
-//                EventBus.getDefault().post(new EventAction(EventType.DAIRY_TYPE, beanConversion()));
                 break;
             case R.id.guide_detail_single_layout:
                 finish();
@@ -243,8 +272,6 @@ public class FgGuideDetail extends BaseFragment {
                 bundle.putSerializable("collectGuideBean",beanConversion());
                 fgSingleNew.setArguments(bundle);
                 startFragment(fgSingleNew);
-
-//                EventBus.getDefault().post(new EventAction(EventType.SINGLE_TYPE, beanConversion()));
                 break;
             case R.id.guide_detail_call_iv:
                 if (data == null) {
@@ -305,5 +332,15 @@ public class FgGuideDetail extends BaseFragment {
 //          status;//可预约状态 1.可预约、0.不可预约
         }
         return collectBean;
+    }
+
+    @Override
+    public void onItemClick(View view, int postion) {
+        if (data.getCarPhotosL() != null && data.getCarPhotosL().size() > 0) {
+            FgLargerImage.Params params = new FgLargerImage.Params();
+            params.position = postion;
+            params.imageUrlList = data.getCarPhotosL();
+            startFragment(FgLargerImage.newInstance(params));
+        }
     }
 }

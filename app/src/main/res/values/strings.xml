@@ -525,11 +525,15 @@
     <string name="dairy_inout_check">请先输入您的城市/出行时间</string>
 
     <string name="guide_detail_subtitle_grade">服务星级</string>
+    <string name="guide_detail_subtitle_photo">车辆照片</string>
     <string name="guide_detail_subtitle_appointment">预约司导</string>
     <string name="guide_detail_subtitle_contact">联系司导</string>
     <string name="guide_detail_subtitle_title">个人资料</string>
     <string name="guide_detail_share_title">皇包车优质司导推荐</string>
     <string name="guide_detail_share_content">该中文司导对当地很熟悉，服务一级棒！推荐给你，让他带着你，一起包车游当地吧！</string>
+    <string name="guide_detail_evaluate_all">查看全部%1$s条评价</string>
+
+    <string name="evaluate_list_title">%1$s条评价</string>
 
     <string name="coupon_num">%s张优惠券可用</string>
     <string name="dream_money">旅游基金</string>
