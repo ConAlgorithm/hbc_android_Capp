@@ -38,4 +38,9 @@ public class RequestCheckPrice extends BaseRequest {
     public ImplParser getParser() {
         return new ParserCheckPrice();
     }
+
+    @Override
+    public String getUrlErrorCode() {
+        return "40015";
+    }
 }

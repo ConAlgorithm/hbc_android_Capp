@@ -30,4 +30,9 @@ public class RequestResetIMToken extends BaseRequest<String> {
     public ImplParser getParser() {
         return new ParserImToken();
     }
+
+    @Override
+    public String getUrlErrorCode() {
+        return "40062";
+    }
 }

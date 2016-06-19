@@ -43,6 +43,7 @@ import com.hugboga.custom.utils.CarUtils;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.utils.PushUtils;
+import com.hugboga.custom.utils.ToastUtils;
 import com.hugboga.custom.widget.DialogUtil;
 import com.umeng.analytics.MobclickAgent;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
@@ -189,6 +190,13 @@ public class FgSingleNew extends BaseFragment {
 
             }
         });
+
+        cityBean = this.getArguments().getParcelable("cityBean");
+        if(null != cityBean){
+            useCityTips.setText(cityBean.name);
+        }
+
+
     }
 
 
@@ -282,7 +290,11 @@ public class FgSingleNew extends BaseFragment {
 
     CarListBean carListBean;
 
+
     private void genBottomData(CarBean carBean) {
+        if(null == carBean){
+            return;
+        }
         int total = carBean.price;
         if (null != manLuggageBean) {
             int seat1Price = OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean);
@@ -290,9 +302,9 @@ public class FgSingleNew extends BaseFragment {
             total += seat1Price + seat2Price;
         }
 
-        allMoneyText.setText("￥ " + total);
+        allMoneyText.setText("￥" + total);
         if (null != carListBean) {
-            allJourneyText.setText("全程预估:" + carListBean.distance + "公里," + carListBean.interval + "分钟");
+            allJourneyText.setText("全程预估: " + carListBean.distance + "公里," + carListBean.interval + "分钟");
         }
     }
 
@@ -312,8 +324,11 @@ public class FgSingleNew extends BaseFragment {
             } else {
                 bottom.setVisibility(GONE);
             }
-
-            initCarFragment(true);
+            if(null != carBean) {
+                initCarFragment(true);
+            }else{
+                ToastUtils.showShort(R.string.no_price_error);
+            }
         }
     }
 
@@ -469,11 +484,20 @@ public class FgSingleNew extends BaseFragment {
         bundle.putParcelable("carListBean", carListBean);
         bundle.putBoolean("isDataBack", isDataBack);
 
+        if(null != carListBean && carListBean.carList.size() == 0 && null != collectGuideBean){
+            ToastUtils.showShort(R.string.no_price_error);
+            return;
+        }
+
         if (isDataBack) {
             String sTime = serverDate + " " + serverTime + ":00";
             bundle.putInt("cityId", cityId);
             bundle.putString("startTime", sTime);
-            bundle.putString("endTime", DateUtils.getToTime(sTime, Integer.valueOf(carListBean.estTime)));
+            if(TextUtils.isEmpty(carListBean.estTime)){
+                bundle.putString("endTime", DateUtils.getToTime(sTime, 0));
+            }else {
+                bundle.putString("endTime", DateUtils.getToTime(sTime, Integer.valueOf(carListBean.estTime)));
+            }
         }
 
         fgCarNew.setArguments(bundle);

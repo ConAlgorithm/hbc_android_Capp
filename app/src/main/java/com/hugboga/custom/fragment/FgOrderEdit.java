@@ -61,12 +61,14 @@ public class FgOrderEdit extends BaseFragment {
     @ViewInject(R.id.pick_name)
     EditText pickName;
 
-    @ViewInject(R.id.single_no_show_time)//上车时间
+    //上车时间
+    @ViewInject(R.id.single_no_show_time)
      RelativeLayout pickUpTime;
     @ViewInject(R.id.up_right)
     TextView upRight;
 
-    @ViewInject(R.id.single_no_show_address)//上车地点
+    //上车地点
+    @ViewInject(R.id.single_no_show_address)
      RelativeLayout pickUpLocationLayout;
     @ViewInject(R.id.up_address_right)
     TextView upAddressRight;
@@ -78,12 +80,17 @@ public class FgOrderEdit extends BaseFragment {
     TextView hotelPhoneTextCodeClick;
     @ViewInject(R.id.hotel_phone_text)
     EditText hotelPhoneText;
+    @ViewInject(R.id.hotel_phone_line_view)
+    View phoneLineView;
 
     //起飞航班
     @ViewInject(R.id.airport_name_layout)
      RelativeLayout airportNameLayout;
     @ViewInject(R.id.airport_name)
     EditText airportName;
+
+    @ViewInject(R.id.for_other_man)
+    TextView otherTV;
 
     private DialogUtil mDialogUtil;
 
@@ -160,7 +167,8 @@ public class FgOrderEdit extends BaseFragment {
                 pickName.setText(orderBean.flightBrandSign);
             }
             if (!TextUtils.isEmpty(orderBean.serviceAreaCode)) {
-                hotelPhoneTextCodeClick.setText("+" + orderBean.serviceAreaCode);
+                String serviceCode = orderBean.serviceAreaCode;
+                hotelPhoneTextCodeClick.setText("+" + serviceCode.replace("+",""));
             }
             if (!TextUtils.isEmpty(orderBean.serviceAddressTel)) {
                 hotelPhoneText.setText(orderBean.serviceAddressTel);
@@ -182,13 +190,14 @@ public class FgOrderEdit extends BaseFragment {
             pickNameLayout.setVisibility(View.GONE);
             airportNameLayout.setVisibility(View.GONE);
             if (!TextUtils.isEmpty(orderBean.serviceStartTime)) {
-                upRight.setText(orderBean.serviceStartTime);
+                upRight.setText(orderBean.serviceStartTime + "(当地时间)");
             }
             if (!TextUtils.isEmpty(orderBean.startAddress)) {
                 upAddressRight.setText(orderBean.startAddress);
             }
             if (!TextUtils.isEmpty(orderBean.serviceAreaCode)) {
-                hotelPhoneTextCodeClick.setText("+" + orderBean.serviceAreaCode);
+                String serviceCode = orderBean.serviceAreaCode;
+                hotelPhoneTextCodeClick.setText("+" + serviceCode.replace("+",""));
             }
             if (!TextUtils.isEmpty(orderBean.serviceAddressTel)) {
                 hotelPhoneText.setText(orderBean.serviceAddressTel);
@@ -231,6 +240,37 @@ public class FgOrderEdit extends BaseFragment {
         contactUsersBean.isSendMessage = "1".equals(orderBean.realSendSms);
         contactUsersBean.isForOther = "2".equals(orderBean.isRealUser);
         requestParams = new RequestOrderEdit.Params();
+
+        //1-5可以修改，后面的都不能改
+        if (orderBean.orderStatus.code > 5) {
+            fgRightBtn.setVisibility(View.GONE);
+            fgRightBtn.setOnClickListener(null);
+            otherTV.setVisibility(View.GONE);
+            otherTV.setOnClickListener(null);
+            manName.setEnabled(false);
+            manPhone.setEnabled(false);
+            setHideTV(pickName);
+            setHideTV(hotelPhoneTextCodeClick);
+            setHideTV(hotelPhoneText);
+            setHideTV(airportName);
+            setHideTV(upRight);
+            setHideTV(upAddressRight);
+            setHideTV(mark);
+
+            setHideTV(hotelPhoneTextCodeClick);
+            setHideTV(hotelPhoneText);
+            if (hotelPhoneTextCodeClick.getText() == null || TextUtils.isEmpty(hotelPhoneTextCodeClick.getText().toString())
+                    && hotelPhoneText.getText() == null || TextUtils.isEmpty(hotelPhoneText.getText().toString())) {
+                phoneLineView.setVisibility(View.GONE);
+            }
+        }
+    }
+
+    private void setHideTV(TextView textView) {
+        if (textView.getText() == null || TextUtils.isEmpty(textView.getText().toString())) {
+            textView.setHint("");
+        }
+        textView.setEnabled(false);
     }
 
     @Override
@@ -300,7 +340,7 @@ public class FgOrderEdit extends BaseFragment {
         public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute, int second) {
             String hour = String.format("%02d", hourOfDay);
             String minuteStr = String.format("%02d", minute);
-            serverTime = hour + ":" + minuteStr;
+            serverTime = hour + ":" + minuteStr + ":00";
             upRight.setText(serverTime + "(当地时间)");
             orderBean.serviceStartTime = serverTime;
         }
@@ -336,6 +376,7 @@ public class FgOrderEdit extends BaseFragment {
                 break;
             case R.id.up_right:
                 showTimeSelect();
+                break;
             case R.id.up_address_right:
                 startArrivalSearch(orderBean.serviceCityId, orderBean.startLocation);
                 break;
@@ -369,7 +410,7 @@ public class FgOrderEdit extends BaseFragment {
         requestParams.serviceAddressTel = TextUtils.isEmpty(hotelPhoneText.getText()) ? "" : hotelPhoneText.getText().toString();//目的地酒店或者区域电话号码
         requestParams.serviceAreaCode = orderBean.serviceAreaCode;//目的地区域
         requestParams.userRemark = TextUtils.isEmpty(mark.getText()) ? "" : mark.getText().toString();//备注
-        if (orderBean.orderGoodsType == 3 || orderBean.orderGoodsType == 5) {
+        if (orderBean.orderType == 3 || orderBean.orderType == 5) {
             requestParams.startAddress = TextUtils.isEmpty(upAddressRight.getText()) ? "" : upAddressRight.getText().toString();//出发地
         }
         if (orderBean.orderGoodsType == 1) {

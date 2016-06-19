@@ -130,7 +130,8 @@ public class OrderBean implements IBaseBean ,Parcelable{
 
     public String flightDeptCityName;//起飞机场所在城市
     public String flightDestCityName;//降落机场所在城市
-    public String serviceTimeStr;//当时间串 例如： 04月21日（周五）10:05
+    public String serviceTimeStr;//当地时间串 开始时间例如： 04月21日（周五）10:05
+    public String serviceEndTimeStr;//当地时间串 结束时间
     public String passengerInfos;//座位信息 乘坐%1$s人、行李箱%2$s件、儿童座椅%3$s个
     public int userCommentStatus;//用户是否给导游评价过 0未评价，1评价过
     public String childSeatStr; //2.7.0 新加 对应 接口字段 childSeat
@@ -140,7 +141,7 @@ public class OrderBean implements IBaseBean ,Parcelable{
     public String priceFlightBrandSign;///接机牌费用
     public String isFlightSign;//是否选择举牌接机服务
     public String priceActual;////使用券时，实际支付价格
-    public String isCheckin;////是否协助登机
+    public String isCheckin;////是否协助登机 1选择
 
 
     public String flightAirportBuiding;
@@ -181,6 +182,43 @@ public class OrderBean implements IBaseBean ,Parcelable{
         }
     }
 
+
+
+    public String getPayDeadTime() {
+        if (TextUtils.isEmpty(payDeadTime)) {
+            payDeadTime = "0";
+        }
+        return payDeadTime;
+    }
+
+    /**
+     * 是否评价过
+     * */
+    public boolean isEvaluated() {
+        return userCommentStatus == 1;
+    }
+
+    /**
+     * 保单状态
+     * */
+    public String getInsuranceStatus() {
+        String resultStr = "";
+        switch (insuranceStatusCode) {
+            case 1001:
+                resultStr = "全部购买";
+                break;
+            case 1002:
+                resultStr = "出现问题";
+                break;
+            case 1003:
+                resultStr = "注销保险";
+                break;
+            case 1004:
+                resultStr = "保单处理中";
+                break;
+        }
+        return resultStr;
+    }
 
     @Override
     public int describeContents() {
@@ -283,9 +321,15 @@ public class OrderBean implements IBaseBean ,Parcelable{
         dest.writeString(this.flightDeptCityName);
         dest.writeString(this.flightDestCityName);
         dest.writeString(this.serviceTimeStr);
+        dest.writeString(this.serviceEndTimeStr);
         dest.writeString(this.passengerInfos);
         dest.writeInt(this.userCommentStatus);
         dest.writeString(this.childSeatStr);
+        dest.writeString(this.isArrivalVisa);
+        dest.writeString(this.priceFlightBrandSign);
+        dest.writeString(this.isFlightSign);
+        dest.writeString(this.priceActual);
+        dest.writeString(this.isCheckin);
         dest.writeString(this.flightAirportBuiding);
         dest.writeString(this.flightAirportName);
         dest.writeString(this.flightArriveTimeL);
@@ -294,16 +338,11 @@ public class OrderBean implements IBaseBean ,Parcelable{
         dest.writeString(this.flightDestName);
         dest.writeString(this.flightFlyTimeL);
         dest.writeString(this.flightNo);
-        dest.writeString(this.isArrivalVisa);
-        dest.writeString(this.priceFlightBrandSign);
-        dest.writeString(this.isFlightSign);
-        dest.writeString(this.priceActual);
-        dest.writeString(this.isCheckin);
         dest.writeTypedList(this.userList);
         dest.writeTypedList(this.realUserList);
         dest.writeInt(this.priceCommentReward);
-        dest.writeSerializable(this.appraisement);
         dest.writeByte(this.carPool ? (byte) 1 : (byte) 0);
+        dest.writeSerializable(this.appraisement);
         dest.writeStringList(this.cancelRules);
     }
 
@@ -405,23 +444,10 @@ public class OrderBean implements IBaseBean ,Parcelable{
         this.realUserEx = in.readString();
         this.coupId = in.readString();
         this.coupPriceInfo = in.readString();
-        this.childSeatStr = in.readString();
-        this.flightAirportBuiding = in.readString();
-        this.flightAirportName = in.readString();
-        this.flightArriveTimeL = in.readString();
-        this.flightBrandSign = in.readString();
-        this.flightDestCode = in.readString();
-        this.flightDestName = in.readString();
-        this.flightFlyTimeL = in.readString();
-        this.flightNo = in.readString();
-        this.isArrivalVisa = in.readString();
-        this.priceFlightBrandSign = in.readString();
-        this.isFlightSign = in.readString();
-        this.priceActual = in.readString();
-        this.isCheckin = in.readString();
         this.flightDeptCityName = in.readString();
         this.flightDestCityName = in.readString();
         this.serviceTimeStr = in.readString();
+        this.serviceEndTimeStr = in.readString();
         this.passengerInfos = in.readString();
         this.userCommentStatus = in.readInt();
         this.childSeatStr = in.readString();
@@ -430,11 +456,19 @@ public class OrderBean implements IBaseBean ,Parcelable{
         this.isFlightSign = in.readString();
         this.priceActual = in.readString();
         this.isCheckin = in.readString();
-        this.priceCommentReward = in.readInt();
+        this.flightAirportBuiding = in.readString();
+        this.flightAirportName = in.readString();
+        this.flightArriveTimeL = in.readString();
+        this.flightBrandSign = in.readString();
+        this.flightDestCode = in.readString();
+        this.flightDestName = in.readString();
+        this.flightFlyTimeL = in.readString();
+        this.flightNo = in.readString();
         this.userList = in.createTypedArrayList(OrderContactBean.CREATOR);
         this.realUserList = in.createTypedArrayList(OrderContactBean.CREATOR);
-        this.appraisement = (AppraisementBean)in.readSerializable();
+        this.priceCommentReward = in.readInt();
         this.carPool = in.readByte() != 0;
+        this.appraisement = (AppraisementBean) in.readSerializable();
         this.cancelRules = in.createStringArrayList();
     }
 
@@ -449,40 +483,4 @@ public class OrderBean implements IBaseBean ,Parcelable{
             return new OrderBean[size];
         }
     };
-
-    public String getPayDeadTime() {
-        if (TextUtils.isEmpty(payDeadTime)) {
-            payDeadTime = "0";
-        }
-        return payDeadTime;
-    }
-
-    /**
-     * 是否评价过
-     * */
-    public boolean isEvaluated() {
-        return userCommentStatus == 1;
-    }
-
-    /**
-     * 保单状态
-     * */
-    public String getInsuranceStatus() {
-        String resultStr = "";
-        switch (insuranceStatusCode) {
-            case 1001:
-                resultStr = "全部购买";
-                break;
-            case 1002:
-                resultStr = "出现问题";
-                break;
-            case 1003:
-                resultStr = "注销保险";
-                break;
-            case 1004:
-                resultStr = "保单处理中";
-                break;
-        }
-        return resultStr;
-    }
 }

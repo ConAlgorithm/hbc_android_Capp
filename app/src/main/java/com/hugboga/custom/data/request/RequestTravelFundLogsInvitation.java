@@ -42,6 +42,11 @@ public class RequestTravelFundLogsInvitation extends BaseRequest<TravelFundData>
         return HttpMethod.GET;
     }
 
+    @Override
+    public String getUrlErrorCode() {
+        return "40076";
+    }
+
     private static class DataParser extends ImplParser {
         @Override
         public Object parseObject(JSONObject obj) throws Throwable {

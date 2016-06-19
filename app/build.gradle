@@ -51,8 +51,8 @@ android {
         applicationId "com.hugboga.custom"
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 10200
-        versionName "2.6.0"
+        versionCode 100060
+        versionName "2.8.0"
         signingConfig signingConfigs.hbcSign
         ndk {
             //设置支持的SO库架构
@@ -80,20 +80,22 @@ android {
         developer {}
 //        stage {}
         examination {}
-        'formal'{}
-        'anzhi'{}
-        'baidu'{}
-        'yingyongbao'{}
-        'anzhuo'{}
-        'a91'{}
-        'a360'{}
-        'googleplay'{}
-        'xiaomi'{}
-        'wandoujia'{}
-        'vivo'{}
-        'ppzhushou'{}
-        'huawei'{}
-        'oppo'{}
+        '10000'{}
+        '10001'{}
+        '10002'{}
+        '10003'{}
+        '10004'{}
+        '10005'{}
+        '10006'{}
+        '10007'{}
+        '10008'{}
+        '10009'{}
+        '10010'{}
+        '10011'{}
+        '10012'{}
+        '10013'{}
+        '10020'{}
+        '10052'{}
 
     }
     //==productFlavors_end==
@@ -113,20 +115,22 @@ android {
                 flavor.buildConfigField('String', 'API_SERVER_URL', '"http://api.test.hbc.tech/"')
                 flavor.manifestPlaceholders(JPUSH_KEY: "a351a47a9106354c59188e16", APP_CHANNEL: "examination", RONG_CLOUD_APP_KEY: "3argexb6r2kve")
                 break;
-            case 'formal':
-            case 'anzhi':
-            case 'baidu':
-            case 'yingyongbao':
-            case 'anzhuo':
-            case 'a91':
-            case 'a360':
-            case 'googleplay':
-            case 'xiaomi':
-            case 'wandoujia':
-            case 'vivo':
-            case 'ppzhushou':
-            case 'huawei':
-            case 'oppo':
+            case '10000':
+            case '10001':
+            case '10002':
+            case '10003':
+            case '10004':
+            case '10005':
+            case '10006':
+            case '10007':
+            case '10008':
+            case '10009':
+            case '10010':
+            case '10011':
+            case '10012':
+            case '10013':
+            case '10020':
+            case '10052':
             default:
                 flavor.buildConfigField('String', 'API_SERVER_URL', '"https://api2.huangbaoche.com/"')
                 flavor.manifestPlaceholders(JPUSH_KEY: "580ff852cd505c00c4be92d6", APP_CHANNEL: ""+flavor.name, RONG_CLOUD_APP_KEY: "6tnym1brna4s7")
@@ -171,4 +175,5 @@ dependencies {
     compile 'com.github.mrengineer13:snackbar:1.2.0'
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'com.tencent.bugly:crashreport:2.1.1'
+    compile 'com.github.orhanobut:logger:1.12'
 }

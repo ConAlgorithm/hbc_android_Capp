@@ -64,5 +64,6 @@ public enum EventType {
     GUIDE_DEL,//删除司导
     CHANGE_GUIDE,//换司导
     ONBACKPRESS,//触发后退键
+    PICK_SEND_ONBACKPRESS,//接送backpress
 
 }

@@ -93,4 +93,5 @@ public abstract class BaseRequest<T> extends RequestParams implements InterfaceR
         }
 
     }
+
 }

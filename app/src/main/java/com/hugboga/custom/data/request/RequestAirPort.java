@@ -29,4 +29,9 @@ public class RequestAirPort extends BaseRequest<ArrayList<AirPort>> {
     public ImplParser getParser() {
         return new ParserAirPort();
     }
+
+    @Override
+    public String getUrlErrorCode() {
+        return "40006";
+    }
 }

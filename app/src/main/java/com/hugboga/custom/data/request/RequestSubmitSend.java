@@ -38,6 +38,8 @@ public class RequestSubmitSend extends RequestSubmitBase{
         map.put("serviceTime",orderBean.serviceTime);
 
         map.put("isCheckin",orderBean.isCheckin);
+        map.put("isFlightSign",orderBean.isCheckin);
+
         map.put("checkInPrice",orderBean.checkInPrice);
         map.put("childSeat",orderBean.childSeatStr);
 
@@ -69,5 +71,10 @@ public class RequestSubmitSend extends RequestSubmitBase{
 //
 //        }
 
+    }
+
+    @Override
+    public String getUrlErrorCode() {
+        return "40070";
     }
 }

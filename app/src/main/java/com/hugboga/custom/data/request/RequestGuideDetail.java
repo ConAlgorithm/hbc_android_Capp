@@ -41,6 +41,11 @@ public class RequestGuideDetail extends BaseRequest<GuidesDetailData> {
         return HttpMethod.GET;
     }
 
+    @Override
+    public String getUrlErrorCode() {
+        return "40040";
+    }
+
     private static class DataParser extends ImplParser {
         @Override
         public Object parseObject(JSONObject obj) throws Throwable {

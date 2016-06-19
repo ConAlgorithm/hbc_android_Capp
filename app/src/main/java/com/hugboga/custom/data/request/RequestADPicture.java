@@ -29,4 +29,8 @@ public class RequestADPicture extends BaseRequest<ADPictureBean> {
     public ImplParser getParser() {
         return new ParseGetAD();
     }
+    @Override
+    public String getUrlErrorCode() {
+        return "40004";
+    }
 }

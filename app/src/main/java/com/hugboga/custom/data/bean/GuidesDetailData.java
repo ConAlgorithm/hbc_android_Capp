@@ -56,6 +56,27 @@ public class GuidesDetailData implements Serializable {
         return carPhotosL;
     }
 
+    public int getCarPersonNum() {
+        return carPersonNum;
+    }
+
+    public void setCarPersonNum(int carPersonNum) {
+        this.carPersonNum = carPersonNum;
+    }
+
+    private int carPersonNum;// 乘坐人数上限
+
+    public String getCarDesc() {
+        return carDesc;
+    }
+
+    public void setCarDesc(String carDesc) {
+        this.carDesc = carDesc;
+    }
+
+    private String carDesc;// 车型描述
+
+
     public boolean isCollected() {
         return isFavored == 1;
     }

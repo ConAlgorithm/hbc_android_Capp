@@ -16,4 +16,9 @@ public class RequestCheckPriceForPickup extends RequestCheckPrice {
     public RequestCheckPriceForPickup(Context context, int orderType, String airportCode, Integer cityId, String startLocation, String endLocation, String date) {
         super(context, orderType, airportCode, cityId, startLocation, endLocation, date);
     }
+
+    @Override
+    public String getUrlErrorCode() {
+        return "40017";
+    }
 }

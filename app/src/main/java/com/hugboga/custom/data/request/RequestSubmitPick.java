@@ -22,17 +22,16 @@ public class RequestSubmitPick extends RequestSubmitBase {
         map.put("isArrivalVisa", orderBean.visa);
 
         map.put("destAddress",orderBean.destAddress);
-        map.put("isFlightSign",orderBean.isFlightSign);
         map.put("flightBrandSign",orderBean.flightBrandSign);
         map.put("carDesc",orderBean.carDesc);
 
         map.put("childSeat",orderBean.childSeatStr);
         map.put("priceChannel",orderBean.priceChannel);
+        map.put("userRemark", orderBean.userRemark);
 
+        map.put("priceFlightBrandSign",orderBean.priceFlightBrandSign);
+        map.put("isFlightSign",orderBean.isFlightSign);
 
-        if(!TextUtils.isEmpty(orderBean.priceFlightBrandSign)){
-            map.put("pickupSignPrice",orderBean.priceFlightBrandSign);
-        }
 
         if (orderBean.flightBean != null) {
             map.put("flightNo", orderBean.flightBean.flightNo);
@@ -44,5 +43,10 @@ public class RequestSubmitPick extends RequestSubmitBase {
             map.put("flightArriveTimeL", orderBean.flightBean.arrDate + " " + orderBean.flightBean.arrivalTime + ":00");
             map.put("flightAirportBuiding", orderBean.flightBean == null ? null : orderBean.flightBean.arrTerminal);
         }
+    }
+
+    @Override
+    public String getUrlErrorCode() {
+        return "40068";
     }
 }

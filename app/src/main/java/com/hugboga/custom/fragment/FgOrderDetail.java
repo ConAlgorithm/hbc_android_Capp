@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -71,7 +72,8 @@ public class FgOrderDetail extends BaseFragment implements View.OnClickListener{
     @ViewInject(R.id.order_detail_explain_tv)
     private TextView explainTV;
 
-
+    private PopupWindow popup;
+    private View menuLayout;
     private Params params;
     private OrderBean orderBean;
     private DialogUtil mDialogUtil;
@@ -109,6 +111,18 @@ public class FgOrderDetail extends BaseFragment implements View.OnClickListener{
         }
         titleBar.setTitle(params.orderType);
         emptyTV.setVisibility(View.VISIBLE);
+        titleBar.findViewById(R.id.header_detail_right_1_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPopupWindow();
+            }
+        });
+        titleBar.findViewById(R.id.header_detail_right_2_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDialogUtil.showCallDialog();
+            }
+        });
     }
 
     @Override
@@ -169,6 +183,18 @@ public class FgOrderDetail extends BaseFragment implements View.OnClickListener{
                 }
                 explainTV.setText(explainStr);
             }
+            if (floatView.findViewById(R.id.order_detail_pay_tv) != null) {
+                floatView.findViewById(R.id.order_detail_pay_tv).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        FgChoosePayment.RequestParams requestParams = new FgChoosePayment.RequestParams();
+                        requestParams.orderId = orderBean.orderNo;
+                        requestParams.shouldPay = orderBean.orderPriceInfo.actualPay;
+                        requestParams.source = source;
+                        startFragment(FgChoosePayment.newInstance(requestParams));
+                    }
+                });
+            }
         } else if (_request instanceof RequestOrderCancel) {//取消订单
 //            DialogUtil dialogUtil = DialogUtil.getInstance(getActivity());
 //            dialogUtil.showCustomDialog(getContext().getString(R.string.order_cancel_succeed), new DialogInterface.OnClickListener() {
@@ -196,7 +222,7 @@ public class FgOrderDetail extends BaseFragment implements View.OnClickListener{
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest _request) {
         super.onDataRequestError(errorInfo, _request);
         if (_request instanceof RequestOrderDetail) {
-            emptyTV.setVisibility(View.GONE);
+            emptyTV.setVisibility(View.VISIBLE);
             emptyTV.setText(R.string.data_load_error_retry);
             emptyTV.setOnClickListener(this);
         }
@@ -204,13 +230,14 @@ public class FgOrderDetail extends BaseFragment implements View.OnClickListener{
 
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
-            case ORDER_DETAIL_PAY://立即支付
-                FgChoosePayment.RequestParams requestParams = new FgChoosePayment.RequestParams();
-                requestParams.orderId = orderBean.orderNo;
-                requestParams.shouldPay = orderBean.orderPriceInfo.actualPay;
-                requestParams.source = source;
-                startFragment(FgChoosePayment.newInstance(requestParams));
-                break;
+//            case ORDER_DETAIL_PAY://立即支付
+//                FgChoosePayment.RequestParams requestParams = new FgChoosePayment.RequestParams();
+//                requestParams.orderId = orderBean.orderNo;
+//                requestParams.shouldPay = orderBean.orderPriceInfo.actualPay;
+//                requestParams.source = source;
+//                Log.i("aa", "FgOrderDetail 2222 "+  orderBean.orderNo);
+//                startFragment(FgChoosePayment.newInstance(requestParams));
+//                break;
             case ORDER_DETAIL_INSURANCE_H5://皇包车免费赠送保险
                 Bundle bundle = new Bundle();
                 bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_INSURANCE);
@@ -219,12 +246,12 @@ public class FgOrderDetail extends BaseFragment implements View.OnClickListener{
             case ORDER_DETAIL_BACK://返回
                 finish();
                 break;
-            case ORDER_DETAIL_CALL://联系客服
-                mDialogUtil.showCallDialog();
-                break;
-            case ORDER_DETAIL_MORE://更多
-                showPopupWindow();
-                break;
+//            case ORDER_DETAIL_CALL://联系客服
+//                mDialogUtil.showCallDialog();
+//                break;
+//            case ORDER_DETAIL_MORE://更多
+//                showPopupWindow();
+//                break;
             case ORDER_DETAIL_ADD_INSURER://添加投保人 copy FgOrder
                 FgInsure fgAddInsure = new FgInsure();
                 Bundle insureBundle = new Bundle();
@@ -264,18 +291,12 @@ public class FgOrderDetail extends BaseFragment implements View.OnClickListener{
                 orderBean.orderGuideInfo.storeStatus = (int) action.getData();
                 updateCollectViewText();
                 break;
-            case ORDER_DETAIL_GUIDE_COLLECT://收藏
-                if (orderBean.orderGuideInfo == null) {
+            case ORDER_DETAIL_GUIDE_COLLECT://收藏 只可收藏不可取消
+                if (orderBean.orderGuideInfo == null || orderBean.orderGuideInfo.isCollected()) {
                     return;
                 }
                 mDialogUtil.showLoadingDialog();
-                BaseRequest baseRequest = null;
-                if (orderBean.orderGuideInfo.isCollected()) {
-                    baseRequest = new RequestUncollectGuidesId(getActivity(), orderBean.orderGuideInfo.guideID);
-                } else {
-                    baseRequest = new RequestCollectGuidesId(getActivity(), orderBean.orderGuideInfo.guideID);
-                }
-                requestData(baseRequest);
+                requestData(new RequestCollectGuidesId(getActivity(), orderBean.orderGuideInfo.guideID));
                 break;
             case ORDER_DETAIL_UPDATE_EVALUATION://更新评价UI
                 requestData();
@@ -346,7 +367,12 @@ public class FgOrderDetail extends BaseFragment implements View.OnClickListener{
      * 右上角的菜单，取消订单 联系客服
      */
     public void showPopupWindow() {
-        View menuLayout = LayoutInflater.from(getActivity()).inflate(R.layout.popup_top_right_menu, null);
+        if (popup != null && popup.isShowing()) {
+            return;
+        }
+        if (menuLayout == null) {
+            menuLayout  = LayoutInflater.from(getActivity()).inflate(R.layout.popup_top_right_menu, null);
+        }
         TextView cancelOrderTV = (TextView)menuLayout.findViewById(R.id.cancel_order);
         TextView commonProblemTV = (TextView)menuLayout.findViewById(R.id.menu_phone);
         commonProblemTV.setText("常见问题");
@@ -356,7 +382,11 @@ public class FgOrderDetail extends BaseFragment implements View.OnClickListener{
             cancelOrderTV.setVisibility(View.GONE);
         }
 
-        final PopupWindow popup = new PopupWindow(menuLayout, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        if (popup != null) {
+            popup.showAsDropDown(titleBar.findViewById(R.id.header_detail_right_1_btn));
+            return;
+        }
+        popup = new PopupWindow(menuLayout, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         popup.setBackgroundDrawable(new BitmapDrawable());
         popup.setOutsideTouchable(true);
         popup.setFocusable(true);

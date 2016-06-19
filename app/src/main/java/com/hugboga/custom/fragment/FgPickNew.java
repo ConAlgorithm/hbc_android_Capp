@@ -168,7 +168,11 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
             String sTime = serverDate +":00";
             bundle.putInt("cityId", cityId);
             bundle.putString("startTime", sTime);
-            bundle.putString("endTime", DateUtils.getToTime(sTime,Integer.valueOf(carListBean.estTime)));
+            if(TextUtils.isEmpty(carListBean.estTime)){
+                bundle.putString("endTime", DateUtils.getToTime(sTime, 0));
+            }else {
+                bundle.putString("endTime", DateUtils.getToTime(sTime, Integer.valueOf(carListBean.estTime)));
+            }
         }
 
         fgCarNew.setArguments(bundle);
@@ -198,10 +202,13 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
 
     CarListBean carListBean;
 
-    boolean checkInChecked = false;
+    boolean checkInChecked = true;
     boolean waitChecked = false;
 
     private void genBottomData(CarBean carBean) {
+        if(null == carBean){
+            return;
+        }
         int total = carBean.price;
         if(null != manLuggageBean){
             int seat1Price = OrderUtils.getSeat1PriceTotal(carListBean,manLuggageBean);
@@ -209,22 +216,22 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
             total += seat1Price + seat2Price;
         }
 
-        if(checkInChecked){
-            if (!TextUtils.isEmpty(carListBean.additionalServicePrice.checkInPrice)) {
-                total += Integer.valueOf(carListBean.additionalServicePrice.checkInPrice);
-            }
-        }
+//        if(checkInChecked){
+//            if (!TextUtils.isEmpty(carListBean.additionalServicePrice.checkInPrice)) {
+//                total += Integer.valueOf(carListBean.additionalServicePrice.checkInPrice);
+//            }
+//        }
 
 
-        if(waitChecked) {
+        if(checkInChecked) {
             if (!TextUtils.isEmpty(carListBean.additionalServicePrice.pickupSignPrice)) {
                 total += Integer.valueOf(carListBean.additionalServicePrice.pickupSignPrice);
             }
         }
-        allMoneyText.setText("￥ " + total);
+        allMoneyText.setText("￥" + total);
 
         if(null != carListBean) {
-            allJourneyText.setText("全程预估:" + carListBean.distance + "公里," + carListBean.interval + "分钟");
+            allJourneyText.setText("全程预估: " + carListBean.distance + "公里," + carListBean.interval + "分钟");
         }
     }
 
@@ -259,7 +266,7 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
                 break;
 
             case WAIT_SWITCH:
-                waitChecked = (boolean)action.getData();
+                checkInChecked = (boolean)action.getData();
                 if(null != carBean) {
                     genBottomData(carBean);
                 }
@@ -373,6 +380,8 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
         bundle.putString("luggageNum", manLuggageBean.luggages + "");
         bundle.putParcelable("carListBean", carListBean);
 
+        bundle.putBoolean("needCheckin", checkInChecked);
+
         fgOrderNew.setArguments(bundle);
         startFragment(fgOrderNew);
     }
@@ -467,7 +476,7 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
 
     @Override
     public boolean onBackPressed() {
-        return false;
+        return true;
     }
 
 

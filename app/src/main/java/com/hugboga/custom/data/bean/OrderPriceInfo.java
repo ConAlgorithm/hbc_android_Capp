@@ -29,7 +29,7 @@ public class OrderPriceInfo implements IBaseBean ,Parcelable{
         orderPrice = jsonObj.optDouble("orderPrice", 0);
         shouldPay = jsonObj.optDouble("shouldPay", 0);
         actualPay = jsonObj.optDouble("actualPay", 0);
-        checkInPrice = jsonObj.optDouble("checkInPrice", 0);
+        checkInPrice = jsonObj.optDouble("checkInPrice");
         refundPrice = jsonObj.optDouble("refundPrice", 0);
         refundablePrice = jsonObj.optDouble("refundablePrice", 0);
         cancelFee = jsonObj.optDouble("cancelFee", 0);

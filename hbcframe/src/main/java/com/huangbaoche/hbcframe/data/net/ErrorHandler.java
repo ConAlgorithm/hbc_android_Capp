@@ -2,7 +2,6 @@ package com.huangbaoche.hbcframe.data.net;
 
 import android.app.Activity;
 import android.content.Context;
-import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.huangbaoche.hbcframe.HbcConfig;
@@ -10,9 +9,6 @@ import com.huangbaoche.hbcframe.R;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.huangbaoche.hbcframe.widget.DialogUtilInterface;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 
 /**
  * Created by admin on 2016/2/25.
@@ -86,8 +82,11 @@ public  class ErrorHandler implements HttpRequestListener{
                 break;
         }
         MLog.e("mActivity = "+mActivity);
-        if(mActivity!=null)
-            Toast.makeText(mActivity, mActivity.getString(R.string.request_error,errorInfo.state), Toast.LENGTH_LONG).show();
+        if(mActivity!=null){
+//            +request.getUrlErrorCode()+ serverException.getCode()
+            Toast.makeText(mActivity, mActivity.getString(R.string.request_error,request.getUrlErrorCode()), Toast.LENGTH_LONG).show();
+        }
+//            Toast.makeText(mActivity, mActivity.getString(R.string.request_error,errorInfo.state), Toast.LENGTH_LONG).show();
     }
 
     @Override

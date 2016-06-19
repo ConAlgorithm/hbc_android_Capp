@@ -10,15 +10,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/basic_white"
-        android:clipChildren="false"
-        android:layerType="software">
+        android:clipChildren="false">
 
         <com.hugboga.custom.widget.JazzyViewPager
             android:id="@+id/jazzy_pager"
             android:layout_width="match_parent"
-            android:layout_height="180dip"
-            android:layout_marginLeft="70dip"
-            android:layout_marginRight="70dip"
+            android:layout_height="120dip"
+            android:layout_marginRight="80dp"
+            android:layout_marginLeft="80dp"
             android:clipChildren="false" />
     </LinearLayout>
 
@@ -37,7 +36,7 @@
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:orientation="horizontal"
-            android:padding="10dip">
+            android:paddingBottom="10dip">
             <TextView
                 android:id="@+id/fg_car_name"
                 android:layout_width="wrap_content"

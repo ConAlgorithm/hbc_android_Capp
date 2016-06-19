@@ -1,10 +1,13 @@
 package com.hugboga.custom.fragment;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.huangbaoche.hbcframe.data.net.DefaultSSLSocketFactory;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.event.EventAction;
@@ -55,8 +58,8 @@ public class FgPayResult extends BaseFragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void initHeader(Bundle savedInstanceState) {
+        super.initHeader(savedInstanceState);
         if (savedInstanceState != null) {
             params = (Params)savedInstanceState.getSerializable(Constants.PARAMS_DATA);
         } else {
@@ -118,34 +121,28 @@ public class FgPayResult extends BaseFragment {
         switch (view.getId()){
             case R.id.par_result_left_tv:
                 if (params.payResult) {//回首页
+                    clearFragmentList();
                     EventBus.getDefault().post(new EventAction(EventType.FGTRAVEL_UPDATE));
-                    Bundle bundle = new Bundle();
-                    bundle.putString(KEY_FRAGMENT_NAME, this.getClass().getSimpleName());
-                    bringToFront(FgHome.class, bundle);
                     EventBus.getDefault().post(new EventAction(EventType.SET_MAIN_PAGE_INDEX, 0));
                 } else {//订单详情
-                    intentOrderDetail();
+                    clearFragmentList();
+                    FgOrderDetail.Params orderParams = new FgOrderDetail.Params();
+                    orderParams.orderId = params.orderId;
+                    startFragment(FgOrderDetail.newInstance(orderParams));
                 }
                 break;
             case R.id.par_result_right_tv:
                 if (params.payResult) {//订单详情
+                    clearFragmentList();
+                    FgOrderDetail.Params orderParams = new FgOrderDetail.Params();
+                    orderParams.orderId = params.orderId;
+                    startFragment(FgOrderDetail.newInstance(orderParams));
                     EventBus.getDefault().post(new EventAction(EventType.FGTRAVEL_UPDATE));
-                    intentOrderDetail();
                 } else {//重新支付
                     finish();
                 }
                 break;
         }
-    }
-
-    /**
-     *  订单详情
-     * */
-    private void intentOrderDetail() {
-        clearFragment();
-        FgOrderDetail.Params orderParams = new FgOrderDetail.Params();
-        orderParams.orderId = params.orderId;
-        startFragment(FgOrderDetail.newInstance(orderParams));
     }
 
     @Override
@@ -159,4 +156,5 @@ public class FgPayResult extends BaseFragment {
         }
         return true;
     }
+
 }

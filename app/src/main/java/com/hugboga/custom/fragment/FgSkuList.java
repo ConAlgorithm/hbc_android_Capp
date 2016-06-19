@@ -207,6 +207,7 @@ public class FgSkuList extends  BaseFragment implements  View.OnClickListener, Z
 
                 FgPickSend fgPickSend = new FgPickSend();
                 bundle.putString("source",mCityBean.name);
+                bundle.putParcelable("cityBean",cityBean);
                 fgPickSend.setArguments(bundle);
                 startFragment(fgPickSend, bundle);
 
@@ -220,6 +221,7 @@ public class FgSkuList extends  BaseFragment implements  View.OnClickListener, Z
 //                startFragment(new FgDaily(),bundle);
                 FgOrderSelectCity fgOrderSelectCity = new FgOrderSelectCity();
                 bundle.putString("source", mCityBean.name);
+                bundle.putParcelable("cityBean",cityBean);
                 fgOrderSelectCity.setArguments(bundle);
                 startFragment(fgOrderSelectCity, bundle);
 
@@ -234,6 +236,7 @@ public class FgSkuList extends  BaseFragment implements  View.OnClickListener, Z
 
                 FgSingleNew fgSingleNew = new FgSingleNew();
                 bundle.putString("source",mCityBean.name);
+                bundle.putParcelable("cityBean",cityBean);
                 fgSingleNew.setArguments(bundle);
                 startFragment(fgSingleNew);
 

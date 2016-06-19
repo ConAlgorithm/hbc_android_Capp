@@ -50,6 +50,11 @@ public class RequestPayNo extends BaseRequest<Object> {
     }
 
     @Override
+    public String getUrlErrorCode() {
+        return "40055";
+    }
+
+    @Override
     public ImplParser getParser() {
         if(payType == Constants.PAY_STATE_WECHAT){
             return new ParserWxPay();

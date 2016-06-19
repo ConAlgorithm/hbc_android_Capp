@@ -64,7 +64,7 @@ public class RequestSubmitBase extends BaseRequest<OrderInfoBean> {
         map.put("carTypeId", orderBean.carType);
         map.put("carSeatNum", orderBean.seatCategory);
         map.put("carDesc", orderBean.carDesc);
-        map.put("userRemark", orderBean.memo);
+        map.put("userRemark", orderBean.userRemark);
         map.put("userEx", orderBean.userEx);
         map.put("priceActual",orderBean.priceActual);
 
@@ -79,8 +79,6 @@ public class RequestSubmitBase extends BaseRequest<OrderInfoBean> {
 
         map.put("coupId", orderBean.coupId);
         map.put("coupPriceInfo", orderBean.coupPriceInfo);
-
-        map.put("distance", orderBean.distance);
 
 //        if (orderBean.contact != null && orderBean.contact.size() > 0) {
 //            map.put("userAreaCode1", orderBean.contact.get(0).areaCode);
@@ -108,6 +106,11 @@ public class RequestSubmitBase extends BaseRequest<OrderInfoBean> {
     @Override
     public HttpMethod getHttpMethod() {
         return HttpMethod.POST;
+    }
+
+    @Override
+    public String getUrlErrorCode() {
+        return "40065";
     }
 
 

@@ -112,7 +112,7 @@
                     android:textSize="12sp"
                     android:background="@color/basic_white"
                     android:layout_marginTop="5dp"
-                    android:layout_marginLeft="35dp"
+                    android:layout_marginLeft="42dp"
                     android:textColor="#c3c5c5"
                     android:layout_marginRight="15dp"
                     android:layout_width="match_parent"
@@ -170,7 +170,7 @@
                     android:text="@string/my_travel_title"
                     android:textSize="12sp"
                     android:layout_marginTop="5dp"
-                    android:layout_marginLeft="35dp"
+                    android:layout_marginLeft="42dp"
                     android:background="@color/basic_white"
                     android:textColor="#c3c5c5"
                     android:layout_marginRight="15dp"
@@ -197,7 +197,7 @@
                     android:textSize="13sp"
                     android:layout_marginTop="10dp"
                     android:background="@color/basic_white"
-                    android:layout_marginLeft="35dp"
+                    android:layout_marginLeft="42dp"
                     android:textColor="#c3c5c5"
                     android:layout_marginRight="15dp"
                     android:layout_width="match_parent"
@@ -847,7 +847,7 @@
             android:gravity="center"
             android:text="@string/progress_order"
             android:textColor="@color/basic_white"
-            android:textSize="15sp" />
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/all_money_info"

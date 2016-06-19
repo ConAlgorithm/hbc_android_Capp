@@ -37,6 +37,11 @@ public class RequestEvaluateTag extends BaseRequest<EvaluateTagBean> {
         return HttpMethod.GET;
     }
 
+    @Override
+    public String getUrlErrorCode() {
+        return "40032";
+    }
+
     private static class DataParser extends ImplParser {
         @Override
         public Object parseObject(JSONObject obj) throws Throwable {

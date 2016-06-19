@@ -214,6 +214,22 @@ public class OrderUtils {
 
         orderBean.userEx = getUserExJson(contactUsersBean);
         orderBean.realUserEx = getRealUserExJson(contactUsersBean);
+
+        ManLuggageBean manLuggageBean = new ManLuggageBean();
+        manLuggageBean.childSeats = Integer.valueOf(childseatNum);
+        manLuggageBean.childs = Integer.valueOf(childrenNum);
+
+
+        if(manLuggageBean.childSeats != 0) {
+            orderBean.orderPrice = carBean.price;
+            orderBean.priceChannel = carBean.price+"";
+            orderBean.childSeatStr = getChileSeatJson(null,manLuggageBean);
+        }else{
+            orderBean.orderPrice  = carBean.price;
+            orderBean.childSeatStr = "";
+            orderBean.priceChannel = carBean.price + "";
+        }
+
         return orderBean;
     }
 
@@ -226,7 +242,7 @@ public class OrderUtils {
                                           String serverTime,String childseatNum,String luggageNum,
                                           ContactUsersBean contactUsersBean, boolean dreamLeftIscheck,
                                           String travelFund,CouponBean couponBean,MostFitBean mostFitBean,
-                                          String guideCollectId,ManLuggageBean manLuggageBean) {
+                                          String guideCollectId,ManLuggageBean manLuggageBean,boolean isCheckIn) {
         OrderBean orderBean = new OrderBean();//订单
         orderBean.flight = flightBean.flightNo;
         orderBean.flightBean = flightBean;
@@ -248,10 +264,13 @@ public class OrderUtils {
         orderBean.flightAirportName = flightBean.arrAirportName;
         orderBean.flightDestCode = flightBean.depAirportCode;
         orderBean.flightDestName = flightBean.depAirportName;
-        if(null != carListBean.additionalServicePrice.pickupSignPrice) {
-            orderBean.priceFlightBrandSign = carListBean.additionalServicePrice.pickupSignPrice;
+        int pickupPrice = 0;
+        if(null != carListBean.additionalServicePrice && null != carListBean.additionalServicePrice.pickupSignPrice) {
+            pickupPrice = Integer.valueOf(carListBean.additionalServicePrice.pickupSignPrice);
         }
-        orderBean.isFlightSign = carListBean.supportBanner ? "1" : "0";
+        orderBean.priceFlightBrandSign = pickupPrice+"";
+
+        orderBean.isFlightSign = isCheckIn ? "1" : "0";
         orderBean.flightBrandSign = pickName;//pickName.getText().toString();
         orderBean.adult = Integer.valueOf(adultNum);
         orderBean.seatCategory = carBean.seatCategory;
@@ -271,6 +290,11 @@ public class OrderUtils {
         orderBean.realUserName = contactUsersBean.otherName;
         orderBean.realAreaCode = contactUsersBean.otherphoneCode;
         orderBean.realMobile = contactUsersBean.otherPhone;
+        orderBean.isCheckin = isCheckIn ? "1" : "0";
+
+
+
+
         if (contactUsersBean.isForOther) {
             orderBean.isRealUser = "2";
         } else {
@@ -319,6 +343,15 @@ public class OrderUtils {
                 orderBean.priceChannel = carBean.price + "";
             }
         }
+
+        orderBean.orderPrice = isCheckIn ?
+                (carBean.price + pickupPrice) + getSeat1PriceTotal(carListBean,manLuggageBean) + getSeat2PriceTotal(carListBean,manLuggageBean)
+                : carBean.price + getSeat1PriceTotal(carListBean,manLuggageBean) + getSeat2PriceTotal(carListBean,manLuggageBean);
+        orderBean.priceChannel = isCheckIn ?
+                "" + (carBean.price + pickupPrice + getSeat1PriceTotal(carListBean,manLuggageBean) + getSeat2PriceTotal(carListBean,manLuggageBean))
+                : "" + (carBean.price + getSeat1PriceTotal(carListBean,manLuggageBean) + getSeat2PriceTotal(carListBean,manLuggageBean));
+
+
         return orderBean;
     }
 
@@ -482,6 +515,14 @@ public class OrderUtils {
         orderBean.realUserName = contactUsersBean.otherName;
         orderBean.realAreaCode = contactUsersBean.otherphoneCode;
         orderBean.realMobile = contactUsersBean.otherPhone;
+
+        int checkInPrice = 0;
+        if(null != carListBean.additionalServicePrice && null != carListBean.additionalServicePrice.checkInPrice){
+            checkInPrice = Integer.valueOf(carListBean.additionalServicePrice.checkInPrice);
+        }
+        orderBean.checkInPrice = checkInPrice;
+
+
         if (contactUsersBean.isForOther) {
             orderBean.isRealUser = "2";
         } else {
@@ -528,10 +569,14 @@ public class OrderUtils {
                 orderBean.priceChannel = carBean.price + "";
             }
         }
-        orderBean.orderPrice = isCheckIn ? (carBean.price + Integer.valueOf(carListBean.additionalServicePrice.checkInPrice)) + getSeat1PriceTotal(carListBean,manLuggageBean) + getSeat2PriceTotal(carListBean,manLuggageBean): carBean.price + getSeat1PriceTotal(carListBean,manLuggageBean) + getSeat2PriceTotal(carListBean,manLuggageBean);
-        orderBean.checkInPrice = isCheckIn ? Integer.valueOf(carListBean.additionalServicePrice.checkInPrice) : null;
-        orderBean.priceChannel = isCheckIn ? "" + (carBean.price + Integer.valueOf(carListBean.additionalServicePrice.checkInPrice) + getSeat1PriceTotal(carListBean,manLuggageBean) + getSeat2PriceTotal(carListBean,manLuggageBean)) : "" + (carBean.price + getSeat1PriceTotal(carListBean,manLuggageBean) + getSeat2PriceTotal(carListBean,manLuggageBean));
-        orderBean.flightAirportCode = airPort.airportCode;
+        orderBean.orderPrice = isCheckIn ?
+                carBean.price + checkInPrice + getSeat1PriceTotal(carListBean,manLuggageBean) + getSeat2PriceTotal(carListBean,manLuggageBean)
+                : carBean.price + getSeat1PriceTotal(carListBean,manLuggageBean) + getSeat2PriceTotal(carListBean,manLuggageBean);
+//        orderBean.checkInPrice = isCheckIn ? Integer.valueOf(carListBean.additionalServicePrice.checkInPrice) : null;
+        orderBean.priceChannel = isCheckIn ?
+                "" + (carBean.price + checkInPrice + getSeat1PriceTotal(carListBean,manLuggageBean) + getSeat2PriceTotal(carListBean,manLuggageBean))
+                : "" + (carBean.price + getSeat1PriceTotal(carListBean,manLuggageBean) + getSeat2PriceTotal(carListBean,manLuggageBean));
+//        orderBean.flightAirportCode = airPort.airportCode;
         orderBean.flightAirportName = airPort.airportName;
         return orderBean;
     }

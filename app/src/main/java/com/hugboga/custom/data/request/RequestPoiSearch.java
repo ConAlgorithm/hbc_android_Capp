@@ -39,4 +39,9 @@ public class RequestPoiSearch extends BaseRequest<ArrayList<PoiBean>> {
     public ImplParser getParser() {
         return new ParserPoiSearch();
     }
+
+    @Override
+    public String getUrlErrorCode() {
+        return "40056";
+    }
 }

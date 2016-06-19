@@ -52,4 +52,9 @@ public class RequestGuideConflict extends BaseRequest<List<String>> {
     public HttpMethod getHttpMethod() {
         return HttpMethod.GET;
     }
+
+    @Override
+    public String getUrlErrorCode() {
+        return "40039";
+    }
 }

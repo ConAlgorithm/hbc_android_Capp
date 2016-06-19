@@ -279,6 +279,7 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
         carList = CarUtils.initCarListData(carList);
         mAdapter.setList(carList);
         mJazzy.setState(null);
+        mJazzy.setOffscreenPageLimit(3);
         mJazzy.setTransitionEffect(JazzyViewPager.TransitionEffect.Tablet);
         mJazzy.setAdapter(mAdapter);
     }
@@ -416,9 +417,11 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
                 }
             });
 
-            fgCarIntro.setText("此车型包括：" + carBean.models);
-            mansNum.setText("x " + carBean.capOfPerson);
-            luggageNum.setText("x " + carBean.capOfLuggage);
+            if(null != carBean) {
+                fgCarIntro.setText("此车型包括：" + carBean.models);
+                mansNum.setText("x " + carBean.capOfPerson);
+                luggageNum.setText("x " + carBean.capOfLuggage);
+            }
 
             man_luggage_layout.setVisibility(View.VISIBLE);
             driverName.setOnClickListener(new View.OnClickListener() {
@@ -531,6 +534,10 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
             case R.id.man_text:
             case R.id.luggage_text:
             case R.id.childseat_text:
+                if(null == carListBean || null == carListBean.carList){
+                    ToastUtils.showShort(R.string.no_price_error);
+                    return;
+                }
                 FgManLuggage fgManLuggage = new FgManLuggage();
                 Bundle bundle = new Bundle();
                 if(null != collectGuideBean){

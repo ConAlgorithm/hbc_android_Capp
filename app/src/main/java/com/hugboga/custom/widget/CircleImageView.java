@@ -1,5 +1,21 @@
 package com.hugboga.custom.widget;
 
+/*
+ * Copyright 2014 - 2015 Henning Dodenhof
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -15,7 +31,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-//import android.support.annotation.ColorInt;
+import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.util.AttributeSet;
@@ -60,6 +76,7 @@ public class CircleImageView extends ImageView {
     private boolean mReady;
     private boolean mSetupPending;
     private boolean mBorderOverlay;
+    private boolean mDisableCircularTransformation;
 
     public CircleImageView(Context context) {
         super(context);
@@ -117,16 +134,21 @@ public class CircleImageView extends ImageView {
 
     @Override
     protected void onDraw(Canvas canvas) {
+        if (mDisableCircularTransformation) {
+            super.onDraw(canvas);
+            return;
+        }
+
         if (mBitmap == null) {
             return;
         }
 
         if (mFillColor != Color.TRANSPARENT) {
-            canvas.drawCircle(getWidth() / 2.0f, getHeight() / 2.0f, mDrawableRadius, mFillPaint);
+            canvas.drawCircle(mDrawableRect.centerX(), mDrawableRect.centerY(), mDrawableRadius, mFillPaint);
         }
-        canvas.drawCircle(getWidth() / 2.0f, getHeight() / 2.0f, mDrawableRadius, mBitmapPaint);
-        if (mBorderWidth != 0) {
-            canvas.drawCircle(getWidth() / 2.0f, getHeight() / 2.0f, mBorderRadius, mBorderPaint);
+        canvas.drawCircle(mDrawableRect.centerX(), mDrawableRect.centerY(), mDrawableRadius, mBitmapPaint);
+        if (mBorderWidth > 0) {
+            canvas.drawCircle(mBorderRect.centerX(), mBorderRect.centerY(), mBorderRadius, mBorderPaint);
         }
     }
 
@@ -140,7 +162,7 @@ public class CircleImageView extends ImageView {
         return mBorderColor;
     }
 
-/*    public void setBorderColor(@ColorInt int borderColor) {
+    public void setBorderColor(@ColorInt int borderColor) {
         if (borderColor == mBorderColor) {
             return;
         }
@@ -148,17 +170,36 @@ public class CircleImageView extends ImageView {
         mBorderColor = borderColor;
         mBorderPaint.setColor(mBorderColor);
         invalidate();
-    }*/
+    }
 
-/*    public void setBorderColorResource(@ColorRes int borderColorRes) {
+    /**
+     * @deprecated Use {@link #setBorderColor(int)} instead
+     */
+    @Deprecated
+    public void setBorderColorResource(@ColorRes int borderColorRes) {
         setBorderColor(getContext().getResources().getColor(borderColorRes));
-    }*/
+    }
 
+    /**
+     * Return the color drawn behind the circle-shaped drawable.
+     *
+     * @return The color drawn behind the drawable
+     * @deprecated Fill color support is going to be removed in the future
+     */
+    @Deprecated
     public int getFillColor() {
         return mFillColor;
     }
 
-/*    public void setFillColor(@ColorInt int fillColor) {
+    /**
+     * Set a color to be drawn behind the circle-shaped drawable. Note that
+     * this has no effect if the drawable is opaque or no drawable is set.
+     *
+     * @param fillColor The color to be drawn behind the drawable
+     * @deprecated Fill color support is going to be removed in the future
+     */
+    @Deprecated
+    public void setFillColor(@ColorInt int fillColor) {
         if (fillColor == mFillColor) {
             return;
         }
@@ -166,11 +207,20 @@ public class CircleImageView extends ImageView {
         mFillColor = fillColor;
         mFillPaint.setColor(fillColor);
         invalidate();
-    }*/
+    }
 
-/*    public void setFillColorResource(@ColorRes int fillColorRes) {
+    /**
+     * Set a color to be drawn behind the circle-shaped drawable. Note that
+     * this has no effect if the drawable is opaque or no drawable is set.
+     *
+     * @param fillColorRes The color resource to be resolved to a color and
+     *                     drawn behind the drawable
+     * @deprecated Fill color support is going to be removed in the future
+     */
+    @Deprecated
+    public void setFillColorResource(@ColorRes int fillColorRes) {
         setFillColor(getContext().getResources().getColor(fillColorRes));
-    }*/
+    }
 
     public int getBorderWidth() {
         return mBorderWidth;
@@ -198,32 +248,41 @@ public class CircleImageView extends ImageView {
         setup();
     }
 
+    public boolean isDisableCircularTransformation() {
+        return mDisableCircularTransformation;
+    }
+
+    public void setDisableCircularTransformation(boolean disableCircularTransformation) {
+        if (mDisableCircularTransformation == disableCircularTransformation) {
+            return;
+        }
+
+        mDisableCircularTransformation = disableCircularTransformation;
+        initializeBitmap();
+    }
+
     @Override
     public void setImageBitmap(Bitmap bm) {
         super.setImageBitmap(bm);
-        mBitmap = bm;
-        setup();
+        initializeBitmap();
     }
 
     @Override
     public void setImageDrawable(Drawable drawable) {
         super.setImageDrawable(drawable);
-        mBitmap = getBitmapFromDrawable(drawable);
-        setup();
+        initializeBitmap();
     }
 
     @Override
     public void setImageResource(@DrawableRes int resId) {
         super.setImageResource(resId);
-        mBitmap = getBitmapFromDrawable(getDrawable());
-        setup();
+        initializeBitmap();
     }
 
     @Override
     public void setImageURI(Uri uri) {
         super.setImageURI(uri);
-        mBitmap = uri != null ? getBitmapFromDrawable(getDrawable()) : null;
-        setup();
+        initializeBitmap();
     }
 
     @Override
@@ -233,8 +292,19 @@ public class CircleImageView extends ImageView {
         }
 
         mColorFilter = cf;
-        mBitmapPaint.setColorFilter(mColorFilter);
+        applyColorFilter();
         invalidate();
+    }
+
+    @Override
+    public ColorFilter getColorFilter() {
+        return mColorFilter;
+    }
+
+    private void applyColorFilter() {
+        if (mBitmapPaint != null) {
+            mBitmapPaint.setColorFilter(mColorFilter);
+        }
     }
 
     private Bitmap getBitmapFromDrawable(Drawable drawable) {
@@ -263,6 +333,15 @@ public class CircleImageView extends ImageView {
             e.printStackTrace();
             return null;
         }
+    }
+
+    private void initializeBitmap() {
+        if (mDisableCircularTransformation) {
+            mBitmap = null;
+        } else {
+            mBitmap = getBitmapFromDrawable(getDrawable());
+        }
+        setup();
     }
 
     private void setup() {
@@ -297,17 +376,30 @@ public class CircleImageView extends ImageView {
         mBitmapHeight = mBitmap.getHeight();
         mBitmapWidth = mBitmap.getWidth();
 
-        mBorderRect.set(0, 0, getWidth(), getHeight());
+        mBorderRect.set(calculateBounds());
         mBorderRadius = Math.min((mBorderRect.height() - mBorderWidth) / 2.0f, (mBorderRect.width() - mBorderWidth) / 2.0f);
 
         mDrawableRect.set(mBorderRect);
-        if (!mBorderOverlay) {
-            mDrawableRect.inset(mBorderWidth, mBorderWidth);
+        if (!mBorderOverlay && mBorderWidth > 0) {
+            mDrawableRect.inset(mBorderWidth - 1.0f, mBorderWidth - 1.0f);
         }
         mDrawableRadius = Math.min(mDrawableRect.height() / 2.0f, mDrawableRect.width() / 2.0f);
 
+        applyColorFilter();
         updateShaderMatrix();
         invalidate();
+    }
+
+    private RectF calculateBounds() {
+        int availableWidth = getWidth() - getPaddingLeft() - getPaddingRight();
+        int availableHeight = getHeight() - getPaddingTop() - getPaddingBottom();
+
+        int sideLength = Math.min(availableWidth, availableHeight);
+
+        float left = getPaddingLeft() + (availableWidth - sideLength) / 2f;
+        float top = getPaddingTop() + (availableHeight - sideLength) / 2f;
+
+        return new RectF(left, top, left + sideLength, top + sideLength);
     }
 
     private void updateShaderMatrix() {

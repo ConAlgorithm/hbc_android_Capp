@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alipay.sdk.app.PayTask;
+import com.huangbaoche.hbcframe.data.net.DefaultSSLSocketFactory;
 import com.huangbaoche.hbcframe.data.net.ExceptionErrorCode;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.ServerException;
@@ -51,6 +52,7 @@ public class FgChoosePayment extends BaseFragment {
 
     public static RequestParams requestParams;
     private DialogUtil mDialogUtil;
+    private int wxResultCode = 0;
 
 
     public static class RequestParams implements Serializable {
@@ -76,6 +78,12 @@ public class FgChoosePayment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void initHeader(Bundle savedInstanceState) {
+        super.initHeader(savedInstanceState);
         if (savedInstanceState != null) {
             requestParams = (RequestParams)savedInstanceState.getSerializable(Constants.PARAMS_DATA);
         } else {
@@ -84,7 +92,6 @@ public class FgChoosePayment extends BaseFragment {
                 requestParams = (RequestParams)bundle.getSerializable(Constants.PARAMS_DATA);
             }
         }
-        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -95,7 +102,6 @@ public class FgChoosePayment extends BaseFragment {
         IWXAPI msgApi = WXAPIFactory.createWXAPI(getActivity(), Constants.WX_APP_ID);
         msgApi.registerApp(Constants.WX_APP_ID);
         mDialogUtil = DialogUtil.getInstance(getActivity());
-
         fgLeftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -138,26 +144,39 @@ public class FgChoosePayment extends BaseFragment {
         EventBus.getDefault().unregister(this);
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (wxResultCode == EventType.BACK_HOME.ordinal()) {
+            clearFragment();
+            EventBus.getDefault().post(new EventAction(EventType.SET_MAIN_PAGE_INDEX, 0));
+        } else if (wxResultCode == EventType.ORDER_DETAIL.ordinal()) {
+            clearFragment();
+            FgOrderDetail.Params orderParams = new FgOrderDetail.Params();
+            orderParams.orderId = requestParams.orderId;
+            Bundle detailBundle =new Bundle();
+            detailBundle.putSerializable(Constants.PARAMS_DATA, orderParams);
+            startFragment(new FgOrderDetail(), detailBundle);
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        wxResultCode = 0;
+    }
+
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
             case BACK_HOME:
                 EventBus.getDefault().post(new EventAction(EventType.FGTRAVEL_UPDATE));
-                clearFragment();
-                Bundle bundle = new Bundle();
-                bundle.putString(KEY_FRAGMENT_NAME, this.getClass().getSimpleName());
-                bringToFront(FgHome.class, bundle);
-                EventBus.getDefault().post(new EventAction(EventType.SET_MAIN_PAGE_INDEX, 0));
+                wxResultCode = EventType.BACK_HOME.ordinal();
                 break;
             case ORDER_DETAIL:
                 if (action.getData() instanceof Integer && (int)action.getData() == 1) {
                     EventBus.getDefault().post(new EventAction(EventType.FGTRAVEL_UPDATE));
                 }
-                clearFragment();
-                FgOrderDetail.Params orderParams = new FgOrderDetail.Params();
-                orderParams.orderId = requestParams.orderId;
-                Bundle detailBundle =new Bundle();
-                detailBundle.putSerializable(Constants.PARAMS_DATA, orderParams);
-                startFragment(new FgOrderDetail(), detailBundle);
+                wxResultCode = EventType.ORDER_DETAIL.ordinal();
             default:
                 break;
         }
@@ -303,10 +322,11 @@ public class FgChoosePayment extends BaseFragment {
     }
 
     private void backWarn() {
-        mDialogUtil.showCustomDialog(getString(R.string.app_name), getString(R.string.order_cancel_pay), "确定离开", new DialogInterface.OnClickListener() {
+        DialogUtil dialogUtil = DialogUtil.getInstance(getActivity());
+        dialogUtil.showCustomDialog(getString(R.string.app_name), getString(R.string.order_cancel_pay), "确定离开", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                clearFragment();
+                clearFragmentList();
                 FgOrderDetail.Params orderParams = new FgOrderDetail.Params();
                 orderParams.orderId = requestParams.orderId;
                 startFragment(FgOrderDetail.newInstance(orderParams));

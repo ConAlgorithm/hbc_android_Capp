@@ -46,5 +46,10 @@ public class RequestTest2 extends BaseRequest<TestBean> {
         return new ParserTest();
     }
 
+    @Override
+    public String getUrlErrorCode() {
+        return "40072";
+    }
+
 
 }

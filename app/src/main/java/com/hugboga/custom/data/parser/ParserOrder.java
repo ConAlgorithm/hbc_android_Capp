@@ -86,6 +86,8 @@ public class ParserOrder extends ImplParser {
         orderbean.realMobile = jsonObj.optString("realMobile");
         orderbean.realUserName = jsonObj.optString("realUserName");
 
+        orderbean.isFlightSign = jsonObj.optString("isFlightSign");
+
 
         //passByCity
         JSONArray passByCityArray = jsonObj.optJSONArray("passCities");
@@ -160,9 +162,11 @@ public class ParserOrder extends ImplParser {
         orderbean.flightDeptCityName = jsonObj.optString("flightDeptCityName");
         orderbean.flightDestCityName = jsonObj.optString("flightDestCityName");
         orderbean.serviceTimeStr = jsonObj.optString("serviceTimeStr");
+        orderbean.serviceEndTimeStr = jsonObj.optString("serviceEndTimeStr");
         orderbean.passengerInfos = jsonObj.optString("passengerInfos");
         orderbean.userCommentStatus = jsonObj.optInt("userCommentStatus");
         orderbean.realSendSms = jsonObj.optString("realSendSms");
+        orderbean.isCheckin = jsonObj.optString("isCheckin");
         orderbean.isRealUser = jsonObj.optString("isRealUser");
         orderbean.priceCommentReward = jsonObj.optInt("priceCommentReward");
         orderbean.userList = gson.fromJson(jsonObj.optString("userList"), new TypeToken<List<OrderContactBean>>(){}.getType());
