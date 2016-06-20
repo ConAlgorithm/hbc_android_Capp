@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#88000000">
+    android:orientation="vertical"
+    android:background="@color/basic_white">
+
+    <include layout="@layout/include_header" />
 
     <LinearLayout
         android:id="@+id/coupon_info_layout"
@@ -222,4 +225,4 @@
 
 
     </LinearLayout>
-</RelativeLayout>
+</LinearLayout>

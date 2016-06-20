@@ -1,5 +1,6 @@
 package com.hugboga.custom.fragment;
 
+import android.animation.Animator;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -10,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
@@ -24,10 +26,9 @@ import com.hugboga.custom.data.bean.MostFitAvailableBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestAvailableCoupon;
-import com.hugboga.custom.data.request.RequestCollectGuideList;
-import com.hugboga.custom.data.request.RequestCollectGuidesFilter;
 import com.hugboga.custom.data.request.RequestCoupon;
 import com.hugboga.custom.data.request.RequestCouponExchange;
+import com.hugboga.custom.utils.AnimationUtils;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.ZListView;
 import com.umeng.analytics.MobclickAgent;
@@ -38,7 +39,6 @@ import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
 import java.text.ParseException;
-import java.util.HashMap;
 import java.util.List;
 
 import de.greenrobot.event.EventBus;
@@ -258,7 +258,10 @@ public class FgCoupon extends BaseFragment implements AdapterView.OnItemClickLis
      */
     private void showCouponInfo(CouponBean bean) throws ParseException {
         LayoutInflater inflater = LayoutInflater.from(getActivity());
-        View popView = inflater.inflate(R.layout.coupon_info_layout, null);
+        final View popView = inflater.inflate(R.layout.coupon_info_layout, null);
+        ImageView leftBtn = (ImageView)popView.findViewById(R.id.header_left_btn);
+        leftBtn.setImageResource(R.mipmap.flight_history_close);
+
         if (bean.couponStatus == 1) {
             //可用
             popView.findViewById(R.id.coupon_info_layout).setBackgroundResource(R.mipmap.coupon_details);
@@ -285,17 +288,41 @@ public class FgCoupon extends BaseFragment implements AdapterView.OnItemClickLis
         ((TextView) popView.findViewById(R.id.coupon_info_limit3_content)).setText(bean.applyCar);
         ((TextView) popView.findViewById(R.id.coupon_info_content)).setText(bean.applyRule);
         ((TextView) popView.findViewById(R.id.coupon_info_memo)).setText("详细说明：" + bean.content);
-        popView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                pw.dismiss();
-            }
-        });
+
         //设置后进行展示
         pw.setBackgroundDrawable(new ColorDrawable(0));
         pw.setFocusable(true);
-        pw.setOutsideTouchable(true);
+//        pw.setOutsideTouchable(true);
         pw.showAtLocation(emptyLayout, Gravity.CENTER, 0, 0);
+        leftBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AnimationUtils.hideAnimation(popView, 500, new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        pw.dismiss();
+                    }
+
+                    @Override
+                    public void onAnimationCancel(Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animator animation) {
+
+                    }
+                });
+//                pw.dismiss();
+            }
+        });
+
+        AnimationUtils.showAnimation(popView,500,null);
     }
 
 

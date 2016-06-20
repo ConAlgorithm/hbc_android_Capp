@@ -1,5 +1,6 @@
 package com.hugboga.custom.fragment;
 
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -31,6 +32,7 @@ import com.hugboga.custom.data.bean.ServiceQuoteSumBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestGetCarInfo;
+import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.widget.JazzyViewPager;
 import com.umeng.analytics.MobclickAgent;
@@ -564,33 +566,25 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
                 break;
             case R.id.next_btn_click:
                 if(UserEntity.getUser().isLogin(getActivity())) {
-                    FGOrderNew fgOrderNew = new FGOrderNew();
-                    Bundle bundleCar = new Bundle();
-                    bundleCar.putString("source", source);
-                    bundleCar.putString("startCityId", startCityId);
-                    bundleCar.putString("endCityId", endCityId);
-                    bundleCar.putString("startDate", startDate);
-                    bundleCar.putString("endDate", endDate);
-                    bundleCar.putString("halfDay", halfDay);
-                    bundleCar.putString("adultNum", adultNum);
-                    bundleCar.putString("childrenNum", childrenNum);
-                    bundleCar.putString("childseatNum", childseatNum);
-                    bundleCar.putString("luggageNum", luggageNum);
-                    bundleCar.putString("passCities", passCities);
-                    bundleCar.putString("carTypeName", carBean.carDesc);
-                    bundleCar.putString("startCityName", startCityName);
-                    bundleCar.putString("dayNums", dayNums);
-                    bundleCar.putParcelable("carBean", carBean);
-                    bundleCar.putParcelable("startBean", startBean);
-                    bundleCar.putParcelable("endBean", endBean);
-                    bundleCar.putInt("outnum", outNum);
-                    bundleCar.putInt("innum", inNum);
-                    bundleCar.putSerializable("passCityList", passCityList);
-                    bundleCar.putBoolean("isHalfTravel", isHalfTravel);
-                    bundleCar.putInt("type", 3);
-                    bundleCar.putString("orderType", "3");
-                    fgOrderNew.setArguments(bundleCar);
-                    startFragment(fgOrderNew);
+                    if(carBean.numOfPerson == 4 && (Integer.valueOf(adultNum) + Integer.valueOf(childrenNum)) == 4
+                            || carBean.numOfPerson == 6 && (Integer.valueOf(adultNum) + Integer.valueOf(childrenNum)) == 6){
+                        AlertDialogUtils.showAlertDialog(getActivity(),getString(R.string.alert_car_full),
+                                "继续下单","更换车型",new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        goNext();
+                                        dialog.dismiss();
+                                    }
+                                },new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                });
+                    }else{
+                        goNext();
+                    }
+
 
                     map.put("source", source);
                     map.put("begincity", startBean.name);
@@ -607,6 +601,38 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
                 }
                 break;
         }
+    }
+
+
+
+    private void goNext(){
+        FGOrderNew fgOrderNew = new FGOrderNew();
+        Bundle bundleCar = new Bundle();
+        bundleCar.putString("source", source);
+        bundleCar.putString("startCityId", startCityId);
+        bundleCar.putString("endCityId", endCityId);
+        bundleCar.putString("startDate", startDate);
+        bundleCar.putString("endDate", endDate);
+        bundleCar.putString("halfDay", halfDay);
+        bundleCar.putString("adultNum", adultNum);
+        bundleCar.putString("childrenNum", childrenNum);
+        bundleCar.putString("childseatNum", childseatNum);
+        bundleCar.putString("luggageNum", luggageNum);
+        bundleCar.putString("passCities", passCities);
+        bundleCar.putString("carTypeName", carBean.carDesc);
+        bundleCar.putString("startCityName", startCityName);
+        bundleCar.putString("dayNums", dayNums);
+        bundleCar.putParcelable("carBean", carBean);
+        bundleCar.putParcelable("startBean", startBean);
+        bundleCar.putParcelable("endBean", endBean);
+        bundleCar.putInt("outnum", outNum);
+        bundleCar.putInt("innum", inNum);
+        bundleCar.putSerializable("passCityList", passCityList);
+        bundleCar.putBoolean("isHalfTravel", isHalfTravel);
+        bundleCar.putInt("type", 3);
+        bundleCar.putString("orderType", "3");
+        fgOrderNew.setArguments(bundleCar);
+        startFragment(fgOrderNew);
     }
 
     private void initListData() {

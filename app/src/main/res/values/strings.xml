@@ -624,5 +624,7 @@
 
     <string name="no_price_error">暂无报价</string>
 
+    <string name="alert_car_full">紧凑车型座位满员会很挤哦，可能会让车上成员不舒服，是否继续？</string>
+
 
 </resources>
