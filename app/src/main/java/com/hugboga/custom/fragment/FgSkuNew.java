@@ -46,6 +46,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
 
+import static com.hugboga.custom.R.id.mans;
+
 /**
  * Created  on 16/5/20.
  */
@@ -223,41 +225,25 @@ public class FgSkuNew extends BaseFragment {
                     @Override
                     public void onClick(View v) {
                         if(UserEntity.getUser().isLogin(getActivity())) {
-                            FGOrderNew fgOrderNew = new FGOrderNew();
-                            Bundle bundle = new Bundle();
-                            bundle.putString("guideCollectId", "");
-                            bundle.putSerializable("collectGuideBean", null);
-                            bundle.putString("source", source);
-                            bundle.putParcelable("carListBean",carListBean);
+                            if(carBean.capOfPerson == 4 && (Integer.valueOf(manLuggageBean.mans) + Integer.valueOf(manLuggageBean.childs)) == 4
+                                    || carBean.capOfPerson == 6 && (Integer.valueOf(manLuggageBean.mans) + Integer.valueOf(manLuggageBean.childs)) == 6){
+                                AlertDialogUtils.showAlertDialog(getActivity(),getString(R.string.alert_car_full),
+                                        "继续下单","更换车型",new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                goNext();
+                                                dialog.dismiss();
+                                            }
+                                        },new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                dialog.dismiss();
+                                            }
+                                        });
+                            }else{
+                                goNext();
+                            }
 
-                            bundle.putString("startCityId", cityBean.cityId + "");
-                            bundle.putString("endCityId", cityBean.cityId + "");//endCityId);
-                            bundle.putString("startDate", serverDate);
-                            bundle.putString("endDate", serverDate);
-                            bundle.putString("serverDayTime", serverDayTime + ":00");
-                            bundle.putString("halfDay", "0");
-                            bundle.putString("adultNum", manLuggageBean.mans + "");
-                            bundle.putString("childrenNum", manLuggageBean.childs + "");
-                            bundle.putString("childseatNum", manLuggageBean.childSeats + "");
-                            bundle.putString("luggageNum", manLuggageBean.luggages + "");
-                            bundle.putString("passCities", "");
-                            bundle.putString("carTypeName", carBean.desc);
-                            bundle.putString("startCityName", cityBean.name);
-                            bundle.putString("dayNums", skuBean.daysCount + "");
-                            bundle.putParcelable("startBean", cityBean);
-                            bundle.putParcelable("endBean", cityBean);
-                            bundle.putInt("outnum", skuBean.daysCount);
-                            bundle.putInt("innum", 0);
-                            bundle.putString("source", source);
-                            bundle.putBoolean("isHalfTravel", false);
-                            bundle.putSerializable("passCityList", null);
-                            bundle.putParcelable("carBean", CarUtils.carBeanAdapter(carBean));
-                            bundle.putInt("type", 5);
-                            bundle.putString("orderType", "5");
-                            bundle.putSerializable("web_sku", skuBean);
-                            bundle.putSerializable("web_city", cityBean);
-                            fgOrderNew.setArguments(bundle);
-                            startFragment(fgOrderNew);
                         }else{
                             Bundle bundle = new Bundle();//用于统计
                             bundle.putString("source", "sku下单");
@@ -269,6 +255,46 @@ public class FgSkuNew extends BaseFragment {
             default:
                 break;
         }
+    }
+
+
+    private void goNext(){
+
+        FGOrderNew fgOrderNew = new FGOrderNew();
+        Bundle bundle = new Bundle();
+        bundle.putString("guideCollectId", "");
+        bundle.putSerializable("collectGuideBean", null);
+        bundle.putString("source", source);
+        bundle.putParcelable("carListBean",carListBean);
+
+        bundle.putString("startCityId", cityBean.cityId + "");
+        bundle.putString("endCityId", cityBean.cityId + "");//endCityId);
+        bundle.putString("startDate", serverDate);
+        bundle.putString("endDate", serverDate);
+        bundle.putString("serverDayTime", serverDayTime + ":00");
+        bundle.putString("halfDay", "0");
+        bundle.putString("adultNum", manLuggageBean.mans + "");
+        bundle.putString("childrenNum", manLuggageBean.childs + "");
+        bundle.putString("childseatNum", manLuggageBean.childSeats + "");
+        bundle.putString("luggageNum", manLuggageBean.luggages + "");
+        bundle.putString("passCities", "");
+        bundle.putString("carTypeName", carBean.desc);
+        bundle.putString("startCityName", cityBean.name);
+        bundle.putString("dayNums", skuBean.daysCount + "");
+        bundle.putParcelable("startBean", cityBean);
+        bundle.putParcelable("endBean", cityBean);
+        bundle.putInt("outnum", skuBean.daysCount);
+        bundle.putInt("innum", 0);
+        bundle.putString("source", source);
+        bundle.putBoolean("isHalfTravel", false);
+        bundle.putSerializable("passCityList", null);
+        bundle.putParcelable("carBean", CarUtils.carBeanAdapter(carBean));
+        bundle.putInt("type", 5);
+        bundle.putString("orderType", "5");
+        bundle.putSerializable("web_sku", skuBean);
+        bundle.putSerializable("web_city", cityBean);
+        fgOrderNew.setArguments(bundle);
+        startFragment(fgOrderNew);
     }
 
     FragmentManager fm;

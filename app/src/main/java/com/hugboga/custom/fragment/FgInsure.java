@@ -17,7 +17,6 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.InSureListAdapter;
-import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.InsureBean;
 import com.hugboga.custom.data.bean.InsureResultBean;
 import com.hugboga.custom.data.bean.OrderBean;
@@ -60,21 +59,28 @@ public class FgInsure extends BaseFragment implements HttpRequestListener {
     RelativeLayout bottom;
 
 
-
     OrderBean orderBean;
     String from = "";
+
+    int insureListSize = 0;
+    @Bind(R.id.people_num_all)
+    TextView peopleNumAll;
+
     @Override
     protected void initHeader() {
         fgTitle.setText("常用投保人");
         rightBtnDefault();
         adapter = new InSureListAdapter(beanList, this.getContext());
         list.setAdapter(adapter);
-        if( null != this.getArguments()) {
+        if (null != this.getArguments()) {
             fgTitle.setText("添加投保人");
             orderBean = this.getArguments().getParcelable("orderBean");
             from = this.getArguments().getParcelable("from");
             if (null != orderBean && !TextUtils.isEmpty(orderBean.orderNo)) {
                 bottom.setVisibility(View.VISIBLE);
+                insureListSize = orderBean.insuranceList.size();
+                peopleNum.setText(insureListSize+"");
+                peopleNumAll.setText("/"+(orderBean.adult+orderBean.child));
             }
         }
     }
@@ -111,7 +117,7 @@ public class FgInsure extends BaseFragment implements HttpRequestListener {
         });
     }
 
-    private void hideCheckBox(){
+    private void hideCheckBox() {
         for (int i = 0; i < beanList.size(); i++) {
             beanList.get(i).isDel = 0;
         }
@@ -119,26 +125,26 @@ public class FgInsure extends BaseFragment implements HttpRequestListener {
     }
 
 
-    private void showCheckBox(){
+    private void showCheckBox() {
         for (int i = 0; i < beanList.size(); i++) {
             beanList.get(i).isDel = 1;
         }
         adapter.notifyDataSetChanged();
     }
 
-    private int getCheckNums(){
-        int checkNums = 0;
+    private int getCheckNums() {
+        int checkNums = insureListSize;
         for (int i = 0; i < beanList.size(); i++) {
             if (1 == beanList.get(i).isCheck) {
-                checkNums+=1;
+                checkNums += 1;
             }
         }
         return checkNums;
     }
 
-    private void resetCheck(InsureResultBean bean){
-        for(int i = 0;i<beanList.size();i++){
-            if(bean.insuranceUserId.equalsIgnoreCase(beanList.get(i).insuranceUserId)){
+    private void resetCheck(InsureResultBean bean) {
+        for (int i = 0; i < beanList.size(); i++) {
+            if (bean.insuranceUserId.equalsIgnoreCase(beanList.get(i).insuranceUserId)) {
                 beanList.get(i).isCheck = 0;
                 adapter.notifyDataSetChanged();
             }
@@ -177,9 +183,9 @@ public class FgInsure extends BaseFragment implements HttpRequestListener {
                 break;
             case ADD_INSURE:
                 beanList.add(0, (InsureResultBean) (action.data));
-                if(null != orderBean){
+                if (null != orderBean) {
                     showCheckBox();
-                }else {
+                } else {
                     adapter.notifyDataSetChanged();
                 }
                 break;
@@ -191,18 +197,18 @@ public class FgInsure extends BaseFragment implements HttpRequestListener {
                         beanList.add(0, bean);
                     }
                 }
-                if(null != orderBean){
+                if (null != orderBean) {
                     showCheckBox();
-                }else{
+                } else {
                     adapter.notifyDataSetChanged();
                 }
                 break;
             case CHECK_INSURE:
                 final InsureResultBean beanCheck = (InsureResultBean) (action.data);
-                if(getCheckNums() <= (orderBean.adult + orderBean.child)) {
+                if (getCheckNums() <= (orderBean.adult + orderBean.child)) {
                     int checkNums = getCheckNums();
                     peopleNum.setText("" + checkNums);
-                }else{
+                } else {
                     resetCheck(beanCheck);
                     ToastUtils.showLong("不能超过用车人数");
                 }
@@ -254,12 +260,11 @@ public class FgInsure extends BaseFragment implements HttpRequestListener {
     }
 
 
-    private void commitInsure(){
+    private void commitInsure() {
         RequestSubmitInsure requestSubmitInsure = new RequestSubmitInsure(this.getContext(),
-                UserEntity.getUser().getUserId(this.getContext()),getInsuranceUserId(),orderBean.orderNo);
-        HttpRequestUtils.request(this.getActivity(),requestSubmitInsure,this);
+                UserEntity.getUser().getUserId(this.getContext()), getInsuranceUserId(), orderBean.orderNo);
+        HttpRequestUtils.request(this.getActivity(), requestSubmitInsure, this);
     }
-
 
 
     InsureBean bean;
@@ -270,24 +275,24 @@ public class FgInsure extends BaseFragment implements HttpRequestListener {
         if (request instanceof RequestInsureList) {
             bean = (InsureBean) request.getData();
             beanList.addAll(bean.resultBean);
-            if(null != orderBean){
+            if (null != orderBean) {
                 showCheckBox();
                 list.setOnItemLongClickListener(null);
             }
             adapter.notifyDataSetChanged();
 
-        } else if(request instanceof RequestDelInsure) {
+        } else if (request instanceof RequestDelInsure) {
             for (int i = beanList.size() - 1; i >= 0; i--) {
                 if (beanList.get(i).isCheck == 1) {
                     beanList.remove(i);
                 }
             }
             adapter.notifyDataSetChanged();
-        }else if(request instanceof RequestSubmitInsure){
+        } else if (request instanceof RequestSubmitInsure) {
             ToastUtils.showLong("投保申请已成功提交");
             finish();
 //            if(TextUtils.isEmpty(from)) {
-                EventBus.getDefault().post(new EventAction(EventType.ADD_INSURE_SUCCESS, orderBean.orderNo));
+            EventBus.getDefault().post(new EventAction(EventType.ADD_INSURE_SUCCESS, orderBean.orderNo));
 //            }
             EventBus.getDefault().post(new EventAction(EventType.FGTRAVEL_UPDATE));
 //            Bundle bundle = new Bundle();
@@ -346,7 +351,7 @@ public class FgInsure extends BaseFragment implements HttpRequestListener {
 
     @OnClick(R.id.commit)
     public void onClick() {
-        if(!TextUtils.isEmpty(getInsuranceUserId())){
+        if (!TextUtils.isEmpty(getInsuranceUserId())) {
             commitInsure();
         }
     }

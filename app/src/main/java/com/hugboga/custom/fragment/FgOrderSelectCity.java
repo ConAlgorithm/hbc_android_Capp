@@ -444,13 +444,13 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
             addPassCityBean(1, cityBean, currentClickView.getTag().toString());
         } else if (type == 2) {
             text.setText(startBean.name + "周边");
-            add_tips.setVisibility(View.VISIBLE);
+            add_tips.setVisibility(View.GONE);
             add_tips.setText(R.string.select_around_city);
             addPassCityBean(2, cityBean, currentClickView.getTag().toString());
         } else if (type == 3) {
             cityId = cityBean.cityId + "";
             text.setText(cityBean.name);
-            add_tips.setVisibility(View.VISIBLE);
+            add_tips.setVisibility(View.GONE);
             if (cityBean.cityId == startBean.cityId) {
                 add_tips.setText(R.string.select_around_city);
             } else {
@@ -466,28 +466,28 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
         View view = full_day_show.getChildAt(tag);
         if (null != view && null == view.getTag()) {
             view.setTag(tag + 1);
-            TextView endText = (TextView) view.findViewById(R.id.day_go_city_text_click);
-            TextView end_add_tips = (TextView) view.findViewById(R.id.add_tips);
-            if (type == 3 && (tag + 1) == nums) {
-                endText.setText(R.string.select_end_city);
-            } else if (type == 3 && (tag + 1) != nums) {
-                endText.setText(R.string.select_stay_city);
-            } else {
-                endText.setText(R.string.select_scope);
-                end_add_tips.setVisibility(View.GONE);
-            }
+//            TextView endText = (TextView) view.findViewById(R.id.day_go_city_text_click);
+//            TextView end_add_tips = (TextView) view.findViewById(R.id.add_tips);
+//            if (type == 3 && (tag + 1) == nums) {
+//                endText.setText(R.string.select_end_city);
+//            } else if (type == 3 && (tag + 1) != nums) {
+//                endText.setText(R.string.select_stay_city);
+//            } else {
+//                endText.setText(R.string.select_scope);
+//                end_add_tips.setVisibility(View.GONE);
+//            }
             view.setBackgroundColor(Color.parseColor("#ffffff"));
         } else if (null != view && null != view.getTag()) {
-            TextView endText = (TextView) view.findViewById(R.id.day_go_city_text_click);
-            TextView end_add_tips = (TextView) view.findViewById(R.id.add_tips);
-            if (type == 3 && (tag + 1) == nums) {
-                endText.setText(R.string.select_end_city);
-            } else if (type == 3 && (tag + 1) != nums) {
-                endText.setText(R.string.select_stay_city);
-            } else {
-                endText.setText(R.string.select_scope);
-                end_add_tips.setVisibility(View.GONE);
-            }
+//            TextView endText = (TextView) view.findViewById(R.id.day_go_city_text_click);
+//            TextView end_add_tips = (TextView) view.findViewById(R.id.add_tips);
+//            if (type == 3 && (tag + 1) == nums) {
+//                endText.setText(R.string.select_end_city);
+//            } else if (type == 3 && (tag + 1) != nums) {
+//                endText.setText(R.string.select_stay_city);
+//            } else {
+//                endText.setText(R.string.select_scope);
+//                end_add_tips.setVisibility(View.GONE);
+//            }
         } else {
             endCityId = cityId;
         }

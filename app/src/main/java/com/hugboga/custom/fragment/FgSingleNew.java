@@ -398,7 +398,24 @@ public class FgSingleNew extends BaseFragment {
                                             }
                                         });
                             } else {
-                                goOrder();
+                                if(carBean.capOfPerson == 4 && (Integer.valueOf(manLuggageBean.mans) + Integer.valueOf(manLuggageBean.childs)) == 4
+                                        || carBean.capOfPerson == 6 && (Integer.valueOf(manLuggageBean.mans) + Integer.valueOf(manLuggageBean.childs)) == 6){
+                                    AlertDialogUtils.showAlertDialog(getActivity(),getString(R.string.alert_car_full),
+                                            "继续下单","更换车型",new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    goOrder();
+                                                    dialog.dismiss();
+                                                }
+                                            },new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    dialog.dismiss();
+                                                }
+                                            });
+                                }else{
+                                    goOrder();
+                                }
                             }
                         } else {
                             Bundle bundle = new Bundle();//用于统计

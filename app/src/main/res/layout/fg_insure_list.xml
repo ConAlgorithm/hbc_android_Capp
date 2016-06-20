@@ -60,26 +60,36 @@
             android:layout_marginLeft="20dp"
             android:id="@+id/left"
             android:textColor="@color/basic_white"
-            android:text="共" />
+            android:text="已选" />
         <TextView
             android:id="@+id/people_num"
             android:layout_width="wrap_content"
             android:layout_toRightOf="@id/left"
             android:layout_height="60dp"
             android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
             android:text="0"
             android:gravity="center"
             android:textSize="18sp"
             android:textColor="@color/all_bg_yellow"/>
+
+        <TextView
+            android:id="@+id/people_num_all"
+            android:layout_width="wrap_content"
+            android:layout_toRightOf="@id/people_num"
+            android:layout_height="60dp"
+            android:layout_marginRight="5dp"
+            android:text="0"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:textColor="@color/basic_white"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="60dp"
-            android:layout_toRightOf="@id/people_num"
+            android:layout_toRightOf="@id/people_num_all"
             android:gravity="center"
             android:textSize="15sp"
             android:textColor="@color/basic_white"
-            android:text="人,投保费由皇包车支付"/>
+            android:text="人,由皇包车替你支付"/>
 
 
     </RelativeLayout>

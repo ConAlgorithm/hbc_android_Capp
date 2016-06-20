@@ -26,6 +26,7 @@ public class ParserCouponBean extends ImplParser {
         couponBean.applyCar = jsonObj.optString("applyCar");
         couponBean.applyRule = jsonObj.optString("orderRuleRemark");
         couponBean.batchName = jsonObj.optString("couponBatchName");
+        couponBean.applyCarClass = jsonObj.optString("applyCarClass");
         return couponBean;
     }
 }
