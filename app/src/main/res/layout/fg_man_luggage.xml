@@ -13,17 +13,64 @@
 
         <include layout="@layout/include_header" />
 
-        <TextView
-            android:id="@+id/top_tips"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:visibility="gone"
-            android:layout_height="50dp"
-            android:layout_marginBottom="10dp"
-            android:gravity="center"
-            android:background="@color/basic_white"
-            android:text="@string/man_luggage_not_have"
-            android:textColor="@color/basic_black"
-            android:textSize="16sp" />
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:paddingBottom="10dip">
+
+            <TextView
+                android:id="@+id/fg_car_class"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip"
+                android:text="@string/can_sit_man"
+                android:textColor="@color/basic_black"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/fg_car_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip"
+                android:layout_marginLeft="20dp"
+                android:text="@string/can_sit_man"
+                android:textColor="@color/basic_black"
+                android:textSize="15sp" />
+            <TextView
+                android:id="@+id/mans_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip"
+                android:text=" X 4"
+                android:gravity="center"
+                android:drawablePadding="5dp"
+                android:layout_marginLeft="10dp"
+                android:drawableLeft="@mipmap/order_people"
+                android:textColor="@color/basic_black"
+                android:textSize="15sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip"
+                android:layout_marginRight="15dp"
+                android:layout_marginLeft="15dp"
+                android:text="+"
+                android:textColor="@color/basic_black"
+                android:textSize="15sp" />
+            <TextView
+                android:id="@+id/luggage_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip"
+                android:text="X 3"
+                android:gravity="center"
+                android:drawablePadding="5dp"
+                android:drawableLeft="@mipmap/order_luggage"
+                android:textColor="@color/basic_black"
+                android:textSize="15sp" />
+        </LinearLayout>
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -189,6 +236,16 @@
                 android:textColor="@color/basic_black"
                 android:textSize="15sp" />
 
+            <ImageView
+                android:id="@+id/show_luggage_info"
+                android:layout_width="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/l_right"
+                android:src="@mipmap/choose_information"
+                android:textSize="15sp" />
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -230,6 +287,19 @@
             </LinearLayout>
 
         </RelativeLayout>
+
+        <TextView
+            android:id="@+id/top_tips"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:layout_height="30dp"
+            android:layout_marginBottom="10dp"
+            android:gravity="left|center_vertical"
+            android:background="#fdfde0"
+            android:paddingLeft="15dp"
+            android:text="@string/man_luggage_not_have"
+            android:textColor="@color/basic_black"
+            android:textSize="14sp" />
 
         <LinearLayout
             android:id="@+id/show_child_seat"
@@ -396,6 +466,18 @@
 
 
             </RelativeLayout>
+
+            <TextView
+                android:id="@+id/child_seat_tips"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="left|center_vertical"
+                android:paddingLeft="15dp"
+                android:background="#fdfde0"
+                android:text="@string/child_age_seat"
+                android:textColor="@color/basic_black"
+                android:textSize="12sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -483,6 +565,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
+            android:visibility="gone"
             android:layout_marginTop="10dp">
 
             <TextView

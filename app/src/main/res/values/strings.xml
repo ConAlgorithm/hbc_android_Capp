@@ -639,5 +639,7 @@
     <string name="home_single">单次接送</string>
     <string name="alert_car_full">紧凑车型座位满员会很挤哦，可能会让车上成员不舒服，是否继续？</string>
 
+    <string name="child_age_seat">出行前请与司导联系，需要何种年龄段的的儿童安全座椅</string>
+
 
 </resources>

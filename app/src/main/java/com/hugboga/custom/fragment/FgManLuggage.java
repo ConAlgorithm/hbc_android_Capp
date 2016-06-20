@@ -1,12 +1,15 @@
 package com.hugboga.custom.fragment;
 
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -91,6 +94,9 @@ public class FgManLuggage extends BaseFragment {
     @Bind(R.id.top_tips)
     TextView topTips;
 
+    @Bind(R.id.show_luggage_info)
+    ImageView show_luggage_info;
+
     ManLuggageBean bean = new ManLuggageBean();
 
     int mNums = 0;
@@ -104,6 +110,14 @@ public class FgManLuggage extends BaseFragment {
     RelativeLayout freeLayout;
     @Bind(R.id.charge_layout)
     RelativeLayout chargeLayout;
+    @Bind(R.id.fg_car_class)
+    TextView fgCarClass;
+    @Bind(R.id.fg_car_name)
+    TextView fgCarName;
+    @Bind(R.id.mans_num)
+    TextView mansNum;
+    @Bind(R.id.luggage_num)
+    TextView luggageNum;
 
     @Override
     protected void initHeader() {
@@ -137,6 +151,7 @@ public class FgManLuggage extends BaseFragment {
     ManLuggageBean manLuggageBean;
     String seat1 = "";
     String seat2 = "";
+
     @Override
     protected void initView() {
         carListBean = this.getArguments().getParcelable("carListBean");
@@ -145,10 +160,10 @@ public class FgManLuggage extends BaseFragment {
 
         carBean = carListBean.carList.get(currentIndex);
         if (null == carListBean.additionalServicePrice || (null == carListBean.additionalServicePrice.childSeatPrice1
-                && null  == carListBean.additionalServicePrice.childSeatPrice2)) {
+                && null == carListBean.additionalServicePrice.childSeatPrice2)) {
             supportChildseat = false;
-            topTips.setVisibility(View.VISIBLE);
-        }else{
+//            topTips.setVisibility(View.VISIBLE);
+        } else {
             seat1 = carListBean.additionalServicePrice.childSeatPrice1;
             seat2 = carListBean.additionalServicePrice.childSeatPrice2;
         }
@@ -165,26 +180,31 @@ public class FgManLuggage extends BaseFragment {
             mSub.setBackgroundColor(Color.parseColor("#d5dadb"));
         }
 
+        fgCarClass.setText(carBean.desc);
+        mansNum.setText(carBean.capOfPerson+"");
+        luggageNum.setText(carBean.capOfLuggage+"");
+
         initData(manLuggageBean);
 
 //        showChildSeat.setVisibility(View.VISIBLE);
     }
 
-    private void initData(ManLuggageBean manLuggageBean){
-        if(null != manLuggageBean){
+    private void initData(ManLuggageBean manLuggageBean) {
+        if (null != manLuggageBean) {
             mNums = manLuggageBean.mans;
             lNums = manLuggageBean.luggages;
             cNums = manLuggageBean.childs;
 
             mNum.setText(manLuggageBean.mans + "");
             lNum.setText(manLuggageBean.luggages + "");
-            cNum.setText(manLuggageBean.childs+"");
-            if(manLuggageBean.childSeats > 0){
+            cNum.setText(manLuggageBean.childs + "");
+            if (manLuggageBean.childSeats > 0) {
                 seatNums = manLuggageBean.childSeats;
-                cSeatNum.setText(seatNums+"");
+                cSeatNum.setText(seatNums + "");
                 showChildSeat.setVisibility(View.VISIBLE);
                 manLuggageShowChildSeatLayout();
             }
+
             subChangeBg();
         }
     }
@@ -274,31 +294,31 @@ public class FgManLuggage extends BaseFragment {
 
     public void subChangeBg() {
         addChangeBg();
-        if(mNums == 1){
+        if (mNums == 1) {
             mSub.setBackgroundColor(Color.parseColor("#d5dadb"));
-        }else{
+        } else {
             mSub.setBackgroundColor(Color.parseColor("#fad027"));
         }
 
-        if(cNums == 0){
+        if (cNums == 0) {
             cSub.setBackgroundColor(Color.parseColor("#d5dadb"));
-        }else{
+        } else {
             cSub.setBackgroundColor(Color.parseColor("#fad027"));
         }
 
-        if(lNums == 0){
+        if (lNums == 0) {
             lSub.setBackgroundColor(Color.parseColor("#d5dadb"));
-        }else{
+        } else {
             lSub.setBackgroundColor(Color.parseColor("#fad027"));
         }
 
-        if(lNums == 0){
+        if (lNums == 0) {
             lSub.setBackgroundColor(Color.parseColor("#d5dadb"));
-        }else{
+        } else {
             lSub.setBackgroundColor(Color.parseColor("#fad027"));
         }
 
-        if (seatNums  == 0) {
+        if (seatNums == 0) {
             cSeatSub.setBackgroundColor(Color.parseColor("#d5dadb"));
         } else {
             cSeatSub.setBackgroundColor(Color.parseColor("#fad027"));
@@ -320,7 +340,7 @@ public class FgManLuggage extends BaseFragment {
                 chargeSeatRight.setText("￥" + seat2 + "/次");
                 chargeSeatNum.setText("x" + (seatNums - 1) + "");
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -340,15 +360,18 @@ public class FgManLuggage extends BaseFragment {
                 freeLayout.setVisibility(View.GONE);
                 chargeLayout.setVisibility(View.GONE);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
 
-    @OnClick({R.id.m_sub, R.id.m_num, R.id.m_plus, R.id.c_sub, R.id.c_num, R.id.c_plus, R.id.l_sub, R.id.l_num, R.id.l_plus, R.id.c_seat_sub, R.id.c_seat_num, R.id.c_seat_plus, R.id.free_c_seat_num, R.id.charge_seat_num})
+    @OnClick({R.id.show_luggage_info, R.id.m_sub, R.id.m_num, R.id.m_plus, R.id.c_sub, R.id.c_num, R.id.c_plus, R.id.l_sub, R.id.l_num, R.id.l_plus, R.id.c_seat_sub, R.id.c_seat_num, R.id.c_seat_plus, R.id.free_c_seat_num, R.id.charge_seat_num})
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.show_luggage_info:
+                showInfo();
+                break;
             case R.id.m_sub:
                 if (mNums > 1) {
                     mNums--;
@@ -394,6 +417,8 @@ public class FgManLuggage extends BaseFragment {
                     cNum.setText(cNums + "");
                     if (supportChildseat) {
                         showChildSeat.setVisibility(View.VISIBLE);
+                    } else {
+                        topTips.setVisibility(View.VISIBLE);
                     }
                     addChangeBg();
                 }
@@ -439,5 +464,24 @@ public class FgManLuggage extends BaseFragment {
                 break;
         }
     }
+
+
+    private void showInfo() {
+        LayoutInflater inflater = LayoutInflater.from(getActivity());
+        final View popView = inflater.inflate(R.layout.show_child_seat_info, null);
+        final PopupWindow pw = new PopupWindow(popView, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+        //设置后进行展示
+        pw.setBackgroundDrawable(new ColorDrawable(0));
+        pw.setFocusable(true);
+        pw.setOutsideTouchable(true);
+        pw.showAtLocation(popView, Gravity.CENTER, 0, 0);
+        popView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pw.dismiss();
+            }
+        });
+    }
+
 
 }
