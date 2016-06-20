@@ -260,6 +260,8 @@ public class FgCoupon extends BaseFragment implements AdapterView.OnItemClickLis
         final View popView = inflater.inflate(R.layout.coupon_info_layout, null);
         ImageView leftBtn = (ImageView)popView.findViewById(R.id.header_left_btn);
         leftBtn.setImageResource(R.mipmap.closed_btn);
+        TextView header_title = (TextView)popView.findViewById(R.id.header_title);
+        header_title.setText("我的优惠券");
 
 //        if (bean.couponStatus == 1) {
 //            //可用
