@@ -29,7 +29,7 @@ public class DBHelper extends SQLiteOpenHelper {
     //The Android's default system path of your application database.
     public static String DB_PATH = "/data/data/com.hugboga.custom/databases/";
 
-    public static String DB_NAME = "hbcv2.6.0.db";
+    public static String DB_NAME = "hbcv2.8.0.db";
     public static String DB_TMP = ".tmp";
 
 
