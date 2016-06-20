@@ -5,10 +5,7 @@ import android.content.Context;
 import com.google.gson.Gson;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
-import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.GuidesDetailData;
-import com.hugboga.custom.data.bean.TravelFundData;
-import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.net.NewParamsBuilder;
 import com.hugboga.custom.data.net.UrlLibs;
 

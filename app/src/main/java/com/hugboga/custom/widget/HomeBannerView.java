@@ -1,14 +1,20 @@
 package com.hugboga.custom.widget;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Handler;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.hugboga.custom.adapter.HomeBannerAdapter;
 import com.hugboga.custom.utils.Tools;
+import com.hugboga.custom.utils.UIUtils;
+import com.nineoldandroids.view.ViewHelper;
 
 import java.util.ArrayList;
 
@@ -18,14 +24,14 @@ import java.util.ArrayList;
 public class HomeBannerView extends RelativeLayout implements HbcViewBehavior{
 
     /**
-     * banner默认高宽比  height/width = 200/640
+     * banner默认高宽比  height/width = 1317/1080
      */
-    private static final float BANNER_RATIO_DEFAULT = 0.31f;
+    private static final float BANNER_RATIO_DEFAULT = 1.22f;
 
     /**
      * banner默认自动切换的时间
      */
-    private static final int BANNER_CUT_TIME_DEFAULT = 4000;
+    private static final int BANNER_SWITCH_TIME_DEFAULT = 5000;
 
     private LoopViewPager mViewPager;
 
@@ -35,13 +41,19 @@ public class HomeBannerView extends RelativeLayout implements HbcViewBehavior{
     private Handler cutHandler;
     private Runnable cutRunnable;
     private boolean isAutoLoops = true;
+    private int viewHeight;
 
     public HomeBannerView(Context context) {
         this(context, null);
     }
 
     public HomeBannerView(Context context, AttributeSet attrs) {
-        super(context, attrs);
+        this(context, attrs, 0);
+    }
+
+    public HomeBannerView(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        viewHeight = (int)(UIUtils.getScreenWidth() * BANNER_RATIO_DEFAULT);
     }
 
     public void onDestroy() {
@@ -63,14 +75,17 @@ public class HomeBannerView extends RelativeLayout implements HbcViewBehavior{
             onDestroyHandler();
             ImageView itemView = new ImageView(getContext());
             Tools.showImage(getContext(), itemView, bannerList.get(0));
-            this.addView(itemView, RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
+
+            this.addView(itemView, RelativeLayout.LayoutParams.MATCH_PARENT, viewHeight);
         } else {
             if (mViewPager == null) {
                 removeAllViews();
                 mViewPager = new LoopViewPager(getContext());
                 mViewPager.setBoundaryCaching(true);
-                this.addView(mViewPager, RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
+                this.addView(mViewPager, RelativeLayout.LayoutParams.MATCH_PARENT, viewHeight);
                 mViewPager.setOnPageChangeListener(new BannerCutListener());
+                mViewPager.setPageTransformer(true, new StackTransformer());
+                mViewPager.setScrolDuration(400);
             }
             if (mAdapter == null) {
                 mAdapter = new HomeBannerAdapter(getContext(), bannerList);
@@ -158,6 +173,18 @@ public class HomeBannerView extends RelativeLayout implements HbcViewBehavior{
     }
 
     protected int getCutTime() {
-        return BANNER_CUT_TIME_DEFAULT;
+        return BANNER_SWITCH_TIME_DEFAULT;
+    }
+
+    private class StackTransformer implements ViewPager.PageTransformer {
+
+        @Override
+        public void transformPage(View view, float position) {
+            final float width = view.getWidth();
+            final float scale = 1f + Math.abs(position);
+            ViewHelper.setTranslationY(view, 0);
+            ViewHelper.setTranslationX(view, -width * position);
+            ViewHelper.setAlpha(view,position < -1f || position > 1f ? 0f : 1f - (scale - 1f));
+        }
     }
 }

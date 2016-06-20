@@ -52,11 +52,11 @@ public class HomeBottomLayout extends LinearLayout implements View.OnClickListen
         singleTV.setOnClickListener(this);
         activeIV.setOnClickListener(this);
 
-        int charteredLayoutHeight = (int)((150 / 668.0) * (UIUtils.getScreenWidth() - paddingLeft * 2));//150*668
+        int charteredLayoutHeight = (int)((111 / 497.0) * (UIUtils.getScreenWidth() - paddingLeft * 2));
         charteredLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, charteredLayoutHeight));
 
         float pickupTVWidth = (UIUtils.getScreenWidth() - paddingLeft * 2 - UIUtils.dip2px(10))/ 2.0f;
-        float pickupTVHight = (int)((116 / 332.0) * pickupTVWidth); //116*332.0
+        float pickupTVHight = (int)((86 / 241.0) * pickupTVWidth);
         LinearLayout.LayoutParams pickupParams= new LinearLayout.LayoutParams((int)pickupTVWidth, (int)pickupTVHight);
         pickupTV.setLayoutParams(pickupParams);
         singleTV.setLayoutParams(pickupParams);

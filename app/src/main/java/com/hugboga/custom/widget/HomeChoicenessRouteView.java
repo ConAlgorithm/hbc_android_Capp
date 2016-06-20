@@ -4,12 +4,13 @@ import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import com.huangbaoche.hbcframe.widget.recycler.ZDefaultDivider;
 import com.hugboga.custom.R;
-import com.hugboga.custom.adapter.GuideCarPhotosAdapter;
 import com.hugboga.custom.adapter.HomeChoicenessRouteAdapter;
+import com.hugboga.custom.data.bean.HomeData;
+import com.hugboga.custom.fragment.FgHome;
 import com.hugboga.custom.utils.UIUtils;
 
 import java.util.ArrayList;
@@ -41,13 +42,12 @@ public class HomeChoicenessRouteView extends LinearLayout {
         recyclerView.addItemDecoration(itemDecoration);
         adapter = new HomeChoicenessRouteAdapter(context);
         recyclerView.setAdapter(adapter);
+    }
 
-        ArrayList<String> urlList = new ArrayList<String>();
-        urlList.add("1");
-        urlList.add("1");
-        urlList.add("1");
-        urlList.add("1");
-        urlList.add("1");
-        adapter.setData(urlList);
+    public void setData(FgHome _frgment, ArrayList<HomeData.CityContentItem> _itemList) {
+        if (adapter == null || _frgment == null || _itemList == null) {
+            return;
+        }
+        adapter.setData(_frgment, _itemList);
     }
 }

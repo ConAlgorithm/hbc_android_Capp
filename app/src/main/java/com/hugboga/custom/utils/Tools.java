@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.FutureTarget;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
+import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.widget.GlideCircleTransform;
 
 import java.io.File;
@@ -19,6 +20,17 @@ import java.io.File;
  * Created  on 16/4/25.
  */
 public class Tools {
+
+    public static void showImageCenterCrop(ImageView imageView, String url){
+        if (TextUtils.isEmpty(url)) {
+            return;
+        }
+        Glide.with(MyApplication.getAppContext())
+                .load(url)
+                .centerCrop()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(imageView);
+    }
 
     public static void showImage(Context context, ImageView imageView, String url){
         if (TextUtils.isEmpty(url)) {
