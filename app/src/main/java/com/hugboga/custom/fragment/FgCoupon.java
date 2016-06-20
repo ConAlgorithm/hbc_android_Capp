@@ -63,7 +63,6 @@ public class FgCoupon extends BaseFragment implements AdapterView.OnItemClickLis
     @ViewInject(R.id.coupon_pay_layout)
     RelativeLayout payLayout;
 
-
     CouponAdapter adapter;
     private String orderId;
     private double orderPrice;
@@ -260,19 +259,19 @@ public class FgCoupon extends BaseFragment implements AdapterView.OnItemClickLis
         LayoutInflater inflater = LayoutInflater.from(getActivity());
         final View popView = inflater.inflate(R.layout.coupon_info_layout, null);
         ImageView leftBtn = (ImageView)popView.findViewById(R.id.header_left_btn);
-        leftBtn.setImageResource(R.mipmap.flight_history_close);
+        leftBtn.setImageResource(R.mipmap.closed_btn);
 
-        if (bean.couponStatus == 1) {
-            //可用
-            popView.findViewById(R.id.coupon_info_layout).setBackgroundResource(R.mipmap.coupon_details);
-            popView.findViewById(R.id.coupon_info_price_line).setBackgroundResource(R.drawable.coupon_dash_line);
-            popView.findViewById(R.id.coupon_info_content_line).setBackgroundColor(Color.parseColor("#E997A4"));
-        } else {
-            //已使用，已过期
-            popView.findViewById(R.id.coupon_info_layout).setBackgroundResource(R.mipmap.coupon_details_no);
-            popView.findViewById(R.id.coupon_info_price_line).setBackgroundResource(R.drawable.coupon_dash_line2);
-            popView.findViewById(R.id.coupon_info_content_line).setBackgroundColor(Color.parseColor("#BCBCBC"));
-        }
+//        if (bean.couponStatus == 1) {
+//            //可用
+//            popView.findViewById(R.id.coupon_info_layout).setBackgroundResource(R.mipmap.coupon_details);
+////            popView.findViewById(R.id.coupon_info_price_line).setBackgroundResource(R.drawable.coupon_dash_line);
+////            popView.findViewById(R.id.coupon_info_content_line).setBackgroundColor(Color.parseColor("#E997A4"));
+//        } else {
+//            //已使用，已过期
+//            popView.findViewById(R.id.coupon_info_layout).setBackgroundResource(R.mipmap.coupon_details_no);
+////            popView.findViewById(R.id.coupon_info_price_line).setBackgroundResource(R.drawable.coupon_dash_line2);
+////            popView.findViewById(R.id.coupon_info_content_line).setBackgroundColor(Color.parseColor("#BCBCBC"));
+//        }
 
         final PopupWindow pw = new PopupWindow(popView, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
         //内容赋值
@@ -287,7 +286,9 @@ public class FgCoupon extends BaseFragment implements AdapterView.OnItemClickLis
         ((TextView) popView.findViewById(R.id.coupon_info_limit2_content)).setText(bean.applyType);
         ((TextView) popView.findViewById(R.id.coupon_info_limit3_content)).setText(bean.applyCar);
         ((TextView) popView.findViewById(R.id.coupon_info_content)).setText(bean.applyRule);
-        ((TextView) popView.findViewById(R.id.coupon_info_memo)).setText("详细说明：" + bean.content);
+        ((TextView) popView.findViewById(R.id.coupon_info_memo)).setText(bean.content);
+
+        ((TextView) popView.findViewById(R.id.appcarclass_label_content)).setText(bean.applyCarClass);
 
         //设置后进行展示
         pw.setBackgroundDrawable(new ColorDrawable(0));
