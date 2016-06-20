@@ -28,6 +28,7 @@ public class RequestGuideDetail extends BaseRequest<GuidesDetailData> {
         super(context);
         map = new HashMap<String, Object>();
         map.put("guideId", guideId);
+//        map.put("guideId", "291442416917");//test
     }
 
     @Override

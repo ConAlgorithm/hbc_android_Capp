@@ -57,7 +57,7 @@ public class FgInviteFriends extends BaseFragment implements View.OnClickListene
 
         View headerView = inflater.inflate(R.layout.header_invite_friends, null);
         int headerExplainImgHeight = (int)((655 / 720.0) * UIUtils.getScreenWidth());//顶部图片比例655*720
-        LinearLayout.LayoutParams imgParams = new  LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, headerExplainImgHeight);
+        LinearLayout.LayoutParams imgParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, headerExplainImgHeight);
         headerView.findViewById(R.id.header_invite_friends_explain_iv).setLayoutParams(imgParams);
         headerCodeTV = (TextView) headerView.findViewById(R.id.header_invite_friends_promotion_code_tv);
         headerSucceedTV = (TextView) headerView.findViewById(R.id.header_invite_friends_succeed_tv);

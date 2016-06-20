@@ -1,0 +1,84 @@
+package com.hugboga.custom.adapter;
+import java.util.ArrayList;
+
+import android.content.Context;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.RecyclerView.ViewHolder;
+import android.text.TextUtils;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.hugboga.custom.R;
+import com.hugboga.custom.utils.UIUtils;
+
+/**
+ * Created by qingcha on 16/6/18.
+ */
+public class GuideCarPhotosAdapter extends RecyclerView.Adapter<GuideCarPhotosAdapter.MyViewHolder>{
+
+    private Context mContext;
+    private ArrayList<String> urlList;
+    private ViewGroup.LayoutParams params;
+    private OnItemClickListener listener;
+
+    public GuideCarPhotosAdapter(Context context) {
+        this.mContext = context;
+        params = new ViewGroup.LayoutParams(UIUtils.dip2px(100), UIUtils.dip2px(100));
+    }
+
+    public void setData(ArrayList<String> _urlList) {
+        this.urlList = _urlList;
+        notifyDataSetChanged();
+    }
+
+    @Override
+    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        ImageView imageView = new ImageView(mContext);
+        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        imageView.setLayoutParams(params);
+        return new MyViewHolder(imageView);
+    }
+
+    @Override
+    public void onBindViewHolder(MyViewHolder holder, final int position) {
+        if (TextUtils.isEmpty(urlList.get(position))) {
+            return;
+        }
+        Glide.with(mContext)
+                .load(urlList.get(position))
+                .centerCrop()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into((ImageView) holder.itemView);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (listener != null) {
+                    listener.onItemClick(v, position);
+                }
+            }
+        });
+    }
+
+    @Override
+    public int getItemCount() {
+        return urlList != null ? urlList.size() : 0;
+    }
+
+    class MyViewHolder extends ViewHolder {
+        public MyViewHolder(ImageView view) {
+            super(view);
+        }
+    }
+
+    public interface OnItemClickListener {
+        public void onItemClick(View view, int postion);
+    }
+
+    public void setItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
+    }
+}

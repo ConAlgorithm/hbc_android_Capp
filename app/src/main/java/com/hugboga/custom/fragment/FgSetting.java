@@ -39,7 +39,7 @@ public class FgSetting extends BaseFragment {
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
         if(request instanceof RequestLogout){
-            getActivity().sendBroadcast(new Intent(FgHome.FILTER_FLUSH));
+//            getActivity().sendBroadcast(new Intent(FgHome.FILTER_FLUSH));
             UserEntity.getUser().clean(getActivity());
             EventBus.getDefault().post(new EventAction(EventType.CLICK_USER_LOOUT));
             finish();
@@ -49,7 +49,7 @@ public class FgSetting extends BaseFragment {
     @Override
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
         if(request instanceof  RequestLogout){
-            getActivity().sendBroadcast(new Intent(FgHome.FILTER_FLUSH));
+//            getActivity().sendBroadcast(new Intent(FgHome.FILTER_FLUSH));
             UserEntity.getUser().clean(getActivity());
             EventBus.getDefault().post(new EventAction(EventType.CLICK_USER_LOOUT));
             finish();
