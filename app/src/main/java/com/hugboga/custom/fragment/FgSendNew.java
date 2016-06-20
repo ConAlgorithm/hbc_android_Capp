@@ -1,5 +1,6 @@
 package com.hugboga.custom.fragment;
 
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -31,6 +32,7 @@ import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestCheckPrice;
 import com.hugboga.custom.data.request.RequestCheckPriceForTransfer;
 import com.hugboga.custom.data.request.RequestGuideConflict;
+import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.CarUtils;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.OrderUtils;
@@ -310,7 +312,24 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
                                             }
                                         });
                             }else{
-                                goOrder();
+                                if(carBean.capOfPerson == 4 && (Integer.valueOf(manLuggageBean.mans) + Integer.valueOf(manLuggageBean.childs)) == 4
+                                        || carBean.capOfPerson == 6 && (Integer.valueOf(manLuggageBean.mans) + Integer.valueOf(manLuggageBean.childs)) == 6){
+                                    AlertDialogUtils.showAlertDialog(getActivity(),getString(R.string.alert_car_full),
+                                            "继续下单","更换车型",new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    goOrder();
+                                                    dialog.dismiss();
+                                                }
+                                            },new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    dialog.dismiss();
+                                                }
+                                            });
+                                }else{
+                                    goOrder();
+                                }
                             }
                         }else{
                             Bundle bundle = new Bundle();//用于统计
