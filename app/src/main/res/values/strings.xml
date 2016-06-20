@@ -628,5 +628,14 @@
 
     <string name="no_price_error">暂无报价</string>
 
+    <string name="home_dynamics">今日动态</string>
+    <string name="home_featured_route">热门城市&amp;精选路线</string>
+    <string name="home_other_service">其它服务</string>
+    <string name="home_featured_active">精选活动</string>
+    <string name="home_more_featured_route">更多精选路线</string>
+    <string name="home_custom_chartered">自定义包车游</string>
+    <string name="home_custom_chartered_description">定制行程，随心所欲，中文司导兼导游全程陪同</string>
+    <string name="home_picksend">中文接送机</string>
+    <string name="home_single">单次接送</string>
 
 </resources>

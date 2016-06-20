@@ -117,8 +117,6 @@ public class FgLargerImage extends BaseFragment {
             PhotoView photoView = new PhotoView(container.getContext());
             Glide.with(getContext())
                     .load(params.imageUrlList.get(position))
-                    .placeholder(R.drawable.loading_gif)
-                    .crossFade()
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(photoView);
             container.addView(photoView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);

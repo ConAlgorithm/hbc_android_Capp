@@ -22,13 +22,12 @@ public class GuideCarPhotosAdapter extends RecyclerView.Adapter<GuideCarPhotosAd
 
     private Context mContext;
     private ArrayList<String> urlList;
-    private LinearLayout.LayoutParams params;
+    private ViewGroup.LayoutParams params;
     private OnItemClickListener listener;
 
     public GuideCarPhotosAdapter(Context context) {
         this.mContext = context;
-        params = new LinearLayout.LayoutParams(UIUtils.dip2px(100), UIUtils.dip2px(100));
-
+        params = new ViewGroup.LayoutParams(UIUtils.dip2px(100), UIUtils.dip2px(100));
     }
 
     public void setData(ArrayList<String> _urlList) {

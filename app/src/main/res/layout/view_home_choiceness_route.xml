@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_height="44dp"
+        android:gravity="center_vertical"
+        android:layout_marginLeft="@dimen/home_view_padding_left"
+        android:text="@string/home_featured_route"
+        android:textColor="#303030"
+        android:textSize="15sp" />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/home_choiceness_route_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="6dp"
+        />
+</merge>

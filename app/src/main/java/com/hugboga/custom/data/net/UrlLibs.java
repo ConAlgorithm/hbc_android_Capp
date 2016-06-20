@@ -468,4 +468,9 @@ public class UrlLibs {
      * 司导个人页的导游评价列表
      */
     public static final String API_COMMENTS_LIST = "supplier/v1.0/c/guide/commentsForGuideDetail";
+
+    /**
+     * 首页今日动态
+     */
+    public static final String API_HOME_DYNAMICS = "trade/v1.0/c/order/track";
 }
