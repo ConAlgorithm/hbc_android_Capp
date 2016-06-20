@@ -1,5 +1,7 @@
 package com.hugboga.custom.data.bean;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -8,16 +10,44 @@ import java.util.ArrayList;
  */
 public class DynamicsData implements Serializable {
 
-    private ArrayList<DynamicsItem> clist;
+    @SerializedName("clist")
+    private ArrayList<DynamicsItem> dynamicsList;
+
+    private ArrayList<DynamicsItem> dynamicsAllList;
 
     private long reqtime;
 
-    public ArrayList<DynamicsItem> getClist() {
-        return clist;
+    private int position = 0;
+
+    public ArrayList<DynamicsItem> getDynamicsAllList() {
+        return dynamicsAllList;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
+    }
+
+    public void updateDynamicsAllList() {
+        if (dynamicsList == null) {
+            return;
+        }
+        if (dynamicsAllList == null) {
+            this.dynamicsAllList = dynamicsList;
+        } else {
+            this.dynamicsAllList.addAll(dynamicsList);
+        }
+    }
+
+    public ArrayList<DynamicsItem> getDynamicsList() {
+        return dynamicsList;
     }
 
     public long getReqtime() {
         return reqtime;
+    }
+
+    public int getPosition() {
+        return position;
     }
 
     public static class DynamicsItem implements Serializable {

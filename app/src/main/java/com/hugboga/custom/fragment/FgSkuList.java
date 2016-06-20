@@ -24,7 +24,6 @@ import com.hugboga.custom.adapter.SkuAdapter;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.SkuCityBean;
 import com.hugboga.custom.data.bean.SkuItemBean;
-import com.hugboga.custom.data.request.RequestHome;
 import com.hugboga.custom.data.request.RequestSkuList;
 import com.hugboga.custom.utils.DBHelper;
 import com.hugboga.custom.utils.ImageUtils;

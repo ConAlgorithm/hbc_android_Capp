@@ -22,11 +22,15 @@ import java.util.HashMap;
 @HttpRequest(path = UrlLibs.API_HOME_DYNAMICS, builder = NewParamsBuilder.class)
 public class RequestDynamics extends BaseRequest<DynamicsData> {
 
-    public RequestDynamics(Context context, long reqTime, int limit) {
+    private static final int DEFAULT_REQUEST_DYNAMIC_COUNT = 360;
+
+    public RequestDynamics(Context context, long reqTime) {
         super(context);
         map = new HashMap<String, Object>();
-        map.put("reqTime", reqTime);
-        map.put("limit", limit);
+        if (reqTime != 0) {
+            map.put("reqTime", reqTime);
+        }
+        map.put("limit", DEFAULT_REQUEST_DYNAMIC_COUNT);
     }
 
     @Override
