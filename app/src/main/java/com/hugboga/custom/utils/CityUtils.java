@@ -275,11 +275,18 @@ public class CityUtils {
     }
 
 
-    public static List<SearchGroupBean> getLeve3City(Activity activity,int group_id) {
+    public static List<SearchGroupBean> getLevel3City(Activity activity,int group_id) {
         try {
             List<SearchGroupBean> list = new ArrayList<>();
-            list.addAll(getType21City(activity,group_id));
-            list.addAll(getType31City(activity,group_id));
+
+            List<SearchGroupBean> list1 = getType21City(activity,group_id);
+            List<SearchGroupBean> list2 = getType21City(activity,group_id);
+            if(null != list1) {
+                list.addAll(list1);
+            }
+            if(null != list2) {
+                list.addAll(list2);
+            }
             return list;
         }catch (Exception e){
             e.printStackTrace();

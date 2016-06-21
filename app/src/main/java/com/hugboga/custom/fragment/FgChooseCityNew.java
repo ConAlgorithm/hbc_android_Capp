@@ -62,11 +62,14 @@ public class FgChooseCityNew extends BaseFragment {
 
     LevelCityAdapter levelCityAdapterLeft,levelCityAdapterMiddle,levelCityAdapterRight;
     List<SearchGroupBean> groupList;
+    List<SearchGroupBean> groupList2;
+    List<SearchGroupBean> groupList3;
     @Override
     protected void initView() {
         leftList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                rightList.setVisibility(View.GONE);
                 for(SearchGroupBean lineGroupBean:groupList){
                     lineGroupBean.isSelected = false;
                 }
@@ -84,7 +87,7 @@ public class FgChooseCityNew extends BaseFragment {
                 lineGroupBean.flag = 2;
                 lineGroupBean.group_name = "全境";
                 lineGroupBean.isSelected = true;
-                List<SearchGroupBean> groupList2 = new ArrayList<>();
+                groupList2 = new ArrayList<>();
                 groupList2.add(0,lineGroupBean);
                 groupList2.addAll(CityUtils.getLevel2City(getActivity(),groupList.get(position).group_id));
                 levelCityAdapterMiddle.setList(groupList2);
@@ -94,6 +97,44 @@ public class FgChooseCityNew extends BaseFragment {
 
             }
         });
+
+        middleList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                rightList.setVisibility(View.GONE);
+                for(SearchGroupBean lineGroupBean:groupList2){
+                    lineGroupBean.isSelected = false;
+                }
+
+                for(int i = 0;i< groupList.size();i++){
+                    if(i == position) {
+                        groupList2.get(i).isSelected = true;
+                        levelCityAdapterMiddle.notifyDataSetChanged();
+                    }
+                }
+
+                levelCityAdapterRight = new LevelCityAdapter(getActivity());
+                List<SearchGroupBean> list3 = CityUtils.getLevel3City(getActivity(),groupList.get(position).group_id);
+                if(null == list3){
+                    rightList.setVisibility(View.GONE);
+                }else{
+                    SearchGroupBean lineGroupBean = new SearchGroupBean();
+                    lineGroupBean.group_id = 0;
+                    lineGroupBean.flag = 3;
+                    lineGroupBean.group_name = "全境";
+                    lineGroupBean.isSelected = true;
+                    groupList3 = new ArrayList<>();
+                    groupList3.add(0,lineGroupBean);
+                    rightList.setVisibility(View.VISIBLE);
+                    groupList3.addAll(list3);
+                    levelCityAdapterRight.setList(groupList3);
+                    levelCityAdapterRight.notifyDataSetChanged();
+                    rightList.setAdapter(levelCityAdapterRight);
+                }
+            }
+        });
+
+
         levelCityAdapterLeft = new LevelCityAdapter(getActivity());
         SearchGroupBean lineGroupBean = new SearchGroupBean();
         lineGroupBean.group_id = 0;
