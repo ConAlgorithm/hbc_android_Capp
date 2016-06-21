@@ -50,24 +50,20 @@ import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.net.UrlLibs;
-import com.hugboga.custom.data.request.RequestLogin;
-import com.hugboga.custom.data.request.RequestLoginCheckOpenId;
 import com.hugboga.custom.data.request.RequestPushClick;
 import com.hugboga.custom.data.request.RequestPushToken;
 import com.hugboga.custom.data.request.RequestUploadLocation;
 import com.hugboga.custom.data.request.RequestUserInfo;
-import com.hugboga.custom.fragment.BaseFragment;
 import com.hugboga.custom.fragment.FgActivity;
 import com.hugboga.custom.fragment.FgChat;
+import com.hugboga.custom.fragment.FgChooseCityNew;
 import com.hugboga.custom.fragment.FgCollectGuideList;
 import com.hugboga.custom.fragment.FgCoupon;
-import com.hugboga.custom.fragment.FgGuideDetail;
 import com.hugboga.custom.fragment.FgHome;
 import com.hugboga.custom.fragment.FgIMChat;
 import com.hugboga.custom.fragment.FgInsure;
 import com.hugboga.custom.fragment.FgInviteFriends;
 import com.hugboga.custom.fragment.FgLogin;
-import com.hugboga.custom.fragment.FgOrder;
 import com.hugboga.custom.fragment.FgOrderDetail;
 import com.hugboga.custom.fragment.FgPersonInfo;
 import com.hugboga.custom.fragment.FgServicerCenter;
@@ -108,8 +104,7 @@ import java.util.TimerTask;
 import cn.jpush.android.api.JPushInterface;
 import de.greenrobot.event.EventBus;
 
-import static android.R.attr.data;
-import de.greenrobot.event.EventBus;
+import static com.hugboga.custom.fragment.BaseFragment.KEY_BUSINESS_TYPE;
 
 @ContentView(R.layout.activity_main)
 public class MainActivity extends BaseActivity
@@ -552,6 +547,13 @@ public class MainActivity extends BaseActivity
                 mViewPager.setCurrentItem(0);
                 break;
             case R.id.tab_text_2:
+//TODO;
+                Bundle bundle = new Bundle();
+                HashMap<String,String> map = new HashMap<String,String>();
+                bundle.putInt(KEY_BUSINESS_TYPE, Constants.BUSINESS_TYPE_HOME);
+                bundle.putString("source","小搜索按钮");
+                startFragment(new FgChooseCityNew(), bundle);
+
                 mViewPager.setCurrentItem(1);
                 break;
             case R.id.tab_text_3:
