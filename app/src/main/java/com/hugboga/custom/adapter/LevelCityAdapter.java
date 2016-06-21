@@ -11,14 +11,14 @@ import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.adapter.BaseAdapter;
 import com.hugboga.custom.R;
-import com.hugboga.custom.data.bean.LineGroupBean;
+import com.hugboga.custom.data.bean.SearchGroupBean;
 
 import java.util.List;
 
-public class LevelCityAdapter extends BaseAdapter<LineGroupBean> {
+public class LevelCityAdapter extends BaseAdapter<SearchGroupBean> {
 
     Context mContext;
-    List<LineGroupBean> list;
+    List<SearchGroupBean> list;
     public LevelCityAdapter(Context context) {
         super(context);
         mContext = context;
@@ -41,7 +41,7 @@ public class LevelCityAdapter extends BaseAdapter<LineGroupBean> {
     }
 
     @Override
-    public LineGroupBean getItem(int position) {
+    public SearchGroupBean getItem(int position) {
         return list.get(position);
     }
 
@@ -63,17 +63,49 @@ public class LevelCityAdapter extends BaseAdapter<LineGroupBean> {
             viewHolder = (ViewHolder)convertView.getTag();
         }
 
-        viewHolder.name.setText(getItem(position).group_name);
-        if(getItem(position).isSelected){
-            convertView.setBackgroundColor(Color.parseColor("#fcd633"));
-            viewHolder.image.setVisibility(View.VISIBLE);
-        }else{
+        if(getItem(position).flag == 1){
+            viewHolder.name.setText(getName(position,getItem(position).type));
+            if(getItem(position).isSelected){
+                convertView.setBackgroundColor(Color.parseColor("#fcd633"));
+                viewHolder.image.setVisibility(View.VISIBLE);
+                viewHolder.image.setImageResource(R.mipmap.search_triangle);
+            }else{
+                convertView.setBackgroundColor(Color.parseColor("#edeeef"));
+                viewHolder.image.setVisibility(View.GONE);
+            }
+        }else if(getItem(position).flag == 2){
+            viewHolder.name.setText(getName(position,getItem(position).type));
             convertView.setBackgroundColor(Color.parseColor("#ffffff"));
-            viewHolder.image.setVisibility(View.GONE);
+            if(getItem(position).isSelected){
+                viewHolder.name.setTextColor(Color.parseColor("#fcd633"));
+                viewHolder.image.setVisibility(View.VISIBLE);
+                viewHolder.image.setImageResource(R.mipmap.search_triangle2);
+            }else{
+                viewHolder.name.setTextColor(Color.parseColor("#000000"));
+                viewHolder.image.setVisibility(View.GONE);
+            }
+        }else if(getItem(position).flag == 3){
+            viewHolder.name.setText(getName(position,getItem(position).type));
+            convertView.setBackgroundColor(Color.parseColor("#ffffff"));
+            if(getItem(position).isSelected){
+                viewHolder.name.setTextColor(Color.parseColor("#fcd633"));
+            }else{
+                viewHolder.name.setTextColor(Color.parseColor("#000000"));
+            }
         }
 
-
         return convertView;
+    }
+
+
+    private String getName(int position,int type){
+        if(type == 2){
+            return getItem(position).sub_place_name;
+        }else if(type == 3){
+            return getItem(position).sub_city_name;
+        }else{
+            return getItem(position).group_name;
+        }
     }
 
     private static class ViewHolder{

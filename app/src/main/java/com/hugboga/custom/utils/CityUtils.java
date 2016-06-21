@@ -5,6 +5,8 @@ import android.app.Activity;
 
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.LineGroupBean;
+import com.hugboga.custom.data.bean.LineGroupItem;
+import com.hugboga.custom.data.bean.SearchGroupBean;
 
 import org.xutils.DbManager;
 import org.xutils.db.Selector;
@@ -90,14 +92,22 @@ public class CityUtils {
     -- 查询第一级线路圈
     select * from line_group where level=1;
 
-    -- 查询每个线路圈对应的子组/子国家/子城市
-    -- 组 parentType 1.组 2.国家
-    select * from line_group where parent_type=#{parentType} and parent_id=#{选择的组/国家ID}
+     -- 查询每个线路圈对应的子组/子国家/子城市
+     -- 组 parentType 1.组 2.国家
+     select * from line_group where parent_type=1 and parent_id=#{选择的组ID}
 
-    -- 国家
-    select * from line_group_item where type=2 and group_id=#{选择的组ID};
-    -- 城市
-    select * from line_group_item where type=3 and group_id=#{选择的组ID};
+     -- 国家
+     select * from line_group_item where type=2 and group_id=#{选择的组ID};
+     -- 城市
+     select * from line_group_item where type=3 and group_id=#{选择的组ID};
+
+
+     -- 查询国家下的子组/城市 （国家下没有国家）
+     -- 组
+     select * from line_group where parent_type=2 and parent_id=#{选择的国家ID}
+
+     -- 城市
+     select distinct * from line_group_item where sub_place_id=#{选择的国家ID};
 
 
     -- 关键字查询 城市
@@ -112,20 +122,168 @@ public class CityUtils {
     **/
 
 
+   public static  List<SearchGroupBean> lineGroupBeanAdapter(List<LineGroupBean> list,int flag){
+       List<SearchGroupBean> searchList = new ArrayList<>();
+       SearchGroupBean searchGroupBean = null;
+       for(LineGroupBean bean:list){
+           searchGroupBean = new SearchGroupBean();
+           searchGroupBean.group_id = bean.group_id;
+           searchGroupBean.group_name = bean.group_name;
+           searchGroupBean.flag = flag;
+           searchList.add(searchGroupBean);
+       }
+       return searchList;
+   }
 
-    public static List<LineGroupBean> getLevel1City(Activity activity) {
+    public static  List<SearchGroupBean> lineGroupItemAdapter(List<LineGroupItem> list,int flag){
+        List<SearchGroupBean> searchList = new ArrayList<>();
+        SearchGroupBean searchGroupBean = null;
+        for(LineGroupItem bean:list){
+            searchGroupBean = new SearchGroupBean();
+            searchGroupBean.group_id = bean.group_id;
+            searchGroupBean.group_name = bean.group_name;
+            searchGroupBean.sub_place_id = bean.sub_place_id;
+            searchGroupBean.sub_place_name = bean.sub_place_name;
+            searchGroupBean.sub_city_id = bean.sub_city_id;
+            searchGroupBean.sub_city_name = bean.sub_city_name;
+            searchGroupBean.type = bean.type;
+            searchGroupBean.flag = flag;
+            searchList.add(searchGroupBean);
+        }
+        return searchList;
+    }
+
+
+    public static List<SearchGroupBean> getLevel1City(Activity activity) {
         try {
             DbManager mDbManager = new DBHelper(activity).getDbManager();
             Selector selector = null;
             selector = mDbManager.selector(LineGroupBean.class);
             selector.where("level", "=", 1);
             selector.orderBy("hot_weight", true);
-            selector.limit(30);
-            return selector.findAll();
+            List<LineGroupBean> list = selector.findAll();
+            return lineGroupBeanAdapter(list,1);
+        }catch (Exception e){
+            e.printStackTrace();
+           return null;
+        }
+    }
+
+//    -- 组 parentType 1.组 2.国家
+//    select * from line_group where parent_type=1 and parent_id=#{选择的组ID}
+
+    public static List<SearchGroupBean> getType1City(Activity activity,int group_id) {
+        try {
+            DbManager mDbManager = new DBHelper(activity).getDbManager();
+            Selector selector = null;
+            selector = mDbManager.selector(LineGroupBean.class);
+            selector.where("parent_type", "=", 1);
+            selector.and("parent_id", "=",group_id);
+            List<LineGroupBean> list = selector.findAll();
+            return lineGroupBeanAdapter(list,2);
         }catch (Exception e){
             e.printStackTrace();
             return null;
         }
     }
 
+
+//    -- 国家
+//    select * from line_group_item where type=2 and group_id=#{选择的组ID};
+
+    public static List<SearchGroupBean> getType2City(Activity activity,int group_id) {
+        try {
+            DbManager mDbManager = new DBHelper(activity).getDbManager();
+            Selector selector = null;
+            selector = mDbManager.selector(LineGroupItem.class);
+            selector.where("type", "=", 2);
+            selector.and("group_id", "=",group_id);
+            List<LineGroupItem> list = selector.findAll();
+            return lineGroupItemAdapter(list,2);
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
+//    -- 城市
+//    select * from line_group_item where type=3 and group_id=#{选择的组ID};
+    public static List<SearchGroupBean> getType3City(Activity activity,int group_id) {
+        try {
+            DbManager mDbManager = new DBHelper(activity).getDbManager();
+            Selector selector = null;
+            selector = mDbManager.selector(LineGroupItem.class);
+            selector.where("type", "=", 3);
+            selector.and("group_id", "=",group_id);
+            List<LineGroupItem> list = selector.findAll();
+            return lineGroupItemAdapter(list,2);
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
+    public static List<SearchGroupBean> getLevel2City(Activity activity,int group_id) {
+        try {
+            List<SearchGroupBean> list = new ArrayList<>();
+            list.addAll(getType1City(activity,group_id));
+            list.addAll(getType2City(activity,group_id));
+            list.addAll(getType3City(activity,group_id));
+            return list;
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
+//    -- 查询国家下的子组/城市 （国家下没有国家）
+//            -- 组
+//    select * from line_group where parent_type=2 and parent_id=#{选择的国家ID}
+    public static List<SearchGroupBean> getType21City(Activity activity,int group_id) {
+        try {
+            DbManager mDbManager = new DBHelper(activity).getDbManager();
+            Selector selector = null;
+            selector = mDbManager.selector(LineGroupBean.class);
+            selector.where("parent_type", "=", 2);
+            selector.and("parent_id", "=",group_id);
+            List<LineGroupBean> list = selector.findAll();
+            return lineGroupBeanAdapter(list,3);
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+//    -- 城市
+//    select distinct * from line_group_item where sub_place_id=#{选择的国家ID};
+
+    public static List<SearchGroupBean> getType31City(Activity activity,int group_id) {
+        try {
+            DbManager mDbManager = new DBHelper(activity).getDbManager();
+            Selector selector = null;
+            selector = mDbManager.selector(LineGroupItem.class);
+            selector.and("sub_place_id", "=",group_id);
+            List<LineGroupItem> list = selector.findAll();
+            return lineGroupItemAdapter(list,3);
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
+    public static List<SearchGroupBean> getLeve3City(Activity activity,int group_id) {
+        try {
+            List<SearchGroupBean> list = new ArrayList<>();
+            list.addAll(getType21City(activity,group_id));
+            list.addAll(getType31City(activity,group_id));
+            return list;
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

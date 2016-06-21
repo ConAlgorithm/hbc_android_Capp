@@ -8,7 +8,7 @@ import org.xutils.db.annotation.Column;
 import org.xutils.db.annotation.Table;
 
 @Table(name = "line_group")
-public class LineGroupBean implements IBaseBean ,Parcelable  {
+public class LineGroupBean  implements  IBaseBean,Parcelable{
 
     @Column(name = "group_id", isId = true)
     public int group_id;

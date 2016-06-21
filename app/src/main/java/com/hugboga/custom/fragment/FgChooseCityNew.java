@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -13,12 +14,16 @@ import android.widget.TextView;
 
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.LevelCityAdapter;
+import com.hugboga.custom.data.bean.SearchGroupBean;
 import com.hugboga.custom.utils.CityUtils;
+
+import org.xutils.common.Callback;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-
-import org.xutils.common.Callback;
 
 
 public class FgChooseCityNew extends BaseFragment {
@@ -55,11 +60,50 @@ public class FgChooseCityNew extends BaseFragment {
     }
 
 
-    LevelCityAdapter levelCityAdapterLeft;
+    LevelCityAdapter levelCityAdapterLeft,levelCityAdapterMiddle,levelCityAdapterRight;
+    List<SearchGroupBean> groupList;
     @Override
     protected void initView() {
+        leftList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                for(SearchGroupBean lineGroupBean:groupList){
+                    lineGroupBean.isSelected = false;
+                }
+
+                for(int i = 0;i< groupList.size();i++){
+                    if(i == position) {
+                        groupList.get(i).isSelected = true;
+                        levelCityAdapterLeft.notifyDataSetChanged();
+                    }
+                }
+
+                levelCityAdapterMiddle = new LevelCityAdapter(getActivity());
+                SearchGroupBean lineGroupBean = new SearchGroupBean();
+                lineGroupBean.group_id = 0;
+                lineGroupBean.flag = 2;
+                lineGroupBean.group_name = "全境";
+                lineGroupBean.isSelected = true;
+                List<SearchGroupBean> groupList2 = new ArrayList<>();
+                groupList2.add(0,lineGroupBean);
+                groupList2.addAll(CityUtils.getLevel2City(getActivity(),groupList.get(position).group_id));
+                levelCityAdapterMiddle.setList(groupList2);
+                levelCityAdapterMiddle.notifyDataSetChanged();
+                middleList.setAdapter(levelCityAdapterMiddle);
+
+
+            }
+        });
         levelCityAdapterLeft = new LevelCityAdapter(getActivity());
-        levelCityAdapterLeft.setList(CityUtils.getLevel1City(getActivity()));
+        SearchGroupBean lineGroupBean = new SearchGroupBean();
+        lineGroupBean.group_id = 0;
+        lineGroupBean.flag = 1;
+        lineGroupBean.group_name = "热门";
+        lineGroupBean.isSelected = true;
+        groupList = new ArrayList<>();
+        groupList.add(0,lineGroupBean);
+        groupList.addAll(CityUtils.getLevel1City(getActivity()));
+        levelCityAdapterLeft.setList(groupList);
         leftList.setAdapter(levelCityAdapterLeft);
         levelCityAdapterLeft.notifyDataSetChanged();
     }
