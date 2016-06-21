@@ -492,7 +492,6 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
 
     //途径城市
     String passCities = "";
-    CityBean preCityBean= null;
     private void initSelectPeoplePop(boolean isEndDay) {
         view = LayoutInflater.from(this.getActivity()).inflate(R.layout.pop_select_people, null);
         scope_layout = (LinearLayout) view.findViewById(R.id.scope_layout);
@@ -506,11 +505,11 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
         in_tips = (TextView) view.findViewById(R.id.in_tips);
         other_tips = (TextView) view.findViewById(R.id.other_tips);
 
-        if(currentIndex > 0) {
-            preCityBean = passBeanList.get(currentIndex - 1);
-        }else{
-            preCityBean = startBean;
-        }
+//        if(currentIndex > 0) {
+//            preCityBean = passBeanList.get(currentIndex);
+//        }else{
+//            preCityBean = startBean;
+//        }
 
         if (isEndDay) {
             in_title.setText("在" + preCityBean.name + "市内结束行程,市内游玩");
@@ -685,9 +684,9 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
         }
     }
 
-//    CityBean preCityBean;
+    CityBean preCityBean;
     public void initScopeLayoutValue(boolean isEndDay) {
-        CityBean preCityBean = (passBeanList.size() == 0 || currentIndex ==0 )?startBean:passBeanList.get(currentIndex -1);
+        preCityBean = (passBeanList.size() == 0 || currentIndex ==0 )?startBean:passBeanList.get(currentIndex -1);
         if (isEndDay) {
             scope_in_str = "在" + preCityBean.name + "市内结束行程,市内游玩";
             scope_around_str = "在" + preCityBean.name + "市内结束行程,周边游玩";
