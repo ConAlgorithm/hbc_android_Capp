@@ -2,7 +2,9 @@ package com.hugboga.custom.fragment;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +21,7 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.LevelCityAdapter;
 import com.hugboga.custom.data.bean.SearchGroupBean;
 import com.hugboga.custom.utils.CityUtils;
+import com.hugboga.custom.utils.LogUtils;
 import com.hugboga.custom.utils.ToastUtils;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.FlowLayout;
@@ -102,6 +105,26 @@ public class FgChooseCityNew extends BaseFragment {
     @Override
     protected void initView() {
         genHistoryCity();
+
+        headSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(!TextUtils.isEmpty(headSearch.getText())) {
+                   List<SearchGroupBean> list =  CityUtils.searchCity(getActivity(), headSearch.getText().toString());
+                    LogUtils.e(list.toString());
+                }
+            }
+        });
 
         leftList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

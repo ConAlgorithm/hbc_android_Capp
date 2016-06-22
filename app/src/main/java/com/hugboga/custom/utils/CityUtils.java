@@ -116,13 +116,20 @@ public class CityUtils {
 
  -- 搜索部分查询
  -- 关键字查询 城市
- select gi.*, 1 as rank from line_group_item as gi where type=3 and sub_city_name like '巴里%' union select gi.*, 2 as rank from line_group_item as gi where type=3 and sub_city_name like '%巴里%' and sub_city_name not like '巴里%' order by rank;
+ select gi.*, 1 as rank from line_group_item as gi where type=3 and sub_city_name like '巴里%'
+ union
+ select gi.*, 2 as rank from line_group_item as gi where type=3 and sub_city_name like '%巴里%' and sub_city_name not like '巴里%' order by rank;
 
  -- 关键字查询 线路圈
- select * from (select gp.*, 1 as rank from line_group as gp where group_name like '新增%' union select gp.*, 2 as rank from line_group as gp where group_name like '%新增%' and group_name not like '新增%') order by level, rank;
+ select * from (select gp.*, 1 as rank from line_group as gp where group_name like '新增%'
+ union
+ select gp.*, 2 as rank from line_group as gp where group_name like '%新增%' and group_name not like '新增%') order by level, rank;
 
  -- 关键字查询 国家
- select gi.*, 1 as rank from line_group_item as gi where type=2 and sub_place_name like '意%' union select gi.*, 2 as rank from line_group_item as gi where type=2 and sub_place_name like '%意%' and sub_place_name not like '意%';
+ select gi.*, 1 as rank from line_group_item as gi where type=2 and sub_place_name like '意%'
+ union
+ select gi.*, 2 as rank from line_group_item as gi where type=2 and sub_place_name like '%意%' and sub_place_name not like '意%';
+
     **/
 
 
@@ -446,5 +453,52 @@ public class CityUtils {
             }
             return "";
 
+    }
+
+
+/**
+    -- 搜索部分查询
+    -- 关键字查询 城市
+    select gi.*, 1 as rank from line_group_item as gi where type=3 and sub_city_name like '巴里%'
+    union
+    select gi.*, 2 as rank from line_group_item as gi where type=3 and sub_city_name like '%巴里%' and sub_city_name not like '巴里%' order by rank;
+
+    -- 关键字查询 线路圈
+    select * from (select gp.*, 1 as rank from line_group as gp where group_name like '新增%'
+            union
+            select gp.*, 2 as rank from line_group as gp where group_name like '%新增%' and group_name not like '新增%') order by level, rank;
+
+    -- 关键字查询 国家
+    select gi.*, 1 as rank from line_group_item as gi where type=2 and sub_place_name like '意%'
+    union
+    select gi.*, 2 as rank from line_group_item as gi where type=2 and sub_place_name like '%意%' and sub_place_name not like '意%';
+
+    **/
+
+    public static List<SearchGroupBean> searchCity(Activity activity,String key){
+        try {
+            DbManager mDbManager = new DBHelper(activity).getDbManager();
+            Selector selector = null;
+            selector = mDbManager.selector(LineGroupItem.class);
+            selector.where("type","=",3);
+            selector.and("sub_city_name","like",key+"%");
+            List<LineGroupItem> list1 = selector.findAll();
+
+            selector = mDbManager.selector(LineGroupItem.class);
+            selector.where("type","=",3);
+            selector.and("sub_city_name","like","%"+key+"%");
+            selector.and("sub_city_name","not like",key+"%");
+            selector.orderBy("rank");
+            List<LineGroupItem> list2 = selector.findAll();
+
+            List<LineGroupItem> list = selector.findAll();
+            list.addAll(list1);
+            list.addAll(list2);
+
+            return lineGroupItemAdapter(list,2);
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
     }
 }
