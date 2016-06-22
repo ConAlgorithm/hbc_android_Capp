@@ -75,4 +75,5 @@
     <dimen name="letter_img_point_width_x">18dp</dimen>
 
     <dimen name="home_view_padding_left">15dp</dimen>
+    <dimen name="home_search_layout_height">54dp</dimen>
 </resources>

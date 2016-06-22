@@ -21,6 +21,7 @@ import android.content.Context;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Scroller;
 
@@ -52,6 +53,7 @@ public class LoopViewPager extends ViewPager {
     private PagerAdapter mAdaper;
     private boolean mBoundaryCaching = DEFAULT_BOUNDARY_CASHING;
     private int mDuration = 300;
+    private boolean isCanScroll = false;
 
     public LoopViewPager(Context context) {
         this(context, null);
@@ -225,6 +227,36 @@ public class LoopViewPager extends ViewPager {
         @Override
         public void startScroll(int startX, int startY, int dx, int dy) {
             super.startScroll(startX, startY, dx, dy, mDuration);
+        }
+    }
+
+    public void setScanScroll(boolean isCanScroll){
+        this.isCanScroll = isCanScroll;
+    }
+
+//    @Override
+//    public void scrollTo(int x, int y) {
+//        if (isCanScroll) {
+//            super.scrollTo(x, y);
+//        }
+//    }
+
+
+    @Override
+    public boolean onTouchEvent(MotionEvent ev) {
+        if (isCanScroll == false) {
+            return false;
+        } else {
+            return super.onTouchEvent(ev);
+        }
+    }
+
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        if (isCanScroll == false) {
+            return false;
+        } else {
+            return super.onInterceptTouchEvent(ev);
         }
     }
 }
