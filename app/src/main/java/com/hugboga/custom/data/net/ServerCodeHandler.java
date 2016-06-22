@@ -59,6 +59,10 @@ public class ServerCodeHandler implements ServerCodeHandlerInterface {
                 });
                 EventBus.getDefault().post(new EventAction(EventType.CLICK_USER_LOOUT));
                 return true;
+//TODO;强制升级待处理
+            case 10015:
+
+                return true;
 
         }
         return false;
