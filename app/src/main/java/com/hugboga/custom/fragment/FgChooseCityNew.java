@@ -144,35 +144,43 @@ public class FgChooseCityNew extends BaseFragment {
                     startFragment(fgOrderSelectCity, bundle);
                     finish();
                 }else {
-                    for (SearchGroupBean lineGroupBean : groupList2) {
-                        lineGroupBean.isSelected = false;
-                    }
 
-                    for (int i = 0; i < groupList.size(); i++) {
-                        if (i == position) {
-                            groupList2.get(i).isSelected = true;
-                            levelCityAdapterMiddle.notifyDataSetChanged();
+                    if(CityUtils.canGoCityList(groupList2.get(position))){
+                        FgSkuList fgSkuList = new FgSkuList();
+                        startFragment(fgSkuList);
+                        finish();
+                    }else {
+                        for (SearchGroupBean lineGroupBean : groupList2) {
+                            lineGroupBean.isSelected = false;
                         }
-                    }
 
-                    levelCityAdapterRight = new LevelCityAdapter(getActivity());
-                    List<SearchGroupBean> list3 = CityUtils.getLevel3City(getActivity(), groupList2.get(position).sub_place_id);
-                    if (null == list3) {
-                        rightList.setVisibility(View.GONE);
-                        goCityList(groupList2.get(position));
-                    } else {
-                        SearchGroupBean lineGroupBean = new SearchGroupBean();
-                        lineGroupBean.group_id = 0;
-                        lineGroupBean.flag = 3;
-                        lineGroupBean.group_name = "全境";
-                        lineGroupBean.isSelected = false;
-                        groupList3 = new ArrayList<>();
-                        groupList3.add(0, lineGroupBean);
-                        rightList.setVisibility(View.VISIBLE);
-                        groupList3.addAll(list3);
-                        levelCityAdapterRight.setList(groupList3);
-                        levelCityAdapterRight.notifyDataSetChanged();
-                        rightList.setAdapter(levelCityAdapterRight);
+                        for (int i = 0; i < groupList.size(); i++) {
+                            if (i == position) {
+                                groupList2.get(i).isSelected = true;
+                                levelCityAdapterMiddle.notifyDataSetChanged();
+                            }
+                        }
+
+                        levelCityAdapterRight = new LevelCityAdapter(getActivity());
+                        List<SearchGroupBean> list3 = CityUtils.getLevel3City(getActivity(), groupList2.get(position).sub_place_id);
+                        if (null == list3) {
+                            rightList.setVisibility(View.GONE);
+                            goCityList(groupList2.get(position));
+                        } else {
+                            SearchGroupBean lineGroupBean = new SearchGroupBean();
+                            lineGroupBean.group_id = 0;
+                            lineGroupBean.flag = 3;
+                            lineGroupBean.type = 1;
+                            lineGroupBean.group_name = "全境";
+                            lineGroupBean.isSelected = false;
+                            groupList3 = new ArrayList<>();
+                            groupList3.add(0, lineGroupBean);
+                            rightList.setVisibility(View.VISIBLE);
+                            groupList3.addAll(list3);
+                            levelCityAdapterRight.setList(groupList3);
+                            levelCityAdapterRight.notifyDataSetChanged();
+                            rightList.setAdapter(levelCityAdapterRight);
+                        }
                     }
                 }
             }
@@ -192,6 +200,7 @@ public class FgChooseCityNew extends BaseFragment {
         SearchGroupBean lineGroupBean = new SearchGroupBean();
         lineGroupBean.group_id = 0;
         lineGroupBean.flag = 1;
+        lineGroupBean.type = 1;
         lineGroupBean.group_name = "热门";
         lineGroupBean.isSelected = true;
         groupList = new ArrayList<>();
@@ -214,6 +223,7 @@ public class FgChooseCityNew extends BaseFragment {
             SearchGroupBean lineGroupBean = new SearchGroupBean();
             lineGroupBean.group_id = 0;
             lineGroupBean.flag = 2;
+            lineGroupBean.type = 1;
             lineGroupBean.group_name = "全境";
             lineGroupBean.isSelected = false;
             groupList2 = new ArrayList<>();

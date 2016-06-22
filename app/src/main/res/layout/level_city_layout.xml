@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:background="#edeeef"
+    android:descendantFocusability="blocksDescendants"
     android:layout_height="match_parent">
 
     <TextView android:id="@+id/city_name"

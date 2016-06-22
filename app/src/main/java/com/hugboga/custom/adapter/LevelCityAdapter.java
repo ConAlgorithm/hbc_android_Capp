@@ -90,6 +90,7 @@ public class LevelCityAdapter extends BaseAdapter<SearchGroupBean> {
                 viewHolder.image.setVisibility(View.GONE);
             }
         }else if(getItem(position).flag == 3){
+            viewHolder.middle_line.setVisibility(View.GONE);
             viewHolder.right_line.setVisibility(View.VISIBLE);
             viewHolder.name.setText(getName(position,getItem(position).flag));
             convertView.setBackgroundColor(Color.parseColor("#ffffff"));

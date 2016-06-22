@@ -134,6 +134,7 @@ public class CityUtils {
            searchGroupBean = new SearchGroupBean();
            searchGroupBean.group_id = bean.group_id;
            searchGroupBean.group_name = bean.group_name;
+           searchGroupBean.type = 1;
            searchGroupBean.flag = flag;
            searchList.add(searchGroupBean);
        }
@@ -147,10 +148,13 @@ public class CityUtils {
             searchGroupBean = new SearchGroupBean();
             searchGroupBean.group_id = bean.group_id;
             searchGroupBean.group_name = bean.group_name;
+
             searchGroupBean.sub_place_id = bean.sub_place_id;
             searchGroupBean.sub_place_name = bean.sub_place_name;
+
             searchGroupBean.sub_city_id = bean.sub_city_id;
             searchGroupBean.sub_city_name = bean.sub_city_name;
+
             searchGroupBean.type = bean.type;
             searchGroupBean.flag = flag;
             searchList.add(searchGroupBean);
@@ -382,5 +386,23 @@ public class CityUtils {
         }catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+
+    //type 1 组  2,国家  3, 城市
+    //热门   type 1 = 城市   2, 国家
+    public static boolean canGoCityList(SearchGroupBean searchGroupBean ){
+        if(searchGroupBean.flag == 2){
+            if(searchGroupBean.type == 1){
+                return true;
+            }else if(searchGroupBean.type == 2){
+                return false;
+            }else if(searchGroupBean.type == 3){
+                return true;
+            }
+        }else if(searchGroupBean.flag == 4){
+            return true;
+        }
+        return true;
     }
 }
