@@ -301,7 +301,6 @@ public class CityUtils {
     public static List<SearchGroupBean> getLevel3City(Activity activity,int group_id) {
         try {
             List<SearchGroupBean> list = new ArrayList<>();
-
             List<SearchGroupBean> list1 = getType21City(activity,group_id);
             List<SearchGroupBean> list2 = getType31City(activity,group_id);
             if(null != list1 && list1.size() > 0) {
@@ -433,7 +432,13 @@ public class CityUtils {
                     return searchGroupBean.sub_city_name;
                 }
             }else if(searchGroupBean.flag == 3){
-                return searchGroupBean.sub_city_name;
+                if(searchGroupBean.type == 1){
+                    return searchGroupBean.group_name;
+                }else if(searchGroupBean.type == 2){
+                    return searchGroupBean.sub_place_name;
+                }else if(searchGroupBean.type == 3){
+                    return searchGroupBean.sub_city_name;
+                }
             }else if(searchGroupBean.flag == 1){
                 return searchGroupBean.group_name;
             }else if(searchGroupBean.flag == 4){

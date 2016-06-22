@@ -140,7 +140,13 @@ public class LevelCityAdapter extends BaseAdapter<SearchGroupBean> {
                 return getItem(position).sub_city_name;
             }
         }else if(flag == 3){
-            return getItem(position).sub_city_name;
+            if(getItem(position).type == 1){
+                return getItem(position).group_name;
+            }else if(getItem(position).type == 2){
+                return getItem(position).sub_place_name;
+            }else if(getItem(position).type == 3){
+                return getItem(position).sub_city_name;
+            }
         }else if(flag == 1){
             return getItem(position).group_name;
         }else if(flag == 4){
