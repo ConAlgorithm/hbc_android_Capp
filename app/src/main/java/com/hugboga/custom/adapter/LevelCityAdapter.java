@@ -58,13 +58,17 @@ public class LevelCityAdapter extends BaseAdapter<SearchGroupBean> {
             viewHolder = new ViewHolder();
             viewHolder.name = (TextView)convertView.findViewById(R.id.city_name);
             viewHolder.image = (ImageView)convertView.findViewById(R.id.right_img);
+            viewHolder.cityImg = (ImageView)convertView.findViewById(R.id.city_img);
+            viewHolder.middle_line = (TextView)convertView.findViewById(R.id.middle_line);
+            viewHolder.right_line = (TextView)convertView.findViewById(R.id.right_line);
+
             convertView.setTag(viewHolder);
         }else{
             viewHolder = (ViewHolder)convertView.getTag();
         }
 
         if(getItem(position).flag == 1){
-            viewHolder.name.setText(getName(position,getItem(position).type));
+            viewHolder.name.setText(getName(position,getItem(position).flag));
             if(getItem(position).isSelected){
                 convertView.setBackgroundColor(Color.parseColor("#fcd633"));
                 viewHolder.image.setVisibility(View.VISIBLE);
@@ -74,23 +78,50 @@ public class LevelCityAdapter extends BaseAdapter<SearchGroupBean> {
                 viewHolder.image.setVisibility(View.GONE);
             }
         }else if(getItem(position).flag == 2){
-            viewHolder.name.setText(getName(position,getItem(position).type));
+            viewHolder.name.setText(getName(position,getItem(position).flag));
             convertView.setBackgroundColor(Color.parseColor("#ffffff"));
+            viewHolder.middle_line.setVisibility(View.VISIBLE);
             if(getItem(position).isSelected){
                 viewHolder.name.setTextColor(Color.parseColor("#fcd633"));
                 viewHolder.image.setVisibility(View.VISIBLE);
                 viewHolder.image.setImageResource(R.mipmap.search_triangle2);
             }else{
-                viewHolder.name.setTextColor(Color.parseColor("#000000"));
+                viewHolder.name.setTextColor(Color.parseColor("#666666"));
                 viewHolder.image.setVisibility(View.GONE);
             }
         }else if(getItem(position).flag == 3){
-            viewHolder.name.setText(getName(position,getItem(position).type));
+            viewHolder.right_line.setVisibility(View.VISIBLE);
+            viewHolder.name.setText(getName(position,getItem(position).flag));
             convertView.setBackgroundColor(Color.parseColor("#ffffff"));
             if(getItem(position).isSelected){
                 viewHolder.name.setTextColor(Color.parseColor("#fcd633"));
             }else{
-                viewHolder.name.setTextColor(Color.parseColor("#000000"));
+                viewHolder.name.setTextColor(Color.parseColor("#666666"));
+            }
+        }else if(getItem(position).flag == 4){
+            viewHolder.middle_line.setVisibility(View.GONE);
+            if(getItem(position).spot_id == -1){
+                viewHolder.name.setText("");
+                viewHolder.cityImg.setVisibility(View.VISIBLE);
+                viewHolder.cityImg.setImageResource(R.mipmap.search_transfer);
+            }else if(getItem(position).spot_id == -2){
+                viewHolder.name.setText("");
+                viewHolder.cityImg.setVisibility(View.VISIBLE);
+                viewHolder.cityImg.setImageResource(R.mipmap.search_single);
+            }else if(getItem(position).spot_id == -3){
+                viewHolder.name.setText("");
+                viewHolder.cityImg.setVisibility(View.VISIBLE);
+                viewHolder.cityImg.setImageResource(R.mipmap.search_car);
+            }else {
+                viewHolder.middle_line.setVisibility(View.VISIBLE);
+                viewHolder.cityImg.setVisibility(View.GONE);
+                viewHolder.name.setText(getName(position, getItem(position).flag));
+            }
+            convertView.setBackgroundColor(Color.parseColor("#ffffff"));
+            if(getItem(position).isSelected){
+                viewHolder.name.setTextColor(Color.parseColor("#fcd633"));
+            }else{
+                viewHolder.name.setTextColor(Color.parseColor("#666666"));
             }
         }
 
@@ -98,18 +129,31 @@ public class LevelCityAdapter extends BaseAdapter<SearchGroupBean> {
     }
 
 
-    private String getName(int position,int type){
-        if(type == 2){
-            return getItem(position).sub_place_name;
-        }else if(type == 3){
+    private String getName(int position,int flag){
+        if(flag == 2){
+            if(getItem(position).type == 1){
+                return getItem(position).group_name;
+            }else if(getItem(position).type == 2){
+                return getItem(position).sub_place_name;
+            }else if(getItem(position).type == 3){
+                return getItem(position).sub_city_name;
+            }
+        }else if(flag == 3){
             return getItem(position).sub_city_name;
-        }else{
+        }else if(flag == 1){
             return getItem(position).group_name;
+        }else if(flag == 4){
+            return getItem(position).spot_name;
         }
+        return "";
+
     }
 
     private static class ViewHolder{
         TextView name;
         ImageView image;
+        ImageView cityImg;
+        TextView middle_line;
+        TextView right_line;
     }
 }

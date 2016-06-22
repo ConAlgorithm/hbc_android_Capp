@@ -1,4 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:FlowLayout="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F9F9F8"
@@ -21,17 +22,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
+            android:textColor="#666666"
             android:drawableLeft="@mipmap/search_history"
             android:drawablePadding="10dp"
             android:text="历史:"/>
 
-        <LinearLayout
+        <com.hugboga.custom.widget.FlowLayout
             android:id="@+id/history_city_layout"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:orientation="horizontal"
             android:gravity="center_vertical">
-        </LinearLayout>
+        </com.hugboga.custom.widget.FlowLayout>
     </LinearLayout>
 
     <TextView android:layout_height="1dp" android:layout_width="match_parent" android:background="#e8eaea"></TextView>
@@ -47,6 +49,8 @@
             android:layout_width="match_parent"
             android:layout_weight="1"
             android:background="#edeeef"
+            android:dividerHeight="0dp"
+            android:divider="@null"
             android:layout_height="match_parent"/>
 
         <RelativeLayout
@@ -62,6 +66,7 @@
             <ListView
                 android:id="@+id/middle_list"
                 android:layout_width="match_parent"
+                android:divider="@null"
                 android:layout_height="match_parent"/>
          </RelativeLayout>
 
@@ -69,6 +74,7 @@
             android:id="@+id/right_list"
             android:layout_width="match_parent"
             android:layout_weight="1"
+            android:divider="@null"
             android:visibility="gone"
             android:background="@color/basic_white"
             android:layout_height="match_parent"/>

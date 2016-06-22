@@ -16,8 +16,11 @@ public class SearchGroupBean {
     public int parent_type;
     public String parent_name;
 
-    public int hot_weight;
-    public int type;//1,组 2,国家,3,城市
+    public int spot_id;
+    public String spot_name;
 
-    public int flag;//1,左 2,中,3,右
+    public int hot_weight;
+    public int type;
+
+    public int flag;//1,线路 2,国家,3,城市 4,热门
 }

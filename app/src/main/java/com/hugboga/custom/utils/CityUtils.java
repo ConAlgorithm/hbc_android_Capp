@@ -3,15 +3,20 @@ package com.hugboga.custom.utils;
 
 import android.app.Activity;
 
+import com.anupcowkur.reservoir.Reservoir;
+import com.google.gson.reflect.TypeToken;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.LineGroupBean;
 import com.hugboga.custom.data.bean.LineGroupItem;
+import com.hugboga.custom.data.bean.LineHotSpotBean;
+import com.hugboga.custom.data.bean.SaveStartEndCity;
 import com.hugboga.custom.data.bean.SearchGroupBean;
 
 import org.xutils.DbManager;
 import org.xutils.db.Selector;
 import org.xutils.ex.DbException;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -153,6 +158,20 @@ public class CityUtils {
         return searchList;
     }
 
+    public static  List<SearchGroupBean> lineHotCityAdapter(List<LineHotSpotBean> list){
+        List<SearchGroupBean> searchList = new ArrayList<>();
+        SearchGroupBean searchGroupBean = null;
+        for(LineHotSpotBean bean:list){
+            searchGroupBean = new SearchGroupBean();
+            searchGroupBean.spot_id = bean.spot_id;
+            searchGroupBean.spot_name = bean.spot_name;
+            searchGroupBean.type = bean.type;
+            searchGroupBean.flag = 4;
+            searchList.add(searchGroupBean);
+        }
+        return searchList;
+    }
+
 
     public static List<SearchGroupBean> getLevel1City(Activity activity) {
         try {
@@ -265,7 +284,7 @@ public class CityUtils {
             DbManager mDbManager = new DBHelper(activity).getDbManager();
             Selector selector = null;
             selector = mDbManager.selector(LineGroupItem.class);
-            selector.and("sub_place_id", "=",group_id);
+            selector.where("sub_place_id", "=",group_id);
             List<LineGroupItem> list = selector.findAll();
             return lineGroupItemAdapter(list,3);
         }catch (Exception e){
@@ -280,17 +299,88 @@ public class CityUtils {
             List<SearchGroupBean> list = new ArrayList<>();
 
             List<SearchGroupBean> list1 = getType21City(activity,group_id);
-            List<SearchGroupBean> list2 = getType21City(activity,group_id);
-            if(null != list1) {
+            List<SearchGroupBean> list2 = getType31City(activity,group_id);
+            if(null != list1 && list1.size() > 0) {
                 list.addAll(list1);
             }
-            if(null != list2) {
+            if(null != list2 && list2.size() > 0) {
                 list.addAll(list2);
             }
             return list;
         }catch (Exception e){
             e.printStackTrace();
             return null;
+        }
+    }
+
+    //type 1 组  2,国家  3, 城市
+    //热门   type 1 = 城市   2, 国家
+
+    //获取热门城市
+    public static List<SearchGroupBean> getHotCity(Activity activity) {
+        try {
+            DbManager mDbManager = new DBHelper(activity).getDbManager();
+            Selector selector = null;
+            selector = mDbManager.selector(LineHotSpotBean.class);
+            List<LineHotSpotBean> list = selector.findAll();
+            return lineHotCityAdapter(list);
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static List<SearchGroupBean> getHotCityWithHead(Activity activity) {
+        List<SearchGroupBean> hotCityList = getHotCity(activity);
+        SearchGroupBean searchGroupBean = new SearchGroupBean();
+        searchGroupBean.spot_id = -1;
+        searchGroupBean.spot_name = "接送机";
+        searchGroupBean.flag = 4;
+        hotCityList.add(0,searchGroupBean);
+
+        searchGroupBean = new SearchGroupBean();
+        searchGroupBean.spot_id = -2;
+        searchGroupBean.flag = 4;
+        searchGroupBean.spot_name = "单次接送";
+        hotCityList.add(1,searchGroupBean);
+
+        searchGroupBean = new SearchGroupBean();
+        searchGroupBean.spot_id = -3;
+        searchGroupBean.flag = 4;
+        searchGroupBean.spot_name = "包车游";
+        hotCityList.add(2,searchGroupBean);
+        return hotCityList;
+    }
+
+
+    public static List<SearchGroupBean>  getSaveCity(){
+        try {
+            Type resultType = new TypeToken<List<SearchGroupBean>>() {}.getType();
+            return Reservoir.get("savedHistoryCity", resultType);
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static void addCityHistoryData(SearchGroupBean searchGroupBean ){
+
+        List<SearchGroupBean> list = getSaveCity();
+        if(null == list){
+            list = new ArrayList<>();
+        }else{
+
+            if(list.size() > 10){
+                for(int i = list.size() -1 ;i >= 10;i--){
+                    list.remove(i);
+                }
+            }
+        }
+        list.add(searchGroupBean);
+        try {
+            Reservoir.put("savedHistoryCity", list);
+        }catch (Exception e){
+            e.printStackTrace();
         }
     }
 }

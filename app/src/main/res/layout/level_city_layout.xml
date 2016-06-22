@@ -10,9 +10,16 @@
         android:gravity="center_vertical"
         android:lines="1"
         android:ellipsize="end"
-        android:textColor="@color/basic_black"
+        android:textColor="#666666"
         android:paddingLeft="20dp"
         android:textSize="14sp" />
+
+    <ImageView android:id="@+id/city_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        android:gravity="center_vertical" />
 
     <TextView
         android:layout_width="1dp"
@@ -28,5 +35,24 @@
         android:visibility="gone"
         android:layout_alignParentRight="true"
         android:layout_height="wrap_content"></ImageView>
+
+    <TextView
+        android:id="@+id/middle_line"
+        android:layout_width="match_parent"
+        android:background="#666666"
+        android:visibility="gone"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_height="1px" />
+
+    <TextView
+        android:id="@+id/right_line"
+        android:layout_width="match_parent"
+        android:background="#666666"
+        android:visibility="gone"
+        android:layout_marginLeft="20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_height="1px" />
 
 </RelativeLayout>

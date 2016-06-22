@@ -1,6 +1,9 @@
 package com.hugboga.custom.fragment;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +19,12 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.LevelCityAdapter;
 import com.hugboga.custom.data.bean.SearchGroupBean;
 import com.hugboga.custom.utils.CityUtils;
+import com.hugboga.custom.utils.ToastUtils;
+import com.hugboga.custom.utils.UIUtils;
+import com.hugboga.custom.widget.FlowLayout;
 
 import org.xutils.common.Callback;
+import org.xutils.view.annotation.Event;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +46,7 @@ public class FgChooseCityNew extends BaseFragment {
     @Bind(R.id.activity_head_layout)
     RelativeLayout activityHeadLayout;
     @Bind(R.id.history_city_layout)
-    LinearLayout historyCityLayout;
+    FlowLayout historyCityLayout;
     @Bind(R.id.history_layout)
     LinearLayout historyLayout;
     @Bind(R.id.left_list)
@@ -59,6 +66,34 @@ public class FgChooseCityNew extends BaseFragment {
         super.initHeader(savedInstanceState);
     }
 
+    @Event(value = {R.id.header_left_btn,R.id.city_choose_btn, R.id.head_search_clean, R.id.head_text_right})
+    private void onClickView(View view) {
+        switch (view.getId()) {
+            case R.id.header_left_btn:
+                finish();
+                break;
+            case R.id.city_choose_btn:
+                finish();
+                break;
+            case R.id.head_search_clean:
+                if(TextUtils.isEmpty(headSearch.getText().toString().trim())){
+                    break;
+                }
+                headSearch.setText("");
+                break;
+            case R.id.head_text_right:
+                String keyword = headSearch.getText().toString().trim();
+                if (TextUtils.isEmpty(keyword)) {
+                    ToastUtils.showLong("请输入搜索内容");
+                    return;
+                }
+                collapseSoftInputMethod();
+//                requestDataByKeyword(getBusinessType(), groupId, keyword, false); //进行点击搜索
+                break;
+        }
+
+    }
+
 
     LevelCityAdapter levelCityAdapterLeft,levelCityAdapterMiddle,levelCityAdapterRight;
     List<SearchGroupBean> groupList;
@@ -66,6 +101,8 @@ public class FgChooseCityNew extends BaseFragment {
     List<SearchGroupBean> groupList3;
     @Override
     protected void initView() {
+        genHistoryCity();
+
         leftList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -80,19 +117,7 @@ public class FgChooseCityNew extends BaseFragment {
                         levelCityAdapterLeft.notifyDataSetChanged();
                     }
                 }
-
-                levelCityAdapterMiddle = new LevelCityAdapter(getActivity());
-                SearchGroupBean lineGroupBean = new SearchGroupBean();
-                lineGroupBean.group_id = 0;
-                lineGroupBean.flag = 2;
-                lineGroupBean.group_name = "全境";
-                lineGroupBean.isSelected = true;
-                groupList2 = new ArrayList<>();
-                groupList2.add(0,lineGroupBean);
-                groupList2.addAll(CityUtils.getLevel2City(getActivity(),groupList.get(position).group_id));
-                levelCityAdapterMiddle.setList(groupList2);
-                levelCityAdapterMiddle.notifyDataSetChanged();
-                middleList.setAdapter(levelCityAdapterMiddle);
+                showMiddleData(position);
 
 
             }
@@ -102,35 +127,63 @@ public class FgChooseCityNew extends BaseFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 rightList.setVisibility(View.GONE);
-                for(SearchGroupBean lineGroupBean:groupList2){
-                    lineGroupBean.isSelected = false;
-                }
+                Bundle bundle = new Bundle();
+                if(groupList2.get(position).spot_id == -1){
+                    FgPickSend fgPickSend = new FgPickSend();
+                    fgPickSend.setArguments(bundle);
+                    startFragment(fgPickSend, bundle);
+                    finish();
+                }else if(groupList2.get(position).spot_id == -2){
+                    FgSingleNew fgSingleNew = new FgSingleNew();
+                    fgSingleNew.setArguments(bundle);
+                    startFragment(fgSingleNew);
+                    finish();
+                }else if(groupList2.get(position).spot_id == -3){
+                    FgOrderSelectCity fgOrderSelectCity = new FgOrderSelectCity();
+                    fgOrderSelectCity.setArguments(bundle);
+                    startFragment(fgOrderSelectCity, bundle);
+                    finish();
+                }else {
+                    for (SearchGroupBean lineGroupBean : groupList2) {
+                        lineGroupBean.isSelected = false;
+                    }
 
-                for(int i = 0;i< groupList.size();i++){
-                    if(i == position) {
-                        groupList2.get(i).isSelected = true;
-                        levelCityAdapterMiddle.notifyDataSetChanged();
+                    for (int i = 0; i < groupList.size(); i++) {
+                        if (i == position) {
+                            groupList2.get(i).isSelected = true;
+                            levelCityAdapterMiddle.notifyDataSetChanged();
+                        }
+                    }
+
+                    levelCityAdapterRight = new LevelCityAdapter(getActivity());
+                    List<SearchGroupBean> list3 = CityUtils.getLevel3City(getActivity(), groupList2.get(position).sub_place_id);
+                    if (null == list3) {
+                        rightList.setVisibility(View.GONE);
+                        goCityList(groupList2.get(position));
+                    } else {
+                        SearchGroupBean lineGroupBean = new SearchGroupBean();
+                        lineGroupBean.group_id = 0;
+                        lineGroupBean.flag = 3;
+                        lineGroupBean.group_name = "全境";
+                        lineGroupBean.isSelected = false;
+                        groupList3 = new ArrayList<>();
+                        groupList3.add(0, lineGroupBean);
+                        rightList.setVisibility(View.VISIBLE);
+                        groupList3.addAll(list3);
+                        levelCityAdapterRight.setList(groupList3);
+                        levelCityAdapterRight.notifyDataSetChanged();
+                        rightList.setAdapter(levelCityAdapterRight);
                     }
                 }
+            }
+        });
 
-                levelCityAdapterRight = new LevelCityAdapter(getActivity());
-                List<SearchGroupBean> list3 = CityUtils.getLevel3City(getActivity(),groupList.get(position).group_id);
-                if(null == list3){
-                    rightList.setVisibility(View.GONE);
-                }else{
-                    SearchGroupBean lineGroupBean = new SearchGroupBean();
-                    lineGroupBean.group_id = 0;
-                    lineGroupBean.flag = 3;
-                    lineGroupBean.group_name = "全境";
-                    lineGroupBean.isSelected = true;
-                    groupList3 = new ArrayList<>();
-                    groupList3.add(0,lineGroupBean);
-                    rightList.setVisibility(View.VISIBLE);
-                    groupList3.addAll(list3);
-                    levelCityAdapterRight.setList(groupList3);
-                    levelCityAdapterRight.notifyDataSetChanged();
-                    rightList.setAdapter(levelCityAdapterRight);
-                }
+        rightList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                CityUtils.addCityHistoryData(groupList3.get(position));
+                addHistoryCity(groupList3.get(position));
+                goCityList(groupList3.get(position));
             }
         });
 
@@ -147,6 +200,75 @@ public class FgChooseCityNew extends BaseFragment {
         levelCityAdapterLeft.setList(groupList);
         leftList.setAdapter(levelCityAdapterLeft);
         levelCityAdapterLeft.notifyDataSetChanged();
+
+        showMiddleData(0);
+    }
+
+
+    private void showMiddleData(int position){
+        levelCityAdapterMiddle = new LevelCityAdapter(getActivity());
+        if(position == 0) {
+            groupList2 = new ArrayList<>();
+            groupList2.addAll(CityUtils.getHotCityWithHead(getActivity()));
+        }else{
+            SearchGroupBean lineGroupBean = new SearchGroupBean();
+            lineGroupBean.group_id = 0;
+            lineGroupBean.flag = 2;
+            lineGroupBean.group_name = "全境";
+            lineGroupBean.isSelected = false;
+            groupList2 = new ArrayList<>();
+            groupList2.add(0, lineGroupBean);
+            groupList2.addAll(CityUtils.getLevel2City(getActivity(), groupList.get(position).group_id));
+        }
+        levelCityAdapterMiddle.setList(groupList2);
+        levelCityAdapterMiddle.notifyDataSetChanged();
+        middleList.setAdapter(levelCityAdapterMiddle);
+    }
+
+
+    private void genHistoryCity(){
+        historyCityLayout.removeAllViews();
+        List<SearchGroupBean> list = CityUtils.getSaveCity();
+        if(null != list){
+            TextView view = null;
+            for(int i = 0;i < list.size();i++){
+                view = new TextView(getActivity());
+                view.setTag(list.get(i));
+                view.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        goCityList((SearchGroupBean)v.getTag());
+                    }
+                });
+                view.setGravity(Gravity.CENTER_VERTICAL);
+                view.setText(list.get(i).group_name);
+                view.setTag(list.get(i).group_id);
+                view.setPadding(30,0,30,0);
+                view.setTextColor(Color.parseColor("#666666"));
+                view.setHeight(UIUtils.dip2px(50f));
+                historyCityLayout.addView(view,0);
+            }
+        }
+    }
+
+    private void goCityList(SearchGroupBean searchGroupBean){
+        FgSkuList fg = new FgSkuList();
+        Bundle bundle = new Bundle();
+        finish();
+        startFragment(fg, bundle);
+    }
+
+
+    private void addHistoryCity(SearchGroupBean lineGroupBean){
+            TextView view = null;
+            view = new TextView(getActivity());
+            view.setText(lineGroupBean.group_name);
+            view.setTag(lineGroupBean.group_id);
+            view.setPadding(20,0,20,0);
+            view.setHeight(UIUtils.dip2px(50f));
+            view.setGravity(Gravity.CENTER_VERTICAL);
+            historyCityLayout.addView(view,0);
+
     }
 
     @Override
