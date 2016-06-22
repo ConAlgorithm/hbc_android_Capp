@@ -108,22 +108,21 @@ public class CityUtils {
 
 
      -- 查询国家下的子组/城市 （国家下没有国家）
-     -- 组
      select * from line_group where parent_type=2 and parent_id=#{选择的国家ID}
 
      -- 城市
-     select distinct * from line_group_item where sub_place_id=#{选择的国家ID};
+     select distinct * from line_group_item where sub_place_id=#{选择的国家ID} and type=3;
 
 
-    -- 关键字查询 城市
-    select * from line_group_item where sub_city_name like '巴里%' union select * from line_group_item where type=3 and sub_city_name like '%巴里%' and sub_city_name not like '巴里%';
+ -- 搜索部分查询
+ -- 关键字查询 城市
+ select gi.*, 1 as rank from line_group_item as gi where type=3 and sub_city_name like '巴里%' union select gi.*, 2 as rank from line_group_item as gi where type=3 and sub_city_name like '%巴里%' and sub_city_name not like '巴里%' order by rank;
 
-    -- 关键字查询 线路圈
-    select * from (select gp.*, 1 as rank from line_group as gp where group_name like '新增%' union select gp.*, 2 as rank from line_group as gp where group_name like '%新增%' and group_name not like '新增%') order by level, rank;
+ -- 关键字查询 线路圈
+ select * from (select gp.*, 1 as rank from line_group as gp where group_name like '新增%' union select gp.*, 2 as rank from line_group as gp where group_name like '%新增%' and group_name not like '新增%') order by level, rank;
 
-    -- 关键字查询 国家
-    select * from line_group_item where type=2 and sub_place_name like '意%' union select * from line_group_item where type=2 and sub_place_name like '%意%' and sub_place_name not like '意%';
-
+ -- 关键字查询 国家
+ select gi.*, 1 as rank from line_group_item as gi where type=2 and sub_place_name like '意%' union select gi.*, 2 as rank from line_group_item as gi where type=2 and sub_place_name like '%意%' and sub_place_name not like '意%';
     **/
 
 
@@ -289,6 +288,7 @@ public class CityUtils {
             Selector selector = null;
             selector = mDbManager.selector(LineGroupItem.class);
             selector.where("sub_place_id", "=",group_id);
+            selector.and("type","=",3);
             List<LineGroupItem> list = selector.findAll();
             return lineGroupItemAdapter(list,3);
         }catch (Exception e){

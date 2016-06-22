@@ -180,6 +180,7 @@ public class FgChooseCityNew extends BaseFragment {
         for (SearchGroupBean lineGroupBean : groupList2) {
             lineGroupBean.isSelected = false;
         }
+
         for (int i = 0; i < groupList.size(); i++) {
             if (i == position) {
                 groupList2.get(i).isSelected = true;
@@ -188,21 +189,25 @@ public class FgChooseCityNew extends BaseFragment {
         }
         levelCityAdapterRight = new LevelCityAdapter(getActivity());
         List<SearchGroupBean> list3 = CityUtils.getLevel3City(getActivity(), groupList2.get(position).sub_place_id);
+        if(null == list3 || list3.size() == 0){
+            goCityList(groupList2.get(position));
+        }else {
 
-        SearchGroupBean lineGroupBean = new SearchGroupBean();
-        lineGroupBean.group_id = groupList2.get(position).sub_place_id;
-        lineGroupBean.flag = 3;
-        lineGroupBean.type = 3;
-        lineGroupBean.group_name = "";
-        lineGroupBean.sub_city_name = "全境";
-        lineGroupBean.isSelected = false;
-        groupList3 = new ArrayList<>();
-        groupList3.add(0, lineGroupBean);
-        rightList.setVisibility(View.VISIBLE);
-        groupList3.addAll(list3);
-        levelCityAdapterRight.setList(groupList3);
-        levelCityAdapterRight.notifyDataSetChanged();
-        rightList.setAdapter(levelCityAdapterRight);
+            SearchGroupBean lineGroupBean = new SearchGroupBean();
+            lineGroupBean.group_id = groupList2.get(position).sub_place_id;
+            lineGroupBean.flag = 3;
+            lineGroupBean.type = 3;
+            lineGroupBean.group_name = "";
+            lineGroupBean.sub_city_name = "全境";
+            lineGroupBean.isSelected = false;
+            groupList3 = new ArrayList<>();
+            groupList3.add(0, lineGroupBean);
+            rightList.setVisibility(View.VISIBLE);
+            groupList3.addAll(list3);
+            levelCityAdapterRight.setList(groupList3);
+            levelCityAdapterRight.notifyDataSetChanged();
+            rightList.setAdapter(levelCityAdapterRight);
+        }
     }
 
     private void showMiddleData(int position){
