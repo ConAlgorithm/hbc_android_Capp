@@ -31,6 +31,8 @@
             android:id="@+id/history_city_layout"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:layout_marginLeft="20dp"
+            FlowLayout:fhorizontalSpacing="20dp"
             android:orientation="horizontal"
             android:gravity="center_vertical">
         </com.hugboga.custom.widget.FlowLayout>

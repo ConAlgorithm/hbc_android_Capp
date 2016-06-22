@@ -245,11 +245,6 @@ public class FgChooseCityNew extends BaseFragment {
                 view.setGravity(Gravity.CENTER_VERTICAL);
                 String name = CityUtils.getShowName(list.get(i));
                 view.setText(name);
-                if(i == 0){
-                    view.setPadding(30,0,15,0);
-                }else{
-                    view.setPadding(15,0,15,0);
-                }
                 view.setTextColor(Color.parseColor("#666666"));
                 view.setHeight(UIUtils.dip2px(50f));
                 historyCityLayout.addView(view,0);
