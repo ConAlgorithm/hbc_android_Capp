@@ -379,6 +379,22 @@ public class CityUtils {
                     list.remove(i);
                 }
             }
+
+            for(int i = list.size() -1 ;i >= 0;i--){
+                if(searchGroupBean.flag == 2){
+                    if(searchGroupBean.sub_place_id == list.get(i).sub_place_id){
+                        list.remove(i);
+                    }
+                }else if(searchGroupBean.flag == 3){
+                    if(searchGroupBean.sub_city_id == list.get(i).sub_city_id){
+                        list.remove(i);
+                    }
+                }else if(searchGroupBean.flag == 4){
+                    if(searchGroupBean.spot_id == list.get(i).spot_id){
+                        list.remove(i);
+                    }
+                }
+            }
         }
         list.add(searchGroupBean);
         try {
@@ -404,5 +420,26 @@ public class CityUtils {
             return true;
         }
         return true;
+    }
+
+
+    public static String getShowName(SearchGroupBean searchGroupBean ){
+            if(searchGroupBean.flag == 2){
+                if(searchGroupBean.type == 1){
+                    return searchGroupBean.group_name;
+                }else if(searchGroupBean.type == 2){
+                    return searchGroupBean.sub_place_name;
+                }else if(searchGroupBean.type == 3){
+                    return searchGroupBean.sub_city_name;
+                }
+            }else if(searchGroupBean.flag == 3){
+                return searchGroupBean.sub_city_name;
+            }else if(searchGroupBean.flag == 1){
+                return searchGroupBean.group_name;
+            }else if(searchGroupBean.flag == 4){
+                return searchGroupBean.spot_name;
+            }
+            return "";
+
     }
 }

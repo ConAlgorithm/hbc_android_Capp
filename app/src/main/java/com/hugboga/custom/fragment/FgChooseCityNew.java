@@ -127,28 +127,21 @@ public class FgChooseCityNew extends BaseFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 rightList.setVisibility(View.GONE);
-                Bundle bundle = new Bundle();
                 if(groupList2.get(position).spot_id == -1){
+                    finish();
                     FgPickSend fgPickSend = new FgPickSend();
-                    fgPickSend.setArguments(bundle);
-                    startFragment(fgPickSend, bundle);
-                    finish();
+                    startFragment(fgPickSend);
                 }else if(groupList2.get(position).spot_id == -2){
+                    finish();
                     FgSingleNew fgSingleNew = new FgSingleNew();
-                    fgSingleNew.setArguments(bundle);
                     startFragment(fgSingleNew);
-                    finish();
                 }else if(groupList2.get(position).spot_id == -3){
-                    FgOrderSelectCity fgOrderSelectCity = new FgOrderSelectCity();
-                    fgOrderSelectCity.setArguments(bundle);
-                    startFragment(fgOrderSelectCity, bundle);
                     finish();
+                    FgOrderSelectCity fgOrderSelectCity = new FgOrderSelectCity();
+                    startFragment(fgOrderSelectCity);
                 }else {
-
                     if(CityUtils.canGoCityList(groupList2.get(position))){
-                        FgSkuList fgSkuList = new FgSkuList();
-                        startFragment(fgSkuList);
-                        finish();
+                        goCityList(groupList2.get(position));
                     }else {
                         for (SearchGroupBean lineGroupBean : groupList2) {
                             lineGroupBean.isSelected = false;
@@ -189,8 +182,6 @@ public class FgChooseCityNew extends BaseFragment {
         rightList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                CityUtils.addCityHistoryData(groupList3.get(position));
-                addHistoryCity(groupList3.get(position));
                 goCityList(groupList3.get(position));
             }
         });
@@ -251,9 +242,13 @@ public class FgChooseCityNew extends BaseFragment {
                     }
                 });
                 view.setGravity(Gravity.CENTER_VERTICAL);
-                view.setText(list.get(i).group_name);
-                view.setTag(list.get(i).group_id);
-                view.setPadding(30,0,30,0);
+                String name = CityUtils.getShowName(list.get(i));
+                view.setText(name);
+                if(i == 0){
+                    view.setPadding(30,0,15,0);
+                }else{
+                    view.setPadding(15,0,15,0);
+                }
                 view.setTextColor(Color.parseColor("#666666"));
                 view.setHeight(UIUtils.dip2px(50f));
                 historyCityLayout.addView(view,0);
@@ -262,10 +257,10 @@ public class FgChooseCityNew extends BaseFragment {
     }
 
     private void goCityList(SearchGroupBean searchGroupBean){
-        FgSkuList fg = new FgSkuList();
-        Bundle bundle = new Bundle();
+        CityUtils.addCityHistoryData(searchGroupBean);
         finish();
-        startFragment(fg, bundle);
+        FgSkuList fgSkuList = new FgSkuList();
+        startFragment(fgSkuList);
     }
 
 
