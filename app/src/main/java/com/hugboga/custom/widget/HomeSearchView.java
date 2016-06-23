@@ -11,9 +11,8 @@ import android.widget.RelativeLayout;
 import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
-import com.hugboga.custom.fragment.FgChooseCity;
+import com.hugboga.custom.fragment.FgChooseCityNew;
 import com.hugboga.custom.fragment.FgHome;
-import com.hugboga.custom.utils.UIUtils;
 
 /**
  * Created by qingcha on 16/6/21.
