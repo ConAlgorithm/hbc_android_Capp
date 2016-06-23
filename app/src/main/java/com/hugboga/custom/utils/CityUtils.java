@@ -187,23 +187,52 @@ public class CityUtils {
             List<SearchGroupBean> lineList = getCountryLine(activity, bean.parent_id + "");
 
             if (null != lineList && lineList.size() > 0) {
+                list.addAll(lineList);
+            }
+            List<SearchGroupBean> level2List = getType1City(activity,bean.group_id);
+            if(null != level2List && level2List.size() > 0) {
+                list.addAll(level2List);
+            }
+
+            if(null != lineList && lineList.size() > 0 || null != level2List && level2List.size() > 0){
                 SearchGroupBean searchGroupBean = new SearchGroupBean();
                 searchGroupBean.group_id = -1;
                 searchGroupBean.group_name = getShowName(bean) + "多地畅游";
-                lineList.add(0, searchGroupBean);
-                list.addAll(lineList);
+                list.add(0, searchGroupBean);
+            }
+
+
+
+            List<SearchGroupBean> cityList = new ArrayList<>();
+            List<SearchGroupBean> type2List = getType2City(activity, bean.group_id);
+            List<SearchGroupBean> type3List = getType3City(activity, bean.group_id);
+
+            if (null != type2List && type2List.size() > 0) {
+                cityList.addAll(type2List);
+            }
+
+            if (null != type3List && type3List.size() > 0) {
+                cityList.addAll(type3List);
+            }
+
+            if(null != type2List && type2List.size() > 0 || null != type3List && type3List.size() > 0){
+                SearchGroupBean searchGroupBean = new SearchGroupBean();
+                searchGroupBean.group_id = -2;
+                searchGroupBean.group_name = getShowName(bean) + "热门目的地";
+                cityList.add(0, searchGroupBean);
+                list.addAll(cityList);
             }
         }
 
-        if(bean.type == 2){
-            List<SearchGroupBean> cityList = getCountryCity(activity,bean.sub_place_id+"");
+        if(bean.type == 2) {
+            List<SearchGroupBean> cityList = getCountryCity(activity, bean.sub_place_id + "");
 
-            if(null != cityList && cityList.size()>0){
-                SearchGroupBean searchGroupBean = new SearchGroupBean();
-                searchGroupBean.group_id = -1;
-                searchGroupBean.group_name = getShowName(bean)+"热门目的地";
-                cityList.add(0,searchGroupBean);
+            if (null != cityList && cityList.size() > 0) {
                 list.addAll(cityList);
+                SearchGroupBean searchGroupBean = new SearchGroupBean();
+                searchGroupBean.group_id = -2;
+                searchGroupBean.group_name = getShowName(bean) + "热门目的地";
+                list.add(0, searchGroupBean);
             }
         }
 

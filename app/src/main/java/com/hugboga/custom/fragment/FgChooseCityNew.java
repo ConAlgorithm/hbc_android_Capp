@@ -90,7 +90,10 @@ public class FgChooseCityNew extends BaseFragment {
         expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                ToastUtils.showShort(groupPosition+"======"+childPosition);
+                if(searchNewAdapter.getChildList().get(groupPosition).get(childPosition).group_id != -1
+                        && searchNewAdapter.getChildList().get(groupPosition).get(childPosition).group_id != -2) {
+                    ToastUtils.showShort(groupPosition + "======" + childPosition);
+                }
                 return true;
             }
         });
@@ -156,6 +159,8 @@ public class FgChooseCityNew extends BaseFragment {
     List<SearchGroupBean> groupList;
     List<SearchGroupBean> groupList2;
     List<SearchGroupBean> groupList3;
+
+    List<SearchGroupBean> list;
     @Override
     protected void initView() {
         genHistoryCity();
@@ -174,7 +179,7 @@ public class FgChooseCityNew extends BaseFragment {
             @Override
             public void afterTextChanged(Editable s) {
                 if(!TextUtils.isEmpty(headSearch.getText())) {
-                   List<SearchGroupBean> list =  CityUtils.search(getActivity(), headSearch.getText().toString());
+                   list =  CityUtils.search(getActivity(), headSearch.getText().toString());
                     LogUtils.e(list.size()+"===="+headSearch.getText().toString());
                     showSearchPop(list);
                 }else{
