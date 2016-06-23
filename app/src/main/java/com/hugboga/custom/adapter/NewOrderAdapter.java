@@ -307,7 +307,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                     vh.lineView.setVisibility(View.VISIBLE);
                     vh.mHeadTitle.setText(orderBean.orderGuideInfo.guideName);
                     if (TextUtils.isEmpty(orderBean.orderGuideInfo.guideAvatar)) {
-                        vh.mHeadImg.setImageResource(R.mipmap.collection_icon_pic);
+                        vh.mHeadImg.setImageResource(R.mipmap.journey_head_portrait);
                     } else {
                         Tools.showImage(context, vh.mHeadImg, orderBean.orderGuideInfo.guideAvatar);
                     }
@@ -342,7 +342,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
 
                     vh.mHeadTitle.setText(orderBean.orderGuideInfo.guideName);
                     if (TextUtils.isEmpty(orderBean.orderGuideInfo.guideAvatar)) {
-                        vh.mHeadImg.setImageResource(R.mipmap.collection_icon_pic);
+                        vh.mHeadImg.setImageResource(R.mipmap.journey_head_portrait);
                     } else {
                         Tools.showImage(context, vh.mHeadImg, orderBean.orderGuideInfo.guideAvatar);
                     }
@@ -392,7 +392,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
 
             vh.mHeadTitle.setText(orderBean.orderGuideInfo.guideName);
             if (TextUtils.isEmpty(orderBean.orderGuideInfo.guideAvatar)) {
-                vh.mHeadImg.setImageResource(R.mipmap.collection_icon_pic);
+                vh.mHeadImg.setImageResource(R.mipmap.journey_head_portrait);
             } else {
                 Tools.showImage(context, vh.mHeadImg, orderBean.orderGuideInfo.guideAvatar);
             }

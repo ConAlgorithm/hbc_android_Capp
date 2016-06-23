@@ -84,7 +84,7 @@ public class OrderDetailGuideInfo extends LinearLayout implements HbcViewBehavio
             }
 
             if (TextUtils.isEmpty(guideInfo.guideAvatar)) {
-                avatarIV.setImageResource(R.mipmap.collection_icon_pic);
+                avatarIV.setImageResource(R.mipmap.journey_head_portrait);
             } else {
                 Tools.showImage(getContext(), avatarIV, guideInfo.guideAvatar);
             }
