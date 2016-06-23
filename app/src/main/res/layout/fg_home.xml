@@ -1,16 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent">-->
-
-    <!--<include layout="@layout/fg_home_content" />-->
-    <!--<include layout="@layout/include_header_search" />-->
-<!--</RelativeLayout>-->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <ScrollView
+    <com.hugboga.custom.widget.HomeScrollView
+        android:id="@+id/home_scrollview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#eeeeee">
@@ -19,13 +12,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
             <com.hugboga.custom.widget.HomeBannerView
                 android:id="@+id/home_banner_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:minHeight="200dp"
-                android:background="#5500ff00" />
+                android:minHeight="200dp" />
             <com.hugboga.custom.widget.HomeDynamicView
                 android:id="@+id/home_dynamic_view"
                 android:layout_width="match_parent"
@@ -40,5 +31,11 @@
                 android:layout_height="wrap_content" />
 
         </LinearLayout>
-    </ScrollView>
+    </com.hugboga.custom.widget.HomeScrollView>
+    <com.hugboga.custom.widget.HomeSearchView
+        android:id="@+id/home_search_view"
+        android:layout_width="match_parent"
+        android:paddingLeft="@dimen/home_view_padding_left"
+        android:paddingRight="@dimen/home_view_padding_left"
+        android:layout_height="@dimen/home_search_layout_height" />
 </RelativeLayout>

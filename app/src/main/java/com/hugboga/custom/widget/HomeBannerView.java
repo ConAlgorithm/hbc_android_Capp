@@ -1,16 +1,14 @@
 package com.hugboga.custom.widget;
 
 import android.content.Context;
-import android.os.Build;
 import android.os.Handler;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.HomeBannerAdapter;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
@@ -24,9 +22,9 @@ import java.util.ArrayList;
 public class HomeBannerView extends RelativeLayout implements HbcViewBehavior{
 
     /**
-     * banner默认高宽比  height/width = 1317/1080
+     * banner默认高宽比  height/width = 639/750
      */
-    private static final float BANNER_RATIO_DEFAULT = 1.22f;
+    public static final float BANNER_RATIO_DEFAULT = 0.85f;
 
     /**
      * banner默认自动切换的时间
@@ -85,7 +83,7 @@ public class HomeBannerView extends RelativeLayout implements HbcViewBehavior{
                 this.addView(mViewPager, RelativeLayout.LayoutParams.MATCH_PARENT, viewHeight);
                 mViewPager.setOnPageChangeListener(new BannerCutListener());
                 mViewPager.setPageTransformer(true, new StackTransformer());
-                mViewPager.setScrolDuration(400);
+                mViewPager.setScrolDuration(800);
             }
             if (mAdapter == null) {
                 mAdapter = new HomeBannerAdapter(getContext(), bannerList);
@@ -95,7 +93,7 @@ public class HomeBannerView extends RelativeLayout implements HbcViewBehavior{
                 mAdapter.setData(bannerList, mViewPager);
                 mViewPager.setCurrentItem(0, false);
             }
-            initCutHandler();
+//            initCutHandler();
         }
     }
 
@@ -144,14 +142,14 @@ public class HomeBannerView extends RelativeLayout implements HbcViewBehavior{
         @Override
         public void onPageScrollStateChanged(int state) {
             super.onPageScrollStateChanged(state);
-            if (isAutoLoops && cutHandler != null && cutRunnable != null) {
-                if (ViewPager.SCROLL_STATE_DRAGGING == state) {
-                    cutHandler.removeCallbacks(cutRunnable);
-                } else if (ViewPager.SCROLL_STATE_IDLE == state) {
-                    cutHandler.removeCallbacks(cutRunnable);
-                    cutHandler.postDelayed(cutRunnable, getCutTime());
-                }
-            }
+//            if (isAutoLoops && cutHandler != null && cutRunnable != null) {
+//                if (ViewPager.SCROLL_STATE_DRAGGING == state) {
+//                    cutHandler.removeCallbacks(cutRunnable);
+//                } else if (ViewPager.SCROLL_STATE_IDLE == state) {
+//                    cutHandler.removeCallbacks(cutRunnable);
+//                    cutHandler.postDelayed(cutRunnable, getCutTime());
+//                }
+//            }
         }
         @Override
         public void onPageSelected(int position) {
@@ -166,7 +164,9 @@ public class HomeBannerView extends RelativeLayout implements HbcViewBehavior{
     }
 
     public void onStartChange() {
-        if (cutHandler != null && cutRunnable != null) {
+        if (mViewPager != null && cutHandler != null && cutRunnable != null) {
+            mViewPager.setPageTransformer(true, new StackTransformer());
+            mViewPager.setScrolDuration(800);
             cutHandler.removeCallbacks(cutRunnable);
             cutHandler.postDelayed(cutRunnable, getCutTime());
         }
@@ -181,10 +181,14 @@ public class HomeBannerView extends RelativeLayout implements HbcViewBehavior{
         @Override
         public void transformPage(View view, float position) {
             final float width = view.getWidth();
-            final float scale = 1f + Math.abs(position);
             ViewHelper.setTranslationY(view, 0);
             ViewHelper.setTranslationX(view, -width * position);
+            final float scale = 1f + Math.abs(position);
             ViewHelper.setAlpha(view,position < -1f || position > 1f ? 0f : 1f - (scale - 1f));
+//            if(position < -0.9){
+//                //-0.9 to prevent a small bug
+//                ViewHelper.setTranslationX(view,view.getWidth() * position);
+//            }
         }
     }
 }

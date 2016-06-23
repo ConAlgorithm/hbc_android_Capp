@@ -1,7 +1,6 @@
 package com.hugboga.custom.fragment;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +13,8 @@ import com.hugboga.custom.widget.HomeBannerView;
 import com.hugboga.custom.widget.HomeBottomLayout;
 import com.hugboga.custom.widget.HomeChoicenessRouteView;
 import com.hugboga.custom.widget.HomeDynamicView;
+import com.hugboga.custom.widget.HomeScrollView;
+import com.hugboga.custom.widget.HomeSearchView;
 
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
@@ -37,6 +38,12 @@ public class FgHome extends BaseFragment {
 
     @Bind(R.id.home_bottom_layout)
     HomeBottomLayout bottomLayout;
+
+    @Bind(R.id.home_scrollview)
+    HomeScrollView scrollview;
+
+    @Bind(R.id.home_search_view)
+    HomeSearchView searchView;
 
     //img_undertext
     @Override
@@ -71,6 +78,8 @@ public class FgHome extends BaseFragment {
     @Override
     protected void initHeader() {
         bottomLayout.setFragment(FgHome.this);
+        searchView.setFragment(FgHome.this);
+        scrollview.setSearchView(searchView);
     }
 
     @Override

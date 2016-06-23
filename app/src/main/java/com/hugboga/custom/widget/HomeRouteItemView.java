@@ -1,6 +1,7 @@
 package com.hugboga.custom.widget;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -14,13 +15,14 @@ import android.widget.TextView;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.HomeData;
 import com.hugboga.custom.fragment.FgHome;
+import com.hugboga.custom.fragment.FgSkuList;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
 
 /**
  * Created by qingcha on 16/6/19.
  */
-public class HomeRouteItemView extends RelativeLayout implements HbcViewBehavior{
+public class HomeRouteItemView extends RelativeLayout implements HbcViewBehavior, View.OnClickListener{
 
     private FgHome fgHome;
 
@@ -31,6 +33,10 @@ public class HomeRouteItemView extends RelativeLayout implements HbcViewBehavior
     private TextView price1TV, price2TV, price3TV;
     private TextView cotent1TV, cotent2TV, cotent3TV;
     private View line1View, line2View, line3View;
+
+    private RelativeLayout moreLayout;
+
+    private HomeData.CityContentItem data;
 
     public HomeRouteItemView(Context context) {
         this(context, null);
@@ -60,8 +66,16 @@ public class HomeRouteItemView extends RelativeLayout implements HbcViewBehavior
         price3TV = (TextView) findViewById(R.id.home_route_item_price_3_tv);
         line3View = findViewById(R.id.home_route_item_3_line);
 
+        moreLayout = (RelativeLayout) findViewById(R.id.home_route_item_more_layout);
+
         int displayImgHeight = (int)((287 / 620.0) * (UIUtils.getScreenWidth() - context.getResources().getDimensionPixelOffset(R.dimen.home_view_padding_left) * 2 - UIUtils.dip2px(20)));
         displayIV.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, displayImgHeight));
+
+        item1Layout.setOnClickListener(this);
+        item2Layout.setOnClickListener(this);
+        item3Layout.setOnClickListener(this);
+        moreLayout.setOnClickListener(this);
+        displayIV.setOnClickListener(this);
     }
 
     public void setFgHomeContext(FgHome context) {
@@ -73,7 +87,7 @@ public class HomeRouteItemView extends RelativeLayout implements HbcViewBehavior
         if (_data == null) {
             return;
         }
-        HomeData.CityContentItem data = (HomeData.CityContentItem) _data;
+        data = (HomeData.CityContentItem) _data;
         Tools.showImageCenterCrop(displayIV, data.getPicture());
         if (TextUtils.isEmpty(data.getMainTitle())) {
             titleTV.setVisibility(View.GONE);
@@ -133,6 +147,28 @@ public class HomeRouteItemView extends RelativeLayout implements HbcViewBehavior
             line2View.setVisibility(View.GONE);
             item3Layout.setVisibility(View.INVISIBLE);
             line3View.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (fgHome == null || data == null) {
+            return;
+        }
+        switch (v.getId()) {
+            case R.id.home_route_item_1_layout:
+                break;
+            case R.id.home_route_item_2_layout:
+                break;
+            case R.id.home_route_item_3_layout:
+                break;
+            case R.id.home_route_item_display_iv:
+            case R.id.home_route_item_more_layout:
+                FgSkuList fg = new FgSkuList();
+                Bundle bundle = new Bundle();
+                bundle.putString(FgSkuList.KEY_CITY_ID, "" + data.getCityId());
+                fgHome.startFragment(fg, bundle);
+                break;
         }
     }
 }

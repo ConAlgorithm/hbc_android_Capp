@@ -2,32 +2,43 @@ package com.hugboga.custom.widget;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.data.bean.HomeData;
+import com.hugboga.custom.data.bean.UserEntity;
+import com.hugboga.custom.data.net.UrlLibs;
+import com.hugboga.custom.fragment.FgActivity;
 import com.hugboga.custom.fragment.FgHome;
 import com.hugboga.custom.fragment.FgOrderSelectCity;
 import com.hugboga.custom.fragment.FgPickSend;
 import com.hugboga.custom.fragment.FgSingleNew;
+import com.hugboga.custom.fragment.FgWebInfo;
+import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.HashMap;
+import java.util.Random;
 
 /**
  * Created by qingcha on 16/6/19.
  */
 public class HomeBottomLayout extends LinearLayout implements View.OnClickListener{
 
+    private FgHome fragment;
+
     private LinearLayout charteredLayout;
     private TextView pickupTV, singleTV, activeTV;
     private ImageView activeIV;
 
-    private FgHome fragment;
+    private HomeData.SalesPromotion activeData;
 
     public HomeBottomLayout(Context context) {
         this(context, null);
@@ -52,22 +63,35 @@ public class HomeBottomLayout extends LinearLayout implements View.OnClickListen
         singleTV.setOnClickListener(this);
         activeIV.setOnClickListener(this);
 
-        int charteredLayoutHeight = (int)((111 / 497.0) * (UIUtils.getScreenWidth() - paddingLeft * 2));
+        int itemWidth = UIUtils.getScreenWidth() - paddingLeft * 2;
+
+        int charteredLayoutHeight = (int)((111 / 497.0) * itemWidth);
         charteredLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, charteredLayoutHeight));
 
-        float pickupTVWidth = (UIUtils.getScreenWidth() - paddingLeft * 2 - UIUtils.dip2px(10))/ 2.0f;
+        float pickupTVWidth = (itemWidth - UIUtils.dip2px(10))/ 2.0f;
         float pickupTVHight = (int)((86 / 241.0) * pickupTVWidth);
         LinearLayout.LayoutParams pickupParams= new LinearLayout.LayoutParams((int)pickupTVWidth, (int)pickupTVHight);
         pickupTV.setLayoutParams(pickupParams);
         singleTV.setLayoutParams(pickupParams);
+
+        int activeImgHeight = (int)((254 / 690.0) * itemWidth);
+        LinearLayout.LayoutParams activeImgParams = new LinearLayout.LayoutParams(itemWidth, activeImgHeight);
+        activeImgParams.bottomMargin = UIUtils.dip2px(20);
+        activeIV.setLayoutParams(activeImgParams);
     }
 
+    /**
+     * 为了跳转使用
+     * */
     public void setFragment(FgHome _fragment) {
         this.fragment = _fragment;
     }
 
     @Override
     public void onClick(View v) {
+        if (fragment == null) {
+            return;
+        }
         switch (v.getId()) {
             case R.id.home_bottom_chartered_layout://包车
                 goDairy();
@@ -79,7 +103,25 @@ public class HomeBottomLayout extends LinearLayout implements View.OnClickListen
                 goSingle();
                 break;
             case R.id.home_bottom_active_iv:
+                if (activeData == null) {
+                    return;
+                }
+                Bundle bundle = new Bundle();
+//                bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_ACTIVITY+ UserEntity.getUser().getUserId(this.getApplicationContext())+"&t=" + new Random().nextInt(100000));
+//                startFragment(new FgActivity(), bundle);
                 break;
+        }
+    }
+
+    public void setSalesPromotion(HomeData.SalesPromotion data) {
+        if (data == null || TextUtils.isEmpty(data.getPicture())) {
+            activeTV.setVisibility(View.INVISIBLE);
+            activeIV.setVisibility(View.GONE);
+        } else {
+            this.activeData = data;
+            activeTV.setVisibility(View.VISIBLE);
+            activeIV.setVisibility(View.VISIBLE);
+            Tools.showImageCenterCrop(activeIV, data.getPicture());
         }
     }
 
