@@ -34,6 +34,10 @@ public class SearchNewAdapter extends BaseExpandableListAdapter {
         notifyDataSetChanged();
     }
 
+    public List<List<SearchGroupBean>> getChildList(){
+        return  childList;
+    }
+
     public void setKey(String key){
         this.key = key;
     }

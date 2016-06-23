@@ -217,7 +217,7 @@ public class CityUtils {
 
             if(null != type2List && type2List.size() > 0 || null != type3List && type3List.size() > 0){
                 SearchGroupBean searchGroupBean = new SearchGroupBean();
-                searchGroupBean.group_id = -1;
+                searchGroupBean.group_id = -2;
                 searchGroupBean.group_name = getShowName(bean) + "热门目的地";
                 cityList.add(0, searchGroupBean);
                 list.addAll(cityList);
@@ -230,7 +230,7 @@ public class CityUtils {
             if (null != cityList && cityList.size() > 0) {
                 list.addAll(cityList);
                 SearchGroupBean searchGroupBean = new SearchGroupBean();
-                searchGroupBean.group_id = -1;
+                searchGroupBean.group_id = -2;
                 searchGroupBean.group_name = getShowName(bean) + "热门目的地";
                 list.add(0, searchGroupBean);
             }
