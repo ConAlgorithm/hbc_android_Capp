@@ -108,6 +108,7 @@ public class FgHome extends BaseFragment {
 //            urlList.add("http://img3.imgtn.bdimg.com/it/u=221995782,2823567885&fm=21&gp=0.jpg");
             bannerView.update(data.getBannerList());
             routeView.setData(FgHome.this, data.getCityContentList());
+            bottomLayout.setSalesPromotion(data.getSalesPromotion());
         }
     }
 }

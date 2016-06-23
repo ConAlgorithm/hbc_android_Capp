@@ -13,6 +13,7 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.fragment.FgChooseCity;
 import com.hugboga.custom.fragment.FgHome;
+import com.hugboga.custom.utils.UIUtils;
 
 /**
  * Created by qingcha on 16/6/21.
@@ -65,7 +66,7 @@ public class HomeSearchView extends RelativeLayout implements View.OnClickListen
             revealView.setVisibility(View.VISIBLE);
             startLocation[0] = (int) searchIV.getX();
             startLocation[1] = (int) searchIV.getY();
-            revealView.setFillPaintColor(0xFFFFFFFF);
+//            revealView.setFillPaintColor(0xFFFFFFFF);
             revealView.startFromLocation(startLocation);
         }
     }
@@ -100,9 +101,9 @@ public class HomeSearchView extends RelativeLayout implements View.OnClickListen
     @Override
     public void onStateChange(int state) {
         if (state == revealView.STATE_FINISHED && !isHide) {
-            revealView.setFillPaintColor(0x00FFFFFF);
-            searchLayout.setVisibility(View.VISIBLE);
-            searchLayout.setBackgroundResource(R.drawable.shape_home_search_bg);
+//            revealView.setFillPaintColor(0x00FFFFFF);
+//            searchLayout.setVisibility(View.VISIBLE);
+//            searchLayout.setBackgroundResource(R.drawable.shape_home_search_bg);
         }
     }
 }

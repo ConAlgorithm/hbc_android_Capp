@@ -27,7 +27,7 @@ public class HomeDynamicsTextView extends View implements HttpRequestListener {
      * firstText + DEFAULT_SPACE
      * secondText + DEFAULT_SPACE
      * */
-    private static final String DEFAULT_SPACE = "            ";
+    private static final String DEFAULT_SPACE = "              ";
 
     /**
      * 默认移动像素数，也就是速度

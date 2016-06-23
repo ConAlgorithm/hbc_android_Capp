@@ -107,8 +107,8 @@ public class HomeBottomLayout extends LinearLayout implements View.OnClickListen
                     return;
                 }
                 Bundle bundle = new Bundle();
-//                bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_ACTIVITY+ UserEntity.getUser().getUserId(this.getApplicationContext())+"&t=" + new Random().nextInt(100000));
-//                startFragment(new FgActivity(), bundle);
+                bundle.putString(FgWebInfo.WEB_URL, activeData.getUrlAddress());
+                fragment.startFragment(new FgActivity(), bundle);
                 break;
         }
     }
