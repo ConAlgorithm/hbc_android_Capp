@@ -2,6 +2,10 @@ package com.hugboga.custom.utils;
 
 
 import android.app.Activity;
+import android.graphics.Color;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
 
 import com.anupcowkur.reservoir.Reservoir;
 import com.google.gson.reflect.TypeToken;
@@ -586,7 +590,16 @@ public class CityUtils {
     }
 
 
-
+    public static SpannableStringBuilder getSpannableString(String name, String keyWord) {
+        SpannableStringBuilder ssb = new SpannableStringBuilder(name);
+        ForegroundColorSpan yellowSpan = new ForegroundColorSpan(Color.parseColor("#FDCE02"));
+        int start = ssb.toString().indexOf(keyWord);
+        if(start != -1){
+            int end = start + keyWord.length();
+            ssb.setSpan(yellowSpan, start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+        return ssb;
+    }
 
 
 }

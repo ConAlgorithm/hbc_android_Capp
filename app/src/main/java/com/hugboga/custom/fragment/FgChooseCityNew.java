@@ -104,6 +104,7 @@ public class FgChooseCityNew extends BaseFragment {
 
     private void showSearchPop(List<SearchGroupBean> list){
         if(null != list && list.size() != 0) {
+            searchNewAdapter.setKey(headSearch.getText().toString().trim());
             searchNewAdapter.setGroupArray(list);
         }else{
             searchNewAdapter.clearList();

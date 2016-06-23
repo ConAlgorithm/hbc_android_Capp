@@ -9,17 +9,22 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
 import com.hugboga.custom.data.bean.SearchGroupBean;
+import com.hugboga.custom.utils.CityUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SearchNewAdapter extends BaseExpandableListAdapter {
     Activity activity;
-
+    String key = "";
     public void setGroupArray(List<SearchGroupBean> groupList) {
         this.groupList.clear();
         this.groupList.addAll(groupList);
         notifyDataSetChanged();
+    }
+
+    public void setKey(String key){
+        this.key = key;
     }
 
     public void clearList(){
@@ -95,7 +100,7 @@ public class SearchNewAdapter extends BaseExpandableListAdapter {
     }
 
     // View stub to create Group/Children 's View
-    public TextView getGenericView(String string) {
+    public TextView getGenericView(String name) {
         // Layout parameters for the ExpandableListView
         AbsListView.LayoutParams layoutParams = new AbsListView.LayoutParams(
                 ViewGroup.LayoutParams.FILL_PARENT, 200);
@@ -105,7 +110,7 @@ public class SearchNewAdapter extends BaseExpandableListAdapter {
         text.setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT);
         // Set the text starting position
         text.setPadding(36, 0, 0, 0);
-        text.setText(string);
+        text.setText(CityUtils.getSpannableString(name,key));
         return text;
     }
 
