@@ -313,9 +313,15 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                     vh.mHeadTitle.setOnClickListener(new TravelOnClickListener(orderBean));
                     vh.mHeadImg.setOnClickListener(new TravelOnClickListener(orderBean));
                 }
-                vh.mBtnChat.setVisibility(View.VISIBLE);
+                if(orderBean.isIm && (orderBean.imToken!=null && !orderBean.imToken.isEmpty()) && (orderBean.orderGuideInfo!=null && orderBean.orderGuideInfo.guideID!=null)){
+                    vh.mBtnChat.setVisibility(View.VISIBLE);
+                    vh.mBtnChat.setOnClickListener(new TravelOnClickListener(orderBean));
+                    showMessageNum(vh.mBtnChatNum, orderBean.imcount);//显示未读小红点个数
+                }else{
+                    vh.mBtnChat.setVisibility(View.GONE);
+                }
                 break;
-            case NOT_EVALUATED:
+            case NOT_EVALUATED://未评价
             case COMPLETE://已完成
                 vh.mStatusLayout.setVisibility(View.VISIBLE);
                 vh.lineView.setVisibility(View.VISIBLE);
@@ -334,8 +340,6 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                     vh.mHeadTitle.setOnClickListener(new TravelOnClickListener(orderBean));
                     vh.mHeadImg.setOnClickListener(new TravelOnClickListener(orderBean));
                 }
-                vh.mBtnChat.setVisibility(View.VISIBLE);
-
                 if (!orderBean.isEvaluated()) {//服务完成未评价
                     vh.mAssessment.setVisibility(View.VISIBLE);
                     vh.mAssessment.setOnClickListener(new TravelOnClickListener(orderBean));
@@ -343,6 +347,14 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                 } else {
                     vh.mAssessment.setVisibility(View.GONE);
                     vh.mStatus.setText("服务完成");
+                }
+
+                if(orderBean.isIm && (orderBean.imToken!=null && !orderBean.imToken.isEmpty()) && (orderBean.orderGuideInfo!=null && orderBean.orderGuideInfo.guideID!=null)){
+                    vh.mBtnChat.setVisibility(View.VISIBLE);
+                    vh.mBtnChat.setOnClickListener(new TravelOnClickListener(orderBean));
+                    showMessageNum(vh.mBtnChatNum, orderBean.imcount);//显示未读小红点个数
+                }else{
+                    vh.mBtnChat.setVisibility(View.GONE);
                 }
                 break;
             case CANCELLED:
@@ -359,15 +371,6 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
             default:
                 break;
         }
-        if(orderBean.canChat && (orderBean.imToken!=null && !orderBean.imToken.isEmpty()) && (orderBean.orderGuideInfo!=null && orderBean.orderGuideInfo.guideID!=null)){
-            vh.mBtnChat.setVisibility(View.VISIBLE);
-            vh.mBtnChat.setOnClickListener(new TravelOnClickListener(orderBean));
-        }else{
-            vh.mBtnChat.setVisibility(View.GONE);
-        }
-
-        //显示未读小红点个数
-        showMessageNum(vh.mBtnChatNum, orderBean.imcount);
     }
 
     /**
