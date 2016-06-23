@@ -91,7 +91,7 @@ public class HomeSearchView extends RelativeLayout implements View.OnClickListen
                 Bundle bundle = new Bundle();
                 bundle.putInt("com.hugboga.custom.home.flush", Constants.BUSINESS_TYPE_HOME);
                 bundle.putString("source","小搜索按钮");
-                fragment.startFragment(new FgChooseCity(), bundle);
+                fragment.startFragment(new FgChooseCityNew(), bundle);
                 break;
         }
     }
