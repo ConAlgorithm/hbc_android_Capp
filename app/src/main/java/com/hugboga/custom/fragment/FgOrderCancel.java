@@ -3,9 +3,7 @@ package com.hugboga.custom.fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
@@ -16,7 +14,6 @@ import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestOrderCancel;
-import com.hugboga.custom.utils.UmengUtils;
 import com.hugboga.custom.widget.DialogUtil;
 import com.umeng.analytics.MobclickAgent;
 
@@ -197,6 +194,7 @@ public class FgOrderCancel extends BaseFragment {
             public void onClick(DialogInterface dialog, int which) {
 //                bringToFront(FgTravel.class, new Bundle());
                 EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_UPDATE, orderBean.orderNo));
+                EventBus.getDefault().post(new EventAction(EventType.REFRESH_CHAT_LIST));
                 finish();
             }
         });
