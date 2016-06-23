@@ -369,6 +369,14 @@ public class FgChooseCityNew extends BaseFragment {
     }
 
     @Override
+    public void onStop() {
+        super.onStop();
+        if(null != popupWindow) {
+            popupWindow.dismiss();
+        }
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // TODO: inflate a fragment view
         View rootView = inflater.inflate(R.layout.fg_city_new,null);

@@ -22,5 +22,7 @@ public class SearchGroupBean {
     public int hot_weight;
     public int type;
 
+    public int level;//1 顶级组
+
     public int flag;//1,线路 2,国家,3,城市 4,热门
 }

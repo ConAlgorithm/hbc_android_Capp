@@ -136,7 +136,83 @@ public class CityUtils {
     **/
 
 
-   public static  List<SearchGroupBean> lineGroupBeanAdapter(List<LineGroupBean> list,int flag){
+/**
+    -- 组 parentType 1.组 2.国家
+    select * from line_group where parent_type=1 and parent_id=#{选择的组ID}
+    -- 国家
+    select * from line_group_item where type=2 and group_id=#{选择的组ID};
+    -- 城市
+    select * from line_group_item where type=3 and group_id=#{选择的组ID};
+    -- 查询国家下的子组/城市 （国家下没有国家）
+    select * from line_group where parent_type=2 and parent_id=#{选择的国家ID}
+ **/
+
+    //获取国家下面的热门线路
+    public static List<SearchGroupBean> getCountryLine(Activity activity,String parent_id) {
+        try {
+            DbManager mDbManager = new DBHelper(activity).getDbManager();
+            Selector selector = null;
+            selector = mDbManager.selector(LineGroupBean.class);
+            selector.where("parent_type", "=", 2);
+            selector.and("parent_id","=",parent_id);
+            selector.limit(3);
+            List<LineGroupBean> list = selector.findAll();
+            return lineGroupBeanAdapter(list,1);
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    //获取国家下面的城市
+    public static List<SearchGroupBean> getCountryCity(Activity activity,String sub_place_id) {
+        try {
+            DbManager mDbManager = new DBHelper(activity).getDbManager();
+            Selector selector = null;
+            selector = mDbManager.selector(LineGroupItem.class);
+            selector.where("type", "=", 3);
+            selector.and("sub_place_id","=",sub_place_id);
+            selector.limit(5);
+            List<LineGroupItem> list = selector.findAll();
+            return lineGroupItemAdapter(list,3);
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static List<SearchGroupBean> getCountLineCity(Activity activity,SearchGroupBean bean){
+        List<SearchGroupBean> list = new ArrayList<>();
+        if(bean.type == 1 && bean.level == 1) {
+            List<SearchGroupBean> lineList = getCountryLine(activity, bean.parent_id + "");
+
+            if (null != lineList && lineList.size() > 0) {
+                SearchGroupBean searchGroupBean = new SearchGroupBean();
+                searchGroupBean.group_id = -1;
+                searchGroupBean.group_name = getShowName(bean) + "多地畅游";
+                lineList.add(0, searchGroupBean);
+                list.addAll(lineList);
+            }
+        }
+
+        if(bean.type == 2){
+            List<SearchGroupBean> cityList = getCountryCity(activity,bean.sub_place_id+"");
+
+            if(null != cityList && cityList.size()>0){
+                SearchGroupBean searchGroupBean = new SearchGroupBean();
+                searchGroupBean.group_id = -1;
+                searchGroupBean.group_name = getShowName(bean)+"多地畅游";
+                cityList.add(0,searchGroupBean);
+                list.addAll(cityList);
+            }
+        }
+
+        return list;
+
+    }
+
+
+    public static  List<SearchGroupBean> lineGroupBeanAdapter(List<LineGroupBean> list,int flag){
        List<SearchGroupBean> searchList = new ArrayList<>();
        SearchGroupBean searchGroupBean = null;
        if(null == list){
@@ -149,6 +225,8 @@ public class CityUtils {
 
            searchGroupBean.parent_name = bean.parent_name;
            searchGroupBean.parent_id = bean.parent_id;
+
+           searchGroupBean.level = bean.level;
            searchGroupBean.type = 1;
            searchGroupBean.flag = flag;
            searchList.add(searchGroupBean);

@@ -1,12 +1,11 @@
 package com.hugboga.custom.adapter;
 
 import android.app.Activity;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
@@ -21,7 +20,17 @@ public class SearchNewAdapter extends BaseExpandableListAdapter {
     String key = "";
     public void setGroupArray(List<SearchGroupBean> groupList) {
         this.groupList.clear();
+        this.childList.clear();
         this.groupList.addAll(groupList);
+        List<SearchGroupBean> tmpList;
+        for (int  index = 0 ; index < groupList.size(); ++index) {
+            tmpList = CityUtils.getCountLineCity(activity,groupList.get(index));
+            if(null == tmpList){
+                tmpList = new ArrayList<>();
+            }
+            childList.add(tmpList);
+        }
+
         notifyDataSetChanged();
     }
 
@@ -39,23 +48,7 @@ public class SearchNewAdapter extends BaseExpandableListAdapter {
 
     public SearchNewAdapter(Activity activity) {
         this.activity = activity;
-
-//        groupArray.add("第一行" );
-//        groupArray.add("第二行" );
-
-//        List<String> tempArray = new  ArrayList<String>();
-//        tempArray.add("第一条" );
-//        tempArray.add("第二条" );
-//        tempArray.add("第三条" );
-//
-//        for (int  index = 0 ; index <groupArray.size(); ++index)
-//        {
-//            childArray.add(tempArray);
-//        }
-
     }
-
-
 
 
     public Object getChild(int groupPosition, int childPosition) {
@@ -75,8 +68,7 @@ public class SearchNewAdapter extends BaseExpandableListAdapter {
 
     public View getChildView(int groupPosition, int childPosition,
                              boolean isLastChild, View convertView, ViewGroup parent) {
-        String string = childList.get(groupPosition).get(childPosition).group_name;
-        return getGenericView(string);
+        return genChildView(childList.get(groupPosition).get(childPosition));
     }
 
     // group method stub
@@ -100,20 +92,6 @@ public class SearchNewAdapter extends BaseExpandableListAdapter {
         return genGroupView(groupList.get(groupPosition));
     }
 
-    // View stub to create Group/Children 's View
-    public TextView getGenericView(String name) {
-        // Layout parameters for the ExpandableListView
-        AbsListView.LayoutParams layoutParams = new AbsListView.LayoutParams(
-                ViewGroup.LayoutParams.FILL_PARENT, 200);
-        TextView text = new TextView(activity);
-        text.setLayoutParams(layoutParams);
-        // Center the text vertically
-        text.setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT);
-        // Set the text starting position
-        text.setPadding(36, 0, 0, 0);
-        text.setText(CityUtils.getSpannableString(name,key));
-        return text;
-    }
 
 
     public View genGroupView(SearchGroupBean searchGroupBean) {
@@ -123,6 +101,25 @@ public class SearchNewAdapter extends BaseExpandableListAdapter {
 
         left_name.setText(CityUtils.getSpannableString(CityUtils.getShowName(searchGroupBean),key));
         right_name.setText(CityUtils.getParentName(searchGroupBean));
+        return view;
+    }
+
+    public View genChildView(SearchGroupBean searchGroupBean) {
+        View view = LayoutInflater.from(activity).inflate(R.layout.search_child_item_layout,null);
+        LinearLayout title_layout = (LinearLayout)view.findViewById(R.id.title_layout);
+
+        TextView title = (TextView)view.findViewById(R.id.title);
+        TextView name = (TextView)view.findViewById(R.id.name);
+
+        if(searchGroupBean.group_id == -1 || searchGroupBean.group_id == -2){
+            title_layout.setVisibility(View.VISIBLE);
+            title.setText(searchGroupBean.group_name);
+            name.setVisibility(View.GONE);
+        }else{
+            title_layout.setVisibility(View.GONE);
+            name.setVisibility(View.VISIBLE);
+            name.setText(CityUtils.getShowName(searchGroupBean));
+        }
         return view;
     }
 
