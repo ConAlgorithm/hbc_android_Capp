@@ -76,6 +76,7 @@ public class FgChooseCityNew extends BaseFragment {
         expandableListView = (ExpandableListView)view.findViewById(R.id.search_list);
         expandableListView.setChildIndicator(null);
         expandableListView.setGroupIndicator(null);
+        expandableListView.setChildDivider(new ColorDrawable());
         searchNewAdapter = new SearchNewAdapter(getActivity());
         expandableListView.setAdapter(searchNewAdapter);
         expandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
@@ -130,6 +131,9 @@ public class FgChooseCityNew extends BaseFragment {
                 showSoftInputMethod(headSearch);
                 break;
             case R.id.header_left_btn:
+                if(null != popupWindow) {
+                    popupWindow.dismiss();
+                }
                 finish();
                 break;
             case R.id.city_choose_btn:
@@ -367,6 +371,15 @@ public class FgChooseCityNew extends BaseFragment {
     protected void inflateContent() {
 
     }
+
+    @Override
+    public boolean onBackPressed() {
+        if(null != popupWindow) {
+            popupWindow.dismiss();
+        }
+        return super.onBackPressed();
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
