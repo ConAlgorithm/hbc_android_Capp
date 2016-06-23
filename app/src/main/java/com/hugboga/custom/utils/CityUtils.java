@@ -2,6 +2,10 @@ package com.hugboga.custom.utils;
 
 
 import android.app.Activity;
+import android.graphics.Color;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
 
 import com.anupcowkur.reservoir.Reservoir;
 import com.google.gson.reflect.TypeToken;
@@ -9,7 +13,6 @@ import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.LineGroupBean;
 import com.hugboga.custom.data.bean.LineGroupItem;
 import com.hugboga.custom.data.bean.LineHotSpotBean;
-import com.hugboga.custom.data.bean.SaveStartEndCity;
 import com.hugboga.custom.data.bean.SearchGroupBean;
 
 import org.xutils.DbManager;
@@ -136,6 +139,9 @@ public class CityUtils {
    public static  List<SearchGroupBean> lineGroupBeanAdapter(List<LineGroupBean> list,int flag){
        List<SearchGroupBean> searchList = new ArrayList<>();
        SearchGroupBean searchGroupBean = null;
+       if(null == list){
+           return searchList;
+       }
        for(LineGroupBean bean:list){
            searchGroupBean = new SearchGroupBean();
            searchGroupBean.group_id = bean.group_id;
@@ -149,6 +155,9 @@ public class CityUtils {
 
     public static  List<SearchGroupBean> lineGroupItemAdapter(List<LineGroupItem> list,int flag){
         List<SearchGroupBean> searchList = new ArrayList<>();
+        if(null == list){
+            return searchList;
+        }
         SearchGroupBean searchGroupBean = null;
         for(LineGroupItem bean:list){
             searchGroupBean = new SearchGroupBean();
@@ -171,6 +180,9 @@ public class CityUtils {
     public static  List<SearchGroupBean> lineHotCityAdapter(List<LineHotSpotBean> list){
         List<SearchGroupBean> searchList = new ArrayList<>();
         SearchGroupBean searchGroupBean = null;
+        if(null == list){
+            return searchList;
+        }
         for(LineHotSpotBean bean:list){
             searchGroupBean = new SearchGroupBean();
             searchGroupBean.spot_id = bean.spot_id;
@@ -464,9 +476,10 @@ public class CityUtils {
     select gi.*, 2 as rank from line_group_item as gi where type=3 and sub_city_name like '%巴里%' and sub_city_name not like '巴里%' order by rank;
 
     -- 关键字查询 线路圈
-    select * from (select gp.*, 1 as rank from line_group as gp where group_name like '新增%'
-            union
-            select gp.*, 2 as rank from line_group as gp where group_name like '%新增%' and group_name not like '新增%') order by level, rank;
+    select * from
+ (select gp.*, 1 as rank from line_group as gp where group_name like '新增%'
+   union
+    select gp.*, 2 as rank from line_group as gp where group_name like '%新增%' and group_name not like '新增%') order by level, rank;
 
     -- 关键字查询 国家
     select gi.*, 1 as rank from line_group_item as gi where type=2 and sub_place_name like '意%'
@@ -491,14 +504,102 @@ public class CityUtils {
             selector.orderBy("rank");
             List<LineGroupItem> list2 = selector.findAll();
 
-            List<LineGroupItem> list = selector.findAll();
-            list.addAll(list1);
-            list.addAll(list2);
-
-            return lineGroupItemAdapter(list,2);
+            List<LineGroupItem> list = new ArrayList<>();
+            if(null != list1) {
+                list.addAll(list1);
+            }
+            if(null != list2) {
+                list.addAll(list2);
+            }
+            return lineGroupItemAdapter(list,3);
         }catch (Exception e){
             e.printStackTrace();
             return null;
         }
     }
+
+    public static List<SearchGroupBean> searchLine(Activity activity,String key){
+        try {
+            DbManager mDbManager = new DBHelper(activity).getDbManager();
+            Selector selector = null;
+            selector = mDbManager.selector(LineGroupBean.class);
+            selector.where("group_name","like",key+"%");
+            List<LineGroupBean> list1 = selector.findAll();
+
+            selector = mDbManager.selector(LineGroupBean.class);
+            selector.where("group_name","like","%"+key+"%");
+            selector.and("group_name","not like",key+"%");
+            selector.orderBy("level").orderBy("rank");
+            List<LineGroupBean> list2 = selector.findAll();
+
+            List<LineGroupBean> list  = new ArrayList<>();
+            if(null != list1) {
+                list.addAll(list1);
+            }
+            if(null != list2) {
+                list.addAll(list2);
+            }
+            return lineGroupBeanAdapter(list,1);
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static List<SearchGroupBean> searchCountry(Activity activity,String key){
+        try {
+            DbManager mDbManager = new DBHelper(activity).getDbManager();
+            Selector selector = null;
+            selector = mDbManager.selector(LineGroupItem.class);
+            selector.where("type","=",2);
+            selector.and("sub_place_name","like",key+"%");
+            List<LineGroupItem> list1 = selector.findAll();
+
+            selector = mDbManager.selector(LineGroupItem.class);
+            selector.where("type","=",2);
+            selector.and("sub_place_name","like","%"+key+"%");
+            selector.and("sub_place_name","not like",key+"%");
+            selector.orderBy("rank");
+            List<LineGroupItem> list2 = selector.findAll();
+
+            List<LineGroupItem> list  = new ArrayList<>();
+            if(null != list1) {
+                list.addAll(list1);
+            }
+            if(null != list2) {
+                list.addAll(list2);
+            }
+            return lineGroupItemAdapter(list,1);
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static List<SearchGroupBean> search(Activity activity,String key){
+        List<SearchGroupBean> list  = new ArrayList<>();
+
+        List<SearchGroupBean> cityList  = searchCity(activity,key);
+        List<SearchGroupBean> lineList  = searchLine(activity,key);
+        List<SearchGroupBean> countryList  = searchCountry(activity,key);
+
+        list.addAll(cityList);
+        list.addAll(lineList);
+        list.addAll(countryList);
+        return list;
+    }
+
+
+    public static SpannableStringBuilder getSpannableString(String name, String keyWord) {
+        SpannableStringBuilder ssb = new SpannableStringBuilder(name);
+        ForegroundColorSpan yellowSpan = new ForegroundColorSpan(Color.parseColor("#FDCE02"));
+        int start = ssb.toString().indexOf(keyWord);
+        if(start != -1){
+            int end = start + keyWord.length();
+            ssb.setSpan(yellowSpan, start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+        return ssb;
+    }
+
+
 }
