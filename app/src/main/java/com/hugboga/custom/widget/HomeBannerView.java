@@ -93,7 +93,7 @@ public class HomeBannerView extends RelativeLayout implements HbcViewBehavior{
                 mAdapter.setData(bannerList, mViewPager);
                 mViewPager.setCurrentItem(0, false);
             }
-//            initCutHandler();
+            initCutHandler();
         }
     }
 
@@ -158,18 +158,18 @@ public class HomeBannerView extends RelativeLayout implements HbcViewBehavior{
     }
 
     public void onDestroyHandler() {
-        if (cutHandler != null && cutRunnable != null) {
-            cutHandler.removeCallbacks(cutRunnable);
-        }
+//        if (cutHandler != null && cutRunnable != null) {
+//            cutHandler.removeCallbacks(cutRunnable);
+//        }
     }
 
     public void onStartChange() {
-        if (mViewPager != null && cutHandler != null && cutRunnable != null) {
-            mViewPager.setPageTransformer(true, new StackTransformer());
-            mViewPager.setScrolDuration(800);
-            cutHandler.removeCallbacks(cutRunnable);
-            cutHandler.postDelayed(cutRunnable, getCutTime());
-        }
+//        if (mViewPager != null && cutHandler != null && cutRunnable != null) {
+//            mViewPager.setPageTransformer(true, new StackTransformer());
+//            mViewPager.setScrolDuration(800);
+//            cutHandler.removeCallbacks(cutRunnable);
+//            cutHandler.postDelayed(cutRunnable, getCutTime());
+//        }
     }
 
     protected int getCutTime() {

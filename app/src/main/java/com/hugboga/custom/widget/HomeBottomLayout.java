@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -16,10 +17,13 @@ import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.fragment.FgActivity;
 import com.hugboga.custom.fragment.FgHome;
+import com.hugboga.custom.fragment.FgLogin;
 import com.hugboga.custom.fragment.FgOrderSelectCity;
 import com.hugboga.custom.fragment.FgPickSend;
 import com.hugboga.custom.fragment.FgSingleNew;
 import com.hugboga.custom.fragment.FgWebInfo;
+import com.hugboga.custom.utils.Common;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
 import com.umeng.analytics.MobclickAgent;
@@ -103,11 +107,22 @@ public class HomeBottomLayout extends LinearLayout implements View.OnClickListen
                 goSingle();
                 break;
             case R.id.home_bottom_active_iv:
-                if (activeData == null) {
+                if (!UserEntity.getUser().isLogin(fragment.getActivity())) {
+                    CommonUtils.showToast(R.string.login_hint);
+                    Bundle bundle = new Bundle();;
+                    bundle.putString("source", "首页");
+                    fragment.startFragment(new FgLogin(), bundle);
+                }
+                if (activeData == null || TextUtils.isEmpty(activeData.getUrlAddress())) {
                     return;
                 }
+                String urlAddress = activeData.getUrlAddress();
+                if (urlAddress.lastIndexOf("?") != urlAddress.length() - 1) {
+                    urlAddress = urlAddress + "?";
+                }
+                urlAddress = urlAddress + UserEntity.getUser().getUserId(fragment.getContext())+"&t=" + new Random().nextInt(100000);
                 Bundle bundle = new Bundle();
-                bundle.putString(FgWebInfo.WEB_URL, activeData.getUrlAddress());
+                bundle.putString(FgWebInfo.WEB_URL, urlAddress);
                 fragment.startFragment(new FgActivity(), bundle);
                 break;
         }
