@@ -4,85 +4,88 @@
     android:layout_height="match_parent"
     android:background="#F9F9F8"
     android:focusable="true"
-    android:orientation="vertical"
-    android:focusableInTouchMode="true">
+    android:focusableInTouchMode="true"
+    android:orientation="vertical">
 
     <include layout="@layout/activity_search_edit_head" />
 
     <!--<include layout="@layout/include_choose_city_head" />-->
 
+
     <LinearLayout
         android:id="@+id/history_layout"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:gravity="center_vertical"
-        android:background="@color/basic_white">
+        android:background="@color/basic_white"
+        android:gravity="center_vertical">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:textColor="#666666"
             android:drawableLeft="@mipmap/search_history"
             android:drawablePadding="10dp"
-            android:text="历史:"/>
+            android:text="历史:"
+            android:textColor="#666666" />
 
         <com.hugboga.custom.widget.FlowLayout
             android:id="@+id/history_city_layout"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginLeft="20dp"
-            FlowLayout:fhorizontalSpacing="20dp"
+            android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:gravity="center_vertical">
-        </com.hugboga.custom.widget.FlowLayout>
+            FlowLayout:fhorizontalSpacing="20dp"></com.hugboga.custom.widget.FlowLayout>
     </LinearLayout>
 
-    <TextView android:layout_height="1dp" android:layout_width="match_parent" android:background="#e8eaea"></TextView>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#e8eaea"></TextView>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center_vertical"
-        android:background="@color/basic_white">
+        android:background="@color/basic_white"
+        android:gravity="center_vertical">
 
         <ListView
             android:id="@+id/left_list"
             android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="#edeeef"
-            android:dividerHeight="0dp"
             android:divider="@null"
-            android:layout_height="match_parent"/>
+            android:dividerHeight="0dp" />
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_weight="1"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
             <TextView
                 android:layout_width="1dp"
-                android:background="#e8e9ea"
+                android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
-                android:layout_height="match_parent" />
+                android:background="#e8e9ea" />
 
             <ListView
                 android:id="@+id/middle_list"
                 android:layout_width="match_parent"
-                android:divider="@null"
-                android:layout_height="match_parent"/>
-         </RelativeLayout>
+                android:layout_height="match_parent"
+                android:divider="@null" />
+        </RelativeLayout>
 
         <ListView
             android:id="@+id/right_list"
             android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:divider="@null"
-            android:visibility="gone"
             android:background="@color/basic_white"
-            android:layout_height="match_parent"/>
+            android:divider="@null"
+            android:visibility="gone" />
 
     </LinearLayout>
-
 
 
 </LinearLayout>

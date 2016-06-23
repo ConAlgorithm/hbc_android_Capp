@@ -1,6 +1,7 @@
 package com.hugboga.custom.fragment;
 
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -11,14 +12,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.LevelCityAdapter;
+import com.hugboga.custom.adapter.SearchNewAdapter;
 import com.hugboga.custom.data.bean.SearchGroupBean;
 import com.hugboga.custom.utils.CityUtils;
 import com.hugboga.custom.utils.LogUtils;
@@ -61,17 +65,67 @@ public class FgChooseCityNew extends BaseFragment {
 
     @Override
     protected void initHeader() {
+        headTextRight.setText("取消");
+    }
+    SearchNewAdapter searchNewAdapter;
+    PopupWindow popupWindow = null;
 
+    ExpandableListView expandableListView;
+    private void  initPop(){
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.search_layout_new,null);
+        expandableListView = (ExpandableListView)view.findViewById(R.id.search_list);
+        searchNewAdapter = new SearchNewAdapter(getActivity());
+        expandableListView.setAdapter(searchNewAdapter);
+        expandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+            @Override
+            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+                ToastUtils.showShort(groupPosition+"======");
+                return true;
+            }
+        });
+
+        expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+                ToastUtils.showShort(groupPosition+"======"+childPosition);
+                return true;
+            }
+        });
+        if (popupWindow == null) {
+            popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+        }
+        //设置后进行展示
+        popupWindow.setBackgroundDrawable(new ColorDrawable());
+//        popupWindow.setOutsideTouchable(true);
+        popupWindow.setFocusable(false);
+        popupWindow.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
+    }
+
+
+    private void showSearchPop(List<SearchGroupBean> list){
+        if(null != list && list.size() != 0) {
+            searchNewAdapter.setGroupArray(list);
+        }else{
+            searchNewAdapter.clearList();
+        }
+        for(int i = 0;i< list.size();i++){
+            expandableListView.expandGroup(i);
+        }
+        popupWindow.showAsDropDown(activityHeadLayout);
     }
 
     @Override
     protected void initHeader(Bundle savedInstanceState) {
         super.initHeader(savedInstanceState);
+        initPop();
     }
 
-    @Event(value = {R.id.header_left_btn,R.id.city_choose_btn, R.id.head_search_clean, R.id.head_text_right})
+    @Event(value = {R.id.head_search,R.id.header_left_btn,R.id.city_choose_btn, R.id.head_search_clean, R.id.head_text_right})
     private void onClickView(View view) {
         switch (view.getId()) {
+            case R.id.head_search:
+                showSoftInputMethod(headSearch);
+                break;
             case R.id.header_left_btn:
                 finish();
                 break;
@@ -79,19 +133,12 @@ public class FgChooseCityNew extends BaseFragment {
                 finish();
                 break;
             case R.id.head_search_clean:
-                if(TextUtils.isEmpty(headSearch.getText().toString().trim())){
-                    break;
-                }
                 headSearch.setText("");
                 break;
             case R.id.head_text_right:
-                String keyword = headSearch.getText().toString().trim();
-                if (TextUtils.isEmpty(keyword)) {
-                    ToastUtils.showLong("请输入搜索内容");
-                    return;
-                }
-                collapseSoftInputMethod();
-//                requestDataByKeyword(getBusinessType(), groupId, keyword, false); //进行点击搜索
+                 headSearch.setText("");
+                 popupWindow.dismiss();
+                 collapseSoftInputMethod();
                 break;
         }
 
@@ -120,8 +167,13 @@ public class FgChooseCityNew extends BaseFragment {
             @Override
             public void afterTextChanged(Editable s) {
                 if(!TextUtils.isEmpty(headSearch.getText())) {
-                   List<SearchGroupBean> list =  CityUtils.searchCity(getActivity(), headSearch.getText().toString());
-                    LogUtils.e(list.toString());
+                   List<SearchGroupBean> list =  CityUtils.search(getActivity(), headSearch.getText().toString());
+                    LogUtils.e(list.size()+"===="+headSearch.getText().toString());
+                    showSearchPop(list);
+                }else{
+                    if(null != popupWindow){
+                        popupWindow.dismiss();
+                    }
                 }
             }
         });
