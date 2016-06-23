@@ -146,6 +146,9 @@ public class CityUtils {
            searchGroupBean = new SearchGroupBean();
            searchGroupBean.group_id = bean.group_id;
            searchGroupBean.group_name = bean.group_name;
+
+           searchGroupBean.parent_name = bean.parent_name;
+           searchGroupBean.parent_id = bean.parent_id;
            searchGroupBean.type = 1;
            searchGroupBean.flag = flag;
            searchList.add(searchGroupBean);
@@ -467,6 +470,20 @@ public class CityUtils {
 
     }
 
+    //获取上级名称
+    public static String getParentName(SearchGroupBean searchGroupBean ){
+            if(searchGroupBean.type == 1){
+                return searchGroupBean.parent_name;
+            }else if(searchGroupBean.type == 2){
+                return searchGroupBean.group_name;
+            }else if(searchGroupBean.type == 3){
+                return searchGroupBean.sub_place_name;
+            }
+
+        return "";
+
+    }
+
 
 /**
     -- 搜索部分查询
@@ -569,7 +586,7 @@ public class CityUtils {
             if(null != list2) {
                 list.addAll(list2);
             }
-            return lineGroupItemAdapter(list,1);
+            return lineGroupItemAdapter(list,2);
         }catch (Exception e){
             e.printStackTrace();
             return null;

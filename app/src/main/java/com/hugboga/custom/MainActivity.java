@@ -547,13 +547,6 @@ public class MainActivity extends BaseActivity
                 mViewPager.setCurrentItem(0);
                 break;
             case R.id.tab_text_2:
-//TODO;
-                Bundle bundle = new Bundle();
-                HashMap<String,String> map = new HashMap<String,String>();
-                bundle.putInt(KEY_BUSINESS_TYPE, Constants.BUSINESS_TYPE_HOME);
-                bundle.putString("source","小搜索按钮");
-                startFragment(new FgChooseCityNew(), bundle);
-
                 mViewPager.setCurrentItem(1);
                 break;
             case R.id.tab_text_3:

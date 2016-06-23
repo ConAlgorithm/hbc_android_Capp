@@ -2,12 +2,14 @@ package com.hugboga.custom.adapter;
 
 import android.app.Activity;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
+import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.SearchGroupBean;
 import com.hugboga.custom.utils.CityUtils;
 
@@ -95,8 +97,7 @@ public class SearchNewAdapter extends BaseExpandableListAdapter {
 
     public View getGroupView(int groupPosition, boolean isExpanded,
                              View convertView, ViewGroup parent) {
-        String string = groupList.get(groupPosition).group_name;
-        return getGenericView(string);
+        return genGroupView(groupList.get(groupPosition));
     }
 
     // View stub to create Group/Children 's View
@@ -112,6 +113,17 @@ public class SearchNewAdapter extends BaseExpandableListAdapter {
         text.setPadding(36, 0, 0, 0);
         text.setText(CityUtils.getSpannableString(name,key));
         return text;
+    }
+
+
+    public View genGroupView(SearchGroupBean searchGroupBean) {
+        View view = LayoutInflater.from(activity).inflate(R.layout.search_item_layou,null);
+        TextView left_name = (TextView)view.findViewById(R.id.left_name);
+        TextView right_name = (TextView)view.findViewById(R.id.right_name);
+
+        left_name.setText(CityUtils.getSpannableString(CityUtils.getShowName(searchGroupBean),key));
+        right_name.setText(CityUtils.getParentName(searchGroupBean));
+        return view;
     }
 
     public boolean hasStableIds() {

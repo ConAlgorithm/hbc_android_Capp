@@ -74,6 +74,8 @@ public class FgChooseCityNew extends BaseFragment {
     private void  initPop(){
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.search_layout_new,null);
         expandableListView = (ExpandableListView)view.findViewById(R.id.search_list);
+        expandableListView.setChildIndicator(null);
+        expandableListView.setGroupIndicator(null);
         searchNewAdapter = new SearchNewAdapter(getActivity());
         expandableListView.setAdapter(searchNewAdapter);
         expandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
