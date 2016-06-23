@@ -17,9 +17,6 @@ import android.widget.LinearLayout;
 
 import com.hugboga.custom.utils.UIUtils;
 
-/**
- * Created by Miroslaw Stanek on 18.01.15.
- */
 public class RevealBackgroundView extends LinearLayout {
     public static final int STATE_NOT_STARTED = 0;
     public static final int STATE_FILL_STARTED = 1;
@@ -38,6 +35,7 @@ public class RevealBackgroundView extends LinearLayout {
     private int startLocationY;
 
     private RectF rect;
+    private int radius;
 
 
     private OnStateChangeListener onStateChangeListener;
@@ -64,12 +62,13 @@ public class RevealBackgroundView extends LinearLayout {
     }
 
     private void init() {
-        fillPaint = new Paint();
+        fillPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         fillPaint.setStyle(Paint.Style.FILL);
         fillPaint.setColor(Color.WHITE);
         rect = new RectF();
         rect.left = 0;
         rect.top = 0;
+        radius = UIUtils.dip2px(34) / 2;
     }
 
     public void setFillPaintColor(int color) {
@@ -98,13 +97,13 @@ public class RevealBackgroundView extends LinearLayout {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        if (state == STATE_FINISHED) {
-//            canvas.drawRect(0, 0, getWidth(), getHeight(), fillPaint);
-            rect.right = getWidth();
-            rect.bottom = getHeight();
-            canvas.drawRoundRect(rect, UIUtils.dip2px(20), UIUtils.dip2px(20), fillPaint);
-        } else {
+        if (state != STATE_FINISHED) {
+            fillPaint.setColor(0xFFFFFFFF);
             canvas.drawCircle(startLocationX, startLocationY, currentRadius, fillPaint);
+            fillPaint.setColor(0xFF2D2B28);
+            canvas.drawRect(getWidth() - UIUtils.dip2px(20), 0, getWidth(), getHeight(), fillPaint);
+            fillPaint.setColor(0xFFFFFFFF);
+            canvas.drawCircle(canvas.getWidth() - radius, radius, radius, fillPaint);
         }
     }
 
@@ -112,7 +111,6 @@ public class RevealBackgroundView extends LinearLayout {
         if (this.state == state) {
             return;
         }
-
         this.state = state;
         if (onStateChangeListener != null) {
             onStateChangeListener.onStateChange(state);
@@ -128,7 +126,7 @@ public class RevealBackgroundView extends LinearLayout {
         invalidate();
     }
 
-    public static interface OnStateChangeListener {
+    public interface OnStateChangeListener {
         void onStateChange(int state);
     }
 }
