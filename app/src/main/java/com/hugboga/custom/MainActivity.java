@@ -56,7 +56,6 @@ import com.hugboga.custom.data.request.RequestUploadLocation;
 import com.hugboga.custom.data.request.RequestUserInfo;
 import com.hugboga.custom.fragment.FgActivity;
 import com.hugboga.custom.fragment.FgChat;
-import com.hugboga.custom.fragment.FgChooseCityNew;
 import com.hugboga.custom.fragment.FgCollectGuideList;
 import com.hugboga.custom.fragment.FgCoupon;
 import com.hugboga.custom.fragment.FgHome;

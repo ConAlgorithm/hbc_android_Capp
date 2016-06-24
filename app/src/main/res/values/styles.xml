@@ -85,8 +85,9 @@
     </style>
 
     <style name="TabBottomLayoutStyle">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:gravity">center</item>
         <item name="android:layout_weight">1</item>
     </style>
 
@@ -95,8 +96,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_weight">1</item>
         <item name="android:textColor">@drawable/tab_menu_text_color</item>
-        <item name="android:drawablePadding">4dp</item>
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">10sp</item>
         <item name="android:gravity">center</item>
     </style>
 
