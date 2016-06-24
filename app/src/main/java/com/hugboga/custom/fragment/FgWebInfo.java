@@ -22,6 +22,7 @@ import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.net.WebAgent;
+import com.hugboga.custom.utils.ChannelUtils;
 import com.hugboga.custom.widget.DialogUtil;
 
 import org.xutils.common.Callback;
@@ -223,6 +224,8 @@ public class FgWebInfo extends BaseFragment implements View.OnKeyListener {
         webView.setWebViewClient(webClient);
         webView.setWebChromeClient(webChromeClient);
         webView.setBackgroundColor(0x00000000);
+        String ua = webView.getSettings().getUserAgentString();
+        webView.getSettings().setUserAgentString(ua+ " HbcC/"+ ChannelUtils.getVersion());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             WebView.setWebContentsDebuggingEnabled(true);
         }
