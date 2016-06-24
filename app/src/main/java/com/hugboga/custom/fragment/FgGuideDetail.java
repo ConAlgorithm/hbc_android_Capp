@@ -246,8 +246,7 @@ public class FgGuideDetail extends BaseFragment implements GuideCarPhotosAdapter
 
 
     @Event({R.id.guide_detail_plane_layout, R.id.guide_detail_car_layout,
-            R.id.guide_detail_single_layout, R.id.guide_detail_call_iv, R.id.ogi_evaluate_chat_iv,
-            R.id.header_detail_back_btn, R.id.header_detail_right_1_btn, R.id.header_detail_right_2_btn})
+            R.id.guide_detail_single_layout, R.id.header_detail_back_btn, R.id.header_detail_right_1_btn, R.id.header_detail_right_2_btn})
     private void onClickView(View view) {
         Bundle bundle = new Bundle();
         HashMap<String,String> map = new HashMap<String,String>();
@@ -273,21 +272,21 @@ public class FgGuideDetail extends BaseFragment implements GuideCarPhotosAdapter
                 fgSingleNew.setArguments(bundle);
                 startFragment(fgSingleNew);
                 break;
-            case R.id.guide_detail_call_iv:
-                if (data == null) {
-                    break;
-                }
-                PhoneInfo.CallDial(getActivity(), data.getMobile());
-                break;
-            case R.id.ogi_evaluate_chat_iv:
-                ChatInfo chatInfo = new ChatInfo();
-                chatInfo.isChat = true;
-                chatInfo.userId = data.getGuideId();
-                chatInfo.userAvatar = data.getAvatar();
-                chatInfo.title = data.getGuideName();
-                chatInfo.targetType = "1";
-                RongIM.getInstance().startPrivateChat(getActivity(), "G" + data.getGuideId(), new ParserChatInfo().toJsonString(chatInfo));
-                break;
+//            case R.id.guide_detail_call_iv:
+//                if (data == null) {
+//                    break;
+//                }
+//                PhoneInfo.CallDial(getActivity(), data.getMobile());
+//                break;
+//            case R.id.ogi_evaluate_chat_iv:
+//                ChatInfo chatInfo = new ChatInfo();
+//                chatInfo.isChat = true;
+//                chatInfo.userId = data.getGuideId();
+//                chatInfo.userAvatar = data.getAvatar();
+//                chatInfo.title = data.getGuideName();
+//                chatInfo.targetType = "1";
+//                RongIM.getInstance().startPrivateChat(getActivity(), "G" + data.getGuideId(), new ParserChatInfo().toJsonString(chatInfo));
+//                break;
             case R.id.header_detail_back_btn:
                 finish();
                 break;

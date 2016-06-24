@@ -25,7 +25,7 @@ import de.greenrobot.event.EventBus;
 public class OrderDetailGuideInfo extends LinearLayout implements HbcViewBehavior, View.OnClickListener {
 
     private PolygonImageView avatarIV;
-    private TextView collectTV, promptTV, evaluateTV;
+    private TextView collectTV, promptTV, evaluateTV, imTV, phoneTV;
     private View lineView;
     private LinearLayout navLayout;
 
@@ -40,13 +40,15 @@ public class OrderDetailGuideInfo extends LinearLayout implements HbcViewBehavio
         collectTV = (TextView) findViewById(R.id.ogi_collect_tv);
         evaluateTV = (TextView) findViewById(R.id.ogi_evaluate_tv);
         promptTV = (TextView) findViewById(R.id.ogi_prompt_tv);
+        imTV = (TextView) findViewById(R.id.ogi_im_tv);
+        phoneTV = (TextView) findViewById(R.id.ogi_phone_tv);
         lineView = findViewById(R.id.ogi_horizontal_line);
         navLayout = (LinearLayout) findViewById(R.id.ogi_nav_layout);
 
         collectTV.setOnClickListener(this);
         evaluateTV.setOnClickListener(this);
-        findViewById(R.id.ogi_im_tv).setOnClickListener(this);
-        findViewById(R.id.ogi_phone_tv).setOnClickListener(this);
+        imTV.setOnClickListener(this);
+        phoneTV.setOnClickListener(this);
         avatarIV.setOnClickListener(this);
     }
 
@@ -82,7 +84,7 @@ public class OrderDetailGuideInfo extends LinearLayout implements HbcViewBehavio
             }
 
             if (TextUtils.isEmpty(guideInfo.guideAvatar)) {
-                avatarIV.setImageResource(R.mipmap.collection_icon_pic);
+                avatarIV.setImageResource(R.mipmap.journey_head_portrait);
             } else {
                 Tools.showImage(getContext(), avatarIV, guideInfo.guideAvatar);
             }
@@ -90,6 +92,9 @@ public class OrderDetailGuideInfo extends LinearLayout implements HbcViewBehavio
             ((TextView)findViewById(R.id.ogi_describe_tv)).setText(guideInfo.guideCar);
             ((TextView)findViewById(R.id.ogi_plate_number_tv)).setText(guideInfo.carNumber);
             ((RatingView)findViewById(R.id.ogi_ratingview)).setLevel((float)guideInfo.guideStarLevel);
+
+            imTV.setVisibility(orderBean.isIm ? View.VISIBLE : View.GONE);
+            phoneTV.setVisibility(orderBean.isPhone ? View.VISIBLE : View.GONE);
         }
     }
 

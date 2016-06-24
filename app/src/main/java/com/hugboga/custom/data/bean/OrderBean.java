@@ -161,6 +161,9 @@ public class OrderBean implements IBaseBean ,Parcelable{
     public AppraisementBean appraisement;//评价内容
     public ArrayList<String> cancelRules;//取消规则
 
+    public boolean isIm;//0隐藏，1显示
+    public boolean isPhone;//0隐藏，1显示
+
     public String getOrderTypeStr(Context context) {
         switch (orderGoodsType) {
             case 1:
@@ -344,6 +347,8 @@ public class OrderBean implements IBaseBean ,Parcelable{
         dest.writeByte(this.carPool ? (byte) 1 : (byte) 0);
         dest.writeSerializable(this.appraisement);
         dest.writeStringList(this.cancelRules);
+        dest.writeByte(this.isIm ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.isPhone ? (byte) 1 : (byte) 0);
     }
 
     public OrderBean() {
@@ -470,6 +475,8 @@ public class OrderBean implements IBaseBean ,Parcelable{
         this.carPool = in.readByte() != 0;
         this.appraisement = (AppraisementBean) in.readSerializable();
         this.cancelRules = in.createStringArrayList();
+        this.isIm = in.readByte() == 1;
+        this.isPhone = in.readByte() == 1;
     }
 
     public static final Creator<OrderBean> CREATOR = new Creator<OrderBean>() {
