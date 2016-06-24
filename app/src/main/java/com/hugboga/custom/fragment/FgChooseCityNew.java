@@ -26,7 +26,6 @@ import com.hugboga.custom.adapter.SearchNewAdapter;
 import com.hugboga.custom.data.bean.SearchGroupBean;
 import com.hugboga.custom.utils.CityUtils;
 import com.hugboga.custom.utils.LogUtils;
-import com.hugboga.custom.utils.ToastUtils;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.FlowLayout;
 
@@ -82,7 +81,8 @@ public class FgChooseCityNew extends BaseFragment {
         expandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-                ToastUtils.showShort(groupPosition+"======");
+//                ToastUtils.showShort(groupPosition+"======");
+                goCityList(list.get(groupPosition));
                 return true;
             }
         });
@@ -92,7 +92,8 @@ public class FgChooseCityNew extends BaseFragment {
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
                 if(searchNewAdapter.getChildList().get(groupPosition).get(childPosition).group_id != -1
                         && searchNewAdapter.getChildList().get(groupPosition).get(childPosition).group_id != -2) {
-                    ToastUtils.showShort(groupPosition + "======" + childPosition);
+//                    ToastUtils.showShort(groupPosition + "======" + childPosition);
+                    goCityList(searchNewAdapter.getChildList().get(groupPosition).get(childPosition));
                 }
                 return true;
             }
@@ -350,6 +351,9 @@ public class FgChooseCityNew extends BaseFragment {
             CityUtils.addCityHistoryData(searchGroupBean);
         }
         finish();
+        if(null != popupWindow){
+            popupWindow.dismiss();
+        }
         FgSkuList fgSkuList = new FgSkuList();
         startFragment(fgSkuList);
     }
