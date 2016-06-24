@@ -102,10 +102,6 @@ public class FgHome extends BaseFragment {
         if (_request instanceof RequestHome) {
             RequestHome request = (RequestHome) _request;
             HomeData data = request.getData();
-//            ArrayList<String> urlList = new ArrayList<String>();
-//            urlList.add("http://img2.imgtn.bdimg.com/it/u=3284258022,2153387292&fm=21&gp=0.jpg");
-//            urlList.add("http://img2.imgtn.bdimg.com/it/u=3528047515,581472853&fm=21&gp=0.jpg");
-//            urlList.add("http://img3.imgtn.bdimg.com/it/u=221995782,2823567885&fm=21&gp=0.jpg");
             bannerView.update(data.getBannerList());
             routeView.setData(FgHome.this, data.getCityContentList());
             bottomLayout.setSalesPromotion(data.getSalesPromotion());

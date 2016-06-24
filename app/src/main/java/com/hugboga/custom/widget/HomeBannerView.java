@@ -40,6 +40,9 @@ public class HomeBannerView extends RelativeLayout implements HbcViewBehavior, V
     private int viewHeight;
     private int index;
 
+    private boolean isDefaultData = true;
+    private ArrayList<Integer> defaultData;
+
     public HomeBannerView(Context context) {
         this(context, null);
     }
@@ -53,21 +56,41 @@ public class HomeBannerView extends RelativeLayout implements HbcViewBehavior, V
         mSwitcherView.setInAnimation(AnimationUtils.loadAnimation(context, R.anim.home_banner_fade_in));
         mSwitcherView.setOutAnimation(AnimationUtils.loadAnimation(context, R.anim.home_banner_fade_out));
         addView(mSwitcherView, LayoutParams.MATCH_PARENT, viewHeight);
+
+        defaultData = new ArrayList<Integer>(4);
+        defaultData.add(R.drawable.home_toppic1);
+        defaultData.add(R.drawable.home_toppic2);
+        defaultData.add(R.drawable.home_toppic3);
+        defaultData.add(R.drawable.home_toppic4);
+        isDefaultData = true;
+
+        index = 0;
+        ImageView img = (ImageView) mSwitcherView.getNextView();
+        img.setImageResource(defaultData.get(index));
+        mSwitcherView.showNext();
+        index++;
+        initCutHandler();
     }
 
     @Override
     public void update(Object _data) {
         this.bannerList = (ArrayList<String>) _data;
         if (bannerList == null || bannerList.size() <= 0) {
+            isDefaultData = true;
             return;
+        } else {
+            isDefaultData = false;
         }
         index = 0;
+        mSwitcherView.reset();
         ImageView img = (ImageView) mSwitcherView.getNextView();
         Tools.showImageCenterCrop(img, bannerList.get(index));
         mSwitcherView.showNext();
         if (bannerList.size() > 1) {
             index++;
-            initCutHandler();
+            onStartChange();
+        } else {
+            onDestroyHandler();
         }
     }
 
@@ -79,13 +102,20 @@ public class HomeBannerView extends RelativeLayout implements HbcViewBehavior, V
 
                 @Override
                 public void run() {
-                    if (bannerList == null || bannerList.size() <= 0) {
-                        return;
-                    }
                     ImageView img = (ImageView) mSwitcherView.getNextView();
-                    Tools.showImageCenterCrop(img, bannerList.get(index));
+                    int size = 0;
+                    if (isDefaultData) {
+                        size = defaultData.size();
+                        img.setImageResource(defaultData.get(index));
+                    } else {
+                        if (bannerList == null || bannerList.size() <= 0) {
+                            return;
+                        }
+                        size = bannerList.size();
+                        Tools.showImageCenterCrop(img, bannerList.get(index));
+                    }
                     mSwitcherView.showNext();
-                    if (index == bannerList.size() - 1) {
+                    if (index == size - 1) {
                         index = 0;
                     } else {
                         index++;
@@ -112,8 +142,10 @@ public class HomeBannerView extends RelativeLayout implements HbcViewBehavior, V
     public void onStartChange() {
         if (!isAutoLoops) {
             isAutoLoops = true;
-            cutHandler.removeCallbacks(cutRunnable);
-            cutHandler.postDelayed(cutRunnable, getCutTime());
+            if (cutHandler != null && cutRunnable != null) {
+                cutHandler.removeCallbacks(cutRunnable);
+                cutHandler.postDelayed(cutRunnable, getCutTime());
+            }
         }
     }
 
