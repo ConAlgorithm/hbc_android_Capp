@@ -114,8 +114,8 @@ public class HomeDynamicsTextView extends View implements HttpRequestListener {
             setRequest(dynamicsData.getReqtime());
         }
         if (dynamicsList.get(position) != null) {
-            String test = ""+position +position + position + position;//FIXME qingcha test data
-            resultText = test+dynamicsList.get(position).getTrackInfo() + DEFAULT_SPACE;
+//            String test = ""+position +position + position + position;//FIXME qingcha test data
+            resultText = dynamicsList.get(position).getTrackInfo() + DEFAULT_SPACE;
         }
         if (position >= listSize - 1) {//数组末尾,从头开始
             dynamicsData.setPosition(0);

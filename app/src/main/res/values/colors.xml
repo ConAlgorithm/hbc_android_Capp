@@ -137,4 +137,5 @@
 
     <color name="default_bg">#F9F9F9</color>
     <color name="default_dividing_line">#44999999</color>
+    <color name="default_img_bg">#dbdada</color>
 </resources>

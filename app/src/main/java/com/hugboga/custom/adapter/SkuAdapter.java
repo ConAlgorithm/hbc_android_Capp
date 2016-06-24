@@ -34,12 +34,12 @@ public class SkuAdapter extends ZHeadFootAdapter<SkuItemBean, SkuVH> {
 
     @Override
     protected View getHeaderView() {
-        return headerView;
+        return new View(context);
     }
 
     @Override
     protected View getFooterView() {
-        return new View(context);
+        return headerView;
     }
 
     @Override

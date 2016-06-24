@@ -56,7 +56,7 @@ public class HomeScrollView extends ScrollView {
 
         if (scrollY >= binnerHeight - searchLayoutHeight * 2) {
             float alpha = 0.0f;
-            if(scrollY <= 0) {
+            if (scrollY <= 0) {
                 alpha = 0.0f;
             } else {
                 alpha = Math.min(1, (float) (scrollY - (binnerHeight - searchLayoutHeight * 2)) / searchLayoutHeight);

@@ -599,7 +599,7 @@ public class MainActivity extends BaseActivity
                     startFragment(new FgActivity(), bundle);
                 }
                 break;
-            case Constants.PERSONAL_CENTER_CUSTOMER_SERVICE://TODO 服务规则
+            case Constants.PERSONAL_CENTER_CUSTOMER_SERVICE://服务规则
                 startFragment(new FgServicerCenter());
                 break;
             case Constants.PERSONAL_CENTER_INTERNAL_SERVICE://境内客服

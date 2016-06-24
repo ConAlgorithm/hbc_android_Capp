@@ -643,5 +643,12 @@
 
     <string name="child_age_seat">出行前请与司导联系，需要何种年龄段的的儿童安全座椅</string>
 
-
+    <string name="sku_list_local_guides">%1$s位当地中文司导</string>
+    <string name="sku_list_city_guides_1">位中文司</string>
+    <string name="sku_list_city_guides_2">导可服务</string>
+    <string name="sku_list_country_guides">位中文司导可为您服务</string>
+    <string name="sku_list_routes">%1$s种包车游路线</string>
+    <string name="sku_list_price_unit">起&#160;/&#160;人</string>
+    <string name="sku_list_subtitle_chartered">中文包车游·开启全新旅行方式</string>
+    <string name="sku_list_subtitle_pickup">便携出行·境外中文用车服务</string>
 </resources>

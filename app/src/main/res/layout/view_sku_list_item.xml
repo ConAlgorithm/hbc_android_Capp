@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#5500ff00"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp">
+
+    <ImageView
+        android:id="@+id/sku_item_display_iv"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:background="@color/default_img_bg" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="70dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:background="#ffee31"
+        android:gravity="center_vertical|right"
+        android:orientation="vertical"
+        android:paddingBottom="3dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="244"
+            android:textColor="#000000"
+            android:textSize="22sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sku_list_city_guides_1"
+            android:textColor="#000000"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sku_list_city_guides_2"
+            android:textColor="#000000"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/sku_item_display_iv"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="12dp"
+        android:background="#33FF0000"
+        android:gravity="bottom"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="#ffee31"
+            android:text="32323"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="3dp"
+            android:layout_marginBottom="1dp"
+            android:textSize="12sp"
+            android:textColor="#ffee31"
+            android:text="@string/sku_list_price_unit"/>
+        <View
+            android:layout_width="1px"
+            android:layout_height="15dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="5dp"
+            android:background="#ffee31"/>
+
+        <ImageView
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:layout_marginBottom="5dp"
+            android:background="@mipmap/city_lightning"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="3dp"
+            android:layout_marginBottom="1dp"
+            android:textSize="12sp"
+            android:textColor="#ffee31"
+            android:text="可定明日"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_below="@id/sku_item_display_iv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="12dp"
+        android:background="@android:color/white"
+        android:orientation="vertical"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#000000"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="测试哈哈哈哈哈哈德玛西亚测试哈哈哈哈哈哈德玛西亚测试哈哈哈哈哈哈"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="36dp"
+            android:gravity="center_vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="2dp"
+                android:paddingRight="2dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:background="#7700ff00"
+                android:textSize="12sp"
+                android:textColor="#000000"
+                android:text="超省心"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/fillet_top"
+        />
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/fillet_bottom"/>
+</RelativeLayout>
