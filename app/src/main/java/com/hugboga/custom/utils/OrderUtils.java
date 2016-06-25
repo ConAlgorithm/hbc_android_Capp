@@ -267,10 +267,12 @@ public class OrderUtils {
         int pickupPrice = 0;
         if(null != carListBean.additionalServicePrice && null != carListBean.additionalServicePrice.pickupSignPrice) {
             pickupPrice = Integer.valueOf(carListBean.additionalServicePrice.pickupSignPrice);
+            orderBean.isFlightSign = isCheckIn ? "1" : "0";
+        }else{
+            orderBean.isFlightSign = "0";
         }
         orderBean.priceFlightBrandSign = pickupPrice+"";
 
-        orderBean.isFlightSign = isCheckIn ? "1" : "0";
         orderBean.flightBrandSign = pickName;//pickName.getText().toString();
         orderBean.adult = Integer.valueOf(adultNum);
         orderBean.seatCategory = carBean.seatCategory;
@@ -491,7 +493,6 @@ public class OrderUtils {
         orderBean.memo = userRemark;//mark.getText().toString().trim();
         orderBean.childSeatNum = childseatNum;
         orderBean.luggageNum = luggageNum;
-        orderBean.isCheckin = isCheckIn ? "1" : "0";
         orderBean.flightNo = flightNo;//airportName.getText().toString();
         orderBean.expectedCompTime = carBean.expectedCompTime;
         orderBean.destAddressPoi = airPort.location;
@@ -519,6 +520,9 @@ public class OrderUtils {
         int checkInPrice = 0;
         if(null != carListBean.additionalServicePrice && null != carListBean.additionalServicePrice.checkInPrice){
             checkInPrice = Integer.valueOf(carListBean.additionalServicePrice.checkInPrice);
+            orderBean.isCheckin = isCheckIn ? "1" : "0";
+        }else{
+            orderBean.isCheckin =  "0";
         }
         orderBean.checkInPrice = checkInPrice;
 
