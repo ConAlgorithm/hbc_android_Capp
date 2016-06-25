@@ -120,7 +120,8 @@ public class HomeBottomLayout extends LinearLayout implements View.OnClickListen
                 if (urlAddress.lastIndexOf("?") != urlAddress.length() - 1) {
                     urlAddress = urlAddress + "?";
                 }
-                urlAddress = urlAddress + UserEntity.getUser().getUserId(fragment.getContext())+"&t=" + new Random().nextInt(100000);
+                urlAddress = urlAddress + "userId="+ UserEntity.getUser().getUserId(fragment.getContext())+"&t=" + new Random().nextInt(100000);
+                Log.i("aa", "活动 urlAddress " +urlAddress);
                 Bundle bundle = new Bundle();
                 bundle.putString(FgWebInfo.WEB_URL, urlAddress);
                 fragment.startFragment(new FgActivity(), bundle);
