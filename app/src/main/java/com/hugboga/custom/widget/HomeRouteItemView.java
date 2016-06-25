@@ -109,7 +109,7 @@ public class HomeRouteItemView extends RelativeLayout implements HbcViewBehavior
             guideAmountTV.setText(data.getTip());
         }
 
-        if (data.getTraveLineList() != null) {
+        if (data.getTraveLineList() != null && data.getTraveLineList().size() >= 1) {
             if (data.getTraveLineList().get(0) == null) {
                 item1Layout.setVisibility(View.INVISIBLE);
                 line1View.setVisibility(View.GONE);
@@ -120,7 +120,7 @@ public class HomeRouteItemView extends RelativeLayout implements HbcViewBehavior
                 cotent1TV.setText(item.getDescribe());
                 price1TV.setText("" + item.getPrice());
             }
-            if (data.getTraveLineList().get(1) == null) {
+            if (data.getTraveLineList().size() > 1 && data.getTraveLineList().get(1) == null) {
                 item2Layout.setVisibility(View.INVISIBLE);
                 line2View.setVisibility(View.GONE);
             } else {
@@ -130,7 +130,7 @@ public class HomeRouteItemView extends RelativeLayout implements HbcViewBehavior
                 cotent2TV.setText(item.getDescribe());
                 price2TV.setText("" + item.getPrice());
             }
-            if (data.getTraveLineList().get(2) == null) {
+            if (data.getTraveLineList().size() > 2 && data.getTraveLineList().get(2) == null) {
                 item3Layout.setVisibility(View.INVISIBLE);
                 line3View.setVisibility(View.GONE);
             } else {
