@@ -1,6 +1,7 @@
 package com.hugboga.custom.fragment;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -20,19 +21,18 @@ import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.anupcowkur.reservoir.Reservoir;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.DatePickerActivity;
 import com.hugboga.custom.adapter.OrderSelectCityAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CarInfoBean;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.CollectGuideBean;
-import com.hugboga.custom.data.bean.SavedCityBean;
 import com.hugboga.custom.data.bean.SelectCarBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
@@ -64,10 +64,8 @@ import de.greenrobot.event.EventBus;
 
 import static com.hugboga.custom.R.id.baggage_text_click;
 import static com.hugboga.custom.R.id.people_text_click;
-import static com.hugboga.custom.R.id.start;
 import static com.hugboga.custom.R.id.start_city_click;
 import static com.hugboga.custom.R.id.start_layout_click;
-import static com.hugboga.custom.utils.CityUtils.requestHotDate;
 
 /**
  * Created  on 16/4/14.
@@ -951,6 +949,8 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
                     ToastUtils.showShort(R.string.alert_del_after_edit);
                 } else {
                     showDaySelect(goCityTextClick);
+//                    startActivity(new Intent(getActivity(),DatePickerActivity.class));
+
                 }
                 break;
             case R.id.next_btn_click:
