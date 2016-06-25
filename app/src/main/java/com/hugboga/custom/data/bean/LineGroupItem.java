@@ -12,6 +12,7 @@ public class LineGroupItem implements IBaseBean,Parcelable{
 
     @Column(name = "group_id", isId = true)
     public int group_id;
+    
 
     @Column(name = "group_name")
     public String group_name;
