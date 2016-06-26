@@ -370,33 +370,27 @@ public class FgSingleNew extends BaseFragment {
                         if (UserEntity.getUser().isLogin(getActivity())) {
 
                             if (null != collectGuideBean) {
-                                String sTime = serverDate + " " + serverTime + ":00";
-                                OrderUtils.checkGuideCoflict(getContext(), 4, cityBean.cityId,
-                                        null != collectGuideBean ? collectGuideBean.guideId : null, sTime,
-                                        DateUtils.getToTime(sTime, Integer.valueOf(carListBean.estTime)),
-                                        cityBean.cityId + "", 0, carBean.carType, carBean.carSeat,
-                                        new HttpRequestListener() {
-                                            @Override
-                                            public void onDataRequestSucceed(BaseRequest request) {
-                                                RequestGuideConflict requestGuideConflict = (RequestGuideConflict) request;
-                                                List<String> list = requestGuideConflict.getData();
-                                                if (list.size() > 0) {
-                                                    goOrder();
-                                                } else {
-                                                    EventBus.getDefault().post(new EventAction(EventType.GUIDE_ERROR_TIME));
+
+                                if(carBean.capOfPerson == 4 && (Integer.valueOf(manLuggageBean.mans) + Integer.valueOf(manLuggageBean.childs)) == 4
+                                        || carBean.capOfPerson == 6 && (Integer.valueOf(manLuggageBean.mans) + Integer.valueOf(manLuggageBean.childs)) == 6){
+                                    AlertDialogUtils.showAlertDialog(getActivity(),getString(R.string.alert_car_full),
+                                            "继续下单","更换车型",new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    checkGuide();
+                                                    dialog.dismiss();
                                                 }
-                                            }
+                                            },new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    dialog.dismiss();
+                                                }
+                                            });
+                                }else{
+                                    checkGuide();
+                                }
 
-                                            @Override
-                                            public void onDataRequestCancel(BaseRequest request) {
 
-                                            }
-
-                                            @Override
-                                            public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-
-                                            }
-                                        });
                             } else {
                                 if(carBean.capOfPerson == 4 && (Integer.valueOf(manLuggageBean.mans) + Integer.valueOf(manLuggageBean.childs)) == 4
                                         || carBean.capOfPerson == 6 && (Integer.valueOf(manLuggageBean.mans) + Integer.valueOf(manLuggageBean.childs)) == 6){
@@ -428,6 +422,36 @@ public class FgSingleNew extends BaseFragment {
             default:
                 break;
         }
+    }
+
+    private void checkGuide(){
+        String sTime = serverDate + " " + serverTime + ":00";
+        OrderUtils.checkGuideCoflict(getContext(), 4, cityBean.cityId,
+                null != collectGuideBean ? collectGuideBean.guideId : null, sTime,
+                DateUtils.getToTime(sTime, Integer.valueOf(carListBean.estTime)),
+                cityBean.cityId + "", 0, carBean.carType, carBean.carSeat,
+                new HttpRequestListener() {
+                    @Override
+                    public void onDataRequestSucceed(BaseRequest request) {
+                        RequestGuideConflict requestGuideConflict = (RequestGuideConflict) request;
+                        List<String> list = requestGuideConflict.getData();
+                        if (list.size() > 0) {
+                            goOrder();
+                        } else {
+                            EventBus.getDefault().post(new EventAction(EventType.GUIDE_ERROR_TIME));
+                        }
+                    }
+
+                    @Override
+                    public void onDataRequestCancel(BaseRequest request) {
+
+                    }
+
+                    @Override
+                    public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+
+                    }
+                });
     }
 
     private void goOrder() {

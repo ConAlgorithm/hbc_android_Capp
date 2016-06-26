@@ -969,7 +969,24 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
             case R.id.next_btn_click:
 
                 if (null != collectGuideBean) {
-                    checkGuideCoflict();
+                    if(collectGuideBean.numOfPerson == 4 && (manNum + childNum) == 4
+                            || collectGuideBean.numOfPerson == 6 && (manNum + childNum) == 6){
+                        AlertDialogUtils.showAlertDialog(getActivity(),getString(R.string.alert_car_full),
+                                "继续下单","更换车型",new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        checkGuideCoflict();
+                                        dialog.dismiss();
+                                    }
+                                },new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                });
+                    }else{
+                        checkGuideCoflict();
+                    }
                 } else {
                     Bundle bundleCar = new Bundle();
                     bundleCar.putString("startCityId", startBean.cityId + "");
