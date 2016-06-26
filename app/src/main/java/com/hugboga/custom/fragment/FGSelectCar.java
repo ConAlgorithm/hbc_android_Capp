@@ -566,8 +566,8 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
                 break;
             case R.id.next_btn_click:
                 if(UserEntity.getUser().isLogin(getActivity())) {
-                    if(carBean.numOfPerson == 4 && (Integer.valueOf(adultNum) + Integer.valueOf(childrenNum)) == 4
-                            || carBean.numOfPerson == 6 && (Integer.valueOf(adultNum) + Integer.valueOf(childrenNum)) == 6){
+                    if(carBean.capOfPerson == 4 && (Integer.valueOf(adultNum) + Integer.valueOf(childrenNum)) == 4
+                            || carBean.capOfPerson == 6 && (Integer.valueOf(adultNum) + Integer.valueOf(childrenNum)) == 6){
                         AlertDialogUtils.showAlertDialog(getActivity(),getString(R.string.alert_car_full),
                                 "继续下单","更换车型",new DialogInterface.OnClickListener() {
                                     @Override
