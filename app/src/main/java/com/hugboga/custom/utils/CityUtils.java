@@ -5,10 +5,12 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
+import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 
 import com.anupcowkur.reservoir.Reservoir;
 import com.google.gson.reflect.TypeToken;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.LineGroupBean;
 import com.hugboga.custom.data.bean.LineGroupItem;
@@ -17,6 +19,7 @@ import com.hugboga.custom.data.bean.SearchGroupBean;
 
 import org.xutils.DbManager;
 import org.xutils.db.Selector;
+import org.xutils.db.sqlite.WhereBuilder;
 import org.xutils.ex.DbException;
 
 import java.lang.reflect.Type;
@@ -94,6 +97,47 @@ public class CityUtils {
             }
         }
         return stringBuffer.toString();
+    }
+
+    public static List<CityBean> requestDataByKeyword(Activity activity, int groupId, int cityId,
+                                                  String keyword, boolean isNeedMore) {
+        List<CityBean> dataList = new ArrayList<CityBean>();
+        DbManager mDbManager = new DBHelper(activity).getDbManager();
+        Selector selector = null;
+        try {
+            selector = mDbManager.selector(CityBean.class);
+        } catch (DbException e) {
+            e.printStackTrace();
+        }
+        selector.where("1", "=", "1");
+        if (!TextUtils.isEmpty(keyword)) {
+            WhereBuilder whereBuilder = WhereBuilder.b();
+            if (isNeedMore) {
+                whereBuilder.and("cn_name", "LIKE", "%" + keyword + "%");
+            } else {
+                whereBuilder.and("cn_name", "LIKE", keyword + "%");
+            }
+            selector.and(whereBuilder);
+        }
+
+            if (groupId == -1) {
+                selector.and("is_daily", "=", 1);
+            } else {
+                selector.and("group_id", "=", groupId);
+            }
+          selector.and("city_id", "<>", cityId);
+
+        try {
+            dataList = selector.findAll();
+        } catch (DbException e) {
+            e.printStackTrace();
+        }
+        if (dataList.size() > 0) {
+            for (CityBean cb : dataList) {
+                cb.keyWord = keyword;
+            }
+        }
+        return dataList;
     }
 
 /**

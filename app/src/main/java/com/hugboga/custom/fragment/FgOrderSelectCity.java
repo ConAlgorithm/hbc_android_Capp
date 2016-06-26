@@ -63,6 +63,7 @@ import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
 
 import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 import static com.hugboga.custom.R.id.baggage_text_click;
 import static com.hugboga.custom.R.id.people_text_click;
 import static com.hugboga.custom.R.id.start_city_click;
@@ -664,6 +665,16 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
                     addDayView(true);
                 }
 
+                List<CityBean> list = CityUtils.requestDataByKeyword(getActivity(),
+                        preCityBean.groupId, preCityBean.cityId, "", true);
+
+                if (null == list || list.size() == 0) {
+                    showOtherLayout = false;
+                } else {
+                    showOtherLayout = true;
+                }
+
+
                 hotCitys = CityUtils.requestHotDate(getActivity(),startBean.groupId);
             } else if ("lastCity".equalsIgnoreCase(fromKey) || "nearby".equalsIgnoreCase(fromKey)) {
                 endBean = (CityBean) bundle.getSerializable(FgChooseCity.KEY_CITY);
@@ -684,6 +695,7 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
     }
 
     CityBean preCityBean;
+    boolean showOtherLayout = true;
     public void initScopeLayoutValue(boolean isEndDay) {
         preCityBean = (passBeanList.size() == 0 || currentIndex ==0 )?startBean:passBeanList.get(currentIndex -1);
         if (isEndDay) {
@@ -696,7 +708,11 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
             scope_other_str = "住在其它城市";
         }
 
-
+        if(showOtherLayout) {
+            scope_layout_other.setVisibility(View.VISIBLE);
+        }else{
+            scope_layout_other.setVisibility(View.GONE);
+        }
 
         in_title.setText(scope_in_str);
         out_title.setText(scope_around_str);
@@ -1192,8 +1208,7 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
 //                    } else {
                         if (Integer.valueOf(v.getTag().toString()) == full_day_show.getChildCount()) {
                             initScopeLayoutValue(true);
-                        } else {
-
+                        } else{
                             initScopeLayoutValue(false);
                         }
                         showSelectPeoplePop(3);
