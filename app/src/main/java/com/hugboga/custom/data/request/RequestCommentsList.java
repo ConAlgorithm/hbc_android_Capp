@@ -1,6 +1,7 @@
 package com.hugboga.custom.data.request;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
@@ -48,7 +49,7 @@ public class RequestCommentsList extends BaseRequest<CommentsListData> {
 
     private static class DataParser extends ImplParser {
         @Override
-        public Object parseObject(JSONObject obj) throws Throwable {
+        public Object parseObject(JSONObject obj) {
             Gson gson = new Gson();
             CommentsListData commentsListData = gson.fromJson(obj.toString(), CommentsListData.class);
             return commentsListData;

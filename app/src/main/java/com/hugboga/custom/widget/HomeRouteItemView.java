@@ -13,11 +13,20 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.HomeData;
+import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.fragment.FgHome;
+import com.hugboga.custom.fragment.FgSkuDetail;
 import com.hugboga.custom.fragment.FgSkuList;
+import com.hugboga.custom.fragment.FgWebInfo;
+import com.hugboga.custom.utils.DBHelper;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
+
+import org.xutils.DbManager;
+import org.xutils.ex.DbException;
 
 /**
  * Created by qingcha on 16/6/19.
@@ -100,7 +109,7 @@ public class HomeRouteItemView extends RelativeLayout implements HbcViewBehavior
             subtitleTV.setVisibility(View.GONE);
         } else {
             subtitleTV.setVisibility(View.VISIBLE);
-            subtitleTV.setText(data.getMainTitle());
+            subtitleTV.setText(data.getSubTitle());
         }
         if (TextUtils.isEmpty(data.getTip())) {
             guideAmountTV.setVisibility(View.GONE);
@@ -157,18 +166,32 @@ public class HomeRouteItemView extends RelativeLayout implements HbcViewBehavior
         }
         switch (v.getId()) {
             case R.id.home_route_item_1_layout:
+                intentSkuDetail(data.getTraveLineList().get(0).getSkuItemBean());
                 break;
             case R.id.home_route_item_2_layout:
+                intentSkuDetail(data.getTraveLineList().get(1).getSkuItemBean());
                 break;
             case R.id.home_route_item_3_layout:
+                intentSkuDetail(data.getTraveLineList().get(2).getSkuItemBean());
                 break;
             case R.id.home_route_item_display_iv:
             case R.id.home_route_item_more_layout:
-                FgSkuList fg = new FgSkuList();
-                Bundle bundle = new Bundle();
-                bundle.putString(FgSkuList.KEY_CITY_ID, "" + data.getCityId());
-                fgHome.startFragment(fg, bundle);
+                FgSkuList.Params params = new FgSkuList.Params();
+                params.cityId = data.getCityId();
+                fgHome.startFragment(FgSkuList.newInstance(params));
                 break;
         }
+    }
+
+    private void intentSkuDetail(SkuItemBean skuItemBean) {
+        if (skuItemBean == null) {
+            return;
+        }
+        skuItemBean.cityId = "" + data.getCityId();
+        Bundle bundle = new Bundle();
+        bundle.putString(FgWebInfo.WEB_URL, skuItemBean.skuDetailUrl);
+        bundle.putSerializable(FgSkuDetail.WEB_SKU, skuItemBean);
+        bundle.putString("source" , "首页");
+        fgHome.startFragment(new FgSkuDetail(),bundle);
     }
 }

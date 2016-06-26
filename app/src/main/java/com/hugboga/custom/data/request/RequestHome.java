@@ -45,8 +45,13 @@ public class RequestHome extends BaseRequest<HomeData> {
     private static class DataParser extends ImplParser {
         @Override
         public Object parseObject(JSONObject obj) {
-            Gson gson = new Gson();
-            HomeData homeBean = gson.fromJson(obj.toString(), HomeData.class);
+            HomeData homeBean = null;
+            try {
+                Gson gson = new Gson();
+                homeBean = gson.fromJson(obj.toString(), HomeData.class);
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
             return homeBean;
         }
     }

@@ -42,7 +42,7 @@ public class EvaluateItemData implements Serializable {
     private int orderType;
     @SerializedName("orderTypeNameForCGuideDetail")
     private String orderTypeStr;
-    private int totalScore;
+    private float totalScore;
 
     public String getAvatar() {
         return avatar;
@@ -56,7 +56,7 @@ public class EvaluateItemData implements Serializable {
         String result = content;
         if (TextUtils.isEmpty(content)) {
             int scoreStrId = 0;
-            switch (totalScore) {
+            switch ((int)totalScore) {
                 case 1:
                     scoreStrId = R.string.evaluate_star_very_unsatisfactory;
                     break;
@@ -104,6 +104,6 @@ public class EvaluateItemData implements Serializable {
     }
 
     public int getTotalScore() {
-        return totalScore;
+        return (int)totalScore;
     }
 }

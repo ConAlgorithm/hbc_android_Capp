@@ -9,10 +9,13 @@ import com.huangbaoche.hbcframe.util.WXShareUtils;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.SkuItemBean;
+import com.hugboga.custom.utils.DBHelper;
 import com.hugboga.custom.widget.DialogUtil;
 import com.umeng.analytics.MobclickAgent;
 
+import org.xutils.DbManager;
 import org.xutils.common.util.LogUtil;
+import org.xutils.ex.DbException;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 
@@ -40,12 +43,25 @@ public class FgSkuDetail extends FgWebInfo {
             cityBean =  (CityBean)getArguments().getSerializable(WEB_CITY);
             source = getArguments().getString("source");
         }
+        if (cityBean == null && skuItemBean != null) {
+            cityBean = findCityById(skuItemBean.cityId);
+        }
         fgLeftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
+    }
+
+    private CityBean findCityById(String cityId) {
+        DbManager mDbManager = new DBHelper(getActivity()).getDbManager();
+        try {
+            cityBean = mDbManager.findById(CityBean.class, cityId);
+        } catch (DbException e) {
+            e.printStackTrace();
+        }
+        return cityBean;
     }
 
     @Event({R.id.header_right_btn,R.id.phone_consultation,R.id.goto_order})

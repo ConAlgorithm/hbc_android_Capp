@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 public class HomeData implements Serializable {
 
@@ -73,6 +74,9 @@ public class HomeData implements Serializable {
 
         private double price;
 
+        @SerializedName("goods")
+        private SkuItemBean skuItemBean;
+
         public int getLineOrder() {
             return lineOrder;
         }
@@ -83,6 +87,10 @@ public class HomeData implements Serializable {
 
         public double getPrice() {
             return price;
+        }
+
+        public SkuItemBean getSkuItemBean() {
+            return skuItemBean;
         }
     }
 
@@ -108,5 +116,4 @@ public class HomeData implements Serializable {
             return urlAddress;
         }
     }
-
 }

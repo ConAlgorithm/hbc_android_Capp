@@ -20,6 +20,8 @@ public class SkuItemBean implements Serializable {
     public int goodsClass;//商品类别（1，固定线路；2，推荐线路）
     public ArrayList<CharacteristicLables> characteristicLables;
 
+    public String cityId;
+
 
     public String goodsMinPrice;//最低价格
     public int saleAmount;//销售数量
