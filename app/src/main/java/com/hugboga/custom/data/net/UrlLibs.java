@@ -220,7 +220,7 @@ public class UrlLibs {
     /**
      * 查询价格 SKU
      **/
-    public static final String SERVER_IP_PRICE_SKU = "price/v1.1/c/goodsPrice?";
+    public static final String SERVER_IP_PRICE_SKU = "price/v1.2/c/goodsPrice?";
 
     //-------订单类--------
     public static final String SERVER_IP_TRADE = "trade/v1.3/c/order/";
