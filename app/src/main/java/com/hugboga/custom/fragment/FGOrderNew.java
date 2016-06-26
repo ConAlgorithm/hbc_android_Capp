@@ -471,10 +471,12 @@ public class FGOrderNew extends BaseFragment {
 
         if (isCheckIn) {
             if(null != carListBean && null != carListBean.additionalServicePrice && null != carListBean.additionalServicePrice.checkInPrice) {
+                checkin.setVisibility(View.VISIBLE);
                 checkInOrPickupPrice = Integer.valueOf(carListBean.additionalServicePrice.checkInPrice);
                 allMoneyLeftText.setText("￥" + (carBean.price + checkInOrPickupPrice + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean)));
+            }else{
+                checkin.setVisibility(View.GONE);
             }
-            checkin.setVisibility(View.VISIBLE);
         } else {
             checkInOrPickupPrice = 0;
             checkin.setVisibility(GONE);
@@ -515,10 +517,12 @@ public class FGOrderNew extends BaseFragment {
         allMoneyLeftText.setText("￥" + (carBean.price + OrderUtils.getSeat1PriceTotal(carListBean,manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean,manLuggageBean)));
 
         if (isCheckIn) {
-            checkin.setVisibility(View.VISIBLE);
             if(null != carListBean && null != carListBean.additionalServicePrice && null != carListBean.additionalServicePrice.pickupSignPrice) {
+                checkin.setVisibility(View.VISIBLE);
                 checkInOrPickupPrice = Integer.valueOf(carListBean.additionalServicePrice.pickupSignPrice);
                 allMoneyLeftText.setText("￥" + (carBean.price + checkInOrPickupPrice + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean)));
+            }else{
+                checkin.setVisibility(View.GONE);
             }
         } else {
             checkInOrPickupPrice = 0;
