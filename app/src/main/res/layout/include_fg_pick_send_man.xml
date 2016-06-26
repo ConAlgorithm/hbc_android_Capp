@@ -294,4 +294,89 @@
 
     </RelativeLayout>
 
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/car_info"
+        android:layout_marginTop="1dp"
+        android:background="@color/basic_white"
+        android:clickable="true"
+        android:minHeight="60dp">
+
+        <TextView
+            android:id="@+id/l_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:text="房间数"
+            android:textColor="@color/basic_black"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/l_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_toRightOf="@id/l_left"
+            android:text="共2晚"
+            android:textColor="#666666"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/show_luggage_info"
+            android:layout_width="wrap_content"
+            android:text="(大床/双床)"
+            android:textColor="#666666"
+            android:layout_centerVertical="true"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/l_right"
+            android:src="@mipmap/choose_information"
+            android:textSize="12sp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:background="#dddfe0"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/l_sub"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="#fad027"
+                android:gravity="center"
+                android:text="-"
+                android:textColor="@color/basic_white"
+                android:textSize="25sp" />
+
+            <TextView
+                android:id="@+id/l_num"
+                android:layout_width="39dp"
+                android:layout_height="39dp"
+                android:background="@color/basic_white"
+                android:gravity="center"
+                android:text="0"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/l_plus"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="#fad027"
+                android:gravity="center"
+                android:text="+"
+                android:textColor="@color/basic_white"
+                android:textSize="25sp" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
 </LinearLayout>

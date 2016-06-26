@@ -1,6 +1,7 @@
 package com.hugboga.custom.fragment;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -20,19 +21,18 @@ import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.anupcowkur.reservoir.Reservoir;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.DatePickerActivity;
 import com.hugboga.custom.adapter.OrderSelectCityAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CarInfoBean;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.CollectGuideBean;
-import com.hugboga.custom.data.bean.SavedCityBean;
 import com.hugboga.custom.data.bean.SelectCarBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
@@ -62,12 +62,11 @@ import java.util.List;
 import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
 
+import static android.view.View.GONE;
 import static com.hugboga.custom.R.id.baggage_text_click;
 import static com.hugboga.custom.R.id.people_text_click;
-import static com.hugboga.custom.R.id.start;
 import static com.hugboga.custom.R.id.start_city_click;
 import static com.hugboga.custom.R.id.start_layout_click;
-import static com.hugboga.custom.utils.CityUtils.requestHotDate;
 
 /**
  * Created  on 16/4/14.
@@ -200,8 +199,8 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
         del_text.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                driver_layout.setVisibility(View.GONE);
-                driver_tips.setVisibility(View.GONE);
+                driver_layout.setVisibility(GONE);
+                driver_tips.setVisibility(GONE);
                 choose_driver.setVisibility(View.VISIBLE);
                 collectGuideBean = null;
                 isFromGuideList = false;
@@ -249,7 +248,7 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
     }
 
     private void showFull() {
-        half_day_show.setVisibility(View.GONE);
+        half_day_show.setVisibility(GONE);
         full_day_show.setVisibility(View.VISIBLE);
         full_day_date_layout.setVisibility(View.VISIBLE);
         isHalfTravel = false;
@@ -258,8 +257,8 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
 
     private void showHalf() {
         half_day_show.setVisibility(View.VISIBLE);
-        full_day_show.setVisibility(View.GONE);
-        full_day_date_layout.setVisibility(View.GONE);
+        full_day_show.setVisibility(GONE);
+        full_day_date_layout.setVisibility(GONE);
         isHalfTravel = true;
         checkNextBtnStatus();
     }
@@ -422,7 +421,7 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
                 TextView end_add_tips = (TextView) view.findViewById(R.id.add_tips);
 
                 endText.setText("选择包车游玩范围");
-                end_add_tips.setVisibility(View.GONE);
+                end_add_tips.setVisibility(GONE);
                 view.setBackgroundColor(Color.parseColor("#d3d4d5"));
                 if (tag < passBeanList.size()) {
                     passBeanList.remove(tag - 1);
@@ -435,17 +434,17 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
         String cityId = cityBean.cityId + "";
         if (type == 1) {
             text.setText(cityBean.name + "市内");
-            add_tips.setVisibility(View.GONE);
+            add_tips.setVisibility(GONE);
             addPassCityBean(1, cityBean, currentClickView.getTag().toString());
         } else if (type == 2) {
             text.setText(cityBean.name + "周边");
-            add_tips.setVisibility(View.GONE);
+            add_tips.setVisibility(GONE);
             add_tips.setText(R.string.select_around_city);
             addPassCityBean(2, cityBean, currentClickView.getTag().toString());
         } else if (type == 3) {
             cityId = cityBean.cityId + "";
             text.setText(cityBean.name);
-            add_tips.setVisibility(View.GONE);
+            add_tips.setVisibility(GONE);
             if (cityBean.cityId == startBean.cityId) {
                 add_tips.setText(R.string.select_around_city);
             } else {
@@ -572,7 +571,7 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
                     if (childNum > 0) {
                         showChildSeatLayout.setVisibility(View.VISIBLE);
                     } else {
-                        showChildSeatLayout.setVisibility(View.GONE);
+                        showChildSeatLayout.setVisibility(GONE);
                     }
                     if (manNum == 0) manNum = 1;
                     peopleTextClick.setText(String.format(getString(R.string.select_city_man_child_num), manNum, childNum));
@@ -599,24 +598,24 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
         if (null != peoplePop) {
             if (type == 2) {
                 baggageList.setVisibility(View.VISIBLE);
-                mans_layout.setVisibility(View.GONE);
-                scope_layout.setVisibility(View.GONE);
+                mans_layout.setVisibility(GONE);
+                scope_layout.setVisibility(GONE);
                 title.setText(R.string.select_baggage_tips);
                 ok.setVisibility(View.VISIBLE);
                 cancle.setVisibility(View.VISIBLE);
             } else if (type == 1) {
-                baggageList.setVisibility(View.GONE);
+                baggageList.setVisibility(GONE);
                 mans_layout.setVisibility(View.VISIBLE);
-                scope_layout.setVisibility(View.GONE);
+                scope_layout.setVisibility(GONE);
                 title.setText(R.string.select_people_tips);
                 ok.setVisibility(View.VISIBLE);
                 cancle.setVisibility(View.VISIBLE);
             } else if (type == 3) {
-                baggageList.setVisibility(View.GONE);
-                mans_layout.setVisibility(View.GONE);
+                baggageList.setVisibility(GONE);
+                mans_layout.setVisibility(GONE);
                 scope_layout.setVisibility(View.VISIBLE);
-                ok.setVisibility(View.GONE);
-                cancle.setVisibility(View.GONE);
+                ok.setVisibility(GONE);
+                cancle.setVisibility(GONE);
                 title.setText(R.string.select_scope);
             }
             peoplePop.showAtLocation(view, Gravity.BOTTOM, 0, 0);
@@ -697,12 +696,24 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
             scope_other_str = "住在其它城市";
         }
 
+
+
         in_title.setText(scope_in_str);
         out_title.setText(scope_around_str);
         other_title.setText(scope_other_str);
         out_tips.setText(preCityBean.neighbourTip);
         in_tips.setText(preCityBean.dailyTip);
-        other_tips.setText(CityUtils.getHotCityStr(hotCitys));
+
+        if(null != hotCitys) {
+            if (hotCitys.size() > 0) {
+                other_tips.setVisibility(View.VISIBLE);
+                other_tips.setText(CityUtils.getHotCityStr(hotCitys));
+            } else {
+                other_tips.setVisibility(View.INVISIBLE);
+            }
+        }else{
+            other_tips.setVisibility(View.INVISIBLE);
+        }
     }
 
     private boolean isAddinfo() {
@@ -951,6 +962,8 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
                     ToastUtils.showShort(R.string.alert_del_after_edit);
                 } else {
                     showDaySelect(goCityTextClick);
+//                    startActivity(new Intent(getActivity(),DatePickerActivity.class));
+
                 }
                 break;
             case R.id.next_btn_click:
@@ -1203,7 +1216,7 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
                 if (null != collectGuideBean) {
                     driver_layout.setVisibility(View.VISIBLE);
                     driver_name.setText(collectGuideBean.name);
-                    choose_driver.setVisibility(View.GONE);
+                    choose_driver.setVisibility(GONE);
                 }
                 break;
             default:

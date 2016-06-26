@@ -651,4 +651,19 @@
     <string name="sku_list_price_unit">起&#160;/&#160;人</string>
     <string name="sku_list_subtitle_chartered">中文包车游·开启全新旅行方式</string>
     <string name="sku_list_subtitle_pickup">便携出行·境外中文用车服务</string>
+
+
+    <string name="select_day">请选择游玩日期</string>
+    <string name="Done">Done</string>
+    <string name="Customized">Customized</string>
+    <string name="Decorator">Decorator</string>
+    <string name="Hebrew">Hebrew</string>
+    <string name="Arabic">Arabic</string>
+    <string name="CustomView">Custom View</string>
+    <string name="Dialog">Dialog</string>
+    <string name="DisplayOnly">DisplayOnly</string>
+    <string name="Range">Range</string>
+    <string name="Multi">Multi</string>
+    <string name="Single">Single</string>
+
 </resources>

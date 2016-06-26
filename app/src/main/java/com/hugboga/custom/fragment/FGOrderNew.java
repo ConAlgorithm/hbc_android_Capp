@@ -397,7 +397,7 @@ public class FGOrderNew extends BaseFragment {
 
     private String getCarDesc(){
         if(null != collectGuideBean) {
-            return collectGuideBean.carDesc + collectGuideBean.carClass + "座";
+            return collectGuideBean.carDesc;
         }else{
             return carBean.carDesc;
         }
