@@ -33,6 +33,7 @@ public class HomeChoicenessRouteView extends LinearLayout {
         inflate(getContext(), R.layout.view_home_choiceness_route, this);
 
         recyclerView = (RecyclerView) findViewById(R.id.home_choiceness_route_recyclerview);
+        recyclerView.setFocusable(false);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerView.setLayoutManager(layoutManager);

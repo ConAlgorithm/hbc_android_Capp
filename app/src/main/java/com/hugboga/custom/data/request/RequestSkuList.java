@@ -11,7 +11,6 @@ import com.hugboga.custom.data.bean.SkuCityBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.net.NewParamsBuilder;
 import com.hugboga.custom.data.net.UrlLibs;
-import com.hugboga.custom.data.parser.ParserSkuCity;
 
 import org.json.JSONObject;
 import org.xutils.http.annotation.HttpRequest;
@@ -26,7 +25,7 @@ import java.util.Objects;
 public class RequestSkuList extends BaseRequest<SkuCityBean> {
 
 
-    public RequestSkuList(Context context, String cityId, String offset) {
+    public RequestSkuList(Context context, String cityId, int offset) {
         super(context);
         map = new HashMap<>();
         map.put("source", Constants.REQUEST_SOURCE);
