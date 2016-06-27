@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:background="#2d2b24"
     android:id="@+id/bottom"
-    android:visibility="gone"
     android:layout_alignParentBottom="true"
     android:layout_height="wrap_content">
 
@@ -84,6 +83,19 @@
         android:layout_marginTop="5dp"
         android:layout_below="@id/all_money_left"
         android:id="@+id/all_journey_text"
+        android:layout_marginLeft="20dp"
+        android:textSize="14sp"
+        android:textColor="@color/basic_white"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@id/confirm_journey"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/all_money_left_sku"
+        android:id="@+id/money_pre"
+        android:visibility="gone"
         android:layout_marginLeft="20dp"
         android:textSize="14sp"
         android:textColor="@color/basic_white"/>

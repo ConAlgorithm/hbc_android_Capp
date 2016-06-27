@@ -353,7 +353,7 @@
                 android:id="@+id/l_sub"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:background="#fad027"
+                android:background="#d5dadb"
                 android:gravity="center"
                 android:text="-"
                 android:textColor="@color/basic_white"
@@ -365,7 +365,7 @@
                 android:layout_height="39dp"
                 android:background="@color/basic_white"
                 android:gravity="center"
-                android:text="0"
+                android:text="1"
                 android:textSize="20sp" />
 
             <TextView

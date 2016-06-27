@@ -13,6 +13,7 @@ public class CarListBean implements Parcelable,IBaseBean {
     public int orderType;//订单类型
     public int goodsType;//商品类型
     public double distance;//预估路程（单位：公里）
+    public int hotelPrice;//酒店价格
     public int interval;//预估时间（单位：分钟）
     public ArrayList<CarBean> carList;
 
@@ -24,7 +25,9 @@ public class CarListBean implements Parcelable,IBaseBean {
     public String estTime;
     public String enableLocal;
 
-    public boolean showHotal;//是否显示酒店
+    public boolean showHotel;//是否显示酒店
+
+    public int hotelNum;//几天
 
 
     public CarAdditionalServicePrice additionalServicePrice;
@@ -40,6 +43,7 @@ public class CarListBean implements Parcelable,IBaseBean {
         dest.writeInt(this.orderType);
         dest.writeInt(this.goodsType);
         dest.writeDouble(this.distance);
+        dest.writeInt(this.hotelPrice);
         dest.writeInt(this.interval);
         dest.writeTypedList(this.carList);
         dest.writeInt(this.timeNotReachFlag);
@@ -48,7 +52,8 @@ public class CarListBean implements Parcelable,IBaseBean {
         dest.writeByte(this.supportBanner ? (byte) 1 : (byte) 0);
         dest.writeString(this.estTime);
         dest.writeString(this.enableLocal);
-        dest.writeByte(this.showHotal ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.showHotel ? (byte) 1 : (byte) 0);
+        dest.writeInt(this.hotelNum);
         dest.writeParcelable(this.additionalServicePrice, flags);
     }
 
@@ -59,6 +64,7 @@ public class CarListBean implements Parcelable,IBaseBean {
         this.orderType = in.readInt();
         this.goodsType = in.readInt();
         this.distance = in.readDouble();
+        this.hotelPrice = in.readInt();
         this.interval = in.readInt();
         this.carList = in.createTypedArrayList(CarBean.CREATOR);
         this.timeNotReachFlag = in.readInt();
@@ -67,7 +73,8 @@ public class CarListBean implements Parcelable,IBaseBean {
         this.supportBanner = in.readByte() != 0;
         this.estTime = in.readString();
         this.enableLocal = in.readString();
-        this.showHotal = in.readByte() != 0;
+        this.showHotel = in.readByte() != 0;
+        this.hotelNum = in.readInt();
         this.additionalServicePrice = in.readParcelable(CarAdditionalServicePrice.class.getClassLoader());
     }
 

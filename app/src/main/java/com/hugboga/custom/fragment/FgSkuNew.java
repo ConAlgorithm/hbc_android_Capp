@@ -48,6 +48,10 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
 
+import static com.hugboga.custom.R.id.all_journey_text;
+import static com.hugboga.custom.R.id.all_money_left;
+import static com.hugboga.custom.R.id.all_money_text_sku;
+
 /**
  * Created  on 16/5/20.
  */
@@ -77,15 +81,15 @@ public class FgSkuNew extends BaseFragment {
     RelativeLayout rlStarttime;
     @Bind(R.id.confirm_journey)
     TextView confirmJourney;
-    @Bind(R.id.all_money_left)
+    @Bind(all_money_left)
     TextView allMoneyLeft;
     @Bind(R.id.all_money_text)
     TextView allMoneyText;
     @Bind(R.id.all_money_left_sku)
     TextView allMoneyLeftSku;
-    @Bind(R.id.all_money_text_sku)
+    @Bind(all_money_text_sku)
     TextView allMoneyTextSku;
-    @Bind(R.id.all_journey_text)
+    @Bind(all_journey_text)
     TextView allJourneyText;
     @Bind(R.id.bottom)
     RelativeLayout bottom;
@@ -93,6 +97,8 @@ public class FgSkuNew extends BaseFragment {
     TextView skuCityHotel;
     @Bind(R.id.time_text_start_end)
     TextView timeTextStartEnd;
+    @Bind(R.id.money_pre)
+    TextView moneyPre;
 
     @Override
     protected void initHeader() {
@@ -184,9 +190,10 @@ public class FgSkuNew extends BaseFragment {
                 carBean = carListBean.carList.get(0);
                 bottom.setVisibility(View.VISIBLE);
                 if (skuBean.hotelStatus == 1) {
-                    carListBean.showHotal = true;
+                    carListBean.showHotel = true;
+                    carListBean.hotelNum = skuBean.hotelCostAmount;
                 }
-                genBottomData(carBean);
+                genBottomData(carBean, hotelNum);
             } else {
                 bottom.setVisibility(View.GONE);
             }
@@ -196,17 +203,20 @@ public class FgSkuNew extends BaseFragment {
     }
 
     String serverDayTime = "";
+
     private void getData() {
         serverDayTime = serverDate + " " + serverTime + ":00";
         timeTextStartEnd.setVisibility(View.VISIBLE);
-        timeTextStartEnd.setText("起止日期:"+serverDate +" ~ "+ DateUtils.getEndDateByStr(serverDate,skuBean.daysCount));
+        timeTextStartEnd.setText("起止日期:" + serverDate + " ~ " + DateUtils.getEndDateByStr(serverDate, skuBean.daysCount));
 
         MLog.e("serverDayTime= " + serverDayTime);
         RequestPriceSku request = new RequestPriceSku(getActivity(), skuBean.goodsNo, serverDayTime, cityBean.cityId + "");
         requestData(request);
     }
 
-    private void genBottomData(CarBean carBean) {
+    int perPrice = 0;
+
+    private void genBottomData(CarBean carBean, int hotelNum) {
         allMoneyLeft.setVisibility(View.GONE);
         allMoneyText.setVisibility(View.GONE);
         allMoneyTextSku.setVisibility(View.GONE);
@@ -220,33 +230,40 @@ public class FgSkuNew extends BaseFragment {
             int seat1Price = OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean);
             int seat2Price = OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean);
             total += seat1Price + seat2Price;
+            total += carListBean.hotelPrice * hotelNum;
+            perPrice = total / (manLuggageBean.childs + manLuggageBean.mans);
         }
 
-        allMoneyText.setText("￥ " + total);
-
         allMoneyTextSku.setText("￥ " + total);
+        moneyPre.setVisibility(View.VISIBLE);
+        moneyPre.setText("人均:￥ " + perPrice);
     }
 
 
     CarBean carBean;
     ManLuggageBean manLuggageBean;
+    int hotelNum = 1;
 
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
+            case SKU_HOTEL_NUM_CHANGE:
+                hotelNum = (int) action.getData();
+                genBottomData(carBean, hotelNum);
+                break;
             case ONBACKPRESS:
 //                backPress();
                 break;
             case CHANGE_CAR:
                 carBean = (CarBean) action.getData();
                 if (null != carBean) {
-                    genBottomData(carBean);
+                    genBottomData(carBean, hotelNum);
                 }
                 break;
             case MAN_CHILD_LUUAGE:
                 confirmJourney.setBackgroundColor(getContext().getResources().getColor(R.color.all_bg_yellow));
                 manLuggageBean = (ManLuggageBean) action.getData();
                 if (null != carBean) {
-                    genBottomData(carBean);
+                    genBottomData(carBean, hotelNum);
                 }
                 confirmJourney.setOnClickListener(new View.OnClickListener() {
                     @Override

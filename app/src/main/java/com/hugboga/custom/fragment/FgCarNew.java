@@ -1,5 +1,6 @@
 package com.hugboga.custom.fragment;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
@@ -44,6 +45,7 @@ import static android.R.attr.type;
 import static com.hugboga.custom.R.id.child_count_cost;
 import static com.hugboga.custom.R.id.del_text;
 import static com.hugboga.custom.R.id.driver_name;
+import static com.hugboga.custom.R.id.l_sub;
 
 
 /**
@@ -147,7 +149,7 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
     TextView lRight;
     @Bind(R.id.show_luggage_info)
     TextView showLuggageInfo;
-    @Bind(R.id.l_sub)
+    @Bind(l_sub)
     TextView lSub;
     @Bind(R.id.l_num)
     TextView lNum;
@@ -379,8 +381,9 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
         if (null != carListBean) {
             oldCarList = carListBean.carList;
 
-            boolean showHotel = carListBean.showHotal;
+            boolean showHotel = carListBean.showHotel;
             if (showHotel) {
+                lRight.setText("共"+carListBean.hotelNum+"晚");
                 hotelLayout.setVisibility(View.VISIBLE);
             }
         }
@@ -536,10 +539,28 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
         EventBus.getDefault().unregister(this);
     }
 
-
-    @OnClick({ R.id.man_tips, R.id.man_text, R.id.luggage_text, R.id.childseat_text, R.id.rl_man})
+    int hotelHourseNum = 1;
+    @OnClick({l_sub,R.id.l_plus, R.id.man_tips, R.id.man_text, R.id.luggage_text, R.id.childseat_text, R.id.rl_man})
     public void onClick(View view) {
         switch (view.getId()) {
+            case l_sub:
+                if(hotelHourseNum >1) {
+                    --hotelHourseNum;
+                    EventBus.getDefault().post(new EventAction(EventType.SKU_HOTEL_NUM_CHANGE,hotelHourseNum));
+                }
+                lNum.setText(hotelHourseNum+"");
+                if(hotelHourseNum == 1){
+                    lSub.setBackgroundColor(Color.parseColor("#d5dadb"));
+                }
+                break;
+            case R.id.l_plus:
+                ++hotelHourseNum;
+                lNum.setText(hotelHourseNum+"");
+                EventBus.getDefault().post(new EventAction(EventType.SKU_HOTEL_NUM_CHANGE,hotelHourseNum));
+                if(hotelHourseNum > 1){
+                    lSub.setBackgroundColor(Color.parseColor("#fad027"));
+                }
+                break;
             case R.id.rl_man:
             case R.id.man_tips:
             case R.id.man_text:
