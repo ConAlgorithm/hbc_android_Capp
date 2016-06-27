@@ -39,7 +39,7 @@ public class CityUtils {
     public static SpannableString addImg(Activity activity,String content,int imgIds){
         Drawable drawable = activity.getResources().getDrawable(imgIds);
         drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
-        SpannableString spannable = new SpannableString("[icon]" + content);
+        SpannableString spannable = new SpannableString("[icon]  " + content);
         ImageSpan span = new ImageSpan(drawable, ImageSpan.ALIGN_BOTTOM);
         spannable.setSpan(span, 0, "[icon]".length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
         return spannable;

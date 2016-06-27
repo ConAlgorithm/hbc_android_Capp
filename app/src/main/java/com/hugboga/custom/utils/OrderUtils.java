@@ -593,7 +593,7 @@ public class OrderUtils {
                                         String userRemark,String userName,PoiBean poiBean,
                                         boolean dreamLeftischeck,
                                         String travelFund,CouponBean couponBean,MostFitBean mostFitBean,
-                                        CarListBean carListBean,ManLuggageBean manLuggageBean){
+                                        CarListBean carListBean,ManLuggageBean manLuggageBean,int hotelRoom ,double priceHotel){
         OrderBean orderBean = new OrderBean();//订单
 
         if (!TextUtils.isEmpty(guideCollectId)) {
@@ -690,6 +690,9 @@ public class OrderUtils {
 
         orderBean.userEx = getUserExJson(contactUsersBean);
         orderBean.realUserEx = getRealUserExJson(contactUsersBean);
+
+        orderBean.hotelRoom = hotelRoom;
+        orderBean.priceHotel = priceHotel;
 
 
         return orderBean;

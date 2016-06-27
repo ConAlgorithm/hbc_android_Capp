@@ -191,9 +191,11 @@ public class FgSkuNew extends BaseFragment {
                 bottom.setVisibility(View.VISIBLE);
                 if (skuBean.hotelStatus == 1) {
                     carListBean.showHotel = true;
+                    hotelNum = skuBean.hotelCostAmount;
                     carListBean.hotelNum = skuBean.hotelCostAmount;
+                    carListBean.hourseNum = hourseNum;
                 }
-                genBottomData(carBean, hotelNum);
+                genBottomData(carBean, hourseNum);
             } else {
                 bottom.setVisibility(View.GONE);
             }
@@ -216,7 +218,7 @@ public class FgSkuNew extends BaseFragment {
 
     int perPrice = 0;
 
-    private void genBottomData(CarBean carBean, int hotelNum) {
+    private void genBottomData(CarBean carBean, int hourseNum) {
         allMoneyLeft.setVisibility(View.GONE);
         allMoneyText.setVisibility(View.GONE);
         allMoneyTextSku.setVisibility(View.GONE);
@@ -230,25 +232,29 @@ public class FgSkuNew extends BaseFragment {
             int seat1Price = OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean);
             int seat2Price = OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean);
             total += seat1Price + seat2Price;
-            total += carListBean.hotelPrice * hotelNum;
+            total += carListBean.hotelPrice * hotelNum * hourseNum;
             perPrice = total / (manLuggageBean.childs + manLuggageBean.mans);
         }
 
         allMoneyTextSku.setText("￥ " + total);
-        moneyPre.setVisibility(View.VISIBLE);
-        moneyPre.setText("人均:￥ " + perPrice);
+        if(carListBean.showHotel) {
+            moneyPre.setVisibility(View.VISIBLE);
+            moneyPre.setText("人均:￥ " + perPrice);
+            carListBean.hourseNum = hourseNum;
+        }
     }
 
 
     CarBean carBean;
     ManLuggageBean manLuggageBean;
-    int hotelNum = 1;
+    int hotelNum = 1;//几晚
+    int hourseNum = 1;//几间房
 
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
             case SKU_HOTEL_NUM_CHANGE:
-                hotelNum = (int) action.getData();
-                genBottomData(carBean, hotelNum);
+                hourseNum = (int) action.getData();
+                genBottomData(carBean, hourseNum);
                 break;
             case ONBACKPRESS:
 //                backPress();
@@ -256,14 +262,14 @@ public class FgSkuNew extends BaseFragment {
             case CHANGE_CAR:
                 carBean = (CarBean) action.getData();
                 if (null != carBean) {
-                    genBottomData(carBean, hotelNum);
+                    genBottomData(carBean, hourseNum);
                 }
                 break;
             case MAN_CHILD_LUUAGE:
                 confirmJourney.setBackgroundColor(getContext().getResources().getColor(R.color.all_bg_yellow));
                 manLuggageBean = (ManLuggageBean) action.getData();
                 if (null != carBean) {
-                    genBottomData(carBean, hotelNum);
+                    genBottomData(carBean, hourseNum);
                 }
                 confirmJourney.setOnClickListener(new View.OnClickListener() {
                     @Override

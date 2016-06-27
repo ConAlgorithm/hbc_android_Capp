@@ -28,6 +28,7 @@ public class CarListBean implements Parcelable,IBaseBean {
     public boolean showHotel;//是否显示酒店
 
     public int hotelNum;//几天
+    public int hourseNum;//几间房
 
 
     public CarAdditionalServicePrice additionalServicePrice;
@@ -54,6 +55,7 @@ public class CarListBean implements Parcelable,IBaseBean {
         dest.writeString(this.enableLocal);
         dest.writeByte(this.showHotel ? (byte) 1 : (byte) 0);
         dest.writeInt(this.hotelNum);
+        dest.writeInt(this.hourseNum);
         dest.writeParcelable(this.additionalServicePrice, flags);
     }
 
@@ -75,6 +77,7 @@ public class CarListBean implements Parcelable,IBaseBean {
         this.enableLocal = in.readString();
         this.showHotel = in.readByte() != 0;
         this.hotelNum = in.readInt();
+        this.hourseNum = in.readInt();
         this.additionalServicePrice = in.readParcelable(CarAdditionalServicePrice.class.getClassLoader());
     }
 
