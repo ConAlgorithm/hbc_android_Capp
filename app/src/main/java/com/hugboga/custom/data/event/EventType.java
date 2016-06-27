@@ -66,4 +66,6 @@ public enum EventType {
     ONBACKPRESS,//触发后退键
     PICK_SEND_ONBACKPRESS,//接送backpress
 
+    SKU_HOTEL_NUM_CHANGE,//sku 酒店房间数量变化
+
 }

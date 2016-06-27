@@ -7,16 +7,11 @@
     android:orientation="vertical">
     <include android:id="@+id/header_layout_new" layout="@layout/include_header" />
 
-
-    <include
-        layout="@layout/include_pick_send_bottom_bar" />
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_below="@id/header_layout_new"
+        android:layout_above="@+id/bottom">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -35,8 +30,6 @@
                     android:id="@+id/sku_title"
                     android:textSize="18sp"
                     android:layout_margin="15dp"
-                    android:drawableLeft="@mipmap/chaoshengxin"
-                    android:drawablePadding="10dp"
                     android:textColor="@color/basic_black"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
@@ -61,6 +54,7 @@
                     android:layout_marginRight="15dp"
                     android:layout_marginBottom="20dp"
                     android:textColor="#949596"
+                    android:visibility="invisible"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
@@ -130,8 +124,9 @@
 
             <TextView
                 android:id="@+id/time_text_start_end"
-                android:textSize="15sp"
+                android:textSize="13sp"
                 android:paddingLeft="20dp"
+                android:visibility="gone"
                 android:gravity="center_vertical"
                 android:text="起止日期:"
                 android:textColorHint="#9d9e9f"

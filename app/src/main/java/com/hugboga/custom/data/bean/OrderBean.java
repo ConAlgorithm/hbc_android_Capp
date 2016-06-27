@@ -7,7 +7,6 @@ import android.text.TextUtils;
 
 import com.hugboga.custom.R;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -164,6 +163,10 @@ public class OrderBean implements IBaseBean ,Parcelable{
     public boolean isIm;//0隐藏，1显示
     public boolean isPhone;//0隐藏，1显示
 
+    public Double priceHotel; // 住宿总费用(单价 * hotelRoom * hotelDays)
+    public int hotelRoom; // 房间数
+
+
     public String getOrderTypeStr(Context context) {
         switch (orderGoodsType) {
             case 1:
@@ -222,6 +225,7 @@ public class OrderBean implements IBaseBean ,Parcelable{
         }
         return resultStr;
     }
+
 
     @Override
     public int describeContents() {
@@ -349,6 +353,8 @@ public class OrderBean implements IBaseBean ,Parcelable{
         dest.writeStringList(this.cancelRules);
         dest.writeByte(this.isIm ? (byte) 1 : (byte) 0);
         dest.writeByte(this.isPhone ? (byte) 1 : (byte) 0);
+        dest.writeValue(this.priceHotel);
+        dest.writeInt(this.hotelRoom);
     }
 
     public OrderBean() {
@@ -475,8 +481,10 @@ public class OrderBean implements IBaseBean ,Parcelable{
         this.carPool = in.readByte() != 0;
         this.appraisement = (AppraisementBean) in.readSerializable();
         this.cancelRules = in.createStringArrayList();
-        this.isIm = in.readByte() == 1;
-        this.isPhone = in.readByte() == 1;
+        this.isIm = in.readByte() != 0;
+        this.isPhone = in.readByte() != 0;
+        this.priceHotel = (Double) in.readValue(Double.class.getClassLoader());
+        this.hotelRoom = in.readInt();
     }
 
     public static final Creator<OrderBean> CREATOR = new Creator<OrderBean>() {

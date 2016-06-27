@@ -524,7 +524,7 @@ public class FgSkuSubmit extends BaseFragment implements View.OnClickListener {
     private void requestCarList() {
         String serverDayTime = serverDate + " " + serverTime + ":00";
         MLog.e("serverDayTime= " + serverDayTime);
-        RequestPriceSku request = new RequestPriceSku(getActivity(), skuBean.goodsNo, serverDayTime,cityBean.cityId+"",0);
+        RequestPriceSku request = new RequestPriceSku(getActivity(), skuBean.goodsNo, serverDayTime,cityBean.cityId+"");
         requestData(request);
     }
 

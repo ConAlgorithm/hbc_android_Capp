@@ -3,13 +3,18 @@ package com.hugboga.custom.utils;
 
 import android.app.Activity;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
+import android.text.style.ImageSpan;
 
 import com.anupcowkur.reservoir.Reservoir;
 import com.google.gson.reflect.TypeToken;
+import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.LineGroupBean;
@@ -26,7 +31,19 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.R.attr.fragment;
+
 public class CityUtils {
+
+
+    public static SpannableString addImg(Activity activity,String content,int imgIds){
+        Drawable drawable = activity.getResources().getDrawable(imgIds);
+        drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+        SpannableString spannable = new SpannableString("[icon]  " + content);
+        ImageSpan span = new ImageSpan(drawable, ImageSpan.ALIGN_BOTTOM);
+        spannable.setSpan(span, 0, "[icon]".length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+        return spannable;
+    }
 
     /**
      * 热门城市
@@ -471,22 +488,72 @@ public class CityUtils {
     }
 
 
-    public static List<SearchGroupBean> getLevel3City(Activity activity,int group_id) {
+    public static List<SearchGroupBean> getLevel3City(Activity activity,int place_id) {
         try {
             List<SearchGroupBean> list = new ArrayList<>();
-            List<SearchGroupBean> list1 = getType21City(activity,group_id);
-            List<SearchGroupBean> list2 = getType31City(activity,group_id);
-            if(null != list1 && list1.size() > 0) {
-                list.addAll(list1);
+
+
+            List<SearchGroupBean> list3 = getType4City(activity,place_id);
+//            List<SearchGroupBean> list1 = getType21City(activity,group_id);
+//            List<SearchGroupBean> list2 = getType31City(activity,group_id);
+//            if(null != list1 && list1.size() > 0) {
+//                list.addAll(list1);
+//            }
+//            if(null != list2 && list2.size() > 0) {
+//                list.addAll(list2);
+//            }
+            if(null != list3 && list3.size() > 0) {
+                list.addAll(list3);
             }
-            if(null != list2 && list2.size() > 0) {
-                list.addAll(list2);
-            }
+
             return list;
         }catch (Exception e){
             e.printStackTrace();
             return null;
         }
+    }
+
+
+
+    public static List<SearchGroupBean> getType4City(Activity activity,int place_id){
+        try {
+            DbManager mDbManager = new DBHelper(activity).getDbManager();
+            Selector selector = null;
+            selector = mDbManager.selector(CityBean.class);
+            selector.where("place_id", "=",place_id);
+            List<CityBean> list = selector.findAll();
+            return cityAdapter(list);
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
+    public static List<SearchGroupBean> cityAdapter(List<CityBean> list){
+        List<SearchGroupBean> searchList = new ArrayList<>();
+        if(null == list){
+            return searchList;
+        }
+        SearchGroupBean searchGroupBean = null;
+        for(CityBean bean:list){
+            searchGroupBean = new SearchGroupBean();
+            searchGroupBean.group_id = -1;
+            searchGroupBean.group_name = "";
+
+            searchGroupBean.sub_place_id = -1;
+            searchGroupBean.sub_place_name = bean.placeName;
+
+            searchGroupBean.sub_city_id = bean.cityId;
+            searchGroupBean.sub_city_name = bean.name;
+
+            searchGroupBean.hot_weight = bean.hotWeight;
+
+            searchGroupBean.type = 4;
+            searchGroupBean.flag = 3;
+            searchList.add(searchGroupBean);
+        }
+        return searchList;
     }
 
     //type 1 组  2,国家  3, 城市

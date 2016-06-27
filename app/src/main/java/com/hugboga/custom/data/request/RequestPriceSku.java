@@ -27,16 +27,14 @@ public class RequestPriceSku extends BaseRequest<CarListBean> {
      * @param goodsNo     商品ID
      * @param serviceDate 服务时间 yyyy-MM-dd HH:mm:ss
      */
-    public RequestPriceSku(Context context, String goodsNo, String serviceDate,String cityId,int numOfRooms) {
+    public RequestPriceSku(Context context, String goodsNo, String serviceDate,String cityId) {
         super(context);
         map = new TreeMap();
         map.put("goodsNo", goodsNo);
         map.put("serviceDate", serviceDate);
         map.put("channelId", Config.channelId);
         map.put("cityId", cityId);
-        if(numOfRooms != 0) {
-            map.put("numOfRooms", numOfRooms);
-        }
+
     }
 
     @Override

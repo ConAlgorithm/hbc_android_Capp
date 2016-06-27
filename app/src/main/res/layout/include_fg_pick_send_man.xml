@@ -296,9 +296,11 @@
 
 
     <RelativeLayout
+        android:id="@+id/hotel_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/car_info"
+        android:visibility="gone"
         android:layout_marginTop="1dp"
         android:background="@color/basic_white"
         android:clickable="true"
@@ -351,7 +353,7 @@
                 android:id="@+id/l_sub"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:background="#fad027"
+                android:background="#d5dadb"
                 android:gravity="center"
                 android:text="-"
                 android:textColor="@color/basic_white"
@@ -363,7 +365,7 @@
                 android:layout_height="39dp"
                 android:background="@color/basic_white"
                 android:gravity="center"
-                android:text="0"
+                android:text="1"
                 android:textSize="20sp" />
 
             <TextView

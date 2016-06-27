@@ -41,6 +41,10 @@ public class SkuItemBean implements Serializable {
     public List<PoiBean> passPoiList;
     public String passPoiListStr;
 
+
+    public int hotelCostAmount;//天数
+    public int hotelStatus;//是否有酒店
+
     public static class CharacteristicLables implements Serializable {
         public String lableName;
         public int lableType;

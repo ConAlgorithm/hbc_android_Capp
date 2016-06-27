@@ -9,11 +9,11 @@ import com.hugboga.custom.data.net.UrlLibs;
 import org.xutils.http.annotation.HttpRequest;
 
 /**
- * Created by admin on 2016/3/22.
+ * 推荐线路
  */
-@HttpRequest(path = UrlLibs.SERVER_IP_SUBMIT_DAILY12, builder = NewParamsBuilder.class)
-public class RequestSubmitDaily extends RequestSubmitBase {
-    public RequestSubmitDaily(Context context, OrderBean orderBean) {
+@HttpRequest(path = UrlLibs.RECOMMENDLIN, builder = NewParamsBuilder.class)
+public class RequestSubmitLine extends RequestSubmitBase {
+    public RequestSubmitLine(Context context, OrderBean orderBean) {
         super(context, orderBean);
         map.put("startCityId", orderBean.serviceCityId);
         map.put("startCityName", orderBean.serviceCityName);
@@ -59,9 +59,8 @@ public class RequestSubmitDaily extends RequestSubmitBase {
         map.put("coupId", orderBean.coupId);
         map.put("coupPriceInfo", orderBean.coupPriceInfo);
 
-        map.put("priceHotel", orderBean.priceHotel);
-        map.put("hotelRoom", orderBean.hotelRoom);
-
+//        map.put("priceHotel", orderBean.priceHotel);
+//        map.put("hotelRoom", orderBean.hotelRoom);
 //        childSeatNum 儿童座椅数
 //        luggageNum 行李数
 //        realUserName 乘车人姓名
