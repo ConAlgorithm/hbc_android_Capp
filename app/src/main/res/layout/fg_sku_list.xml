@@ -4,7 +4,9 @@
     android:layout_height="match_parent"
     android:background="#ececec"
     android:orientation="vertical">
-    <include layout="@layout/include_header"/>
+    <include
+        android:id="@+id/suk_list_titlebar"
+        layout="@layout/include_header"/>
     <com.huangbaoche.hbcframe.widget.recycler.ZSwipeRefreshLayout
         android:id="@+id/suk_list_refresh_layout"
         android:layout_width="match_parent"

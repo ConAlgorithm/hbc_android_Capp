@@ -17,9 +17,34 @@ public class SkuCityBean implements Serializable {
     public int cityGuideAmount;//城市导游数量
     public String cityPicture;//城市图片
     public String cityHeadPicture;//城市头图
-    public String goodsCount;//城市商品数量
+    public int goodsCount;//城市商品数量
     public String cityDesc;//城市描述
     public ArrayList<String> guideAvatars;//司导头像列表
     @SerializedName("goodses")
     public ArrayList<SkuItemBean> goodsList;//城市商品列表
+
+    private int hasAirporService;
+    private int hasDailyservice;
+    private int hasSingleService;
+
+    public int countryId;
+    public String countryName;
+    public String countryNameEn;
+
+    public int lineGroupId;
+    public String lineGroupName;
+
+    public boolean hasSingleService() {
+        return hasSingleService == 1;
+    }
+
+    public boolean hasDailyservice() {
+        return hasDailyservice == 1;
+    }
+
+    public boolean hasAirporService() {
+        return hasSingleService == 1;
+    }
+
+
 }

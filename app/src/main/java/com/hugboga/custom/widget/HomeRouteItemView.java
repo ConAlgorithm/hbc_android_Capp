@@ -177,7 +177,8 @@ public class HomeRouteItemView extends RelativeLayout implements HbcViewBehavior
             case R.id.home_route_item_display_iv:
             case R.id.home_route_item_more_layout:
                 FgSkuList.Params params = new FgSkuList.Params();
-                params.cityId = data.getCityId();
+                params.id = data.getCityId();
+                params.skuType = FgSkuList.SkuType.CITY;
                 fgHome.startFragment(FgSkuList.newInstance(params));
                 break;
         }

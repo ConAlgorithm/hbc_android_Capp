@@ -17,10 +17,10 @@ public class SkuItemBean implements Serializable {
     public int guideAmount;//车导数量
     public String headLable;//商品标签（超省心或超自由)
     public String bookLable;//预定日期标签(今日可订)
-    public int goodsClass;//商品类别（1，固定线路；2，推荐线路）
+    public int goodsClass = -1;//商品类别（1，固定线路；2，推荐线路）-1为按天报价goodsClass不反回
     public ArrayList<CharacteristicLables> characteristicLables;
 
-    public String cityId;
+    public String cityId;//非接口字段
 
 
     public String goodsMinPrice;//最低价格
@@ -47,6 +47,6 @@ public class SkuItemBean implements Serializable {
 
     public static class CharacteristicLables implements Serializable {
         public String lableName;
-        public String lableType;
+        public int lableType;
     }
 }
