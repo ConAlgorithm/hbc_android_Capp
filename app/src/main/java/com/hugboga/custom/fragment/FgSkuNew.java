@@ -232,7 +232,7 @@ public class FgSkuNew extends BaseFragment {
             int seat1Price = OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean);
             int seat2Price = OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean);
             total += seat1Price + seat2Price;
-            total += carListBean.hotelPrice * hotelNum * hourseNum;
+            total += carListBean.hotelPrice  * hourseNum;
             perPrice = total / (manLuggageBean.childs + manLuggageBean.mans);
         }
 
@@ -339,8 +339,15 @@ public class FgSkuNew extends BaseFragment {
         bundle.putBoolean("isHalfTravel", false);
         bundle.putSerializable("passCityList", null);
         bundle.putParcelable("carBean", CarUtils.carBeanAdapter(carBean));
-        bundle.putInt("type", 5);
-        bundle.putString("orderType", "5");
+
+        if(skuBean.goodsClass == 1){
+            bundle.putInt("type", 5);
+            bundle.putString("orderType", "5");
+        }else{
+            bundle.putInt("type", 6);
+            bundle.putString("orderType", "6");
+        }
+
         bundle.putSerializable("web_sku", skuBean);
         bundle.putSerializable("web_city", cityBean);
         fgOrderNew.setArguments(bundle);

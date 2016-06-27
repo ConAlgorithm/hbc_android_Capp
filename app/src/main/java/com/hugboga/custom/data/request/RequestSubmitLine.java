@@ -8,14 +8,6 @@ import com.hugboga.custom.data.net.UrlLibs;
 
 import org.xutils.http.annotation.HttpRequest;
 
-import android.content.Context;
-
-import com.hugboga.custom.data.bean.OrderBean;
-import com.hugboga.custom.data.net.NewParamsBuilder;
-import com.hugboga.custom.data.net.UrlLibs;
-
-import org.xutils.http.annotation.HttpRequest;
-
 /**
  * 推荐线路
  */
@@ -67,8 +59,8 @@ public class RequestSubmitLine extends RequestSubmitBase {
         map.put("coupId", orderBean.coupId);
         map.put("coupPriceInfo", orderBean.coupPriceInfo);
 
-        map.put("priceHotel", orderBean.priceHotel);
-        map.put("hotelRoom", orderBean.hotelRoom);
+//        map.put("priceHotel", orderBean.priceHotel);
+//        map.put("hotelRoom", orderBean.hotelRoom);
 //        childSeatNum 儿童座椅数
 //        luggageNum 行李数
 //        realUserName 乘车人姓名
