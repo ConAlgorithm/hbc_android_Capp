@@ -45,8 +45,8 @@ android {
             storePassword 'hugboga@guide'
         }
     }
-    compileSdkVersion 23
-    buildToolsVersion '24.0.0 rc4'
+    compileSdkVersion 24
+    buildToolsVersion '24.0.0'
     defaultConfig {
         applicationId "com.hugboga.custom"
         minSdkVersion 15
