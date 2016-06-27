@@ -231,7 +231,7 @@ public class UrlLibs {
 
 
     //推荐线路
-    public static final String RECOMMENDLIN = "trade/v1.0/c/order/recommendlin";
+    public static final String RECOMMENDLIN = "trade/v1.0/c/order/recommendline";
 
 
 

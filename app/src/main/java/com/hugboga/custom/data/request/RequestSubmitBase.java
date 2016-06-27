@@ -1,7 +1,6 @@
 package com.hugboga.custom.data.request;
 
 import android.content.Context;
-import android.text.TextUtils;
 
 import com.google.gson.Gson;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
@@ -93,7 +92,7 @@ public class RequestSubmitBase extends BaseRequest<OrderInfoBean> {
 //            map.put("userMobile3", orderBean.contact.get(2).tel);
 //        }
 
-        if (orderBean.orderType != null && orderBean.orderType.equals(5)) {//如果是SKU  传
+        if (orderBean.orderType != null && (orderBean.orderType.equals(5) || orderBean.orderType.equals(6))) {//如果是SKU  传
             map.put("lineSubject", orderBean.lineSubject);
             map.put("lineDescription", orderBean.lineDescription);
             map.put("orderGoodsType", orderBean.orderGoodsType);

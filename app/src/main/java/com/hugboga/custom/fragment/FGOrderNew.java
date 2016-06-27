@@ -389,6 +389,9 @@ public class FGOrderNew extends BaseFragment {
             case 5:
                 genSKU();
                 break;
+            case 6:
+                genSKU();
+                break;
         }
     }
 
@@ -724,7 +727,7 @@ public class FGOrderNew extends BaseFragment {
     int money = 0;//旅游基金int
     DeductionBean deductionBean;
     private void requestTravelFund() {
-        RequestDeduction requestDeduction = new RequestDeduction(getActivity(), carBean.price + "");
+        RequestDeduction requestDeduction = new RequestDeduction(getActivity(), (carBean.price + hotelPrice) + "");
         HttpRequestUtils.request(getActivity(), requestDeduction, new HttpRequestListener() {
             @Override
             public void onDataRequestSucceed(BaseRequest request) {
@@ -1004,7 +1007,7 @@ public class FGOrderNew extends BaseFragment {
             ToastUtils.showLong("联系人电话不能为空!");
             return;
         }
-        if (type == 3 || type == 5) {
+        if (type == 3 || type == 5 || type == 6) {
             if (TextUtils.isEmpty(upAddressRight.getText())) {
                 ToastUtils.showLong("上车地点不能为空!");
                 return;
