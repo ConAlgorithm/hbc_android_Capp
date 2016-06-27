@@ -38,8 +38,6 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-import static android.R.attr.data;
-
 
 public class FgChooseCityNew extends BaseFragment {
 
@@ -357,7 +355,7 @@ public class FgChooseCityNew extends BaseFragment {
             popupWindow.dismiss();
         }
         FgSkuList.Params params = new FgSkuList.Params();
-        params.id = data.getCityId();
+        params.id = 0;
         params.skuType = FgSkuList.SkuType.CITY;
         startFragment(FgSkuList.newInstance(params));
     }
