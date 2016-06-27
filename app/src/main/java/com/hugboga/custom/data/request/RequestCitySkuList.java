@@ -21,11 +21,11 @@ import java.util.Objects;
 /**
  * Created by admin on 2016/3/3.
  */
-@HttpRequest(path = UrlLibs.SERVER_IP_CITY_SKU, builder = NewParamsBuilder.class)
-public class RequestSkuList extends BaseRequest<SkuCityBean> {
+@HttpRequest(path = UrlLibs.API_SKU_CITY_LIST, builder = NewParamsBuilder.class)
+public class RequestCitySkuList extends BaseRequest<SkuCityBean> {
 
 
-    public RequestSkuList(Context context, String cityId, int offset) {
+    public RequestCitySkuList(Context context, String cityId, int offset) {
         super(context);
         map = new HashMap<>();
         map.put("source", Constants.REQUEST_SOURCE);

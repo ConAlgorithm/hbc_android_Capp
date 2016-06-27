@@ -124,7 +124,7 @@ public class EvaluateListItemView extends LinearLayout{
                     tagTV.setVisibility(View.VISIBLE);
                     tagTV.setText(label);
                 } else {
-                    viewList.add(getTagNewView(label));
+                    viewList.add(getNewTagView(label));
                 }
             }
             for (int j = labelsSize; labelsSize < tagGroup.getChildCount(); j++) {
@@ -136,7 +136,7 @@ public class EvaluateListItemView extends LinearLayout{
         }
     }
 
-    public TextView getTagNewView(String label) {
+    public TextView getNewTagView(String label) {
         TextView tagTV = new TextView(getContext());
         tagTV.setPadding(UIUtils.dip2px(24), UIUtils.dip2px(5), UIUtils.dip2px(24), UIUtils.dip2px(6));
         tagTV.setTextSize(14);

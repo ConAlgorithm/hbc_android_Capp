@@ -24,6 +24,8 @@ public abstract class HbcRecyclerBaseAdapter<T> extends RecyclerView.Adapter<Rec
     protected List<T> datas;
     private int curretPosition = -1;
 
+    private OnItemClickListener onItemClickListener;
+
     public HbcRecyclerBaseAdapter(Context context) {
         this.mContext = context;
         this.mHeaderViewInfos = new ArrayList<View>();
@@ -65,31 +67,40 @@ public abstract class HbcRecyclerBaseAdapter<T> extends RecyclerView.Adapter<Rec
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         final int position = curretPosition;
         RecyclerView.ViewHolder viewHolder = null;
-        if (position < getHeadersCount()) {
-            HeaderOrFooterHolder headerHolder = new HeaderOrFooterHolder(mHeaderViewInfos.get(position));
-            viewHolder = headerHolder;
-        } else if (position < getItemCount() + getHeadersCount()) {
-            viewHolder = new ItemHolder(getItemView(position - getHeadersCount()));
-        } else {
-            final int footerPosition = position - getItemCount() - getHeadersCount();
-            Log.i("aa", "footerPosition " +footerPosition);
-            viewHolder = new HeaderOrFooterHolder(mFooterViewInfos.get(footerPosition));
+        switch (viewType) {
+            case TYPE_HEADER:
+                HeaderOrFooterHolder headerHolder = new HeaderOrFooterHolder(mHeaderViewInfos.get(position));
+                viewHolder = headerHolder;
+                break;
+            case TYPE_ITEM:
+                viewHolder = new ItemHolder(getItemView(position - getHeadersCount()));
+                break;
+            case TYPE_FOOTER:
+                final int footerPosition = position - getListCount() - getHeadersCount();
+                viewHolder = new HeaderOrFooterHolder(mFooterViewInfos.get(footerPosition));
+                break;
         }
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int _position) {
-        if (_position >= getHeadersCount() && _position < getListCount() + getHeadersCount()) {
-            ItemHolder itemHolder = null;
-            if (holder instanceof HbcRecyclerBaseAdapter.ItemHolder) {
-                itemHolder = (ItemHolder) holder;
-            }
+        if (_position >= getHeadersCount() && _position < getListCount() + getHeadersCount() && holder instanceof HbcRecyclerBaseAdapter.ItemHolder) {
+            final ItemHolder itemHolder = (ItemHolder) holder;
             if (itemHolder == null) {
                 return;
             }
             int position = _position - getHeadersCount();
-            itemHolder.getItemView().update(datas.get(position));
+            final Object itemData = datas.get(position);
+            itemHolder.getItemView().update(itemData);
+            if (onItemClickListener != null) {
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        onItemClickListener.onItemClick(itemHolder.itemView, _position, itemData);
+                    }
+                });
+            }
         }
     }
 
@@ -130,10 +141,12 @@ public abstract class HbcRecyclerBaseAdapter<T> extends RecyclerView.Adapter<Rec
 
     public void addHeaderView(View v) {
         mHeaderViewInfos.add(v);
+        this.notifyDataSetChanged();
     }
 
     public void addFooterView(View v) {
         mFooterViewInfos.add(v);
+        this.notifyDataSetChanged();
     }
 
     protected abstract View getItemView(int position);
@@ -160,5 +173,13 @@ public abstract class HbcRecyclerBaseAdapter<T> extends RecyclerView.Adapter<Rec
         public HeaderOrFooterHolder(View view) {
             super(view);
         }
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(View view, int position, Object itemData);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
     }
 }
