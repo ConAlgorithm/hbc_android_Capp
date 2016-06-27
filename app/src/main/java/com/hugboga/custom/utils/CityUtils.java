@@ -471,22 +471,72 @@ public class CityUtils {
     }
 
 
-    public static List<SearchGroupBean> getLevel3City(Activity activity,int group_id) {
+    public static List<SearchGroupBean> getLevel3City(Activity activity,int place_id) {
         try {
             List<SearchGroupBean> list = new ArrayList<>();
-            List<SearchGroupBean> list1 = getType21City(activity,group_id);
-            List<SearchGroupBean> list2 = getType31City(activity,group_id);
-            if(null != list1 && list1.size() > 0) {
-                list.addAll(list1);
+
+
+            List<SearchGroupBean> list3 = getType4City(activity,place_id);
+//            List<SearchGroupBean> list1 = getType21City(activity,group_id);
+//            List<SearchGroupBean> list2 = getType31City(activity,group_id);
+//            if(null != list1 && list1.size() > 0) {
+//                list.addAll(list1);
+//            }
+//            if(null != list2 && list2.size() > 0) {
+//                list.addAll(list2);
+//            }
+            if(null != list3 && list3.size() > 0) {
+                list.addAll(list3);
             }
-            if(null != list2 && list2.size() > 0) {
-                list.addAll(list2);
-            }
+
             return list;
         }catch (Exception e){
             e.printStackTrace();
             return null;
         }
+    }
+
+
+
+    public static List<SearchGroupBean> getType4City(Activity activity,int place_id){
+        try {
+            DbManager mDbManager = new DBHelper(activity).getDbManager();
+            Selector selector = null;
+            selector = mDbManager.selector(CityBean.class);
+            selector.where("place_id", "=",place_id);
+            List<CityBean> list = selector.findAll();
+            return cityAdapter(list);
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
+    public static List<SearchGroupBean> cityAdapter(List<CityBean> list){
+        List<SearchGroupBean> searchList = new ArrayList<>();
+        if(null == list){
+            return searchList;
+        }
+        SearchGroupBean searchGroupBean = null;
+        for(CityBean bean:list){
+            searchGroupBean = new SearchGroupBean();
+            searchGroupBean.group_id = -1;
+            searchGroupBean.group_name = "";
+
+            searchGroupBean.sub_place_id = -1;
+            searchGroupBean.sub_place_name = bean.placeName;
+
+            searchGroupBean.sub_city_id = bean.cityId;
+            searchGroupBean.sub_city_name = bean.name;
+
+            searchGroupBean.hot_weight = bean.hotWeight;
+
+            searchGroupBean.type = 4;
+            searchGroupBean.flag = 3;
+            searchList.add(searchGroupBean);
+        }
+        return searchList;
     }
 
     //type 1 组  2,国家  3, 城市
