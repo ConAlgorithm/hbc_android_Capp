@@ -226,7 +226,15 @@ public class UrlLibs {
     public static final String SERVER_IP_TRADE = "trade/v1.3/c/order/";
 
     public static final String SERVER_IP_TRADE_1_1 = "trade/v1.1/c/order/";
-    public static final String SERVER_IP_TRADE_1_2 = "trade/v1.3/c/order/";
+    public static final String SERVER_IP_TRADE_1_2 = "trade/v1.4/c/order/";
+
+
+
+    //推荐线路
+    public static final String RECOMMENDLIN = "trade/v1.0/c/order/recommendlin";
+
+
+
 
     /**
      * 提交订单 接机
