@@ -1,8 +1,8 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    compileSdkVersion 24
+    buildToolsVersion "24.0.0"
 
     lintOptions {
         abortOnError false
@@ -32,9 +32,9 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.2.0'
+    compile 'com.android.support:appcompat-v7:24.0.0'
     compile 'org.xutils:xutils:3.3.18'
-    compile 'com.android.support:recyclerview-v7:23.2.0'
+    compile 'com.android.support:recyclerview-v7:24.0.0'
     compile 'jp.wasabeef:recyclerview-animators:1.2.2'
     compile 'com.umeng.analytics:analytics:latest.integration'
     compile 'com.mani:ThinDownloadManager:1.2.4'
