@@ -3,13 +3,18 @@ package com.hugboga.custom.utils;
 
 import android.app.Activity;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
+import android.text.style.ImageSpan;
 
 import com.anupcowkur.reservoir.Reservoir;
 import com.google.gson.reflect.TypeToken;
+import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.LineGroupBean;
@@ -26,7 +31,19 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.R.attr.fragment;
+
 public class CityUtils {
+
+
+    public static SpannableString addImg(Activity activity,String content,int imgIds){
+        Drawable drawable = activity.getResources().getDrawable(imgIds);
+        drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+        SpannableString spannable = new SpannableString("[icon]" + content);
+        ImageSpan span = new ImageSpan(drawable, ImageSpan.ALIGN_BOTTOM);
+        spannable.setSpan(span, 0, "[icon]".length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+        return spannable;
+    }
 
     /**
      * 热门城市

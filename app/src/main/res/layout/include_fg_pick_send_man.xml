@@ -296,9 +296,11 @@
 
 
     <RelativeLayout
+        android:id="@+id/hotel_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/car_info"
+        android:visibility="gone"
         android:layout_marginTop="1dp"
         android:background="@color/basic_white"
         android:clickable="true"

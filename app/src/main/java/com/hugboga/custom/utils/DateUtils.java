@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
+import static com.hugboga.custom.R.array.date;
 import static u.aly.au.S;
 
 /**
@@ -492,6 +493,18 @@ public class DateUtils {
         Date date = getDateByStr(dateStr, dateDateFormat);
         return date;
     }
+
+
+    public static String getEndDateByStr(String dateStr,int days) {
+        try {
+            Date date = getDateByStr(dateStr);
+            Date endDate = addDay(date, days -1);
+            return dateDateFormat.format(endDate);
+        }catch (Exception e){
+            return dateStr;
+        }
+    }
+
 
     /**
      * 选择日期到现在的天数

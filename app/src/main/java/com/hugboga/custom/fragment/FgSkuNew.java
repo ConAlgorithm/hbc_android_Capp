@@ -29,6 +29,8 @@ import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestPriceSku;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.CarUtils;
+import com.hugboga.custom.utils.CityUtils;
+import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.OrderUtils;
 import com.umeng.analytics.MobclickAgent;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
@@ -45,8 +47,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
-
-import static com.hugboga.custom.R.id.mans;
 
 /**
  * Created  on 16/5/20.
@@ -89,6 +89,10 @@ public class FgSkuNew extends BaseFragment {
     TextView allJourneyText;
     @Bind(R.id.bottom)
     RelativeLayout bottom;
+    @Bind(R.id.sku_city_hotel)
+    TextView skuCityHotel;
+    @Bind(R.id.time_text_start_end)
+    TextView timeTextStartEnd;
 
     @Override
     protected void initHeader() {
@@ -132,6 +136,8 @@ public class FgSkuNew extends BaseFragment {
     private String areaCode;//区号
     private PoiBean startPoiBean;//上车地点
 
+    private boolean showHotal;//是否显示酒店
+
     @Override
     protected void initView() {
         skuBean = (SkuItemBean) getArguments().getSerializable(FgSkuDetail.WEB_SKU);
@@ -139,10 +145,25 @@ public class FgSkuNew extends BaseFragment {
         source = getArguments().getString("source");
         MLog.e("skuBean= " + skuBean);
         if (skuBean == null) return;
-        skuTitle.setText(skuBean.goodsName);
+
+        if (skuBean.goodsClass == 1) {//固定
+            skuTitle.setText(CityUtils.addImg(getActivity(), skuBean.goodsName, R.mipmap.chaoshengxin));
+        } else {//推荐
+            skuTitle.setText(CityUtils.addImg(getActivity(), skuBean.goodsName, R.mipmap.chaoziyou));
+        }
+
         skuCityLine.setText(skuBean.places);
         skuDay.setText(getString(R.string.sku_days, skuBean.daysCount));
         needChildrenSeat = cityBean != null && cityBean.childSeatSwitch;
+
+//        public int hotelCostAmount;//天数
+//        public int hotelStatus;//是否有酒店
+        if (skuBean.hotelStatus == 1) {
+            skuCityHotel.setVisibility(View.VISIBLE);
+            skuCityHotel.setText("含酒店:" + skuBean.hotelCostAmount + "晚");
+        }
+
+
     }
 
     @Override
@@ -162,6 +183,9 @@ public class FgSkuNew extends BaseFragment {
             if (carListBean.carList.size() > 0) {
                 carBean = carListBean.carList.get(0);
                 bottom.setVisibility(View.VISIBLE);
+                if (skuBean.hotelStatus == 1) {
+                    carListBean.showHotal = true;
+                }
                 genBottomData(carBean);
             } else {
                 bottom.setVisibility(View.GONE);
@@ -172,11 +196,13 @@ public class FgSkuNew extends BaseFragment {
     }
 
     String serverDayTime = "";
-    int numOfRooms = 0;
-    private void getData(){
+    private void getData() {
         serverDayTime = serverDate + " " + serverTime + ":00";
+        timeTextStartEnd.setVisibility(View.VISIBLE);
+        timeTextStartEnd.setText("起止日期:"+serverDate +" ~ "+ DateUtils.getEndDateByStr(serverDate,skuBean.daysCount));
+
         MLog.e("serverDayTime= " + serverDayTime);
-        RequestPriceSku request = new RequestPriceSku(getActivity(), skuBean.goodsNo, serverDayTime,cityBean.cityId+"",numOfRooms);
+        RequestPriceSku request = new RequestPriceSku(getActivity(), skuBean.goodsNo, serverDayTime, cityBean.cityId + "");
         requestData(request);
     }
 
@@ -190,9 +216,9 @@ public class FgSkuNew extends BaseFragment {
         allMoneyTextSku.setVisibility(View.VISIBLE);
 
         int total = carBean.price;
-        if(null != manLuggageBean){
-            int seat1Price = OrderUtils.getSeat1PriceTotal(carListBean,manLuggageBean);
-            int seat2Price = OrderUtils.getSeat2PriceTotal(carListBean,manLuggageBean);
+        if (null != manLuggageBean) {
+            int seat1Price = OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean);
+            int seat2Price = OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean);
             total += seat1Price + seat2Price;
         }
 
@@ -202,9 +228,9 @@ public class FgSkuNew extends BaseFragment {
     }
 
 
-
     CarBean carBean;
     ManLuggageBean manLuggageBean;
+
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
             case ONBACKPRESS:
@@ -212,40 +238,40 @@ public class FgSkuNew extends BaseFragment {
                 break;
             case CHANGE_CAR:
                 carBean = (CarBean) action.getData();
-                if(null != carBean) {
+                if (null != carBean) {
                     genBottomData(carBean);
                 }
                 break;
             case MAN_CHILD_LUUAGE:
                 confirmJourney.setBackgroundColor(getContext().getResources().getColor(R.color.all_bg_yellow));
-                manLuggageBean = (ManLuggageBean)action.getData();
-                if(null != carBean) {
+                manLuggageBean = (ManLuggageBean) action.getData();
+                if (null != carBean) {
                     genBottomData(carBean);
                 }
                 confirmJourney.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(UserEntity.getUser().isLogin(getActivity())) {
-                            if(carBean.capOfPerson == 4 && (Integer.valueOf(manLuggageBean.mans) + Integer.valueOf(manLuggageBean.childs)) == 4
-                                    || carBean.capOfPerson == 6 && (Integer.valueOf(manLuggageBean.mans) + Integer.valueOf(manLuggageBean.childs)) == 6){
-                                AlertDialogUtils.showAlertDialog(getActivity(),getString(R.string.alert_car_full),
-                                        "继续下单","更换车型",new DialogInterface.OnClickListener() {
+                        if (UserEntity.getUser().isLogin(getActivity())) {
+                            if (carBean.capOfPerson == 4 && (Integer.valueOf(manLuggageBean.mans) + Integer.valueOf(manLuggageBean.childs)) == 4
+                                    || carBean.capOfPerson == 6 && (Integer.valueOf(manLuggageBean.mans) + Integer.valueOf(manLuggageBean.childs)) == 6) {
+                                AlertDialogUtils.showAlertDialog(getActivity(), getString(R.string.alert_car_full),
+                                        "继续下单", "更换车型", new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
                                                 goNext();
                                                 dialog.dismiss();
                                             }
-                                        },new DialogInterface.OnClickListener() {
+                                        }, new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
                                                 dialog.dismiss();
                                             }
                                         });
-                            }else{
+                            } else {
                                 goNext();
                             }
 
-                        }else{
+                        } else {
                             Bundle bundle = new Bundle();//用于统计
                             bundle.putString("source", "sku下单");
                             startFragment(new FgLogin(), bundle);
@@ -259,14 +285,14 @@ public class FgSkuNew extends BaseFragment {
     }
 
 
-    private void goNext(){
+    private void goNext() {
 
         FGOrderNew fgOrderNew = new FGOrderNew();
         Bundle bundle = new Bundle();
         bundle.putString("guideCollectId", "");
         bundle.putSerializable("collectGuideBean", null);
         bundle.putString("source", source);
-        bundle.putParcelable("carListBean",carListBean);
+        bundle.putParcelable("carListBean", carListBean);
 
         bundle.putString("startCityId", cityBean.cityId + "");
         bundle.putString("endCityId", cityBean.cityId + "");//endCityId);
@@ -401,8 +427,8 @@ public class FgSkuNew extends BaseFragment {
         }
     }
 
-    private  void backPress(){
-        if((!TextUtils.isEmpty(timeText.getText())) ){
+    private void backPress() {
+        if ((!TextUtils.isEmpty(timeText.getText()))) {
             AlertDialogUtils.showAlertDialog(getContext(), getString(R.string.back_alert_msg), "离开", "取消", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -415,7 +441,7 @@ public class FgSkuNew extends BaseFragment {
                     dialog.dismiss();
                 }
             });
-        }else{
+        } else {
             finish();
         }
     }
