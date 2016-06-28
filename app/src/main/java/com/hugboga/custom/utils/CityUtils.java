@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.R.attr.fragment;
+import static android.R.attr.order;
 
 public class CityUtils {
 
@@ -242,6 +243,7 @@ public class CityUtils {
         }
     }
 
+    //搜索用
     public static List<SearchGroupBean> getCountLineCity(Activity activity,SearchGroupBean bean){
         List<SearchGroupBean> list = new ArrayList<>();
         if(bean.type == 1 && bean.level == 1) {
@@ -565,6 +567,7 @@ public class CityUtils {
             DbManager mDbManager = new DBHelper(activity).getDbManager();
             Selector selector = null;
             selector = mDbManager.selector(LineHotSpotBean.class);
+            selector.orderBy("hot_weight",true);
             List<LineHotSpotBean> list = selector.findAll();
             return lineHotCityAdapter(list);
         }catch (Exception e){
@@ -723,36 +726,80 @@ public class CityUtils {
 
     **/
 
+/**
+    -- 关键字查询 城市   改
+    SELECT -1 as group_id, '' as group_name, 4 AS type, city_id AS sub_city_id, cn_name AS sub_city_name, place_name AS sub_place_name, - 1 AS sub_group_id,
+ '' AS sub_group_name, city.hot_weight, 1 as rank
+    FROM city where cn_name like '巴里%' AND sub_place_name != '中国' AND sub_place_name != '中国大陆'
+
+    union
+
+    SELECT -1 as group_id, '' as group_name, 4 AS type, city_id AS sub_city_id, cn_name AS sub_city_name, place_name AS sub_place_name, - 1 AS sub_group_id,
+ '' AS sub_group_name, city.hot_weight, 2 as rank
+    from city where cn_name like '%巴里%' and cn_name not like '巴里%' and place_name!='中国' and place_name!='中国大陆' order by rank;
+ **/
+
+
+//搜索获取城市
     public static List<SearchGroupBean> searchCity(Activity activity,String key){
         try {
             DbManager mDbManager = new DBHelper(activity).getDbManager();
             Selector selector = null;
-            selector = mDbManager.selector(LineGroupItem.class);
-            selector.where("type","=",3);
-            selector.and("sub_city_name","like",key+"%");
-            List<LineGroupItem> list1 = selector.findAll();
+            selector = mDbManager.selector(CityBean.class);
+            selector.where("cn_name","like",key+"%");
+            selector.and("sub_place_name","<>","中国");
+            selector.and("sub_place_name","<>","中国大陆");
+            List<CityBean> list1 = selector.findAll();
 
-            selector = mDbManager.selector(LineGroupItem.class);
-            selector.where("type","=",3);
-            selector.and("sub_city_name","like","%"+key+"%");
-            selector.and("sub_city_name","not like",key+"%");
+
+            selector = mDbManager.selector(CityBean.class);
+            selector.where("cn_name","like","%"+key + "%");
+            selector.and("cn_name","not like",key+"%");
+            selector.and("place_name","<>","中国");
+            selector.and("sub_place_name","<>","中国大陆");
             selector.orderBy("rank");
-            List<LineGroupItem> list2 = selector.findAll();
+            List<CityBean> list2 = selector.findAll();
 
-            List<LineGroupItem> list = new ArrayList<>();
+            List<CityBean> list = new ArrayList<>();
             if(null != list1) {
                 list.addAll(list1);
             }
             if(null != list2) {
                 list.addAll(list2);
             }
-            return lineGroupItemAdapter(list,3);
+            return cityAdapter(list,3);
         }catch (Exception e){
             e.printStackTrace();
             return null;
         }
     }
 
+
+    public static List<SearchGroupBean> cityAdapter(List<CityBean> list,int type){
+        List<SearchGroupBean> searchList = new ArrayList<>();
+        SearchGroupBean searchGroupBean = null;
+        if(null == list){
+            return searchList;
+        }
+        for(CityBean bean:list){
+            searchGroupBean = new SearchGroupBean();
+            searchGroupBean.group_id = -1;
+            searchGroupBean.group_name = "";
+
+            searchGroupBean.sub_city_id = bean.cityId;
+            searchGroupBean.sub_city_name = bean.name;
+
+            searchGroupBean.sub_place_name = bean.placeName;
+            searchGroupBean.hot_weight = bean.hotWeight;
+
+            searchGroupBean.type = type;
+            searchGroupBean.flag = type;
+            searchList.add(searchGroupBean);
+        }
+        return searchList;
+    }
+
+//查询线路圈
     public static List<SearchGroupBean> searchLine(Activity activity,String key){
         try {
             DbManager mDbManager = new DBHelper(activity).getDbManager();
@@ -781,6 +828,7 @@ public class CityUtils {
         }
     }
 
+//查询国家
     public static List<SearchGroupBean> searchCountry(Activity activity,String key){
         try {
             DbManager mDbManager = new DBHelper(activity).getDbManager();
@@ -794,6 +842,7 @@ public class CityUtils {
             selector.where("type","=",2);
             selector.and("sub_place_name","like","%"+key+"%");
             selector.and("sub_place_name","not like",key+"%");
+            selector.groupBy("sub_place_id");
             selector.orderBy("rank");
             List<LineGroupItem> list2 = selector.findAll();
 

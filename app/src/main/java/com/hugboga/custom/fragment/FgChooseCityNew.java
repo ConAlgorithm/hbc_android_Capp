@@ -245,7 +245,7 @@ public class FgChooseCityNew extends BaseFragment {
         });
 
 
-        levelCityAdapterLeft = new LevelCityAdapter(getActivity());
+        levelCityAdapterLeft = new LevelCityAdapter(getActivity(),1);
         SearchGroupBean lineGroupBean = new SearchGroupBean();
         lineGroupBean.group_id = 0;
         lineGroupBean.flag = 1;
@@ -275,7 +275,7 @@ public class FgChooseCityNew extends BaseFragment {
                 levelCityAdapterMiddle.notifyDataSetChanged();
             }
         }
-        levelCityAdapterRight = new LevelCityAdapter(getActivity());
+        levelCityAdapterRight = new LevelCityAdapter(getActivity(),3);
         List<SearchGroupBean> list3 = CityUtils.getLevel3City(getActivity(), groupList2.get(position).sub_place_id);
         if(null == list3 || list3.size() == 0){
             goCityList(groupList2.get(position));
@@ -299,7 +299,7 @@ public class FgChooseCityNew extends BaseFragment {
     }
 
     private void showMiddleData(int position){
-        levelCityAdapterMiddle = new LevelCityAdapter(getActivity());
+        levelCityAdapterMiddle = new LevelCityAdapter(getActivity(),2);
         if(position == 0) {
             groupList2 = new ArrayList<>();
             groupList2.addAll(CityUtils.getHotCityWithHead(getActivity()));
