@@ -61,6 +61,7 @@ public class OrderDetailTitleBar extends LinearLayout implements HbcViewBehavior
         titleTextMap.put(3, R.string.order_detail_title_chartered);
         titleTextMap.put(4, R.string.order_detail_title_single);
         titleTextMap.put(5, R.string.order_detail_title_route);
+        titleTextMap.put(6, R.string.order_detail_title_route);
 
     }
 

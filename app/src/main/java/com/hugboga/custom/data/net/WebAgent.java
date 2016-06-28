@@ -22,6 +22,7 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.request.RequestWebInfo;
 import com.hugboga.custom.fragment.FgLogin;
+import com.hugboga.custom.fragment.FgOrderSelectCity;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.widget.DialogUtil;
 
@@ -201,7 +202,6 @@ public class WebAgent implements HttpRequestListener {
                 });
             }
         });
-
     }
 
     @JavascriptInterface
@@ -231,6 +231,47 @@ public class WebAgent implements HttpRequestListener {
         }
     }
 
+    /**
+     * 在线咨询客服
+     * */
+    @JavascriptInterface
+    public void pushToServiceChatVC() {
+
+    }
+
+    /**
+     * 拨打客服热线
+     * */
+    @JavascriptInterface
+    public void callServicePhone() {
+
+    }
+
+    /**
+     * 立即定制（定制线路下单）
+     * */
+    @JavascriptInterface
+    public void customLineOrder() {
+        if (mFragment != null) {
+            mFragment.startFragment(new FgOrderSelectCity());
+        }
+    }
+
+    /**
+     * 现在预订（固定线路下单）
+     * */
+    @JavascriptInterface
+    public void fixedLineOrder() {
+
+    }
+
+    /**
+     * URL重定向
+     * */
+    @JavascriptInterface
+    public void pushToNextPageWithUrl(String url) {
+
+    }
 
     private void callBack(final String callBackMethod, final String callBackResult) {
         mActivity.runOnUiThread(new Runnable() {

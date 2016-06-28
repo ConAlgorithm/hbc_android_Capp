@@ -62,6 +62,7 @@ public class FgSkuList extends BaseFragment implements HbcRecyclerBaseAdapter.On
     private SkuAdapter adapter;
     private boolean isFirstRequest = true;
     private boolean isLoading = true;
+    private SkuCityBean skuCityBean;
 
     public enum SkuType {
         CITY, ROUTE, COUNTRY;
@@ -145,9 +146,11 @@ public class FgSkuList extends BaseFragment implements HbcRecyclerBaseAdapter.On
                 RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
                 int lastVisibleItem = ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();
                 int totalItemCount = layoutManager.getItemCount();
-                if (!isLoading && lastVisibleItem >= totalItemCount - 1 && dy > 0) {
+                if (!isLoading && lastVisibleItem >= totalItemCount - 1 && dy > 0
+                        && skuCityBean != null
+                        && adapter.getListCount() < skuCityBean.goodsCount) {
                     isFirstRequest = false;
-                    sendRequest(adapter == null ? 0 : adapter.getItemCount(), false);//加载下一页
+                    sendRequest(adapter == null ? 0 : adapter.getListCount(), false);//加载下一页
                 }
             }
         });
@@ -213,7 +216,6 @@ public class FgSkuList extends BaseFragment implements HbcRecyclerBaseAdapter.On
 
     @Override
     public void onDataRequestSucceed(BaseRequest _request) {
-        SkuCityBean skuCityBean = null;
         if (_request instanceof RequestCitySkuList) {
             skuCityBean = ((RequestCitySkuList) _request).getData();
             cityHeaderView.update(skuCityBean);

@@ -29,7 +29,7 @@ public class OrderBean implements IBaseBean ,Parcelable{
     public String userRemark;//备注信息
 
 
-    public Integer orderType;//1: 接机 2: 送机 3: 市内包车(由日租拆分出来) 4: 次租(单次接送) 5线路包车
+    public Integer orderType;//1: 接机 2: 送机 3: 市内包车(由日租拆分出来) 4: 次租(单次接送) 5固定线路 6.推荐线路
     public int orderGoodsType;//扩展字段   1: 接机 2: 送机 3: 市内包车(由日租拆分出来) 4: 次租 5: 精品线路(由日租拆分出来) 6: 小长途 (由日租拆分出来)7: 大长途 (由日租拆分出来)
     public String orderNo; //订单号
     //    public String orderID;
@@ -165,6 +165,9 @@ public class OrderBean implements IBaseBean ,Parcelable{
 
     public Double priceHotel; // 住宿总费用(单价 * hotelRoom * hotelDays)
     public int hotelRoom; // 房间数
+    public String picUrl; //路线活动图片
+
+    public boolean isChangeManual;// 是否人工退改 (0，非人工；1，人工)
 
 
     public String getOrderTypeStr(Context context) {
@@ -355,6 +358,8 @@ public class OrderBean implements IBaseBean ,Parcelable{
         dest.writeByte(this.isPhone ? (byte) 1 : (byte) 0);
         dest.writeValue(this.priceHotel);
         dest.writeInt(this.hotelRoom);
+        dest.writeString(this.picUrl);
+        dest.writeByte(this.isChangeManual ? (byte) 1 : (byte) 0);
     }
 
     public OrderBean() {
@@ -485,6 +490,8 @@ public class OrderBean implements IBaseBean ,Parcelable{
         this.isPhone = in.readByte() != 0;
         this.priceHotel = (Double) in.readValue(Double.class.getClassLoader());
         this.hotelRoom = in.readInt();
+        this.picUrl = in.readString();
+        this.isChangeManual = in.readByte() != 0;
     }
 
     public static final Creator<OrderBean> CREATOR = new Creator<OrderBean>() {

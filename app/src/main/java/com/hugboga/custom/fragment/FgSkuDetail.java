@@ -44,8 +44,8 @@ public class FgSkuDetail extends FgWebInfo {
             cityBean =  (CityBean)getArguments().getSerializable(WEB_CITY);
             source = getArguments().getString("source");
         }
-        if (cityBean == null && skuItemBean != null && !TextUtils.isEmpty(skuItemBean.cityId)) {
-            cityBean = findCityById(skuItemBean.cityId);
+        if (cityBean == null && skuItemBean != null && skuItemBean.arrCityId != 0) {
+            cityBean = findCityById("" + skuItemBean.arrCityId);
         }
         fgLeftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,12 +90,15 @@ public class FgSkuDetail extends FgWebInfo {
                     bundle.putAll(getArguments());
                 }
                 bundle.putSerializable(FgSkuDetail.WEB_SKU,skuItemBean);
-                bundle.putSerializable(FgSkuDetail.WEB_CITY,cityBean);
+                if (cityBean != null) {
+                    bundle.putSerializable(FgSkuDetail.WEB_CITY,cityBean);
+                }
                 bundle.putString("source",source);
 //                startFragment(new FgSkuSubmit(), source);
                 startFragment(new FgSkuNew(), bundle);
-
-                map.put("routecity", cityBean.name);
+//                if (cityBean != null) {
+//                    map.put("routecity", cityBean.name);
+//                }
                 map.put("routename", skuItemBean.goodsName);
 //                map.put("quoteprice", skuItemBean.goodsMinPrice);
                 int countResult = 0;

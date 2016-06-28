@@ -24,9 +24,7 @@ public class SkuItemBean implements Serializable {
 
 
     public String goodsMinPrice;//最低价格
-    public int saleAmount;//销售数量
     public String salePoints;//标签
-    public String keyWords;//关键字
     public int daysCount;//天数
     public String places;
     public String skuDetailUrl;//详情地址
@@ -38,7 +36,6 @@ public class SkuItemBean implements Serializable {
     public String depCityName;
     public int goodsType;
     public List<CityBean> passCityList;
-    public List<PoiBean> passPoiList;
     public String passPoiListStr;
 
 
