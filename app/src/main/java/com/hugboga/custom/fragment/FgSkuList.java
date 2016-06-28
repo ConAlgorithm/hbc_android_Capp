@@ -147,7 +147,7 @@ public class FgSkuList extends BaseFragment implements HbcRecyclerBaseAdapter.On
                 int totalItemCount = layoutManager.getItemCount();
                 if (!isLoading && lastVisibleItem >= totalItemCount - 1 && dy > 0) {
                     isFirstRequest = false;
-//                    sendRequest(adapter == null ? 0 : adapter.getItemCount(), false);//加载下一页
+                    sendRequest(adapter == null ? 0 : adapter.getItemCount(), false);//加载下一页
                 }
             }
         });

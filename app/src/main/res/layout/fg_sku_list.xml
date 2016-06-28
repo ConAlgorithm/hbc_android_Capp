@@ -20,6 +20,7 @@
 
     <com.hugboga.custom.widget.SkuListEmptyView
         android:id="@+id/suk_list_empty_view"
+        android:layout_below="@+id/suk_list_titlebar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/default_bg" />
