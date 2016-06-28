@@ -317,7 +317,7 @@ public class CityUtils {
            searchGroupBean.parent_id = bean.parent_id;
 
            searchGroupBean.level = bean.level;
-           searchGroupBean.type = 1;
+           searchGroupBean.type = flag;
            searchGroupBean.flag = flag;
            searchList.add(searchGroupBean);
        }
@@ -341,7 +341,7 @@ public class CityUtils {
             searchGroupBean.sub_city_id = bean.sub_city_id;
             searchGroupBean.sub_city_name = bean.sub_city_name;
 
-            searchGroupBean.type = bean.type;
+            searchGroupBean.type = flag;
             searchGroupBean.flag = flag;
             searchList.add(searchGroupBean);
         }
@@ -392,7 +392,7 @@ public class CityUtils {
             selector.where("parent_type", "=", 1);
             selector.and("parent_id", "=",group_id);
             List<LineGroupBean> list = selector.findAll();
-            return lineGroupBeanAdapter(list,2);
+            return lineGroupBeanAdapter(list,1);
         }catch (Exception e){
             e.printStackTrace();
             return null;
@@ -429,7 +429,7 @@ public class CityUtils {
             selector.where("type", "=", 3);
             selector.and("group_id", "=",group_id);
             List<LineGroupItem> list = selector.findAll();
-            return lineGroupItemAdapter(list,2);
+            return lineGroupItemAdapter(list,3);
         }catch (Exception e){
             e.printStackTrace();
             return null;
@@ -549,7 +549,7 @@ public class CityUtils {
 
             searchGroupBean.hot_weight = bean.hotWeight;
 
-            searchGroupBean.type = 4;
+            searchGroupBean.type = 3;
             searchGroupBean.flag = 3;
             searchList.add(searchGroupBean);
         }

@@ -354,8 +354,21 @@ public class FgChooseCityNew extends BaseFragment {
         if(null != popupWindow){
             popupWindow.dismiss();
         }
-        FgSkuList fgSkuList = new FgSkuList();
-        startFragment(fgSkuList);
+        FgSkuList.Params params = new FgSkuList.Params();
+        if(searchGroupBean.type == 1){
+            params.id = searchGroupBean.group_id;
+            params.skuType = FgSkuList.SkuType.ROUTE;
+        }else if(searchGroupBean.type == 2){
+            params.id = searchGroupBean.sub_place_id;
+            params.skuType = FgSkuList.SkuType.COUNTRY;
+        }else if(searchGroupBean.type == 3){
+            params.id = searchGroupBean.sub_city_id;
+            params.skuType = FgSkuList.SkuType.CITY;
+        }else if(searchGroupBean.type == 4){
+            params.id = searchGroupBean.group_id;
+            params.skuType = FgSkuList.SkuType.ROUTE;
+        }
+        startFragment(FgSkuList.newInstance(params));
     }
 
 
