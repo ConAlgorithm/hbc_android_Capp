@@ -356,8 +356,14 @@ public class FgChooseCityNew extends BaseFragment {
         }
         FgSkuList.Params params = new FgSkuList.Params();
         if(searchGroupBean.type == 1){
-            params.id = searchGroupBean.group_id;
-            params.skuType = FgSkuList.SkuType.ROUTE;
+            if(searchGroupBean.flag == 4){
+                params.id = searchGroupBean.spot_id;
+                params.skuType = FgSkuList.SkuType.ROUTE;
+            }else{
+                params.id = searchGroupBean.group_id;
+                params.skuType = FgSkuList.SkuType.ROUTE;
+            }
+
         }else if(searchGroupBean.type == 2){
             params.id = searchGroupBean.sub_place_id;
             params.skuType = FgSkuList.SkuType.COUNTRY;
