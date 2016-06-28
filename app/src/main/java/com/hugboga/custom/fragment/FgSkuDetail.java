@@ -3,6 +3,7 @@ package com.hugboga.custom.fragment;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.huangbaoche.hbcframe.util.WXShareUtils;
@@ -43,7 +44,7 @@ public class FgSkuDetail extends FgWebInfo {
             cityBean =  (CityBean)getArguments().getSerializable(WEB_CITY);
             source = getArguments().getString("source");
         }
-        if (cityBean == null && skuItemBean != null) {
+        if (cityBean == null && skuItemBean != null && !TextUtils.isEmpty(skuItemBean.cityId)) {
             cityBean = findCityById(skuItemBean.cityId);
         }
         fgLeftBtn.setOnClickListener(new View.OnClickListener() {

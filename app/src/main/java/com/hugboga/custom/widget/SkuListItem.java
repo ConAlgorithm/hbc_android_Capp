@@ -3,6 +3,7 @@ package com.hugboga.custom.widget;
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
@@ -105,29 +106,34 @@ public class SkuListItem extends RelativeLayout implements HbcViewBehavior{
         }
         if (skuItemBean.characteristicLables != null && skuItemBean.characteristicLables.size() > 0) {
             tagGroup.setVisibility(View.VISIBLE);
-//            final int labelsSize = skuItemBean.characteristicLables.size();
-//            ArrayList<View> viewList = new ArrayList<View>(labelsSize);
-//            for (int i = 0; i < labelsSize; i++) {
-//                SkuItemBean.CharacteristicLables lablesBean = skuItemBean.characteristicLables.get(i);
-//                if (lablesBean == null) {
-//                    continue;
-//                }
-//                if (i < tagGroup.getChildCount()) {
-//                    LinearLayout tagLayout = (LinearLayout)tagGroup.getChildAt(i);
-//                    tagLayout.setVisibility(View.VISIBLE);
-//                    ImageView iconIV = (ImageView)tagLayout.getChildAt(0);
-//                    iconIV.setBackgroundResource(getLableIconRes(skuItemBean.goodsClass, lablesBean.lableType));
-//                    TextView tagTV = (TextView)tagLayout.getChildAt(1);
-//                    tagTV.setText(lablesBean.lableName);
-//                    tagTV.setTextColor(getTagColor(skuItemBean.goodsClass));
-//                } else {
-//                    viewList.add(getNewTagView(lablesBean.lableName, lablesBean.lableType, skuItemBean.goodsClass));
+            final int labelsSize = skuItemBean.characteristicLables.size();
+            ArrayList<View> viewList = new ArrayList<View>(labelsSize);
+            for (int i = 0; i < labelsSize; i++) {
+                SkuItemBean.CharacteristicLables lablesBean = skuItemBean.characteristicLables.get(i);
+                if (lablesBean == null) {
+                    continue;
+                }
+                if (i < tagGroup.getChildCount()) {
+                    LinearLayout tagLayout = (LinearLayout)tagGroup.getChildAt(i);
+                    tagLayout.setVisibility(View.VISIBLE);
+                    ImageView iconIV = (ImageView)tagLayout.getChildAt(0);
+                    iconIV.setBackgroundResource(getLableIconRes(skuItemBean.goodsClass, lablesBean.lableType));
+                    TextView tagTV = (TextView)tagLayout.getChildAt(1);
+                    tagTV.setText(lablesBean.lableName);
+                    tagTV.setTextColor(getTagColor(skuItemBean.goodsClass));
+                } else {
+                    viewList.add(getNewTagView(lablesBean.lableName, lablesBean.lableType, skuItemBean.goodsClass));
+                }
+            }
+//            if (tagGroup.getChildCount() != 0 && tagGroup.getChildCount() > labelsSize) {
+//                for (int j = labelsSize; labelsSize < tagGroup.getChildCount(); j++) {
+//                    if (tagGroup.getChildAt(j-1) != null) {
+//                        Log.i("aa", " tagGroup.getChildCount() "+tagGroup.getChildCount()+  " labelsSize "+labelsSize + " --j "+j + " skuItemBean.goodsNo "+skuItemBean.goodsNo);
+//                        tagGroup.getChildAt(j-1).setVisibility(View.GONE);
+//                    }
 //                }
 //            }
-//            for (int j = labelsSize; labelsSize < tagGroup.getChildCount(); j++) {
-//                tagGroup.getChildAt(j-1).setVisibility(View.GONE);
-//            }
-//            tagGroup.setTags(viewList, tagGroup.getChildCount() <= 0);
+            tagGroup.setTags(viewList, tagGroup.getChildCount() <= 0);
         } else {
             tagGroup.setVisibility(View.GONE);
         }
@@ -148,7 +154,6 @@ public class SkuListItem extends RelativeLayout implements HbcViewBehavior{
         tagTV.setTextColor(getTagColor(goodsClass));
         tagTV.setText(lableName);
         layout.addView(tagTV);
-
 
         return layout;
     }

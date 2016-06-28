@@ -7,7 +7,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
@@ -25,16 +24,15 @@ import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.data.request.RequestCitySkuList;
 import com.hugboga.custom.data.request.RequestCountrySkuList;
 import com.hugboga.custom.data.request.RequestRouteSkuList;
-import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.SkuCityFooterView;
 import com.hugboga.custom.widget.SkuCityHeaderView;
-import com.umeng.analytics.MobclickAgent;
+import com.hugboga.custom.widget.SkuListEmptyView;
 
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 
 import java.io.Serializable;
-import java.util.HashMap;
+import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -54,6 +52,8 @@ public class FgSkuList extends BaseFragment implements HbcRecyclerBaseAdapter.On
     ZListRecyclerView recyclerView;
     @Bind(R.id.suk_list_refresh_layout)
     ZSwipeRefreshLayout swipeRefreshLayout;
+    @Bind(R.id.suk_list_empty_view)
+    SkuListEmptyView emptyView;
 
     private SkuCityHeaderView cityHeaderView;
     private SkuCityFooterView cityFooterView;
@@ -65,6 +65,10 @@ public class FgSkuList extends BaseFragment implements HbcRecyclerBaseAdapter.On
 
     public enum SkuType {
         CITY, ROUTE, COUNTRY;
+    }
+
+    public Params getParamsData() {
+        return paramsData;
     }
 
     public static class Params implements Serializable {
@@ -100,6 +104,7 @@ public class FgSkuList extends BaseFragment implements HbcRecyclerBaseAdapter.On
         if (paramsData == null) {
             return;
         }
+        emptyView.setFragment(this);
 
         ZDefaultDivider divider = recyclerView.getItemDecoration();
         divider.setItemOffsets(0, 0, 0, 0);
@@ -123,14 +128,14 @@ public class FgSkuList extends BaseFragment implements HbcRecyclerBaseAdapter.On
         }
 
         isFirstRequest = true;
-        sendRequest(0);
+        sendRequest(0, true);
         swipeRefreshLayout.setRefreshing(true);
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 isFirstRequest = true;
-                sendRequest(0);//下拉刷新
+                sendRequest(0, false);//下拉刷新
             }
         });
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -142,7 +147,7 @@ public class FgSkuList extends BaseFragment implements HbcRecyclerBaseAdapter.On
                 int totalItemCount = layoutManager.getItemCount();
                 if (!isLoading && lastVisibleItem >= totalItemCount - 1 && dy > 0) {
                     isFirstRequest = false;
-//                    sendRequest(adapter == null ? 0 : adapter.getItemCount());//加载下一页
+                    sendRequest(adapter == null ? 0 : adapter.getItemCount(), false);//加载下一页
                 }
             }
         });
@@ -162,7 +167,7 @@ public class FgSkuList extends BaseFragment implements HbcRecyclerBaseAdapter.On
 
     }
 
-    private Callback.Cancelable sendRequest(int pageIndex) {
+    public Callback.Cancelable sendRequest(int pageIndex, boolean needShowLoading) {
         isLoading = true;
         BaseRequest request = null;
         switch (paramsData.skuType) {
@@ -176,7 +181,7 @@ public class FgSkuList extends BaseFragment implements HbcRecyclerBaseAdapter.On
                 request = new RequestCountrySkuList(getActivity(), "" + paramsData.id, pageIndex);
                 break;
         }
-        return HttpRequestUtils.request(getActivity(), request, this, false);
+        return HttpRequestUtils.request(getActivity(), request, this, needShowLoading);
     }
 
     @Override
@@ -213,12 +218,15 @@ public class FgSkuList extends BaseFragment implements HbcRecyclerBaseAdapter.On
             skuCityBean = ((RequestCitySkuList) _request).getData();
             cityHeaderView.update(skuCityBean);
             cityFooterView.update(skuCityBean);
+            emptyView.setVisibility(View.GONE);
         } else if (_request instanceof RequestRouteSkuList) {
             skuCityBean = ((RequestRouteSkuList) _request).getData();
             fgTitle.setText(skuCityBean.lineGroupName);
+            showCustomEmptyView(skuCityBean.goodsList);
         } else if (_request instanceof RequestCountrySkuList) {
             skuCityBean = ((RequestCountrySkuList) _request).getData();
             fgTitle.setText(skuCityBean.countryName);
+            showCustomEmptyView(skuCityBean.goodsList);
         }
         adapter.addDatas(skuCityBean.goodsList, !isFirstRequest);
         swipeRefreshLayout.setRefreshing(false);
@@ -226,16 +234,34 @@ public class FgSkuList extends BaseFragment implements HbcRecyclerBaseAdapter.On
     }
 
     @Override
-    public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-        super.onDataRequestError(errorInfo, request);
+    public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest _request) {
+        super.onDataRequestError(errorInfo, _request);
+        if (adapter.getItemCount() <= 2) {
+            emptyView.requestFailure();
+        } else {
+            showCustomEmptyView(null);
+        }
         swipeRefreshLayout.setRefreshing(false);
         isLoading = false;
     }
 
     @Override
-    public void onDataRequestCancel(BaseRequest request) {
-        super.onDataRequestCancel(request);
+    public void onDataRequestCancel(BaseRequest _request) {
+        super.onDataRequestCancel(_request);
+        if (adapter.getItemCount() <= 2 && _request instanceof RequestCitySkuList) {
+            emptyView.requestFailure();
+        } else {
+            showCustomEmptyView(null);
+        }
         swipeRefreshLayout.setRefreshing(false);
         isLoading = false;
+    }
+
+    private void showCustomEmptyView(ArrayList<SkuItemBean> goodsList) {
+        if (adapter.getItemCount() <= 0 && (goodsList == null || goodsList.size() <= 0)) {
+            emptyView.showCustomView();
+        } else {
+            emptyView.setVisibility(View.GONE);
+        }
     }
 }

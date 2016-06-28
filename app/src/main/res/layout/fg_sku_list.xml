@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ececec"
-    android:orientation="vertical">
+    android:background="#ececec">
     <include
         android:id="@+id/suk_list_titlebar"
         layout="@layout/include_header"/>
     <com.huangbaoche.hbcframe.widget.recycler.ZSwipeRefreshLayout
         android:id="@+id/suk_list_refresh_layout"
+        android:layout_below="@+id/suk_list_titlebar"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -18,4 +18,10 @@
             android:layout_height="match_parent" />
     </com.huangbaoche.hbcframe.widget.recycler.ZSwipeRefreshLayout>
 
-</LinearLayout>
+    <com.hugboga.custom.widget.SkuListEmptyView
+        android:id="@+id/suk_list_empty_view"
+        android:layout_below="@+id/suk_list_titlebar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/default_bg" />
+</RelativeLayout>

@@ -61,7 +61,6 @@ public class SkuCityHeaderView extends LinearLayout implements HbcViewBehavior, 
            return;
         }
         skuCityBean = (SkuCityBean) _data;
-        bgIV.setBackgroundColor(0x660000FF);
         Tools.showImageCenterCrop(bgIV, skuCityBean.cityPicture);
         citynameTV.setText(skuCityBean.cityName);
         citynameEnTV.setText(skuCityBean.cityNameEn);
