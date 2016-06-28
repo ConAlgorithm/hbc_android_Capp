@@ -1,7 +1,6 @@
 package com.hugboga.custom.widget;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
@@ -15,10 +14,8 @@ import com.hugboga.custom.data.bean.SkuCityBean;
 import com.hugboga.custom.fragment.FgPickSend;
 import com.hugboga.custom.fragment.FgSingleNew;
 import com.hugboga.custom.fragment.FgSkuList;
+import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
-import com.umeng.analytics.MobclickAgent;
-
-import java.util.HashMap;
 
 /**
  * Created by qingcha on 16/6/27.
@@ -54,6 +51,9 @@ public class SkuCityFooterView extends LinearLayout implements HbcViewBehavior, 
         pickupTV.setOnClickListener(this);
         singleTV.setOnClickListener(this);
 
+        int guidesLayoutHeight = (int)((367 / 750.0) * UIUtils.getScreenWidth());
+        LinearLayout.LayoutParams guidesParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, guidesLayoutHeight);
+        guidesLayout.setLayoutParams(guidesParams);
     }
 
     public void setFragment(FgSkuList _fragment) {
@@ -104,6 +104,23 @@ public class SkuCityFooterView extends LinearLayout implements HbcViewBehavior, 
         }
 
         guidesCountTV.setText("" + skuCityBean.goodsCount);
+
+        if (skuCityBean.guideAvatars != null && skuCityBean.guideAvatars.size() > 0) {
+            avatarsLayout.removeAllViews();
+            int size = skuCityBean.guideAvatars.size();
+            int viewWidth = UIUtils.dip2px(30);
+            j:for (int i = 0; i < size; i++) {
+                viewWidth +=  UIUtils.dip2px(15) + UIUtils.dip2px(45);
+                if (viewWidth > UIUtils.getScreenWidth()) {
+                    break j;
+                }
+                CircleImageView circleImageView = new CircleImageView(getContext());
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(UIUtils.dip2px(45), UIUtils.dip2px(45));
+                params.rightMargin = UIUtils.dip2px(15);
+                Tools.showImageCenterCrop(circleImageView, skuCityBean.guideAvatars.get(i));
+                avatarsLayout.addView(circleImageView, params);
+            }
+        }
     }
 
     @Override
