@@ -319,7 +319,7 @@ public class CityUtils {
            searchGroupBean.parent_id = bean.parent_id;
 
            searchGroupBean.level = bean.level;
-           searchGroupBean.type = flag;
+           searchGroupBean.type = 1;
            searchGroupBean.flag = flag;
            searchList.add(searchGroupBean);
        }
@@ -343,7 +343,7 @@ public class CityUtils {
             searchGroupBean.sub_city_id = bean.sub_city_id;
             searchGroupBean.sub_city_name = bean.sub_city_name;
 
-            searchGroupBean.type = flag;
+            searchGroupBean.type = bean.type;
             searchGroupBean.flag = flag;
             searchList.add(searchGroupBean);
         }

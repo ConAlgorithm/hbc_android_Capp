@@ -355,24 +355,23 @@ public class FgChooseCityNew extends BaseFragment {
             popupWindow.dismiss();
         }
         FgSkuList.Params params = new FgSkuList.Params();
-        if(searchGroupBean.type == 1){
-            if(searchGroupBean.flag == 4){
-                params.id = searchGroupBean.spot_id;
-                params.skuType = FgSkuList.SkuType.ROUTE;
-            }else{
+
+        if(searchGroupBean.flag == 1){
                 params.id = searchGroupBean.group_id;
                 params.skuType = FgSkuList.SkuType.ROUTE;
-            }
-
-        }else if(searchGroupBean.type == 2){
-            params.id = searchGroupBean.sub_place_id;
-            params.skuType = FgSkuList.SkuType.COUNTRY;
-        }else if(searchGroupBean.type == 3){
+        }else if(searchGroupBean.flag == 2){
+                params.id = searchGroupBean.sub_place_id;
+                params.skuType = FgSkuList.SkuType.COUNTRY;
+        }else if(searchGroupBean.flag == 3){
             params.id = searchGroupBean.sub_city_id;
             params.skuType = FgSkuList.SkuType.CITY;
-        }else if(searchGroupBean.type == 4){
-            params.id = searchGroupBean.group_id;
-            params.skuType = FgSkuList.SkuType.ROUTE;
+        }else if(searchGroupBean.flag == 4){
+            params.id = searchGroupBean.spot_id;
+            if(searchGroupBean.type == 1){
+                params.skuType = FgSkuList.SkuType.CITY;
+            }else if(searchGroupBean.type == 2){
+                params.skuType = FgSkuList.SkuType.COUNTRY;
+            }
         }
         startFragment(FgSkuList.newInstance(params));
     }
