@@ -613,6 +613,7 @@
     <string name="order_detail_close">关闭详情</string>
     <string name="order_detail_cost_chartered">包车费用</string>
     <string name="order_detail_cost_child_seats">儿童座椅</string>
+    <string name="order_detail_cost_hotel">住宿费用</string>
     <string name="order_detail_cost_placards">举牌费用</string>
     <string name="order_detail_cost_checkin">checkin费用</string>
     <string name="order_detail_cost_total">费用总计</string>

@@ -637,4 +637,23 @@ public class DialogUtil implements DialogUtilInterface {
         dialog.show();
     }
 
+    public void showCallDialogTitle(String title) {
+        String[] str = {"境内客服:" + Constants.CALL_NUMBER_IN, "境外客服:" + Constants.CALL_NUMBER_OUT};
+        AlertDialog dialog = new AlertDialog.Builder(getRootActivity(mContext))
+                .setTitle(title)
+                .setItems(str, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (which == 0) {
+                            PhoneInfo.CallDial(mContext, Constants.CALL_NUMBER_IN);
+                        } else {
+                            PhoneInfo.CallDial(mContext, Constants.CALL_NUMBER_OUT);
+                        }
+                    }
+                }).create();
+        dialog.setCancelable(true);
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.show();
+    }
+
 }

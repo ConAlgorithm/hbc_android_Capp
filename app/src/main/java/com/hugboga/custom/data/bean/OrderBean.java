@@ -163,11 +163,14 @@ public class OrderBean implements IBaseBean ,Parcelable{
     public boolean isIm;//0隐藏，1显示
     public boolean isPhone;//0隐藏，1显示
 
-    public Double priceHotel; // 住宿总费用(单价 * hotelRoom * hotelDays)
-    public int hotelRoom; // 房间数
     public String picUrl; //路线活动图片
+    public int hotelRoom; // 房间数
+    public int hotelDays;// 几晚
+    public int hotelStatus;// 是否有酒店（0，没有；1，有）
 
     public boolean isChangeManual;// 是否人工退改 (0，非人工；1，人工)
+    public int orderSource;// 订单来源1 C端  2 GDS  3 OTA
+    public String skuDetailUrl; // 商品详情URL
 
 
     public String getOrderTypeStr(Context context) {
@@ -356,10 +359,13 @@ public class OrderBean implements IBaseBean ,Parcelable{
         dest.writeStringList(this.cancelRules);
         dest.writeByte(this.isIm ? (byte) 1 : (byte) 0);
         dest.writeByte(this.isPhone ? (byte) 1 : (byte) 0);
-        dest.writeValue(this.priceHotel);
-        dest.writeInt(this.hotelRoom);
         dest.writeString(this.picUrl);
         dest.writeByte(this.isChangeManual ? (byte) 1 : (byte) 0);
+        dest.writeInt(this.hotelStatus);
+        dest.writeInt(this.hotelRoom);
+        dest.writeInt(this.hotelDays);
+        dest.writeInt(this.orderSource);
+        dest.writeString(this.skuDetailUrl);
     }
 
     public OrderBean() {
@@ -488,10 +494,14 @@ public class OrderBean implements IBaseBean ,Parcelable{
         this.cancelRules = in.createStringArrayList();
         this.isIm = in.readByte() != 0;
         this.isPhone = in.readByte() != 0;
-        this.priceHotel = (Double) in.readValue(Double.class.getClassLoader());
         this.hotelRoom = in.readInt();
         this.picUrl = in.readString();
         this.isChangeManual = in.readByte() != 0;
+        this.hotelStatus = in.readInt();
+        this.hotelRoom = in.readInt();
+        this.hotelDays = in.readInt();
+        this.orderSource = in.readInt();
+        this.skuDetailUrl = in.readString();
     }
 
     public static final Creator<OrderBean> CREATOR = new Creator<OrderBean>() {

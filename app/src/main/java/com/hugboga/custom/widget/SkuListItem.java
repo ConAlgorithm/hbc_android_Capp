@@ -113,17 +113,17 @@ public class SkuListItem extends RelativeLayout implements HbcViewBehavior{
                 if (lablesBean == null) {
                     continue;
                 }
-                if (i < tagGroup.getChildCount()) {
-                    LinearLayout tagLayout = (LinearLayout)tagGroup.getChildAt(i);
-                    tagLayout.setVisibility(View.VISIBLE);
-                    ImageView iconIV = (ImageView)tagLayout.getChildAt(0);
-                    iconIV.setBackgroundResource(getLableIconRes(skuItemBean.goodsClass, lablesBean.lableType));
-                    TextView tagTV = (TextView)tagLayout.getChildAt(1);
-                    tagTV.setText(lablesBean.lableName);
-                    tagTV.setTextColor(getTagColor(skuItemBean.goodsClass));
-                } else {
+//                if (i < tagGroup.getChildCount()) {
+//                    LinearLayout tagLayout = (LinearLayout)tagGroup.getChildAt(i);
+//                    tagLayout.setVisibility(View.VISIBLE);
+//                    ImageView iconIV = (ImageView)tagLayout.getChildAt(0);
+//                    iconIV.setBackgroundResource(getLableIconRes(skuItemBean.goodsClass, lablesBean.lableType));
+//                    TextView tagTV = (TextView)tagLayout.getChildAt(1);
+//                    tagTV.setText(lablesBean.lableName);
+//                    tagTV.setTextColor(getTagColor(skuItemBean.goodsClass));
+//                } else {
                     viewList.add(getNewTagView(lablesBean.lableName, lablesBean.lableType, skuItemBean.goodsClass));
-                }
+//                }
             }
 //            if (tagGroup.getChildCount() != 0 && tagGroup.getChildCount() > labelsSize) {
 //                for (int j = labelsSize; labelsSize < tagGroup.getChildCount(); j++) {
@@ -133,7 +133,7 @@ public class SkuListItem extends RelativeLayout implements HbcViewBehavior{
 //                    }
 //                }
 //            }
-            tagGroup.setTags(viewList, tagGroup.getChildCount() <= 0);
+            tagGroup.setTags(viewList, true);//tagGroup.getChildCount() <= 0
         } else {
             tagGroup.setVisibility(View.GONE);
         }

@@ -398,7 +398,7 @@ public class FgOrderDetail extends BaseFragment implements View.OnClickListener{
                 //如果此订单不能取消，直接进行提示
                 popup.dismiss();
                 if (orderBean.isChangeManual) {//需要人工取消订单
-                    mDialogUtil.showCallDialog();
+                    mDialogUtil.showCallDialogTitle("如需要取消订单，请联系客服处理");
                     return;
                 }
                 if (!orderBean.cancelable && !TextUtils.isEmpty(orderBean.cancelText)) {

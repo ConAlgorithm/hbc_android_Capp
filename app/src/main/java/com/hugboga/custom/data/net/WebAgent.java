@@ -19,14 +19,23 @@ import com.huangbaoche.hbcframe.fragment.BaseFragment;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.huangbaoche.hbcframe.util.WXShareUtils;
 import com.hugboga.custom.R;
+import com.hugboga.custom.data.bean.ChatInfo;
 import com.hugboga.custom.data.bean.UserEntity;
+import com.hugboga.custom.data.parser.ParserChatInfo;
 import com.hugboga.custom.data.request.RequestWebInfo;
+import com.hugboga.custom.fragment.FgActivity;
 import com.hugboga.custom.fragment.FgLogin;
 import com.hugboga.custom.fragment.FgOrderSelectCity;
+import com.hugboga.custom.fragment.FgWebInfo;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.widget.DialogUtil;
 
 import org.json.JSONObject;
+
+import java.util.Random;
+
+import io.rong.imkit.RongIM;
+import io.rong.imlib.model.Conversation;
 
 /**
  * 请求代理模式
@@ -231,12 +240,22 @@ public class WebAgent implements HttpRequestListener {
         }
     }
 
+    private String getChatInfo(String userId, String userAvatar, String title, String targetType) {
+        ChatInfo chatInfo = new ChatInfo();
+        chatInfo.isChat = true;
+        chatInfo.userId = userId;
+        chatInfo.userAvatar = userAvatar;
+        chatInfo.title = title;
+        chatInfo.targetType = targetType;
+        return new ParserChatInfo().toJsonString(chatInfo);
+    }
     /**
      * 在线咨询客服
      * */
     @JavascriptInterface
     public void pushToServiceChatVC() {
-
+//        String titleJson = getChatInfo(chatBean.targetId, chatBean.targetAvatar, chatBean.targetName, chatBean.targetType);
+//        RongIM.getInstance().startConversation(mActivity, Conversation.ConversationType.APP_PUBLIC_SERVICE, chatBean.targetId, titleJson);
     }
 
     /**
@@ -244,7 +263,10 @@ public class WebAgent implements HttpRequestListener {
      * */
     @JavascriptInterface
     public void callServicePhone() {
-
+        if (mActivity != null) {
+            DialogUtil mDialogUtil = DialogUtil.getInstance(mActivity);
+            mDialogUtil.showCallDialog();
+        }
     }
 
     /**
@@ -262,7 +284,9 @@ public class WebAgent implements HttpRequestListener {
      * */
     @JavascriptInterface
     public void fixedLineOrder() {
-
+        if (mFragment != null) {
+            mFragment.startFragment(new FgOrderSelectCity());
+        }
     }
 
     /**
@@ -270,7 +294,11 @@ public class WebAgent implements HttpRequestListener {
      * */
     @JavascriptInterface
     public void pushToNextPageWithUrl(String url) {
-
+        if (mFragment != null) {
+            Bundle bundle = new Bundle();
+            bundle.putString(FgWebInfo.WEB_URL, url);
+            mFragment.startFragment(new FgActivity(), bundle);
+        }
     }
 
     private void callBack(final String callBackMethod, final String callBackResult) {

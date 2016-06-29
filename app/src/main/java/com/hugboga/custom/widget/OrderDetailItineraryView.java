@@ -2,6 +2,7 @@ package com.hugboga.custom.widget;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
@@ -18,13 +19,19 @@ import android.widget.TextView;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.OrderPriceInfo;
+import com.hugboga.custom.fragment.FgActivity;
+import com.hugboga.custom.fragment.FgOrderDetail;
+import com.hugboga.custom.fragment.FgSkuList;
+import com.hugboga.custom.fragment.FgWebInfo;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
 
 /**
  * Created by qingcha on 16/6/2.
  */
-public class OrderDetailItineraryView extends LinearLayout implements HbcViewBehavior {
+public class OrderDetailItineraryView extends LinearLayout implements HbcViewBehavior, View.OnClickListener{
+
+    private FgOrderDetail mFragment;
 
     private LinearLayout itineraryLayout;
     private TextView orderNumberTV;
@@ -33,6 +40,8 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
     private TextView routeTV;
     private ImageView routeIV;
     private RelativeLayout routeLayout;
+
+    private OrderBean orderBean;
 
     public OrderDetailItineraryView(Context context) {
         this(context, null);
@@ -50,25 +59,26 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
         routeLayout = (RelativeLayout) findViewById(R.id.order_itinerary_route_layout);
     }
 
+    public void setFragment(FgOrderDetail _fragment) {
+        this.mFragment = _fragment;
+    }
+
     @Override
     public void update(Object _data) {
         if (_data == null) {
             return;
         }
-        OrderBean orderBean = (OrderBean) _data;
+        orderBean = (OrderBean) _data;
         orderNumberTV.setText(getContext().getString(R.string.order_detail_order_number, orderBean.orderNo));
         itineraryLayout.removeAllViews();
 
         if (orderBean.orderGoodsType == 5 && !TextUtils.isEmpty(orderBean.lineSubject)) {//固定线路 超省心
-            routeLayout.setVisibility(View.VISIBLE);
-            Tools.showImage(getContext(), routeIV, orderBean.picUrl);
-            routeTV.setText(getRouteSpannableString(orderBean.lineSubject, R.mipmap.chaoshengxin));
+            setRouteLayoutVisible(R.mipmap.chaoshengxin);
         } else if(orderBean.orderGoodsType == 6 && !TextUtils.isEmpty(orderBean.lineSubject)) {//推荐路线 超自由
-            routeLayout.setVisibility(View.VISIBLE);
-            Tools.showImage(getContext(), routeIV, orderBean.picUrl);
-            routeTV.setText(getRouteSpannableString(orderBean.lineSubject, R.mipmap.chaoziyou));
+            setRouteLayoutVisible(R.mipmap.chaoziyou);
         } else {
             routeLayout.setVisibility(View.GONE);
+            routeLayout.setOnClickListener(null);
         }
 
         carpoolTV.setVisibility(orderBean.carPool ? View.VISIBLE : View.GONE);//拼车
@@ -156,6 +166,15 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
         itineraryLayout.addView(itemView);
     }
 
+    public void setRouteLayoutVisible(int resId) {
+        routeLayout.setVisibility(View.VISIBLE);
+        Tools.showImage(getContext(), routeIV, orderBean.picUrl);
+        routeTV.setText(getRouteSpannableString(orderBean.lineSubject, resId));
+        if (orderBean.orderSource == 1 && !TextUtils.isEmpty(orderBean.skuDetailUrl)) {
+            routeLayout.setOnClickListener(this);
+        }
+    }
+
     private SpannableString getRouteSpannableString(String lineSubject, int resId) {
         Drawable drawable = getContext().getResources().getDrawable(resId);
         drawable.setBounds(0, 0, UIUtils.dip2px(36), UIUtils.dip2px(20));
@@ -163,5 +182,19 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
         VerticalImageSpan span = new VerticalImageSpan(drawable);
         spannable.setSpan(span, 0, "[icon]".length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
         return spannable;
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (mFragment == null) {
+            return;
+        }
+        switch (v.getId()) {
+            case R.id.order_itinerary_route_layout:
+                Bundle bundle = new Bundle();
+                bundle.putString(FgWebInfo.WEB_URL, orderBean.skuDetailUrl);
+                mFragment.startFragment(new FgActivity(), bundle);
+                break;
+        }
     }
 }

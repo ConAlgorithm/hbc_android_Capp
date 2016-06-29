@@ -16,6 +16,7 @@ import com.hugboga.custom.data.bean.ManLuggageBean;
 import com.hugboga.custom.data.bean.MostFitBean;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.OrderContact;
+import com.hugboga.custom.data.bean.OrderPriceInfo;
 import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.bean.SelectCarBean;
 import com.hugboga.custom.data.bean.SkuItemBean;
@@ -694,9 +695,10 @@ public class OrderUtils {
         orderBean.realUserEx = getRealUserExJson(contactUsersBean);
 
         orderBean.hotelRoom = hotelRoom;
-        orderBean.priceHotel = priceHotel;
-
-
+        if (orderBean.orderPriceInfo == null) {
+            orderBean.orderPriceInfo = new OrderPriceInfo();
+        }
+        orderBean.orderPriceInfo.priceHotel = priceHotel;
         return orderBean;
     }
 
