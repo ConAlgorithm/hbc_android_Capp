@@ -1,5 +1,6 @@
 package com.hugboga.custom.fragment;
 
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -130,6 +131,7 @@ public class FgSkuList extends BaseFragment implements HbcRecyclerBaseAdapter.On
             cityFooterView.setFragment(this);
             adapter.addFooterView(cityFooterView);
         } else {
+            recyclerView.addItemDecoration(new SpaceItemDecoration());
             titlebar.setVisibility(View.VISIBLE);
         }
 
@@ -293,6 +295,21 @@ public class FgSkuList extends BaseFragment implements HbcRecyclerBaseAdapter.On
             emptyView.showCustomView();
         } else {
             emptyView.setVisibility(View.GONE);
+        }
+    }
+
+    public class SpaceItemDecoration extends RecyclerView.ItemDecoration {
+        @Override
+        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+            int pos = parent.getChildAdapterPosition(view);
+            outRect.left = 0;
+            outRect.bottom = 0;
+            outRect.right = 0;
+            if (pos == 0) {
+                outRect.top = UIUtils.dip2px(15);
+            } else {
+                outRect.top = 0;
+            }
         }
     }
 }

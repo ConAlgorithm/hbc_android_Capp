@@ -21,6 +21,8 @@ public class SpaceItemDecoration extends RecyclerView.ItemDecoration {
         this.bottom = bottom;
     }
 
+
+    //TODO  horizontal  vertical
     @Override
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
         int itemCount = 0;

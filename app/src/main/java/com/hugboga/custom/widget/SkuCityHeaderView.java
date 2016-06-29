@@ -44,8 +44,7 @@ public class SkuCityHeaderView extends LinearLayout implements HbcViewBehavior, 
         citynameTV = (TextView) findViewById(R.id.skulist_header_cityname_tv);
         citynameEnTV = (TextView) findViewById(R.id.skulist_header_cityname_en_tv);
 
-        citynameTV.setOnClickListener(this);
-        citynameEnTV.setOnClickListener(this);
+        findViewById(R.id.skulist_header_cityname_layout).setOnClickListener(this);
 
         displayLayoutHeight = (int)((360 / 750.0) * UIUtils.getScreenWidth());
         findViewById(R.id.skulist_header_display_layout).setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, displayLayoutHeight));
@@ -105,8 +104,8 @@ public class SkuCityHeaderView extends LinearLayout implements HbcViewBehavior, 
             return;
         }
         switch (v.getId()) {
-            case R.id.skulist_header_cityname_tv:
-            case R.id.skulist_header_cityname_en_tv:
+            case R.id.skulist_header_cityname_layout:
+
                 Bundle bundle = new Bundle();
                 bundle.putInt("com.hugboga.custom.home.flush", Constants.BUSINESS_TYPE_HOME);
                 fragment.startFragment(new FgChooseCityNew(), bundle);
