@@ -49,11 +49,17 @@ public class SkuListEmptyView extends LinearLayout implements View.OnClickListen
         this.fragment = _fragment;
     }
 
-    public void showCustomView() {
+    public void showEmptyView(boolean isCity) {
         this.setVisibility(View.VISIBLE);
         emptyTV.setVisibility(View.GONE);
         customIV.setVisibility(View.VISIBLE);
-        customTV.setVisibility(View.VISIBLE);
+        if (isCity) {
+            customTV.setVisibility(View.GONE);
+            customIV.setBackgroundResource(R.drawable.city_loding_empty);
+        } else {
+            customTV.setVisibility(View.VISIBLE);
+            customIV.setBackgroundResource(R.drawable.city_loding_no);
+        }
     }
 
     public void requestFailure() {
