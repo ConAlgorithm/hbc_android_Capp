@@ -154,7 +154,11 @@ public class FgSkuList extends BaseFragment implements HbcRecyclerBaseAdapter.On
                         && skuCityBean != null
                         && adapter.getListCount() < skuCityBean.goodsCount) {
                     isFirstRequest = false;
-                    sendRequest(adapter == null ? 0 : adapter.getListCount(), false);//加载下一页
+                    int pageIndex = adapter == null ? 0 : adapter.getListCount();
+                    if (skuCityBean.hasDailyservice() && pageIndex == Constants.DEFAULT_PAGESIZE + 1) {
+                        --pageIndex;
+                    }
+                    sendRequest(pageIndex, false);//加载下一页
                 }
 
                 if (paramsData.skuType == SkuType.CITY && cityHeaderView != null) {
