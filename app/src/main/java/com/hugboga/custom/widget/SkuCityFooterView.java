@@ -103,7 +103,7 @@ public class SkuCityFooterView extends LinearLayout implements HbcViewBehavior, 
             }
         }
 
-        guidesCountTV.setText("" + skuCityBean.goodsCount);
+        guidesCountTV.setText("" + skuCityBean.cityGuideAmount);
 
         if (skuCityBean.guideAvatars != null && skuCityBean.guideAvatars.size() > 0) {
             avatarsLayout.removeAllViews();
@@ -115,6 +115,7 @@ public class SkuCityFooterView extends LinearLayout implements HbcViewBehavior, 
                     break j;
                 }
                 CircleImageView circleImageView = new CircleImageView(getContext());
+                circleImageView.setBackgroundResource(R.mipmap.journey_head_portrait);
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(UIUtils.dip2px(45), UIUtils.dip2px(45));
                 params.rightMargin = UIUtils.dip2px(15);
                 Tools.showImageCenterCrop(circleImageView, skuCityBean.guideAvatars.get(i));
