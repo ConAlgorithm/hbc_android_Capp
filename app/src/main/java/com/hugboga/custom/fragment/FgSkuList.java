@@ -149,11 +149,14 @@ public class FgSkuList extends BaseFragment implements HbcRecyclerBaseAdapter.On
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
+                if (skuCityBean == null || adapter == null) {
+                    return;
+                }
+
                 RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
                 int lastVisibleItem = ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();
                 int totalItemCount = layoutManager.getItemCount();
                 if (!isLoading && lastVisibleItem >= totalItemCount - 1 && dy > 0
-                        && skuCityBean != null
                         && adapter.getListCount() < skuCityBean.goodsCount) {
                     isFirstRequest = false;
                     int pageIndex = adapter == null ? 0 : adapter.getListCount();
@@ -251,15 +254,15 @@ public class FgSkuList extends BaseFragment implements HbcRecyclerBaseAdapter.On
             cityFooterView.update(skuCityBean);
             fgTitle.setText(skuCityBean.cityName);
             titlebar.setVisibility(View.VISIBLE);
-            emptyView.setVisibility(View.GONE);
+            showEmptyView(true);
         } else if (_request instanceof RequestRouteSkuList) {
             skuCityBean = ((RequestRouteSkuList) _request).getData();
             fgTitle.setText(skuCityBean.lineGroupName);
-            showCustomEmptyView(skuCityBean.goodsList);
+            showEmptyView(false);
         } else if (_request instanceof RequestCountrySkuList) {
             skuCityBean = ((RequestCountrySkuList) _request).getData();
             fgTitle.setText(skuCityBean.countryName);
-            showCustomEmptyView(skuCityBean.goodsList);
+            showEmptyView(false);
         }
         adapter.addDatas(skuCityBean.goodsList, !isFirstRequest);
         swipeRefreshLayout.setRefreshing(false);
@@ -269,30 +272,38 @@ public class FgSkuList extends BaseFragment implements HbcRecyclerBaseAdapter.On
     @Override
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest _request) {
         super.onDataRequestError(errorInfo, _request);
-        if (adapter.getItemCount() <= 2 && _request instanceof RequestCitySkuList) {
-            emptyView.requestFailure();
-        } else {
-            emptyView.requestFailure();
-        }
-        swipeRefreshLayout.setRefreshing(false);
-        isLoading = false;
+        requestFailure(_request);
     }
 
     @Override
     public void onDataRequestCancel(BaseRequest _request) {
         super.onDataRequestCancel(_request);
-        if (adapter.getItemCount() <= 2 && _request instanceof RequestCitySkuList) {
-            emptyView.requestFailure();
-        } else {
+        requestFailure(_request);
+    }
+
+    private void requestFailure(BaseRequest _request) {
+        if (adapter.getItemCount() <= 0) {
             emptyView.requestFailure();
         }
         swipeRefreshLayout.setRefreshing(false);
         isLoading = false;
     }
 
-    private void showCustomEmptyView(ArrayList<SkuItemBean> goodsList) {
-        if (adapter.getItemCount() <= 0 && (goodsList == null || goodsList.size() <= 0)) {
-            emptyView.showCustomView();
+    private void showEmptyView(boolean isCity) {
+        if (adapter.getListCount() <= 0 && (skuCityBean.goodsList == null || skuCityBean.goodsList.size() <= 0)) {
+            if (isCity) {
+                if (!skuCityBean.hasSingleService() && !skuCityBean.hasAirporService()) {
+                    emptyView.showEmptyView(true);
+                    swipeRefreshLayout.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.GONE);
+                    titlebar.setBackgroundColor(0xFF2D2B28);
+                    fgTitle.setTextColor(0xFFFFFFFF);
+                } else {
+                    emptyView.setVisibility(View.GONE);
+                }
+            } else {
+                emptyView.showEmptyView(false);
+            }
         } else {
             emptyView.setVisibility(View.GONE);
         }
