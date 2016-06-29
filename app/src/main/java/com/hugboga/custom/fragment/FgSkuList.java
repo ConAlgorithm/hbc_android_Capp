@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.data.request.RequestCitySkuList;
 import com.hugboga.custom.data.request.RequestCountrySkuList;
 import com.hugboga.custom.data.request.RequestRouteSkuList;
+import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.SkuCityFooterView;
 import com.hugboga.custom.widget.SkuCityHeaderView;
 import com.hugboga.custom.widget.SkuListEmptyView;
@@ -115,7 +117,10 @@ public class FgSkuList extends BaseFragment implements HbcRecyclerBaseAdapter.On
 
         //城市页没有titleBar，有header和footer
         if (paramsData.skuType == SkuType.CITY) {
+            swipeRefreshLayout.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
             titlebar.setVisibility(View.GONE);
+            titlebar.setBackgroundColor(0x00000000);
+            fgTitle.setTextColor(0x00000000);
 
             cityHeaderView = new SkuCityHeaderView(getContext());
             cityHeaderView.setFragment(this);
@@ -130,7 +135,6 @@ public class FgSkuList extends BaseFragment implements HbcRecyclerBaseAdapter.On
 
         isFirstRequest = true;
         sendRequest(0, true);
-        swipeRefreshLayout.setRefreshing(true);
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -151,6 +155,25 @@ public class FgSkuList extends BaseFragment implements HbcRecyclerBaseAdapter.On
                         && adapter.getListCount() < skuCityBean.goodsCount) {
                     isFirstRequest = false;
                     sendRequest(adapter == null ? 0 : adapter.getListCount(), false);//加载下一页
+                }
+
+                if (paramsData.skuType == SkuType.CITY && cityHeaderView != null) {
+                    int firstVisibleItemPosition = ((LinearLayoutManager) layoutManager).findFirstVisibleItemPosition();
+                    int scrollY = Math.abs(recyclerView.getChildAt(0).getTop());
+                    float showRegionHight = cityHeaderView.getDisplayLayoutHeight() / 2.0f;
+                    if (firstVisibleItemPosition == 0 && scrollY <= showRegionHight) {
+                        float alpha = 0.0f;
+                        if (scrollY <= 0) {
+                            alpha = 0.0f;
+                        } else {
+                            alpha = Math.min(1, scrollY / showRegionHight);
+                        }
+                        titlebar.setBackgroundColor(UIUtils.getColorWithAlpha(alpha, 0xFF2D2B28));
+                        fgTitle.setTextColor(UIUtils.getColorWithAlpha(alpha, 0xFFFFFFFF));
+                    } else {
+                        titlebar.setBackgroundColor(0xFF2D2B24);
+                        fgTitle.setTextColor(0xFFFFFFFF);
+                    }
                 }
             }
         });
@@ -220,6 +243,8 @@ public class FgSkuList extends BaseFragment implements HbcRecyclerBaseAdapter.On
             skuCityBean = ((RequestCitySkuList) _request).getData();
             cityHeaderView.update(skuCityBean);
             cityFooterView.update(skuCityBean);
+            fgTitle.setText(skuCityBean.cityName);
+            titlebar.setVisibility(View.VISIBLE);
             emptyView.setVisibility(View.GONE);
         } else if (_request instanceof RequestRouteSkuList) {
             skuCityBean = ((RequestRouteSkuList) _request).getData();
@@ -238,10 +263,10 @@ public class FgSkuList extends BaseFragment implements HbcRecyclerBaseAdapter.On
     @Override
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest _request) {
         super.onDataRequestError(errorInfo, _request);
-        if (adapter.getItemCount() <= 2) {
+        if (adapter.getItemCount() <= 2 && _request instanceof RequestCitySkuList) {
             emptyView.requestFailure();
         } else {
-            showCustomEmptyView(null);
+            emptyView.requestFailure();
         }
         swipeRefreshLayout.setRefreshing(false);
         isLoading = false;
@@ -253,7 +278,7 @@ public class FgSkuList extends BaseFragment implements HbcRecyclerBaseAdapter.On
         if (adapter.getItemCount() <= 2 && _request instanceof RequestCitySkuList) {
             emptyView.requestFailure();
         } else {
-            showCustomEmptyView(null);
+            emptyView.requestFailure();
         }
         swipeRefreshLayout.setRefreshing(false);
         isLoading = false;

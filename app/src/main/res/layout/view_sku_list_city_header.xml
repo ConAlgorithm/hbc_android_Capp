@@ -12,14 +12,6 @@
         android:background="@color/default_img_bg"
         android:scaleType="centerCrop" />
 
-    <ImageView
-        android:id="@+id/skulist_header_back_iv"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="5dp"
-        android:padding="10dp"
-        android:src="@mipmap/top_back" />
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

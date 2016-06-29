@@ -3,9 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ececec">
-    <include
-        android:id="@+id/suk_list_titlebar"
-        layout="@layout/include_header"/>
     <com.huangbaoche.hbcframe.widget.recycler.ZSwipeRefreshLayout
         android:id="@+id/suk_list_refresh_layout"
         android:layout_below="@+id/suk_list_titlebar"
@@ -17,7 +14,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </com.huangbaoche.hbcframe.widget.recycler.ZSwipeRefreshLayout>
-
+    <include
+        android:id="@+id/suk_list_titlebar"
+        layout="@layout/include_header"/>
     <com.hugboga.custom.widget.SkuListEmptyView
         android:id="@+id/suk_list_empty_view"
         android:layout_below="@+id/suk_list_titlebar"

@@ -27,6 +27,7 @@ public class SkuCityHeaderView extends LinearLayout implements HbcViewBehavior, 
     private ImageView bgIV;
     private TextView guideCountTV, routeCountTV, citynameTV, citynameEnTV;
 
+    private int displayLayoutHeight;
     private SkuCityBean skuCityBean;
 
     public SkuCityHeaderView(Context context) {
@@ -43,11 +44,10 @@ public class SkuCityHeaderView extends LinearLayout implements HbcViewBehavior, 
         citynameTV = (TextView) findViewById(R.id.skulist_header_cityname_tv);
         citynameEnTV = (TextView) findViewById(R.id.skulist_header_cityname_en_tv);
 
-        findViewById(R.id.skulist_header_back_iv).setOnClickListener(this);
         citynameTV.setOnClickListener(this);
         citynameEnTV.setOnClickListener(this);
 
-        int displayLayoutHeight = (int)((360 / 750.0) * UIUtils.getScreenWidth());
+        displayLayoutHeight = (int)((360 / 750.0) * UIUtils.getScreenWidth());
         findViewById(R.id.skulist_header_display_layout).setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, displayLayoutHeight));
     }
 
@@ -105,9 +105,6 @@ public class SkuCityHeaderView extends LinearLayout implements HbcViewBehavior, 
             return;
         }
         switch (v.getId()) {
-            case R.id.skulist_header_back_iv:
-                fragment.finish();
-                break;
             case R.id.skulist_header_cityname_tv:
             case R.id.skulist_header_cityname_en_tv:
                 Bundle bundle = new Bundle();
@@ -115,5 +112,9 @@ public class SkuCityHeaderView extends LinearLayout implements HbcViewBehavior, 
                 fragment.startFragment(new FgChooseCityNew(), bundle);
                 break;
         }
+    }
+
+    public int getDisplayLayoutHeight() {
+        return displayLayoutHeight;
     }
 }
