@@ -282,7 +282,16 @@ public class FgChooseCityNew extends BaseFragment {
         }else {
 
             SearchGroupBean lineGroupBean = new SearchGroupBean();
-            lineGroupBean.group_id = groupList2.get(position).sub_place_id;
+            SearchGroupBean searchGroupBean = groupList2.get(position);
+            if(searchGroupBean.flag == 1){
+                lineGroupBean.sub_city_id = searchGroupBean.group_id;
+            }else if(searchGroupBean.flag == 2){
+                lineGroupBean.sub_city_id  = searchGroupBean.sub_place_id;
+            }else if(searchGroupBean.flag == 3){
+                lineGroupBean.sub_city_id  = searchGroupBean.sub_city_id;
+            }else if(searchGroupBean.flag == 4){
+                lineGroupBean.sub_city_id  = searchGroupBean.spot_id;
+            }
             lineGroupBean.flag = 3;
             lineGroupBean.type = 3;
             lineGroupBean.group_name = "";
@@ -305,7 +314,18 @@ public class FgChooseCityNew extends BaseFragment {
             groupList2.addAll(CityUtils.getHotCityWithHead(getActivity()));
         }else{
             SearchGroupBean lineGroupBean = new SearchGroupBean();
-            lineGroupBean.group_id = groupList.get(position).group_id;
+
+            SearchGroupBean searchGroupBean = groupList.get(position);
+            if(searchGroupBean.flag == 1){
+                lineGroupBean.sub_place_id = searchGroupBean.group_id;
+            }else if(searchGroupBean.flag == 2){
+                lineGroupBean.sub_place_id  = searchGroupBean.sub_place_id;
+            }else if(searchGroupBean.flag == 3){
+                lineGroupBean.sub_place_id  = searchGroupBean.sub_city_id;
+            }else if(searchGroupBean.flag == 4){
+                lineGroupBean.sub_place_id  = searchGroupBean.spot_id;
+            }
+
             lineGroupBean.flag = 2;
             lineGroupBean.type = 1;
             lineGroupBean.group_name = "全境";
@@ -360,8 +380,16 @@ public class FgChooseCityNew extends BaseFragment {
                 params.id = searchGroupBean.group_id;
                 params.skuType = FgSkuList.SkuType.ROUTE;
         }else if(searchGroupBean.flag == 2){
+            if(searchGroupBean.type == 1) {
+                params.id = searchGroupBean.sub_place_id;
+                params.skuType = FgSkuList.SkuType.ROUTE;
+            }else if(searchGroupBean.type == 2){
                 params.id = searchGroupBean.sub_place_id;
                 params.skuType = FgSkuList.SkuType.COUNTRY;
+            }else{
+                params.id = searchGroupBean.sub_place_id;
+                params.skuType = FgSkuList.SkuType.COUNTRY;
+            }
         }else if(searchGroupBean.flag == 3){
             params.id = searchGroupBean.sub_city_id;
             params.skuType = FgSkuList.SkuType.CITY;
@@ -398,7 +426,6 @@ public class FgChooseCityNew extends BaseFragment {
     protected void inflateContent() {
 
     }
-
     @Override
     public boolean onBackPressed() {
         if(null != popupWindow) {
