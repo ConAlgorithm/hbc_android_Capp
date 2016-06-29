@@ -2,6 +2,7 @@ package com.hugboga.custom.fragment;
 
 import android.Manifest;
 import android.content.DialogInterface;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -9,9 +10,11 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -27,10 +30,12 @@ import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.OrderStatus;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
+import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.parser.ParserChatInfo;
 import com.hugboga.custom.data.request.RequestIMClear;
 import com.hugboga.custom.data.request.RequestIMOrder;
 import com.hugboga.custom.utils.PermissionRes;
+import com.hugboga.custom.utils.UIUtils;
 import com.zhy.m.permission.MPermissions;
 import com.zhy.m.permission.PermissionDenied;
 import com.zhy.m.permission.PermissionGrant;
@@ -78,7 +83,8 @@ public class FgIMChat extends BaseFragment {
 
     @Override
     protected void initHeader() {
-        fgRightBtn.setText(R.string.letter_chat_btn);
+        fgRightBtn.setBackgroundResource(R.mipmap.callcenter_img01);
+//        fgRightBtn.setText(R.string.letter_chat_btn);
     }
 
     @Override
@@ -386,16 +392,71 @@ public class FgIMChat extends BaseFragment {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.header_right_txt:
-                MLog.e("进入历史订单列表");
-                Bundle bundle = new Bundle();
-                bundle.putInt(FgNewOrder.SEARCH_TYPE, FgNewOrder.SearchType.SEARCH_TYPE_HISTORY.getType());
-                bundle.putString(FgNewOrder.SEARCH_USER, userId);
-                startFragment(new FgNewOrder(), bundle);
+                showPopupWindow();
                 break;
             default:
                 super.onClick(v);
                 break;
         }
+    }
+
+
+    /**
+     * 右上角的菜单，取消订单 联系客服
+     */
+    private PopupWindow popup;
+    View menuLayout;
+    public void showPopupWindow() {
+        if (popup != null && popup.isShowing()) {
+            return;
+        }
+        if (menuLayout == null) {
+            menuLayout  = LayoutInflater.from(getActivity()).inflate(R.layout.popup_top_right_menu, null);
+        }
+        TextView cancelOrderTV = (TextView)menuLayout.findViewById(R.id.cancel_order);
+        TextView commonProblemTV = (TextView)menuLayout.findViewById(R.id.menu_phone);
+
+        cancelOrderTV.setText("拉黑该用户");
+        commonProblemTV.setText("历史订单");
+
+
+        if (!TextUtils.isEmpty(targetType) && "3".equals(targetType)) {//3.客服 1.用户
+            cancelOrderTV.setVisibility(View.GONE); //显示历史订单按钮
+        } else {
+            cancelOrderTV.setVisibility(View.VISIBLE); //显示历史订单按钮
+        }
+
+
+        if (popup != null) {
+            popup.showAsDropDown(fgRightBtn,0, UIUtils.dip2px(20f));
+            return;
+        }
+        popup = new PopupWindow(menuLayout, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        popup.setBackgroundDrawable(new BitmapDrawable());
+        popup.setOutsideTouchable(true);
+        popup.setFocusable(true);
+        popup.showAsDropDown(fgRightBtn,0, UIUtils.dip2px(20f));
+
+        cancelOrderTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //如果此订单不能取消，直接进行提示
+                popup.dismiss();
+
+            }
+        });
+        commonProblemTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MLog.e("进入历史订单列表");
+                Bundle bundle = new Bundle();
+                bundle.putInt(FgNewOrder.SEARCH_TYPE, FgNewOrder.SearchType.SEARCH_TYPE_HISTORY.getType());
+                bundle.putString(FgNewOrder.SEARCH_USER, userId);
+                startFragment(new FgNewOrder(), bundle);
+
+                popup.dismiss();
+            }
+        });
     }
 
     @Override

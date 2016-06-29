@@ -33,6 +33,7 @@ import java.util.List;
 
 import static android.R.attr.fragment;
 import static android.R.attr.order;
+import static android.R.attr.slideEdge;
 
 public class CityUtils {
 
@@ -496,14 +497,6 @@ public class CityUtils {
 
 
             List<SearchGroupBean> list3 = getType4City(activity,place_id);
-//            List<SearchGroupBean> list1 = getType21City(activity,group_id);
-//            List<SearchGroupBean> list2 = getType31City(activity,group_id);
-//            if(null != list1 && list1.size() > 0) {
-//                list.addAll(list1);
-//            }
-//            if(null != list2 && list2.size() > 0) {
-//                list.addAll(list2);
-//            }
             if(null != list3 && list3.size() > 0) {
                 list.addAll(list3);
             }
@@ -523,6 +516,11 @@ public class CityUtils {
             Selector selector = null;
             selector = mDbManager.selector(CityBean.class);
             selector.where("place_id", "=",place_id);
+            selector.and("has_airport","=",1);
+            selector.or("is_daily","=",1);
+            selector.or("is_single","=",1);
+            selector.or("has_goods","=",1);
+            selector.orderBy("hot_weight");
             List<CityBean> list = selector.findAll();
             return cityAdapter(list);
         }catch (Exception e){
@@ -749,6 +747,11 @@ public class CityUtils {
             selector.where("cn_name","like",key+"%");
             selector.and("sub_place_name","<>","中国");
             selector.and("sub_place_name","<>","中国大陆");
+            selector.and("has_airport","=",1);
+            selector.or("is_daily","=",1);
+            selector.or("is_single","=",1);
+            selector.or("has_goods","=",1);
+            selector.orderBy("hot_weight");
             List<CityBean> list1 = selector.findAll();
 
 
@@ -757,6 +760,11 @@ public class CityUtils {
             selector.and("cn_name","not like",key+"%");
             selector.and("place_name","<>","中国");
             selector.and("sub_place_name","<>","中国大陆");
+            selector.and("has_airport","=",1);
+            selector.or("is_daily","=",1);
+            selector.or("is_single","=",1);
+            selector.or("has_goods","=",1);
+            selector.orderBy("hot_weight");
             selector.orderBy("rank");
             List<CityBean> list2 = selector.findAll();
 
