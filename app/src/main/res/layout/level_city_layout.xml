@@ -13,6 +13,7 @@
         android:ellipsize="end"
         android:textColor="#666666"
         android:paddingLeft="20dp"
+        android:paddingRight="20dp"
         android:textSize="14sp" />
 
     <ImageView android:id="@+id/city_img"
