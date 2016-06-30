@@ -84,6 +84,7 @@ public class FgIMChat extends BaseFragment {
     private String imUserId; //用户ID
     private String userAvatar; //用户头像
     private String targetType; //目标类型
+    private int inBlack;//标识对方是否被自己拉黑，1是 0否
 
     private RelativeLayout view;
 
@@ -131,6 +132,7 @@ public class FgIMChat extends BaseFragment {
             userAvatar = imInfo.userAvatar;
             fgTitle.setText(imInfo.title); //设置标题
             targetType = imInfo.targetType;
+            inBlack = imInfo.inBlack;
 //            resetRightBtn();
             initRunningOrder(); //构建和该用户之间的订单
         } catch (JSONException e) {
@@ -407,7 +409,6 @@ public class FgIMChat extends BaseFragment {
      */
     private PopupWindow popup;
     View menuLayout;
-    boolean isBlack = false;
     public void showPopupWindow() {
         if (popup != null && popup.isShowing()) {
             return;
@@ -418,7 +419,7 @@ public class FgIMChat extends BaseFragment {
         TextView cancelOrderTV = (TextView)menuLayout.findViewById(R.id.cancel_order);
         TextView commonProblemTV = (TextView)menuLayout.findViewById(R.id.menu_phone);
 
-        if(isBlack){
+        if(inBlack == 1){
             cancelOrderTV.setText("解除拉黑");
         }else{
             cancelOrderTV.setText("拉黑该用户");
@@ -447,7 +448,7 @@ public class FgIMChat extends BaseFragment {
         cancelOrderTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!isBlack) {
+                if(inBlack == 0) {
                     AlertDialogUtils.showAlertDialog(getActivity(), getString(R.string.black_man), "确认拉黑", "取消", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -456,7 +457,7 @@ public class FgIMChat extends BaseFragment {
                             HttpRequestUtils.request(getContext(), requestBlackMan, new HttpRequestListener() {
                                 @Override
                                 public void onDataRequestSucceed(BaseRequest request) {
-                                    isBlack = true;
+                                    inBlack = 1;
                                 }
 
                                 @Override
@@ -482,7 +483,7 @@ public class FgIMChat extends BaseFragment {
                     HttpRequestUtils.request(getContext(), requestUnBlackMan, new HttpRequestListener() {
                         @Override
                         public void onDataRequestSucceed(BaseRequest request) {
-                            isBlack = false;
+                            inBlack = 0;
                         }
 
                         @Override

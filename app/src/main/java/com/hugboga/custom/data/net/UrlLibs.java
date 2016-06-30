@@ -493,18 +493,18 @@ public class UrlLibs {
     /**
      *6 私聊列表删除对话接口
      */
-    public static final String REMOVE_CHAT = "communication/v2.0/e/im/chat/remove";
+    public static final String REMOVE_CHAT = "communication/v2.0/c/im/chat/remove";
 
     /**
      * 7、私聊对象加入黑名单
      URL：http://api.test.hbc.tech/communication/v2.0/e/im/black/add
      */
-    public static final String ADD_BLACK  = "communication/v2.0/e/im/black/add";
+    public static final String ADD_BLACK  = "communication/v2.0/c/im/black/add";
 
 
     /**
      * 8、私聊对象移出黑名单
      URL：http://api.test.hbc.tech/communication/v2.0/e/im/black/remove
      */
-    public static final String REMOVE_BLACK = "communication/v2.0/e/im/black/remove";
+    public static final String REMOVE_BLACK = "communication/v2.0/c/im/black/remove";
 }
