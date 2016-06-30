@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
@@ -116,7 +117,10 @@ public class FgSkuList extends BaseFragment implements HbcRecyclerBaseAdapter.On
         adapter = new SkuAdapter(getContext(), this);
         recyclerView.setAdapter(adapter);
 
-        //城市页没有titleBar，有header和footer
+        swipeRefreshLayout.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.VISIBLE);
+
+        //城市页有header和footer
         if (paramsData.skuType == SkuType.CITY) {
             swipeRefreshLayout.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
             titlebar.setVisibility(View.GONE);
@@ -131,6 +135,11 @@ public class FgSkuList extends BaseFragment implements HbcRecyclerBaseAdapter.On
             cityFooterView.setFragment(this);
             adapter.addFooterView(cityFooterView);
         } else {
+            titlebar.setBackgroundColor(0xFF2D2B28);
+            fgTitle.setTextColor(0xFFFFFFFF);
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
+            swipeRefreshLayout.setLayoutParams(params);
+            params.addRule(RelativeLayout.BELOW, R.id.suk_list_titlebar);
             recyclerView.addItemDecoration(new SpaceItemDecoration());
             titlebar.setVisibility(View.VISIBLE);
         }
@@ -145,6 +154,7 @@ public class FgSkuList extends BaseFragment implements HbcRecyclerBaseAdapter.On
                 sendRequest(0, false);//下拉刷新
             }
         });
+
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -160,7 +170,7 @@ public class FgSkuList extends BaseFragment implements HbcRecyclerBaseAdapter.On
                         && adapter.getListCount() < skuCityBean.goodsCount) {
                     isFirstRequest = false;
                     int pageIndex = adapter == null ? 0 : adapter.getListCount();
-                    if (skuCityBean.hasDailyservice() && pageIndex == Constants.DEFAULT_PAGESIZE + 1) {
+                    if (skuCityBean.hasDailyservice() && pageIndex == Constants.DEFAULT_PAGESIZE + 1) {//第一页带包车的需减去包车
                         --pageIndex;
                     }
                     sendRequest(pageIndex, false);//加载下一页
@@ -321,6 +331,15 @@ public class FgSkuList extends BaseFragment implements HbcRecyclerBaseAdapter.On
             } else {
                 outRect.top = 0;
             }
+        }
+    }
+
+    @Override
+    public void onFragmentResult(Bundle bundle) {
+        String fragmentName = bundle.getString(KEY_FRAGMENT_NAME);
+        if (FgChooseCityNew.class.getSimpleName().equals(fragmentName)) {
+            paramsData = (FgSkuList.Params) bundle.getSerializable(Constants.PARAMS_DATA);
+            initHeader();
         }
     }
 }

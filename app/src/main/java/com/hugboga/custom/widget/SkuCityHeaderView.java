@@ -105,10 +105,9 @@ public class SkuCityHeaderView extends LinearLayout implements HbcViewBehavior, 
         }
         switch (v.getId()) {
             case R.id.skulist_header_cityname_layout:
-
                 Bundle bundle = new Bundle();
                 bundle.putInt("com.hugboga.custom.home.flush", Constants.BUSINESS_TYPE_HOME);
-                fragment.startFragment(new FgChooseCityNew(), bundle);
+                fragment.bringToFront(FgChooseCityNew.class, bundle);
                 break;
         }
     }
