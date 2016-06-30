@@ -23,6 +23,7 @@ import android.widget.TextView;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.LevelCityAdapter;
 import com.hugboga.custom.adapter.SearchNewAdapter;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.SearchGroupBean;
 import com.hugboga.custom.utils.CityUtils;
 import com.hugboga.custom.utils.LogUtils;
@@ -372,7 +373,7 @@ public class FgChooseCityNew extends BaseFragment {
                 && !searchGroupBean.sub_city_name.equalsIgnoreCase("全境")) ) {
             CityUtils.addCityHistoryData(searchGroupBean);
         }
-        finish();
+//        finish();
         if(null != popupWindow){
             popupWindow.dismiss();
         }
@@ -408,7 +409,12 @@ public class FgChooseCityNew extends BaseFragment {
                 params.skuType = FgSkuList.SkuType.COUNTRY;
             }
         }
-        startFragment(FgSkuList.newInstance(params));
+//        startFragment(FgSkuList.newInstance(params));
+
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(Constants.PARAMS_DATA, params);
+        bundle.putString(KEY_FRAGMENT_NAME, this.getClass().getSimpleName());
+        bringToFront(FgSkuList.class, bundle);
     }
 
 
