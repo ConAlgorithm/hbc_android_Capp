@@ -65,6 +65,7 @@ public class FgChooseCityNew extends BaseFragment {
     @Override
     protected void initHeader() {
         headTextRight.setText("取消");
+        headSearch.setHint(R.string.home_search_hint);
     }
     SearchNewAdapter searchNewAdapter;
     PopupWindow popupWindow = null;

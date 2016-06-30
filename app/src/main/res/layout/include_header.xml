@@ -43,6 +43,6 @@
         android:text="@string/contact_service"
         android:textColor="@color/basic_white"
         android:textSize="@dimen/text_size_large"
-        android:visibility="gone" />
+        android:visibility="invisible" />
 
 </RelativeLayout>

@@ -13,6 +13,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
@@ -30,10 +31,12 @@ import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.OrderStatus;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
-import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.parser.ParserChatInfo;
+import com.hugboga.custom.data.request.RequestBlackMan;
 import com.hugboga.custom.data.request.RequestIMClear;
 import com.hugboga.custom.data.request.RequestIMOrder;
+import com.hugboga.custom.data.request.RequestUnBlackMan;
+import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.PermissionRes;
 import com.hugboga.custom.utils.UIUtils;
 import com.zhy.m.permission.MPermissions;
@@ -44,7 +47,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
-import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
 import java.util.ArrayList;
@@ -60,6 +62,7 @@ import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.Message;
 import io.rong.imlib.model.UserInfo;
 
+
 @ContentView(R.layout.activity_imchat)
 public class FgIMChat extends BaseFragment {
 
@@ -72,6 +75,9 @@ public class FgIMChat extends BaseFragment {
     @ViewInject(R.id.imchat_point_layout)
     LinearLayout pointLayout; //小点容器
 
+    @ViewInject(R.id.header_right_btn)
+    ImageView header_right_btn;
+
     public final String USER_IM_ADD = "G";
     private boolean isChat = false; //是否开启聊天
     private String userId; //用户ID
@@ -83,8 +89,15 @@ public class FgIMChat extends BaseFragment {
 
     @Override
     protected void initHeader() {
-        fgRightBtn.setBackgroundResource(R.mipmap.callcenter_img01);
-//        fgRightBtn.setText(R.string.letter_chat_btn);
+        fgRightBtn.setVisibility(View.GONE);
+        header_right_btn.setVisibility(View.VISIBLE);
+        header_right_btn.setImageResource(R.mipmap.top_more);
+        header_right_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPopupWindow();
+            }
+        });
     }
 
     @Override
@@ -118,7 +131,7 @@ public class FgIMChat extends BaseFragment {
             userAvatar = imInfo.userAvatar;
             fgTitle.setText(imInfo.title); //设置标题
             targetType = imInfo.targetType;
-            resetRightBtn();
+//            resetRightBtn();
             initRunningOrder(); //构建和该用户之间的订单
         } catch (JSONException e) {
             e.printStackTrace();
@@ -388,24 +401,13 @@ public class FgIMChat extends BaseFragment {
         }
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.header_right_txt:
-                showPopupWindow();
-                break;
-            default:
-                super.onClick(v);
-                break;
-        }
-    }
-
 
     /**
      * 右上角的菜单，取消订单 联系客服
      */
     private PopupWindow popup;
     View menuLayout;
+    boolean isBlack = false;
     public void showPopupWindow() {
         if (popup != null && popup.isShowing()) {
             return;
@@ -416,7 +418,12 @@ public class FgIMChat extends BaseFragment {
         TextView cancelOrderTV = (TextView)menuLayout.findViewById(R.id.cancel_order);
         TextView commonProblemTV = (TextView)menuLayout.findViewById(R.id.menu_phone);
 
-        cancelOrderTV.setText("拉黑该用户");
+        if(isBlack){
+            cancelOrderTV.setText("解除拉黑");
+        }else{
+            cancelOrderTV.setText("拉黑该用户");
+        }
+
         commonProblemTV.setText("历史订单");
 
 
@@ -428,19 +435,68 @@ public class FgIMChat extends BaseFragment {
 
 
         if (popup != null) {
-            popup.showAsDropDown(fgRightBtn,0, UIUtils.dip2px(20f));
+            popup.showAsDropDown(header_right_btn,0, UIUtils.dip2px(10f));
             return;
         }
         popup = new PopupWindow(menuLayout, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         popup.setBackgroundDrawable(new BitmapDrawable());
         popup.setOutsideTouchable(true);
         popup.setFocusable(true);
-        popup.showAsDropDown(fgRightBtn,0, UIUtils.dip2px(20f));
+        popup.showAsDropDown(header_right_btn,0,UIUtils.dip2px(10f));
 
         cancelOrderTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //如果此订单不能取消，直接进行提示
+                if(!isBlack) {
+                    AlertDialogUtils.showAlertDialog(getActivity(), getString(R.string.black_man), "确认拉黑", "取消", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+//                        cancelOrderTV.setText("解除拉黑");
+                            RequestBlackMan requestBlackMan = new RequestBlackMan(getActivity(), userId);
+                            HttpRequestUtils.request(getContext(), requestBlackMan, new HttpRequestListener() {
+                                @Override
+                                public void onDataRequestSucceed(BaseRequest request) {
+                                    isBlack = true;
+                                }
+
+                                @Override
+                                public void onDataRequestCancel(BaseRequest request) {
+
+                                }
+
+                                @Override
+                                public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+
+                                }
+                            });
+                            dialog.dismiss();
+                        }
+                    }, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                }else{
+                    RequestUnBlackMan requestUnBlackMan = new RequestUnBlackMan(getActivity(), userId);
+                    HttpRequestUtils.request(getContext(), requestUnBlackMan, new HttpRequestListener() {
+                        @Override
+                        public void onDataRequestSucceed(BaseRequest request) {
+                            isBlack = false;
+                        }
+
+                        @Override
+                        public void onDataRequestCancel(BaseRequest request) {
+
+                        }
+
+                        @Override
+                        public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+
+                        }
+                    });
+
+                }
                 popup.dismiss();
 
             }
