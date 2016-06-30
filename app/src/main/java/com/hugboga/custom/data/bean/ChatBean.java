@@ -18,5 +18,6 @@ public class ChatBean {
     public String userId; //用户ID
     public String userType; //用户类型
     public List<ChatOrderBean> orders; //私信显示订单
+    public int inBlack;
 
 }

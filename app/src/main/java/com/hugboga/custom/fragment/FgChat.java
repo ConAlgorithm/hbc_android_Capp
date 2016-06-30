@@ -187,23 +187,24 @@ public class FgChat extends BaseFragment implements View.OnClickListener, ZBaseA
     public void onItemClick(View view, int position) {
         ChatBean chatBean = adapter.getDatas().get(position);
         if ("3".equals(chatBean.targetType)) {
-            String titleJson = getChatInfo(chatBean.targetId, chatBean.targetAvatar, chatBean.targetName, chatBean.targetType);
+            String titleJson = getChatInfo(chatBean.targetId, chatBean.targetAvatar, chatBean.targetName, chatBean.targetType,chatBean.inBlack);
             RongIM.getInstance().startConversation(getActivity(), Conversation.ConversationType.APP_PUBLIC_SERVICE, chatBean.targetId, titleJson);
         } else if ("1".equals(chatBean.targetType)) {
-            String titleJson = getChatInfo(chatBean.userId, chatBean.targetAvatar, chatBean.targetName, chatBean.targetType);
+            String titleJson = getChatInfo(chatBean.userId, chatBean.targetAvatar, chatBean.targetName, chatBean.targetType,chatBean.inBlack);
             RongIM.getInstance().startPrivateChat(getActivity(), chatBean.targetId, titleJson);
         } else {
             MLog.e("目标用户不是客服，也不是司导");
         }
     }
 
-    private String getChatInfo(String userId, String userAvatar, String title, String targetType) {
+    private String getChatInfo(String userId, String userAvatar, String title, String targetType,int inBlack) {
         ChatInfo chatInfo = new ChatInfo();
         chatInfo.isChat = true;
         chatInfo.userId = userId;
         chatInfo.userAvatar = userAvatar;
         chatInfo.title = title;
         chatInfo.targetType = targetType;
+        chatInfo.inBlack = inBlack;
         return new ParserChatInfo().toJsonString(chatInfo);
     }
 
