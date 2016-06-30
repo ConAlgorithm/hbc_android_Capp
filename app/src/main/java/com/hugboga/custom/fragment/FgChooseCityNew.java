@@ -370,7 +370,7 @@ public class FgChooseCityNew extends BaseFragment {
     private void goCityList(SearchGroupBean searchGroupBean){
         if(searchGroupBean.flag == 4
                 || (!searchGroupBean.group_name.equalsIgnoreCase("全境")
-                && !searchGroupBean.sub_city_name.equalsIgnoreCase("全境")) ) {
+                && (null != searchGroupBean.sub_city_name) && !searchGroupBean.sub_city_name.equalsIgnoreCase("全境"))) {
             CityUtils.addCityHistoryData(searchGroupBean);
         }
 //        finish();
