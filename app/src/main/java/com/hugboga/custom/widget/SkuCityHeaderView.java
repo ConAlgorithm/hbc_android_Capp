@@ -64,12 +64,15 @@ public class SkuCityHeaderView extends LinearLayout implements HbcViewBehavior, 
         citynameTV.setText(skuCityBean.cityName);
         citynameEnTV.setText(skuCityBean.cityNameEn);
 
-        boolean isResetParams = false;//控制线的隐藏和view的位置
+        boolean isResetParams = false;//控制线的隐藏和view的位置( XXXX | XXXX )
+        RelativeLayout.LayoutParams params = null;
         if (skuCityBean.cityGuideAmount <= 0 || skuCityBean.goodsCount <= 0) {
             isResetParams = true;
+            params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+            params.addRule(RelativeLayout.CENTER_IN_PARENT);
         }
 
-        if (skuCityBean.cityGuideAmount <= 0) {
+        if (skuCityBean.cityGuideAmount <= 0) {//导游数
             guideCountTV.setVisibility(View.GONE);
             findViewById(R.id.skulist_header_count_line_tv).setVisibility(View.GONE);
         } else {
@@ -77,13 +80,11 @@ public class SkuCityHeaderView extends LinearLayout implements HbcViewBehavior, 
             guideCountTV.setText(getContext().getString(R.string.sku_list_local_guides, "" + skuCityBean.cityGuideAmount));
 
             if (isResetParams) {
-                RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-                params.addRule(RelativeLayout.CENTER_IN_PARENT);
                 guideCountTV.setLayoutParams(params);
             }
         }
 
-        if (skuCityBean.goodsCount <= 0) {
+        if (skuCityBean.goodsCount <= 0) {//路线数
             routeCountTV.setVisibility(View.GONE);
             findViewById(R.id.skulist_header_count_line_tv).setVisibility(View.GONE);
         } else {
@@ -91,8 +92,6 @@ public class SkuCityHeaderView extends LinearLayout implements HbcViewBehavior, 
             routeCountTV.setText(getContext().getString(R.string.sku_list_routes, "" + skuCityBean.goodsCount));
 
             if (isResetParams) {
-                RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-                params.addRule(RelativeLayout.CENTER_IN_PARENT);
                 routeCountTV.setLayoutParams(params);
             }
         }
@@ -104,7 +103,7 @@ public class SkuCityHeaderView extends LinearLayout implements HbcViewBehavior, 
             return;
         }
         switch (v.getId()) {
-            case R.id.skulist_header_cityname_layout:
+            case R.id.skulist_header_cityname_layout://搜索
                 Bundle bundle = new Bundle();
                 bundle.putInt("com.hugboga.custom.home.flush", Constants.BUSINESS_TYPE_HOME);
                 fragment.bringToFront(FgChooseCityNew.class, bundle);

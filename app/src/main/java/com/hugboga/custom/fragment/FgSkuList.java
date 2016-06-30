@@ -114,7 +114,7 @@ public class FgSkuList extends BaseFragment implements HbcRecyclerBaseAdapter.On
         ZDefaultDivider divider = recyclerView.getItemDecoration();
         divider.setItemOffsets(0, 0, 0, 0);
 
-        adapter = new SkuAdapter(getContext(), this);
+        adapter = new SkuAdapter(getContext());
         recyclerView.setAdapter(adapter);
 
         swipeRefreshLayout.setVisibility(View.VISIBLE);
@@ -166,8 +166,7 @@ public class FgSkuList extends BaseFragment implements HbcRecyclerBaseAdapter.On
                 RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
                 int lastVisibleItem = ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();
                 int totalItemCount = layoutManager.getItemCount();
-                if (!isLoading && lastVisibleItem >= totalItemCount - 1 && dy > 0
-                        && adapter.getListCount() < skuCityBean.goodsCount) {
+                if (!isLoading && lastVisibleItem >= totalItemCount - 1 && dy > 0 && adapter.getListCount() < skuCityBean.goodsCount) {
                     isFirstRequest = false;
                     int pageIndex = adapter == null ? 0 : adapter.getListCount();
                     if (skuCityBean.hasDailyservice() && pageIndex == Constants.DEFAULT_PAGESIZE + 1) {//第一页带包车的需减去包车

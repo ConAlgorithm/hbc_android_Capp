@@ -193,7 +193,6 @@ public class SkuListItem extends RelativeLayout implements HbcViewBehavior{
                 case 3:
                     result = R.mipmap.line_fixedplay;
                     break;
-
             }
         } else if (goodsClass == 2) {//2推荐线路 超自由 蓝色
             switch (lableType) {

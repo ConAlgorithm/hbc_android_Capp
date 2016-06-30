@@ -12,11 +12,8 @@ import com.hugboga.custom.widget.SkuListItem;
  */
 public class SkuAdapter extends HbcRecyclerBaseAdapter<SkuItemBean> {
 
-    private FgSkuList fragment;
-
-    public SkuAdapter(Context context, FgSkuList _fragment) {
+    public SkuAdapter(Context context) {
         super(context);
-        this.fragment = _fragment;
     }
 
     @Override
