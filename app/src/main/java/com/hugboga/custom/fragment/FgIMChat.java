@@ -436,14 +436,14 @@ public class FgIMChat extends BaseFragment {
 
 
         if (popup != null) {
-            popup.showAsDropDown(header_right_btn,0, UIUtils.dip2px(10f));
+            popup.showAsDropDown(header_right_btn,0, UIUtils.dip2px(5f));
             return;
         }
         popup = new PopupWindow(menuLayout, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         popup.setBackgroundDrawable(new BitmapDrawable());
         popup.setOutsideTouchable(true);
         popup.setFocusable(true);
-        popup.showAsDropDown(header_right_btn,0,UIUtils.dip2px(10f));
+        popup.showAsDropDown(header_right_btn,0,UIUtils.dip2px(5f));
 
         cancelOrderTV.setOnClickListener(new View.OnClickListener() {
             @Override

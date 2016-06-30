@@ -1,5 +1,6 @@
 package com.hugboga.custom.fragment;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -7,6 +8,8 @@ import android.widget.RelativeLayout;
 
 import com.huangbaoche.hbcframe.adapter.ZBaseAdapter;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
+import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
+import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.huangbaoche.hbcframe.widget.recycler.ZListPageView;
@@ -20,6 +23,9 @@ import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.parser.ParserChatInfo;
 import com.hugboga.custom.data.request.RequestChatList;
+import com.hugboga.custom.data.request.RequestRemoveChat;
+import com.hugboga.custom.utils.AlertDialogUtils;
+import com.hugboga.custom.utils.ToastUtils;
 import com.umeng.analytics.MobclickAgent;
 
 import org.xutils.common.Callback;
@@ -34,6 +40,9 @@ import de.greenrobot.event.EventBus;
 import io.rong.imkit.RongIM;
 import io.rong.imlib.model.Conversation;
 import jp.wasabeef.recyclerview.animators.adapters.SlideInBottomAnimationAdapter;
+
+import static u.aly.au.T;
+import static u.aly.au.ad;
 
 /**
  * 聊天页面
@@ -82,6 +91,42 @@ public class FgChat extends BaseFragment implements View.OnClickListener, ZBaseA
         recyclerView.setRequestData(parserChatList);
         recyclerView.setOnItemClickListener(this);
         recyclerView.setNoticeViewTask(this);
+        recyclerView.setOnItemLongClickListener(new ZBaseAdapter.OnItemLongClickListener(){
+            @Override
+            public void onItemLongClick(View view, final int position) {
+                if(position != 0){
+                   final ChatBean chatBean = adapter.getDatas().get(position);
+                    AlertDialogUtils.showAlertDialog(getActivity(), getString(R.string.del_chat), "确定", "取消", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            RequestRemoveChat requestRemoveChat = new RequestRemoveChat(getActivity(),chatBean.userId);
+                            HttpRequestUtils.request(getContext(), requestRemoveChat, new HttpRequestListener() {
+                                @Override
+                                public void onDataRequestSucceed(BaseRequest request) {
+                                    adapter.removeDatas(position);
+                                }
+
+                                @Override
+                                public void onDataRequestCancel(BaseRequest request) {
+
+                                }
+
+                                @Override
+                                public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+
+                                }
+                            });
+                            dialog.dismiss();
+                        }
+                    },new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                }
+            }
+        });
     }
 
     /**
