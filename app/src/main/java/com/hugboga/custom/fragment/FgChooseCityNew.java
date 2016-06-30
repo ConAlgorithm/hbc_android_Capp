@@ -67,6 +67,7 @@ public class FgChooseCityNew extends BaseFragment {
     protected void initHeader() {
         headTextRight.setText("取消");
         headSearch.setHint(R.string.home_search_hint);
+        headTextRight.setVisibility(View.GONE);
     }
     SearchNewAdapter searchNewAdapter;
     PopupWindow popupWindow = null;
@@ -112,6 +113,7 @@ public class FgChooseCityNew extends BaseFragment {
 
 
     private void showSearchPop(List<SearchGroupBean> list){
+        headTextRight.setVisibility(View.VISIBLE);
         if(null != list && list.size() != 0) {
             searchNewAdapter.setKey(headSearch.getText().toString().trim());
             searchNewAdapter.setGroupArray(list);
@@ -149,9 +151,12 @@ public class FgChooseCityNew extends BaseFragment {
                 headSearch.setText("");
                 break;
             case R.id.head_text_right:
-                 headSearch.setText("");
-                 popupWindow.dismiss();
-                 collapseSoftInputMethod();
+                if(null != popupWindow) {
+                    popupWindow.dismiss();
+                }
+                headTextRight.setVisibility(View.GONE);
+                headSearch.setText("");
+                collapseSoftInputMethod();
                 break;
         }
 
@@ -188,6 +193,7 @@ public class FgChooseCityNew extends BaseFragment {
                 }else{
                     if(null != popupWindow){
                         popupWindow.dismiss();
+                        headTextRight.setVisibility(View.GONE);
                     }
                 }
             }
