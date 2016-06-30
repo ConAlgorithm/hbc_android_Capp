@@ -260,7 +260,7 @@ public class CityUtils {
 
             if(null != lineList && lineList.size() > 0 || null != level2List && level2List.size() > 0){
                 SearchGroupBean searchGroupBean = new SearchGroupBean();
-                searchGroupBean.group_id = -1;
+                searchGroupBean.group_id = -100;
                 searchGroupBean.group_name = getShowName(bean) + "多地畅游";
                 list.add(0, searchGroupBean);
             }
@@ -281,7 +281,7 @@ public class CityUtils {
 
             if(null != type2List && type2List.size() > 0 || null != type3List && type3List.size() > 0){
                 SearchGroupBean searchGroupBean = new SearchGroupBean();
-                searchGroupBean.group_id = -2;
+                searchGroupBean.group_id = -200;
                 searchGroupBean.group_name = getShowName(bean) + "热门目的地";
                 cityList.add(0, searchGroupBean);
                 list.addAll(cityList);
@@ -294,7 +294,7 @@ public class CityUtils {
             if (null != cityList && cityList.size() > 0) {
                 list.addAll(cityList);
                 SearchGroupBean searchGroupBean = new SearchGroupBean();
-                searchGroupBean.group_id = -2;
+                searchGroupBean.group_id = -200;
                 searchGroupBean.group_name = getShowName(bean) + "热门目的地";
                 list.add(0, searchGroupBean);
             }
@@ -748,9 +748,9 @@ public class CityUtils {
             selector.and("sub_place_name","<>","中国");
             selector.and("sub_place_name","<>","中国大陆");
             selector.and("has_airport","=",1);
-            selector.or("is_daily","=",1);
-            selector.or("is_single","=",1);
-            selector.or("has_goods","=",1);
+            selector.and("is_daily","=",1);
+            selector.and("is_single","=",1);
+            selector.and("has_goods","=",1);
             selector.orderBy("hot_weight");
             List<CityBean> list1 = selector.findAll();
 
@@ -761,9 +761,9 @@ public class CityUtils {
             selector.and("place_name","<>","中国");
             selector.and("sub_place_name","<>","中国大陆");
             selector.and("has_airport","=",1);
-            selector.or("is_daily","=",1);
-            selector.or("is_single","=",1);
-            selector.or("has_goods","=",1);
+            selector.and("is_daily","=",1);
+            selector.and("is_single","=",1);
+            selector.and("has_goods","=",1);
             selector.orderBy("hot_weight");
             selector.orderBy("rank");
             List<CityBean> list2 = selector.findAll();

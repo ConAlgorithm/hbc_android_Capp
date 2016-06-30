@@ -93,8 +93,8 @@ public class FgChooseCityNew extends BaseFragment {
         expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                if(searchNewAdapter.getChildList().get(groupPosition).get(childPosition).group_id != -1
-                        && searchNewAdapter.getChildList().get(groupPosition).get(childPosition).group_id != -2) {
+                if(searchNewAdapter.getChildList().get(groupPosition).get(childPosition).group_id != -100
+                        && searchNewAdapter.getChildList().get(groupPosition).get(childPosition).group_id != -200) {
 //                    ToastUtils.showShort(groupPosition + "======" + childPosition);
                     goCityList(searchNewAdapter.getChildList().get(groupPosition).get(childPosition));
                 }
@@ -107,7 +107,7 @@ public class FgChooseCityNew extends BaseFragment {
         //设置后进行展示
         popupWindow.setBackgroundDrawable(new ColorDrawable());
 //        popupWindow.setOutsideTouchable(true);
-        popupWindow.setFocusable(false);
+        popupWindow.setFocusable(true);
         popupWindow.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
     }
 
@@ -195,6 +195,17 @@ public class FgChooseCityNew extends BaseFragment {
                         popupWindow.dismiss();
                         headTextRight.setVisibility(View.GONE);
                     }
+                }
+            }
+        });
+
+        headSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!TextUtils.isEmpty(headSearch.getText())) {
+                    list =  CityUtils.search(getActivity(), headSearch.getText().toString());
+                    LogUtils.e(list.size()+"===="+headSearch.getText().toString());
+                    showSearchPop(list);
                 }
             }
         });
