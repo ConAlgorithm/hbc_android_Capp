@@ -65,7 +65,7 @@ public class FgSkuDetail extends FgWebInfo {
         return cityBean;
     }
 
-    @Event({R.id.header_right_btn,R.id.phone_consultation,R.id.goto_order})
+    @Event({R.id.header_right_btn,R.id.goto_order})
     private void onClickView(View view){
         HashMap<String,String> map = new HashMap<String,String>();
         switch (view.getId()){
@@ -77,12 +77,6 @@ public class FgSkuDetail extends FgWebInfo {
                     shareUrl = shareUrl==null?"http://www.huangbaoche.com":shareUrl;
                     skuShare(skuItemBean.goodsPicture,title,content,shareUrl);
                 }
-                break;
-            case R.id.phone_consultation:
-                map.put("source", "线路SKU页面");
-                MobclickAgent.onEvent(getActivity(), "callcenter_route", map);
-
-                DialogUtil.getInstance(getActivity()).showCallDialog("线路SKU页面","calldomestic_route","calloverseas_route");
                 break;
             case R.id.goto_order:
                 Bundle bundle =new Bundle();

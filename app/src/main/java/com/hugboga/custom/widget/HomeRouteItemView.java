@@ -118,7 +118,7 @@ public class HomeRouteItemView extends RelativeLayout implements HbcViewBehavior
                 line1View.setVisibility(View.VISIBLE);
                 HomeData.TraveLineItem item = data.getTraveLineList().get(0);
                 cotent1TV.setText(item.getDescribe());
-                price1TV.setText("" + item.getPrice());
+                price1TV.setText("" + item.getPrice() + getContext().getResources().getString(R.string.sign_rmb));
             }
             if (data.getTraveLineList().size() < 2 || data.getTraveLineList().get(1) == null) {
                 item2Layout.setVisibility(View.INVISIBLE);
@@ -128,7 +128,7 @@ public class HomeRouteItemView extends RelativeLayout implements HbcViewBehavior
                 line2View.setVisibility(View.VISIBLE);
                 HomeData.TraveLineItem item = data.getTraveLineList().get(1);
                 cotent2TV.setText(item.getDescribe());
-                price2TV.setText("" + item.getPrice());
+                price2TV.setText("" + item.getPrice() + getContext().getResources().getString(R.string.sign_rmb));
             }
             if (data.getTraveLineList().size() < 3 || data.getTraveLineList().get(2) == null) {
                 item3Layout.setVisibility(View.INVISIBLE);
@@ -138,7 +138,7 @@ public class HomeRouteItemView extends RelativeLayout implements HbcViewBehavior
                 line3View.setVisibility(View.VISIBLE);
                 HomeData.TraveLineItem item = data.getTraveLineList().get(2);
                 cotent3TV.setText(item.getDescribe());
-                price3TV.setText("" + item.getPrice());
+                price3TV.setText("" + item.getPrice() + getContext().getResources().getString(R.string.sign_rmb));
             }
         } else {
             item1Layout.setVisibility(View.INVISIBLE);

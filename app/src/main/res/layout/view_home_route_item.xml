@@ -32,7 +32,6 @@
                 android:textSize="20sp"
                 android:textStyle="bold"
                 android:textColor="@android:color/white"
-                android:text="洛杉矶"
                 />
             <TextView
                 android:id="@+id/home_route_item_subtitle_tv"
@@ -41,7 +40,6 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:textColor="@android:color/white"
-                android:text="Los Angeles"
                 />
             <TextView
                 android:id="@+id/home_route_item_guideamount_tv"
@@ -50,7 +48,6 @@
                 android:layout_marginTop="2dp"
                 android:textSize="13sp"
                 android:textColor="#e6d62e"
-                android:text="74为当地华人可为您服务"
                 />
             </LinearLayout>
     </RelativeLayout>
@@ -91,8 +88,7 @@
             android:ellipsize="end"
             android:textSize="14sp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="泰国4日游 曼城-大城-古寺庙堂-巴塞罗那-普吉岛-美食盛宴4天"/>
+            android:layout_height="wrap_content" />
     </RelativeLayout>
     <View
         android:id="@+id/home_route_item_1_line"
@@ -125,8 +121,7 @@
             android:layout_marginLeft="20dp"
             android:textColor="#ec0021"
             android:textSize="16sp"
-            android:textStyle="bold"
-            android:text="¥ 2323"/>
+            android:textStyle="bold" />
         <TextView
             android:id="@+id/home_route_item_cotent_2_tv"
             android:layout_toLeftOf="@id/home_route_item_price_2_tv"
@@ -137,8 +132,7 @@
             android:ellipsize="end"
             android:textSize="14sp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="泰国4日游 曼城-大城-古寺庙堂-巴塞罗那-普吉岛-美食盛宴4天"/>
+            android:layout_height="wrap_content" />
     </RelativeLayout>
     <View
         android:id="@+id/home_route_item_2_line"
@@ -171,8 +165,7 @@
             android:layout_marginLeft="20dp"
             android:textColor="#ec0021"
             android:textSize="16sp"
-            android:textStyle="bold"
-            android:text="¥ 2323"/>
+            android:textStyle="bold" />
         <TextView
             android:id="@+id/home_route_item_cotent_3_tv"
             android:layout_toLeftOf="@id/home_route_item_price_3_tv"
@@ -183,8 +176,7 @@
             android:ellipsize="end"
             android:textSize="14sp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="泰国4日游 曼城-大城-古寺庙堂-巴塞罗那-普吉岛-美食盛宴4天"/>
+            android:layout_height="wrap_content" />
     </RelativeLayout>
     <View
         android:id="@+id/home_route_item_3_line"

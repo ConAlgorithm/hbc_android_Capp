@@ -94,7 +94,7 @@ public class SkuListItem extends RelativeLayout implements HbcViewBehavior{
             headLableTV.setText(skuItemBean.headLable);//背景色 固定蓝色
             headLableTV.setBackgroundResource(R.drawable.shape_sku_list_lable_blue);
         } else {
-            priceTV.setText(skuItemBean.perPrice);
+            priceTV.setText(skuItemBean.perPrice + getContext().getResources().getString(R.string.sign_rmb));
             priceHintTV.setVisibility(View.VISIBLE);
             headLableTV.setText(skuItemBean.headLable);
             if (skuItemBean.goodsClass == 1) {//1固定线路 超省心 绿色

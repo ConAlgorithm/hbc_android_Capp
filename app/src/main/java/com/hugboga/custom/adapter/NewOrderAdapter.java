@@ -71,7 +71,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
     protected void getView(int position, NewOrderVH vh) {
         OrderBean orderBean = datas.get(position);
         //订单状态
-        if (orderBean.orderType == Constants.BUSINESS_TYPE_COMMEND) {//线路包车
+        if (orderBean.orderType == Constants.BUSINESS_TYPE_COMMEND || orderBean.orderType == Constants.BUSINESS_TYPE_RECOMMEND) {//线路包车
             vh.citysTV.setVisibility(View.VISIBLE);
             vh.mTypeStr.setVisibility(View.GONE);
             vh.verticalLine.setVisibility(View.GONE);
