@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -35,7 +34,6 @@ import butterknife.OnClick;
 import static android.widget.Toast.LENGTH_SHORT;
 
 public class DatePickerActivity extends BaseActivity {
-    private static final String TAG = "SampleTimesSquareActivi";
     @Bind(R.id.header_left_btn)
     ImageView headerLeftBtn;
     @Bind(R.id.header_title)
@@ -222,7 +220,6 @@ public class DatePickerActivity extends BaseActivity {
         findViewById(R.id.done_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d(TAG, "Selected time in millis: " + calendar.getSelectedDate().getTime());
                 String toast = "Selected: " + calendar.getSelectedDate().getTime();
                 Toast.makeText(DatePickerActivity.this, toast, LENGTH_SHORT).show();
             }
@@ -244,7 +241,6 @@ public class DatePickerActivity extends BaseActivity {
         theDialog.setOnShowListener(new DialogInterface.OnShowListener() {
             @Override
             public void onShow(DialogInterface dialogInterface) {
-                Log.d(TAG, "onShow: fix the dimens!");
                 dialogView.fixDialogDimens();
             }
         });
@@ -261,7 +257,6 @@ public class DatePickerActivity extends BaseActivity {
     public void onConfigurationChanged(Configuration newConfig) {
         boolean applyFixes = theDialog != null && theDialog.isShowing();
         if (applyFixes) {
-            Log.d(TAG, "Config change: unfix the dimens so I'll get remeasured!");
             dialogView.unfixDialogDimens();
         }
         super.onConfigurationChanged(newConfig);
@@ -269,7 +264,6 @@ public class DatePickerActivity extends BaseActivity {
             dialogView.post(new Runnable() {
                 @Override
                 public void run() {
-                    Log.d(TAG, "Config change done: re-fix the dimens!");
                     dialogView.fixDialogDimens();
                 }
             });

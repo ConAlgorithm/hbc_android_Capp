@@ -2,6 +2,7 @@
 
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -90,6 +91,8 @@
         android:paddingRight="16dp"
         android:paddingBottom="16dp"
         android:scrollbarStyle="outsideOverlay"
+        app:tsquare_dividerColor="@color/transparent"
+        app:tsquare_dayBackground="@drawable/custom_calendar_bg_selector"
         android:clipToPadding="false"
         android:background="#FFFFFF"
         />
