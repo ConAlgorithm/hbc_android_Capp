@@ -271,7 +271,7 @@
     <string name="select_city_start">开始城市</string>
     <string name="baggage_nums">行李数</string>
     <string name="go_citys">游玩日期</string>
-    <string name="select_go_citys">选择游玩日期</string>
+    <string name="select_go_citys">请选择游玩日期</string>
     <string name="full_day_travel">&#160;按天包车游</string>
     <string name="half_day_travel">&#160;半日包车游</string>
     <string name="people_num_left">出发人数</string>
@@ -281,8 +281,8 @@
     <string name="child_0">儿童0</string>
     <string name="baggage_size">需填写大小介于21-28寸之间的行李箱个数</string>
 
-    <string name="start_date">开始日期</string>
-    <string name="end_date">结束日期</string>
+    <string name="start_date">请选择开始日期</string>
+    <string name="end_date">请选择结束日期</string>
     <string name="select_date">选择日期</string>
 
     <string name="select_city_tips">请选择开始包车的城市</string>
