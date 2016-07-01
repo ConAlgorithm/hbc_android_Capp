@@ -84,7 +84,7 @@ public class HomeBannerView extends RelativeLayout implements HbcViewBehavior, V
         index = 0;
         mSwitcherView.reset();
         ImageView img = (ImageView) mSwitcherView.getNextView();
-        Tools.showImageCenterCrop(img, bannerList.get(index));
+        Tools.showImage(img, bannerList.get(index));
         mSwitcherView.showNext();
         if (bannerList.size() > 1) {
             index++;
@@ -112,7 +112,7 @@ public class HomeBannerView extends RelativeLayout implements HbcViewBehavior, V
                             return;
                         }
                         size = bannerList.size();
-                        Tools.showImageCenterCrop(img, bannerList.get(index));
+                        Tools.showImage(img, bannerList.get(index));
                     }
                     mSwitcherView.showNext();
                     if (index == size - 1) {

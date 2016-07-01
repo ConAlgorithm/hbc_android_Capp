@@ -13,6 +13,7 @@ import com.bumptech.glide.request.FutureTarget;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.widget.GlideCircleTransform;
+import com.hugboga.custom.widget.GlideRoundTransform;
 
 import java.io.File;
 
@@ -21,7 +22,7 @@ import java.io.File;
  */
 public class Tools {
 
-    public static void showImageCenterCrop(ImageView imageView, String url){
+    public static void showImage(ImageView imageView, String url) {
         if (TextUtils.isEmpty(url)) {
             return;
         }
@@ -32,6 +33,15 @@ public class Tools {
                 .into(imageView);
     }
 
+    public static void showRoundImage(ImageView imageView, String url, float radius) {
+        Glide.with(MyApplication.getAppContext())
+                .load(url)
+                .transform(new GlideRoundTransform(MyApplication.getAppContext(), radius))
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(imageView);
+    }
+
+    @Deprecated
     public static void showImage(Context context, ImageView imageView, String url){
         if (TextUtils.isEmpty(url)) {
             return;
@@ -42,24 +52,18 @@ public class Tools {
                 .into(imageView);
     }
 
-    public static void getCache(Context context,ImageView imageView,String url){
-        Glide.with(context)
-                .load(url)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(imageView);
-    }
+//    public static void showRoundImage(final Context context,final ImageView imageView,String url){
+//        Glide.with(context).load(url).asBitmap().centerCrop().into(new BitmapImageViewTarget(imageView) {
+//            @Override
+//            protected void setResource(Bitmap resource) {
+//                RoundedBitmapDrawable circularBitmapDrawable =
+//                        RoundedBitmapDrawableFactory.create(context.getResources(), resource);
+//                circularBitmapDrawable.setCircular(true);
+//                imageView.setImageDrawable(circularBitmapDrawable);
+//            }
+//        });
+//    }
 
-    public static void showRoundImage(final Context context,final ImageView imageView,String url){
-        Glide.with(context).load(url).asBitmap().centerCrop().into(new BitmapImageViewTarget(imageView) {
-            @Override
-            protected void setResource(Bitmap resource) {
-                RoundedBitmapDrawable circularBitmapDrawable =
-                        RoundedBitmapDrawableFactory.create(context.getResources(), resource);
-                circularBitmapDrawable.setCircular(true);
-                imageView.setImageDrawable(circularBitmapDrawable);
-            }
-        });
-    }
 
 //    public static void showCircleImage(Context context,ImageView imageView,String url){
 //        Glide.with(context).load(url).transform(new GlideCircleTransform(context)).into(imageView);

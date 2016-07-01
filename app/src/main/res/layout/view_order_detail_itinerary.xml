@@ -44,32 +44,27 @@
         android:layout_marginTop="7dp"
         android:layout_marginBottom="10dp"
         android:layout_width="match_parent"
-        android:layout_height="115dp">
-        <net.grobas.view.PolygonImageView
+        android:layout_height="wrap_content">
+        <ImageView
             android:id="@+id/order_itinerary_route_iv"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:scaleType="centerCrop"
-            app:poly_corner_radius="15"
-            app:poly_vertices="2" />
+            android:layout_width="110dp"
+            android:layout_height="90dp" />
         <TextView
             android:id="@+id/order_itinerary_route_tv"
             android:layout_toRightOf="@id/order_itinerary_route_iv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
+            android:minHeight="85dp"
             android:layout_marginLeft="12dp"
             android:layout_marginTop="5dp"
-            android:maxLines="5"
-            android:ellipsize="end"
-            android:gravity="center_vertical"
             android:lineSpacingExtra="2dp"
             android:textColor="#333333"
             android:textSize="15sp" />
         <View
+            android:layout_below="@id/order_itinerary_route_tv"
+            android:layout_marginTop="15dp"
             android:layout_width="match_parent"
             android:layout_height="1px"
-            android:layout_alignParentBottom="true"
             android:background="@color/default_dividing_line" />
     </RelativeLayout>
 
