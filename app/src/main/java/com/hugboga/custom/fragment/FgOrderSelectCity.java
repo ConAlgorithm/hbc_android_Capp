@@ -922,7 +922,7 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
 
     boolean isHalfTravel = false;
 
-    @Event({R.id.choose_driver, R.id.minus, R.id.add, R.id.header_left_btn, start_city_click, people_text_click, R.id.show_child_seat_layout, R.id.child_no_confirm_click, baggage_text_click, R.id.baggage_no_confirm_click, R.id.end_layout_click, R.id.go_city_text_click, R.id.next_btn_click})
+    @Event({R.id.go_city_text_layout,R.id.choose_driver, R.id.minus, R.id.add, R.id.header_left_btn, start_city_click, people_text_click, R.id.show_child_seat_layout, R.id.child_no_confirm_click, baggage_text_click, R.id.baggage_no_confirm_click, R.id.end_layout_click, R.id.go_city_text_click, R.id.next_btn_click})
     private void onClickView(View view) {
         switch (view.getId()) {
             case R.id.choose_driver:
@@ -979,6 +979,7 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
                     showDaySelect(endDate);
                 }
                 break;
+            case R.id.go_city_text_layout:
             case R.id.go_city_text_click:
                 if (null != collectGuideBean && !TextUtils.isEmpty(goCityTextClick.getText())) {
                     ToastUtils.showShort(R.string.alert_del_after_edit);
