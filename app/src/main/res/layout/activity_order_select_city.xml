@@ -5,14 +5,16 @@
     android:background="#e8eaeb"
     android:orientation="vertical">>
 
-    <include android:id="@+id/head" layout="@layout/include_header" />
+    <include
+        android:id="@+id/head"
+        layout="@layout/include_header" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#e7e7e7"
         android:layout_above="@+id/next_btn_click"
         android:layout_below="@id/head"
+        android:background="#e7e7e7"
         android:orientation="vertical">>
 
         <LinearLayout
@@ -48,38 +50,6 @@
                     android:textSize="15sp" />
             </LinearLayout>
 
-            <RadioGroup
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="15dp"
-                android:orientation="horizontal">
-
-                <RadioButton
-                    android:id="@+id/full_day"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:button="@drawable/radiobtn_travel"
-                    android:checked="true"
-                    android:gravity="left"
-                    android:text="@string/full_day_travel"
-                    android:textColor="#888888"
-                    android:textSize="15sp" />
-
-                <RadioButton
-                    android:id="@+id/half_day"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="80dp"
-                    android:layout_alignParentRight="true"
-                    android:background="@null"
-                    android:button="@drawable/radiobtn_travel"
-                    android:gravity="right"
-                    android:text="@string/half_day_travel"
-                    android:textColor="#888888"
-                    android:textSize="15sp" />
-            </RadioGroup>
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -105,11 +75,11 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="10dp"
-                    android:visibility="gone"
                     android:gravity="center"
                     android:src="@mipmap/question"
                     android:textColor="@color/basic_black"
-                    android:textSize="15sp" />
+                    android:textSize="15sp"
+                    android:visibility="gone" />
 
                 <TextView
                     android:id="@+id/people_text_click"
@@ -119,9 +89,9 @@
                     android:layout_toLeftOf="@id/child_no_confirm_click"
                     android:layout_toRightOf="@id/people_left"
                     android:background="@null"
-                    android:inputType="none"
                     android:gravity="left|center_vertical"
                     android:hint="@string/select_people_tips"
+                    android:inputType="none"
                     android:textColor="@color/basic_black"
                     android:textSize="15sp" />
 
@@ -251,9 +221,9 @@
                     android:layout_toLeftOf="@id/baggage_no_confirm_click"
                     android:layout_toRightOf="@+id/baggage_left"
                     android:background="@null"
-                    android:inputType="none"
                     android:gravity="left|center_vertical"
                     android:hint="@string/select_baggage_tips"
+                    android:inputType="none"
                     android:textColor="@color/basic_black"
                     android:textSize="15sp" />
 
@@ -270,94 +240,169 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="40dp"
-                    android:visibility="gone"
                     android:gravity="left|center_vertical"
                     android:text="@string/baggage_size"
                     android:textColor="#888888"
-                    android:textSize="15sp" />
+                    android:textSize="15sp"
+                    android:visibility="gone" />
 
             </RelativeLayout>
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:background="@color/allbg_white"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/full_day"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:button="@null"
+                    android:checked="true"
+                    android:background="@null"
+                    android:gravity="center_vertical"
+                    android:text="@string/full_day_travel"
+                    android:textColor="#000000"
+                    android:textSize="15sp" />
+
+                <RadioButton
+                    android:id="@+id/half_day"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginLeft="80dp"
+                    android:background="@null"
+                    android:button="@null"
+                    android:gravity="center_vertical"
+                    android:text="@string/half_day_travel"
+                    android:textColor="#888888"
+                    android:textSize="15sp" />
+            </RadioGroup>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/left_line"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_weight="1"
+                    android:background="@color/all_bg_yellow" />
+
+                <TextView
+                    android:id="@+id/right_line"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_weight="1"
+                    android:background="#edeeef" />
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/full_day_date_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:background="@color/basic_white"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
-                <LinearLayout
-                    android:id="@+id/start_layout_click"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_margin="15dp"
-                    android:layout_weight="1"
-                    android:background="@color/basic_white"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="@string/start_date"
-                        android:textColor="#888888"
-                        android:textSize="15sp" />
-
-                    <TextView
-                        android:id="@+id/start_date"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@null"
-                        android:gravity="center"
-                        android:hint="@string/select_date"
-                        android:textColorHint="@color/basic_black"
-                        android:textColor="@color/basic_black"
-                        android:textSize="20sp" />
-                </LinearLayout>
-
                 <TextView
-                    android:layout_width="1dp"
-                    android:layout_height="50dp"
-                    android:background="#e7e7e7" />
+                    android:id="@+id/full_left_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:gravity="center"
+                    android:text="@string/go_citys"
+                    android:textColor="@color/basic_black"
+                    android:textSize="15sp" />
 
-                <LinearLayout
+
+                <RelativeLayout
                     android:id="@+id/end_layout_click"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_margin="15dp"
-                    android:layout_weight="1"
-                    android:background="@color/basic_white"
-                    android:gravity="center"
-                    android:orientation="vertical">
+                    android:layout_marginLeft="5dp"
+                    android:layout_height="wrap_content">
 
-                    <TextView
+                    <LinearLayout
+                        android:id="@+id/date_layout"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_margin="15dp"
+                        android:background="@color/basic_white"
                         android:gravity="center"
-                        android:text="@string/end_date"
-                        android:textColor="#888888"
-                        android:textSize="15sp" />
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/end_date"
-                        android:layout_width="match_parent"
+                        <TextView
+                            android:id="@+id/start_date"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:hint="@string/start_date"
+                            android:textColor="@color/basic_black"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:id="@+id/end_date"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:background="@null"
+                            android:gravity="center"
+                            android:hint="@string/end_date"
+                            android:textColor="@color/basic_black"
+                            android:textSize="15sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@null"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@id/date_layout"
+                        android:layout_margin="15dp"
+                        android:background="@color/basic_white"
                         android:gravity="center"
-                        android:hint="@string/select_date"
-                        android:textColorHint="@color/basic_black"
-                        android:textColor="@color/basic_black"
-                        android:textSize="20sp" />
-                </LinearLayout>
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/start_date_right"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:textColor="#888888"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:id="@+id/end_date_right"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:background="@null"
+                            android:gravity="center"
+                            android:textColor="#888888"
+                            android:textSize="15sp" />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="15dp"
+                        android:layout_weight="1"
+                        android:src="@mipmap/ente_icon" />
+                </RelativeLayout>
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/half_day_show"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_marginTop="10dp"
                 android:background="@color/basic_white"
                 android:orientation="horizontal"
                 android:visibility="gone">
@@ -373,17 +418,28 @@
 
                 <TextView
                     android:id="@+id/go_city_text_click"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="50dp"
                     android:layout_marginLeft="20dp"
                     android:background="@null"
-                    android:gravity="left"
-                    android:maxEms="50"
-                    android:lines="1"
                     android:ellipsize="end"
+                    android:gravity="left"
                     android:hint="@string/select_go_citys"
+                    android:lines="1"
+                    android:maxEms="50"
                     android:textColor="@color/basic_black"
                     android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/go_city_text_click_right"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:background="@null"
+                    android:gravity="center"
+                    android:textColor="#888888"
+                    android:textSize="15sp" />
+
             </LinearLayout>
 
             <LinearLayout
@@ -392,8 +448,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:orientation="vertical"
-                android:visibility="gone">
-            </LinearLayout>
+                android:visibility="gone"></LinearLayout>
 
             <RelativeLayout
                 android:id="@+id/show_like_driver_layout"
@@ -407,9 +462,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:visibility="gone"
                     android:clickable="true"
-                    android:minHeight="50dp">
+                    android:minHeight="50dp"
+                    android:visibility="gone">
+
                     <include layout="@layout/include_driver_layout" />
                 </RelativeLayout>
 
@@ -417,31 +473,32 @@
                     android:id="@+id/choose_driver"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
                     android:layout_marginLeft="13dp"
-                    android:minHeight="50dp"
+                    android:layout_marginStart="13dp"
+                    android:layout_toEndOf="@+id/driver_layout"
+                    android:layout_toRightOf="@+id/driver_layout"
                     android:gravity="center"
+                    android:minHeight="50dp"
                     android:text="@string/choose_like_driver_order"
                     android:textColor="#0263fc"
-                    android:textSize="15sp"
-                    android:layout_alignParentBottom="true"
-                    android:layout_toRightOf="@+id/driver_layout"
-                    android:layout_toEndOf="@+id/driver_layout"
-                    android:layout_marginStart="13dp" />
+                    android:textSize="15sp" />
 
             </RelativeLayout>
 
 
         </LinearLayout>
     </ScrollView>
+
     <Button
         android:id="@+id/next_btn_click"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="#d5dadb"
         android:layout_alignParentBottom="true"
+        android:background="#d5dadb"
+        android:enabled="false"
         android:gravity="center"
         android:text="@string/go_next"
-        android:enabled="false"
         android:textColor="@color/basic_white"
         android:textSize="20sp" />
 

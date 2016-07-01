@@ -63,11 +63,10 @@ import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
 
 import static android.view.View.GONE;
-import static android.view.View.VISIBLE;
 import static com.hugboga.custom.R.id.baggage_text_click;
+import static com.hugboga.custom.R.id.left_line;
 import static com.hugboga.custom.R.id.people_text_click;
 import static com.hugboga.custom.R.id.start_city_click;
-import static com.hugboga.custom.R.id.start_layout_click;
 
 /**
  * Created  on 16/4/14.
@@ -102,12 +101,11 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
     ImageView baggageNoConfirmClick;
     @ViewInject(R.id.start_date)
     TextView startDate;
-    @ViewInject(start_layout_click)
-    LinearLayout startLayoutClick;
+
     @ViewInject(R.id.end_date)
     TextView endDate;
     @ViewInject(R.id.end_layout_click)
-    LinearLayout endLayoutClick;
+    RelativeLayout endLayoutClick;
     @ViewInject(R.id.go_city_text_click)
     TextView goCityTextClick;
     @ViewInject(R.id.next_btn_click)
@@ -140,6 +138,12 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
 
     @ViewInject(R.id.driver_tips)
     TextView driver_tips;
+
+    @ViewInject(R.id.left_line)
+    TextView left_line;
+
+    @ViewInject(R.id.right_line)
+    TextView right_line;
 
     @Override
     protected void inflateContent() {
@@ -174,6 +178,10 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
+                    fullDay.setTextColor(Color.parseColor("#000000"));
+                    halfDay.setTextColor(Color.parseColor("#888888"));
+                    left_line.setBackgroundColor(Color.parseColor("#fbd003"));
+                    right_line.setBackgroundColor(Color.parseColor("#edeeef"));
                     showFull();
                 }
             }
@@ -182,6 +190,11 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
+                    fullDay.setTextColor(Color.parseColor("#888888"));
+                    halfDay.setTextColor(Color.parseColor("#000000"));
+                    left_line.setBackgroundColor(Color.parseColor("#edeeef"));
+                    right_line.setBackgroundColor(Color.parseColor("#fbd003"));
+
                     showHalf();
                 }
             }
@@ -909,7 +922,7 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
 
     boolean isHalfTravel = false;
 
-    @Event({R.id.choose_driver, R.id.minus, R.id.add, R.id.header_left_btn, start_city_click, people_text_click, R.id.show_child_seat_layout, R.id.child_no_confirm_click, baggage_text_click, R.id.baggage_no_confirm_click, start_layout_click, R.id.end_layout_click, R.id.go_city_text_click, R.id.next_btn_click})
+    @Event({R.id.choose_driver, R.id.minus, R.id.add, R.id.header_left_btn, start_city_click, people_text_click, R.id.show_child_seat_layout, R.id.child_no_confirm_click, baggage_text_click, R.id.baggage_no_confirm_click, R.id.end_layout_click, R.id.go_city_text_click, R.id.next_btn_click})
     private void onClickView(View view) {
         switch (view.getId()) {
             case R.id.choose_driver:
@@ -959,13 +972,6 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
             case R.id.baggage_no_confirm_click:
                 AlertDialogUtils.showAlertDialog(this.getActivity(), getString(R.string.baggage_no_confirm_tips));
                 break;
-            case start_layout_click:
-                if (null != collectGuideBean && !TextUtils.isEmpty(startDate.getText())) {
-                    ToastUtils.showShort(R.string.alert_del_after_edit);
-                } else {
-                    showDaySelect(startDate);
-                }
-                break;
             case R.id.end_layout_click:
                 if (null != collectGuideBean && !TextUtils.isEmpty(endDate.getText())) {
                     ToastUtils.showShort(R.string.alert_del_after_edit);
@@ -977,8 +983,8 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
                 if (null != collectGuideBean && !TextUtils.isEmpty(goCityTextClick.getText())) {
                     ToastUtils.showShort(R.string.alert_del_after_edit);
                 } else {
-                    showDaySelect(goCityTextClick);
-//                    startActivity(new Intent(getActivity(),DatePickerActivity.class));
+//                    showDaySelect(goCityTextClick);
+                    startActivity(new Intent(getActivity(),DatePickerActivity.class));
 
                 }
                 break;
