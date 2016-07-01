@@ -494,8 +494,6 @@ public class CityUtils {
     public static List<SearchGroupBean> getLevel3City(Activity activity,int place_id) {
         try {
             List<SearchGroupBean> list = new ArrayList<>();
-
-
             List<SearchGroupBean> list3 = getType4City(activity,place_id);
             if(null != list3 && list3.size() > 0) {
                 list.addAll(list3);
@@ -517,9 +515,9 @@ public class CityUtils {
             selector = mDbManager.selector(CityBean.class);
             selector.where("place_id", "=",place_id);
             selector.and("has_airport","=",1);
-            selector.or("is_daily","=",1);
-            selector.or("is_single","=",1);
-            selector.or("has_goods","=",1);
+            selector.and("is_daily","=",1);
+            selector.and("is_single","=",1);
+            selector.and("has_goods","=",1);
             selector.orderBy("hot_weight");
             List<CityBean> list = selector.findAll();
             return cityAdapter(list);

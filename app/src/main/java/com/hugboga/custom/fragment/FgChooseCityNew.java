@@ -314,8 +314,8 @@ public class FgChooseCityNew extends BaseFragment {
             rightList.setVisibility(View.VISIBLE);
             groupList3.addAll(list3);
             levelCityAdapterRight.setList(groupList3);
-            levelCityAdapterRight.notifyDataSetChanged();
             rightList.setAdapter(levelCityAdapterRight);
+            levelCityAdapterRight.notifyDataSetChanged();
         }
     }
 
