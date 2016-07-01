@@ -17,6 +17,8 @@
         android:id="@+id/right_name"
         android:textSize="14sp"
         android:textColor="#666666"
+        android:lines="1"
+        android:ellipsize="end"
         android:gravity="center_vertical"
         android:layout_width="wrap_content"
         android:layout_height="50dp" />

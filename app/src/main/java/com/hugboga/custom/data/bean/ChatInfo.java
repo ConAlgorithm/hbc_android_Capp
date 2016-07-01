@@ -10,4 +10,5 @@ public class ChatInfo {
     public String userAvatar;
     public String title;
     public String targetType;
+    public int inBlack;//标识对方是否被自己拉黑，1是 0否
 }

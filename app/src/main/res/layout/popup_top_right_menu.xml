@@ -3,7 +3,7 @@
     android:id="@+id/ll_main"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@color/all_bg_yellow"
+    android:background="#2d2b24"
     android:orientation="vertical" >
 
     <TextView

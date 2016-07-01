@@ -11,81 +11,98 @@
 
     <!--<include layout="@layout/include_choose_city_head" />-->
 
-
-    <LinearLayout
-        android:id="@+id/history_layout"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/basic_white"
-        android:gravity="center_vertical">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:drawableLeft="@mipmap/search_history"
-            android:drawablePadding="10dp"
-            android:text="历史:"
-            android:textColor="#666666" />
-
-        <com.hugboga.custom.widget.FlowLayout
-            android:id="@+id/history_city_layout"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginLeft="20dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            FlowLayout:fhorizontalSpacing="20dp"></com.hugboga.custom.widget.FlowLayout>
-    </LinearLayout>
+            android:orientation="vertical"
+            android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#e8eaea"></TextView>
+            <LinearLayout
+                android:id="@+id/history_layout"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/basic_white"
+                android:gravity="center_vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/basic_white"
-        android:gravity="center_vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:drawableLeft="@mipmap/search_history"
+                    android:drawablePadding="10dp"
+                    android:text="历史:"
+                    android:textColor="#666666" />
 
-        <ListView
-            android:id="@+id/left_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="#edeeef"
-            android:divider="@null"
-            android:dividerHeight="0dp" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
+                <com.hugboga.custom.widget.FlowLayout
+                    android:id="@+id/history_city_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="20dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    FlowLayout:fhorizontalSpacing="20dp"></com.hugboga.custom.widget.FlowLayout>
+            </LinearLayout>
 
             <TextView
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:layout_alignParentRight="true"
-                android:background="#e8e9ea" />
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#e8eaea"></TextView>
 
-            <ListView
-                android:id="@+id/middle_list"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:divider="@null" />
-        </RelativeLayout>
+                android:background="@color/basic_white"
+                android:gravity="center_vertical">
 
-        <ListView
-            android:id="@+id/right_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/basic_white"
-            android:divider="@null"
-            android:visibility="gone" />
+                <ListView
+                    android:id="@+id/left_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="#edeeef"
+                    android:divider="@null"
+                    android:dividerHeight="0dp" />
 
-    </LinearLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentRight="true"
+                        android:background="#e8e9ea" />
+
+                    <ListView
+                        android:id="@+id/middle_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:divider="@null" />
+                </RelativeLayout>
+
+                <ListView
+                    android:id="@+id/right_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@color/basic_white"
+                    android:divider="@null"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <ExpandableListView
+            android:id="@+id/search_list"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:visibility="gone"
+            android:background="@color/basic_white" />
+    </RelativeLayout>
 
 
 </LinearLayout>

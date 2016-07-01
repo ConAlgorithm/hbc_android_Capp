@@ -20,10 +20,7 @@ import com.huangbaoche.hbcframe.page.Page;
 
 import java.util.List;
 
-import jp.wasabeef.recyclerview.animators.adapters.AlphaInAnimationAdapter;
 import jp.wasabeef.recyclerview.animators.adapters.AnimationAdapter;
-import jp.wasabeef.recyclerview.animators.adapters.ScaleInAnimationAdapter;
-import jp.wasabeef.recyclerview.animators.adapters.SlideInBottomAnimationAdapter;
 
 public class ZListPageView extends ZListRecyclerView implements IPageList {
 
@@ -31,6 +28,7 @@ public class ZListPageView extends ZListRecyclerView implements IPageList {
     ZBaseAdapter adapter;
     BaseRequest requestData;
     ZBaseAdapter.OnItemClickListener onItemClickListener;
+    ZBaseAdapter.OnItemLongClickListener onItemLongClickListener;
     View emptyLayout;
     RelativeLayout networkErrorLayout;
     Page page;
@@ -54,6 +52,10 @@ public class ZListPageView extends ZListRecyclerView implements IPageList {
 
     public void setOnItemClickListener(ZBaseAdapter.OnItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
+    }
+
+    public void setOnItemLongClickListener(ZBaseAdapter.OnItemLongClickListener onItemLongClickListener) {
+        this.onItemLongClickListener = onItemLongClickListener;
     }
 
     public void setRequestData(BaseRequest requestData) {
@@ -180,6 +182,7 @@ public class ZListPageView extends ZListRecyclerView implements IPageList {
             if (page.getPageIndex() < 0) {
                 adapter.removeAll(); //清楚现有数据
                 adapter.setOnItemClickListener(onItemClickListener);
+                adapter.setOnItemLongClickListener(onItemLongClickListener);
 //                myAdapter = new AlphaInAnimationAdapter(adapter);
                 setEmptyView(emptyLayout);
                 myAdapter = new AnimationAdapter(adapter) {

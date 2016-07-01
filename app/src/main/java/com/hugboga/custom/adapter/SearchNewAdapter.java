@@ -114,7 +114,7 @@ public class SearchNewAdapter extends BaseExpandableListAdapter {
         TextView title = (TextView)view.findViewById(R.id.title);
         TextView name = (TextView)view.findViewById(R.id.name);
 
-        if(searchGroupBean.group_id == -1 || searchGroupBean.group_id == -2){
+        if(searchGroupBean.group_id == -100 || searchGroupBean.group_id == -200){
             title_layout.setVisibility(View.VISIBLE);
             title.setText(searchGroupBean.group_name);
             name.setVisibility(View.GONE);
