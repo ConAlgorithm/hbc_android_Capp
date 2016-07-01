@@ -168,7 +168,7 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
 
     public void setRouteLayoutVisible(int resId) {
         routeLayout.setVisibility(View.VISIBLE);
-        Tools.showImage(getContext(), routeIV, orderBean.picUrl);
+        Tools.showRoundImage(routeIV, orderBean.picUrl, UIUtils.dip2px(5));
         routeTV.setText(getRouteSpannableString(orderBean.lineSubject, resId));
         if (orderBean.orderSource == 1 && !TextUtils.isEmpty(orderBean.skuDetailUrl)) {
             routeLayout.setOnClickListener(this);

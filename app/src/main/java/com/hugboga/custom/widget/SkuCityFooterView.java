@@ -66,6 +66,8 @@ public class SkuCityFooterView extends LinearLayout implements HbcViewBehavior, 
             return;
         }
         skuCityBean = (SkuCityBean) _data;
+
+        //城市列表emptyView
         if (skuCityBean.goodsList == null || skuCityBean.goodsList.size() <= 0) {
             emptyIV.setVisibility(View.VISIBLE);
             float emptyViewWidth = UIUtils.getScreenWidth() / 3.0f * 2;
@@ -79,6 +81,7 @@ public class SkuCityFooterView extends LinearLayout implements HbcViewBehavior, 
             emptyIV.setVisibility(View.GONE);
         }
 
+        //接送机和单次接送
         if (!skuCityBean.hasAirporService() && !skuCityBean.hasSingleService()) {
             pickupLayout.setVisibility(View.GONE);
         } else {
@@ -105,6 +108,7 @@ public class SkuCityFooterView extends LinearLayout implements HbcViewBehavior, 
 
         guidesCountTV.setText("" + skuCityBean.cityGuideAmount);
 
+        //司导头像
         if (skuCityBean.guideAvatars != null && skuCityBean.guideAvatars.size() > 0) {
             avatarsLayout.removeAllViews();
             int size = skuCityBean.guideAvatars.size();
@@ -118,7 +122,7 @@ public class SkuCityFooterView extends LinearLayout implements HbcViewBehavior, 
                 circleImageView.setBackgroundResource(R.mipmap.journey_head_portrait);
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(UIUtils.dip2px(45), UIUtils.dip2px(45));
                 params.rightMargin = UIUtils.dip2px(15);
-                Tools.showImageCenterCrop(circleImageView, skuCityBean.guideAvatars.get(i));
+                Tools.showImage(circleImageView, skuCityBean.guideAvatars.get(i));
                 avatarsLayout.addView(circleImageView, params);
             }
         }

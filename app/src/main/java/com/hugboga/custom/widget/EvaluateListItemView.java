@@ -127,8 +127,8 @@ public class EvaluateListItemView extends LinearLayout{
                     viewList.add(getNewTagView(label));
                 }
             }
-            for (int j = labelsSize; labelsSize < tagGroup.getChildCount(); j++) {
-                tagGroup.getChildAt(j-1).setVisibility(View.GONE);
+            for (int j = labelsSize; j < tagGroup.getChildCount(); j++) {
+                tagGroup.getChildAt(j).setVisibility(View.GONE);
             }
             tagGroup.setTags(viewList, tagGroup.getChildCount() <= 0);
         } else {

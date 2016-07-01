@@ -4,29 +4,20 @@ import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
-import com.hugboga.custom.constants.Constants;
-import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.HomeData;
 import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.fragment.FgHome;
 import com.hugboga.custom.fragment.FgSkuDetail;
 import com.hugboga.custom.fragment.FgSkuList;
 import com.hugboga.custom.fragment.FgWebInfo;
-import com.hugboga.custom.utils.DBHelper;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
-
-import org.xutils.DbManager;
-import org.xutils.ex.DbException;
 
 /**
  * Created by qingcha on 16/6/19.
@@ -97,7 +88,7 @@ public class HomeRouteItemView extends RelativeLayout implements HbcViewBehavior
             return;
         }
         data = (HomeData.CityContentItem) _data;
-        Tools.showImageCenterCrop(displayIV, data.getPicture());
+        Tools.showImage(displayIV, data.getPicture());
         if (TextUtils.isEmpty(data.getMainTitle())) {
             titleTV.setVisibility(View.GONE);
         } else {
