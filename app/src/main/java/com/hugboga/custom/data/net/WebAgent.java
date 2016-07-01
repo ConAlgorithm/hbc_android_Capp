@@ -20,8 +20,10 @@ import com.huangbaoche.hbcframe.util.MLog;
 import com.huangbaoche.hbcframe.util.WXShareUtils;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.ChatInfo;
+import com.hugboga.custom.data.bean.CurrentServerInfoData;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.parser.ParserChatInfo;
+import com.hugboga.custom.data.request.RequestCurrentServerInfo;
 import com.hugboga.custom.data.request.RequestWebInfo;
 import com.hugboga.custom.fragment.FgActivity;
 import com.hugboga.custom.fragment.FgLogin;
@@ -254,8 +256,13 @@ public class WebAgent implements HttpRequestListener {
      * */
     @JavascriptInterface
     public void pushToServiceChatVC() {
-//        String titleJson = getChatInfo(chatBean.targetId, chatBean.targetAvatar, chatBean.targetName, chatBean.targetType);
-//        RongIM.getInstance().startConversation(mActivity, Conversation.ConversationType.APP_PUBLIC_SERVICE, chatBean.targetId, titleJson);
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                RequestCurrentServerInfo request = new RequestCurrentServerInfo(mActivity);
+                HttpRequestUtils.request(mActivity, request, WebAgent.this);
+            }
+        });
     }
 
     /**
@@ -312,10 +319,17 @@ public class WebAgent implements HttpRequestListener {
     }
 
     @Override
-    public void onDataRequestSucceed(BaseRequest request) {
-        if (request instanceof RequestWebInfo) {
-            RequestWebInfo webInfoRequest = (RequestWebInfo) request;
+    public void onDataRequestSucceed(BaseRequest _request) {
+        if (_request instanceof RequestWebInfo) {
+            RequestWebInfo webInfoRequest = (RequestWebInfo) _request;
             callBack(webInfoRequest.successCallBack, webInfoRequest.getData());
+        } else if (_request instanceof RequestCurrentServerInfo) {
+            RequestCurrentServerInfo request = (RequestCurrentServerInfo) _request;
+            CurrentServerInfoData data = (CurrentServerInfoData) request.getData();
+            if (data != null) {
+                String titleJson = getChatInfo(data.userId, data.avatar, data.name, "0");
+                RongIM.getInstance().startConversation(mActivity, Conversation.ConversationType.APP_PUBLIC_SERVICE, data.userId, titleJson);
+            }
         }
     }
 

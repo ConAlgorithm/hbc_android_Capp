@@ -507,4 +507,9 @@ public class UrlLibs {
      URL：http://api.test.hbc.tech/communication/v2.0/e/im/black/remove
      */
     public static final String REMOVE_BLACK = "communication/v2.0/c/im/black/remove";
+
+    /**
+     * 获取当前环境下的客服信息
+     */
+    public static final String API_IM_SERVER_INFO = "communication/v2.0/c/im/info/kf";
 }

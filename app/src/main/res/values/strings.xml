@@ -242,8 +242,6 @@
     <string name="forget_password">忘记密码</string>
 
     <string name="chat_log">聊天记录</string>
-    <string name="phone_consultation">电话咨询</string>
-    <string name="goto_order">马上去玩</string>
     <string name="goto_pay">立即支付</string>
     <string name="order_total">订单总额：</string>
     <string name="sku_days">包车天数：%s天</string>
@@ -626,12 +624,12 @@
     <string name="no_price_error">暂无报价</string>
 
     <string name="home_dynamics">今日动态</string>
-    <string name="home_featured_route">热门城市&amp;精选路线</string>
+    <string name="home_featured_route">热门城市</string>
     <string name="home_other_service">其它服务</string>
     <string name="home_featured_active">精选活动</string>
-    <string name="home_more_featured_route">更多精选路线</string>
+    <string name="home_more_featured_route">更多包车游线路</string>
     <string name="home_custom_chartered">自定义包车游</string>
-    <string name="home_custom_chartered_description">定制行程，随心所欲，中文司导兼导游全程陪同</string>
+    <string name="home_custom_chartered_description">定制行程，中文司导兼导游全程陪同</string>
     <string name="home_picksend">中文接送机</string>
     <string name="home_single">单次接送</string>
     <string name="alert_car_full">紧凑车型座位满员会很挤哦，可能会让车上成员不舒服，是否继续？</string>

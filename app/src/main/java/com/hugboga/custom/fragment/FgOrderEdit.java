@@ -410,7 +410,7 @@ public class FgOrderEdit extends BaseFragment {
         requestParams.serviceAddressTel = TextUtils.isEmpty(hotelPhoneText.getText()) ? "" : hotelPhoneText.getText().toString();//目的地酒店或者区域电话号码
         requestParams.serviceAreaCode = orderBean.serviceAreaCode;//目的地区域
         requestParams.userRemark = TextUtils.isEmpty(mark.getText()) ? "" : mark.getText().toString();//备注
-        if (orderBean.orderType == 3 || orderBean.orderType == 5) {
+        if (orderBean.orderType == 3 || orderBean.orderType == 5 || orderBean.orderType == 6) {
             requestParams.startAddress = TextUtils.isEmpty(upAddressRight.getText()) ? "" : upAddressRight.getText().toString();//出发地
         }
         if (orderBean.orderGoodsType == 1) {
