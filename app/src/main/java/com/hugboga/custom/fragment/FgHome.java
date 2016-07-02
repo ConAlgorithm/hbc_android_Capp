@@ -45,7 +45,6 @@ public class FgHome extends BaseFragment {
     @Bind(R.id.home_search_view)
     HomeSearchView searchView;
 
-    //img_undertext
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = super.onCreateView(inflater, container, savedInstanceState);

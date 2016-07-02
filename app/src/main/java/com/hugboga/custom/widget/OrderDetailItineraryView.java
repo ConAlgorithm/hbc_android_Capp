@@ -72,9 +72,9 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
         orderNumberTV.setText(getContext().getString(R.string.order_detail_order_number, orderBean.orderNo));
         itineraryLayout.removeAllViews();
 
-        if (orderBean.orderGoodsType == 5 && !TextUtils.isEmpty(orderBean.lineSubject)) {//固定线路 超省心
+        if (orderBean.orderType == 5 && !TextUtils.isEmpty(orderBean.lineSubject)) {//固定线路 超省心
             setRouteLayoutVisible(R.mipmap.chaoshengxin);
-        } else if(orderBean.orderGoodsType == 6 && !TextUtils.isEmpty(orderBean.lineSubject)) {//推荐路线 超自由
+        } else if(orderBean.orderType == 6 && !TextUtils.isEmpty(orderBean.lineSubject)) {//推荐路线 超自由
             setRouteLayoutVisible(R.mipmap.chaoziyou);
         } else {
             routeLayout.setVisibility(View.GONE);
@@ -106,7 +106,7 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
             addItemView(R.mipmap.order_time, localTime, null, flight);
         }
 
-        if (orderBean.isHalfDaily == 0 && orderBean.passByCity != null && orderBean.passByCity.size() > 0) {
+        if (orderBean.orderType == 3 && orderBean.isHalfDaily == 0 && orderBean.passByCity != null && orderBean.passByCity.size() > 0) {
             OrderDetailRouteView routeView = new OrderDetailRouteView(getContext());
             itineraryLayout.addView(routeView);
             routeView.update(orderBean.passByCity);
@@ -127,7 +127,7 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
             }
             addItemView(R.mipmap.order_car, orderBean.carDesc, passengerInfos, null);
         }
-        OrderPriceInfo priceInfo = orderBean.orderPriceInfo;
+
         if (orderBean.orderGoodsType == 1  && "1".equalsIgnoreCase(orderBean.isFlightSign)) {//接机
             addItemView(R.mipmap.order_jp, getContext().getString(R.string.order_detail_airport_card));
         } else if (orderBean.orderGoodsType == 2 && "1".equals(orderBean.isCheckin)) {//送机checkin
@@ -177,7 +177,7 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
 
     private SpannableString getRouteSpannableString(String lineSubject, int resId) {
         Drawable drawable = getContext().getResources().getDrawable(resId);
-        drawable.setBounds(0, 0, UIUtils.dip2px(36), UIUtils.dip2px(20));
+        drawable.setBounds(0, 0, UIUtils.dip2px(36), UIUtils.dip2px(18));
         SpannableString spannable = new SpannableString("[icon]" + lineSubject);
         VerticalImageSpan span = new VerticalImageSpan(drawable);
         spannable.setSpan(span, 0, "[icon]".length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);

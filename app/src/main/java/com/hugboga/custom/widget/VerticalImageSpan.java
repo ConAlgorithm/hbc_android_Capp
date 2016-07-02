@@ -44,7 +44,7 @@ public class VerticalImageSpan extends ImageSpan {
         Drawable drawable = getDrawable();
         canvas.save();
         int transY = 0;
-        transY = ((bottom - top) - drawable.getBounds().bottom) / 2 + top - UIUtils.dip2px(1);
+        transY = ((bottom - top) - drawable.getBounds().bottom) / 2 + top - UIUtils.dip2px(1.1f);
         canvas.translate(x, transY);
         drawable.draw(canvas);
         canvas.restore();

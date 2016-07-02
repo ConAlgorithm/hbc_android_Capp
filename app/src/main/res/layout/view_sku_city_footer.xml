@@ -73,21 +73,12 @@
         android:paddingRight="15dp">
 
         <TextView
-            android:id="@+id/sku_city_footer_guides_count_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="2323"
-            android:textColor="#ffee2f"
-            android:textSize="26sp"
-            android:textStyle="bold" />
-
-        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="-2dp"
             android:text="@string/sku_list_country_guides"
             android:textColor="#ffee2f"
-            android:textSize="14sp" />
+            android:textSize="16sp" />
 
         <LinearLayout
             android:id="@+id/sku_city_footer_guides_avatar_layout"
