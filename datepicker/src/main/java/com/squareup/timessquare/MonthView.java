@@ -119,7 +119,11 @@ public class MonthView extends LinearLayout {
 
           String cellDate = numberFormatter.format(cell.getValue());
           if (!cellView.getDayOfMonthTextView().getText().equals(cellDate)) {
-            cellView.getDayOfMonthTextView().setText(cellDate);
+            if(cell.isToday()){
+              cellView.getDayOfMonthTextView().setText("今天");
+            }else {
+              cellView.getDayOfMonthTextView().setText(cellDate);
+            }
           }
           cellView.setEnabled(cell.isCurrentMonth());
           cellView.setClickable(!displayOnly);
