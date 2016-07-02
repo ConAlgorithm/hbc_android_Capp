@@ -12,8 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
+
 import com.squareup.timessquare.MonthCellDescriptor.RangeState;
+
 import java.text.DateFormat;
 import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
@@ -966,7 +967,7 @@ public class CalendarPickerView extends ListView {
       String errMessage =
           getResources().getString(R.string.invalid_date, fullDateFormat.format(minCal.getTime()),
               fullDateFormat.format(maxCal.getTime()));
-      Toast.makeText(getContext(), errMessage, Toast.LENGTH_SHORT).show();
+//      Toast.makeText(getContext(), errMessage, Toast.LENGTH_SHORT).show();
     }
   }
 }

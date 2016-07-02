@@ -67,5 +67,7 @@ public enum EventType {
     PICK_SEND_ONBACKPRESS,//接送backpress
 
     SKU_HOTEL_NUM_CHANGE,//sku 酒店房间数量变化
+    CHOOSE_DATE,//选日期
+
 
 }

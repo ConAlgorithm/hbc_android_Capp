@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
+import static android.R.attr.format;
 import static com.hugboga.custom.R.array.date;
 import static u.aly.au.S;
 
@@ -34,6 +35,7 @@ public class DateUtils {
     public static SimpleDateFormat datePonintDateFormat = new SimpleDateFormat("yyyy.MM.dd");
     public static SimpleDateFormat dateSimpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日");
     public static SimpleDateFormat datePonintDateTimeFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm");
+    public static SimpleDateFormat dateSimpleDateFormatMMdd = new SimpleDateFormat("MM月dd日");
     public static SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
     public static DecimalFormat decimalFormat = new DecimalFormat("00");
 
@@ -573,6 +575,17 @@ public class DateUtils {
         return days;
     }
 
+    public static long getDays(Date date1,Date date2){
+        Calendar calendar1 = Calendar.getInstance();
+        calendar1.setTime(date1);
+
+        Calendar calendar2 = Calendar.getInstance();
+        calendar2.setTime(date2);
+
+        long days = (calendar2.getTimeInMillis()-calendar1.getTimeInMillis())/(1000*3600*24);
+        return days + 1;
+    }
+
 
     public static int dayForWeek(String pTime) {
         try {
@@ -599,6 +612,16 @@ public class DateUtils {
             return format.format(calendar.getTime());
         }catch (Exception e){
             return "";
+        }
+    }
+
+    public static boolean isToday(Date date){
+        String dateStr = dateSimpleDateFormat.format(date);
+        String todayStr = dateSimpleDateFormat.format(new Date());
+        if(dateStr.equalsIgnoreCase(todayStr)){
+            return  true;
+        }else{
+            return  false;
         }
     }
 

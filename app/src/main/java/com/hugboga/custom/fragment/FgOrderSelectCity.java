@@ -31,6 +31,7 @@ import com.hugboga.custom.activity.DatePickerActivity;
 import com.hugboga.custom.adapter.OrderSelectCityAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CarInfoBean;
+import com.hugboga.custom.data.bean.ChooseDateBean;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.CollectGuideBean;
 import com.hugboga.custom.data.bean.SelectCarBean;
@@ -62,11 +63,13 @@ import java.util.List;
 import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
 
+import static android.R.attr.type;
 import static android.view.View.GONE;
 import static com.hugboga.custom.R.id.baggage_text_click;
-import static com.hugboga.custom.R.id.left_line;
+import static com.hugboga.custom.R.id.go_city_text_click_right;
 import static com.hugboga.custom.R.id.people_text_click;
 import static com.hugboga.custom.R.id.start_city_click;
+import static com.hugboga.custom.R.id.start_date_right;
 
 /**
  * Created  on 16/4/14.
@@ -144,6 +147,17 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
 
     @ViewInject(R.id.right_line)
     TextView right_line;
+
+
+    @ViewInject(R.id.start_date_right)
+    TextView start_date_right;
+
+    @ViewInject(R.id.end_date_right)
+    TextView end_date_right;
+
+    @ViewInject(R.id.go_city_text_click_right)
+    TextView go_city_text_click_right;
+
 
     @Override
     protected void inflateContent() {
@@ -921,6 +935,8 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
     }
 
     boolean isHalfTravel = false;
+    private final int TYPE_SINGLE = 1;
+    private final int TYPE_RANGE = 2;
 
     @Event({R.id.go_city_text_layout,R.id.choose_driver, R.id.minus, R.id.add, R.id.header_left_btn, start_city_click, people_text_click, R.id.show_child_seat_layout, R.id.child_no_confirm_click, baggage_text_click, R.id.baggage_no_confirm_click, R.id.end_layout_click, R.id.go_city_text_click, R.id.next_btn_click})
     private void onClickView(View view) {
@@ -976,7 +992,10 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
                 if (null != collectGuideBean && !TextUtils.isEmpty(endDate.getText())) {
                     ToastUtils.showShort(R.string.alert_del_after_edit);
                 } else {
-                    showDaySelect(endDate);
+//                    showDaySelect(endDate);
+                    Intent intent = new Intent(getActivity(),DatePickerActivity.class);
+                    intent.putExtra("type",TYPE_RANGE);
+                    startActivity(intent);
                 }
                 break;
             case R.id.go_city_text_layout:
@@ -985,7 +1004,9 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
                     ToastUtils.showShort(R.string.alert_del_after_edit);
                 } else {
 //                    showDaySelect(goCityTextClick);
-                    startActivity(new Intent(getActivity(),DatePickerActivity.class));
+                    Intent intent = new Intent(getActivity(),DatePickerActivity.class);
+                    intent.putExtra("type",TYPE_SINGLE);
+                    startActivity(intent);
 
                 }
                 break;
@@ -1139,31 +1160,6 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
 
     }
 
-    //根据第一天的选择改变最后一天的文字显示
-    private void resetLastText() {
-        try {
-            int count = full_day_show.getChildCount();
-            TextView text = null;
-            if (passBeanList.get(currentIndex - 1).cityId == startBean.cityId) {
-                for (int i = currentIndex; i < count; i++) {
-                    text = (TextView) (full_day_show.getChildAt(i).findViewById(R.id.day_go_city_text_click));
-                    text.setText("选择包车游玩范围");
-                }
-            } else {
-                for (int i = currentIndex; i < count; i++) {
-                    text = (TextView) (full_day_show.getChildAt(i).findViewById(R.id.day_go_city_text_click));
-                    if (i == count - 1) {
-                        text.setText("选择结束城市");
-                    } else {
-                        text.setText("选择住宿城市");
-                    }
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     View dayView;
     TextView day_text, day_go_city_text_click;
 
@@ -1206,13 +1202,6 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
                     currentClickView = v;
                     TextView text = (TextView) v.findViewById(R.id.day_go_city_text_click);
                      currentIndex = Integer.valueOf(currentClickView.getTag().toString()) - 1;
-//                    if (currentIndex != 0 && passBeanList.get(currentIndex - 1).cityType == 3 && startBean.cityId != passBeanList.get(currentIndex - 1).cityId) {
-//                        Bundle bundle = new Bundle();
-//                        bundle.putString(KEY_FROM, "nearby");
-//                        bundle.putString("source", "首页");
-//                        bundle.putInt(FgChooseCity.KEY_CITY_ID, startBean.cityId);
-//                        startFragment(new FgChooseCity(), bundle);
-//                    } else {
                         if (Integer.valueOf(v.getTag().toString()) == full_day_show.getChildCount()) {
                             initScopeLayoutValue(true);
                         } else{
@@ -1256,6 +1245,34 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
                     driver_layout.setVisibility(View.VISIBLE);
                     driver_name.setText(collectGuideBean.name);
                     choose_driver.setVisibility(GONE);
+                }
+                break;
+            case CHOOSE_DATE:
+                ChooseDateBean chooseDateBean = (ChooseDateBean)action.getData();
+                if(chooseDateBean.type == 1){
+                    halfDate = chooseDateBean.halfDate;
+                    goCityTextClick.setText(chooseDateBean.showHalfDateStr);
+                    if(chooseDateBean.isToday) {
+                        go_city_text_click_right.setText("今天");
+                    }else{
+                        go_city_text_click_right.setText("");
+                    }
+                    checkNextBtnStatus();
+                }else{
+                    start_date_str = chooseDateBean.start_date;
+                    end_date_str = chooseDateBean.end_date;
+                    startDate.setText(chooseDateBean.showStartDateStr);
+                    endDate.setText(chooseDateBean.showEndDateStr);
+
+                    if(chooseDateBean.isToday) {
+                        start_date_right.setText("今天");
+                    }else{
+                        start_date_right.setText("");
+                    }
+
+                    end_date_right.setText("共包车"+chooseDateBean.dayNums+"天");
+                    addDayView(false);
+                    checkNextBtnStatus();
                 }
                 break;
             default:
