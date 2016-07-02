@@ -14,6 +14,10 @@ import android.widget.Toast;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.datepicker.CustomDayViewAdapter;
 import com.hugboga.custom.activity.datepicker.Decorator;
+import com.hugboga.custom.data.bean.ChooseDateBean;
+import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.event.EventType;
+import com.hugboga.custom.utils.DateUtils;
 import com.squareup.timessquare.CalendarCellDecorator;
 import com.squareup.timessquare.CalendarPickerView;
 import com.squareup.timessquare.DefaultDayViewAdapter;
@@ -24,15 +28,16 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import de.greenrobot.event.EventBus;
 
 import static android.widget.Toast.LENGTH_SHORT;
-
 public class DatePickerActivity extends BaseActivity {
     @Bind(R.id.header_left_btn)
     ImageView headerLeftBtn;
@@ -43,11 +48,14 @@ public class DatePickerActivity extends BaseActivity {
     private CalendarPickerView dialogView;
     private final Set<Button> modeButtons = new LinkedHashSet<Button>();
 
+    int calender_type = 1;//1,日期单选,2 日期多选
+    CalendarPickerView.SelectionMode model = CalendarPickerView.SelectionMode.SINGLE;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.date_picker_layout);
         ButterKnife.bind(this);
+        calender_type = this.getIntent().getIntExtra("type",1);
         initViews();
         final Calendar nextYear = Calendar.getInstance();
         nextYear.add(Calendar.YEAR, 1);
@@ -55,11 +63,43 @@ public class DatePickerActivity extends BaseActivity {
         final Calendar lastYear = Calendar.getInstance();
         lastYear.add(Calendar.YEAR, -1);
 
+        if(calender_type == 1) {
+            model = CalendarPickerView.SelectionMode.SINGLE;
+        }else{
+            model = CalendarPickerView.SelectionMode.RANGE;
+        }
+
         calendar = (CalendarPickerView) findViewById(R.id.calendar_view);
         calendar.init(lastYear.getTime(), nextYear.getTime()) //
-                .inMode(CalendarPickerView.SelectionMode.SINGLE) //
+                .inMode(model) //
                 .withSelectedDate(new Date());
+        calendar.setOnDateSelectedListener(new CalendarPickerView.OnDateSelectedListener() {
+            @Override
+            public void onDateSelected(Date date) {
+                ChooseDateBean chooseDateBean = new ChooseDateBean();
+                if(calender_type == 1) {
+                    chooseDateBean.halfDate = DateUtils.dateDateFormat.format(date);
+                    chooseDateBean.showHalfDateStr = DateUtils.dateSimpleDateFormatMMdd.format(date);
+                    chooseDateBean.type = calender_type;
+                    chooseDateBean.isToday = DateUtils.isToday(date);
+                    EventBus.getDefault().post(new EventAction(EventType.CHOOSE_DATE, chooseDateBean));
+                }else{
+                    List<Date> dates = calendar.getSelectedDates();
+                    chooseDateBean.type = calender_type;
+                    chooseDateBean.showStartDateStr = DateUtils.dateSimpleDateFormatMMdd.format(dates.get(0));
+                    chooseDateBean.showEndDateStr = DateUtils.dateSimpleDateFormatMMdd.format(dates.get(dates.size()-1));
+                    chooseDateBean.dayNums = (int)DateUtils.getDays(dates.get(0),dates.get(dates.size()-1));
+                    chooseDateBean.isToday = DateUtils.isToday(dates.get(0));
+                    EventBus.getDefault().post(new EventAction(EventType.CHOOSE_DATE, chooseDateBean));
+                }
+                finish();
+            }
 
+            @Override
+            public void onDateUnselected(Date date) {
+
+            }
+        });
 
         initButtonListeners(nextYear, lastYear);
     }

@@ -325,15 +325,14 @@
                 <RelativeLayout
                     android:id="@+id/end_layout_click"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp">
+                    android:layout_height="wrap_content">
 
                     <LinearLayout
                         android:id="@+id/date_layout"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="80dp"
                         android:layout_centerVertical="true"
-                        android:layout_margin="15dp"
+                        android:layout_marginLeft="15dp"
                         android:background="@color/basic_white"
                         android:gravity="center"
                         android:orientation="vertical">
@@ -361,12 +360,11 @@
 
                     <LinearLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="80dp"
                         android:layout_centerVertical="true"
-                        android:layout_margin="15dp"
                         android:layout_toRightOf="@id/date_layout"
                         android:background="@color/basic_white"
-                        android:gravity="center"
+                        android:gravity="left|center_vertical"
                         android:orientation="vertical">
 
                         <TextView
@@ -375,17 +373,16 @@
                             android:layout_height="wrap_content"
                             android:gravity="center"
                             android:textColor="#888888"
-                            android:textSize="15sp" />
+                            android:textSize="13sp" />
 
                         <TextView
                             android:id="@+id/end_date_right"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
-                            android:background="@null"
                             android:gravity="center"
                             android:textColor="#888888"
-                            android:textSize="15sp" />
+                            android:textSize="13sp" />
                     </LinearLayout>
 
                     <ImageView
@@ -420,6 +417,7 @@
                     android:id="@+id/go_city_text_layout"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
+                    android:layout_marginLeft="20dp"
                     android:gravity="center_vertical"
                     android:background="@color/basic_white"
                     android:orientation="horizontal">
@@ -428,13 +426,8 @@
                         android:id="@+id/go_city_text_click"
                         android:layout_width="wrap_content"
                         android:layout_height="50dp"
-                        android:layout_marginLeft="20dp"
-                        android:background="@null"
-                        android:ellipsize="end"
-                        android:gravity="center_vertical"
+                        android:gravity="center"
                         android:hint="@string/select_go_citys"
-                        android:lines="1"
-                        android:maxEms="50"
                         android:textColor="@color/basic_black"
                         android:textSize="15sp" />
 
@@ -442,11 +435,8 @@
                         android:id="@+id/go_city_text_click_right"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:background="@null"
-                        android:gravity="center"
                         android:textColor="#888888"
-                        android:textSize="15sp" />
+                        android:textSize="13sp" />
                 </LinearLayout>
 
             </LinearLayout>
