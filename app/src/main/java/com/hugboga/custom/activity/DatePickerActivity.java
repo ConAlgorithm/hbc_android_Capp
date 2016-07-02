@@ -50,6 +50,8 @@ public class DatePickerActivity extends BaseActivity {
 
     int calender_type = 1;//1,日期单选,2 日期多选
     CalendarPickerView.SelectionMode model = CalendarPickerView.SelectionMode.SINGLE;
+
+    int clickTimes = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,7 +63,6 @@ public class DatePickerActivity extends BaseActivity {
         nextYear.add(Calendar.YEAR, 1);
 
         final Calendar lastYear = Calendar.getInstance();
-        lastYear.add(Calendar.YEAR, -1);
 
         if(calender_type == 1) {
             model = CalendarPickerView.SelectionMode.SINGLE;
@@ -71,28 +72,39 @@ public class DatePickerActivity extends BaseActivity {
 
         calendar = (CalendarPickerView) findViewById(R.id.calendar_view);
         calendar.init(lastYear.getTime(), nextYear.getTime()) //
-                .inMode(model) //
+                .inMode(CalendarPickerView.SelectionMode.SINGLE) //
                 .withSelectedDate(new Date());
         calendar.setOnDateSelectedListener(new CalendarPickerView.OnDateSelectedListener() {
             @Override
             public void onDateSelected(Date date) {
                 ChooseDateBean chooseDateBean = new ChooseDateBean();
                 if(calender_type == 1) {
+                    finish();
                     chooseDateBean.halfDate = DateUtils.dateDateFormat.format(date);
                     chooseDateBean.showHalfDateStr = DateUtils.dateSimpleDateFormatMMdd.format(date);
                     chooseDateBean.type = calender_type;
                     chooseDateBean.isToday = DateUtils.isToday(date);
                     EventBus.getDefault().post(new EventAction(EventType.CHOOSE_DATE, chooseDateBean));
                 }else{
-                    List<Date> dates = calendar.getSelectedDates();
-                    chooseDateBean.type = calender_type;
-                    chooseDateBean.showStartDateStr = DateUtils.dateSimpleDateFormatMMdd.format(dates.get(0));
-                    chooseDateBean.showEndDateStr = DateUtils.dateSimpleDateFormatMMdd.format(dates.get(dates.size()-1));
-                    chooseDateBean.dayNums = (int)DateUtils.getDays(dates.get(0),dates.get(dates.size()-1));
-                    chooseDateBean.isToday = DateUtils.isToday(dates.get(0));
-                    EventBus.getDefault().post(new EventAction(EventType.CHOOSE_DATE, chooseDateBean));
+
+                    if(clickTimes == 1) {
+                        finish();
+                        List<Date> dates = calendar.getSelectedDates();
+                        chooseDateBean.type = calender_type;
+                        chooseDateBean.showStartDateStr = DateUtils.dateSimpleDateFormatMMdd.format(dates.get(0));
+                        chooseDateBean.showEndDateStr = DateUtils.dateSimpleDateFormatMMdd.format(dates.get(dates.size() - 1));
+                        chooseDateBean.start_date = DateUtils.dateDateFormat.format(dates.get(0));
+                        chooseDateBean.end_date = DateUtils.dateDateFormat.format(dates.get(dates.size() - 1));
+                        chooseDateBean.dayNums = (int) DateUtils.getDays(dates.get(0), dates.get(dates.size() - 1));
+                        chooseDateBean.isToday = DateUtils.isToday(dates.get(0));
+                        EventBus.getDefault().post(new EventAction(EventType.CHOOSE_DATE, chooseDateBean));
+                    }else{
+                        calendar.init(lastYear.getTime(), nextYear.getTime()) //
+                                .inMode(model) //
+                                .withSelectedDate(date);
+                        clickTimes +=1;
+                    }
                 }
-                finish();
             }
 
             @Override

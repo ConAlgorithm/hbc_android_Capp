@@ -1160,31 +1160,6 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
 
     }
 
-    //根据第一天的选择改变最后一天的文字显示
-    private void resetLastText() {
-        try {
-            int count = full_day_show.getChildCount();
-            TextView text = null;
-            if (passBeanList.get(currentIndex - 1).cityId == startBean.cityId) {
-                for (int i = currentIndex; i < count; i++) {
-                    text = (TextView) (full_day_show.getChildAt(i).findViewById(R.id.day_go_city_text_click));
-                    text.setText("选择包车游玩范围");
-                }
-            } else {
-                for (int i = currentIndex; i < count; i++) {
-                    text = (TextView) (full_day_show.getChildAt(i).findViewById(R.id.day_go_city_text_click));
-                    if (i == count - 1) {
-                        text.setText("选择结束城市");
-                    } else {
-                        text.setText("选择住宿城市");
-                    }
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     View dayView;
     TextView day_text, day_go_city_text_click;
 
@@ -1227,13 +1202,6 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
                     currentClickView = v;
                     TextView text = (TextView) v.findViewById(R.id.day_go_city_text_click);
                      currentIndex = Integer.valueOf(currentClickView.getTag().toString()) - 1;
-//                    if (currentIndex != 0 && passBeanList.get(currentIndex - 1).cityType == 3 && startBean.cityId != passBeanList.get(currentIndex - 1).cityId) {
-//                        Bundle bundle = new Bundle();
-//                        bundle.putString(KEY_FROM, "nearby");
-//                        bundle.putString("source", "首页");
-//                        bundle.putInt(FgChooseCity.KEY_CITY_ID, startBean.cityId);
-//                        startFragment(new FgChooseCity(), bundle);
-//                    } else {
                         if (Integer.valueOf(v.getTag().toString()) == full_day_show.getChildCount()) {
                             initScopeLayoutValue(true);
                         } else{
@@ -1289,6 +1257,7 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
                     }else{
                         go_city_text_click_right.setText("");
                     }
+                    checkNextBtnStatus();
                 }else{
                     start_date_str = chooseDateBean.start_date;
                     end_date_str = chooseDateBean.end_date;
@@ -1302,6 +1271,8 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
                     }
 
                     end_date_right.setText("共包车"+chooseDateBean.dayNums+"天");
+                    addDayView(false);
+                    checkNextBtnStatus();
                 }
                 break;
             default:
