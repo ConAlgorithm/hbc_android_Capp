@@ -108,6 +108,7 @@ public class HomeBottomLayout extends LinearLayout implements View.OnClickListen
                     Bundle bundle = new Bundle();;
                     bundle.putString("source", "首页");
                     fragment.startFragment(new FgLogin(), bundle);
+                    break;
                 }
                 if (activeData == null || TextUtils.isEmpty(activeData.getUrlAddress())) {
                     return;

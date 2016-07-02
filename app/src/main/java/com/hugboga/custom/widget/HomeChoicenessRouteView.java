@@ -1,10 +1,9 @@
 package com.hugboga.custom.widget;
 
 import android.content.Context;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
-import android.view.ViewGroup;
+import android.view.Gravity;
 import android.widget.LinearLayout;
 
 import com.hugboga.custom.R;
@@ -20,7 +19,7 @@ import java.util.ArrayList;
  */
 public class HomeChoicenessRouteView extends LinearLayout {
 
-    private RecyclerView recyclerView;
+    private ViewPager mViewPager;
     private HomeChoicenessRouteAdapter adapter;
 
     public HomeChoicenessRouteView(Context context) {
@@ -29,26 +28,29 @@ public class HomeChoicenessRouteView extends LinearLayout {
 
     public HomeChoicenessRouteView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        setOrientation(LinearLayout.VERTICAL);
         inflate(getContext(), R.layout.view_home_choiceness_route, this);
 
-        recyclerView = (RecyclerView) findViewById(R.id.home_choiceness_route_recyclerview);
-        recyclerView.setFocusable(false);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setHorizontalScrollBarEnabled(false);
-        SpaceItemDecoration itemDecoration = new SpaceItemDecoration();
-        itemDecoration.setItemOffsets(getContext().getResources().getDimensionPixelOffset(R.dimen.home_view_padding_left), 0, 0, 0);
-        recyclerView.addItemDecoration(itemDecoration);
-        adapter = new HomeChoicenessRouteAdapter(context);
-        recyclerView.setAdapter(adapter);
+        final int paddingLeft = context.getResources().getDimensionPixelOffset(R.dimen.home_view_padding_left);
+        mViewPager = (ViewPager) findViewById(R.id.home_choiceness_route_viewpager);
+        mViewPager.setPageMargin(paddingLeft);
+        mViewPager.setOffscreenPageLimit(5);
+
+        int itemWidth = UIUtils.getScreenWidth() - paddingLeft * 2 - UIUtils.dip2px(18) * 2;
+        int displayImgHeight = (int)((287 / 620.0) * itemWidth);
+        int itemHeight = displayImgHeight + UIUtils.dip2px(76) * 3 + 3 + UIUtils.dip2px(44);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(itemWidth, itemHeight);
+        params.gravity=Gravity.CENTER;
+        params.bottomMargin = UIUtils.dip2px(6);
+        mViewPager.setLayoutParams(params);
+
     }
 
     public void setData(FgHome _frgment, ArrayList<HomeData.CityContentItem> _itemList) {
-        if (adapter == null || _frgment == null || _itemList == null) {
+        if (_frgment == null || _itemList == null) {
             return;
         }
+        adapter = new HomeChoicenessRouteAdapter(getContext());
         adapter.setData(_frgment, _itemList);
+        mViewPager.setAdapter(adapter);
     }
 }

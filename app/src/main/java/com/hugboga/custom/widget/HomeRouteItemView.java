@@ -68,7 +68,7 @@ public class HomeRouteItemView extends RelativeLayout implements HbcViewBehavior
 
         moreLayout = (RelativeLayout) findViewById(R.id.home_route_item_more_layout);
 
-        int displayImgHeight = (int)((287 / 620.0) * (UIUtils.getScreenWidth() - context.getResources().getDimensionPixelOffset(R.dimen.home_view_padding_left) * 2 - UIUtils.dip2px(20)));
+        int displayImgHeight = (int)((287 / 620.0) * (UIUtils.getScreenWidth() - context.getResources().getDimensionPixelOffset(R.dimen.home_view_padding_left) * 2 - UIUtils.dip2px(18) * 2));
         displayIV.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, displayImgHeight));
 
         item1Layout.setOnClickListener(this);
