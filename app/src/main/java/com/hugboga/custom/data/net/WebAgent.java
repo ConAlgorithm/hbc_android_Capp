@@ -29,6 +29,7 @@ import com.hugboga.custom.fragment.FgActivity;
 import com.hugboga.custom.fragment.FgLogin;
 import com.hugboga.custom.fragment.FgOrderSelectCity;
 import com.hugboga.custom.fragment.FgWebInfo;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.widget.DialogUtil;
 
@@ -256,6 +257,12 @@ public class WebAgent implements HttpRequestListener {
      * */
     @JavascriptInterface
     public void pushToServiceChatVC() {
+        if (mActivity != null && !UserEntity.getUser().isLogin(mActivity) && mFragment != null) {
+            CommonUtils.showToast(R.string.login_hint);
+            Bundle bundle = new Bundle();;
+            mFragment.startFragment(new FgLogin(), bundle);
+            return;
+        }
         mActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {

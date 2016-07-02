@@ -53,8 +53,9 @@
     </RelativeLayout>
     <RelativeLayout
         android:id="@+id/home_route_item_1_layout"
-        android:layout_marginLeft="@dimen/home_view_padding_left"
-        android:layout_marginRight="@dimen/home_view_padding_left"
+        android:paddingLeft="@dimen/home_view_padding_left"
+        android:paddingRight="@dimen/home_view_padding_left"
+        android:background="@drawable/selector_default_white_bg"
         android:layout_width="match_parent"
         android:layout_height="76dp">
         <TextView
@@ -98,8 +99,9 @@
         />
     <RelativeLayout
         android:id="@+id/home_route_item_2_layout"
-        android:layout_marginLeft="@dimen/home_view_padding_left"
-        android:layout_marginRight="@dimen/home_view_padding_left"
+        android:paddingLeft="@dimen/home_view_padding_left"
+        android:paddingRight="@dimen/home_view_padding_left"
+        android:background="@drawable/selector_default_white_bg"
         android:layout_width="match_parent"
         android:layout_height="76dp">
         <TextView
@@ -142,8 +144,9 @@
         />
     <RelativeLayout
         android:id="@+id/home_route_item_3_layout"
-        android:layout_marginLeft="@dimen/home_view_padding_left"
-        android:layout_marginRight="@dimen/home_view_padding_left"
+        android:paddingLeft="@dimen/home_view_padding_left"
+        android:paddingRight="@dimen/home_view_padding_left"
+        android:background="@drawable/selector_default_white_bg"
         android:layout_width="match_parent"
         android:layout_height="76dp">
         <TextView
@@ -186,8 +189,9 @@
         />
     <RelativeLayout
         android:id="@+id/home_route_item_more_layout"
-        android:layout_marginLeft="@dimen/home_view_padding_left"
-        android:layout_marginRight="@dimen/home_view_padding_left"
+        android:paddingLeft="@dimen/home_view_padding_left"
+        android:paddingRight="@dimen/home_view_padding_left"
+        android:background="@drawable/selector_default_white_bg"
         android:layout_width="match_parent"
         android:layout_height="44dp">
         <TextView

@@ -1,6 +1,8 @@
 package com.hugboga.custom.adapter;
 
 import android.content.Context;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,22 +20,15 @@ import java.util.ArrayList;
 /**
  * Created by qingcha on 16/6/19.
  */
-public class HomeChoicenessRouteAdapter extends RecyclerView.Adapter<HomeChoicenessRouteAdapter.MyViewHolder>{
+public class HomeChoicenessRouteAdapter extends PagerAdapter {
 
     private FgHome frgment;
 
     private Context mContext;
     private ArrayList<HomeData.CityContentItem> itemList;
-    private ViewGroup.LayoutParams params;
 
     public HomeChoicenessRouteAdapter(Context context) {
         this.mContext = context;
-        final int paddingLeft = context.getResources().getDimensionPixelOffset(R.dimen.home_view_padding_left);
-
-        int itemWidth = UIUtils.getScreenWidth() - paddingLeft * 2 - UIUtils.dip2px(20);
-        int displayImgHeight = (int)((287 / 620.0) * (UIUtils.getScreenWidth() - context.getResources().getDimensionPixelOffset(R.dimen.home_view_padding_left) * 2 - UIUtils.dip2px(20)));
-        int itemHeight = displayImgHeight + UIUtils.dip2px(76) * 3 + 3 + UIUtils.dip2px(44);
-        params = new ViewGroup.LayoutParams(itemWidth, itemHeight);
     }
 
     public void setData(FgHome _frgment, ArrayList<HomeData.CityContentItem> _itemList) {
@@ -43,26 +38,26 @@ public class HomeChoicenessRouteAdapter extends RecyclerView.Adapter<HomeChoicen
     }
 
     @Override
-    public HomeChoicenessRouteAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        HomeRouteItemView imageView = new HomeRouteItemView(mContext);
-        imageView.setFgHomeContext(frgment);
-        imageView.setLayoutParams(params);
-        return new MyViewHolder(imageView);
-    }
-
-    @Override
-    public void onBindViewHolder(HomeChoicenessRouteAdapter.MyViewHolder holder, int position) {
-        ((HomeRouteItemView)holder.itemView).update(itemList.get(position));
-    }
-
-    @Override
-    public int getItemCount() {
+    public int getCount() {
         return itemList == null ? 0 : itemList.size();
     }
 
-    class MyViewHolder extends RecyclerView.ViewHolder {
-        public MyViewHolder(View view) {
-            super(view);
-        }
+    @Override
+    public boolean isViewFromObject(View view, Object object) {
+        return view == object;
+    }
+
+    @Override
+    public Object instantiateItem(ViewGroup container, int position) {
+        HomeRouteItemView itemView = new HomeRouteItemView(mContext);
+        itemView.setFgHomeContext(frgment);
+        itemView.update(itemList.get(position));
+        container.addView(itemView, 0);
+        return itemView;
+    }
+
+    @Override
+    public void destroyItem(ViewGroup container, int position, Object object) {
+        container.removeView((View)object);
     }
 }
