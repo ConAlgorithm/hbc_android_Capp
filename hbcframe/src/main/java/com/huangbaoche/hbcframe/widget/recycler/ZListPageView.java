@@ -33,7 +33,12 @@ public class ZListPageView extends ZListRecyclerView implements IPageList {
     RelativeLayout networkErrorLayout;
     Page page;
     ZListHttpUtils zListHttpUtils;
+
     private boolean isLoading = false;
+
+    public boolean isLoading() {
+        return isLoading;
+    }
 
     public ZListPageView(Context context) {
         super(context);

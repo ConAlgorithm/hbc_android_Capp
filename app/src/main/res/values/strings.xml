@@ -589,7 +589,7 @@
     <string name="order_detail_receiving">司导已接单！</string>
     <string name="order_detail_inservice">司导正在为您服务</string>
     <string name="order_detail_prompt_new_travel">您即将迎来新的旅程</string>
-    <string name="order_detail_predetermined">预定成功！</string>
+    <string name="order_detail_predetermined">预订成功！</string>
     <string name="order_detail_prompt_wait_guide">敬请耐心等待司导接单</string>
     <string name="order_detail_timeleft">剩余时间：</string>
     <string name="order_detail_add_insurance">免费添加投保人</string>
