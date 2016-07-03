@@ -176,7 +176,7 @@ public class ParserOrder extends ImplParser {
         orderbean.isIm = jsonObj.optInt("isIm") == 1;
         orderbean.isPhone = jsonObj.optInt("isPhone") == 1;
         orderbean.picUrl = jsonObj.optString("picUrl");
-        orderbean.isChangeManual = jsonObj.optBoolean("isChangeManual");
+        orderbean.isChangeManual = jsonObj.optInt("isChangeManual") == 1;
         orderbean.hotelStatus = jsonObj.optInt("hotelStatus");
         orderbean.hotelRoom = jsonObj.optInt("hotelRoom");
         orderbean.hotelDays = jsonObj.optInt("hotelDays");

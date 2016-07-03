@@ -35,6 +35,7 @@ import com.hugboga.custom.widget.HbcViewBehavior;
 import com.hugboga.custom.widget.OrderDetailFloatView;
 import com.hugboga.custom.widget.OrderDetailGuideInfo;
 import com.hugboga.custom.widget.OrderDetailInfoView;
+import com.hugboga.custom.widget.OrderDetailItineraryView;
 import com.hugboga.custom.widget.OrderDetailTitleBar;
 
 import org.xutils.common.Callback;
@@ -60,6 +61,9 @@ public class FgOrderDetail extends BaseFragment implements View.OnClickListener{
 
     @ViewInject(R.id.order_detail_guideinfo_view)
     private OrderDetailGuideInfo guideInfoView;
+
+    @ViewInject(R.id.order_detail_itinerary_view)
+    private OrderDetailItineraryView itineraryView;
 
     @ViewInject(R.id.order_detail_float_view)
     private OrderDetailFloatView floatView;
@@ -123,6 +127,7 @@ public class FgOrderDetail extends BaseFragment implements View.OnClickListener{
                 mDialogUtil.showCallDialog();
             }
         });
+        itineraryView.setFragment(this);
     }
 
     @Override
@@ -395,6 +400,9 @@ public class FgOrderDetail extends BaseFragment implements View.OnClickListener{
         cancelOrderTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (mDialogUtil == null) {
+                    mDialogUtil = DialogUtil.getInstance(getActivity());
+                }
                 //如果此订单不能取消，直接进行提示
                 popup.dismiss();
                 if (orderBean.isChangeManual) {//需要人工取消订单
