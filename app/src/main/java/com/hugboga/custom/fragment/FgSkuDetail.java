@@ -35,9 +35,12 @@ public class FgSkuDetail extends FgWebInfo {
     private SkuItemBean skuItemBean;//sku详情
     private CityBean cityBean;
 
+    public boolean isGoodsOut = false;//商品是否已下架
+
     @Override
     protected void initView() {
         super.initView();
+        isGoodsOut = false;
         getView().findViewById(R.id.header_right_btn).setVisibility(WXShareUtils.getInstance(getActivity()).isInstall(false)?View.VISIBLE:View.VISIBLE);
         if(this.getArguments()!=null){
             skuItemBean =  (SkuItemBean)getArguments().getSerializable(WEB_SKU);
@@ -107,6 +110,9 @@ public class FgSkuDetail extends FgWebInfo {
     }
 
     private void skuShare(String goodsPicture, final String title, final String content, final String shareUrl) {
+        if (isGoodsOut) {
+            return;
+        }
         final AlertDialog.Builder callDialog = new AlertDialog.Builder(getActivity());
         callDialog.setTitle("分享");
         final String [] callItems = new String[]{"分享好友","分享朋友圈"};

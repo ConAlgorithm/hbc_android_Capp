@@ -39,7 +39,7 @@ public class HomeChoicenessRouteView extends LinearLayout {
         int displayImgHeight = (int)((287 / 620.0) * itemWidth);
         int itemHeight = displayImgHeight + UIUtils.dip2px(76) * 3 + 3 + UIUtils.dip2px(44);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(itemWidth, itemHeight);
-        params.gravity=Gravity.CENTER;
+        params.gravity = Gravity.CENTER;
         params.bottomMargin = UIUtils.dip2px(6);
         mViewPager.setLayoutParams(params);
 

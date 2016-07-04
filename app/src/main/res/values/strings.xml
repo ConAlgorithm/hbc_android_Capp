@@ -565,7 +565,7 @@
     <string name="order_detail_title_single">单次接送</string>
     <string name="order_detail_title_send">中文送机</string>
     <string name="order_detail_title_pick">中文接机</string>
-    <string name="order_detail_title_route">路线包车游</string>
+    <string name="order_detail_title_route">线路包车游</string>
     <string name="order_detail_thaw">订单已冻结</string>
     <string name="order_detail_disputes">正在处理纠纷</string>
     <string name="order_detail_pay_prompt_1">请在%1$s内付款</string>
@@ -589,7 +589,7 @@
     <string name="order_detail_receiving">司导已接单！</string>
     <string name="order_detail_inservice">司导正在为您服务</string>
     <string name="order_detail_prompt_new_travel">您即将迎来新的旅程</string>
-    <string name="order_detail_predetermined">预定成功！</string>
+    <string name="order_detail_predetermined">预订成功！</string>
     <string name="order_detail_prompt_wait_guide">敬请耐心等待司导接单</string>
     <string name="order_detail_timeleft">剩余时间：</string>
     <string name="order_detail_add_insurance">免费添加投保人</string>
@@ -640,7 +640,7 @@
     <string name="sku_list_local_guides">%1$s位当地中文司导</string>
     <string name="sku_list_city_guides_1">位中文司</string>
     <string name="sku_list_city_guides_2">导可服务</string>
-    <string name="sku_list_country_guides">位中文司导可为您服务</string>
+    <string name="sku_list_country_guides">由皇包车认证司导问您服务</string>
     <string name="sku_list_routes">%1$s种包车游路线</string>
     <string name="sku_list_price_unit">起&#160;/&#160;人</string>
     <string name="sku_list_subtitle_chartered">中文包车游·开启全新旅行方式</string>

@@ -48,7 +48,9 @@
         <ImageView
             android:id="@+id/order_itinerary_route_iv"
             android:layout_width="110dp"
-            android:layout_height="90dp" />
+            android:layout_height="90dp"
+            android:background="@drawable/default_img_bg"
+            />
         <TextView
             android:id="@+id/order_itinerary_route_tv"
             android:layout_toRightOf="@id/order_itinerary_route_iv"

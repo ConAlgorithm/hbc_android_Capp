@@ -50,6 +50,13 @@ public class FgWebInfo extends BaseFragment implements View.OnKeyListener {
     @ViewInject(R.id.webview)
     public WebView webView;
 
+    public void setTitle(String title) {
+        if (fgTitle == null) {
+            return;
+        }
+        fgTitle.setText(title);
+    }
+
 
     WebViewClient webClient = new WebViewClient() {
 

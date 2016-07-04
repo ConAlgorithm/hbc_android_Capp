@@ -24,7 +24,7 @@ public class SkuCityFooterView extends LinearLayout implements HbcViewBehavior, 
 
     private FgSkuList fragment;
 
-    private TextView pickupTV, singleTV, guidesCountTV;
+    private TextView pickupTV, singleTV;
     private ImageView emptyIV;
     private LinearLayout pickupLayout, guidesLayout, avatarsLayout;
 
@@ -45,7 +45,6 @@ public class SkuCityFooterView extends LinearLayout implements HbcViewBehavior, 
         pickupTV = (TextView) findViewById(R.id.sku_city_footer_pickup_tv);
         singleTV = (TextView) findViewById(R.id.sku_city_footer_single_tv);
         guidesLayout = (LinearLayout) findViewById(R.id.sku_city_footer_guides_layout);
-        guidesCountTV = (TextView) findViewById(R.id.sku_city_footer_guides_count_tv);
         avatarsLayout = (LinearLayout) findViewById(R.id.sku_city_footer_guides_avatar_layout);
 
         pickupTV.setOnClickListener(this);
@@ -105,8 +104,6 @@ public class SkuCityFooterView extends LinearLayout implements HbcViewBehavior, 
                 singleTV.setVisibility(View.GONE);
             }
         }
-
-        guidesCountTV.setText("" + skuCityBean.cityGuideAmount);
 
         //司导头像
         if (skuCityBean.guideAvatars != null && skuCityBean.guideAvatars.size() > 0) {

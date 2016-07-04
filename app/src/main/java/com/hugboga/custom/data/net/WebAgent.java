@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
@@ -28,6 +29,7 @@ import com.hugboga.custom.data.request.RequestWebInfo;
 import com.hugboga.custom.fragment.FgActivity;
 import com.hugboga.custom.fragment.FgLogin;
 import com.hugboga.custom.fragment.FgOrderSelectCity;
+import com.hugboga.custom.fragment.FgSkuDetail;
 import com.hugboga.custom.fragment.FgWebInfo;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.PhoneInfo;
@@ -312,6 +314,28 @@ public class WebAgent implements HttpRequestListener {
             Bundle bundle = new Bundle();
             bundle.putString(FgWebInfo.WEB_URL, url);
             mFragment.startFragment(new FgActivity(), bundle);
+        }
+    }
+
+    /**
+     * 设置title
+     * */
+    @JavascriptInterface
+    public void setWebTitle(String title) {
+        if (!TextUtils.isEmpty(title) && mFragment instanceof FgWebInfo) {
+            FgWebInfo fgWebInfo = ((FgWebInfo) mFragment);
+            fgWebInfo.setTitle(title);
+        }
+    }
+
+    /**
+     * 商品下架（不能分享）
+     * */
+    @JavascriptInterface
+    public void goodsHadOutOfStock() {
+        if (mFragment instanceof FgSkuDetail) {
+            FgSkuDetail fgSkuDetail = ((FgSkuDetail) mFragment);
+            fgSkuDetail.isGoodsOut = true;
         }
     }
 

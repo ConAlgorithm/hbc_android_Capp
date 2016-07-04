@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.adapter.ZBaseAdapter;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
@@ -64,7 +65,18 @@ public class FgChat extends BaseFragment implements View.OnClickListener, ZBaseA
     @ViewInject(R.id.chat_logout)
     RelativeLayout emptyLayout;
 
+    @ViewInject(R.id.chat_list_empty_tv)
+    TextView emptyTV;
+
     private ChatAdapter adapter;
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (UserEntity.getUser().isLogin(getActivity()) && recyclerView != null && !recyclerView.isLoading() && adapter != null && adapter.getItemCount() <= 0) {
+            loadData();
+        }
+    }
 
     @Override
     protected void initHeader() {
@@ -134,6 +146,7 @@ public class FgChat extends BaseFragment implements View.OnClickListener, ZBaseA
      */
     public void loadData() {
         if (recyclerView != null) {
+            emptyTV.setVisibility(View.GONE);
             recyclerView.showPageFirst();
             adapter.notifyDataSetChanged();
         }
@@ -163,7 +176,7 @@ public class FgChat extends BaseFragment implements View.OnClickListener, ZBaseA
     public void onDataRequestSucceed(BaseRequest request) {
     }
 
-    @Event({R.id.login_btn, R.id.header_left_btn})
+    @Event({R.id.login_btn, R.id.header_left_btn, R.id.chat_list_empty_tv})
     private void onClickView(View view) {
         switch (view.getId()) {
             case R.id.login_btn:
@@ -178,6 +191,9 @@ public class FgChat extends BaseFragment implements View.OnClickListener, ZBaseA
             case R.id.header_left_btn:
                 MLog.e("left  " + view);
                 ((MainActivity) getActivity()).openDrawer();
+                break;
+            case R.id.chat_list_empty_tv:
+                loadData();
                 break;
         }
     }
@@ -264,10 +280,11 @@ public class FgChat extends BaseFragment implements View.OnClickListener, ZBaseA
             ((MainActivity) getActivity()).setIMCount(totalCount);
             MLog.e("totalCount = " + totalCount);
         }
+        emptyTV.setVisibility(View.GONE);
     }
 
     @Override
     public void error(ExceptionInfo errorInfo, BaseRequest request) {
-
+        emptyTV.setVisibility(View.VISIBLE);
     }
 }
