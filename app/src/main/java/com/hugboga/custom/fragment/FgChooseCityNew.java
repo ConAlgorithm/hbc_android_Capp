@@ -397,31 +397,39 @@ public class FgChooseCityNew extends BaseFragment {
         if (searchGroupBean.flag == 1) {
             params.id = searchGroupBean.group_id;
             params.skuType = FgSkuList.SkuType.ROUTE;
+            params.titleName = searchGroupBean.group_name;
         } else if (searchGroupBean.flag == 2) {
             if (searchGroupBean.type == 1) {
                 params.id = searchGroupBean.sub_place_id;
                 params.skuType = FgSkuList.SkuType.ROUTE;
+                params.titleName = searchGroupBean.sub_place_name;
             } else if (searchGroupBean.type == 2) {
                 params.id = searchGroupBean.sub_place_id;
+                params.titleName = searchGroupBean.sub_place_name;
                 params.skuType = FgSkuList.SkuType.COUNTRY;
             } else {
                 params.id = searchGroupBean.sub_place_id;
                 params.skuType = FgSkuList.SkuType.COUNTRY;
+                params.titleName = searchGroupBean.sub_place_name;
             }
         } else if (searchGroupBean.flag == 3) {
             if (searchGroupBean.sub_city_name.equalsIgnoreCase("全境")) {
                 params.id = searchGroupBean.sub_city_id;
                 params.skuType = FgSkuList.SkuType.COUNTRY;
+                params.titleName = searchGroupBean.sub_place_name;
             } else {
                 params.id = searchGroupBean.sub_city_id;
                 params.skuType = FgSkuList.SkuType.CITY;
+                params.titleName = searchGroupBean.sub_place_name;
             }
         } else if (searchGroupBean.flag == 4) {
             params.id = searchGroupBean.spot_id;
             if (searchGroupBean.type == 1) {
                 params.skuType = FgSkuList.SkuType.CITY;
+                params.titleName = searchGroupBean.spot_name;
             } else if (searchGroupBean.type == 2) {
                 params.skuType = FgSkuList.SkuType.COUNTRY;
+                params.titleName = searchGroupBean.spot_name;
             }
         }
 //        startFragment(FgSkuList.newInstance(params));
