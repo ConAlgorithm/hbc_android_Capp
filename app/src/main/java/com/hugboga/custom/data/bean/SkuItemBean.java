@@ -19,6 +19,7 @@ public class SkuItemBean implements Serializable {
     public String bookLable;//预定日期标签(今日可订)
     public int goodsClass = -1;//商品类别（1，固定线路；2，推荐线路）-1为按天报价goodsClass不反回
     public ArrayList<CharacteristicLables> characteristicLables;
+    public int goodsVersion;//商品版本号
 
     public String cityId;//非接口字段
 

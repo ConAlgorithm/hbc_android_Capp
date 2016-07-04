@@ -77,8 +77,6 @@ public class HomeData implements Serializable {
         @SerializedName("goods")
         private SkuItemBean skuItemBean;
 
-        private int goodsVersion;//商品版本号
-
         public int getLineOrder() {
             return lineOrder;
         }
@@ -95,9 +93,6 @@ public class HomeData implements Serializable {
             return skuItemBean;
         }
 
-        public int getGoodsVersion() {
-            return goodsVersion;
-        }
     }
 
     public static class SalesPromotion implements Serializable {

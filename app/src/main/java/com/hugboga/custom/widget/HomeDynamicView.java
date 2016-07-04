@@ -53,7 +53,7 @@ public class HomeDynamicView extends LinearLayout{
         addView(dynamicTV, dynamicParams);
 
         //阴影浮层 应该移到HomeDynamicsTextView里，有空优化
-        gradientRect = new RectF(titleTV.getPaint().measureText(titleTV.getText().toString()) + paddingLeft * 2, 0, UIUtils.getScreenWidth() - paddingLeft, UIUtils.dip2px(55));
+        gradientRect = new RectF(titleTV.getPaint().measureText(titleTV.getText().toString()) + paddingLeft * 2, 0, UIUtils.getScreenWidth() - paddingLeft, UIUtils.dip2px(40));
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         int[] colors = {0xFF000000, 0x00000000, 0x00000000, 0x00000000, 0xFF000000};
         gradient = new LinearGradient(gradientRect.left, gradientRect.top, gradientRect.right, gradientRect.bottom, colors, null, Shader.TileMode.MIRROR);

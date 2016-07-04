@@ -49,7 +49,7 @@ public class HomeBottomLayout extends LinearLayout implements View.OnClickListen
 
         final int paddingLeft = getContext().getResources().getDimensionPixelOffset(R.dimen.home_view_padding_left);
         setOrientation(LinearLayout.VERTICAL);
-        setPadding(paddingLeft, 0, paddingLeft, 0);
+        setPadding(paddingLeft, 0, paddingLeft, UIUtils.dip2px(10));
 
         inflate(getContext(), R.layout.view_home_bottom, this);
         charteredLayout = (LinearLayout) findViewById(R.id.home_bottom_chartered_layout);
@@ -127,7 +127,7 @@ public class HomeBottomLayout extends LinearLayout implements View.OnClickListen
 
     public void setSalesPromotion(HomeData.SalesPromotion data) {
         if (data == null || TextUtils.isEmpty(data.getPicture())) {
-            activeTV.setVisibility(View.INVISIBLE);
+            activeTV.setVisibility(View.GONE);
             activeIV.setVisibility(View.GONE);
         } else {
             this.activeData = data;
