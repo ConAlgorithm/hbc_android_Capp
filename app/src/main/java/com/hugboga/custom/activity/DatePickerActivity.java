@@ -4,6 +4,7 @@ package com.hugboga.custom.activity;
 import android.app.AlertDialog;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -75,7 +76,7 @@ public class DatePickerActivity extends BaseActivity {
             public void onDateSelected(Date date) {
                 ChooseDateBean chooseDateBean = new ChooseDateBean();
                 if (calender_type == 1) {
-                    finish();
+                    finishDelay();
                     chooseDateBean.halfDate = DateUtils.dateDateFormat.format(date);
                     chooseDateBean.showHalfDateStr = DateUtils.dateSimpleDateFormatMMdd.format(date);
                     chooseDateBean.type = calender_type;
@@ -87,7 +88,7 @@ public class DatePickerActivity extends BaseActivity {
                             selectedDate = calendar.getSelectedDate();
                             clickTimes = 1;
                         } else {
-                            finish();
+                            finishDelay();
                             List<Date> dates = calendar.getSelectedDates();
                             chooseDateBean.type = calender_type;
                             chooseDateBean.showStartDateStr = DateUtils.dateSimpleDateFormatMMdd.format(dates.get(0));
@@ -115,6 +116,15 @@ public class DatePickerActivity extends BaseActivity {
         });
 
     }
+
+    private void finishDelay(){
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                finish();
+            }
+        },500);
+    };
 
     private void initWeek(){
         String[] weekStr = new String[]{"日","一","二","三","四","五","六"};
