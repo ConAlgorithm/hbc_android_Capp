@@ -8,80 +8,75 @@
 
     <include layout="@layout/include_header" />
 
+
     <LinearLayout
+        android:id="@+id/week_layout"
         android:layout_width="match_parent"
-        android:orientation="vertical"
+        android:layout_height="30dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_height="match_parent">
-
-        <LinearLayout
-            android:id="@+id/week_layout"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_width="match_parent"
-            android:layout_height="30dp">
-
-            <TextView
-                style="@style/CalendarCell.DayHeader"
-                android:layout_width="wrap_content"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:textColor="@color/basic_red" />
-
-            <TextView
-                style="@style/CalendarCell.DayHeader"
-                android:layout_width="wrap_content"
-                android:layout_weight="1"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                style="@style/CalendarCell.DayHeader"
-                android:layout_weight="1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                style="@style/CalendarCell.DayHeader"
-                android:layout_width="wrap_content"
-                android:layout_weight="1"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                style="@style/CalendarCell.DayHeader"
-                android:layout_width="wrap_content"
-                android:layout_weight="1"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                style="@style/CalendarCell.DayHeader"
-                android:layout_width="wrap_content"
-                android:layout_weight="1"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                style="@style/CalendarCell.DayHeader"
-                android:layout_width="wrap_content"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:textColor="@color/basic_red" />
-        </LinearLayout>
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#edeeef" />
-
-        <com.squareup.timessquare.CalendarPickerView
-            android:id="@+id/calendar_view"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
+            style="@style/CalendarCell.DayHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="#FFFFFF"
-            android:clipToPadding="false"
-            android:paddingBottom="16dp"
-            android:scrollbarStyle="outsideOverlay"
-            app:tsquare_dayBackground="@drawable/custom_calendar_bg_selector"
-            app:tsquare_dividerColor="@color/transparent" />
+            android:textColor="@color/basic_red" />
+
+        <TextView
+            style="@style/CalendarCell.DayHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <TextView
+            style="@style/CalendarCell.DayHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <TextView
+            style="@style/CalendarCell.DayHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <TextView
+            style="@style/CalendarCell.DayHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <TextView
+            style="@style/CalendarCell.DayHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <TextView
+            style="@style/CalendarCell.DayHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/basic_red" />
     </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#edeeef" />
+
+    <com.squareup.timessquare.CalendarPickerView
+        android:id="@+id/calendar_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#FFFFFF"
+        android:clipToPadding="false"
+        android:paddingBottom="16dp"
+        android:scrollbarStyle="outsideOverlay"
+        app:tsquare_dayBackground="@drawable/custom_calendar_bg_selector"
+        app:tsquare_dividerColor="@color/transparent" />
 </LinearLayout>

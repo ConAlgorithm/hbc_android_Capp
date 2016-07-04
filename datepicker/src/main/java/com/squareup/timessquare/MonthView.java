@@ -119,8 +119,13 @@ public class MonthView extends LinearLayout {
         for (int c = 0; c < week.size(); c++) {
           MonthCellDescriptor cell = week.get(isRtl ? 6 - c : c);
           CalendarCellView cellView = (CalendarCellView) weekRow.getChildAt(c);
-          if((c ==0 || c == week.size() -1 )&& cell.isCurrentMonth()){
+          cellView.getDayOfMonthTextView().setTextColor(Color.parseColor("#000000"));
+          if((c ==0 || c == week.size() -1 ) && cell.isCurrentMonth()){
             cellView.getDayOfMonthTextView().setTextColor(Color.parseColor("#ff0000"));
+          }
+
+          if(!cell.isCurrentMonth()){
+            cellView.getDayOfMonthTextView().setTextColor(Color.parseColor("#c9cacb"));
           }
 
           String cellDate = numberFormatter.format(cell.getValue());
