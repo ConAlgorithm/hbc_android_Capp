@@ -38,6 +38,8 @@ import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
 
 import static android.widget.Toast.LENGTH_SHORT;
+import static com.hugboga.custom.R.array.date;
+
 public class DatePickerActivity extends BaseActivity {
     @Bind(R.id.header_left_btn)
     ImageView headerLeftBtn;
@@ -52,6 +54,8 @@ public class DatePickerActivity extends BaseActivity {
     CalendarPickerView.SelectionMode model = CalendarPickerView.SelectionMode.SINGLE;
 
     int clickTimes = 0;
+
+    Date selectedDate;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,23 +90,28 @@ public class DatePickerActivity extends BaseActivity {
                     chooseDateBean.isToday = DateUtils.isToday(date);
                     EventBus.getDefault().post(new EventAction(EventType.CHOOSE_DATE, chooseDateBean));
                 }else{
-
                     if(clickTimes == 1) {
-                        finish();
-                        List<Date> dates = calendar.getSelectedDates();
-                        chooseDateBean.type = calender_type;
-                        chooseDateBean.showStartDateStr = DateUtils.dateSimpleDateFormatMMdd.format(dates.get(0));
-                        chooseDateBean.showEndDateStr = DateUtils.dateSimpleDateFormatMMdd.format(dates.get(dates.size() - 1));
-                        chooseDateBean.start_date = DateUtils.dateDateFormat.format(dates.get(0));
-                        chooseDateBean.end_date = DateUtils.dateDateFormat.format(dates.get(dates.size() - 1));
-                        chooseDateBean.dayNums = (int) DateUtils.getDays(dates.get(0), dates.get(dates.size() - 1));
-                        chooseDateBean.isToday = DateUtils.isToday(dates.get(0));
-                        EventBus.getDefault().post(new EventAction(EventType.CHOOSE_DATE, chooseDateBean));
+                        if(selectedDate.after(calendar.getSelectedDate())){
+                            selectedDate = calendar.getSelectedDate();
+                            clickTimes = 0;
+                        }else{
+                            finish();
+                            List<Date> dates = calendar.getSelectedDates();
+                            chooseDateBean.type = calender_type;
+                            chooseDateBean.showStartDateStr = DateUtils.dateSimpleDateFormatMMdd.format(dates.get(0));
+                            chooseDateBean.showEndDateStr = DateUtils.dateSimpleDateFormatMMdd.format(dates.get(dates.size() - 1));
+                            chooseDateBean.start_date = DateUtils.dateDateFormat.format(dates.get(0));
+                            chooseDateBean.end_date = DateUtils.dateDateFormat.format(dates.get(dates.size() - 1));
+                            chooseDateBean.dayNums = (int) DateUtils.getDays(dates.get(0), dates.get(dates.size() - 1));
+                            chooseDateBean.isToday = DateUtils.isToday(dates.get(0));
+                            EventBus.getDefault().post(new EventAction(EventType.CHOOSE_DATE, chooseDateBean));
+                        }
                     }else{
                         calendar.init(lastYear.getTime(), nextYear.getTime()) //
                                 .inMode(model) //
                                 .withSelectedDate(date);
-                        clickTimes +=1;
+                        clickTimes += 1;
+                        selectedDate = calendar.getSelectedDate();
                     }
                 }
             }
