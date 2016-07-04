@@ -93,7 +93,7 @@ public class DatePickerActivity extends BaseActivity {
                     if(clickTimes == 1) {
                         if(calendar.getSelectedDate().before(selectedDate)){
                             selectedDate = calendar.getSelectedDate();
-                            clickTimes = 0;
+                            clickTimes = 1;
                         }else{
                             finish();
                             List<Date> dates = calendar.getSelectedDates();
