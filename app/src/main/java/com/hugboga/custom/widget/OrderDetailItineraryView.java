@@ -106,6 +106,7 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
             addItemView(R.mipmap.order_time, localTime, null, flight);
         }
 
+        //包车线路列表
         if (orderBean.orderType == 3 && orderBean.isHalfDaily == 0 && orderBean.passByCity != null && orderBean.passByCity.size() > 0) {
             OrderDetailRouteView routeView = new OrderDetailRouteView(getContext());
             itineraryLayout.addView(routeView);
@@ -132,6 +133,10 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
             addItemView(R.mipmap.order_jp, getContext().getString(R.string.order_detail_airport_card));
         } else if (orderBean.orderGoodsType == 2 && "1".equals(orderBean.isCheckin)) {//送机checkin
             addItemView(R.mipmap.order_jp, getContext().getString(R.string.order_detail_checkin));
+        }
+
+        if (orderBean.hotelStatus == 1) {//酒店预订
+            addItemView(R.mipmap.order_jp, getContext().getString(R.string.order_detail_hotle_subscribe, orderBean.hotelDays, orderBean.hotelRoom));
         }
     }
 
