@@ -2,6 +2,7 @@
 package com.squareup.timessquare;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -55,6 +56,7 @@ public class MonthView extends LinearLayout {
     view.locale = locale;
     int firstDayOfWeek = today.getFirstDayOfWeek();
     final CalendarRowView headerRow = (CalendarRowView) view.grid.getChildAt(0);
+    headerRow.setVisibility(GONE);
     for (int offset = 0; offset < 7; offset++) {
       today.set(Calendar.DAY_OF_WEEK, getDayOfWeek(firstDayOfWeek, offset, view.isRtl));
       final TextView textView = (TextView) headerRow.getChildAt(offset);
@@ -117,6 +119,9 @@ public class MonthView extends LinearLayout {
         for (int c = 0; c < week.size(); c++) {
           MonthCellDescriptor cell = week.get(isRtl ? 6 - c : c);
           CalendarCellView cellView = (CalendarCellView) weekRow.getChildAt(c);
+          if((c ==0 || c == week.size() -1 )&& cell.isCurrentMonth()){
+            cellView.getDayOfMonthTextView().setTextColor(Color.parseColor("#ff0000"));
+          }
 
           String cellDate = numberFormatter.format(cell.getValue());
           if (!cellView.getDayOfMonthTextView().getText().equals(cellDate)) {
