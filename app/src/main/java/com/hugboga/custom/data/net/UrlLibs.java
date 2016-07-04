@@ -512,4 +512,10 @@ public class UrlLibs {
      * 获取当前环境下的客服信息
      */
     public static final String API_IM_SERVER_INFO = "communication/v2.0/c/im/info/kf";
+
+    /**
+     * 退改规则
+     * v1.0/c/order/cancelTips
+     */
+    public static final String CANCLE_TIPS = "trade/v1.0/c/order/cancelTips";
 }
