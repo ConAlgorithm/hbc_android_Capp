@@ -91,7 +91,7 @@ public class DatePickerActivity extends BaseActivity {
                     EventBus.getDefault().post(new EventAction(EventType.CHOOSE_DATE, chooseDateBean));
                 }else{
                     if(clickTimes == 1) {
-                        if(selectedDate.after(calendar.getSelectedDate())){
+                        if(calendar.getSelectedDate().before(selectedDate)){
                             selectedDate = calendar.getSelectedDate();
                             clickTimes = 0;
                         }else{
