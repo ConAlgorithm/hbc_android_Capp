@@ -106,11 +106,6 @@ public class CalendarGridView extends ViewGroup {
         return retVal;
     }
 
-    public int dip2px(float dpValue) {
-        return (int) (TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dpValue,
-                this.getContext().getResources().getDisplayMetrics()) + 0.5f);
-    }
-
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
