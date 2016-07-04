@@ -73,7 +73,7 @@ public class FgChat extends BaseFragment implements View.OnClickListener, ZBaseA
     @Override
     public void onResume() {
         super.onResume();
-        if (recyclerView != null && !recyclerView.isLoading() && adapter != null && adapter.getItemCount() <= 0) {
+        if (UserEntity.getUser().isLogin(getActivity()) && recyclerView != null && !recyclerView.isLoading() && adapter != null && adapter.getItemCount() <= 0) {
             loadData();
         }
     }
