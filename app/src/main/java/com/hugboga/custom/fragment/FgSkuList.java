@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -79,6 +80,7 @@ public class FgSkuList extends BaseFragment implements HbcRecyclerBaseAdapter.On
     public static class Params implements Serializable {
         public int id;
         public SkuType skuType;
+        public String titleName;
     }
 
     public static FgSkuList newInstance(Params params) {
@@ -109,6 +111,8 @@ public class FgSkuList extends BaseFragment implements HbcRecyclerBaseAdapter.On
         if (paramsData == null) {
             return;
         }
+        fgTitle.setText(paramsData.titleName);
+
         emptyView.setFragment(this);
 
         ZDefaultDivider divider = recyclerView.getItemDecoration();
@@ -291,7 +295,7 @@ public class FgSkuList extends BaseFragment implements HbcRecyclerBaseAdapter.On
     }
 
     private void requestFailure(BaseRequest _request) {
-        if (adapter.getItemCount() <= 0) {
+        if (adapter.getListCount() <= 0) {
             emptyView.requestFailure();
         }
         swipeRefreshLayout.setRefreshing(false);

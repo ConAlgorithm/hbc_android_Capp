@@ -424,6 +424,7 @@ public class FgChooseCityNew extends BaseFragment {
                 params.skuType = FgSkuList.SkuType.COUNTRY;
             }
         }
+//        params.titleName
 //        startFragment(FgSkuList.newInstance(params));
 
         Bundle bundle = new Bundle();
