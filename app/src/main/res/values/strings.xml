@@ -616,6 +616,7 @@
     <string name="order_detail_local_chartered">%1$s-%2$s天包车</string>
     <string name="order_detail_half_day">0.5</string>
     <string name="order_detail_cancel_oeder">取消订单成功</string>
+    <string name="order_detail_hotle_subscribe">酒店预订&#160;-&#160;%1$s晚，%2$s间</string>
 
     <string name="alert_del_after_edit">请在删除指定司导后，再修改出行信息</string>
 
