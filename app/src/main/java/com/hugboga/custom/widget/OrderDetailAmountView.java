@@ -18,6 +18,13 @@ import com.hugboga.custom.utils.UIUtils;
 
 /**
  * Created by qingcha on 16/6/2.
+ *
+ * 单次接送：包车费用、儿童座椅
+ * 接机：包车费用、举牌费用、儿童座椅
+ * 送机：包车费用、checkin费用、儿童座椅
+ * 包车游、线路包车游：包车费用
+ * 1）除了包车费用，剩下的费用只有勾选了这项增加服务才会显示
+ * 2）包车游、线路包车游不单独展示儿童座椅费用（但是可以选儿童座椅数量）
  */
 public class OrderDetailAmountView extends LinearLayout implements HbcViewBehavior  {
 
