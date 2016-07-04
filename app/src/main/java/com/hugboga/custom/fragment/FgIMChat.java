@@ -62,6 +62,8 @@ import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.Message;
 import io.rong.imlib.model.UserInfo;
 
+import static android.view.View.GONE;
+
 
 @ContentView(R.layout.activity_imchat)
 public class FgIMChat extends BaseFragment {
@@ -90,8 +92,7 @@ public class FgIMChat extends BaseFragment {
 
     @Override
     protected void initHeader() {
-        fgRightBtn.setVisibility(View.GONE);
-        header_right_btn.setVisibility(View.VISIBLE);
+        fgRightBtn.setVisibility(GONE);
         header_right_btn.setImageResource(R.mipmap.top_more);
         header_right_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,6 +100,9 @@ public class FgIMChat extends BaseFragment {
                 showPopupWindow();
             }
         });
+        if (!TextUtils.isEmpty(targetType) && "3".equals(targetType)) {
+            header_right_btn.setVisibility(GONE);
+        }
     }
 
     @Override
@@ -133,7 +137,7 @@ public class FgIMChat extends BaseFragment {
             fgTitle.setText(imInfo.title); //设置标题
             targetType = imInfo.targetType;
             inBlack = imInfo.inBlack;
-//            resetRightBtn();
+            resetRightBtn();
             initRunningOrder(); //构建和该用户之间的订单
         } catch (JSONException e) {
             e.printStackTrace();
@@ -144,9 +148,9 @@ public class FgIMChat extends BaseFragment {
 
     private void resetRightBtn() {
         if (!TextUtils.isEmpty(targetType) && "3".equals(targetType)) {//3.客服 1.用户
-            fgRightBtn.setVisibility(View.GONE); //显示历史订单按钮
+            header_right_btn.setVisibility(GONE); //显示历史订单按钮
         } else {
-            fgRightBtn.setVisibility(View.VISIBLE); //显示历史订单按钮
+            header_right_btn.setVisibility(View.VISIBLE); //显示历史订单按钮
         }
     }
 
@@ -215,7 +219,7 @@ public class FgIMChat extends BaseFragment {
     private void resetChatting() {
         if (!isChat) {
             View view1 = view.getChildAt(0);
-            view1.setVisibility(View.GONE);
+            view1.setVisibility(GONE);
             fgTitle.setText(getString(R.string.chat_log));
         }
     }
@@ -243,7 +247,7 @@ public class FgIMChat extends BaseFragment {
             viewPage.addOnPageChangeListener(onPageChangeListener);
         } else {
             //无订单数据
-            viewPageLayout.setVisibility(View.GONE);
+            viewPageLayout.setVisibility(GONE);
         }
     }
 
@@ -429,7 +433,7 @@ public class FgIMChat extends BaseFragment {
 
 
         if (!TextUtils.isEmpty(targetType) && "3".equals(targetType)) {//3.客服 1.用户
-            cancelOrderTV.setVisibility(View.GONE); //显示历史订单按钮
+            cancelOrderTV.setVisibility(GONE); //显示历史订单按钮
         } else {
             cancelOrderTV.setVisibility(View.VISIBLE); //显示历史订单按钮
         }
@@ -552,7 +556,7 @@ public class FgIMChat extends BaseFragment {
                         if (messageList != null)
                             imNumber = messageList.size();
                         if (imNumber > 0) {
-                            rl.setVisibility(View.GONE);
+                            rl.setVisibility(GONE);
                         } else {
                             rl.setVisibility(View.VISIBLE);
                         }
@@ -584,7 +588,7 @@ public class FgIMChat extends BaseFragment {
                     @Override
                     public boolean onSent(Message message, RongIM.SentMessageErrorCode sentMessageErrorCode) {
                         if (rl.getVisibility() == View.VISIBLE) {
-                            rl.setVisibility(View.GONE);
+                            rl.setVisibility(GONE);
                         }
                         return false;
                     }

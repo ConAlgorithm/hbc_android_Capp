@@ -63,6 +63,10 @@ public class FgChooseCityNew extends BaseFragment {
     ListView rightList;
     @Bind(R.id.search_list)
     ExpandableListView expandableListView;
+    @Bind(R.id.empty_layout_text)
+    TextView emptyLayoutText;
+    @Bind(R.id.empty_layout)
+    LinearLayout emptyLayout;
 
 
     @Override
@@ -113,8 +117,10 @@ public class FgChooseCityNew extends BaseFragment {
         if (null != list && list.size() != 0) {
             searchNewAdapter.setKey(headSearch.getText().toString().trim());
             searchNewAdapter.setGroupArray(list);
+            emptyLayout.setVisibility(View.GONE);
         } else {
             searchNewAdapter.clearList();
+            emptyLayout.setVisibility(View.VISIBLE);
         }
         for (int i = 0; i < list.size(); i++) {
             expandableListView.expandGroup(i);
@@ -186,8 +192,9 @@ public class FgChooseCityNew extends BaseFragment {
                     LogUtils.e(list.size() + "====" + headSearch.getText().toString());
                     showSearchPop(list);
                 } else {
-                        expandableListView.setVisibility(View.GONE);
-                        headTextRight.setVisibility(View.GONE);
+                    expandableListView.setVisibility(View.GONE);
+                    headTextRight.setVisibility(View.GONE);
+                    emptyLayout.setVisibility(View.GONE);
                 }
             }
         });
