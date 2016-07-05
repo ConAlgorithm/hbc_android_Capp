@@ -20,6 +20,8 @@ public class CustomDayViewAdapter implements DayViewAdapter {
         parent.setBottomTextView((TextView) layout.findViewById(R.id.bottom_text));
         parent.setDay_layout((RelativeLayout)layout.findViewById(R.id.day_layout));
         parent.setDay_view_round((TextView)layout.findViewById(R.id.day_view_round));
+        parent.setDay_view_round_left((TextView)layout.findViewById(R.id.day_view_round_left));
+        parent.setDay_view_round_right((TextView)layout.findViewById(R.id.day_view_round_right));
         dayView = layout.findViewById(R.id.day_view);
     }
 

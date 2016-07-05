@@ -13,6 +13,28 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/day_view_round_left"
+            style="@style/CalendarCell.CalendarDate"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_width="18dp"
+            android:visibility="invisible"
+            android:background="#fcf0ac"
+            android:layout_height="24dp" />
+
+
+        <TextView
+            android:id="@+id/day_view_round_right"
+            style="@style/CalendarCell.CalendarDate"
+            android:layout_width="18dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:visibility="invisible"
+            android:background="#fcf0ac"
+            android:layout_height="24dp" />
+
+
+        <TextView
             android:id="@+id/day_view_round"
             style="@style/CalendarCell.CalendarDate"
             android:layout_centerInParent="true"

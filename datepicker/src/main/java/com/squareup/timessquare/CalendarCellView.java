@@ -52,6 +52,26 @@ public class CalendarCellView extends FrameLayout {
 
     private TextView dayOfMonthTextView;
 
+    public TextView getDay_view_round_left() {
+        return day_view_round_left;
+    }
+
+    public void setDay_view_round_left(TextView day_view_round_left) {
+        this.day_view_round_left = day_view_round_left;
+    }
+
+    public TextView getDay_view_round_right() {
+        return day_view_round_right;
+    }
+
+    public void setDay_view_round_right(TextView day_view_round_right) {
+        this.day_view_round_right = day_view_round_right;
+    }
+
+    private TextView day_view_round_left;
+    private TextView day_view_round_right;
+
+
     public RelativeLayout getDay_layout() {
         return day_layout;
     }
@@ -144,16 +164,27 @@ public class CalendarCellView extends FrameLayout {
     }
 
     if (rangeState == MonthCellDescriptor.RangeState.FIRST) {
-        mergeDrawableStates(drawableState, STATE_RANGE_FIRST);
+//        mergeDrawableStates(drawableState, STATE_RANGE_FIRST);
         day_view_round.setBackgroundResource(R.drawable.day_view_selector);
+        day_view_round_right.setVisibility(VISIBLE);
+        day_view_round_left.setVisibility(INVISIBLE);
         bottomTextView.setText("开始");
     } else if (rangeState == MonthCellDescriptor.RangeState.MIDDLE) {
         dayOfMonthTextView.setBackgroundColor(Color.parseColor("#fcf0ac"));
+        day_view_round_left.setVisibility(INVISIBLE);
+        day_view_round_right.setVisibility(INVISIBLE);
         mergeDrawableStates(drawableState, STATE_RANGE_MIDDLE);
     } else if (rangeState == RangeState.LAST) {
         mergeDrawableStates(drawableState, STATE_RANGE_LAST);
         day_view_round.setBackgroundResource(R.drawable.day_view_selector);
+        day_view_round_left.setVisibility(VISIBLE);
+        day_view_round_right.setVisibility(INVISIBLE);
         bottomTextView.setText("结束");
+    }else if(rangeState == RangeState.FIRST_SELECT){
+        day_view_round.setBackgroundResource(R.drawable.day_view_selector);
+        day_view_round_left.setVisibility(INVISIBLE);
+        day_view_round_right.setVisibility(INVISIBLE);
+        bottomTextView.setText("开始");
     }else if(rangeState == RangeState.SELECT){
         day_view_round.setBackgroundResource(R.drawable.day_view_selector);
     }
