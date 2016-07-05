@@ -17,7 +17,7 @@ import com.hugboga.custom.utils.Tools;
 
 import net.grobas.view.PolygonImageView;
 
-import de.greenrobot.event.EventBus;
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * Created by qingcha on 16/6/3.

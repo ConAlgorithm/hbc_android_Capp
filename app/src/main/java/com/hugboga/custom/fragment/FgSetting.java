@@ -24,7 +24,7 @@ import org.xutils.x;
 
 import java.io.File;
 
-import de.greenrobot.event.EventBus;
+import org.greenrobot.eventbus.EventBus;
 
 @ContentView(R.layout.fg_setting)
 public class FgSetting extends BaseFragment {

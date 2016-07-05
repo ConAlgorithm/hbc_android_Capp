@@ -46,6 +46,7 @@ import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
+import org.greenrobot.eventbus.Subscribe;
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
@@ -54,7 +55,7 @@ import org.xutils.view.annotation.ViewInject;
 import java.util.HashMap;
 import java.util.regex.Pattern;
 
-import de.greenrobot.event.EventBus;
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * 登录页面
@@ -109,6 +110,7 @@ public class FgLogin extends BaseFragment implements TextWatcher {
         EventBus.getDefault().unregister(this);
     }
 
+    @Subscribe
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
             case WECHAT_LOGIN_CODE:

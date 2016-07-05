@@ -37,6 +37,7 @@ import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
+import org.greenrobot.eventbus.Subscribe;
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 
@@ -46,7 +47,7 @@ import java.util.HashMap;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import de.greenrobot.event.EventBus;
+import org.greenrobot.eventbus.EventBus;
 
 import static com.hugboga.custom.R.id.all_journey_text;
 import static com.hugboga.custom.R.id.all_money_left;
@@ -249,7 +250,7 @@ public class FgSkuNew extends BaseFragment {
     ManLuggageBean manLuggageBean;
     int hotelNum = 1;//几晚
     int hourseNum = 1;//几间房
-
+    @Subscribe
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
             case SKU_HOTEL_NUM_CHANGE:

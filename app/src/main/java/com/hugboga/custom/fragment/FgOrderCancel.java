@@ -17,6 +17,7 @@ import com.hugboga.custom.data.request.RequestOrderCancel;
 import com.hugboga.custom.widget.DialogUtil;
 import com.umeng.analytics.MobclickAgent;
 
+import org.greenrobot.eventbus.EventBus;
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
@@ -25,7 +26,6 @@ import org.xutils.view.annotation.ViewInject;
 import java.util.HashMap;
 import java.util.Map;
 
-import de.greenrobot.event.EventBus;
 
 /**
  * 订单退单

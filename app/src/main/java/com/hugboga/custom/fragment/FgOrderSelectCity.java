@@ -50,6 +50,7 @@ import com.hugboga.custom.utils.ToastUtils;
 import com.umeng.analytics.MobclickAgent;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
+import org.greenrobot.eventbus.Subscribe;
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
@@ -61,7 +62,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import butterknife.ButterKnife;
-import de.greenrobot.event.EventBus;
+import org.greenrobot.eventbus.EventBus;
 
 import static android.R.attr.type;
 import static android.view.View.GONE;
@@ -1237,6 +1238,7 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
 
     }
 
+    @Subscribe
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
             case CHOOSE_GUIDE:

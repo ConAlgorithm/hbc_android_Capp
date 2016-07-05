@@ -4,13 +4,11 @@ import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
-import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.widget.HackyViewPager;
 import com.viewpagerindicator.CirclePageIndicator;
 
@@ -23,6 +21,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import uk.co.senab.photoview.PhotoView;
+
 
 /**
  * Created by qingcha on 16/6/18.

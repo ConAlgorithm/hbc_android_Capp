@@ -31,6 +31,7 @@ import com.hugboga.custom.wxapi.WXPay;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
+import org.greenrobot.eventbus.Subscribe;
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
@@ -38,7 +39,7 @@ import org.xutils.view.annotation.ViewInject;
 
 import java.io.Serializable;
 
-import de.greenrobot.event.EventBus;
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * Created by qingcha on 16/5/31.
@@ -166,6 +167,7 @@ public class FgChoosePayment extends BaseFragment {
         wxResultCode = 0;
     }
 
+    @Subscribe
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
             case BACK_HOME:

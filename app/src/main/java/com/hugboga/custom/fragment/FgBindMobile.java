@@ -32,7 +32,7 @@ import org.xutils.view.annotation.ViewInject;
 
 import java.util.HashMap;
 
-import de.greenrobot.event.EventBus;
+import org.greenrobot.eventbus.EventBus;
 
 @ContentView(R.layout.fg_bind_mobile)
 public class FgBindMobile extends BaseFragment {

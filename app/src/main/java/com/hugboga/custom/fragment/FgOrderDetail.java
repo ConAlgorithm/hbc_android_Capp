@@ -38,13 +38,14 @@ import com.hugboga.custom.widget.OrderDetailInfoView;
 import com.hugboga.custom.widget.OrderDetailItineraryView;
 import com.hugboga.custom.widget.OrderDetailTitleBar;
 
+import org.greenrobot.eventbus.Subscribe;
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 
 import java.io.Serializable;
 
-import de.greenrobot.event.EventBus;
+import org.greenrobot.eventbus.EventBus;
 import io.rong.imkit.RongIM;
 
 /**
@@ -233,6 +234,7 @@ public class FgOrderDetail extends BaseFragment implements View.OnClickListener{
         }
     }
 
+    @Subscribe
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
 //            case ORDER_DETAIL_PAY://立即支付

@@ -29,6 +29,8 @@ import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.ToastUtils;
 import com.umeng.analytics.MobclickAgent;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
@@ -37,7 +39,7 @@ import org.xutils.view.annotation.ViewInject;
 import java.util.HashMap;
 import java.util.List;
 
-import de.greenrobot.event.EventBus;
+
 import io.rong.imkit.RongIM;
 import io.rong.imlib.model.Conversation;
 import jp.wasabeef.recyclerview.animators.adapters.SlideInBottomAnimationAdapter;
@@ -223,6 +225,7 @@ public class FgChat extends BaseFragment implements View.OnClickListener, ZBaseA
         super.onDestroy();
     }
 
+    @Subscribe
     public void onEventMainThread(EventAction action) {
         MLog.e(this + " onEventMainThread " + action.getType());
         switch (action.getType()) {

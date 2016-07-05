@@ -34,7 +34,7 @@ import org.xutils.x;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import de.greenrobot.event.EventBus;
+import org.greenrobot.eventbus.EventBus;
 
 import static android.R.attr.fragment;
 import static android.R.attr.targetActivity;

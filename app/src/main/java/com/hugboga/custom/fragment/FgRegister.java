@@ -39,7 +39,7 @@ import org.xutils.view.annotation.ViewInject;
 import java.util.HashMap;
 import java.util.regex.Pattern;
 
-import de.greenrobot.event.EventBus;
+import org.greenrobot.eventbus.EventBus;;
 
 @ContentView(R.layout.fg_register)
 public class FgRegister extends BaseFragment implements TextWatcher {

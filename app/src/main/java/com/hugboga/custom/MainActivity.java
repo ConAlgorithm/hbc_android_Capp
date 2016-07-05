@@ -86,6 +86,8 @@ import com.zhy.m.permission.PermissionGrant;
 
 import net.grobas.view.PolygonImageView;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 import org.xutils.common.util.FileUtil;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
@@ -101,7 +103,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import cn.jpush.android.api.JPushInterface;
-import de.greenrobot.event.EventBus;
 
 import static com.hugboga.custom.fragment.BaseFragment.KEY_BUSINESS_TYPE;
 
@@ -365,6 +366,7 @@ public class MainActivity extends BaseActivity
         startFragment(FgOrderDetail.newInstance(params));
     }
 
+    @Subscribe
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
             case CLICK_USER_LOGIN:

@@ -178,4 +178,5 @@ dependencies {
     compile 'com.github.orhanobut:logger:1.12'
     compile project(':viewpagerindicator')
     compile project(path: ':datepicker')
+    compile 'org.greenrobot:eventbus:3.0.0'
 }

@@ -47,7 +47,6 @@ public class HomeRouteItemView extends RelativeLayout implements HbcViewBehavior
     public HomeRouteItemView(Context context, AttributeSet attrs) {
         super(context, attrs);
         setBackgroundColor(0xFFFFFFFF);
-        setGravity(Gravity.CENTER);
         inflate(getContext(), R.layout.view_home_route_item, this);
         displayIV = (LinearGradientImageView) findViewById(R.id.home_route_item_display_iv);
 

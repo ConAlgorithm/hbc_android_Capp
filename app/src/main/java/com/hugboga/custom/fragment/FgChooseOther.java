@@ -25,13 +25,14 @@ import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.utils.ToastUtils;
 
+import org.greenrobot.eventbus.Subscribe;
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import de.greenrobot.event.EventBus;
+import org.greenrobot.eventbus.EventBus;
 
 import static com.hugboga.custom.R.id.add_other_phone_click;
 import static com.hugboga.custom.R.id.passenger_phone_text;
@@ -315,6 +316,7 @@ public class FgChooseOther extends BaseFragment {
     }
 
     private  int clickViewId = -1;//点击的通讯录view id
+    @Subscribe
     public void onEventMainThread(EventAction action) {
         if(action.getType() == EventType.CONTACT){
             String[] contact = (String[])action.getData();
