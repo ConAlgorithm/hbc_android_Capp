@@ -3,9 +3,11 @@
 package com.squareup.timessquare;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+
 import com.squareup.timessquare.MonthCellDescriptor.RangeState;
 
 public class CalendarCellView extends FrameLayout {
@@ -112,6 +114,7 @@ public class CalendarCellView extends FrameLayout {
     if (rangeState == MonthCellDescriptor.RangeState.FIRST) {
       mergeDrawableStates(drawableState, STATE_RANGE_FIRST);
     } else if (rangeState == MonthCellDescriptor.RangeState.MIDDLE) {
+      dayOfMonthTextView.setBackgroundColor(Color.parseColor("#fcf0ac"));
       mergeDrawableStates(drawableState, STATE_RANGE_MIDDLE);
     } else if (rangeState == RangeState.LAST) {
       mergeDrawableStates(drawableState, STATE_RANGE_LAST);

@@ -40,6 +40,7 @@ import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.net.UrlLibs;
+import com.hugboga.custom.data.request.RequestCancleTips;
 import com.hugboga.custom.data.request.RequestDeduction;
 import com.hugboga.custom.data.request.RequestMostFit;
 import com.hugboga.custom.data.request.RequestSubmitBase;
@@ -49,6 +50,7 @@ import com.hugboga.custom.data.request.RequestSubmitPick;
 import com.hugboga.custom.data.request.RequestSubmitRent;
 import com.hugboga.custom.data.request.RequestSubmitSend;
 import com.hugboga.custom.utils.DateUtils;
+import com.hugboga.custom.utils.LogUtils;
 import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.utils.ToastUtils;
 import com.umeng.analytics.MobclickAgent;
@@ -70,6 +72,7 @@ import de.greenrobot.event.EventBus;
 
 import static android.view.View.GONE;
 import static com.hugboga.custom.R.id.airport_name;
+import static com.hugboga.custom.R.id.cancle;
 import static com.hugboga.custom.R.id.man_name;
 import static com.hugboga.custom.R.id.pick_name;
 import static com.hugboga.custom.R.id.up_address_right;
@@ -283,6 +286,12 @@ public class FGOrderNew extends BaseFragment {
     private PoiBean poiBean;//达到目的地
 
     CollectGuideBean collectGuideBean;
+
+    String goodsVersion = "";
+    String goodsNo = "";
+    String goodsType = "";
+    String cancleTipsId = "";
+    String cancleTipsTime = "";
     @Override
     protected void initView() {
         passCityList = (ArrayList<CityBean>) getArguments().getSerializable("passCityList");
@@ -324,6 +333,8 @@ public class FGOrderNew extends BaseFragment {
         cityBean = (CityBean) getArguments().getSerializable("web_city");
         serverDayTime = this.getArguments().getString("serverDayTime");
 
+
+
         distance = this.getArguments().getString("distance");
         if (null == distance) {
             distance = "0";
@@ -335,7 +346,8 @@ public class FGOrderNew extends BaseFragment {
 
         requestMostFit();
         requestTravelFund();
-
+        getCancleTips();
+        LogUtils.e(cancleTipsTime);
         couponLeft.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -367,6 +379,43 @@ public class FGOrderNew extends BaseFragment {
                         allMoneyLeftText.setText("￥" + (carBean.price - money + hotelPrice + checkInOrPickupPrice + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean)));
                     }
                 }
+            }
+        });
+    }
+
+
+    //        "serviceCityId": serviceCityId,
+//        "goodsType": goodsType,
+//        "carSeatNum": carSeatNum,       // 几座车（5，7，9，12）
+//        "carTypeId": carTypeId,         // 车型（经济-1，舒适-2，豪华-3，奢华-4）
+//        "servceTime": servceTime,       // 2015-02-10 12:00:00
+//        "halfDaily": halfDaily,         // 半日包1，其它0
+//        "orderType": orderType
+
+    String cancleTips = "";
+    private void getCancleTips(){
+        RequestCancleTips requestCancleTips = new RequestCancleTips(getContext(),
+                cancleTipsId,orderType+"",
+                carBean.capOfPerson+"",carBean.carType+"",
+                cancleTipsTime,halfDay,goodsVersion,goodsNo);
+        HttpRequestUtils.request(getContext(), requestCancleTips, new HttpRequestListener() {
+            @Override
+            public void onDataRequestSucceed(BaseRequest request) {
+                 List<String> datas = (List<String>)request.getData();
+                for(String str:datas){
+                    cancleTips += str+"\n";
+                }
+                changeDetail.setText(cancleTips);
+            }
+
+            @Override
+            public void onDataRequestCancel(BaseRequest request) {
+
+            }
+
+            @Override
+            public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+
             }
         });
     }
@@ -450,6 +499,7 @@ public class FGOrderNew extends BaseFragment {
         citysLineTitle.setText("当地时间" + serverDate + "(" + DateUtils.getWeekOfDate(serverDate) + ")" + "  " + serverTime);
         citys_line_title_tips.setVisibility(GONE);
 
+        cancleTipsTime = serverDate + " " + serverTime +":00";
 
         startHospitalTitle.setText(poiBean.placeName);
         startHospitalTitleTips.setVisibility(View.VISIBLE);
@@ -492,12 +542,17 @@ public class FGOrderNew extends BaseFragment {
 
         hotelPhoneTextCodeClick.setText("+"+flightBean.arrivalAirport.areaCode);
 
+        cancleTipsId = poiBean.id+"";
+
+
         carBean = this.getArguments().getParcelable("carBean");
 
         adultNum = this.getArguments().getString("adultNum");
         childrenNum = this.getArguments().getString("childrenNum");
         childseatNum = this.getArguments().getString("childseatNum");
         luggageNum = this.getArguments().getString("luggageNum");
+
+        cancleTipsTime = flightBean.depDate + " " +flightBean.arrivalTime +":00";
 
         citysLineTitle.setText("当地时间" + flightBean.arrivalTime + "(" + DateUtils.getWeekOfDate(flightBean.depDate) + ")");
         citys_line_title_tips.setText("航班" + flightBean.arrivalAirport.airportCode + " " + flightBean.depAirport.cityName + "-" + flightBean.arrivalAirport.cityName);
@@ -541,6 +596,9 @@ public class FGOrderNew extends BaseFragment {
         startPoi = (PoiBean) this.getArguments().getSerializable("KEY_START");
         startBean = (CityBean) this.getArguments().getSerializable("KEY_CITY");
 
+        cancleTipsId = startBean.cityId+"";
+
+
         serverDate = this.getArguments().getString("serverDate");
         serverTime = this.getArguments().getString("serverTime");
 
@@ -549,6 +607,8 @@ public class FGOrderNew extends BaseFragment {
         childrenNum = this.getArguments().getString("childrenNum");
         childseatNum = this.getArguments().getString("childseatNum");
         luggageNum = this.getArguments().getString("luggageNum");
+
+        cancleTipsTime = startDate+" "+serverTime+":00";
 
         citysLineTitle.setText("当地时间" + startDate + "(" + DateUtils.getWeekOfDate(startDate) + ")");
 
@@ -577,8 +637,15 @@ public class FGOrderNew extends BaseFragment {
         skuDay.setText(getString(R.string.sku_days, skuBean.daysCount));
         skuCityLine.setText(skuBean.places);
         skuLayout.setVisibility(View.VISIBLE);
+
+        cancleTipsTime = startDate +" "+ serverTime +":00";
+
         citysLineTitle.setText("当地时间" + startDate + "(" + DateUtils.getWeekOfDate(startDate) + ")");
         citys_line_title_tips.setVisibility(GONE);
+        cancleTipsId = skuBean.cityId+"";
+        goodsVersion = skuBean.goodsVersion+"";
+        goodsNo = skuBean.goodsNo+"";
+        goodsType = skuBean.goodsType+"";
 
         startBean = this.getArguments().getParcelable("startBean");
         adultNum = this.getArguments().getString("adultNum");
@@ -674,6 +741,8 @@ public class FGOrderNew extends BaseFragment {
             day_layout.addView(dayView);
         }
 
+        cancleTipsTime = startDate +" "+ serverTime +":00";
+
         hotelPhoneTextCodeClick.setText("+"+startBean.areaCode);
 
         if (!isHalfTravel && null != passCityList) {
@@ -705,6 +774,8 @@ public class FGOrderNew extends BaseFragment {
         childrenNum = this.getArguments().getString("childrenNum");
         childseatNum = this.getArguments().getString("childseatNum");
         luggageNum = this.getArguments().getString("luggageNum");
+
+        cancleTipsId = cityBean.cityId+"";
 
         carSeat.setText(getCarDesc());
         genCarInfoText();

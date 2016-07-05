@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.datepicker.CustomDayViewAdapter;
 import com.hugboga.custom.data.bean.ChooseDateBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
@@ -68,6 +69,7 @@ public class DatePickerActivity extends BaseActivity {
         }
 
         calendar = (CalendarPickerView) findViewById(R.id.calendar_view);
+        calendar.setCustomDayView(new CustomDayViewAdapter());
         calendar.init(lastYear.getTime(), nextYear.getTime()) //
                 .inMode(CalendarPickerView.SelectionMode.SINGLE) //
                 .withSelectedDate(new Date());
