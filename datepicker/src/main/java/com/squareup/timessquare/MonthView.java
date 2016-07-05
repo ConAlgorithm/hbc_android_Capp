@@ -135,10 +135,10 @@ public class MonthView extends LinearLayout {
           String cellDate = numberFormatter.format(cell.getValue());
           if (!cellView.getDayOfMonthTextView().getText().equals(cellDate)) {
             if(cell.isToday()){
-              cellView.getDayOfMonthTextView().setTextSize(13);
+              cellView.getDayOfMonthTextView().setTextSize(12);
               cellView.getDayOfMonthTextView().setText("今天");
             }else {
-              cellView.getDayOfMonthTextView().setTextSize(18);
+              cellView.getDayOfMonthTextView().setTextSize(15);
               cellView.getDayOfMonthTextView().setText(cellDate);
             }
           }
