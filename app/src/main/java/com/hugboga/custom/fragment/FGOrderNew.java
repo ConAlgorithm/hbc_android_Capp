@@ -395,7 +395,7 @@ public class FGOrderNew extends BaseFragment {
     String cancleTips = "";
     private void getCancleTips(){
         RequestCancleTips requestCancleTips = new RequestCancleTips(getContext(),
-                cancleTipsId,goodsType+"",
+                cancleTipsId,orderType+"",
                 carBean.capOfPerson+"",carBean.carType+"",
                 cancleTipsTime,halfDay,goodsVersion,goodsNo);
         HttpRequestUtils.request(getContext(), requestCancleTips, new HttpRequestListener() {
@@ -597,6 +597,7 @@ public class FGOrderNew extends BaseFragment {
         startBean = (CityBean) this.getArguments().getSerializable("KEY_CITY");
 
         cancleTipsId = startBean.cityId+"";
+
 
         serverDate = this.getArguments().getString("serverDate");
         serverTime = this.getArguments().getString("serverTime");
