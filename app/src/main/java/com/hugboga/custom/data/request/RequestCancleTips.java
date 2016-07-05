@@ -16,8 +16,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import static android.R.attr.order;
-
 
 //"channelId": channelId,
 //        "serviceCityId": serviceCityId,
@@ -37,7 +35,11 @@ public class RequestCancleTips extends BaseRequest<List<String>> {
         try {
             map.put("channelId","18");
             map.put("serviceCityId",serviceCityId);
-            map.put("goodsType",goodsType);
+            if("6".equalsIgnoreCase(goodsType)){
+                map.put("goodsType", "5");
+            }else {
+                map.put("goodsType", goodsType);
+            }
             map.put("carSeatNum",carSeatNum);
             map.put("carTypeId",carTypeId);
             map.put("servceTime",servceTime);
