@@ -41,7 +41,7 @@ import org.xutils.view.annotation.ViewInject;
 import java.text.ParseException;
 import java.util.List;
 
-import de.greenrobot.event.EventBus;
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * Created by ZHZEPHI on 2015/7/24.

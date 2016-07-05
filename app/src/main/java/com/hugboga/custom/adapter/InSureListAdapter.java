@@ -18,7 +18,7 @@ import com.hugboga.custom.data.event.EventType;
 
 import java.util.List;
 
-import de.greenrobot.event.EventBus;
+import org.greenrobot.eventbus.EventBus;
 
 
 public class InSureListAdapter extends BaseAdapter {

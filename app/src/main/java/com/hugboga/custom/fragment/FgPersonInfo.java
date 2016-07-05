@@ -54,7 +54,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
-import de.greenrobot.event.EventBus;
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * personInfo 个人信息

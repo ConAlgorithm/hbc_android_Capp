@@ -51,6 +51,7 @@ import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.umeng.analytics.MobclickAgent;
 
+import org.greenrobot.eventbus.Subscribe;
 import org.xutils.common.Callback;
 import org.xutils.image.ImageOptions;
 import org.xutils.view.annotation.ContentView;
@@ -62,7 +63,7 @@ import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 
-import de.greenrobot.event.EventBus;
+import org.greenrobot.eventbus.EventBus;
 import io.rong.imkit.RongIM;
 
 /**
@@ -1559,6 +1560,7 @@ public class FgOrder extends BaseFragment {
 
     }
 
+    @Subscribe
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
             case REFRESH_ORDER_DETAIL:

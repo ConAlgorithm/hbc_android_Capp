@@ -26,7 +26,7 @@ import org.xutils.view.annotation.ContentView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import de.greenrobot.event.EventBus;
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * Created  on 16/5/18.

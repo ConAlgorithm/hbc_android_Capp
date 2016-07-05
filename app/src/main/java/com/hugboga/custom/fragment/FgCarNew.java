@@ -31,6 +31,7 @@ import com.hugboga.custom.utils.CarUtils;
 import com.hugboga.custom.utils.ToastUtils;
 import com.hugboga.custom.widget.JazzyViewPager;
 
+import org.greenrobot.eventbus.Subscribe;
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 
@@ -39,7 +40,7 @@ import java.util.ArrayList;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import de.greenrobot.event.EventBus;
+import org.greenrobot.eventbus.EventBus;
 
 import static android.R.attr.type;
 import static com.hugboga.custom.R.id.child_count_cost;
@@ -216,6 +217,7 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
 
     ManLuggageBean manLuggageBean;
 
+    @Subscribe
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
             case CHOOSE_GUIDE:

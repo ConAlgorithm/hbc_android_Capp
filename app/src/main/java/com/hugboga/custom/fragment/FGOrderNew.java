@@ -57,6 +57,7 @@ import com.umeng.analytics.MobclickAgent;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
+import org.greenrobot.eventbus.Subscribe;
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 
@@ -68,7 +69,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import de.greenrobot.event.EventBus;
+import org.greenrobot.eventbus.EventBus;
 
 import static android.view.View.GONE;
 import static com.hugboga.custom.R.id.airport_name;
@@ -1145,6 +1146,7 @@ public class FGOrderNew extends BaseFragment {
     ContactUsersBean contactUsersBean = null;
     CouponBean couponBean;
 
+    @Subscribe
     public void onEventMainThread(EventAction action) {
         if (action.getType() == EventType.CONTACT_BACK) {
             contactUsersBean = (ContactUsersBean) action.getData();

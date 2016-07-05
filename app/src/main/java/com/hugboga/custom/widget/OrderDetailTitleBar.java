@@ -16,7 +16,7 @@ import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.utils.UIUtils;
 
-import de.greenrobot.event.EventBus;
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * Created by qingcha on 16/6/2.

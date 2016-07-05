@@ -52,4 +52,10 @@
         <attr name="layout_verticalSpacing" format="dimension" />
     </declare-styleable>
 
+    <declare-styleable name="LinearGradientImageView">
+        <attr name="gradient_orientation" format="enum">
+            <enum name="left" value="0x001" />
+            <enum name="bottom" value="0x002" />
+        </attr>
+    </declare-styleable>
 </resources>

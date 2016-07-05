@@ -19,6 +19,8 @@ import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.utils.DateUtils;
 import com.squareup.timessquare.CalendarPickerView;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedHashSet;
@@ -28,7 +30,6 @@ import java.util.Set;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import de.greenrobot.event.EventBus;
 
 public class DatePickerActivity extends BaseActivity {
     @Bind(R.id.header_left_btn)

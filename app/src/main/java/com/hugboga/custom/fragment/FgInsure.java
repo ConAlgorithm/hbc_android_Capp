@@ -28,6 +28,7 @@ import com.hugboga.custom.data.request.RequestInsureList;
 import com.hugboga.custom.data.request.RequestSubmitInsure;
 import com.hugboga.custom.utils.ToastUtils;
 
+import org.greenrobot.eventbus.Subscribe;
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 
@@ -37,7 +38,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import de.greenrobot.event.EventBus;
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * Created  on 16/4/22.
@@ -172,6 +173,7 @@ public class FgInsure extends BaseFragment implements HttpRequestListener {
         HttpRequestUtils.request(this.getActivity(), requestDelInsure, this);
     }
 
+    @Subscribe
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
             case EDIT_INSURE:

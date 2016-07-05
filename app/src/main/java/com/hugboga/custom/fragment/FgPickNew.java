@@ -41,6 +41,7 @@ import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.utils.ToastUtils;
 import com.hugboga.custom.widget.DialogUtil;
 
+import org.greenrobot.eventbus.Subscribe;
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 
@@ -49,7 +50,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import de.greenrobot.event.EventBus;
+import org.greenrobot.eventbus.EventBus;
 
 import static com.hugboga.custom.R.id.driver_layout;
 import static com.hugboga.custom.R.id.driver_name;
@@ -244,6 +245,7 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
 
 
     ManLuggageBean manLuggageBean;
+    @Subscribe
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
 

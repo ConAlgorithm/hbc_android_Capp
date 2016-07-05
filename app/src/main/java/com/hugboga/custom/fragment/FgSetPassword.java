@@ -28,7 +28,7 @@ import org.xutils.view.annotation.ViewInject;
 
 import java.util.regex.Pattern;
 
-import de.greenrobot.event.EventBus;
+import org.greenrobot.eventbus.EventBus;
 
 @ContentView(R.layout.fg_set_passwd)
 public class FgSetPassword extends BaseFragment {

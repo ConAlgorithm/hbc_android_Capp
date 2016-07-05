@@ -25,7 +25,7 @@ import com.zhy.m.permission.MPermissions;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
-import de.greenrobot.event.EventBus;
+import org.greenrobot.eventbus.EventBus;
 
 
 public abstract class BaseFragment extends com.huangbaoche.hbcframe.fragment.BaseFragment implements View.OnClickListener {

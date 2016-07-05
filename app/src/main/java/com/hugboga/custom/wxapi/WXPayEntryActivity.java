@@ -39,7 +39,7 @@ import org.xutils.view.annotation.ViewInject;
 
 import java.util.ArrayList;
 
-import de.greenrobot.event.EventBus;
+import org.greenrobot.eventbus.EventBus;
 
 public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler, View.OnClickListener {
 

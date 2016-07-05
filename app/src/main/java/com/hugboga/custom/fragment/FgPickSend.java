@@ -30,6 +30,7 @@ import com.hugboga.custom.data.request.RequestGuideConflict;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.umeng.analytics.MobclickAgent;
 
+import org.greenrobot.eventbus.Subscribe;
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 
@@ -44,7 +45,7 @@ import static com.hugboga.custom.R.id.driver_layout;
 import static com.hugboga.custom.R.id.driver_name;
 import static com.hugboga.custom.R.id.driver_tips;
 import static com.hugboga.custom.R.id.nums;
-import de.greenrobot.event.EventBus;
+import org.greenrobot.eventbus.EventBus;
 /**
  * Created  on 16/5/13.
  */
@@ -275,6 +276,7 @@ public class FgPickSend extends BaseFragment implements View.OnTouchListener{
         }
     }
 
+    @Subscribe
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
             case PICK_SEND_ONBACKPRESS:

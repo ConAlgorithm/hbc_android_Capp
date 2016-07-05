@@ -21,7 +21,7 @@ import com.hugboga.custom.widget.DialogUtil;
 
 import java.util.ArrayList;
 
-import de.greenrobot.event.EventBus;
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * Created by admin on 2016/3/26.
