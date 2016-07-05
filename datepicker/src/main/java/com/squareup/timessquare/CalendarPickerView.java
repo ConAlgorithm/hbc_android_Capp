@@ -618,6 +618,10 @@ public class CalendarPickerView extends ListView {
             }
           }
         }
+      }else if(selectionMode == SelectionMode.RANGE && selectedCells.size() == 1){
+        selectedCells.get(0).setRangeState(MonthCellDescriptor.RangeState.FIRST);
+      }else if(selectionMode == SelectionMode.SINGLE){
+        selectedCells.get(0).setRangeState(RangeState.SELECT);
       }
     }
 

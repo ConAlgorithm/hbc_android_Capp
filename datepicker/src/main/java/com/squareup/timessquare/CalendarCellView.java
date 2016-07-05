@@ -154,6 +154,8 @@ public class CalendarCellView extends FrameLayout {
         mergeDrawableStates(drawableState, STATE_RANGE_LAST);
         day_view_round.setBackgroundResource(R.drawable.day_view_selector);
         bottomTextView.setText("结束");
+    }else if(rangeState == RangeState.SELECT){
+        day_view_round.setBackgroundResource(R.drawable.day_view_selector);
     }
 
     return drawableState;
