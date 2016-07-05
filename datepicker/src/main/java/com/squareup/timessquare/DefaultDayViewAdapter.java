@@ -1,6 +1,7 @@
 package com.squareup.timessquare;
 
 import android.view.ContextThemeWrapper;
+import android.view.View;
 import android.widget.TextView;
 
 public class DefaultDayViewAdapter implements DayViewAdapter {
@@ -12,4 +13,9 @@ public class DefaultDayViewAdapter implements DayViewAdapter {
       parent.addView(textView);
       parent.setDayOfMonthTextView(textView);
   }
+
+    @Override
+    public View getDayView() {
+        return null;
+    }
 }

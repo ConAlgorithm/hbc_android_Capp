@@ -47,6 +47,7 @@ public class MonthView extends LinearLayout {
     view.setHeaderTextColor(headerTextColor);
 
     if (dayBackgroundResId != 0) {
+//      adapter.getDayView().setBackgroundResource(dayBackgroundResId);
       view.setDayBackground(dayBackgroundResId);
     }
 
@@ -126,6 +127,9 @@ public class MonthView extends LinearLayout {
 
           if(!cell.isCurrentMonth()){
             cellView.getDayOfMonthTextView().setTextColor(Color.parseColor("#c9cacb"));
+            cellView.getDayOfMonthTextView().setVisibility(GONE);
+          }else{
+            cellView.getDayOfMonthTextView().setVisibility(VISIBLE);
           }
 
           String cellDate = numberFormatter.format(cell.getValue());

@@ -8,7 +8,7 @@
     </item>
     <item>
         <shape android:shape="oval">
-            <solid android:color="@color/transparent"/>
+            <solid android:color="@color/all_bg_yellow"/>
             <stroke
                     android:width="@dimen/dimen_margin_circle"
                     android:color="@color/transparent"/>

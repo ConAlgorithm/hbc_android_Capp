@@ -7,7 +7,6 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
-import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -148,9 +147,7 @@ public class CalendarGridView extends ViewGroup {
         for (int c = 0, numChildren = getChildCount(); c < numChildren; c++) {
             final View child = getChildAt(c);
             final int rowHeight = child.getMeasuredHeight();
-
             child.layout(left, top, right, top + rowHeight);
-
             top += rowHeight;
         }
         Logr.d("Grid.onLayout %d ms", System.currentTimeMillis() - start);

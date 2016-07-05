@@ -1,29 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center_horizontal"
-    android:padding="4dp">
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:id="@+id/day_layout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
         android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/day_view_round"
+            style="@style/CalendarCell.CalendarDate"
+            android:layout_centerInParent="true"
+            android:layout_width="30dp"
+            android:layout_height="30dp" />
+
 
         <TextView
             android:id="@+id/day_view"
             style="@style/CalendarCell.CalendarDate"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_centerInParent="true"
+            android:layout_height="30dp" />
 
-    </LinearLayout>
+
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/bottom_text"
-        android:layout_width="wrap_content"
+        android:layout_below="@id/day_layout"
+        android:layout_width="match_parent"
         android:textSize="12sp"
-        android:text="开始"
-        android:gravity="center_horizontal"
+        android:text=""
+        android:gravity="center"
         android:layout_height="wrap_content"/>
 </LinearLayout>

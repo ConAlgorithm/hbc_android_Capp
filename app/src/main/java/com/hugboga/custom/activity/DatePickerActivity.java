@@ -48,7 +48,7 @@ public class DatePickerActivity extends BaseActivity {
     int clickTimes = 0;
 
     Date selectedDate;
-
+    CustomDayViewAdapter customDayViewAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,10 +69,11 @@ public class DatePickerActivity extends BaseActivity {
         }
 
         calendar = (CalendarPickerView) findViewById(R.id.calendar_view);
-        calendar.setCustomDayView(new CustomDayViewAdapter());
+        customDayViewAdapter = new CustomDayViewAdapter();
+        calendar.setCustomDayView(customDayViewAdapter);
         calendar.init(lastYear.getTime(), nextYear.getTime()) //
-                .inMode(CalendarPickerView.SelectionMode.SINGLE) //
-                .withSelectedDate(new Date());
+                .inMode(model); //
+//                .withSelectedDate(new Date());
         calendar.setOnDateSelectedListener(new CalendarPickerView.OnDateSelectedListener() {
             @Override
             public void onDateSelected(Date date) {
@@ -102,9 +103,6 @@ public class DatePickerActivity extends BaseActivity {
                             EventBus.getDefault().post(new EventAction(EventType.CHOOSE_DATE, chooseDateBean));
                         }
                     } else {
-                        calendar.init(lastYear.getTime(), nextYear.getTime()) //
-                                .inMode(model) //
-                                .withSelectedDate(date);
                         clickTimes += 1;
                         selectedDate = calendar.getSelectedDate();
                     }
@@ -125,7 +123,7 @@ public class DatePickerActivity extends BaseActivity {
             public void run() {
                 finish();
             }
-        },500);
+        },5000);
     };
 
     private void initWeek(){
