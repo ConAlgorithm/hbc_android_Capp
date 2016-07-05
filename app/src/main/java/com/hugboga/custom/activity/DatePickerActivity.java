@@ -49,6 +49,9 @@ public class DatePickerActivity extends BaseActivity {
     int clickTimes = 0;
 
     Date selectedDate;
+    CustomDayViewAdapter customDayViewAdapter;
+
+    Calendar nextYear,lastYear;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,10 +61,10 @@ public class DatePickerActivity extends BaseActivity {
         calender_type = this.getIntent().getIntExtra("type", 1);
         initViews();
         initWeek();
-        final Calendar nextYear = Calendar.getInstance();
+        nextYear = Calendar.getInstance();
         nextYear.add(Calendar.YEAR, 1);
 
-        final Calendar lastYear = Calendar.getInstance();
+        lastYear = Calendar.getInstance();
 
         if (calender_type == 1) {
             model = CalendarPickerView.SelectionMode.SINGLE;
@@ -70,10 +73,11 @@ public class DatePickerActivity extends BaseActivity {
         }
 
         calendar = (CalendarPickerView) findViewById(R.id.calendar_view);
-        calendar.setCustomDayView(new CustomDayViewAdapter());
+        customDayViewAdapter = new CustomDayViewAdapter();
+        calendar.setCustomDayView(customDayViewAdapter);
         calendar.init(lastYear.getTime(), nextYear.getTime()) //
-                .inMode(CalendarPickerView.SelectionMode.SINGLE) //
-                .withSelectedDate(new Date());
+                .inMode(model); //
+//                .withSelectedDate(new Date());
         calendar.setOnDateSelectedListener(new CalendarPickerView.OnDateSelectedListener() {
             @Override
             public void onDateSelected(Date date) {
@@ -85,6 +89,7 @@ public class DatePickerActivity extends BaseActivity {
                     chooseDateBean.type = calender_type;
                     chooseDateBean.isToday = DateUtils.isToday(date);
                     EventBus.getDefault().post(new EventAction(EventType.CHOOSE_DATE, chooseDateBean));
+                    disPlayOnly();
                 } else {
                     if (clickTimes == 1) {
                         if (calendar.getSelectedDate().before(selectedDate)) {
@@ -101,11 +106,9 @@ public class DatePickerActivity extends BaseActivity {
                             chooseDateBean.dayNums = (int) DateUtils.getDays(dates.get(0), dates.get(dates.size() - 1));
                             chooseDateBean.isToday = DateUtils.isToday(dates.get(0));
                             EventBus.getDefault().post(new EventAction(EventType.CHOOSE_DATE, chooseDateBean));
+                            disPlayOnly();
                         }
                     } else {
-                        calendar.init(lastYear.getTime(), nextYear.getTime()) //
-                                .inMode(model) //
-                                .withSelectedDate(date);
                         clickTimes += 1;
                         selectedDate = calendar.getSelectedDate();
                     }
@@ -117,6 +120,19 @@ public class DatePickerActivity extends BaseActivity {
 
             }
         });
+
+    }
+
+
+    private void disPlayOnly(){
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                 calendar.init(lastYear.getTime(), nextYear.getTime())
+                        .inMode(CalendarPickerView.SelectionMode.SINGLE)
+                        .displayOnly();
+            }
+        },100);
 
     }
 

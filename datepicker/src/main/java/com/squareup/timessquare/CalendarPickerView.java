@@ -107,6 +107,7 @@ public class CalendarPickerView extends ListView {
     return decorators;
   }
 
+
   public CalendarPickerView(Context context, AttributeSet attrs) {
     super(context, attrs);
 
@@ -617,6 +618,10 @@ public class CalendarPickerView extends ListView {
             }
           }
         }
+      }else if(selectionMode == SelectionMode.RANGE && selectedCells.size() == 1){
+        selectedCells.get(0).setRangeState(MonthCellDescriptor.RangeState.FIRST_SELECT);
+      }else if(selectionMode == SelectionMode.SINGLE){
+        selectedCells.get(0).setRangeState(RangeState.SELECT);
       }
     }
 

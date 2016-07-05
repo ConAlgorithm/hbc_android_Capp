@@ -47,6 +47,7 @@ public class MonthView extends LinearLayout {
     view.setHeaderTextColor(headerTextColor);
 
     if (dayBackgroundResId != 0) {
+//      adapter.getDayView().setBackgroundResource(dayBackgroundResId);
       view.setDayBackground(dayBackgroundResId);
     }
 
@@ -126,15 +127,18 @@ public class MonthView extends LinearLayout {
 
           if(!cell.isCurrentMonth()){
             cellView.getDayOfMonthTextView().setTextColor(Color.parseColor("#c9cacb"));
+            cellView.getDayOfMonthTextView().setVisibility(GONE);
+          }else{
+            cellView.getDayOfMonthTextView().setVisibility(VISIBLE);
           }
 
           String cellDate = numberFormatter.format(cell.getValue());
           if (!cellView.getDayOfMonthTextView().getText().equals(cellDate)) {
             if(cell.isToday()){
-              cellView.getDayOfMonthTextView().setTextSize(13);
+              cellView.getDayOfMonthTextView().setTextSize(12);
               cellView.getDayOfMonthTextView().setText("今天");
             }else {
-              cellView.getDayOfMonthTextView().setTextSize(18);
+              cellView.getDayOfMonthTextView().setTextSize(15);
               cellView.getDayOfMonthTextView().setText(cellDate);
             }
           }
