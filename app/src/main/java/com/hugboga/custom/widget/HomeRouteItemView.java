@@ -4,8 +4,10 @@ import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -26,7 +28,7 @@ public class HomeRouteItemView extends RelativeLayout implements HbcViewBehavior
 
     private FgHome fgHome;
 
-    private ImageView displayIV;
+    private LinearGradientImageView displayIV;
     private TextView titleTV, subtitleTV, guideAmountTV;
 
     private RelativeLayout item1Layout, item2Layout, item3Layout;
@@ -45,8 +47,10 @@ public class HomeRouteItemView extends RelativeLayout implements HbcViewBehavior
     public HomeRouteItemView(Context context, AttributeSet attrs) {
         super(context, attrs);
         setBackgroundColor(0xFFFFFFFF);
+        setGravity(Gravity.CENTER);
         inflate(getContext(), R.layout.view_home_route_item, this);
-        displayIV = (ImageView) findViewById(R.id.home_route_item_display_iv);
+        displayIV = (LinearGradientImageView) findViewById(R.id.home_route_item_display_iv);
+
         titleTV = (TextView) findViewById(R.id.home_route_item_title_tv);
         subtitleTV = (TextView) findViewById(R.id.home_route_item_subtitle_tv);
         guideAmountTV = (TextView) findViewById(R.id.home_route_item_guideamount_tv);

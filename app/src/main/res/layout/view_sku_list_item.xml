@@ -2,12 +2,13 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ImageView
+    <com.hugboga.custom.widget.LinearGradientImageView
         android:id="@+id/sku_item_display_iv"
         android:layout_width="match_parent"
         android:layout_height="160dp"
         android:scaleType="centerCrop"
-        android:background="@color/default_img_bg" />
+        android:background="@color/default_img_bg"
+        app:gradient_orientation="bottom"/>
 
     <LinearLayout
         android:id="@+id/sku_item_city_guides_layout"
