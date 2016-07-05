@@ -1,6 +1,7 @@
 package com.hugboga.custom.widget;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
@@ -10,7 +11,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.SkuCityBean;
+import com.hugboga.custom.fragment.FgDaily;
 import com.hugboga.custom.fragment.FgPickSend;
 import com.hugboga.custom.fragment.FgSingleNew;
 import com.hugboga.custom.fragment.FgSkuList;
@@ -130,12 +133,33 @@ public class SkuCityFooterView extends LinearLayout implements HbcViewBehavior, 
         if (fragment == null) {
             return;
         }
+        CityBean cityBean = fragment.getCityBean();
         switch (v.getId()) {
             case R.id.sku_city_footer_pickup_tv:
-                fragment.startFragment(new FgPickSend());
+                if (cityBean != null) {
+                    FgPickSend fgPickSend = new FgPickSend();
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(FgDaily.KEY_CITY_BEAN, cityBean);
+                    bundle.putParcelable("cityBean", cityBean);
+                    bundle.putString("source", cityBean.name);
+                    fgPickSend.setArguments(bundle);
+                    fragment.startFragment(fgPickSend, bundle);
+                } else {
+                    fragment.startFragment(new FgPickSend());
+                }
                 break;
             case R.id.sku_city_footer_single_tv:
-                fragment.startFragment(new FgSingleNew());
+                if (cityBean != null) {
+                    FgSingleNew fgSingleNew = new FgSingleNew();
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(FgDaily.KEY_CITY_BEAN, cityBean);
+                    bundle.putParcelable("cityBean", cityBean);
+                    bundle.putString("source", cityBean.name);
+                    fgSingleNew.setArguments(bundle);
+                    fragment.startFragment(fgSingleNew);
+                } else {
+                    fragment.startFragment(new FgSingleNew());
+                }
                 break;
         }
     }

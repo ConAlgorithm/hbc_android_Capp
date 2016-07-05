@@ -23,17 +23,21 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.HbcRecyclerBaseAdapter;
 import com.hugboga.custom.adapter.SkuAdapter;
 import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.SkuCityBean;
 import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.data.request.RequestCitySkuList;
 import com.hugboga.custom.data.request.RequestCountrySkuList;
 import com.hugboga.custom.data.request.RequestRouteSkuList;
+import com.hugboga.custom.utils.DBHelper;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.SkuCityFooterView;
 import com.hugboga.custom.widget.SkuCityHeaderView;
 import com.hugboga.custom.widget.SkuListEmptyView;
 
+import org.xutils.DbManager;
 import org.xutils.common.Callback;
+import org.xutils.ex.DbException;
 import org.xutils.view.annotation.ContentView;
 
 import java.io.Serializable;
@@ -68,6 +72,7 @@ public class FgSkuList extends BaseFragment implements HbcRecyclerBaseAdapter.On
     private boolean isFirstRequest = true;
     private boolean isLoading = true;
     private SkuCityBean skuCityBean;
+    private CityBean cityBean = null;
 
     public enum SkuType {
         CITY, ROUTE, COUNTRY;
@@ -138,6 +143,8 @@ public class FgSkuList extends BaseFragment implements HbcRecyclerBaseAdapter.On
             cityFooterView = new SkuCityFooterView(getContext());
             cityFooterView.setFragment(this);
             adapter.addFooterView(cityFooterView);
+
+            getCityBean();
         } else {
             titlebar.setBackgroundColor(0xFF2D2B28);
             fgTitle.setTextColor(0xFFFFFFFF);
@@ -247,7 +254,17 @@ public class FgSkuList extends BaseFragment implements HbcRecyclerBaseAdapter.On
         if (_itemData != null && _itemData instanceof SkuItemBean) {
             SkuItemBean skuItemBean = (SkuItemBean) _itemData;
             if (skuItemBean.goodsClass == -1) {//按天包车
-                startFragment(new FgOrderSelectCity());
+                if (cityBean != null) {//旧代码，俩cityBean。。。
+                    FgOrderSelectCity fgOrderSelectCity = new FgOrderSelectCity();
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(FgDaily.KEY_CITY_BEAN, cityBean);
+                    bundle.putString("source", cityBean.name);
+                    bundle.putParcelable("cityBean", cityBean);
+                    fgOrderSelectCity.setArguments(bundle);
+                    startFragment(fgOrderSelectCity, bundle);
+                } else {
+                    startFragment(new FgOrderSelectCity());
+                }
             } else {
                 FgSkuDetail fgSkuDetail = new FgSkuDetail();
                 Bundle bundle = new Bundle();
@@ -344,5 +361,17 @@ public class FgSkuList extends BaseFragment implements HbcRecyclerBaseAdapter.On
             paramsData = (FgSkuList.Params) bundle.getSerializable(Constants.PARAMS_DATA);
             initHeader();
         }
+    }
+
+    public CityBean getCityBean() {
+        if (cityBean == null && paramsData.skuType == SkuType.CITY) {
+            DbManager mDbManager = new DBHelper(getActivity()).getDbManager();
+            try {
+                cityBean = mDbManager.findById(CityBean.class, "" + paramsData.id);
+            } catch (DbException e) {
+                e.printStackTrace();
+            }
+        }
+        return cityBean;
     }
 }

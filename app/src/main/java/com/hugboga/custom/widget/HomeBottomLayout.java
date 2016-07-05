@@ -76,7 +76,7 @@ public class HomeBottomLayout extends LinearLayout implements View.OnClickListen
 
         int activeImgHeight = (int)((254 / 690.0) * itemWidth);
         LinearLayout.LayoutParams activeImgParams = new LinearLayout.LayoutParams(itemWidth, activeImgHeight);
-        activeImgParams.bottomMargin = UIUtils.dip2px(20);
+        activeImgParams.bottomMargin = UIUtils.dip2px(5);
         activeIV.setLayoutParams(activeImgParams);
     }
 
