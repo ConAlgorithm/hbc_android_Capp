@@ -111,6 +111,7 @@ public class DatePickerActivity extends BaseActivity {
                     } else {
                         clickTimes += 1;
                         selectedDate = calendar.getSelectedDate();
+                        calendar.setSelectedDate(selectedDate);
                     }
                 }
             }

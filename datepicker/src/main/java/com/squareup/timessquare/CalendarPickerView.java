@@ -96,6 +96,18 @@ public class CalendarPickerView extends ListView {
   private List<CalendarCellDecorator> decorators;
   private DayViewAdapter dayViewAdapter = new DefaultDayViewAdapter();
 
+  private boolean isSameDay = false;
+
+  public boolean getIsSameDay() {
+    return isSameDay;
+  }
+
+  public void setIsSameDay(boolean isSameDay) {
+    this.isSameDay = isSameDay;
+  }
+
+
+
   public void setDecorators(List<CalendarCellDecorator> decorators) {
     this.decorators = decorators;
     if (null != adapter) {
@@ -557,6 +569,12 @@ public class CalendarPickerView extends ListView {
     }
   }
 
+  public void setSelectedDate(Date selectedDate) {
+    this.selectedDate = selectedDate;
+  }
+
+  private Date selectedDate = null;
+
   private boolean doSelectDate(Date date, MonthCellDescriptor cell) {
     Calendar newlySelectedCal = Calendar.getInstance(locale);
     newlySelectedCal.setTime(date);
@@ -605,6 +623,7 @@ public class CalendarPickerView extends ListView {
         selectedCells.get(0).setRangeState(MonthCellDescriptor.RangeState.FIRST);
         selectedCells.get(1).setRangeState(MonthCellDescriptor.RangeState.LAST);
 
+
         for (List<List<MonthCellDescriptor>> month : cells) {
           for (List<MonthCellDescriptor> week : month) {
             for (MonthCellDescriptor singleCell : week) {
@@ -619,7 +638,16 @@ public class CalendarPickerView extends ListView {
           }
         }
       }else if(selectionMode == SelectionMode.RANGE && selectedCells.size() == 1){
-        selectedCells.get(0).setRangeState(MonthCellDescriptor.RangeState.FIRST_SELECT);
+        Date tmpDate = selectedCells.get(0).getDate();
+        if(null != selectedDate) {
+          if (tmpDate.getTime() == selectedDate.getTime()) {
+            selectedCells.get(0).setRangeState(RangeState.START_END);
+          } else {
+            selectedCells.get(0).setRangeState(MonthCellDescriptor.RangeState.FIRST_SELECT);
+          }
+        }else{
+          selectedCells.get(0).setRangeState(MonthCellDescriptor.RangeState.FIRST_SELECT);
+        }
       }else if(selectionMode == SelectionMode.SINGLE){
         selectedCells.get(0).setRangeState(RangeState.SELECT);
       }
