@@ -17,10 +17,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.OrderPriceInfo;
 import com.hugboga.custom.fragment.FgActivity;
 import com.hugboga.custom.fragment.FgOrderDetail;
+import com.hugboga.custom.fragment.FgSkuDetail;
 import com.hugboga.custom.fragment.FgSkuList;
 import com.hugboga.custom.fragment.FgWebInfo;
 import com.hugboga.custom.utils.Tools;
@@ -196,9 +198,12 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
         }
         switch (v.getId()) {
             case R.id.order_itinerary_route_layout:
+                FgSkuDetail fgSkuDetail = new FgSkuDetail();
                 Bundle bundle = new Bundle();
                 bundle.putString(FgWebInfo.WEB_URL, orderBean.skuDetailUrl);
-                mFragment.startFragment(new FgActivity(), bundle);
+                bundle.putString(Constants.PARAMS_ID, orderBean.goodsNo);
+                fgSkuDetail.setArguments(bundle);
+                mFragment.startFragment(fgSkuDetail, bundle);
                 break;
         }
     }

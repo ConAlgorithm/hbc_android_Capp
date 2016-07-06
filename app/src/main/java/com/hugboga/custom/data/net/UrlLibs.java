@@ -518,4 +518,10 @@ public class UrlLibs {
      * v1.0/c/order/cancelTips
      */
     public static final String CANCLE_TIPS = "trade/v1.0/c/order/cancelTips";
+
+    /**
+     * 按商品编号查商品详情
+     *
+     */
+    public static final String API_GOODS_BY_ID = "goods/v1.2/c/home/goodsByNo";
 }

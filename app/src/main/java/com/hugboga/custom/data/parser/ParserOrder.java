@@ -182,6 +182,7 @@ public class ParserOrder extends ImplParser {
         orderbean.hotelDays = jsonObj.optInt("hotelDays");
         orderbean.orderSource = jsonObj.optInt("orderSource");
         orderbean.skuDetailUrl = jsonObj.optString("skuDetailUrl");
+        orderbean.goodsNo = jsonObj.optString("goodNo");
         return orderbean;
     }
 }
