@@ -318,6 +318,9 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
         nextBtnClick.setBackgroundColor(ContextCompat.getColor(this.getActivity(), R.color.all_bg_yellow));
     }
 
+
+    boolean isIncludeToday = false;//是否包括今天
+
     public boolean checkNextBtnStatus() {
         if (null == startBean) {
 //            disableNextBtn();
@@ -332,12 +335,12 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
         }
 
         if (TextUtils.isEmpty(baggageTextClick.getText())) {
-            ToastUtils.showShort("请选择出发人数");
+            ToastUtils.showShort("请选择行李数");
 //            disableNextBtn();
             return false;
         }
 
-        if(serverTime.equalsIgnoreCase("00:00")){
+        if(serverTime.equalsIgnoreCase("00:00") && isIncludeToday){
             ToastUtils.showShort("请选择上车时间");
 //            disableNextBtn();
             return false;
@@ -1312,9 +1315,11 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
                     if(chooseDateBean.isToday) {
                         go_city_text_click_right.setText("今天");
                         time_layout.setVisibility(View.VISIBLE);
+                        isIncludeToday =  true;
                     }else{
                         go_city_text_click_right.setText("");
                         time_layout.setVisibility(View.GONE);
+                        isIncludeToday =  false;
                     }
 
 //                    checkNextBtnStatus();
@@ -1327,9 +1332,11 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
                     if(chooseDateBean.isToday) {
                         start_date_right.setText("今天");
                         time_layout.setVisibility(View.VISIBLE);
+                        isIncludeToday =  true;
                     }else{
                         start_date_right.setText("");
                         time_layout.setVisibility(View.GONE);
+                        isIncludeToday =  false;
                     }
 
                     end_date_right.setText("共包车"+chooseDateBean.dayNums+"天");
