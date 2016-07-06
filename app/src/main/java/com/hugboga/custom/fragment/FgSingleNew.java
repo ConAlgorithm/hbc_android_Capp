@@ -368,7 +368,8 @@ public class FgSingleNew extends BaseFragment {
 
                             if (null != collectGuideBean) {
 
-                                if(carBean.capOfPerson == 4 && (Integer.valueOf(manLuggageBean.mans) + Integer.valueOf(manLuggageBean.childs)) == 4
+                                if(carBean.carType == 1 && carBean.capOfPerson == 4
+                                        && (Integer.valueOf(manLuggageBean.mans) + Integer.valueOf(manLuggageBean.childs)) == 4
                                         || carBean.capOfPerson == 6 && (Integer.valueOf(manLuggageBean.mans) + Integer.valueOf(manLuggageBean.childs)) == 6){
                                     AlertDialogUtils.showAlertDialog(getActivity(),getString(R.string.alert_car_full),
                                             "继续下单","更换车型",new DialogInterface.OnClickListener() {
@@ -389,7 +390,7 @@ public class FgSingleNew extends BaseFragment {
 
 
                             } else {
-                                if(carBean.capOfPerson == 4 && (Integer.valueOf(manLuggageBean.mans) + Integer.valueOf(manLuggageBean.childs)) == 4
+                                if(carBean.carType == 1 && carBean.capOfPerson == 4 && (Integer.valueOf(manLuggageBean.mans) + Integer.valueOf(manLuggageBean.childs)) == 4
                                         || carBean.capOfPerson == 6 && (Integer.valueOf(manLuggageBean.mans) + Integer.valueOf(manLuggageBean.childs)) == 6){
                                     AlertDialogUtils.showAlertDialog(getActivity(),getString(R.string.alert_car_full),
                                             "继续下单","更换车型",new DialogInterface.OnClickListener() {
