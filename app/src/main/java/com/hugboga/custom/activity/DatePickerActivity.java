@@ -122,7 +122,7 @@ public class DatePickerActivity extends BaseActivity {
                         chooseDateBean.dayNums = mChooseDateBean.dayNums;
                     }
                     EventBus.getDefault().post(new EventAction(EventType.CHOOSE_DATE, chooseDateBean));
-                    disPlayOnly();
+//                    disPlayOnly();
                 } else {
                     if (clickTimes == 1) {
                         if (calendar.getSelectedDate().before(selectedDate)) {
@@ -146,7 +146,7 @@ public class DatePickerActivity extends BaseActivity {
                                 chooseDateBean.halfDateStr = mChooseDateBean.halfDateStr;
                             }
                             EventBus.getDefault().post(new EventAction(EventType.CHOOSE_DATE, chooseDateBean));
-                            disPlayOnly();
+//                            disPlayOnly();
                         }
                     } else {
                         clickTimes += 1;
