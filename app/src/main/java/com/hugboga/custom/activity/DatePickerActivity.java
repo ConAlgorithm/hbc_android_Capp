@@ -21,6 +21,7 @@ import com.squareup.timessquare.CalendarPickerView;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedHashSet;
@@ -53,6 +54,7 @@ public class DatePickerActivity extends BaseActivity {
 
     Calendar nextYear,lastYear;
 
+    ChooseDateBean chooseDateBean;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,30 +63,45 @@ public class DatePickerActivity extends BaseActivity {
         calender_type = this.getIntent().getIntExtra("type", 1);
         initViews();
         initWeek();
+        chooseDateBean = this.getIntent().getParcelableExtra("chooseDateBean");
         nextYear = Calendar.getInstance();
         nextYear.add(Calendar.YEAR, 1);
 
         lastYear = Calendar.getInstance();
 
-        if (calender_type == 1) {
-            model = CalendarPickerView.SelectionMode.SINGLE;
-        } else {
-            model = CalendarPickerView.SelectionMode.RANGE;
-        }
-
         calendar = (CalendarPickerView) findViewById(R.id.calendar_view);
         customDayViewAdapter = new CustomDayViewAdapter();
         calendar.setCustomDayView(customDayViewAdapter);
-        calendar.init(lastYear.getTime(), nextYear.getTime()) //
-                .inMode(model); //
+
+        if(chooseDateBean != null){
+            if(calender_type == 1){
+                model = CalendarPickerView.SelectionMode.SINGLE;
+                calendar.init(lastYear.getTime(), nextYear.getTime()).inMode(model).withSelectedDate(chooseDateBean.halfDate);
+            }else {
+                model = CalendarPickerView.SelectionMode.RANGE;
+                List<Date> dates = new ArrayList<>();
+                dates.add(chooseDateBean.startDate);
+                dates.add(chooseDateBean.endDate);
+                calendar.init(lastYear.getTime(), nextYear.getTime()).inMode(model).withSelectedDates(dates);
+            }
+        }else {
+            if (calender_type == 1) {
+                model = CalendarPickerView.SelectionMode.SINGLE;
+            } else {
+                model = CalendarPickerView.SelectionMode.RANGE;
+            }
+            calendar.init(lastYear.getTime(), nextYear.getTime()).inMode(model);
+        }
 //                .withSelectedDate(new Date());
+
         calendar.setOnDateSelectedListener(new CalendarPickerView.OnDateSelectedListener() {
             @Override
             public void onDateSelected(Date date) {
                 ChooseDateBean chooseDateBean = new ChooseDateBean();
                 if (calender_type == 1) {
                     finishDelay();
-                    chooseDateBean.halfDate = DateUtils.dateDateFormat.format(date);
+                    chooseDateBean.halfDateStr = DateUtils.dateDateFormat.format(date);
+                    chooseDateBean.halfDate = date;
                     chooseDateBean.showHalfDateStr = DateUtils.dateSimpleDateFormatMMdd.format(date);
                     chooseDateBean.type = calender_type;
                     chooseDateBean.isToday = DateUtils.isToday(date);
@@ -105,6 +122,8 @@ public class DatePickerActivity extends BaseActivity {
                             chooseDateBean.end_date = DateUtils.dateDateFormat.format(dates.get(dates.size() - 1));
                             chooseDateBean.dayNums = (int) DateUtils.getDays(dates.get(0), dates.get(dates.size() - 1));
                             chooseDateBean.isToday = DateUtils.isToday(dates.get(0));
+                            chooseDateBean.startDate = dates.get(0);
+                            chooseDateBean.endDate = dates.get(dates.size() - 1);
                             EventBus.getDefault().post(new EventAction(EventType.CHOOSE_DATE, chooseDateBean));
                             disPlayOnly();
                         }
