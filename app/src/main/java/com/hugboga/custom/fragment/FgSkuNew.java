@@ -1,6 +1,7 @@
 package com.hugboga.custom.fragment;
 
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -253,6 +254,10 @@ public class FgSkuNew extends BaseFragment {
     @Subscribe
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
+            case CAR_CHANGE_SMALL:
+                confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
+                confirmJourney.setOnClickListener(null);
+                break;
             case SKU_HOTEL_NUM_CHANGE:
                 hourseNum = (int) action.getData();
                 genBottomData(carBean, hourseNum);

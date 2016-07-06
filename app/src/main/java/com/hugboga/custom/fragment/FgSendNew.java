@@ -7,7 +7,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -42,6 +41,7 @@ import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
@@ -53,12 +53,6 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
-import static com.hugboga.custom.R.id.driver_layout;
-import static com.hugboga.custom.R.id.driver_name;
-import static u.aly.au.W;
-
-import org.greenrobot.eventbus.EventBus;
 
 /**
  * Created  on 16/5/13.
@@ -249,6 +243,10 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
     @Subscribe
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
+            case CAR_CHANGE_SMALL:
+                confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
+                confirmJourney.setOnClickListener(null);
+                break;
             case CHANGE_GUIDE:
                 collectGuideBean = (CollectGuideBean)action.getData();
                 break;
