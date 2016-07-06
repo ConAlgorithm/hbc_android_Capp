@@ -776,7 +776,11 @@ public class FGOrderNew extends BaseFragment {
         childseatNum = this.getArguments().getString("childseatNum");
         luggageNum = this.getArguments().getString("luggageNum");
 
-        cancleTipsId = cityBean.cityId+"";
+
+        startBean = this.getArguments().getParcelable("startBean");
+        endBean = this.getArguments().getParcelable("endBean");
+
+        cancleTipsId = startBean.cityId+"";
 
         carSeat.setText(getCarDesc());
         genCarInfoText();
