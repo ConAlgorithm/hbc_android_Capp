@@ -193,6 +193,9 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
+                    if(null != chooseDateBean){
+                        chooseDateBean.type = TYPE_RANGE;
+                    }
                     fullDay.setTextColor(Color.parseColor("#000000"));
                     halfDay.setTextColor(Color.parseColor("#888888"));
                     left_line.setBackgroundColor(Color.parseColor("#fbd003"));
@@ -205,6 +208,9 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
+                    if(null != chooseDateBean){
+                        chooseDateBean.type = TYPE_SINGLE;
+                    }
                     fullDay.setTextColor(Color.parseColor("#888888"));
                     halfDay.setTextColor(Color.parseColor("#000000"));
                     left_line.setBackgroundColor(Color.parseColor("#edeeef"));
