@@ -95,7 +95,7 @@ public class CityUtils {
     }
 
     public static String getHotCityStr(List<CityBean> hotCitys){
-        if(null == hotCitys){
+        if(null == hotCitys || hotCitys.size() == 0){
             return "";
         }
         StringBuffer stringBuffer = new StringBuffer();
