@@ -200,48 +200,7 @@ public class CityUtils {
         }
     }
 
-    //获取国家下面的热门线路
-    public static List<SearchGroupBean> getCountryLine(Activity activity,String parent_id) {
-        try {
-            DbManager mDbManager = new DBHelper(activity).getDbManager();
-
-            String sql = "select * from line_group where parent_type=2 and parent_id="+parent_id+" limit 3";
-
-            SqlInfo sqlinfo = new SqlInfo();
-            sqlinfo.setSql(sql);
-
-            List<LineGroupBean> list = new ArrayList<>();
-            try{
-                List<DbModel> modelList = mDbManager.findDbModelAll(sqlinfo);
-                if (modelList != null && modelList.size() > 0) {
-                    final int listsize = modelList.size();
-                    int specialofferlistindex = listsize;
-                    for (int modelindex = (listsize - 1); modelindex >= 0; --modelindex) {
-                        DbModel model = modelList.get(modelindex);
-                        if (model != null) {
-                            LineGroupBean searchGroupBean = new LineGroupBean();
-                            searchGroupBean.isSelected = false;
-
-                            searchGroupBean.group_id = model.getInt("group_id");
-                            searchGroupBean.group_name = model.getString("group_name");
-
-                            searchGroupBean.type = model.getInt("type");
-
-                            searchGroupBean.hot_weight = model.getInt("hot_weight");
-                            list.add(searchGroupBean);
-                        }
-                    }
-                }
-
-            }catch(Exception e){
-                e.printStackTrace();
-            }
-            return lineGroupBeanAdapter(list,1);
-        }catch (Exception e){
-            e.printStackTrace();
-            return null;
-        }
-    }
+  
 
 
     //获取国家(搜索用)
