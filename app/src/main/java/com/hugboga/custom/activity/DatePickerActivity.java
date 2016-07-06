@@ -183,7 +183,7 @@ public class DatePickerActivity extends BaseActivity {
             public void run() {
                 finish();
             }
-        },500);
+        },200);
     };
 
     private void initWeek(){

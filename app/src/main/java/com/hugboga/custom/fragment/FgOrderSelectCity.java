@@ -49,6 +49,8 @@ import com.hugboga.custom.utils.ScreenUtils;
 import com.hugboga.custom.utils.ToastUtils;
 import com.umeng.analytics.MobclickAgent;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
+import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
+import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.xutils.common.Callback;
@@ -159,6 +161,11 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
     @ViewInject(R.id.go_city_text_click_right)
     TextView go_city_text_click_right;
 
+    @ViewInject(R.id.time_layout)
+    LinearLayout time_layout;
+
+    @ViewInject(R.id.time_text_click)
+    TextView time_text_click;
 
     @Override
     protected void inflateContent() {
@@ -805,8 +812,8 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
                     Bundle bundle = new Bundle();
                     RequestCollectGuidesFilter.CollectGuidesFilterParams params = new RequestCollectGuidesFilter.CollectGuidesFilterParams();
                     params.startCityId = startBean.cityId;
-                    params.startTime = isHalfTravel ? halfDate + " 00:00:00" : start_date_str + " 00:00:00";
-                    params.endTime = isHalfTravel ? halfDate + " 00:00:00" : end_date_str + " 00:00:00";
+                    params.startTime = isHalfTravel ? halfDate + " " +serverTime +":00" : start_date_str + " " +serverTime +":00" ;
+                    params.endTime = isHalfTravel ? halfDate + " " +serverTime +":00"  : end_date_str +" " +serverTime +":00" ;
                     params.adultNum = manNum;
                     params.childrenNum = childNum;
                     params.childSeatNum = childSeatNums;
@@ -831,8 +838,8 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
     private void getCarInfo() {
         final RequestGetCarInfo requestGetCarInfo = new RequestGetCarInfo(this.getActivity(),
                 startBean.cityId + "", isHalfTravel ? (startBean.cityId + "") : passBeanList.get(passBeanList.size() - 1).cityId + "",
-                isHalfTravel ? halfDate + " 00:00:00" : start_date_str + " 00:00:00",
-                isHalfTravel ? halfDate + " 00:00:00" : end_date_str + " 00:00:00",
+                isHalfTravel ? halfDate + " " +serverTime +":00" : start_date_str + " " +serverTime +":00",
+                isHalfTravel ? halfDate + " " +serverTime +":00" : end_date_str + " " +serverTime +":00",
                 isHalfTravel ? "1" : "0", manNum + "",
                 childNum + "", childSeatNums + "", baggageNum + "", isHalfTravel ? "" : getPassCities(), "18");
         HttpRequestUtils.request(this.getActivity(), requestGetCarInfo, new HttpRequestListener() {
@@ -911,8 +918,8 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
                 && ((manNum + Math.round((childSeatNums) * 1.5) + (childNum - childSeatNums)) + baggageNum)
                 <= (collectGuideBean.numOfPerson + collectGuideBean.numOfLuggage)) {
             OrderUtils.checkGuideCoflict(getContext(), 3, startBean.cityId,
-                    collectGuideBean.guideId, (isHalfTravel ? halfDate : start_date_str) + " 00:00:00",
-                    (isHalfTravel ? halfDate : end_date_str) + " 00:00:00", getPassCitiesId(),
+                    collectGuideBean.guideId, (isHalfTravel ? halfDate : start_date_str) + " " +serverTime +":00" ,
+                    (isHalfTravel ? halfDate : end_date_str) + " " +serverTime +":00", getPassCitiesId(),
                     nums, collectGuideBean.carType, collectGuideBean.carClass,
                     new HttpRequestListener() {
                         @Override
@@ -941,13 +948,38 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
         }
     }
 
+
+    public void showTimeSelect() {
+        Calendar cal = Calendar.getInstance();
+        MyTimePickerDialogListener myTimePickerDialog = new MyTimePickerDialogListener();
+        TimePickerDialog datePickerDialog = TimePickerDialog.newInstance(myTimePickerDialog, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), true);
+        datePickerDialog.show(this.getActivity().getFragmentManager(), "TimePickerDialog");                //显示日期设置对话框
+    }
+
+    String serverTime = "00:00";
+
+    class MyTimePickerDialogListener implements TimePickerDialog.OnTimeSetListener {
+
+
+        @Override
+        public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute, int second) {
+            String hour = String.format("%02d", hourOfDay);
+            String minuteStr = String.format("%02d", minute);
+            serverTime = hour + ":" + minuteStr;
+            time_text_click.setText(serverTime);
+        }
+    }
+
     boolean isHalfTravel = false;
     private final int TYPE_SINGLE = 1;
     private final int TYPE_RANGE = 2;
 
-    @Event({R.id.go_city_text_layout,R.id.choose_driver, R.id.minus, R.id.add, R.id.header_left_btn, start_city_click, people_text_click, R.id.show_child_seat_layout, R.id.child_no_confirm_click, baggage_text_click, R.id.baggage_no_confirm_click, R.id.end_layout_click, R.id.go_city_text_click, R.id.next_btn_click})
+    @Event({R.id.time_text_click,R.id.go_city_text_layout,R.id.choose_driver, R.id.minus, R.id.add, R.id.header_left_btn, start_city_click, people_text_click, R.id.show_child_seat_layout, R.id.child_no_confirm_click, baggage_text_click, R.id.baggage_no_confirm_click, R.id.end_layout_click, R.id.go_city_text_click, R.id.next_btn_click})
     private void onClickView(View view) {
         switch (view.getId()) {
+            case R.id.time_text_click:
+                showTimeSelect();
+                break;
             case R.id.choose_driver:
                 goCollectGuid(2);
                 break;
@@ -1264,9 +1296,12 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
                     goCityTextClick.setText(chooseDateBean.showHalfDateStr);
                     if(chooseDateBean.isToday) {
                         go_city_text_click_right.setText("今天");
+                        time_layout.setVisibility(View.VISIBLE);
                     }else{
                         go_city_text_click_right.setText("");
+                        time_layout.setVisibility(View.GONE);
                     }
+
                     checkNextBtnStatus();
                 }else{
                     start_date_str = chooseDateBean.start_date;
@@ -1276,8 +1311,10 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
 
                     if(chooseDateBean.isToday) {
                         start_date_right.setText("今天");
+                        time_layout.setVisibility(View.VISIBLE);
                     }else{
                         start_date_right.setText("");
+                        time_layout.setVisibility(View.GONE);
                     }
 
                     end_date_right.setText("共包车"+chooseDateBean.dayNums+"天");
