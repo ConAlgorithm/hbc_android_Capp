@@ -280,7 +280,6 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
     CarListBean carListBean;
     CarBean carBean;
 
-
     private void genCar() {
         mAdapter = new CarViewpagerAdapter(getActivity(), mJazzy);
         if (null != collectGuideBean) {

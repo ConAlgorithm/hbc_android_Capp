@@ -2,13 +2,14 @@ package com.hugboga.custom.utils;
 
 import android.util.Log;
 
+import com.hugboga.custom.constants.CarTypeEnum;
 import com.hugboga.custom.constants.ChooseCarTypeEnum;
-import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CarBean;
 import com.hugboga.custom.data.bean.CollectGuideBean;
 import com.hugboga.custom.data.bean.SelectCarBean;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class CarUtils {
@@ -37,41 +38,57 @@ public class CarUtils {
         return -1;
     }
 
-
-    public static ArrayList<CarBean> initCarListData(ArrayList<CarBean> checkCarList) {
-        int id = 1;
-        CarBean bean;
-        ArrayList<CarBean> carList = new ArrayList<CarBean>(16);
-        for (int i = 1; i <= 4; i++) {
-            for (int j = 1; j <= 4; j++) {
-                bean = new CarBean();
-                bean.id = id;
-                bean.carType = i;
-                bean.carSeat = Constants.CarSeatMap.get(j);
-                bean.originalPrice = 0;
-//                bean.models = Constants.CarDescInfoMap.get(i).get(j);
-                ChooseCarTypeEnum carTypeEnum = ChooseCarTypeEnum.getCarType(bean.carType, bean.carSeat);
-                if (carTypeEnum != null) {
-                    bean.imgRes = carTypeEnum.imgRes;
-                    Log.e("==============",bean.imgRes+"");
-                }
-
-                CarBean newCarBean = isMatchLocal(bean,checkCarList);
-                if (null != newCarBean) {
-                    bean.models = newCarBean.models;
-                    bean.capOfLuggage = newCarBean.capOfLuggage;
-                    bean.desc = newCarBean.desc;
-                    bean.capOfPerson = newCarBean.capOfPerson;
-                    bean.price = newCarBean.price;
-                    bean.pricemark = newCarBean.pricemark;
-                    bean.priceChannel = newCarBean.priceChannel;
-                    bean.orderChannel = new CarBean().orderChannel;
-                    carList.add(bean);
-                }
-                id++;
+    public static void sortListDataImage(List<CarBean> carList) {
+        for (CarBean bean : carList) {
+            CarTypeEnum carTypeEnum = CarTypeEnum.getCarType(bean.carType, bean.carSeat);
+            if (carTypeEnum != null) {
+                bean.imgRes = carTypeEnum.imgRes;
             }
         }
-        return carList;
+    }
+
+    public static ArrayList<CarBean> initCarListData(ArrayList<CarBean> checkCarList) {
+
+        for(CarBean carBean:checkCarList){
+            ChooseCarTypeEnum carTypeEnum = ChooseCarTypeEnum.getCarType(carBean.carType, carBean.carSeat);
+            if (carTypeEnum != null) {
+                carBean.imgRes = carTypeEnum.imgRes;
+                Log.e("==============",carBean.imgRes+"");
+            }
+        }
+//        int id = 1;
+//        CarBean bean;
+//        ArrayList<CarBean> carList = new ArrayList<CarBean>(16);
+//        for (int i = 1; i <= 4; i++) {
+//            for (int j = 1; j <= 4; j++) {
+//                bean = new CarBean();
+//                bean.id = id;
+//                bean.carType = i;
+//                bean.carSeat = Constants.CarSeatMap.get(j);
+//                bean.originalPrice = 0;
+////                bean.models = Constants.CarDescInfoMap.get(i).get(j);
+//                ChooseCarTypeEnum carTypeEnum = ChooseCarTypeEnum.getCarType(bean.carType, bean.carSeat);
+//                if (carTypeEnum != null) {
+//                    bean.imgRes = carTypeEnum.imgRes;
+//                    Log.e("==============",bean.imgRes+"");
+//                }
+//
+//                CarBean newCarBean = isMatchLocal(bean,checkCarList);
+//                if (null != newCarBean) {
+//                    bean.models = newCarBean.models;
+//                    bean.capOfLuggage = newCarBean.capOfLuggage;
+//                    bean.desc = newCarBean.desc;
+//                    bean.capOfPerson = newCarBean.capOfPerson;
+//                    bean.price = newCarBean.price;
+//                    bean.pricemark = newCarBean.pricemark;
+//                    bean.priceChannel = newCarBean.priceChannel;
+//                    bean.orderChannel = new CarBean().orderChannel;
+//                    carList.add(bean);
+//                }
+//                id++;
+//            }
+//        }
+        return checkCarList;
     }
 
 
@@ -99,8 +116,6 @@ public class CarUtils {
         carBean.imgRes = CarUtils.getCarImgs(collectGuideBean.carType,collectGuideBean.carClass);
         return carBean;
     }
-
-
 
 
 }
