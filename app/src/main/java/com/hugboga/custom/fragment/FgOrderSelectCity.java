@@ -73,6 +73,7 @@ import static com.hugboga.custom.R.id.go_city_text_click_right;
 import static com.hugboga.custom.R.id.people_text_click;
 import static com.hugboga.custom.R.id.start_city_click;
 import static com.hugboga.custom.R.id.start_date_right;
+import static u.aly.au.T;
 
 /**
  * Created  on 16/4/14.
@@ -177,6 +178,7 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
     protected void initView() {
         initHeader();
         initSelectPeoplePop(false);
+        enableNextBtn();
 
         startBean = this.getArguments().getParcelable("cityBean");
 
@@ -294,7 +296,7 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
         full_day_show.setVisibility(View.VISIBLE);
         full_day_date_layout.setVisibility(View.VISIBLE);
         isHalfTravel = false;
-        checkNextBtnStatus();
+//        checkNextBtnStatus();
     }
 
     private void showHalf() {
@@ -302,7 +304,7 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
         full_day_show.setVisibility(GONE);
         full_day_date_layout.setVisibility(GONE);
         isHalfTravel = true;
-        checkNextBtnStatus();
+//        checkNextBtnStatus();
     }
 
 
@@ -316,42 +318,52 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
         nextBtnClick.setBackgroundColor(ContextCompat.getColor(this.getActivity(), R.color.all_bg_yellow));
     }
 
-    public void checkNextBtnStatus() {
+    public boolean checkNextBtnStatus() {
         if (null == startBean) {
-            disableNextBtn();
-            return;
+//            disableNextBtn();
+            ToastUtils.showShort("请选择城市");
+            return false;
         }
 
         if (TextUtils.isEmpty(peopleTextClick.getText())) {
-            disableNextBtn();
-            return;
+            ToastUtils.showShort("请选择出发人数");
+//            disableNextBtn();
+            return false;
         }
 
         if (TextUtils.isEmpty(baggageTextClick.getText())) {
-            disableNextBtn();
-            return;
+            ToastUtils.showShort("请选择出发人数");
+//            disableNextBtn();
+            return false;
+        }
+
+        if(serverTime.equalsIgnoreCase("00:00")){
+            ToastUtils.showShort("请选择上车时间");
+//            disableNextBtn();
+            return false;
         }
 
         if (isHalfTravel) {
             if (TextUtils.isEmpty(halfDate)) {
-                disableNextBtn();
-                return;
+                ToastUtils.showShort("请选择游玩日期");
+//                disableNextBtn();
+                return false;
             }
         } else {
-            if (TextUtils.isEmpty(start_date_str)) {
-                disableNextBtn();
-                return;
+            if (TextUtils.isEmpty(start_date_str) || TextUtils.isEmpty(end_date_str)) {
+                ToastUtils.showShort("请选择开始日期和结束日期");
+//                disableNextBtn();
+                return false;
             }
-            if (TextUtils.isEmpty(end_date_str)) {
-                disableNextBtn();
-                return;
-            }
+
             if (passBeanList.size() != nums) {
-                disableNextBtn();
-                return;
+                ToastUtils.showShort("请填写每日行程");
+//                disableNextBtn();
+                return false;
             }
         }
-        enableNextBtn();
+        return true;
+//        enableNextBtn();
     }
 
     @Override
@@ -527,7 +539,7 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
         } else {
             endCityId = cityId;
         }
-        checkNextBtnStatus();
+//        checkNextBtnStatus();
 
     }
 
@@ -619,7 +631,7 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
                     peopleTextClick.setText(String.format(getString(R.string.select_city_man_child_num), manNum, childNum));
                     peopleTextClick.setTextColor(Color.parseColor("#000000"));
                 }
-                checkNextBtnStatus();
+//                checkNextBtnStatus();
                 hideSelectPeoplePop();
             }
         });
@@ -731,7 +743,7 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
 //                    }
 //                }
             }
-            checkNextBtnStatus();
+//            checkNextBtnStatus();
         }
     }
 
@@ -1053,66 +1065,69 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
                 break;
             case R.id.next_btn_click:
 
-                if (null != collectGuideBean) {
-                    if(collectGuideBean.numOfPerson == 4 && (manNum + childNum) == 4
-                            || collectGuideBean.numOfPerson == 6 && (manNum + childNum) == 6){
-                        AlertDialogUtils.showAlertDialog(getActivity(),getString(R.string.alert_car_full),
-                                "继续下单","更换车型",new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        checkGuideCoflict();
-                                        dialog.dismiss();
-                                    }
-                                },new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                    }
-                                });
-                    }else{
-                        checkGuideCoflict();
+                if(checkNextBtnStatus()) {
+
+                    if (null != collectGuideBean) {
+                        if (collectGuideBean.numOfPerson == 4 && (manNum + childNum) == 4
+                                || collectGuideBean.numOfPerson == 6 && (manNum + childNum) == 6) {
+                            AlertDialogUtils.showAlertDialog(getActivity(), getString(R.string.alert_car_full),
+                                    "继续下单", "更换车型", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            checkGuideCoflict();
+                                            dialog.dismiss();
+                                        }
+                                    }, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                        }
+                                    });
+                        } else {
+                            checkGuideCoflict();
+                        }
+                    } else {
+                        Bundle bundleCar = new Bundle();
+                        bundleCar.putString("startCityId", startBean.cityId + "");
+                        bundleCar.putString("endCityId", isHalfTravel ? (startBean.cityId + "") : passBeanList.get(passBeanList.size() - 1).cityId + "");//endCityId);
+                        bundleCar.putString("startDate", isHalfTravel ? (halfDate) : (start_date_str));
+                        bundleCar.putString("endDate", isHalfTravel ? (halfDate) : (end_date_str));
+                        bundleCar.putString("halfDay", isHalfTravel ? "1" : "0");
+                        bundleCar.putString("adultNum", manNum + "");
+                        bundleCar.putString("childrenNum", childNum + "");
+                        bundleCar.putString("childseatNum", childSeatNums + "");
+                        bundleCar.putString("luggageNum", baggageNum + "");
+                        bundleCar.putString("passCities", isHalfTravel ? "" : getPassCities());
+
+                        bundleCar.putString("startCityName", startBean.name);
+                        bundleCar.putString("dayNums", nums + "");
+                        bundleCar.putParcelable("startBean", startBean);
+                        bundleCar.putParcelable("endBean", endBean);
+                        bundleCar.putInt("outnum", getOutNum());
+                        bundleCar.putInt("innum", getInNum());
+                        bundleCar.putString("source", source);
+                        bundleCar.putBoolean("isHalfTravel", isHalfTravel);
+                        bundleCar.putSerializable("passCityList", passBeanList);
+                        bundleCar.putString("orderType", "3");
+
+                        FGSelectCar fgSelectCar = new FGSelectCar();
+                        fgSelectCar.setArguments(bundleCar);
+                        startFragment(fgSelectCar);
                     }
-                } else {
-                    Bundle bundleCar = new Bundle();
-                    bundleCar.putString("startCityId", startBean.cityId + "");
-                    bundleCar.putString("endCityId", isHalfTravel ? (startBean.cityId + "") : passBeanList.get(passBeanList.size() - 1).cityId + "");//endCityId);
-                    bundleCar.putString("startDate", isHalfTravel ? (halfDate) : (start_date_str));
-                    bundleCar.putString("endDate", isHalfTravel ? (halfDate) : (end_date_str));
-                    bundleCar.putString("halfDay", isHalfTravel ? "1" : "0");
-                    bundleCar.putString("adultNum", manNum + "");
-                    bundleCar.putString("childrenNum", childNum + "");
-                    bundleCar.putString("childseatNum", childSeatNums + "");
-                    bundleCar.putString("luggageNum", baggageNum + "");
-                    bundleCar.putString("passCities", isHalfTravel ? "" : getPassCities());
-
-                    bundleCar.putString("startCityName", startBean.name);
-                    bundleCar.putString("dayNums", nums + "");
-                    bundleCar.putParcelable("startBean", startBean);
-                    bundleCar.putParcelable("endBean", endBean);
-                    bundleCar.putInt("outnum", getOutNum());
-                    bundleCar.putInt("innum", getInNum());
-                    bundleCar.putString("source", source);
-                    bundleCar.putBoolean("isHalfTravel", isHalfTravel);
-                    bundleCar.putSerializable("passCityList", passBeanList);
-                    bundleCar.putString("orderType", "3");
-
-                    FGSelectCar fgSelectCar = new FGSelectCar();
-                    fgSelectCar.setArguments(bundleCar);
-                    startFragment(fgSelectCar);
-                }
 //                try {
 //                    Reservoir.clear();
 //                } catch (Exception e) {
 //                    e.printStackTrace();
 //                }
-                //统计,这代码应该加到点击事件方法的最后边
-                HashMap<String, String> map = new HashMap<String, String>();
-                map.put("source", source);
-                map.put("begincity", startBean.name);
+                    //统计,这代码应该加到点击事件方法的最后边
+                    HashMap<String, String> map = new HashMap<String, String>();
+                    map.put("source", source);
+                    map.put("begincity", startBean.name);
 //                map.put("guestcount", manNum + childNum + "");
 //                map.put("luggagecount", baggageNum + "");
 //                map.put("drivedays", getOutNum() + getInNum() + "");
-                MobclickAgent.onEventValue(getActivity(), "chosecar_oneday", map, isHalfTravel ? 1 : getOutNum() * 2 + getInNum() * 2);
+                    MobclickAgent.onEventValue(getActivity(), "chosecar_oneday", map, isHalfTravel ? 1 : getOutNum() * 2 + getInNum() * 2);
+                }
                 break;
         }
     }
@@ -1302,7 +1317,7 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
                         time_layout.setVisibility(View.GONE);
                     }
 
-                    checkNextBtnStatus();
+//                    checkNextBtnStatus();
                 }else{
                     start_date_str = chooseDateBean.start_date;
                     end_date_str = chooseDateBean.end_date;
@@ -1319,7 +1334,7 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
 
                     end_date_right.setText("共包车"+chooseDateBean.dayNums+"天");
                     addDayView(false);
-                    checkNextBtnStatus();
+//                    checkNextBtnStatus();
                 }
                 break;
             default:
@@ -1412,7 +1427,7 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
                 goCityTextClick.setText(serverDate);
                 goCityTextClick.setTextColor(Color.parseColor("#000000"));
             }
-            checkNextBtnStatus();
+//            checkNextBtnStatus();
         }
     }
 
