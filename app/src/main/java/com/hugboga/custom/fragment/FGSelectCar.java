@@ -256,6 +256,7 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
                 break;
             }
         }
+        jazzyPager.setCurrentItem(selctIndex);
     }
 
     SelectCarBean carBean;
