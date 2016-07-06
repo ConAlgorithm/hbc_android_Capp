@@ -623,6 +623,12 @@ public class CalendarPickerView extends ListView {
         selectedCells.get(0).setRangeState(MonthCellDescriptor.RangeState.FIRST);
         selectedCells.get(1).setRangeState(MonthCellDescriptor.RangeState.LAST);
 
+        if(end.before(start)){
+          selectedCells.get(0).setRangeState(RangeState.NONE);
+          selectedCells.get(1).setRangeState(MonthCellDescriptor.RangeState.NONE);
+        }
+
+
 
         for (List<List<MonthCellDescriptor>> month : cells) {
           for (List<MonthCellDescriptor> week : month) {

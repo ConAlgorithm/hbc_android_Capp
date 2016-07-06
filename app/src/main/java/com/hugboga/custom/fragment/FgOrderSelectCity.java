@@ -996,6 +996,7 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
 //                    showDaySelect(endDate);
                     Intent intent = new Intent(getActivity(),DatePickerActivity.class);
                     intent.putExtra("type",TYPE_RANGE);
+                    intent.putExtra("chooseDateBean",chooseDateBean);
                     startActivity(intent);
                 }
                 break;
@@ -1237,7 +1238,7 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
         dpd.show(this.getActivity().getFragmentManager(), "DatePickerDialog");   //显示日期设置对话框
 
     }
-
+    ChooseDateBean chooseDateBean;
     @Subscribe
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
@@ -1250,9 +1251,9 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
                 }
                 break;
             case CHOOSE_DATE:
-                ChooseDateBean chooseDateBean = (ChooseDateBean)action.getData();
+                chooseDateBean = (ChooseDateBean)action.getData();
                 if(chooseDateBean.type == 1){
-                    halfDate = chooseDateBean.halfDate;
+                    halfDate = chooseDateBean.halfDateStr;
                     goCityTextClick.setText(chooseDateBean.showHalfDateStr);
                     if(chooseDateBean.isToday) {
                         go_city_text_click_right.setText("今天");
