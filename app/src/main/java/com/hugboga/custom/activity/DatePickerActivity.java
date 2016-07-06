@@ -54,7 +54,7 @@ public class DatePickerActivity extends BaseActivity {
 
     Calendar nextYear,lastYear;
 
-    ChooseDateBean chooseDateBean;
+    ChooseDateBean mChooseDateBean;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,7 +63,7 @@ public class DatePickerActivity extends BaseActivity {
         calender_type = this.getIntent().getIntExtra("type", 1);
         initViews();
         initWeek();
-        chooseDateBean = this.getIntent().getParcelableExtra("chooseDateBean");
+        mChooseDateBean = this.getIntent().getParcelableExtra("chooseDateBean");
         nextYear = Calendar.getInstance();
         nextYear.add(Calendar.YEAR, 1);
 
@@ -73,16 +73,23 @@ public class DatePickerActivity extends BaseActivity {
         customDayViewAdapter = new CustomDayViewAdapter();
         calendar.setCustomDayView(customDayViewAdapter);
 
-        if(chooseDateBean != null){
-            if(calender_type == 1){
+        if(mChooseDateBean != null){
+            if(calender_type == 1 && null != mChooseDateBean.halfDate){
                 model = CalendarPickerView.SelectionMode.SINGLE;
-                calendar.init(lastYear.getTime(), nextYear.getTime()).inMode(model).withSelectedDate(chooseDateBean.halfDate);
-            }else {
+                calendar.init(lastYear.getTime(), nextYear.getTime()).inMode(model).withSelectedDate(mChooseDateBean.halfDate);
+            }else if(calender_type == 2 && null != mChooseDateBean.startDate){
                 model = CalendarPickerView.SelectionMode.RANGE;
                 List<Date> dates = new ArrayList<>();
-                dates.add(chooseDateBean.startDate);
-                dates.add(chooseDateBean.endDate);
+                dates.add(mChooseDateBean.startDate);
+                dates.add(mChooseDateBean.endDate);
                 calendar.init(lastYear.getTime(), nextYear.getTime()).inMode(model).withSelectedDates(dates);
+            }else {
+                if (calender_type == 1) {
+                    model = CalendarPickerView.SelectionMode.SINGLE;
+                } else {
+                    model = CalendarPickerView.SelectionMode.RANGE;
+                }
+                calendar.init(lastYear.getTime(), nextYear.getTime()).inMode(model);
             }
         }else {
             if (calender_type == 1) {
@@ -105,6 +112,15 @@ public class DatePickerActivity extends BaseActivity {
                     chooseDateBean.showHalfDateStr = DateUtils.dateSimpleDateFormatMMdd.format(date);
                     chooseDateBean.type = calender_type;
                     chooseDateBean.isToday = DateUtils.isToday(date);
+                    if(null != mChooseDateBean){
+                        chooseDateBean.startDate =   mChooseDateBean.startDate;
+                        chooseDateBean.endDate = mChooseDateBean.endDate;
+                        chooseDateBean.start_date = mChooseDateBean.start_date;
+                        chooseDateBean.end_date = mChooseDateBean.end_date;
+                        chooseDateBean.showStartDateStr = mChooseDateBean.showStartDateStr;
+                        chooseDateBean.showEndDateStr = mChooseDateBean.showEndDateStr;
+                        chooseDateBean.dayNums = mChooseDateBean.dayNums;
+                    }
                     EventBus.getDefault().post(new EventAction(EventType.CHOOSE_DATE, chooseDateBean));
                     disPlayOnly();
                 } else {
@@ -124,6 +140,11 @@ public class DatePickerActivity extends BaseActivity {
                             chooseDateBean.isToday = DateUtils.isToday(dates.get(0));
                             chooseDateBean.startDate = dates.get(0);
                             chooseDateBean.endDate = dates.get(dates.size() - 1);
+                            if(null != mChooseDateBean){
+                                chooseDateBean.showHalfDateStr = mChooseDateBean.showHalfDateStr;
+                                chooseDateBean.halfDate = mChooseDateBean.halfDate;
+                                chooseDateBean.halfDateStr = mChooseDateBean.halfDateStr;
+                            }
                             EventBus.getDefault().post(new EventAction(EventType.CHOOSE_DATE, chooseDateBean));
                             disPlayOnly();
                         }

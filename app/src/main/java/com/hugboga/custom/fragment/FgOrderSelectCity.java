@@ -1014,6 +1014,7 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
 //                    showDaySelect(goCityTextClick);
                     Intent intent = new Intent(getActivity(),DatePickerActivity.class);
                     intent.putExtra("type",TYPE_SINGLE);
+                    intent.putExtra("chooseDateBean",chooseDateBean);
                     startActivity(intent);
 
                 }
