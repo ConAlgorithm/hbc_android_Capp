@@ -389,11 +389,47 @@ public class CityUtils {
     public static List<SearchGroupBean> getLevel1City(Activity activity) {
         try {
             DbManager mDbManager = new DBHelper(activity).getDbManager();
-            Selector selector = null;
-            selector = mDbManager.selector(LineGroupBean.class);
-            selector.where("level", "=", 1);
-            selector.orderBy("hot_weight", true);
-            List<LineGroupBean> list = selector.findAll();
+
+            String sql = "select * from line_group where level=1";
+
+            SqlInfo sqlinfo = new SqlInfo();
+            sqlinfo.setSql(sql);
+
+            List<LineGroupBean> list = new ArrayList<>();
+            try {
+                List<DbModel> modelList = mDbManager.findDbModelAll(sqlinfo);
+                if (modelList != null && modelList.size() > 0) {
+                    final int listsize = modelList.size();
+                    int specialofferlistindex = listsize;
+                    for (int modelindex = 0; modelindex < listsize; modelindex++) {
+                        DbModel model = modelList.get(modelindex);
+                        if (model != null) {
+                            LineGroupBean searchGroupBean = new LineGroupBean();
+                            searchGroupBean.isSelected = false;
+
+                            searchGroupBean.group_name = model.getString("group_name");
+                            searchGroupBean.group_id = model.getInt("group_id");
+
+                            searchGroupBean.parent_name = model.getString("parent_name");
+                            searchGroupBean.parent_id = model.getInt("parent_id");
+
+                            searchGroupBean.hot_weight = model.getInt("hot_weight");
+
+                            list.add(searchGroupBean);
+                        }
+                    }
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+//
+//            Selector selector = null;
+//            selector = mDbManager.selector(LineGroupBean.class);
+//            selector.where("level", "=", 1);
+//            selector.orderBy("hot_weight", true);
+//            List<LineGroupBean> list = selector.findAll();
             return lineGroupBeanAdapter(list, 1);
         } catch (Exception e) {
             e.printStackTrace();
@@ -407,12 +443,47 @@ public class CityUtils {
     public static List<SearchGroupBean> getType1City(Activity activity, int group_id) {
         try {
             DbManager mDbManager = new DBHelper(activity).getDbManager();
-            Selector selector = null;
-            selector = mDbManager.selector(LineGroupBean.class);
-            selector.where("parent_type", "=", 1);
-            selector.and("parent_id", "=", group_id);
-            selector.orderBy("hot_weight", true);
-            List<LineGroupBean> list = selector.findAll();
+
+            String sql = "select * from line_group where parent_type=1 and parent_id="+group_id;
+            SqlInfo sqlinfo = new SqlInfo();
+            sqlinfo.setSql(sql);
+
+            List<LineGroupBean> list = new ArrayList<>();
+            try {
+                List<DbModel> modelList = mDbManager.findDbModelAll(sqlinfo);
+                if (modelList != null && modelList.size() > 0) {
+                    final int listsize = modelList.size();
+                    for (int modelindex = 0; modelindex < listsize; modelindex++) {
+                        DbModel model = modelList.get(modelindex);
+                        if (model != null) {
+                            LineGroupBean searchGroupBean = new LineGroupBean();
+                            searchGroupBean.isSelected = false;
+
+                            searchGroupBean.group_name = model.getString("group_name");
+                            searchGroupBean.group_id = model.getInt("group_id");
+
+                            searchGroupBean.parent_name = model.getString("parent_name");
+                            searchGroupBean.parent_id = model.getInt("parent_id");
+
+                            searchGroupBean.hot_weight = model.getInt("hot_weight");
+
+                            list.add(searchGroupBean);
+                        }
+                    }
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+
+//
+//            Selector selector = null;
+//            selector = mDbManager.selector(LineGroupBean.class);
+//            selector.where("parent_type", "=", 1);
+//            selector.and("parent_id", "=", group_id);
+//            selector.orderBy("hot_weight", true);
+//            List<LineGroupBean> list = selector.findAll();
             return lineGroupBeanAdapter(list, 1);
         } catch (Exception e) {
             e.printStackTrace();
@@ -427,11 +498,49 @@ public class CityUtils {
     public static List<SearchGroupBean> getType2City(Activity activity, int group_id) {
         try {
             DbManager mDbManager = new DBHelper(activity).getDbManager();
-            Selector selector = null;
-            selector = mDbManager.selector(LineGroupItem.class);
-            selector.where("type", "=", 2);
-            selector.and("group_id", "=", group_id);
-            List<LineGroupItem> list = selector.findAll();
+
+            String sql = "select * from line_group_item where type=2 and group_id="+group_id;
+            SqlInfo sqlinfo = new SqlInfo();
+            sqlinfo.setSql(sql);
+
+            List<LineGroupItem> list = new ArrayList<>();
+            try {
+                List<DbModel> modelList = mDbManager.findDbModelAll(sqlinfo);
+                if (modelList != null && modelList.size() > 0) {
+                    final int listsize = modelList.size();
+                    for (int modelindex = 0; modelindex < listsize; modelindex++) {
+                        DbModel model = modelList.get(modelindex);
+                        if (model != null) {
+                            LineGroupItem searchGroupBean = new LineGroupItem();
+                            searchGroupBean.isSelected = false;
+
+                            searchGroupBean.group_name = model.getString("group_name");
+                            searchGroupBean.group_id = model.getInt("group_id");
+
+                            searchGroupBean.sub_city_name = model.getString("sub_city_name");
+                            searchGroupBean.sub_city_id = model.getInt("sub_city_id");
+
+                            searchGroupBean.sub_place_name = model.getString("sub_place_name");
+                            searchGroupBean.sub_place_id = model.getInt("sub_place_id");
+
+                            searchGroupBean.type = model.getInt("type");
+
+                            searchGroupBean.hot_weight = model.getInt("hot_weight");
+
+                            list.add(searchGroupBean);
+                        }
+                    }
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+//            Selector selector = null;
+//            selector = mDbManager.selector(LineGroupItem.class);
+//            selector.where("type", "=", 2);
+//            selector.and("group_id", "=", group_id);
+//            List<LineGroupItem> list = selector.findAll();
             return lineGroupItemAdapter(list, 2);
         } catch (Exception e) {
             e.printStackTrace();
@@ -445,11 +554,50 @@ public class CityUtils {
     public static List<SearchGroupBean> getType3City(Activity activity, int group_id) {
         try {
             DbManager mDbManager = new DBHelper(activity).getDbManager();
-            Selector selector = null;
-            selector = mDbManager.selector(LineGroupItem.class);
-            selector.where("type", "=", 3);
-            selector.and("group_id", "=", group_id);
-            List<LineGroupItem> list = selector.findAll();
+
+            String sql = "select * from line_group_item where type=3 and group_id="+group_id;
+            SqlInfo sqlinfo = new SqlInfo();
+            sqlinfo.setSql(sql);
+
+            List<LineGroupItem> list = new ArrayList<>();
+            try {
+                List<DbModel> modelList = mDbManager.findDbModelAll(sqlinfo);
+                if (modelList != null && modelList.size() > 0) {
+                    final int listsize = modelList.size();
+                    for (int modelindex = 0; modelindex < listsize; modelindex++) {
+                        DbModel model = modelList.get(modelindex);
+                        if (model != null) {
+                            LineGroupItem searchGroupBean = new LineGroupItem();
+                            searchGroupBean.isSelected = false;
+
+                            searchGroupBean.group_name = model.getString("group_name");
+                            searchGroupBean.group_id = model.getInt("group_id");
+
+                            searchGroupBean.sub_city_name = model.getString("sub_city_name");
+                            searchGroupBean.sub_city_id = model.getInt("sub_city_id");
+
+                            searchGroupBean.sub_place_name = model.getString("sub_place_name");
+                            searchGroupBean.sub_place_id = model.getInt("sub_place_id");
+
+                            searchGroupBean.type = model.getInt("type");
+
+                            searchGroupBean.hot_weight = model.getInt("hot_weight");
+
+                            list.add(searchGroupBean);
+                        }
+                    }
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+
+//            Selector selector = null;
+//            selector = mDbManager.selector(LineGroupItem.class);
+//            selector.where("type", "=", 3);
+//            selector.and("group_id", "=", group_id);
+//            List<LineGroupItem> list = selector.findAll();
             return lineGroupItemAdapter(list, 3);
         } catch (Exception e) {
             e.printStackTrace();
