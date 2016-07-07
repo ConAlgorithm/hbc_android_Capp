@@ -386,7 +386,7 @@ public class FgChooseCityNew extends BaseFragment {
                 && (null != searchGroupBean.sub_city_name) && !searchGroupBean.sub_city_name.equalsIgnoreCase("全境"))) {
             CityUtils.addCityHistoryData(searchGroupBean);
         }
-        finish();
+//        finish();
         expandableListView.setVisibility(View.GONE);
         FgSkuList.Params params = new FgSkuList.Params();
 
