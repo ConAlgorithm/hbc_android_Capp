@@ -407,34 +407,33 @@ public class FgOrderDetail extends BaseFragment implements View.OnClickListener{
                 }
                 //如果此订单不能取消，直接进行提示
                 popup.dismiss();
-                if (orderBean.isChangeManual) {//需要人工取消订单
-                    mDialogUtil.showCallDialogTitle("如需要取消订单，请联系客服处理");
-                    return;
-                }
-                if (!orderBean.cancelable && !TextUtils.isEmpty(orderBean.cancelText)) {
-                    mDialogUtil.showCustomDialog(orderBean.cancelText);
-                    return;
-                }
 
-                String tip = "";
-                if (orderBean.orderStatus == OrderStatus.INITSTATE) {
-                    tip = getString(R.string.order_cancel_tip);
-                } else {
-                    tip = orderBean.cancelTip;
-                }
-                mDialogUtil.showCustomDialog(getString(R.string.app_name), tip, "确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (orderBean.orderStatus == OrderStatus.INITSTATE) {
-                            cancelOrder(orderBean.orderNo, 0);
-                        } else {
-                            Bundle bundle = new Bundle();
-                            bundle.putSerializable(FgOrderCancel.KEY_ORDER, orderBean);
-                            bundle.putString("source", source);
-                            startFragment(new FgOrderCancel(), bundle);
-                        }
+                if (orderBean.cancelable) {//cancelable是否能取消
+                    String tip = "";
+                    if (orderBean.orderStatus == OrderStatus.INITSTATE) {
+                        tip = getString(R.string.order_cancel_tip);
+                    } else if (orderBean.isChangeManual) {//需要人工取消订单
+                        mDialogUtil.showCallDialogTitle("如需要取消订单，请联系客服处理");
+                        return;
+                    } else {
+                        tip = orderBean.cancelTip;
                     }
-                }, "返回", null);
+                    mDialogUtil.showCustomDialog(getString(R.string.app_name), tip, "确定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if (orderBean.orderStatus == OrderStatus.INITSTATE) {
+                                cancelOrder(orderBean.orderNo, 0);
+                            } else {
+                                Bundle bundle = new Bundle();
+                                bundle.putSerializable(FgOrderCancel.KEY_ORDER, orderBean);
+                                bundle.putString("source", source);
+                                startFragment(new FgOrderCancel(), bundle);
+                            }
+                        }
+                    }, "返回", null);
+                } else {
+                    mDialogUtil.showCustomDialog(orderBean.cancelText);
+                }
             }
         });
         commonProblemTV.setOnClickListener(new View.OnClickListener() {
