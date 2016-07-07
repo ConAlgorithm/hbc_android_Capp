@@ -97,8 +97,7 @@ public class CarUtils {
             return  null;
         }
         for (int i = 0; i < carList.size(); i++) {
-            if (carList.get(i).carType == bean.carType
-                    && carList.get(i).carSeat == bean.carSeat) {
+            if (carList.get(i).carType == bean.carType && carList.get(i).carSeat == bean.carSeat) {
                 return carList.get(i);
             }
         }

@@ -163,7 +163,7 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
         bundle.putSerializable("collectGuideBean",collectGuideBean);
         bundle.putParcelable("carListBean", carListBean);
         if(isDataBack) {
-            String sTime = serverDate +":00";
+            String sTime = serverDate +" " + serverTime +":00";
             bundle.putInt("cityId", cityId);
             bundle.putString("startTime", sTime);
             if(TextUtils.isEmpty(carListBean.estTime)){

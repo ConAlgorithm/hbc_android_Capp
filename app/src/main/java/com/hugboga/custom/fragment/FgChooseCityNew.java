@@ -217,13 +217,8 @@ public class FgChooseCityNew extends BaseFragment {
                 for (SearchGroupBean lineGroupBean : groupList) {
                     lineGroupBean.isSelected = false;
                 }
-
-                for (int i = 0; i < groupList.size(); i++) {
-                    if (i == position) {
-                        groupList.get(i).isSelected = true;
-                        levelCityAdapterLeft.notifyDataSetChanged();
-                    }
-                }
+                groupList.get(position).isSelected = true;
+                levelCityAdapterLeft.notifyDataSetChanged();
                 showMiddleData(position);
 
 
@@ -234,6 +229,12 @@ public class FgChooseCityNew extends BaseFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 rightList.setVisibility(View.GONE);
+                for (SearchGroupBean lineGroupBean : groupList2) {
+                    lineGroupBean.isSelected = false;
+                }
+                groupList2.get(position).isSelected = true;
+                levelCityAdapterMiddle.notifyDataSetChanged();
+
                 if (groupList2.get(position).spot_id == -1) {
                     finish();
                     FgPickSend fgPickSend = new FgPickSend();
@@ -259,6 +260,11 @@ public class FgChooseCityNew extends BaseFragment {
         rightList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                for (SearchGroupBean lineGroupBean : groupList3) {
+                    lineGroupBean.isSelected = false;
+                }
+                groupList3.get(position).isSelected = true;
+                levelCityAdapterRight.notifyDataSetChanged();
                 goCityList(groupList3.get(position));
             }
         });
@@ -284,16 +290,6 @@ public class FgChooseCityNew extends BaseFragment {
 
 
     private void showRightData(int position) {
-        for (SearchGroupBean lineGroupBean : groupList2) {
-            lineGroupBean.isSelected = false;
-        }
-
-        for (int i = 0; i < groupList.size(); i++) {
-            if (i == position) {
-                groupList2.get(i).isSelected = true;
-                levelCityAdapterMiddle.notifyDataSetChanged();
-            }
-        }
         levelCityAdapterRight = new LevelCityAdapter(getActivity(), 3);
         List<SearchGroupBean> list3 = CityUtils.getLevel3City(getActivity(), groupList2.get(position).sub_place_id);
         if (null == list3 || list3.size() == 0) {

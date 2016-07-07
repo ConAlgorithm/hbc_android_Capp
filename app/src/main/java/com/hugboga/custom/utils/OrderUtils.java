@@ -710,6 +710,6 @@ public class OrderUtils {
                 guideIds,startTime,
                 endTime,passCityId,totalDay,
                 carType,carClass);
-        HttpRequestUtils.request(context, requestGuideConflict,listener);
+        HttpRequestUtils.request(context, requestGuideConflict,listener,false);
     }
 }

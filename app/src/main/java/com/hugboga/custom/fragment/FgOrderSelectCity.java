@@ -1095,6 +1095,7 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
                         bundleCar.putString("endCityId", isHalfTravel ? (startBean.cityId + "") : passBeanList.get(passBeanList.size() - 1).cityId + "");//endCityId);
                         bundleCar.putString("startDate", isHalfTravel ? (halfDate) : (start_date_str));
                         bundleCar.putString("endDate", isHalfTravel ? (halfDate) : (end_date_str));
+                        bundleCar.putString("serverTime",serverTime);
                         bundleCar.putString("halfDay", isHalfTravel ? "1" : "0");
                         bundleCar.putString("adultNum", manNum + "");
                         bundleCar.putString("childrenNum", childNum + "");
