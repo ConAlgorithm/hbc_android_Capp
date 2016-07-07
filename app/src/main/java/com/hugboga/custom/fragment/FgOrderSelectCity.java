@@ -1071,8 +1071,8 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
                 if(checkNextBtnStatus()) {
 
                     if (null != collectGuideBean) {
-                        if (collectGuideBean.numOfPerson == 4 && (manNum + childNum) == 4
-                                || collectGuideBean.numOfPerson == 6 && (manNum + childNum) == 6) {
+                        if ((collectGuideBean.carType == 1 && collectGuideBean.numOfPerson == 4 && (manNum + childNum) == 4)
+                                || (collectGuideBean.carType == 1 && collectGuideBean.numOfPerson == 6 && (manNum + childNum) == 6)) {
                             AlertDialogUtils.showAlertDialog(getActivity(), getString(R.string.alert_car_full),
                                     "继续下单", "更换车型", new DialogInterface.OnClickListener() {
                                         @Override

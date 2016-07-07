@@ -314,8 +314,9 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
                     public void onClick(View v) {
                         if(UserEntity.getUser().isLogin(getActivity())) {
                             if(null != collectGuideBean) {
-                                if(carBean.carType == 1 && carBean.capOfPerson == 4 && (Integer.valueOf(manLuggageBean.mans) + Integer.valueOf(manLuggageBean.childs)) == 4
-                                        || carBean.capOfPerson == 6 && (Integer.valueOf(manLuggageBean.mans) + Integer.valueOf(manLuggageBean.childs)) == 6){
+                                if((carBean.carType == 1 && carBean.capOfPerson == 4
+                                        && (Integer.valueOf(manLuggageBean.mans) + Integer.valueOf(manLuggageBean.childs)) == 4)
+                                        || (carBean.carType == 1 && carBean.capOfPerson == 6 && (Integer.valueOf(manLuggageBean.mans) + Integer.valueOf(manLuggageBean.childs)) == 6)){
                                     AlertDialogUtils.showAlertDialog(getActivity(),getString(R.string.alert_car_full),
                                             "继续下单","更换车型",new DialogInterface.OnClickListener() {
                                                 @Override
