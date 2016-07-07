@@ -398,7 +398,7 @@ public class FGOrderNew extends BaseFragment {
         RequestCancleTips requestCancleTips = new RequestCancleTips(getContext(),
                 cancleTipsId,orderType+"",
                 carBean.capOfPerson+"",carBean.carType+"",
-                cancleTipsTime,halfDay,goodsVersion,goodsNo);
+                cancleTipsTime,halfDay,goodsVersion,goodsNo,orderType+"");
         HttpRequestUtils.request(getContext(), requestCancleTips, new HttpRequestListener() {
             @Override
             public void onDataRequestSucceed(BaseRequest request) {
