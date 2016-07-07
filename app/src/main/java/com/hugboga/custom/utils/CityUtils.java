@@ -245,13 +245,13 @@ public class CityUtils {
 
 
     //获取国家下面的城市
-    public static List<SearchGroupBean> getCountryCity(Activity activity, String sub_place_id) {
+    public static List<SearchGroupBean> getCountryCity(Activity activity, String group_id) {
         try {
             DbManager mDbManager = new DBHelper(activity).getDbManager();
             Selector selector = null;
             selector = mDbManager.selector(LineGroupItem.class);
             selector.where("type", "=", 3);
-            selector.and("sub_place_id", "=", sub_place_id);
+            selector.and("group_id", "=", group_id);
             selector.orderBy("hot_weight", true);
             selector.limit(5);
             List<LineGroupItem> list = selector.findAll();
@@ -306,7 +306,7 @@ public class CityUtils {
         }
 
         if (bean.type == 2) {
-            List<SearchGroupBean> cityList = getCountryCity(activity, bean.sub_place_id + "");
+            List<SearchGroupBean> cityList = getCountryCity(activity, bean.group_id + "");
 
             if (null != cityList && cityList.size() > 0) {
                 list.addAll(cityList);

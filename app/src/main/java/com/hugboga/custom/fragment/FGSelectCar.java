@@ -166,6 +166,8 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
     public String passCities = "204-1-1,204-1-2";
     public String channelId = "18";
 
+    public String serverTime = "";
+
     public String startCityName = "";
     public String carTypeName = "";
     public String dayNums = "";
@@ -179,7 +181,7 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
     protected void initView() {
         getArgs();
         RequestGetCarInfo requestGetCarInfo = new RequestGetCarInfo(this.getActivity(),
-                startCityId, endCityId, startDate+" 00:00:00", endDate+" 00:00:00", halfDay, adultNum,
+                startCityId, endCityId, startDate+" "+serverTime+":00", endDate+" 00:00:00", halfDay, adultNum,
                 childrenNum, childseatNum, luggageNum, passCities,channelId);
         HttpRequestUtils.request(this.getActivity(), requestGetCarInfo, this);
         jazzyPager.setTransitionEffect(JazzyViewPager.TransitionEffect.ZoomIn);
@@ -203,6 +205,7 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
         startCityId = this.getArguments().getString("startCityId");
         endCityId = this.getArguments().getString("endCityId");
         startDate = this.getArguments().getString("startDate");
+        serverTime = this.getArguments().getString("serverTime");
         endDate = this.getArguments().getString("endDate");
         halfDay = this.getArguments().getString("halfDay");
         adultNum = this.getArguments().getString("adultNum");
@@ -685,7 +688,6 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
     @Override
     public void onPageSelected(int position) {
         selctIndex = position;
-        MLog.e("position========="+position);
         showContent();
     }
 
