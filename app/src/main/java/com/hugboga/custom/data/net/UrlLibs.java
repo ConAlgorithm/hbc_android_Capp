@@ -31,9 +31,9 @@ public class UrlLibs {
 //    测试环境 host  res.test.hbc.tech
 //    生产环境 host  res2.huangbaoche.com
 
-    public static String DEV_H5_HOST = "http://res.dev.hbc.tech";
-    public static String TEST_H5_HOST = "http://res.test.hbc.tech";
-    public static String FORMAL_H5_HOST = "http://res2.huangbaoche.com";
+    public static String DEV_H5_HOST = "http://info.dev.hbc.tech";
+    public static String TEST_H5_HOST = "http://info.test.hbc.tech";
+    public static String FORMAL_H5_HOST = "http://info.huangbaoche.com";
 
     public static String H5_HOST = TEST_H5_HOST;
 

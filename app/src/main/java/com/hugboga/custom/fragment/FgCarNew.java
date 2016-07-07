@@ -31,6 +31,7 @@ import com.hugboga.custom.utils.CarUtils;
 import com.hugboga.custom.utils.ToastUtils;
 import com.hugboga.custom.widget.JazzyViewPager;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
@@ -40,11 +41,9 @@ import java.util.ArrayList;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import org.greenrobot.eventbus.EventBus;
 
 import static android.R.attr.type;
 import static com.hugboga.custom.R.id.child_count_cost;
-import static com.hugboga.custom.R.id.del_text;
 import static com.hugboga.custom.R.id.driver_name;
 import static com.hugboga.custom.R.id.l_sub;
 
@@ -281,7 +280,6 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
     CarListBean carListBean;
     CarBean carBean;
 
-
     private void genCar() {
         mAdapter = new CarViewpagerAdapter(getActivity(), mJazzy);
         if (null != collectGuideBean) {
@@ -343,6 +341,7 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
             childseatText.setVisibility(View.GONE);
             hideChildSeatLayout(0);
             manLuggageBean = null;
+            EventBus.getDefault().post(new EventAction(EventType.CAR_CHANGE_SMALL));
         }
     }
 

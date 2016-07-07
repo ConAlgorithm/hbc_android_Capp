@@ -665,4 +665,8 @@
     <string name="send_msg_fail">由于对方的权限设置，你的信息发送失败。</string>
     <string name="del_chat">删除该对话</string>
 
+    <string name="show_tips_start">请选择开始日期</string>
+    <string name="show_tips_end">请选择结束日期</string>
+    <string name="show_tips_half">请选择日期</string>
+
 </resources>

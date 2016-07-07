@@ -187,9 +187,16 @@ public class CalendarCellView extends FrameLayout {
         bottomTextView.setText("开始");
     }else if(rangeState == RangeState.SELECT){
         day_view_round.setBackgroundResource(R.drawable.day_view_selector);
+        bottomTextView.setText("开始+结束");
     }else if(rangeState == RangeState.START_END){
         day_view_round.setBackgroundResource(R.drawable.day_view_selector);
         bottomTextView.setText("开始+结束");
+    }else{
+        day_view_round.setBackgroundColor(Color.parseColor("#00000000"));
+        dayOfMonthTextView.setBackgroundColor(Color.parseColor("#00000000"));
+        day_view_round_left.setVisibility(INVISIBLE);
+        day_view_round_right.setVisibility(INVISIBLE);
+        bottomTextView.setText("");
     }
 
     return drawableState;

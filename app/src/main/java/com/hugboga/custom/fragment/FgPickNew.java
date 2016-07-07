@@ -7,7 +7,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -41,6 +40,7 @@ import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.utils.ToastUtils;
 import com.hugboga.custom.widget.DialogUtil;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
@@ -50,12 +50,6 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import org.greenrobot.eventbus.EventBus;
-
-import static com.hugboga.custom.R.id.driver_layout;
-import static com.hugboga.custom.R.id.driver_name;
-import static com.hugboga.custom.data.event.EventType.CHANGE_CAR;
-import static com.hugboga.custom.data.event.EventType.MAN_CHILD_LUUAGE;
 
 /**
  * Created  on 16/5/13.
@@ -248,7 +242,10 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
     @Subscribe
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
-
+            case CAR_CHANGE_SMALL:
+                confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
+                confirmJourney.setOnClickListener(null);
+                break;
             case CHANGE_GUIDE:
                 collectGuideBean = (CollectGuideBean)action.getData();
                 break;
@@ -317,7 +314,7 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
                     public void onClick(View v) {
                         if(UserEntity.getUser().isLogin(getActivity())) {
                             if(null != collectGuideBean) {
-                                if(carBean.capOfPerson == 4 && (Integer.valueOf(manLuggageBean.mans) + Integer.valueOf(manLuggageBean.childs)) == 4
+                                if(carBean.carType == 1 && carBean.capOfPerson == 4 && (Integer.valueOf(manLuggageBean.mans) + Integer.valueOf(manLuggageBean.childs)) == 4
                                         || carBean.capOfPerson == 6 && (Integer.valueOf(manLuggageBean.mans) + Integer.valueOf(manLuggageBean.childs)) == 6){
                                     AlertDialogUtils.showAlertDialog(getActivity(),getString(R.string.alert_car_full),
                                             "继续下单","更换车型",new DialogInterface.OnClickListener() {
@@ -337,7 +334,7 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
                                 }
 
                             }else{
-                                if(carBean.capOfPerson == 4 && (Integer.valueOf(manLuggageBean.mans) + Integer.valueOf(manLuggageBean.childs)) == 4
+                                if(carBean.carType == 1 && carBean.capOfPerson == 4 && (Integer.valueOf(manLuggageBean.mans) + Integer.valueOf(manLuggageBean.childs)) == 4
                                         || carBean.capOfPerson == 6 && (Integer.valueOf(manLuggageBean.mans) + Integer.valueOf(manLuggageBean.childs)) == 6){
                                     AlertDialogUtils.showAlertDialog(getActivity(),getString(R.string.alert_car_full),
                                             "继续下单","更换车型",new DialogInterface.OnClickListener() {
@@ -448,6 +445,8 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
                     carBean = CarUtils.isMatchLocal(CarUtils.getNewCarBean(collectGuideBean), carListBean.carList);
                 }
                 bottom.setVisibility(View.VISIBLE);
+                confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
+                confirmJourney.setOnClickListener(null);
                 genBottomData(carBean);
             } else {
                 bottom.setVisibility(View.GONE);
