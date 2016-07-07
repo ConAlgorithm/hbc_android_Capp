@@ -445,10 +445,12 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
                 }else {
                     carBean = CarUtils.isMatchLocal(CarUtils.getNewCarBean(collectGuideBean), carListBean.carList);
                 }
-                bottom.setVisibility(View.VISIBLE);
-                confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
-                confirmJourney.setOnClickListener(null);
-                genBottomData(carBean);
+                if(null != carBean) {
+                    bottom.setVisibility(View.VISIBLE);
+                    confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
+                    confirmJourney.setOnClickListener(null);
+                    genBottomData(carBean);
+                }
             } else {
                 bottom.setVisibility(View.GONE);
             }

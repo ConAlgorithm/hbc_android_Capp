@@ -288,31 +288,35 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
             carList = oldCarList;
         }
         carList = CarUtils.initCarListData(carList);
-        mAdapter.setList(carList);
-        mJazzy.setState(null);
-        mJazzy.setOffscreenPageLimit(3);
-        mJazzy.setTransitionEffect(JazzyViewPager.TransitionEffect.Tablet);
-        mJazzy.setAdapter(mAdapter);
+        if(null != carList) {
+            mAdapter.setList(carList);
+            mJazzy.setState(null);
+            mJazzy.setOffscreenPageLimit(3);
+            mJazzy.setTransitionEffect(JazzyViewPager.TransitionEffect.Tablet);
+            mJazzy.setAdapter(mAdapter);
+        }
     }
 
     private void genData() {
         genCar();
-        this.distance = carListBean.distance;
-        this.interval = carListBean.interval;
-        if (carList == null || carList.size() == 0) {
-            carEmptyLayout.setVisibility(View.VISIBLE);
-            have_data_layout.setVisibility(View.GONE);
-        } else {
-            carEmptyLayout.setVisibility(View.GONE);
-            have_data_layout.setVisibility(View.VISIBLE);
-            changeText();
-            if (null != carListBean.additionalServicePrice && null != carListBean.additionalServicePrice.checkInPrice) {
-                checkinLayout.setVisibility(View.VISIBLE);
-                checkinMoney.setText("(服务费 ￥" + carListBean.additionalServicePrice.checkInPrice + ")");
-            }
-            if (null != carListBean.additionalServicePrice && null != carListBean.additionalServicePrice.pickupSignPrice) {
-                waitLayout.setVisibility(View.VISIBLE);
-                waitMoney.setText("(服务费 ￥" + carListBean.additionalServicePrice.pickupSignPrice + ")");
+        if(canService) {
+            this.distance = carListBean.distance;
+            this.interval = carListBean.interval;
+            if (carList == null || carList.size() == 0) {
+                carEmptyLayout.setVisibility(View.VISIBLE);
+                have_data_layout.setVisibility(View.GONE);
+            } else {
+                carEmptyLayout.setVisibility(View.GONE);
+                have_data_layout.setVisibility(View.VISIBLE);
+                changeText();
+                if (null != carListBean.additionalServicePrice && null != carListBean.additionalServicePrice.checkInPrice) {
+                    checkinLayout.setVisibility(View.VISIBLE);
+                    checkinMoney.setText("(服务费 ￥" + carListBean.additionalServicePrice.checkInPrice + ")");
+                }
+                if (null != carListBean.additionalServicePrice && null != carListBean.additionalServicePrice.pickupSignPrice) {
+                    waitLayout.setVisibility(View.VISIBLE);
+                    waitMoney.setText("(服务费 ￥" + carListBean.additionalServicePrice.pickupSignPrice + ")");
+                }
             }
         }
     }
@@ -342,6 +346,7 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
             hideChildSeatLayout(0);
             manLuggageBean = null;
             EventBus.getDefault().post(new EventAction(EventType.CAR_CHANGE_SMALL));
+
         }
     }
 
@@ -392,16 +397,28 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
         initGuideLayout();
     }
 
+    //是否可以服务
+    boolean canService = true;
     private void initGuideLayout() {
         if (null != collectGuideBean) {
-            driver_layout.setVisibility(View.VISIBLE);
-            driverName.setText(collectGuideBean.name);
-            man_luggage_layout.setVisibility(View.GONE);
+
             if (null != carListBean) {
                 carBean = CarUtils.isMatchLocal(CarUtils.getNewCarBean(collectGuideBean), carListBean.carList);
             } else {
                 carBean = CarUtils.getNewCarBean(collectGuideBean);
             }
+            if(null == carBean){
+                canService = false;
+                carBean = CarUtils.getNewCarBean(collectGuideBean);
+                ToastUtils.showShort(R.string.no_have_car);
+            }else{
+                canService = true;
+            }
+
+            driver_layout.setVisibility(View.VISIBLE);
+            driverName.setText(collectGuideBean.name);
+            man_luggage_layout.setVisibility(View.GONE);
+
             final ArrayList<CarBean> newCarList = new ArrayList<>();
             newCarList.add(carBean);
             guideCarList = newCarList;

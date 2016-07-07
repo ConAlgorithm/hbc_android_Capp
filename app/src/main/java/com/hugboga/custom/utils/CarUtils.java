@@ -50,6 +50,9 @@ public class CarUtils {
     public static ArrayList<CarBean> initCarListData(ArrayList<CarBean> checkCarList) {
 
         for(CarBean carBean:checkCarList){
+            if(null == carBean){
+                return null;
+            }
             ChooseCarTypeEnum carTypeEnum = ChooseCarTypeEnum.getCarType(carBean.carType, carBean.carSeat);
             if (carTypeEnum != null) {
                 carBean.imgRes = carTypeEnum.imgRes;
