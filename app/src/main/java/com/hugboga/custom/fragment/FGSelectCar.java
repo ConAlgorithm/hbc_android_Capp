@@ -243,6 +243,9 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
                     initListData();
                     getMatchCarIndex();
                     showContent();
+                    if(carBean.match == 0){
+                        jazzyPager.setCurrentItem(cars.size() -1);
+                    }
                 }
             }
         }
