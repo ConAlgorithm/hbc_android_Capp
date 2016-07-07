@@ -643,7 +643,7 @@ public class FGOrderNew extends BaseFragment {
 
         citysLineTitle.setText("当地时间" + startDate + "(" + DateUtils.getWeekOfDate(startDate) + ")");
         citys_line_title_tips.setVisibility(GONE);
-        cancleTipsId = skuBean.cityId+"";
+        cancleTipsId = skuBean.depCityId+"";
         goodsVersion = skuBean.goodsVersion+"";
         goodsNo = skuBean.goodsNo+"";
         goodsType = skuBean.goodsType+"";
