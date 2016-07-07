@@ -499,7 +499,7 @@ public class CityUtils {
         try {
             DbManager mDbManager = new DBHelper(activity).getDbManager();
 
-            String sql = "select * from line_group_item where type=2 and group_id="+group_id;
+            String sql = "select * from line_group_item where type=2 and group_id="+group_id +" and sub_place_name != '中国' and sub_place_name != '中国大陆' order by hot_weight desc";
             SqlInfo sqlinfo = new SqlInfo();
             sqlinfo.setSql(sql);
 
@@ -555,7 +555,7 @@ public class CityUtils {
         try {
             DbManager mDbManager = new DBHelper(activity).getDbManager();
 
-            String sql = "select * from line_group_item where type=3 and group_id="+group_id;
+            String sql = "select * from line_group_item where type=3 and group_id="+group_id +" and sub_place_name != '中国' and sub_place_name != '中国大陆' order by hot_weight desc";
             SqlInfo sqlinfo = new SqlInfo();
             sqlinfo.setSql(sql);
 
@@ -1011,15 +1011,12 @@ public class CityUtils {
 
             SqlInfo sqlinfo = new SqlInfo();
             sqlinfo.setSql(sql);
-//            Cursor cursor = mDbManager.execQuery(sqlinfo);
-//            LogUtils.e(cursor.toString());
             List<LineGroupBean> list1 = new ArrayList<>();
             try {
                 List<DbModel> modelList = mDbManager.findDbModelAll(sqlinfo);
                 if (modelList != null && modelList.size() > 0) {
                     final int listsize = modelList.size();
-                    int specialofferlistindex = listsize;
-                    for (int modelindex = (listsize - 1); modelindex >= 0; --modelindex) {
+                    for (int modelindex = 0; modelindex < listsize; modelindex++) {
                         DbModel model = modelList.get(modelindex);
                         if (model != null) {
                             LineGroupBean searchGroupBean = new LineGroupBean();
@@ -1027,6 +1024,7 @@ public class CityUtils {
 
                             searchGroupBean.group_id = model.getInt("group_id");
                             searchGroupBean.group_name = model.getString("group_name");
+
 
                             searchGroupBean.type = model.getInt("type");
 
@@ -1085,7 +1083,7 @@ public class CityUtils {
                 if (modelList != null && modelList.size() > 0) {
                     final int listsize = modelList.size();
                     int specialofferlistindex = listsize;
-                    for (int modelindex = (listsize - 1); modelindex >= 0; --modelindex) {
+                    for (int modelindex = 0; modelindex < listsize; modelindex++) {
                         DbModel model = modelList.get(modelindex);
                         if (model != null) {
                             LineGroupItem searchGroupBean = new LineGroupItem();
