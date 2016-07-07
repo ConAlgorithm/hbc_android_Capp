@@ -137,7 +137,7 @@ public class LevelCityAdapter extends BaseAdapter<SearchGroupBean> {
     }
 
 
-    private String getName(int position,int flag){
+    public  String getName(int position,int flag){
         if(flag == 2){
             if(getItem(position).type == 1){
                 return getItem(position).group_name;
