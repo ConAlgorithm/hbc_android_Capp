@@ -8,6 +8,7 @@ import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.data.bean.HomeData;
 import com.hugboga.custom.data.net.NewParamsBuilder;
 import com.hugboga.custom.data.net.UrlLibs;
+import com.hugboga.custom.data.parser.HbcParser;
 
 import org.json.JSONObject;
 import org.xutils.http.HttpMethod;
@@ -34,7 +35,7 @@ public class RequestHome extends BaseRequest<HomeData> {
 
     @Override
     public ImplParser getParser() {
-        return new DataParser();
+        return new HbcParser(UrlLibs.API_HOME, HomeData.class);
     }
 
     @Override
@@ -42,17 +43,4 @@ public class RequestHome extends BaseRequest<HomeData> {
         return "40041";
     }
 
-    private static class DataParser extends ImplParser {
-        @Override
-        public Object parseObject(JSONObject obj) {
-            HomeData homeBean = null;
-            try {
-                Gson gson = new Gson();
-                homeBean = gson.fromJson(obj.toString(), HomeData.class);
-            }catch (Exception e) {
-                e.printStackTrace();
-            }
-            return homeBean;
-        }
-    }
 }

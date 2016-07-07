@@ -11,6 +11,8 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Environment;
 
+import com.hugboga.custom.MyApplication;
+
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -647,6 +649,47 @@ public class FileUtil {
     public static String getFileNameOnly(String path, String fileType) {
         String fiveStr = String.valueOf(new Random().nextInt(90000) + 10000); //5位随机号码
         return Environment.getExternalStorageDirectory() + File.separator + path + File.separator + System.currentTimeMillis() + fiveStr + fileType;
+    }
+
+    public static String getNativeFile(String fileName) {
+        StringBuffer json = new StringBuffer();
+        InputStream in = null;
+        InputStreamReader isr = null;
+        BufferedReader reader = null;
+        try {
+            in = MyApplication.getAppContext().getAssets().open(fileName);
+            isr = new InputStreamReader(in, "utf8");
+            reader = new BufferedReader(isr);
+            String tempString = null;
+            while ((tempString = reader.readLine()) != null) {
+                json.append(tempString);
+            }
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e1) {
+                }
+            }
+            if (isr != null) {
+                try {
+                    isr.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (in != null) {
+                try {
+                    in.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return json.toString();
     }
 
 }
