@@ -398,7 +398,7 @@ public class FGOrderNew extends BaseFragment {
         RequestCancleTips requestCancleTips = new RequestCancleTips(getContext(),
                 cancleTipsId,orderType+"",
                 carBean.capOfPerson+"",carBean.carType+"",
-                cancleTipsTime,halfDay,goodsVersion,goodsNo);
+                cancleTipsTime,halfDay,goodsVersion,goodsNo,orderType+"");
         HttpRequestUtils.request(getContext(), requestCancleTips, new HttpRequestListener() {
             @Override
             public void onDataRequestSucceed(BaseRequest request) {
@@ -643,7 +643,7 @@ public class FGOrderNew extends BaseFragment {
 
         citysLineTitle.setText("当地时间" + startDate + "(" + DateUtils.getWeekOfDate(startDate) + ")");
         citys_line_title_tips.setVisibility(GONE);
-        cancleTipsId = skuBean.cityId+"";
+        cancleTipsId = skuBean.depCityId+"";
         goodsVersion = skuBean.goodsVersion+"";
         goodsNo = skuBean.goodsNo+"";
         goodsType = skuBean.goodsType+"";
