@@ -1,6 +1,5 @@
 package com.hugboga.custom;
 
-import android.animation.Animator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -103,27 +102,7 @@ public class SplashActivity extends BaseActivity {
         enter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AnimationUtils.showAnimationBig(viewPager, 500, new Animator.AnimatorListener() {
-                    @Override
-                    public void onAnimationStart(Animator animation) {
-
-                    }
-
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        finishHandler.sendEmptyMessageDelayed(0,0);
-                    }
-
-                    @Override
-                    public void onAnimationCancel(Animator animation) {
-
-                    }
-
-                    @Override
-                    public void onAnimationRepeat(Animator animation) {
-
-                    }
-                });
+                finishHandler.sendEmptyMessageDelayed(0,0);
             }
         });
 
@@ -133,7 +112,7 @@ public class SplashActivity extends BaseActivity {
             public void onPageSelected(int arg0) {
                 if (arg0 == 2) {
                     enter.setVisibility(View.VISIBLE);
-                    AnimationUtils.showAnimationAlpha(enter,1000,null);
+                    AnimationUtils.showAnimationAlpha(enter,500,null);
                 }else{
                     enter.setVisibility(GONE);
                 }
@@ -160,8 +139,6 @@ public class SplashActivity extends BaseActivity {
             super.handleMessage(msg);
             startActivity(new Intent(SplashActivity.this, MainActivity.class));
             finish();
-            overridePendingTransition(R.anim.enter_anim, R.anim.enter_anim);
-
         }
 
     };
@@ -205,7 +182,7 @@ public class SplashActivity extends BaseActivity {
 
                     @Override
                     public void onClick(View v) {
-                        finishHandler.sendEmptyMessage(0);
+//                        finishHandler.sendEmptyMessage(0);
                     }
                 });
 //            }
