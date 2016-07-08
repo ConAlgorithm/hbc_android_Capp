@@ -1,5 +1,6 @@
 package com.hugboga.custom;
 
+import android.animation.Animator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -10,20 +11,22 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.hugboga.custom.activity.BaseActivity;
-import com.hugboga.custom.data.bean.UserEntity;
-import com.hugboga.custom.utils.PhoneInfo;
+import com.hugboga.custom.utils.AnimationUtils;
+import com.viewpagerindicator.LinePageIndicator;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.view.View.GONE;
+
 @ContentView(R.layout.activity_splash)
 public class SplashActivity extends BaseActivity {
 
@@ -32,7 +35,8 @@ public class SplashActivity extends BaseActivity {
 
     @ViewInject(R.id.splash_viewpage)
     ViewPager viewPager;
-
+    LinePageIndicator mIndicator;
+    TextView enter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,7 +73,7 @@ public class SplashActivity extends BaseActivity {
          * 构建过第一次引导页之后，改变首次运行值
          * 解决在finish之前修改的问题
          */
-        UserEntity.getUser().setVersion(SplashActivity.this, PhoneInfo.getSoftwareVersion(SplashActivity.this));
+//        UserEntity.getUser().setVersion(SplashActivity.this, PhoneInfo.getSoftwareVersion(SplashActivity.this));
 
         //构建滑动页
         List<View> views = new ArrayList<View>();
@@ -83,21 +87,55 @@ public class SplashActivity extends BaseActivity {
         }
 
         //增加最后一页滑动
-        RelativeLayout relativeLayout = new RelativeLayout(this);
-        relativeLayout.setLayoutParams(mParams);
-        relativeLayout.setBackgroundColor(getResources().getColor(R.color.basic_white));
-        relativeLayout.setAnimation(AnimationUtils.loadAnimation(this, R.anim.exit_alpha));
-        views.add(relativeLayout);
+//        RelativeLayout relativeLayout = new RelativeLayout(this);
+//        relativeLayout.setLayoutParams(mParams);
+//        relativeLayout.setBackgroundColor(getResources().getColor(R.color.basic_white));
+//        relativeLayout.setAnimation(AnimationUtils.loadAnimation(this, R.anim.exit_alpha));
+//        views.add(relativeLayout);
 
         AdPageAdapter aAdapter = new AdPageAdapter(views);
         viewPager.setAdapter(aAdapter);
+
+        mIndicator = (LinePageIndicator)findViewById(R.id.indicator);
+        mIndicator.setViewPager(viewPager);
+
+        enter = (TextView)findViewById(R.id.enter);
+        enter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AnimationUtils.showAnimationBig(viewPager, 500, new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        finishHandler.sendEmptyMessageDelayed(0,0);
+                    }
+
+                    @Override
+                    public void onAnimationCancel(Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animator animation) {
+
+                    }
+                });
+            }
+        });
+
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
             @Override
             public void onPageSelected(int arg0) {
-                if (arg0 == 3) {
-                    overridePendingTransition(R.anim.exit_alpha, R.anim.exit_alpha);
-                    finishHandler.sendEmptyMessage(0);
+                if (arg0 == 2) {
+                    enter.setVisibility(View.VISIBLE);
+                    AnimationUtils.showAnimationAlpha(enter,1000,null);
+                }else{
+                    enter.setVisibility(GONE);
                 }
             }
 
@@ -119,9 +157,11 @@ public class SplashActivity extends BaseActivity {
         @Override
         public void handleMessage(Message msg) {
             //记录首次运行标记
+            super.handleMessage(msg);
             startActivity(new Intent(SplashActivity.this, MainActivity.class));
             finish();
-            super.handleMessage(msg);
+            overridePendingTransition(R.anim.enter_anim, R.anim.enter_anim);
+
         }
 
     };
