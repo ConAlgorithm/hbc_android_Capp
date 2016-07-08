@@ -35,7 +35,7 @@ public class UrlLibs {
     public static String TEST_H5_HOST = "http://act.test.hbc.tech";
     public static String FORMAL_H5_HOST = "http://act.huangbaoche.com";
 
-    public static String H5_HOST = TEST_H5_HOST;
+    public static String H5_HOST = FORMAL_H5_HOST;
 
     public static  String SHARE_BASE_URL = "http://res.wechat.huangbaoche.com/";
     public static  String SHARE_APPID = "wx62ad814ba9bf0b68";//测试wx1354271c597184ee 线上wx62ad814ba9bf0b68
