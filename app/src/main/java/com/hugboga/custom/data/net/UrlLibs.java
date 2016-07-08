@@ -37,13 +37,13 @@ public class UrlLibs {
 
     public static String H5_HOST = FORMAL_H5_HOST;
 
-    public static  String SHARE_BASE_URL = "http://res.wechat.huangbaoche.com/";
+    public static  String SHARE_BASE_URL_1 = "http://op.huangbaoche.com/app/auth.html";    //"http://test.op.huangbaoche.com/app/auth.html"
+    public static  String SHARE_BASE_URL_2 = "http://act.huangbaoche.com";                 //"http://test.act.huangbaoche.com"
+    public static  String SHARE_BASE_URL_3 = "http://act.huangbaoche.com";                 //"http://act.test.hbc.tech"
     public static  String SHARE_APPID = "wx62ad814ba9bf0b68";//测试wx1354271c597184ee 线上wx62ad814ba9bf0b68
 
 
-
-
-    public static String H5_ACTIVITY= H5_HOST + "/h5/cactivity/index.html?userId=";//国行
+    public static String H5_ACTIVITY= SHARE_BASE_URL_3 + "/h5/cactivity/index.html?userId=";//国行
     public static String H5_ABOUT = H5_HOST+"/h5/cinfos/about.html";//  关于我们
     public static String H5_ADDFEE_C = H5_HOST+"/h5/cinfos/addfee_c.html";//  单次接送—后付费用说明
     public static String H5_ADDFEE_J = H5_HOST+"/h5/cinfos/addfee_j.html";//  接机—后付费用说明
