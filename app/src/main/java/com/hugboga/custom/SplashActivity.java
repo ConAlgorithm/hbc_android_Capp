@@ -15,7 +15,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.activity.BaseActivity;
+import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.utils.AnimationUtils;
+import com.hugboga.custom.utils.PhoneInfo;
 import com.viewpagerindicator.LinePageIndicator;
 
 import org.xutils.view.annotation.ContentView;
@@ -72,7 +74,7 @@ public class SplashActivity extends BaseActivity {
          * 构建过第一次引导页之后，改变首次运行值
          * 解决在finish之前修改的问题
          */
-//        UserEntity.getUser().setVersion(SplashActivity.this, PhoneInfo.getSoftwareVersion(SplashActivity.this));
+        UserEntity.getUser().setVersion(SplashActivity.this, PhoneInfo.getSoftwareVersion(SplashActivity.this));
 
         //构建滑动页
         List<View> views = new ArrayList<View>();
