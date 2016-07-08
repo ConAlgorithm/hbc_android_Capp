@@ -33,7 +33,7 @@ public class UrlLibs {
 
     public static String DEV_H5_HOST = "http://info.dev.hbc.tech";
     public static String TEST_H5_HOST = "http://info.test.hbc.tech";
-    public static String FORMAL_H5_HOST = "http://info.huangbaoche.com";
+    public static String FORMAL_H5_HOST = "https://info.huangbaoche.com";
 
     public static String H5_HOST = FORMAL_H5_HOST;
 
@@ -44,26 +44,26 @@ public class UrlLibs {
 
 
     public static String H5_ACTIVITY= SHARE_BASE_URL_3 + "/h5/cactivity/index.html?userId=";//国行
-    public static String H5_ABOUT = H5_HOST+"/h5/cinfos/about.html";//  关于我们
-    public static String H5_ADDFEE_C = H5_HOST+"/h5/cinfos/addfee_c.html";//  单次接送—后付费用说明
-    public static String H5_ADDFEE_J = H5_HOST+"/h5/cinfos/addfee_j.html";//  接机—后付费用说明
-    public static String H5_ADDFEE_R = H5_HOST+"/h5/cinfos/addfee_r.html";//  日租—后付费用说明
-    public static String H5_ADDFEE_S = H5_HOST+"/h5/cinfos/addfee_s.html";//  送机—后付费用说明
-    public static String H5_ADDFEE_X = H5_HOST+"/h5/cinfos/addfee_x.html"; // 后付费用说明
-    public static String H5_CANCEL = H5_HOST+"/h5/cinfos/cancel.html"; // 取消规则
-    public static String H5_INSURANCE = H5_HOST+"/h5/cinfos/insurance.html"; // 皇包车免费赠送保险说明
-    public static String H5_NOTICE = H5_HOST+"/h5/cinfos/notice.html";  //预订须知
-    public static String H5_NOTICE_V2_2 = H5_HOST+"/h5/cinfos/notice_v2_2.html"; // 预订须知
-    public static String H5_PRICE = H5_HOST+"/h5/cinfos/price.html";  //费用说明
-    public static String H5_PRICE_V2_2 = H5_HOST+"/h5/cinfos/price_v2_2.html"; // 费用说明
-    public static String H5_PROBLEM = H5_HOST+"/h5/cinfos/problem.html"; //常见问题
-    public static String H5_PROTOCOL = H5_HOST+"/h5/cinfos/protocol.html"; // 用户协议
-    public static String H5_SERVICE = H5_HOST+"/h5/cinfos/service.html"; // 服务承诺
+    public static String H5_ABOUT = H5_HOST+"/cinfos/about.html";//  关于我们
+    public static String H5_ADDFEE_C = H5_HOST+"/cinfos/addfee_c.html";//  单次接送—后付费用说明
+    public static String H5_ADDFEE_J = H5_HOST+"/cinfos/addfee_j.html";//  接机—后付费用说明
+    public static String H5_ADDFEE_R = H5_HOST+"/cinfos/addfee_r.html";//  日租—后付费用说明
+    public static String H5_ADDFEE_S = H5_HOST+"/cinfos/addfee_s.html";//  送机—后付费用说明
+    public static String H5_ADDFEE_X = H5_HOST+"/cinfos/addfee_x.html"; // 后付费用说明
+    public static String H5_CANCEL = H5_HOST+"/cinfos/cancel.html"; // 取消规则
+    public static String H5_INSURANCE = H5_HOST+"/cinfos/insurance.html"; // 皇包车免费赠送保险说明
+    public static String H5_NOTICE = H5_HOST+"/cinfos/notice.html";  //预订须知
+    public static String H5_NOTICE_V2_2 = H5_HOST+"/cinfos/notice_v2_2.html"; // 预订须知
+    public static String H5_PRICE = H5_HOST+"/cinfos/price.html";  //费用说明
+    public static String H5_PRICE_V2_2 = H5_HOST+"/cinfos/price_v2_2.html"; // 费用说明
+    public static String H5_PROBLEM = H5_HOST+"/cinfos/problem.html"; //常见问题
+    public static String H5_PROTOCOL = H5_HOST+"/cinfos/protocol.html"; // 用户协议
+    public static String H5_SERVICE = H5_HOST+"/cinfos/service.html"; // 服务承诺
 
-    public static String H5_TAI_MANGU = H5_HOST + "/h5/cinfos/tai/BBK.html";//曼谷
-    public static String H5_TAI_PUJIDAO = H5_HOST + "/h5/cinfos/tai/bki.html";//普吉
-    public static String H5_TAI_QINGMAI = H5_HOST + "/h5/cinfos/tai/cnx.html";//清迈
-    public static String H5_TAI_SUMEIDAO = H5_HOST + "/h5/cinfos/tai/VSM.html";//苏梅岛
+    public static String H5_TAI_MANGU = H5_HOST + "/cinfos/tai/BBK.html";//曼谷
+    public static String H5_TAI_PUJIDAO = H5_HOST + "/cinfos/tai/bki.html";//普吉
+    public static String H5_TAI_QINGMAI = H5_HOST + "/cinfos/tai/cnx.html";//清迈
+    public static String H5_TAI_SUMEIDAO = H5_HOST + "/cinfos/tai/VSM.html";//苏梅岛
 
 
     public static HashMap<Integer, String> OverPriceMap = new HashMap<Integer, String>();
