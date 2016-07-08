@@ -36,6 +36,7 @@
         android:layout_height="wrap_content"
         android:background="@color/item_title_bg"
         android:padding="10dp"
+        android:visibility="gone"
         android:text="@string/arrival_tip_hotel"
         android:textColor="@color/basic_rent_toolbar_color" />
 

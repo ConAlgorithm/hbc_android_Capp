@@ -109,8 +109,9 @@
     <string name="contact_service">联系客服</string>
 
     <!-- Search address -->
-    <string name="search_hint_pick">请输入城市名称</string>
+    <string name="search_hint_pick">请输入地点名称</string>
     <string name="search_hint_send">搜索出发地点</string>
+    <string name="search_hint_city">请输入城市名称</string>
 
     <!-- 页面 progress-->
     <string name="progress_trip">填写行程</string>
