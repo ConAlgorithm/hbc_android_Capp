@@ -78,9 +78,13 @@ public class MyApplication extends HbcApplication {
             UrlLibs.SERVER_IP_HOST_PUBLIC = scheme + host;
         }else {
             UrlLibs.SERVER_IP_HOST_PUBLIC = BuildConfig.API_SERVER_URL;
-            UrlLibs.H5_HOST = BuildConfig.H5_HOST;
-            MLog.e("H5_HOST=" + BuildConfig.H5_HOST);
         }
+
+        UrlLibs.H5_HOST = BuildConfig.H5_HOST;
+//        UrlLibs.SHARE_BASE_URL_1 = BuildConfig.SHARE_BASE_URL_1;
+//        UrlLibs.SHARE_BASE_URL_2 = BuildConfig.SHARE_BASE_URL_2;
+//        UrlLibs.SHARE_BASE_URL_3 = BuildConfig.SHARE_BASE_URL_3;
+
     }
 
     private void initConfig() {
