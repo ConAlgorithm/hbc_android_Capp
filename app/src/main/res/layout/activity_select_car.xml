@@ -418,9 +418,11 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/basic_margin_xlarge"
             android:drawablePadding="@dimen/basic_margin_xlarge"
+            android:layout_centerHorizontal="true"
             android:drawableTop="@mipmap/journey_sorry_quan"
             android:textSize="15sp"
             android:text="@string/no_cars_info"
+            android:gravity="center"
             android:textColor="@color/coupon_empty_text" />
 
     </RelativeLayout>
