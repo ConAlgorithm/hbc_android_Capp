@@ -31,6 +31,7 @@ public class IMUtil {
 
     Context context;
     private int requestIMTokenCount = 0;
+    private String userId;
 
     public IMUtil(final Context context) {
         this.context = context;
@@ -57,8 +58,9 @@ public class IMUtil {
             }
 
             @Override
-            public void onSuccess(String userId) {
+            public void onSuccess(String _userId) {
                 MLog.e("-连接融云 ——onSuccess— -" + userId);
+                userId = _userId;
                 initRongIm(context, userId);
             }
 
@@ -103,7 +105,7 @@ public class IMUtil {
     /**
      * IM扩展功能自定义
      */
-    private static void initRongIm(Context context, String userId) {
+    public static void initRongIm(Context context, String userId) {
         InputProvider.ExtendProvider[] provider = {
                 new ImageInputProvider(RongContext.getInstance()),//图片
                 new CameraInputProvider(RongContext.getInstance()),//相机
@@ -118,7 +120,7 @@ public class IMUtil {
      *
      * @return
      */
-    private static UserInfo getUserInfo(Context context) {
+    public static UserInfo getUserInfo(Context context) {
         UserInfo userInfo = null;
         String userid = UserEntity.getUser().getUserId(context);
         String username = UserEntity.getUser().getNickname(context);

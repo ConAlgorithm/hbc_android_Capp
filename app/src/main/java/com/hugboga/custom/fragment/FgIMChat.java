@@ -10,6 +10,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,6 +58,7 @@ import io.rong.imkit.RongContext;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.RongIMClientWrapper;
 import io.rong.imkit.fragment.ConversationFragment;
+import io.rong.imkit.fragment.MessageListFragment;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.Message;
@@ -230,7 +232,8 @@ public class FgIMChat extends BaseFragment {
     private void setUserInfo() {
         if (userAvatar != null && !userAvatar.equals("")) {
             UserInfo peerUser = new UserInfo(imUserId, getString(R.string.title_activity_imchat), Uri.parse(userAvatar));
-            RongContext.getInstance().getUserInfoCache().put(imUserId, peerUser);
+//            RongContext.getInstance().getUserInfoCache().put(imUserId, peerUser);
+            RongIM.getInstance().refreshUserInfoCache(peerUser);
         }
     }
 
@@ -538,32 +541,44 @@ public class FgIMChat extends BaseFragment {
         if (view == null) {
             return;
         }
-        final RelativeLayout rl = (RelativeLayout) view.findViewById(io.rong.imkit.R.id.empty);
-        TextView show_empty_txt = (TextView) view.findViewById(R.id.show_empty_txt);
-        if("3".equalsIgnoreCase(targetType)) {//3.客服 1.用户
-            show_empty_txt.setText(R.string.huangbaoche_remind_message);
-        }else{
-            show_empty_txt.setText(R.string.huangbaoche_remind_message_user);
-        }
+//        final RelativeLayout rl = (RelativeLayout) view.findViewById(io.rong.imkit.R.id.empty);
+//        TextView show_empty_txt = (TextView) view.findViewById(R.id.show_empty_txt);
+//        if("3".equalsIgnoreCase(targetType)) {//3.客服 1.用户
+//            show_empty_txt.setText(R.string.huangbaoche_remind_message);
+//        }else{
+//            show_empty_txt.setText(R.string.huangbaoche_remind_message_user);
+//        }
         try {
             int imNumber = 0;
             RongIM rongIM = RongIM.getInstance();
             if (rongIM != null) {
+
+//                rongIM.getHistoryMessages(Conversation.ConversationType.PRIVATE, imUserId, -1, 10, new RongIMClient.ResultCallback<List<Message>>() {
+//                    @Override
+//                    public void onSuccess(List<Message> messages) {
+//                    }
+//
+//                    @Override
+//                    public void onError(RongIMClient.ErrorCode errorCode) {
+//                    }
+//                });
+
                 RongIMClientWrapper rongIMClientWrapper = rongIM.getRongIMClient();
                 if (rongIMClientWrapper != null) {
-                    try {
-                        List<Message> messageList = rongIMClientWrapper.getHistoryMessages(Conversation.ConversationType.PRIVATE, imUserId, -1, 10);
-                        if (messageList != null)
-                            imNumber = messageList.size();
-                        if (imNumber > 0) {
-                            rl.setVisibility(GONE);
-                        } else {
-                            rl.setVisibility(View.VISIBLE);
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    //设置通知栏免打扰
+//                    try {
+//                        List<Message> messageList = rongIMClientWrapper.getHistoryMessages(Conversation.ConversationType.PRIVATE, imUserId, -1, 10);
+//                        Log.i("aa", "messageList " +messageList.size());
+//                        if (messageList != null)
+//                            imNumber = messageList.size();
+//                        if (imNumber > 0) {
+//                            rl.setVisibility(GONE);
+//                        } else {
+//                            rl.setVisibility(View.VISIBLE);
+//                        }
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
+//                    设置通知栏免打扰
                     rongIMClientWrapper.setConversationNotificationStatus(Conversation.ConversationType.PRIVATE, imUserId, Conversation.ConversationNotificationStatus.DO_NOT_DISTURB, new RongIMClient.ResultCallback<Conversation.ConversationNotificationStatus>() {
                         @Override
                         public void onSuccess(Conversation.ConversationNotificationStatus conversationNotificationStatus) {
@@ -587,9 +602,9 @@ public class FgIMChat extends BaseFragment {
 
                     @Override
                     public boolean onSent(Message message, RongIM.SentMessageErrorCode sentMessageErrorCode) {
-                        if (rl.getVisibility() == View.VISIBLE) {
-                            rl.setVisibility(GONE);
-                        }
+//                        if (rl.getVisibility() == View.VISIBLE) {
+//                            rl.setVisibility(GONE);
+//                        }
                         return false;
                     }
                 });

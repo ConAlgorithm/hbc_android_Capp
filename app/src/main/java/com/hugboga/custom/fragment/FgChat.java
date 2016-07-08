@@ -1,13 +1,17 @@
 package com.hugboga.custom.fragment;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.adapter.ZBaseAdapter;
+import com.huangbaoche.hbcframe.data.net.ErrorHandler;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
@@ -25,7 +29,9 @@ import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.parser.ParserChatInfo;
 import com.hugboga.custom.data.request.RequestChatList;
 import com.hugboga.custom.data.request.RequestRemoveChat;
+import com.hugboga.custom.data.request.RequestResetIMToken;
 import com.hugboga.custom.utils.AlertDialogUtils;
+import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.ToastUtils;
 import com.umeng.analytics.MobclickAgent;
 
@@ -40,7 +46,12 @@ import java.util.HashMap;
 import java.util.List;
 
 
+import io.rong.imkit.RongContext;
 import io.rong.imkit.RongIM;
+import io.rong.imkit.widget.provider.CameraInputProvider;
+import io.rong.imkit.widget.provider.ImageInputProvider;
+import io.rong.imkit.widget.provider.InputProvider;
+import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
 import jp.wasabeef.recyclerview.animators.adapters.SlideInBottomAnimationAdapter;
 
@@ -71,13 +82,67 @@ public class FgChat extends BaseFragment implements View.OnClickListener, ZBaseA
     TextView emptyTV;
 
     private ChatAdapter adapter;
+    private int requestIMTokenCount = 0;
 
     @Override
     public void onResume() {
         super.onResume();
         if (UserEntity.getUser().isLogin(getActivity()) && recyclerView != null && !recyclerView.isLoading() && adapter != null && adapter.getItemCount() <= 0) {
             loadData();
+            reconnect(UserEntity.getUser().getImToken(getContext()));
         }
+    }
+
+    private void requestIMTokenUpdate() {
+        RequestResetIMToken requestResetToken = new RequestResetIMToken(getContext());
+        HttpRequestUtils.request(getContext(), requestResetToken, httpRequestListener);
+    }
+
+    HttpRequestListener httpRequestListener = new HttpRequestListener() {
+        @Override
+        public void onDataRequestSucceed(BaseRequest request) {
+            reconnect(request.getData().toString());
+        }
+
+        @Override
+        public void onDataRequestCancel(BaseRequest request) {
+
+        }
+
+        @Override
+        public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+            ErrorHandler handler = new ErrorHandler((Activity) getContext(), this);
+            handler.onDataRequestError(errorInfo, request);
+        }
+    };
+
+    public void reconnect(String imToken) {
+        if (TextUtils.isEmpty(imToken)) {
+            return;
+        }
+        RongIMClient.getInstance().reconnect(new RongIMClient.ConnectCallback() {
+            @Override
+            public void onTokenIncorrect() {
+                if (requestIMTokenCount < 3) {
+                    requestIMTokenCount++;
+                    requestIMTokenUpdate();
+                }
+            }
+
+            @Override
+            public void onSuccess(String s) {
+                IMUtil.initRongIm(getContext(), null);
+            }
+
+            @Override
+            public void onError(RongIMClient.ErrorCode errorCode) {
+                if (requestIMTokenCount < 3) {
+                    //您需要更换 Token
+                    requestIMTokenCount++;
+                    requestIMTokenUpdate();
+                }
+            }
+        });
     }
 
     @Override

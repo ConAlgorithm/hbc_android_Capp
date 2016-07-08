@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="105dp"
         android:layout_below="@id/toolbar"
+        android:visibility="gone"
         android:background="@color/basic_white">
 
         <View

@@ -4,6 +4,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.05dip"
+        android:background="@android:color/darker_gray" />
+
     <RelativeLayout
         android:id="@android:id/input"
         android:layout_width="match_parent"
@@ -45,12 +50,12 @@
                     android:background="@android:color/darker_gray" />
             </LinearLayout>
 
-
             <ImageView
                 android:id="@android:id/icon1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:layout_marginLeft="8dp"
                 android:background="@android:color/transparent" />
         </LinearLayout>
 
@@ -59,6 +64,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
+            android:layout_marginRight="12dp"
             android:background="@android:color/white">
 
             <ImageView
@@ -75,10 +81,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/white"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"></FrameLayout>
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp" />
 
     </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.05dip"
+        android:background="@android:color/darker_gray" />
 
     <LinearLayout
         android:id="@+id/rc_input_menu"
@@ -121,7 +132,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:orientation="horizontal"></LinearLayout>
+                android:orientation="horizontal" />
         </LinearLayout>
 
     </LinearLayout>
@@ -134,24 +145,17 @@
         android:padding="0dp"
         android:visibility="visible">
 
-        <GridView
+        <LinearLayout
             android:id="@+id/rc_plugins"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="8dp"
-            android:background="@android:color/transparent"
-            android:columnWidth="75dp"
-            android:numColumns="auto_fit"
-            android:scrollbars="none"
+            android:orientation="vertical"
             android:visibility="gone" />
 
         <FrameLayout
             android:id="@+id/rc_ext"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"></FrameLayout>
+            android:layout_height="wrap_content" />
     </FrameLayout>
 
 </merge>
