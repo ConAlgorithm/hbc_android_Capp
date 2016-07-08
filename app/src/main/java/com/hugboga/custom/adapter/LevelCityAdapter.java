@@ -110,7 +110,11 @@ public class LevelCityAdapter extends BaseAdapter<SearchGroupBean> {
             }else {
 
                 viewHolder.middle_line.setVisibility(View.VISIBLE);
-                viewHolder.name.setText(getName(position, flag));
+                if(position == 0){
+                    viewHolder.name.setText("全境");
+                }else {
+                    viewHolder.name.setText(getName(position, flag));
+                }
                 convertView.setBackgroundColor(Color.parseColor("#ffffff"));
                 if (getItem(position).isSelected) {
                     viewHolder.name.setTextColor(Color.parseColor("#fcd633"));
@@ -124,7 +128,11 @@ public class LevelCityAdapter extends BaseAdapter<SearchGroupBean> {
         }else if(flag == 3){
             viewHolder.middle_line.setVisibility(View.GONE);
             viewHolder.right_line.setVisibility(View.VISIBLE);
-            viewHolder.name.setText(getName(position,flag));
+            if(position == 0){
+                viewHolder.name.setText("全境");
+            }else {
+                viewHolder.name.setText(getName(position, flag));
+            }
             convertView.setBackgroundColor(Color.parseColor("#ffffff"));
             if(getItem(position).isSelected){
                 viewHolder.name.setTextColor(Color.parseColor("#fcd633"));
