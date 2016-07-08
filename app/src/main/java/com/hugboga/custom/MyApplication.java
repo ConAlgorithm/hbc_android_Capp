@@ -56,6 +56,7 @@ public class MyApplication extends HbcApplication {
 
     private void initUrlHost() {
         MLog.e("urlHost=" + BuildConfig.API_SERVER_URL);
+        MLog.e("UrlLibs.H5_HOST=" + UrlLibs.H5_HOST);
         if(TextUtils.isEmpty(BuildConfig.API_SERVER_URL)) {
             String channel = BuildConfig.FLAVOR;
             MLog.e("channel=" + channel);
@@ -77,6 +78,8 @@ public class MyApplication extends HbcApplication {
             UrlLibs.SERVER_IP_HOST_PUBLIC = scheme + host;
         }else {
             UrlLibs.SERVER_IP_HOST_PUBLIC = BuildConfig.API_SERVER_URL;
+            UrlLibs.H5_HOST = BuildConfig.H5_HOST;
+            MLog.e("H5_HOST=" + BuildConfig.H5_HOST);
         }
     }
 
