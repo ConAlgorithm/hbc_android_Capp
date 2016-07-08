@@ -15,7 +15,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-import com.huangbaoche.hbcframe.activity.BaseFragmentActivity;
 import com.hugboga.custom.activity.BaseActivity;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.utils.PhoneInfo;
@@ -29,7 +28,7 @@ import java.util.List;
 public class SplashActivity extends BaseActivity {
 
     //引导图片资源
-    private static final int[] pics = {R.mipmap.splash_1, R.mipmap.splash_2, R.mipmap.splash_3, R.mipmap.splash_4};
+    private static final int[] pics = {R.mipmap.splash_1, R.mipmap.splash_2, R.mipmap.splash_3};
 
     @ViewInject(R.id.splash_viewpage)
     ViewPager viewPager;
@@ -96,7 +95,7 @@ public class SplashActivity extends BaseActivity {
 
             @Override
             public void onPageSelected(int arg0) {
-                if (arg0 == 4) {
+                if (arg0 == 3) {
                     overridePendingTransition(R.anim.exit_alpha, R.anim.exit_alpha);
                     finishHandler.sendEmptyMessage(0);
                 }

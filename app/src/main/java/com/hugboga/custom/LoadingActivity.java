@@ -137,11 +137,11 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-//            if (PhoneInfo.isNewVersion(LoadingActivity.this)) {
-//                startActivity(new Intent(LoadingActivity.this, SplashActivity.class));
-//            } else {
+            if (PhoneInfo.isNewVersion(LoadingActivity.this)) {
+                startActivity(new Intent(LoadingActivity.this, SplashActivity.class));
+            } else {
                 startActivity(new Intent(LoadingActivity.this, MainActivity.class));
-//            }
+            }
             finish();
 //            super.handleMessage(msg);
         }
