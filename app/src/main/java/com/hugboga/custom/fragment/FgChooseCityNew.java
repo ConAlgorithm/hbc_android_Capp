@@ -172,8 +172,6 @@ public class FgChooseCityNew extends BaseFragment {
 
     @Override
     protected void initView() {
-        genHistoryCity();
-
         headSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -385,7 +383,6 @@ public class FgChooseCityNew extends BaseFragment {
                 || (!searchGroupBean.group_name.equalsIgnoreCase("全境")
                 && (null != searchGroupBean.sub_city_name) && !searchGroupBean.sub_city_name.equalsIgnoreCase("全境"))) {
             CityUtils.addCityHistoryData(searchGroupBean);
-            genHistoryCity();
         }
 //        finish();
         expandableListView.setVisibility(View.GONE);
@@ -470,6 +467,11 @@ public class FgChooseCityNew extends BaseFragment {
         return super.onBackPressed();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        genHistoryCity();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
