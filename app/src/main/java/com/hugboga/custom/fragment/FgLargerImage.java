@@ -20,7 +20,7 @@ import org.xutils.view.annotation.ViewInject;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import uk.co.senab.photoview.PhotoView;
+import io.rong.photoview.PhotoView;
 
 
 /**
