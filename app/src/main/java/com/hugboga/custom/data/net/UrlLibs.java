@@ -31,11 +31,11 @@ public class UrlLibs {
 //    测试环境 host  res.test.hbc.tech
 //    生产环境 host  res2.huangbaoche.com
 
-    public static String DEV_H5_HOST = "http://info.dev.hbc.tech";
-    public static String TEST_H5_HOST = "http://info.test.hbc.tech";
-    public static String FORMAL_H5_HOST = "http://info.huangbaoche.com";
+    public static String DEV_H5_HOST = "http://act.dev.hbc.tech";
+    public static String TEST_H5_HOST = "http://act.test.hbc.tech";
+    public static String FORMAL_H5_HOST = "http://act.huangbaoche.com";
 
-    public static String H5_HOST = TEST_H5_HOST;
+    public static String H5_HOST = FORMAL_H5_HOST;
 
     public static  String SHARE_BASE_URL_1 = "http://op.huangbaoche.com/app/auth.html";    //"http://test.op.huangbaoche.com/app/auth.html"
     public static  String SHARE_BASE_URL_2 = "http://act.huangbaoche.com";                 //"http://test.act.huangbaoche.com"
