@@ -385,6 +385,7 @@ public class FgChooseCityNew extends BaseFragment {
                 || (!searchGroupBean.group_name.equalsIgnoreCase("全境")
                 && (null != searchGroupBean.sub_city_name) && !searchGroupBean.sub_city_name.equalsIgnoreCase("全境"))) {
             CityUtils.addCityHistoryData(searchGroupBean);
+            genHistoryCity();
         }
 //        finish();
         expandableListView.setVisibility(View.GONE);
@@ -438,14 +439,18 @@ public class FgChooseCityNew extends BaseFragment {
 
 
     private void addHistoryCity(SearchGroupBean lineGroupBean) {
-        TextView view = null;
-        view = new TextView(getActivity());
-        view.setText(lineGroupBean.group_name);
-        view.setTag(lineGroupBean.group_id);
-        view.setPadding(20, 0, 20, 0);
-        view.setHeight(UIUtils.dip2px(50f));
-        view.setGravity(Gravity.CENTER_VERTICAL);
-        historyCityLayout.addView(view, 0);
+
+        genHistoryCity();
+
+
+//        TextView view = null;
+//        view = new TextView(getActivity());
+//        view.setText(lineGroupBean.group_name);
+//        view.setTag(lineGroupBean.group_id);
+//        view.setPadding(20, 0, 20, 0);
+//        view.setHeight(UIUtils.dip2px(50f));
+//        view.setGravity(Gravity.CENTER_VERTICAL);
+//        historyCityLayout.addView(view, 0);
 
     }
 
