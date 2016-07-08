@@ -26,12 +26,12 @@ public final class ShareUrls {
     /**
      * 分享司导
      */
-    private static final String SHARE_GUIDE = UrlLibs.SHARE_BASE_URL + "h5/cactivity/shareGuide/index.html";
+    private static final String SHARE_GUIDE = UrlLibs.SHARE_BASE_URL_2 + "/h5/cactivity/shareGuide/index.html";
 
     /**
      * 邀请好友页面，30元大礼包
      */
-    private static final String SHARE_THIRTY_COUPON = UrlLibs.SHARE_BASE_URL + "h5/cactivity/toFriends/index.html";
+    private static final String SHARE_THIRTY_COUPON = UrlLibs.SHARE_BASE_URL_2 + "/h5/cactivity/toFriends/index.html";
 
     private static String getScope(String scope) {
         return "&response_type=code&scope=" + scope + "&state=STATE#wechat_redirect";
@@ -44,7 +44,8 @@ public final class ShareUrls {
         ArrayMap<String, String> params = new ArrayMap<String, String>();
         params.put("gid", CommonUtils.getEncodedString(data.getGuideId()));//司导ID
         params.put("uid", CommonUtils.getEncodedString(userId));
-        return SHARE_BASE_WECHAT_URL + getUri(SHARE_GUIDE, params) + getScope("snsapi_base");
+        params.put("reurl", SHARE_GUIDE);
+        return SHARE_BASE_WECHAT_URL + getUri(UrlLibs.SHARE_BASE_URL_1, params) + getScope("snsapi_base");
     }
 
     /**
@@ -55,7 +56,8 @@ public final class ShareUrls {
         params.put("avatar", avatar);
         params.put("name", CommonUtils.getEncodedString(name));
         params.put("qcode", qcode);//邀请码
-        return SHARE_BASE_WECHAT_URL + getUri(SHARE_THIRTY_COUPON, params) + getScope("snsapi_userinfo");
+        params.put("reurl", SHARE_THIRTY_COUPON);
+        return SHARE_BASE_WECHAT_URL + getUri(UrlLibs.SHARE_BASE_URL_1, params) + getScope("snsapi_userinfo");
     }
 
     private static String getUri(String _baseUrl, ArrayMap<String, String> _params ) {
