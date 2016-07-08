@@ -5,9 +5,7 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
@@ -38,11 +36,7 @@ import org.xutils.view.annotation.ViewInject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
 
 /**
  * 选择城市
@@ -144,6 +138,7 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
         editSearch.setOnKeyListener(this);
         editSearch.setOnEditorActionListener(this);
         editSearch.addTextChangedListener(this);
+        editSearch.setHint("请输入城市名称");
         if ("startAddress".equals(from)) {
             editSearch.setHint("搜索出发城市");
         } else if ("end".equals(from)) {

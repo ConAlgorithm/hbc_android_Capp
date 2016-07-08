@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.R.attr.key;
+import static u.aly.cv.l;
 
 public class CityUtils {
 
@@ -245,13 +246,13 @@ public class CityUtils {
 
 
     //获取国家下面的城市
-    public static List<SearchGroupBean> getCountryCity(Activity activity, String group_id) {
+    public static List<SearchGroupBean> getCountryCity(Activity activity, String sub_place_id) {
         try {
             DbManager mDbManager = new DBHelper(activity).getDbManager();
             Selector selector = null;
             selector = mDbManager.selector(LineGroupItem.class);
             selector.where("type", "=", 3);
-            selector.and("group_id", "=", group_id);
+            selector.and("sub_place_id", "=", sub_place_id);
             selector.orderBy("hot_weight", true);
             selector.limit(5);
             List<LineGroupItem> list = selector.findAll();
@@ -265,15 +266,34 @@ public class CityUtils {
     //搜索用
     public static List<SearchGroupBean> getCountLineCity(Activity activity, SearchGroupBean bean) {
         List<SearchGroupBean> list = new ArrayList<>();
+        int max_line_num = 3;
+        int max_city_num = 5;
         if (bean.type == 1 && bean.level == 1) {
             List<SearchGroupBean> lineList = getCountryLine(activity, bean.parent_id + "");
 
             if (null != lineList && lineList.size() > 0) {
-                list.addAll(lineList);
+                if(lineList.size() >= max_line_num){
+                    for(int i = 0;i< max_line_num;i++){
+                        list.add(lineList.get(i));
+                    }
+                }else {
+                    list.addAll(lineList);
+                }
             }
+
             List<SearchGroupBean> level2List = getType1City(activity, bean.group_id);
-            if (null != level2List && level2List.size() > 0) {
-                list.addAll(level2List);
+            if(list.size() < max_line_num) {
+                if (null != level2List && level2List.size() > 0) {
+                    int hasSize = list.size();
+                    if((max_line_num - hasSize) > level2List.size()){
+                        list.addAll(level2List);
+                    }else {
+                        for (int i = 0; i < max_line_num - hasSize; i++) {
+                            list.add(level2List.get(i));
+                        }
+                    }
+
+                }
             }
 
             if (null != lineList && lineList.size() > 0 || null != level2List && level2List.size() > 0) {
@@ -285,15 +305,24 @@ public class CityUtils {
 
 
             List<SearchGroupBean> cityList = new ArrayList<>();
+            List<SearchGroupBean> cityListTmp = new ArrayList<>();
             List<SearchGroupBean> type2List = getType2City(activity, bean.group_id);
             List<SearchGroupBean> type3List = getType3City(activity, bean.group_id);
 
             if (null != type2List && type2List.size() > 0) {
-                cityList.addAll(type2List);
+                cityListTmp.addAll(type2List);
             }
 
             if (null != type3List && type3List.size() > 0) {
-                cityList.addAll(type3List);
+                cityListTmp.addAll(type3List);
+            }
+
+            if(cityListTmp.size() > max_city_num){
+                for(int i =0;i< max_city_num;i++){
+                    cityList.add(cityListTmp.get(i));
+                }
+            }else{
+                cityList.addAll(cityListTmp);
             }
 
             if (null != type2List && type2List.size() > 0 || null != type3List && type3List.size() > 0) {
@@ -306,10 +335,19 @@ public class CityUtils {
         }
 
         if (bean.type == 2) {
-            List<SearchGroupBean> cityList = getCountryCity(activity, bean.group_id + "");
+//            List<SearchGroupBean> cityList = getCountryCity(activity, bean.sub_place_id + "");
+
+            List<SearchGroupBean> cityList = getType4City(activity, bean.sub_place_id);
 
             if (null != cityList && cityList.size() > 0) {
-                list.addAll(cityList);
+                if(cityList.size() > max_city_num){
+                    for(int i = 0;i< max_city_num;i++){
+                        list.add(cityList.get(i));
+                    }
+                }else{
+                    list.addAll(cityList);
+                }
+
                 SearchGroupBean searchGroupBean = new SearchGroupBean();
                 searchGroupBean.group_id = -200;
                 searchGroupBean.group_name = getShowName(bean) + "热门目的地";
@@ -389,11 +427,41 @@ public class CityUtils {
     public static List<SearchGroupBean> getLevel1City(Activity activity) {
         try {
             DbManager mDbManager = new DBHelper(activity).getDbManager();
-            Selector selector = null;
-            selector = mDbManager.selector(LineGroupBean.class);
-            selector.where("level", "=", 1);
-            selector.orderBy("hot_weight", true);
-            List<LineGroupBean> list = selector.findAll();
+
+            String sql = "select * from line_group where level=1";
+
+            SqlInfo sqlinfo = new SqlInfo();
+            sqlinfo.setSql(sql);
+
+            List<LineGroupBean> list = new ArrayList<>();
+            try {
+                List<DbModel> modelList = mDbManager.findDbModelAll(sqlinfo);
+                if (modelList != null && modelList.size() > 0) {
+                    final int listsize = modelList.size();
+                    int specialofferlistindex = listsize;
+                    for (int modelindex = 0; modelindex < listsize; modelindex++) {
+                        DbModel model = modelList.get(modelindex);
+                        if (model != null) {
+                            LineGroupBean searchGroupBean = new LineGroupBean();
+                            searchGroupBean.isSelected = false;
+
+                            searchGroupBean.group_name = model.getString("group_name");
+                            searchGroupBean.group_id = model.getInt("group_id");
+
+                            searchGroupBean.parent_name = model.getString("parent_name");
+                            searchGroupBean.parent_id = model.getInt("parent_id");
+
+                            searchGroupBean.hot_weight = model.getInt("hot_weight");
+
+                            list.add(searchGroupBean);
+                        }
+                    }
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
             return lineGroupBeanAdapter(list, 1);
         } catch (Exception e) {
             e.printStackTrace();
@@ -407,12 +475,39 @@ public class CityUtils {
     public static List<SearchGroupBean> getType1City(Activity activity, int group_id) {
         try {
             DbManager mDbManager = new DBHelper(activity).getDbManager();
-            Selector selector = null;
-            selector = mDbManager.selector(LineGroupBean.class);
-            selector.where("parent_type", "=", 1);
-            selector.and("parent_id", "=", group_id);
-            selector.orderBy("hot_weight", true);
-            List<LineGroupBean> list = selector.findAll();
+
+            String sql = "select * from line_group where parent_type=1 and parent_id="+group_id;
+            SqlInfo sqlinfo = new SqlInfo();
+            sqlinfo.setSql(sql);
+
+            List<LineGroupBean> list = new ArrayList<>();
+            try {
+                List<DbModel> modelList = mDbManager.findDbModelAll(sqlinfo);
+                if (modelList != null && modelList.size() > 0) {
+                    final int listsize = modelList.size();
+                    for (int modelindex = 0; modelindex < listsize; modelindex++) {
+                        DbModel model = modelList.get(modelindex);
+                        if (model != null) {
+                            LineGroupBean searchGroupBean = new LineGroupBean();
+                            searchGroupBean.isSelected = false;
+
+                            searchGroupBean.group_name = model.getString("group_name");
+                            searchGroupBean.group_id = model.getInt("group_id");
+
+                            searchGroupBean.parent_name = model.getString("parent_name");
+                            searchGroupBean.parent_id = model.getInt("parent_id");
+
+                            searchGroupBean.hot_weight = model.getInt("hot_weight");
+
+                            list.add(searchGroupBean);
+                        }
+                    }
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
             return lineGroupBeanAdapter(list, 1);
         } catch (Exception e) {
             e.printStackTrace();
@@ -427,11 +522,43 @@ public class CityUtils {
     public static List<SearchGroupBean> getType2City(Activity activity, int group_id) {
         try {
             DbManager mDbManager = new DBHelper(activity).getDbManager();
-            Selector selector = null;
-            selector = mDbManager.selector(LineGroupItem.class);
-            selector.where("type", "=", 2);
-            selector.and("group_id", "=", group_id);
-            List<LineGroupItem> list = selector.findAll();
+
+            String sql = "select * from line_group_item where type=2 and group_id="+group_id +" and sub_place_name != '中国' and sub_place_name != '中国大陆' order by hot_weight desc";
+            SqlInfo sqlinfo = new SqlInfo();
+            sqlinfo.setSql(sql);
+
+            List<LineGroupItem> list = new ArrayList<>();
+            try {
+                List<DbModel> modelList = mDbManager.findDbModelAll(sqlinfo);
+                if (modelList != null && modelList.size() > 0) {
+                    final int listsize = modelList.size();
+                    for (int modelindex = 0; modelindex < listsize; modelindex++) {
+                        DbModel model = modelList.get(modelindex);
+                        if (model != null) {
+                            LineGroupItem searchGroupBean = new LineGroupItem();
+                            searchGroupBean.isSelected = false;
+
+                            searchGroupBean.group_name = model.getString("group_name");
+                            searchGroupBean.group_id = model.getInt("group_id");
+
+                            searchGroupBean.sub_city_name = model.getString("sub_city_name");
+                            searchGroupBean.sub_city_id = model.getInt("sub_city_id");
+
+                            searchGroupBean.sub_place_name = model.getString("sub_place_name");
+                            searchGroupBean.sub_place_id = model.getInt("sub_place_id");
+
+                            searchGroupBean.type = model.getInt("type");
+
+                            searchGroupBean.hot_weight = model.getInt("hot_weight");
+
+                            list.add(searchGroupBean);
+                        }
+                    }
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             return lineGroupItemAdapter(list, 2);
         } catch (Exception e) {
             e.printStackTrace();
@@ -445,11 +572,44 @@ public class CityUtils {
     public static List<SearchGroupBean> getType3City(Activity activity, int group_id) {
         try {
             DbManager mDbManager = new DBHelper(activity).getDbManager();
-            Selector selector = null;
-            selector = mDbManager.selector(LineGroupItem.class);
-            selector.where("type", "=", 3);
-            selector.and("group_id", "=", group_id);
-            List<LineGroupItem> list = selector.findAll();
+
+            String sql = "select * from line_group_item where type=3 and group_id="+group_id +" and sub_place_name != '中国' and sub_place_name != '中国大陆' order by hot_weight desc";
+            SqlInfo sqlinfo = new SqlInfo();
+            sqlinfo.setSql(sql);
+
+            List<LineGroupItem> list = new ArrayList<>();
+            try {
+                List<DbModel> modelList = mDbManager.findDbModelAll(sqlinfo);
+                if (modelList != null && modelList.size() > 0) {
+                    final int listsize = modelList.size();
+                    for (int modelindex = 0; modelindex < listsize; modelindex++) {
+                        DbModel model = modelList.get(modelindex);
+                        if (model != null) {
+                            LineGroupItem searchGroupBean = new LineGroupItem();
+                            searchGroupBean.isSelected = false;
+
+                            searchGroupBean.group_name = model.getString("group_name");
+                            searchGroupBean.group_id = model.getInt("group_id");
+
+                            searchGroupBean.sub_city_name = model.getString("sub_city_name");
+                            searchGroupBean.sub_city_id = model.getInt("sub_city_id");
+
+                            searchGroupBean.sub_place_name = model.getString("sub_place_name");
+                            searchGroupBean.sub_place_id = model.getInt("sub_place_id");
+
+                            searchGroupBean.type = model.getInt("type");
+
+                            searchGroupBean.hot_weight = model.getInt("hot_weight");
+
+                            list.add(searchGroupBean);
+                        }
+                    }
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
             return lineGroupItemAdapter(list, 3);
         } catch (Exception e) {
             e.printStackTrace();
@@ -465,43 +625,6 @@ public class CityUtils {
             list.addAll(getType2City(activity, group_id));
             list.addAll(getType3City(activity, group_id));
             return list;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-
-    //    -- 查询国家下的子组/城市 （国家下没有国家）
-//            -- 组
-//    select * from line_group where parent_type=2 and parent_id=#{选择的国家ID}
-    public static List<SearchGroupBean> getType21City(Activity activity, int group_id) {
-        try {
-            DbManager mDbManager = new DBHelper(activity).getDbManager();
-            Selector selector = null;
-            selector = mDbManager.selector(LineGroupBean.class);
-            selector.where("parent_type", "=", 2);
-            selector.and("parent_id", "=", group_id);
-            List<LineGroupBean> list = selector.findAll();
-            return lineGroupBeanAdapter(list, 3);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-//    -- 城市
-//    select distinct * from line_group_item where sub_place_id=#{选择的国家ID};
-
-    public static List<SearchGroupBean> getType31City(Activity activity, int group_id) {
-        try {
-            DbManager mDbManager = new DBHelper(activity).getDbManager();
-            Selector selector = null;
-            selector = mDbManager.selector(LineGroupItem.class);
-            selector.where("sub_place_id", "=", group_id);
-            selector.and("type", "=", 3);
-            List<LineGroupItem> list = selector.findAll();
-            return lineGroupItemAdapter(list, 3);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -561,12 +684,6 @@ public class CityUtils {
                 e.printStackTrace();
             }
 
-//            Selector selector = null;
-//            selector = mDbManager.selector(CityBean.class);
-//            selector.where("place_id", "=",place_id);
-//            selector.and(WhereBuilder.b("has_airport","=",1).or("is_daily","=",1).or("is_single","=",1).or("has_goods","=",1));
-//            selector.orderBy("hot_weight",true);
-//            List<CityBean> list = selector.findAll();
             return cityAdapter(list);
         } catch (Exception e) {
             e.printStackTrace();
@@ -754,8 +871,6 @@ public class CityUtils {
     public static List<SearchGroupBean> searchCity(Activity activity, String key) {
         try {
             DbManager mDbManager = new DBHelper(activity).getDbManager();
-
-
             String sql = "select res.* from (" +
                     "SELECT -1 as group_id, '' as group_name, 3 AS type, city_id AS sub_city_id, cn_name AS sub_city_name, place_name AS sub_place_name, - 1 AS sub_group_id, '' AS sub_group_name, city.hot_weight, 1 as rank " +
                     "FROM city " +
@@ -766,7 +881,7 @@ public class CityUtils {
             SqlInfo sqlinfo = new SqlInfo();
             sqlinfo.setSql(sql);
 
-            List<CityBean> list1 = new ArrayList<>();
+            List<CityBean> list = new ArrayList<>();
             try {
                 List<DbModel> modelList = mDbManager.findDbModelAll(sqlinfo);
                 if (modelList != null && modelList.size() > 0) {
@@ -783,7 +898,7 @@ public class CityUtils {
                             searchGroupBean.placeName = model.getString("sub_place_name");
                             searchGroupBean.hotWeight = model.getInt("hot_weight");
 
-                            list1.add(searchGroupBean);
+                            list.add(searchGroupBean);
                         }
                     }
                 }
@@ -792,35 +907,6 @@ public class CityUtils {
                 e.printStackTrace();
             }
 
-
-//
-//            Selector selector = null;
-//            selector = mDbManager.selector(CityBean.class);
-//            selector.where("cn_name","like",key+"%");
-//            selector.and("sub_place_name","<>","中国");
-//            selector.and("sub_place_name","<>","中国大陆");
-//            selector.and(WhereBuilder.b("has_airport","=",1).or("is_daily","=",1).or("is_single","=",1).or("has_goods","=",1));
-//            selector.orderBy("hot_weight");
-//            List<CityBean> list1 = selector.findAll();
-//
-//
-//            selector = mDbManager.selector(CityBean.class);
-//            selector.where("cn_name","like","%"+key + "%");
-//            selector.and("cn_name","not like",key+"%");
-//            selector.and("place_name","<>","中国");
-//            selector.and("sub_place_name","<>","中国大陆");
-//            selector.and(WhereBuilder.b("has_airport","=",1).or("is_daily","=",1).or("is_single","=",1).or("has_goods","=",1));
-//            selector.orderBy("hot_weight");
-//            selector.orderBy("rank");
-//            List<CityBean> list2 = selector.findAll();
-
-            List<CityBean> list = new ArrayList<>();
-            if (null != list1) {
-                list.addAll(list1);
-            }
-//            if(null != list2) {
-//                list.addAll(list2);
-//            }
             return cityAdapter(list, 3);
         } catch (Exception e) {
             e.printStackTrace();
@@ -863,15 +949,12 @@ public class CityUtils {
 
             SqlInfo sqlinfo = new SqlInfo();
             sqlinfo.setSql(sql);
-//            Cursor cursor = mDbManager.execQuery(sqlinfo);
-//            LogUtils.e(cursor.toString());
-            List<LineGroupBean> list1 = new ArrayList<>();
+            List<LineGroupBean> list = new ArrayList<>();
             try {
                 List<DbModel> modelList = mDbManager.findDbModelAll(sqlinfo);
                 if (modelList != null && modelList.size() > 0) {
                     final int listsize = modelList.size();
-                    int specialofferlistindex = listsize;
-                    for (int modelindex = (listsize - 1); modelindex >= 0; --modelindex) {
+                    for (int modelindex = 0; modelindex < listsize; modelindex++) {
                         DbModel model = modelList.get(modelindex);
                         if (model != null) {
                             LineGroupBean searchGroupBean = new LineGroupBean();
@@ -880,10 +963,15 @@ public class CityUtils {
                             searchGroupBean.group_id = model.getInt("group_id");
                             searchGroupBean.group_name = model.getString("group_name");
 
-                            searchGroupBean.type = model.getInt("type");
+                            searchGroupBean.parent_id = model.getInt("parent_id");
+                            searchGroupBean.parent_name = model.getString("parent_name");
+
+                            searchGroupBean.type = 1;
+
+                            searchGroupBean.level = model.getInt("level");
 
                             searchGroupBean.hot_weight = model.getInt("hot_weight");
-                            list1.add(searchGroupBean);
+                            list.add(searchGroupBean);
                         }
                     }
                 }
@@ -892,25 +980,6 @@ public class CityUtils {
                 e.printStackTrace();
             }
 
-//
-//            Selector selector = null;
-//            selector = mDbManager.selector(LineGroupBean.class);
-//            selector.where("group_name","like",key+"%");
-//            List<LineGroupBean> list1 = selector.findAll();
-//
-//            selector = mDbManager.selector(LineGroupBean.class);
-//            selector.where("group_name","like","%"+key+"%");
-//            selector.and("group_name","not like",key+"%");
-//            selector.orderBy("level").orderBy("rank");
-//            List<LineGroupBean> list2 = selector.findAll();
-
-            List<LineGroupBean> list = new ArrayList<>();
-            if (null != list1) {
-                list.addAll(list1);
-            }
-//            if(null != list2) {
-//                list.addAll(list2);
-//            }
             return lineGroupBeanAdapter(list, 1);
         } catch (Exception e) {
             e.printStackTrace();
@@ -929,15 +998,12 @@ public class CityUtils {
                     "where sub_place_name != '中国' AND sub_place_name != '中国大陆' GROUP BY res.sub_place_id order by res.rank";
             SqlInfo sqlinfo = new SqlInfo();
             sqlinfo.setSql(sql);
-//            Cursor cursor = mDbManager.execQuery(sqlinfo);
-//            LogUtils.e(cursor.toString());
-            List<LineGroupItem> list1 = new ArrayList<>();
+            List<LineGroupItem> list = new ArrayList<>();
             try {
                 List<DbModel> modelList = mDbManager.findDbModelAll(sqlinfo);
                 if (modelList != null && modelList.size() > 0) {
                     final int listsize = modelList.size();
-                    int specialofferlistindex = listsize;
-                    for (int modelindex = (listsize - 1); modelindex >= 0; --modelindex) {
+                    for (int modelindex = 0; modelindex < listsize; modelindex++) {
                         DbModel model = modelList.get(modelindex);
                         if (model != null) {
                             LineGroupItem searchGroupBean = new LineGroupItem();
@@ -957,7 +1023,7 @@ public class CityUtils {
                             searchGroupBean.type = model.getInt("type");
 
                             searchGroupBean.hot_weight = model.getInt("hot_weight");
-                            list1.add(searchGroupBean);
+                            list.add(searchGroupBean);
                         }
                     }
                 }
@@ -966,28 +1032,6 @@ public class CityUtils {
                 e.printStackTrace();
             }
 
-
-//            Selector selector = null;
-//            selector = mDbManager.selector(LineGroupItem.class);
-//            selector.where("type","=",2);
-//            selector.and("sub_place_name","like",key+"%");
-//            List<LineGroupItem> list1 = selector.findAll();
-//
-//            selector = mDbManager.selector(LineGroupItem.class);
-//            selector.where("type","=",2);
-//            selector.and("sub_place_name","like","%"+key+"%");
-//            selector.and("sub_place_name","not like",key+"%");
-//            selector.groupBy("sub_place_id");
-//            selector.orderBy("rank");
-//            List<LineGroupItem> list2 = selector.findAll();
-
-            List<LineGroupItem> list = new ArrayList<>();
-            if (null != list1) {
-                list.addAll(list1);
-            }
-//            if(null != list2) {
-//                list.addAll(list2);
-//            }
             return lineGroupItemAdapter(list, 2);
         } catch (Exception e) {
             e.printStackTrace();
