@@ -27,10 +27,12 @@ import com.hugboga.custom.data.bean.ChatInfo;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.parser.ParserChatInfo;
+import com.hugboga.custom.data.request.RequestApiFeedback;
 import com.hugboga.custom.data.request.RequestChatList;
 import com.hugboga.custom.data.request.RequestRemoveChat;
 import com.hugboga.custom.data.request.RequestResetIMToken;
 import com.hugboga.custom.utils.AlertDialogUtils;
+import com.hugboga.custom.utils.ApiFeedbackUtils;
 import com.hugboga.custom.utils.IMUtil;
 import com.umeng.analytics.MobclickAgent;
 
@@ -97,6 +99,13 @@ public class FgChat extends BaseFragment implements View.OnClickListener, ZBaseA
         HttpRequestUtils.request(getContext(), requestResetToken, httpRequestListener);
     }
 
+    private void requestApiFeedback(int errorMessage, String errorCode) {
+        RequestApiFeedback requestApiFeedback = new RequestApiFeedback(getContext(),
+                UserEntity.getUser().getUserId(getContext()),
+                ApiFeedbackUtils.getImErrorFeedback(errorMessage, errorCode));
+        HttpRequestUtils.request(getContext(), requestApiFeedback, null, false);
+    }
+
     HttpRequestListener httpRequestListener = new HttpRequestListener() {
         @Override
         public void onDataRequestSucceed(BaseRequest request) {
@@ -112,6 +121,7 @@ public class FgChat extends BaseFragment implements View.OnClickListener, ZBaseA
         public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
             ErrorHandler handler = new ErrorHandler((Activity) getContext(), this);
             handler.onDataRequestError(errorInfo, request);
+            requestApiFeedback(4, null);
         }
     };
 
@@ -126,6 +136,7 @@ public class FgChat extends BaseFragment implements View.OnClickListener, ZBaseA
                     requestIMTokenCount++;
                     requestIMTokenUpdate();
                 }
+                requestApiFeedback(1, null);
             }
 
             @Override
@@ -140,6 +151,13 @@ public class FgChat extends BaseFragment implements View.OnClickListener, ZBaseA
                     requestIMTokenCount++;
                     requestIMTokenUpdate();
                 }
+                requestApiFeedback(2, errorCode != null ? "" + errorCode.getValue() : null);
+            }
+
+            @Override
+            public void onFail(int errorCode) {
+                super.onFail(errorCode);
+                requestApiFeedback(3, "" + errorCode);
             }
         });
     }

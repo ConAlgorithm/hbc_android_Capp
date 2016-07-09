@@ -524,4 +524,9 @@ public class UrlLibs {
      *
      */
     public static final String API_GOODS_BY_ID = "goods/v1.2/c/home/goodsByNo";
+
+    /**
+     * 反馈app业务异常信息
+     */
+    public static final String API_ERROR_FEEDBACK = "communication/v2.0/c/biz/error";
 }

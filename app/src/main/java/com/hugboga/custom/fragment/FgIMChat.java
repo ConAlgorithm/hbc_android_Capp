@@ -30,14 +30,17 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.ChatInfo;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.OrderStatus;
+import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.parser.ParserChatInfo;
+import com.hugboga.custom.data.request.RequestApiFeedback;
 import com.hugboga.custom.data.request.RequestBlackMan;
 import com.hugboga.custom.data.request.RequestIMClear;
 import com.hugboga.custom.data.request.RequestIMOrder;
 import com.hugboga.custom.data.request.RequestUnBlackMan;
 import com.hugboga.custom.utils.AlertDialogUtils;
+import com.hugboga.custom.utils.ApiFeedbackUtils;
 import com.hugboga.custom.utils.PermissionRes;
 import com.hugboga.custom.utils.UIUtils;
 import com.zhy.m.permission.MPermissions;
@@ -605,6 +608,9 @@ public class FgIMChat extends BaseFragment {
 //                        if (rl.getVisibility() == View.VISIBLE) {
 //                            rl.setVisibility(GONE);
 //                        }
+                        if(message.getSentStatus() == Message.SentStatus.FAILED && sentMessageErrorCode != null){
+                            requestApiFeedback(8, "" + sentMessageErrorCode.getValue());
+                        }
                         return false;
                     }
                 });
@@ -612,6 +618,13 @@ public class FgIMChat extends BaseFragment {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void requestApiFeedback(int errorMessage, String errorCode) {
+        RequestApiFeedback requestApiFeedback = new RequestApiFeedback(getContext(),
+                UserEntity.getUser().getUserId(getContext()),
+                ApiFeedbackUtils.getImErrorFeedback(errorMessage, errorCode));
+        HttpRequestUtils.request(getContext(), requestApiFeedback, null, false);
     }
 
     /**
