@@ -624,7 +624,22 @@ public class FgIMChat extends BaseFragment {
         RequestApiFeedback requestApiFeedback = new RequestApiFeedback(getContext(),
                 UserEntity.getUser().getUserId(getContext()),
                 ApiFeedbackUtils.getImErrorFeedback(errorMessage, errorCode));
-        HttpRequestUtils.request(getContext(), requestApiFeedback, null, false);
+        HttpRequestUtils.request(getContext(), requestApiFeedback, new HttpRequestListener() {
+            @Override
+            public void onDataRequestSucceed(BaseRequest request) {
+
+            }
+
+            @Override
+            public void onDataRequestCancel(BaseRequest request) {
+
+            }
+
+            @Override
+            public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+
+            }
+        }, false);
     }
 
     /**

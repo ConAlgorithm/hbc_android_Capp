@@ -2,12 +2,16 @@ package com.hugboga.custom.data.request;
 
 import android.content.Context;
 
+import com.google.gson.Gson;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
+import com.hugboga.custom.data.bean.CommentsListData;
 import com.hugboga.custom.data.net.NewParamsBuilder;
 import com.hugboga.custom.data.net.UrlLibs;
+import com.hugboga.custom.data.parser.HbcParser;
 import com.hugboga.custom.utils.PhoneInfo;
 
+import org.json.JSONObject;
 import org.xutils.http.HttpMethod;
 import org.xutils.http.annotation.HttpRequest;
 
@@ -26,7 +30,7 @@ public class RequestApiFeedback extends BaseRequest<String> {
 
     @Override
     public ImplParser getParser() {
-        return null;
+        return new DataParser();
     }
 
     @Override
@@ -37,5 +41,12 @@ public class RequestApiFeedback extends BaseRequest<String> {
     @Override
     public String getUrlErrorCode() {
         return "401000";
+    }
+
+    private static class DataParser extends ImplParser {
+        @Override
+        public Object parseObject(JSONObject obj) throws Throwable {
+            return obj.toString();
+        }
     }
 }

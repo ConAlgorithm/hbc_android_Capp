@@ -90,7 +90,22 @@ public class IMUtil {
         RequestApiFeedback requestApiFeedback = new RequestApiFeedback(context,
                 UserEntity.getUser().getUserId(context),
                 ApiFeedbackUtils.getImErrorFeedback(errorMessage, errorCode));
-        HttpRequestUtils.request(context, requestApiFeedback, null, false);
+        HttpRequestUtils.request(context, requestApiFeedback, new HttpRequestListener() {
+            @Override
+            public void onDataRequestSucceed(BaseRequest request) {
+
+            }
+
+            @Override
+            public void onDataRequestCancel(BaseRequest request) {
+
+            }
+
+            @Override
+            public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+
+            }
+        }, false);
     }
 
     /**
