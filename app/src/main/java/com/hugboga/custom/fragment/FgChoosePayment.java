@@ -26,6 +26,7 @@ import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestOrderDetail;
 import com.hugboga.custom.data.request.RequestPayNo;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.wxapi.WXPay;
 import com.tencent.mm.sdk.openapi.IWXAPI;
@@ -300,14 +301,14 @@ public class FgChoosePayment extends BaseFragment {
                         mDialogUtil.showLoadingDialog();
                         mHandler.sendEmptyMessageDelayed(1, 3000);
                     } else if (TextUtils.equals(resultStatus, "8000")) {
-                        Toast.makeText(getActivity(), "支付结果确认中", Toast.LENGTH_SHORT).show();
+                        CommonUtils.showToast("支付结果确认中");
                     } else {//支付失败
                         mHandler.sendEmptyMessage(2);
                     }
                     break;
                 }
                 case PayResult.SDK_CHECK_FLAG: {
-                    Toast.makeText(getActivity(), "检查结果为：" + msg.obj, Toast.LENGTH_SHORT).show();
+                    CommonUtils.showToast("检查结果为：" + msg.obj);
                     break;
                 }
                 default:

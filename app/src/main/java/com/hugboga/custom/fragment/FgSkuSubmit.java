@@ -27,6 +27,7 @@ import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.request.RequestPriceSku;
 import com.hugboga.custom.data.request.RequestSubmitBase;
 import com.hugboga.custom.data.request.RequestSubmitDaily;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.utils.SharedPre;
@@ -163,11 +164,11 @@ public class FgSkuSubmit extends BaseFragment implements View.OnClickListener {
             case R.id.sku_car_type_layout://车型
             case R.id.sku_car_type_edit://车型
                 if (carListBean == null) {
-                    Toast.makeText(getActivity(), "请先选择日期", Toast.LENGTH_LONG).show();
+                    CommonUtils.showToast("请先选择日期");
                     return;
                 }
                 if (carListBean.carList == null || carListBean.carList.isEmpty()) {
-                    Toast.makeText(getActivity(), "请先选择日期", Toast.LENGTH_LONG).show();
+                    CommonUtils.showToast("请先选择日期");
                     return;
                 }
                 if (fgCarSuk == null) {
@@ -419,22 +420,22 @@ public class FgSkuSubmit extends BaseFragment implements View.OnClickListener {
     private boolean checkInput() {
 
         if (TextUtils.isEmpty(serverDate)) {
-            Toast.makeText(getActivity(), "请选择服务时间", Toast.LENGTH_LONG).show();
+            CommonUtils.showToast("请选择服务时间");
             return false;
         }
 
         if (carTypeBean == null) {
-            Toast.makeText(getActivity(), "请选择服务车型", Toast.LENGTH_LONG).show();
+            CommonUtils.showToast("请选择服务车型");
             return false;
         }
 
         if (adult == 0) {
-            Toast.makeText(getActivity(), "请选择成人数量", Toast.LENGTH_LONG).show();
+            CommonUtils.showToast("请选择成人数量");
             return false;
         }
         //客户端做check
         if(adult+child>=carTypeBean.carSeat){
-            Toast.makeText(getActivity(),"您选择的出行人数超出车型所能容纳的人数,请重新填写出行人数", Toast.LENGTH_LONG).show();
+            CommonUtils.showToast("您选择的出行人数超出车型所能容纳的人数,请重新填写出行人数");
             return false;
         }
         if (startPoiBean == null) {
@@ -443,15 +444,15 @@ public class FgSkuSubmit extends BaseFragment implements View.OnClickListener {
         }
         String contactName = skuUserName.getText().toString().trim();
         if (TextUtils.isEmpty(contactName)) {
-            Toast.makeText(getActivity(), "请填写联系人姓名", Toast.LENGTH_LONG).show();
+            CommonUtils.showToast("请填写联系人姓名");
             return false;
         }
         if (TextUtils.isEmpty(areaCode)) {
-            Toast.makeText(getActivity(), "请选择区号", Toast.LENGTH_LONG).show();
+            CommonUtils.showToast("请选择区号");
             return false;
         }
         if (TextUtils.isEmpty(skuPhone.getText().toString().trim())) {
-            Toast.makeText(getActivity(), "请填写联系电话", Toast.LENGTH_LONG).show();
+            CommonUtils.showToast("请填写联系电话");
             return false;
         }
         return true;

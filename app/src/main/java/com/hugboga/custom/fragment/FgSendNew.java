@@ -33,9 +33,9 @@ import com.hugboga.custom.data.request.RequestCheckPriceForTransfer;
 import com.hugboga.custom.data.request.RequestGuideConflict;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.CarUtils;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.OrderUtils;
-import com.hugboga.custom.utils.ToastUtils;
 import com.hugboga.custom.widget.DialogUtil;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
@@ -440,7 +440,7 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
                     fg.setArguments(bundle);
                     startFragment(fg);
                 } else {
-                    ToastUtils.showShort("先选择机场");
+                    CommonUtils.showToast("先选择机场");
                 }
                 break;
             case R.id.address_layout:
@@ -454,7 +454,7 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
             case R.id.time_layout:
             case R.id.time_text://出发时间
                 if (airPortBean == null) {
-                    ToastUtils.showShort("先选择机场");
+                    CommonUtils.showToast("先选择机场");
                     return;
                 }
                 showDaySelect();

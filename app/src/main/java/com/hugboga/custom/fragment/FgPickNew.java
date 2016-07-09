@@ -35,9 +35,9 @@ import com.hugboga.custom.data.request.RequestCheckPriceForPickup;
 import com.hugboga.custom.data.request.RequestGuideConflict;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.CarUtils;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.OrderUtils;
-import com.hugboga.custom.utils.ToastUtils;
 import com.hugboga.custom.widget.DialogUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -513,7 +513,7 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
                     bundle.putString(FgPoiSearch.KEY_LOCATION, flightBean.arrivalAirport.location);
                     startFragment(fg, bundle);
                 } else {
-                    ToastUtils.showShort("请先选择航班");
+                    CommonUtils.showToast("请先选择航班");
                 }
                 break;
         }
