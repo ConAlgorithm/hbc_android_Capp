@@ -294,22 +294,9 @@ public class FgChooseCityNew extends BaseFragment {
             goCityList(groupList2.get(position));
         } else {
 
-            SearchGroupBean lineGroupBean =  new SearchGroupBean();
+            SearchGroupBean lineGroupBean;
             SearchGroupBean searchGroupBean = groupList2.get(position);
-            lineGroupBean.sub_city_name = searchGroupBean.sub_city_name;
-            lineGroupBean.type = searchGroupBean.type;
-            lineGroupBean.flag = searchGroupBean.flag;
-            lineGroupBean.group_id = searchGroupBean.group_id;
-            lineGroupBean.group_name = searchGroupBean.group_name;
-            lineGroupBean.hot_weight = searchGroupBean.hot_weight;
-            lineGroupBean.level = searchGroupBean.level;
-            lineGroupBean.parent_id = searchGroupBean.parent_id;
-            lineGroupBean.parent_name = searchGroupBean.parent_name;
-            lineGroupBean.parent_type = searchGroupBean.parent_type;
-            lineGroupBean.sub_place_id = searchGroupBean.sub_place_id;
-            lineGroupBean.sub_city_id = searchGroupBean.sub_city_id;
-            lineGroupBean.spot_id = searchGroupBean.spot_id;
-            lineGroupBean.spot_name = searchGroupBean.spot_name;
+            lineGroupBean = (SearchGroupBean)searchGroupBean.clone();
             lineGroupBean.isSelected = false;
 
 
@@ -329,22 +316,9 @@ public class FgChooseCityNew extends BaseFragment {
             groupList2 = new ArrayList<>();
             groupList2.addAll(CityUtils.getHotCityWithHead(getActivity()));
         } else {
-            SearchGroupBean lineGroupBean =  new SearchGroupBean();
+            SearchGroupBean lineGroupBean;
             SearchGroupBean searchGroupBean = groupList.get(position);
-            lineGroupBean.sub_city_name = searchGroupBean.sub_city_name;
-            lineGroupBean.type = searchGroupBean.type;
-            lineGroupBean.flag = searchGroupBean.flag;
-            lineGroupBean.group_id = searchGroupBean.group_id;
-            lineGroupBean.group_name = searchGroupBean.group_name;
-            lineGroupBean.hot_weight = searchGroupBean.hot_weight;
-            lineGroupBean.level = searchGroupBean.level;
-            lineGroupBean.parent_id = searchGroupBean.parent_id;
-            lineGroupBean.parent_name = searchGroupBean.parent_name;
-            lineGroupBean.parent_type = searchGroupBean.parent_type;
-            lineGroupBean.sub_place_id = searchGroupBean.sub_place_id;
-            lineGroupBean.sub_city_id = searchGroupBean.sub_city_id;
-            lineGroupBean.spot_id = searchGroupBean.spot_id;
-            lineGroupBean.spot_name = searchGroupBean.spot_name;
+            lineGroupBean = (SearchGroupBean)searchGroupBean.clone();
             lineGroupBean.isSelected = false;
             groupList2 = new ArrayList<>();
             groupList2.add(0, lineGroupBean);

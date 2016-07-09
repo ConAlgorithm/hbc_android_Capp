@@ -1,7 +1,7 @@
 package com.hugboga.custom.data.bean;
 
 
-public class SearchGroupBean {
+public class SearchGroupBean implements Cloneable{
     public int group_id;
     public String group_name;
     public boolean isSelected;
@@ -25,4 +25,13 @@ public class SearchGroupBean {
     public int level;//1 顶级组
 
     public int flag;//1,线路 2,国家,3,城市 4,热门
+
+    @Override
+    public Object clone() {
+        try {
+            return super.clone();
+        }catch (Exception e){
+            return  this;
+        }
+    }
 }
