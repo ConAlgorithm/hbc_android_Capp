@@ -1,7 +1,7 @@
 package com.hugboga.custom.data.bean;
 
 
-public class SearchGroupBean {
+public class SearchGroupBean implements Cloneable{
     public int group_id;
     public String group_name;
     public boolean isSelected;

@@ -15,7 +15,6 @@ import com.hugboga.custom.data.net.ServerCodeHandler;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestAccessKey;
 import com.hugboga.custom.widget.DialogUtil;
-import com.tencent.bugly.crashreport.CrashReport;
 import com.umeng.analytics.MobclickAgent;
 
 import org.xutils.x;
@@ -79,11 +78,11 @@ public class MyApplication extends HbcApplication {
         }else {
             UrlLibs.SERVER_IP_HOST_PUBLIC = BuildConfig.API_SERVER_URL;
         }
-
+        UrlLibs.SHARE_BASE_URL_1 = BuildConfig.SHARE_BASE_URL_1;
+        UrlLibs.SHARE_BASE_URL_2 = BuildConfig.SHARE_BASE_URL_2;
+        UrlLibs.SHARE_BASE_URL_3 = BuildConfig.SHARE_BASE_URL_3;
         UrlLibs.H5_HOST = BuildConfig.H5_HOST;
-//        UrlLibs.SHARE_BASE_URL_1 = BuildConfig.SHARE_BASE_URL_1;
-//        UrlLibs.SHARE_BASE_URL_2 = BuildConfig.SHARE_BASE_URL_2;
-//        UrlLibs.SHARE_BASE_URL_3 = BuildConfig.SHARE_BASE_URL_3;
+
 
     }
 
