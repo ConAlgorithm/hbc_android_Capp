@@ -778,7 +778,7 @@ public class CityUtils {
         } else {
 
             if (list.size() > 10) {
-                for (int i = list.size() - 1; i >= 10; i--) {
+                for (int i = 0; i < (list.size() -10); i++) {
                     list.remove(i);
                 }
             }
@@ -794,6 +794,10 @@ public class CityUtils {
                     }
                 } else if (searchGroupBean.flag == 4) {
                     if (searchGroupBean.spot_id == list.get(i).spot_id) {
+                        list.remove(i);
+                    }
+                }else if(searchGroupBean.flag == 1){
+                    if (searchGroupBean.group_id == list.get(i).group_id) {
                         list.remove(i);
                     }
                 }
