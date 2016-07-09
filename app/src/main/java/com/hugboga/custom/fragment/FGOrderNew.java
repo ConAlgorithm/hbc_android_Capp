@@ -215,6 +215,10 @@ public class FGOrderNew extends BaseFragment {
     @Bind(R.id.hospital_layout)
     LinearLayout hospital_layout;
     String userName;
+
+    /**
+     * 基于原来代码修改,有时间了优化
+     */
     @Override
     protected void initHeader() {
         fgRightBtn.setVisibility(View.VISIBLE);
