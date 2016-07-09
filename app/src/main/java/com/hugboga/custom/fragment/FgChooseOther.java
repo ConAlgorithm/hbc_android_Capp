@@ -23,7 +23,7 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.ContactUsersBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
-import com.hugboga.custom.utils.ToastUtils;
+import com.hugboga.custom.utils.CommonUtils;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.xutils.common.Callback;
@@ -144,28 +144,28 @@ public class FgChooseOther extends BaseFragment {
                 if(TextUtils.isEmpty(nameText.getText())
                         || TextUtils.isEmpty(userPhoneText.getText())
                         || TextUtils.isEmpty(userPhoneTextCodeClick.getText())) {
-                    ToastUtils.showShort("联系人名称和电话不能为空");
+                    CommonUtils.showToast("联系人名称和电话不能为空");
                     return;
                 }
 
                 if(user1Layout.isShown() && (TextUtils.isEmpty(name1Text.getText())
                         || TextUtils.isEmpty(user1PhoneText.getText())
                         || TextUtils.isEmpty(user1PhoneTextCodeClick.getText()))) {
-                    ToastUtils.showShort("备用联系人名称和电话不能为空");
+                    CommonUtils.showToast("备用联系人名称和电话不能为空");
                     return;
                 }
 
                 if(user2Layout.isShown() && (TextUtils.isEmpty(name2Text.getText())
                         || TextUtils.isEmpty(user2PhoneText.getText())
                         || TextUtils.isEmpty(user2PhoneTextCodeClick.getText()))) {
-                    ToastUtils.showShort("备用联系人名称和电话不能为空");
+                    CommonUtils.showToast("备用联系人名称和电话不能为空");
                     return;
                 }
 
                 if(otherCheck.isChecked() && (TextUtils.isEmpty(passengerText.getText())
                         || TextUtils.isEmpty(passengerPhoneTextCodeClick.getText())
                         || TextUtils.isEmpty(passengerPhoneText.getText()))) {
-                    ToastUtils.showShort("乘车人名称和电话不能为空");
+                    CommonUtils.showToast("乘车人名称和电话不能为空");
                     return;
                 }
 

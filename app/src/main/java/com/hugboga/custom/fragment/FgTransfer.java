@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
-import com.hugboga.custom.utils.ToastUtils;
 import com.umeng.analytics.MobclickAgent;
 
 import org.xutils.common.Callback;

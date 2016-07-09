@@ -42,11 +42,11 @@ import com.hugboga.custom.data.request.RequestGetCarInfo;
 import com.hugboga.custom.data.request.RequestGuideConflict;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.CityUtils;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DBCityUtils;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.utils.ScreenUtils;
-import com.hugboga.custom.utils.ToastUtils;
 import com.umeng.analytics.MobclickAgent;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
@@ -66,14 +66,10 @@ import java.util.List;
 import butterknife.ButterKnife;
 import org.greenrobot.eventbus.EventBus;
 
-import static android.R.attr.type;
 import static android.view.View.GONE;
 import static com.hugboga.custom.R.id.baggage_text_click;
-import static com.hugboga.custom.R.id.go_city_text_click_right;
 import static com.hugboga.custom.R.id.people_text_click;
 import static com.hugboga.custom.R.id.start_city_click;
-import static com.hugboga.custom.R.id.start_date_right;
-import static u.aly.au.T;
 
 /**
  * Created  on 16/4/14.
@@ -324,43 +320,43 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
     public boolean checkNextBtnStatus() {
         if (null == startBean) {
 //            disableNextBtn();
-            ToastUtils.showShort("请选择城市");
+            CommonUtils.showToast("请选择城市");
             return false;
         }
 
         if (TextUtils.isEmpty(peopleTextClick.getText())) {
-            ToastUtils.showShort("请选择出发人数");
+            CommonUtils.showToast("请选择出发人数");
 //            disableNextBtn();
             return false;
         }
 
         if (TextUtils.isEmpty(baggageTextClick.getText())) {
-            ToastUtils.showShort("请选择行李数");
+            CommonUtils.showToast("请选择行李数");
 //            disableNextBtn();
             return false;
         }
 
         if(serverTime.equalsIgnoreCase("00:00") && isIncludeToday){
-            ToastUtils.showShort("请选择上车时间");
+            CommonUtils.showToast("请选择上车时间");
 //            disableNextBtn();
             return false;
         }
 
         if (isHalfTravel) {
             if (TextUtils.isEmpty(halfDate)) {
-                ToastUtils.showShort("请选择游玩日期");
+                CommonUtils.showToast("请选择游玩日期");
 //                disableNextBtn();
                 return false;
             }
         } else {
             if (TextUtils.isEmpty(start_date_str) || TextUtils.isEmpty(end_date_str)) {
-                ToastUtils.showShort("请选择开始日期和结束日期");
+                CommonUtils.showToast("请选择开始日期和结束日期");
 //                disableNextBtn();
                 return false;
             }
 
             if (passBeanList.size() != nums) {
-                ToastUtils.showShort("请填写每日行程");
+                CommonUtils.showToast("请填写每日行程");
 //                disableNextBtn();
                 return false;
             }
@@ -1012,7 +1008,7 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
                 break;
             case start_city_click:
                 if (null != collectGuideBean && !TextUtils.isEmpty(startCityClick.getText())) {
-                    ToastUtils.showShort(R.string.alert_del_after_edit);
+                    CommonUtils.showToast(R.string.alert_del_after_edit);
                 } else {
                     Bundle bundle = new Bundle();
                     bundle.putString(KEY_FROM, "startAddress");
@@ -1022,7 +1018,7 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
                 break;
             case people_text_click:
                 if (null != collectGuideBean && !TextUtils.isEmpty(peopleTextClick.getText())) {
-                    ToastUtils.showShort(R.string.alert_del_after_edit);
+                    CommonUtils.showToast(R.string.alert_del_after_edit);
                 } else {
                     showSelectPeoplePop(1);
                 }
@@ -1034,7 +1030,7 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
                 break;
             case baggage_text_click:
                 if (null != collectGuideBean && !TextUtils.isEmpty(baggageTextClick.getText())) {
-                    ToastUtils.showShort(R.string.alert_del_after_edit);
+                    CommonUtils.showToast(R.string.alert_del_after_edit);
                 } else {
                     showSelectPeoplePop(2);
                 }
@@ -1044,7 +1040,7 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
                 break;
             case R.id.end_layout_click:
                 if (null != collectGuideBean && !TextUtils.isEmpty(endDate.getText())) {
-                    ToastUtils.showShort(R.string.alert_del_after_edit);
+                    CommonUtils.showToast(R.string.alert_del_after_edit);
                 } else {
 //                    showDaySelect(endDate);
                     Intent intent = new Intent(getActivity(),DatePickerActivity.class);
@@ -1056,7 +1052,7 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
             case R.id.go_city_text_layout:
             case R.id.go_city_text_click:
                 if (null != collectGuideBean && !TextUtils.isEmpty(goCityTextClick.getText())) {
-                    ToastUtils.showShort(R.string.alert_del_after_edit);
+                    CommonUtils.showToast(R.string.alert_del_after_edit);
                 } else {
 //                    showDaySelect(goCityTextClick);
                     Intent intent = new Intent(getActivity(),DatePickerActivity.class);
@@ -1402,7 +1398,7 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
                             start_date_str = serverDate;
                             mTextView.setText(serverDate);
                         } else {
-                            ToastUtils.showLong(R.string.start_end_error);
+                            CommonUtils.showToast(R.string.start_end_error);
                         }
                     }
                 } else {
@@ -1412,7 +1408,7 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
                         mTextView.setText(serverDate);
                         addDayView(false);
                     } else {
-                        ToastUtils.showLong(R.string.start_end_error);
+                        CommonUtils.showToast(R.string.start_end_error);
                     }
                 }
 
@@ -1426,7 +1422,7 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
                         mTextView.setText(serverDate);
                         addDayView(false);
                     } else {
-                        ToastUtils.showLong(R.string.start_end_error);
+                        CommonUtils.showToast(R.string.start_end_error);
                     }
 
                 }

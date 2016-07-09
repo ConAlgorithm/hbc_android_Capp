@@ -15,6 +15,7 @@ import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.bean.PromiseBean;
 import com.hugboga.custom.data.net.UrlLibs;
+import com.hugboga.custom.utils.CommonUtils;
 import com.umeng.analytics.MobclickAgent;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
@@ -102,7 +103,7 @@ public class FgSingle extends BaseFragment {
                     map.put("source", "下单过程中");
                     MobclickAgent.onEvent(getActivity(), "search_trigger", map);
                 } else {
-                    Toast.makeText(getActivity(), "先选择城市", Toast.LENGTH_LONG).show();
+                    CommonUtils.showToast("请先选择城市");
                 }
                 break;
             case R.id.send_to_layout:
@@ -116,12 +117,12 @@ public class FgSingle extends BaseFragment {
                     map.put("source", "下单过程中");
                     MobclickAgent.onEvent(getActivity(), "search_trigger", map);
                 } else {
-                    Toast.makeText(getActivity(), "先选择城市", Toast.LENGTH_LONG).show();
+                    CommonUtils.showToast("请先选择城市");
                 }
                 break;
             case R.id.send_time_layout:
                 if (startBean == null) {
-                    Toast.makeText(getActivity(), "请先选择城市", Toast.LENGTH_LONG).show();
+                    CommonUtils.showToast("请先选择城市");
                     return;
                 }
                 showDaySelect();
@@ -159,16 +160,16 @@ public class FgSingle extends BaseFragment {
 
     private void startFgCar() {
         if (cityBean == null) {
-            Toast.makeText(getActivity(), "选择用车城市", Toast.LENGTH_LONG).show();
+            CommonUtils.showToast("选择用车城市");
             return;
         } else if (startBean == null) {
-            Toast.makeText(getActivity(), "选择起始目的地", Toast.LENGTH_LONG).show();
+            CommonUtils.showToast("选择起始目的地");
             return;
         } else if (arrivalBean == null) {
-            Toast.makeText(getActivity(), "选择达到目的地", Toast.LENGTH_LONG).show();
+            CommonUtils.showToast("选择达到目的地");
             return;
         } else if (serverDate == null || serverTime == null) {
-            Toast.makeText(getActivity(), "选择服务日期", Toast.LENGTH_LONG).show();
+            CommonUtils.showToast("选择服务日期");
             return;
         }
         FgCar fg = new FgCar();

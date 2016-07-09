@@ -28,6 +28,7 @@ import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.OrderContact;
 import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.request.RequestChangeTrip;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DBHelper;
 import com.hugboga.custom.widget.DialogUtil;
 import com.umeng.analytics.MobclickAgent;
@@ -573,7 +574,7 @@ public class FgChangeTrip extends BaseFragment implements View.OnClickListener {
         MLog.e("seatCategory = "+mOrderBean.seatCategory);
         //客户端做check
         if (adult + child >= mOrderBean.seatCategory) {
-            Toast.makeText(getActivity(), "您选择的出行人数超出车型所能容纳的人数,请重新填写出行人数", Toast.LENGTH_LONG).show();
+            CommonUtils.showToast("您选择的出行人数超出车型所能容纳的人数,请重新填写出行人数");
             return;
         }
         String brandSign = pickName.getText().toString().trim();
@@ -745,7 +746,7 @@ public class FgChangeTrip extends BaseFragment implements View.OnClickListener {
             FlightBean bean = (FlightBean) bundle.getSerializable(FgPickFlight.KEY_AIRPORT);
             if (mBusinessType == Constants.BUSINESS_TYPE_SEND && bean != null) {
                 if (bean.depAirportCode == null || !bean.depAirportCode.equals(mOrderBean.flightAirportCode)) {
-                    Toast.makeText(getActivity(), "请选择与送达机场相符的航班", Toast.LENGTH_LONG).show();
+                    CommonUtils.showToast("请选择与送达机场相符的航班");
                 } else {
                     flightBean = bean;
                     String flightInfoStr = flightBean.flightNo + " ";

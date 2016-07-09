@@ -32,12 +32,12 @@ import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestAccessToken;
 import com.hugboga.custom.data.request.RequestLogin;
 import com.hugboga.custom.data.request.RequestLoginCheckOpenId;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.DrawableCenterButton;
 import com.umeng.analytics.MobclickAgent;
-import com.hugboga.custom.utils.ToastUtils;
 import com.tencent.mm.sdk.constants.ConstantsAPI;
 import com.tencent.mm.sdk.modelbase.BaseReq;
 import com.tencent.mm.sdk.modelbase.BaseResp;
@@ -255,7 +255,7 @@ public class FgLogin extends BaseFragment implements TextWatcher {
         switch (view.getId()) {
             case R.id.login_weixin:
                 if(!WXShareUtils.getInstance(getActivity()).isInstall(false)){
-                    ToastUtils.showLong("手机未安装微信或版本太低");
+                    CommonUtils.showToast("手机未安装微信或版本太低");
                     return;
                 }
                 wxapi = WXAPIFactory.createWXAPI(this.getActivity(), Constants.WX_APP_ID);

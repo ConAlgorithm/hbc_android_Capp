@@ -24,17 +24,11 @@ public final class CommonUtils {
 
     public static void showToast(int resId) {
         try {
-//            if (toast == null) {
-//                toast = Toast.makeText(MyApplication.getAppContext(), resId, Toast.LENGTH_SHORT);
-//            } else {
-//                toast.cancel();
-//            }
-//            toast.show();
-            if (toast != null) {
-                toast.cancel();
-                toast = null;
+            if (toast == null) {
+                toast = Toast.makeText(MyApplication.getAppContext(), resId, Toast.LENGTH_SHORT);
+            } else {
+                toast.setText(resId);
             }
-            toast = Toast.makeText(MyApplication.getAppContext(), resId, Toast.LENGTH_SHORT);
             toast.show();
         } catch (Exception e) {
             e.printStackTrace();
@@ -43,17 +37,11 @@ public final class CommonUtils {
 
     public static void showToast(String msg) {
         try {
-//            if (toast == null) {
-//                toast = Toast.makeText(MyApplication.getAppContext(), msg, Toast.LENGTH_SHORT);
-//            } else {
-//                toast.cancel();
-//            }
-//            toast.show();
-            if (toast != null) {
-                toast.cancel();
-                toast = null;
+            if (toast == null) {
+                toast = Toast.makeText(MyApplication.getAppContext(), msg, Toast.LENGTH_SHORT);
+            } else {
+                toast.setText(msg);
             }
-            toast = Toast.makeText(MyApplication.getAppContext(), msg, Toast.LENGTH_SHORT);
             toast.show();
         } catch (Exception e) {
             e.printStackTrace();

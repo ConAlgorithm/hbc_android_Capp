@@ -239,7 +239,7 @@ public class PushUtils {
                 @Override
                 public void onError(Throwable ex, boolean isOnCallback) {
                     dialog.dismiss();
-                    Toast.makeText(activity, "下载新版本出错", Toast.LENGTH_SHORT).show();
+                    CommonUtils.showToast("下载新版本出错");
                 }
 
                 @Override
@@ -259,7 +259,7 @@ public class PushUtils {
                     try {
                         activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
                     } catch (Exception e) {
-                        Toast.makeText(activity, "版本更新地址不存在", Toast.LENGTH_SHORT).show();
+                        CommonUtils.showToast("版本更新地址不存在");
                     }
                 }
             }).show();

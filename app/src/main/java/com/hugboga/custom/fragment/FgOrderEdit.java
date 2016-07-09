@@ -2,7 +2,6 @@ package com.hugboga.custom.fragment;
 
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -20,7 +19,6 @@ import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestOrderEdit;
 import com.hugboga.custom.utils.CommonUtils;
-import com.hugboga.custom.utils.ToastUtils;
 import com.hugboga.custom.widget.DialogUtil;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
@@ -387,21 +385,21 @@ public class FgOrderEdit extends BaseFragment {
 
     private void sendRequest() {
         if (TextUtils.isEmpty(manName.getText())) {
-            ToastUtils.showLong("联系人姓名不能为空!");
+            CommonUtils.showToast("联系人姓名不能为空");
             return;
         }
         if (TextUtils.isEmpty(manPhone.getText())) {
-            ToastUtils.showLong("联系人电话不能为空!");
+            CommonUtils.showToast("联系人电话不能为空");
             return;
         }
         if (orderBean.orderGoodsType == 1) {//接机
             if (TextUtils.isEmpty(pickName.getText())) {
-                ToastUtils.showLong("接机牌姓名不能为空!");
+                CommonUtils.showToast("接机牌姓名不能为空");
                 return;
             }
         } else if (orderBean.orderGoodsType == 3 || orderBean.orderGoodsType == 5) {//包车
             if (TextUtils.isEmpty(upAddressRight.getText())) {
-                ToastUtils.showLong("上车地点不能为空!");
+                CommonUtils.showToast("上车地点不能为空");
                 return;
             }
         }

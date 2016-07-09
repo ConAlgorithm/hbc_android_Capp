@@ -33,7 +33,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
@@ -72,12 +71,12 @@ import com.hugboga.custom.fragment.FgTravelFund;
 import com.hugboga.custom.fragment.FgWebInfo;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.ChannelUtils;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.LocationUtils;
 import com.hugboga.custom.utils.PermissionRes;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.utils.SharedPre;
-import com.hugboga.custom.utils.ToastUtils;
 import com.hugboga.custom.utils.Tools;
 import com.umeng.analytics.MobclickAgent;
 import com.zhy.m.permission.MPermissions;
@@ -103,8 +102,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import cn.jpush.android.api.JPushInterface;
-
-import static com.hugboga.custom.fragment.BaseFragment.KEY_BUSINESS_TYPE;
 
 @ContentView(R.layout.activity_main)
 public class MainActivity extends BaseActivity
@@ -455,7 +452,7 @@ public class MainActivity extends BaseActivity
         tv_nickname.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                ToastUtils.showShort("version="+ChannelUtils.getVersion()+" versioncode="+ChannelUtils.getVersionCode()+" channel ="+ChannelUtils.getChannel(MainActivity.this)+"");
+                CommonUtils.showToast("version="+ChannelUtils.getVersion()+" versioncode="+ChannelUtils.getVersionCode()+" channel ="+ChannelUtils.getChannel(MainActivity.this)+"");
                 return false;
             }
         });
@@ -525,7 +522,7 @@ public class MainActivity extends BaseActivity
             } else {
                 long times = System.currentTimeMillis();
                 if ((times - exitTime) > 2000) {
-                    Toast.makeText(this, "再次点击退出", Toast.LENGTH_SHORT).show();
+                    CommonUtils.showToast("再次点击退出");
                     exitTime = System.currentTimeMillis();
                 } else {
                     finish();

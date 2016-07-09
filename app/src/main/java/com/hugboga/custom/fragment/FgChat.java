@@ -32,7 +32,6 @@ import com.hugboga.custom.data.request.RequestRemoveChat;
 import com.hugboga.custom.data.request.RequestResetIMToken;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.IMUtil;
-import com.hugboga.custom.utils.ToastUtils;
 import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;

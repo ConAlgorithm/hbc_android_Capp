@@ -16,6 +16,7 @@ import com.hugboga.custom.data.bean.AirPort;
 import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.bean.PromiseBean;
 import com.hugboga.custom.data.net.UrlLibs;
+import com.hugboga.custom.utils.CommonUtils;
 import com.umeng.analytics.MobclickAgent;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
@@ -92,12 +93,12 @@ public class FgSend extends BaseFragment {
                     fg.setArguments(bundle);
                     startFragment(fg);
                 } else {
-                    Toast.makeText(getActivity(), "先选择机场", Toast.LENGTH_LONG).show();
+                    CommonUtils.showToast("先选择机场");
                 }
                 break;
             case R.id.send_time_layout:
                 if (airPortBean == null) {
-                    Toast.makeText(getActivity(), "先选择机场", Toast.LENGTH_LONG).show();
+                    CommonUtils.showToast("先选择机场");
                     return;
                 }
                 showDaySelect();
@@ -136,13 +137,13 @@ public class FgSend extends BaseFragment {
 
     private void startFgCar() {
         if (airPortBean == null) {
-            Toast.makeText(getActivity(), "选择机场", Toast.LENGTH_LONG).show();
+            CommonUtils.showToast("选择机场");
             return;
         } else if (poiBean == null) {
-            Toast.makeText(getActivity(), "选择达到目的地", Toast.LENGTH_LONG).show();
+            CommonUtils.showToast("选择达到目的地");
             return;
         } else if (serverDate == null) {
-            Toast.makeText(getActivity(), "选择服务时间", Toast.LENGTH_LONG).show();
+            CommonUtils.showToast("选择服务时间");
             return;
         }
         FgCar fg = new FgCar();

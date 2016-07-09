@@ -20,7 +20,6 @@ import com.hugboga.custom.data.request.RequestChangeMobile;
 import com.hugboga.custom.data.request.RequestBindMobile;
 import com.hugboga.custom.data.request.RequestVerity;
 import com.hugboga.custom.utils.IMUtil;
-import com.hugboga.custom.utils.ToastUtils;
 import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONObject;

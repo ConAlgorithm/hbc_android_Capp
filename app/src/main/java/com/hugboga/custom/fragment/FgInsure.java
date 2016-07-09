@@ -26,7 +26,7 @@ import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestDelInsure;
 import com.hugboga.custom.data.request.RequestInsureList;
 import com.hugboga.custom.data.request.RequestSubmitInsure;
-import com.hugboga.custom.utils.ToastUtils;
+import com.hugboga.custom.utils.CommonUtils;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.xutils.common.Callback;
@@ -212,7 +212,7 @@ public class FgInsure extends BaseFragment implements HttpRequestListener {
                     peopleNum.setText("" + checkNums);
                 } else {
                     resetCheck(beanCheck);
-                    ToastUtils.showLong("不能超过用车人数");
+                    CommonUtils.showToast("不能超过用车人数");
                 }
                 break;
             default:
@@ -291,7 +291,7 @@ public class FgInsure extends BaseFragment implements HttpRequestListener {
             }
             adapter.notifyDataSetChanged();
         } else if (request instanceof RequestSubmitInsure) {
-            ToastUtils.showLong("投保申请已成功提交");
+            CommonUtils.showToast("投保申请已成功提交");
             finish();
 //            if(TextUtils.isEmpty(from)) {
             EventBus.getDefault().post(new EventAction(EventType.ADD_INSURE_SUCCESS, orderBean.orderNo));

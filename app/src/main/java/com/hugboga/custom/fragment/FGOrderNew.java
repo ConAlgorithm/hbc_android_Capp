@@ -49,10 +49,10 @@ import com.hugboga.custom.data.request.RequestSubmitLine;
 import com.hugboga.custom.data.request.RequestSubmitPick;
 import com.hugboga.custom.data.request.RequestSubmitRent;
 import com.hugboga.custom.data.request.RequestSubmitSend;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.LogUtils;
 import com.hugboga.custom.utils.OrderUtils;
-import com.hugboga.custom.utils.ToastUtils;
 import com.umeng.analytics.MobclickAgent;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
@@ -73,7 +73,6 @@ import org.greenrobot.eventbus.EventBus;
 
 import static android.view.View.GONE;
 import static com.hugboga.custom.R.id.airport_name;
-import static com.hugboga.custom.R.id.cancle;
 import static com.hugboga.custom.R.id.man_name;
 import static com.hugboga.custom.R.id.pick_name;
 import static com.hugboga.custom.R.id.up_address_right;
@@ -1084,23 +1083,23 @@ public class FGOrderNew extends BaseFragment {
     private void checkData() {
         contact.clear();
         if (TextUtils.isEmpty(manName.getText())) {
-            ToastUtils.showLong("联系人姓名不能为空!");
+            CommonUtils.showToast("联系人姓名不能为空!");
             return;
         }
         if (TextUtils.isEmpty(manPhone.getText())) {
-            ToastUtils.showLong("联系人电话不能为空!");
+            CommonUtils.showToast("联系人电话不能为空!");
             return;
         }
         if (type == 3 || type == 5 || type == 6) {
             if (TextUtils.isEmpty(upAddressRight.getText())) {
-                ToastUtils.showLong("上车地点不能为空!");
+                CommonUtils.showToast("上车地点不能为空!");
                 return;
             }
         }
 
         if (type == 1) {
             if (TextUtils.isEmpty(pickName.getText())) {
-                ToastUtils.showLong("接机牌姓名不能为空!");
+                CommonUtils.showToast("接机牌姓名不能为空!");
                 return;
             }
         }

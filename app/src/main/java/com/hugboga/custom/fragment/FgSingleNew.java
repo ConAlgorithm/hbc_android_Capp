@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
@@ -38,9 +37,9 @@ import com.hugboga.custom.data.request.RequestCheckPriceForSingle;
 import com.hugboga.custom.data.request.RequestGuideConflict;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.CarUtils;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.OrderUtils;
-import com.hugboga.custom.utils.ToastUtils;
 import com.hugboga.custom.widget.DialogUtil;
 import com.umeng.analytics.MobclickAgent;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
@@ -319,7 +318,7 @@ public class FgSingleNew extends BaseFragment {
             if(null != carBean) {
                 initCarFragment(true);
             }else{
-                ToastUtils.showShort(R.string.no_price_error);
+                CommonUtils.showToast(R.string.no_price_error);
             }
         }
     }
@@ -525,7 +524,7 @@ public class FgSingleNew extends BaseFragment {
         bundle.putBoolean("isDataBack", isDataBack);
 
         if(null != carListBean && carListBean.carList.size() == 0 && null != collectGuideBean){
-            ToastUtils.showShort(R.string.no_price_error);
+            CommonUtils.showToast(R.string.no_price_error);
             return;
         }
 
@@ -639,7 +638,7 @@ public class FgSingleNew extends BaseFragment {
                     map.put("source", "下单过程中");
                     MobclickAgent.onEvent(getActivity(), "search_trigger", map);
                 } else {
-                    Toast.makeText(getActivity(), "先选择城市", Toast.LENGTH_LONG).show();
+                    CommonUtils.showToast("先选择城市");
                 }
                 break;
             case R.id.end_tips:
@@ -656,12 +655,12 @@ public class FgSingleNew extends BaseFragment {
                     map.put("source", "下单过程中");
                     MobclickAgent.onEvent(getActivity(), "search_trigger", map);
                 } else {
-                    Toast.makeText(getActivity(), "先选择城市", Toast.LENGTH_LONG).show();
+                    CommonUtils.showToast("先选择城市");
                 }
                 break;
             case R.id.time_layout:
                 if (startBean == null) {
-                    Toast.makeText(getActivity(), "请先选择城市", Toast.LENGTH_LONG).show();
+                    CommonUtils.showToast("请先选择城市");
                     return;
                 }
                 showDaySelect();

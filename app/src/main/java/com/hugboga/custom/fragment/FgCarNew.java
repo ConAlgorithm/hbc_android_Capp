@@ -28,7 +28,7 @@ import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestCollectGuidesFilter;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.CarUtils;
-import com.hugboga.custom.utils.ToastUtils;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.widget.JazzyViewPager;
 
 import org.greenrobot.eventbus.EventBus;
@@ -410,7 +410,7 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
             if(null == carBean){
                 canService = false;
                 carBean = CarUtils.getNewCarBean(collectGuideBean);
-                ToastUtils.showShort(R.string.no_have_car);
+                CommonUtils.showToast(R.string.no_have_car);
             }else{
                 canService = true;
             }
@@ -585,7 +585,7 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
             case R.id.luggage_text:
             case R.id.childseat_text:
                 if (null == carListBean || null == carListBean.carList) {
-                    ToastUtils.showShort(R.string.no_price_error);
+                    CommonUtils.showToast(R.string.no_price_error);
                     return;
                 }
                 FgManLuggage fgManLuggage = new FgManLuggage();

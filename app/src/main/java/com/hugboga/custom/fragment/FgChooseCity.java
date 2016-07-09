@@ -11,7 +11,6 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
@@ -19,9 +18,9 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.CityAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityBean;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DBHelper;
 import com.hugboga.custom.utils.SharedPre;
-import com.hugboga.custom.utils.ToastUtils;
 import com.hugboga.custom.widget.SideBar;
 import com.umeng.analytics.MobclickAgent;
 
@@ -515,7 +514,7 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
             case R.id.head_text_right:
                 String keyword = editSearch.getText().toString().trim();
                 if (TextUtils.isEmpty(keyword)) {
-                    ToastUtils.showLong("请输入搜索内容");
+                    CommonUtils.showToast("请输入搜索内容");
                     return;
                 }
                 collapseSoftInputMethod();
@@ -589,7 +588,7 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
             cityBean.isSelected = !cityBean.isSelected;
             if (chooseCityList.size() >= 10 && cityBean.isSelected) {
                 cityBean.isSelected = false;
-                Toast.makeText(getActivity(), "最多选择10个城市", Toast.LENGTH_LONG).show();
+                CommonUtils.showToast("最多选择10个城市");
                 return;
             }
             if (cityBean.isSelected) {
@@ -858,7 +857,7 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
         if(actionId == EditorInfo.IME_ACTION_SEARCH){
             String keyword = editSearch.getText().toString().trim();
             if (TextUtils.isEmpty(keyword)) {
-                ToastUtils.showLong("请输入搜索内容");
+                CommonUtils.showToast("请输入搜索内容");
                 return true;
             }
             collapseSoftInputMethod();

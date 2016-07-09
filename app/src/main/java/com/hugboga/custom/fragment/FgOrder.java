@@ -43,6 +43,7 @@ import com.hugboga.custom.data.parser.ParserChatInfo;
 import com.hugboga.custom.data.request.RequestOrderCancel;
 import com.hugboga.custom.data.request.RequestOrderDetail;
 import com.hugboga.custom.data.request.RequestPayNo;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.widget.DialogUtil;
@@ -998,15 +999,15 @@ public class FgOrder extends BaseFragment {
                         mHandler.sendEmptyMessageDelayed(1, 3000);
                         doUMengStatisticForWechatPaySuccesful(true);
                     } else if (TextUtils.equals(resultStatus, "8000")) {
-                        Toast.makeText(getActivity(), "支付结果确认中", Toast.LENGTH_SHORT).show();
+                        CommonUtils.showToast("支付结果确认中");
                     } else {
                         doUMengStatisticForWechatPaySuccesful(false);
                     }
                     break;
                 }
                 case PayResult.SDK_CHECK_FLAG: {
-                    Toast.makeText(getActivity(), "检查结果为：" + msg.obj,
-                            Toast.LENGTH_SHORT).show();
+                    CommonUtils.showToast("检查结果为：" + msg.obj);
+
                     break;
                 }
                 default:
@@ -1446,7 +1447,7 @@ public class FgOrder extends BaseFragment {
             String newCouponId = couponBean.couponID;
             double total = mOrderBean.orderCoupon.actualPrice;
             if (total < 0) {
-                Toast.makeText(getActivity(), "优惠券异常", Toast.LENGTH_LONG).show();
+                CommonUtils.showToast("优惠券异常");
                 return;
             }
             if (newCouponId != null && !newCouponId.equals(oldCouponId)) {
@@ -1568,7 +1569,7 @@ public class FgOrder extends BaseFragment {
                 doUMengStatisticForWechatPaySuccesful(true);
                 break;
             case PAY_CANCEL:
-                Toast.makeText(getActivity(), "支付取消", Toast.LENGTH_LONG).show();
+                CommonUtils.showToast("支付取消");
                 doUMengStatisticForWechatPaySuccesful(false);
                 break;
             case ADD_INSURE_SUCCESS:
