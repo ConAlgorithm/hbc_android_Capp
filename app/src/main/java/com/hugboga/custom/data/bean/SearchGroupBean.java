@@ -25,4 +25,13 @@ public class SearchGroupBean implements Cloneable{
     public int level;//1 顶级组
 
     public int flag;//1,线路 2,国家,3,城市 4,热门
+
+    @Override
+    public Object clone() {
+        try {
+            return super.clone();
+        }catch (Exception e){
+            return  this;
+        }
+    }
 }
