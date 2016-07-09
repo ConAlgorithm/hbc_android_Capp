@@ -214,7 +214,7 @@ public class CityUtils {
             try {
                 List<DbModel> modelList = mDbManager.findDbModelAll(sqlinfo);
                 if (modelList != null && modelList.size() > 0) {
-                    final int listsize = modelList.size();
+                    int listsize = modelList.size();
                     for (int modelindex = 0; modelindex <listsize; modelindex++) {
                         DbModel model = modelList.get(modelindex);
                         if (model != null) {
