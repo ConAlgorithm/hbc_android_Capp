@@ -13,6 +13,7 @@ import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.net.UrlLibs;
+import com.hugboga.custom.data.request.RequestApiFeedback;
 import com.hugboga.custom.data.request.RequestResetIMToken;
 
 import io.rong.imkit.RongContext;
@@ -55,6 +56,7 @@ public class IMUtil {
                     requestIMTokenCount++;
                     requestIMTokenUpdate();
                 }
+                requestApiFeedback(1, null);
             }
 
             @Override
@@ -72,8 +74,38 @@ public class IMUtil {
                     requestIMTokenCount++;
                     requestIMTokenUpdate();
                 }
+                requestApiFeedback(2, errorCode != null ? "" + errorCode.getValue() : null);
+            }
+
+            @Override
+            public void onFail(int errorCode) {
+                super.onFail(errorCode);
+                requestApiFeedback(3, "" + errorCode);
             }
         });
+        RongIM.getInstance().setConnectionStatusListener(new MyConnectionStatusListener());
+    }
+
+    private void requestApiFeedback(int errorMessage, String errorCode) {
+        RequestApiFeedback requestApiFeedback = new RequestApiFeedback(context,
+                UserEntity.getUser().getUserId(context),
+                ApiFeedbackUtils.getImErrorFeedback(errorMessage, errorCode));
+        HttpRequestUtils.request(context, requestApiFeedback, new HttpRequestListener() {
+            @Override
+            public void onDataRequestSucceed(BaseRequest request) {
+
+            }
+
+            @Override
+            public void onDataRequestCancel(BaseRequest request) {
+
+            }
+
+            @Override
+            public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+
+            }
+        }, false);
     }
 
     /**
@@ -99,6 +131,7 @@ public class IMUtil {
         public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
             ErrorHandler handler = new ErrorHandler((Activity) context, this);
             handler.onDataRequestError(errorInfo, request);
+            requestApiFeedback(4, null);
         }
     };
 
@@ -135,5 +168,31 @@ public class IMUtil {
         userInfo = new UserInfo("Y" + userid, username, uri);
         MLog.e("guideAvatarUrl =  "+guideAvatarUrl);
         return userInfo;
+    }
+
+    private class MyConnectionStatusListener implements RongIMClient.ConnectionStatusListener {
+
+        @Override
+        public void onChanged(ConnectionStatus connectionStatus) {
+
+            switch (connectionStatus){
+
+                case CONNECTED://连接成功。
+
+                    break;
+                case DISCONNECTED://断开连接。
+                    requestApiFeedback(5, null);
+                    break;
+                case CONNECTING://连接中。
+
+                    break;
+                case NETWORK_UNAVAILABLE://网络不可用。
+                    requestApiFeedback(6, null);
+                    break;
+                case KICKED_OFFLINE_BY_OTHER_CLIENT://用户账户在其他设备登录，本机会被踢掉线
+                    requestApiFeedback(7, null);
+                    break;
+            }
+        }
     }
 }
