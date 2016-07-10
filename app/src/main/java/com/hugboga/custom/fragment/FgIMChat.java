@@ -82,6 +82,9 @@ public class FgIMChat extends BaseFragment {
     @ViewInject(R.id.imchat_point_layout)
     LinearLayout pointLayout; //小点容器
 
+    @ViewInject(R.id.im_emptyview)
+    TextView emptyView; //小点容器
+
     @ViewInject(R.id.header_right_btn)
     ImageView header_right_btn;
 
@@ -125,6 +128,19 @@ public class FgIMChat extends BaseFragment {
         view = (RelativeLayout) conversation.getView();
         //刷新订单信息
         getUserInfoToOrder(uri);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (emptyView != null) {
+
+            if (RongIM.getInstance() != null && RongIMClient.getInstance() != null) {
+                emptyView.setVisibility(View.GONE);
+            } else {
+                emptyView.setVisibility(View.VISIBLE);
+            }
+        }
     }
 
     /**
@@ -544,6 +560,7 @@ public class FgIMChat extends BaseFragment {
         if (view == null) {
             return;
         }
+
 //        final RelativeLayout rl = (RelativeLayout) view.findViewById(io.rong.imkit.R.id.empty);
 //        TextView show_empty_txt = (TextView) view.findViewById(R.id.show_empty_txt);
 //        if("3".equalsIgnoreCase(targetType)) {//3.客服 1.用户

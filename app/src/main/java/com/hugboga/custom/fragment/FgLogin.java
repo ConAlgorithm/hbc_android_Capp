@@ -17,6 +17,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.huangbaoche.hbcframe.data.bean.UserSession;
+import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
+import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.huangbaoche.hbcframe.util.WXShareUtils;
@@ -30,8 +32,10 @@ import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestAccessToken;
+import com.hugboga.custom.data.request.RequestApiFeedback;
 import com.hugboga.custom.data.request.RequestLogin;
 import com.hugboga.custom.data.request.RequestLoginCheckOpenId;
+import com.hugboga.custom.utils.ApiFeedbackUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.SharedPre;
@@ -202,9 +206,13 @@ public class FgLogin extends BaseFragment implements TextWatcher {
             UserSession.getUser().setUserToken(getActivity(), user.userToken);
             UserEntity.getUser().setUserName(getActivity(),user.name);
 
+            RequestApiFeedback requestApiFeedback = new RequestApiFeedback(getContext(),
+                    UserEntity.getUser().getUserId(getContext()),
+                    ApiFeedbackUtils.getImErrorFeedback(1, null, "登录时IMtoken为空"));
+            HttpRequestUtils.request(getContext(), requestApiFeedback, this, false);
+
             connectIM();
-            EventBus.getDefault().post(
-                    new EventAction(EventType.CLICK_USER_LOGIN));
+            EventBus.getDefault().post(new EventAction(EventType.CLICK_USER_LOGIN));
             HashMap<String,String> map = new HashMap<String,String>();
             map.put("source", source);
             map.put("loginstyle", "手机号");

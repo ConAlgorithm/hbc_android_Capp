@@ -24,7 +24,7 @@ public class RequestApiFeedback extends BaseRequest<String> {
         map = new HashMap<String, Object>();
         map.put("deviceInfo", PhoneInfo.getIMEI(context));//IMEI
         map.put("userId", userId);//司导或客户ID，取不到可传空，但是必须传
-        map.put("appType", "C-Android");
+        map.put("appType", "4");
         map.put("error", error);//IM|连接融云服务器|token失效|过期或者不可用
     }
 

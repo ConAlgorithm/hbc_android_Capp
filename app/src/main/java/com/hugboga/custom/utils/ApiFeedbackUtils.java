@@ -13,10 +13,14 @@ public final class ApiFeedbackUtils {
 
     private static final String SEPARATOR = "|";
 
+    public static String getImErrorFeedback(int errorMessage, String errorCode) {
+        return getImErrorFeedback(errorMessage, errorCode, null);
+    }
+
     //大类别|小类别|错误点|问题描述
     //例如: RongIM|发送消息|发送错误|错误码【21007】，错误描述【服务器错误，无法发送】
     //wiki: http://wiki.hbc.tech/pages/viewpage.action?pageId=4916716
-    public static String getImErrorFeedback(int errorMessage, String errorCode) {
+    public static String getImErrorFeedback(int errorMessage, String errorCode,String describeStr) {
         String classesStr = null;
         switch (errorMessage) {
             case 1:
@@ -36,7 +40,6 @@ public final class ApiFeedbackUtils {
         }
 
         String errorMessageStr = null;
-        String describeStr = null;
         switch (errorMessage) {
             case 1:
                 errorMessageStr = "token失效";
