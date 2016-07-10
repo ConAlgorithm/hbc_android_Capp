@@ -140,7 +140,7 @@ public class DatePickerActivity extends BaseActivity {
                         if (calendar.getSelectedDate().before(selectedDate)) {
                             selectedDate = calendar.getSelectedDate();
                             clickTimes = 1;
-                            showTips.setText(R.string.show_tips_start);
+                            showTips.setText(R.string.show_tips_end);
                         } else {
                             showTips.setVisibility(GONE);
                             finishDelay();
