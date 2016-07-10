@@ -331,26 +331,28 @@ public class FgChooseCityNew extends BaseFragment {
 
 
     private void genHistoryCity() {
-        historyCityLayout.removeAllViews();
-        List<SearchGroupBean> list = CityUtils.getSaveCity();
-        if (null != list) {
-            TextView view = null;
-            for (int i = 0; i < list.size(); i++) {
-                view = new TextView(getActivity());
-                view.setTag(list.get(i));
-                view.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        goCityList((SearchGroupBean) v.getTag());
-                    }
-                });
-                view.setGravity(Gravity.CENTER_VERTICAL);
-                String name = CityUtils.getShowName(list.get(i));
-                LogUtils.e(name);
-                view.setText(name);
-                view.setTextColor(Color.parseColor("#666666"));
-                view.setHeight(UIUtils.dip2px(50f));
-                historyCityLayout.addView(view, 0);
+        if(null != historyCityLayout) {
+            historyCityLayout.removeAllViews();
+            List<SearchGroupBean> list = CityUtils.getSaveCity();
+            if (null != list) {
+                TextView view = null;
+                for (int i = 0; i < list.size(); i++) {
+                    view = new TextView(getActivity());
+                    view.setTag(list.get(i));
+                    view.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            goCityList((SearchGroupBean) v.getTag());
+                        }
+                    });
+                    view.setGravity(Gravity.CENTER_VERTICAL);
+                    String name = CityUtils.getShowName(list.get(i));
+                    LogUtils.e(name);
+                    view.setText(name);
+                    view.setTextColor(Color.parseColor("#666666"));
+                    view.setHeight(UIUtils.dip2px(50f));
+                    historyCityLayout.addView(view, 0);
+                }
             }
         }
     }

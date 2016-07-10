@@ -642,7 +642,7 @@
     <string name="sku_list_local_guides">%1$s位当地中文司导</string>
     <string name="sku_list_city_guides_1">位中文司</string>
     <string name="sku_list_city_guides_2">导可服务</string>
-    <string name="sku_list_country_guides">由皇包车认证司导问您服务</string>
+    <string name="sku_list_country_guides">由皇包车认证司导为您服务</string>
     <string name="sku_list_routes">%1$s种包车游路线</string>
     <string name="sku_list_price_unit">起&#160;/&#160;人</string>
     <string name="sku_list_subtitle_chartered">中文包车游·开启全新旅行方式</string>

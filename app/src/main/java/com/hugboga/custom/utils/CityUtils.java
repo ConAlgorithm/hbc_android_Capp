@@ -32,6 +32,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.R.attr.key;
+import static android.R.attr.order;
+import static u.aly.au.S;
 import static u.aly.cv.l;
 
 public class CityUtils {
@@ -545,7 +547,7 @@ public class CityUtils {
         try {
             DbManager mDbManager = new DBHelper(activity).getDbManager();
 
-            String sql = "select * from line_group where parent_type=1 and parent_id="+group_id+" group by hot_weight";
+            String sql = "select * from line_group where parent_type=1 and parent_id="+group_id+" order by hot_weight";
             SqlInfo sqlinfo = new SqlInfo();
             sqlinfo.setSql(sql);
 
@@ -636,13 +638,65 @@ public class CityUtils {
     }
 
 
+    public static List<SearchGroupBean> getType31City(Activity activity, int group_id) {
+        try {
+            DbManager mDbManager = new DBHelper(activity).getDbManager();
+
+            String sql = "select * from line_group_item where type=3 and group_id="+group_id;
+            SqlInfo sqlinfo = new SqlInfo();
+            sqlinfo.setSql(sql);
+
+            List<LineGroupItem> list = new ArrayList<>();
+            try {
+                List<DbModel> modelList = mDbManager.findDbModelAll(sqlinfo);
+                if (modelList != null && modelList.size() > 0) {
+                    final int listsize = modelList.size();
+                    for (int modelindex = 0; modelindex < listsize; modelindex++) {
+                        DbModel model = modelList.get(modelindex);
+                        if (model != null) {
+                            LineGroupItem searchGroupBean = new LineGroupItem();
+                            searchGroupBean.isSelected = false;
+
+                            searchGroupBean.group_name = model.getString("group_name");
+                            searchGroupBean.group_id = model.getInt("group_id");
+
+                            searchGroupBean.sub_city_name = model.getString("sub_city_name");
+                            searchGroupBean.sub_city_id = model.getInt("sub_city_id");
+
+                            searchGroupBean.sub_place_name = model.getString("sub_place_name");
+                            searchGroupBean.sub_place_id = model.getInt("sub_place_id");
+
+                            searchGroupBean.type = model.getInt("type");
+
+                            searchGroupBean.hot_weight = model.getInt("hot_weight");
+
+                            list.add(searchGroupBean);
+                        }
+                    }
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return lineGroupItemAdapter(list, 3);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
+
+
+
     //    -- 城市
 //    select * from line_group_item where type=3 and group_id=#{选择的组ID};
     public static List<SearchGroupBean> getType3City(Activity activity, int group_id) {
         try {
             DbManager mDbManager = new DBHelper(activity).getDbManager();
 
-            String sql = "select gi.* from line_group_item as gi join city on(gi.sub_city_id=city.city_id) where gi.type=3 and (city.has_airport=1 or city.is_daily=1 or city.is_single=1 or city.has_goods=1) and gi.group_id="+group_id +" and sub_place_name != '中国' and sub_place_name != '中国大陆' order by hot_weight desc";
+            String sql = "select gi.* from line_group_item as gi join city on(gi.sub_city_id=city.city_id) where gi.type=3 and (city.has_airport=1 or city.is_daily=1 or city.is_single=1 or city.has_goods=1) and gi.group_id="+group_id+" and gi.sub_place_name!='中国' AND gi.sub_place_name!='中国大陆' order by gi.hot_weight desc";
             SqlInfo sqlinfo = new SqlInfo();
             sqlinfo.setSql(sql);
 
