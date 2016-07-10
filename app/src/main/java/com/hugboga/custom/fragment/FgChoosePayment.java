@@ -244,7 +244,7 @@ public class FgChoosePayment extends BaseFragment {
             if ("couppay".equals(payInfo)) {
                 //优惠券0元支付
                 mDialogUtil.showLoadingDialog();
-                mHandler.sendEmptyMessageDelayed(1, 3000);//XXX 不理解为啥要延迟3秒
+                mHandler.sendEmptyMessageDelayed(1, 3000);
             } else {//正常支付
                 Runnable payRunnable = new Runnable() {
                     @Override

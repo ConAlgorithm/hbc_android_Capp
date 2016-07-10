@@ -90,41 +90,21 @@ public class FgChat extends BaseFragment implements View.OnClickListener, ZBaseA
         super.onResume();
         if (UserEntity.getUser().isLogin(getActivity()) && recyclerView != null && !recyclerView.isLoading() && adapter != null && adapter.getItemCount() <= 0) {
             loadData();
-            reconnect(UserEntity.getUser().getImToken(getContext()));
+            requestIMTokenUpdate();
         }
     }
 
     private void requestIMTokenUpdate() {
-        RequestResetIMToken requestResetToken = new RequestResetIMToken(getContext());
-        HttpRequestUtils.request(getContext(), requestResetToken, httpRequestListener);
-    }
-
-    private void requestApiFeedback(int errorMessage, String errorCode) {
-        RequestApiFeedback requestApiFeedback = new RequestApiFeedback(getContext(),
-                UserEntity.getUser().getUserId(getContext()),
-                ApiFeedbackUtils.getImErrorFeedback(errorMessage, errorCode));
-        HttpRequestUtils.request(getContext(), requestApiFeedback, new HttpRequestListener() {
-            @Override
-            public void onDataRequestSucceed(BaseRequest request) {
-
-            }
-
-            @Override
-            public void onDataRequestCancel(BaseRequest request) {
-
-            }
-
-            @Override
-            public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-
-            }
-        }, false);
+        if (TextUtils.isEmpty(UserEntity.getUser().getImToken(getContext()))) {
+            RequestResetIMToken requestResetToken = new RequestResetIMToken(getContext());
+            HttpRequestUtils.request(getContext(), requestResetToken, httpRequestListener);
+        }
     }
 
     HttpRequestListener httpRequestListener = new HttpRequestListener() {
         @Override
         public void onDataRequestSucceed(BaseRequest request) {
-            reconnect(request.getData().toString());
+            UserEntity.getUser().setImToken(getContext(), request.getData().toString());
         }
 
         @Override
@@ -136,46 +116,9 @@ public class FgChat extends BaseFragment implements View.OnClickListener, ZBaseA
         public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
             ErrorHandler handler = new ErrorHandler((Activity) getContext(), this);
             handler.onDataRequestError(errorInfo, request);
-            requestApiFeedback(4, null);
         }
     };
 
-    public void reconnect(String imToken) {
-        if (TextUtils.isEmpty(imToken)) {
-            return;
-        }
-        RongIMClient.getInstance().reconnect(new RongIMClient.ConnectCallback() {
-            @Override
-            public void onTokenIncorrect() {
-                if (requestIMTokenCount < 3) {
-                    requestIMTokenCount++;
-                    requestIMTokenUpdate();
-                }
-                requestApiFeedback(1, null);
-            }
-
-            @Override
-            public void onSuccess(String s) {
-                IMUtil.initRongIm(getContext(), null);
-            }
-
-            @Override
-            public void onError(RongIMClient.ErrorCode errorCode) {
-                if (requestIMTokenCount < 3) {
-                    //您需要更换 Token
-                    requestIMTokenCount++;
-                    requestIMTokenUpdate();
-                }
-                requestApiFeedback(2, errorCode != null ? "" + errorCode.getValue() : null);
-            }
-
-            @Override
-            public void onFail(int errorCode) {
-                super.onFail(errorCode);
-                requestApiFeedback(3, "" + errorCode);
-            }
-        });
-    }
 
     @Override
     protected void initHeader() {

@@ -252,6 +252,7 @@ public class WebAgent implements HttpRequestListener {
         chatInfo.userAvatar = userAvatar;
         chatInfo.title = title;
         chatInfo.targetType = targetType;
+        chatInfo.isShowBlack = false;
         return new ParserChatInfo().toJsonString(chatInfo);
     }
     /**

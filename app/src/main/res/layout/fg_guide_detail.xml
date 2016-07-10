@@ -33,8 +33,14 @@
                     android:layout_centerVertical="true"
                     android:layout_marginRight="20dip"
                     android:src="@mipmap/collection_icon_pic"
-                    app:poly_corner_radius="15"
-                    app:poly_vertices="2" />
+                    app:poly_border="false"
+                    app:poly_border_color="@android:color/white"
+                    app:poly_border_width="5dp"
+                    app:poly_corner_radius="5"
+                    app:poly_rotation_angle="25"
+                    app:poly_shadow="false"
+                    app:poly_shadow_color="@android:color/black"
+                    app:poly_vertices="0" />
 
                 <TextView
                     android:id="@+id/guide_detail_name_tv"

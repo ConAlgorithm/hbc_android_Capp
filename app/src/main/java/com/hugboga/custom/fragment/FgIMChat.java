@@ -95,6 +95,7 @@ public class FgIMChat extends BaseFragment {
     private String userAvatar; //用户头像
     private String targetType; //目标类型
     private int inBlack;//标识对方是否被自己拉黑，1是 0否
+    private boolean isShowBlack = true;
 
     private RelativeLayout view;
 
@@ -133,14 +134,14 @@ public class FgIMChat extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        if (emptyView != null) {
-
-            if (RongIM.getInstance() != null && RongIMClient.getInstance() != null) {
-                emptyView.setVisibility(View.GONE);
-            } else {
-                emptyView.setVisibility(View.VISIBLE);
-            }
-        }
+//        if (emptyView != null) {
+//
+//            if (RongIM.getInstance() != null && RongIMClient.getInstance() != null) {
+//                emptyView.setVisibility(View.GONE);
+//            } else {
+//                emptyView.setVisibility(View.VISIBLE);
+//            }
+//        }
     }
 
     /**
@@ -158,6 +159,7 @@ public class FgIMChat extends BaseFragment {
             fgTitle.setText(imInfo.title); //设置标题
             targetType = imInfo.targetType;
             inBlack = imInfo.inBlack;
+            isShowBlack = imInfo.isShowBlack;
             resetRightBtn();
             initRunningOrder(); //构建和该用户之间的订单
         } catch (JSONException e) {
@@ -444,22 +446,23 @@ public class FgIMChat extends BaseFragment {
         }
         TextView cancelOrderTV = (TextView)menuLayout.findViewById(R.id.cancel_order);
         TextView commonProblemTV = (TextView)menuLayout.findViewById(R.id.menu_phone);
-
-        if(inBlack == 1){
-            cancelOrderTV.setText("解除拉黑");
-        }else{
-            cancelOrderTV.setText("拉黑该用户");
+        if (isShowBlack) {
+            cancelOrderTV.setVisibility(View.GONE);
+        } else {
+            cancelOrderTV.setVisibility(View.VISIBLE);
+            if(inBlack == 1){
+                cancelOrderTV.setText("解除拉黑");
+            }else{
+                cancelOrderTV.setText("拉黑该用户");
+            }
+            if (!TextUtils.isEmpty(targetType) && "3".equals(targetType)) {//3.客服 1.用户
+                cancelOrderTV.setVisibility(GONE); //显示历史订单按钮
+            } else {
+                cancelOrderTV.setVisibility(View.VISIBLE); //显示历史订单按钮
+            }
         }
 
         commonProblemTV.setText("历史订单");
-
-
-        if (!TextUtils.isEmpty(targetType) && "3".equals(targetType)) {//3.客服 1.用户
-            cancelOrderTV.setVisibility(GONE); //显示历史订单按钮
-        } else {
-            cancelOrderTV.setVisibility(View.VISIBLE); //显示历史订单按钮
-        }
-
 
         if (popup != null) {
             popup.showAsDropDown(header_right_btn,0, UIUtils.dip2px(5f));
