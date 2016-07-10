@@ -261,13 +261,56 @@ public class CityUtils {
         }
     }
 
+
+//搜索一级线路下面的line
+    public static List<SearchGroupBean> getLevel1Line(Activity activity,String parent_id){
+        try {
+            DbManager mDbManager = new DBHelper(activity).getDbManager();
+
+            String sql = "select * from line_group where parent_id="+parent_id;
+
+            SqlInfo sqlinfo = new SqlInfo();
+            sqlinfo.setSql(sql);
+
+            List<LineGroupBean> list = new ArrayList<>();
+            try {
+                List<DbModel> modelList = mDbManager.findDbModelAll(sqlinfo);
+                if (modelList != null && modelList.size() > 0) {
+                    final int listsize = modelList.size();
+                    for (int modelindex = 0; modelindex <listsize; modelindex++) {
+                        DbModel model = modelList.get(modelindex);
+                        if (model != null) {
+                            LineGroupBean searchGroupBean = new LineGroupBean();
+                            searchGroupBean.isSelected = false;
+
+                            searchGroupBean.group_id = model.getInt("group_id");
+                            searchGroupBean.group_name = model.getString("group_name");
+
+                            searchGroupBean.type = 1;//model.getInt("type");
+
+                            searchGroupBean.hot_weight = model.getInt("hot_weight");
+                            list.add(searchGroupBean);
+                        }
+                    }
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return lineGroupBeanAdapter(list, 1);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     //搜索用
     public static List<SearchGroupBean> getCountLineCity(Activity activity, SearchGroupBean bean) {
         List<SearchGroupBean> list = new ArrayList<>();
         int max_line_num = 3;
         int max_city_num = 5;
         if (bean.type == 1 && bean.level == 1) {
-            List<SearchGroupBean> lineList = getCountryLine(activity, bean.parent_id + "");
+            List<SearchGroupBean> lineList = getLevel1Line(activity, bean.group_id + "");
 
             if (null != lineList && lineList.size() > 0) {
                 if(lineList.size() >= max_line_num){
