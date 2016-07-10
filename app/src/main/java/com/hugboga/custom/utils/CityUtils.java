@@ -642,7 +642,7 @@ public class CityUtils {
         try {
             DbManager mDbManager = new DBHelper(activity).getDbManager();
 
-            String sql = "select * from line_group_item where type=3 and group_id="+group_id +" and sub_place_name != '中国' and sub_place_name != '中国大陆' order by hot_weight desc";
+            String sql = "select gi.* from line_group_item as gi join city on(gi.sub_city_id=city.city_id) where gi.type=3 and (city.has_airport=1 or city.is_daily=1 or city.is_single=1 or city.has_goods=1) and gi.group_id="+group_id +" and sub_place_name != '中国' and sub_place_name != '中国大陆' order by hot_weight desc";
             SqlInfo sqlinfo = new SqlInfo();
             sqlinfo.setSql(sql);
 
