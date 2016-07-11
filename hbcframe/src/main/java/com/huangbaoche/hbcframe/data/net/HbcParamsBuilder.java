@@ -65,6 +65,7 @@ public class HbcParamsBuilder implements ParamsBuilder {
             if(UserSession.getUser().getUserToken(context)!=null)
             params.setHeader(KEY_HEADER_UT, UserSession.getUser().getUserToken(context));
             Map<String,Object> map = request.getDataMap();
+            map.put("channelId","18");
             request.setMethod(request.getHttpMethod());
             StringBuffer sb = new StringBuffer();
             if(map!=null) {
