@@ -1,12 +1,10 @@
 package com.hugboga.custom.activity;
 
 
-import android.app.AlertDialog;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -24,9 +22,7 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -44,10 +40,6 @@ public class DatePickerActivity extends BaseActivity {
     @Bind(R.id.show_tips)
     TextView showTips;
     private CalendarPickerView calendar;
-    private AlertDialog theDialog;
-    private CalendarPickerView dialogView;
-    private final Set<Button> modeButtons = new LinkedHashSet<Button>();
-
     int calender_type = 1;//1,日期单选,2 日期多选
     CalendarPickerView.SelectionMode model = CalendarPickerView.SelectionMode.SINGLE;
 
@@ -225,19 +217,7 @@ public class DatePickerActivity extends BaseActivity {
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
-        boolean applyFixes = theDialog != null && theDialog.isShowing();
-        if (applyFixes) {
-            dialogView.unfixDialogDimens();
-        }
         super.onConfigurationChanged(newConfig);
-        if (applyFixes) {
-            dialogView.post(new Runnable() {
-                @Override
-                public void run() {
-                    dialogView.fixDialogDimens();
-                }
-            });
-        }
     }
 
     @OnClick(R.id.header_left_btn)
