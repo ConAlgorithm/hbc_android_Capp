@@ -206,10 +206,9 @@ public class FgLogin extends BaseFragment implements TextWatcher {
             UserSession.getUser().setUserToken(getActivity(), user.userToken);
             UserEntity.getUser().setUserName(getActivity(),user.name);
 
-            RequestApiFeedback requestApiFeedback = new RequestApiFeedback(getContext(),
-                    UserEntity.getUser().getUserId(getContext()),
-                    ApiFeedbackUtils.getImErrorFeedback(1, null, "登录时IMtoken为空"));
-            HttpRequestUtils.request(getContext(), requestApiFeedback, this, false);
+            if (TextUtils.isEmpty(user.imToken)) {
+                ApiFeedbackUtils.requestIMFeedback(1, null, "登录时IMtoken为空");
+            }
 
             connectIM();
             EventBus.getDefault().post(new EventAction(EventType.CLICK_USER_LOGIN));

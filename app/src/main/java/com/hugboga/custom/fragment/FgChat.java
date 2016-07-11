@@ -83,7 +83,6 @@ public class FgChat extends BaseFragment implements View.OnClickListener, ZBaseA
     TextView emptyTV;
 
     private ChatAdapter adapter;
-    private int requestIMTokenCount = 0;
 
     @Override
     public void onResume() {
