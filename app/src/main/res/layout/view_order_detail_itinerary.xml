@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
@@ -19,35 +20,55 @@
             android:text="@string/order_detail_itinerary"
             android:textColor="#333333"
             android:textSize="16sp" />
+
         <TextView
             android:id="@+id/order_itinerary_carpool_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/shape_order_itinerary_carpool"
+            android:gravity="center"
+            android:paddingBottom="3dp"
             android:paddingLeft="11dp"
             android:paddingRight="10dp"
             android:paddingTop="3.5dp"
-            android:paddingBottom="3dp"
-            android:background="@drawable/shape_order_itinerary_carpool"
-            android:visibility="gone"
-            android:gravity="center"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
             android:text="@string/order_detail_carpooling"
             android:textColor="#fdd631"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            android:visibility="gone" />
     </RelativeLayout>
 
-    <TextView
-        android:id="@+id/order_itinerary_route_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="2dp"
-        android:gravity="center_vertical"
-        android:lineSpacingExtra="2dp"
-        android:paddingBottom="8dp"
-        android:paddingTop="8dp"
-        android:textColor="#333333"
-        android:textSize="15sp" />
+    <RelativeLayout
+        android:id="@+id/order_itinerary_route_layout"
+        android:layout_marginTop="7dp"
+        android:layout_marginBottom="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/order_itinerary_route_iv"
+            android:layout_width="110dp"
+            android:layout_height="90dp"
+            android:background="@drawable/default_img_bg"
+            />
+        <TextView
+            android:id="@+id/order_itinerary_route_tv"
+            android:layout_toRightOf="@id/order_itinerary_route_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minHeight="85dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="5dp"
+            android:lineSpacingExtra="2dp"
+            android:textColor="#333333"
+            android:textSize="15sp" />
+        <View
+            android:layout_below="@id/order_itinerary_route_tv"
+            android:layout_marginTop="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/default_dividing_line" />
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/order_itinerary_item_layout"

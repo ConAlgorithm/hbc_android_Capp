@@ -14,6 +14,7 @@ import com.hugboga.custom.data.bean.TestBean;
 import com.hugboga.custom.data.request.RequestTest;
 import com.hugboga.custom.data.request.RequestTest2;
 import com.hugboga.custom.data.request.RequestTest3;
+import com.hugboga.custom.utils.CommonUtils;
 
 import org.xutils.common.Callback;
 import org.xutils.common.util.LogUtil;
@@ -95,11 +96,11 @@ public class FgTest extends BaseFragment implements View.OnTouchListener {
         if (request instanceof RequestTest) {
             RequestTest mRequest = (RequestTest) request;
             TestBean bean = mRequest.getData();
-            Toast.makeText(getActivity(), bean.content, Toast.LENGTH_LONG).show();
+            CommonUtils.showToast(bean.content);
         } else if (request instanceof RequestTest2) {
             RequestTest2 mRequest = (RequestTest2) request;
             TestBean bean = mRequest.getData();
-            Toast.makeText(getActivity(), bean.content, Toast.LENGTH_LONG).show();
+            CommonUtils.showToast(bean.content);
         }
     }
 

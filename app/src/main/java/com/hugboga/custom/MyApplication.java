@@ -15,7 +15,6 @@ import com.hugboga.custom.data.net.ServerCodeHandler;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestAccessKey;
 import com.hugboga.custom.widget.DialogUtil;
-import com.tencent.bugly.crashreport.CrashReport;
 import com.umeng.analytics.MobclickAgent;
 
 import org.xutils.x;
@@ -43,7 +42,7 @@ public class MyApplication extends HbcApplication {
         mAppContext = this.getApplicationContext();
         Log.e("hbcApplication", "debug " + BuildConfig.DEBUG);
         try {
-            CrashReport.initCrashReport(this, "900024779", false);
+//            CrashReport.initCrashReport(this, "900024779", false);
             Reservoir.init(this, 4096);
         } catch (Exception e) {
             e.printStackTrace();
@@ -56,6 +55,7 @@ public class MyApplication extends HbcApplication {
 
     private void initUrlHost() {
         MLog.e("urlHost=" + BuildConfig.API_SERVER_URL);
+        MLog.e("UrlLibs.H5_HOST=" + UrlLibs.H5_HOST);
         if(TextUtils.isEmpty(BuildConfig.API_SERVER_URL)) {
             String channel = BuildConfig.FLAVOR;
             MLog.e("channel=" + channel);
@@ -78,6 +78,13 @@ public class MyApplication extends HbcApplication {
         }else {
             UrlLibs.SERVER_IP_HOST_PUBLIC = BuildConfig.API_SERVER_URL;
         }
+        UrlLibs.SHARE_BASE_URL_1 = BuildConfig.SHARE_BASE_URL_1;
+        UrlLibs.SHARE_BASE_URL_2 = BuildConfig.SHARE_BASE_URL_2;
+        UrlLibs.SHARE_BASE_URL_3 = BuildConfig.SHARE_BASE_URL_3;
+        UrlLibs.SHARE_APPID = BuildConfig.SHARE_APPID;
+        UrlLibs.H5_HOST = BuildConfig.H5_HOST;
+
+
     }
 
     private void initConfig() {

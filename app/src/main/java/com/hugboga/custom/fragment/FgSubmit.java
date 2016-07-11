@@ -40,6 +40,7 @@ import com.hugboga.custom.data.request.RequestSubmitDaily;
 import com.hugboga.custom.data.request.RequestSubmitPick;
 import com.hugboga.custom.data.request.RequestSubmitRent;
 import com.hugboga.custom.data.request.RequestSubmitSend;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.widget.DialogUtil;
 import com.umeng.analytics.MobclickAgent;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
@@ -54,7 +55,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 
-import de.greenrobot.event.EventBus;
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * Created by admin on 2015/7/18.
@@ -798,7 +799,7 @@ public class FgSubmit extends BaseFragment implements CompoundButton.OnCheckedCh
             if (mBusinessType == Constants.BUSINESS_TYPE_SEND && bean != null) {
                 MLog.e("bean.depAirportCode=" + bean.depAirportCode + " airportBean.airportCode=" + airportBean.airportCode);
                 if (!bean.depAirportCode.equals(airportBean.airportCode)) {
-                    Toast.makeText(getActivity(), "请选择与送达机场相符的航班", Toast.LENGTH_LONG).show();
+                    CommonUtils.showToast("请选择与送达机场相符的航班");
                 }
                 flightBean = bean;
                 String flightInfoStr = flightBean.flightNo + " ";

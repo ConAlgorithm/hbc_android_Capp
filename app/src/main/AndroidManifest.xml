@@ -81,7 +81,7 @@
             android:screenOrientation="portrait"/>
 
         <activity
-            android:name=".activity.OrderSelectCityActivity"
+            android:name=".activity.DatePickerActivity"
             android:screenOrientation="portrait"/>
 
         <service

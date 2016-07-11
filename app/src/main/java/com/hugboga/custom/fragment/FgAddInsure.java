@@ -29,7 +29,6 @@ import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestAddInsure;
 import com.hugboga.custom.data.request.RequestEditInsure;
 import com.hugboga.custom.utils.DateUtils;
-import com.hugboga.custom.utils.ToastUtils;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import org.xutils.common.Callback;
@@ -40,7 +39,7 @@ import java.util.Calendar;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import de.greenrobot.event.EventBus;
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * Created  on 16/4/22.

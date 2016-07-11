@@ -3,18 +3,30 @@ package com.hugboga.custom.fragment;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.TextView;
 
+import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
+import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.WXShareUtils;
 import com.hugboga.custom.R;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.SkuItemBean;
+import com.hugboga.custom.data.request.RequestCitySkuList;
+import com.hugboga.custom.data.request.RequestGoodsById;
+import com.hugboga.custom.utils.DBHelper;
 import com.hugboga.custom.widget.DialogUtil;
 import com.umeng.analytics.MobclickAgent;
 
+import org.xutils.DbManager;
 import org.xutils.common.util.LogUtil;
+import org.xutils.ex.DbException;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
+import org.xutils.view.annotation.ViewInject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,19 +38,32 @@ import java.util.Map;
 @ContentView(R.layout.fg_sku_detail)
 public class FgSkuDetail extends FgWebInfo {
 
+    @ViewInject(R.id.goto_order)
+    TextView gotoOrder;
+
     public static final String WEB_SKU = "web_sku";
     public static final String WEB_CITY = "web_city";
+
     private SkuItemBean skuItemBean;//sku详情
     private CityBean cityBean;
+    private String goodsNo;
+
+    public boolean isGoodsOut = false;//商品是否已下架
+    private boolean isPerformClick = false;
 
     @Override
     protected void initView() {
         super.initView();
+        isGoodsOut = false;
         getView().findViewById(R.id.header_right_btn).setVisibility(WXShareUtils.getInstance(getActivity()).isInstall(false)?View.VISIBLE:View.VISIBLE);
         if(this.getArguments()!=null){
             skuItemBean =  (SkuItemBean)getArguments().getSerializable(WEB_SKU);
             cityBean =  (CityBean)getArguments().getSerializable(WEB_CITY);
             source = getArguments().getString("source");
+            goodsNo = getArguments().getString(Constants.PARAMS_ID);
+        }
+        if (cityBean == null && skuItemBean != null && skuItemBean.arrCityId != 0) {
+            cityBean = findCityById("" + skuItemBean.arrCityId);
         }
         fgLeftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -46,9 +71,28 @@ public class FgSkuDetail extends FgWebInfo {
                 finish();
             }
         });
+        getSkuItemBean(false);
     }
 
-    @Event({R.id.header_right_btn,R.id.phone_consultation,R.id.goto_order})
+    private void getSkuItemBean(boolean isShowLoading) {
+        if (skuItemBean == null && !TextUtils.isEmpty(goodsNo)) {
+            isPerformClick = isShowLoading;
+            RequestGoodsById request = new RequestGoodsById(getActivity(), goodsNo);
+            HttpRequestUtils.request(getActivity(), request, this, isShowLoading);
+        }
+    }
+
+    private CityBean findCityById(String cityId) {
+        DbManager mDbManager = new DBHelper(getActivity()).getDbManager();
+        try {
+            cityBean = mDbManager.findById(CityBean.class, cityId);
+        } catch (DbException e) {
+            e.printStackTrace();
+        }
+        return cityBean;
+    }
+
+    @Event({R.id.header_right_btn,R.id.goto_order})
     private void onClickView(View view){
         HashMap<String,String> map = new HashMap<String,String>();
         switch (view.getId()){
@@ -61,24 +105,25 @@ public class FgSkuDetail extends FgWebInfo {
                     skuShare(skuItemBean.goodsPicture,title,content,shareUrl);
                 }
                 break;
-            case R.id.phone_consultation:
-                map.put("source", "线路SKU页面");
-                MobclickAgent.onEvent(getActivity(), "callcenter_route", map);
-
-                DialogUtil.getInstance(getActivity()).showCallDialog("线路SKU页面","calldomestic_route","calloverseas_route");
-                break;
             case R.id.goto_order:
+                if (skuItemBean == null) {
+                    getSkuItemBean(true);
+                    break;
+                }
                 Bundle bundle =new Bundle();
                 if(getArguments()!=null){
                     bundle.putAll(getArguments());
                 }
                 bundle.putSerializable(FgSkuDetail.WEB_SKU,skuItemBean);
-                bundle.putSerializable(FgSkuDetail.WEB_CITY,cityBean);
+                if (cityBean != null) {
+                    bundle.putSerializable(FgSkuDetail.WEB_CITY,cityBean);
+                }
                 bundle.putString("source",source);
 //                startFragment(new FgSkuSubmit(), source);
                 startFragment(new FgSkuNew(), bundle);
-
-                map.put("routecity", cityBean.name);
+//                if (cityBean != null) {
+//                    map.put("routecity", cityBean.name);
+//                }
                 map.put("routename", skuItemBean.goodsName);
 //                map.put("quoteprice", skuItemBean.goodsMinPrice);
                 int countResult = 0;
@@ -93,6 +138,9 @@ public class FgSkuDetail extends FgWebInfo {
     }
 
     private void skuShare(String goodsPicture, final String title, final String content, final String shareUrl) {
+        if (isGoodsOut) {
+            return;
+        }
         final AlertDialog.Builder callDialog = new AlertDialog.Builder(getActivity());
         callDialog.setTitle("分享");
         final String [] callItems = new String[]{"分享好友","分享朋友圈"};
@@ -118,13 +166,15 @@ public class FgSkuDetail extends FgWebInfo {
     private void uMengClickEvent(String type){
         Map<String, String> map_value = new HashMap<String, String>();
         map_value.put("routecity" , source);
-        map_value.put("routename" , skuItemBean.goodsName);
-//        map_value.put("quoteprice" , skuItemBean.goodsMinPrice);
         int countResult = 0;
-        try {
-            countResult = Integer.parseInt(skuItemBean.goodsMinPrice);
-        }catch (Exception e){
-            LogUtil.e(e.toString());
+        if (skuItemBean != null) {
+            map_value.put("routename" , skuItemBean.goodsName);
+//          map_value.put("quoteprice" , skuItemBean.goodsMinPrice);
+            try {
+                countResult = Integer.parseInt(skuItemBean.goodsMinPrice);
+            }catch (Exception e){
+                LogUtil.e(e.toString());
+            }
         }
         MobclickAgent.onEventValue(getActivity(), type, map_value, countResult);
     }
@@ -132,5 +182,17 @@ public class FgSkuDetail extends FgWebInfo {
     @Override
     public void onPause() {
         super.onPause();
+    }
+
+    @Override
+    public void onDataRequestSucceed(BaseRequest _request) {
+        super.onDataRequestSucceed(_request);
+        if (_request instanceof RequestGoodsById) {
+            RequestGoodsById requestGoodsById = (RequestGoodsById)_request;
+            skuItemBean = requestGoodsById.getData();
+            if (isPerformClick) {
+                gotoOrder.performClick();
+            }
+        }
     }
 }

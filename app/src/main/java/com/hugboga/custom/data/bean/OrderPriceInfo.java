@@ -23,6 +23,7 @@ public class OrderPriceInfo implements IBaseBean ,Parcelable{
     public double travelFundPrice;//旅游基金
     public double childSeatPrice;//儿童座椅价格
     public double flightBrandSignPrice;//举牌价格
+    public double priceHotel;// 住宿总费用(单价 * hotelRoom * hotelDays)
 
     public void parser(JSONObject jsonObj) throws JSONException {
         if (jsonObj == null) return;
@@ -38,6 +39,7 @@ public class OrderPriceInfo implements IBaseBean ,Parcelable{
         travelFundPrice = jsonObj.optDouble("travelFundPrice", 0);
         childSeatPrice = jsonObj.optDouble("childSeatPrice", 0);
         flightBrandSignPrice = jsonObj.optDouble("flightBrandSignPrice", 0);
+        priceHotel = jsonObj.optDouble("priceHotel", 0);
     }
 
     @Override
@@ -59,6 +61,7 @@ public class OrderPriceInfo implements IBaseBean ,Parcelable{
         dest.writeDouble(this.travelFundPrice);
         dest.writeDouble(this.childSeatPrice);
         dest.writeDouble(this.flightBrandSignPrice);
+        dest.writeDouble(this.priceHotel);
     }
 
     public OrderPriceInfo() {
@@ -77,6 +80,7 @@ public class OrderPriceInfo implements IBaseBean ,Parcelable{
         this.travelFundPrice = in.readDouble();
         this.childSeatPrice = in.readDouble();
         this.flightBrandSignPrice = in.readDouble();
+        this.priceHotel = in.readDouble();
     }
 
     public static final Creator<OrderPriceInfo> CREATOR = new Creator<OrderPriceInfo>() {

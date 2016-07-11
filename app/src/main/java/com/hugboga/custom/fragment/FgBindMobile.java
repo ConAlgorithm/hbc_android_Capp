@@ -20,7 +20,6 @@ import com.hugboga.custom.data.request.RequestChangeMobile;
 import com.hugboga.custom.data.request.RequestBindMobile;
 import com.hugboga.custom.data.request.RequestVerity;
 import com.hugboga.custom.utils.IMUtil;
-import com.hugboga.custom.utils.ToastUtils;
 import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONObject;
@@ -32,7 +31,7 @@ import org.xutils.view.annotation.ViewInject;
 
 import java.util.HashMap;
 
-import de.greenrobot.event.EventBus;
+import org.greenrobot.eventbus.EventBus;
 
 @ContentView(R.layout.fg_bind_mobile)
 public class FgBindMobile extends BaseFragment {

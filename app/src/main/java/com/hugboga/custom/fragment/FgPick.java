@@ -14,6 +14,7 @@ import com.hugboga.custom.data.bean.FlightBean;
 import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.bean.PromiseBean;
 import com.hugboga.custom.data.net.UrlLibs;
+import com.hugboga.custom.utils.CommonUtils;
 import com.umeng.analytics.MobclickAgent;
 
 import org.xutils.common.Callback;
@@ -98,7 +99,7 @@ public class FgPick extends BaseFragment {
                     map.put("source", "下单过程中");
                     MobclickAgent.onEvent(getActivity(), "search_trigger", map);
                 } else {
-                    Toast.makeText(getActivity(), "先选择乘坐航班", Toast.LENGTH_LONG).show();
+                    CommonUtils.showToast("先选择乘坐航班");
                 }
                 break;
             case R.id.bottom_promise_layout:
@@ -134,13 +135,13 @@ public class FgPick extends BaseFragment {
 
     private void startFgCar() {
         if (flightBean == null) {
-            Toast.makeText(getActivity(), "选择航班信息", Toast.LENGTH_LONG).show();
+            CommonUtils.showToast("选择航班信息");
             return;
         } else if (flightBean.depAirport == null || flightBean.arrivalAirport == null) {
-            Toast.makeText(getActivity(), "航班异常，机场无信息", Toast.LENGTH_LONG).show();
+            CommonUtils.showToast("航班异常，机场无信息");
             return;
         } else if (poiBean == null) {
-            Toast.makeText(getActivity(), "选择到达目的地", Toast.LENGTH_LONG).show();
+            CommonUtils.showToast("选择到达目的地");
             return;
         }
         FgCar fg = new FgCar();

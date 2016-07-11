@@ -7,7 +7,6 @@ import android.text.TextUtils;
 
 import com.hugboga.custom.R;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +29,7 @@ public class OrderBean implements IBaseBean ,Parcelable{
     public String userRemark;//备注信息
 
 
-    public Integer orderType;//1: 接机 2: 送机 3: 市内包车(由日租拆分出来) 4: 次租(单次接送) 5线路包车
+    public Integer orderType;//1: 接机 2: 送机 3: 市内包车(由日租拆分出来) 4: 次租(单次接送) 5固定线路 6.推荐线路
     public int orderGoodsType;//扩展字段   1: 接机 2: 送机 3: 市内包车(由日租拆分出来) 4: 次租 5: 精品线路(由日租拆分出来) 6: 小长途 (由日租拆分出来)7: 大长途 (由日租拆分出来)
     public String orderNo; //订单号
     //    public String orderID;
@@ -164,6 +163,16 @@ public class OrderBean implements IBaseBean ,Parcelable{
     public boolean isIm;//0隐藏，1显示
     public boolean isPhone;//0隐藏，1显示
 
+    public String picUrl; //路线活动图片
+    public int hotelRoom; // 房间数
+    public int hotelDays;// 几晚
+    public int hotelStatus;// 是否有酒店（0，没有；1，有）
+
+    public boolean isChangeManual;// 是否人工退改 (0，非人工；1，人工)
+    public int orderSource;// 订单来源1 C端  2 GDS  3 OTA
+    public String skuDetailUrl; // 商品详情URL
+
+
     public String getOrderTypeStr(Context context) {
         switch (orderGoodsType) {
             case 1:
@@ -222,6 +231,7 @@ public class OrderBean implements IBaseBean ,Parcelable{
         }
         return resultStr;
     }
+
 
     @Override
     public int describeContents() {
@@ -349,6 +359,13 @@ public class OrderBean implements IBaseBean ,Parcelable{
         dest.writeStringList(this.cancelRules);
         dest.writeByte(this.isIm ? (byte) 1 : (byte) 0);
         dest.writeByte(this.isPhone ? (byte) 1 : (byte) 0);
+        dest.writeString(this.picUrl);
+        dest.writeByte(this.isChangeManual ? (byte) 1 : (byte) 0);
+        dest.writeInt(this.hotelStatus);
+        dest.writeInt(this.hotelRoom);
+        dest.writeInt(this.hotelDays);
+        dest.writeInt(this.orderSource);
+        dest.writeString(this.skuDetailUrl);
     }
 
     public OrderBean() {
@@ -475,8 +492,16 @@ public class OrderBean implements IBaseBean ,Parcelable{
         this.carPool = in.readByte() != 0;
         this.appraisement = (AppraisementBean) in.readSerializable();
         this.cancelRules = in.createStringArrayList();
-        this.isIm = in.readByte() == 1;
-        this.isPhone = in.readByte() == 1;
+        this.isIm = in.readByte() != 0;
+        this.isPhone = in.readByte() != 0;
+        this.hotelRoom = in.readInt();
+        this.picUrl = in.readString();
+        this.isChangeManual = in.readByte() != 0;
+        this.hotelStatus = in.readInt();
+        this.hotelRoom = in.readInt();
+        this.hotelDays = in.readInt();
+        this.orderSource = in.readInt();
+        this.skuDetailUrl = in.readString();
     }
 
     public static final Creator<OrderBean> CREATOR = new Creator<OrderBean>() {

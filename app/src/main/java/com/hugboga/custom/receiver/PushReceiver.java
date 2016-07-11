@@ -23,7 +23,7 @@ import com.hugboga.custom.data.request.RequestPushReceive;
 import com.hugboga.custom.utils.PushUtils;
 
 import cn.jpush.android.api.JPushInterface;
-import de.greenrobot.event.EventBus;
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * Push

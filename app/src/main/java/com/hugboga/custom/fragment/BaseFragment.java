@@ -17,6 +17,7 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.widget.DialogUtil;
 import com.umeng.analytics.MobclickAgent;
@@ -25,7 +26,7 @@ import com.zhy.m.permission.MPermissions;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
-import de.greenrobot.event.EventBus;
+import org.greenrobot.eventbus.EventBus;
 
 
 public abstract class BaseFragment extends com.huangbaoche.hbcframe.fragment.BaseFragment implements View.OnClickListener {
@@ -219,7 +220,7 @@ public abstract class BaseFragment extends com.huangbaoche.hbcframe.fragment.Bas
     }
 
     public void showTip(String tips) {
-        Toast.makeText(getActivity(), tips, Toast.LENGTH_LONG).show();
+        CommonUtils.showToast(tips);
     }
 
     @Override

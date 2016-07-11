@@ -15,6 +15,7 @@ import com.hugboga.custom.data.bean.AirPort;
 import com.hugboga.custom.data.bean.FlightBean;
 import com.hugboga.custom.data.request.RequestFlightByCity;
 import com.hugboga.custom.data.request.RequestFlightByNo;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DBHelper;
 import com.hugboga.custom.utils.DateUtils;
 import com.umeng.analytics.MobclickAgent;
@@ -154,7 +155,7 @@ public class FgPickFlightList extends BaseFragment implements AdapterView.OnItem
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         FlightBean bean = mListDate.get(position);
         if (!bean.serviceStatus) {
-            Toast.makeText(getActivity(), "机场信息未查到", Toast.LENGTH_LONG).show();
+            CommonUtils.showToast("机场信息未查到");
             return;
         }
 

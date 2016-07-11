@@ -21,7 +21,7 @@ import com.hugboga.custom.widget.DialogUtil;
 
 import java.util.ArrayList;
 
-import de.greenrobot.event.EventBus;
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * Created by admin on 2016/3/26.
@@ -58,6 +58,10 @@ public class ServerCodeHandler implements ServerCodeHandlerInterface {
                     }
                 });
                 EventBus.getDefault().post(new EventAction(EventType.CLICK_USER_LOOUT));
+                return true;
+//TODO;强制升级待处理
+            case 10015:
+
                 return true;
 
         }

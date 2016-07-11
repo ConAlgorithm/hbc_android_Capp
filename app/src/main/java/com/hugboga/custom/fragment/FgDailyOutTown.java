@@ -17,6 +17,7 @@ import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.DailyBean;
 import com.hugboga.custom.data.bean.PromiseBean;
 import com.hugboga.custom.data.net.UrlLibs;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DateUtils;
 import com.umeng.analytics.MobclickAgent;
 
@@ -129,7 +130,7 @@ public class FgDailyOutTown extends BaseFragment {
                     map.put("source", "下单过程中");
                     MobclickAgent.onEvent(getActivity(), "search_trigger", map);
                 } else {
-                    Toast.makeText(getActivity(), "先选择起始城市", Toast.LENGTH_LONG).show();
+                    CommonUtils.showToast("先选择起始城市");
                 }
                 break;
             case R.id.daily_start_layout:
@@ -207,18 +208,18 @@ public class FgDailyOutTown extends BaseFragment {
     private boolean checkDataValid() {
         processDays();
         if (startBean == null) {
-            Toast.makeText(getActivity(), "选择起始城市", Toast.LENGTH_LONG).show();
+            CommonUtils.showToast("选择起始城市");
             return false;
         } else if (arrivalBean == null) {
-            Toast.makeText(getActivity(), "选择达到城市", Toast.LENGTH_LONG).show();
+            CommonUtils.showToast("选择达到城市");
             return false;
         }
         if (TextUtils.isEmpty(bean.startDate) || TextUtils.isEmpty(bean.endDate)) {
-            Toast.makeText(getActivity(), "选择服务日期", Toast.LENGTH_LONG).show();
+            CommonUtils.showToast("选择服务日期");
             return false;
         }
         if (mTotalDays <= 0) {
-            Toast.makeText(getActivity(), "请重新选择服务日期", Toast.LENGTH_LONG).show();
+            CommonUtils.showToast("请重新选择服务日期");
             return false;
         }
 
@@ -319,7 +320,7 @@ public class FgDailyOutTown extends BaseFragment {
             e.printStackTrace();
         }
         if (mTotalDays <= 0) {
-            Toast.makeText(getActivity(), "请重新选择服务日期", Toast.LENGTH_LONG).show();
+            CommonUtils.showToast("请重新选择服务日期");
             return;
         }
         String startDate = sDateTime.getText().toString();

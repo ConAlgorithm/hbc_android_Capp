@@ -19,6 +19,11 @@ public class MLog {
 			Log.i(TAG, formatMsg(msg));
 	}
 
+	public static  void i(String tag, String msg) {
+		if(HbcConfig.IS_DEBUG)
+			Log.i(tag, formatMsg(msg));
+	}
+
 	public static  void w(String msg) {
 		if(HbcConfig.IS_DEBUG)
 			Log.w(TAG, formatMsg(msg));

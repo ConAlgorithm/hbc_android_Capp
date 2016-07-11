@@ -1,15 +1,11 @@
 package com.hugboga.custom.adapter;
 
-import android.content.res.Resources;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.net.ParseException;
 import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.style.ImageSpan;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -21,7 +17,6 @@ import com.hugboga.custom.adapter.viewholder.NewOrderVH;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.ChatInfo;
 import com.hugboga.custom.data.bean.OrderBean;
-import com.hugboga.custom.data.bean.OrderStatus;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.parser.ParserChatInfo;
 import com.hugboga.custom.fragment.BaseFragment;
@@ -37,7 +32,6 @@ import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.DialogUtil;
 
 import org.xutils.image.ImageOptions;
-import org.xutils.x;
 
 
 import io.rong.imkit.RongIM;
@@ -77,7 +71,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
     protected void getView(int position, NewOrderVH vh) {
         OrderBean orderBean = datas.get(position);
         //订单状态
-        if (orderBean.orderType == Constants.BUSINESS_TYPE_COMMEND) {//线路包车
+        if (orderBean.orderType == Constants.BUSINESS_TYPE_COMMEND || orderBean.orderType == Constants.BUSINESS_TYPE_RECOMMEND) {//线路包车
             vh.citysTV.setVisibility(View.VISIBLE);
             vh.mTypeStr.setVisibility(View.GONE);
             vh.verticalLine.setVisibility(View.GONE);
@@ -258,7 +252,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                 vh.mAssessment.setVisibility(View.GONE);//评价司导
                 break;
             case PAYSUCCESS://预订成功
-                vh.mStatus.setText("预定成功");
+                vh.mStatus.setText("预订成功");
                 if (orderBean.insuranceEnable) {
                     vh.mStatusLayout.setVisibility(View.VISIBLE);
                     vh.lineView.setVisibility(View.VISIBLE);

@@ -22,24 +22,7 @@ public class CouponBean implements IBaseBean ,Parcelable{
     public String applyRule; //满1000元可用/满1000公里可用/满10小时可用
     public Integer pageIndex; //优惠劵分页，每次获取历史优惠劵拿最大数请求
     public String batchName; //渠道名称
-
-    /*@Override
-    public void parser(JSONObject jsonObj) throws JSONException {
-        if(jsonObj==null)return;
-        couponID = jsonObj.optString("couponId");
-        couponType = jsonObj.optInt("couponType");
-        price = jsonObj.optString("priceInfo");
-        actualPrice = jsonObj.optDouble("actualPrice");
-        startDate = jsonObj.optString("startTime");
-        endDate = jsonObj.optString("endTime");
-        couponStatus = jsonObj.optInt("status");
-        content = jsonObj.optString("content");
-        applyArea = jsonObj.optString("applyArea");
-        applyType = jsonObj.optString("applyType");
-        applyCar = jsonObj.optString("applyCar");
-        applyRule = jsonObj.optString("orderRuleRemark");
-        batchName = jsonObj.optString("couponBatchName");
-    }*/
+    public String applyCarClass;//座椅限制
 
     @Override
     public int describeContents() {
@@ -62,6 +45,7 @@ public class CouponBean implements IBaseBean ,Parcelable{
         dest.writeString(this.applyRule);
         dest.writeValue(this.pageIndex);
         dest.writeString(this.batchName);
+        dest.writeString(this.applyCarClass);
     }
 
     public CouponBean() {
@@ -82,6 +66,7 @@ public class CouponBean implements IBaseBean ,Parcelable{
         this.applyRule = in.readString();
         this.pageIndex = (Integer) in.readValue(Integer.class.getClassLoader());
         this.batchName = in.readString();
+        this.applyCarClass = in.readString();
     }
 
     public static final Creator<CouponBean> CREATOR = new Creator<CouponBean>() {

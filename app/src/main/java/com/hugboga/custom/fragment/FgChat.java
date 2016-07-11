@@ -1,12 +1,20 @@
 package com.hugboga.custom.fragment;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.adapter.ZBaseAdapter;
+import com.huangbaoche.hbcframe.data.net.ErrorHandler;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
+import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
+import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.huangbaoche.hbcframe.widget.recycler.ZListPageView;
@@ -19,9 +27,17 @@ import com.hugboga.custom.data.bean.ChatInfo;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.parser.ParserChatInfo;
+import com.hugboga.custom.data.request.RequestApiFeedback;
 import com.hugboga.custom.data.request.RequestChatList;
+import com.hugboga.custom.data.request.RequestRemoveChat;
+import com.hugboga.custom.data.request.RequestResetIMToken;
+import com.hugboga.custom.utils.AlertDialogUtils;
+import com.hugboga.custom.utils.ApiFeedbackUtils;
+import com.hugboga.custom.utils.IMUtil;
 import com.umeng.analytics.MobclickAgent;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
@@ -30,10 +46,18 @@ import org.xutils.view.annotation.ViewInject;
 import java.util.HashMap;
 import java.util.List;
 
-import de.greenrobot.event.EventBus;
+
+import io.rong.imkit.RongContext;
 import io.rong.imkit.RongIM;
+import io.rong.imkit.widget.provider.CameraInputProvider;
+import io.rong.imkit.widget.provider.ImageInputProvider;
+import io.rong.imkit.widget.provider.InputProvider;
+import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
 import jp.wasabeef.recyclerview.animators.adapters.SlideInBottomAnimationAdapter;
+
+import static u.aly.au.T;
+import static u.aly.au.ad;
 
 /**
  * 聊天页面
@@ -55,7 +79,45 @@ public class FgChat extends BaseFragment implements View.OnClickListener, ZBaseA
     @ViewInject(R.id.chat_logout)
     RelativeLayout emptyLayout;
 
+    @ViewInject(R.id.chat_list_empty_tv)
+    TextView emptyTV;
+
     private ChatAdapter adapter;
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (UserEntity.getUser().isLogin(getActivity()) && recyclerView != null && !recyclerView.isLoading() && adapter != null && adapter.getItemCount() <= 0) {
+            loadData();
+            requestIMTokenUpdate();
+        }
+    }
+
+    private void requestIMTokenUpdate() {
+        if (UserEntity.getUser() != null && TextUtils.isEmpty(UserEntity.getUser().getImToken(getContext()))) {
+            RequestResetIMToken requestResetToken = new RequestResetIMToken(getContext());
+            HttpRequestUtils.request(getContext(), requestResetToken, httpRequestListener);
+        }
+    }
+
+    HttpRequestListener httpRequestListener = new HttpRequestListener() {
+        @Override
+        public void onDataRequestSucceed(BaseRequest request) {
+            UserEntity.getUser().setImToken(getContext(), request.getData().toString());
+        }
+
+        @Override
+        public void onDataRequestCancel(BaseRequest request) {
+
+        }
+
+        @Override
+        public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+            ErrorHandler handler = new ErrorHandler((Activity) getContext(), this);
+            handler.onDataRequestError(errorInfo, request);
+        }
+    };
+
 
     @Override
     protected void initHeader() {
@@ -82,6 +144,45 @@ public class FgChat extends BaseFragment implements View.OnClickListener, ZBaseA
         recyclerView.setRequestData(parserChatList);
         recyclerView.setOnItemClickListener(this);
         recyclerView.setNoticeViewTask(this);
+        recyclerView.setOnItemLongClickListener(new ZBaseAdapter.OnItemLongClickListener(){
+            @Override
+            public void onItemLongClick(View view, final int position) {
+                if(position != 0){
+                   final ChatBean chatBean = adapter.getDatas().get(position);
+                    AlertDialogUtils.showAlertDialog(getActivity(), getString(R.string.del_chat), "确定", "取消", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            RequestRemoveChat requestRemoveChat = new RequestRemoveChat(getActivity(),chatBean.userId);
+                            HttpRequestUtils.request(getContext(), requestRemoveChat, new HttpRequestListener() {
+                                @Override
+                                public void onDataRequestSucceed(BaseRequest request) {
+                                    adapter.removeDatas(position);
+                                }
+
+                                @Override
+                                public void onDataRequestCancel(BaseRequest request) {
+
+                                }
+
+                                @Override
+                                public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+
+                                }
+                            });
+                            dialog.dismiss();
+                        }
+                    },new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                }
+            }
+        });
+        if (!UserEntity.getUser().isLogin(getActivity())) {
+            emptyTV.setVisibility(View.GONE);
+        }
     }
 
     /**
@@ -89,6 +190,7 @@ public class FgChat extends BaseFragment implements View.OnClickListener, ZBaseA
      */
     public void loadData() {
         if (recyclerView != null) {
+            emptyTV.setVisibility(View.GONE);
             recyclerView.showPageFirst();
             adapter.notifyDataSetChanged();
         }
@@ -118,7 +220,7 @@ public class FgChat extends BaseFragment implements View.OnClickListener, ZBaseA
     public void onDataRequestSucceed(BaseRequest request) {
     }
 
-    @Event({R.id.login_btn, R.id.header_left_btn})
+    @Event({R.id.login_btn, R.id.header_left_btn, R.id.chat_list_empty_tv})
     private void onClickView(View view) {
         switch (view.getId()) {
             case R.id.login_btn:
@@ -133,6 +235,9 @@ public class FgChat extends BaseFragment implements View.OnClickListener, ZBaseA
             case R.id.header_left_btn:
                 MLog.e("left  " + view);
                 ((MainActivity) getActivity()).openDrawer();
+                break;
+            case R.id.chat_list_empty_tv:
+                loadData();
                 break;
         }
     }
@@ -162,6 +267,7 @@ public class FgChat extends BaseFragment implements View.OnClickListener, ZBaseA
         super.onDestroy();
     }
 
+    @Subscribe
     public void onEventMainThread(EventAction action) {
         MLog.e(this + " onEventMainThread " + action.getType());
         switch (action.getType()) {
@@ -187,23 +293,24 @@ public class FgChat extends BaseFragment implements View.OnClickListener, ZBaseA
     public void onItemClick(View view, int position) {
         ChatBean chatBean = adapter.getDatas().get(position);
         if ("3".equals(chatBean.targetType)) {
-            String titleJson = getChatInfo(chatBean.targetId, chatBean.targetAvatar, chatBean.targetName, chatBean.targetType);
+            String titleJson = getChatInfo(chatBean.targetId, chatBean.targetAvatar, chatBean.targetName, chatBean.targetType,chatBean.inBlack);
             RongIM.getInstance().startConversation(getActivity(), Conversation.ConversationType.APP_PUBLIC_SERVICE, chatBean.targetId, titleJson);
         } else if ("1".equals(chatBean.targetType)) {
-            String titleJson = getChatInfo(chatBean.userId, chatBean.targetAvatar, chatBean.targetName, chatBean.targetType);
+            String titleJson = getChatInfo(chatBean.userId, chatBean.targetAvatar, chatBean.targetName, chatBean.targetType,chatBean.inBlack);
             RongIM.getInstance().startPrivateChat(getActivity(), chatBean.targetId, titleJson);
         } else {
             MLog.e("目标用户不是客服，也不是司导");
         }
     }
 
-    private String getChatInfo(String userId, String userAvatar, String title, String targetType) {
+    private String getChatInfo(String userId, String userAvatar, String title, String targetType,int inBlack) {
         ChatInfo chatInfo = new ChatInfo();
         chatInfo.isChat = true;
         chatInfo.userId = userId;
         chatInfo.userAvatar = userAvatar;
         chatInfo.title = title;
         chatInfo.targetType = targetType;
+        chatInfo.inBlack = inBlack;
         return new ParserChatInfo().toJsonString(chatInfo);
     }
 
@@ -218,10 +325,14 @@ public class FgChat extends BaseFragment implements View.OnClickListener, ZBaseA
             ((MainActivity) getActivity()).setIMCount(totalCount);
             MLog.e("totalCount = " + totalCount);
         }
+        emptyTV.setVisibility(View.GONE);
+        emptyLayout.setVisibility(View.GONE);
     }
 
     @Override
     public void error(ExceptionInfo errorInfo, BaseRequest request) {
-
+        if (UserEntity.getUser().isLogin(getActivity())) {
+            emptyTV.setVisibility(View.VISIBLE);
+        }
     }
 }

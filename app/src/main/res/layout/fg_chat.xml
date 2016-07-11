@@ -29,5 +29,17 @@
     <include
         android:id="@+id/chat_logout"
         layout="@layout/include_chat_logout" />
-
+    <TextView
+        android:id="@+id/chat_list_empty_tv"
+        android:layout_below="@id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="50dp"
+        android:gravity="center"
+        android:background="@color/default_bg"
+        android:text="@string/data_load_error_retry"
+        android:textColor="#515151"
+        android:textSize="18sp"
+        android:visibility="gone"
+        />
 </RelativeLayout>

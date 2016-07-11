@@ -33,6 +33,7 @@ import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestTravel;
 import com.umeng.analytics.MobclickAgent;
 
+import org.greenrobot.eventbus.Subscribe;
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
@@ -42,7 +43,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import de.greenrobot.event.EventBus;
+import org.greenrobot.eventbus.EventBus;
 
 @ContentView(R.layout.fg_travel)
 public class FgTravel extends BaseFragment implements View.OnClickListener, OnItemClickListener {
@@ -474,6 +475,7 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, OnIt
         }
     };
 
+    @Subscribe
     public void onEventMainThread(EventAction action) {
         MLog.e(this + " onEventMainThread " + action.getType());
         switch (action.getType()) {
@@ -494,11 +496,15 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, OnIt
     }
 
     private void cleanListData() {
-        runningAdapter.getDatas().clear();
-        runningAdapter.notifyDataSetChanged();
-        finishAdapter.getDatas().clear();
-        finishAdapter.notifyDataSetChanged();
-        cancelAdapter.getDatas().clear();
-        cancelAdapter.notifyDataSetChanged();
+        try {
+            runningAdapter.getDatas().clear();
+            runningAdapter.notifyDataSetChanged();
+            finishAdapter.getDatas().clear();
+            finishAdapter.notifyDataSetChanged();
+            cancelAdapter.getDatas().clear();
+            cancelAdapter.notifyDataSetChanged();
+        }catch (Exception e) {
+
+        }
     }
 }

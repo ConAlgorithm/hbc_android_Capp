@@ -2,7 +2,6 @@ package com.hugboga.custom.fragment;
 
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -20,11 +19,11 @@ import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestOrderEdit;
 import com.hugboga.custom.utils.CommonUtils;
-import com.hugboga.custom.utils.ToastUtils;
 import com.hugboga.custom.widget.DialogUtil;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
+import org.greenrobot.eventbus.Subscribe;
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
@@ -32,7 +31,7 @@ import org.xutils.view.annotation.Event;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import de.greenrobot.event.EventBus;
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * Created on 16/6/4.
@@ -288,6 +287,7 @@ public class FgOrderEdit extends BaseFragment {
 
     }
 
+    @Subscribe
     public void onEventMainThread(EventAction action) {
         if (action.getType() == EventType.CONTACT_BACK) {
             contactUsersBean = (ContactUsersBean) action.getData();
@@ -385,21 +385,21 @@ public class FgOrderEdit extends BaseFragment {
 
     private void sendRequest() {
         if (TextUtils.isEmpty(manName.getText())) {
-            ToastUtils.showLong("联系人姓名不能为空!");
+            CommonUtils.showToast("联系人姓名不能为空");
             return;
         }
         if (TextUtils.isEmpty(manPhone.getText())) {
-            ToastUtils.showLong("联系人电话不能为空!");
+            CommonUtils.showToast("联系人电话不能为空");
             return;
         }
         if (orderBean.orderGoodsType == 1) {//接机
             if (TextUtils.isEmpty(pickName.getText())) {
-                ToastUtils.showLong("接机牌姓名不能为空!");
+                CommonUtils.showToast("接机牌姓名不能为空");
                 return;
             }
         } else if (orderBean.orderGoodsType == 3 || orderBean.orderGoodsType == 5) {//包车
             if (TextUtils.isEmpty(upAddressRight.getText())) {
-                ToastUtils.showLong("上车地点不能为空!");
+                CommonUtils.showToast("上车地点不能为空");
                 return;
             }
         }
@@ -410,7 +410,7 @@ public class FgOrderEdit extends BaseFragment {
         requestParams.serviceAddressTel = TextUtils.isEmpty(hotelPhoneText.getText()) ? "" : hotelPhoneText.getText().toString();//目的地酒店或者区域电话号码
         requestParams.serviceAreaCode = orderBean.serviceAreaCode;//目的地区域
         requestParams.userRemark = TextUtils.isEmpty(mark.getText()) ? "" : mark.getText().toString();//备注
-        if (orderBean.orderType == 3 || orderBean.orderType == 5) {
+        if (orderBean.orderType == 3 || orderBean.orderType == 5 || orderBean.orderType == 6) {
             requestParams.startAddress = TextUtils.isEmpty(upAddressRight.getText()) ? "" : upAddressRight.getText().toString();//出发地
         }
         if (orderBean.orderGoodsType == 1) {

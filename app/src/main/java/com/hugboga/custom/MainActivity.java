@@ -33,7 +33,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
@@ -50,24 +49,19 @@ import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.net.UrlLibs;
-import com.hugboga.custom.data.request.RequestLogin;
-import com.hugboga.custom.data.request.RequestLoginCheckOpenId;
 import com.hugboga.custom.data.request.RequestPushClick;
 import com.hugboga.custom.data.request.RequestPushToken;
 import com.hugboga.custom.data.request.RequestUploadLocation;
 import com.hugboga.custom.data.request.RequestUserInfo;
-import com.hugboga.custom.fragment.BaseFragment;
 import com.hugboga.custom.fragment.FgActivity;
 import com.hugboga.custom.fragment.FgChat;
 import com.hugboga.custom.fragment.FgCollectGuideList;
 import com.hugboga.custom.fragment.FgCoupon;
-import com.hugboga.custom.fragment.FgGuideDetail;
 import com.hugboga.custom.fragment.FgHome;
 import com.hugboga.custom.fragment.FgIMChat;
 import com.hugboga.custom.fragment.FgInsure;
 import com.hugboga.custom.fragment.FgInviteFriends;
 import com.hugboga.custom.fragment.FgLogin;
-import com.hugboga.custom.fragment.FgOrder;
 import com.hugboga.custom.fragment.FgOrderDetail;
 import com.hugboga.custom.fragment.FgPersonInfo;
 import com.hugboga.custom.fragment.FgServicerCenter;
@@ -77,12 +71,12 @@ import com.hugboga.custom.fragment.FgTravelFund;
 import com.hugboga.custom.fragment.FgWebInfo;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.ChannelUtils;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.LocationUtils;
 import com.hugboga.custom.utils.PermissionRes;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.utils.SharedPre;
-import com.hugboga.custom.utils.ToastUtils;
 import com.hugboga.custom.utils.Tools;
 import com.umeng.analytics.MobclickAgent;
 import com.zhy.m.permission.MPermissions;
@@ -91,6 +85,8 @@ import com.zhy.m.permission.PermissionGrant;
 
 import net.grobas.view.PolygonImageView;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 import org.xutils.common.util.FileUtil;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
@@ -106,10 +102,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import cn.jpush.android.api.JPushInterface;
-import de.greenrobot.event.EventBus;
-
-import static android.R.attr.data;
-import de.greenrobot.event.EventBus;
 
 @ContentView(R.layout.activity_main)
 public class MainActivity extends BaseActivity
@@ -340,6 +332,15 @@ public class MainActivity extends BaseActivity
                     uploadPushClick(message.messageID);
                     if ("IM".equals(message.type)) {
                         gotoChatList();
+                    } else if (message.orderType == 888) {
+                        if (getFragmentList().size() > 3) {
+                            for (int i = getFragmentList().size() - 1; i >= 3; i--) {
+                                getFragmentList().get(i).finish();
+                            }
+                        }
+                        if (mViewPager != null) {
+                            mViewPager.setCurrentItem(2);
+                        }
                     } else {
                         gotoOrder(message);
                     }
@@ -371,6 +372,7 @@ public class MainActivity extends BaseActivity
         startFragment(FgOrderDetail.newInstance(params));
     }
 
+    @Subscribe
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
             case CLICK_USER_LOGIN:
@@ -459,7 +461,7 @@ public class MainActivity extends BaseActivity
         tv_nickname.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                ToastUtils.showShort("version="+ChannelUtils.getVersion()+" versioncode="+ChannelUtils.getVersionCode()+" channel ="+ChannelUtils.getChannel(MainActivity.this)+"");
+                CommonUtils.showToast("version="+ChannelUtils.getVersion()+" versioncode="+ChannelUtils.getVersionCode()+" channel ="+ChannelUtils.getChannel(MainActivity.this)+"");
                 return false;
             }
         });
@@ -529,7 +531,7 @@ public class MainActivity extends BaseActivity
             } else {
                 long times = System.currentTimeMillis();
                 if ((times - exitTime) > 2000) {
-                    Toast.makeText(this, "再次点击退出", Toast.LENGTH_SHORT).show();
+                    CommonUtils.showToast("再次点击退出");
                     exitTime = System.currentTimeMillis();
                 } else {
                     finish();
@@ -605,7 +607,7 @@ public class MainActivity extends BaseActivity
                     startFragment(new FgActivity(), bundle);
                 }
                 break;
-            case Constants.PERSONAL_CENTER_CUSTOMER_SERVICE://TODO 服务规则
+            case Constants.PERSONAL_CENTER_CUSTOMER_SERVICE://服务规则
                 startFragment(new FgServicerCenter());
                 break;
             case Constants.PERSONAL_CENTER_INTERNAL_SERVICE://境内客服

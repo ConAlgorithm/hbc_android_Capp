@@ -1,280 +1,377 @@
 package com.hugboga.custom.fragment;
 
-import android.annotation.TargetApi;
-import android.graphics.drawable.Drawable;
-import android.os.Build;
+import android.graphics.Rect;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.LinearLayout;
+import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.huangbaoche.hbcframe.adapter.ZBaseAdapter;
-import com.huangbaoche.hbcframe.data.net.DefaultImageCallback;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
+import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
-import com.huangbaoche.hbcframe.util.MLog;
 import com.huangbaoche.hbcframe.widget.recycler.ZDefaultDivider;
-import com.huangbaoche.hbcframe.widget.recycler.ZListPageView;
+import com.huangbaoche.hbcframe.widget.recycler.ZListRecyclerView;
 import com.huangbaoche.hbcframe.widget.recycler.ZSwipeRefreshLayout;
 import com.hugboga.custom.R;
+import com.hugboga.custom.adapter.HbcRecyclerBaseAdapter;
 import com.hugboga.custom.adapter.SkuAdapter;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.SkuCityBean;
 import com.hugboga.custom.data.bean.SkuItemBean;
-import com.hugboga.custom.data.request.RequestHome;
-import com.hugboga.custom.data.request.RequestSkuList;
+import com.hugboga.custom.data.request.RequestCitySkuList;
+import com.hugboga.custom.data.request.RequestCountrySkuList;
+import com.hugboga.custom.data.request.RequestRouteSkuList;
 import com.hugboga.custom.utils.DBHelper;
-import com.hugboga.custom.utils.ImageUtils;
-import com.umeng.analytics.MobclickAgent;
+import com.hugboga.custom.utils.UIUtils;
+import com.hugboga.custom.widget.SkuCityFooterView;
+import com.hugboga.custom.widget.SkuCityHeaderView;
+import com.hugboga.custom.widget.SkuListEmptyView;
 
 import org.xutils.DbManager;
 import org.xutils.common.Callback;
 import org.xutils.ex.DbException;
-import org.xutils.image.ImageOptions;
 import org.xutils.view.annotation.ContentView;
-import org.xutils.view.annotation.ViewInject;
-import org.xutils.x;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.io.Serializable;
+import java.util.ArrayList;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 /**
  * 城市SKU列表
  * Created by admin on 2016/3/3.
  */
 @ContentView(R.layout.fg_sku_list)
-public class FgSkuList extends  BaseFragment implements  View.OnClickListener, ZBaseAdapter.OnItemClickListener, ZListPageView.NoticeViewTask {
+public class FgSkuList extends BaseFragment implements HbcRecyclerBaseAdapter.OnItemClickListener{
 
     public static final String KEY_CITY_ID = "KEY_CITY_ID";
 
-    @ViewInject(R.id.listview)
-    ZListPageView recyclerView;
-    @ViewInject(R.id.swipe)
+    @Bind(R.id.suk_list_titlebar)
+    RelativeLayout titlebar;
+    @Bind(R.id.suk_list_listview)
+    ZListRecyclerView recyclerView;
+    @Bind(R.id.suk_list_refresh_layout)
     ZSwipeRefreshLayout swipeRefreshLayout;
+    @Bind(R.id.suk_list_empty_view)
+    SkuListEmptyView emptyView;
 
-    @ViewInject(R.id.fg_sku_list_layout)
-    LinearLayout listViewLayout;
-    @ViewInject(R.id.sku_list_empty)
-    View listViewEmpty;
+    private SkuCityHeaderView cityHeaderView;
+    private SkuCityFooterView cityFooterView;
 
-    @ViewInject(R.id.city_sku_empty_guide_number)
-    TextView guideNumber;
-    @ViewInject(R.id.sku_list_empty_title_content)
-    TextView listViewEmptyContent;
-
-
-    View skuSubtitle;
-
-
-    protected String mCityId;
-    private CityBean mCityBean;
-
+    private FgSkuList.Params paramsData;
     private SkuAdapter adapter;
-    private View headerBg;
+    private boolean isFirstRequest = true;
+    private boolean isLoading = true;
     private SkuCityBean skuCityBean;
-    private View listHeader;
+    private CityBean cityBean = null;
 
+    public enum SkuType {
+        CITY, ROUTE, COUNTRY;
+    }
+
+    public Params getParamsData() {
+        return paramsData;
+    }
+
+    public static class Params implements Serializable {
+        public int id;
+        public SkuType skuType;
+        public String titleName;
+    }
+
+    public static FgSkuList newInstance(Params params) {
+        FgSkuList fragment = new FgSkuList();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(Constants.PARAMS_DATA, params);
+        fragment.setArguments(bundle);
+        return fragment;
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        ButterKnife.bind(this, rootView);
+        if (savedInstanceState != null) {
+            paramsData = (FgSkuList.Params) savedInstanceState.getSerializable(Constants.PARAMS_DATA);
+        } else {
+            Bundle bundle = getArguments();
+            if (bundle != null) {
+                paramsData = (FgSkuList.Params) bundle.getSerializable(Constants.PARAMS_DATA);
+            }
+        }
+        return rootView;
+    }
 
     @Override
     protected void initHeader() {
-        mCityId = getArguments().getString(KEY_CITY_ID);
-        listHeader = LayoutInflater.from(getActivity()).inflate(R.layout.fg_sku_header, null);
-        headerBg = listHeader.findViewById(R.id.home_menu_layout);
-        skuSubtitle = listHeader.findViewById(R.id.sku_subtitle);
-        mCityBean = findCityById(mCityId);
-        initListHeader();
+        if (paramsData == null) {
+            return;
+        }
+        fgTitle.setText(paramsData.titleName);
+
+        emptyView.setFragment(this);
+
+        ZDefaultDivider divider = recyclerView.getItemDecoration();
+        divider.setItemOffsets(0, 0, 0, 0);
+
+        adapter = new SkuAdapter(getContext());
+        recyclerView.setAdapter(adapter);
+
+        swipeRefreshLayout.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.VISIBLE);
+
+        //城市页有header和footer
+        if (paramsData.skuType == SkuType.CITY) {
+            swipeRefreshLayout.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
+            titlebar.setVisibility(View.GONE);
+            titlebar.setBackgroundColor(0x00000000);
+            fgTitle.setTextColor(0x00000000);
+
+            cityHeaderView = new SkuCityHeaderView(getContext());
+            cityHeaderView.setFragment(this);
+            adapter.addHeaderView(cityHeaderView);
+
+            cityFooterView = new SkuCityFooterView(getContext());
+            cityFooterView.setFragment(this);
+            adapter.addFooterView(cityFooterView);
+
+            getCityBean();
+        } else {
+            titlebar.setBackgroundColor(0xFF2D2B28);
+            fgTitle.setTextColor(0xFFFFFFFF);
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
+            swipeRefreshLayout.setLayoutParams(params);
+            params.addRule(RelativeLayout.BELOW, R.id.suk_list_titlebar);
+            recyclerView.addItemDecoration(new SpaceItemDecoration());
+            titlebar.setVisibility(View.VISIBLE);
+        }
+
+        isFirstRequest = true;
+        sendRequest(0, true);
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                isFirstRequest = true;
+                sendRequest(0, false);//下拉刷新
+            }
+        });
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (skuCityBean == null || adapter == null) {
+                    return;
+                }
+
+                RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
+                int lastVisibleItem = ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();
+                int totalItemCount = layoutManager.getItemCount();
+                if (!isLoading && lastVisibleItem >= totalItemCount - 1 && dy > 0 && adapter.getListCount() < skuCityBean.goodsCount) {
+                    isFirstRequest = false;
+                    int pageIndex = adapter == null ? 0 : adapter.getListCount();
+                    if (skuCityBean.hasDailyservice() && pageIndex == Constants.DEFAULT_PAGESIZE + 1) {//第一页带包车的需减去包车
+                        --pageIndex;
+                    }
+                    sendRequest(pageIndex, false);//加载下一页
+                }
+
+                if (paramsData.skuType == SkuType.CITY && cityHeaderView != null) {
+                    int firstVisibleItemPosition = ((LinearLayoutManager) layoutManager).findFirstVisibleItemPosition();
+                    int scrollY = Math.abs(recyclerView.getChildAt(0).getTop());
+                    float showRegionHight = cityHeaderView.getDisplayLayoutHeight() / 2.0f;
+                    if (firstVisibleItemPosition == 0 && scrollY <= showRegionHight) {
+                        float alpha = 0.0f;
+                        if (scrollY <= 0) {
+                            alpha = 0.0f;
+                        } else {
+                            alpha = Math.min(1, scrollY / showRegionHight);
+                        }
+                        titlebar.setBackgroundColor(UIUtils.getColorWithAlpha(alpha, 0xFF2D2B28));
+                        fgTitle.setTextColor(UIUtils.getColorWithAlpha(alpha, 0xFFFFFFFF));
+                    } else {
+                        titlebar.setBackgroundColor(0xFF2D2B24);
+                        fgTitle.setTextColor(0xFFFFFFFF);
+                    }
+                }
+            }
+        });
+        adapter.setOnItemClickListener(this);
     }
 
-    private void initListHeader() {
-        View menu1 = listHeader.findViewById(R.id.fg_home_menu1);
-        View menu2 = listHeader.findViewById(R.id.fg_home_menu2);
-        View menu3 = listHeader.findViewById(R.id.fg_home_menu3);
-        menu1.setOnClickListener(this);
-        menu2.setOnClickListener(this);
-        menu3.setOnClickListener(this);
-        if(mCityBean!=null){
-            menu1.setVisibility(mCityBean.hasAirport?View.VISIBLE:View.GONE);
-            menu2.setVisibility(mCityBean.isDaily?View.VISIBLE:View.GONE);
-            menu3.setVisibility(mCityBean.isSingle?View.VISIBLE:View.GONE);
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (paramsData != null) {
+            outState.putSerializable(Constants.PARAMS_DATA, paramsData);
         }
-//        MLog.e(mCityBean.toString());
     }
 
     @Override
     protected void initView() {
-        adapter = new SkuAdapter(this, listHeader);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setOnItemClickListener(this);
-        recyclerView.setzSwipeRefreshLayout(swipeRefreshLayout);
-        RequestSkuList request = new RequestSkuList(getActivity(),mCityId);
-        recyclerView.setRequestData(request);
-        recyclerView.setNoticeViewTask(this);
-        //设置间距
-        ZDefaultDivider zDefaultDivider = recyclerView.getItemDecoration();
-        zDefaultDivider.setItemOffsets(0, 0, 0, 0);
+
+    }
+
+    public Callback.Cancelable sendRequest(int pageIndex, boolean needShowLoading) {
+        isLoading = true;
+        BaseRequest request = null;
+        switch (paramsData.skuType) {
+            case CITY:
+                request = new RequestCitySkuList(getActivity(), "" + paramsData.id, pageIndex);
+                break;
+            case ROUTE:
+                request = new RequestRouteSkuList(getActivity(), "" + paramsData.id, pageIndex);
+                break;
+            case COUNTRY:
+                request = new RequestCountrySkuList(getActivity(), "" + paramsData.id, pageIndex);
+                break;
+        }
+        return HttpRequestUtils.request(getActivity(), request, this, needShowLoading);
     }
 
     @Override
     protected Callback.Cancelable requestData() {
-        if (recyclerView != null) {
-            recyclerView.showPageFirst();
-        }
         return null;
     }
 
     @Override
-    public void notice(Object object) {
-        Object[] obj = (Object[]) object;
-        skuCityBean = (SkuCityBean) obj[2];
-        inflateContent();
-    }
-
-    @Override
-    public void error(ExceptionInfo errorInfo, BaseRequest request) {
-        onDataRequestError(errorInfo,request);
-    }
-
-    @Override
     protected void inflateContent() {
-        ImageOptions options = new ImageOptions.Builder().setFailureDrawableId(R.mipmap.img_undertext).build();
-        fgTitle.setText(skuCityBean.cityName);
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ImageUtils.getScreenWidth(FgSkuList.this.getActivity()),ImageUtils.getResizeHeight(FgSkuList.this.getActivity(),750,400));
-        headerBg.setLayoutParams(params);
-        if(skuCityBean.goodsList.size()==0){
-            MLog.e("skuCityBean.goodsList.size"+skuCityBean.goodsList.size());
-            x.image().loadDrawable(skuCityBean.cityPicture, options, new DefaultImageCallback<Drawable>() {
-                @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-                @Override
-                public void onSuccess(Drawable result) {
-                    recyclerView.setBackground(null);
-                    skuSubtitle.setVisibility(View.GONE);
-                    headerBg.setBackgroundResource(R.drawable.city_sku_bg);
-                    listViewLayout.setBackground(result);
-                    listViewEmpty.setVisibility(View.VISIBLE);
-                    guideNumber.setText(getString(R.string.sku_item_guide_number, skuCityBean.cityGuideAmount));
-                    listViewEmptyContent.setText("       "+skuCityBean.cityDesc);
-                    MLog.e(" cityPicture result" + result);
-                }
-            });
-        }else{
-            MLog.e("skuCityBean.goodsList.size"+skuCityBean.goodsList.size());
-            x.image().loadDrawable(skuCityBean.cityHeadPicture, options, new DefaultImageCallback<Drawable>() {
-                @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-                @Override
-                public void onSuccess(Drawable result) {
-                    int width = result.getIntrinsicWidth();
-                    int height = result.getIntrinsicHeight();
-                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ImageUtils.getScreenWidth(FgSkuList.this.getActivity()),ImageUtils.getResizeHeight(FgSkuList.this.getActivity(),width,height));
-                    headerBg.setLayoutParams(params);
-                    headerBg.setBackground(result);
-                    MLog.e("cityHeadPicture result" + result);
-                }
-            });
-        }
 
     }
 
-    CityBean cityBean = null;
-    private CityBean findCityById(String cityId){
-
-        DbManager mDbManager = new DBHelper(getActivity()).getDbManager();
-        try {
-            cityBean = mDbManager.findById(CityBean.class,cityId);
-        } catch (DbException e) {
-            e.printStackTrace();
+    @Override
+    public void onItemClick(View view, int position, Object _itemData) {
+        if (_itemData != null && _itemData instanceof SkuItemBean) {
+            SkuItemBean skuItemBean = (SkuItemBean) _itemData;
+            if (skuItemBean.goodsClass == -1) {//按天包车
+                if (cityBean != null) {//旧代码，俩cityBean。。。
+                    FgOrderSelectCity fgOrderSelectCity = new FgOrderSelectCity();
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(FgDaily.KEY_CITY_BEAN, cityBean);
+                    bundle.putString("source", cityBean.name);
+                    bundle.putParcelable("cityBean", cityBean);
+                    fgOrderSelectCity.setArguments(bundle);
+                    startFragment(fgOrderSelectCity, bundle);
+                } else {
+                    startFragment(new FgOrderSelectCity());
+                }
+            } else {
+                FgSkuDetail fgSkuDetail = new FgSkuDetail();
+                Bundle bundle = new Bundle();
+                bundle.putString(FgWebInfo.WEB_URL, skuItemBean.skuDetailUrl);
+                bundle.putSerializable(FgSkuDetail.WEB_SKU, skuItemBean);
+                fgSkuDetail.setArguments(bundle);
+                startFragment(fgSkuDetail, bundle);
+            }
         }
-        if(cityBean!=null)
-        MLog.e("cityBean"+cityBean.name+ cityBean.location+" hasAirport="+cityBean.hasAirport);
-        else
-        MLog.e("citybean is null");
+    }
+
+    @Override
+    public void onDataRequestSucceed(BaseRequest _request) {
+        if (_request instanceof RequestCitySkuList) {
+            skuCityBean = ((RequestCitySkuList) _request).getData();
+            cityHeaderView.update(skuCityBean);
+            cityFooterView.update(skuCityBean);
+            fgTitle.setText(skuCityBean.cityName);
+            titlebar.setVisibility(View.VISIBLE);
+            showEmptyView(true);
+        } else if (_request instanceof RequestRouteSkuList) {
+            skuCityBean = ((RequestRouteSkuList) _request).getData();
+            fgTitle.setText(skuCityBean.lineGroupName);
+            showEmptyView(false);
+        } else if (_request instanceof RequestCountrySkuList) {
+            skuCityBean = ((RequestCountrySkuList) _request).getData();
+            fgTitle.setText(skuCityBean.countryName);
+            showEmptyView(false);
+        }
+        adapter.addDatas(skuCityBean.goodsList, !isFirstRequest);
+        swipeRefreshLayout.setRefreshing(false);
+        isLoading = false;
+    }
+
+    @Override
+    public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest _request) {
+        super.onDataRequestError(errorInfo, _request);
+        requestFailure(_request);
+    }
+
+    @Override
+    public void onDataRequestCancel(BaseRequest _request) {
+        super.onDataRequestCancel(_request);
+        requestFailure(_request);
+    }
+
+    private void requestFailure(BaseRequest _request) {
+        if (adapter.getListCount() <= 0) {
+            emptyView.requestFailure();
+        }
+        swipeRefreshLayout.setRefreshing(false);
+        isLoading = false;
+    }
+
+    private void showEmptyView(boolean isCity) {
+        if (adapter.getListCount() <= 0 && (skuCityBean.goodsList == null || skuCityBean.goodsList.size() <= 0)) {
+            if (isCity) {
+                if (!skuCityBean.hasSingleService() && !skuCityBean.hasAirporService()) {
+                    emptyView.showEmptyView(true);
+                    swipeRefreshLayout.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.GONE);
+                    titlebar.setBackgroundColor(0xFF2D2B28);
+                    fgTitle.setTextColor(0xFFFFFFFF);
+                } else {
+                    emptyView.setVisibility(View.GONE);
+                }
+            } else {
+                emptyView.showEmptyView(false);
+            }
+        } else {
+            emptyView.setVisibility(View.GONE);
+        }
+    }
+
+    public class SpaceItemDecoration extends RecyclerView.ItemDecoration {
+        @Override
+        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+            int pos = parent.getChildAdapterPosition(view);
+            outRect.left = 0;
+            outRect.bottom = 0;
+            outRect.right = 0;
+            if (pos == 0) {
+                outRect.top = UIUtils.dip2px(15);
+            } else {
+                outRect.top = 0;
+            }
+        }
+    }
+
+    @Override
+    public void onFragmentResult(Bundle bundle) {
+        String fragmentName = bundle.getString(KEY_FRAGMENT_NAME);
+        if (FgChooseCityNew.class.getSimpleName().equals(fragmentName)) {
+            paramsData = (FgSkuList.Params) bundle.getSerializable(Constants.PARAMS_DATA);
+            initHeader();
+        }
+    }
+
+    public CityBean getCityBean() {
+        if (cityBean == null && paramsData.skuType == SkuType.CITY) {
+            DbManager mDbManager = new DBHelper(getActivity()).getDbManager();
+            try {
+                cityBean = mDbManager.findById(CityBean.class, "" + paramsData.id);
+            } catch (DbException e) {
+                e.printStackTrace();
+            }
+        }
         return cityBean;
-    }
-
-    @Override
-    public void onClick(View v) {
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(FgDaily.KEY_CITY_BEAN,mCityBean);
-        HashMap<String,String> map = new HashMap<String,String>();
-        switch (v.getId()){
-            case R.id.fg_home_menu1://中文接送机
-//                FgTransfer fgTransfer = new FgTransfer();
-//                bundle.putString("source",mCityBean.name);
-//                fgTransfer.setArguments(bundle);
-//                startFragment(fgTransfer);
-
-                FgPickSend fgPickSend = new FgPickSend();
-                bundle.putString("source",mCityBean.name);
-                bundle.putParcelable("cityBean",cityBean);
-                fgPickSend.setArguments(bundle);
-                startFragment(fgPickSend, bundle);
-
-                map.put("source", mCityBean.name);
-                MobclickAgent.onEvent(getActivity(), "chose_pndairport", map);
-                break;
-            case R.id.fg_home_menu2://按天包车
-//                FgDaily fgDaily = new FgDaily();
-//                bundle.putString("source",mCityBean.name);
-//                fgDaily.setArguments(bundle);
-//                startFragment(new FgDaily(),bundle);
-                FgOrderSelectCity fgOrderSelectCity = new FgOrderSelectCity();
-                bundle.putString("source", mCityBean.name);
-                bundle.putParcelable("cityBean",cityBean);
-                fgOrderSelectCity.setArguments(bundle);
-                startFragment(fgOrderSelectCity, bundle);
-
-                map.put("source", mCityBean.name);
-                MobclickAgent.onEvent(getActivity(), "chose_oneday", map);
-                break;
-            case R.id.fg_home_menu3://单次接送
-//                FgSingle fgSingle = new FgSingle();
-//                bundle.putString("source",mCityBean.name);
-//                fgSingle.setArguments(bundle);
-//                startFragment(new FgSingle(),bundle);
-
-                FgSingleNew fgSingleNew = new FgSingleNew();
-                bundle.putString("source",mCityBean.name);
-                bundle.putParcelable("cityBean",cityBean);
-                fgSingleNew.setArguments(bundle);
-                startFragment(fgSingleNew);
-
-                map.put("source", mCityBean.name);
-                MobclickAgent.onEvent(getActivity(), "chose_oneway", map);
-                break;
-            default:
-                super.onClick(v);
-                break;
-        }
-    }
-
-    @Override
-    public void onItemClick(View view, int position) {
-        MLog.e("position = " + position);
-        if(mCityBean==null||adapter.getDatas()==null||adapter.getDatas().isEmpty())return;
-        SkuItemBean bean = adapter.getDatas().get(position);
-        if(bean==null)return;
-        Bundle bundle = new Bundle();
-        bundle.putString(FgWebInfo.WEB_URL, bean.skuDetailUrl);
-        bundle.putSerializable(FgSkuDetail.WEB_SKU, bean);
-        bundle.putSerializable(FgSkuDetail.WEB_CITY, mCityBean);
-        bundle.putString("source" , cityBean.name);
-        startFragment(new FgSkuDetail(),bundle);
-
-        Map<String, String> map_value = new HashMap<String, String>();
-        map_value.put("source" , cityBean.name);
-        MobclickAgent.onEvent(this.getActivity(),"click_route",map_value);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if(null != cityBean) {
-            Map<String, String> map = new HashMap<String, String>();
-            map.put("city" , cityBean.name);
-            MobclickAgent.onEvent(this.getActivity(), "launch_city", map);
-        }
-
     }
 }

@@ -3,7 +3,7 @@
     android:id="@+id/activity_head_layout"
     android:layout_width="fill_parent"
     android:layout_height="48dip"
-    android:background="@drawable/btn_orange">
+    android:background="@color/basic_black">
 
     <ImageView
         android:id="@+id/header_left_btn"
@@ -36,15 +36,14 @@
         android:layout_toLeftOf="@id/head_text_right"
         android:layout_toRightOf="@id/header_left_btn"
         android:background="@drawable/shape_rounded_white"
-        android:drawableLeft="@mipmap/search_icon"
-        android:drawablePadding="5dp"
+        android:drawableLeft="@mipmap/search_box_icon"
+        android:drawablePadding="15dp"
         android:hint="@string/search_hint_pick"
         android:imeOptions="actionSearch"
         android:paddingLeft="14dp"
         android:singleLine="true"
-        android:textColor="@color/basic_white"
-        android:textColorHint="@color/basic_white"
-        android:textSize="16sp" />
+        android:textColor="@color/basic_black"
+        android:textSize="14sp" />
 
     <ImageView
         android:id="@+id/head_search_clean"

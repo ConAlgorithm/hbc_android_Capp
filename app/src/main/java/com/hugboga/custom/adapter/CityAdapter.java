@@ -27,7 +27,6 @@ import com.hugboga.custom.fragment.FgChooseCity;
 import com.hugboga.custom.fragment.FgSkuList;
 import com.hugboga.custom.utils.DBHelper;
 import com.hugboga.custom.utils.SharedPre;
-import com.hugboga.custom.utils.ToastUtils;
 import com.hugboga.custom.widget.NoScrollGridView;
 
 import org.xutils.DbManager;

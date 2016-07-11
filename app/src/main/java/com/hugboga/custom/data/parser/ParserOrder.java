@@ -173,9 +173,16 @@ public class ParserOrder extends ImplParser {
         orderbean.realUserList = gson.fromJson(jsonObj.optString("realUserList"), new TypeToken<List<OrderContactBean>>(){}.getType());
         orderbean.appraisement = gson.fromJson(jsonObj.optString("appraisement"), AppraisementBean.class);
         orderbean.carPool = jsonObj.optBoolean("carPool");
-
         orderbean.isIm = jsonObj.optInt("isIm") == 1;
         orderbean.isPhone = jsonObj.optInt("isPhone") == 1;
+        orderbean.picUrl = jsonObj.optString("picUrl");
+        orderbean.isChangeManual = jsonObj.optInt("isChangeManual") == 1;
+        orderbean.hotelStatus = jsonObj.optInt("hotelStatus");
+        orderbean.hotelRoom = jsonObj.optInt("hotelRoom");
+        orderbean.hotelDays = jsonObj.optInt("hotelDays");
+        orderbean.orderSource = jsonObj.optInt("orderSource");
+        orderbean.skuDetailUrl = jsonObj.optString("skuDetailUrl");
+        orderbean.goodsNo = jsonObj.optString("goodNo");
         return orderbean;
     }
 }

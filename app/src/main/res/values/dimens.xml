@@ -73,4 +73,10 @@
     <dimen name="letter_img_width">48dp</dimen>
     <dimen name="letter_img_point_width">16dp</dimen>
     <dimen name="letter_img_point_width_x">18dp</dimen>
+
+    <dimen name="home_view_padding_left">15dp</dimen>
+    <dimen name="home_search_layout_height">54dp</dimen>
+
+    <dimen name="dimen_margin_circle">4dp</dimen>
+    <dimen name="dimen_margin_circle.negative">-4dp</dimen>
 </resources>

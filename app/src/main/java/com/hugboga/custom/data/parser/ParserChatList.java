@@ -7,7 +7,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 /**
  * Created by admin on 2016/3/8.
@@ -31,6 +30,7 @@ public class ParserChatList extends ImplParser {
             chatBean.timeStr = jsonObject.optString("lastTime");
             chatBean.userId = jsonObject.optString("userId");
             chatBean.userType = jsonObject.optString("userType");
+            chatBean.inBlack = jsonObject.optInt("inBlack");
             //解析IM订单
             JSONArray orderArray = jsonObject.optJSONArray("orderInfo");
             chatBean.orders = new ArrayList<>();

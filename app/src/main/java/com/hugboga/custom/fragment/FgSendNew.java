@@ -1,12 +1,12 @@
 package com.hugboga.custom.fragment;
 
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -31,15 +31,18 @@ import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestCheckPrice;
 import com.hugboga.custom.data.request.RequestCheckPriceForTransfer;
 import com.hugboga.custom.data.request.RequestGuideConflict;
+import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.CarUtils;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.OrderUtils;
-import com.hugboga.custom.utils.ToastUtils;
 import com.hugboga.custom.widget.DialogUtil;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 
@@ -50,12 +53,6 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
-import static com.hugboga.custom.R.id.driver_layout;
-import static com.hugboga.custom.R.id.driver_name;
-import static u.aly.au.W;
-
-import de.greenrobot.event.EventBus;
 
 /**
  * Created  on 16/5/13.
@@ -137,11 +134,11 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
             }
         }
 
-        if(waitChecked) {
-            if (!TextUtils.isEmpty(carListBean.additionalServicePrice.pickupSignPrice)) {
-                total += Integer.valueOf(carListBean.additionalServicePrice.pickupSignPrice);
-            }
-        }
+//        if(waitChecked) {
+//            if (!TextUtils.isEmpty(carListBean.additionalServicePrice.pickupSignPrice)) {
+//                total += Integer.valueOf(carListBean.additionalServicePrice.pickupSignPrice);
+//            }
+//        }
         allMoneyText.setText("￥" + total);
 
         if(null != carListBean) {
@@ -166,7 +163,7 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
         bundle.putSerializable("collectGuideBean",collectGuideBean);
         bundle.putParcelable("carListBean", carListBean);
         if(isDataBack) {
-            String sTime = serverDate +":00";
+            String sTime = serverDate +" " + serverTime +":00";
             bundle.putInt("cityId", cityId);
             bundle.putString("startTime", sTime);
             if(TextUtils.isEmpty(carListBean.estTime)){
@@ -241,10 +238,15 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
     }
 
     ManLuggageBean manLuggageBean;
-    boolean checkInChecked = false;
-    boolean waitChecked = false;
+    boolean checkInChecked = true;
+    boolean waitChecked = true;
+    @Subscribe
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
+            case CAR_CHANGE_SMALL:
+                confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
+                confirmJourney.setOnClickListener(null);
+                break;
             case CHANGE_GUIDE:
                 collectGuideBean = (CollectGuideBean)action.getData();
                 break;
@@ -282,35 +284,48 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
                         if(UserEntity.getUser().isLogin(getActivity())) {
 
                             if(null != collectGuideBean) {
-                                String sTime = serverDate + " " + serverTime+":00";
-                                OrderUtils.checkGuideCoflict(getContext(), 1, cityId,
-                                        null != collectGuideBean ? collectGuideBean.guideId : null, sTime,
-                                        DateUtils.getToTime(sTime,Integer.valueOf(carListBean.estTime)),
-                                        cityId + "", 0, carBean.carType, carBean.carSeat,
-                                        new HttpRequestListener() {
-                                            @Override
-                                            public void onDataRequestSucceed(BaseRequest request) {
-                                                RequestGuideConflict requestGuideConflict = (RequestGuideConflict)request;
-                                                List<String> list = requestGuideConflict.getData();
-                                                if(list.size() > 0) {
-                                                    goOrder();
-                                                }else{
-                                                    EventBus.getDefault().post(new EventAction(EventType.GUIDE_ERROR_TIME));
+
+
+                                if((carBean.carType == 1 && carBean.capOfPerson == 4
+                                        && (Integer.valueOf(manLuggageBean.mans) + Integer.valueOf(manLuggageBean.childs)) == 4)
+                                        || (carBean.carType == 1 && carBean.capOfPerson == 6 && (Integer.valueOf(manLuggageBean.mans) + Integer.valueOf(manLuggageBean.childs)) == 6)){
+                                    AlertDialogUtils.showAlertDialog(getActivity(),getString(R.string.alert_car_full),
+                                            "继续下单","更换车型",new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    checkGuide();
+                                                    dialog.dismiss();
                                                 }
-                                            }
+                                            },new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    dialog.dismiss();
+                                                }
+                                            });
+                                }else{
+                                    checkGuide();
+                                }
 
-                                            @Override
-                                            public void onDataRequestCancel(BaseRequest request) {
-
-                                            }
-
-                                            @Override
-                                            public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-
-                                            }
-                                        });
                             }else{
-                                goOrder();
+                                if((carBean.carType == 1 && carBean.capOfPerson == 4
+                                        && (Integer.valueOf(manLuggageBean.mans) + Integer.valueOf(manLuggageBean.childs)) == 4)
+                                        || (carBean.carType == 1 && carBean.capOfPerson == 6 && (Integer.valueOf(manLuggageBean.mans) + Integer.valueOf(manLuggageBean.childs)) == 6)){
+                                    AlertDialogUtils.showAlertDialog(getActivity(),getString(R.string.alert_car_full),
+                                            "继续下单","更换车型",new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    goOrder();
+                                                    dialog.dismiss();
+                                                }
+                                            },new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    dialog.dismiss();
+                                                }
+                                            });
+                                }else{
+                                    goOrder();
+                                }
                             }
                         }else{
                             Bundle bundle = new Bundle();//用于统计
@@ -323,6 +338,37 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
             default:
                 break;
         }
+    }
+
+
+    private void checkGuide(){
+        String sTime = serverDate + " " + serverTime+":00";
+        OrderUtils.checkGuideCoflict(getContext(), 1, cityId,
+                null != collectGuideBean ? collectGuideBean.guideId : null, sTime,
+                DateUtils.getToTime(sTime,Integer.valueOf(carListBean.estTime)),
+                cityId + "", 0, carBean.carType, carBean.carSeat,
+                new HttpRequestListener() {
+                    @Override
+                    public void onDataRequestSucceed(BaseRequest request) {
+                        RequestGuideConflict requestGuideConflict = (RequestGuideConflict)request;
+                        List<String> list = requestGuideConflict.getData();
+                        if(list.size() > 0) {
+                            goOrder();
+                        }else{
+                            EventBus.getDefault().post(new EventAction(EventType.GUIDE_ERROR_TIME));
+                        }
+                    }
+
+                    @Override
+                    public void onDataRequestCancel(BaseRequest request) {
+
+                    }
+
+                    @Override
+                    public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+
+                    }
+                });
     }
 
     private void goOrder(){
@@ -394,7 +440,7 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
                     fg.setArguments(bundle);
                     startFragment(fg);
                 } else {
-                    ToastUtils.showShort("先选择机场");
+                    CommonUtils.showToast("先选择机场");
                 }
                 break;
             case R.id.address_layout:
@@ -408,7 +454,7 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
             case R.id.time_layout:
             case R.id.time_text://出发时间
                 if (airPortBean == null) {
-                    ToastUtils.showShort("先选择机场");
+                    CommonUtils.showToast("先选择机场");
                     return;
                 }
                 showDaySelect();

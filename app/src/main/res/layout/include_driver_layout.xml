@@ -78,6 +78,6 @@
         android:text="@string/guide_error_time"
         android:textColor="#fa8f6e"
         android:background="#fdfed8"
-        android:textSize="15sp" />
+        android:textSize="12sp" />
 
 </LinearLayout>

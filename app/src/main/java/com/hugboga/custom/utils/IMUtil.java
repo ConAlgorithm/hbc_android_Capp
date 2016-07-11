@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.huangbaoche.hbcframe.data.net.ErrorHandler;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
@@ -13,6 +14,7 @@ import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.net.UrlLibs;
+import com.hugboga.custom.data.request.RequestApiFeedback;
 import com.hugboga.custom.data.request.RequestResetIMToken;
 
 import io.rong.imkit.RongContext;
@@ -31,6 +33,7 @@ public class IMUtil {
 
     Context context;
     private int requestIMTokenCount = 0;
+    private String userId;
 
     public IMUtil(final Context context) {
         this.context = context;
@@ -43,6 +46,14 @@ public class IMUtil {
     public void connect(String imToken) {
         if (TextUtils.isEmpty(imToken)) {
             MLog.e("IMToken 不能为空");
+            MLog.i("hbc_im", "IMUtil connect 为空");
+            if (UserEntity.getUser().isLogin(context)) {
+                MLog.i("hbc_im", "IMUtil connect 为空 重试");
+                if (requestIMTokenCount < 3) {
+                    requestIMTokenCount++;
+                    requestIMTokenUpdate();
+                }
+            }
             return;
         }
         RongIM.connect(imToken, new RongIMClient.ConnectCallback() {
@@ -54,12 +65,16 @@ public class IMUtil {
                     requestIMTokenCount++;
                     requestIMTokenUpdate();
                 }
+                ApiFeedbackUtils.requestIMFeedback(1, null, "Token已过期，重新获取Token");
+                MLog.i("hbc_im", "IMUtil_connect_onTokenIncorrect：Token已过期，重新获取Token");
             }
 
             @Override
-            public void onSuccess(String userId) {
+            public void onSuccess(String _userId) {
                 MLog.e("-连接融云 ——onSuccess— -" + userId);
+                userId = _userId;
                 initRongIm(context, userId);
+                MLog.i("hbc_im", "IMUtil_connect_onSuccess：连接融云");
             }
 
             @Override
@@ -70,8 +85,18 @@ public class IMUtil {
                     requestIMTokenCount++;
                     requestIMTokenUpdate();
                 }
+                ApiFeedbackUtils.requestIMFeedback(2, errorCode != null ? "" + errorCode.getValue() : null);
+                MLog.i("hbc_im", "IMUtil_connect_onError：连接融云");
+            }
+
+            @Override
+            public void onFail(int errorCode) {
+                super.onFail(errorCode);
+                ApiFeedbackUtils.requestIMFeedback(3, "" + errorCode);
+                MLog.i("hbc_im", "IMUtil_connect_onFail：连接融云");
             }
         });
+        RongIM.getInstance().setConnectionStatusListener(new MyConnectionStatusListener());
     }
 
     /**
@@ -86,6 +111,7 @@ public class IMUtil {
         @Override
         public void onDataRequestSucceed(BaseRequest request) {
             connect(request.getData().toString());
+            UserEntity.getUser().setImToken(context, request.getData().toString());
         }
 
         @Override
@@ -97,13 +123,14 @@ public class IMUtil {
         public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
             ErrorHandler handler = new ErrorHandler((Activity) context, this);
             handler.onDataRequestError(errorInfo, request);
+            ApiFeedbackUtils.requestIMFeedback(4, null);
         }
     };
 
     /**
      * IM扩展功能自定义
      */
-    private static void initRongIm(Context context, String userId) {
+    public static void initRongIm(Context context, String userId) {
         InputProvider.ExtendProvider[] provider = {
                 new ImageInputProvider(RongContext.getInstance()),//图片
                 new CameraInputProvider(RongContext.getInstance()),//相机
@@ -118,7 +145,7 @@ public class IMUtil {
      *
      * @return
      */
-    private static UserInfo getUserInfo(Context context) {
+    public static UserInfo getUserInfo(Context context) {
         UserInfo userInfo = null;
         String userid = UserEntity.getUser().getUserId(context);
         String username = UserEntity.getUser().getNickname(context);
@@ -133,5 +160,34 @@ public class IMUtil {
         userInfo = new UserInfo("Y" + userid, username, uri);
         MLog.e("guideAvatarUrl =  "+guideAvatarUrl);
         return userInfo;
+    }
+
+    private class MyConnectionStatusListener implements RongIMClient.ConnectionStatusListener {
+
+        @Override
+        public void onChanged(ConnectionStatus connectionStatus) {
+
+            switch (connectionStatus){
+
+                case CONNECTED://连接成功。
+                    MLog.i("hbc_im", "IMUtil_onChanged：连接成功");
+                    break;
+                case DISCONNECTED://断开连接。
+                    ApiFeedbackUtils.requestIMFeedback(5, null);
+                    MLog.i("hbc_im", "IMUtil_onChanged：断开连接");
+                    break;
+                case CONNECTING://连接中。
+                    MLog.i("hbc_im", "IMUtil_onChanged：连接中");
+                    break;
+                case NETWORK_UNAVAILABLE://网络不可用。
+                    MLog.i("hbc_im", "IMUtil_onChanged：网络不可用");
+                    ApiFeedbackUtils.requestIMFeedback(6, null);
+                    break;
+                case KICKED_OFFLINE_BY_OTHER_CLIENT://用户账户在其他设备登录，本机会被踢掉线
+                    MLog.i("hbc_im", "IMUtil_onChanged：用户账户在其他设备登录，本机会被踢掉线");
+                    ApiFeedbackUtils.requestIMFeedback(7, null);
+                    break;
+            }
+        }
     }
 }

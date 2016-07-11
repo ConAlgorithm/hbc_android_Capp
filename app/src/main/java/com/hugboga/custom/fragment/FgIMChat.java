@@ -2,6 +2,7 @@ package com.hugboga.custom.fragment;
 
 import android.Manifest;
 import android.content.DialogInterface;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -9,9 +10,13 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -25,35 +30,45 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.ChatInfo;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.OrderStatus;
+import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.parser.ParserChatInfo;
+import com.hugboga.custom.data.request.RequestApiFeedback;
+import com.hugboga.custom.data.request.RequestBlackMan;
 import com.hugboga.custom.data.request.RequestIMClear;
 import com.hugboga.custom.data.request.RequestIMOrder;
+import com.hugboga.custom.data.request.RequestUnBlackMan;
+import com.hugboga.custom.utils.AlertDialogUtils;
+import com.hugboga.custom.utils.ApiFeedbackUtils;
 import com.hugboga.custom.utils.PermissionRes;
+import com.hugboga.custom.utils.UIUtils;
 import com.zhy.m.permission.MPermissions;
 import com.zhy.m.permission.PermissionDenied;
 import com.zhy.m.permission.PermissionGrant;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
-import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import de.greenrobot.event.EventBus;
 import io.rong.imkit.RongContext;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.RongIMClientWrapper;
 import io.rong.imkit.fragment.ConversationFragment;
+import io.rong.imkit.fragment.MessageListFragment;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.Message;
 import io.rong.imlib.model.UserInfo;
+
+import static android.view.View.GONE;
+
 
 @ContentView(R.layout.activity_imchat)
 public class FgIMChat extends BaseFragment {
@@ -67,18 +82,40 @@ public class FgIMChat extends BaseFragment {
     @ViewInject(R.id.imchat_point_layout)
     LinearLayout pointLayout; //小点容器
 
+    @ViewInject(R.id.im_emptyview)
+    TextView emptyView; //小点容器
+
+    @ViewInject(R.id.header_right_btn)
+    ImageView header_right_btn;
+
     public final String USER_IM_ADD = "G";
     private boolean isChat = false; //是否开启聊天
     private String userId; //用户ID
     private String imUserId; //用户ID
     private String userAvatar; //用户头像
     private String targetType; //目标类型
+    private int inBlack;//标识对方是否被自己拉黑，1是 0否
+    private int isHideMoreBtn;
 
     private RelativeLayout view;
 
     @Override
     protected void initHeader() {
-        fgRightBtn.setText(R.string.letter_chat_btn);
+        fgRightBtn.setVisibility(GONE);
+        if (isHideMoreBtn == 1) {
+            header_right_btn.setVisibility(GONE);
+        } else {
+            header_right_btn.setImageResource(R.mipmap.top_more);
+            header_right_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showPopupWindow();
+                }
+            });
+            if (!TextUtils.isEmpty(targetType) && "3".equals(targetType)) {
+                header_right_btn.setVisibility(GONE);
+            }
+        }
     }
 
     @Override
@@ -98,6 +135,18 @@ public class FgIMChat extends BaseFragment {
         getUserInfoToOrder(uri);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (emptyView != null) {
+            if (RongIM.getInstance() != null && RongIMClient.getInstance() != null) {
+                emptyView.setVisibility(View.GONE);
+            } else {
+                emptyView.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
     /**
      * 解析用户ID信息
      */
@@ -112,6 +161,8 @@ public class FgIMChat extends BaseFragment {
             userAvatar = imInfo.userAvatar;
             fgTitle.setText(imInfo.title); //设置标题
             targetType = imInfo.targetType;
+            inBlack = imInfo.inBlack;
+            isHideMoreBtn = imInfo.isHideMoreBtn;
             resetRightBtn();
             initRunningOrder(); //构建和该用户之间的订单
         } catch (JSONException e) {
@@ -122,10 +173,14 @@ public class FgIMChat extends BaseFragment {
     }
 
     private void resetRightBtn() {
-        if (!TextUtils.isEmpty(targetType) && "3".equals(targetType)) {//3.客服 1.用户
-            fgRightBtn.setVisibility(View.GONE); //显示历史订单按钮
+        if (isHideMoreBtn == 1) {
+            header_right_btn.setVisibility(View.GONE);
         } else {
-            fgRightBtn.setVisibility(View.VISIBLE); //显示历史订单按钮
+          if (!TextUtils.isEmpty(targetType) && "3".equals(targetType)) {//3.客服 1.用户
+                header_right_btn.setVisibility(GONE); //显示历史订单按钮
+            } else {
+                header_right_btn.setVisibility(View.VISIBLE); //显示历史订单按钮
+            }
         }
     }
 
@@ -194,7 +249,7 @@ public class FgIMChat extends BaseFragment {
     private void resetChatting() {
         if (!isChat) {
             View view1 = view.getChildAt(0);
-            view1.setVisibility(View.GONE);
+            view1.setVisibility(GONE);
             fgTitle.setText(getString(R.string.chat_log));
         }
     }
@@ -205,7 +260,8 @@ public class FgIMChat extends BaseFragment {
     private void setUserInfo() {
         if (userAvatar != null && !userAvatar.equals("")) {
             UserInfo peerUser = new UserInfo(imUserId, getString(R.string.title_activity_imchat), Uri.parse(userAvatar));
-            RongContext.getInstance().getUserInfoCache().put(imUserId, peerUser);
+//            RongContext.getInstance().getUserInfoCache().put(imUserId, peerUser);
+            RongIM.getInstance().refreshUserInfoCache(peerUser);
         }
     }
 
@@ -222,7 +278,7 @@ public class FgIMChat extends BaseFragment {
             viewPage.addOnPageChangeListener(onPageChangeListener);
         } else {
             //无订单数据
-            viewPageLayout.setVisibility(View.GONE);
+            viewPageLayout.setVisibility(GONE);
         }
     }
 
@@ -382,20 +438,112 @@ public class FgIMChat extends BaseFragment {
         }
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.header_right_txt:
+
+    /**
+     * 右上角的菜单，取消订单 联系客服
+     */
+    private PopupWindow popup;
+    View menuLayout;
+    public void showPopupWindow() {
+        if (popup != null && popup.isShowing()) {
+            return;
+        }
+        if (menuLayout == null) {
+            menuLayout  = LayoutInflater.from(getActivity()).inflate(R.layout.popup_top_right_menu, null);
+        }
+        TextView cancelOrderTV = (TextView)menuLayout.findViewById(R.id.cancel_order);
+        TextView commonProblemTV = (TextView)menuLayout.findViewById(R.id.menu_phone);
+        if(inBlack == 1){
+            cancelOrderTV.setText("解除拉黑");
+        }else{
+            cancelOrderTV.setText("拉黑该用户");
+        }
+        if (!TextUtils.isEmpty(targetType) && "3".equals(targetType)) {//3.客服 1.用户
+            cancelOrderTV.setVisibility(GONE); //显示历史订单按钮
+        } else {
+            cancelOrderTV.setVisibility(View.VISIBLE); //显示历史订单按钮
+        }
+        commonProblemTV.setText("历史订单");
+
+        if (popup != null) {
+            popup.showAsDropDown(header_right_btn,0, UIUtils.dip2px(5f));
+            return;
+        }
+        popup = new PopupWindow(menuLayout, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        popup.setBackgroundDrawable(new BitmapDrawable());
+        popup.setOutsideTouchable(true);
+        popup.setFocusable(true);
+        popup.showAsDropDown(header_right_btn,0,UIUtils.dip2px(5f));
+
+        cancelOrderTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(inBlack == 0) {
+                    AlertDialogUtils.showAlertDialog(getActivity(), getString(R.string.black_man), "确认拉黑", "取消", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+//                        cancelOrderTV.setText("解除拉黑");
+                            RequestBlackMan requestBlackMan = new RequestBlackMan(getActivity(), userId);
+                            HttpRequestUtils.request(getContext(), requestBlackMan, new HttpRequestListener() {
+                                @Override
+                                public void onDataRequestSucceed(BaseRequest request) {
+                                    inBlack = 1;
+                                }
+
+                                @Override
+                                public void onDataRequestCancel(BaseRequest request) {
+
+                                }
+
+                                @Override
+                                public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+
+                                }
+                            });
+                            dialog.dismiss();
+                        }
+                    }, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                }else{
+                    RequestUnBlackMan requestUnBlackMan = new RequestUnBlackMan(getActivity(), userId);
+                    HttpRequestUtils.request(getContext(), requestUnBlackMan, new HttpRequestListener() {
+                        @Override
+                        public void onDataRequestSucceed(BaseRequest request) {
+                            inBlack = 0;
+                        }
+
+                        @Override
+                        public void onDataRequestCancel(BaseRequest request) {
+
+                        }
+
+                        @Override
+                        public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+
+                        }
+                    });
+
+                }
+                popup.dismiss();
+
+            }
+        });
+        commonProblemTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 MLog.e("进入历史订单列表");
                 Bundle bundle = new Bundle();
                 bundle.putInt(FgNewOrder.SEARCH_TYPE, FgNewOrder.SearchType.SEARCH_TYPE_HISTORY.getType());
                 bundle.putString(FgNewOrder.SEARCH_USER, userId);
                 startFragment(new FgNewOrder(), bundle);
-                break;
-            default:
-                super.onClick(v);
-                break;
-        }
+
+                popup.dismiss();
+            }
+        });
     }
 
     @Override
@@ -416,32 +564,45 @@ public class FgIMChat extends BaseFragment {
         if (view == null) {
             return;
         }
-        final RelativeLayout rl = (RelativeLayout) view.findViewById(io.rong.imkit.R.id.empty);
-        TextView show_empty_txt = (TextView) view.findViewById(R.id.show_empty_txt);
-        if("3".equalsIgnoreCase(targetType)) {//3.客服 1.用户
-            show_empty_txt.setText(R.string.huangbaoche_remind_message);
-        }else{
-            show_empty_txt.setText(R.string.huangbaoche_remind_message_user);
-        }
+
+//        final RelativeLayout rl = (RelativeLayout) view.findViewById(io.rong.imkit.R.id.empty);
+//        TextView show_empty_txt = (TextView) view.findViewById(R.id.show_empty_txt);
+//        if("3".equalsIgnoreCase(targetType)) {//3.客服 1.用户
+//            show_empty_txt.setText(R.string.huangbaoche_remind_message);
+//        }else{
+//            show_empty_txt.setText(R.string.huangbaoche_remind_message_user);
+//        }
         try {
             int imNumber = 0;
             RongIM rongIM = RongIM.getInstance();
             if (rongIM != null) {
+
+//                rongIM.getHistoryMessages(Conversation.ConversationType.PRIVATE, imUserId, -1, 10, new RongIMClient.ResultCallback<List<Message>>() {
+//                    @Override
+//                    public void onSuccess(List<Message> messages) {
+//                    }
+//
+//                    @Override
+//                    public void onError(RongIMClient.ErrorCode errorCode) {
+//                    }
+//                });
+
                 RongIMClientWrapper rongIMClientWrapper = rongIM.getRongIMClient();
                 if (rongIMClientWrapper != null) {
-                    try {
-                        List<Message> messageList = rongIMClientWrapper.getHistoryMessages(Conversation.ConversationType.PRIVATE, imUserId, -1, 10);
-                        if (messageList != null)
-                            imNumber = messageList.size();
-                        if (imNumber > 0) {
-                            rl.setVisibility(View.GONE);
-                        } else {
-                            rl.setVisibility(View.VISIBLE);
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    //设置通知栏免打扰
+//                    try {
+//                        List<Message> messageList = rongIMClientWrapper.getHistoryMessages(Conversation.ConversationType.PRIVATE, imUserId, -1, 10);
+//                        Log.i("aa", "messageList " +messageList.size());
+//                        if (messageList != null)
+//                            imNumber = messageList.size();
+//                        if (imNumber > 0) {
+//                            rl.setVisibility(GONE);
+//                        } else {
+//                            rl.setVisibility(View.VISIBLE);
+//                        }
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
+//                    设置通知栏免打扰
                     rongIMClientWrapper.setConversationNotificationStatus(Conversation.ConversationType.PRIVATE, imUserId, Conversation.ConversationNotificationStatus.DO_NOT_DISTURB, new RongIMClient.ResultCallback<Conversation.ConversationNotificationStatus>() {
                         @Override
                         public void onSuccess(Conversation.ConversationNotificationStatus conversationNotificationStatus) {
@@ -465,8 +626,11 @@ public class FgIMChat extends BaseFragment {
 
                     @Override
                     public boolean onSent(Message message, RongIM.SentMessageErrorCode sentMessageErrorCode) {
-                        if (rl.getVisibility() == View.VISIBLE) {
-                            rl.setVisibility(View.GONE);
+//                        if (rl.getVisibility() == View.VISIBLE) {
+//                            rl.setVisibility(GONE);
+//                        }
+                        if(message.getSentStatus() == Message.SentStatus.FAILED && sentMessageErrorCode != null){
+                            requestApiFeedback(8, "" + sentMessageErrorCode.getValue());
                         }
                         return false;
                     }
@@ -475,6 +639,28 @@ public class FgIMChat extends BaseFragment {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void requestApiFeedback(int errorMessage, String errorCode) {
+        RequestApiFeedback requestApiFeedback = new RequestApiFeedback(getContext(),
+                UserEntity.getUser().getUserId(getContext()),
+                ApiFeedbackUtils.getImErrorFeedback(errorMessage, errorCode));
+        HttpRequestUtils.request(getContext(), requestApiFeedback, new HttpRequestListener() {
+            @Override
+            public void onDataRequestSucceed(BaseRequest request) {
+
+            }
+
+            @Override
+            public void onDataRequestCancel(BaseRequest request) {
+
+            }
+
+            @Override
+            public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+
+            }
+        }, false);
     }
 
     /**

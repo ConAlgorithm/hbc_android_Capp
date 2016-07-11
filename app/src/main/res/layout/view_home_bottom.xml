@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="44dp"
+        android:gravity="center_vertical"
+        android:text="@string/home_other_service"
+        android:textColor="#303030"
+        android:textSize="15sp" />
+
+    <LinearLayout
+        android:id="@+id/home_bottom_chartered_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@mipmap/home_custom_car"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/home_view_padding_left">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/home_custom_chartered"
+            android:textColor="#000000"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-1dp"
+            android:text="@string/home_custom_chartered_description"
+            android:textColor="#070701"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="6dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/home_bottom_pickup_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@mipmap/home_transfer"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/home_view_padding_left"
+            android:text="@string/home_picksend"
+            android:textColor="#000000"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+        <View
+            android:layout_width="10dp"
+            android:layout_height="wrap_content"
+            />
+        <TextView
+            android:id="@+id/home_bottom_single_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:background="@mipmap/home_chinese_car"
+            android:paddingLeft="@dimen/home_view_padding_left"
+            android:text="@string/home_single"
+            android:textColor="#000000"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/home_bottom_active_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="44dp"
+        android:gravity="center_vertical"
+        android:text="@string/home_featured_active"
+        android:textColor="#303030"
+        android:textSize="15sp" />
+
+    <ImageView
+        android:id="@+id/home_bottom_active_iv"
+        android:layout_width="match_parent"
+        android:layout_height="110dp"
+        android:background="#dbdada"
+        />
+</merge>

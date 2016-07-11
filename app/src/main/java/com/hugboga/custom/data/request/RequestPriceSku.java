@@ -34,6 +34,7 @@ public class RequestPriceSku extends BaseRequest<CarListBean> {
         map.put("serviceDate", serviceDate);
         map.put("channelId", Config.channelId);
         map.put("cityId", cityId);
+
     }
 
     @Override

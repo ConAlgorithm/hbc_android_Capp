@@ -28,6 +28,7 @@ import com.hugboga.custom.data.request.RequestCheckPriceForDaily;
 import com.hugboga.custom.data.request.RequestCheckPriceForPickup;
 import com.hugboga.custom.data.request.RequestCheckPriceForSingle;
 import com.hugboga.custom.data.request.RequestCheckPriceForTransfer;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.JazzyViewPager;
@@ -261,7 +262,7 @@ public class FgCar extends BaseFragment implements ViewPager.OnPageChangeListene
                     return null;
             }
         } else {
-            Toast.makeText(getActivity(), "缺少参数", Toast.LENGTH_LONG).show();
+            CommonUtils.showToast("缺少参数");
         }
         return null;
     }

@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#88000000">
+    android:background="@color/basic_white"
+    android:orientation="vertical">
+
+    <include layout="@layout/include_header" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <LinearLayout
         android:id="@+id/coupon_info_layout"
@@ -10,7 +16,6 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:layout_margin="@dimen/coupon_item_margin"
-        android:background="@mipmap/coupon_details"
         android:gravity="center_horizontal"
         android:orientation="vertical"
         android:padding="@dimen/basic_margin_large">
@@ -26,163 +31,61 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="@dimen/basic_margin_large"
-                android:layout_marginTop="@dimen/basic_margin_large">
-
-                <TextView
-                    android:id="@+id/coupon_info_price"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="1000"
-                    android:textSize="@dimen/coupon_item_price_text_size" />
-
-            </LinearLayout>
-
-            <View
-                android:id="@+id/coupon_info_price_line"
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:background="@drawable/coupon_dash_line"
-                android:layerType="software" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/basic_margin_large"
                 android:layout_marginTop="@dimen/basic_margin_large"
-                android:gravity="center_horizontal"
+                android:background="@mipmap/coupon_open_bg"
+                android:gravity="center"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/coupon_info_rule"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="单笔订单满10000元可用此券抵扣1000元"
-                    android:textSize="@dimen/text_size_mediumx" />
+                    android:layout_gravity="center_horizontal">
 
-                <TextView
-                    android:id="@+id/coupon_info_limit_time"
-                    android:layout_width="wrap_content"
+                    <TextView
+                        android:id="@+id/coupon_info_price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1000"
+                        android:textColor="#face05"
+                        android:textSize="@dimen/coupon_item_price_text_size" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="元"
+                        android:visibility="gone"
+                        android:textColor="#face05"
+                        android:textSize="18sp" />
+                </LinearLayout>
+
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/basic_margin_small"
-                    android:text="有效期：2015.05.05 至 2015.05.20"
-                    android:textSize="@dimen/text_size_mediumx" />
+                    android:layout_marginBottom="@dimen/basic_margin_large"
+                    android:layout_marginTop="40dp"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/coupon_info_rule"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="单笔订单满10000元可用此券抵扣1000元"
+                        android:textSize="@dimen/text_size_mediumx" />
+
+                    <TextView
+                        android:id="@+id/coupon_info_limit_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/basic_margin_small"
+                        android:text="有效期：2015.05.05 至 2015.05.20"
+                        android:textSize="@dimen/text_size_mediumx" />
+                </LinearLayout>
+
             </LinearLayout>
-
-            <View
-                android:id="@+id/coupon_info_content_line"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#E997A4" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/basic_margin_medium">
-
-                    <TextView
-                        android:id="@+id/coupon_info_limit1_label"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="有效区域"
-                        android:textSize="@dimen/text_size_large" />
-
-                    <TextView
-                        android:id="@+id/coupon_info_limit1_content"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:ellipsize="end"
-                        android:text="全球"
-                        android:textSize="@dimen/text_size_large" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="2dp"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/basic_margin_medium"
-                        android:layout_marginRight="@dimen/basic_margin_medium"
-                        android:layout_toLeftOf="@id/coupon_info_limit1_content"
-                        android:layout_toRightOf="@id/coupon_info_limit1_label"
-                        android:background="@drawable/dash_line"
-                        android:layerType="software" />
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/basic_margin_medium">
-
-                    <TextView
-                        android:id="@+id/coupon_info_limit2_label"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="服务类型"
-                        android:textSize="@dimen/text_size_large" />
-
-                    <TextView
-                        android:id="@+id/coupon_info_limit2_content"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:maxWidth="200dp"
-                        android:layout_alignParentRight="true"
-                        android:text="接机接机接机接机接机接机接机接机接机"
-                        android:textSize="@dimen/text_size_large" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="2dp"
-                        android:layout_marginLeft="@dimen/basic_margin_medium"
-                        android:layout_marginRight="@dimen/basic_margin_medium"
-                        android:layout_marginTop="10dp"
-                        android:layout_toLeftOf="@id/coupon_info_limit2_content"
-                        android:layout_toRightOf="@id/coupon_info_limit2_label"
-                        android:background="@drawable/dash_line"
-                        android:layerType="software" />
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/basic_margin_medium">
-
-                    <TextView
-                        android:id="@+id/coupon_info_limit3_label"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="适用车型"
-                        android:textSize="@dimen/text_size_large" />
-
-                    <TextView
-                        android:id="@+id/coupon_info_limit3_content"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:maxWidth="200dp"
-                        android:text="奢华、豪华"
-                        android:textSize="@dimen/text_size_large" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="2dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginLeft="@dimen/basic_margin_medium"
-                        android:layout_marginRight="@dimen/basic_margin_medium"
-                        android:layout_toLeftOf="@id/coupon_info_limit3_content"
-                        android:layout_toRightOf="@id/coupon_info_limit3_label"
-                        android:background="@drawable/dash_line"
-                        android:layerType="software" />
-                </RelativeLayout>
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#E0E0E2" />
 
             <TextView
                 android:id="@+id/coupon_info_content"
@@ -190,18 +93,186 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="@dimen/basic_margin_large"
-                android:layout_marginTop="@dimen/basic_margin_large"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
+                android:layout_marginTop="@dimen/basic_margin_large"
                 android:text="满1000元可用/满1000公里可用/满10个小时可用"
                 android:textSize="@dimen/text_size_mediumx" />
+
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#E0E0E2" />
+                android:background="#e5e6e7" />
 
-            <ScrollView
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/basic_margin_medium">
+
+                    <TextView
+                        android:id="@+id/coupon_info_limit1_label_left"
+                        android:layout_width="3dp"
+                        android:layout_height="15dp"
+                        android:layout_marginTop="3dp"
+                        android:background="#face05"
+                        android:textSize="@dimen/text_size_large" />
+
+                    <TextView
+                        android:id="@+id/coupon_info_limit1_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_toRightOf="@id/coupon_info_limit1_label_left"
+                        android:text="有效区域"
+                        android:textColor="#face05"
+                        android:textSize="@dimen/text_size_large" />
+
+                    <TextView
+                        android:id="@+id/coupon_info_limit1_content"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/coupon_info_limit1_label"
+                        android:layout_marginTop="5dp"
+                        android:ellipsize="end"
+                        android:text="全球"
+                        android:textSize="@dimen/text_size_large" />
+
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#e5e6e7" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/basic_margin_medium">
+
+                    <TextView
+                        android:id="@+id/coupon_info_limit2_label_left"
+                        android:layout_width="3dp"
+                        android:layout_height="15dp"
+                        android:layout_marginTop="3dp"
+                        android:background="#face05"
+                        android:textSize="@dimen/text_size_large" />
+
+                    <TextView
+                        android:id="@+id/coupon_info_limit2_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_toRightOf="@id/coupon_info_limit2_label_left"
+                        android:text="服务类型"
+                        android:textColor="#face05"
+                        android:textSize="@dimen/text_size_large" />
+
+                    <TextView
+                        android:id="@+id/coupon_info_limit2_content"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/coupon_info_limit2_label_left"
+                        android:layout_marginTop="10dp"
+                        android:text="接机接机接机接机接机接机接机接机接机"
+                        android:textSize="@dimen/text_size_large" />
+
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#e5e6e7" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/basic_margin_medium">
+
+                    <TextView
+                        android:id="@+id/coupon_info_limit3_label_left"
+                        android:layout_width="3dp"
+                        android:layout_height="15dp"
+                        android:background="#face05"
+                        android:layout_marginTop="3dp"
+                        android:textSize="@dimen/text_size_large" />
+
+                    <TextView
+                        android:id="@+id/coupon_info_limit3_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_toRightOf="@id/coupon_info_limit3_label_left"
+                        android:text="适用车型"
+                        android:textColor="#face05"
+                        android:textSize="@dimen/text_size_large" />
+
+                    <TextView
+                        android:id="@+id/coupon_info_limit3_content"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/coupon_info_limit3_label"
+                        android:layout_marginTop="5dp"
+                        android:text="奢华、豪华"
+                        android:textSize="@dimen/text_size_large" />
+
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#e5e6e7" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/basic_margin_medium">
+
+                    <TextView
+                        android:id="@+id/appcarclass_left"
+                        android:layout_width="3dp"
+                        android:layout_height="15dp"
+                        android:background="#face05"
+                        android:layout_marginTop="3dp"
+                        android:textSize="@dimen/text_size_large" />
+
+                    <TextView
+                        android:id="@+id/appcarclass_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_toRightOf="@id/appcarclass_left"
+                        android:text="座椅限制"
+                        android:textColor="#face05"
+                        android:textSize="@dimen/text_size_large" />
+
+                    <TextView
+                        android:id="@+id/appcarclass_label_content"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/appcarclass_label"
+                        android:layout_marginTop="5dp"
+                        android:textSize="@dimen/text_size_large" />
+
+
+                </RelativeLayout>
+            </LinearLayout>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#e5e6e7" />
+
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="120dp"
                 android:layout_marginBottom="@dimen/basic_margin_large"
@@ -210,16 +281,36 @@
                 android:layout_marginTop="@dimen/basic_margin_large">
 
                 <TextView
+                    android:id="@+id/coupon_info_memo_left"
+                    android:layout_width="3dp"
+                    android:layout_height="15dp"
+                    android:background="#face05"
+                    android:layout_marginTop="3dp"
+                    android:textSize="@dimen/text_size_large" />
+
+                <TextView
+                    android:id="@+id/coupon_info_memo_right"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@id/coupon_info_memo_left"
+                    android:text="详细说明："
+                    android:textColor="#face05"
+                    android:textSize="@dimen/text_size_large" />
+
+                <TextView
                     android:id="@+id/coupon_info_memo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="详细说明："
+                    android:layout_below="@id/coupon_info_memo_right"
+                    android:layout_marginTop="5dp"
                     android:textSize="@dimen/text_size_large" />
-            </ScrollView>
+            </RelativeLayout>
 
 
         </LinearLayout>
 
 
     </LinearLayout>
-</RelativeLayout>
+</ScrollView>
+</LinearLayout>

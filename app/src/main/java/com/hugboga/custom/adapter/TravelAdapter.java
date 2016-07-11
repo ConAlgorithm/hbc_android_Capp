@@ -159,6 +159,7 @@ public class TravelAdapter extends BaseAdapter<OrderBean>  {
                 }
                 break;
             case  Constants.BUSINESS_TYPE_COMMEND:
+            case  Constants.BUSINESS_TYPE_RECOMMEND:
                 //线路包车
                 holder.mLineView.setBackgroundResource(R.drawable.jour_purple_ttt);
                 holder.mTypeStr.setText(R.string.title_commend);

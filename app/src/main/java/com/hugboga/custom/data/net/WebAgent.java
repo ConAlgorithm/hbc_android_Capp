@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
@@ -19,13 +20,27 @@ import com.huangbaoche.hbcframe.fragment.BaseFragment;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.huangbaoche.hbcframe.util.WXShareUtils;
 import com.hugboga.custom.R;
+import com.hugboga.custom.data.bean.ChatInfo;
+import com.hugboga.custom.data.bean.CurrentServerInfoData;
 import com.hugboga.custom.data.bean.UserEntity;
+import com.hugboga.custom.data.parser.ParserChatInfo;
+import com.hugboga.custom.data.request.RequestCurrentServerInfo;
 import com.hugboga.custom.data.request.RequestWebInfo;
+import com.hugboga.custom.fragment.FgActivity;
 import com.hugboga.custom.fragment.FgLogin;
+import com.hugboga.custom.fragment.FgOrderSelectCity;
+import com.hugboga.custom.fragment.FgSkuDetail;
+import com.hugboga.custom.fragment.FgWebInfo;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.widget.DialogUtil;
 
 import org.json.JSONObject;
+
+import java.util.Random;
+
+import io.rong.imkit.RongIM;
+import io.rong.imlib.model.Conversation;
 
 /**
  * 请求代理模式
@@ -201,7 +216,6 @@ public class WebAgent implements HttpRequestListener {
                 });
             }
         });
-
     }
 
     @JavascriptInterface
@@ -231,6 +245,100 @@ public class WebAgent implements HttpRequestListener {
         }
     }
 
+    private String getChatInfo(String userId, String userAvatar, String title, String targetType) {
+        ChatInfo chatInfo = new ChatInfo();
+        chatInfo.isChat = true;
+        chatInfo.userId = userId;
+        chatInfo.userAvatar = userAvatar;
+        chatInfo.title = title;
+        chatInfo.targetType = targetType;
+        chatInfo.isHideMoreBtn = 1;
+        return new ParserChatInfo().toJsonString(chatInfo);
+    }
+    /**
+     * 在线咨询客服
+     * */
+    @JavascriptInterface
+    public void pushToServiceChatVC() {
+        if (mActivity != null && !UserEntity.getUser().isLogin(mActivity) && mFragment != null) {
+            CommonUtils.showToast(R.string.login_hint);
+            Bundle bundle = new Bundle();;
+            mFragment.startFragment(new FgLogin(), bundle);
+            return;
+        }
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                RequestCurrentServerInfo request = new RequestCurrentServerInfo(mActivity);
+                HttpRequestUtils.request(mActivity, request, WebAgent.this);
+            }
+        });
+    }
+
+    /**
+     * 拨打客服热线
+     * */
+    @JavascriptInterface
+    public void callServicePhone() {
+        if (mActivity != null) {
+            DialogUtil mDialogUtil = DialogUtil.getInstance(mActivity);
+            mDialogUtil.showCallDialog();
+        }
+    }
+
+    /**
+     * 立即定制（定制线路下单）
+     * */
+    @JavascriptInterface
+    public void customLineOrder() {
+        if (mFragment != null) {
+            mFragment.startFragment(new FgOrderSelectCity());
+        }
+    }
+
+    /**
+     * 现在预订（固定线路下单）
+     * */
+    @JavascriptInterface
+    public void fixedLineOrder() {
+        if (mFragment != null) {
+            mFragment.startFragment(new FgOrderSelectCity());
+        }
+    }
+
+    /**
+     * URL重定向
+     * */
+    @JavascriptInterface
+    public void pushToNextPageWithUrl(String url) {
+        if (mFragment != null) {
+            Bundle bundle = new Bundle();
+            bundle.putString(FgWebInfo.WEB_URL, url);
+            mFragment.startFragment(new FgActivity(), bundle);
+        }
+    }
+
+    /**
+     * 设置title
+     * */
+    @JavascriptInterface
+    public void setWebTitle(String title) {
+        if (!TextUtils.isEmpty(title) && mFragment instanceof FgWebInfo) {
+            FgWebInfo fgWebInfo = ((FgWebInfo) mFragment);
+            fgWebInfo.setTitle(title);
+        }
+    }
+
+    /**
+     * 商品下架（不能分享）
+     * */
+    @JavascriptInterface
+    public void goodsHadOutOfStock() {
+        if (mFragment instanceof FgSkuDetail) {
+            FgSkuDetail fgSkuDetail = ((FgSkuDetail) mFragment);
+            fgSkuDetail.isGoodsOut = true;
+        }
+    }
 
     private void callBack(final String callBackMethod, final String callBackResult) {
         mActivity.runOnUiThread(new Runnable() {
@@ -243,10 +351,17 @@ public class WebAgent implements HttpRequestListener {
     }
 
     @Override
-    public void onDataRequestSucceed(BaseRequest request) {
-        if (request instanceof RequestWebInfo) {
-            RequestWebInfo webInfoRequest = (RequestWebInfo) request;
+    public void onDataRequestSucceed(BaseRequest _request) {
+        if (_request instanceof RequestWebInfo) {
+            RequestWebInfo webInfoRequest = (RequestWebInfo) _request;
             callBack(webInfoRequest.successCallBack, webInfoRequest.getData());
+        } else if (_request instanceof RequestCurrentServerInfo) {
+            RequestCurrentServerInfo request = (RequestCurrentServerInfo) _request;
+            CurrentServerInfoData data = (CurrentServerInfoData) request.getData();
+            if (data != null) {
+                String titleJson = getChatInfo(data.userId, data.avatar, data.name, "0");
+                RongIM.getInstance().startConversation(mActivity, Conversation.ConversationType.APP_PUBLIC_SERVICE, data.userId, titleJson);
+            }
         }
     }
 

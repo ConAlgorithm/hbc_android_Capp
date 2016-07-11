@@ -20,7 +20,7 @@ import org.xutils.view.annotation.ViewInject;
 
 import java.io.Serializable;
 
-import de.greenrobot.event.EventBus;
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * 支付成功

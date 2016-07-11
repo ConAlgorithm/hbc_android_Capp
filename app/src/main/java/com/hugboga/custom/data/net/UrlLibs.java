@@ -31,39 +31,39 @@ public class UrlLibs {
 //    测试环境 host  res.test.hbc.tech
 //    生产环境 host  res2.huangbaoche.com
 
-    public static String DEV_H5_HOST = "http://res.dev.hbc.tech";
-    public static String TEST_H5_HOST = "http://res.test.hbc.tech";
-    public static String FORMAL_H5_HOST = "http://res2.huangbaoche.com";
+    public static String DEV_H5_HOST = "http://info.dev.hbc.tech";
+    public static String TEST_H5_HOST = "http://info.test.hbc.tech";
+    public static String FORMAL_H5_HOST = "https://info.huangbaoche.com";
 
     public static String H5_HOST = FORMAL_H5_HOST;
 
-    public static  String SHARE_BASE_URL = "http://res.wechat.huangbaoche.com/";
+    public static  String SHARE_BASE_URL_1 = "http://op.huangbaoche.com/app/auth.html";
+    public static  String SHARE_BASE_URL_2 = "http://act.huangbaoche.com";
+    public static  String SHARE_BASE_URL_3 = "http://act.huangbaoche.com";
     public static  String SHARE_APPID = "wx62ad814ba9bf0b68";//测试wx1354271c597184ee 线上wx62ad814ba9bf0b68
 
 
+    public static String H5_ACTIVITY= SHARE_BASE_URL_3 + "/h5/cactivity/index.html?userId=";//国行
+    public static String H5_ABOUT = H5_HOST+"/cinfos/about.html";//  关于我们
+    public static String H5_ADDFEE_C = H5_HOST+"/cinfos/addfee_c.html";//  单次接送—后付费用说明
+    public static String H5_ADDFEE_J = H5_HOST+"/cinfos/addfee_j.html";//  接机—后付费用说明
+    public static String H5_ADDFEE_R = H5_HOST+"/cinfos/addfee_r.html";//  日租—后付费用说明
+    public static String H5_ADDFEE_S = H5_HOST+"/cinfos/addfee_s.html";//  送机—后付费用说明
+    public static String H5_ADDFEE_X = H5_HOST+"/cinfos/addfee_x.html"; // 后付费用说明
+    public static String H5_CANCEL = H5_HOST+"/cinfos/cancel.html"; // 取消规则
+    public static String H5_INSURANCE = H5_HOST+"/cinfos/insurance.html"; // 皇包车免费赠送保险说明
+    public static String H5_NOTICE = H5_HOST+"/cinfos/notice.html";  //预订须知
+    public static String H5_NOTICE_V2_2 = H5_HOST+"/cinfos/notice_v2_2.html"; // 预订须知
+    public static String H5_PRICE = H5_HOST+"/cinfos/price.html";  //费用说明
+    public static String H5_PRICE_V2_2 = H5_HOST+"/cinfos/price_v2_2.html"; // 费用说明
+    public static String H5_PROBLEM = H5_HOST+"/cinfos/problem.html"; //常见问题
+    public static String H5_PROTOCOL = H5_HOST+"/cinfos/protocol.html"; // 用户协议
+    public static String H5_SERVICE = H5_HOST+"/cinfos/service.html"; // 服务承诺
 
-
-    public static String H5_ACTIVITY= H5_HOST + "/h5/cactivity/index.html?userId=";//国行
-    public static String H5_ABOUT = H5_HOST+"/h5/cinfos/about.html";//  关于我们
-    public static String H5_ADDFEE_C = H5_HOST+"/h5/cinfos/addfee_c.html";//  单次接送—后付费用说明
-    public static String H5_ADDFEE_J = H5_HOST+"/h5/cinfos/addfee_j.html";//  接机—后付费用说明
-    public static String H5_ADDFEE_R = H5_HOST+"/h5/cinfos/addfee_r.html";//  日租—后付费用说明
-    public static String H5_ADDFEE_S = H5_HOST+"/h5/cinfos/addfee_s.html";//  送机—后付费用说明
-    public static String H5_ADDFEE_X = H5_HOST+"/h5/cinfos/addfee_x.html"; // 后付费用说明
-    public static String H5_CANCEL = H5_HOST+"/h5/cinfos/cancel.html"; // 取消规则
-    public static String H5_INSURANCE = H5_HOST+"/h5/cinfos/insurance.html"; // 皇包车免费赠送保险说明
-    public static String H5_NOTICE = H5_HOST+"/h5/cinfos/notice.html";  //预订须知
-    public static String H5_NOTICE_V2_2 = H5_HOST+"/h5/cinfos/notice_v2_2.html"; // 预订须知
-    public static String H5_PRICE = H5_HOST+"/h5/cinfos/price.html";  //费用说明
-    public static String H5_PRICE_V2_2 = H5_HOST+"/h5/cinfos/price_v2_2.html"; // 费用说明
-    public static String H5_PROBLEM = H5_HOST+"/h5/cinfos/problem.html"; //常见问题
-    public static String H5_PROTOCOL = H5_HOST+"/h5/cinfos/protocol.html"; // 用户协议
-    public static String H5_SERVICE = H5_HOST+"/h5/cinfos/service.html"; // 服务承诺
-
-    public static String H5_TAI_MANGU = H5_HOST + "/h5/cinfos/tai/BBK.html";//曼谷
-    public static String H5_TAI_PUJIDAO = H5_HOST + "/h5/cinfos/tai/bki.html";//普吉
-    public static String H5_TAI_QINGMAI = H5_HOST + "/h5/cinfos/tai/cnx.html";//清迈
-    public static String H5_TAI_SUMEIDAO = H5_HOST + "/h5/cinfos/tai/VSM.html";//苏梅岛
+    public static String H5_TAI_MANGU = H5_HOST + "/cinfos/tai/BBK.html";//曼谷
+    public static String H5_TAI_PUJIDAO = H5_HOST + "/cinfos/tai/bki.html";//普吉
+    public static String H5_TAI_QINGMAI = H5_HOST + "/cinfos/tai/cnx.html";//清迈
+    public static String H5_TAI_SUMEIDAO = H5_HOST + "/cinfos/tai/VSM.html";//苏梅岛
 
 
     public static HashMap<Integer, String> OverPriceMap = new HashMap<Integer, String>();
@@ -105,9 +105,16 @@ public class UrlLibs {
     public static final String SERVER_IP_UPLOAD_LOGS = "pt/v1.0/log/stream?";
 
     //首页
-    public static final String SERVER_IP_HOME = "basicdata/v1.1/p/home/citys/contents?";
-    //SKU
-    public static final String SERVER_IP_CITY_SKU = "goods/v1.1/p/home/cityGoods?";
+    public static final String API_HOME = "basicdata/v1.2/c/home/citys/contents?";
+
+    //城市商品列表
+    public static final String API_SKU_CITY_LIST = "goods/v1.2/c/home/cityGoods?";
+
+    //国家列表
+    public static final String API_SKU_COUNTRY_LIST = "goods/v1.2/c/home/countryGoods?";
+
+    //线路圈
+    public static final String API_SKU_ROUTE_LIST = "goods/v1.2/c/home/lineGroupGoods?";
 
     //-------个人信息--------
     public static final String SERVER_IP_PUBLIC_UER_CENTER = "ucenter/v1.0/c/user/";
@@ -219,13 +226,21 @@ public class UrlLibs {
     /**
      * 查询价格 SKU
      **/
-    public static final String SERVER_IP_PRICE_SKU = "price/v1.1/c/goodsPrice?";
+    public static final String SERVER_IP_PRICE_SKU = "price/v1.2/c/goodsPrice?";
 
     //-------订单类--------
     public static final String SERVER_IP_TRADE = "trade/v1.3/c/order/";
 
     public static final String SERVER_IP_TRADE_1_1 = "trade/v1.1/c/order/";
-    public static final String SERVER_IP_TRADE_1_2 = "trade/v1.3/c/order/";
+    public static final String SERVER_IP_TRADE_1_2 = "trade/v1.4/c/order/";
+
+
+
+    //推荐线路
+    public static final String RECOMMENDLIN = "trade/v1.0/c/order/recommendline";
+
+
+
 
     /**
      * 提交订单 接机
@@ -463,4 +478,55 @@ public class UrlLibs {
      * 获取各个星级的标签列表
      */
     public static final String API_EVALUATE_TAG = "supplier/v1.0/c/guides/comments/labels/OrderType";
+
+    /**
+     * 司导个人页的导游评价列表
+     */
+    public static final String API_COMMENTS_LIST = "supplier/v1.0/c/guide/commentsForGuideDetail";
+
+    /**
+     * 首页今日动态
+     */
+    public static final String API_HOME_DYNAMICS = "trade/v1.0/c/order/track";
+
+
+    /**
+     *6 私聊列表删除对话接口
+     */
+    public static final String REMOVE_CHAT = "communication/v2.0/c/im/chat/remove";
+
+    /**
+     * 7、私聊对象加入黑名单
+     URL：http://api.test.hbc.tech/communication/v2.0/e/im/black/add
+     */
+    public static final String ADD_BLACK  = "communication/v2.0/c/im/black/add";
+
+
+    /**
+     * 8、私聊对象移出黑名单
+     URL：http://api.test.hbc.tech/communication/v2.0/e/im/black/remove
+     */
+    public static final String REMOVE_BLACK = "communication/v2.0/c/im/black/remove";
+
+    /**
+     * 获取当前环境下的客服信息
+     */
+    public static final String API_IM_SERVER_INFO = "communication/v2.0/c/im/info/kf";
+
+    /**
+     * 退改规则
+     * v1.0/c/order/cancelTips
+     */
+    public static final String CANCLE_TIPS = "trade/v1.0/c/order/cancelTips";
+
+    /**
+     * 按商品编号查商品详情
+     *
+     */
+    public static final String API_GOODS_BY_ID = "goods/v1.2/c/home/goodsByNo";
+
+    /**
+     * 反馈app业务异常信息
+     */
+    public static final String API_ERROR_FEEDBACK = "communication/v2.0/c/biz/error";
 }

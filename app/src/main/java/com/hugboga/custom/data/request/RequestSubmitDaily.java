@@ -58,6 +58,10 @@ public class RequestSubmitDaily extends RequestSubmitBase {
 
         map.put("coupId", orderBean.coupId);
         map.put("coupPriceInfo", orderBean.coupPriceInfo);
+        if (orderBean.orderPriceInfo != null) {
+            map.put("priceHotel", orderBean.orderPriceInfo.priceHotel);
+        }
+        map.put("hotelRoom", orderBean.hotelRoom);
 
 //        childSeatNum 儿童座椅数
 //        luggageNum 行李数

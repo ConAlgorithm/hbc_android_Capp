@@ -16,6 +16,7 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.DailyBean;
 import com.hugboga.custom.data.bean.PromiseBean;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.widget.DialogUtil;
 import com.umeng.analytics.MobclickAgent;
@@ -162,15 +163,15 @@ public class FgDailyInTown extends BaseFragment implements CompoundButton.OnChec
 
     private boolean checkDataValid() {
         if (startBean == null) {
-            Toast.makeText(getActivity(), "选择起始城市", Toast.LENGTH_LONG).show();
+            CommonUtils.showToast("选择起始城市");
             return false;
         }
         if (TextUtils.isEmpty(bean.startDate) || TextUtils.isEmpty(bean.endDate)) {
-            Toast.makeText(getActivity(), "选择服务日期", Toast.LENGTH_LONG).show();
+            CommonUtils.showToast("选择服务日期");
             return false;
         }
         if (mTotalDays < 0) {
-            Toast.makeText(getActivity(), "请重新选择服务日期", Toast.LENGTH_LONG).show();
+            CommonUtils.showToast("请重新选择服务日期");
             return false;
         }
 

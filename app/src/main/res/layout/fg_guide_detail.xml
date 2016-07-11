@@ -6,9 +6,7 @@
     android:background="@android:color/white"
     android:orientation="vertical">
 
-    <include
-        android:id="@+id/collect_list_header"
-        layout="@layout/include_header_detail" />
+    <include layout="@layout/include_header_detail" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -35,8 +33,14 @@
                     android:layout_centerVertical="true"
                     android:layout_marginRight="20dip"
                     android:src="@mipmap/collection_icon_pic"
-                    app:poly_corner_radius="15"
-                    app:poly_vertices="2" />
+                    app:poly_border="false"
+                    app:poly_border_color="@android:color/white"
+                    app:poly_border_width="5dp"
+                    app:poly_corner_radius="5"
+                    app:poly_rotation_angle="25"
+                    app:poly_shadow="false"
+                    app:poly_shadow_color="@android:color/black"
+                    app:poly_vertices="0" />
 
                 <TextView
                     android:id="@+id/guide_detail_name_tv"
@@ -148,6 +152,47 @@
                 android:textColor="#ffd531"
                 android:textSize="20sp"
                 android:textStyle="bold" />
+
+            <com.hugboga.custom.widget.EvaluateListItemView
+                android:id="@+id/guide_detail_evaluate_item"
+                android:layout_marginTop="25dp"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </com.hugboga.custom.widget.EvaluateListItemView>
+
+            <FrameLayout
+                android:id="@+id/guide_detail_subtitle_photo_layout"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:layout_marginTop="15dp">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_gravity="center"
+                    android:background="#44999999" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@color/basic_white"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:text="@string/guide_detail_subtitle_photo"
+                    android:textColor="#343434"
+                    android:textSize="15sp" />
+            </FrameLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/guide_detail_photo_recyclerview"
+                android:paddingLeft="9dp"
+                android:paddingRight="9dp"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"/>
 
             <FrameLayout
                 android:layout_width="match_parent"

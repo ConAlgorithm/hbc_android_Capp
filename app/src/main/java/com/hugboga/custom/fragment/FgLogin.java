@@ -17,6 +17,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.huangbaoche.hbcframe.data.bean.UserSession;
+import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
+import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.huangbaoche.hbcframe.util.WXShareUtils;
@@ -30,14 +32,16 @@ import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestAccessToken;
+import com.hugboga.custom.data.request.RequestApiFeedback;
 import com.hugboga.custom.data.request.RequestLogin;
 import com.hugboga.custom.data.request.RequestLoginCheckOpenId;
+import com.hugboga.custom.utils.ApiFeedbackUtils;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.DrawableCenterButton;
 import com.umeng.analytics.MobclickAgent;
-import com.hugboga.custom.utils.ToastUtils;
 import com.tencent.mm.sdk.constants.ConstantsAPI;
 import com.tencent.mm.sdk.modelbase.BaseReq;
 import com.tencent.mm.sdk.modelbase.BaseResp;
@@ -46,6 +50,7 @@ import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
+import org.greenrobot.eventbus.Subscribe;
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
@@ -54,7 +59,7 @@ import org.xutils.view.annotation.ViewInject;
 import java.util.HashMap;
 import java.util.regex.Pattern;
 
-import de.greenrobot.event.EventBus;
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * 登录页面
@@ -109,6 +114,7 @@ public class FgLogin extends BaseFragment implements TextWatcher {
         EventBus.getDefault().unregister(this);
     }
 
+    @Subscribe
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
             case WECHAT_LOGIN_CODE:
@@ -200,9 +206,12 @@ public class FgLogin extends BaseFragment implements TextWatcher {
             UserSession.getUser().setUserToken(getActivity(), user.userToken);
             UserEntity.getUser().setUserName(getActivity(),user.name);
 
+            if (TextUtils.isEmpty(user.imToken)) {
+                ApiFeedbackUtils.requestIMFeedback(1, null, "登录时IMtoken为空");
+            }
+
             connectIM();
-            EventBus.getDefault().post(
-                    new EventAction(EventType.CLICK_USER_LOGIN));
+            EventBus.getDefault().post(new EventAction(EventType.CLICK_USER_LOGIN));
             HashMap<String,String> map = new HashMap<String,String>();
             map.put("source", source);
             map.put("loginstyle", "手机号");
@@ -253,7 +262,7 @@ public class FgLogin extends BaseFragment implements TextWatcher {
         switch (view.getId()) {
             case R.id.login_weixin:
                 if(!WXShareUtils.getInstance(getActivity()).isInstall(false)){
-                    ToastUtils.showLong("手机未安装微信或版本太低");
+                    CommonUtils.showToast("手机未安装微信或版本太低");
                     return;
                 }
                 wxapi = WXAPIFactory.createWXAPI(this.getActivity(), Constants.WX_APP_ID);

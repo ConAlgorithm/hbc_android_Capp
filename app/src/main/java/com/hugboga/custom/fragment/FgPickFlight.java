@@ -11,6 +11,7 @@ import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityBean;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.widget.DialogUtil;
 import com.umeng.analytics.MobclickAgent;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
@@ -197,11 +198,11 @@ public class FgPickFlight extends BaseFragment {
         String noStr = flightNo.getText().toString();
         String time1Str = time1.getText().toString();
         if (TextUtils.isEmpty(noStr)) {
-            Toast.makeText(getActivity(), "请填写航班号", Toast.LENGTH_LONG).show();
+            CommonUtils.showToast("请填写航班号");
             return;
         }
         if (TextUtils.isEmpty(time1Str)) {
-            Toast.makeText(getActivity(), "请选择航班时间", Toast.LENGTH_LONG).show();
+            CommonUtils.showToast("请选择航班时间");
             return;
         }
 
@@ -221,15 +222,15 @@ public class FgPickFlight extends BaseFragment {
     private void startFlightByCity() {
         String time2Str = time2.getText().toString();
         if (cityFromId == -1) {
-            Toast.makeText(getActivity(), "请选择起始城市", Toast.LENGTH_LONG).show();
+            CommonUtils.showToast("请选择起始城市");
             return;
         }
         if (cityToId == -1) {
-            Toast.makeText(getActivity(), "请选择到达城市", Toast.LENGTH_LONG).show();
+            CommonUtils.showToast("请选择到达城市");
             return;
         }
         if (TextUtils.isEmpty(time2Str)) {
-            Toast.makeText(getActivity(), "请选择航班时间", Toast.LENGTH_LONG).show();
+            CommonUtils.showToast("请选择航班时间");
             return;
         }
         FgPickFlightList fragment = new FgPickFlightList();

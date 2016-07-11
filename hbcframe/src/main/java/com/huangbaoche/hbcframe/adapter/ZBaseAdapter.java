@@ -14,6 +14,7 @@ public abstract class ZBaseAdapter<T, V> extends RecyclerView.Adapter<ZBaseViewH
 
     protected Context context;
     protected OnItemClickListener onItemClickListener;
+    protected OnItemLongClickListener onItemLongClickListener;
     protected List<T> datas;
     protected int dataCount;
 
@@ -38,6 +39,17 @@ public abstract class ZBaseAdapter<T, V> extends RecyclerView.Adapter<ZBaseViewH
                 }
             });
         }
+
+        if (onItemLongClickListener != null) {
+            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    onItemLongClickListener.onItemLongClick(holder.itemView,position);
+                    return true;
+                }
+            });
+        }
+
         getView(position, (V) holder);
     }
 
@@ -56,6 +68,14 @@ public abstract class ZBaseAdapter<T, V> extends RecyclerView.Adapter<ZBaseViewH
         void onItemClick(View view, int position);
     }
 
+    public interface OnItemLongClickListener {
+        void onItemLongClick(View view, int position);
+    }
+
+    public void setOnItemLongClickListener(OnItemLongClickListener onItemLongClickListener) {
+        this.onItemLongClickListener = onItemLongClickListener;
+    }
+
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
     }
@@ -70,6 +90,11 @@ public abstract class ZBaseAdapter<T, V> extends RecyclerView.Adapter<ZBaseViewH
         }
         datas.addAll(data);
         notifyDataSetChanged();
+    }
+
+    public void removeDatas(int position){
+        datas.remove(position);
+        notifyItemRemoved(position);
     }
 
     /*

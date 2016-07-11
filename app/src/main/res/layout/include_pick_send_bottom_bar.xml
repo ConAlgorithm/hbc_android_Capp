@@ -88,4 +88,17 @@
         android:textSize="14sp"
         android:textColor="@color/basic_white"/>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@id/confirm_journey"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/all_money_left_sku"
+        android:id="@+id/money_pre"
+        android:visibility="gone"
+        android:layout_marginLeft="20dp"
+        android:textSize="14sp"
+        android:textColor="@color/basic_white"/>
+
 </RelativeLayout>
