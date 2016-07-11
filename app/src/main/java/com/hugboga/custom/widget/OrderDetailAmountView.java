@@ -105,11 +105,11 @@ public class OrderDetailAmountView extends LinearLayout implements HbcViewBehavi
         if (titleID == R.string.order_detail_cost_coupon) {
             priceText = getContext().getString(R.string.sign_rmb) + " -" + price;
         } else if (titleID == R.string.order_detail_cost_realpay) {
-            priceTV.setTextColor(0xFFFE6732);
+            priceTV.setTextColor(0xFFF44437);
         }
         priceTV.setText(priceText);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, UIUtils.dip2px(35));
-        params.setMargins(UIUtils.dip2px(10), 0,UIUtils.dip2px(10), 0);
+        params.setMargins(UIUtils.dip2px(10), 0, UIUtils.dip2px(10), 0);
         groupLayout.addView(itemView, params);
     }
 }

@@ -85,8 +85,8 @@ public class HomeData implements Serializable {
             return describe;
         }
 
-        public double getPrice() {
-            return price;
+        public int getPrice() {
+            return (int)price;
         }
 
         public SkuItemBean getSkuItemBean() {

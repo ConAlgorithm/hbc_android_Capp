@@ -13,6 +13,8 @@
         android:orientation="horizontal">
 
         <LinearLayout
+            android:id="@+id/start_layout"
+            android:clickable="true"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:layout_weight="1"
@@ -49,6 +51,8 @@
             android:src="@mipmap/convert" />
 
         <LinearLayout
+            android:id="@+id/end_layout"
+            android:clickable="true"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:layout_weight="1"
