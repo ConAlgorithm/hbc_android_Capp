@@ -218,6 +218,7 @@
 -keep class com.anupcowkur.reservoir.**{*;}
 
 -keep class com.hugboga.custom.data.bean.**{*;}
+-keep class com.hugboga.custom.widget.**{*;}
 
 -keep class * implements android.os.Parcelable {
   public static final android.os.Parcelable$Creator *;
