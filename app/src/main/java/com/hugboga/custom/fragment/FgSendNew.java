@@ -134,11 +134,11 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
             }
         }
 
-        if(waitChecked) {
-            if (!TextUtils.isEmpty(carListBean.additionalServicePrice.pickupSignPrice)) {
-                total += Integer.valueOf(carListBean.additionalServicePrice.pickupSignPrice);
-            }
-        }
+//        if(waitChecked) {
+//            if (!TextUtils.isEmpty(carListBean.additionalServicePrice.pickupSignPrice)) {
+//                total += Integer.valueOf(carListBean.additionalServicePrice.pickupSignPrice);
+//            }
+//        }
         allMoneyText.setText("￥" + total);
 
         if(null != carListBean) {
