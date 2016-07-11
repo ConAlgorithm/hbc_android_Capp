@@ -219,7 +219,7 @@
 
 -keep class com.hugboga.custom.data.bean.**{*;}
 -keep class com.hugboga.custom.widget.**{*;}
--keep class com.hugboga.custom.fragment.FgChooseCity;
+-keep class com.hugboga.custom.fragment.FgChooseCity
 
 
 
