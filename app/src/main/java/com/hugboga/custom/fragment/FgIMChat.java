@@ -134,14 +134,13 @@ public class FgIMChat extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-//        if (emptyView != null) {
-//
-//            if (RongIM.getInstance() != null && RongIMClient.getInstance() != null) {
-//                emptyView.setVisibility(View.GONE);
-//            } else {
-//                emptyView.setVisibility(View.VISIBLE);
-//            }
-//        }
+        if (emptyView != null) {
+            if (RongIM.getInstance() != null && RongIMClient.getInstance() != null) {
+                emptyView.setVisibility(View.GONE);
+            } else {
+                emptyView.setVisibility(View.VISIBLE);
+            }
+        }
     }
 
     /**

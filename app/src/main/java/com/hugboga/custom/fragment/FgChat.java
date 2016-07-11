@@ -95,7 +95,7 @@ public class FgChat extends BaseFragment implements View.OnClickListener, ZBaseA
     }
 
     private void requestIMTokenUpdate() {
-        if (TextUtils.isEmpty(UserEntity.getUser().getImToken(getContext()))) {
+        if (UserEntity.getUser() != null && TextUtils.isEmpty(UserEntity.getUser().getImToken(getContext()))) {
             RequestResetIMToken requestResetToken = new RequestResetIMToken(getContext());
             HttpRequestUtils.request(getContext(), requestResetToken, httpRequestListener);
         }

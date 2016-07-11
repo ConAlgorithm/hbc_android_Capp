@@ -133,6 +133,7 @@ public class IMUtil {
         @Override
         public void onDataRequestSucceed(BaseRequest request) {
             connect(request.getData().toString());
+            UserEntity.getUser().setImToken(context, request.getData().toString());
         }
 
         @Override

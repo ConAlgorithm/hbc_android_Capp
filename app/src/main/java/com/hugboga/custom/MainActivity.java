@@ -333,13 +333,11 @@ public class MainActivity extends BaseActivity
                     if ("IM".equals(message.type)) {
                         gotoChatList();
                     } else if ("888".equals(message.type)) {
-                        //如果是收到消息推送 关了上层的页面
                         if (getFragmentList().size() > 3) {
                             for (int i = getFragmentList().size() - 1; i >= 3; i--) {
                                 getFragmentList().get(i).finish();
                             }
                         }
-                        //跳转到聊天列表
                         mViewPager.setCurrentItem(2);
                     } else {
                         gotoOrder(message);
