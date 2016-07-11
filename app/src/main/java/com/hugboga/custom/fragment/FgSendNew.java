@@ -134,11 +134,11 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
             }
         }
 
-        if(waitChecked) {
-            if (!TextUtils.isEmpty(carListBean.additionalServicePrice.pickupSignPrice)) {
-                total += Integer.valueOf(carListBean.additionalServicePrice.pickupSignPrice);
-            }
-        }
+//        if(waitChecked) {
+//            if (!TextUtils.isEmpty(carListBean.additionalServicePrice.pickupSignPrice)) {
+//                total += Integer.valueOf(carListBean.additionalServicePrice.pickupSignPrice);
+//            }
+//        }
         allMoneyText.setText("￥" + total);
 
         if(null != carListBean) {
@@ -238,8 +238,8 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
     }
 
     ManLuggageBean manLuggageBean;
-    boolean checkInChecked = false;
-    boolean waitChecked = false;
+    boolean checkInChecked = true;
+    boolean waitChecked = true;
     @Subscribe
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {

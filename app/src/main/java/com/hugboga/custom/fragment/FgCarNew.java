@@ -383,6 +383,7 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
             }
         });
         waitSwitch.setChecked(true);
+        checkSwitch.setChecked(true);
         carListBean = this.getArguments().getParcelable("carListBean");
         if (null != carListBean) {
             oldCarList = carListBean.carList;
