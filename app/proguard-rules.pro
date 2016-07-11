@@ -219,6 +219,9 @@
 
 -keep class com.hugboga.custom.data.bean.**{*;}
 -keep class com.hugboga.custom.widget.**{*;}
+-keep class com.hugboga.custom.fragment.FgChooseCity;
+
+
 
 -keep class * implements android.os.Parcelable {
   public static final android.os.Parcelable$Creator *;
