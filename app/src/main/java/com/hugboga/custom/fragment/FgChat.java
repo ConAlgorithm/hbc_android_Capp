@@ -326,6 +326,7 @@ public class FgChat extends BaseFragment implements View.OnClickListener, ZBaseA
             MLog.e("totalCount = " + totalCount);
         }
         emptyTV.setVisibility(View.GONE);
+        emptyLayout.setVisibility(View.GONE);
     }
 
     @Override
