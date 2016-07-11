@@ -105,7 +105,7 @@ android {
     productFlavors.all { flavor ->
         switch (flavor.name) {
             case 'developer':
-                flavor.buildConfigField('String', 'API_SERVER_URL', '"http://api.dev.hbc.tech/"')
+                flavor.buildConfigField('String', 'API_SERVER_URL', '"http://api.dev.hbc.tech/"');
                 flavor.buildConfigField('String', 'H5_HOST','"http://info.dev.hbc.tech"');
                 flavor.buildConfigField('String', 'SHARE_BASE_URL_1','"http://test.op.huangbaoche.com/dev/app/auth.html"');
                 flavor.buildConfigField('String', 'SHARE_BASE_URL_2','"http://test.act.huangbaoche.com"');
@@ -118,7 +118,7 @@ android {
 //                flavor.manifestPlaceholders(JPUSH_KEY: "a351a47a9106354c59188e16", APP_CHANNEL: "stage", RONG_CLOUD_APP_KEY: "ik1qhw091eiyp")
 //                break;
             case 'examination':
-                flavor.buildConfigField('String', 'API_SERVER_URL', '"http://api.test.hbc.tech/"')
+                flavor.buildConfigField('String', 'API_SERVER_URL', '"http://api.test.hbc.tech/"');
                 flavor.buildConfigField('String', 'H5_HOST','"http://info.test.hbc.tech"');
                 flavor.buildConfigField('String', 'SHARE_BASE_URL_1','"http://test.op.huangbaoche.com/test/app/auth.html"');
                 flavor.buildConfigField('String', 'SHARE_BASE_URL_2','"http://test.act.huangbaoche.com"');
@@ -143,7 +143,7 @@ android {
             case '10020':
             case '10052':
             default:
-                flavor.buildConfigField('String', 'API_SERVER_URL', '"https://api2.huangbaoche.com/"')
+                flavor.buildConfigField('String', 'API_SERVER_URL', '"https://api2.huangbaoche.com/"');
                 flavor.buildConfigField('String', 'H5_HOST','"https://info.huangbaoche.com"');
                 flavor.buildConfigField('String', 'SHARE_BASE_URL_1','"http://op.huangbaoche.com/app/auth.html"');
                 flavor.buildConfigField('String', 'SHARE_BASE_URL_2','"http://act.huangbaoche.com"');
