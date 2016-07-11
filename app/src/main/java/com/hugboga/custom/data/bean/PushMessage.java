@@ -1,5 +1,9 @@
 package com.hugboga.custom.data.bean;
 
+import android.util.Log;
+
+import com.huangbaoche.hbcframe.util.MLog;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,6 +39,7 @@ public class PushMessage implements IBaseBean {
 
 //    @Override
     public void parser(JSONObject jsonObj) throws JSONException {
+        MLog.i("hbc_push", jsonObj != null ? jsonObj.toString() : "");
         type = jsonObj.optString("type");
         messageID = jsonObj.optString("messageID");
         notification = jsonObj.optString("notification");

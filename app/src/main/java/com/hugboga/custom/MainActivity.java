@@ -332,13 +332,15 @@ public class MainActivity extends BaseActivity
                     uploadPushClick(message.messageID);
                     if ("IM".equals(message.type)) {
                         gotoChatList();
-                    } else if ("888".equals(message.type)) {
+                    } else if (message.orderType == 888) {
                         if (getFragmentList().size() > 3) {
                             for (int i = getFragmentList().size() - 1; i >= 3; i--) {
                                 getFragmentList().get(i).finish();
                             }
                         }
-                        mViewPager.setCurrentItem(2);
+                        if (mViewPager != null) {
+                            mViewPager.setCurrentItem(2);
+                        }
                     } else {
                         gotoOrder(message);
                     }
