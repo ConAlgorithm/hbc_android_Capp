@@ -268,6 +268,10 @@ public class UserEntity {
         return !TextUtils.isEmpty(UserSession.getUser().getUserToken(activity));
     }
 
+    public boolean isLogin(Context context) {
+        return !TextUtils.isEmpty(UserSession.getUser().getUserToken(context));
+    }
+
     public boolean hasNewCoupon() {
         return hasNewCoupon;
     }

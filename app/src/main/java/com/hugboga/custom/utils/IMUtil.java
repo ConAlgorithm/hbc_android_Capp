@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.huangbaoche.hbcframe.data.net.ErrorHandler;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
@@ -45,6 +46,14 @@ public class IMUtil {
     public void connect(String imToken) {
         if (TextUtils.isEmpty(imToken)) {
             MLog.e("IMToken 不能为空");
+            MLog.i("hbc_im", "IMUtil connect 为空");
+            if (UserEntity.getUser().isLogin(context)) {
+                MLog.i("hbc_im", "IMUtil connect 为空 重试");
+                if (requestIMTokenCount < 3) {
+                    requestIMTokenCount++;
+                    requestIMTokenUpdate();
+                }
+            }
             return;
         }
         RongIM.connect(imToken, new RongIMClient.ConnectCallback() {
@@ -57,6 +66,7 @@ public class IMUtil {
                     requestIMTokenUpdate();
                 }
                 requestApiFeedback(1, null);
+                MLog.i("hbc_im", "IMUtil_connect_onTokenIncorrect：Token已过期，重新获取Token");
             }
 
             @Override
@@ -64,6 +74,7 @@ public class IMUtil {
                 MLog.e("-连接融云 ——onSuccess— -" + userId);
                 userId = _userId;
                 initRongIm(context, userId);
+                MLog.i("hbc_im", "IMUtil_connect_onSuccess：连接融云");
             }
 
             @Override
@@ -75,12 +86,14 @@ public class IMUtil {
                     requestIMTokenUpdate();
                 }
                 requestApiFeedback(2, errorCode != null ? "" + errorCode.getValue() : null);
+                MLog.i("hbc_im", "IMUtil_connect_onError：连接融云");
             }
 
             @Override
             public void onFail(int errorCode) {
                 super.onFail(errorCode);
                 requestApiFeedback(3, "" + errorCode);
+                MLog.i("hbc_im", "IMUtil_connect_onFail：连接融云");
             }
         });
         RongIM.getInstance().setConnectionStatusListener(new MyConnectionStatusListener());
@@ -178,18 +191,21 @@ public class IMUtil {
             switch (connectionStatus){
 
                 case CONNECTED://连接成功。
-
+                    MLog.i("hbc_im", "IMUtil_onChanged：连接成功");
                     break;
                 case DISCONNECTED://断开连接。
                     requestApiFeedback(5, null);
+                    MLog.i("hbc_im", "IMUtil_onChanged：断开连接");
                     break;
                 case CONNECTING://连接中。
-
+                    MLog.i("hbc_im", "IMUtil_onChanged：连接中");
                     break;
                 case NETWORK_UNAVAILABLE://网络不可用。
+                    MLog.i("hbc_im", "IMUtil_onChanged：网络不可用");
                     requestApiFeedback(6, null);
                     break;
                 case KICKED_OFFLINE_BY_OTHER_CLIENT://用户账户在其他设备登录，本机会被踢掉线
+                    MLog.i("hbc_im", "IMUtil_onChanged：用户账户在其他设备登录，本机会被踢掉线");
                     requestApiFeedback(7, null);
                     break;
             }
