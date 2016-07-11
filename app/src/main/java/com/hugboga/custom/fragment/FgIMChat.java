@@ -95,22 +95,26 @@ public class FgIMChat extends BaseFragment {
     private String userAvatar; //用户头像
     private String targetType; //目标类型
     private int inBlack;//标识对方是否被自己拉黑，1是 0否
-    private boolean isShowBlack = true;
+    private int isHideMoreBtn;
 
     private RelativeLayout view;
 
     @Override
     protected void initHeader() {
         fgRightBtn.setVisibility(GONE);
-        header_right_btn.setImageResource(R.mipmap.top_more);
-        header_right_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showPopupWindow();
-            }
-        });
-        if (!TextUtils.isEmpty(targetType) && "3".equals(targetType)) {
+        if (isHideMoreBtn == 1) {
             header_right_btn.setVisibility(GONE);
+        } else {
+            header_right_btn.setImageResource(R.mipmap.top_more);
+            header_right_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showPopupWindow();
+                }
+            });
+            if (!TextUtils.isEmpty(targetType) && "3".equals(targetType)) {
+                header_right_btn.setVisibility(GONE);
+            }
         }
     }
 
@@ -158,7 +162,7 @@ public class FgIMChat extends BaseFragment {
             fgTitle.setText(imInfo.title); //设置标题
             targetType = imInfo.targetType;
             inBlack = imInfo.inBlack;
-            isShowBlack = imInfo.isShowBlack;
+            isHideMoreBtn = imInfo.isHideMoreBtn;
             resetRightBtn();
             initRunningOrder(); //构建和该用户之间的订单
         } catch (JSONException e) {
@@ -169,10 +173,14 @@ public class FgIMChat extends BaseFragment {
     }
 
     private void resetRightBtn() {
-        if (!TextUtils.isEmpty(targetType) && "3".equals(targetType)) {//3.客服 1.用户
-            header_right_btn.setVisibility(GONE); //显示历史订单按钮
+        if (isHideMoreBtn == 1) {
+            header_right_btn.setVisibility(View.GONE);
         } else {
-            header_right_btn.setVisibility(View.VISIBLE); //显示历史订单按钮
+          if (!TextUtils.isEmpty(targetType) && "3".equals(targetType)) {//3.客服 1.用户
+                header_right_btn.setVisibility(GONE); //显示历史订单按钮
+            } else {
+                header_right_btn.setVisibility(View.VISIBLE); //显示历史订单按钮
+            }
         }
     }
 
@@ -445,22 +453,16 @@ public class FgIMChat extends BaseFragment {
         }
         TextView cancelOrderTV = (TextView)menuLayout.findViewById(R.id.cancel_order);
         TextView commonProblemTV = (TextView)menuLayout.findViewById(R.id.menu_phone);
-        if (isShowBlack) {
-            cancelOrderTV.setVisibility(View.GONE);
-        } else {
-            cancelOrderTV.setVisibility(View.VISIBLE);
-            if(inBlack == 1){
-                cancelOrderTV.setText("解除拉黑");
-            }else{
-                cancelOrderTV.setText("拉黑该用户");
-            }
-            if (!TextUtils.isEmpty(targetType) && "3".equals(targetType)) {//3.客服 1.用户
-                cancelOrderTV.setVisibility(GONE); //显示历史订单按钮
-            } else {
-                cancelOrderTV.setVisibility(View.VISIBLE); //显示历史订单按钮
-            }
+        if(inBlack == 1){
+            cancelOrderTV.setText("解除拉黑");
+        }else{
+            cancelOrderTV.setText("拉黑该用户");
         }
-
+        if (!TextUtils.isEmpty(targetType) && "3".equals(targetType)) {//3.客服 1.用户
+            cancelOrderTV.setVisibility(GONE); //显示历史订单按钮
+        } else {
+            cancelOrderTV.setVisibility(View.VISIBLE); //显示历史订单按钮
+        }
         commonProblemTV.setText("历史订单");
 
         if (popup != null) {

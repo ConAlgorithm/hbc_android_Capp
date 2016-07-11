@@ -65,7 +65,7 @@ public class IMUtil {
                     requestIMTokenCount++;
                     requestIMTokenUpdate();
                 }
-                requestApiFeedback(1, null);
+                ApiFeedbackUtils.requestIMFeedback(1, null, "Token已过期，重新获取Token");
                 MLog.i("hbc_im", "IMUtil_connect_onTokenIncorrect：Token已过期，重新获取Token");
             }
 
@@ -85,40 +85,18 @@ public class IMUtil {
                     requestIMTokenCount++;
                     requestIMTokenUpdate();
                 }
-                requestApiFeedback(2, errorCode != null ? "" + errorCode.getValue() : null);
+                ApiFeedbackUtils.requestIMFeedback(2, errorCode != null ? "" + errorCode.getValue() : null);
                 MLog.i("hbc_im", "IMUtil_connect_onError：连接融云");
             }
 
             @Override
             public void onFail(int errorCode) {
                 super.onFail(errorCode);
-                requestApiFeedback(3, "" + errorCode);
+                ApiFeedbackUtils.requestIMFeedback(3, "" + errorCode);
                 MLog.i("hbc_im", "IMUtil_connect_onFail：连接融云");
             }
         });
         RongIM.getInstance().setConnectionStatusListener(new MyConnectionStatusListener());
-    }
-
-    private void requestApiFeedback(int errorMessage, String errorCode) {
-        RequestApiFeedback requestApiFeedback = new RequestApiFeedback(context,
-                UserEntity.getUser().getUserId(context),
-                ApiFeedbackUtils.getImErrorFeedback(errorMessage, errorCode));
-        HttpRequestUtils.request(context, requestApiFeedback, new HttpRequestListener() {
-            @Override
-            public void onDataRequestSucceed(BaseRequest request) {
-
-            }
-
-            @Override
-            public void onDataRequestCancel(BaseRequest request) {
-
-            }
-
-            @Override
-            public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-
-            }
-        }, false);
     }
 
     /**
@@ -145,7 +123,7 @@ public class IMUtil {
         public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
             ErrorHandler handler = new ErrorHandler((Activity) context, this);
             handler.onDataRequestError(errorInfo, request);
-            requestApiFeedback(4, null);
+            ApiFeedbackUtils.requestIMFeedback(4, null);
         }
     };
 
@@ -195,7 +173,7 @@ public class IMUtil {
                     MLog.i("hbc_im", "IMUtil_onChanged：连接成功");
                     break;
                 case DISCONNECTED://断开连接。
-                    requestApiFeedback(5, null);
+                    ApiFeedbackUtils.requestIMFeedback(5, null);
                     MLog.i("hbc_im", "IMUtil_onChanged：断开连接");
                     break;
                 case CONNECTING://连接中。
@@ -203,11 +181,11 @@ public class IMUtil {
                     break;
                 case NETWORK_UNAVAILABLE://网络不可用。
                     MLog.i("hbc_im", "IMUtil_onChanged：网络不可用");
-                    requestApiFeedback(6, null);
+                    ApiFeedbackUtils.requestIMFeedback(6, null);
                     break;
                 case KICKED_OFFLINE_BY_OTHER_CLIENT://用户账户在其他设备登录，本机会被踢掉线
                     MLog.i("hbc_im", "IMUtil_onChanged：用户账户在其他设备登录，本机会被踢掉线");
-                    requestApiFeedback(7, null);
+                    ApiFeedbackUtils.requestIMFeedback(7, null);
                     break;
             }
         }

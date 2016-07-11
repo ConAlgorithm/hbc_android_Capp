@@ -1,6 +1,15 @@
 package com.hugboga.custom.utils;
 
+import android.content.Context;
 import android.text.TextUtils;
+
+import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
+import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
+import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
+import com.huangbaoche.hbcframe.data.request.BaseRequest;
+import com.hugboga.custom.MyApplication;
+import com.hugboga.custom.data.bean.UserEntity;
+import com.hugboga.custom.data.request.RequestApiFeedback;
 
 import io.rong.imlib.RongIMClient;
 
@@ -13,6 +22,35 @@ public final class ApiFeedbackUtils {
 
     private static final String SEPARATOR = "|";
 
+    public static void requestIMFeedback(int errorMessage, String errorCode) {
+        requestIMFeedback(errorMessage, errorCode, null);
+    }
+
+    public static void requestIMFeedback(int errorMessage, String errorCode, String describeStr) {
+        requestAPIFeedback(UserEntity.getUser().getUserId(MyApplication.getAppContext()),
+                ApiFeedbackUtils.getImErrorFeedback(errorMessage, errorCode, describeStr));
+    }
+
+    public static void requestAPIFeedback(String userId, String error) {
+        RequestApiFeedback requestApiFeedback = new RequestApiFeedback(MyApplication.getAppContext(), userId, error);
+        HttpRequestUtils.request(MyApplication.getAppContext(), requestApiFeedback, new HttpRequestListener() {
+            @Override
+            public void onDataRequestSucceed(BaseRequest request) {
+
+            }
+
+            @Override
+            public void onDataRequestCancel(BaseRequest request) {
+
+            }
+
+            @Override
+            public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+
+            }
+        }, false);
+    }
+
     public static String getImErrorFeedback(int errorMessage, String errorCode) {
         return getImErrorFeedback(errorMessage, errorCode, null);
     }
@@ -20,7 +58,7 @@ public final class ApiFeedbackUtils {
     //大类别|小类别|错误点|问题描述
     //例如: RongIM|发送消息|发送错误|错误码【21007】，错误描述【服务器错误，无法发送】
     //wiki: http://wiki.hbc.tech/pages/viewpage.action?pageId=4916716
-    public static String getImErrorFeedback(int errorMessage, String errorCode,String describeStr) {
+    public static String getImErrorFeedback(int errorMessage, String errorCode, String describeStr) {
         String classesStr = null;
         switch (errorMessage) {
             case 1:

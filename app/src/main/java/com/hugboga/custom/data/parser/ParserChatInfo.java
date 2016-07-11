@@ -19,6 +19,7 @@ public class ParserChatInfo extends ImplParser {
         chatInfo.title = jsonObj.optString("title");
         chatInfo.targetType = jsonObj.optString("targetType");
         chatInfo.inBlack = jsonObj.optInt("inBlack");
+        chatInfo.isHideMoreBtn = jsonObj.optInt("isHideMoreBtn");
         return chatInfo;
     }
 
@@ -31,6 +32,7 @@ public class ParserChatInfo extends ImplParser {
             obj.put("title", chatInfo.title);
             obj.put("targetType", chatInfo.targetType);
             obj.put("inBlack", chatInfo.inBlack);
+            obj.put("isHideMoreBtn", chatInfo.isHideMoreBtn);
         } catch (JSONException e) {
             e.printStackTrace();
         }
