@@ -14,6 +14,7 @@ import com.hugboga.custom.activity.datepicker.CustomDayViewAdapter;
 import com.hugboga.custom.data.bean.ChooseDateBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
+import com.hugboga.custom.utils.AnimationUtils;
 import com.hugboga.custom.utils.DateUtils;
 import com.squareup.timessquare.CalendarPickerView;
 
@@ -133,6 +134,7 @@ public class DatePickerActivity extends BaseActivity {
                             selectedDate = calendar.getSelectedDate();
                             clickTimes = 1;
                             showTips.setText(R.string.show_tips_end);
+                            AnimationUtils.showAnimation(showTips,200,null);
                         } else {
                             showTips.setVisibility(GONE);
                             finishDelay();
@@ -159,6 +161,7 @@ public class DatePickerActivity extends BaseActivity {
                         selectedDate = calendar.getSelectedDate();
                         calendar.setSelectedDate(selectedDate);
                         showTips.setText(R.string.show_tips_end);
+                        AnimationUtils.showAnimation(showTips,200,null);
                     }
                 }
             }
