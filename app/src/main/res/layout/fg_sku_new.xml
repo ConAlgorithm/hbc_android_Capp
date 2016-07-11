@@ -29,7 +29,7 @@
                 <TextView
                     android:id="@+id/sku_title"
                     android:textSize="18sp"
-                    android:layout_margin="15dp"
+                    android:padding="15dp"
                     android:textColor="@color/basic_black"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />

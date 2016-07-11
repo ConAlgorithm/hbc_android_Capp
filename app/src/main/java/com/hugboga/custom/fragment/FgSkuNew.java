@@ -160,7 +160,7 @@ public class FgSkuNew extends BaseFragment {
             skuTitle.setText(CityUtils.addImg(getActivity(), skuBean.goodsName, R.mipmap.chaoziyou));
         }
 
-        skuCityLine.setText(skuBean.places);
+        skuCityLine.setText("起止:"+skuBean.places);
         skuDay.setText(getString(R.string.sku_days, skuBean.daysCount));
         needChildrenSeat = cityBean != null && cityBean.childSeatSwitch;
 
