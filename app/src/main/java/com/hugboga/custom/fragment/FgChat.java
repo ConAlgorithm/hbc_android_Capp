@@ -246,6 +246,9 @@ public class FgChat extends BaseFragment implements View.OnClickListener, ZBaseA
     @Override
     public void onFragmentResult(Bundle bundle) {
         MLog.e("onFragmentResult " + bundle);
+        if (UserEntity.getUser().isLogin(getActivity())) {
+            emptyTV.setVisibility(View.GONE);
+        }
         requestData();
     }
 
