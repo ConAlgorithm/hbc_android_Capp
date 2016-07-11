@@ -180,6 +180,9 @@ public class FgChat extends BaseFragment implements View.OnClickListener, ZBaseA
                 }
             }
         });
+        if (!UserEntity.getUser().isLogin(getActivity())) {
+            emptyTV.setVisibility(View.GONE);
+        }
     }
 
     /**
@@ -327,6 +330,8 @@ public class FgChat extends BaseFragment implements View.OnClickListener, ZBaseA
 
     @Override
     public void error(ExceptionInfo errorInfo, BaseRequest request) {
-        emptyTV.setVisibility(View.VISIBLE);
+        if (UserEntity.getUser().isLogin(getActivity())) {
+            emptyTV.setVisibility(View.VISIBLE);
+        }
     }
 }

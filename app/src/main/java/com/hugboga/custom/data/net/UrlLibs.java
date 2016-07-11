@@ -37,9 +37,9 @@ public class UrlLibs {
 
     public static String H5_HOST = FORMAL_H5_HOST;
 
-    public static  String SHARE_BASE_URL_1 = "http://op.huangbaoche.com/app/auth.html";    //"http://test.op.huangbaoche.com/app/auth.html" 线上:http://op.huangbaoche.com/app/auth.html
-    public static  String SHARE_BASE_URL_2 = "http://act.huangbaoche.com";                 //"http://test.act.huangbaoche.com" 线上:http://act.huangbaoche.com"
-    public static  String SHARE_BASE_URL_3 = "http://act.huangbaoche.com";                 //"http://act.test.hbc.tech" 线上:http://act.huangbaoche.com"
+    public static  String SHARE_BASE_URL_1 = "http://op.huangbaoche.com/app/auth.html";
+    public static  String SHARE_BASE_URL_2 = "http://act.huangbaoche.com";
+    public static  String SHARE_BASE_URL_3 = "http://act.huangbaoche.com";
     public static  String SHARE_APPID = "wx62ad814ba9bf0b68";//测试wx1354271c597184ee 线上wx62ad814ba9bf0b68
 
 
