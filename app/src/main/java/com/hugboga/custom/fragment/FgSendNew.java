@@ -238,7 +238,7 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
     }
 
     ManLuggageBean manLuggageBean;
-    boolean checkInChecked = false;
+    boolean checkInChecked = true;
     boolean waitChecked = true;
     @Subscribe
     public void onEventMainThread(EventAction action) {
