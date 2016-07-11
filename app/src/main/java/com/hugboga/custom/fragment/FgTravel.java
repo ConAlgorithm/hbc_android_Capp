@@ -496,11 +496,15 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, OnIt
     }
 
     private void cleanListData() {
-        runningAdapter.getDatas().clear();
-        runningAdapter.notifyDataSetChanged();
-        finishAdapter.getDatas().clear();
-        finishAdapter.notifyDataSetChanged();
-        cancelAdapter.getDatas().clear();
-        cancelAdapter.notifyDataSetChanged();
+        try {
+            runningAdapter.getDatas().clear();
+            runningAdapter.notifyDataSetChanged();
+            finishAdapter.getDatas().clear();
+            finishAdapter.notifyDataSetChanged();
+            cancelAdapter.getDatas().clear();
+            cancelAdapter.notifyDataSetChanged();
+        }catch (Exception e) {
+
+        }
     }
 }
