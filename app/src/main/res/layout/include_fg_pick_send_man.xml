@@ -33,8 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="20dp"
-            android:minEms="4"
+            android:paddingRight="20dp"
             android:src="@mipmap/ente_icon" />
 
         <RelativeLayout
