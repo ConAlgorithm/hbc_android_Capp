@@ -52,7 +52,7 @@ android {
         applicationId "com.hugboga.custom"
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 100060
+        versionCode 100280
         versionName "2.8.0"
         signingConfig signingConfigs.hbcSign
         ndk {
@@ -97,7 +97,8 @@ android {
         '10013'{}
         '10020'{}
         '10052'{}
-
+        '10090'{}
+        '10091'{}
     }
     //==productFlavors_end==
     //==productFlavors==
@@ -142,6 +143,8 @@ android {
             case '10013':
             case '10020':
             case '10052':
+            case '10090':
+            case '10091':
             default:
                 flavor.buildConfigField('String', 'API_SERVER_URL', '"https://api2.huangbaoche.com/"')
                 flavor.buildConfigField('String', 'H5_HOST','"https://info.huangbaoche.com"')
