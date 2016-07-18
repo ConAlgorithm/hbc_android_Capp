@@ -40,4 +40,9 @@ public class RequestCollectGuideList extends BaseRequest<ArrayList<CollectGuideB
         return HttpMethod.GET;
     }
 
+    @Override
+    public String getUrlErrorCode() {
+        return "40021";
+    }
+
 }

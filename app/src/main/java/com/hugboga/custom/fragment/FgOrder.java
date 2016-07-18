@@ -679,7 +679,7 @@ public class FgOrder extends BaseFragment {
                     .build();
             x.image().bind(guideImg, mOrderBean.orderGuideInfo.guideAvatar, options);
             guideName.setText(mOrderBean.orderGuideInfo.guideName + "/");
-            guideCarInfo.setText(mOrderBean.orderGuideInfo.car);
+            guideCarInfo.setText(mOrderBean.orderGuideInfo.guideCar);
             guideRateStar.setVisibility(View.VISIBLE);
             guideRateStar.setRating((float) mOrderBean.orderGuideInfo.guideStarLevel);
             guideRateStarValue.setText("" + mOrderBean.orderGuideInfo.guideStarLevel);
@@ -961,7 +961,7 @@ public class FgOrder extends BaseFragment {
             dialogUtil.showCustomDialog("取消订单成功", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-//                    bringToFront(FgTravel.class,new Bundle());
+                    bringToFront(FgTravel.class,new Bundle());
                     finish();
                 }
             });
@@ -1026,7 +1026,7 @@ public class FgOrder extends BaseFragment {
             bundle.putString(KEY_ORDER_ID, mOrderBean.orderNo);
             bundle.putString("from", mSourceFragment.getClass().getSimpleName());
             bundle.putString("source",source);
-//            startFragment(new FgPaySuccess(), bundle);
+//            startFragment(new FgPayResult(), bundle);
             notifyOrderList(FgTravel.TYPE_ORDER_RUNNING, true, false, false);
         }
     };
@@ -1174,7 +1174,8 @@ public class FgOrder extends BaseFragment {
             R.id.bottom_br_btn_commit,
             R.id.show_all_insure_info,
             R.id.insure_question,
-            R.id.all_insure_question
+            R.id.all_insure_question,
+            R.id.guide_head_img
     })
     private void onClickView(View view) {
         if (mOrderBean == null) return;
@@ -1300,6 +1301,10 @@ public class FgOrder extends BaseFragment {
                         startFragment(fgWebInfo);
                         break;
                     }
+                break;
+            case R.id.guide_head_img:
+                if (mOrderBean == null || mOrderBean.orderGuideInfo == null) return;
+                startFragment(FgGuideDetail.newInstance(mOrderBean.orderGuideInfo.guideID));
                 break;
         }
     }

@@ -311,7 +311,8 @@
                         android:layout_height="wrap_content"
                         android:background="@null"
                         android:gravity="center"
-                        android:text="@string/select_date"
+                        android:hint="@string/select_date"
+                        android:textColorHint="@color/basic_black"
                         android:textColor="@color/basic_black"
                         android:textSize="20sp" />
                 </LinearLayout>
@@ -345,7 +346,8 @@
                         android:layout_height="wrap_content"
                         android:background="@null"
                         android:gravity="center"
-                        android:text="@string/select_date"
+                        android:hint="@string/select_date"
+                        android:textColorHint="@color/basic_black"
                         android:textColor="@color/basic_black"
                         android:textSize="20sp" />
                 </LinearLayout>
@@ -384,36 +386,49 @@
                     android:textSize="15sp" />
             </LinearLayout>
 
-            <RelativeLayout
-                android:id="@+id/show_like_driver_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:clickable="true"
-                android:minHeight="50dp">
-
-                <TextView
-                    android:id="@+id/choose_driver"
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:layout_marginLeft="20dp"
-                    android:gravity="center"
-                    android:text="@string/choose_like_driver_order"
-                    android:textColor="#0263fc"
-                    android:textSize="15sp" />
-
-                <include layout="@layout/include_driver_layout" />
-
-            </RelativeLayout>
-
             <LinearLayout
                 android:id="@+id/full_day_show"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="15dp"
+                android:layout_marginTop="15dp"
                 android:orientation="vertical"
-                android:visibility="gone"></LinearLayout>
+                android:visibility="gone">
+            </LinearLayout>
 
+            <RelativeLayout
+                android:id="@+id/show_like_driver_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="25dp"
+                android:clickable="true">
+
+                <RelativeLayout
+                    android:id="@+id/driver_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:visibility="gone"
+                    android:clickable="true"
+                    android:minHeight="50dp">
+                    <include layout="@layout/include_driver_layout" />
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/choose_driver"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="13dp"
+                    android:minHeight="50dp"
+                    android:gravity="center"
+                    android:text="@string/choose_like_driver_order"
+                    android:textColor="#0263fc"
+                    android:textSize="15sp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_toRightOf="@+id/driver_layout"
+                    android:layout_toEndOf="@+id/driver_layout"
+                    android:layout_marginStart="13dp" />
+
+            </RelativeLayout>
 
 
         </LinearLayout>

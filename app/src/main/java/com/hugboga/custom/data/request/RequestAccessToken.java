@@ -55,4 +55,9 @@ public class RequestAccessToken extends BaseRequest<AccessTokenBean> {
     public HttpMethod getHttpMethod() {
         return HttpMethod.GET;
     }
+
+    @Override
+    public String getUrlErrorCode() {
+        return "40002";
+    }
 }

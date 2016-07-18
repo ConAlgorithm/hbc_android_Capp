@@ -17,6 +17,7 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.InSureListAdapter;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.InsureBean;
 import com.hugboga.custom.data.bean.InsureResultBean;
 import com.hugboga.custom.data.bean.OrderBean;
@@ -285,14 +286,21 @@ public class FgInsure extends BaseFragment implements HttpRequestListener {
         }else if(request instanceof RequestSubmitInsure){
             ToastUtils.showLong("投保申请已成功提交");
             finish();
-            if(TextUtils.isEmpty(from)) {
-                EventBus.getDefault().post(EventType.ADD_INSURE_SUCCESS);
-            }
-            Bundle bundle = new Bundle();
-            bundle.putInt(FgOrder.KEY_BUSINESS_TYPE, orderBean.orderType);
-            bundle.putInt(FgOrder.KEY_GOODS_TYPE, orderBean.orderGoodsType);
-            bundle.putString(FgOrder.KEY_ORDER_ID, orderBean.orderNo);
-            startFragment(new FgOrder(), bundle);
+//            if(TextUtils.isEmpty(from)) {
+                EventBus.getDefault().post(new EventAction(EventType.ADD_INSURE_SUCCESS, orderBean.orderNo));
+//            }
+            EventBus.getDefault().post(new EventAction(EventType.FGTRAVEL_UPDATE));
+//            Bundle bundle = new Bundle();
+//            bundle.putInt(FgOrder.KEY_BUSINESS_TYPE, orderBean.orderType);
+//            bundle.putInt(FgOrder.KEY_GOODS_TYPE, orderBean.orderGoodsType);
+//            bundle.putString(FgOrder.KEY_ORDER_ID, orderBean.orderNo);
+//            startFragment(new FgOrder(), bundle);
+//            FgOrderDetail.Params params = new FgOrderDetail.Params();
+//            params.orderType = orderBean.orderType;
+//            params.orderId = orderBean.orderNo;
+//            Bundle bundle = new Bundle();
+//            bundle.putSerializable(Constants.PARAMS_DATA, params);
+//            bringToFront(FgOrderDetail.class, bundle);
         }
 
     }

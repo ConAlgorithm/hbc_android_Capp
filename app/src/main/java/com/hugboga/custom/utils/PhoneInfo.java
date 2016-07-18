@@ -1,17 +1,20 @@
 package com.hugboga.custom.utils;
 
 import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.provider.ContactsContract;
 import android.telephony.SmsManager;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
@@ -420,6 +423,42 @@ public class PhoneInfo {
         String versionInfo = PhoneInfo.getSoftwareVersion(context);
         String oldVersion = UserEntity.getUser().getVersion(context);
         return oldVersion == null || !versionInfo.equals(oldVersion);
+    }
+
+    //通讯录
+    public static String[] getPhoneContacts(Context context, Uri uri) {
+        String[] contact = new String[2];
+        //得到ContentResolver对象
+        ContentResolver cr = context.getContentResolver();
+        //取得电话本中开始一项的光标
+        Cursor cursor = cr.query(uri, null, null, null, null);
+
+        if(cursor != null){
+            cursor.moveToFirst();
+            //取得联系人名字
+            int nameFieldColumnIndex = cursor.getColumnIndex(ContactsContract.PhoneLookup.DISPLAY_NAME);
+            contact[0] = cursor.getString(nameFieldColumnIndex);
+
+            //取得电话号码
+            String ContactId = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
+            Cursor phone = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "=" + ContactId, null, null);
+
+            if(phone != null){
+                phone.moveToFirst();
+                try{
+                    contact[1] = phone.getString(phone.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                }catch (Exception e){
+                    contact[1] = "";
+                }
+            }
+
+            phone.close();
+            cursor.close();
+        }else{
+//            (TAG, "get Contacts is fail");
+        }
+
+        return contact;
     }
 
 }

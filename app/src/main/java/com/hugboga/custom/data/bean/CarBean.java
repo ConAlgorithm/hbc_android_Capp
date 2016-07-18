@@ -28,6 +28,12 @@ public class CarBean implements Parcelable,IBaseBean {
 
     public int localPrice;
 
+    public int priceChannel;
+    public int orderChannel;
+
+    public String expectedCompTime;
+
+
     @Override
     public int describeContents() {
         return 0;
@@ -50,6 +56,9 @@ public class CarBean implements Parcelable,IBaseBean {
         dest.writeInt(this.capOfPerson);
         dest.writeInt(this.price);
         dest.writeInt(this.localPrice);
+        dest.writeInt(this.priceChannel);
+        dest.writeInt(this.orderChannel);
+        dest.writeString(this.expectedCompTime);
     }
 
     public CarBean() {
@@ -71,6 +80,9 @@ public class CarBean implements Parcelable,IBaseBean {
         this.capOfPerson = in.readInt();
         this.price = in.readInt();
         this.localPrice = in.readInt();
+        this.priceChannel = in.readInt();
+        this.orderChannel = in.readInt();
+        this.expectedCompTime = in.readString();
     }
 
     public static final Creator<CarBean> CREATOR = new Creator<CarBean>() {

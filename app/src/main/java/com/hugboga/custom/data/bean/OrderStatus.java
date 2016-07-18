@@ -19,12 +19,12 @@ public enum OrderStatus {
     /**
      * 3: 已接单
      */
-    AGREE(3, "导游接单"),
+    AGREE(3, "司导接单"),
 
     /**
      * 4: 已到达
      */
-    ARRIVED(4, "导游到达"),
+    ARRIVED(4, "司导到达"),
 
     /**
      * 5: 服务中
@@ -54,7 +54,7 @@ public enum OrderStatus {
     /**
      * 10: 客诉处理中
      */
-    COMPLAINT(10, "客诉处理中");
+    COMPLAINT(10, "客诉处理中"), ;
 
 
     public int code;

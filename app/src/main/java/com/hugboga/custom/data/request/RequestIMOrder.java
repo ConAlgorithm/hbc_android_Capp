@@ -35,4 +35,9 @@ public class RequestIMOrder extends BaseRequest<Object[]> {
     public ImplParser getParser() {
         return new ParserNewOrder();
     }
+
+    @Override
+    public String getUrlErrorCode() {
+        return "40043";
+    }
 }

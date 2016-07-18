@@ -43,7 +43,7 @@ public class ServerCodeHandler implements ServerCodeHandlerInterface {
                 dialogUtil.showCustomDialog(content, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        gotoLogin(mContext,false);
+                        gotoLogin(mContext,true);
                     }
                 });
                 EventBus.getDefault().post(new EventAction(EventType.CLICK_USER_LOOUT));

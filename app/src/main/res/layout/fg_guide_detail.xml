@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/collect_list_header"
+        layout="@layout/include_header_detail" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:minHeight="135dip"
+                android:paddingLeft="25dp"
+                android:paddingRight="25dp"
+                android:paddingBottom="20dp">
+
+                <net.grobas.view.PolygonImageView
+                    android:id="@+id/guide_detail_avatar_iv"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="20dip"
+                    android:src="@mipmap/collection_icon_pic"
+                    app:poly_corner_radius="15"
+                    app:poly_vertices="2" />
+
+                <TextView
+                    android:id="@+id/guide_detail_name_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:layout_toRightOf="@id/guide_detail_avatar_iv"
+                    android:textColor="#333333"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:id="@+id/guide_detail_attestation_iv"
+                    android:layout_width="50dp"
+                    android:layout_height="20dp"
+                    android:visibility="gone"
+                    android:layout_marginLeft="6dp"
+                    android:layout_marginTop="25.5dp"
+                    android:layout_toRightOf="@id/guide_detail_name_tv"
+                    android:background="@mipmap/sddate_qualification" />
+                <ImageView
+                    android:id="@+id/guide_detail_location_iv"
+                    android:layout_width="9dp"
+                    android:layout_height="12dp"
+                    android:layout_below="@id/guide_detail_name_tv"
+                    android:visibility="gone"
+                    android:layout_marginTop="7dp"
+                    android:layout_toRightOf="@id/guide_detail_avatar_iv"
+                    android:background="@mipmap/sddate_place"/>
+                <TextView
+                    android:id="@+id/guide_detail_location_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="3dp"
+                    android:layout_below="@id/guide_detail_name_tv"
+                    android:layout_marginTop="4dp"
+                    android:layout_toRightOf="@id/guide_detail_location_iv"
+                    android:textColor="#ff6632"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/guide_detail_describe_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/guide_detail_location_tv"
+                    android:layout_marginTop="4dp"
+                    android:layout_toRightOf="@id/guide_detail_avatar_iv"
+                    android:lineSpacingExtra="3dp"
+                    android:textColor="@color/basic_gray_light"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/guide_detail_platenumber_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/guide_detail_describe_tv"
+                    android:layout_marginTop="2dp"
+                    android:layout_toRightOf="@id/guide_detail_avatar_iv"
+                    android:textColor="@color/basic_gray_light"
+                    android:textSize="14sp" />
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="15dp"
+                android:background="@color/default_bg" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_gravity="center"
+                    android:background="#44999999" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@color/basic_white"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:text="@string/guide_detail_subtitle_grade"
+                    android:textColor="#343434"
+                    android:textSize="15sp" />
+            </FrameLayout>
+
+            <com.hugboga.custom.widget.RatingView
+                android:id="@+id/guide_detail_ratingView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                app:item_width="32dip"
+                app:touchable="false"
+                app:gap="22dip"
+                app:half_bg="@mipmap/sddate_star_half"
+                app:rating_bg="@drawable/btn_guides_detail_ratingbar" />
+
+            <TextView
+                android:id="@+id/guide_detail_score_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="15dp"
+                android:textColor="#ffd531"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:layout_marginTop="15dp">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_gravity="center"
+                    android:background="#44999999" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@color/basic_white"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:text="@string/guide_detail_subtitle_appointment"
+                    android:textColor="#343434"
+                    android:textSize="15sp" />
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="72dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/guide_detail_plane_layout"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:background="@mipmap/collection_icon_plane" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/collect_guide_appointments_plane"
+                        android:textColor="#333333"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/guide_detail_left_line"
+                    android:layout_width="1px"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="12dp"
+                    android:layout_marginTop="12dp"
+                    android:background="#44999999" />
+
+                <LinearLayout
+                    android:id="@+id/guide_detail_car_layout"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:background="@mipmap/collection_icon_car" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:text="@string/collect_guide_appointments_car"
+                        android:textColor="#333333"
+                        android:textSize="13sp" />
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/guide_detail_right_line"
+                    android:layout_width="1px"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="12dp"
+                    android:layout_marginTop="12dp"
+                    android:background="#44999999" />
+
+                <LinearLayout
+                    android:id="@+id/guide_detail_single_layout"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:background="@mipmap/collection_icon_single" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/collect_guide_appointments_single"
+                        android:textColor="#333333"
+                        android:textSize="14sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:layout_marginTop="15dp">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_gravity="center"
+                    android:background="#44999999" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@color/basic_white"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:text="@string/guide_detail_subtitle_contact"
+                    android:textColor="#343434"
+                    android:textSize="15sp" />
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="60dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/guide_detail_call_iv"
+                    android:layout_width="62dip"
+                    android:layout_height="62dip"
+                    android:background="@drawable/selector_guides_detail_phone" />
+
+                <ImageView
+                    android:id="@+id/ogi_evaluate_chat_iv"
+                    android:layout_width="62dip"
+                    android:layout_height="62dip"
+                    android:layout_marginLeft="70dip"
+                    android:background="@drawable/selector_guides_detail_chat" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

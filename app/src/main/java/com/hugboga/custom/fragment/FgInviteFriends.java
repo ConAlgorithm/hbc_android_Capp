@@ -21,6 +21,8 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.TravelFundAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.TravelFundData;
+import com.hugboga.custom.data.bean.UserEntity;
+import com.hugboga.custom.data.net.ShareUrls;
 import com.hugboga.custom.data.request.RequestGetInvitationCode;
 import com.hugboga.custom.data.request.RequestInvitationIntroduction;
 import com.hugboga.custom.data.request.RequestTravelFundLogsInvitation;
@@ -149,24 +151,15 @@ public class FgInviteFriends extends BaseFragment implements View.OnClickListene
         super.onClick(v);
         switch (v.getId()) {
             case R.id.header_invite_friends_share_tv:
-                final AlertDialog.Builder callDialog = new AlertDialog.Builder(getActivity());
-                callDialog.setTitle(getString(R.string.share));
-                final String [] callItems = new String[]{getString(R.string.share_friend), getString(R.string.share_moments)};
-                callDialog.setItems(callItems, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //TODO qingcha goodsPicture、shareUrl
-//                        WXShareUtils.getInstance(getActivity()).share(which + 1, goodsPicture,
-//                                getString(R.string.invite_friends_share_title),
-//                                getString(R.string.invite_friends_share_content),
-//                                shareUrl);
-                    }
-                });
-                AlertDialog dialog = callDialog.create();
-                dialog.setCancelable(true);
-                dialog.setCanceledOnTouchOutside(true);
-                dialog.show();
-                break;
+                if (TextUtils.isEmpty(headerCodeTV.getText().toString())) {
+                    return;
+                }
+                String shareUrl = ShareUrls.getShareThirtyCouponUrl(UserEntity.getUser().getAvatar(getActivity()),
+                        UserEntity.getUser().getUserName(getActivity()),
+                        headerCodeTV.getText().toString());
+                CommonUtils.shareDialog(getActivity(), R.mipmap.share_coupon,
+                        getString(R.string.invite_friends_share_title), getString(R.string.invite_friends_share_content), shareUrl);
+            break;
             case R.id.header_invite_friends_copy_tv:
                 if (!TextUtils.isEmpty(headerCodeTV.getText())) {
                     ClipboardManager cm = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);

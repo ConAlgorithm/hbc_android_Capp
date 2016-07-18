@@ -37,6 +37,12 @@ public class UrlLibs {
 
     public static String H5_HOST = FORMAL_H5_HOST;
 
+    public static  String SHARE_BASE_URL = "http://res.wechat.huangbaoche.com/";
+    public static  String SHARE_APPID = "wx62ad814ba9bf0b68";//测试wx1354271c597184ee 线上wx62ad814ba9bf0b68
+
+
+
+
     public static String H5_ACTIVITY= H5_HOST + "/h5/cactivity/index.html?userId=";//国行
     public static String H5_ABOUT = H5_HOST+"/h5/cinfos/about.html";//  关于我们
     public static String H5_ADDFEE_C = H5_HOST+"/h5/cinfos/addfee_c.html";//  单次接送—后付费用说明
@@ -71,12 +77,6 @@ public class UrlLibs {
     }
 
 
-
-
-
-
-
-
     /**
      * url host 的 enum
      */
@@ -105,9 +105,9 @@ public class UrlLibs {
     public static final String SERVER_IP_UPLOAD_LOGS = "pt/v1.0/log/stream?";
 
     //首页
-    public static final String SERVER_IP_HOME = "basicdata/v1.0/p/home/citys/contents?";
+    public static final String SERVER_IP_HOME = "basicdata/v1.1/p/home/citys/contents?";
     //SKU
-    public static final String SERVER_IP_CITY_SKU = "goods/v1.0/p/home/cityGoods?";
+    public static final String SERVER_IP_CITY_SKU = "goods/v1.1/p/home/cityGoods?";
 
     //-------个人信息--------
     public static final String SERVER_IP_PUBLIC_UER_CENTER = "ucenter/v1.0/c/user/";
@@ -222,10 +222,10 @@ public class UrlLibs {
     public static final String SERVER_IP_PRICE_SKU = "price/v1.1/c/goodsPrice?";
 
     //-------订单类--------
-    public static final String SERVER_IP_TRADE = "trade/v1.0/c/order/";
+    public static final String SERVER_IP_TRADE = "trade/v1.3/c/order/";
 
     public static final String SERVER_IP_TRADE_1_1 = "trade/v1.1/c/order/";
-    public static final String SERVER_IP_TRADE_1_2 = "trade/v1.2/c/order/";
+    public static final String SERVER_IP_TRADE_1_2 = "trade/v1.3/c/order/";
 
     /**
      * 提交订单 接机
@@ -247,7 +247,7 @@ public class UrlLibs {
     /**
      * 取消订单
      **/
-    public static final String SERVER_IP_ORDER_CANCEL = UrlLibs.SERVER_IP_TRADE + "cancel?";
+    public static final String SERVER_IP_ORDER_CANCEL =  "trade/v1.0/c/order/cancel?";
     /**
      * 修改订单
      **/
@@ -263,7 +263,7 @@ public class UrlLibs {
     /**
      * 订单详情
      **/
-    public static final String SERVER_IP_ORDER_DETAIL = UrlLibs.SERVER_IP_TRADE_1_1 + "detail?";
+    public static final String SERVER_IP_ORDER_DETAIL = "trade/v1.2/c/order/detail?";
     /**
      * 订单增项费用
      **/
@@ -329,10 +329,10 @@ public class UrlLibs {
     /**
      * 上传经纬度  http://api.dev.hbc.tech/poi/v1.0/c/city?longitude=1&latitude=2
      */
-    public static final String UPLOAD_LOCATION = "poi/v1.0/e/city?";
+    public static final String UPLOAD_LOCATION = "poi/v1.0/c/city?";
 
 //    http://api.dev.hbc.tech/poi/v1.1/e/city?latitude=37.547054&longitude=126.959328
-    public static final String UPLOAD_LOCATION_V11 = "poi/v1.1/e/city?";
+    public static final String UPLOAD_LOCATION_V11 = "poi/v1.1/c/city?";
     /**
      * 获取车辆信息
      */
@@ -374,12 +374,12 @@ public class UrlLibs {
     public static final String COLLECT_GUIDES_LIST = "ucenter/v1.0/c/favorite/guides";
 
     /**
-     * 收藏司导（用户ID）
+     * 收藏司导（司导ID）
      */
     public static final String COLLECT_GUIDES_ID = "ucenter/v1.0/c/userid/favorite/guide";
 
     /**
-     * 取消收藏司导（用户ID）
+     * 取消收藏司导（司导ID）
      */
     public static final String UNCOLLECT_GUIDES_ID = "ucenter/v1.0/c/userid/unfavor/guide";
 
@@ -396,7 +396,7 @@ public class UrlLibs {
     /**
      * 过滤用户收藏的司导
      */
-    public static final String COLLECT_GUIDES_FILTER = "ucenter/v1.0/C/favorite/guides/filter";
+    public static final String COLLECT_GUIDES_FILTER = "ucenter/v1.0/c/favorite/guides/filter";
 
     /**
      * 获取邀请码
@@ -422,4 +422,45 @@ public class UrlLibs {
      * 邀请说明
      */
     public static final String INVITATION_INTRODUCTION = "ucenter/v1.0/c/invitation/introduction";
+
+    /**
+     * 导游详情
+     */
+    public static final String API_GUIDES_DETAIL = "ucenter/v1.0/c/favorite/guide/detail";
+
+    /**
+     *导游是否可用
+     */
+    public static final String  GUIDE_CONFLIC =  "trade/v1.0/c/order/guides/conflict";
+
+    /**
+     * 下单获取最适合的优惠券
+     * marketing/v1.1/c/coupons/mostFit
+     */
+    public static final String MOSTFIT = "marketing/v1.1/c/coupons/mostFit";
+
+    /**
+     * 获取可用优惠券
+     */
+    public static final String API_COUPONS_AVAILABLE = "marketing/v1.1/c/coupons/available";
+
+    /**
+     * 获取可用优惠券
+     */
+    public static final String DEDUCTION = "ucenter/v1.0/c/travelFund/deduction";
+
+    /**
+     * 修改订单
+     */
+    public static final String API_ORDER_EDIT = "trade/v1.2/c/order/edit";
+
+    /**
+     * C端评价v1.1
+     */
+    public static final String API_EVALUATE_NEW = "supplier/v1.1/c/guide/comments/create";
+
+    /**
+     * 获取各个星级的标签列表
+     */
+    public static final String API_EVALUATE_TAG = "supplier/v1.0/c/guides/comments/labels/OrderType";
 }

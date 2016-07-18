@@ -1,7 +1,9 @@
 package com.hugboga.custom.fragment;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.huangbaoche.hbcframe.adapter.ZBaseAdapter;
 import com.huangbaoche.hbcframe.data.net.ExceptionErrorCode;
@@ -15,7 +17,9 @@ import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.HomeAdapter;
 import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.bean.CollectGuideBean;
 import com.hugboga.custom.data.bean.HomeBean;
+import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.request.RequestHome;
 import com.umeng.analytics.MobclickAgent;
 
@@ -25,6 +29,8 @@ import org.xutils.view.annotation.ViewInject;
 
 import java.util.HashMap;
 
+import butterknife.ButterKnife;
+import de.greenrobot.event.EventBus;
 /**
  * 首页
  * Created by admin on 2016/3/1.
@@ -93,6 +99,98 @@ public class FgHome extends BaseFragment implements View.OnClickListener, ZBaseA
     protected void inflateContent() {
     }
 
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        ButterKnife.bind(this, rootView);
+        EventBus.getDefault().register(this);
+        return rootView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+        EventBus.getDefault().unregister(this);
+    }
+
+
+    CollectGuideBean collectGuideBean;
+    public void onEventMainThread(EventAction action) {
+        switch (action.getType()) {
+            case SINGLE_TYPE:
+                collectGuideBean = (CollectGuideBean)action.getData();
+                goSingle(collectGuideBean);
+                break;
+            case DAIRY_TYPE:
+                collectGuideBean = (CollectGuideBean)action.getData();
+                goDairy(collectGuideBean);
+                break;
+            case PICK_SEND_TYPE:
+                collectGuideBean = (CollectGuideBean)action.getData();
+                goPickSend(collectGuideBean);
+                break;
+
+//            case SHOW_ORDER_DETAIL:
+//                String orderId = (String)action.getData();
+//                FgOrderDetail.Params orderParams = new FgOrderDetail.Params();
+//                orderParams.orderId = orderId;
+//                orderParams.isUpdate = true;
+//                Bundle bundle =new Bundle();
+//                bundle.putSerializable(Constants.PARAMS_DATA, orderParams);
+//                bringToFront(FgOrderDetail.class, bundle);
+//                break;
+//            case ORDER_GO_HOME:
+//                Bundle bundle2 = new Bundle();
+//                bundle2.putString(KEY_FRAGMENT_NAME, this.getClass().getSimpleName());
+//                bringToFront(FgTravel.class, bundle2);
+//                break;
+            default:
+                break;
+        }
+    }
+
+
+    private void goPickSend(CollectGuideBean collectGuideBean){
+        Bundle bundle = new Bundle();
+        HashMap<String,String> map = new HashMap<String,String>();
+        FgPickSend fgPickSend = new FgPickSend();
+        bundle.putString("source","首页");
+        bundle.putSerializable("collectGuideBean",collectGuideBean);
+        fgPickSend.setArguments(bundle);
+        startFragment(fgPickSend, bundle);
+        map.put("source", "首页");
+        MobclickAgent.onEvent(getActivity(), "chose_pndairport", map);
+    }
+
+    private void goDairy(CollectGuideBean collectGuideBean){
+        Bundle bundle = new Bundle();
+        HashMap<String,String> map = new HashMap<String,String>();
+        FgOrderSelectCity fgOrderSelectCity = new FgOrderSelectCity();
+        bundle.putString("source","首页");
+        bundle.putSerializable("collectGuideBean",collectGuideBean);
+        fgOrderSelectCity.setArguments(bundle);
+        startFragment(fgOrderSelectCity, bundle);
+
+        map.put("source", "首页");
+        MobclickAgent.onEvent(getActivity(), "chose_oneday", map);
+    }
+
+    private void goSingle(CollectGuideBean collectGuideBean){
+        Bundle bundle = new Bundle();
+        HashMap<String,String> map = new HashMap<String,String>();
+        FgSingleNew fgSingleNew = new FgSingleNew();
+        bundle.putSerializable("collectGuideBean",collectGuideBean);
+        fgSingleNew.setArguments(bundle);
+        startFragment(fgSingleNew);
+
+        map.put("source", "首页");
+        MobclickAgent.onEvent(getActivity(), "chose_oneway", map);
+    }
+
+
+
     @Override
     public void onClick(View v) {
         MLog.e("onClick=" + v);
@@ -112,36 +210,18 @@ public class FgHome extends BaseFragment implements View.OnClickListener, ZBaseA
                 break;
             case R.id.fg_home_menu1://中文接送机
 //                FgTransfer fgTransfer = new FgTransfer();
-
-                FgPickSend fgPickSend = new FgPickSend();
-                bundle.putString("source","首页");
-                fgPickSend.setArguments(bundle);
-                startFragment(fgPickSend, bundle);
-
-                map.put("source", "首页");
-                MobclickAgent.onEvent(getActivity(), "chose_pndairport", map);
+                goPickSend(null);
                 break;
             case R.id.fg_home_menu2://按天包车
 //                startActivity(new Intent(this.getActivity(), OrderSelectCityActivity.class));
-                FgOrderSelectCity fgOrderSelectCity = new FgOrderSelectCity();
-                bundle.putString("source","首页");
-                fgOrderSelectCity.setArguments(bundle);
-                startFragment(fgOrderSelectCity, bundle);
-
-                map.put("source", "首页");
-                MobclickAgent.onEvent(getActivity(), "chose_oneday", map);
-//                startFragment(new FgDaily());fghstartFragment(new FgOrderSelectCity());
+                goDairy(null);
                 break;
             case R.id.fg_home_menu3://单次接送
 //                FgSingle fgSingle = new FgSingle();
 //                bundle.putString("source","首页");
 //                fgSingle.setArguments(bundle);
 //                startFragment(new FgSingle(), bundle);
-                FgSingleNew fgSingleNew = new FgSingleNew();
-                startFragment(fgSingleNew);
-
-                map.put("source", "首页");
-                MobclickAgent.onEvent(getActivity(), "chose_oneway", map);
+                goSingle(null);
                 break;
             case R.id.home_empty_refresh:
                 recyclerView.showPageFirst();

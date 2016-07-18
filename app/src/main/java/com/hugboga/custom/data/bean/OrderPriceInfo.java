@@ -11,23 +11,33 @@ import org.json.JSONObject;
  */
 public class OrderPriceInfo implements IBaseBean ,Parcelable{
 
-    public double orderPrice;
-    public double shouldPay;
+    public double orderPrice;  //订单金额
+    public double shouldPay;   //应付
     public double actualPay;           //实付金额
     public double refundPrice;        // 退款金额
     public double refundablePrice;    // 可退款金额
-    public double checkInPrice;
+    public double checkInPrice;// check in费用
     public double cancelFee;//退改费用
+    public double priceFlightBrandSign;//举牌费用
+    public double couponPrice;//优惠价格
+    public double travelFundPrice;//旅游基金
+    public double childSeatPrice;//儿童座椅价格
+    public double flightBrandSignPrice;//举牌价格
 
     public void parser(JSONObject jsonObj) throws JSONException {
         if (jsonObj == null) return;
-        orderPrice = jsonObj.optDouble("orderPrice");
-        shouldPay = jsonObj.optDouble("shouldPay");
-        actualPay = jsonObj.optDouble("actualPay");
+        orderPrice = jsonObj.optDouble("orderPrice", 0);
+        shouldPay = jsonObj.optDouble("shouldPay", 0);
+        actualPay = jsonObj.optDouble("actualPay", 0);
         checkInPrice = jsonObj.optDouble("checkInPrice");
-        refundPrice = jsonObj.optDouble("refundPrice");
-        refundablePrice = jsonObj.optDouble("refundablePrice");
+        refundPrice = jsonObj.optDouble("refundPrice", 0);
+        refundablePrice = jsonObj.optDouble("refundablePrice", 0);
         cancelFee = jsonObj.optDouble("cancelFee", 0);
+        priceFlightBrandSign = jsonObj.optDouble("priceFlightBrandSign", 0);
+        couponPrice = jsonObj.optDouble("couponPrice", 0);
+        travelFundPrice = jsonObj.optDouble("travelFundPrice", 0);
+        childSeatPrice = jsonObj.optDouble("childSeatPrice", 0);
+        flightBrandSignPrice = jsonObj.optDouble("flightBrandSignPrice", 0);
     }
 
     @Override
@@ -44,6 +54,11 @@ public class OrderPriceInfo implements IBaseBean ,Parcelable{
         dest.writeDouble(this.refundablePrice);
         dest.writeDouble(this.checkInPrice);
         dest.writeDouble(this.cancelFee);
+        dest.writeDouble(this.priceFlightBrandSign);
+        dest.writeDouble(this.couponPrice);
+        dest.writeDouble(this.travelFundPrice);
+        dest.writeDouble(this.childSeatPrice);
+        dest.writeDouble(this.flightBrandSignPrice);
     }
 
     public OrderPriceInfo() {
@@ -57,6 +72,11 @@ public class OrderPriceInfo implements IBaseBean ,Parcelable{
         this.refundablePrice = in.readDouble();
         this.checkInPrice = in.readDouble();
         this.cancelFee = in.readDouble();
+        this.priceFlightBrandSign = in.readDouble();
+        this.couponPrice = in.readDouble();
+        this.travelFundPrice = in.readDouble();
+        this.childSeatPrice = in.readDouble();
+        this.flightBrandSignPrice = in.readDouble();
     }
 
     public static final Creator<OrderPriceInfo> CREATOR = new Creator<OrderPriceInfo>() {

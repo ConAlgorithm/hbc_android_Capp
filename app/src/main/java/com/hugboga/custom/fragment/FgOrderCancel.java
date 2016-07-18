@@ -13,6 +13,8 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.OverPriceAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.OrderBean;
+import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestOrderCancel;
 import com.hugboga.custom.utils.UmengUtils;
 import com.hugboga.custom.widget.DialogUtil;
@@ -25,6 +27,8 @@ import org.xutils.view.annotation.ViewInject;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * 订单退单
@@ -106,10 +110,16 @@ public class FgOrderCancel extends BaseFragment {
     }
 
     private void goBackOrderFg() {
+//        Bundle bundle = new Bundle();
+//        bundle.putInt(KEY_BUSINESS_TYPE, orderBean.orderType);
+//        bundle.putString(FgOrder.KEY_ORDER_ID, orderBean.orderNo);
+//        bringToFront(FgOrder.class, bundle);
+        FgOrderDetail.Params params = new FgOrderDetail.Params();
+        params.orderType = orderBean.orderType;
+        params.orderId = orderBean.orderNo;
         Bundle bundle = new Bundle();
-        bundle.putInt(KEY_BUSINESS_TYPE, orderBean.orderType);
-        bundle.putString(FgOrder.KEY_ORDER_ID, orderBean.orderNo);
-        bringToFront(FgOrder.class, bundle);
+        bundle.putSerializable(Constants.PARAMS_DATA, params);
+        bringToFront(FgOrderDetail.class, bundle);
     }
 
     @Event({R.id.order_cancel_btn})
@@ -185,7 +195,9 @@ public class FgOrderCancel extends BaseFragment {
         dialogUtil.showCustomDialog("取消订单成功", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                bringToFront(FgTravel.class, new Bundle());
+//                bringToFront(FgTravel.class, new Bundle());
+                EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_UPDATE, orderBean.orderNo));
+                finish();
             }
         });
         notifyOrderList(FgTravel.TYPE_ORDER_CANCEL,true,false,true);

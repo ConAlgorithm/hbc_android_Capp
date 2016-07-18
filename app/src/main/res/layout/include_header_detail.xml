@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="?android:attr/actionBarSize"
+    android:background="#2d2b24">
+
+    <ImageView
+        android:id="@+id/header_detail_back_btn"
+        android:layout_width="?android:attr/actionBarSize"
+        android:layout_height="match_parent"
+        android:padding="@dimen/fab_margin"
+        android:src="@mipmap/top_back_white" />
+
+    <TextView
+        android:id="@+id/header_detail_title_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:textColor="@color/allbg_white"
+        android:textSize="@dimen/text_size_largex" />
+    <ImageView
+        android:id="@+id/header_detail_right_1_btn"
+        android:layout_width="?android:attr/actionBarSize"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:padding="@dimen/fab_margin"
+        android:src="@drawable/selector_guide_detail_collect" />
+    <ImageView
+        android:id="@+id/header_detail_right_2_btn"
+        android:layout_width="?android:attr/actionBarSize"
+        android:layout_height="match_parent"
+        android:layout_marginRight="-10dp"
+        android:layout_toLeftOf="@id/header_detail_right_1_btn"
+        android:padding="@dimen/fab_margin"
+        android:src="@mipmap/sddate_share" />
+
+
+</RelativeLayout>

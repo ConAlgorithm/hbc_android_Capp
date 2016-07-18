@@ -20,6 +20,7 @@ import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 
+import java.util.ArrayList;
 import java.util.List;
 import de.greenrobot.event.EventBus;
 
@@ -28,7 +29,7 @@ import de.greenrobot.event.EventBus;
  * Created by qingcha on 16/5/24.
  */
 @ContentView(R.layout.fg_collect_guide_list)
-public class FgCollectGuideList extends BaseFragment implements AdapterView.OnItemClickListener {
+public class FgCollectGuideList extends BaseFragment {
 
     @ViewInject(R.id.collect_list_listview)
     ZListView listView;
@@ -51,7 +52,6 @@ public class FgCollectGuideList extends BaseFragment implements AdapterView.OnIt
 
         fgTitle.setText(getString(R.string.collect_guide_title));
         listView.setEmptyView(emptyLayout);
-        listView.setOnItemClickListener(this);
         listView.setonRefreshListener(onRefreshListener);
         listView.setonLoadListener(onLoadListener);
     }
@@ -113,12 +113,6 @@ public class FgCollectGuideList extends BaseFragment implements AdapterView.OnIt
     }
 
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        EventBus.getDefault().post(new EventAction(EventType.CHOOSE_GUIDE,adapter.getItem(position)));
-        finish();
-    }
-
-    @Override
     public void onDataRequestSucceed(BaseRequest _request) {
         List<CollectGuideBean> list = null;
         if (_request instanceof RequestCollectGuideList) {
@@ -131,6 +125,7 @@ public class FgCollectGuideList extends BaseFragment implements AdapterView.OnIt
         if (list != null) {
             if (adapter == null) {
                 adapter = new CollectGuideAdapter(getActivity());
+                adapter.setFragment(this);
                 if (paramsData != null) {
                     adapter.setShowStatusLayout(false);
                 }

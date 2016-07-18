@@ -6,9 +6,7 @@ import com.hugboga.custom.data.bean.ADPictureBean;
 
 import org.json.JSONObject;
 
-/**
- * Created by dyt on 16/5/4.
- */
+
 public class ParseGetAD extends ImplParser {
 
     @Override

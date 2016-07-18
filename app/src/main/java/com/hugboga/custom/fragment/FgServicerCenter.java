@@ -75,7 +75,10 @@ public class FgServicerCenter extends BaseFragment {
                 break;
             case R.id.service_center_btn5:
                 //常见问题
-                toWebInfo(UrlLibs.H5_PROBLEM);
+                Bundle bundle = new Bundle();
+                bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_PROBLEM);
+                bundle.putBoolean(FgWebInfo.CONTACT_SERVICE, true);
+                startFragment(new FgWebInfo(), bundle);
                 break;
             default:
                 break;
@@ -105,7 +108,7 @@ public class FgServicerCenter extends BaseFragment {
 
     @Override
     protected void initHeader() {
-        fgTitle.setText("客服中心");
+        fgTitle.setText("服务规则");
     }
 
     @Override

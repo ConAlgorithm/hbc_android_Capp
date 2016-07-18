@@ -60,4 +60,9 @@ public class RequestGetCarInfo extends BaseRequest<CarInfoBean> {
         return HttpMethod.GET;
     }
 
+    @Override
+    public String getUrlErrorCode() {
+        return "40036";
+    }
+
 }

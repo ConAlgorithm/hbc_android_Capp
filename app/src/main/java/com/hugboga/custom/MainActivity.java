@@ -1,6 +1,5 @@
 package com.hugboga.custom;
 
-import android.*;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
@@ -12,6 +11,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -23,20 +23,18 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.huangbaoche.hbcframe.activity.BaseFragmentActivity;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
@@ -47,42 +45,45 @@ import com.hugboga.custom.adapter.MenuItemAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.LvMenuItem;
 import com.hugboga.custom.data.bean.PushMessage;
+import com.hugboga.custom.data.bean.UserBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.net.UrlLibs;
+import com.hugboga.custom.data.request.RequestLogin;
+import com.hugboga.custom.data.request.RequestLoginCheckOpenId;
 import com.hugboga.custom.data.request.RequestPushClick;
 import com.hugboga.custom.data.request.RequestPushToken;
 import com.hugboga.custom.data.request.RequestUploadLocation;
+import com.hugboga.custom.data.request.RequestUserInfo;
 import com.hugboga.custom.fragment.BaseFragment;
 import com.hugboga.custom.fragment.FgActivity;
 import com.hugboga.custom.fragment.FgChat;
 import com.hugboga.custom.fragment.FgCollectGuideList;
 import com.hugboga.custom.fragment.FgCoupon;
+import com.hugboga.custom.fragment.FgGuideDetail;
 import com.hugboga.custom.fragment.FgHome;
 import com.hugboga.custom.fragment.FgIMChat;
 import com.hugboga.custom.fragment.FgInsure;
 import com.hugboga.custom.fragment.FgInviteFriends;
 import com.hugboga.custom.fragment.FgLogin;
 import com.hugboga.custom.fragment.FgOrder;
+import com.hugboga.custom.fragment.FgOrderDetail;
 import com.hugboga.custom.fragment.FgPersonInfo;
 import com.hugboga.custom.fragment.FgServicerCenter;
 import com.hugboga.custom.fragment.FgSetting;
-import com.hugboga.custom.fragment.FgSkuDetail;
 import com.hugboga.custom.fragment.FgTravel;
 import com.hugboga.custom.fragment.FgTravelFund;
 import com.hugboga.custom.fragment.FgWebInfo;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.ChannelUtils;
 import com.hugboga.custom.utils.IMUtil;
-import com.hugboga.custom.utils.ImageOptionUtils;
 import com.hugboga.custom.utils.LocationUtils;
 import com.hugboga.custom.utils.PermissionRes;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.ToastUtils;
 import com.hugboga.custom.utils.Tools;
-import com.hugboga.custom.utils.UpdateResources;
-import com.hugboga.custom.widget.CircularImage;
 import com.umeng.analytics.MobclickAgent;
 import com.zhy.m.permission.MPermissions;
 import com.zhy.m.permission.PermissionDenied;
@@ -94,7 +95,6 @@ import org.xutils.common.util.FileUtil;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
-import org.xutils.x;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -108,6 +108,8 @@ import java.util.TimerTask;
 import cn.jpush.android.api.JPushInterface;
 import de.greenrobot.event.EventBus;
 
+import static android.R.attr.data;
+import de.greenrobot.event.EventBus;
 
 @ContentView(R.layout.activity_main)
 public class MainActivity extends BaseActivity
@@ -127,6 +129,8 @@ public class MainActivity extends BaseActivity
 
     private PolygonImageView my_icon_head;//header的头像
     private TextView tv_nickname;//header的昵称
+    private TextView couponTV, couponUnitTV;
+    private TextView travelFundTV, travelFundUnitTV;
 
     private TextView tabMenu[] = new TextView[3];
 
@@ -172,6 +176,16 @@ public class MainActivity extends BaseActivity
         }
 //        LocationUtils.openGPSSeting(MainActivity.this);
         MLog.e("umengLog" + getDeviceInfo(this));
+        ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(this, drawer, 0, 0) {
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                if (UserEntity.getUser().isLogin(MainActivity.this)) {
+                    HttpRequestUtils.request(MainActivity.this, new RequestUserInfo(MainActivity.this), MainActivity.this);
+                }
+            }
+        };
+        drawer.addDrawerListener(mDrawerToggle);
     }
 
     Timer timer;
@@ -284,6 +298,17 @@ public class MainActivity extends BaseActivity
             String countryName = ((RequestUploadLocation) request).getData().countryName;
             LocationUtils.saveLocationCity(MainActivity.this,cityId,cityName,countryId,countryName);
 //            MLog.e("Location: cityId:"+cityId + ",  cityName:"+cityName);
+        } else if (request instanceof RequestUserInfo) {
+            if (couponTV == null || travelFundTV == null) {
+                return;
+            }
+            RequestUserInfo mRequest = (RequestUserInfo) request;
+            UserBean user = mRequest.getData();
+            user.setUserEntity(MainActivity.this);
+            couponTV.setText("" + user.coupons);
+            travelFundTV.setText("" + user.travelFund);
+            couponUnitTV.setText("张");
+            travelFundUnitTV.setText("元");
         }
     }
 
@@ -335,11 +360,15 @@ public class MainActivity extends BaseActivity
     }
 
     private void gotoOrder(PushMessage message) {
-        Bundle bundle = new Bundle();
-        bundle.putInt(BaseFragment.KEY_BUSINESS_TYPE, message.orderType);
-        bundle.putInt(BaseFragment.KEY_GOODS_TYPE, message.goodsType);
-        bundle.putString(FgOrder.KEY_ORDER_ID, message.orderID);
-        startFragment(new FgOrder(), bundle);
+//        Bundle bundle = new Bundle();
+//        bundle.putInt(BaseFragment.KEY_BUSINESS_TYPE, message.orderType);
+//        bundle.putInt(BaseFragment.KEY_GOODS_TYPE, message.goodsType);
+//        bundle.putString(FgOrder.KEY_ORDER_ID, message.orderID);
+//        startFragment(new FgOrder(), bundle);
+        FgOrderDetail.Params params = new FgOrderDetail.Params();
+        params.orderType = message.orderType;
+        params.orderId = message.orderID;
+        startFragment(FgOrderDetail.newInstance(params));
     }
 
     public void onEventMainThread(EventAction action) {
@@ -354,6 +383,7 @@ public class MainActivity extends BaseActivity
                 if (index >= 0 && index < 3)
                     mViewPager.setCurrentItem(index);
                 break;
+            case ONBACKPRESS:
             case CLICK_HEADER_LEFT_BTN_BACK:
                 if (getFragmentsSize() == mSectionsPagerAdapter.getCount()) {
                     drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED); //打开
@@ -419,6 +449,11 @@ public class MainActivity extends BaseActivity
         my_icon_head.setOnClickListener(this);
         tv_nickname = (TextView) header.findViewById(R.id.tv_nickname);//昵称
         tv_nickname.setOnClickListener(this);
+        couponTV = (TextView) header.findViewById(R.id.slidemenu_header_coupon_tv);//优惠券
+        travelFundTV = (TextView) header.findViewById(R.id.slidemenu_header_travelfund_tv);//旅游基金
+        couponUnitTV = (TextView) header.findViewById(R.id.slidemenu_header_coupon_unit_tv);
+        travelFundUnitTV = (TextView) header.findViewById(R.id.slidemenu_header_travelfund_unit_tv);
+
         header.findViewById(R.id.slidemenu_header_coupon_layout).setOnClickListener(this);
         header.findViewById(R.id.slidemenu_header_travelfund_layout).setOnClickListener(this);
         tv_nickname.setOnLongClickListener(new View.OnLongClickListener() {
@@ -433,7 +468,6 @@ public class MainActivity extends BaseActivity
         menuItemAdapter = new MenuItemAdapter(this, mItems);
         mLvLeftMenu.setAdapter(menuItemAdapter);
         mLvLeftMenu.setOnItemClickListener(this);
-
         refreshContent();
     }
 
@@ -445,6 +479,11 @@ public class MainActivity extends BaseActivity
             my_icon_head.setImageResource(R.mipmap.chat_head);
             tv_nickname.setText(this.getResources().getString(R.string.person_center_nickname));
             menuItemAdapter.notifyDataSetChanged();
+            couponTV.setText("");
+            travelFundTV.setText("");
+            couponUnitTV.setText("--");
+            travelFundUnitTV.setText("--");
+            tv_nickname.setTextColor(0xFF999999);
         } else {
             if (!TextUtils.isEmpty(UserEntity.getUser().getAvatar(this))) {
                 Tools.showImage(this,my_icon_head,UserEntity.getUser().getAvatar(this));
@@ -452,12 +491,17 @@ public class MainActivity extends BaseActivity
             } else {
                 my_icon_head.setImageResource(R.mipmap.chat_head);
             }
-
+            tv_nickname.setTextColor(0xFF3c3731);
             if (!TextUtils.isEmpty(UserEntity.getUser().getNickname(this))) {
                 tv_nickname.setText(UserEntity.getUser().getNickname(this));
             } else {
                 tv_nickname.setText(this.getResources().getString(R.string.person_center_no_nickname));
             }
+            couponTV.setText("" + UserEntity.getUser().getCoupons(this));
+            travelFundTV.setText("" + UserEntity.getUser().getTravelFund(this));
+            couponUnitTV.setText("张");
+            travelFundUnitTV.setText("元");
+
         }
     }
 
@@ -477,6 +521,8 @@ public class MainActivity extends BaseActivity
     public void onBackPressed() {
         if (getFragmentList().size() > mSectionsPagerAdapter.getCount()) {
             doFragmentBack();
+        } else if (mViewPager.getCurrentItem() != 0) {
+            mViewPager.setCurrentItem(0);
         } else {
             if (drawer.isDrawerOpen(GravityCompat.START)) {
                 drawer.closeDrawer(GravityCompat.START);
@@ -581,29 +627,51 @@ public class MainActivity extends BaseActivity
 
     }
 
+    //通讯录
+    private  final int PICK_CONTACTS = 101;
+    // 接收通讯录的选择号码事件
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+            if (resultCode == RESULT_OK) {
+                if (data == null) {
+                    return;
+                }
+                if(PICK_CONTACTS == requestCode) {
+                    Uri result = data.getData();
+                    String[] contact = PhoneInfo.getPhoneContacts(this, result);
+                    EventBus.getDefault().post(new EventAction(EventType.CONTACT, contact));
+                }
+            }
+    }
+
+
     /**
      * 判断是否登录
      * @param source 来源，用于统计
      * @return
      */
     private boolean isLogin(String source) {
-        if (UserEntity.getUser().isLogin(this)) {
-            return true;
-        } else {
-            if(!TextUtils.isEmpty(source)){
-                Bundle bundle = new Bundle();;
-                bundle.putString("source",source);
-                startFragment(new FgLogin(), bundle);
+        try {
+            if (UserEntity.getUser().isLogin(this)) {
+                return true;
+            } else {
+                if(!TextUtils.isEmpty(source)){
+                    Bundle bundle = new Bundle();;
+                    bundle.putString("source",source);
+                    startFragment(new FgLogin(), bundle);
 
-                HashMap<String,String> map = new HashMap<String,String>();
-                map.put("source", source);
-                MobclickAgent.onEvent(MainActivity.this, "login_trigger", map);
-                return false;
-            }else{
-                startFragment(new FgLogin());
-                return false;
+                    HashMap<String,String> map = new HashMap<String,String>();
+                    map.put("source", source);
+                    MobclickAgent.onEvent(MainActivity.this, "login_trigger", map);
+                    return false;
+                }else{
+                    startFragment(new FgLogin());
+                    return false;
+                }
             }
+        } catch (Exception e) {
         }
+        return false;
     }
 
     @Override

@@ -35,4 +35,9 @@ public class RequestDelInsure extends BaseRequest<ArrayList<CouponBean>> {
     public HttpMethod getHttpMethod() {
         return HttpMethod.POST;
     }
+
+    @Override
+    public String getUrlErrorCode() {
+        return "40028";
+    }
 }

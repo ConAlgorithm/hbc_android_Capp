@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:layout_marginTop="5dp"
     android:background="#e0e1e2"
+    android:id="@+id/man_luggage_layout"
     android:orientation="vertical">
 
 

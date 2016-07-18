@@ -8,17 +8,16 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/basic_other_toolbar_color">
+        android:layout_height="match_parent">
 
         <RelativeLayout
             android:id="@+id/coupon_pay_layout"
             android:layout_width="match_parent"
             android:layout_height="@dimen/coupon_pay_height"
-            android:background="#19000000"
-            android:paddingBottom="@dimen/basic_margin_small"
-            android:paddingLeft="@dimen/basic_margin_xlarge"
-            android:paddingTop="@dimen/basic_margin_small">
+            android:background="@color/basic_white"
+            android:paddingBottom="6dp"
+            android:paddingLeft="15dp"
+            android:paddingTop="6dp">
 
             <Button
                 android:id="@+id/coupon_btn_pay"
@@ -29,7 +28,7 @@
                 android:background="@null"
                 android:text="兑换"
                 android:textSize="16sp"
-                android:textColor="#FFF" />
+                android:textColor="#666666" />
 
             <EditText
                 android:id="@+id/coupon_btn_carnumber"
@@ -38,9 +37,8 @@
                 android:layout_toLeftOf="@id/coupon_btn_pay"
                 android:background="@drawable/textbox"
                 android:textColorHint="@color/change_mobile_hint"
-                android:layout_marginLeft="10dp"
                 android:paddingLeft="10dp"
-                android:textSize="16sp"
+                android:textSize="15sp"
                 android:hint="请输入优惠券兑换码" />
         </RelativeLayout>
 
@@ -49,6 +47,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/coupon_pay_layout"
+            android:dividerHeight="15dp"
             android:background="@color/coupon_empty_color"
             android:divider="@null" />
 
