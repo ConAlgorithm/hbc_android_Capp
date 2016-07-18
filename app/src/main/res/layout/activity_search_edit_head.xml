@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_head_layout"
+    android:layout_width="fill_parent"
+    android:layout_height="48dip"
+    android:background="@color/basic_black">
+
+    <ImageView
+        android:id="@+id/header_left_btn"
+        android:layout_width="45dip"
+        android:layout_height="45dip"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:padding="10dip"
+        android:src="@mipmap/top_back" />
+
+    <TextView
+        android:id="@+id/head_text_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignWithParentIfMissing="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="10dip"
+        android:layout_toLeftOf="@id/head_btn_right"
+        android:text="搜索"
+        android:textColor="@color/basic_white"
+        android:textSize="16dip" />
+
+    <EditText
+        android:id="@+id/head_search"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="8dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginTop="8dp"
+        android:layout_toLeftOf="@id/head_text_right"
+        android:layout_toRightOf="@id/header_left_btn"
+        android:background="@drawable/shape_rounded_white"
+        android:drawableLeft="@mipmap/search_box_icon"
+        android:drawablePadding="15dp"
+        android:hint="@string/search_hint_pick"
+        android:imeOptions="actionSearch"
+        android:paddingLeft="14dp"
+        android:singleLine="true"
+        android:textColor="@color/basic_black"
+        android:textSize="14sp" />
+
+    <ImageView
+        android:id="@+id/head_search_clean"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/search_delete"
+        android:layout_alignRight="@+id/head_search"
+        android:layout_centerVertical="true"
+        android:paddingLeft="10dp"
+        android:paddingRight="5dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp" />
+</RelativeLayout>

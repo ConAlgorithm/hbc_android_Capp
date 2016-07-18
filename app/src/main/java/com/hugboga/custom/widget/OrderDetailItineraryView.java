@@ -1,28 +1,49 @@
 package com.hugboga.custom.widget;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.TextUtils;
+import android.text.style.ImageSpan;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.OrderPriceInfo;
+import com.hugboga.custom.fragment.FgActivity;
+import com.hugboga.custom.fragment.FgOrderDetail;
+import com.hugboga.custom.fragment.FgSkuDetail;
+import com.hugboga.custom.fragment.FgSkuList;
+import com.hugboga.custom.fragment.FgWebInfo;
+import com.hugboga.custom.utils.Tools;
+import com.hugboga.custom.utils.UIUtils;
 
 /**
  * Created by qingcha on 16/6/2.
  */
-public class OrderDetailItineraryView extends LinearLayout implements HbcViewBehavior {
+public class OrderDetailItineraryView extends LinearLayout implements HbcViewBehavior, View.OnClickListener{
+
+    private FgOrderDetail mFragment;
 
     private LinearLayout itineraryLayout;
     private TextView orderNumberTV;
-    private TextView routeTV;
     private TextView carpoolTV;
+
+    private TextView routeTV;
+    private ImageView routeIV;
+    private RelativeLayout routeLayout;
+
+    private OrderBean orderBean;
 
     public OrderDetailItineraryView(Context context) {
         this(context, null);
@@ -33,8 +54,15 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
         inflate(context, R.layout.view_order_detail_itinerary, this);
         itineraryLayout = (LinearLayout) findViewById(R.id.order_itinerary_item_layout);
         orderNumberTV = (TextView) findViewById(R.id.order_itinerary_order_number_tv);
-        routeTV = (TextView) findViewById(R.id.order_itinerary_route_tv);
         carpoolTV = (TextView) findViewById(R.id.order_itinerary_carpool_tv);
+
+        routeTV = (TextView) findViewById(R.id.order_itinerary_route_tv);
+        routeIV = (ImageView) findViewById(R.id.order_itinerary_route_iv);
+        routeLayout = (RelativeLayout) findViewById(R.id.order_itinerary_route_layout);
+    }
+
+    public void setFragment(FgOrderDetail _fragment) {
+        this.mFragment = _fragment;
     }
 
     @Override
@@ -42,23 +70,24 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
         if (_data == null) {
             return;
         }
-        OrderBean orderBean = (OrderBean) _data;
+        orderBean = (OrderBean) _data;
         orderNumberTV.setText(getContext().getString(R.string.order_detail_order_number, orderBean.orderNo));
         itineraryLayout.removeAllViews();
 
-        //精品路线
-        if (orderBean.orderGoodsType == 5 && !TextUtils.isEmpty(orderBean.lineSubject)) {
-            routeTV.setVisibility(View.VISIBLE);
-            routeTV.setText(orderBean.lineSubject);
+        if (orderBean.orderType == 5 && !TextUtils.isEmpty(orderBean.lineSubject)) {//固定线路 超省心
+            setRouteLayoutVisible(R.mipmap.chaoshengxin);
+        } else if(orderBean.orderType == 6 && !TextUtils.isEmpty(orderBean.lineSubject)) {//推荐路线 超自由
+            setRouteLayoutVisible(R.mipmap.chaoziyou);
         } else {
-            routeTV.setVisibility(View.GONE);
+            routeLayout.setVisibility(View.GONE);
+            routeLayout.setOnClickListener(null);
         }
 
         carpoolTV.setVisibility(orderBean.carPool ? View.VISIBLE : View.GONE);//拼车
 
         //"当地时间 04月21日（周五）10:05" orderBean.serviceTime
         String localTime = getContext().getString(R.string.order_detail_local_time, orderBean.serviceTimeStr);
-        if (orderBean.orderGoodsType == 3 || orderBean.orderGoodsType == 5 || orderBean.orderGoodsType == 6 || orderBean.orderGoodsType == 7) {
+        if (orderBean.orderType == 3 || orderBean.orderType == 5 || orderBean.orderType == 6) {
             //主标题：东京-6天包车  副标题：当地时间
             String totalDays = "" + orderBean.totalDays;
             if (orderBean.isHalfDaily == 1) {//半日包
@@ -79,7 +108,8 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
             addItemView(R.mipmap.order_time, localTime, null, flight);
         }
 
-        if (orderBean.isHalfDaily == 0 && orderBean.passByCity != null && orderBean.passByCity.size() > 0) {//TODO 条件 当前按照旧的逻辑添加
+        //包车线路列表
+        if (orderBean.orderType == 3 && orderBean.isHalfDaily == 0 && orderBean.passByCity != null && orderBean.passByCity.size() > 0) {
             OrderDetailRouteView routeView = new OrderDetailRouteView(getContext());
             itineraryLayout.addView(routeView);
             routeView.update(orderBean.passByCity);
@@ -100,11 +130,15 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
             }
             addItemView(R.mipmap.order_car, orderBean.carDesc, passengerInfos, null);
         }
-        OrderPriceInfo priceInfo = orderBean.orderPriceInfo;
+
         if (orderBean.orderGoodsType == 1  && "1".equalsIgnoreCase(orderBean.isFlightSign)) {//接机
             addItemView(R.mipmap.order_jp, getContext().getString(R.string.order_detail_airport_card));
         } else if (orderBean.orderGoodsType == 2 && "1".equals(orderBean.isCheckin)) {//送机checkin
             addItemView(R.mipmap.order_jp, getContext().getString(R.string.order_detail_checkin));
+        }
+
+        if (orderBean.hotelStatus == 1) {//酒店预订
+            addItemView(R.mipmap.order_jp, getContext().getString(R.string.order_detail_hotle_subscribe, orderBean.hotelDays, orderBean.hotelRoom));
         }
     }
 
@@ -137,5 +171,40 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
         }
 
         itineraryLayout.addView(itemView);
+    }
+
+    public void setRouteLayoutVisible(int resId) {
+        routeLayout.setVisibility(View.VISIBLE);
+        Tools.showRoundImage(routeIV, orderBean.picUrl, UIUtils.dip2px(5));
+        routeTV.setText(getRouteSpannableString(orderBean.lineSubject, resId));
+        if (orderBean.orderSource == 1 && !TextUtils.isEmpty(orderBean.skuDetailUrl)) {
+            routeLayout.setOnClickListener(this);
+        }
+    }
+
+    private SpannableString getRouteSpannableString(String lineSubject, int resId) {
+        Drawable drawable = getContext().getResources().getDrawable(resId);
+        drawable.setBounds(0, 0, UIUtils.dip2px(36), UIUtils.dip2px(18));
+        SpannableString spannable = new SpannableString("[icon]" + lineSubject);
+        VerticalImageSpan span = new VerticalImageSpan(drawable);
+        spannable.setSpan(span, 0, "[icon]".length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+        return spannable;
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (mFragment == null) {
+            return;
+        }
+        switch (v.getId()) {
+            case R.id.order_itinerary_route_layout:
+                FgSkuDetail fgSkuDetail = new FgSkuDetail();
+                Bundle bundle = new Bundle();
+                bundle.putString(FgWebInfo.WEB_URL, orderBean.skuDetailUrl);
+                bundle.putString(Constants.PARAMS_ID, orderBean.goodsNo);
+                fgSkuDetail.setArguments(bundle);
+                mFragment.startFragment(fgSkuDetail, bundle);
+                break;
+        }
     }
 }

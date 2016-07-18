@@ -1,6 +1,7 @@
 package com.hugboga.custom.fragment;
 
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -29,13 +30,15 @@ import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestPriceSku;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.CarUtils;
+import com.hugboga.custom.utils.CityUtils;
+import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.OrderUtils;
 import com.umeng.analytics.MobclickAgent;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
-import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 
@@ -45,6 +48,11 @@ import java.util.HashMap;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import org.greenrobot.eventbus.EventBus;
+
+import static com.hugboga.custom.R.id.all_journey_text;
+import static com.hugboga.custom.R.id.all_money_left;
+import static com.hugboga.custom.R.id.all_money_text_sku;
 
 /**
  * Created  on 16/5/20.
@@ -75,18 +83,24 @@ public class FgSkuNew extends BaseFragment {
     RelativeLayout rlStarttime;
     @Bind(R.id.confirm_journey)
     TextView confirmJourney;
-    @Bind(R.id.all_money_left)
+    @Bind(all_money_left)
     TextView allMoneyLeft;
     @Bind(R.id.all_money_text)
     TextView allMoneyText;
     @Bind(R.id.all_money_left_sku)
     TextView allMoneyLeftSku;
-    @Bind(R.id.all_money_text_sku)
+    @Bind(all_money_text_sku)
     TextView allMoneyTextSku;
-    @Bind(R.id.all_journey_text)
+    @Bind(all_journey_text)
     TextView allJourneyText;
     @Bind(R.id.bottom)
     RelativeLayout bottom;
+    @Bind(R.id.sku_city_hotel)
+    TextView skuCityHotel;
+    @Bind(R.id.time_text_start_end)
+    TextView timeTextStartEnd;
+    @Bind(R.id.money_pre)
+    TextView moneyPre;
 
     @Override
     protected void initHeader() {
@@ -130,6 +144,8 @@ public class FgSkuNew extends BaseFragment {
     private String areaCode;//区号
     private PoiBean startPoiBean;//上车地点
 
+    private boolean showHotal;//是否显示酒店
+
     @Override
     protected void initView() {
         skuBean = (SkuItemBean) getArguments().getSerializable(FgSkuDetail.WEB_SKU);
@@ -137,10 +153,25 @@ public class FgSkuNew extends BaseFragment {
         source = getArguments().getString("source");
         MLog.e("skuBean= " + skuBean);
         if (skuBean == null) return;
-        skuTitle.setText(skuBean.goodsName);
-        skuCityLine.setText(skuBean.places);
+
+        if (skuBean.goodsClass == 1) {//固定
+            skuTitle.setText(CityUtils.addImg(getActivity(), skuBean.goodsName, R.mipmap.chaoshengxin));
+        } else {//推荐
+            skuTitle.setText(CityUtils.addImg(getActivity(), skuBean.goodsName, R.mipmap.chaoziyou));
+        }
+
+        skuCityLine.setText("起止:"+skuBean.places);
         skuDay.setText(getString(R.string.sku_days, skuBean.daysCount));
         needChildrenSeat = cityBean != null && cityBean.childSeatSwitch;
+
+//        public int hotelCostAmount;//天数
+//        public int hotelStatus;//是否有酒店
+        if (skuBean.hotelStatus == 1) {
+            skuCityHotel.setVisibility(View.VISIBLE);
+            skuCityHotel.setText("含酒店:" + skuBean.hotelCostAmount + "晚");
+        }
+
+
     }
 
     @Override
@@ -160,7 +191,13 @@ public class FgSkuNew extends BaseFragment {
             if (carListBean.carList.size() > 0) {
                 carBean = carListBean.carList.get(0);
                 bottom.setVisibility(View.VISIBLE);
-                genBottomData(carBean);
+                if (skuBean.hotelStatus == 1) {
+                    carListBean.showHotel = true;
+                    hotelNum = skuBean.hotelCostAmount;
+                    carListBean.hotelNum = skuBean.hotelCostAmount;
+                    carListBean.hourseNum = hourseNum;
+                }
+                genBottomData(carBean, hourseNum);
             } else {
                 bottom.setVisibility(View.GONE);
             }
@@ -170,14 +207,20 @@ public class FgSkuNew extends BaseFragment {
     }
 
     String serverDayTime = "";
-    private void getData(){
+
+    private void getData() {
         serverDayTime = serverDate + " " + serverTime + ":00";
+        timeTextStartEnd.setVisibility(View.VISIBLE);
+        timeTextStartEnd.setText("起止日期:" + serverDate + " ~ " + DateUtils.getEndDateByStr(serverDate, skuBean.daysCount));
+
         MLog.e("serverDayTime= " + serverDayTime);
-        RequestPriceSku request = new RequestPriceSku(getActivity(), skuBean.goodsNo, serverDayTime,cityBean.cityId+"");
+        RequestPriceSku request = new RequestPriceSku(getActivity(), skuBean.goodsNo, serverDayTime, cityBean.cityId + "");
         requestData(request);
     }
 
-    private void genBottomData(CarBean carBean) {
+    int perPrice = 0;
+
+    private void genBottomData(CarBean carBean, int hourseNum) {
         allMoneyLeft.setVisibility(View.GONE);
         allMoneyText.setVisibility(View.GONE);
         allMoneyTextSku.setVisibility(View.GONE);
@@ -187,78 +230,78 @@ public class FgSkuNew extends BaseFragment {
         allMoneyTextSku.setVisibility(View.VISIBLE);
 
         int total = carBean.price;
-        if(null != manLuggageBean){
-            int seat1Price = OrderUtils.getSeat1PriceTotal(carListBean,manLuggageBean);
-            int seat2Price = OrderUtils.getSeat2PriceTotal(carListBean,manLuggageBean);
+        if (null != manLuggageBean) {
+            int seat1Price = OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean);
+            int seat2Price = OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean);
             total += seat1Price + seat2Price;
+            total += carListBean.hotelPrice  * hourseNum;
+            perPrice = total / (manLuggageBean.childs + manLuggageBean.mans);
         }
 
-        allMoneyText.setText("￥ " + total);
-
         allMoneyTextSku.setText("￥ " + total);
+        if(carListBean.showHotel) {
+            moneyPre.setVisibility(View.VISIBLE);
+            moneyPre.setText("人均:￥ " + perPrice);
+            carListBean.hourseNum = hourseNum;
+        }
     }
-
 
 
     CarBean carBean;
     ManLuggageBean manLuggageBean;
+    int hotelNum = 1;//几晚
+    int hourseNum = 1;//几间房
+    @Subscribe
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
+            case CAR_CHANGE_SMALL:
+                confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
+                confirmJourney.setOnClickListener(null);
+                break;
+            case SKU_HOTEL_NUM_CHANGE:
+                hourseNum = (int) action.getData();
+                genBottomData(carBean, hourseNum);
+                break;
             case ONBACKPRESS:
 //                backPress();
                 break;
             case CHANGE_CAR:
                 carBean = (CarBean) action.getData();
-                if(null != carBean) {
-                    genBottomData(carBean);
+                if (null != carBean) {
+                    genBottomData(carBean, hourseNum);
                 }
                 break;
             case MAN_CHILD_LUUAGE:
                 confirmJourney.setBackgroundColor(getContext().getResources().getColor(R.color.all_bg_yellow));
-                manLuggageBean = (ManLuggageBean)action.getData();
-                if(null != carBean) {
-                    genBottomData(carBean);
+                manLuggageBean = (ManLuggageBean) action.getData();
+                if (null != carBean) {
+                    genBottomData(carBean, hourseNum);
                 }
                 confirmJourney.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(UserEntity.getUser().isLogin(getActivity())) {
-                            FGOrderNew fgOrderNew = new FGOrderNew();
-                            Bundle bundle = new Bundle();
-                            bundle.putString("guideCollectId", "");
-                            bundle.putSerializable("collectGuideBean", null);
-                            bundle.putString("source", source);
-                            bundle.putParcelable("carListBean",carListBean);
+                        if (UserEntity.getUser().isLogin(getActivity())) {
+                            if((carBean.carType == 1 && carBean.capOfPerson == 4
+                                    && (Integer.valueOf(manLuggageBean.mans) + Integer.valueOf(manLuggageBean.childs)) == 4)
+                                    || (carBean.carType == 1 && carBean.capOfPerson == 6 && (Integer.valueOf(manLuggageBean.mans) + Integer.valueOf(manLuggageBean.childs)) == 6)){
+                                AlertDialogUtils.showAlertDialog(getActivity(), getString(R.string.alert_car_full),
+                                        "继续下单", "更换车型", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                goNext();
+                                                dialog.dismiss();
+                                            }
+                                        }, new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                dialog.dismiss();
+                                            }
+                                        });
+                            } else {
+                                goNext();
+                            }
 
-                            bundle.putString("startCityId", cityBean.cityId + "");
-                            bundle.putString("endCityId", cityBean.cityId + "");//endCityId);
-                            bundle.putString("startDate", serverDate);
-                            bundle.putString("endDate", serverDate);
-                            bundle.putString("serverDayTime", serverDayTime + ":00");
-                            bundle.putString("halfDay", "0");
-                            bundle.putString("adultNum", manLuggageBean.mans + "");
-                            bundle.putString("childrenNum", manLuggageBean.childs + "");
-                            bundle.putString("childseatNum", manLuggageBean.childSeats + "");
-                            bundle.putString("luggageNum", manLuggageBean.luggages + "");
-                            bundle.putString("passCities", "");
-                            bundle.putString("carTypeName", carBean.desc);
-                            bundle.putString("startCityName", cityBean.name);
-                            bundle.putString("dayNums", skuBean.daysCount + "");
-                            bundle.putParcelable("startBean", cityBean);
-                            bundle.putParcelable("endBean", cityBean);
-                            bundle.putInt("outnum", skuBean.daysCount);
-                            bundle.putInt("innum", 0);
-                            bundle.putString("source", source);
-                            bundle.putBoolean("isHalfTravel", false);
-                            bundle.putSerializable("passCityList", null);
-                            bundle.putParcelable("carBean", CarUtils.carBeanAdapter(carBean));
-                            bundle.putInt("type", 5);
-                            bundle.putString("orderType", "5");
-                            bundle.putSerializable("web_sku", skuBean);
-                            bundle.putSerializable("web_city", cityBean);
-                            fgOrderNew.setArguments(bundle);
-                            startFragment(fgOrderNew);
-                        }else{
+                        } else {
                             Bundle bundle = new Bundle();//用于统计
                             bundle.putString("source", "sku下单");
                             startFragment(new FgLogin(), bundle);
@@ -269,6 +312,53 @@ public class FgSkuNew extends BaseFragment {
             default:
                 break;
         }
+    }
+
+
+    private void goNext() {
+
+        FGOrderNew fgOrderNew = new FGOrderNew();
+        Bundle bundle = new Bundle();
+        bundle.putString("guideCollectId", "");
+        bundle.putSerializable("collectGuideBean", null);
+        bundle.putString("source", source);
+        bundle.putParcelable("carListBean", carListBean);
+
+        bundle.putString("startCityId", cityBean.cityId + "");
+        bundle.putString("endCityId", cityBean.cityId + "");//endCityId);
+        bundle.putString("startDate", serverDate);
+        bundle.putString("endDate", serverDate);
+        bundle.putString("serverDayTime", serverDayTime + ":00");
+        bundle.putString("halfDay", "0");
+        bundle.putString("adultNum", manLuggageBean.mans + "");
+        bundle.putString("childrenNum", manLuggageBean.childs + "");
+        bundle.putString("childseatNum", manLuggageBean.childSeats + "");
+        bundle.putString("luggageNum", manLuggageBean.luggages + "");
+        bundle.putString("passCities", "");
+        bundle.putString("carTypeName", carBean.desc);
+        bundle.putString("startCityName", cityBean.name);
+        bundle.putString("dayNums", skuBean.daysCount + "");
+        bundle.putParcelable("startBean", cityBean);
+        bundle.putParcelable("endBean", cityBean);
+        bundle.putInt("outnum", skuBean.daysCount);
+        bundle.putInt("innum", 0);
+        bundle.putString("source", source);
+        bundle.putBoolean("isHalfTravel", false);
+        bundle.putSerializable("passCityList", null);
+        bundle.putParcelable("carBean", CarUtils.carBeanAdapter(carBean));
+
+        if(skuBean.goodsClass == 1){
+            bundle.putInt("type", 5);
+            bundle.putString("orderType", "5");
+        }else{
+            bundle.putInt("type", 6);
+            bundle.putString("orderType", "6");
+        }
+
+        bundle.putSerializable("web_sku", skuBean);
+        bundle.putSerializable("web_city", cityBean);
+        fgOrderNew.setArguments(bundle);
+        startFragment(fgOrderNew);
     }
 
     FragmentManager fm;
@@ -374,8 +464,8 @@ public class FgSkuNew extends BaseFragment {
         }
     }
 
-    private  void backPress(){
-        if((!TextUtils.isEmpty(timeText.getText())) ){
+    private void backPress() {
+        if ((!TextUtils.isEmpty(timeText.getText()))) {
             AlertDialogUtils.showAlertDialog(getContext(), getString(R.string.back_alert_msg), "离开", "取消", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -388,7 +478,7 @@ public class FgSkuNew extends BaseFragment {
                     dialog.dismiss();
                 }
             });
-        }else{
+        } else {
             finish();
         }
     }

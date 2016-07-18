@@ -19,7 +19,6 @@ import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.SaveStartEndCity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
-import com.hugboga.custom.utils.ToastUtils;
 import com.umeng.analytics.MobclickAgent;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
@@ -36,8 +35,6 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
-import static android.R.attr.fragment;
 
 /**
  * Created  on 16/5/13.
@@ -65,6 +62,10 @@ public class FgChooseAirAddress extends BaseFragment {
     LinearLayout showHistory;
     @Bind(R.id.exchange)
     ImageView exchange;
+    @Bind(R.id.start_layout)
+    LinearLayout startLayout;
+    @Bind(R.id.end_layout)
+    LinearLayout endLayout;
 
     @Override
     protected void initHeader() {
@@ -105,50 +106,52 @@ public class FgChooseAirAddress extends BaseFragment {
     }
 
 
-    private int getMaxId(){
-        return cityList.size() == 0?0:cityList.get(0).id + 1 ;
+    private int getMaxId() {
+        return cityList.size() == 0 ? 0 : cityList.get(0).id + 1;
     }
+
     ArrayList<SaveStartEndCity> cityList = new ArrayList<>();
 
-    private void getSaveInfo(){
+    private void getSaveInfo() {
         try {
-            Type resultType = new TypeToken<List<SaveStartEndCity>>() {}.getType();
-            if(null != resultType) {
+            Type resultType = new TypeToken<List<SaveStartEndCity>>() {
+            }.getType();
+            if (null != resultType) {
                 cityList = Reservoir.get("savedHistoryCityBean", resultType);
             }
-            if(null != cityList){
+            if (null != cityList) {
                 genHistoryList();
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private void genHistoryList(){
+    private void genHistoryList() {
         View view = null;
         TextView historyText;
         ImageView historyDel;
         historyLayout.removeAllViews();
-        if(null != cityList && cityList.size() > 0){
+        if (null != cityList && cityList.size() > 0) {
             showHistory.setVisibility(View.VISIBLE);
-            for(int i = 0;i < cityList.size();i++) {
+            for (int i = 0; i < cityList.size(); i++) {
                 view = LayoutInflater.from(this.getContext()).inflate(R.layout.air_history_item, null);
                 historyText = (TextView) view.findViewById(R.id.history_text);
                 historyDel = (ImageView) view.findViewById(R.id.history_del);
-                historyText.setText(cityList.get(i).startCityName+" - "+cityList.get(i).endCityName);
+                historyText.setText(cityList.get(i).startCityName + " - " + cityList.get(i).endCityName);
                 historyText.setTag(cityList.get(i).id);
                 historyDel.setTag(cityList.get(i).id);
                 view.setTag(cityList.get(i).id);
-                historyText.setOnClickListener(new View.OnClickListener(){
+                historyText.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         int vId = Integer.valueOf(v.getTag().toString()).intValue();
-                        for(int i = 0;i< cityList.size();i++) {
-                            if(cityList.get(i).id == vId) {
+                        for (int i = 0; i < cityList.size(); i++) {
+                            if (cityList.get(i).id == vId) {
                                 cityFromId = cityList.get(i).startCityId;
                                 cityToId = cityList.get(i).endCityId;
                                 fromCityName = cityList.get(i).startCityName;
-                                endCityName =cityList.get(i).endCityName;
+                                endCityName = cityList.get(i).endCityName;
                                 fromCity.setText(fromCityName);
                                 endCity.setText(endCityName);
                             }
@@ -160,24 +163,24 @@ public class FgChooseAirAddress extends BaseFragment {
                     @Override
                     public void onClick(View v) {
                         int vId = Integer.valueOf(v.getTag().toString()).intValue();
-                        for(int i =0 ;i< historyLayout.getChildCount();i++){
-                            if(vId == Integer.valueOf(historyLayout.getChildAt(i).getTag().toString())){
+                        for (int i = 0; i < historyLayout.getChildCount(); i++) {
+                            if (vId == Integer.valueOf(historyLayout.getChildAt(i).getTag().toString())) {
                                 historyLayout.removeViewAt(i);
                             }
                         }
 
-                        for(int i = 0;i< cityList.size();i++) {
-                            if(cityList.get(i).id == vId) {
+                        for (int i = 0; i < cityList.size(); i++) {
+                            if (cityList.get(i).id == vId) {
                                 cityList.remove(i);
                             }
                         }
 
                         try {
                             Reservoir.put("savedHistoryCityBean", cityList);
-                        }catch (Exception e){
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
-                        if(historyLayout.getChildCount() == 0){
+                        if (historyLayout.getChildCount() == 0) {
                             showHistory.setVisibility(View.GONE);
                         }
                     }
@@ -189,40 +192,39 @@ public class FgChooseAirAddress extends BaseFragment {
     }
 
 
-    private void addHistoryData(){
+    private void addHistoryData() {
         SaveStartEndCity savedCityBean = new SaveStartEndCity();
         savedCityBean.startCityId = cityFromId;
         savedCityBean.startCityName = fromCityName;
         savedCityBean.endCityId = cityToId;
         savedCityBean.endCityName = endCityName;
         savedCityBean.id = getMaxId();
-        for(int i = 0;i< cityList.size();i++){
-            if(cityFromId == cityList.get(i).startCityId
+        for (int i = 0; i < cityList.size(); i++) {
+            if (cityFromId == cityList.get(i).startCityId
                     && fromCityName.equalsIgnoreCase(cityList.get(i).startCityName)
                     && endCityName.equalsIgnoreCase(cityList.get(i).endCityName)
                     && cityToId == cityList.get(i).endCityId
-                    ){
+                    ) {
                 cityList.remove(i);
                 return;
             }
 
         }
-        if(cityList.size() ==15 ){
+        if (cityList.size() == 15) {
             cityList.remove(14);
         }
-        cityList.add(0,savedCityBean);
+        cityList.add(0, savedCityBean);
         try {
             Reservoir.put("savedHistoryCityBean", cityList);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
 
+    int cityFromId, cityToId;
+    String fromCityName, endCityName;
 
-
-    int cityFromId,cityToId;
-    String fromCityName,endCityName;
     @Override
     public void onFragmentResult(Bundle bundle) {
         MLog.w(this + " onFragmentResult " + bundle);
@@ -242,17 +244,18 @@ public class FgChooseAirAddress extends BaseFragment {
                 cityToId = city.cityId;
             }
         } else if ("FlightList".equals(from)) {
-            EventBus.getDefault().post(new EventAction(EventType.AIR_NO,bundle.getSerializable(FgPickFlight.KEY_AIRPORT)));
+            EventBus.getDefault().post(new EventAction(EventType.AIR_NO, bundle.getSerializable(FgPickFlight.KEY_AIRPORT)));
             finish();
         }
         checkNextBtnStatus();
     }
 
-    @OnClick({R.id.end_city_tips,R.id.from_city_tips,R.id.from_city, R.id.end_city, R.id.search, R.id.clean_all_history, R.id.exchange,R.id.address_tips, R.id.rl_address})
+    @OnClick({R.id.start_layout,R.id.end_layout,R.id.end_city_tips, R.id.from_city_tips, R.id.from_city, R.id.end_city, R.id.search, R.id.clean_all_history, R.id.exchange, R.id.address_tips, R.id.rl_address})
     public void onClick(View view) {
         FgChooseCity city = new FgChooseCity();
         Bundle bundle = new Bundle();
         switch (view.getId()) {
+            case R.id.start_layout:
             case R.id.from_city_tips:
             case R.id.from_city:
                 bundle.putString(KEY_FROM, "startAddress");
@@ -264,6 +267,7 @@ public class FgChooseAirAddress extends BaseFragment {
                 map.put("source", "下单过程中");
                 MobclickAgent.onEvent(getActivity(), "search_trigger", map);
                 break;
+            case R.id.end_layout:
             case R.id.end_city_tips:
             case R.id.end_city:
                 bundle.putString(KEY_FROM, "end");
@@ -284,10 +288,10 @@ public class FgChooseAirAddress extends BaseFragment {
                 cityList.clear();
                 try {
                     Reservoir.put("savedHistoryCityBean", cityList);
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
-                if(historyLayout.getChildCount() == 0){
+                if (historyLayout.getChildCount() == 0) {
                     showHistory.setVisibility(View.GONE);
                 }
                 break;
@@ -301,14 +305,14 @@ public class FgChooseAirAddress extends BaseFragment {
         }
     }
 
-    private void checkNextBtnStatus(){
+    private void checkNextBtnStatus() {
         String from = fromCity.getText().toString();
         String to = endCity.getText().toString();
         String time1Str = addressTips.getText().toString();
-        if (!TextUtils.isEmpty(from) &&!TextUtils.isEmpty(to) && !TextUtils.isEmpty(time1Str)) {
+        if (!TextUtils.isEmpty(from) && !TextUtils.isEmpty(to) && !TextUtils.isEmpty(time1Str)) {
             search.setEnabled(true);
             search.setBackgroundColor(Color.parseColor("#fad027"));
-        }else{
+        } else {
             search.setEnabled(false);
             search.setBackgroundColor(Color.parseColor("#d5dadb"));
         }
@@ -331,8 +335,8 @@ public class FgChooseAirAddress extends BaseFragment {
         startFragment(fragment);
     }
 
-    private void exChangeCity(){
-        int tmpId  = cityFromId;
+    private void exChangeCity() {
+        int tmpId = cityFromId;
         cityFromId = cityToId;
         cityToId = tmpId;
 
@@ -372,7 +376,7 @@ public class FgChooseAirAddress extends BaseFragment {
             int month = monthOfYear + 1;
             String monthStr = String.format("%02d", month);
             String dayOfMonthStr = String.format("%02d", dayOfMonth);
-            time2Str= year + "-" + monthStr + "-" + dayOfMonthStr;
+            time2Str = year + "-" + monthStr + "-" + dayOfMonthStr;
 
             mTextView.setText(time2Str);
             checkNextBtnStatus();

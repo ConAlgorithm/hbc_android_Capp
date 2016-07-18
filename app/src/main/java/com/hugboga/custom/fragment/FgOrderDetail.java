@@ -35,15 +35,17 @@ import com.hugboga.custom.widget.HbcViewBehavior;
 import com.hugboga.custom.widget.OrderDetailFloatView;
 import com.hugboga.custom.widget.OrderDetailGuideInfo;
 import com.hugboga.custom.widget.OrderDetailInfoView;
+import com.hugboga.custom.widget.OrderDetailItineraryView;
 import com.hugboga.custom.widget.OrderDetailTitleBar;
 
+import org.greenrobot.eventbus.Subscribe;
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 
 import java.io.Serializable;
 
-import de.greenrobot.event.EventBus;
+import org.greenrobot.eventbus.EventBus;
 import io.rong.imkit.RongIM;
 
 /**
@@ -60,6 +62,9 @@ public class FgOrderDetail extends BaseFragment implements View.OnClickListener{
 
     @ViewInject(R.id.order_detail_guideinfo_view)
     private OrderDetailGuideInfo guideInfoView;
+
+    @ViewInject(R.id.order_detail_itinerary_view)
+    private OrderDetailItineraryView itineraryView;
 
     @ViewInject(R.id.order_detail_float_view)
     private OrderDetailFloatView floatView;
@@ -123,6 +128,7 @@ public class FgOrderDetail extends BaseFragment implements View.OnClickListener{
                 mDialogUtil.showCallDialog();
             }
         });
+        itineraryView.setFragment(this);
     }
 
     @Override
@@ -228,6 +234,7 @@ public class FgOrderDetail extends BaseFragment implements View.OnClickListener{
         }
     }
 
+    @Subscribe
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
 //            case ORDER_DETAIL_PAY://立即支付
@@ -395,32 +402,38 @@ public class FgOrderDetail extends BaseFragment implements View.OnClickListener{
         cancelOrderTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (mDialogUtil == null) {
+                    mDialogUtil = DialogUtil.getInstance(getActivity());
+                }
                 //如果此订单不能取消，直接进行提示
                 popup.dismiss();
-                if (!orderBean.cancelable && !TextUtils.isEmpty(orderBean.cancelText)) {
-                    mDialogUtil.showCustomDialog(orderBean.cancelText);
-                    return;
-                }
 
-                String tip = "";
-                if (orderBean.orderStatus == OrderStatus.INITSTATE) {
-                    tip = getString(R.string.order_cancel_tip);
-                } else {
-                    tip = orderBean.cancelTip;
-                }
-                mDialogUtil.showCustomDialog(getString(R.string.app_name), tip, "确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (orderBean.orderStatus == OrderStatus.INITSTATE) {
-                            cancelOrder(orderBean.orderNo, 0);
-                        } else {
-                            Bundle bundle = new Bundle();
-                            bundle.putSerializable(FgOrderCancel.KEY_ORDER, orderBean);
-                            bundle.putString("source", source);
-                            startFragment(new FgOrderCancel(), bundle);
-                        }
+                if (orderBean.cancelable) {//cancelable是否能取消
+                    String tip = "";
+                    if (orderBean.orderStatus == OrderStatus.INITSTATE) {
+                        tip = getString(R.string.order_cancel_tip);
+                    } else if (orderBean.isChangeManual) {//需要人工取消订单
+                        mDialogUtil.showCallDialogTitle("如需要取消订单，请联系客服处理");
+                        return;
+                    } else {
+                        tip = orderBean.cancelTip;
                     }
-                }, "返回", null);
+                    mDialogUtil.showCustomDialog(getString(R.string.app_name), tip, "确定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if (orderBean.orderStatus == OrderStatus.INITSTATE) {
+                                cancelOrder(orderBean.orderNo, 0);
+                            } else {
+                                Bundle bundle = new Bundle();
+                                bundle.putSerializable(FgOrderCancel.KEY_ORDER, orderBean);
+                                bundle.putString("source", source);
+                                startFragment(new FgOrderCancel(), bundle);
+                            }
+                        }
+                    }, "返回", null);
+                } else {
+                    mDialogUtil.showCustomDialog(orderBean.cancelText);
+                }
             }
         });
         commonProblemTV.setOnClickListener(new View.OnClickListener() {

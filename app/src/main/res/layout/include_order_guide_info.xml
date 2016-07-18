@@ -27,28 +27,32 @@
             app:poly_shadow="false"
             app:poly_shadow_color="@android:color/black"
             app:poly_vertices="0" />
-
-        <TextView
-            android:id="@+id/ogi_im_tv"
-            android:layout_width="40dip"
+        <LinearLayout
+            android:id="@+id/ogi_phone_layout"
+            android:layout_width="wrap_content"
             android:layout_height="40dip"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:background="@drawable/selector_order_chat"/>
-        <TextView
-            android:id="@+id/ogi_phone_tv"
-            android:layout_width="40dip"
-            android:layout_height="40dip"
-            android:layout_toLeftOf="@id/ogi_im_tv"
-            android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_centerVertical="true"
-            android:background="@drawable/selector_order_cell"/>
+            android:gravity="center"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/ogi_phone_tv"
+                android:layout_width="40dip"
+                android:layout_height="40dip"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/selector_order_cell"/>
+            <TextView
+                android:id="@+id/ogi_im_tv"
+                android:layout_width="40dip"
+                android:layout_height="40dip"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/selector_order_chat"/>
+        </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="12dp"
-            android:layout_toLeftOf="@id/ogi_phone_tv"
+            android:layout_toLeftOf="@id/ogi_phone_layout"
             android:layout_toRightOf="@id/ogi_avatar_iv"
             android:gravity="center_vertical"
             android:orientation="vertical">
@@ -81,6 +85,8 @@
                 android:id="@+id/ogi_describe_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:maxLines="2"
+                android:ellipsize="end"
                 android:layout_marginTop="1dip"
                 android:textColor="@color/basic_gray_light"
                 android:textSize="14sp" />

@@ -16,6 +16,7 @@ import com.hugboga.custom.data.bean.ManLuggageBean;
 import com.hugboga.custom.data.bean.MostFitBean;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.OrderContact;
+import com.hugboga.custom.data.bean.OrderPriceInfo;
 import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.bean.SelectCarBean;
 import com.hugboga.custom.data.bean.SkuItemBean;
@@ -267,10 +268,12 @@ public class OrderUtils {
         int pickupPrice = 0;
         if(null != carListBean.additionalServicePrice && null != carListBean.additionalServicePrice.pickupSignPrice) {
             pickupPrice = Integer.valueOf(carListBean.additionalServicePrice.pickupSignPrice);
+            orderBean.isFlightSign = isCheckIn ? "1" : "0";
+        }else{
+            orderBean.isFlightSign = "0";
         }
         orderBean.priceFlightBrandSign = pickupPrice+"";
 
-        orderBean.isFlightSign = isCheckIn ? "1" : "0";
         orderBean.flightBrandSign = pickName;//pickName.getText().toString();
         orderBean.adult = Integer.valueOf(adultNum);
         orderBean.seatCategory = carBean.seatCategory;
@@ -491,7 +494,6 @@ public class OrderUtils {
         orderBean.memo = userRemark;//mark.getText().toString().trim();
         orderBean.childSeatNum = childseatNum;
         orderBean.luggageNum = luggageNum;
-        orderBean.isCheckin = isCheckIn ? "1" : "0";
         orderBean.flightNo = flightNo;//airportName.getText().toString();
         orderBean.expectedCompTime = carBean.expectedCompTime;
         orderBean.destAddressPoi = airPort.location;
@@ -519,6 +521,9 @@ public class OrderUtils {
         int checkInPrice = 0;
         if(null != carListBean.additionalServicePrice && null != carListBean.additionalServicePrice.checkInPrice){
             checkInPrice = Integer.valueOf(carListBean.additionalServicePrice.checkInPrice);
+            orderBean.isCheckin = isCheckIn ? "1" : "0";
+        }else{
+            orderBean.isCheckin =  "0";
         }
         orderBean.checkInPrice = checkInPrice;
 
@@ -589,14 +594,14 @@ public class OrderUtils {
                                         String userRemark,String userName,PoiBean poiBean,
                                         boolean dreamLeftischeck,
                                         String travelFund,CouponBean couponBean,MostFitBean mostFitBean,
-                                        CarListBean carListBean,ManLuggageBean manLuggageBean){
+                                        CarListBean carListBean,ManLuggageBean manLuggageBean,int hotelRoom ,double priceHotel,int orderType){
         OrderBean orderBean = new OrderBean();//订单
 
         if (!TextUtils.isEmpty(guideCollectId)) {
             orderBean.guideCollectId = guideCollectId;
         }
 
-        orderBean.orderType = 5;
+        orderBean.orderType = orderType;
         orderBean.goodsNo = skuBean.goodsNo;
         orderBean.lineSubject = skuBean.goodsName;
         orderBean.lineDescription = skuBean.salePoints;
@@ -663,7 +668,7 @@ public class OrderUtils {
         orderBean.outTownDays = skuBean.goodsType == 3 ? 0 : skuBean.daysCount;
         orderBean.skuPoi = "";
         orderBean.stayCityListStr = getPassCityStr;
-        orderBean.priceChannel = carBean.price + "";
+        orderBean.priceChannel = (carBean.price + priceHotel) + "";
         orderBean.userName = userName;//manName.getText().toString();
         orderBean.userRemark = userRemark;//mark.getText().toString();
 
@@ -671,23 +676,29 @@ public class OrderUtils {
                 && null == carListBean.additionalServicePrice.childSeatPrice2) {
             orderBean.orderPrice  = carBean.price;
             orderBean.childSeatStr = "";
-            orderBean.priceChannel = carBean.price + "";
+            orderBean.priceChannel = (carBean.price + priceHotel)  + "";
         } else {
             if(manLuggageBean.childSeats != 0) {
-                orderBean.orderPrice = carBean.price + getSeat1PriceTotal(carListBean,manLuggageBean) + getSeat2PriceTotal(carListBean,manLuggageBean);
-                orderBean.priceChannel = (carBean.price + getSeat1PriceTotal(carListBean,manLuggageBean) + getSeat2PriceTotal(carListBean,manLuggageBean)) + "";
+                orderBean.orderPrice = carBean.price + getSeat1PriceTotal(carListBean,manLuggageBean)
+                        + getSeat2PriceTotal(carListBean,manLuggageBean);
+                orderBean.priceChannel = (carBean.price + getSeat1PriceTotal(carListBean,manLuggageBean)  + priceHotel
+                        + getSeat2PriceTotal(carListBean,manLuggageBean)) + "";
                 orderBean.childSeatStr = getChileSeatJson(carListBean,manLuggageBean);
             }else{
                 orderBean.orderPrice  = carBean.price;
                 orderBean.childSeatStr = "";
-                orderBean.priceChannel = carBean.price + "";
+                orderBean.priceChannel = (carBean.price + priceHotel) + "";
             }
         }
 
         orderBean.userEx = getUserExJson(contactUsersBean);
         orderBean.realUserEx = getRealUserExJson(contactUsersBean);
 
-
+        orderBean.hotelRoom = hotelRoom;
+        if (orderBean.orderPriceInfo == null) {
+            orderBean.orderPriceInfo = new OrderPriceInfo();
+        }
+        orderBean.orderPriceInfo.priceHotel = priceHotel;
         return orderBean;
     }
 
@@ -699,6 +710,6 @@ public class OrderUtils {
                 guideIds,startTime,
                 endTime,passCityId,totalDay,
                 carType,carClass);
-        HttpRequestUtils.request(context, requestGuideConflict,listener);
+        HttpRequestUtils.request(context, requestGuideConflict,listener,false);
     }
 }

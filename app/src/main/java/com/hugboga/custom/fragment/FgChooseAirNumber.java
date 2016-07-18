@@ -22,9 +22,9 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.SaveStartEndCity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
+import com.hugboga.custom.utils.CommonUtils;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
-import org.greenrobot.eventbus.EventBus;
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 
@@ -36,6 +36,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * Created  on 16/5/13.
@@ -263,11 +264,11 @@ public class FgChooseAirNumber extends BaseFragment {
         noStr = numberTips.getText().toString();
         String time1Str = addressTips.getText().toString();
         if (TextUtils.isEmpty(noStr)) {
-            Toast.makeText(getActivity(), "请填写航班号", Toast.LENGTH_LONG).show();
+            CommonUtils.showToast("请填写航班号");
             return;
         }
         if (TextUtils.isEmpty(time1Str)) {
-            Toast.makeText(getActivity(), "请选择航班时间", Toast.LENGTH_LONG).show();
+            CommonUtils.showToast("请选择航班时间");
             return;
         }
 

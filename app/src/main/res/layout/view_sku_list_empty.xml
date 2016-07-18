@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    >
+    <ImageView
+        android:id="@+id/sku_list_empty_custom_iv"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/city_loding_no"
+        android:visibility="gone"
+        />
+    <TextView
+        android:id="@+id/sku_list_empty_custom_tv"
+        android:layout_width="160dp"
+        android:layout_height="36dp"
+        android:gravity="center"
+        android:textColor="#3c382f"
+        android:textSize="14sp"
+        android:text="@string/sku_list_custom"
+        android:background="@drawable/shape_sku_empty_custom_bg"
+        android:visibility="gone"
+        />
+    <TextView
+        android:id="@+id/sku_list_empty_tv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="50dp"
+        android:gravity="center"
+        android:textColor="#515151"
+        android:textSize="18sp"
+        android:visibility="gone"
+        />
+</LinearLayout>

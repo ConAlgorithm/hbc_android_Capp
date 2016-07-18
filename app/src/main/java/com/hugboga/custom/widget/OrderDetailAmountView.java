@@ -18,6 +18,13 @@ import com.hugboga.custom.utils.UIUtils;
 
 /**
  * Created by qingcha on 16/6/2.
+ *
+ * 单次接送：包车费用、儿童座椅
+ * 接机：包车费用、举牌费用、儿童座椅
+ * 送机：包车费用、checkin费用、儿童座椅
+ * 包车游、线路包车游：包车费用
+ * 1）除了包车费用，剩下的费用只有勾选了这项增加服务才会显示
+ * 2）包车游、线路包车游不单独展示儿童座椅费用（但是可以选儿童座椅数量）
  */
 public class OrderDetailAmountView extends LinearLayout implements HbcViewBehavior  {
 
@@ -55,6 +62,10 @@ public class OrderDetailAmountView extends LinearLayout implements HbcViewBehavi
         if (priceInfo.childSeatPrice > 0) {
             addBillView(R.string.order_detail_cost_child_seats, "" + (int)priceInfo.childSeatPrice);//儿童座椅
         }
+        if (orderBean.hotelStatus == 1 && priceInfo.priceHotel > 0) {//是否有酒店
+            addBillView(R.string.order_detail_cost_hotel, "" + (int)priceInfo.priceHotel);
+        }
+
         addGroupView(R.string.order_detail_cost_total, "" + (int)priceInfo.shouldPay);//费用总计
         if (priceInfo.couponPrice != 0) {
             addGroupView(R.string.order_detail_cost_coupon, "" + (int)priceInfo.couponPrice);//优惠金额
@@ -94,11 +105,11 @@ public class OrderDetailAmountView extends LinearLayout implements HbcViewBehavi
         if (titleID == R.string.order_detail_cost_coupon) {
             priceText = getContext().getString(R.string.sign_rmb) + " -" + price;
         } else if (titleID == R.string.order_detail_cost_realpay) {
-            priceTV.setTextColor(0xFFFE6732);
+            priceTV.setTextColor(0xFFF44437);
         }
         priceTV.setText(priceText);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, UIUtils.dip2px(35));
-        params.setMargins(UIUtils.dip2px(10), 0,UIUtils.dip2px(10), 0);
+        params.setMargins(UIUtils.dip2px(10), 0, UIUtils.dip2px(10), 0);
         groupLayout.addView(itemView, params);
     }
 }
