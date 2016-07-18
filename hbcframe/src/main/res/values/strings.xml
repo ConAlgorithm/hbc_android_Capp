@@ -1,6 +1,0 @@
-<resources>
-    <string name="app_name">HbcFrame</string>
-    <string name="net_unavailable">当前网络不可用，请检查网络连接</string>
-    <string name="request_error">服务器忙翻了，请稍后再试(%s)</string>
-    <string name="two_exit">再次点击退出</string>
-</resources>
