@@ -2,26 +2,29 @@ package com.hugboga.custom.fragment;
 
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.AppraisementBean;
+import com.hugboga.custom.data.bean.EvaluateData;
 import com.hugboga.custom.data.bean.EvaluateTagBean;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.OrderGuideInfo;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
+import com.hugboga.custom.data.request.RequestCollectGuidesId;
 import com.hugboga.custom.data.request.RequestEvaluateNew;
 import com.hugboga.custom.data.request.RequestEvaluateTag;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.widget.DialogUtil;
+import com.hugboga.custom.widget.EvaluateShareView;
 import com.hugboga.custom.widget.EvaluateTagGroup;
 import com.hugboga.custom.widget.RatingView;
 
@@ -60,8 +63,12 @@ public class FgEvaluate extends BaseFragment implements RatingView.OnLevelChange
     EvaluateTagGroup tagGroup;
     @ViewInject(R.id.evaluate_comment_et)
     EditText commentET;
+    @ViewInject(R.id.evaluate_comment_icon_iv)
+    ImageView commentIconIV;
     @ViewInject(R.id.evaluate_submit_tv)
     TextView submitTV;
+    @ViewInject(R.id.evaluate_share_view)
+    EvaluateShareView shareView;
 
     private OrderBean orderBean;
     private DialogUtil mDialogUtil;
@@ -115,20 +122,23 @@ public class FgEvaluate extends BaseFragment implements RatingView.OnLevelChange
             }
         });
         if (TextUtils.isEmpty(guideInfo.guideAvatar)) {
-            avatarIV.setImageResource(R.mipmap.collection_icon_pic);
+            avatarIV.setImageResource(R.mipmap.journey_head_portrait);
         } else {
-            Tools.showImage(getContext(), avatarIV, guideInfo.guideAvatar);
+            Tools.showImage(avatarIV, guideInfo.guideAvatar);
         }
         nameTV.setText(guideInfo.guideName);
         scoreRatingview.setLevel((float)guideInfo.guideStarLevel);
-        describeTV.setText(guideInfo.guideCar);//TODO 折行
+        describeTV.setText(guideInfo.guideCar);
         plateNumberTV.setText(guideInfo.carNumber);
 
         if (isEvaluated()) {//已评价
             ratingview.setLevel(orderBean.appraisement.totalScore);
             if (TextUtils.isEmpty(orderBean.appraisement.content)) {
+                commentIconIV.setVisibility(View.GONE);
                 commentET.setVisibility(View.GONE);
             } else {
+                commentIconIV.setVisibility(View.VISIBLE);
+                commentET.setPadding(0, 0, 0, 0);
                 commentET.setVisibility(View.VISIBLE);
                 commentET.setText(orderBean.appraisement.content);
             }
@@ -143,12 +153,20 @@ public class FgEvaluate extends BaseFragment implements RatingView.OnLevelChange
             }
             ratingview.setOnLevelChangedListener(null);
             ratingview.setTouchable(false);
-            tagGroup.setTagEnabled(false);
-            tagGroup.setEvaluatedData(orderBean.appraisement.guideLabels);
+            if (orderBean.appraisement.guideLabels == null) {
+                tagGroup.setVisibility(View.GONE);
+            } else {
+                tagGroup.setTagEnabled(false);
+                tagGroup.setEvaluatedData(orderBean.appraisement.guideLabels);
+            }
+            shareView.update(orderBean);
+            shareView.setVisibility(View.VISIBLE);
         } else {
             commentET.setEnabled(true);
             commentET.setBackgroundResource(R.drawable.border_evaluate_comment);
             requestData(new RequestEvaluateTag(getContext(), orderBean.orderType));
+            commentIconIV.setVisibility(View.GONE);
+            shareView.setVisibility(View.GONE);
         }
 
         if (isActive()) {//活动
@@ -248,6 +266,16 @@ public class FgEvaluate extends BaseFragment implements RatingView.OnLevelChange
             CommonUtils.showToast(R.string.evaluate_succeed);
             isSubmitEvaluated = true;
             EventBus.getDefault().post(new EventAction(EventType.FGTRAVEL_UPDATE));
+
+            RequestEvaluateNew request = (RequestEvaluateNew) _request;
+            EvaluateData evaluateData = request.getData();
+            if (orderBean.appraisement.totalScore > 3 && evaluateData != null && orderBean.orderGuideInfo != null) {
+                if (!orderBean.orderGuideInfo.isCollected()) {
+                    requestData(new RequestCollectGuidesId(getContext(), orderBean.orderGuideInfo.guideID));
+                }
+                finish();
+                startFragment(FgShareGuides.newInstance(evaluateData, orderBean.orderNo));
+            }
         } else if (_request instanceof RequestEvaluateTag) {
             RequestEvaluateTag request = (RequestEvaluateTag) _request;
             EvaluateTagBean tagBean = request.getData();

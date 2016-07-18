@@ -24,6 +24,7 @@ public enum EventType {
     CHOOSE_GUIDE, //收藏选择司导
     CONTACT, //通讯录选取联系人
     CONTACT_BACK, //通讯录选取联系人返回显示
+    WECHAT_SHARE_SUCCEED,//微信分享成功
 
     SINGLE_TYPE, //单次接送
     DAIRY_TYPE, //包车

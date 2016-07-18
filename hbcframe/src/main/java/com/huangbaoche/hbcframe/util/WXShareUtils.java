@@ -130,7 +130,8 @@ public class WXShareUtils {
 
                         @Override
                         public void onDownloadFailed(int id, int errorCode, String errorMessage) {
-
+                            Bitmap bitmap = null;
+                            share(type, bitmap, title, content, goUrl);
                         }
 
                         @Override
