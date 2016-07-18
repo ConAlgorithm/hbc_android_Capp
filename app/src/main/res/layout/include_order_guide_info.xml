@@ -18,14 +18,7 @@
             android:layout_width="58dp"
             android:layout_height="58dp"
             android:layout_marginTop="13dp"
-            android:background="@mipmap/collection_icon_pic"
-            app:poly_border="false"
-            app:poly_border_color="@android:color/white"
-            app:poly_border_width="5dp"
-            app:poly_corner_radius="5"
-            app:poly_rotation_angle="25"
-            app:poly_shadow="false"
-            app:poly_shadow_color="@android:color/black"
+            android:background="@mipmap/journey_head_portrait"
             app:poly_vertices="0" />
         <LinearLayout
             android:id="@+id/ogi_phone_layout"
@@ -136,7 +129,7 @@
             android:layout_marginLeft="32dip"
             android:background="@drawable/shape_rounded_gray_light"
             android:gravity="center"
-            android:text="@string/to_evaluate"
+            android:text="@string/order_detail_evaluate"
             android:textColor="@color/basic_gray_light"
             android:textSize="13sp" />
     </LinearLayout>

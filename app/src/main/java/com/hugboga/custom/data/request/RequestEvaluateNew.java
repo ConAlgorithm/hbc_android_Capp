@@ -5,9 +5,11 @@ import android.content.Context;
 import com.google.gson.Gson;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
+import com.hugboga.custom.data.bean.EvaluateData;
 import com.hugboga.custom.data.bean.EvaluateTagBean;
 import com.hugboga.custom.data.net.NewParamsBuilder;
 import com.hugboga.custom.data.net.UrlLibs;
+import com.hugboga.custom.data.parser.HbcParser;
 
 import org.json.JSONObject;
 import org.xutils.http.HttpMethod;
@@ -19,7 +21,7 @@ import java.util.HashMap;
  * Created by qingcha on 16/6/6.
  */
 @HttpRequest(path = UrlLibs.API_EVALUATE_NEW, builder = NewParamsBuilder.class)
-public class RequestEvaluateNew extends BaseRequest<String> {
+public class RequestEvaluateNew extends BaseRequest<EvaluateData> {
 
     public RequestEvaluateNew(Context context, RequestParams params) {
         super(context);
@@ -36,7 +38,7 @@ public class RequestEvaluateNew extends BaseRequest<String> {
 
     @Override
     public ImplParser getParser() {
-        return new DataParser();
+        return new HbcParser(UrlLibs.API_EVALUATE_NEW, EvaluateData.class);
     }
 
     @Override
@@ -47,13 +49,6 @@ public class RequestEvaluateNew extends BaseRequest<String> {
     @Override
     public String getUrlErrorCode() {
         return "40031";
-    }
-
-    private static class DataParser extends ImplParser {
-        @Override
-        public Object parseObject(JSONObject obj) throws Throwable {
-            return obj.toString();
-        }
     }
 
     public static class RequestParams {

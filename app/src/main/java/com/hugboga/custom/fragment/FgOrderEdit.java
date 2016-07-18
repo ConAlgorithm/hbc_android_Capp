@@ -47,6 +47,8 @@ public class FgOrderEdit extends BaseFragment {
     TextView manPhone;
     @ViewInject(R.id.mark)
     EditText mark;
+    @ViewInject(R.id.man_phone_layout)
+    LinearLayout manPhoneLayout;
 
     //乘车人
     @ViewInject(R.id.other_layout)
@@ -248,6 +250,8 @@ public class FgOrderEdit extends BaseFragment {
             otherTV.setOnClickListener(null);
             manName.setEnabled(false);
             manPhone.setEnabled(false);
+            otherLayout.setEnabled(false);
+            manPhoneLayout.setEnabled(false);
             setHideTV(pickName);
             setHideTV(hotelPhoneTextCodeClick);
             setHideTV(hotelPhoneText);
