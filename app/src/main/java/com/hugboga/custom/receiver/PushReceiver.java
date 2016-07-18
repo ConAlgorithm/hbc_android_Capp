@@ -58,7 +58,7 @@ public class PushReceiver extends BroadcastReceiver implements HttpRequestListen
 		 */
         PushUtils pushUtils = new PushUtils();
 //        gotoMain(context, pushMessage);
-        PushUtils.showNotification(context,pushMessage);
+        PushUtils.showNotification(pushMessage);
         uploadPushReceive(context,msgId);
         if("IM".equals(pushMessage.type)){
             notifyChatList();

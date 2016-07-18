@@ -376,7 +376,7 @@ public class DialogUtil implements DialogUtilInterface {
         if (negativeText != null) {
             builder.setNegativeButton(negativeText, negativeClick);
         }
-        builder.setCancelable(false);
+        builder.setCancelable(true);
         customDialog = builder.create();
         customDialog.show();
         return customDialog;

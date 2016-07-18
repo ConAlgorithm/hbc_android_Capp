@@ -20,8 +20,11 @@ public class ParserGuideInfo extends ImplParser {
             orderGuideInfo.guideID = jsonObj.optString("guideId");
             orderGuideInfo.guideTel = jsonObj.optString("guideTel");
             orderGuideInfo.guideStarLevel = jsonObj.optDouble("guideStarLevel", 0);
-            orderGuideInfo.car = jsonObj.optString("guideCar");
+            orderGuideInfo.guideCar = jsonObj.optString("guideCar");
+            orderGuideInfo.carNumber = jsonObj.optString("carNumber");
+            orderGuideInfo.storeStatus = jsonObj.optInt("storeStatus", 0);
         }
+
         return orderGuideInfo;
     }
 }

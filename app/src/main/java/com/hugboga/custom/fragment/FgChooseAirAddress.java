@@ -19,6 +19,7 @@ import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.SaveStartEndCity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
+import com.hugboga.custom.utils.ToastUtils;
 import com.umeng.analytics.MobclickAgent;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
@@ -35,6 +36,8 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static android.R.attr.fragment;
 
 /**
  * Created  on 16/5/13.
@@ -306,7 +309,7 @@ public class FgChooseAirAddress extends BaseFragment {
             search.setEnabled(true);
             search.setBackgroundColor(Color.parseColor("#fad027"));
         }else{
-            search.setEnabled(true);
+            search.setEnabled(false);
             search.setBackgroundColor(Color.parseColor("#d5dadb"));
         }
 

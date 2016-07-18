@@ -7,10 +7,12 @@ import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.bean.AppraisementBean;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.InsureListBean;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.OrderContact;
+import com.hugboga.custom.data.bean.OrderContactBean;
 import com.hugboga.custom.data.bean.OrderPriceInfo;
 import com.hugboga.custom.data.bean.OrderStatus;
 
@@ -55,6 +57,7 @@ public class ParserOrder extends ImplParser {
         orderbean.distance = jsonObj.optString("distance");
         orderbean.contactName = jsonObj.optString("userName");
         orderbean.brandSign = jsonObj.optString("flightBrandSign");
+        orderbean.flightBrandSign = jsonObj.optString("flightBrandSign");
         orderbean.flightAirportCode = jsonObj.optString("flightAirportCode");
         orderbean.adult = jsonObj.optInt("adultNum");
         orderbean.child = jsonObj.optInt("childNum");
@@ -83,6 +86,8 @@ public class ParserOrder extends ImplParser {
         orderbean.realMobile = jsonObj.optString("realMobile");
         orderbean.realUserName = jsonObj.optString("realUserName");
 
+        orderbean.isFlightSign = jsonObj.optString("isFlightSign");
+
 
         //passByCity
         JSONArray passByCityArray = jsonObj.optJSONArray("passCities");
@@ -103,6 +108,15 @@ public class ParserOrder extends ImplParser {
                 orderbean.childSeat.add(seat);
             }
         }
+
+        JSONArray cancelRules = jsonObj.optJSONArray("cancelRules");
+        if (cancelRules != null && cancelRules.length() > 0) {
+            orderbean.cancelRules = new ArrayList<String>(cancelRules.length());
+            for (int i = 0; i < cancelRules.length(); i++) {
+                orderbean.cancelRules.add(cancelRules.optString(i));
+            }
+        }
+
         //contact
         orderbean.contact = new ArrayList<OrderContact>();
         orderbean.cancelText = jsonObj.optString("cancelText");
@@ -143,6 +157,22 @@ public class ParserOrder extends ImplParser {
         orderbean.outTownDays = jsonObj.optInt("serviceNonlocalDays");
         orderbean.journeyComment = jsonObj.optString("journeyComment");
         orderbean.dailyTips = jsonObj.optString("dailyOrderTips");
+        orderbean.dailyTips = jsonObj.optString("dailyOrderTips");
+        orderbean.flightNo = jsonObj.optString("flightNo");
+        orderbean.flightDeptCityName = jsonObj.optString("flightDeptCityName");
+        orderbean.flightDestCityName = jsonObj.optString("flightDestCityName");
+        orderbean.serviceTimeStr = jsonObj.optString("serviceTimeStr");
+        orderbean.serviceEndTimeStr = jsonObj.optString("serviceEndTimeStr");
+        orderbean.passengerInfos = jsonObj.optString("passengerInfos");
+        orderbean.userCommentStatus = jsonObj.optInt("userCommentStatus");
+        orderbean.realSendSms = jsonObj.optString("realSendSms");
+        orderbean.isCheckin = jsonObj.optString("isCheckin");
+        orderbean.isRealUser = jsonObj.optString("isRealUser");
+        orderbean.priceCommentReward = jsonObj.optInt("priceCommentReward");
+        orderbean.userList = gson.fromJson(jsonObj.optString("userList"), new TypeToken<List<OrderContactBean>>(){}.getType());
+        orderbean.realUserList = gson.fromJson(jsonObj.optString("realUserList"), new TypeToken<List<OrderContactBean>>(){}.getType());
+        orderbean.appraisement = gson.fromJson(jsonObj.optString("appraisement"), AppraisementBean.class);
+        orderbean.carPool = jsonObj.optBoolean("carPool");
         return orderbean;
     }
 }

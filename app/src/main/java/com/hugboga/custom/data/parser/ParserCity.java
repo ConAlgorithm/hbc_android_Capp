@@ -21,6 +21,7 @@ public class ParserCity extends ImplParser {
         cityBean.enName = jsonObj.optString("enName");
         cityBean.location = jsonObj.optString("location");
         cityBean.stayDay = jsonObj.optInt("stayDay");
+        cityBean.description = jsonObj.optString("description");
         return cityBean;
     }
 }

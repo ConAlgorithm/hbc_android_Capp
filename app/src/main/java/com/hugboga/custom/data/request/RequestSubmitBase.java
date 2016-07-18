@@ -3,9 +3,11 @@ package com.hugboga.custom.data.request;
 import android.content.Context;
 import android.text.TextUtils;
 
+import com.google.gson.Gson;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.data.bean.OrderBean;
+import com.hugboga.custom.data.bean.OrderInfoBean;
 import com.hugboga.custom.utils.Config;
 
 import org.json.JSONObject;
@@ -17,7 +19,7 @@ import java.util.TreeMap;
  * 下单请求公用基类
  * Created by admin on 2016/3/22.
  */
-public class RequestSubmitBase extends BaseRequest<String> {
+public class RequestSubmitBase extends BaseRequest<OrderInfoBean> {
 
     public RequestSubmitBase(Context context, OrderBean orderBean) {
         super(context);
@@ -32,8 +34,15 @@ public class RequestSubmitBase extends BaseRequest<String> {
         map.put("priceMark", orderBean.priceMark);
         map.put("adultNum", orderBean.adult);
         map.put("childNum", orderBean.child);
-        if (orderBean.childSeat != null)
-            map.put("childSeat", TextUtils.join(",", orderBean.childSeat));
+
+        map.put("childNum", orderBean.child);
+        map.put("luggageNumber",orderBean.luggageNum);
+//        if (orderBean.childSeat != null)
+//            map.put("childSeat", TextUtils.join(",", orderBean.childSeat));
+
+
+        map.put("childSeat",orderBean.childSeatStr);
+
         map.put("userName", orderBean.contactName);
         map.put("serviceCityId", orderBean.serviceCityId);
         map.put("serviceEndCityid", orderBean.serviceEndCityid);
@@ -55,21 +64,35 @@ public class RequestSubmitBase extends BaseRequest<String> {
         map.put("carTypeId", orderBean.carType);
         map.put("carSeatNum", orderBean.seatCategory);
         map.put("carDesc", orderBean.carDesc);
-        map.put("userRemark", orderBean.memo);
+        map.put("userRemark", orderBean.userRemark);
+        map.put("userEx", orderBean.userEx);
+        map.put("priceActual",orderBean.priceActual);
 
+        map.put("serviceAreaCode", orderBean.serviceAreaCode);
+        map.put("serviceAddressTel", orderBean.serviceAddressTel);
 
-        if (orderBean.contact != null && orderBean.contact.size() > 0) {
-            map.put("userAreaCode1", orderBean.contact.get(0).areaCode);
-            map.put("userMobile1", orderBean.contact.get(0).tel);
-        }
-        if (orderBean.contact.size()>1&&orderBean.contact.get(1) != null) {
-            map.put("userAreaCode2", orderBean.contact.get(1).areaCode);
-            map.put("userMobile2", orderBean.contact.get(1).tel);
-        }
-        if (orderBean.contact.size()>2&&orderBean.contact.get(2) != null) {
-            map.put("userAreaCode3", orderBean.contact.get(2).areaCode);
-            map.put("userMobile3", orderBean.contact.get(2).tel);
-        }
+        map.put("realUserEx",orderBean.realUserEx);
+        map.put("userEx",orderBean.userEx);
+        map.put("realSendSms",orderBean.realSendSms);
+        map.put("travelFund",orderBean.travelFund);
+        map.put("guideCollectId",orderBean.guideCollectId);
+
+        map.put("coupId", orderBean.coupId);
+        map.put("coupPriceInfo", orderBean.coupPriceInfo);
+
+//        if (orderBean.contact != null && orderBean.contact.size() > 0) {
+//            map.put("userAreaCode1", orderBean.contact.get(0).areaCode);
+//            map.put("userMobile1", orderBean.contact.get(0).tel);
+//        }
+//        if (orderBean.contact.size()>1&&orderBean.contact.get(1) != null) {
+//            map.put("userAreaCode2", orderBean.contact.get(1).areaCode);
+//            map.put("userMobile2", orderBean.contact.get(1).tel);
+//        }
+//        if (orderBean.contact.size()>2&&orderBean.contact.get(2) != null) {
+//            map.put("userAreaCode3", orderBean.contact.get(2).areaCode);
+//            map.put("userMobile3", orderBean.contact.get(2).tel);
+//        }
+
         if (orderBean.orderType != null && orderBean.orderType.equals(5)) {//如果是SKU  传
             map.put("lineSubject", orderBean.lineSubject);
             map.put("lineDescription", orderBean.lineDescription);
@@ -85,13 +108,25 @@ public class RequestSubmitBase extends BaseRequest<String> {
         return HttpMethod.POST;
     }
 
+    @Override
+    public String getUrlErrorCode() {
+        return "40065";
+    }
+
 
     @Override
     public ImplParser getParser() {
         return new ImplParser() {
+//            @Override
+//            public String parseObject(JSONObject obj) throws Throwable {
+//                return obj.optString("orderno");
+//            }
+
             @Override
-            public String parseObject(JSONObject obj) throws Throwable {
-                return obj.optString("orderno");
+            public OrderInfoBean parseObject(JSONObject obj) throws Throwable {
+                Gson gson = new Gson();
+                OrderInfoBean  orderInfoBean = gson.fromJson(obj.toString(),OrderInfoBean.class);
+                return orderInfoBean;
             }
         };
     }

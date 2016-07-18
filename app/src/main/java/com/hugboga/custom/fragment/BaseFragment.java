@@ -134,7 +134,12 @@ public abstract class BaseFragment extends com.huangbaoche.hbcframe.fragment.Bas
 
     @Override
     public boolean onBackPressed() {
-        EventBus.getDefault().post(new EventAction(EventType.CLICK_HEADER_LEFT_BTN_BACK));
+        if(this instanceof FgPickNew || this instanceof FgSendNew
+                || this instanceof FgChooseAir || this instanceof FgChooseAirAddress){
+            EventBus.getDefault().post(new EventAction(EventType.PICK_SEND_ONBACKPRESS));
+        }else {
+            EventBus.getDefault().post(new EventAction(EventType.ONBACKPRESS));
+        }
         return super.onBackPressed();
     }
 

@@ -20,7 +20,9 @@ import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.parser.ParserChatInfo;
 import com.hugboga.custom.fragment.BaseFragment;
 import com.hugboga.custom.fragment.FgAssessment;
+import com.hugboga.custom.fragment.FgEvaluate;
 import com.hugboga.custom.fragment.FgOrder;
+import com.hugboga.custom.fragment.FgOrderDetail;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.widget.CircularImage;
 import com.hugboga.custom.widget.DialogUtil;
@@ -392,23 +394,29 @@ public class TravelAdapter extends BaseAdapter<OrderBean>  {
             switch (v.getId()){
                 case R.id.travel_item_btn_assessment:
                     MLog.e("评价车导2 " + mOrderBean.orderNo + " orderType = " + mOrderBean.orderType);
-                    Bundle bundle = new Bundle();
-                    bundle.putString(FgAssessment.GUIDE_ID, mOrderBean.orderGuideInfo.guideID);
-                    bundle.putString(FgAssessment.ORDER_ID, mOrderBean.orderNo);
-                    bundle.putInt(FgAssessment.ORDER_TYPE, mOrderBean.orderType);
-                    bundle.putInt(BaseFragment.KEY_BUSINESS_TYPE, mOrderBean.orderType);
-                    bundle.putString(FgAssessment.GUIDE_NAME, mOrderBean.orderGuideInfo.guideName);
-                    fragment.startFragment(new FgAssessment(), bundle);
+//                    Bundle bundle = new Bundle();
+//                    bundle.putString(FgAssessment.GUIDE_ID, mOrderBean.orderGuideInfo.guideID);
+//                    bundle.putString(FgAssessment.ORDER_ID, mOrderBean.orderNo);
+//                    bundle.putInt(FgAssessment.ORDER_TYPE, mOrderBean.orderType);
+//                    bundle.putInt(BaseFragment.KEY_BUSINESS_TYPE, mOrderBean.orderType);
+//                    bundle.putString(FgAssessment.GUIDE_NAME, mOrderBean.orderGuideInfo.guideName);
+//                    fragment.startFragment(new FgAssessment(), bundle);
+                    fragment.startFragment(FgEvaluate.newInstance(mOrderBean));
                     break;
                 case R.id.travel_item_btn_pay:
                     OrderBean mOrderBean = (OrderBean)v.getTag();
-                    MLog.e("立即支付 " + mOrderBean.orderNo);
-                    //立即支付，进入订单详情
-                    bundle = new Bundle();
-                    bundle.putInt(FgOrder.KEY_BUSINESS_TYPE, mOrderBean.orderType);
-                    bundle.putInt(FgOrder.KEY_GOODS_TYPE, mOrderBean.orderGoodsType);
-                    bundle.putString(FgOrder.KEY_ORDER_ID, mOrderBean.orderNo);
-                    fragment.startFragment(new FgOrder(), bundle);
+                    FgOrderDetail.Params params = new FgOrderDetail.Params();
+                    params.orderType = mOrderBean.orderType;
+                    params.orderId = mOrderBean.orderNo;
+                    fragment.startFragment(FgOrderDetail.newInstance(params));
+//
+//                    MLog.e("立即支付 " + mOrderBean.orderNo);
+//                    //立即支付，进入订单详情
+//                    bundle = new Bundle();
+//                    bundle.putInt(FgOrder.KEY_BUSINESS_TYPE, mOrderBean.orderType);
+//                    bundle.putInt(FgOrder.KEY_GOODS_TYPE, mOrderBean.orderGoodsType);
+//                    bundle.putString(FgOrder.KEY_ORDER_ID, mOrderBean.orderNo);
+//                    fragment.startFragment(new FgOrder(), bundle);
                     break;
             }
         }

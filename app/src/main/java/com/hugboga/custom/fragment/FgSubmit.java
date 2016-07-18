@@ -584,7 +584,7 @@ public class FgSubmit extends BaseFragment implements CompoundButton.OnCheckedCh
         hotelPhoneAreaCodeStr = hotelPhoneAreaCodeStr.replace("+", "");
         orderBean.serviceAreaCode = hotelPhoneAreaCodeStr;
         orderBean.serviceAddressTel = hotelPhoneStr;
-        orderBean.expectedCompTime = expectedCompTime;
+        orderBean.expectedCompTime = expectedCompTime+"";
         orderBean.urgentFlag = getArguments().getInt(FgCar.KEY_URGENT_FLAG);
 
 
@@ -731,11 +731,11 @@ public class FgSubmit extends BaseFragment implements CompoundButton.OnCheckedCh
     public void onDataRequestSucceed(BaseRequest request) {
         if (request instanceof RequestSubmitBase) {
             RequestSubmitBase mParser = (RequestSubmitBase) request;
-            if (TextUtils.isEmpty(mParser.getData())) {
-                Toast.makeText(getActivity(), "下单失败", Toast.LENGTH_LONG).show();
-                return;
-            }
-            goToOrder(mParser.getData());
+//            if (TextUtils.isEmpty(mParser.getData())) {
+//                Toast.makeText(getActivity(), "下单失败", Toast.LENGTH_LONG).show();
+//                return;
+//            }
+//            goToOrder(mParser.getData());
         }
     }
 
@@ -750,13 +750,19 @@ public class FgSubmit extends BaseFragment implements CompoundButton.OnCheckedCh
 
     private void goToOrder(String orderId) {
         EventBus.getDefault().post(new EventAction(EventType.SET_MAIN_PAGE_INDEX, 2));
+//        Bundle bundle = new Bundle();
+//        bundle.putString(FgOrder.KEY_ORDER_ID, orderId);
+//        bundle.putString("source",source);
+//        bringToFront(FgTravel.class, bundle);
+//        bundle.putBoolean("needShowAlert",true);
+//        //下单后再返回,直接到主页
+//        startFragment(new FgOrder(), bundle);
+        FgOrderDetail.Params params = new FgOrderDetail.Params();
+        params.orderId = orderId;
+        params.source = source;
         Bundle bundle = new Bundle();
-        bundle.putString(FgOrder.KEY_ORDER_ID, orderId);
-        bundle.putString("source",source);
-        bringToFront(FgTravel.class, bundle);
-        bundle.putBoolean("needShowAlert",true);
-        //下单后再返回,直接到主页
-        startFragment(new FgOrder(), bundle);
+        bundle.putSerializable(Constants.PARAMS_DATA, params);
+        startFragment(new FgOrderDetail(), bundle);
     }
 
     private void showSelectVisa() {

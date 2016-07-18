@@ -6,8 +6,6 @@ import android.net.SSLCertificateSocketFactory;
 import com.huangbaoche.hbcframe.util.Common;
 import com.huangbaoche.hbcframe.util.MLog;
 
-import javax.net.ssl.SSLSocketFactory;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.Socket;
@@ -15,24 +13,48 @@ import java.security.KeyManagementException;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.security.UnrecoverableKeyException;
 
+import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.KeyManager;
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
+import javax.net.ssl.X509TrustManager;
 
 /**
  * Created by admin on 2015/10/3.
  */
 public class DefaultSSLSocketFactory extends SSLCertificateSocketFactory {
-    private SSLContext sslContext = SSLContext.getInstance("TLS");
+    private  SSLContext sslContext = SSLContext.getInstance("TLS");
     private static KeyStore trustStore;
     private static DefaultSSLSocketFactory instance;
 
     private static String keystorepw = "";//32
     private static String keypw = "";//6
+
+    public static void resetSSLSocketFactory(Context context) {
+        try {
+            try {
+                instance = null;
+                keystorepw = Common.getKeyStorePsw(context);
+                keypw = Common.getClientP12Key(context);
+                long time = System.currentTimeMillis();
+                trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
+                InputStream ins = context.getResources().getAssets().open("client.keystore"); // 下载的证书放到项目中的assets目录中
+                trustStore.load(ins, keystorepw.toCharArray());
+                MLog.e("trustStore load time = " + (System.currentTimeMillis() - time));
+            } catch (Throwable var1) {
+                MLog.e(var1.getMessage(), var1);
+            }
+
+            instance = new DefaultSSLSocketFactory();
+        } catch (Throwable var1) {
+            MLog.e(var1.getMessage(), var1);
+        }
+    }
 
     public static DefaultSSLSocketFactory getSocketFactory(Context context) {
         if(instance == null) {
@@ -61,6 +83,10 @@ public class DefaultSSLSocketFactory extends SSLCertificateSocketFactory {
     private DefaultSSLSocketFactory() throws UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException, KeyManagementException {
         super(10000);
 //        super(trustStore);
+        HttpsURLConnection.setDefaultHostnameVerifier(new NullHostNameVerifier());
+        sslContext.init(null, new X509TrustManager[]{new NullX509TrustManager()}, new SecureRandom());
+        HttpsURLConnection.setDefaultSSLSocketFactory(sslContext.getSocketFactory());
+
         long time = System.currentTimeMillis();
         KeyManagerFactory keymanagerfactory = KeyManagerFactory.getInstance("X509");
         keymanagerfactory.init(trustStore, keypw.toCharArray());

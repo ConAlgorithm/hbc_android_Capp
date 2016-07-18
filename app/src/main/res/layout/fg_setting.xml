@@ -9,7 +9,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/my_info_bg">
+        android:background="@color/default_bg">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -34,7 +34,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:src="@mipmap/personal_center_right" />
+                    android:src="@mipmap/personalcenter_right" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -58,7 +58,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:src="@mipmap/personal_center_right"
+                    android:src="@mipmap/personalcenter_right"
                     />
                 <TextView
                     android:id="@+id/setting_menu_clear_cache_flag"
@@ -92,7 +92,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:src="@mipmap/personal_center_right" />
+                    android:src="@mipmap/personalcenter_right" />
             </RelativeLayout>
             <RelativeLayout
                 android:id="@+id/setting_menu_layout5"
@@ -116,7 +116,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:src="@mipmap/personal_center_right" />
+                    android:src="@mipmap/personalcenter_right" />
                 <TextView
                     android:id="@+id/setting_menu_version_content_flag"
                     android:layout_width="wrap_content"

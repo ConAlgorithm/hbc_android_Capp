@@ -1,9 +1,13 @@
 package com.hugboga.custom.fragment;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,10 +33,10 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
 
-import static com.hugboga.custom.R.id.add;
 import static com.hugboga.custom.R.id.add_other_phone_click;
 import static com.hugboga.custom.R.id.passenger_phone_text;
 import static com.hugboga.custom.R.id.user_phone_text;
+import static com.tencent.bugly.crashreport.inner.InnerAPI.context;
 
 /**
  * Created on 16/5/26.
@@ -197,6 +201,7 @@ public class FgChooseOther extends BaseFragment {
 
     @Override
     protected void initView() {
+        getPermission();
         otherCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -233,8 +238,9 @@ public class FgChooseOther extends BaseFragment {
                 user1PhoneText.setText(contactUsersBean.user1Phone);
             }
 
-            if(!TextUtils.isEmpty(contactUsersBean.user1Name)){
+            if(!TextUtils.isEmpty(contactUsersBean.user2Name)){
                 user2Layout.setVisibility(View.VISIBLE);
+                addOtherPhoneClick.setTextColor(Color.parseColor("#929394"));
             }
 
             if(!TextUtils.isEmpty(contactUsersBean.user2Name)) {
@@ -317,19 +323,23 @@ public class FgChooseOther extends BaseFragment {
                     switch (clickViewId) {
                         case R.id.name_right:
                             nameText.setText(contact[0]);
-                            userPhoneText.setText("" + contact[1]);
+                            String userPhone = contact[1];
+                            userPhoneText.setText(""+userPhone.replace("+86",""));
                             break;
                         case R.id.name1_right:
+                            String user1Phone = contact[1];
                             name1Text.setText(contact[0]);
-                            user1PhoneText.setText("" + contact[1]);
+                            user1PhoneText.setText(""+user1Phone.replace("+86",""));
                             break;
                         case R.id.name2_right:
+                            String user2Phone = contact[1];
                             name2Text.setText(contact[0]);
-                            user2PhoneText.setText("" + contact[1]);
+                            user2PhoneText.setText(""+user2Phone.replace("+86",""));
                             break;
                         case R.id.passenger_right:
+                            String passPhone = contact[1];
                             passengerText.setText(contact[0]);
-                            passengerPhoneText.setText("" + contact[1]);
+                            passengerPhoneText.setText(""+passPhone.replace("+86",""));
                             break;
                     }
                     break;
@@ -339,6 +349,7 @@ public class FgChooseOther extends BaseFragment {
         }
     }
 
+    private  final int PICK_CONTACTS = 101;
 
     @OnClick({R.id.name1_del,R.id.name2_del,R.id.name_right,R.id.name1_right,R.id.name2_right,R.id.passenger_right,R.id.add_other_phone_click,R.id.user_phone_text_code_click, R.id.user1_phone_text_code_click, R.id.user2_phone_text_code_click, R.id.passenger_phone_text_code_click})
     public void onClick(View view) {
@@ -346,10 +357,14 @@ public class FgChooseOther extends BaseFragment {
             case R.id.name1_del:
                 user1Layout.setVisibility(View.GONE);
                 addOtherPhoneClick.setTextColor(Color.parseColor("#2e82f7"));
+                name1Text.setText("");
+                user1PhoneText.setText("");
                 break;
             case R.id.name2_del:
                 user2Layout.setVisibility(View.GONE);
                 addOtherPhoneClick.setTextColor(Color.parseColor("#2e82f7"));
+                name2Text.setText("");
+                user2PhoneText.setText("");
                 break;
             case R.id.name_right:
             case R.id.name1_right:
@@ -359,7 +374,7 @@ public class FgChooseOther extends BaseFragment {
                 Intent intent = new Intent();
                 intent.setAction(Intent.ACTION_PICK);
                 intent.setData(ContactsContract.Contacts.CONTENT_URI);
-                startActivityForResult(intent, 0);
+                getActivity().startActivityForResult(intent, PICK_CONTACTS);
                     break;
             case R.id.add_other_phone_click:
                 if(user1Layout.isShown()) {
@@ -378,6 +393,16 @@ public class FgChooseOther extends BaseFragment {
                 bundleCode.putInt("airportCode", view.getId());
                 startFragment(chooseCountry, bundleCode);
                 break;
+        }
+    }
+
+
+    private void getPermission() {
+        if (ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.READ_CONTACTS)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(getActivity(),
+                    new String[]{android.Manifest.permission.READ_CONTACTS},
+                    1);
         }
     }
 }

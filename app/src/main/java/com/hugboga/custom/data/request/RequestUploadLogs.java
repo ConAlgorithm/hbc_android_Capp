@@ -42,4 +42,9 @@ public class RequestUploadLogs extends BaseRequest<Boolean> {
     public HttpMethod getHttpMethod() {
         return HttpMethod.POST;
     }
+
+    @Override
+    public String getUrlErrorCode() {
+        return "40082";
+    }
 }

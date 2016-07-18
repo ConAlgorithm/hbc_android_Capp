@@ -227,7 +227,7 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
         String key = "";
         for (int i = 0; i < sourceDateList.size(); i++) {
             CityBean model = sourceDateList.get(i);
-            if (key.equals(model.firstLetter)) {
+            if (null == model.firstLetter || (model.firstLetter).equalsIgnoreCase(key)) {
                 model.isFirst = false;
             } else {
                 model.isFirst = true;
@@ -364,6 +364,7 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
                 sourceDateList.add(0, hotCityDate.get(0));
                 adapter.setHotCityList(hotCityDate);
                 adapter.setIsFirstAccessHotCity(false);
+                adapter.notifyDataSetChanged();
             }
         } catch (DbException e) {
             e.printStackTrace();
@@ -386,27 +387,27 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
         WhereBuilder where = WhereBuilder.b();
         where.and("city_id", "=", cityHistoryStr);
         selector.where(where);
-        if (orderType == Constants.BUSINESS_TYPE_DAILY) {
-            if (groupId == -1) {
-                selector.and("is_daily", "=", 1);
-            } else {
-                selector.and("group_id", "=", groupId);
-            }
-            if ("lastCity".equals(from) && cityId != -1){
-                selector.and("city_id", "<>", cityId);
-            }
-        } else if (orderType == Constants.BUSINESS_TYPE_RENT) {
-            selector.and("is_single", "=", 1);
-        } else if (orderType == Constants.BUSINESS_TYPE_PICK || orderType == Constants.BUSINESS_TYPE_SEND) {
-            selector.and("is_city_code", "=", 1);
-        } else if (orderType == Constants.BUSINESS_TYPE_HOME) {
+//        if (orderType == Constants.BUSINESS_TYPE_DAILY) {
+//            if (groupId == -1) {
+//                selector.and("is_daily", "=", 1);
+//            } else {
+//                selector.and("group_id", "=", groupId);
+//            }
+//            if ("lastCity".equals(from) && cityId != -1){
+//                selector.and("city_id", "<>", cityId);
+//            }
+//        } else if (orderType == Constants.BUSINESS_TYPE_RENT) {
+//            selector.and("is_single", "=", 1);
+//        } else if (orderType == Constants.BUSINESS_TYPE_PICK || orderType == Constants.BUSINESS_TYPE_SEND) {
+//            selector.and("is_city_code", "=", 1);
+//        } else if (orderType == Constants.BUSINESS_TYPE_HOME) {
             WhereBuilder whereBuilder = WhereBuilder.b();
             whereBuilder.and("place_name", "<>", "中国");
             selector.and(whereBuilder);
 //            WhereBuilder whereBuilder2 = WhereBuilder.b();
 //            whereBuilder2.and("has_airport", "=", 1).or("is_daily", "=", 1).or("is_single", "=", 1);
 //            selector.and(whereBuilder2);
-        }
+//        }
 
         try {
             CityBean bean = (CityBean)selector.findFirst();

@@ -12,6 +12,7 @@ import com.huangbaoche.hbcframe.widget.recycler.ZListPageView;
 import com.huangbaoche.hbcframe.widget.recycler.ZSwipeRefreshLayout;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.NewOrderAdapter;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.request.RequestOrder;
 
@@ -132,11 +133,17 @@ public class FgNewOrder extends BaseFragment implements ZBaseAdapter.OnItemClick
             OrderBean order = adapter.getDatas().get(position);
             if (order != null) {
                 // 跳转到订单详情
+//                Bundle bundle = new Bundle();
+//                bundle.putInt(KEY_BUSINESS_TYPE, order.orderType);
+//                bundle.putInt(KEY_GOODS_TYPE, order.orderGoodsType);
+//                bundle.putString(FgOrder.KEY_ORDER_ID, order.orderNo);
+//                startFragment(new FgOrder(), bundle);
+                FgOrderDetail.Params params = new FgOrderDetail.Params();
+                params.orderType = order.orderType;
+                params.orderId = order.orderNo;
                 Bundle bundle = new Bundle();
-                bundle.putInt(KEY_BUSINESS_TYPE, order.orderType);
-                bundle.putInt(KEY_GOODS_TYPE, order.orderGoodsType);
-                bundle.putString(FgOrder.KEY_ORDER_ID, order.orderNo);
-                startFragment(new FgOrder(), bundle);
+                bundle.putSerializable(Constants.PARAMS_DATA, params);
+                startFragment(new FgOrderDetail(), bundle);
             }
         }
     }

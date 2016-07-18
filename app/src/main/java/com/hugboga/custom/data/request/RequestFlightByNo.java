@@ -34,4 +34,9 @@ public class RequestFlightByNo extends BaseRequest<ArrayList<FlightBean>> {
     public ImplParser getParser() {
         return new ParserFlightByNo();
     }
+
+    @Override
+    public String getUrlErrorCode() {
+        return "40034";
+    }
 }

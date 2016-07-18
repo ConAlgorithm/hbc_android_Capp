@@ -21,8 +21,8 @@ public class RequestSubmitDaily extends RequestSubmitBase {
         map.put("destCityName", orderBean.serviceEndCityName);
         map.put("serviceDate", orderBean.serviceTime);
         map.put("serviceEndDate", orderBean.serviceEndTime);
-        map.put("serviceTimeL", null);
-        map.put("serviceEndTimeL", null);
+//        map.put("serviceTimeL", null);
+//        map.put("serviceEndTimeL", null);
         map.put("oneCityTravel", orderBean.oneCityTravel);
         map.put("isHalfDaily", orderBean.isHalfDaily);
         map.put("serviceLocalDays", orderBean.inTownDays);
@@ -33,9 +33,6 @@ public class RequestSubmitDaily extends RequestSubmitBase {
         map.put("serviceDepartTime", orderBean.serviceTime + " " + orderBean.serviceStartTime);
         map.put("servicePassCitys", orderBean.stayCityListStr);
         map.put("passbyPois", orderBean.skuPoi);
-
-        map.put("serviceAreaCode", orderBean.serviceAreaCode);
-        map.put("serviceAddressTel", orderBean.serviceAddressTel);
 
         map.put("userRemark", orderBean.userRemark);
         map.put("priceChannel", orderBean.priceChannel);
@@ -50,7 +47,17 @@ public class RequestSubmitDaily extends RequestSubmitBase {
         map.put("userName", orderBean.userName);
         map.put("memo", orderBean.memo);
 
+        map.put("realUserEx",orderBean.realUserEx);
+
+        map.put("userEx",orderBean.userEx);
+        map.put("realSendSms",orderBean.realSendSms);
+        map.put("travelFund",orderBean.travelFund);
+        map.put("guideCollectId",orderBean.guideCollectId);
+
         map.put("destAddressDetail", orderBean.destAddressDetail);
+
+        map.put("coupId", orderBean.coupId);
+        map.put("coupPriceInfo", orderBean.coupPriceInfo);
 
 //        childSeatNum 儿童座椅数
 //        luggageNum 行李数
@@ -58,5 +65,10 @@ public class RequestSubmitDaily extends RequestSubmitBase {
 //        realAreaCode 乘车人区号
 //        realMobile 乘车人电话
 //        isRealUser 为别人下单传入2
+    }
+
+    @Override
+    public String getUrlErrorCode() {
+        return "40066";
     }
 }

@@ -36,4 +36,9 @@ public class RequestHome extends BaseRequest<ArrayList<HomeBean>> {
     public ImplParser getParser() {
         return new ParserHome();
     }
+
+    @Override
+    public String getUrlErrorCode() {
+        return "40041";
+    }
 }

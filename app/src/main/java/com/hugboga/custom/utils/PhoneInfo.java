@@ -445,8 +445,11 @@ public class PhoneInfo {
 
             if(phone != null){
                 phone.moveToFirst();
-                contact[1] = phone.getString(phone.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-
+                try{
+                    contact[1] = phone.getString(phone.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                }catch (Exception e){
+                    contact[1] = "";
+                }
             }
 
             phone.close();

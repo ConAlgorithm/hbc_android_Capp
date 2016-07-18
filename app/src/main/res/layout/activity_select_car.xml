@@ -385,6 +385,7 @@
                     android:layout_centerHorizontal="true"
                     android:text="@string/befer48_hour"
                     android:textColor="@color/basic_black"
+                    android:visibility="gone"
                     android:textSize="12sp" />
 
             </RelativeLayout>
@@ -397,7 +398,6 @@
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_margin="15dp"
         android:background="@color/all_bg_yellow"
         android:gravity="center"
         android:text="@string/go_next"

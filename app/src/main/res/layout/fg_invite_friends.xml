@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/basic_white"
     android:orientation="vertical">
     <include
         android:id="@+id/invite_header"
@@ -12,6 +13,5 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/invite_header"
-        android:background="@color/coupon_empty_color"
         android:divider="@null" />
 </RelativeLayout>

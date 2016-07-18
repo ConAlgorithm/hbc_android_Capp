@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
+import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.net.NewParamsBuilder;
 import com.hugboga.custom.data.net.UrlLibs;
 
@@ -21,6 +22,7 @@ public class RequestCouponExchange extends BaseRequest<String> {
         super(context);
         map = new HashMap<String, Object>();
         map.put("couponCode", couponCode);
+        map.put("userId", UserEntity.getUser().getUserId(getContext()));
     }
 
     @Override
@@ -31,5 +33,10 @@ public class RequestCouponExchange extends BaseRequest<String> {
     @Override
     public HttpMethod getHttpMethod() {
         return HttpMethod.POST;
+    }
+
+    @Override
+    public String getUrlErrorCode() {
+        return "40026";
     }
 }

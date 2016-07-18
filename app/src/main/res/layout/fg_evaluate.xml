@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/basic_white"
+    android:orientation="vertical">
+    <include layout="@layout/include_header" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="86dip"
+                android:orientation="horizontal"
+                android:paddingLeft="17dp"
+                android:paddingRight="17dp">
+
+                <net.grobas.view.PolygonImageView
+                    android:id="@+id/evaluate_avatar_iv"
+                    android:layout_width="58dp"
+                    android:layout_height="58dp"
+                    android:layout_marginTop="13dp"
+                    android:background="@mipmap/collection_icon_pic"
+                    app:poly_corner_radius="5"
+                    app:poly_rotation_angle="25" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="12dp"
+                    android:layout_toLeftOf="@id/evaluate_avatar_iv"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/evaluate_name_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="小包子"
+                            android:textColor="#333333"
+                            android:textSize="16sp" />
+
+                        <com.hugboga.custom.widget.RatingView
+                            android:id="@+id/evaluate_score_ratingview"
+                            android:layout_width="wrap_content"
+                            android:layout_height="15dip"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginTop="1dip"
+                            app:gap="4dip"
+                            app:rating_bg="@drawable/btn_yellow_ratingbar"
+                            app:touchable="false" />
+                    </LinearLayout>
+
+
+                    <TextView
+                        android:id="@+id/evaluate_describe_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="1dip"
+                        android:text="丰田、sadasd/舒适性7座"
+                        android:textColor="@color/basic_gray_light"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/evaluate_plate_number_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="1dip"
+                        android:text="车牌号123123"
+                        android:textColor="@color/basic_gray_light"
+                        android:textSize="14sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/evaluate_active_tv"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="#eeeeee"
+                android:gravity="center"
+                android:text="打5星好评，可帮他争取皇包车1000小费奖励哦"
+                android:textColor="#77ff0000"
+                android:textSize="14sp" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_gravity="center"
+                    android:background="#44999999" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@color/basic_white"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:text="@string/evaluate_subtitle_grade"
+                    android:textColor="#343434"
+                    android:textSize="15sp" />
+            </FrameLayout>
+
+            <com.hugboga.custom.widget.RatingView
+                android:id="@+id/evaluate_ratingView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                app:gap="22dip"
+                app:item_width="32dip"
+                app:rating_bg="@drawable/selector_evaluate_ratingbar" />
+
+            <TextView
+                android:id="@+id/evaluate_score_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="15dp"
+                android:visibility="gone"
+                android:text="满意"
+                android:textColor="#ffd533"
+                android:textSize="14sp" />
+            <com.hugboga.custom.widget.EvaluateTagGroup
+                android:id="@+id/evaluate_taggroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                app:horizontalSpacing="15dp"
+                app:verticalSpacing="7dp"
+                />
+            <EditText
+                android:id="@+id/evaluate_comment_et"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/border_evaluate_comment"
+                android:gravity="top"
+                android:hint="@string/evaluate_et_hint"
+                android:minLines="6"
+                android:padding="8dp"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/evaluate_submit_tv"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="43dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:layout_marginBottom="40dp"
+                android:background="@drawable/selector_evaluate_submit"
+                android:gravity="center"
+                android:text="@string/evaluate_submit"
+                android:textColor="#3c382f"
+                android:textSize="16sp" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

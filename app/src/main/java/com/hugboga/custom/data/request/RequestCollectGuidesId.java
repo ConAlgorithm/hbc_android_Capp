@@ -20,11 +20,15 @@ import java.util.HashMap;
 @HttpRequest(path = UrlLibs.COLLECT_GUIDES_ID, builder = NewParamsBuilder.class)
 public class RequestCollectGuidesId extends BaseRequest {
 
-    public RequestCollectGuidesId(Context context, String userId, String guideId, String sharingUserId) {
+    public RequestCollectGuidesId(Context context, String guideId) {
+        this(context, guideId, null);
+    }
+
+    public RequestCollectGuidesId(Context context, String guideId, String sharingUserId) {
         super(context);
         map = new HashMap<String, Object>();
         map.put("source", Constants.REQUEST_SOURCE);
-        map.put("userId", userId);
+        map.put("userId", UserEntity.getUser().getUserId(context));
         map.put("guideId", guideId);//司导ID
         map.put("sharingUserId", sharingUserId);//非必须 分享用户ID
     }
@@ -37,5 +41,10 @@ public class RequestCollectGuidesId extends BaseRequest {
     @Override
     public HttpMethod getHttpMethod() {
         return HttpMethod.POST;
+    }
+
+    @Override
+    public String getUrlErrorCode() {
+        return "40023";
     }
 }

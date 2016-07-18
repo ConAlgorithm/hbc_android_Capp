@@ -28,6 +28,24 @@ public class UserEntity {
     public String weakPasswordMsg; //弱密码提示文案
     private String imToken;//聊天token
     private String unionid;
+    private int travelFund;//旅游基金
+    private int coupons;//优惠卷
+
+    public String getUserName(Context activity) {
+//        if (userName == null) {
+            SharedPre shared = new SharedPre(activity);
+            userName = shared.getStringValue(SharedPre.USERNAME);
+//        }
+        return userName;
+    }
+
+    public void setUserName(Context activity,String userName) {
+        SharedPre shared = new SharedPre(activity);
+        shared.saveStringValue(SharedPre.USERNAME, userName);
+        this.userName = userName;
+    }
+
+    private String userName;//真实姓名
 
     private UserEntity() {
     }
@@ -38,6 +56,42 @@ public class UserEntity {
             user = new UserEntity();
         }
         return user;
+    }
+
+    public void setTravelFund(Context active, int travelFund) {
+        SharedPre shared = new SharedPre(active);
+        shared.saveIntValue(SharedPre.TRAVELFUND, travelFund);
+        this.travelFund = travelFund;
+    }
+
+    public int getTravelFund(Context activity) {
+        if (travelFund == 0) {
+            try {
+                SharedPre shared = new SharedPre(activity);
+                travelFund = shared.getIntValue(SharedPre.TRAVELFUND);
+            } catch (Exception e) {
+                travelFund = 0;
+            }
+        }
+        return travelFund;
+    }
+
+    public void setCoupons(Context active, int coupons) {
+        SharedPre shared = new SharedPre(active);
+        shared.saveIntValue(SharedPre.COUPONS, coupons);
+        this.coupons = coupons;
+    }
+
+    public int getCoupons(Context activity) {
+        if (coupons == 0) {
+            try {
+                SharedPre shared = new SharedPre(activity);
+                coupons = shared.getIntValue(SharedPre.COUPONS);
+            } catch (Exception e) {
+                coupons = 0;
+            }
+        }
+        return coupons;
     }
 
     public String getAccessKey(Context activity) {

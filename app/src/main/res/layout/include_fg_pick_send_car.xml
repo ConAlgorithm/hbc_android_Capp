@@ -10,15 +10,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/basic_white"
-        android:clipChildren="false"
-        android:layerType="software">
+        android:clipChildren="false">
 
         <com.hugboga.custom.widget.JazzyViewPager
             android:id="@+id/jazzy_pager"
             android:layout_width="match_parent"
-            android:layout_height="160dip"
-            android:layout_marginLeft="50dip"
-            android:layout_marginRight="50dip"
+            android:layout_height="120dip"
+            android:layout_marginRight="80dp"
+            android:layout_marginLeft="80dp"
             android:clipChildren="false" />
     </LinearLayout>
 
@@ -37,7 +36,7 @@
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:orientation="horizontal"
-            android:padding="10dip">
+            android:paddingBottom="10dip">
             <TextView
                 android:id="@+id/fg_car_name"
                 android:layout_width="wrap_content"
@@ -103,17 +102,15 @@
         android:drawablePadding="5dip"
         android:text="@string/car_tip" />
 
-
     <RelativeLayout
-        android:id="@+id/driver_rl"
-        android:visibility="gone"
+        android:id="@+id/driver_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:layout_below="@id/car_info"
         android:background="@color/basic_white"
-        android:clickable="true"
-        android:minHeight="60dp">
+        android:layout_marginTop="10dp"
+        android:visibility="gone"
+        android:clickable="true">
 
         <include layout="@layout/include_driver_layout" />
 

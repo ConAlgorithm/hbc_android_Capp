@@ -7,11 +7,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_below="@id/car_info"
-        android:id="@+id/driver_layout"
         android:background="@color/basic_white"
-        android:visibility="gone"
         android:clickable="true"
-        android:minHeight="60dp">
+        android:minHeight="50dp">
 
         <TextView
             android:id="@+id/driver_left"
@@ -32,7 +30,7 @@
             android:layout_marginRight="20dp"
             android:drawablePadding="10dp"
             android:layout_centerVertical="true"
-            android:drawableLeft="@mipmap/icon_guess_you_want"
+            android:drawableLeft="@mipmap/deleat"
             android:text="@string/del_driver"
             android:textColor="#9e9fa0"
             android:layout_alignParentRight="true"
@@ -77,7 +75,7 @@
         android:paddingLeft="20dp"
         android:gravity="center_vertical"
         android:layout_alignParentLeft="true"
-        android:text="@string/driver_time_error"
+        android:text="@string/guide_error_time"
         android:textColor="#fa8f6e"
         android:background="#fdfed8"
         android:textSize="15sp" />

@@ -9,7 +9,7 @@ import android.util.AttributeSet;
  */
 public class ZListRecyclerView extends ZRecyclerView {
 
-    ZDefaultDivider divider;
+    public ZDefaultDivider divider;
 
     public ZListRecyclerView(Context context) {
         super(context);

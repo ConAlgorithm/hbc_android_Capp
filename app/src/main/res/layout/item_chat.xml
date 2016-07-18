@@ -17,23 +17,15 @@
 
         <RelativeLayout
             android:id="@+id/letter_item_img_layout"
+            android:background="@color/basic_white"
             android:layout_width="@dimen/letter_img_width"
             android:layout_height="@dimen/letter_img_width">
 
-            <net.grobas.view.PolygonImageView
+            <com.hugboga.custom.widget.CircleImageView
                 android:id="@+id/letter_item_img"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:src="@mipmap/chat_head"
-                app:poly_shadow="false"
-                app:poly_shadow_color="@android:color/black"
-                app:poly_border="false"
-                app:poly_border_color="@android:color/white"
-                app:poly_vertices="0"
-                app:poly_border_width="5dp"
-                app:poly_corner_radius="5"
-                app:poly_rotation_angle="25" />
-
+                android:src="@mipmap/chat_head"/>
 
             <TextView
                 android:id="@+id/footer_order_btn_point"

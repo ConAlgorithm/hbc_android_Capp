@@ -135,6 +135,7 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, OnIt
 //        layoutParams.setMargins(0, 15, 0, 15);//4个参数按顺序分别是左上右下
 //        runninLayout.setLayoutParams(layoutParams);
         fgTravelRunning = (ZListPageView) runninLayout.findViewById(R.id.listview);
+        fgTravelRunning.removeItemDecoration(fgTravelRunning.divider);
         runningSwipeRefresh = (ZSwipeRefreshLayout) runninLayout.findViewById(R.id.swipe);
         runningEmptyLayout = (RelativeLayout) runninLayout.findViewById(R.id.list_empty);
         runningAdapter = new NewOrderAdapter(this);
@@ -151,6 +152,7 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, OnIt
         //已完成
         finishLayout = (RelativeLayout) inflater.inflate(R.layout.travel_list_layout_finish, null);
         fgTravelFinish = (ZListPageView) finishLayout.findViewById(R.id.listview);
+        fgTravelFinish.removeItemDecoration(fgTravelFinish.divider);
         finishSwipeRefresh = (ZSwipeRefreshLayout) finishLayout.findViewById(R.id.swipe);
         finishEmptyLayout = (RelativeLayout) finishLayout.findViewById(R.id.list_empty);
         finishAdapter = new NewOrderAdapter(this);
@@ -164,6 +166,7 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, OnIt
         //已取消
         cancelLayout = (RelativeLayout) inflater.inflate(R.layout.travel_list_layout_cancel, null);
         fgTravelCancel = (ZListPageView) cancelLayout.findViewById(R.id.listview);
+        fgTravelCancel.removeItemDecoration(fgTravelCancel.divider);
         cancelSwipeRefresh = (ZSwipeRefreshLayout) cancelLayout.findViewById(R.id.swipe);
         cancelEmptyLayout = (RelativeLayout) cancelLayout.findViewById(R.id.list_empty);
         cancelAdapter = new NewOrderAdapter(this);
@@ -260,7 +263,7 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, OnIt
         //设置标题颜色，返回按钮图片
         leftBtn.setImageResource(R.mipmap.header_menu);
         leftBtn.setOnClickListener(this);
-        fgTitle.setText("我的行程");
+        fgTitle.setText("行程");
 
     }
 
@@ -378,31 +381,44 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, OnIt
         @Override
         public void onItemClick(View v, int position) {
             MLog.e("view = " + view);
+            OrderBean bean = null;
             if (view == fgTravelRunning) {
-                OrderBean bean = runningAdapter.getDatas().get(position);
-                Bundle bundle = new Bundle();
-                bundle.putInt(KEY_BUSINESS_TYPE, bean.orderType);
-                bundle.putInt(KEY_GOODS_TYPE, bean.orderGoodsType);
-                bundle.putString(FgOrder.KEY_ORDER_ID, bean.orderNo);
-                bundle.putString("source", bean.orderType == 5 ? bean.serviceCityName : "首页");
-                startFragment(new FgOrder(), bundle);
+                bean = runningAdapter.getDatas().get(position);
             } else if (view == fgTravelFinish) {
-                OrderBean bean = finishAdapter.getDatas().get(position);
-                Bundle bundle = new Bundle();
-                bundle.putInt(KEY_BUSINESS_TYPE, bean.orderType);
-                bundle.putInt(KEY_GOODS_TYPE, bean.orderGoodsType);
-                bundle.putString(FgOrder.KEY_ORDER_ID, bean.orderNo);
-                bundle.putString("source", bean.orderType == 5 ? bean.serviceCityName : "首页");
-                startFragment(new FgOrder(), bundle);
+                bean = finishAdapter.getDatas().get(position);
             } else if (view == fgTravelCancel) {
-                OrderBean bean = cancelAdapter.getDatas().get(position);
-                Bundle bundle = new Bundle();
-                bundle.putInt(KEY_BUSINESS_TYPE, bean.orderType);
-                bundle.putInt(KEY_GOODS_TYPE, bean.orderGoodsType);
-                bundle.putString(FgOrder.KEY_ORDER_ID, bean.orderNo);
-                bundle.putString("source", bean.orderType == 5 ? bean.serviceCityName : "首页");
-                startFragment(new FgOrder(), bundle);
+                bean = cancelAdapter.getDatas().get(position);
             }
+            FgOrderDetail.Params params = new FgOrderDetail.Params();
+            params.orderType = bean.orderType;
+            params.orderId = bean.orderNo;
+            params.source = bean.orderType == 5 ? bean.serviceCityName : "首页";
+            startFragment(FgOrderDetail.newInstance(params));
+//            if (view == fgTravelRunning) {
+//                OrderBean bean = runningAdapter.getDatas().get(position);
+//                Bundle bundle = new Bundle();
+//                bundle.putInt(KEY_BUSINESS_TYPE, bean.orderType);
+//                bundle.putInt(KEY_GOODS_TYPE, bean.orderGoodsType);
+//                bundle.putString(FgOrder.KEY_ORDER_ID, bean.orderNo);
+//                bundle.putString("source", bean.orderType == 5 ? bean.serviceCityName : "首页");
+//                startFragment(new FgOrder(), bundle);
+//            } else if (view == fgTravelFinish) {
+//                OrderBean bean = finishAdapter.getDatas().get(position);
+//                Bundle bundle = new Bundle();
+//                bundle.putInt(KEY_BUSINESS_TYPE, bean.orderType);
+//                bundle.putInt(KEY_GOODS_TYPE, bean.orderGoodsType);
+//                bundle.putString(FgOrder.KEY_ORDER_ID, bean.orderNo);
+//                bundle.putString("source", bean.orderType == 5 ? bean.serviceCityName : "首页");
+//                startFragment(new FgOrder(), bundle);
+//            } else if (view == fgTravelCancel) {
+//                OrderBean bean = cancelAdapter.getDatas().get(position);
+//                Bundle bundle = new Bundle();
+//                bundle.putInt(KEY_BUSINESS_TYPE, bean.orderType);
+//                bundle.putInt(KEY_GOODS_TYPE, bean.orderGoodsType);
+//                bundle.putString(FgOrder.KEY_ORDER_ID, bean.orderNo);
+//                bundle.putString("source", bean.orderType == 5 ? bean.serviceCityName : "首页");
+//                startFragment(new FgOrder(), bundle);
+//            }
         }
     }
 
@@ -461,6 +477,7 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, OnIt
         MLog.e(this + " onEventMainThread " + action.getType());
         switch (action.getType()) {
             case CLICK_USER_LOGIN:
+            case FGTRAVEL_UPDATE:
                 contentLayout.setVisibility(View.VISIBLE);
                 logoutLayout.setVisibility(View.GONE);
                 requestData();

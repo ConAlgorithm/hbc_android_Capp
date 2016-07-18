@@ -3,9 +3,11 @@ package com.hugboga.custom.data.bean;
 import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.TextUtils;
 
 import com.hugboga.custom.R;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,16 +21,16 @@ public class OrderBean implements IBaseBean ,Parcelable{
     public String realUserName;
     public String realAreaCode;
     public String realMobile;
-    public String isRealUser;
+    public String isRealUser;// 是否有乘车人   1-没有乘车人信息   2-有乘车人信息
     public String startAddressPoi;
     public String destAddressPoi;
     public String userName;
 
     public String priceChannel;
-    public String userRemark;
+    public String userRemark;//备注信息
 
 
-    public Integer orderType;//1: 接机 2: 送机 3: 市内包车(由日租拆分出来) 4: 次租
+    public Integer orderType;//1: 接机 2: 送机 3: 市内包车(由日租拆分出来) 4: 次租(单次接送) 5线路包车
     public int orderGoodsType;//扩展字段   1: 接机 2: 送机 3: 市内包车(由日租拆分出来) 4: 次租 5: 精品线路(由日租拆分出来) 6: 小长途 (由日租拆分出来)7: 大长途 (由日租拆分出来)
     public String orderNo; //订单号
     //    public String orderID;
@@ -50,7 +52,7 @@ public class OrderBean implements IBaseBean ,Parcelable{
     public String serviceTime;//服务时间[2015-10-03 20:02:34]
     public String serviceEndTime; //包车结束时间
     public String serviceStartTime; //包车起始时间，选填
-    public int expectedCompTime; //预计服务完成时间 接送次 必填
+    public String expectedCompTime; //预计服务完成时间 接送次 必填
     public ArrayList<Integer> passByCityID;
     public ArrayList<CityBean> passByCity;
     public String stayCityListStr;//日租包车
@@ -100,7 +102,7 @@ public class OrderBean implements IBaseBean ,Parcelable{
     public String journeyComment;//行程说明
     public String dailyTips;//注意事项
 
-    public boolean insuranceEnable; //是否投保
+    public boolean insuranceEnable; //是否可以添加保险 true可以 false不可以
     public String insuranceTips;//添加保险提示;
     public List<InsureListBean> insuranceList;
 
@@ -114,6 +116,50 @@ public class OrderBean implements IBaseBean ,Parcelable{
 
 
     public String serviceDepartTime; //服务时间
+
+    public String realSendSms;//1 发送短信 0 不发送 null 不发送
+
+    public String travelFund;//当前订单使用的旅游基金
+    public String guideCollectId;//指定司导ID
+
+    public String userEx;
+    public String realUserEx;
+
+    public String coupId;
+    public String coupPriceInfo;
+
+    public String flightDeptCityName;//起飞机场所在城市
+    public String flightDestCityName;//降落机场所在城市
+    public String serviceTimeStr;//当地时间串 开始时间例如： 04月21日（周五）10:05
+    public String serviceEndTimeStr;//当地时间串 结束时间
+    public String passengerInfos;//座位信息 乘坐%1$s人、行李箱%2$s件、儿童座椅%3$s个
+    public int userCommentStatus;//用户是否给导游评价过 0未评价，1评价过
+    public String childSeatStr; //2.7.0 新加 对应 接口字段 childSeat
+
+
+    public String isArrivalVisa;
+    public String priceFlightBrandSign;///接机牌费用
+    public String isFlightSign;//是否选择举牌接机服务
+    public String priceActual;////使用券时，实际支付价格
+    public String isCheckin;////是否协助登机 1选择
+
+
+    public String flightAirportBuiding;
+    public String flightAirportName;
+    public String flightArriveTimeL;
+    public String flightBrandSign;
+    public String flightDestCode;
+    public String flightDestName;
+    public String flightFlyTimeL;
+    public String flightNo;
+
+    public ArrayList<OrderContactBean> userList;//乘车人
+    public ArrayList<OrderContactBean> realUserList;//联系人
+    public int priceCommentReward;//好评奖励金额
+    public boolean carPool = false;//是否拼车
+
+    public AppraisementBean appraisement;//评价内容
+    public ArrayList<String> cancelRules;//取消规则
 
     public String getOrderTypeStr(Context context) {
         switch (orderGoodsType) {
@@ -134,6 +180,44 @@ public class OrderBean implements IBaseBean ,Parcelable{
             default:
                 return "";
         }
+    }
+
+
+
+    public String getPayDeadTime() {
+        if (TextUtils.isEmpty(payDeadTime)) {
+            payDeadTime = "0";
+        }
+        return payDeadTime;
+    }
+
+    /**
+     * 是否评价过
+     * */
+    public boolean isEvaluated() {
+        return userCommentStatus == 1;
+    }
+
+    /**
+     * 保单状态
+     * */
+    public String getInsuranceStatus() {
+        String resultStr = "";
+        switch (insuranceStatusCode) {
+            case 1001:
+                resultStr = "全部购买";
+                break;
+            case 1002:
+                resultStr = "出现问题";
+                break;
+            case 1003:
+                resultStr = "注销保险";
+                break;
+            case 1004:
+                resultStr = "保单处理中";
+                break;
+        }
+        return resultStr;
     }
 
     @Override
@@ -172,9 +256,9 @@ public class OrderBean implements IBaseBean ,Parcelable{
         dest.writeString(this.serviceTime);
         dest.writeString(this.serviceEndTime);
         dest.writeString(this.serviceStartTime);
-        dest.writeInt(this.expectedCompTime);
+        dest.writeString(this.expectedCompTime);
         dest.writeList(this.passByCityID);
-        dest.writeTypedList(passByCity);
+        dest.writeTypedList(this.passByCity);
         dest.writeString(this.stayCityListStr);
         dest.writeValue(this.totalDays);
         dest.writeString(this.startAddress);
@@ -194,11 +278,11 @@ public class OrderBean implements IBaseBean ,Parcelable{
         dest.writeValue(this.visa);
         dest.writeString(this.memo);
         dest.writeString(this.payDeadTime);
-        dest.writeByte(cancelable ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.cancelable ? (byte) 1 : (byte) 0);
         dest.writeString(this.cancelText);
         dest.writeString(this.cancelTip);
-        dest.writeByte(canComment ? (byte) 1 : (byte) 0);
-        dest.writeByte(canChat ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.canComment ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.canChat ? (byte) 1 : (byte) 0);
         dest.writeString(this.imToken);
         dest.writeValue(this.orderPrice);
         dest.writeValue(this.checkInPrice);
@@ -218,13 +302,48 @@ public class OrderBean implements IBaseBean ,Parcelable{
         dest.writeValue(this.outTownDays);
         dest.writeString(this.journeyComment);
         dest.writeString(this.dailyTips);
-        dest.writeByte(insuranceEnable ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.insuranceEnable ? (byte) 1 : (byte) 0);
+        dest.writeString(this.insuranceTips);
+        dest.writeTypedList(this.insuranceList);
         dest.writeString(this.goodsNo);
         dest.writeString(this.skuPoi);
-        dest.writeList(this.skuPoiArray);
+        dest.writeTypedList(this.skuPoiArray);
         dest.writeString(this.insuranceStatus);
         dest.writeInt(this.insuranceStatusCode);
         dest.writeString(this.serviceDepartTime);
+        dest.writeString(this.realSendSms);
+        dest.writeString(this.travelFund);
+        dest.writeString(this.guideCollectId);
+        dest.writeString(this.userEx);
+        dest.writeString(this.realUserEx);
+        dest.writeString(this.coupId);
+        dest.writeString(this.coupPriceInfo);
+        dest.writeString(this.flightDeptCityName);
+        dest.writeString(this.flightDestCityName);
+        dest.writeString(this.serviceTimeStr);
+        dest.writeString(this.serviceEndTimeStr);
+        dest.writeString(this.passengerInfos);
+        dest.writeInt(this.userCommentStatus);
+        dest.writeString(this.childSeatStr);
+        dest.writeString(this.isArrivalVisa);
+        dest.writeString(this.priceFlightBrandSign);
+        dest.writeString(this.isFlightSign);
+        dest.writeString(this.priceActual);
+        dest.writeString(this.isCheckin);
+        dest.writeString(this.flightAirportBuiding);
+        dest.writeString(this.flightAirportName);
+        dest.writeString(this.flightArriveTimeL);
+        dest.writeString(this.flightBrandSign);
+        dest.writeString(this.flightDestCode);
+        dest.writeString(this.flightDestName);
+        dest.writeString(this.flightFlyTimeL);
+        dest.writeString(this.flightNo);
+        dest.writeTypedList(this.userList);
+        dest.writeTypedList(this.realUserList);
+        dest.writeInt(this.priceCommentReward);
+        dest.writeByte(this.carPool ? (byte) 1 : (byte) 0);
+        dest.writeSerializable(this.appraisement);
+        dest.writeStringList(this.cancelRules);
     }
 
     public OrderBean() {
@@ -261,7 +380,7 @@ public class OrderBean implements IBaseBean ,Parcelable{
         this.serviceTime = in.readString();
         this.serviceEndTime = in.readString();
         this.serviceStartTime = in.readString();
-        this.expectedCompTime = in.readInt();
+        this.expectedCompTime = in.readString();
         this.passByCityID = new ArrayList<Integer>();
         in.readList(this.passByCityID, Integer.class.getClassLoader());
         this.passByCity = in.createTypedArrayList(CityBean.CREATOR);
@@ -310,13 +429,47 @@ public class OrderBean implements IBaseBean ,Parcelable{
         this.journeyComment = in.readString();
         this.dailyTips = in.readString();
         this.insuranceEnable = in.readByte() != 0;
+        this.insuranceTips = in.readString();
+        this.insuranceList = in.createTypedArrayList(InsureListBean.CREATOR);
         this.goodsNo = in.readString();
         this.skuPoi = in.readString();
-        this.skuPoiArray = new ArrayList<PoiBean>();
-        in.readList(this.skuPoiArray, PoiBean.class.getClassLoader());
+        this.skuPoiArray = in.createTypedArrayList(PoiBean.CREATOR);
         this.insuranceStatus = in.readString();
         this.insuranceStatusCode = in.readInt();
         this.serviceDepartTime = in.readString();
+        this.realSendSms = in.readString();
+        this.travelFund = in.readString();
+        this.guideCollectId = in.readString();
+        this.userEx = in.readString();
+        this.realUserEx = in.readString();
+        this.coupId = in.readString();
+        this.coupPriceInfo = in.readString();
+        this.flightDeptCityName = in.readString();
+        this.flightDestCityName = in.readString();
+        this.serviceTimeStr = in.readString();
+        this.serviceEndTimeStr = in.readString();
+        this.passengerInfos = in.readString();
+        this.userCommentStatus = in.readInt();
+        this.childSeatStr = in.readString();
+        this.isArrivalVisa = in.readString();
+        this.priceFlightBrandSign = in.readString();
+        this.isFlightSign = in.readString();
+        this.priceActual = in.readString();
+        this.isCheckin = in.readString();
+        this.flightAirportBuiding = in.readString();
+        this.flightAirportName = in.readString();
+        this.flightArriveTimeL = in.readString();
+        this.flightBrandSign = in.readString();
+        this.flightDestCode = in.readString();
+        this.flightDestName = in.readString();
+        this.flightFlyTimeL = in.readString();
+        this.flightNo = in.readString();
+        this.userList = in.createTypedArrayList(OrderContactBean.CREATOR);
+        this.realUserList = in.createTypedArrayList(OrderContactBean.CREATOR);
+        this.priceCommentReward = in.readInt();
+        this.carPool = in.readByte() != 0;
+        this.appraisement = (AppraisementBean) in.readSerializable();
+        this.cancelRules = in.createStringArrayList();
     }
 
     public static final Creator<OrderBean> CREATOR = new Creator<OrderBean>() {

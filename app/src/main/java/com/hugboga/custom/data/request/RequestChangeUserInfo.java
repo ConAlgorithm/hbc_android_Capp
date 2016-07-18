@@ -21,7 +21,7 @@ import java.util.HashMap;
 @HttpRequest(path = UrlLibs.SERVER_IP_INFORMATION_UPDATE, builder = NewParamsBuilder.class)
 public class RequestChangeUserInfo extends BaseRequest<UserBean> {
 
-    public RequestChangeUserInfo(Context context, String avatar, String nickname, String gender, String ageType, String sign) {
+    public RequestChangeUserInfo(Context context, String avatar, String nickname, String gender, String ageType, String sign, String realName) {
         super(context);
         map = new HashMap<String, Object>();
         try {
@@ -40,6 +40,9 @@ public class RequestChangeUserInfo extends BaseRequest<UserBean> {
             if (!TextUtils.isEmpty(sign)) {
                 map.put("signature", sign);
             }
+            if (!TextUtils.isEmpty(realName)) {
+                map.put("name", realName);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -53,5 +56,10 @@ public class RequestChangeUserInfo extends BaseRequest<UserBean> {
     @Override
     public HttpMethod getHttpMethod() {
         return HttpMethod.POST;
+    }
+
+    @Override
+    public String getUrlErrorCode() {
+        return "40013";
     }
 }

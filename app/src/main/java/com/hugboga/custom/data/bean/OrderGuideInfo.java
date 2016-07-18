@@ -13,7 +13,9 @@ public class OrderGuideInfo implements IBaseBean ,Parcelable {
     public String guideID;//车导ID
     public String guideTel;//车导电话
     public double guideStarLevel;//车导级别
-    public String car;//车描述
+    public String guideCar;//车描述
+    public String carNumber;//车牌
+    public int storeStatus;//导游是否被收藏 0没有 1已收藏
 
     @Override
     public int describeContents() {
@@ -27,7 +29,9 @@ public class OrderGuideInfo implements IBaseBean ,Parcelable {
         dest.writeString(this.guideID);
         dest.writeString(this.guideTel);
         dest.writeDouble(this.guideStarLevel);
-        dest.writeString(this.car);
+        dest.writeString(this.guideCar);
+        dest.writeString(this.carNumber);
+        dest.writeInt(this.storeStatus);
     }
 
     public OrderGuideInfo() {
@@ -39,7 +43,13 @@ public class OrderGuideInfo implements IBaseBean ,Parcelable {
         this.guideID = in.readString();
         this.guideTel = in.readString();
         this.guideStarLevel = in.readDouble();
-        this.car = in.readString();
+        this.guideCar = in.readString();
+        this.carNumber = in.readString();
+        this.storeStatus = in.readInt();
+    }
+
+    public boolean isCollected() {
+        return storeStatus == 1;
     }
 
     public static final Creator<OrderGuideInfo> CREATOR = new Creator<OrderGuideInfo>() {

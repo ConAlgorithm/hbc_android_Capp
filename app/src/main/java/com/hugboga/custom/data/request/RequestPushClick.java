@@ -32,4 +32,9 @@ public class RequestPushClick extends BaseRequest {
     public ImplParser getParser() {
         return null;
     }
+
+    @Override
+    public String getUrlErrorCode() {
+        return "40058";
+    }
 }

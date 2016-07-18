@@ -34,6 +34,7 @@ import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.utils.PushUtils;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.Tools;
+import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.utils.UpdateResources;
 import com.hugboga.custom.widget.DialogUtil;
 import com.umeng.analytics.MobclickAgent;
@@ -66,6 +67,7 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
+        UIUtils.initDisplayConfiguration(LoadingActivity.this);
         MobclickAgent.UMAnalyticsConfig config = new MobclickAgent.UMAnalyticsConfig(this, "55ccb4cfe0f55ab500004a9d", ChannelUtils.getChannel(this));
         MobclickAgent.startWithConfigure(config);
     }
@@ -135,11 +137,11 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            if (PhoneInfo.isNewVersion(LoadingActivity.this)) {
-                startActivity(new Intent(LoadingActivity.this, SplashActivity.class));
-            } else {
+//            if (PhoneInfo.isNewVersion(LoadingActivity.this)) {
+//                startActivity(new Intent(LoadingActivity.this, SplashActivity.class));
+//            } else {
                 startActivity(new Intent(LoadingActivity.this, MainActivity.class));
-            }
+//            }
             finish();
 //            super.handleMessage(msg);
         }

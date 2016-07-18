@@ -71,6 +71,8 @@ public class FgPersonInfo extends BaseFragment {
     TextView ageTextView;
     @ViewInject(R.id.my_info_mobile)
     TextView mobileTextView;
+    @ViewInject(R.id.my_info_realname)
+    TextView realNameTextView;
 
     UserBean userBean;
     Bitmap head;//头像Bitmap
@@ -87,12 +89,14 @@ public class FgPersonInfo extends BaseFragment {
             userBean = requestUserInfo.getData();
             UserEntity.getUser().setNickname(getActivity(), userBean.nickname);
             UserEntity.getUser().setAvatar(getActivity(), userBean.avatar);
+            UserEntity.getUser().setUserName(getActivity(), userBean.name);
             inflateContent();
         } else if (request instanceof RequestChangeUserInfo) {
             RequestChangeUserInfo requestChangeUserInfo = (RequestChangeUserInfo) request;
             userBean = requestChangeUserInfo.getData();
             UserEntity.getUser().setNickname(getActivity(), userBean.nickname);
             UserEntity.getUser().setAvatar(getActivity(), userBean.avatar);
+            UserEntity.getUser().setUserName(getActivity(), userBean.name);
             inflateContent();
             EventBus.getDefault().post(
                     new EventAction(EventType.CLICK_USER_LOGIN));
@@ -146,9 +150,12 @@ public class FgPersonInfo extends BaseFragment {
         if (!TextUtils.isEmpty(userBean.mobile)) {
             mobileTextView.setText(userBean.mobile);
         }
+        if (!TextUtils.isEmpty(userBean.name)) {
+            realNameTextView.setText(userBean.name);
+        }
     }
 
-    @Event({R.id.my_info_menu_layout1, R.id.my_info_menu_layout2, R.id.my_info_menu_layout3, R.id.my_info_menu_layout4, R.id.my_info_menu_layout5})
+    @Event({R.id.my_info_menu_layout1, R.id.my_info_menu_layout2, R.id.my_info_menu_layout3, R.id.my_info_menu_layout4, R.id.my_info_menu_layout5, R.id.my_info_menu_realname_layout})
     private void onClickView(View view) {
         switch (view.getId()) {
             case R.id.my_info_menu_layout1:
@@ -230,32 +237,27 @@ public class FgPersonInfo extends BaseFragment {
                     MobclickAgent.onEvent(getActivity(), "bind_trigger", map);
                 }
                 break;
-
-//            case R.id.my_info_menu_layout5:
-//                //签名
-//                final EditText inputServer1 = new EditText(getActivity());
-//                inputServer1.setFilters(new InputFilter[]{new InputFilter.LengthFilter(30)});
-//                inputServer1.setMinLines(3);
-//                inputServer1.setGravity(Gravity.TOP);
-//                inputServer1.setText(mobileTextView.getText().toString());
-//                inputServer1.setSelection(inputServer1.getText().length());
-//                AlertDialog.Builder builder1 = new AlertDialog.Builder(getActivity()).setTitle("填写个性签名").setView(inputServer1)
-//                        .setNegativeButton("取消", null).setPositiveButton("提交", new DialogInterface.OnClickListener() {
-//                            public void onClick(DialogInterface dialog, int which) {
-//                                String nickStr = inputServer1.getText().toString();
-//                                if (TextUtils.isEmpty(nickStr)) {
-//                                    showTip("没输入个性签名，请重新填写");
-//                                    return;
-//                                }
-//                                mobileTextView.setText(inputServer1.getText().toString());
-//                                submitChangeUserInfo(5, inputServer1.getText().toString());
-//                            }
-//                        });
-//                dialog = builder1.create();
-//                dialog.setCancelable(true);
-//                dialog.setCanceledOnTouchOutside(true);
-//                dialog.show();
-//                break;
+            case R.id.my_info_menu_realname_layout://真实姓名
+                RelativeLayout layout = (RelativeLayout) LayoutInflater.from(getActivity()).inflate(R.layout.fg_person_info_nick, null);
+                final EditText editText = (EditText) layout.findViewById(R.id.person_info_nick_text);
+                editText.setText(realNameTextView.getText().toString());
+                editText.setSelection(editText.getText().length());
+                AlertDialog.Builder realNameBuilder = new AlertDialog.Builder(getActivity()).setView(layout).setTitle("填写真实姓名").setNegativeButton("取消", null).setPositiveButton("提交", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        String nickStr = editText.getText().toString().trim();
+                        if (TextUtils.isEmpty(nickStr)) {
+                            showTip("没输入真实姓名，请重新填写");
+                            return;
+                        }
+                        realNameTextView.setText(editText.getText().toString());
+                        submitChangeUserInfo(6, editText.getText().toString());
+                    }
+                });
+                AlertDialog realNameDialog = realNameBuilder.create();
+                realNameDialog.setCancelable(true);
+                realNameDialog.setCanceledOnTouchOutside(true);
+                realNameDialog.show();
+                break;
             default:
                 break;
         }
@@ -465,23 +467,27 @@ public class FgPersonInfo extends BaseFragment {
         switch (type) {
             case 1:
                 //提交头像
-                request = new RequestChangeUserInfo(getActivity(), str, null, null, null, null);
+                request = new RequestChangeUserInfo(getActivity(), str, null, null, null, null, null);
                 break;
             case 2:
                 //提交昵称
-                request = new RequestChangeUserInfo(getActivity(), null, str, null, null, null);
+                request = new RequestChangeUserInfo(getActivity(), null, str, null, null, null, null);
                 break;
             case 3:
                 //提交性别
-                request = new RequestChangeUserInfo(getActivity(), null, null, str, null, null);
+                request = new RequestChangeUserInfo(getActivity(), null, null, str, null, null, null);
                 break;
             case 4:
                 //提交年龄
-                request = new RequestChangeUserInfo(getActivity(), null, null, null, str, null);
+                request = new RequestChangeUserInfo(getActivity(), null, null, null, str, null, null);
                 break;
             case 5:
                 //提交签名
-                request = new RequestChangeUserInfo(getActivity(), null, null, null, null, str);
+                request = new RequestChangeUserInfo(getActivity(), null, null, null, null, str, null);
+                break;
+            case 6:
+                //真实姓名
+                request = new RequestChangeUserInfo(getActivity(), null, null, null, null, null, str);
                 break;
             default:
                 break;

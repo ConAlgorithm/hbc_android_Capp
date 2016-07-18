@@ -342,7 +342,7 @@ public class FgSkuSubmit extends BaseFragment implements View.OnClickListener {
         orderBean.serviceStartTime = serverTime + ":00";//时间
         orderBean.serviceEndTime = getServiceEndTime(serverDate, skuBean.daysCount - 1);
         orderBean.distance = String.valueOf(carListBean.distance);//距离
-        orderBean.expectedCompTime = carListBean.interval;//耗时
+        orderBean.expectedCompTime = carListBean.interval+"";//耗时
         orderBean.carDesc = carTypeBean.desc;//车型描述
         orderBean.carType = carTypeBean.carType;//车型
         orderBean.seatCategory = carTypeBean.carSeat;
@@ -546,13 +546,25 @@ public class FgSkuSubmit extends BaseFragment implements View.OnClickListener {
             bundle.putSerializable(FgCarSuk.KEY_CAR_LIST, carListBean);
             startFragment(fgCarSuk, bundle);
         } else if (request instanceof RequestSubmitBase) {
-            bringToFront(FgTravel.class, new Bundle());
-            String orderNo = ((RequestSubmitBase) request).getData();
-            Bundle bundle = new Bundle();
-            bundle.putString(FgOrder.KEY_ORDER_ID, orderNo);
-            bundle.putBoolean("needShowAlert",true);
-            bundle.putString("source", source);
-            startFragment(new FgOrder(), bundle);
+//            bringToFront(FgTravel.class, new Bundle());
+//<<<<<<< HEAD
+//            String orderNo = ((RequestSubmitBase) request).getData();
+//=======
+//            String orderNo = ((RequestSubmitBase) request).getData();
+//>>>>>>> 4f0be5442df3272fb6d4a00769fa3b4badf3e2f1
+//            Bundle bundle = new Bundle();
+//            bundle.putString(FgOrder.KEY_ORDER_ID, orderNo);
+//            bundle.putBoolean("needShowAlert",true);
+//            bundle.putString("source", source);
+//            startFragment(new FgOrder(), bundle);
+//<<<<<<< HEAD
+
+//            FgOrderDetail.Params params = new FgOrderDetail.Params();
+//            params.orderId = orderNo;//todo
+//            params.source = source;
+//            Bundle bundle = new Bundle();
+//            bundle.putSerializable(Constants.PARAMS_DATA, params);
+//            startFragment(new FgOrderDetail(), bundle);
         }
 
     }

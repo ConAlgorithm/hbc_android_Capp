@@ -40,5 +40,8 @@ public class RequestTest3 extends BaseRequest {
         return HttpMethod.POST;
     }
 
-
+    @Override
+    public String getUrlErrorCode() {
+        return "40073";
+    }
 }
