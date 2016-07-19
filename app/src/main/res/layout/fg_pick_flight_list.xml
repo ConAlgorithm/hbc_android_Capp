@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/allbg_white">
+
+    <include layout="@layout/include_header" />
+
+    <TextView
+        android:id="@+id/flight_info"
+        android:layout_width="match_parent"
+        android:layout_height="40dip"
+        android:textSize="20dip"
+        android:gravity="center"
+        android:background="@color/allbg_gray" />
+
+    <ListView
+        android:id="@+id/flight_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/allbg_white"></ListView>
+
+    <include
+        android:id="@+id/flight_empty_layout"
+        layout="@layout/fg_pick_flight_list_empty" />
+
+</LinearLayout>

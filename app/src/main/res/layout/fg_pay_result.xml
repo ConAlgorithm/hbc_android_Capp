@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/basic_white"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <include layout="@layout/include_header" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/pay_result_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:layout_marginLeft="17dp"
+            android:layout_marginTop="3dp">
+
+            <TextView
+                android:id="@+id/pay_result_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="支付成功！"
+                android:textColor="#7cbd55"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/par_result_prompt_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/pay_result_tv"
+                android:layout_marginTop="3dp"
+                android:text="@string/par_result_succeed_prompt"
+                android:textColor="#333333"
+                android:textSize="15sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/par_result_left_tv"
+            android:layout_width="135dp"
+            android:layout_height="32dp"
+            android:background="@drawable/selector_pay_result_left"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:text="查看订单详情"
+            android:textColor="#333333" />
+
+        <TextView
+            android:id="@+id/par_result_right_tv"
+            android:layout_width="135dp"
+            android:layout_height="32dp"
+            android:layout_marginLeft="30dp"
+            android:background="@drawable/selector_pay_result_right"
+            android:gravity="center"
+            android:textSize="13sp"
+            android:text="查看订单详情"
+            android:textColor="#333333" />
+    </LinearLayout>
+</LinearLayout>
