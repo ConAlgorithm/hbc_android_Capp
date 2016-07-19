@@ -70,7 +70,8 @@ public class EvaluateShareView extends LinearLayout implements View.OnClickListe
 
     private void share(int type) {
         String shareUrl = CommonUtils.getBaseUrl(appraisement.wechatShareUrl) + "orderNo=" + orderNo + "&userId=" + UserEntity.getUser().getUserId(getContext());
-        WXShareUtils.getInstance(getContext()).share(type, Tools.getBitmap(getContext(), appraisement.wechatShareHeadSrc)
+        WXShareUtils.getInstance(getContext()).share(type
+                , appraisement.wechatShareHeadSrc
                 , appraisement.wechatShareTitle
                 , appraisement.wechatShareContent
                 , shareUrl);
