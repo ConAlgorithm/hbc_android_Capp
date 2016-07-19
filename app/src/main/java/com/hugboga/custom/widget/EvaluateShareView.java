@@ -79,12 +79,12 @@ public class EvaluateShareView extends LinearLayout implements View.OnClickListe
     public void toggle(boolean _isShow) {
         if (_isShow) {
             drawerIV.setBackgroundResource(R.mipmap.share_withdraw);
-            drawerTV.setText(getContext().getString(R.string.evaluate_share_pack_up));
+            drawerTV.setText(getContext().getString(R.string.evaluate_share_detail));
             descriptionTV.setText(getContext().getString(R.string.evaluate_share_description_1, appraisement.commentTipParam1));
             rulesTV.setVisibility(View.GONE);
         } else {
             drawerIV.setBackgroundResource(R.mipmap.share_unfold);
-            drawerTV.setText(getContext().getString(R.string.evaluate_share_detail));
+            drawerTV.setText(getContext().getString(R.string.evaluate_share_pack_up));
             String description = getContext().getString(R.string.evaluate_share_description_1, appraisement.commentTipParam1) + getContext().getString(R.string.evaluate_share_description_2);
             descriptionTV.setText(description);
             setRulesTextStyle(appraisement.commentTipParam2, appraisement.commentTipParam3);
