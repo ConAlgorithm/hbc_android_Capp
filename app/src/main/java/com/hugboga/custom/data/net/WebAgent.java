@@ -281,8 +281,13 @@ public class WebAgent implements HttpRequestListener {
     @JavascriptInterface
     public void callServicePhone() {
         if (mActivity != null) {
-            DialogUtil mDialogUtil = DialogUtil.getInstance(mActivity);
-            mDialogUtil.showCallDialog();
+            mActivity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    DialogUtil mDialogUtil = DialogUtil.getInstance(mActivity);
+                    mDialogUtil.showCallDialog();
+                }
+            });
         }
     }
 
@@ -292,7 +297,12 @@ public class WebAgent implements HttpRequestListener {
     @JavascriptInterface
     public void customLineOrder() {
         if (mFragment != null) {
-            mFragment.startFragment(new FgOrderSelectCity());
+            mActivity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mFragment.startFragment(new FgOrderSelectCity());
+                }
+            });
         }
     }
 
@@ -302,7 +312,12 @@ public class WebAgent implements HttpRequestListener {
     @JavascriptInterface
     public void fixedLineOrder() {
         if (mFragment != null) {
-            mFragment.startFragment(new FgOrderSelectCity());
+            mActivity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mFragment.startFragment(new FgOrderSelectCity());
+                }
+            });
         }
     }
 
@@ -310,11 +325,16 @@ public class WebAgent implements HttpRequestListener {
      * URL重定向
      * */
     @JavascriptInterface
-    public void pushToNextPageWithUrl(String url) {
+    public void pushToNextPageWithUrl(final String url) {
         if (mFragment != null) {
-            Bundle bundle = new Bundle();
-            bundle.putString(FgWebInfo.WEB_URL, url);
-            mFragment.startFragment(new FgActivity(), bundle);
+            mActivity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Bundle bundle = new Bundle();
+                    bundle.putString(FgWebInfo.WEB_URL, url);
+                    mFragment.startFragment(new FgActivity(), bundle);
+                }
+            });
         }
     }
 
@@ -322,11 +342,16 @@ public class WebAgent implements HttpRequestListener {
      * 设置title
      * */
     @JavascriptInterface
-    public void setWebTitle(String title) {
-        if (!TextUtils.isEmpty(title) && mFragment instanceof FgWebInfo) {
-            FgWebInfo fgWebInfo = ((FgWebInfo) mFragment);
-            fgWebInfo.setTitle(title);
-        }
+    public void setWebTitle(final String title) {
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (!TextUtils.isEmpty(title) && mFragment instanceof FgWebInfo) {
+                    FgWebInfo fgWebInfo = ((FgWebInfo) mFragment);
+                    fgWebInfo.setTitle(title);
+                }
+            }
+        });
     }
 
     /**
