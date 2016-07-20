@@ -217,9 +217,11 @@ public class UserEntity {
     }
 
     public void setAreaCode(Context activity, String code) {
-        SharedPre shared = new SharedPre(activity);
-        shared.saveStringValue(SharedPre.CODE, code);
-        this.code = code;
+        if (!TextUtils.isEmpty(code)) {
+            SharedPre shared = new SharedPre(activity);
+            shared.saveStringValue(SharedPre.CODE, code);
+            this.code = code;
+        }
     }
 
     public String getLoginAreaCode(Context activity) {
@@ -311,9 +313,11 @@ public class UserEntity {
     }
 
     public void setImToken(Context activity, String imToken) {
-        SharedPre shared = new SharedPre(activity);
-        shared.saveStringValue(SharedPre.IM_TOKEN, imToken);
-        this.imToken = imToken;
+        if (!TextUtils.isEmpty(imToken)) {
+            SharedPre shared = new SharedPre(activity);
+            shared.saveStringValue(SharedPre.IM_TOKEN, imToken);
+            this.imToken = imToken;
+        }
     }
 
     public String getUnionid(Context activity) {

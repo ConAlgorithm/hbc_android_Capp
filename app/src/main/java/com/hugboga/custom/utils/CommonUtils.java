@@ -2,10 +2,14 @@ package com.hugboga.custom.utils;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.huangbaoche.hbcframe.util.WXShareUtils;
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
@@ -112,6 +116,29 @@ public final class CommonUtils {
 //        dialog.setCancelable(true);
 //        dialog.setCanceledOnTouchOutside(true);
 //        dialog.show();
+    }
+
+    public static void share(final Context context, final int type, final String picUrl, final String title, final String content, final String shareUrl) {
+        try {
+            Glide.with(context)
+                    .load(picUrl)
+                    .asBitmap()
+                    .centerCrop()
+                    .listener(new RequestListener<String, Bitmap>() {
+                        @Override
+                        public boolean onException(Exception e, String model, Target<Bitmap> target, boolean isFirstResource) {
+                            return false;
+                        }
+                        @Override
+                        public boolean onResourceReady(Bitmap resource, String model, Target<Bitmap> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                            WXShareUtils.getInstance(context).share(type, resource, title, content, shareUrl);
+                            return false;
+                        }
+                    })
+                    .into(500, 500)
+                    .get();
+        }catch (Exception e){
+        }
     }
 
 

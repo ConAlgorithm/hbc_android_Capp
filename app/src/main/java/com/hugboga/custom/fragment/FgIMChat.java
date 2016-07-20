@@ -41,6 +41,7 @@ import com.hugboga.custom.data.request.RequestIMOrder;
 import com.hugboga.custom.data.request.RequestUnBlackMan;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.ApiFeedbackUtils;
+import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.PermissionRes;
 import com.hugboga.custom.utils.UIUtils;
 import com.zhy.m.permission.MPermissions;
@@ -71,7 +72,7 @@ import static android.view.View.GONE;
 
 
 @ContentView(R.layout.activity_imchat)
-public class FgIMChat extends BaseFragment {
+public class FgIMChat extends BaseFragment implements IMUtil.OnImSuccessListener {
 
     public static final String KEY_TITLE = "key_title";
 
@@ -133,18 +134,28 @@ public class FgIMChat extends BaseFragment {
         view = (RelativeLayout) conversation.getView();
         //刷新订单信息
         getUserInfoToOrder(uri);
+        IMUtil.getInstance().setOnImSuccessListener(this);
     }
 
     @Override
     public void onResume() {
         super.onResume();
         if (emptyView != null) {
-            if (RongIM.getInstance() != null && RongIMClient.getInstance() != null) {
+            if (RongIM.getInstance() != null && RongIMClient.getInstance() != null
+                    && (RongIM.getInstance().getCurrentConnectionStatus() == RongIMClient.ConnectionStatusListener.ConnectionStatus.CONNECTED
+                    || RongIM.getInstance().getCurrentConnectionStatus() == RongIMClient.ConnectionStatusListener.ConnectionStatus.CONNECTING)) {
                 emptyView.setVisibility(View.GONE);
             } else {
+                RongIM.getInstance().disconnect();
+                IMUtil.getInstance().connect();
                 emptyView.setVisibility(View.VISIBLE);
             }
         }
+    }
+
+    @Override
+    public void onSuccess() {
+        emptyView.setVisibility(View.GONE);
     }
 
     /**

@@ -75,6 +75,12 @@ public class EvaluateShareView extends LinearLayout implements View.OnClickListe
                 , appraisement.wechatShareTitle
                 , appraisement.wechatShareContent
                 , shareUrl);
+//        CommonUtils.share(getContext()
+//                , type
+//                , appraisement.wechatShareHeadSrc
+//                , appraisement.wechatShareTitle
+//                , appraisement.wechatShareContent
+//                , shareUrl);
     }
 
     public void toggle(boolean _isShow) {

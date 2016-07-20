@@ -207,7 +207,8 @@ public class FgLogin extends BaseFragment implements TextWatcher {
             UserEntity.getUser().setUserName(getActivity(),user.name);
 
             if (TextUtils.isEmpty(user.imToken)) {
-                ApiFeedbackUtils.requestIMFeedback(1, null, "登录时IMtoken为空");
+                ApiFeedbackUtils.requestIMFeedback(1, "49001", "获取到的imToken为空，不能连接IM服务器");
+                CommonUtils.showToast("服务器忙翻了，请稍后再试");
             }
 
             connectIM();
@@ -254,7 +255,7 @@ public class FgLogin extends BaseFragment implements TextWatcher {
     }
 
     private void connectIM() {
-        new IMUtil(getActivity()).conn(UserEntity.getUser().getImToken(getActivity()));
+        IMUtil.getInstance().connect();
     }
 
     @Event({R.id.login_weixin,R.id.login_submit, R.id.change_mobile_areacode, R.id.login_register, R.id.change_mobile_diepwd, R.id.iv_pwd_visible})
