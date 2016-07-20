@@ -70,21 +70,28 @@ public class EvaluateShareView extends LinearLayout implements View.OnClickListe
 
     private void share(int type) {
         String shareUrl = CommonUtils.getBaseUrl(appraisement.wechatShareUrl) + "orderNo=" + orderNo + "&userId=" + UserEntity.getUser().getUserId(getContext());
-        WXShareUtils.getInstance(getContext()).share(type, Tools.getBitmap(getContext(), appraisement.wechatShareHeadSrc)
+        WXShareUtils.getInstance(getContext()).share(type
+                , appraisement.wechatShareHeadSrc
                 , appraisement.wechatShareTitle
                 , appraisement.wechatShareContent
                 , shareUrl);
+//        CommonUtils.share(getContext()
+//                , type
+//                , appraisement.wechatShareHeadSrc
+//                , appraisement.wechatShareTitle
+//                , appraisement.wechatShareContent
+//                , shareUrl);
     }
 
     public void toggle(boolean _isShow) {
         if (_isShow) {
             drawerIV.setBackgroundResource(R.mipmap.share_withdraw);
-            drawerTV.setText(getContext().getString(R.string.evaluate_share_pack_up));
+            drawerTV.setText(getContext().getString(R.string.evaluate_share_detail));
             descriptionTV.setText(getContext().getString(R.string.evaluate_share_description_1, appraisement.commentTipParam1));
             rulesTV.setVisibility(View.GONE);
         } else {
             drawerIV.setBackgroundResource(R.mipmap.share_unfold);
-            drawerTV.setText(getContext().getString(R.string.evaluate_share_detail));
+            drawerTV.setText(getContext().getString(R.string.evaluate_share_pack_up));
             String description = getContext().getString(R.string.evaluate_share_description_1, appraisement.commentTipParam1) + getContext().getString(R.string.evaluate_share_description_2);
             descriptionTV.setText(description);
             setRulesTextStyle(appraisement.commentTipParam2, appraisement.commentTipParam3);

@@ -89,35 +89,9 @@ public class FgChat extends BaseFragment implements View.OnClickListener, ZBaseA
         super.onResume();
         if (UserEntity.getUser().isLogin(getActivity()) && recyclerView != null && !recyclerView.isLoading() && adapter != null && adapter.getItemCount() <= 0) {
             loadData();
-            requestIMTokenUpdate();
+            IMUtil.getInstance().reconnect();
         }
     }
-
-    private void requestIMTokenUpdate() {
-        if (UserEntity.getUser() != null && TextUtils.isEmpty(UserEntity.getUser().getImToken(getContext()))) {
-            RequestResetIMToken requestResetToken = new RequestResetIMToken(getContext());
-            HttpRequestUtils.request(getContext(), requestResetToken, httpRequestListener);
-        }
-    }
-
-    HttpRequestListener httpRequestListener = new HttpRequestListener() {
-        @Override
-        public void onDataRequestSucceed(BaseRequest request) {
-            UserEntity.getUser().setImToken(getContext(), request.getData().toString());
-        }
-
-        @Override
-        public void onDataRequestCancel(BaseRequest request) {
-
-        }
-
-        @Override
-        public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-            ErrorHandler handler = new ErrorHandler((Activity) getContext(), this);
-            handler.onDataRequestError(errorInfo, request);
-        }
-    };
-
 
     @Override
     protected void initHeader() {

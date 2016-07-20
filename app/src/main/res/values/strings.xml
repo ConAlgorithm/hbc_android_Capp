@@ -517,7 +517,7 @@
     <string name="evaluate_star_very_unsatisfactory">非常不满</string>
     <string name="evaluate_evaluated_satisfied">您的鼓励是我们最大的动力</string>
     <string name="evaluate_evaluated_ordinary">希望有机会为您提供更好的服务</string>
-    <string name="evaluate_share_description_1">分享靠谱司导给好友，再发%1$s元大礼包</string>
+    <string name="evaluate_share_description_1">分享靠谱司导给好友，再发%1$s大礼包</string>
     <string name="evaluate_share_description_2">\nTa领取后在app完成首单，你也可赚旅游基金！</string>
     <string name="evaluate_share_rules_price">%1$s&#160;+&#160;%2$s×好友首单总金额</string>
     <string name="evaluate_share_pack_up">收起</string>
@@ -682,7 +682,7 @@
 
     <string name="share_guides_title">分享靠谱司导</string>
     <string name="share_guides_description_1">已为您收藏Ta，这么靠谱的司导，不如现在就推荐给更多好友</string>
-    <string name="share_guides_description_2">还为您的朋友准备了%1$s元大礼包，\n邀请他们一起体验吧</string>
+    <string name="share_guides_description_2">还为您的朋友准备了%1$s大礼包，\n邀请他们一起体验吧</string>
     <string name="share_guides_unwilling">不愿分享</string>
     <string name="share_guides_share">把Ta推荐给好友</string>
 

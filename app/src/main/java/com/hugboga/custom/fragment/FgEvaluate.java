@@ -274,7 +274,11 @@ public class FgEvaluate extends BaseFragment implements RatingView.OnLevelChange
                     requestData(new RequestCollectGuidesId(getContext(), orderBean.orderGuideInfo.guideID));
                 }
                 finish();
-                startFragment(FgShareGuides.newInstance(evaluateData, orderBean.orderNo));
+                FgShareGuides.Params params = new FgShareGuides.Params();
+                params.evaluateData = evaluateData;
+                params.orderNo = orderBean.orderNo;
+                params.guideAvatar = orderBean.orderGuideInfo.guideAvatar;
+                startFragment(FgShareGuides.newInstance(params));
             }
         } else if (_request instanceof RequestEvaluateTag) {
             RequestEvaluateTag request = (RequestEvaluateTag) _request;

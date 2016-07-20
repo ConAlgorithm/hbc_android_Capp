@@ -1,6 +1,7 @@
 package com.hugboga.custom.fragment;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.utils.CommonUtils;
+import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
 import net.grobas.view.PolygonImageView;
 
@@ -22,6 +24,8 @@ import org.greenrobot.eventbus.Subscribe;
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 
+
+import java.io.Serializable;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -38,15 +42,19 @@ public class FgShareGuides extends BaseFragment{
     @Bind(R.id.share_guides_description_tv)
     TextView descriptionTV;
 
-    private EvaluateData evaluateData;
-    private String orderNo;
+    private Params params;
     private boolean shareSucceed = false;
 
-    public static FgShareGuides newInstance(EvaluateData _data, String _orderNo) {
+    public static class Params implements Serializable {
+        EvaluateData evaluateData;
+        String orderNo;
+        String guideAvatar;
+    }
+
+    public static FgShareGuides newInstance(Params params) {
         FgShareGuides fragment = new FgShareGuides();
         Bundle bundle = new Bundle();
-        bundle.putSerializable(Constants.PARAMS_DATA, _data);
-        bundle.putString(Constants.PARAMS_ID, _orderNo);
+        bundle.putSerializable(Constants.PARAMS_DATA, params);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -76,15 +84,14 @@ public class FgShareGuides extends BaseFragment{
     protected void initHeader(Bundle savedInstanceState) {
         super.initHeader(savedInstanceState);
         if (savedInstanceState != null) {
-            evaluateData = (EvaluateData) savedInstanceState.getSerializable(Constants.PARAMS_DATA);
-            orderNo = savedInstanceState.getString(Constants.PARAMS_ID);
+            params = (Params) savedInstanceState.getSerializable(Constants.PARAMS_DATA);
         } else {
             Bundle bundle = getArguments();
             if (bundle != null) {
-                evaluateData = (EvaluateData) bundle.getSerializable(Constants.PARAMS_DATA);
-                orderNo = bundle.getString(Constants.PARAMS_ID);
+                params = (Params) bundle.getSerializable(Constants.PARAMS_DATA);
             }
         }
+
         shareSucceed = false;
         fgTitle.setText(getString(R.string.share_guides_title));
         if (fgLeftBtn != null) {
@@ -99,18 +106,23 @@ public class FgShareGuides extends BaseFragment{
                 }
             });
         }
-        if (evaluateData == null) {
+
+        if (params == null || params.evaluateData == null) {
             finish();
         }
-        descriptionTV.setText(getString(R.string.share_guides_description_2, evaluateData.commentTipParam1));
+        if (TextUtils.isEmpty(params.guideAvatar)) {
+            avatarIV.setImageResource(R.mipmap.journey_head_portrait);
+        } else {
+            Tools.showImage(avatarIV, params.guideAvatar);
+        }
+        descriptionTV.setText(getString(R.string.share_guides_description_2, params.evaluateData.commentTipParam1));
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        if (evaluateData != null) {
-            outState.putSerializable(Constants.PARAMS_DATA, evaluateData);
-            outState.putString(Constants.PARAMS_ID, orderNo);
+        if (params != null) {
+            outState.putSerializable(Constants.PARAMS_DATA, params);
         }
     }
 
@@ -147,10 +159,11 @@ public class FgShareGuides extends BaseFragment{
                 finish();
                 break;
             case R.id.share_guides_share_tv:
+                EvaluateData evaluateData = params.evaluateData;
                 if (evaluateData == null) {
                     break;
                 }
-                String shareUrl = CommonUtils.getBaseUrl(evaluateData.wechatShareUrl) + "orderNo=" + orderNo + "&userId=" + UserEntity.getUser().getUserId(getContext());
+                String shareUrl = CommonUtils.getBaseUrl(evaluateData.wechatShareUrl) + "orderNo=" +  params.orderNo + "&userId=" + UserEntity.getUser().getUserId(getContext());
                 CommonUtils.shareDialog(getContext()
                         , evaluateData.wechatShareHeadSrc
                         , evaluateData.wechatShareTitle

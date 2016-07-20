@@ -296,7 +296,11 @@ public class MainActivity extends BaseActivity
             }
             RequestUserInfo mRequest = (RequestUserInfo) request;
             UserBean user = mRequest.getData();
-            user.setUserEntity(MainActivity.this);
+            UserEntity.getUser().setNickname(this, user.nickname);
+            UserEntity.getUser().setAvatar(this, user.avatar);
+            UserEntity.getUser().setUserName(this, user.name);
+            UserEntity.getUser().setTravelFund(this, user.travelFund);
+            UserEntity.getUser().setCoupons(this, user.coupons);
             couponTV.setText("" + user.coupons);
             travelFundTV.setText("" + user.travelFund);
             couponUnitTV.setText("张");
@@ -403,7 +407,7 @@ public class MainActivity extends BaseActivity
 
     private void connectIM() {
         if (UserEntity.getUser().isLogin(this))
-            new IMUtil(this).conn(UserEntity.getUser().getImToken(this));
+        IMUtil.getInstance().connect();
     }
 
     private void initBottomView() {

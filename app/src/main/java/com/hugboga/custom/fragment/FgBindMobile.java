@@ -121,7 +121,7 @@ public class FgBindMobile extends BaseFragment {
     }
 
     private void connectIM() {
-        new IMUtil(getActivity()).conn(UserEntity.getUser().getImToken(getActivity()));
+        IMUtil.getInstance().connect();
     }
 
     @Override
