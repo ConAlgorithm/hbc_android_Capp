@@ -110,6 +110,9 @@ public class FgSkuDetail extends FgWebInfo {
                     getSkuItemBean(true);
                     break;
                 }
+                if (cityBean == null) {
+                    cityBean = findCityById("" + skuItemBean.arrCityId);
+                }
                 Bundle bundle =new Bundle();
                 if(getArguments()!=null){
                     bundle.putAll(getArguments());
@@ -190,6 +193,12 @@ public class FgSkuDetail extends FgWebInfo {
         if (_request instanceof RequestGoodsById) {
             RequestGoodsById requestGoodsById = (RequestGoodsById)_request;
             skuItemBean = requestGoodsById.getData();
+            if (skuItemBean == null) {
+                return;
+            }
+            if (cityBean == null) {
+                cityBean = findCityById("" + skuItemBean.arrCityId);
+            }
             if (isPerformClick) {
                 gotoOrder.performClick();
             }
