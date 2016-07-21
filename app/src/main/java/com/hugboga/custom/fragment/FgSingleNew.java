@@ -299,9 +299,29 @@ public class FgSingleNew extends BaseFragment {
         }
     }
 
+    boolean isNetError = false;
+    @Override
+    public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+        super.onDataRequestError(errorInfo, request);
+        bottom.setVisibility(View.GONE);
+        carListBean = null;
+        isNetError = true;
+        if (null != collectGuideBean) {
+            initCarFragment(false);
+        }else{
+            initCarFragment(true);
+        }
+    }
+
+    @Override
+    public void onDataRequestCancel(BaseRequest request) {
+        super.onDataRequestCancel(request);
+    }
+
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
         if (request instanceof RequestCheckPrice) {
+            isNetError = false;
             RequestCheckPrice requestCheckPrice = (RequestCheckPrice) request;
             carListBean = (CarListBean) requestCheckPrice.getData();
             if (carListBean.carList.size() > 0) {
@@ -522,13 +542,13 @@ public class FgSingleNew extends BaseFragment {
         bundle.putSerializable("collectGuideBean", collectGuideBean);
         bundle.putParcelable("carListBean", carListBean);
         bundle.putBoolean("isDataBack", isDataBack);
-
+        bundle.putBoolean("isNetError", isNetError);
         if(null != carListBean && carListBean.carList.size() == 0 && null != collectGuideBean){
             CommonUtils.showToast(R.string.no_price_error);
             return;
         }
 
-        if (isDataBack) {
+        if (isDataBack && null != carListBean) {
             String sTime = serverDate + " " + serverTime + ":00";
             bundle.putInt("cityId", cityId);
             bundle.putString("startTime", sTime);

@@ -19,9 +19,9 @@
         android:id="@+id/car_empty_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/basic_white"
         android:gravity="center_horizontal"
         android:layout_marginTop="1dp"
+        android:background="#e0e1e2"
         android:orientation="vertical"
         android:visibility="gone">
 
@@ -29,12 +29,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="50dip"
-            android:src="@mipmap/journey_sorry" />
+            android:src="@mipmap/error_show" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dip"
-            android:text="该地区暂无可用车辆" />
+            android:gravity="center"
+            android:layout_marginTop="10dip"
+            android:text="很抱歉\n所选时间无法提供服务\n建议提早预订" />
     </LinearLayout>
 </LinearLayout>

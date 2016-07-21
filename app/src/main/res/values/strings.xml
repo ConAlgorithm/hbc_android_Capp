@@ -688,4 +688,6 @@
 
     <string name="share_dialog_title">分享到</string>
     <string name="share_dialog_cancel">取消分享</string>
+
+    <string name="net_error_show">请检查您的网络连接是否正常</string>
 </resources>

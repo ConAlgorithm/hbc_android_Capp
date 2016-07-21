@@ -84,7 +84,11 @@ public  class ErrorHandler implements HttpRequestListener{
         MLog.e("mActivity = "+mActivity);
         if(mActivity!=null){
 //            +request.getUrlErrorCode()+ serverException.getCode()
-            Toast.makeText(mActivity, mActivity.getString(R.string.request_error,request.getUrlErrorCode()), Toast.LENGTH_LONG).show();
+            if(errorInfo.state == ExceptionErrorCode.ERROR_CODE_NET){
+                Toast.makeText(mActivity, "请检查您的网络连接是否正常", Toast.LENGTH_LONG).show();
+            }else{
+                Toast.makeText(mActivity, mActivity.getString(R.string.request_error, request.getUrlErrorCode()), Toast.LENGTH_LONG).show();
+            }
         }
 //            Toast.makeText(mActivity, mActivity.getString(R.string.request_error,errorInfo.state), Toast.LENGTH_LONG).show();
     }

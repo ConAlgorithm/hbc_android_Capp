@@ -162,7 +162,8 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
         }
         bundle.putSerializable("collectGuideBean",collectGuideBean);
         bundle.putParcelable("carListBean", carListBean);
-        if(isDataBack) {
+        bundle.putBoolean("isNetError", isNetError);
+        if(isDataBack && null !=carListBean) {
             String sTime = serverDate +" " + serverTime +":00";
             bundle.putInt("cityId", cityId);
             bundle.putString("startTime", sTime);
@@ -464,9 +465,24 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
         }
     }
 
+    boolean isNetError = false;
+    @Override
+    public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+        super.onDataRequestError(errorInfo, request);
+        bottom.setVisibility(View.GONE);
+        carListBean = null;
+        isNetError = true;
+        if (null != collectGuideBean) {
+            initCarFragment(false);
+        }else{
+            initCarFragment(true);
+        }
+    }
+
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
         if (request instanceof RequestCheckPrice) {
+            isNetError = false;
             RequestCheckPrice requestCheckPrice = (RequestCheckPrice) request;
             carListBean = (CarListBean) requestCheckPrice.getData();
             if (carListBean.carList.size() > 0) {

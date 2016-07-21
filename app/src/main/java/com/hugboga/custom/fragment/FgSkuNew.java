@@ -15,6 +15,7 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
@@ -185,8 +186,23 @@ public class FgSkuNew extends BaseFragment {
     }
 
     @Override
+    public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+        super.onDataRequestError(errorInfo, request);
+        bottom.setVisibility(View.GONE);
+        carListBean = null;
+        isNetError = true;
+        initCarFragment();
+    }
+
+    @Override
+    public void onDataRequestCancel(BaseRequest request) {
+        super.onDataRequestCancel(request);
+    }
+
+    @Override
     public void onDataRequestSucceed(BaseRequest request) {
         if (request instanceof RequestPriceSku) {
+            isNetError = false;
             carListBean = ((RequestPriceSku) request).getData();
             if (carListBean.carList.size() > 0) {
                 carBean = carListBean.carList.get(0);
@@ -363,7 +379,7 @@ public class FgSkuNew extends BaseFragment {
 
     FragmentManager fm;
     FgCarNew fgCarNew;
-
+    boolean isNetError  = false;
     private void initCarFragment() {
         fm = getFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
@@ -377,6 +393,7 @@ public class FgSkuNew extends BaseFragment {
             bundle.putAll(getArguments());
         }
         bundle.putParcelable("carListBean", carListBean);
+        bundle.putBoolean("isNetError", isNetError);
         fgCarNew.setArguments(bundle);
         transaction.add(R.id.show_cars_layout_sku, fgCarNew);
         transaction.commit();
