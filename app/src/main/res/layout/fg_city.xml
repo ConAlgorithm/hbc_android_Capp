@@ -51,7 +51,8 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:textColor="#ffffffff"
-            android:textSize="30.0dip"
+            android:textSize="24sp"
+            android:background="#fed631"
             android:visibility="invisible" />
 
         <com.hugboga.custom.widget.SideBar
