@@ -632,6 +632,12 @@ public class OrderUtils {
         }
         orderBean.realSendSms = contactUsersBean.isSendMessage ? "1" : "0";
 
+        if (contactUsersBean.isForOther) {
+            orderBean.isRealUser = "2";
+        } else {
+            orderBean.isRealUser = "1";
+        }
+
         if (dreamLeftischeck) {
             orderBean.travelFund = travelFund;
             orderBean.orderPrice = carBean.price;

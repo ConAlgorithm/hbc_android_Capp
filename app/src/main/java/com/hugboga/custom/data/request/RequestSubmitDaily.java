@@ -41,7 +41,7 @@ public class RequestSubmitDaily extends RequestSubmitBase {
         map.put("realUserName", orderBean.realUserName);
         map.put("realAreaCode", orderBean.realAreaCode);
         map.put("realMobile", orderBean.realMobile);
-        map.put("isRealUser", orderBean.isRealUser);
+//        map.put("isRealUser", orderBean.isRealUser);
         map.put("startAddressPoi", orderBean.startAddressPoi);
         map.put("destAddressPoi", orderBean.destAddressPoi);
         map.put("userName", orderBean.userName);
