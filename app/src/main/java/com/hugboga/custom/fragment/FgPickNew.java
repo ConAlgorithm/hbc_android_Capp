@@ -442,6 +442,8 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
         bottom.setVisibility(View.GONE);
         carListBean = null;
         isNetError = true;
+        confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
+        confirmJourney.setOnClickListener(null);
         if (null != collectGuideBean) {
             initCarFragment(false);
         }else{

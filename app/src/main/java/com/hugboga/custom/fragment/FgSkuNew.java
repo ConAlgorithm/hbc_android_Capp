@@ -191,6 +191,8 @@ public class FgSkuNew extends BaseFragment {
         bottom.setVisibility(View.GONE);
         carListBean = null;
         isNetError = true;
+        confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
+        confirmJourney.setOnClickListener(null);
         initCarFragment();
     }
 
