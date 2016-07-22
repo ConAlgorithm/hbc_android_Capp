@@ -283,6 +283,7 @@ public class FgSingleNew extends BaseFragment {
 
 
     private void genBottomData(CarBean carBean) {
+
         if(null == carBean){
             return;
         }
@@ -323,6 +324,8 @@ public class FgSingleNew extends BaseFragment {
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
         if (request instanceof RequestCheckPrice) {
+            confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
+            confirmJourney.setOnClickListener(null);
             isNetError = false;
             RequestCheckPrice requestCheckPrice = (RequestCheckPrice) request;
             carListBean = (CarListBean) requestCheckPrice.getData();

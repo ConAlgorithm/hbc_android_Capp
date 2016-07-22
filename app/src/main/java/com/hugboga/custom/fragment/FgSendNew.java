@@ -119,6 +119,7 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
     CarListBean carListBean;
 
     private void genBottomData(CarBean carBean) {
+
         if(null == carBean){
             return;
         }
@@ -134,11 +135,6 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
             }
         }
 
-//        if(waitChecked) {
-//            if (!TextUtils.isEmpty(carListBean.additionalServicePrice.pickupSignPrice)) {
-//                total += Integer.valueOf(carListBean.additionalServicePrice.pickupSignPrice);
-//            }
-//        }
         allMoneyText.setText("￥" + total);
 
         if(null != carListBean) {
@@ -484,6 +480,8 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
         if (request instanceof RequestCheckPrice) {
+            confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
+            confirmJourney.setOnClickListener(null);
             isNetError = false;
             RequestCheckPrice requestCheckPrice = (RequestCheckPrice) request;
             carListBean = (CarListBean) requestCheckPrice.getData();

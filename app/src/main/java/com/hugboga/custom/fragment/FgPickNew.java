@@ -204,6 +204,7 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
     boolean waitChecked = false;
 
     private void genBottomData(CarBean carBean) {
+
         if(null == carBean){
             return;
         }
@@ -213,13 +214,6 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
             int seat2Price = OrderUtils.getSeat2PriceTotal(carListBean,manLuggageBean);
             total += seat1Price + seat2Price;
         }
-
-//        if(checkInChecked){
-//            if (!TextUtils.isEmpty(carListBean.additionalServicePrice.checkInPrice)) {
-//                total += Integer.valueOf(carListBean.additionalServicePrice.checkInPrice);
-//            }
-//        }
-
 
         if(checkInChecked) {
             if (!TextUtils.isEmpty(carListBean.additionalServicePrice.pickupSignPrice)) {
@@ -455,6 +449,8 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
     public void onDataRequestSucceed(BaseRequest request) {
         if (request instanceof RequestCheckPrice) {
             isNetError = false;
+            confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
+            confirmJourney.setOnClickListener(null);
             RequestCheckPrice requestCheckPrice = (RequestCheckPrice) request;
             carListBean = (CarListBean) requestCheckPrice.getData();
             if (carListBean.carList.size() > 0) {

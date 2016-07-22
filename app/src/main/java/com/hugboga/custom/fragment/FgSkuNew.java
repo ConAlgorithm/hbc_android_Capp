@@ -205,6 +205,8 @@ public class FgSkuNew extends BaseFragment {
     public void onDataRequestSucceed(BaseRequest request) {
         if (request instanceof RequestPriceSku) {
             isNetError = false;
+            confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
+            confirmJourney.setOnClickListener(null);
             carListBean = ((RequestPriceSku) request).getData();
             if (carListBean.carList.size() > 0) {
                 carBean = carListBean.carList.get(0);
@@ -239,6 +241,7 @@ public class FgSkuNew extends BaseFragment {
     int perPrice = 0;
 
     private void genBottomData(CarBean carBean, int hourseNum) {
+
         allMoneyLeft.setVisibility(View.GONE);
         allMoneyText.setVisibility(View.GONE);
         allMoneyTextSku.setVisibility(View.GONE);
