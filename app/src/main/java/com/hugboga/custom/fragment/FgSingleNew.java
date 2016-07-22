@@ -324,6 +324,7 @@ public class FgSingleNew extends BaseFragment {
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
         if (request instanceof RequestCheckPrice) {
+            bottom.setVisibility(View.GONE);
             confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
             confirmJourney.setOnClickListener(null);
             isNetError = false;
@@ -335,16 +336,19 @@ public class FgSingleNew extends BaseFragment {
                 } else {
                     carBean = CarUtils.isMatchLocal(CarUtils.getNewCarBean(collectGuideBean), carListBean.carList);
                 }
-                bottom.setVisibility(View.VISIBLE);
-                genBottomData(carBean);
+                if(null != carBean) {
+                    genBottomData(carBean);
+                    bottom.setVisibility(View.VISIBLE);
+                }else{
+                    bottom.setVisibility(View.GONE);
+                    CommonUtils.showToast(R.string.no_price_error);
+                }
+
             } else {
                 bottom.setVisibility(GONE);
             }
-            if(null != carBean) {
-                initCarFragment(true);
-            }else{
-                CommonUtils.showToast(R.string.no_price_error);
-            }
+            initCarFragment(true);
+
         }
     }
 
@@ -548,10 +552,10 @@ public class FgSingleNew extends BaseFragment {
         bundle.putParcelable("carListBean", carListBean);
         bundle.putBoolean("isDataBack", isDataBack);
         bundle.putBoolean("isNetError", isNetError);
-        if(null != carListBean && carListBean.carList.size() == 0 && null != collectGuideBean){
-            CommonUtils.showToast(R.string.no_price_error);
-            return;
-        }
+//        if(null != carListBean && carListBean.carList.size() == 0 && null != collectGuideBean){
+//            CommonUtils.showToast(R.string.no_price_error);
+//            return;
+//        }
 
         if (isDataBack && null != carListBean) {
             String sTime = serverDate + " " + serverTime + ":00";

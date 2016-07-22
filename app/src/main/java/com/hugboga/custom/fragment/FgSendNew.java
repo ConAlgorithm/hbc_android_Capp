@@ -480,6 +480,7 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
         if (request instanceof RequestCheckPrice) {
+            bottom.setVisibility(View.GONE);
             confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
             confirmJourney.setOnClickListener(null);
             isNetError = false;
@@ -491,13 +492,18 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
                 }else {
                     carBean = CarUtils.isMatchLocal(CarUtils.getNewCarBean(collectGuideBean), carListBean.carList);
                 }
-                bottom.setVisibility(View.VISIBLE);
-                genBottomData(carBean);
+                if(null != carBean) {
+                    genBottomData(carBean);
+                    bottom.setVisibility(View.VISIBLE);
+                }else{
+                    bottom.setVisibility(View.GONE);
+                    CommonUtils.showToast(R.string.no_price_error);
+                }
             } else {
                 bottom.setVisibility(View.GONE);
             }
-
             initCarFragment(true);
+
         }
     }
 

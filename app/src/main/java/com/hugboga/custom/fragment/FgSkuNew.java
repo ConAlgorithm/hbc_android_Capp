@@ -204,6 +204,7 @@ public class FgSkuNew extends BaseFragment {
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
         if (request instanceof RequestPriceSku) {
+            bottom.setVisibility(View.GONE);
             isNetError = false;
             confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
             confirmJourney.setOnClickListener(null);
@@ -218,6 +219,7 @@ public class FgSkuNew extends BaseFragment {
                     carListBean.hourseNum = hourseNum;
                 }
                 genBottomData(carBean, hourseNum);
+
             } else {
                 bottom.setVisibility(View.GONE);
             }

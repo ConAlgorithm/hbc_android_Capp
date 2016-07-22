@@ -448,6 +448,7 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
         if (request instanceof RequestCheckPrice) {
+            bottom.setVisibility(View.GONE);
             isNetError = false;
             confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
             confirmJourney.setOnClickListener(null);
@@ -464,12 +465,14 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
                     confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
                     confirmJourney.setOnClickListener(null);
                     genBottomData(carBean);
+                }else{
+                    bottom.setVisibility(View.GONE);
                 }
             } else {
                 bottom.setVisibility(View.GONE);
             }
-
             initCarFragment(true);
+
         }
     }
 
