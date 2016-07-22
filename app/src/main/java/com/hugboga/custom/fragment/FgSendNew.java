@@ -54,6 +54,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static android.view.View.GONE;
+
 /**
  * Created  on 16/5/13.
  */
@@ -251,7 +253,11 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
                 collectGuideBean = null;
                 confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
                 confirmJourney.setOnClickListener(null);
-                initCarFragment(true);
+                if(null == carListBean){
+                    showCarsLayoutSend.setVisibility(GONE);
+                }else {
+                    initCarFragment(true);
+                }
                 break;
             case CHECK_SWITCH:
                 checkInChecked = (boolean)action.getData();

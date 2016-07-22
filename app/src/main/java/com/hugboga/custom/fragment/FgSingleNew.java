@@ -371,7 +371,11 @@ public class FgSingleNew extends BaseFragment {
                 collectGuideBean = null;
                 confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
                 confirmJourney.setOnClickListener(null);
-                initCarFragment(true);
+                if(null == carListBean){
+                    showCarsLayoutSingle.setVisibility(GONE);
+                }else {
+                    initCarFragment(true);
+                }
 
                 break;
             case CHANGE_CAR:
