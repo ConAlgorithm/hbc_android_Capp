@@ -253,6 +253,10 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
                 if(null == carListBean){
                     show_cars_layout_pick.setVisibility(GONE);
                 }else {
+                    if(null != carListBean.carList && carListBean.carList.size() > 0) {
+                        bottom.setVisibility(View.VISIBLE);
+                        genBottomData(carListBean.carList.get(0));
+                    }
                     initCarFragment(true);
                 }
                 break;

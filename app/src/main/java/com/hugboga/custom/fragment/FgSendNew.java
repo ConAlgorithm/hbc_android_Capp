@@ -256,6 +256,10 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
                 if(null == carListBean){
                     showCarsLayoutSend.setVisibility(GONE);
                 }else {
+                    if(null != carListBean.carList && carListBean.carList.size() > 0) {
+                        bottom.setVisibility(View.VISIBLE);
+                        genBottomData(carListBean.carList.get(0));
+                    }
                     initCarFragment(true);
                 }
                 break;

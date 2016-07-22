@@ -374,6 +374,10 @@ public class FgSingleNew extends BaseFragment {
                 if(null == carListBean){
                     showCarsLayoutSingle.setVisibility(GONE);
                 }else {
+                    if(null != carListBean.carList && carListBean.carList.size() > 0) {
+                        bottom.setVisibility(View.VISIBLE);
+                        genBottomData(carListBean.carList.get(0));
+                    }
                     initCarFragment(true);
                 }
 
