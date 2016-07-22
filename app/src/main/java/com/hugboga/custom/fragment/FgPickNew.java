@@ -249,10 +249,7 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
                 collectGuideBean = null;
                 confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
                 confirmJourney.setOnClickListener(null);
-                carBean = (CarBean) action.getData();
-                if(null != carBean) {
-                    genBottomData(carBean);
-                }
+                initCarFragment(true);
                 break;
             case CHECK_SWITCH:
                 checkInChecked = (boolean)action.getData();

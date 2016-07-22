@@ -371,10 +371,7 @@ public class FgSingleNew extends BaseFragment {
                 collectGuideBean = null;
                 confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
                 confirmJourney.setOnClickListener(null);
-                carBean = (CarBean) action.getData();
-                if (null != carBean) {
-                    genBottomData(carBean);
-                }
+                initCarFragment(true);
 
                 break;
             case CHANGE_CAR:
