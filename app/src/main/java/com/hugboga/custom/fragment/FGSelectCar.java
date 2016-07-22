@@ -182,7 +182,7 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
         getArgs();
         RequestGetCarInfo requestGetCarInfo = new RequestGetCarInfo(this.getActivity(),
                 startCityId, endCityId, startDate+" "+serverTime+":00", endDate+" "+ serverTime +":00", halfDay, adultNum,
-                childrenNum, childseatNum, luggageNum, passCities,channelId);
+                childrenNum, childseatNum, luggageNum, passCities,channelId,null);
         HttpRequestUtils.request(this.getActivity(), requestGetCarInfo, this);
         jazzyPager.setTransitionEffect(JazzyViewPager.TransitionEffect.ZoomIn);
         mAdapter = new CarViewpagerAdapter(getActivity(), jazzyPager);
