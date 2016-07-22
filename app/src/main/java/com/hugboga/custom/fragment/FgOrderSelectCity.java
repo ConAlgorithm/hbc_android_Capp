@@ -824,7 +824,12 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
                     RequestCollectGuidesFilter.CollectGuidesFilterParams params = new RequestCollectGuidesFilter.CollectGuidesFilterParams();
                     params.startCityId = startBean.cityId;
                     params.startTime = isHalfTravel ? halfDate + " " +serverTime +":00" : start_date_str + " " +serverTime +":00" ;
-                    params.endTime = isHalfTravel ? halfDate + " " +serverTime +":00"  : end_date_str +" " +serverTime +":00" ;
+
+                    String end_time = (isHalfTravel ? halfDate : end_date_str) + " " +serverTime +":00";
+                    if("00:00".equalsIgnoreCase(serverTime)){
+                        end_time = (isHalfTravel ? halfDate : end_date_str) + " " +"23:59:59";
+                    }
+                    params.endTime = end_time;
                     params.adultNum = manNum;
                     params.childrenNum = childNum;
                     params.childSeatNum = childSeatNums;
@@ -928,9 +933,13 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
         if (((manNum + Math.round(childSeatNums * 1.5) + (childNum - childSeatNums)) <= collectGuideBean.numOfPerson)
                 && ((manNum + Math.round((childSeatNums) * 1.5) + (childNum - childSeatNums)) + baggageNum)
                 <= (collectGuideBean.numOfPerson + collectGuideBean.numOfLuggage)) {
+            String end_time = (isHalfTravel ? halfDate : end_date_str) + " " +serverTime +":00";
+            if("00:00".equalsIgnoreCase(serverTime)){
+                end_time = (isHalfTravel ? halfDate : end_date_str) + " " +"23:59:59";
+            }
             OrderUtils.checkGuideCoflict(getContext(), 3, startBean.cityId,
                     collectGuideBean.guideId, (isHalfTravel ? halfDate : start_date_str) + " " +serverTime +":00" ,
-                    (isHalfTravel ? halfDate : end_date_str) + " " +serverTime +":00", getPassCitiesId(),
+                    end_time, getPassCitiesId(),
                     nums, collectGuideBean.carType, collectGuideBean.carClass,
                     new HttpRequestListener() {
                         @Override
