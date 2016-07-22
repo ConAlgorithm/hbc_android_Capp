@@ -864,7 +864,7 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
                 RequestGetCarInfo requestGetCarInfo = (RequestGetCarInfo) request;
                 carBean = requestGetCarInfo.getData();
 
-                if(carBean.cars.size() != 0) {
+                if(null != carBean && null!= carBean.cars  && carBean.cars.size() != 0) {
                     FGOrderNew fgOrderNew = new FGOrderNew();
                     Bundle bundle = new Bundle();
                     bundle.putString("guideCollectId", guideCollectId);
