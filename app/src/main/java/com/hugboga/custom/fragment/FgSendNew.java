@@ -1,6 +1,7 @@
 package com.hugboga.custom.fragment;
 
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -277,6 +278,7 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
                 carBean = (CarBean) action.getData();
                 if(null != carBean) {
                     genBottomData(carBean);
+                }
                 confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
                 confirmJourney.setOnClickListener(null);
                 if(null == carListBean){

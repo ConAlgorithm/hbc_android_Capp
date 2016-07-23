@@ -184,12 +184,9 @@ public class MainActivity extends BaseActivity
 
     private void showAdWebView(String url){
         if(null != url) {
-//            Bundle bundle = new Bundle();
-//            bundle.putString(FgWebInfo.WEB_URL, url);
-//            startFragment(new FgActivity(), bundle);
             Bundle bundle = new Bundle();
             bundle.putString(FgWebInfo.WEB_URL, url);
-            startFragment(new FgWebInfo(), bundle);
+            startFragment(new FgActivity(), bundle);
         }
     }
 

@@ -1,6 +1,7 @@
 package com.hugboga.custom.fragment;
 
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -389,13 +390,14 @@ public class FgSingleNew extends BaseFragment {
                 if(null == carListBean){
                     showCarsLayoutSingle.setVisibility(GONE);
                 }else {
-                    if(null != carListBean.carList && carListBean.carList.size() > 0) {
+                    if (null != carListBean.carList && carListBean.carList.size() > 0) {
                         bottom.setVisibility(View.VISIBLE);
                         genBottomData(carListBean.carList.get(0));
                     }
                     initCarFragment(true);
 //                confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
 //                confirmJourney.setOnClickListener(null);
+                }
                 carBean = (CarBean) action.getData();
                 if (null != carBean) {
                     genBottomData(carBean);
