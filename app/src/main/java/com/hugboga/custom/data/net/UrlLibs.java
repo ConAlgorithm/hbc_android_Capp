@@ -235,9 +235,10 @@ public class UrlLibs {
     public static final String SERVER_IP_TRADE_1_2 = "trade/v1.4/c/order/";
 
 
-
-    //推荐线路
-    public static final String RECOMMENDLIN = "trade/v1.0/c/order/recommendline";
+    /**
+     * 推荐线路
+     */
+    public static final String RECOMMENDLIN = "trade/v1.0/c/order/recommendline?";
 
 
 

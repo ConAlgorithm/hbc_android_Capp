@@ -32,6 +32,7 @@ import com.hugboga.custom.data.request.RequestPriceSku;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.CarUtils;
 import com.hugboga.custom.utils.CityUtils;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.OrderUtils;
 import com.umeng.analytics.MobclickAgent;
@@ -39,6 +40,7 @@ import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
@@ -49,7 +51,6 @@ import java.util.HashMap;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import org.greenrobot.eventbus.EventBus;
 
 import static com.hugboga.custom.R.id.all_journey_text;
 import static com.hugboga.custom.R.id.all_money_left;
@@ -172,7 +173,21 @@ public class FgSkuNew extends BaseFragment {
             skuCityHotel.setText("含酒店:" + skuBean.hotelCostAmount + "晚");
         }
 
+        confirmJourney.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkParams();
+            }
+        });
 
+    }
+
+    private boolean checkParams(){
+        if(null == manLuggageBean) {
+            CommonUtils.showToast("请选择人数行李数");
+            return false;
+        }
+        return true;
     }
 
     @Override
@@ -208,6 +223,7 @@ public class FgSkuNew extends BaseFragment {
             isNetError = false;
             confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
             confirmJourney.setOnClickListener(null);
+            manLuggageBean = null;
             carListBean = ((RequestPriceSku) request).getData();
             if (carListBean.carList.size() > 0) {
                 carBean = carListBean.carList.get(0);
@@ -278,8 +294,9 @@ public class FgSkuNew extends BaseFragment {
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
             case CAR_CHANGE_SMALL:
-                confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
-                confirmJourney.setOnClickListener(null);
+//                confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
+//                confirmJourney.setOnClickListener(null);
+                manLuggageBean = null;
                 break;
             case SKU_HOTEL_NUM_CHANGE:
                 hourseNum = (int) action.getData();
@@ -303,31 +320,33 @@ public class FgSkuNew extends BaseFragment {
                 confirmJourney.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (UserEntity.getUser().isLogin(getActivity())) {
-                            if((carBean.carType == 1 && carBean.capOfPerson == 4
-                                    && (Integer.valueOf(manLuggageBean.mans) + Integer.valueOf(manLuggageBean.childs)) == 4)
-                                    || (carBean.carType == 1 && carBean.capOfPerson == 6 && (Integer.valueOf(manLuggageBean.mans) + Integer.valueOf(manLuggageBean.childs)) == 6)){
-                                AlertDialogUtils.showAlertDialog(getActivity(), getString(R.string.alert_car_full),
-                                        "继续下单", "更换车型", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                goNext();
-                                                dialog.dismiss();
-                                            }
-                                        }, new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                dialog.dismiss();
-                                            }
-                                        });
-                            } else {
-                                goNext();
-                            }
+                        if(checkParams()) {
+                            if (UserEntity.getUser().isLogin(getActivity())) {
+                                if ((carBean.carType == 1 && carBean.capOfPerson == 4
+                                        && (Integer.valueOf(manLuggageBean.mans) + Integer.valueOf(manLuggageBean.childs)) == 4)
+                                        || (carBean.carType == 1 && carBean.capOfPerson == 6 && (Integer.valueOf(manLuggageBean.mans) + Integer.valueOf(manLuggageBean.childs)) == 6)) {
+                                    AlertDialogUtils.showAlertDialog(getActivity(), getString(R.string.alert_car_full),
+                                            "继续下单", "更换车型", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    goNext();
+                                                    dialog.dismiss();
+                                                }
+                                            }, new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    dialog.dismiss();
+                                                }
+                                            });
+                                } else {
+                                    goNext();
+                                }
 
-                        } else {
-                            Bundle bundle = new Bundle();//用于统计
-                            bundle.putString("source", "sku下单");
-                            startFragment(new FgLogin(), bundle);
+                            } else {
+                                Bundle bundle = new Bundle();//用于统计
+                                bundle.putString("source", "sku下单");
+                                startFragment(new FgLogin(), bundle);
+                            }
                         }
                     }
                 });

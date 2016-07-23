@@ -27,4 +27,18 @@
         android:textColor="@color/basic_white"
         android:textSize="@dimen/text_size_large" />
 
+    <TextView
+        android:id="@+id/time_second"
+        android:layout_width="60dp"
+        android:layout_alignParentRight="true"
+        android:text=""
+        android:background="@drawable/loading_time_bg"
+        android:gravity="center"
+        android:textColor="@color/basic_white"
+        android:textSize="15sp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_height="30dp" />
+
 </RelativeLayout>
