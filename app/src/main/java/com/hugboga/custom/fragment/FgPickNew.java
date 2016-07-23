@@ -1,7 +1,6 @@
 package com.hugboga.custom.fragment;
 
 import android.content.DialogInterface;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -279,8 +278,8 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
                 if(null != carBean) {
                     genBottomData(carBean);
                 }
-                confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
-                confirmJourney.setOnClickListener(null);
+//                confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
+//                confirmJourney.setOnClickListener(null);
                 if(null == carListBean){
                     show_cars_layout_pick.setVisibility(GONE);
                 }else {
@@ -475,8 +474,8 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
         bottom.setVisibility(GONE);
         carListBean = null;
         isNetError = true;
-        confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
-        confirmJourney.setOnClickListener(null);
+//        confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
+//        confirmJourney.setOnClickListener(null);
         if (null != collectGuideBean) {
             initCarFragment(false);
         }else{
@@ -489,8 +488,8 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
         if (request instanceof RequestCheckPrice) {
             bottom.setVisibility(GONE);
             isNetError = false;
-            confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
-            confirmJourney.setOnClickListener(null);
+//            confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
+//            confirmJourney.setOnClickListener(null);
             manLuggageBean = null;
             RequestCheckPrice requestCheckPrice = (RequestCheckPrice) request;
             carListBean = (CarListBean) requestCheckPrice.getData();

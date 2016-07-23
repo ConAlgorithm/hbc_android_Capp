@@ -206,8 +206,8 @@ public class FgSkuNew extends BaseFragment {
         bottom.setVisibility(View.GONE);
         carListBean = null;
         isNetError = true;
-        confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
-        confirmJourney.setOnClickListener(null);
+//        confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
+//        confirmJourney.setOnClickListener(null);
         initCarFragment();
     }
 
@@ -221,8 +221,8 @@ public class FgSkuNew extends BaseFragment {
         if (request instanceof RequestPriceSku) {
             bottom.setVisibility(View.GONE);
             isNetError = false;
-            confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
-            confirmJourney.setOnClickListener(null);
+//            confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
+//            confirmJourney.setOnClickListener(null);
             manLuggageBean = null;
             carListBean = ((RequestPriceSku) request).getData();
             if (carListBean.carList.size() > 0) {

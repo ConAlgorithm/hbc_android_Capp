@@ -1,7 +1,6 @@
 package com.hugboga.custom.fragment;
 
 import android.content.DialogInterface;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -279,8 +278,8 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
                 if(null != carBean) {
                     genBottomData(carBean);
                 }
-                confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
-                confirmJourney.setOnClickListener(null);
+//                confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
+//                confirmJourney.setOnClickListener(null);
                 if(null == carListBean){
                     showCarsLayoutSend.setVisibility(GONE);
                 }else {
@@ -505,8 +504,8 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
         bottom.setVisibility(View.GONE);
         carListBean = null;
         isNetError = true;
-        confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
-        confirmJourney.setOnClickListener(null);
+//        confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
+//        confirmJourney.setOnClickListener(null);
         if (null != collectGuideBean) {
             initCarFragment(false);
         }else{
@@ -518,8 +517,8 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
     public void onDataRequestSucceed(BaseRequest request) {
         if (request instanceof RequestCheckPrice) {
             bottom.setVisibility(View.GONE);
-            confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
-            confirmJourney.setOnClickListener(null);
+//            confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
+//            confirmJourney.setOnClickListener(null);
             isNetError = false;
             manLuggageBean = null;
             RequestCheckPrice requestCheckPrice = (RequestCheckPrice) request;

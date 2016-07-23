@@ -1,7 +1,6 @@
 package com.hugboga.custom.fragment;
 
 import android.content.DialogInterface;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -321,8 +320,8 @@ public class FgSingleNew extends BaseFragment {
         bottom.setVisibility(View.GONE);
         carListBean = null;
         isNetError = true;
-        confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
-        confirmJourney.setOnClickListener(null);
+//        confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
+//        confirmJourney.setOnClickListener(null);
         if (null != collectGuideBean) {
             initCarFragment(false);
         }else{
@@ -340,8 +339,8 @@ public class FgSingleNew extends BaseFragment {
         if (request instanceof RequestCheckPrice) {
             manLuggageBean = null;
             bottom.setVisibility(View.GONE);
-            confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
-            confirmJourney.setOnClickListener(null);
+//            confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
+//            confirmJourney.setOnClickListener(null);
             isNetError = false;
             RequestCheckPrice requestCheckPrice = (RequestCheckPrice) request;
             carListBean = (CarListBean) requestCheckPrice.getData();
@@ -385,8 +384,8 @@ public class FgSingleNew extends BaseFragment {
                 break;
             case GUIDE_DEL:
                 collectGuideBean = null;
-                confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
-                confirmJourney.setOnClickListener(null);
+//                confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
+//                confirmJourney.setOnClickListener(null);
                 if(null == carListBean){
                     showCarsLayoutSingle.setVisibility(GONE);
                 }else {
