@@ -195,6 +195,11 @@ public class WebAgent implements HttpRequestListener {
     }
 
     @JavascriptInterface
+    public String getUserId(){
+        return  UserEntity.getUser().getUserId(mActivity);
+    }
+
+    @JavascriptInterface
     public void gotoLogin(final String jsonObj) {
         MLog.e("ZWebView-gotoLogin===>jsonObj:" + jsonObj);
         MLog.e("ZWebView-gotoLogin===>jsonObj:" + Uri.decode(jsonObj));
