@@ -303,10 +303,11 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
             this.distance = carListBean.distance;
             this.interval = carListBean.interval;
             if (carList == null || carList.size() == 0) {
-                carEmptyLayout.setVisibility(View.VISIBLE);
+//                carEmptyLayout.setVisibility(View.VISIBLE);
+                CommonUtils.showToast(R.string.no_have_car);
                 have_data_layout.setVisibility(View.GONE);
             } else {
-                carEmptyLayout.setVisibility(View.GONE);
+//                carEmptyLayout.setVisibility(View.GONE);
                 have_data_layout.setVisibility(View.VISIBLE);
                 changeText();
                 if (null != carListBean.additionalServicePrice && null != carListBean.additionalServicePrice.checkInPrice) {
