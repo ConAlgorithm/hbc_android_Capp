@@ -37,8 +37,6 @@ import com.hugboga.custom.widget.DialogUtil;
 
 import org.json.JSONObject;
 
-import java.util.Random;
-
 import io.rong.imkit.RongIM;
 import io.rong.imlib.model.Conversation;
 
@@ -187,6 +185,16 @@ public class WebAgent implements HttpRequestListener {
     }
 
     @JavascriptInterface
+    public void showLogin() {
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mFragment.startFragment(new FgLogin());
+            }
+        });
+    }
+
+    @JavascriptInterface
     public void gotoLogin(final String jsonObj) {
         MLog.e("ZWebView-gotoLogin===>jsonObj:" + jsonObj);
         MLog.e("ZWebView-gotoLogin===>jsonObj:" + Uri.decode(jsonObj));
@@ -255,14 +263,16 @@ public class WebAgent implements HttpRequestListener {
         chatInfo.isHideMoreBtn = 1;
         return new ParserChatInfo().toJsonString(chatInfo);
     }
+
     /**
      * 在线咨询客服
-     * */
+     */
     @JavascriptInterface
     public void pushToServiceChatVC() {
         if (mActivity != null && !UserEntity.getUser().isLogin(mActivity) && mFragment != null) {
             CommonUtils.showToast(R.string.login_hint);
-            Bundle bundle = new Bundle();;
+            Bundle bundle = new Bundle();
+            ;
             mFragment.startFragment(new FgLogin(), bundle);
             return;
         }
@@ -277,7 +287,7 @@ public class WebAgent implements HttpRequestListener {
 
     /**
      * 拨打客服热线
-     * */
+     */
     @JavascriptInterface
     public void callServicePhone() {
         if (mActivity != null) {
@@ -288,7 +298,7 @@ public class WebAgent implements HttpRequestListener {
 
     /**
      * 立即定制（定制线路下单）
-     * */
+     */
     @JavascriptInterface
     public void customLineOrder() {
         if (mFragment != null) {
@@ -298,7 +308,7 @@ public class WebAgent implements HttpRequestListener {
 
     /**
      * 现在预订（固定线路下单）
-     * */
+     */
     @JavascriptInterface
     public void fixedLineOrder() {
         if (mFragment != null) {
@@ -308,7 +318,7 @@ public class WebAgent implements HttpRequestListener {
 
     /**
      * URL重定向
-     * */
+     */
     @JavascriptInterface
     public void pushToNextPageWithUrl(String url) {
         if (mFragment != null) {
@@ -320,7 +330,7 @@ public class WebAgent implements HttpRequestListener {
 
     /**
      * 设置title
-     * */
+     */
     @JavascriptInterface
     public void setWebTitle(String title) {
         if (!TextUtils.isEmpty(title) && mFragment instanceof FgWebInfo) {
@@ -331,7 +341,7 @@ public class WebAgent implements HttpRequestListener {
 
     /**
      * 商品下架（不能分享）
-     * */
+     */
     @JavascriptInterface
     public void goodsHadOutOfStock() {
         if (mFragment instanceof FgSkuDetail) {

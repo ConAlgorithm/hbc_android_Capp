@@ -674,4 +674,6 @@
 
     <string name="now_enter">即刻启程</string>
 
+    <string name="loading_time">%1$s 跳过</string>
+
 </resources>
