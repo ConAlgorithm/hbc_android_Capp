@@ -91,6 +91,8 @@ public class FgPersonInfo extends BaseFragment {
             UserEntity.getUser().setNickname(getActivity(), userBean.nickname);
             UserEntity.getUser().setAvatar(getActivity(), userBean.avatar);
             UserEntity.getUser().setUserName(getActivity(), userBean.name);
+            UserEntity.getUser().setTravelFund(getActivity(), userBean.travelFund);
+            UserEntity.getUser().setCoupons(getActivity(), userBean.coupons);
             inflateContent();
         } else if (request instanceof RequestChangeUserInfo) {
             RequestChangeUserInfo requestChangeUserInfo = (RequestChangeUserInfo) request;

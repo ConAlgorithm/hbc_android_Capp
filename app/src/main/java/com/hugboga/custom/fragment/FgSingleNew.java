@@ -296,6 +296,7 @@ public class FgSingleNew extends BaseFragment {
 
 
     private void genBottomData(CarBean carBean) {
+
         if(null == carBean){
             return;
         }
@@ -312,10 +313,35 @@ public class FgSingleNew extends BaseFragment {
         }
     }
 
+    boolean isNetError = false;
+    @Override
+    public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+        super.onDataRequestError(errorInfo, request);
+        bottom.setVisibility(View.GONE);
+        carListBean = null;
+        isNetError = true;
+        confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
+        confirmJourney.setOnClickListener(null);
+        if (null != collectGuideBean) {
+            initCarFragment(false);
+        }else{
+            initCarFragment(true);
+        }
+    }
+
+    @Override
+    public void onDataRequestCancel(BaseRequest request) {
+        super.onDataRequestCancel(request);
+    }
+
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
         if (request instanceof RequestCheckPrice) {
             manLuggageBean = null;
+            bottom.setVisibility(View.GONE);
+            confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
+            confirmJourney.setOnClickListener(null);
+            isNetError = false;
             RequestCheckPrice requestCheckPrice = (RequestCheckPrice) request;
             carListBean = (CarListBean) requestCheckPrice.getData();
             if (carListBean.carList.size() > 0) {
@@ -324,16 +350,19 @@ public class FgSingleNew extends BaseFragment {
                 } else {
                     carBean = CarUtils.isMatchLocal(CarUtils.getNewCarBean(collectGuideBean), carListBean.carList);
                 }
-                bottom.setVisibility(View.VISIBLE);
-                genBottomData(carBean);
+                if(null != carBean) {
+                    genBottomData(carBean);
+                    bottom.setVisibility(View.VISIBLE);
+                }else{
+                    bottom.setVisibility(View.GONE);
+                    CommonUtils.showToast(R.string.no_price_error);
+                }
+
             } else {
                 bottom.setVisibility(GONE);
             }
-            if(null != carBean) {
-                initCarFragment(true);
-            }else{
-                CommonUtils.showToast(R.string.no_price_error);
-            }
+            initCarFragment(true);
+
         }
     }
 
@@ -355,6 +384,16 @@ public class FgSingleNew extends BaseFragment {
                 break;
             case GUIDE_DEL:
                 collectGuideBean = null;
+                confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
+                confirmJourney.setOnClickListener(null);
+                if(null == carListBean){
+                    showCarsLayoutSingle.setVisibility(GONE);
+                }else {
+                    if(null != carListBean.carList && carListBean.carList.size() > 0) {
+                        bottom.setVisibility(View.VISIBLE);
+                        genBottomData(carListBean.carList.get(0));
+                    }
+                    initCarFragment(true);
 //                confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
 //                confirmJourney.setOnClickListener(null);
                 carBean = (CarBean) action.getData();
@@ -540,13 +579,13 @@ public class FgSingleNew extends BaseFragment {
         bundle.putSerializable("collectGuideBean", collectGuideBean);
         bundle.putParcelable("carListBean", carListBean);
         bundle.putBoolean("isDataBack", isDataBack);
+        bundle.putBoolean("isNetError", isNetError);
+//        if(null != carListBean && carListBean.carList.size() == 0 && null != collectGuideBean){
+//            CommonUtils.showToast(R.string.no_price_error);
+//            return;
+//        }
 
-        if(null != carListBean && carListBean.carList.size() == 0 && null != collectGuideBean){
-            CommonUtils.showToast(R.string.no_price_error);
-            return;
-        }
-
-        if (isDataBack) {
+        if (isDataBack && null != carListBean) {
             String sTime = serverDate + " " + serverTime + ":00";
             bundle.putInt("cityId", cityId);
             bundle.putString("startTime", sTime);

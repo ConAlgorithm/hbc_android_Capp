@@ -50,6 +50,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static android.view.View.GONE;
+
 /**
  * Created  on 16/5/13.
  */
@@ -166,8 +168,8 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
         }
         bundle.putSerializable("collectGuideBean",collectGuideBean);
         bundle.putParcelable("carListBean", carListBean);
-
-        if(isDataBack) {
+        bundle.putBoolean("isNetError", isNetError);
+        if(isDataBack && null !=carListBean) {
             String sTime = serverDate +":00";
             bundle.putInt("cityId", cityId);
             bundle.putString("startTime", sTime);
@@ -182,6 +184,7 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
         transaction.add(R.id.show_cars_layout_pick, fgCarNew);
         transaction.commit();
     }
+
 
     @Override
     protected Callback.Cancelable requestData() {
@@ -209,6 +212,7 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
     boolean waitChecked = false;
 
     private void genBottomData(CarBean carBean) {
+
         if(null == carBean){
             return;
         }
@@ -266,7 +270,6 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
             case CHANGE_GUIDE:
                 collectGuideBean = (CollectGuideBean)action.getData();
                 break;
-
             case GUIDE_DEL:
                 collectGuideBean = null;
 //                confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
@@ -274,6 +277,16 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
                 carBean = (CarBean) action.getData();
                 if(null != carBean) {
                     genBottomData(carBean);
+                confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
+                confirmJourney.setOnClickListener(null);
+                if(null == carListBean){
+                    show_cars_layout_pick.setVisibility(GONE);
+                }else {
+                    if(null != carListBean.carList && carListBean.carList.size() > 0) {
+                        bottom.setVisibility(View.VISIBLE);
+                        genBottomData(carListBean.carList.get(0));
+                    }
+                    initCarFragment(true);
                 }
                 break;
             case CHECK_SWITCH:
@@ -297,7 +310,7 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
                     String flightInfoStr = flightBean.flightNo + " ";
                     flightInfoStr += flightBean.depAirport.cityName + "-" + flightBean.arrivalAirport.cityName;
                     flightInfoStr += "\n当地时间" + flightBean.arrDate + " " + flightBean.depTime + " 降落";
-                    infoTips.setVisibility(View.GONE);
+                    infoTips.setVisibility(GONE);
                     airTitle.setVisibility(View.VISIBLE);
                     airDetail.setVisibility(View.VISIBLE);
                     airTitle.setText(flightBean.arrAirportName);
@@ -305,10 +318,10 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
 
                     poiBean = null;
                     addressTips.setVisibility(View.VISIBLE);
-                    addressTitle.setVisibility(View.GONE);
-                    addressDetail.setVisibility(View.GONE);
+                    addressTitle.setVisibility(GONE);
+                    addressDetail.setVisibility(GONE);
 
-                    bottom.setVisibility(View.GONE);
+                    bottom.setVisibility(GONE);
 //                    show_cars_layout_pick.setVisibility(View.GONE);
 
                 }
@@ -453,9 +466,29 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
         return mBusinessType;
     }
 
+    boolean isNetError = false;
+    @Override
+    public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+        super.onDataRequestError(errorInfo, request);
+        bottom.setVisibility(GONE);
+        carListBean = null;
+        isNetError = true;
+        confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
+        confirmJourney.setOnClickListener(null);
+        if (null != collectGuideBean) {
+            initCarFragment(false);
+        }else{
+            initCarFragment(true);
+        }
+    }
+
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
         if (request instanceof RequestCheckPrice) {
+            bottom.setVisibility(GONE);
+            isNetError = false;
+            confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
+            confirmJourney.setOnClickListener(null);
             manLuggageBean = null;
             RequestCheckPrice requestCheckPrice = (RequestCheckPrice) request;
             carListBean = (CarListBean) requestCheckPrice.getData();
@@ -470,12 +503,14 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
 //                    confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
 //                    confirmJourney.setOnClickListener(null);
                     genBottomData(carBean);
+                }else{
+                    bottom.setVisibility(GONE);
                 }
             } else {
-                bottom.setVisibility(View.GONE);
+                bottom.setVisibility(GONE);
             }
-
             initCarFragment(true);
+
         }
     }
 
@@ -485,7 +520,7 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
         String from = bundle.getString(KEY_FRAGMENT_NAME);
         if (FgPoiSearch.class.getSimpleName().equals(from)) {
             poiBean = (PoiBean) bundle.getSerializable("arrival");
-            addressTips.setVisibility(View.GONE);
+            addressTips.setVisibility(GONE);
             addressTitle.setVisibility(View.VISIBLE);
             addressDetail.setVisibility(View.VISIBLE);
             addressTitle.setText(poiBean.placeName);

@@ -30,7 +30,7 @@ public class RequestSubmitRent extends RequestSubmitBase {
         map.put("journeyComment", orderBean.journeyComment);
         map.put("serviceDate", orderBean.serviceTime);
         map.put("serviceEndDate", orderBean.serviceEndTime);
-        map.put("serviceDepartTime", orderBean.serviceTime + " " + orderBean.serviceStartTime);
+        map.put("serviceDepartTime", orderBean.serviceTime);// + " " + orderBean.serviceStartTime);
         map.put("servicePassCitys", orderBean.stayCityListStr);
         map.put("passbyPois", orderBean.skuPoi);
 

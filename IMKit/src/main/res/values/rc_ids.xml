@@ -51,6 +51,4 @@
     <item type="id" name="rc_frame"/>
     <item type="id" name="rc_sent_status"/>
     <item type="id" name="rc_conversation_status" />
-    <item name="rc_user_portrait" type="id" />
-    <item name="rc_user_name" type="id" />
 </resources>

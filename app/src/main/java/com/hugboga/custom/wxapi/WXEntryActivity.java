@@ -48,9 +48,9 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                     SendAuth.Resp sendResp = (SendAuth.Resp) resp;
 //                    FgLogin.WX_CODE = sendResp.code;
                     FgLogin.isWXLogin = false;
-                    EventBus.getDefault().post(
-                            new EventAction(EventType.WECHAT_LOGIN_CODE,sendResp));
+                    EventBus.getDefault().post(new EventAction(EventType.WECHAT_LOGIN_CODE,sendResp));
                 }
+                EventBus.getDefault().post(new EventAction(EventType.WECHAT_SHARE_SUCCEED));
                 //分享成功
                 Log.i(TAG, "分享成功");
                 break;

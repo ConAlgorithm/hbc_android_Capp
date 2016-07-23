@@ -64,19 +64,10 @@ public class OrderDetailGuideInfo extends LinearLayout implements HbcViewBehavio
         } else {
             setVisibility(View.VISIBLE);
             if (orderBean.orderStatus == OrderStatus.NOT_EVALUATED || orderBean.orderStatus == OrderStatus.COMPLETE) {//6:服务完成
-                if (orderBean.isEvaluated()) {
-                    lineView.setVisibility(View.VISIBLE);
-                    navLayout.setVisibility(View.VISIBLE);
-                    promptTV.setVisibility(View.GONE);
-                    collectTV.setText(getContext().getString(guideInfo.isCollected() ? R.string.uncollect : R.string.collect));
-                    evaluateTV.setText(getContext().getString( R.string.evaluated));
-                } else {
-                    lineView.setVisibility(View.VISIBLE);
-                    navLayout.setVisibility(View.VISIBLE);
-                    promptTV.setVisibility(View.VISIBLE);
-                    collectTV.setText(getContext().getString(guideInfo.isCollected() ? R.string.uncollect : R.string.collect));
-                    evaluateTV.setText(getContext().getString( R.string.to_evaluate));
-                }
+                lineView.setVisibility(View.VISIBLE);
+                navLayout.setVisibility(View.VISIBLE);
+                collectTV.setText(getContext().getString(guideInfo.isCollected() ? R.string.uncollect : R.string.collect));
+                promptTV.setVisibility(orderBean.isEvaluated() ? View.GONE : View.VISIBLE);
             } else {
                 lineView.setVisibility(View.GONE);
                 navLayout.setVisibility(View.GONE);
@@ -86,7 +77,7 @@ public class OrderDetailGuideInfo extends LinearLayout implements HbcViewBehavio
             if (TextUtils.isEmpty(guideInfo.guideAvatar)) {
                 avatarIV.setImageResource(R.mipmap.journey_head_portrait);
             } else {
-                Tools.showImage(getContext(), avatarIV, guideInfo.guideAvatar);
+                Tools.showImage(avatarIV, guideInfo.guideAvatar);
             }
             ((TextView)findViewById(R.id.ogi_name_tv)).setText(guideInfo.guideName);
             ((TextView)findViewById(R.id.ogi_describe_tv)).setText(guideInfo.guideCar);

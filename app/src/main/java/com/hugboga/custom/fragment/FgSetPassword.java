@@ -56,7 +56,7 @@ public class FgSetPassword extends BaseFragment {
 //                UserEntity.getUser().setAvatar(getActivity(), userBean.avatar);
 //                userBean.setUserEntity(getActivity());
 //                UserSession.getUser().setUserToken(getActivity(), userBean.userToken);
-//                connectIM();
+//                IMUtil.getInstance().connect();
 //                EventBus.getDefault().post(
 //                        new EventAction(EventType.CLICK_USER_LOGIN));
             }
@@ -72,10 +72,6 @@ public class FgSetPassword extends BaseFragment {
             bundle.putString(KEY_FRAGMENT_NAME, FgSetPassword.class.getSimpleName());
             finishForResult(bundle);
         }
-    }
-
-    private void connectIM() {
-        new IMUtil(getActivity()).conn(UserEntity.getUser().getImToken(getActivity()));
     }
 
     @Override
