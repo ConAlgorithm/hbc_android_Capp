@@ -3,10 +3,8 @@ package com.huangbaoche.hbcframe.data.parser;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.ServerException;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.xutils.ex.HttpException;
 
 /**
  * 默认的服务器错认解析器,需要可以继承并重写
@@ -33,7 +31,7 @@ public class ServerParser extends ImplParser{
     public String errorInfoToStr(ExceptionInfo errorInfo){
         JSONObject json = new JSONObject();
         try {
-            json.put(RESULT_KEY_STATUS,errorInfo.state);
+            json.put(RESULT_KEY_STATUS,((ServerException) errorInfo.exception).getCode());
             json.put(RESULT_KEY_MESSAGE,errorInfo.exception.getMessage());
         } catch (JSONException e) {
             e.printStackTrace();
