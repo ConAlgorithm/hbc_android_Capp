@@ -15,7 +15,6 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
@@ -496,9 +495,8 @@ public class FgChangeTrip extends BaseFragment implements View.OnClickListener {
                 bundle = new Bundle();
                 bundle.putString(KEY_FROM, "pass");
                 bundle.putInt(FgChooseCity.KEY_CITY_ID, mOrderBean.serviceCityId);
-                bundle.putInt(FgChooseCity.KEY_CHOOSE_TYPE, FgChooseCity.KEY_TYPE_MULTIPLY);
+                bundle.putInt(FgChooseCity.KEY_SHOW_TYPE, FgChooseCity.ShowType.SELECT_CITY);
                 bundle.putSerializable(FgChooseCity.KEY_CITY_LIST_CHOSEN, passCityList);
-                bundle.putInt(FgChooseCity.KEY_CHOOSE_TYPE, FgChooseCity.KEY_TYPE_MULTIPLY);
                 ArrayList<Integer> exceptId = new ArrayList<>();
                 exceptId.add(mOrderBean.serviceCityId);
                 exceptId.add(mOrderBean.serviceEndCityid);

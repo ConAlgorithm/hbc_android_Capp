@@ -60,7 +60,7 @@ public class CityBean implements IBaseBean ,Parcelable,Cloneable {
 
     public int stayDay = 0;//呆几天
 
-    public int dataType = -1;// 数据类型 1.历史搜索记录 2.热门城市 3.全部城市
+    public int dataType = -1;// 数据类型 1.历史搜索记录 2.热门城市 3.全部城市 4.当前定位
 
     public String keyWord = "";
 

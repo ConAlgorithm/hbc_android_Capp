@@ -14,7 +14,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.huangbaoche.hbcframe.data.net.ExceptionErrorCode;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
@@ -450,7 +449,7 @@ public class FgSubmit extends BaseFragment implements CompoundButton.OnCheckedCh
                 bundle = new Bundle();
                 bundle.putInt(FgChooseCity.KEY_CITY_ID, dailyBean.startCityID);
                 bundle.putSerializable(FgChooseCity.KEY_CITY_LIST_CHOSEN, passCityList);
-                bundle.putInt(FgChooseCity.KEY_CHOOSE_TYPE, FgChooseCity.KEY_TYPE_MULTIPLY);
+                bundle.putInt(FgChooseCity.KEY_SHOW_TYPE, FgChooseCity.ShowType.SELECT_CITY);
                 ArrayList<Integer> exceptId = new ArrayList<>();
                 exceptId.add(dailyBean.startCityID);
                 exceptId.add(dailyBean.terminalCityID);

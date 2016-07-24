@@ -259,6 +259,7 @@ public class FgChooseAirAddress extends BaseFragment {
             case R.id.from_city_tips:
             case R.id.from_city:
                 bundle.putString(KEY_FROM, "startAddress");
+                bundle.putInt(FgChooseCity.KEY_SHOW_TYPE, FgChooseCity.ShowType.PICK_UP);
                 bundle.putString("source", "下单过程中");
                 city.setArguments(bundle);
                 startFragment(city);
@@ -271,6 +272,7 @@ public class FgChooseAirAddress extends BaseFragment {
             case R.id.end_city_tips:
             case R.id.end_city:
                 bundle.putString(KEY_FROM, "end");
+                bundle.putInt(FgChooseCity.KEY_SHOW_TYPE, FgChooseCity.ShowType.PICK_UP);
                 bundle.putString("source", "下单过程中");
                 city.setArguments(bundle);
                 startFragment(city);

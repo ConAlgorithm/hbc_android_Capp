@@ -1,34 +1,37 @@
 package com.hugboga.custom.fragment;
 
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
-import android.os.Looper;
 import android.os.Message;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
-import android.widget.ListView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.huangbaoche.hbcframe.data.request.BaseRequest;
-import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
-import com.hugboga.custom.adapter.CityAdapter;
+import com.hugboga.custom.adapter.ChooseCityAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityBean;
-import com.hugboga.custom.utils.CityListDataHelper;
 import com.hugboga.custom.utils.CommonUtils;
+
 import com.hugboga.custom.utils.DBHelper;
+import com.hugboga.custom.utils.DatabaseManager;
 import com.hugboga.custom.utils.SharedPre;
+import com.hugboga.custom.widget.ChooseCityHeaderView;
+import com.hugboga.custom.widget.ChooseCityTabLayout;
+import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.SideBar;
-import com.umeng.analytics.MobclickAgent;
+import com.zhy.m.permission.MPermissions;
 
 import org.xutils.DbManager;
 import org.xutils.common.Callback;
@@ -37,58 +40,120 @@ import org.xutils.db.sqlite.WhereBuilder;
 import org.xutils.ex.DbException;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
-import org.xutils.view.annotation.ViewInject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
+
 /**
- * 选择城市
+ * Created by qingcha on 16/7/23.
  */
-@ContentView(R.layout.fg_city)
-public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLetterChangedListener, AdapterView.OnItemClickListener, View.OnKeyListener, TextWatcher, TextView.OnEditorActionListener {
+@ContentView(R.layout.fg_choose_city)
+public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLetterChangedListener, ChooseCityTabLayout.OnChangeListener, TextWatcher, TextView.OnEditorActionListener, AdapterView.OnItemClickListener{
 
     public static final String KEY_CITY_ID = "key_city_id";
     public static final String KEY_CITY = "key_city";
     public static final String KEY_CITY_LIST_CHOSEN = "key_city_list_chosen";
     public static final String KEY_CITY_LIST = "key_city_list";
     public static final String KEY_CITY_EXCEPT_ID_LIST = "key_city_except";//排除 城市id ，根据id
-    public static final String KEY_CHOOSE_TYPE = "key_choose_type";
-    public static final int KEY_TYPE_SINGLE = 0;
-    public static final int KEY_TYPE_MULTIPLY = 1;
+    public static final String KEY_SHOW_TYPE = "key_show_type";
+
+    @Bind(R.id.choose_city_empty_layout)
+    LinearLayout emptyLayout;
+    @Bind(R.id.choose_city_empty_tv)
+    TextView emptyTV;
+    @Bind(R.id.choose_city_listview)
+    StickyListHeadersListView mListview;
+    @Bind(R.id.choose_city_sidebar_firstletter)
+    TextView firstletterView;
+    @Bind(R.id.choose_city_sidebar)
+    SideBar sideBar;
+    @Bind(R.id.choose_city_tab_layout)
+    ChooseCityTabLayout tabLayout;
+    @Bind(R.id.head_search)
+    TextView editSearch;
+
+    @Bind(R.id.choose_city_head_layout)
+    View chooseCityHeadLayout;
+    @Bind(R.id.city_choose_head_text)
+    TextView cityHeadText;
+    @Bind(R.id.city_choose_btn)
+    View chooseBtn;
+
+    private ChooseCityHeaderView headerView;
 
 
-    private SideBar sideBar;
-    private View emptyView;
-    private ListView sortListView;
-    @ViewInject(R.id.empty_layout_text)
-    private TextView emptyViewText;
-    @ViewInject(R.id.choose_city_head_layout)
-    private View chooseCityHeadLayout;
-    @ViewInject(R.id.city_choose_head_text)
-    private TextView cityHeadText;
-    @ViewInject(R.id.city_choose_btn)
-    private View chooseBtn;
-    @ViewInject(R.id.head_search)
-    private TextView editSearch;
-
-    private int chooseType = KEY_TYPE_SINGLE;
-    private int cityId = -1;
-    private int groupId = -1;
-    private String from;
-    private String source = "";
-    private String startCityName = "";
-    private DbManager mDbManager;
-    private SharedPre sharedPer;
-    private CityAdapter adapter;
-    private ArrayList<String> cityHistory = new ArrayList<String>();//历史数据
-    private List<CityBean> sourceDateList;//全部城市数据
+    private ChooseCityAdapter mAdapter;
+    private Handler mAsyncHandler;
+    private List<CityBean> cityList = new ArrayList<>();;
+    private ArrayList<String> cityHistory = new ArrayList<>();//历史数据
     private ArrayList<CityBean> chooseCityList = new ArrayList<CityBean>();
     private ArrayList<Integer> exceptCityId = new ArrayList<>();
+    private SharedPre sharedPer;
+    private DbManager mDbManager;
+    public String from;
+    public volatile int cityId = -1;
+    public int showType = ShowType.PICK_UP;
+    private DialogUtil mDialogUtil;
 
-    private Handler mAsyncHandler;
-    private Handler mHandler;
+    public volatile int groupId = -1;
+    public volatile String startCityName;
+
+    private static final class MessageType {
+        /**
+         * 全部城市
+         * */
+        public static final int ALL_CITY = 0x0001;
+
+        /**
+         * 热门城市
+         * */
+        public static final int HOT_CITY = 0x0002;
+
+        /**
+         * 搜索历史
+         * */
+        public static final int SEARCH_HISTORY = 0x0003;
+
+        /**
+         * 当前定位
+         * */
+        public static final int LOCATION = 0x0004;
+
+    }
+
+    public static final class ShowType {
+        /**
+         * 选城市
+         * */
+        public static final int SELECT_CITY = 0x0001;
+
+        public static final int MULTIPLY = 0x0002;
+
+        /**
+         * 接送机选城市
+         * */
+        public static final int PICK_UP = 0x0003;
+
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        ButterKnife.bind(this, rootView);
+        return rootView;
+    }
+
+    @Override
+    protected void initHeader(Bundle savedInstanceState) {
+        super.initHeader(savedInstanceState);
+    }
+
+    @Override
+    protected void initHeader() {}
 
     @Override
     public void onStop() {
@@ -100,152 +165,42 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
     public void onStart() {
         super.onStart();
         this.getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-        HashMap<String,String> map = new HashMap<String,String>();
-        map.put("source", source);
-        MobclickAgent.onEvent(getActivity(), "search_launch", map);
     }
 
+    @Override
     protected void initView() {
-        //实例化汉字转拼音类
-        View view = getView();
-        emptyView = view.findViewById(R.id.arrival_empty_layout);
-        sideBar = (SideBar) view.findViewById(R.id.sidrbar);
-        TextView dialog = (TextView) view.findViewById(R.id.dialog);
-        sideBar.setTextView(dialog);
-        sideBar.setOnTouchingLetterChangedListener(this);//设置右侧触摸监听
-        sortListView = (ListView) view.findViewById(R.id.country_lvcountry);
-        sortListView.setOnItemClickListener(this);
-
-        if (chooseType != KEY_TYPE_MULTIPLY) {
-            String[] b = {"历史", "热门", "A", "B", "C", "D", "E", "F", "G", "H", "I",
-                    "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V",
-                    "W", "X", "Y", "Z", "#"};
-            sideBar.setLetter(b);
-        } else {
-            chooseCityHeadLayout.setVisibility(View.VISIBLE);
-            chooseBtn.setVisibility(View.VISIBLE);
-        }
-
-        adapter = new CityAdapter(getActivity(), this, sourceDateList, String.valueOf(getBusinessType()));
-        adapter.setChooseType(chooseType);
-        sortListView.setAdapter(adapter);
-        sortListView.setEmptyView(emptyView);
-        sideBar.setVisibility(View.VISIBLE);
-
-        initHandler();
-    }
-
-    private void initHandler() {
-        HandlerThread mHandlerThread = new HandlerThread("fg_choose_city");
-        mHandlerThread.start();
-        mAsyncHandler = new Handler(mHandlerThread.getLooper()) {
-            @Override
-            public void handleMessage(Message msg) {
-                if (msg.obj instanceof Selector) {
-                    Message message = Message.obtain();
-                    message.what = msg.what;
-                    message.arg1 = msg.arg1;
-
-                    Selector selector = (Selector) msg.obj;
-                    try {
-                        if (message.what == 4) {//定位城市
-                            message.obj = selector.findFirst();
-                        } else {
-                            message.obj = selector.findAll();
-                        }
-                    } catch (DbException e) {
-                        e.printStackTrace();
-                    }
-                    mHandler.sendMessage(message);
-                }
-            }
-        };
-        mHandler = new Handler(Looper.getMainLooper()) {
-            @Override
-            public void handleMessage(Message msg) {
-                if (msg.obj == null) {
-                    return;
-                }
-                switch (msg.what) {
-                    case 1://查询全部城市
-                        emptyView.setVisibility(View.GONE);
-                        emptyViewText.setText(getString(R.string.empty_city_text));
-                        sourceDateList = (List<CityBean>) msg.obj;
-                        inflateContent();
-                        if (msg.arg1 == FgChooseCity.KEY_TYPE_SINGLE) {
-                            requestHotDate(getBusinessType(), groupId);
-                            requestHistoryDate(getBusinessType(), groupId);
-                            requestLocationDate();
-                        }
-                        break;
-                    case 2://热门城市
-                        if (sourceDateList == null) {
-                            break;
-                        }
-                        List<CityBean> hotCityDate = (List<CityBean>) msg.obj;
-                        if(hotCityDate != null && hotCityDate.size() > 0) {
-                            for (CityBean bean : hotCityDate) {
-                                bean.firstLetter = "热门城市";
-                            }
-                        }
-                        if (hotCityDate != null && hotCityDate.size() > 0 && hotCityDate.get(0) != null) {
-                            hotCityDate.get(0).isFirst = true;
-                            sourceDateList.add(0, hotCityDate.get(0));
-                            adapter.setHotCityList(hotCityDate);
-                            adapter.setIsFirstAccessHotCity(false);
-                            adapter.notifyDataSetChanged();
-                        }
-                        break;
-                    case 3://搜索历史记录
-                        if (sourceDateList == null) {
-                            break;
-                        }
-                        List<CityBean> tmpHistoryCityDate = (List<CityBean>) msg.obj;
-                        ArrayList<CityBean> historyCityDate = new ArrayList<CityBean>();
-                        for (String historyId : cityHistory) {
-                            for (CityBean bean : tmpHistoryCityDate) {
-                                if (historyId.equals(String.valueOf(bean.cityId))) {
-                                    historyCityDate.add(bean);
-                                }
-                                bean.firstLetter = "搜索历史";
-                            }
-                        }
-                        if (historyCityDate.size() > 0 && historyCityDate.get(0) != null) {
-                            historyCityDate.get(0).isFirst = true;
-                        }
-                        sourceDateList.addAll(0, historyCityDate);
-                        adapter.setSearchHistoryCount(historyCityDate.size());
-                        break;
-                    case 4://查询定位城市
-                        if (sourceDateList == null || !(msg.obj instanceof CityBean)) {
-                            break;
-                        }
-                        CityBean bean = (CityBean) msg.obj;
-                        if(bean != null){
-                            bean.firstLetter = "定位城市";
-                            bean.isFirst = true;
-                            sourceDateList.add(0, bean);
-                            adapter.setLocationCount(1);
-                        }
-                        break;
-                    case 5:
-                        break;
-                    case 6:
-                        break;
-                }
-            }
-        };
-    }
-
-    protected void initHeader() {
         setProgressState(0);
-        chooseType = getArguments().getInt(KEY_CHOOSE_TYPE, KEY_TYPE_SINGLE);
-        from = getArguments().getString(KEY_FROM);
+        mDialogUtil = DialogUtil.getInstance(getActivity());
+        mDialogUtil.showLoadingDialog();
+
         cityId = getArguments().getInt(KEY_CITY_ID, -1);
+        from = getArguments().getString(KEY_FROM);
+        showType = getArguments().getInt(KEY_SHOW_TYPE, ShowType.MULTIPLY);
         exceptCityId = (ArrayList<Integer>) getArguments().getSerializable(KEY_CITY_EXCEPT_ID_LIST);
         source = getArguments().getString("source");
 
-        editSearch.setOnKeyListener(this);
+        View rootView = getView();
+        sideBar.setTextView((TextView) rootView.findViewById(R.id.choose_city_sidebar_firstletter));
+        sideBar.setOnTouchingLetterChangedListener(this);
+        sideBar.setVisibility(View.VISIBLE);
+
+        mAdapter = new ChooseCityAdapter(getContext());
+        mListview.setAdapter(mAdapter);
+        mListview.setEmptyView(emptyLayout);
+        mListview.setOnItemClickListener(this);
+
+        if (showType == ShowType.SELECT_CITY) {
+            chooseCityHeadLayout.setVisibility(View.VISIBLE);
+            chooseBtn.setVisibility(View.VISIBLE);
+        } else {
+            headerView = new ChooseCityHeaderView(FgChooseCity.this);
+            mListview.addHeaderView(headerView);
+            if (showType == ShowType.PICK_UP) {
+                tabLayout.setVisibility(View.VISIBLE);
+                tabLayout.setOnChangeListener(this);
+            }
+        }
+
         editSearch.setOnEditorActionListener(this);
         editSearch.addTextChangedListener(this);
         editSearch.setHint("请输入城市名称");
@@ -253,7 +208,7 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
             editSearch.setHint("搜索出发城市");
         } else if ("end".equals(from)) {
             editSearch.setHint("搜索到达城市");
-        } else if (chooseType == KEY_TYPE_MULTIPLY) {
+        } else if (showType == ShowType.MULTIPLY) {
             editSearch.setHint("搜索途经城市");
         } else if (getBusinessType() == Constants.BUSINESS_TYPE_RENT) {
             editSearch.setHint("搜索用车城市");
@@ -261,76 +216,108 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
             editSearch.setHint("请输入城市名称");
         }
 
-        long time = System.currentTimeMillis();
-        mDbManager = new DBHelper(getActivity()).getDbManager();
         sharedPer = new SharedPre(getActivity());
-    }
+        mDbManager = new DBHelper(getActivity()).getDbManager();
 
-    protected void inflateContent() {
-        processSelectedData();
-        setFirstWord(sourceDateList);
-        adapter.updateListView(sourceDateList);
-    }
-
-    private void processSelectedData() {
-        ArrayList<CityBean> mChooseCityList = (ArrayList<CityBean>) getArguments().getSerializable(KEY_CITY_LIST_CHOSEN);
-        chooseCityList = new ArrayList<>();
-        if (mChooseCityList != null) chooseCityList.addAll(mChooseCityList);
-        StringBuffer sb = new StringBuffer();
-        for (CityBean bean : chooseCityList) {
-            for (int i = 0; i < sourceDateList.size(); i++) {
-                CityBean city = sourceDateList.get(i);
-                if (bean.cityId == city.cityId) {
-                    city.isSelected = true;
-                    sb.append(bean.name).append(",");
-                }
-            }
-        }
-        if (exceptCityId != null)
-            for (int i = sourceDateList.size() - 1; i > 0; i--) {
-                CityBean city = sourceDateList.get(i);
-                for (int exceptId : exceptCityId) {
-                    if (exceptId == city.cityId) {
-                        sourceDateList.remove(city);
-                    }
-                }
-            }
-        String str = sb.toString();
-        if (str.length() > 1)
-            str = str.substring(0, str.length() - 1);
-        cityHeadText.setText(str);
-    }
-
-    private void setFirstWord(List<CityBean> sourceDateList) {
-        if (sourceDateList == null) return;
-        String key = "";
-        for (int i = 0; i < sourceDateList.size(); i++) {
-            CityBean model = sourceDateList.get(i);
-            if (null == model.firstLetter || (model.firstLetter).equalsIgnoreCase(key)) {
-                model.isFirst = false;
-            } else {
-                model.isFirst = true;
-                key = model.firstLetter;
-            }
-        }
+        doInBackground();
     }
 
     @Override
     protected Callback.Cancelable requestData() {
-        if (cityId != -1 && groupId == -1) {
-            try {
-                Selector<CityBean> selector = mDbManager.selector(CityBean.class);
-                CityBean cityBean = selector.where("city_id", "=", cityId).findFirst();
-                if (cityBean != null) {
-                    groupId = cityBean.groupId;
-                    startCityName = cityBean.name;
-                }
-            } catch (DbException e) {
-                e.printStackTrace();
-            }
-        }
-        requestDate(getBusinessType(), groupId, null);
+        processSelectedData();
+        onPreExecuteHandler.sendEmptyMessage(MessageType.ALL_CITY);
         return null;
+    }
+
+    @Override
+    public void OnChangeListener(boolean inland) {
+        requestData();
+    }
+
+    @Override
+    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+        if (actionId == EditorInfo.IME_ACTION_SEARCH){
+            String keyword = editSearch.getText().toString().trim();
+            if (TextUtils.isEmpty(keyword)) {
+                CommonUtils.showToast("请输入搜索内容");
+                return true;
+            }
+            collapseSoftInputMethod();
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+        if (TextUtils.isEmpty(s) || TextUtils.isEmpty(s.toString().trim())) {
+            if (showType != ShowType.SELECT_CITY) {
+                mListview.addHeaderView(headerView);
+                if (showType == ShowType.PICK_UP) {
+                    tabLayout.setVisibility(View.VISIBLE);
+                }
+            }
+            cityList.clear();
+            mListview.setAreHeadersSticky(true);
+            mAdapter.setData(cityList);
+
+            requestData();
+        } else {
+            if (showType != ShowType.SELECT_CITY) {
+                mListview.removeHeaderView(headerView);
+                if (showType == ShowType.PICK_UP) {
+                    tabLayout.setVisibility(View.GONE);
+                }
+            }
+            cityList.clear();
+            sideBar.setVisibility(View.GONE);
+            mListview.setAreHeadersSticky(false);
+
+            mAdapter.setShowType(ChooseCityAdapter.ShowType.SEARCH_PROMPT);
+
+            List<CityBean> dataList = requestDataByKeyword(getBusinessType(), groupId, editSearch.getText().toString().trim(), false);
+            cityList.addAll(dataList);
+
+            if (cityList.size() < 10) {
+                List<CityBean> moreDataList = requestDataByKeyword(getBusinessType(), groupId, editSearch.getText().toString().trim(), true);
+                if (moreDataList.size() > 0) {
+                    if (cityList.size() <= 0) {
+                        cityList.addAll(moreDataList);
+                    } else {
+                        for(CityBean cityBean : moreDataList) {
+                            for (int i=0; i< cityList.size(); i++) {
+                                if (cityBean.cityId == cityList.get(i).cityId) {
+                                    break;
+                                }
+                                if ( i == cityList.size() - 1) {
+                                    cityList.add(cityBean);
+                                }
+                            }
+                        }
+                    }
+                } else if (cityList.size() <= 0){
+                    if (getBusinessType() == Constants.BUSINESS_TYPE_DAILY) {
+                        if ("lastCity".equals(from) && s.toString().trim().equals(startCityName)) {
+                            emptyTV.setText(getString(R.string.can_not_choose_start_city_text));
+                        } else {
+                            emptyTV.setText(getString(R.string.out_of_range_city_text));
+                        }
+                    }
+                }
+            }
+            mAdapter.setData(cityList);
+            mListview.setSelection(0);
+        }
     }
 
     @Event(value = {R.id.city_choose_btn, R.id.head_search_clean, R.id.head_text_right})
@@ -356,54 +343,24 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
                 collapseSoftInputMethod();
                 break;
         }
-
-    }
-
-    @Override
-    public void onTouchingLetterChanged(String s) {
-        //该字母首次出现的位置
-        int position = adapter.getPositionForSection(s);
-        if (position != -1) {
-            sortListView.setSelection(position);
-        }
-    }
-
-    @Override
-    public boolean onBackPressed() {
-        HashMap<String,String> map = new HashMap<String,String>();
-        map.put("source", source);
-        map.put("searchinput", editSearch.getText().toString().trim());
-        MobclickAgent.onEvent(getActivity(), "search_close", map);
-        return super.onBackPressed();
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.header_left_btn:
-                HashMap<String,String> map = new HashMap<String,String>();
-                map.put("source", source);
-                map.put("searchinput", editSearch.getText().toString().trim());
-                MobclickAgent.onEvent(getActivity(), "search_close", map);
-                break;
-        }
-        super.onClick(v);
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        if (showType != ShowType.SELECT_CITY && mAdapter.getShowType() != ChooseCityAdapter.ShowType.SEARCH_PROMPT) {
+            --position;
+        }
+        if (position >= 0 && position < cityList.size()) {
+            onItemClick(cityList.get(position));
+        }
+    }
+
+    public void onItemClick(CityBean _cityBean) {
         Bundle bundle = new Bundle(getArguments());
-        CityBean cityBean = sourceDateList.get(position);
+        CityBean cityBean = _cityBean;
         if (cityBean.isNationality) {
             return;
         }
-
-        HashMap<String,String> map = new HashMap<String,String>();
-        map.put("source", source);
-        map.put("searchinput", editSearch.getText().toString().trim());
-        map.put("searchcity", cityBean.name);
-        MobclickAgent.onEvent(getActivity(), "search", map);
-
         //从首页进城市搜索，到城市sku列表
         if (getBusinessType() == Constants.BUSINESS_TYPE_HOME) {
             saveHistoryDate(cityBean);
@@ -413,12 +370,8 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
             startFragment(fg, bundle);
             return;
         }
-        //包车城市搜索
-        if (chooseType == KEY_TYPE_SINGLE) {
-            saveHistoryDate(cityBean);
-            bundle.putSerializable(KEY_CITY, cityBean);
-            finishForResult(bundle);
-        } else {//途径城市
+
+        if (showType == ShowType.SELECT_CITY) {//途径城市
             cityBean.isSelected = !cityBean.isSelected;
             if (chooseCityList.size() >= 10 && cityBean.isSelected) {
                 cityBean.isSelected = false;
@@ -437,23 +390,41 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
             if (str.length() > 1)
                 str = str.substring(0, str.length() - 1);
             cityHeadText.setText(str);
-            adapter.notifyDataSetChanged();
+            mAdapter.notifyDataSetChanged();
+        } else {//包车城市搜索
+            saveHistoryDate(cityBean);
+            bundle.putSerializable(KEY_CITY, cityBean);
+            finishForResult(bundle);
         }
     }
 
-    @Override
-    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-        /*判断是否是“GO”键*/
-        if(actionId == EditorInfo.IME_ACTION_SEARCH){
-            String keyword = editSearch.getText().toString().trim();
-            if (TextUtils.isEmpty(keyword)) {
-                CommonUtils.showToast("请输入搜索内容");
-                return true;
+    private void processSelectedData() {
+        ArrayList<CityBean> mChooseCityList = (ArrayList<CityBean>) getArguments().getSerializable(KEY_CITY_LIST_CHOSEN);
+        chooseCityList = new ArrayList<>();
+        if (mChooseCityList != null) chooseCityList.addAll(mChooseCityList);
+        StringBuffer sb = new StringBuffer();
+        for (CityBean bean : chooseCityList) {
+            for (int i = 0; i < cityList.size(); i++) {
+                CityBean city = cityList.get(i);
+                if (bean.cityId == city.cityId) {
+                    city.isSelected = true;
+                    sb.append(bean.name).append(",");
+                }
             }
-            collapseSoftInputMethod();
-            return true;
         }
-        return false;
+        if (exceptCityId != null)
+            for (int i = cityList.size() - 1; i > 0; i--) {
+                CityBean city = cityList.get(i);
+                for (int exceptId : exceptCityId) {
+                    if (exceptId == city.cityId) {
+                        cityList.remove(city);
+                    }
+                }
+            }
+        String str = sb.toString();
+        if (str.length() > 1)
+            str = str.substring(0, str.length() - 1);
+        cityHeadText.setText(str);
     }
 
     /**
@@ -472,101 +443,226 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
     }
 
     @Override
-    public boolean onKey(View v, int keyCode, KeyEvent event) {
-        if (event.getAction() == KeyEvent.ACTION_UP && (keyCode == KeyEvent.KEYCODE_SEARCH || keyCode == KeyEvent.KEYCODE_ENTER)) {
-//            requestDataByKeyword(getBusinessType(), groupId, editSearch.getText().toString().trim(), false);
-            return true;
+    protected void inflateContent() {
+
+    }
+
+    @Override
+    public void onTouchingLetterChanged(String s) {
+        //该字母首次出现的位置
+        int position = getPositionForSection(s);
+        if (s.equals("历史") || s.equals("热门")) {
+            mListview.setSelection(0);
+        } else if (position != -1) {
+            position += 1;
+            if (position < mAdapter.getCount()) {
+                mListview.setSelection(position);
+            }
         }
-        return false;
     }
 
-    @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-    }
-
-    @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-    }
-
-    @Override
-    public void afterTextChanged(Editable s) {
-        if (TextUtils.isEmpty(s)) {
-            sideBar.setVisibility(View.VISIBLE);
-            sourceDateList.clear();
-            requestData();
-        } else {
-            if(TextUtils.isEmpty(s.toString().trim())){
-                return;
+    public int getPositionForSection(String section) {
+        if (cityList == null) {
+            return -1;
+        }
+        for (int i = 0; i < cityList.size(); i++) {
+            String sortStr = cityList.get(i).firstLetter;
+            if (sortStr.contains(section)) {
+                return i;
             }
-            long time = System.currentTimeMillis();
-            sideBar.setVisibility(View.INVISIBLE);
-            sourceDateList.clear();
-            adapter.getHotCityList().clear();
-            adapter.setSearchHistoryCount(0);
-            adapter.setLocationCount(0);
-            boolean isSetGuessYouWant = false;
-//            Set<CityBean> set = new LinkedHashSet<CityBean>();//去重复Set
-            List<CityBean> dataList = requestDataByKeyword(getBusinessType(), groupId, editSearch.getText().toString().trim(), false);
-            if (dataList.size() > 0) {
-                dataList.get(0).isFirst = true;
-                dataList.get(0).firstLetter = getActivity().getString(R.string.guess_you_want);
-                isSetGuessYouWant = true;
-                sourceDateList.addAll(dataList);
-            }
-            if (dataList.size() >= 10) {
-                adapter.notifyDataSetChanged();
+        }
+        return -1;
+    }
+
+    private void setSectionIndices() {
+        sideBar.setVisibility(View.VISIBLE);
+        if (cityList == null) {
+            if (showType != ShowType.SELECT_CITY) {
+                sideBar.setLetter(sideBar.getDefaultLetter());
             } else {
-                List<CityBean> dataList2 = requestDataByKeyword(getBusinessType(), groupId, editSearch.getText().toString().trim(), true);
-                if (dataList2.size() > 0) {
-                    if(!isSetGuessYouWant){
-                        dataList2.get(0).isFirst = true;
-                        dataList2.get(0).firstLetter = getActivity().getString(R.string.guess_you_want);
-                        isSetGuessYouWant = true;
-                        sourceDateList.addAll(dataList2);
-                    }else{
-                        for(CityBean cityBean : dataList2){
-                            for(int i=0; i<sourceDateList.size(); i++){
-                                if(cityBean.cityId == sourceDateList.get(i).cityId){
-                                    break;
-                                }
-                                if(i == sourceDateList.size()-1){
-                                    sourceDateList.add(cityBean);
-                                }
-                            }
-                        }
-                    }
-                }
-                if (sourceDateList.size() >= 10) {
-                    adapter.notifyDataSetChanged();
-                } else {
-                    List<CityBean> finalList = requestCountryDataByKeyword(getBusinessType(), groupId, editSearch.getText().toString().trim());
-                    if (finalList.size() > 0) {
-                        if(!isSetGuessYouWant){
-                            finalList.get(0).isFirst = true;
-                            finalList.get(0).firstLetter = getActivity().getString(R.string.guess_you_want);
-//                            finalList.get(0).isNationality = true;
-                            isSetGuessYouWant = true;
-                        }
-                        sourceDateList.addAll(finalList);
-                    }else if(sourceDateList.size() == 0) {
-                        if (getBusinessType() == Constants.BUSINESS_TYPE_DAILY) {
-                            if ("lastCity".equals(from) && s.toString().trim().equals(startCityName)) {
-                                emptyViewText.setText(getString(R.string.can_not_choose_start_city_text));
-                            } else {
-                                emptyViewText.setText(getString(R.string.out_of_range_city_text));
-                            }
-                        }
-                    }
-                    adapter.notifyDataSetChanged();
-                }
+                String[] sections = {"历史", "热门", "A", "B", "C", "D", "E", "F", "G", "H", "I",
+                        "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V",
+                        "W", "X", "Y", "Z", "#"};
+                sideBar.setLetter(sections);
             }
-            MLog.e("time=" + (System.currentTimeMillis() - time));
-
+            return;
         }
-
+        ArrayList<String> sectionIndices = new ArrayList<String>();
+        if (showType != ShowType.SELECT_CITY) {
+            sectionIndices.add("历史");
+            sectionIndices.add("热门");
+        }
+        String lastFirstLetter = null;
+        for (int i = 0; i < cityList.size(); i++) {
+            CityBean cityBean = cityList.get(i);
+            if (cityBean == null) {
+                continue;
+            }
+            if (!TextUtils.equals(lastFirstLetter, cityBean.firstLetter)) {
+                sectionIndices.add(cityBean.firstLetter);
+                lastFirstLetter = cityBean.firstLetter;
+            }
+        }
+        String[] sections = new String[sectionIndices.size()];
+        for (int i = 0; i < sectionIndices.size(); i++) {
+            sections[i] = sectionIndices.get(i);
+        }
+        sideBar.setHeightWrapContent(true);
+        sideBar.setLetter(sections);
     }
+
+    private void doInBackground() {
+        HandlerThread mHandlerThread = new HandlerThread("fg_choose_city");
+        mHandlerThread.start();
+        mAsyncHandler = new Handler(mHandlerThread.getLooper()) {
+            @Override
+            public void handleMessage(Message msg) {
+                //此处逻辑来自旧代码
+                if (cityId != -1 && groupId == -1) {
+                    CityBean cityBean = DatabaseManager.getCityBean("" + cityId);
+                    if (cityBean != null) {
+                        groupId = cityBean.groupId;
+                        startCityName = cityBean.name;
+                    }
+                }
+
+                Message message = Message.obtain();
+                message.what = msg.what;
+                if (msg.obj instanceof String) {
+                    message.obj = DatabaseManager.getCityBeanList((String) msg.obj);
+                } else if (msg.obj instanceof Selector) {
+                    Selector selector = (Selector) msg.obj;
+                    try {
+                        if (message.what == MessageType.LOCATION) {//定位城市
+                            message.obj = selector.findFirst();
+                        } else {
+                            message.obj = selector.findAll();
+                        }
+                    } catch (DbException e) {
+                        e.printStackTrace();
+                    }
+                }
+                onPostExecuteHandler.sendMessage(message);
+            }
+        };
+    }
+
+    private Handler onPreExecuteHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            Message message = Message.obtain();
+            message.what = msg.what;
+            switch (msg.what) {
+                case MessageType.ALL_CITY:
+                    mDialogUtil.showLoadingDialog();
+                    if (showType == ShowType.PICK_UP) {
+                        if (tabLayout.isInland()) {//国内城市
+                            message.obj = DatabaseManager.getInlandCitySql();
+                            mAdapter.setShowType(ChooseCityAdapter.ShowType.DEFAULT);
+                        } else {//国际港澳台
+                            message.obj = DatabaseManager.getAbroadCitySql();
+                            mAdapter.setShowType(ChooseCityAdapter.ShowType.SHOW_COUNTRY);
+                        }
+                    } else {
+                        message.obj = DatabaseManager.getAllCitySql(null, getBusinessType(), groupId, null, cityId, from);
+                        if (showType == ShowType.SELECT_CITY) {
+                            mAdapter.setShowType(ChooseCityAdapter.ShowType.SELECT_CITY);
+                        } else {
+                            mAdapter.setShowType(ChooseCityAdapter.ShowType.DEFAULT);
+                        }
+                    }
+                    if (showType != ShowType.SELECT_CITY) {
+                        onPreExecuteHandler.sendEmptyMessage(MessageType.HOT_CITY);
+                        onPreExecuteHandler.sendEmptyMessage(MessageType.SEARCH_HISTORY);
+                        onPreExecuteHandler.sendEmptyMessage(MessageType.LOCATION);
+                    }
+                    mAsyncHandler.sendMessage(message);
+                    break;
+                case MessageType.HOT_CITY:
+                    if (showType == ShowType.PICK_UP) {
+                        if (tabLayout.isInland()) {//国内城市
+                            message.obj = DatabaseManager.getInlandHotCitySql();
+                        } else {//国际港澳台
+                            message.obj = DatabaseManager.getAbroadHotCitySql();
+                        }
+                    } else {
+                        message.obj = DatabaseManager.getHotDateSql(null, getBusinessType(), groupId, cityId, from);
+                    }
+                    mAsyncHandler.sendMessage(message);
+                    break;
+                case MessageType.SEARCH_HISTORY:
+                    String cityHistoryStr = sharedPer.getStringValue(mBusinessType + SharedPre.RESOURCES_CITY_HISTORY);
+                    cityHistory = new ArrayList<String>();
+                    if (!TextUtils.isEmpty(cityHistoryStr)) {
+                        for (String city : cityHistoryStr.split(",")) {
+                            cityHistory.add(city);
+                        }
+                    }
+                    if (cityHistory.size() == 0) {
+                        return;
+                    }
+                    message.obj = DatabaseManager.getHistoryDateSql(mDbManager, getBusinessType(), groupId, cityId, from, cityHistory);
+                    mAsyncHandler.sendMessage(message);
+                    break;
+                case MessageType.LOCATION:
+                    String cityId = sharedPer.getStringValue("cityId");
+                    String cityName = sharedPer.getStringValue("cityName");
+                    if (showType == ShowType.PICK_UP) {
+                        if (!TextUtils.isEmpty(cityId) && !TextUtils.isEmpty(cityName)) {
+                            CityBean locationCityBean = new CityBean();
+                            locationCityBean.cityId = CommonUtils.getCountInteger(cityId);
+                            locationCityBean.name = cityName;
+                            message.obj = locationCityBean;
+                        }
+                        onPostExecuteHandler.sendMessage(message);
+                    } else {
+                        message.obj = DatabaseManager.getLocationDateSql(mDbManager, cityId);
+                        mAsyncHandler.sendMessage(message);
+                    }
+                    break;
+            }
+        }
+    };
+
+    private Handler onPostExecuteHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case MessageType.ALL_CITY:
+                    if (msg.obj == null) {
+                        break;
+                    }
+                    cityList = (List<CityBean>) msg.obj;
+                    mAdapter.setData(cityList);
+                    mListview.setSelection(0);
+                    setSectionIndices();
+                    mDialogUtil.dismissLoadingDialog();
+                    emptyLayout.setVisibility(View.GONE);
+                    break;
+                case MessageType.HOT_CITY:
+                    if (msg.obj == null) {
+                        break;
+                    }
+                    List<CityBean> hotCityList = (List<CityBean>) msg.obj;
+                    headerView.setHotCitysData(hotCityList);
+                    break;
+                case MessageType.SEARCH_HISTORY:
+                    if (msg.obj == null) {
+                        break;
+                    }
+                    List<CityBean> historyList = (List<CityBean>) msg.obj;
+                    headerView.setHistoryData(historyList);
+                    break;
+                case MessageType.LOCATION:
+                    CityBean cityBean = null;
+                    if (msg.obj instanceof CityBean) {
+                        cityBean = (CityBean) msg.obj;
+                    }
+                    headerView.setLociationData(cityBean, showType == ShowType.PICK_UP);
+                    break;
+            }
+        }
+    };
 
     /**
      * 按关键词搜索
@@ -628,133 +724,18 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
         return dataList;
     }
 
-    /**
-     * 查询国家
-     *
-     * @param orderType
-     * @param groupId
-     * @param keyword
-     */
-    protected List<CityBean> requestCountryDataByKeyword(int orderType, int groupId, String keyword) {
-        List<CityBean> CountryDateList = new ArrayList<CityBean>();
-        Selector selector = null;
-        try {
-            selector = mDbManager.selector(CityBean.class);
-        } catch (DbException e) {
-            e.printStackTrace();
-        }
-        selector.where("1", "=", "1");
-        if (!TextUtils.isEmpty(keyword)) {
-            WhereBuilder whereBuilder = WhereBuilder.b();
-            whereBuilder.and("place_name", "LIKE", keyword + "%")
-                    .and("place_name", "!=", "中国");
-            selector.and(whereBuilder);
-        }
-        if (orderType == Constants.BUSINESS_TYPE_DAILY) {
-            if (groupId == -1) {
-                selector.and("group_id", "<>", null);
-                selector.and("is_daily", "=", 1);
-            } else {
-                selector.and("group_id", "=", groupId);
-            }
-            if ("lastCity".equals(from) && cityId != -1){
-                selector.and("city_id", "<>", cityId);
-            }
-        } else if (orderType == Constants.BUSINESS_TYPE_RENT) {
-            selector.and("is_single", "=", 1);
-        } else if (orderType == Constants.BUSINESS_TYPE_PICK || orderType == Constants.BUSINESS_TYPE_SEND) {
-            selector.and("is_city_code", "=", 1);
-        } else if (orderType == Constants.BUSINESS_TYPE_HOME) {
-            WhereBuilder whereBuilder = WhereBuilder.b();
-            whereBuilder.and("place_name", "<>", "中国");
-            selector.and(whereBuilder);
-            WhereBuilder whereBuilder2 = WhereBuilder.b();
-            whereBuilder2.and("has_airport", "=", 1).or("is_daily", "=", 1).or("is_single", "=", 1);
-            selector.and(whereBuilder2);
-        }
-        selector.orderBy("guide_count", true);
-        selector.limit(4);
-        try {
-            CountryDateList = selector.findAll();
-        } catch (DbException e) {
-            e.printStackTrace();
-        }
-        if (CountryDateList.size() > 0) {
-            for (CityBean cb : CountryDateList) {
-                cb.keyWord = "相关城市";
-            }
-            CityBean onlyForDisplayCityBean = new CityBean();
-            onlyForDisplayCityBean.name = CountryDateList.get(0).placeName + " - 该地点为国家/地区";
-            onlyForDisplayCityBean.firstLetter = "nationality";
-            onlyForDisplayCityBean.isNationality = true;
-            onlyForDisplayCityBean.keyWord = keyword;
-            CountryDateList.add(0, onlyForDisplayCityBean);
-        }
-        return CountryDateList;
-    }
 
-    /**
-     * 查询全部城市
-     *
-     * @param orderType 业务类型
-     * @param groupId
-     * @param keyword   搜索关键字
-     */
-    protected void requestDate(int orderType, int groupId, String keyword) {
-        Message message = Message.obtain();
-        message.what = 1;
-        message.arg1 = chooseType;
-        message.obj = CityListDataHelper.getAllCitySql(mDbManager, getBusinessType(), groupId, null, cityId, from);
-        mAsyncHandler.sendMessage(message);
-
-        emptyView.setVisibility(View.VISIBLE);
-        emptyViewText.setText("加载中，请稍后！");
-    }
-
-    /**
-     * 热门城市
-     *
-     * @param orderType
-     * @param groupId
-     */
-    private void requestHotDate(int orderType, int groupId) {
-        Message message = Message.obtain();
-        message.what = 2;
-        message.obj = CityListDataHelper.getHotDateSql(mDbManager, orderType, groupId, cityId, from);
-        mAsyncHandler.sendMessage(message);
-    }
-
-    /**
-     * 搜索历史记录
-     *
-     * @param orderType
-     * @param groupId
-     */
-    private void requestHistoryDate(int orderType, int groupId) {
-        String cityHistoryStr = sharedPer.getStringValue(mBusinessType + SharedPre.RESOURCES_CITY_HISTORY);
-        cityHistory = new ArrayList<String>();
-        if (!TextUtils.isEmpty(cityHistoryStr)) {
-            for (String city : cityHistoryStr.split(",")) {
-                cityHistory.add(city);
-            }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        MPermissions.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case 11:
+            case 12:
+                if (headerView != null && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    headerView.requestLocation();
+                }
+                break;
         }
-        if (cityHistory.size() == 0) {
-            return;
-        }
-        Message message = Message.obtain();
-        message.what = 3;
-        message.obj = CityListDataHelper.getHistoryDateSql(mDbManager, orderType, groupId, cityId, from, cityHistory);
-        mAsyncHandler.sendMessage(message);
-    }
-
-    /**
-     * 查询定位城市
-     */
-    private void requestLocationDate(){
-        String cityHistoryStr = sharedPer.getStringValue("cityId");
-        Message message = Message.obtain();
-        message.what = 4;
-        message.obj = CityListDataHelper.getLocationDateSql(mDbManager, cityHistoryStr);
-        mAsyncHandler.sendMessage(message);
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 }

@@ -198,4 +198,5 @@ dependencies {
     compile project(':viewpagerindicator')
     compile project(path: ':datepicker')
     compile 'org.greenrobot:eventbus:3.0.0'
+    compile 'se.emilsjolander:stickylistheaders:2.7.0'
 }

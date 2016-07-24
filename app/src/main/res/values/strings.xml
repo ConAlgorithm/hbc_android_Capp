@@ -227,7 +227,7 @@
     <string name="order_daily_days_out_tower" formatted="false">%1$s天(市内%2$s天，市外%3$s天)</string>
     <string name="call_service">呼叫客服</string>
     <string name="empty_text">没有结果</string>
-    <string name="empty_city_text">该地区暂未开通服务</string>
+    <string name="empty_city_text">抱歉，没有找到您要的地点</string>
     <string name="can_not_choose_start_city_text">跨城市包车不能选择出发城市哦</string>
     <string name="out_of_range_city_text">您搜索的城市超出了包车游玩范围</string>
 
@@ -688,4 +688,11 @@
 
     <string name="share_dialog_title">分享到</string>
     <string name="share_dialog_cancel">取消分享</string>
+
+    <string name="choose_city_tab_inland">国内</string>
+    <string name="choose_city_tab_abroad">国际港澳台</string>
+    <string name="choose_city_subtitle_location">当前定位</string>
+    <string name="choose_city_subtitle_history">历史记录</string>
+    <string name="choose_city_subtitle_hot">热门城市</string>
+    <string name="choose_city_location_failure">定位失败</string>
 </resources>

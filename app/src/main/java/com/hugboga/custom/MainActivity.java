@@ -182,24 +182,25 @@ public class MainActivity extends BaseActivity
 
     Timer timer;
     TimerTask timerTask;
-    public void uploadLocation(){
+
+    public void uploadLocation() {
         timer = new Timer();
-        timerTask = new TimerTask(){
+        timerTask = new TimerTask() {
             @Override
             public void run() {
 
                 String lat = new SharedPre(MainActivity.this).getStringValue("lat");
                 String lng = new SharedPre(MainActivity.this).getStringValue("lng");
-                Log.e("========","============lat="+lat+"====lng="+lng);
+                Log.e("========", "============lat=" + lat + "====lng=" + lng);
 
-                if(!TextUtils.isEmpty(lat)){
+                if (!TextUtils.isEmpty(lat)) {
                     RequestUploadLocation requestUploadLocation = new RequestUploadLocation(MainActivity.this);
-                    HttpRequestUtils.request(MainActivity.this,requestUploadLocation,MainActivity.this,false);
+                    HttpRequestUtils.request(MainActivity.this, requestUploadLocation, MainActivity.this, false);
 
                 }
             }
         };
-        timer.schedule(timerTask,0,30000);
+        timer.schedule(timerTask, 0, 30000);
     }
 
     /**
@@ -264,11 +265,11 @@ public class MainActivity extends BaseActivity
     protected void onDestroy() {
         super.onDestroy();
         try {
-            if(timer != null){
+            if (timer != null) {
                 timer.cancel();
                 timer = null;
             }
-            if(timerTask != null){
+            if (timerTask != null) {
                 timerTask.cancel();
                 timerTask = null;
             }
@@ -282,13 +283,13 @@ public class MainActivity extends BaseActivity
     public void onDataRequestSucceed(BaseRequest request) {
         if (request instanceof RequestPushToken) {
             MLog.e(request.getData().toString());
-        }else if(request instanceof RequestUploadLocation){
+        } else if (request instanceof RequestUploadLocation) {
             LocationUtils.cleanLocationInfo(MainActivity.this);
             String cityId = ((RequestUploadLocation) request).getData().cityId;
             String cityName = ((RequestUploadLocation) request).getData().cityName;
             String countryId = ((RequestUploadLocation) request).getData().countryId;
             String countryName = ((RequestUploadLocation) request).getData().countryName;
-            LocationUtils.saveLocationCity(MainActivity.this,cityId,cityName,countryId,countryName);
+            LocationUtils.saveLocationCity(MainActivity.this, cityId, cityName, countryId, countryName);
 //            MLog.e("Location: cityId:"+cityId + ",  cityName:"+cityName);
         } else if (request instanceof RequestUserInfo) {
             if (couponTV == null || travelFundTV == null) {
@@ -407,7 +408,7 @@ public class MainActivity extends BaseActivity
 
     private void connectIM() {
         if (UserEntity.getUser().isLogin(this))
-        IMUtil.getInstance().connect();
+            IMUtil.getInstance().connect();
     }
 
     private void initBottomView() {
@@ -465,7 +466,7 @@ public class MainActivity extends BaseActivity
         tv_nickname.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                CommonUtils.showToast("version="+ChannelUtils.getVersion()+" versioncode="+ChannelUtils.getVersionCode()+" channel ="+ChannelUtils.getChannel(MainActivity.this)+"");
+                CommonUtils.showToast("version=" + ChannelUtils.getVersion() + " versioncode=" + ChannelUtils.getVersionCode() + " channel =" + ChannelUtils.getChannel(MainActivity.this) + "");
                 return false;
             }
         });
@@ -492,7 +493,7 @@ public class MainActivity extends BaseActivity
             tv_nickname.setTextColor(0xFF999999);
         } else {
             if (!TextUtils.isEmpty(UserEntity.getUser().getAvatar(this))) {
-                Tools.showImage(this,my_icon_head,UserEntity.getUser().getAvatar(this));
+                Tools.showImage(this, my_icon_head, UserEntity.getUser().getAvatar(this));
 //                x.image().bind(my_icon_head, UserEntity.getUser().getAvatar(this));
             } else {
                 my_icon_head.setImageResource(R.mipmap.chat_head);
@@ -585,29 +586,29 @@ public class MainActivity extends BaseActivity
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        HashMap<String,String> map = new HashMap<String,String>();
+        HashMap<String, String> map = new HashMap<String, String>();
         switch (position) {
             case Constants.PERSONAL_CENTER_FUND://旅游基金
-                if(isLogin("个人中心首页")) {
+                if (isLogin("个人中心首页")) {
                     FgInviteFriends fgInviteFriends = new FgInviteFriends();
                     startFragment(fgInviteFriends);
                 }
                 break;
             case Constants.PERSONAL_CENTER_BR://常用投保人
-                if(isLogin("个人中心首页")) {
+                if (isLogin("个人中心首页")) {
                     FgInsure fgInsure = new FgInsure();
                     startFragment(fgInsure);
                 }
                 break;
             case Constants.PERSONAL_CENTER_COLLECT://收藏司导
-                if(isLogin("个人中心首页")) {
+                if (isLogin("个人中心首页")) {
                     startFragment(new FgCollectGuideList());
                 }
                 break;
             case Constants.PERSONAL_CENTER_HD://活动
-                if(isLogin("个人中心首页")) {
+                if (isLogin("个人中心首页")) {
                     Bundle bundle = new Bundle();
-                    bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_ACTIVITY+UserEntity.getUser().getUserId(this.getApplicationContext())+"&t=" + new Random().nextInt(100000));
+                    bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_ACTIVITY + UserEntity.getUser().getUserId(this.getApplicationContext()) + "&t=" + new Random().nextInt(100000));
                     startFragment(new FgActivity(), bundle);
                 }
                 break;
@@ -634,20 +635,21 @@ public class MainActivity extends BaseActivity
     }
 
     //通讯录
-    private  final int PICK_CONTACTS = 101;
+    private final int PICK_CONTACTS = 101;
+
     // 接收通讯录的选择号码事件
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-            if (resultCode == RESULT_OK) {
-                if (data == null) {
-                    return;
-                }
-                if(PICK_CONTACTS == requestCode) {
-                    Uri result = data.getData();
-                    String[] contact = PhoneInfo.getPhoneContacts(this, result);
-                    EventBus.getDefault().post(new EventAction(EventType.CONTACT, contact));
-                }
+        if (resultCode == RESULT_OK) {
+            if (data == null) {
+                return;
             }
+            if (PICK_CONTACTS == requestCode) {
+                Uri result = data.getData();
+                String[] contact = PhoneInfo.getPhoneContacts(this, result);
+                EventBus.getDefault().post(new EventAction(EventType.CONTACT, contact));
+            }
+        }
     }
 
 
@@ -661,16 +663,17 @@ public class MainActivity extends BaseActivity
             if (UserEntity.getUser().isLogin(this)) {
                 return true;
             } else {
-                if(!TextUtils.isEmpty(source)){
-                    Bundle bundle = new Bundle();;
-                    bundle.putString("source",source);
+                if (!TextUtils.isEmpty(source)) {
+                    Bundle bundle = new Bundle();
+                    ;
+                    bundle.putString("source", source);
                     startFragment(new FgLogin(), bundle);
 
-                    HashMap<String,String> map = new HashMap<String,String>();
+                    HashMap<String, String> map = new HashMap<String, String>();
                     map.put("source", source);
                     MobclickAgent.onEvent(MainActivity.this, "login_trigger", map);
                     return false;
-                }else{
+                } else {
                     startFragment(new FgLogin());
                     return false;
                 }
@@ -686,9 +689,10 @@ public class MainActivity extends BaseActivity
             case R.id.head_view:
             case R.id.my_icon_head:
             case R.id.tv_nickname:
-                if(isLogin("个人中心首页")){
+                if (isLogin("个人中心首页")) {
                     startFragment(new FgPersonInfo());
-                };
+                }
+                ;
                 break;
             case R.id.slidemenu_header_coupon_layout://我的优惠券
                 if (isLogin("个人中心首页")) {
@@ -754,8 +758,8 @@ public class MainActivity extends BaseActivity
         if (count > 0) {
             if (count > 99) {
                 bottomPoint2.setText("99+");
-            }else {
-                bottomPoint2.setText(""+count);
+            } else {
+                bottomPoint2.setText("" + count);
             }
             bottomPoint2.setVisibility(View.VISIBLE);
 
@@ -824,19 +828,19 @@ public class MainActivity extends BaseActivity
         return length;
     }
 
-    public void grantLocation(){
+    public void grantLocation() {
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                || ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED ) {
+                || ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,
-                    new String[] {android.Manifest.permission.ACCESS_COARSE_LOCATION , Manifest.permission.ACCESS_FINE_LOCATION },
+                    new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION},
                     PERMISSION_ACCESS_COARSE_LOCATION);
-        }else{
+        } else {
             requestLocation();
         }
     }
 
 
-    public void requestLocation(){
+    public void requestLocation() {
         try {
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 100, locationListener);
         }catch (Exception e){
