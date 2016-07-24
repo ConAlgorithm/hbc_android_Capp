@@ -178,6 +178,16 @@ public class MainActivity extends BaseActivity
             }
         };
         drawer.addDrawerListener(mDrawerToggle);
+
+        showAdWebView(getIntent().getStringExtra("url"));
+    }
+
+    private void showAdWebView(String url){
+        if(null != url) {
+            Bundle bundle = new Bundle();
+            bundle.putString(FgWebInfo.WEB_URL, url);
+            startFragment(new FgActivity(), bundle);
+        }
     }
 
     Timer timer;

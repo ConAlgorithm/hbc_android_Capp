@@ -697,4 +697,6 @@
     <string name="choose_city_location_failure">定位失败</string>
 
     <string name="net_error_show">请检查您的网络连接是否正常</string>
+    <string name="loading_time">%1$s 跳过</string>
+
 </resources>
