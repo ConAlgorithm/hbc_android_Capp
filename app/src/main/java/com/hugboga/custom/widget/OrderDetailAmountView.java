@@ -5,15 +5,12 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.OrderPriceInfo;
-import com.hugboga.custom.data.bean.OrderStatus;
-import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.UIUtils;
 
 /**
@@ -31,6 +28,10 @@ public class OrderDetailAmountView extends LinearLayout implements HbcViewBehavi
     private LinearLayout billLayout;
     private LinearLayout groupLayout;
 
+    private LinearLayout refundLayout;
+    private LinearLayout refundItemLayout;
+    private TextView refundDescriptionTV;
+
     public OrderDetailAmountView(Context context) {
         this(context, null);
     }
@@ -40,6 +41,10 @@ public class OrderDetailAmountView extends LinearLayout implements HbcViewBehavi
         inflate(context, R.layout.view_order_detail_amount, this);
         billLayout = (LinearLayout) findViewById(R.id.order_detail_amount_bill_layout);
         groupLayout = (LinearLayout) findViewById(R.id.order_detail_amount_group_layout);
+
+        refundLayout = (LinearLayout) findViewById(R.id.order_detail_amount_refund_layout);
+        refundItemLayout = (LinearLayout) findViewById(R.id.order_detail_amount_refund_item_layout);
+        refundDescriptionTV = (TextView) findViewById(R.id.order_detail_amount_refund_description_tv);
     }
 
     @Override
@@ -74,9 +79,39 @@ public class OrderDetailAmountView extends LinearLayout implements HbcViewBehavi
             addGroupView(R.string.order_detail_cost_travelfund, "" + (int)priceInfo.travelFundPrice);//旅游基金
         }
         addGroupView(R.string.order_detail_cost_realpay, "" + (int)priceInfo.actualPay);//实付款
+
+
+        setRefundLayout(orderBean, priceInfo);//退款详情
     }
 
-    private void addBillView(int titleID, String price) {
+    private void setRefundLayout(OrderBean orderBean, OrderPriceInfo priceInfo) {
+        if (priceInfo.isRefund == 1) {//已经退款
+            refundLayout.setVisibility(View.VISIBLE);
+
+            refundItemLayout.removeAllViews();
+            addGroupView(refundItemLayout, R.string.order_detail_cost_refund,  "" + (int)priceInfo.refundPrice);//退款金额
+
+            View withholdView = getGroupView(R.string.order_detail_cost_withhold,  "" + (int)priceInfo.cancelFee);//订单退改扣款
+            ((TextView) withholdView.findViewById(R.id.order_detail_amount_title_tv)).setTextSize(13);
+            ((TextView) withholdView.findViewById(R.id.order_detail_amount_price_tv)).setTextSize(14);
+            LinearLayout.LayoutParams withholdViewParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, UIUtils.dip2px(35));
+            withholdViewParams.setMargins(UIUtils.dip2px(10), 0, UIUtils.dip2px(10), 0);
+            refundItemLayout.addView(withholdView, withholdViewParams);
+
+            String description = null;
+            if (orderBean.orderSource == 1) {//订单来源：app下单
+                description = getContext().getString(R.string.order_detail_refund_description1, priceInfo.payGatewayName);
+            } else {//非APP下单
+                description = getContext().getString(R.string.order_detail_refund_description2);
+            }
+            refundDescriptionTV.setText(description);
+        } else {
+            refundLayout.setVisibility(View.GONE);
+        }
+    }
+
+
+    private View getBillView(int titleID, String price) {
         View itemView = LayoutInflater.from(getContext()).inflate(R.layout.include_order_detail_amount_item, null, false);
         TextView titleTV = (TextView) itemView.findViewById(R.id.order_detail_amount_title_tv);
         titleTV.setText(getContext().getString(titleID));
@@ -88,12 +123,20 @@ public class OrderDetailAmountView extends LinearLayout implements HbcViewBehavi
             price = "0";
         }
         priceTV.setText(getContext().getString(R.string.sign_rmb) + price);
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, UIUtils.dip2px(35));
-        params.setMargins(UIUtils.dip2px(20), 0,UIUtils.dip2px(20), 0);
-        billLayout.addView(itemView, params);
+        return itemView;
     }
 
-    private void addGroupView(int titleID, String price) {
+    private void addBillView(int titleID, String price) {
+        addBillView(billLayout, titleID, price);
+    }
+
+    private void addBillView(LinearLayout parentLayout, int titleID, String price) {
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, UIUtils.dip2px(35));
+        params.setMargins(UIUtils.dip2px(20), 0,UIUtils.dip2px(20), 0);
+        parentLayout.addView(getBillView(titleID, price), params);
+    }
+
+    private View getGroupView(int titleID, String price) {
         View itemView = LayoutInflater.from(getContext()).inflate(R.layout.include_order_detail_amount_item, null, false);
         TextView titleTV = (TextView) itemView.findViewById(R.id.order_detail_amount_title_tv);
         titleTV.setText(getContext().getString(titleID));
@@ -108,8 +151,16 @@ public class OrderDetailAmountView extends LinearLayout implements HbcViewBehavi
             priceTV.setTextColor(0xFFF44437);
         }
         priceTV.setText(priceText);
+        return itemView;
+    }
+
+    private void addGroupView(int titleID, String price) {
+        addGroupView(groupLayout, titleID, price);
+    }
+
+    private void addGroupView(LinearLayout parentLayout, int titleID, String price) {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, UIUtils.dip2px(35));
         params.setMargins(UIUtils.dip2px(10), 0, UIUtils.dip2px(10), 0);
-        groupLayout.addView(itemView, params);
+        parentLayout.addView(getGroupView(titleID, price), params);
     }
 }

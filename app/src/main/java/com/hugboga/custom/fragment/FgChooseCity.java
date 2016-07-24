@@ -209,7 +209,7 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
             editSearch.setHint("搜索出发城市");
         } else if ("end".equals(from)) {
             editSearch.setHint("搜索到达城市");
-        } else if (showType == ShowType.MULTIPLY) {
+        } else if (showType == ShowType.SELECT_CITY) {
             editSearch.setHint("搜索途经城市");
         } else if (getBusinessType() == Constants.BUSINESS_TYPE_RENT) {
             editSearch.setHint("搜索用车城市");
@@ -565,8 +565,7 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
                             mAdapter.setShowType(ChooseCityAdapter.ShowType.SHOW_COUNTRY);
                         }
                     } else {
-                        message.obj = DatabaseManager.getAllCitySql(getBusinessType(), groupId, null, cityId, from);
-                        Log.i("aa", " cityList  null i "+ message.obj);
+                        message.obj = DatabaseManager.getAllCitySql(getBusinessType(), groupId, cityId, from);
                         if (showType == ShowType.SELECT_CITY) {
                             mAdapter.setShowType(ChooseCityAdapter.ShowType.SELECT_CITY);
                         } else {
@@ -635,14 +634,6 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
                         break;
                     }
                     cityList = (List<CityBean>) msg.obj;
-                    for (int i = 0; i < cityList.size(); i++) {
-                        CityBean cityBean = cityList.get(i);
-//                        if (cityBean == null) {
-//                            Log.i("aa", " cityList  null i "+ i);
-//                        } else {
-//                            Log.i("aa", " cityList  i "+ i + " name "+cityBean.name + " ddd "+cityBean.firstLetter);
-//                        }
-                    }
                     mAdapter.setData(cityList);
                     mListview.setSelection(0);
                     setSectionIndices();

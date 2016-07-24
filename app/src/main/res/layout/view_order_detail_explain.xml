@@ -5,11 +5,29 @@
     android:paddingLeft="26dp"
     android:paddingRight="26dp"
     android:paddingTop="17dp"
-    android:paddingBottom="120dp"
+    android:paddingBottom="100dp"
     android:orientation="vertical">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textSize="15sp"
+        android:textColor="#999999"
+        android:text="@string/order_detail_security_title"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textColor="#989898"
+        android:textSize="14sp"
+        android:text="@string/order_detail_security_description"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:textStyle="bold"
         android:textSize="15sp"
         android:textColor="#999999"
@@ -19,7 +37,7 @@
         android:id="@+id/order_detail_explain_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="8dp"
         android:textColor="#989898"
         android:textSize="14sp"
         android:text="@string/order_detail_unsubscribe_explain"
