@@ -8,6 +8,7 @@ import android.os.Message;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -564,7 +565,8 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
                             mAdapter.setShowType(ChooseCityAdapter.ShowType.SHOW_COUNTRY);
                         }
                     } else {
-                        message.obj = DatabaseManager.getAllCitySql(null, getBusinessType(), groupId, null, cityId, from);
+                        message.obj = DatabaseManager.getAllCitySql(getBusinessType(), groupId, null, cityId, from);
+                        Log.i("aa", " cityList  null i "+ message.obj);
                         if (showType == ShowType.SELECT_CITY) {
                             mAdapter.setShowType(ChooseCityAdapter.ShowType.SELECT_CITY);
                         } else {
@@ -586,7 +588,7 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
                             message.obj = DatabaseManager.getAbroadHotCitySql();
                         }
                     } else {
-                        message.obj = DatabaseManager.getHotDateSql(null, getBusinessType(), groupId, cityId, from);
+                        message.obj = DatabaseManager.getHotDateSql(getBusinessType(), groupId, cityId, from);
                     }
                     mAsyncHandler.sendMessage(message);
                     break;
@@ -601,7 +603,7 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
                     if (cityHistory.size() == 0) {
                         return;
                     }
-                    message.obj = DatabaseManager.getHistoryDateSql(mDbManager, getBusinessType(), groupId, cityId, from, cityHistory);
+                    message.obj = DatabaseManager.getHistoryDateSql(getBusinessType(), groupId, cityId, from, cityHistory);
                     mAsyncHandler.sendMessage(message);
                     break;
                 case MessageType.LOCATION:
@@ -616,7 +618,7 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
                         }
                         onPostExecuteHandler.sendMessage(message);
                     } else {
-                        message.obj = DatabaseManager.getLocationDateSql(mDbManager, cityId);
+                        message.obj = DatabaseManager.getLocationDateSql(cityId);
                         mAsyncHandler.sendMessage(message);
                     }
                     break;
@@ -633,6 +635,14 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
                         break;
                     }
                     cityList = (List<CityBean>) msg.obj;
+                    for (int i = 0; i < cityList.size(); i++) {
+                        CityBean cityBean = cityList.get(i);
+//                        if (cityBean == null) {
+//                            Log.i("aa", " cityList  null i "+ i);
+//                        } else {
+//                            Log.i("aa", " cityList  i "+ i + " name "+cityBean.name + " ddd "+cityBean.firstLetter);
+//                        }
+                    }
                     mAdapter.setData(cityList);
                     mListview.setSelection(0);
                     setSectionIndices();

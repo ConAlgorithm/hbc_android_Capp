@@ -182,7 +182,15 @@ public class ChooseCityAdapter extends BaseAdapter implements StickyListHeadersA
 
     @Override
     public long getHeaderId(int position) {
-        return getSectionsStr(cityList.get(position)).subSequence(0, 1).charAt(0);
+        CityBean cityBean = null;
+        if (position < cityList.size() && cityList.get(position) != null) {
+            cityBean = cityList.get(position);
+        }
+        if (cityBean == null || TextUtils.isEmpty(cityBean.firstLetter)) {
+            return 0;
+        } else {
+            return getSectionsStr(cityBean).subSequence(0, 1).charAt(0);
+        }
     }
 
     private String getSectionsStr(CityBean cityBean) {

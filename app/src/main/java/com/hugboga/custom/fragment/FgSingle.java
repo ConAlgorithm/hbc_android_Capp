@@ -85,6 +85,7 @@ public class FgSingle extends BaseFragment {
         switch (view.getId()) {
             case R.id.send_flight_layout:
                 bundle.putString("source","下单过程中");
+                bundle.putInt(KEY_BUSINESS_TYPE, Constants.BUSINESS_TYPE_RENT);
                 startFragment(new FgChooseCity(), bundle);
                 map.put("source", "下单过程中");
                 MobclickAgent.onEvent(getActivity(), "search_trigger", map);

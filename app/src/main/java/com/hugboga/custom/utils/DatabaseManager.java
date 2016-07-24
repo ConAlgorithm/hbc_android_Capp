@@ -43,7 +43,7 @@ public final class DatabaseManager {
     /**
      * 查询全部城市
      */
-    public static Selector getAllCitySql(DbManager mDbManager22, int orderType, int groupId, String keyword, int cityId, String from) {
+    public static Selector getAllCitySql(int orderType, int groupId, int cityId, String from) {
         Selector selector = null;
         try {
             selector = getDbManager().selector(CityBean.class);
@@ -51,11 +51,6 @@ public final class DatabaseManager {
             e.printStackTrace();
         }
         selector.where("1", "=", "1");
-        if (!TextUtils.isEmpty(keyword)) {
-            WhereBuilder whereBuilder = WhereBuilder.b();
-            whereBuilder.and("cn_name", "LIKE", "%" + keyword + "%").or("place_name", "LIKE", "%" + keyword + "%");
-            selector.and(whereBuilder);
-        }
         if (orderType == Constants.BUSINESS_TYPE_DAILY) {
             if (groupId == -1) {
                 selector.and("is_daily", "=", 1);
@@ -84,7 +79,7 @@ public final class DatabaseManager {
     /**
      * 热门城市
      */
-    public static Selector getHotDateSql(DbManager mDbManager, int orderType, int groupId, int cityId, String from) {
+    public static Selector getHotDateSql(int orderType, int groupId, int cityId, String from) {
         Selector selector = null;
         try {
             selector = getDbManager().selector(CityBean.class);
@@ -122,7 +117,7 @@ public final class DatabaseManager {
     /**
      * 搜索历史记录
      */
-    public static Selector getHistoryDateSql(DbManager mDbManager, int orderType, int groupId, int cityId, String from, ArrayList<String> cityHistory) {
+    public static Selector getHistoryDateSql(int orderType, int groupId, int cityId, String from, ArrayList<String> cityHistory) {
         Selector selector = null;
         try {
             selector = getDbManager().selector(CityBean.class);
@@ -161,7 +156,7 @@ public final class DatabaseManager {
     /**
      * 查询定位城市
      */
-    public static Selector getLocationDateSql(DbManager mDbManager, String cityHistoryStr) {
+    public static Selector getLocationDateSql(String cityHistoryStr) {
         Selector selector = null;
         try {
             selector = getDbManager().selector(CityBean.class);
