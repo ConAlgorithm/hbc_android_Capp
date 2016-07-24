@@ -824,7 +824,12 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
                     RequestCollectGuidesFilter.CollectGuidesFilterParams params = new RequestCollectGuidesFilter.CollectGuidesFilterParams();
                     params.startCityId = startBean.cityId;
                     params.startTime = isHalfTravel ? halfDate + " " +serverTime +":00" : start_date_str + " " +serverTime +":00" ;
-                    params.endTime = isHalfTravel ? halfDate + " " +serverTime +":00"  : end_date_str +" " +serverTime +":00" ;
+
+                    String end_time = (isHalfTravel ? halfDate : end_date_str) + " " +serverTime +":00";
+                    if("00:00".equalsIgnoreCase(serverTime)){
+                        end_time = (isHalfTravel ? halfDate : end_date_str) + " " +"23:59:59";
+                    }
+                    params.endTime = end_time;
                     params.adultNum = manNum;
                     params.childrenNum = childNum;
                     params.childSeatNum = childSeatNums;
@@ -852,47 +857,51 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
                 isHalfTravel ? halfDate + " " +serverTime +":00" : start_date_str + " " +serverTime +":00",
                 isHalfTravel ? halfDate + " " +serverTime +":00" : end_date_str + " " +serverTime +":00",
                 isHalfTravel ? "1" : "0", manNum + "",
-                childNum + "", childSeatNums + "", baggageNum + "", isHalfTravel ? "" : getPassCities(), "18");
+                childNum + "", childSeatNums + "", baggageNum + "", isHalfTravel ? "" : getPassCities(), "18",collectGuideBean.carType+"-"+collectGuideBean.carClass);
         HttpRequestUtils.request(this.getActivity(), requestGetCarInfo, new HttpRequestListener() {
             @Override
             public void onDataRequestSucceed(BaseRequest request) {
-                RequestGetCarInfo requestGetCarInfo1 = (RequestGetCarInfo) request;
+                RequestGetCarInfo requestGetCarInfo = (RequestGetCarInfo) request;
                 carBean = requestGetCarInfo.getData();
 
-                FGOrderNew fgOrderNew = new FGOrderNew();
-                Bundle bundle = new Bundle();
-                bundle.putString("guideCollectId", guideCollectId);
-                bundle.putSerializable("collectGuideBean", collectGuideBean);
-                bundle.putString("source", source);
+                if(null != carBean && null!= carBean.cars  && carBean.cars.size() != 0) {
+                    FGOrderNew fgOrderNew = new FGOrderNew();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("guideCollectId", guideCollectId);
+                    bundle.putSerializable("collectGuideBean", collectGuideBean);
+                    bundle.putString("source", source);
 
 
-                bundle.putString("startCityId", startBean.cityId + "");
-                bundle.putString("endCityId", isHalfTravel ? (startBean.cityId + "") : passBeanList.get(passBeanList.size() - 1).cityId + "");//endCityId);
-                bundle.putString("startDate", isHalfTravel ? (halfDate) : (start_date_str));
-                bundle.putString("endDate", isHalfTravel ? (halfDate) : (end_date_str));
-                bundle.putString("halfDay", isHalfTravel ? "1" : "0");
-                bundle.putString("adultNum", manNum + "");
-                bundle.putString("childrenNum", childNum + "");
-                bundle.putString("childseatNum", childSeatNums + "");
-                bundle.putString("luggageNum", baggageNum + "");
-                bundle.putString("passCities", isHalfTravel ? "" : getPassCities());
-                bundle.putString("carTypeName", null != getMatchCarBean() ? getMatchCarBean().carDesc : "");
-                bundle.putString("startCityName", startBean.name);
-                bundle.putString("dayNums", nums + "");
-                bundle.putParcelable("startBean", startBean);
-                bundle.putParcelable("endBean", endBean);
-                bundle.putInt("outnum", getOutNum());
-                bundle.putInt("innum", getInNum());
-                bundle.putString("source", source);
-                bundle.putBoolean("isHalfTravel", isHalfTravel);
-                bundle.putSerializable("passCityList", passBeanList);
-                bundle.putString("orderType", "3");
-                bundle.putParcelable("carBean", getMatchCarBean());
-                bundle.putBoolean("isHalfTravel", isHalfTravel);
-                bundle.putInt("type", 3);
-                bundle.putString("orderType", "3");
-                fgOrderNew.setArguments(bundle);
-                startFragment(fgOrderNew);
+                    bundle.putString("startCityId", startBean.cityId + "");
+                    bundle.putString("endCityId", isHalfTravel ? (startBean.cityId + "") : passBeanList.get(passBeanList.size() - 1).cityId + "");//endCityId);
+                    bundle.putString("startDate", isHalfTravel ? (halfDate) : (start_date_str));
+                    bundle.putString("endDate", isHalfTravel ? (halfDate) : (end_date_str));
+                    bundle.putString("halfDay", isHalfTravel ? "1" : "0");
+                    bundle.putString("adultNum", manNum + "");
+                    bundle.putString("childrenNum", childNum + "");
+                    bundle.putString("childseatNum", childSeatNums + "");
+                    bundle.putString("luggageNum", baggageNum + "");
+                    bundle.putString("passCities", isHalfTravel ? "" : getPassCities());
+                    bundle.putString("carTypeName", null != getMatchCarBean() ? getMatchCarBean().carDesc : "");
+                    bundle.putString("startCityName", startBean.name);
+                    bundle.putString("dayNums", nums + "");
+                    bundle.putParcelable("startBean", startBean);
+                    bundle.putParcelable("endBean", endBean);
+                    bundle.putInt("outnum", getOutNum());
+                    bundle.putInt("innum", getInNum());
+                    bundle.putString("source", source);
+                    bundle.putBoolean("isHalfTravel", isHalfTravel);
+                    bundle.putSerializable("passCityList", passBeanList);
+                    bundle.putString("orderType", "3");
+                    bundle.putParcelable("carBean", getMatchCarBean());
+                    bundle.putBoolean("isHalfTravel", isHalfTravel);
+                    bundle.putInt("type", 3);
+                    bundle.putString("orderType", "3");
+                    fgOrderNew.setArguments(bundle);
+                    startFragment(fgOrderNew);
+                }else{
+                    CommonUtils.showToast(R.string.no_price_error);
+                }
             }
 
             @Override
@@ -928,9 +937,13 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
         if (((manNum + Math.round(childSeatNums * 1.5) + (childNum - childSeatNums)) <= collectGuideBean.numOfPerson)
                 && ((manNum + Math.round((childSeatNums) * 1.5) + (childNum - childSeatNums)) + baggageNum)
                 <= (collectGuideBean.numOfPerson + collectGuideBean.numOfLuggage)) {
+            String end_time = (isHalfTravel ? halfDate : end_date_str) + " " +serverTime +":00";
+            if("00:00".equalsIgnoreCase(serverTime)){
+                end_time = (isHalfTravel ? halfDate : end_date_str) + " " +"23:59:59";
+            }
             OrderUtils.checkGuideCoflict(getContext(), 3, startBean.cityId,
                     collectGuideBean.guideId, (isHalfTravel ? halfDate : start_date_str) + " " +serverTime +":00" ,
-                    (isHalfTravel ? halfDate : end_date_str) + " " +serverTime +":00", getPassCitiesId(),
+                    end_time, getPassCitiesId(),
                     nums, collectGuideBean.carType, collectGuideBean.carClass,
                     new HttpRequestListener() {
                         @Override

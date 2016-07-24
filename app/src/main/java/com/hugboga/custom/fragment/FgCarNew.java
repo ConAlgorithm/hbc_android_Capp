@@ -303,11 +303,11 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
             this.distance = carListBean.distance;
             this.interval = carListBean.interval;
             if (carList == null || carList.size() == 0) {
-//                carEmptyLayout.setVisibility(View.VISIBLE);
-                CommonUtils.showToast(R.string.no_have_car);
+                carEmptyLayout.setVisibility(View.VISIBLE);
+//                CommonUtils.showToast(R.string.no_have_car);
                 have_data_layout.setVisibility(View.GONE);
             } else {
-//                carEmptyLayout.setVisibility(View.GONE);
+                carEmptyLayout.setVisibility(View.GONE);
                 have_data_layout.setVisibility(View.VISIBLE);
                 changeText();
                 if (null != carListBean.additionalServicePrice && null != carListBean.additionalServicePrice.checkInPrice) {
@@ -354,6 +354,8 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
     CollectGuideBean collectGuideBean;
 
     int hotelNum = 1;
+    //网络错误
+    boolean isNetError = false;
     @Override
     protected void initView() {
         initView(getView());
@@ -386,17 +388,24 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
         waitSwitch.setChecked(true);
         checkSwitch.setChecked(true);
         carListBean = this.getArguments().getParcelable("carListBean");
-        if (null != carListBean) {
-            oldCarList = carListBean.carList;
 
-            boolean showHotel = carListBean.showHotel;
-            if (showHotel) {
-                lRight.setText("共"+carListBean.hotelNum+"晚");
-                hotelLayout.setVisibility(View.VISIBLE);
+        isNetError= this.getArguments().getBoolean("isNetError",false);
+        if(isNetError){
+            have_data_layout.setVisibility(View.GONE);
+        }else {
+            carEmptyLayout.setVisibility(View.GONE);
+            if (null != carListBean) {
+                oldCarList = carListBean.carList;
+
+                boolean showHotel = carListBean.showHotel;
+                if (showHotel) {
+                    lRight.setText("共" + carListBean.hotelNum + "晚");
+                    hotelLayout.setVisibility(View.VISIBLE);
+                }
             }
+            collectGuideBean = (CollectGuideBean) this.getArguments().getSerializable("collectGuideBean");
+            initGuideLayout();
         }
-        collectGuideBean = (CollectGuideBean) this.getArguments().getSerializable("collectGuideBean");
-        initGuideLayout();
     }
 
     //是否可以服务

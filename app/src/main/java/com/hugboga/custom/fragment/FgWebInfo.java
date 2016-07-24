@@ -74,7 +74,8 @@ public class FgWebInfo extends BaseFragment implements View.OnKeyListener {
 
         @Override
         public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
-            handler.proceed();
+//            handler.proceed();
+            handler.cancel();
         }
 
         @Override

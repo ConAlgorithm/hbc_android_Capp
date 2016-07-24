@@ -695,4 +695,6 @@
     <string name="choose_city_subtitle_history">历史记录</string>
     <string name="choose_city_subtitle_hot">热门城市</string>
     <string name="choose_city_location_failure">定位失败</string>
+
+    <string name="net_error_show">请检查您的网络连接是否正常</string>
 </resources>

@@ -54,6 +54,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static android.view.View.GONE;
+
 /**
  * Created  on 16/5/13.
  */
@@ -119,6 +121,7 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
     CarListBean carListBean;
 
     private void genBottomData(CarBean carBean) {
+
         if(null == carBean){
             return;
         }
@@ -134,11 +137,6 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
             }
         }
 
-//        if(waitChecked) {
-//            if (!TextUtils.isEmpty(carListBean.additionalServicePrice.pickupSignPrice)) {
-//                total += Integer.valueOf(carListBean.additionalServicePrice.pickupSignPrice);
-//            }
-//        }
         allMoneyText.setText("￥" + total);
 
         if(null != carListBean) {
@@ -162,7 +160,8 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
         }
         bundle.putSerializable("collectGuideBean",collectGuideBean);
         bundle.putParcelable("carListBean", carListBean);
-        if(isDataBack) {
+        bundle.putBoolean("isNetError", isNetError);
+        if(isDataBack && null !=carListBean) {
             String sTime = serverDate +" " + serverTime +":00";
             bundle.putInt("cityId", cityId);
             bundle.putString("startTime", sTime);
@@ -254,9 +253,14 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
                 collectGuideBean = null;
                 confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
                 confirmJourney.setOnClickListener(null);
-                carBean = (CarBean) action.getData();
-                if(null != carBean) {
-                    genBottomData(carBean);
+                if(null == carListBean){
+                    showCarsLayoutSend.setVisibility(GONE);
+                }else {
+                    if(null != carListBean.carList && carListBean.carList.size() > 0) {
+                        bottom.setVisibility(View.VISIBLE);
+                        genBottomData(carListBean.carList.get(0));
+                    }
+                    initCarFragment(true);
                 }
                 break;
             case CHECK_SWITCH:
@@ -464,9 +468,29 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
         }
     }
 
+    boolean isNetError = false;
+    @Override
+    public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+        super.onDataRequestError(errorInfo, request);
+        bottom.setVisibility(View.GONE);
+        carListBean = null;
+        isNetError = true;
+        confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
+        confirmJourney.setOnClickListener(null);
+        if (null != collectGuideBean) {
+            initCarFragment(false);
+        }else{
+            initCarFragment(true);
+        }
+    }
+
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
         if (request instanceof RequestCheckPrice) {
+            bottom.setVisibility(View.GONE);
+            confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
+            confirmJourney.setOnClickListener(null);
+            isNetError = false;
             RequestCheckPrice requestCheckPrice = (RequestCheckPrice) request;
             carListBean = (CarListBean) requestCheckPrice.getData();
             if (carListBean.carList.size() > 0) {
@@ -475,13 +499,18 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
                 }else {
                     carBean = CarUtils.isMatchLocal(CarUtils.getNewCarBean(collectGuideBean), carListBean.carList);
                 }
-                bottom.setVisibility(View.VISIBLE);
-                genBottomData(carBean);
+                if(null != carBean) {
+                    genBottomData(carBean);
+                    bottom.setVisibility(View.VISIBLE);
+                }else{
+                    bottom.setVisibility(View.GONE);
+                    CommonUtils.showToast(R.string.no_price_error);
+                }
             } else {
                 bottom.setVisibility(View.GONE);
             }
-
             initCarFragment(true);
+
         }
     }
 
