@@ -232,6 +232,17 @@ public class WebAgent implements HttpRequestListener {
     }
 
     @JavascriptInterface
+    public void pushToDailyOrder(){
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mFragment.startFragment(new FgOrderSelectCity());
+            }
+        });
+
+    }
+
+    @JavascriptInterface
     public void callPhone(final String phone) {
         MLog.e("ZWebView-callPhone===>phone:" + phone);
         mActivity.runOnUiThread(new Runnable() {
