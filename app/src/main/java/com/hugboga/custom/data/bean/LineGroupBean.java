@@ -35,6 +35,8 @@ public class LineGroupBean  implements  IBaseBean,Parcelable{
 
     public int type;
 
+    public int has_sub;
+
 
     @Override
     public int describeContents() {
@@ -54,6 +56,7 @@ public class LineGroupBean  implements  IBaseBean,Parcelable{
         dest.writeString(this.parent_name);
         dest.writeByte(this.isSelected ? (byte) 1 : (byte) 0);
         dest.writeInt(this.type);
+        dest.writeInt(this.has_sub);
     }
 
     public LineGroupBean() {
@@ -71,6 +74,7 @@ public class LineGroupBean  implements  IBaseBean,Parcelable{
         this.parent_name = in.readString();
         this.isSelected = in.readByte() != 0;
         this.type = in.readInt();
+        this.has_sub = in.readInt();
     }
 
     public static final Creator<LineGroupBean> CREATOR = new Creator<LineGroupBean>() {
