@@ -17,17 +17,17 @@ public class OrderBean implements IBaseBean ,Parcelable{
     /**
      * 非接口返回字段
      * */
-    public String childSeatNum;
-    public String destAddressPoi;
-    public String priceChannel;
+    public String childSeatNum;//儿童座椅数
+    public String destAddressPoi;//目的地坐标
+    public String priceChannel;//订单价格
     public int urgentFlag;//是否急单，1是，0非
     public FlightBean flightBean;
     public String expectedCompTime; //预计服务完成时间 接送次 必填
     public String stayCityListStr;//日租包车
     public String terminalLocation;//结束位置
-    public String flightAirportName;
-    public String flightArriveTimeL;
-    public String flightFlyTimeL;
+    public String flightAirportName;//起飞机场名称
+    public String flightArriveTimeL;//航班到达时间 格式：yyyy-MM-dd HH:mm:ss
+    public String flightFlyTimeL;//航班起飞时间 格式：yyyy-MM-dd HH:mm:ss
     public String distance;//服务距离
     public String serviceDepartTime; //服务时间
     public Integer orderPrice;//订单价格
@@ -35,7 +35,7 @@ public class OrderBean implements IBaseBean ,Parcelable{
     public String priceMark;//价格戳 询价系统返回ID
     public String skuPoi;//poi 列表，jsonArray格式
     public List<PoiBean> skuPoiArray;
-    public String userEx;
+    public String userEx;//乘车人信息
     public String realUserEx;
     public String coupId;
     public String coupPriceInfo;
