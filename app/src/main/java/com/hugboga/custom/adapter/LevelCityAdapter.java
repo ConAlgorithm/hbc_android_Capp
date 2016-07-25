@@ -63,7 +63,7 @@ public class LevelCityAdapter extends BaseAdapter<SearchGroupBean> {
             viewHolder.cityImg = (ImageView)convertView.findViewById(R.id.city_img);
             viewHolder.middle_line = (TextView)convertView.findViewById(R.id.middle_line);
             viewHolder.right_line = (TextView)convertView.findViewById(R.id.right_line);
-
+            viewHolder.has_sub_img = (ImageView)convertView.findViewById(R.id.has_sub_img);
             convertView.setTag(viewHolder);
         }else{
             viewHolder = (ViewHolder)convertView.getTag();
@@ -141,6 +141,12 @@ public class LevelCityAdapter extends BaseAdapter<SearchGroupBean> {
             }
         }
 
+        if(getItem(position).has_sub == 1 && flag == 2 && position != 0 && !getItem(position).isSelected){
+            viewHolder.has_sub_img.setVisibility(View.VISIBLE);
+        }else{
+            viewHolder.has_sub_img.setVisibility(View.GONE);
+        }
+
         return convertView;
     }
 
@@ -177,5 +183,6 @@ public class LevelCityAdapter extends BaseAdapter<SearchGroupBean> {
         ImageView cityImg;
         TextView middle_line;
         TextView right_line;
+        ImageView has_sub_img;
     }
 }
