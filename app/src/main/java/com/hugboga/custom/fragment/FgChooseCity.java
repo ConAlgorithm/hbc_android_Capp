@@ -15,7 +15,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -31,6 +33,7 @@ import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.widget.ChooseCityHeaderView;
 import com.hugboga.custom.widget.ChooseCityTabLayout;
 import com.hugboga.custom.widget.DialogUtil;
+import com.hugboga.custom.widget.FlowLayout;
 import com.hugboga.custom.widget.SideBar;
 import com.zhy.m.permission.MPermissions;
 
@@ -66,6 +69,8 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
     LinearLayout emptyLayout;
     @Bind(R.id.choose_city_empty_tv)
     TextView emptyTV;
+    @Bind(R.id.choose_city_empty_iv)
+    ImageView emptyIV;
     @Bind(R.id.choose_city_listview)
     StickyListHeadersListView mListview;
     @Bind(R.id.choose_city_sidebar_firstletter)
@@ -173,6 +178,8 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
         setProgressState(0);
         mDialogUtil = DialogUtil.getInstance(getActivity());
         mDialogUtil.showLoadingDialog();
+        emptyTV.setVisibility(View.GONE);
+        emptyIV.setVisibility(View.GONE);
 
         cityId = getArguments().getInt(KEY_CITY_ID, -1);
         from = getArguments().getString(KEY_FROM);
@@ -261,9 +268,11 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
 
     @Override
     public void afterTextChanged(Editable s) {
+        emptyTV.setVisibility(View.GONE);
+        emptyIV.setVisibility(View.GONE);
         if (TextUtils.isEmpty(s) || TextUtils.isEmpty(s.toString().trim())) {
             if (showType != ShowType.SELECT_CITY) {
-                mListview.addHeaderView(headerView);
+                headerView.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, AbsListView.LayoutParams.WRAP_CONTENT));
                 if (showType == ShowType.PICK_UP) {
                     tabLayout.setVisibility(View.VISIBLE);
                 }
@@ -275,7 +284,7 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
             requestData();
         } else {
             if (showType != ShowType.SELECT_CITY) {
-                mListview.removeHeaderView(headerView);
+                headerView.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, 1));
                 if (showType == ShowType.PICK_UP) {
                     tabLayout.setVisibility(View.GONE);
                 }
@@ -318,6 +327,10 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
             }
             mAdapter.setData(cityList);
             mListview.setSelection(0);
+            if (cityList == null || cityList.size() <= 0) {
+                emptyTV.setVisibility(View.VISIBLE);
+                emptyIV.setVisibility(View.VISIBLE);
+            }
         }
     }
 
@@ -348,7 +361,7 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        if (showType != ShowType.SELECT_CITY && mAdapter.getShowType() != ChooseCityAdapter.ShowType.SEARCH_PROMPT) {
+        if (showType != ShowType.SELECT_CITY) {
             --position;
         }
         if (position >= 0 && position < cityList.size()) {
