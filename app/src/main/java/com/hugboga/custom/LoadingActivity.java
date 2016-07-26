@@ -219,7 +219,7 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
                             UpdateResources.checkRemoteResources(LoadingActivity.this, cvBean, new CheckVersionCallBack() {
                                 @Override
                                 public void onFinished() {
-                                    checkToNew();
+//                                    checkToNew();
                                 }
                             });
                         }
