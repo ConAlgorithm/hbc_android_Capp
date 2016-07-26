@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.net.Uri;
 import android.net.http.SslError;
 import android.os.Build;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -21,6 +22,7 @@ import com.huangbaoche.hbcframe.data.net.DefaultSSLSocketFactory;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.net.WebAgent;
 import com.hugboga.custom.utils.ChannelUtils;
 import com.hugboga.custom.widget.DialogUtil;
@@ -49,6 +51,14 @@ public class FgWebInfo extends BaseFragment implements View.OnKeyListener {
 
     @ViewInject(R.id.webview)
     public WebView webView;
+
+    private CityBean cityBean;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        this.cityBean = getArguments().getParcelable("cityBean");
+    }
 
     public void setTitle(String title) {
         if (fgTitle == null) {
@@ -227,7 +237,7 @@ public class FgWebInfo extends BaseFragment implements View.OnKeyListener {
         // 启用javaScript
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setDefaultTextEncodingName("UTF-8");
-        webView.addJavascriptInterface(new WebAgent(this, webView), "javaObj");
+        webView.addJavascriptInterface(new WebAgent(this, webView,cityBean), "javaObj");
         webView.setOnKeyListener(this);
         webView.setWebViewClient(webClient);
         webView.setWebChromeClient(webChromeClient);

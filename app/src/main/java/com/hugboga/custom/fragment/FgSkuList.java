@@ -254,13 +254,21 @@ public class FgSkuList extends BaseFragment implements HbcRecyclerBaseAdapter.On
             SkuItemBean skuItemBean = (SkuItemBean) _itemData;
             if (skuItemBean.goodsClass == -1) {//按天包车
                 if (cityBean != null) {//旧代码，俩cityBean。。。
-                    FgOrderSelectCity fgOrderSelectCity = new FgOrderSelectCity();
+//                    FgOrderSelectCity fgOrderSelectCity = new FgOrderSelectCity();
+//                    Bundle bundle = new Bundle();
+//                    bundle.putSerializable(FgDaily.KEY_CITY_BEAN, cityBean);
+//                    bundle.putString("source", cityBean.name);
+//                    bundle.putParcelable("cityBean", cityBean);
+//                    fgOrderSelectCity.setArguments(bundle);
+//                    startFragment(fgOrderSelectCity, bundle);
+
                     Bundle bundle = new Bundle();
-                    bundle.putSerializable(FgDaily.KEY_CITY_BEAN, cityBean);
-                    bundle.putString("source", cityBean.name);
+                    bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_DAIRY);
                     bundle.putParcelable("cityBean", cityBean);
-                    fgOrderSelectCity.setArguments(bundle);
-                    startFragment(fgOrderSelectCity, bundle);
+                    bundle.putString("source", cityBean.name);
+                    bundle.putSerializable(FgDaily.KEY_CITY_BEAN, cityBean);
+                    startFragment(new FgActivity(), bundle);
+
                 } else {
 //                    startFragment(new FgOrderSelectCity());
                     Bundle bundle = new Bundle();
