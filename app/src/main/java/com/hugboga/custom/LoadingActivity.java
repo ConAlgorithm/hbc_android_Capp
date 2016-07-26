@@ -106,9 +106,11 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
             if(loading_time > 0) {
                 --loading_time;
                 timeSecond.setText(String.format(getString(R.string.loading_time), loading_time + ""));
-                handler.postDelayed(runnable, 1000);
-            }else{
-                handler.sendEmptyMessage(200);
+                if(loading_time > 0){
+                    handler.postDelayed(runnable, 1000);
+                }else{
+                    handler.sendEmptyMessage(200);
+                }
             }
         }
     };
