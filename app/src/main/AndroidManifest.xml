@@ -84,6 +84,16 @@
             android:name=".activity.DatePickerActivity"
             android:screenOrientation="portrait"/>
 
+        <activity
+            android:name=".activity.LuggageInfoActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity
+            android:name=".activity.ChooseCityNewActivity"
+            android:screenOrientation="portrait"/>
+
+
+
         <service
             android:name=".service.LogService"
             android:process="com.hugboga.custom.hbclog" />

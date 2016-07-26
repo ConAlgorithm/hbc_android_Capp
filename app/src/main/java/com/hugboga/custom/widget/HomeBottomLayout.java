@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.HomeData;
 import com.hugboga.custom.data.bean.UserEntity;
+import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.fragment.FgActivity;
 import com.hugboga.custom.fragment.FgHome;
 import com.hugboga.custom.fragment.FgLogin;
@@ -158,7 +159,11 @@ public class HomeBottomLayout extends LinearLayout implements View.OnClickListen
         FgOrderSelectCity fgOrderSelectCity = new FgOrderSelectCity();
         bundle.putString("source","首页");
         fgOrderSelectCity.setArguments(bundle);
-        fragment.startFragment(fgOrderSelectCity, bundle);
+//        fragment.startFragment(fgOrderSelectCity, bundle);
+        bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_DAIRY);
+        fragment.startFragment(new FgActivity(), bundle);
+
+
         map.put("source", "首页");
         MobclickAgent.onEvent(fragment.getActivity(), "chose_oneday", map);
     }

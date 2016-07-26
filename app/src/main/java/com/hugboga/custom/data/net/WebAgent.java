@@ -21,6 +21,7 @@ import com.huangbaoche.hbcframe.util.MLog;
 import com.huangbaoche.hbcframe.util.WXShareUtils;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.ChatInfo;
+import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.CurrentServerInfoData;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.parser.ParserChatInfo;
@@ -51,17 +52,20 @@ public class WebAgent implements HttpRequestListener {
     private WebView mWebView;
     private DialogUtil dialog;
 
-    public WebAgent(Activity activity, WebView webView) {
+    public WebAgent(Activity activity, WebView webView, CityBean cityBean) {
         this.mActivity = activity;
         this.mWebView = webView;
         dialog = DialogUtil.getInstance(mActivity);
+        this.cityBean = cityBean;
     }
 
-    public WebAgent(BaseFragment fragment, WebView webView) {
+    private CityBean cityBean;
+    public WebAgent(BaseFragment fragment, WebView webView, CityBean cityBean) {
         this.mFragment = fragment;
         this.mWebView = webView;
         mActivity = fragment.getActivity();
         dialog = DialogUtil.getInstance(mActivity);
+        this.cityBean = cityBean;
     }
 
 
@@ -241,7 +245,14 @@ public class WebAgent implements HttpRequestListener {
         mActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                mFragment.startFragment(new FgOrderSelectCity());
+                FgOrderSelectCity fgOrderSelectCity = new FgOrderSelectCity();
+                if(null != cityBean){
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable("cityBean", cityBean);
+                    mFragment.startFragment(fgOrderSelectCity,bundle);
+                }else {
+                    mFragment.startFragment(fgOrderSelectCity);
+                }
             }
         });
 

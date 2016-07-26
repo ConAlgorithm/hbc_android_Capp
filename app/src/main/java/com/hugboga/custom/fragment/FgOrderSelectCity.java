@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.Gravity;
@@ -52,6 +53,7 @@ import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
@@ -64,7 +66,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import butterknife.ButterKnife;
-import org.greenrobot.eventbus.EventBus;
 
 import static android.view.View.GONE;
 import static com.hugboga.custom.R.id.baggage_text_click;
@@ -183,6 +184,17 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
             startCity = startBean.name;
             endCityId = startBean.cityId + "";
             startCityClick.setText(startCity);
+        }else{
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Bundle bundle = new Bundle();
+                    bundle.putString(KEY_FROM, "startAddress");
+                    bundle.putString("source", "首页");
+                    startFragment(new FgChooseCity(), bundle);
+                }
+            },500);
+
         }
 
 

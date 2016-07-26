@@ -6,12 +6,10 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
@@ -26,6 +24,8 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.SkuCityBean;
 import com.hugboga.custom.data.bean.SkuItemBean;
+import com.hugboga.custom.data.bean.UserEntity;
+import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestCitySkuList;
 import com.hugboga.custom.data.request.RequestCountrySkuList;
 import com.hugboga.custom.data.request.RequestRouteSkuList;
@@ -41,7 +41,6 @@ import org.xutils.ex.DbException;
 import org.xutils.view.annotation.ContentView;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -255,20 +254,55 @@ public class FgSkuList extends BaseFragment implements HbcRecyclerBaseAdapter.On
             SkuItemBean skuItemBean = (SkuItemBean) _itemData;
             if (skuItemBean.goodsClass == -1) {//按天包车
                 if (cityBean != null) {//旧代码，俩cityBean。。。
-                    FgOrderSelectCity fgOrderSelectCity = new FgOrderSelectCity();
+//                    FgOrderSelectCity fgOrderSelectCity = new FgOrderSelectCity();
+//                    Bundle bundle = new Bundle();
+//                    bundle.putSerializable(FgDaily.KEY_CITY_BEAN, cityBean);
+//                    bundle.putString("source", cityBean.name);
+//                    bundle.putParcelable("cityBean", cityBean);
+//                    fgOrderSelectCity.setArguments(bundle);
+//                    startFragment(fgOrderSelectCity, bundle);
+
                     Bundle bundle = new Bundle();
-                    bundle.putSerializable(FgDaily.KEY_CITY_BEAN, cityBean);
-                    bundle.putString("source", cityBean.name);
+                    String userId = UserEntity.getUser().getUserId(getActivity());
+                    String params = "";
+                    if(!TextUtils.isEmpty(userId)){
+                        params += "?userId="+userId;
+                    }
+                    String cityId = cityBean.cityId + "";
+                    if(!TextUtils.isEmpty(cityId)){
+                        if(params.contains("?")) {
+                            params += "&cityId=" + cityId;
+                        }else{
+                            params += "?cityId=" + cityId;
+                        }
+                    }
+
+                    bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_DAIRY+params);
                     bundle.putParcelable("cityBean", cityBean);
-                    fgOrderSelectCity.setArguments(bundle);
-                    startFragment(fgOrderSelectCity, bundle);
+                    bundle.putString("source", cityBean.name);
+                    bundle.putSerializable(FgDaily.KEY_CITY_BEAN, cityBean);
+                    startFragment(new FgActivity(), bundle);
+
                 } else {
-                    startFragment(new FgOrderSelectCity());
+//                    startFragment(new FgOrderSelectCity());
+                    Bundle bundle = new Bundle();
+                    String userId = UserEntity.getUser().getUserId(getActivity());
+                    String params = "";
+                    if(!TextUtils.isEmpty(userId)){
+                        params += "?userId="+userId;
+                    }
+                    bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_DAIRY+params);
+                    startFragment(new FgActivity(), bundle);
                 }
             } else {
                 FgSkuDetail fgSkuDetail = new FgSkuDetail();
                 Bundle bundle = new Bundle();
-                bundle.putString(FgWebInfo.WEB_URL, skuItemBean.skuDetailUrl);
+                String userId = UserEntity.getUser().getUserId(getActivity());
+                String skuDetailUrl = skuItemBean.skuDetailUrl;
+                if(!TextUtils.isEmpty(userId)){
+                    skuDetailUrl += "&userId="+userId;
+                }
+                bundle.putString(FgWebInfo.WEB_URL, skuDetailUrl);
                 bundle.putSerializable(FgSkuDetail.WEB_SKU, skuItemBean);
                 fgSkuDetail.setArguments(bundle);
                 startFragment(fgSkuDetail, bundle);

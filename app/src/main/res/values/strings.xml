@@ -428,10 +428,11 @@
     <string name="man_luggage_charge">收费儿童座椅</string>
     <string name="man_luggage_0">￥ 0/次</string>
     <string name="man_luggage_30">￥ 30/次</string>
-    <string name="man_luggage_tips1">请填写可能的最多人数和行李数，供司导参考</string>
-    <string name="man_luggage_tips2">每减少1位乘客，可增加1个24寸行李</string>
-    <string name="man_luggage_tips3">1个28寸行李等于2个24寸行李的位置大小，携带的行李不要超出车的容量以免影响服务</string>
-    <string name="man_luggage_tips4">如需儿童座椅，出行前请与司导联系，确认需要何种年龄段的的儿童安全座椅</string>
+    <string name="man_luggage_tips1">根据每种车型的座位数、后备箱容量，和实际出行人数，为您计算可携带行李数</string>
+    <string name="man_luggage_tips2">行李大小计算标准为24寸行李箱</string>
+    <string name="man_luggage_tips3">每减少1位乘客，可增加1个24寸行李</string>
+    <string name="man_luggage_tips4">随身行李请酌情携带，大小参考行李箱</string>
+    <string name="man_luggage_tips5">携带行李不要超过容量限制，以免造成车辆空间不足无法服务。此类情况司导可拒绝服务，请客人自行承担后果。</string>
 
 
     <string name="man_luggage_not_have">很抱歉，该城市暂不提供儿童座椅</string>
