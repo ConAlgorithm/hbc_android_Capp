@@ -163,6 +163,8 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
     TextView maxLuggageContent;
     @Bind(R.id.max_luggage_img)
     ImageView maxLuggageImg;
+    @Bind(R.id.luggage_tips_layout)
+    LinearLayout luggageTipsLayout;
 
     @Override
     protected void initHeader() {
@@ -253,6 +255,9 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
                 manText.setText("乘客 x " + (manLuggageBean.mans + manLuggageBean.childs));
                 luggageText.setText("行李箱 x " + manLuggageBean.luggages);
                 childseatText.setText("儿童座椅 x " + (manLuggageBean.childSeats));
+                luggageTipsLayout.setVisibility(View.VISIBLE);
+                int maxLuuages = (carBean.capOfLuggage+ carBean.capOfPerson) - manLuggageBean.mans - Math.round(manLuggageBean.childSeats * 1.5f) - (manLuggageBean.childs - manLuggageBean.childSeats);
+                maxLuggageContent.setText(maxLuuages+"件");
                 break;
             default:
                 break;
@@ -578,7 +583,7 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
 
     int hotelHourseNum = 1;
 
-    @OnClick({R.id.max_luggage_img,R.id.l_sub, R.id.l_plus, R.id.man_tips, R.id.man_text, R.id.luggage_text, R.id.childseat_text, R.id.rl_man})
+    @OnClick({R.id.max_luggage_img, R.id.l_sub, R.id.l_plus, R.id.man_tips, R.id.man_text, R.id.luggage_text, R.id.childseat_text, R.id.rl_man})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.max_luggage_img:

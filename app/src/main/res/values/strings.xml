@@ -417,7 +417,7 @@
     <string name="del_driver">删除</string>
     <string name="driver_left">指定司导</string>
 
-    <string name="man_luggage_title">乘客及行李数</string>
+    <string name="man_luggage_title">出行人数</string>
     <string name="man_luggage_man">成人</string>
     <string name="man_luggage_child">儿童</string>
     <string name="man_luggage_12">(12岁及以下)</string>

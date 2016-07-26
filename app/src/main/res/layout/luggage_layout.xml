@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:id="@+id/luggage_tips_layout"
+    android:visibility="gone"
     android:background="#e0e1e2"
     android:layout_height="wrap_content">
 
@@ -40,7 +41,7 @@
             android:id="@+id/max_luggage_img"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="14dp"
             android:layout_toRightOf="@id/max_luggage_tv"
             android:src="@mipmap/max_luggage_icon"
             android:text="@string/max_luggage"
