@@ -17,6 +17,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -90,6 +91,7 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
     View chooseBtn;
 
     private ChooseCityHeaderView headerView;
+    private FrameLayout headerRootView;
 
 
     private ChooseCityAdapter mAdapter;
@@ -197,7 +199,9 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
             chooseBtn.setVisibility(View.VISIBLE);
         } else {
             headerView = new ChooseCityHeaderView(FgChooseCity.this);
-            mListview.addHeaderView(headerView);
+            headerRootView = new FrameLayout(getContext());
+            headerRootView.addView(headerView);
+            mListview.addHeaderView(headerRootView);
             if (showType == ShowType.PICK_UP) {
                 tabLayout.setVisibility(View.VISIBLE);
                 tabLayout.setOnChangeListener(this);
@@ -272,7 +276,9 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
         emptyIV.setVisibility(View.GONE);
         if (TextUtils.isEmpty(s) || TextUtils.isEmpty(s.toString().trim())) {
             if (showType != ShowType.SELECT_CITY) {
-                headerView.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, AbsListView.LayoutParams.WRAP_CONTENT));
+//                headerView.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, AbsListView.LayoutParams.WRAP_CONTENT));
+                headerRootView.removeAllViews();
+                headerRootView.addView(headerView);
                 if (showType == ShowType.PICK_UP) {
                     tabLayout.setVisibility(View.VISIBLE);
                 }
@@ -284,7 +290,8 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
             requestData();
         } else {
             if (showType != ShowType.SELECT_CITY) {
-                headerView.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, 1));
+                headerRootView.removeAllViews();
+//                headerView.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, 1));
                 if (showType == ShowType.PICK_UP) {
                     tabLayout.setVisibility(View.GONE);
                 }

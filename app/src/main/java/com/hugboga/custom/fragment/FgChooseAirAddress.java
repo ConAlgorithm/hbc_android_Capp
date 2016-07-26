@@ -15,6 +15,7 @@ import com.anupcowkur.reservoir.Reservoir;
 import com.google.gson.reflect.TypeToken;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.SaveStartEndCity;
 import com.hugboga.custom.data.event.EventAction;
@@ -260,6 +261,7 @@ public class FgChooseAirAddress extends BaseFragment {
             case R.id.from_city:
                 bundle.putString(KEY_FROM, "startAddress");
                 bundle.putInt(FgChooseCity.KEY_SHOW_TYPE, FgChooseCity.ShowType.PICK_UP);
+                bundle.putInt(FgChooseCity.KEY_BUSINESS_TYPE, Constants.BUSINESS_TYPE_PICK);
                 bundle.putString("source", "下单过程中");
                 city.setArguments(bundle);
                 startFragment(city);
@@ -273,6 +275,7 @@ public class FgChooseAirAddress extends BaseFragment {
             case R.id.end_city:
                 bundle.putString(KEY_FROM, "end");
                 bundle.putInt(FgChooseCity.KEY_SHOW_TYPE, FgChooseCity.ShowType.PICK_UP);
+                bundle.putInt(FgChooseCity.KEY_BUSINESS_TYPE, Constants.BUSINESS_TYPE_PICK);
                 bundle.putString("source", "下单过程中");
                 city.setArguments(bundle);
                 startFragment(city);
