@@ -24,6 +24,7 @@ import com.hugboga.custom.adapter.LevelCityAdapter;
 import com.hugboga.custom.adapter.SearchNewAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.SearchGroupBean;
+import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.utils.CityUtils;
 import com.hugboga.custom.utils.LogUtils;
 import com.hugboga.custom.utils.UIUtils;
@@ -243,8 +244,12 @@ public class FgChooseCityNew extends BaseFragment {
                     startFragment(fgSingleNew);
                 } else if (groupList2.get(position).spot_id == -3) {
                     finish();
-                    FgOrderSelectCity fgOrderSelectCity = new FgOrderSelectCity();
-                    startFragment(fgOrderSelectCity);
+                    Bundle bundle = new Bundle();
+                    bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_DAIRY);
+                    startFragment(new FgActivity(), bundle);
+
+//                    FgOrderSelectCity fgOrderSelectCity = new FgOrderSelectCity();
+//                    startFragment(fgOrderSelectCity);
                 } else {
                     if (CityUtils.canGoCityList(groupList2.get(position))) {
                         goCityList(groupList2.get(position));

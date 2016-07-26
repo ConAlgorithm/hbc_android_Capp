@@ -6,12 +6,10 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
@@ -26,6 +24,8 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.SkuCityBean;
 import com.hugboga.custom.data.bean.SkuItemBean;
+import com.hugboga.custom.data.bean.UserEntity;
+import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestCitySkuList;
 import com.hugboga.custom.data.request.RequestCountrySkuList;
 import com.hugboga.custom.data.request.RequestRouteSkuList;
@@ -41,7 +41,6 @@ import org.xutils.ex.DbException;
 import org.xutils.view.annotation.ContentView;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -263,12 +262,20 @@ public class FgSkuList extends BaseFragment implements HbcRecyclerBaseAdapter.On
                     fgOrderSelectCity.setArguments(bundle);
                     startFragment(fgOrderSelectCity, bundle);
                 } else {
-                    startFragment(new FgOrderSelectCity());
+//                    startFragment(new FgOrderSelectCity());
+                    Bundle bundle = new Bundle();
+                    bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_DAIRY);
+                    startFragment(new FgActivity(), bundle);
                 }
             } else {
                 FgSkuDetail fgSkuDetail = new FgSkuDetail();
                 Bundle bundle = new Bundle();
-                bundle.putString(FgWebInfo.WEB_URL, skuItemBean.skuDetailUrl);
+                String userId = UserEntity.getUser().getUserId(getActivity());
+                String skuDetailUrl = skuItemBean.skuDetailUrl;
+                if(!TextUtils.isEmpty(userId)){
+                    skuDetailUrl += "&userId="+userId;
+                }
+                bundle.putString(FgWebInfo.WEB_URL, skuDetailUrl);
                 bundle.putSerializable(FgSkuDetail.WEB_SKU, skuItemBean);
                 fgSkuDetail.setArguments(bundle);
                 startFragment(fgSkuDetail, bundle);

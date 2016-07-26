@@ -81,6 +81,7 @@ public class MyApplication extends HbcApplication {
         UrlLibs.SHARE_BASE_URL_1 = BuildConfig.SHARE_BASE_URL_1;
         UrlLibs.SHARE_BASE_URL_2 = BuildConfig.SHARE_BASE_URL_2;
         UrlLibs.SHARE_BASE_URL_3 = BuildConfig.SHARE_BASE_URL_3;
+        UrlLibs.SHARE_BASE_URL_4 = BuildConfig.SHARE_BASE_URL_4;
         UrlLibs.SHARE_APPID = BuildConfig.SHARE_APPID;
         UrlLibs.H5_HOST = BuildConfig.H5_HOST;
 
