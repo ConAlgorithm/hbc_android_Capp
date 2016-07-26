@@ -355,6 +355,8 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
             manText.setVisibility(View.GONE);
             luggageText.setVisibility(View.GONE);
             childseatText.setVisibility(View.GONE);
+            luggageTipsLayout.setVisibility(View.GONE);
+
             hideChildSeatLayout(0);
             manLuggageBean = null;
             EventBus.getDefault().post(new EventAction(EventType.CAR_CHANGE_SMALL));
