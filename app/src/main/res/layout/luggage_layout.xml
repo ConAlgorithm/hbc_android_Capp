@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/allbg_white"
+    android:layout_width="match_parent" android:layout_height="wrap_content">
+
+
+    <TextView
+        android:id="@+id/max_luggage_tv"
+        android:layout_width="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        android:text="@string/max_luggage"
+        android:textColor="@color/basic_red"
+        android:textSize="16sp"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/max_luggage_content"
+        android:layout_width="wrap_content"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_alignParentRight="true"
+        android:text="1件"
+        android:textColor="@color/basic_red"
+        android:textSize="16sp"
+        android:layout_height="wrap_content" />
+
+    <ImageView
+        android:id="@+id/max_luggage_img"
+        android:layout_width="wrap_content"
+        android:layout_toRightOf="@id/max_luggage_tv"
+        android:layout_marginTop="23dp"
+        android:text="@string/max_luggage"
+        android:textColor="@color/basic_red"
+        android:src="@mipmap/max_luggage_icon"
+        android:textSize="16sp"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/max_luggage_tips"
+        android:layout_width="wrap_content"
+        android:layout_below="@id/max_luggage_tv"
+        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="20dp"
+        android:text="@string/max_luggage_tips"
+        android:textColor="#b2b2b2"
+        android:textSize="16sp"
+        android:layout_height="wrap_content" />
+
+
+</RelativeLayout>

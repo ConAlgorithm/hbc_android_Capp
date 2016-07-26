@@ -404,7 +404,7 @@
 
     <string name="can_sit_man">可乘坐</string>
 
-    <string name="man_luggage_num_left">人数行李数</string>
+    <string name="man_luggage_num_left">出行人数</string>
     <string name="choose_man_luggage">请选择</string>
     <string name="child_seat_money">收费儿童座椅</string>
     <string name="checkin">协助办理登机check in</string>
@@ -705,5 +705,8 @@
 
     <string name="net_error_show">请检查您的网络连接是否正常</string>
     <string name="loading_time">%1$s 跳过</string>
+
+    <string name="max_luggage">当前最多可携带行李数(24寸)</string>
+    <string name="max_luggage_tips">实际行李数如果超出限制,请更换最大车型</string>
 
 </resources>

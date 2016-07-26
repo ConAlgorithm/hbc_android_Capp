@@ -195,8 +195,13 @@ public class WebAgent implements HttpRequestListener {
     }
 
     @JavascriptInterface
-    public String getUserId(){
-        return  UserEntity.getUser().getUserId(mActivity);
+    public void getUserId(String callBack){
+        //获取getUserInfo，并回调
+        try {
+            callBack(callBack, UserEntity.getUser().getUserId(mActivity));
+        } catch (Exception e) {
+            MLog.e("getUserInfo ", e);
+        }
     }
 
     @JavascriptInterface
