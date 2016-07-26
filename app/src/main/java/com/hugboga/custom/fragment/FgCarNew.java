@@ -1,5 +1,6 @@
 package com.hugboga.custom.fragment;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -16,6 +17,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.LuggageInfoActivity;
 import com.hugboga.custom.adapter.CarViewpagerAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CarBean;
@@ -157,6 +159,10 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
     TextView lPlus;
     @Bind(R.id.hotel_layout)
     RelativeLayout hotelLayout;
+    @Bind(R.id.max_luggage_content)
+    TextView maxLuggageContent;
+    @Bind(R.id.max_luggage_img)
+    ImageView maxLuggageImg;
 
     @Override
     protected void initHeader() {
@@ -288,7 +294,7 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
             carList = oldCarList;
         }
         carList = CarUtils.initCarListData(carList);
-        if(null != carList) {
+        if (null != carList) {
             mAdapter.setList(carList);
             mJazzy.setState(null);
             mJazzy.setOffscreenPageLimit(3);
@@ -299,7 +305,7 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
 
     private void genData() {
         genCar();
-        if(canService) {
+        if (canService) {
             this.distance = carListBean.distance;
             this.interval = carListBean.interval;
             if (carList == null || carList.size() == 0) {
@@ -356,6 +362,7 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
     int hotelNum = 1;
     //网络错误
     boolean isNetError = false;
+
     @Override
     protected void initView() {
         initView(getView());
@@ -389,10 +396,10 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
         checkSwitch.setChecked(true);
         carListBean = this.getArguments().getParcelable("carListBean");
 
-        isNetError= this.getArguments().getBoolean("isNetError",false);
-        if(isNetError){
+        isNetError = this.getArguments().getBoolean("isNetError", false);
+        if (isNetError) {
             have_data_layout.setVisibility(View.GONE);
-        }else {
+        } else {
             carEmptyLayout.setVisibility(View.GONE);
             if (null != carListBean) {
                 oldCarList = carListBean.carList;
@@ -410,6 +417,7 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
 
     //是否可以服务
     boolean canService = true;
+
     private void initGuideLayout() {
         if (null != collectGuideBean) {
 
@@ -418,11 +426,11 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
             } else {
                 carBean = CarUtils.getNewCarBean(collectGuideBean);
             }
-            if(null == carBean){
+            if (null == carBean) {
                 canService = false;
                 carBean = CarUtils.getNewCarBean(collectGuideBean);
                 CommonUtils.showToast(R.string.no_have_car);
-            }else{
+            } else {
                 canService = true;
             }
 
@@ -569,24 +577,28 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
     }
 
     int hotelHourseNum = 1;
-    @OnClick({l_sub,R.id.l_plus, R.id.man_tips, R.id.man_text, R.id.luggage_text, R.id.childseat_text, R.id.rl_man})
+
+    @OnClick({R.id.max_luggage_img,R.id.l_sub, R.id.l_plus, R.id.man_tips, R.id.man_text, R.id.luggage_text, R.id.childseat_text, R.id.rl_man})
     public void onClick(View view) {
         switch (view.getId()) {
-            case l_sub:
-                if(hotelHourseNum >1) {
+            case R.id.max_luggage_img:
+                startActivity(new Intent(getActivity(), LuggageInfoActivity.class));
+                break;
+            case R.id.l_sub:
+                if (hotelHourseNum > 1) {
                     --hotelHourseNum;
-                    EventBus.getDefault().post(new EventAction(EventType.SKU_HOTEL_NUM_CHANGE,hotelHourseNum));
+                    EventBus.getDefault().post(new EventAction(EventType.SKU_HOTEL_NUM_CHANGE, hotelHourseNum));
                 }
-                lNum.setText(hotelHourseNum+"");
-                if(hotelHourseNum == 1){
+                lNum.setText(hotelHourseNum + "");
+                if (hotelHourseNum == 1) {
                     lSub.setBackgroundColor(Color.parseColor("#d5dadb"));
                 }
                 break;
             case R.id.l_plus:
                 ++hotelHourseNum;
-                lNum.setText(hotelHourseNum+"");
-                EventBus.getDefault().post(new EventAction(EventType.SKU_HOTEL_NUM_CHANGE,hotelHourseNum));
-                if(hotelHourseNum > 1){
+                lNum.setText(hotelHourseNum + "");
+                EventBus.getDefault().post(new EventAction(EventType.SKU_HOTEL_NUM_CHANGE, hotelHourseNum));
+                if (hotelHourseNum > 1) {
                     lSub.setBackgroundColor(Color.parseColor("#fad027"));
                 }
                 break;
@@ -614,4 +626,5 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
                 break;
         }
     }
+
 }
