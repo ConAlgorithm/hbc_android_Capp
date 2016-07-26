@@ -106,7 +106,11 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
             if(loading_time > 0) {
                 --loading_time;
                 timeSecond.setText(String.format(getString(R.string.loading_time), loading_time + ""));
-                handler.postDelayed(runnable, 1000);
+                if(loading_time > 0){
+                    handler.postDelayed(runnable, 1000);
+                }else{
+                    handler.sendEmptyMessage(200);
+                }
             }
         }
     };
@@ -165,9 +169,9 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
         @Override
         public void handleMessage(Message msg) {
             goNext();
-//            super.handleMessage(msg);
         }
     };
+
 
     private void goNext(){
         handler.removeMessages(200);
@@ -217,7 +221,7 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
                             UpdateResources.checkRemoteResources(LoadingActivity.this, cvBean, new CheckVersionCallBack() {
                                 @Override
                                 public void onFinished() {
-                                    checkToNew();
+//                                    checkToNew();
                                 }
                             });
                         }
@@ -242,7 +246,7 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
             if (ImageUtils.getScreenWidth(this) <= 720) {
                 String imgUrl = adPictureBean.picList.get(0).picture;
                 Tools.showImage(getApplicationContext(), show_ad, imgUrl);
-            } else if (ImageUtils.getScreenWidth(this) >= 1080) {
+            } else if (ImageUtils.getScreenWidth(this) > 1080) {
                 String imgUrl = adPictureBean.picList.get(2).picture;
                 Tools.showImage(getApplicationContext(), show_ad, imgUrl);
             } else {

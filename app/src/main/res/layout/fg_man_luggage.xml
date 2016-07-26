@@ -218,6 +218,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/car_info"
+                android:visibility="gone"
                 android:layout_marginTop="1dp"
                 android:background="@color/basic_white"
                 android:clickable="true"
@@ -493,6 +494,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
+                android:visibility="gone"
                 android:layout_marginTop="30dp">
 
                 <TextView
@@ -519,6 +521,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="10dp">
@@ -546,6 +549,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
+                android:visibility="gone"
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="10dp">
 

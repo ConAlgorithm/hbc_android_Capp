@@ -104,6 +104,8 @@
 
     </RelativeLayout>
 
+    <include  layout="@layout/luggage_layout" android:layout_height="wrap_content" android:layout_width="match_parent"></include>
+
     <RelativeLayout
         android:id="@+id/free_seat_layout"
         android:layout_width="wrap_content"

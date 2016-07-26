@@ -342,11 +342,11 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
             return false;
         }
 
-        if (TextUtils.isEmpty(baggageTextClick.getText())) {
-            CommonUtils.showToast("请选择行李数");
-//            disableNextBtn();
-            return false;
-        }
+//        if (TextUtils.isEmpty(baggageTextClick.getText())) {
+//            CommonUtils.showToast("请选择行李数");
+////            disableNextBtn();
+//            return false;
+//        }
 
         if(serverTime.equalsIgnoreCase("00:00") && isIncludeToday){
             CommonUtils.showToast("请选择上车时间");
@@ -811,7 +811,7 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
     private boolean checkParams() {
         if (null == startBean
                 || TextUtils.isEmpty(peopleTextClick.getText())
-                || TextUtils.isEmpty(baggageTextClick.getText())
+//                || TextUtils.isEmpty(baggageTextClick.getText())
                 || isHalfTravel ? TextUtils.isEmpty(halfDate) : TextUtils.isEmpty(start_date_str)
                 || isHalfTravel ? TextUtils.isEmpty(halfDate) : TextUtils.isEmpty(end_date_str)) {
 //                || isHalfTravel?false:passBeanList.size() != nums){
