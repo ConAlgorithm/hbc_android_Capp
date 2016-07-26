@@ -453,7 +453,9 @@ public class FgSkuNew extends BaseFragment {
             String monthStr = String.format("%02d", month);
             String dayOfMonthStr = String.format("%02d", dayOfMonth);
             serverDate = year + "-" + monthStr + "-" + dayOfMonthStr;
-            showTimeSelect();
+            timeText.setText(serverDate);
+            getData();
+//            showTimeSelect();
         }
     }
 

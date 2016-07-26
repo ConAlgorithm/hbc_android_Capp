@@ -1340,15 +1340,13 @@ public class FGOrderNew extends BaseFragment {
             case R.id.man_phone_layout:
             case R.id.for_other_man:
             case R.id.other_phone_layout:
+            case R.id.man_name:
+            case R.id.man_phone:
                 FgChooseOther fgChooseOther = new FgChooseOther();
                 Bundle bundle = new Bundle();
                 bundle.putParcelable("contactUsersBean", contactUsersBean);
                 fgChooseOther.setArguments(bundle);
                 startFragment(fgChooseOther);
-                break;
-            case man_name:
-                break;
-            case R.id.man_phone:
                 break;
             case up_right:
                 showTimeSelect();
