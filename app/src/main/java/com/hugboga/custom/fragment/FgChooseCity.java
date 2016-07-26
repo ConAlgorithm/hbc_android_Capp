@@ -192,11 +192,6 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
         sideBar.setOnTouchingLetterChangedListener(this);
         sideBar.setVisibility(View.VISIBLE);
 
-        mAdapter = new ChooseCityAdapter(getContext());
-        mListview.setAdapter(mAdapter);
-        mListview.setEmptyView(emptyLayout);
-        mListview.setOnItemClickListener(this);
-
         if (showType == ShowType.SELECT_CITY) {
             chooseCityHeadLayout.setVisibility(View.VISIBLE);
             chooseBtn.setVisibility(View.VISIBLE);
@@ -208,6 +203,11 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
                 tabLayout.setOnChangeListener(this);
             }
         }
+
+        mAdapter = new ChooseCityAdapter(getContext());
+        mListview.setAdapter(mAdapter);
+        mListview.setEmptyView(emptyLayout);
+        mListview.setOnItemClickListener(this);
 
         editSearch.setOnEditorActionListener(this);
         editSearch.addTextChangedListener(this);
