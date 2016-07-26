@@ -107,6 +107,8 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
                 --loading_time;
                 timeSecond.setText(String.format(getString(R.string.loading_time), loading_time + ""));
                 handler.postDelayed(runnable, 1000);
+            }else{
+                handler.sendEmptyMessage(200);
             }
         }
     };
@@ -165,9 +167,9 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
         @Override
         public void handleMessage(Message msg) {
             goNext();
-//            super.handleMessage(msg);
         }
     };
+
 
     private void goNext(){
         handler.removeMessages(200);
