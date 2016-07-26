@@ -263,7 +263,21 @@ public class FgSkuList extends BaseFragment implements HbcRecyclerBaseAdapter.On
 //                    startFragment(fgOrderSelectCity, bundle);
 
                     Bundle bundle = new Bundle();
-                    bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_DAIRY);
+                    String userId = UserEntity.getUser().getUserId(getActivity());
+                    String params = "";
+                    if(!TextUtils.isEmpty(userId)){
+                        params += "?userId="+userId;
+                    }
+                    String cityId = cityBean.cityId + "";
+                    if(!TextUtils.isEmpty(cityId)){
+                        if(params.contains("?")) {
+                            params += "&cityId=" + cityId;
+                        }else{
+                            params += "?cityId=" + cityId;
+                        }
+                    }
+
+                    bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_DAIRY+params);
                     bundle.putParcelable("cityBean", cityBean);
                     bundle.putString("source", cityBean.name);
                     bundle.putSerializable(FgDaily.KEY_CITY_BEAN, cityBean);
@@ -272,7 +286,12 @@ public class FgSkuList extends BaseFragment implements HbcRecyclerBaseAdapter.On
                 } else {
 //                    startFragment(new FgOrderSelectCity());
                     Bundle bundle = new Bundle();
-                    bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_DAIRY);
+                    String userId = UserEntity.getUser().getUserId(getActivity());
+                    String params = "";
+                    if(!TextUtils.isEmpty(userId)){
+                        params += "?userId="+userId;
+                    }
+                    bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_DAIRY+params);
                     startFragment(new FgActivity(), bundle);
                 }
             } else {
