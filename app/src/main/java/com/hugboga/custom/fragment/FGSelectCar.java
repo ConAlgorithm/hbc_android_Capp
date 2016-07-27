@@ -281,7 +281,7 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
             jazzyPager.setCurrentItem(selctIndex);
             carBean = cars.get(selctIndex);
             carType.setText(carBean.carDesc);
-            carContent.setText("此车型包括:" + carBean.models);
+            carContent.setText(carBean.models);
             if (carBean.match == 0) {
                 nextBtnClick.setBackgroundColor(Color.parseColor("#d5dadb"));
                 nextBtnClick.setText("人数已超限，请更换车型");
