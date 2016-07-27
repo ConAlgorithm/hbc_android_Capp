@@ -304,7 +304,7 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
         mans.setText(String.format(getString(R.string.have_mas), carBean.capOfPerson));
         baggages.setText(String.format(getString(R.string.have_baggages), carBean.capOfLuggage));
         carType.setText(carBean.carDesc);
-        carContent.setText("此车型包括:" + carBean.models);
+        carContent.setText(carBean.models);
         if (TextUtils.isEmpty(carBean.serviceCityNote)) {
             mans_serviceCityNote.setVisibility(View.GONE);
         } else {
