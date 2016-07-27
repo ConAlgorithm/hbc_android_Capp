@@ -1,6 +1,7 @@
 package com.hugboga.custom.fragment;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -8,7 +9,6 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -19,6 +19,7 @@ import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.LuggageInfoActivity;
 import com.hugboga.custom.adapter.CarViewpagerAdapter;
 import com.hugboga.custom.constants.ChooseCarTypeEnum;
 import com.hugboga.custom.constants.Constants;
@@ -129,6 +130,52 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
     TextView inPhone;
     @Bind(R.id.out_phone)
     TextView outPhone;
+    @Bind(R.id.viewpager_layout)
+    LinearLayout viewpagerLayout;
+    @Bind(R.id.people_img)
+    ImageView peopleImg;
+    @Bind(R.id.order_style_img)
+    ImageView orderStyleImg;
+    @Bind(R.id.all_charge_yuan)
+    TextView allChargeYuan;
+    @Bind(R.id.per_charge_yuan)
+    TextView perChargeYuan;
+    @Bind(R.id.man_left)
+    TextView manLeft;
+    @Bind(R.id.man_right)
+    TextView manRight;
+    @Bind(R.id.man_have)
+    TextView manHave;
+    @Bind(R.id.child_left)
+    TextView childLeft;
+    @Bind(R.id.child_right)
+    TextView childRight;
+    @Bind(R.id.max_luggage_tv)
+    TextView maxLuggageTv;
+    @Bind(R.id.max_luggage_content)
+    TextView maxLuggageContent;
+    @Bind(R.id.max_luggage_img)
+    ImageView maxLuggageImg;
+    @Bind(R.id.max_luggage_tips)
+    TextView maxLuggageTips;
+    @Bind(R.id.days_left)
+    TextView daysLeft;
+    @Bind(R.id.days_right)
+    TextView daysRight;
+    @Bind(R.id.all_money)
+    TextView allMoney;
+    @Bind(R.id.all_money_right)
+    TextView allMoneyRight;
+    @Bind(R.id.average_left)
+    TextView averageLeft;
+    @Bind(R.id.average_money)
+    TextView averageMoney;
+    @Bind(R.id.all_money_left)
+    TextView allMoneyLeft;
+    @Bind(R.id.all_money_left_text)
+    TextView allMoneyLeftText;
+    @Bind(R.id.all_money_info)
+    TextView allMoneyInfo;
 
     @Override
     protected void initHeader() {
@@ -545,10 +592,19 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
 
     }
 
-    @OnClick({R.id.in_phone,R.id.out_phone,R.id.befer48_tips, R.id.left, R.id.right, R.id.mans_money_show_info, R.id.cars_money_show_info, R.id.next_btn_click})
+    @OnClick({R.id.max_luggage_img,R.id.in_phone, R.id.out_phone, R.id.befer48_tips, R.id.left, R.id.right, R.id.mans_money_show_info, R.id.cars_money_show_info, R.id.next_btn_click})
     public void onClick(View view) {
         HashMap<String, String> map = new HashMap<String, String>();
         switch (view.getId()) {
+            case R.id.all_money_info:
+                Bundle bundleInfo = new Bundle();
+                bundleInfo.putParcelable("carBean",carBean);
+                bundleInfo.putString("halfDay",halfDay);
+                startFragment(new FgOrderInfo(),bundleInfo);
+                break;
+            case R.id.max_luggage_img:
+                startActivity(new Intent(getActivity(), LuggageInfoActivity.class));
+                break;
             case R.id.in_phone:
                 PhoneInfo.CallDial(this.getActivity(), Constants.CALL_NUMBER_IN);
                 break;
@@ -711,5 +767,6 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
     public void onPageScrollStateChanged(int state) {
 
     }
+
 
 }
