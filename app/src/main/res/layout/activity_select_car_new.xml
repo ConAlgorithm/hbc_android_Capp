@@ -422,22 +422,22 @@
                 android:layout_width="match_parent"
                 android:background="@color/basic_white"
                 android:layout_height="wrap_content">
+
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_marginLeft="20dp"
                     android:drawablePadding="10dp"
                     android:drawableLeft="@mipmap/order_people"
                     android:id="@+id/man_left"
+                    android:layout_marginLeft="20dp"
                     android:text="出行人数 / 容量"
                     android:textSize="14sp"
                     android:gravity="center"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:drawablePadding="10dp"
                     android:id="@+id/man_right"
-                    android:text="/4人"
                     android:layout_alignParentRight="true"
                     android:paddingRight="20dp"
                     android:textSize="14sp"
@@ -450,7 +450,6 @@
                     android:drawablePadding="10dp"
                     android:layout_toLeftOf="@id/man_right"
                     android:id="@+id/man_have"
-                    android:text="2人"
                     android:textColor="@color/basic_red"
                     android:textSize="14sp"
                     android:gravity="center"
@@ -465,7 +464,7 @@
                     android:layout_below="@id/man_left"
                     android:drawableLeft="@mipmap/order_man"
                     android:id="@+id/child_left"
-                    android:text="出行人数 / 容量"
+                    android:text="儿童座椅数(单个占座1.5)"
                     android:textSize="14sp"
                     android:gravity="center"
                     android:layout_height="wrap_content" />
@@ -475,7 +474,6 @@
                     android:drawablePadding="10dp"
                     android:id="@+id/child_right"
                     android:layout_below="@id/man_left"
-                    android:text="4人"
                     android:layout_marginTop="10dp"
                     android:layout_alignParentRight="true"
                     android:paddingRight="20dp"
@@ -492,7 +490,7 @@
                     android:layout_marginBottom="10dp"
                     android:gravity="center"
                     android:drawableLeft="@mipmap/order_luggage"
-                    android:drawablePadding="15dp"
+                    android:drawablePadding="10dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
                     android:layout_below="@id/child_left"
@@ -508,7 +506,6 @@
                     android:paddingRight="20dp"
                     android:layout_marginTop="10dp"
                     android:layout_below="@id/child_left"
-                    android:text="1件"
                     android:textColor="@color/basic_red"
                     android:textSize="14sp" />
 
@@ -536,6 +533,8 @@
                     android:textColor="#b2b2b2"
                     android:textSize="13sp" />
 
+
+
             </RelativeLayout>
 
 
@@ -552,7 +551,6 @@
                     android:paddingBottom="10dp"
                     android:paddingTop="10dp"
                     android:layout_marginLeft="10dp"
-                    android:text="3天包车+司导"
                     android:textColor="@color/basic_black"
                     android:textSize="15sp" />
 
@@ -561,11 +559,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:text="alaala"
                     android:paddingTop="10dp"
                     android:layout_marginRight="10dp"
                     android:textColor="#b2b2b2"
-                    android:textSize="13sp" />
+                    android:textSize="11sp" />
 
                 <TextView
                     android:id="@+id/all_money"
@@ -586,7 +583,6 @@
                     android:paddingBottom="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_alignParentRight="true"
-                    android:text="asdfafa"
                     android:textColor="@color/basic_black"
                     android:textSize="13sp" />
 
@@ -620,7 +616,6 @@
                     android:paddingBottom="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_alignParentRight="true"
-                    android:text="adfas"
                     android:textColor="@color/basic_black"
                     android:textSize="13sp" />
 
@@ -679,7 +674,7 @@
             android:layout_marginLeft="5sp"
             android:layout_toRightOf="@id/all_money_left"
             android:textColor="#f8ca18"
-            android:textSize="22sp" />
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/next_btn_click"
@@ -699,7 +694,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
+            android:layout_marginRight="5dp"
             android:drawableRight="@mipmap/bottom_arrow_up"
             android:drawablePadding="10dp"
             android:layout_toLeftOf="@id/next_btn_click"

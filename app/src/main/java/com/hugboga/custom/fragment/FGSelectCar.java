@@ -48,6 +48,16 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.hugboga.custom.R.id.all_money_left_text;
+import static com.hugboga.custom.R.id.all_money_right;
+import static com.hugboga.custom.R.id.average_money;
+import static com.hugboga.custom.R.id.child_right;
+import static com.hugboga.custom.R.id.days_left;
+import static com.hugboga.custom.R.id.days_right;
+import static com.hugboga.custom.R.id.man_have;
+import static com.hugboga.custom.R.id.man_right;
+import static com.hugboga.custom.R.id.max_luggage_content;
+
 /**
  * Created  on 16/4/16.
  */
@@ -142,37 +152,37 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
     TextView perChargeYuan;
     @Bind(R.id.man_left)
     TextView manLeft;
-    @Bind(R.id.man_right)
+    @Bind(man_right)
     TextView manRight;
-    @Bind(R.id.man_have)
+    @Bind(man_have)
     TextView manHave;
     @Bind(R.id.child_left)
     TextView childLeft;
-    @Bind(R.id.child_right)
+    @Bind(child_right)
     TextView childRight;
     @Bind(R.id.max_luggage_tv)
     TextView maxLuggageTv;
-    @Bind(R.id.max_luggage_content)
+    @Bind(max_luggage_content)
     TextView maxLuggageContent;
     @Bind(R.id.max_luggage_img)
     ImageView maxLuggageImg;
     @Bind(R.id.max_luggage_tips)
     TextView maxLuggageTips;
-    @Bind(R.id.days_left)
+    @Bind(days_left)
     TextView daysLeft;
-    @Bind(R.id.days_right)
+    @Bind(days_right)
     TextView daysRight;
     @Bind(R.id.all_money)
     TextView allMoney;
-    @Bind(R.id.all_money_right)
+    @Bind(all_money_right)
     TextView allMoneyRight;
     @Bind(R.id.average_left)
     TextView averageLeft;
-    @Bind(R.id.average_money)
+    @Bind(average_money)
     TextView averageMoney;
     @Bind(R.id.all_money_left)
     TextView allMoneyLeft;
-    @Bind(R.id.all_money_left_text)
+    @Bind(all_money_left_text)
     TextView allMoneyLeftText;
     @Bind(R.id.all_money_info)
     TextView allMoneyInfo;
@@ -341,9 +351,30 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
             genServiceInfo(false);
             genCarsInfo(false);
             genTotal();
+            genNewContent();
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+
+    private void genNewContent(){
+        int mans = Integer.valueOf(adultNum) + Integer.valueOf(childrenNum);
+        manHave.setText(mans+"人");
+        manRight.setText(" / "+carBean.capOfPerson+"人");
+        childRight.setText(childseatNum+"个");
+
+        int maxLuuages = (carBean.capOfLuggage+ carBean.capOfPerson)
+                - Integer.valueOf(adultNum) - Math.round(Integer.valueOf(childseatNum) * 1.5f)
+                - (Integer.valueOf(childrenNum) - Integer.valueOf(childseatNum));
+
+        maxLuggageContent.setText(maxLuuages+"件");
+
+        daysLeft.setText(dayNums+"天包车+司导");
+        daysRight.setText("用车费用￥"+ carBean.vehiclePrice+"\n+司导费用￥"+ carBean.servicePrice);
+        allMoneyRight.setText("￥"+(carBean.vehiclePrice+carBean.servicePrice));
+        averageMoney.setText("￥"+(carBean.vehiclePrice+carBean.servicePrice)/mans);
+        allMoneyLeftText.setText("￥"+(carBean.vehiclePrice+carBean.servicePrice));
     }
 
     public void genTotal() {
@@ -592,7 +623,7 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
 
     }
 
-    @OnClick({R.id.max_luggage_img,R.id.in_phone, R.id.out_phone, R.id.befer48_tips, R.id.left, R.id.right, R.id.mans_money_show_info, R.id.cars_money_show_info, R.id.next_btn_click})
+    @OnClick({R.id.all_money_info,R.id.max_luggage_img,R.id.in_phone, R.id.out_phone, R.id.befer48_tips, R.id.left, R.id.right, R.id.mans_money_show_info, R.id.cars_money_show_info, R.id.next_btn_click})
     public void onClick(View view) {
         HashMap<String, String> map = new HashMap<String, String>();
         switch (view.getId()) {
