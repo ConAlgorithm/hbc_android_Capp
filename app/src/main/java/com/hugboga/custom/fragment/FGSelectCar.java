@@ -367,7 +367,7 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
         int maxLuuages = (carBean.capOfLuggage+ carBean.capOfPerson)
                 - Integer.valueOf(adultNum) - Math.round(Integer.valueOf(childseatNum) * 1.5f)
                 - (Integer.valueOf(childrenNum) - Integer.valueOf(childseatNum));
-
+        luggageNum = maxLuuages+"";
         maxLuggageContent.setText(maxLuuages+"件");
 
         daysLeft.setText(dayNums+"天包车+司导");
