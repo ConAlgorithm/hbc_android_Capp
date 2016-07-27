@@ -186,6 +186,8 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
     TextView allMoneyLeftText;
     @Bind(R.id.all_money_info)
     TextView allMoneyInfo;
+    @Bind(R.id.childseat_layout)
+    RelativeLayout childseatLayout;
 
     @Override
     protected void initHeader() {
@@ -358,28 +360,31 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
     }
 
 
-    private void genNewContent(){
+    private void genNewContent() {
+        if(Integer.valueOf(childseatNum) > 0){
+            childseatLayout.setVisibility(View.VISIBLE);
+        }
         int mans = Integer.valueOf(adultNum) + Integer.valueOf(childrenNum);
-        manHave.setText(mans+"人");
-        manRight.setText(" / "+carBean.capOfPerson+"人");
-        childRight.setText(childseatNum+"个");
+        manHave.setText(mans + "人");
+        manRight.setText(" / " + carBean.capOfPerson + "人");
+        childRight.setText(childseatNum + "个");
 
-        int maxLuuages = (carBean.capOfLuggage+ carBean.capOfPerson)
+        int maxLuuages = (carBean.capOfLuggage + carBean.capOfPerson)
                 - Integer.valueOf(adultNum) - Math.round(Integer.valueOf(childseatNum) * 1.5f)
                 - (Integer.valueOf(childrenNum) - Integer.valueOf(childseatNum));
-        luggageNum = maxLuuages+"";
-        maxLuggageContent.setText(maxLuuages+"件");
+        luggageNum = maxLuuages + "";
+        maxLuggageContent.setText(maxLuuages + "件");
 
         if (halfDay.equalsIgnoreCase("1")) {
             daysLeft.setText("0.5天包车+司导");
-        }else{
-            daysLeft.setText(dayNums+"天包车+司导");
+        } else {
+            daysLeft.setText(dayNums + "天包车+司导");
         }
 
-        daysRight.setText("用车费用￥"+ carBean.vehiclePrice+"\n+司导费用￥"+ carBean.servicePrice);
-        allMoneyRight.setText("￥"+(carBean.vehiclePrice+carBean.servicePrice));
-        averageMoney.setText("￥"+(carBean.vehiclePrice+carBean.servicePrice)/mans);
-        allMoneyLeftText.setText("￥"+(carBean.vehiclePrice+carBean.servicePrice));
+        daysRight.setText("用车费用￥" + carBean.vehiclePrice + "\n+司导费用￥" + carBean.servicePrice);
+        allMoneyRight.setText("￥" + (carBean.vehiclePrice + carBean.servicePrice));
+        averageMoney.setText("￥" + (carBean.vehiclePrice + carBean.servicePrice) / mans);
+        allMoneyLeftText.setText("￥" + (carBean.vehiclePrice + carBean.servicePrice));
     }
 
     public void genTotal() {
@@ -628,15 +633,15 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
 
     }
 
-    @OnClick({R.id.all_money_info,R.id.max_luggage_img,R.id.in_phone, R.id.out_phone, R.id.befer48_tips, R.id.left, R.id.right, R.id.mans_money_show_info, R.id.cars_money_show_info, R.id.next_btn_click})
+    @OnClick({R.id.all_money_info, R.id.max_luggage_img, R.id.in_phone, R.id.out_phone, R.id.befer48_tips, R.id.left, R.id.right, R.id.mans_money_show_info, R.id.cars_money_show_info, R.id.next_btn_click})
     public void onClick(View view) {
         HashMap<String, String> map = new HashMap<String, String>();
         switch (view.getId()) {
             case R.id.all_money_info:
                 Bundle bundleInfo = new Bundle();
-                bundleInfo.putParcelable("carBean",carBean);
-                bundleInfo.putString("halfDay",halfDay);
-                startFragment(new FgOrderInfo(),bundleInfo);
+                bundleInfo.putParcelable("carBean", carBean);
+                bundleInfo.putString("halfDay", halfDay);
+                startFragment(new FgOrderInfo(), bundleInfo);
                 break;
             case R.id.max_luggage_img:
                 startActivity(new Intent(getActivity(), LuggageInfoActivity.class));

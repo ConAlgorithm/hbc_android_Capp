@@ -4,41 +4,49 @@
     android:layout_height="match_parent"
     android:background="#ebeaeb"
     android:orientation="vertical">
-    <include android:id="@+id/head" layout="@layout/include_header" />
+
+    <include
+        android:id="@+id/head"
+        layout="@layout/include_header" />
+
     <ScrollView
         android:id="@+id/scrollView"
-        android:layout_below="@id/head"
-        android:visibility="visible"
-        android:layout_above="@+id/bottom"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_above="@+id/bottom"
+        android:layout_below="@id/head"
+        android:visibility="visible">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/allbg_white"
                 android:orientation="vertical">
+
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
+
                     <TextView
                         android:id="@+id/car_type"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="15dp"
                         android:layout_centerHorizontal="true"
+                        android:layout_marginTop="15dp"
                         android:textColor="@color/basic_black"
                         android:textSize="20sp" />
+
                     <LinearLayout
                         android:id="@+id/viewpager_layout"
-                        android:layout_marginTop="10dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
                         android:background="@color/basic_white"
                         android:clipChildren="false">
 
@@ -46,20 +54,20 @@
                             android:id="@+id/jazzy_pager"
                             android:layout_width="match_parent"
                             android:layout_height="120dip"
-                            android:layout_marginRight="80dp"
                             android:layout_marginLeft="80dp"
+                            android:layout_marginRight="80dp"
                             android:clipChildren="false" />
                     </LinearLayout>
 
                     <ImageView
                         android:id="@+id/left"
-                        android:visibility="gone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="20dp"
-                        android:src="@mipmap/xc_left" />
+                        android:src="@mipmap/xc_left"
+                        android:visibility="gone" />
 
                     <ImageView
                         android:id="@+id/right"
@@ -68,18 +76,18 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="20dp"
-                        android:visibility="gone"
-                        android:src="@mipmap/xc_right" />
+                        android:src="@mipmap/xc_right"
+                        android:visibility="gone" />
 
                     <ImageView
                         android:id="@+id/people_img"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
-                        android:visibility="gone"
-                        android:layout_marginTop="30dp"
                         android:layout_marginRight="60dp"
-                        android:src="@mipmap/car_people" />
+                        android:layout_marginTop="30dp"
+                        android:src="@mipmap/car_people"
+                        android:visibility="gone" />
 
                 </RelativeLayout>
 
@@ -87,8 +95,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:visibility="gone"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:visibility="gone">
 
                     <TextView
                         android:id="@+id/mans"
@@ -118,35 +126,35 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="15dp"
-                    android:lines="2"
-                    android:gravity="center"
                     android:ellipsize="end"
+                    android:gravity="center"
+                    android:lines="2"
                     android:textColor="#919399"
                     android:textSize="15sp" />
 
                 <TextView
-                    android:layout_marginTop="20dp"
-                    android:layout_marginBottom="20dp"
                     android:layout_width="match_parent"
-                    android:background="#e2e2e2"
+                    android:layout_height="1dp"
+                    android:layout_marginBottom="20dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
-                    android:layout_height="1dp" />
+                    android:layout_marginTop="20dp"
+                    android:background="#e2e2e2" />
             </LinearLayout>
 
             <RelativeLayout
                 android:id="@+id/mans_charge_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:background="@color/basic_white">
+                android:background="@color/basic_white"
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/mans_left"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/mans_use_money"
                     android:layout_marginLeft="15dp"
+                    android:text="@string/mans_use_money"
                     android:textColor="@color/basic_black"
                     android:textSize="20sp" />
 
@@ -165,8 +173,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:textColor="#838485"
                     android:layout_marginRight="15dp"
+                    android:textColor="#838485"
                     android:textSize="20sp" />
 
                 <TextView
@@ -197,10 +205,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/mans_serviceCityNote"
-                    android:gravity="center"
-                    android:visibility="gone"
                     android:layout_margin="15dp"
-                    android:orientation="vertical"></LinearLayout>
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:visibility="gone"></LinearLayout>
 
                 <TextView
                     android:id="@+id/mans_money_show_info"
@@ -215,6 +223,7 @@
                     android:text="@string/show_all_info"
                     android:textColor="@color/basic_black"
                     android:textSize="15sp" />
+
                 <ImageView
                     android:id="@+id/order_style_img"
                     android:layout_width="match_parent"
@@ -225,22 +234,21 @@
                     android:src="@drawable/fengexian" />
 
 
-
             </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/cars_charge_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:background="@color/basic_white">
+                android:background="@color/basic_white"
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/cars_left"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/car_use_money"
                     android:layout_marginLeft="15dp"
+                    android:text="@string/car_use_money"
                     android:textColor="@color/basic_black"
                     android:textSize="20sp" />
 
@@ -268,9 +276,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/cars_left"
-                    android:layout_marginTop="10dp"
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
+                    android:layout_marginTop="10dp"
                     android:text="@string/car_use_money_tips"
                     android:textColor="#838485"
                     android:textSize="15sp" />
@@ -280,9 +288,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/cars_charge_tips"
-                    android:layout_marginTop="10dp"
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
+                    android:layout_marginTop="10dp"
                     android:textColor="#f88166"
                     android:textSize="15sp" />
 
@@ -290,11 +298,11 @@
                     android:id="@+id/cars_money_all_info"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="15dp"
                     android:layout_below="@id/cars_serviceCityNote"
+                    android:layout_margin="15dp"
                     android:gravity="center"
-                    android:visibility="gone"
-                    android:orientation="vertical"></LinearLayout>
+                    android:orientation="vertical"
+                    android:visibility="gone"></LinearLayout>
 
                 <TextView
                     android:id="@+id/cars_money_show_info"
@@ -303,12 +311,13 @@
                     android:layout_below="@id/cars_money_all_info"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="10dp"
-                    android:drawablePadding="5dp"
                     android:drawableLeft="@mipmap/journey_unfold"
+                    android:drawablePadding="5dp"
                     android:gravity="center"
                     android:text="@string/show_all_info"
                     android:textColor="@color/basic_black"
                     android:textSize="15sp" />
+
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -323,8 +332,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/basic_white"
-                android:visibility="gone"
-                android:padding="15dp">
+                android:padding="15dp"
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/all_left"
@@ -339,8 +348,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignBaseline="@id/all_left"
-                    android:layout_toRightOf="@id/all_left"
                     android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@id/all_left"
                     android:textColor="#838485"
                     android:textSize="12sp" />
 
@@ -349,11 +358,11 @@
                     android:id="@+id/all_charge_yuan"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:textColor="@color/basic_black"
-                    android:text=" 元"
                     android:layout_alignBaseline="@id/all_left"
+                    android:layout_alignParentRight="true"
                     android:includeFontPadding="false"
+                    android:text=" 元"
+                    android:textColor="@color/basic_black"
                     android:textSize="12sp" />
 
                 <TextView
@@ -361,18 +370,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toLeftOf="@id/all_charge_yuan"
-                    android:textColor="@color/basic_black"
                     android:includeFontPadding="false"
-                    android:textStyle="bold"
-                    android:textSize="20sp" />
+                    android:textColor="@color/basic_black"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
 
                 <TextView
                     android:id="@+id/per_left"
-                    android:layout_marginTop="10dp"
-                    android:layout_below="@id/all_left"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_below="@id/all_left"
+                    android:layout_marginTop="10dp"
                     android:text="@string/per_money"
                     android:textColor="@color/basic_black"
                     android:textSize="15sp" />
@@ -380,179 +389,188 @@
 
                 <TextView
                     android:id="@+id/per_charge_yuan"
-                    android:layout_marginTop="10dp"
-                    android:layout_below="@id/all_charge"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
                     android:layout_alignBaseline="@id/per_left"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@id/all_charge"
+                    android:layout_marginTop="10dp"
                     android:text=" 元"
                     android:textColor="@color/basic_black"
                     android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/per_charge"
-                    android:layout_marginTop="10dp"
-                    android:layout_below="@id/all_charge"
-                    android:layout_toLeftOf="@id/per_charge_yuan"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_below="@id/all_charge"
+                    android:layout_marginTop="10dp"
+                    android:layout_toLeftOf="@id/per_charge_yuan"
                     android:textColor="@color/basic_black"
                     android:textSize="15sp" />
 
                 <TextView
                     android:id="@+id/befer48_tips"
-                    android:layout_marginTop="20dp"
-                    android:layout_below="@id/per_charge"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:drawableRight="@mipmap/question"
-                    android:drawablePadding="5dp"
+                    android:layout_below="@id/per_charge"
                     android:layout_centerHorizontal="true"
+                    android:layout_marginTop="20dp"
+                    android:drawablePadding="5dp"
+                    android:drawableRight="@mipmap/question"
                     android:text="@string/befer48_hour"
                     android:textColor="@color/basic_black"
-                    android:visibility="gone"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"
+                    android:visibility="gone" />
 
             </RelativeLayout>
 
 
-
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:background="@color/basic_white"
-                android:layout_height="wrap_content">
+                android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:drawablePadding="10dp"
-                    android:drawableLeft="@mipmap/order_people"
-                    android:id="@+id/man_left"
-                    android:layout_marginLeft="20dp"
-                    android:text="出行人数 / 容量"
-                    android:textSize="14sp"
-                    android:gravity="center"
-                    android:layout_height="wrap_content"/>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:drawablePadding="10dp"
-                    android:id="@+id/man_right"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginTop="5dp"
-                    android:paddingRight="20dp"
-                    android:textSize="14sp"
-                    android:gravity="center"
-                    android:layout_height="wrap_content" />
+                    <TextView
+                        android:id="@+id/man_left"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:drawableLeft="@mipmap/order_people"
+                        android:drawablePadding="10dp"
+                        android:gravity="center"
+                        android:text="出行人数 / 容量"
+                        android:textSize="14sp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:drawablePadding="10dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_toLeftOf="@id/man_right"
-                    android:id="@+id/man_have"
-                    android:textColor="@color/basic_red"
-                    android:textSize="14sp"
-                    android:gravity="center"
-                    android:layout_height="wrap_content" />
+                    <TextView
+                        android:id="@+id/man_right"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginTop="5dp"
+                        android:drawablePadding="10dp"
+                        android:gravity="center"
+                        android:paddingRight="20dp"
+                        android:textSize="14sp" />
 
+                    <TextView
+                        android:id="@+id/man_have"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_toLeftOf="@id/man_right"
+                        android:drawablePadding="10dp"
+                        android:gravity="center"
+                        android:textColor="@color/basic_red"
+                        android:textSize="14sp" />
+                </RelativeLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="10dp"
-                    android:drawablePadding="10dp"
-                    android:layout_below="@id/man_left"
-                    android:drawableLeft="@mipmap/order_man"
-                    android:id="@+id/child_left"
-                    android:text="儿童座椅数(单个占座1.5)"
-                    android:textSize="14sp"
-                    android:gravity="center"
-                    android:layout_height="wrap_content" />
+                <RelativeLayout
+                    android:id="@+id/childseat_layout"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:drawablePadding="10dp"
-                    android:id="@+id/child_right"
-                    android:layout_below="@id/man_left"
-                    android:layout_marginTop="15dp"
-                    android:layout_alignParentRight="true"
-                    android:paddingRight="20dp"
-                    android:textColor="@color/basic_red"
-                    android:textSize="14sp"
-                    android:gravity="center"
-                    android:layout_height="wrap_content" />
+                    <TextView
+                        android:id="@+id/child_left"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="10dp"
+                        android:drawableLeft="@mipmap/order_man"
+                        android:drawablePadding="10dp"
+                        android:gravity="center"
+                        android:text="儿童座椅数(单个占座1.5)"
+                        android:textSize="14sp" />
 
+                    <TextView
+                        android:id="@+id/child_right"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginTop="15dp"
+                        android:drawablePadding="10dp"
+                        android:gravity="center"
+                        android:paddingRight="20dp"
+                        android:textColor="@color/basic_red"
+                        android:textSize="14sp" />
+                </RelativeLayout>
 
-                <TextView
-                    android:id="@+id/max_luggage_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:gravity="center"
-                    android:drawableLeft="@mipmap/order_luggage"
-                    android:drawablePadding="10dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_below="@id/child_left"
-                    android:layout_marginTop="10dp"
-                    android:text="@string/max_luggage"
-                    android:textSize="14sp" />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-                <TextView
-                    android:id="@+id/max_luggage_content"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:paddingRight="20dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_below="@id/child_left"
-                    android:textColor="@color/basic_red"
-                    android:textSize="14sp" />
+                    <TextView
+                        android:id="@+id/max_luggage_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="10dp"
+                        android:drawableLeft="@mipmap/order_luggage"
+                        android:drawablePadding="10dp"
+                        android:gravity="center"
+                        android:text="@string/max_luggage"
+                        android:textSize="14sp" />
 
-                <ImageView
-                    android:id="@+id/max_luggage_img"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/child_left"
-                    android:layout_alignBottom="@id/max_luggage_tv"
-                    android:layout_toRightOf="@id/max_luggage_tv"
-                    android:layout_marginTop="13dp"
-                    android:src="@mipmap/max_luggage_icon"
-                    android:text="@string/max_luggage"
-                    android:textColor="@color/basic_red"
-                    android:textSize="14sp" />
+                    <TextView
+                        android:id="@+id/max_luggage_content"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginTop="15dp"
+                        android:paddingRight="20dp"
+                        android:textColor="@color/basic_red"
+                        android:textSize="14sp" />
 
-                <TextView
-                    android:id="@+id/max_luggage_tips"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/max_luggage_tv"
-                    android:paddingBottom="10dp"
-                    android:layout_marginLeft="50dp"
-                    android:text="@string/max_luggage_tips"
-                    android:textColor="#b2b2b2"
-                    android:textSize="13sp" />
+                    <ImageView
+                        android:id="@+id/max_luggage_img"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@id/max_luggage_tv"
+                        android:layout_marginTop="13dp"
+                        android:layout_toRightOf="@id/max_luggage_tv"
+                        android:src="@mipmap/max_luggage_icon"
+                        android:text="@string/max_luggage"
+                        android:textColor="@color/basic_red"
+                        android:textSize="14sp" />
 
+                    <TextView
+                        android:id="@+id/max_luggage_tips"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/max_luggage_tv"
+                        android:layout_marginLeft="50dp"
+                        android:paddingBottom="10dp"
+                        android:text="@string/max_luggage_tips"
+                        android:textColor="#b2b2b2"
+                        android:textSize="13sp" />
 
+                </RelativeLayout>
 
-            </RelativeLayout>
+            </LinearLayout>
 
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:background="@color/allbg_white"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:layout_height="wrap_content">
+                android:background="@color/allbg_white">
 
                 <TextView
                     android:id="@+id/days_left"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
                     android:paddingBottom="10dp"
                     android:paddingTop="10dp"
-                    android:layout_marginLeft="10dp"
                     android:textColor="@color/basic_black"
                     android:textSize="15sp" />
 
@@ -561,8 +579,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:paddingTop="10dp"
                     android:layout_marginRight="10dp"
+                    android:paddingTop="10dp"
                     android:textColor="#b2b2b2"
                     android:textSize="11sp" />
 
@@ -571,8 +589,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/days_left"
-                    android:paddingBottom="10dp"
                     android:layout_marginLeft="10dp"
+                    android:paddingBottom="10dp"
                     android:text="只需花费"
                     android:textColor="@color/basic_black"
                     android:textSize="13sp" />
@@ -581,30 +599,30 @@
                     android:id="@+id/all_money_right"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/days_left"
-                    android:paddingBottom="10dp"
-                    android:layout_marginRight="10dp"
                     android:layout_alignParentRight="true"
+                    android:layout_below="@id/days_left"
+                    android:layout_marginRight="10dp"
+                    android:paddingBottom="10dp"
                     android:textColor="@color/basic_black"
                     android:textSize="13sp" />
 
                 <TextView
                     android:id="@+id/line"
                     android:layout_width="match_parent"
+                    android:layout_height="1dp"
                     android:layout_below="@id/all_money"
-                    android:background="#e2e2e2"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
-                    android:layout_height="1dp" />
+                    android:background="#e2e2e2" />
 
                 <TextView
                     android:id="@+id/average_left"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingTop="10dp"
                     android:layout_below="@id/line"
-                    android:paddingBottom="10dp"
                     android:layout_marginLeft="10dp"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
                     android:text="全程人均费用"
                     android:textColor="@color/basic_black"
                     android:textSize="13sp" />
@@ -613,11 +631,11 @@
                     android:id="@+id/average_money"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingTop="10dp"
-                    android:layout_below="@id/line"
-                    android:paddingBottom="10dp"
-                    android:layout_marginRight="10dp"
                     android:layout_alignParentRight="true"
+                    android:layout_below="@id/line"
+                    android:layout_marginRight="10dp"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
                     android:textColor="@color/basic_black"
                     android:textSize="13sp" />
 
@@ -626,21 +644,22 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
                 android:drawablePadding="10dp"
                 android:drawableTop="@mipmap/select_car_bottom"
-                android:text="由皇包车认证的专业司导为您服务"
                 android:gravity="center"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:text="由皇包车认证的专业司导为您服务"
                 android:textColor="@color/basic_black"
                 android:textSize="14sp" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 android:layout_below="@id/line"
-                android:paddingBottom="10dp"
                 android:layout_marginLeft="10dp"
+                android:gravity="center"
+                android:paddingBottom="10dp"
                 android:text="Ta是司机，也是您的专属向导和随行翻译"
                 android:textColor="#b2b2b2"
                 android:textSize="12sp" />
@@ -697,9 +716,9 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginRight="5dp"
-            android:drawableRight="@mipmap/bottom_arrow_up"
-            android:drawablePadding="10dp"
             android:layout_toLeftOf="@id/next_btn_click"
+            android:drawablePadding="10dp"
+            android:drawableRight="@mipmap/bottom_arrow_up"
             android:text="@string/order_info"
             android:textColor="@color/basic_white"
             android:textSize="15sp" />
@@ -707,60 +726,62 @@
 
     <LinearLayout
         android:id="@+id/coupon_listview_empty"
-        android:layout_below="@id/head"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/head"
         android:background="@color/coupon_empty_color"
-        android:orientation="vertical"
         android:gravity="center_horizontal"
+        android:orientation="vertical"
         android:paddingTop="@dimen/basic_margin_xlarge"
         android:visibility="gone">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/basic_margin_xlarge"
             android:drawablePadding="@dimen/basic_margin_xlarge"
-            android:layout_centerHorizontal="true"
             android:drawableTop="@drawable/error_show"
-            android:textSize="15sp"
-            android:text="@string/no_cars_error_show"
             android:gravity="center"
-            android:textColor="@color/coupon_empty_text" />
+            android:text="@string/no_cars_error_show"
+            android:textColor="@color/coupon_empty_text"
+            android:textSize="15sp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
             android:layout_centerHorizontal="true"
-            android:textSize="15sp"
-            android:text="@string/your_service"
+            android:layout_marginTop="30dp"
             android:gravity="center"
-            android:textColor="@color/coupon_empty_text" />
+            android:text="@string/your_service"
+            android:textColor="@color/coupon_empty_text"
+            android:textSize="15sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:gravity="center_horizontal">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:textSize="15sp"
-                android:text="境内拨打:"
                 android:gravity="center"
-                android:textColor="@color/coupon_empty_text" />
+                android:text="境内拨打:"
+                android:textColor="@color/coupon_empty_text"
+                android:textSize="15sp" />
+
             <TextView
                 android:id="@+id/in_phone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginLeft="10dp"
-                android:textSize="15sp"
-                android:text="400-610-0066"
                 android:gravity="center"
-                android:textColor="#629ffa" />
+                android:text="400-610-0066"
+                android:textColor="#629ffa"
+                android:textSize="15sp" />
         </LinearLayout>
 
 
@@ -769,24 +790,26 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:gravity="center_horizontal">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:textSize="15sp"
-                android:text="境外拨打:"
                 android:gravity="center"
-                android:textColor="@color/coupon_empty_text" />
+                android:text="境外拨打:"
+                android:textColor="@color/coupon_empty_text"
+                android:textSize="15sp" />
+
             <TextView
                 android:id="@+id/out_phone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginLeft="10dp"
-                android:textSize="15sp"
-                android:text="+86 10-57812003"
                 android:gravity="center"
-                android:textColor="#629ffa" />
+                android:text="+86 10-57812003"
+                android:textColor="#629ffa"
+                android:textSize="15sp" />
         </LinearLayout>
 
     </LinearLayout>
