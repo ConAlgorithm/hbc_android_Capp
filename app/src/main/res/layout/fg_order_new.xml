@@ -846,7 +846,7 @@
             android:background="#f8ca18"
             android:gravity="center"
             android:text="@string/progress_order"
-            android:textColor="@color/basic_white"
+            android:textColor="@color/basic_black"
             android:textSize="18sp" />
 
         <TextView
