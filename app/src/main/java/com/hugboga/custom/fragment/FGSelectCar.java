@@ -20,7 +20,6 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.CarViewpagerAdapter;
-import com.hugboga.custom.constants.CarTypeEnum;
 import com.hugboga.custom.constants.ChooseCarTypeEnum;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CarBean;
@@ -690,6 +689,7 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
     private boolean isMatchLocal(CarBean bean) {
         for (int i = 0; i < cars.size(); i++) {
             if (cars.get(i).carType == bean.carType && cars.get(i).seatCategory == bean.carSeat) {
+                bean.desc = cars.get(i).carDesc;
                 return true;
             }
         }

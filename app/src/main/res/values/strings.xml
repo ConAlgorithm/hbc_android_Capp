@@ -343,7 +343,7 @@
     <string name="add_other_phone">+ 增加备用电话</string>
     <string name="for_other_people">为他人订车</string>
     <string name="total_order">还需支付:</string>
-    <string name="order_info">明细 ></string>
+    <string name="order_info">明细</string>
     <string name="submit_order">立即支付</string>
 
     <string name="passenger_no_star">&#160;乘车人</string>

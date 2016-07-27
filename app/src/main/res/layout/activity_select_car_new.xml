@@ -19,6 +19,7 @@
             android:orientation="vertical">
             <LinearLayout
                 android:layout_width="match_parent"
+
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
                 <RelativeLayout
@@ -405,21 +406,301 @@
 
             </RelativeLayout>
 
+            <TextView
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:layout_width="match_parent"
+                android:background="#e2e2e2"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_height="1dp" />
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:background="@color/basic_white"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:drawablePadding="10dp"
+                    android:drawableLeft="@mipmap/order_people"
+                    android:id="@+id/man_left"
+                    android:text="出行人数 / 容量"
+                    android:textSize="14sp"
+                    android:gravity="center"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:drawablePadding="10dp"
+                    android:id="@+id/man_right"
+                    android:text="/4人"
+                    android:layout_alignParentRight="true"
+                    android:paddingRight="20dp"
+                    android:textSize="14sp"
+                    android:gravity="center"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:drawablePadding="10dp"
+                    android:layout_toLeftOf="@id/man_right"
+                    android:id="@+id/man_have"
+                    android:text="2人"
+                    android:textColor="@color/basic_red"
+                    android:textSize="14sp"
+                    android:gravity="center"
+                    android:layout_height="wrap_content" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:drawablePadding="10dp"
+                    android:layout_below="@id/man_left"
+                    android:drawableLeft="@mipmap/order_man"
+                    android:id="@+id/child_left"
+                    android:text="出行人数 / 容量"
+                    android:textSize="14sp"
+                    android:gravity="center"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:drawablePadding="10dp"
+                    android:id="@+id/child_right"
+                    android:layout_below="@id/man_left"
+                    android:text="4人"
+                    android:layout_marginTop="10dp"
+                    android:layout_alignParentRight="true"
+                    android:paddingRight="20dp"
+                    android:textColor="@color/basic_red"
+                    android:textSize="14sp"
+                    android:gravity="center"
+                    android:layout_height="wrap_content" />
+
+
+                <TextView
+                    android:id="@+id/max_luggage_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center"
+                    android:drawableLeft="@mipmap/order_luggage"
+                    android:drawablePadding="15dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_below="@id/child_left"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/max_luggage"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/max_luggage_content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:paddingRight="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_below="@id/child_left"
+                    android:text="1件"
+                    android:textColor="@color/basic_red"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:id="@+id/max_luggage_img"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:layout_below="@id/child_left"
+                    android:layout_toRightOf="@id/max_luggage_tv"
+                    android:src="@mipmap/max_luggage_icon"
+                    android:text="@string/max_luggage"
+                    android:textColor="@color/basic_red"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/max_luggage_tips"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/max_luggage_tv"
+                    android:paddingBottom="10dp"
+                    android:layout_marginLeft="50dp"
+                    android:text="@string/max_luggage_tips"
+                    android:textColor="#b2b2b2"
+                    android:textSize="13sp" />
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:background="@color/allbg_white"
+                android:layout_marginTop="10dp"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/days_left"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:text="3天包车+司导"
+                    android:textColor="@color/basic_black"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/days_right"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text="alaala"
+                    android:paddingTop="10dp"
+                    android:layout_marginRight="10dp"
+                    android:textColor="#b2b2b2"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/all_money"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/days_left"
+                    android:paddingBottom="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:text="只需花费"
+                    android:textColor="@color/basic_black"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/all_money_right"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/days_left"
+                    android:paddingBottom="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_alignParentRight="true"
+                    android:text="asdfafa"
+                    android:textColor="@color/basic_black"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/line"
+                    android:layout_width="match_parent"
+                    android:layout_below="@id/all_money"
+                    android:background="#e2e2e2"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_height="1dp" />
+
+                <TextView
+                    android:id="@+id/average_left"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="10dp"
+                    android:layout_below="@id/line"
+                    android:paddingBottom="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:text="全程人均费用"
+                    android:textColor="@color/basic_black"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/average_money"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="10dp"
+                    android:layout_below="@id/line"
+                    android:paddingBottom="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_alignParentRight="true"
+                    android:text="adfas"
+                    android:textColor="@color/basic_black"
+                    android:textSize="13sp" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:drawableTop="@mipmap/select_car_bottom"
+                android:text="由皇包车认证的专业司导为您服务"
+                android:textColor="@color/basic_black"
+                android:textSize="14sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:layout_below="@id/line"
+                android:paddingBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:text="Ta是司机，也是您的专属向导和随行翻译"
+                android:textColor="@color/basic_black"
+                android:textSize="12sp" />
 
 
         </LinearLayout>
     </ScrollView>
-    <Button
-        android:id="@+id/next_btn_click"
-        android:layout_alignParentBottom="true"
+
+
+    <RelativeLayout
+        android:id="@+id/bottom"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/all_bg_yellow"
-        android:gravity="center"
-        android:text="@string/go_next"
-        android:textColor="@color/basic_white"
-        android:textSize="20sp" />
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/basic_black"
+        android:orientation="vertical">f
+
+        <TextView
+            android:id="@+id/all_money_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20sp"
+            android:text="费用总计:"
+            android:textColor="@color/basic_white"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/all_money_left_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5sp"
+            android:layout_toRightOf="@id/all_money_left"
+            android:textColor="#f8ca18"
+            android:textSize="22sp" />
+
+        <TextView
+            android:id="@+id/next_btn_click"
+            android:layout_width="120dp"
+            android:layout_height="60dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10sp"
+            android:background="@color/all_bg_yellow"
+            android:gravity="center"
+            android:text="@string/go_next"
+            android:textColor="@color/basic_black"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/all_money_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:drawableRight="@mipmap/share_withdraw"
+            android:drawablePadding="10dp"
+            android:layout_toLeftOf="@id/next_btn_click"
+            android:text="@string/order_info"
+            android:textColor="@color/basic_white"
+            android:textSize="15sp" />
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/coupon_listview_empty"
