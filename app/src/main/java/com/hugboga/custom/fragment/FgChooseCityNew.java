@@ -246,7 +246,7 @@ public class FgChooseCityNew extends BaseFragment {
                     finish();
                     Bundle bundle = new Bundle();
                     bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_DAIRY);
-                    startFragment(new FgActivity(), bundle);
+                    startFragment(new FgDailyWeb(), bundle);
 
 //                    FgOrderSelectCity fgOrderSelectCity = new FgOrderSelectCity();
 //                    startFragment(fgOrderSelectCity);

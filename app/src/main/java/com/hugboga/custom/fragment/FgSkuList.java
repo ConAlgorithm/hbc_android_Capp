@@ -281,7 +281,7 @@ public class FgSkuList extends BaseFragment implements HbcRecyclerBaseAdapter.On
                     bundle.putParcelable("cityBean", cityBean);
                     bundle.putString("source", cityBean.name);
                     bundle.putSerializable(FgDaily.KEY_CITY_BEAN, cityBean);
-                    startFragment(new FgActivity(), bundle);
+                    startFragment(new FgDailyWeb(), bundle);
 
                 } else {
 //                    startFragment(new FgOrderSelectCity());
@@ -292,7 +292,7 @@ public class FgSkuList extends BaseFragment implements HbcRecyclerBaseAdapter.On
                         params += "?userId="+userId;
                     }
                     bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_DAIRY+params);
-                    startFragment(new FgActivity(), bundle);
+                    startFragment(new FgDailyWeb(), bundle);
                 }
             } else {
                 FgSkuDetail fgSkuDetail = new FgSkuDetail();

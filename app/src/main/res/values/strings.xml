@@ -362,6 +362,11 @@
     <string name="select_stay_city">选择住宿城市</string>
     <string name="no_cars_info">没有相关车辆信息</string>
 
+    <string name="your_service">请联系客服帮您下单</string>
+
+
+    <string name="no_cars_error_show">h很抱歉,您的出行人数过多,\n没有找到合适的车型</string>
+
     <string name="complete_start_city">请选择开始城市</string>
     <string name="complete_mans">请选择出发人数</string>
     <string name="complete_start_date">请选择开始日期</string>
@@ -709,5 +714,10 @@
 
     <string name="max_luggage">当前最多可携带行李数(24寸)</string>
     <string name="max_luggage_tips">实际行李数如果超出限制,请更换最大车型</string>
+
+    <string name="share_title">境外1,100+城市包车游等你来！在线预订，一键下单</string>
+    <string name="share_content">中文包车游世界，万名当地华人司导，让您的旅行自在如乡。</string>
+
+
 
 </resources>

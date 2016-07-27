@@ -13,7 +13,7 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.HomeData;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.net.UrlLibs;
-import com.hugboga.custom.fragment.FgActivity;
+import com.hugboga.custom.fragment.FgDailyWeb;
 import com.hugboga.custom.fragment.FgHome;
 import com.hugboga.custom.fragment.FgLogin;
 import com.hugboga.custom.fragment.FgOrderSelectCity;
@@ -121,7 +121,7 @@ public class HomeBottomLayout extends LinearLayout implements View.OnClickListen
                 urlAddress = urlAddress + "userId="+ UserEntity.getUser().getUserId(fragment.getContext())+"&t=" + new Random().nextInt(100000);
                 Bundle bundle = new Bundle();
                 bundle.putString(FgWebInfo.WEB_URL, urlAddress);
-                fragment.startFragment(new FgActivity(), bundle);
+                fragment.startFragment(new FgDailyWeb(), bundle);
                 break;
         }
     }
@@ -161,7 +161,7 @@ public class HomeBottomLayout extends LinearLayout implements View.OnClickListen
         fgOrderSelectCity.setArguments(bundle);
 //        fragment.startFragment(fgOrderSelectCity, bundle);
         bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_DAIRY);
-        fragment.startFragment(new FgActivity(), bundle);
+        fragment.startFragment(new FgDailyWeb(), bundle);
 
 
         map.put("source", "首页");
