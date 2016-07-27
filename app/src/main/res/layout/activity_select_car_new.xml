@@ -9,7 +9,7 @@
         android:id="@+id/scrollView"
         android:layout_below="@id/head"
         android:visibility="visible"
-        android:layout_above="@+id/next_btn_click"
+        android:layout_above="@+id/bottom"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -19,8 +19,8 @@
             android:orientation="vertical">
             <LinearLayout
                 android:layout_width="match_parent"
-
                 android:layout_height="wrap_content"
+                android:background="@color/allbg_white"
                 android:orientation="vertical">
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -122,6 +122,15 @@
                     android:ellipsize="end"
                     android:textColor="#919399"
                     android:textSize="15sp" />
+
+                <TextView
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_width="match_parent"
+                    android:background="#e2e2e2"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_height="1dp" />
             </LinearLayout>
 
             <RelativeLayout
@@ -406,14 +415,7 @@
 
             </RelativeLayout>
 
-            <TextView
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
-                android:layout_width="match_parent"
-                android:background="#e2e2e2"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_height="1dp" />
+
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -627,19 +629,21 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
+                android:drawablePadding="10dp"
                 android:drawableTop="@mipmap/select_car_bottom"
                 android:text="由皇包车认证的专业司导为您服务"
+                android:gravity="center"
                 android:textColor="@color/basic_black"
                 android:textSize="14sp" />
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="10dp"
+                android:gravity="center"
                 android:layout_below="@id/line"
                 android:paddingBottom="10dp"
                 android:layout_marginLeft="10dp"
                 android:text="Ta是司机，也是您的专属向导和随行翻译"
-                android:textColor="@color/basic_black"
+                android:textColor="#b2b2b2"
                 android:textSize="12sp" />
 
 

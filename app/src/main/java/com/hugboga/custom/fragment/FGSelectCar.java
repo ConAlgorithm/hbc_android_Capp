@@ -116,7 +116,7 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
     @Bind(R.id.befer48_tips)
     TextView befer48Tips;
     @Bind(R.id.next_btn_click)
-    Button nextBtnClick;
+    TextView nextBtnClick;
     @Bind(R.id.coupon_listview_empty)
     LinearLayout coupon_listview_empty;
     @Bind(R.id.scrollView)
