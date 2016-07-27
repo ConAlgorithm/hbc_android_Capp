@@ -180,7 +180,7 @@ public class UpdateResources {
         LogUtil.e("检测DB checkRemoteDB "+version);
         final DBHelper mDBHelper = new DBHelper(context);
         int localVersion = new SharedPre(context).getIntValue(SharedPre.RESOURCES_DB_VERSION, ResourcesConstants.RESOURCES_DB_VERSION_DEFAULT);
-        MLog.e("localVersion=" + localVersion + " remoteVersion=" + version);
+        MLog.e("localVersion=" + localVersion + " remoteVersion=" + version + " url " + url);
         if (localVersion < version && !TextUtils.isEmpty(url)) {//从服务端更新
             final String outFile = DBHelper.DB_PATH + DBHelper.DB_NAME;
             final String outFileTmp = outFile + DBHelper.DB_TMP;
