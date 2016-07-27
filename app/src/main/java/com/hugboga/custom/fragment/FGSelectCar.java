@@ -341,7 +341,7 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
             carContent.setText(carBean.models);
             if (carBean.match == 0) {
                 nextBtnClick.setBackgroundColor(Color.parseColor("#d5dadb"));
-                nextBtnClick.setText("人数已超限，请更换车型");
+//                nextBtnClick.setText("人数已超限，请更换车型");
                 nextBtnClick.setClickable(false);
             } else {
                 nextBtnClick.setClickable(true);
@@ -370,7 +370,12 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
         luggageNum = maxLuuages+"";
         maxLuggageContent.setText(maxLuuages+"件");
 
-        daysLeft.setText(dayNums+"天包车+司导");
+        if (halfDay.equalsIgnoreCase("1")) {
+            daysLeft.setText("0.5天包车+司导");
+        }else{
+            daysLeft.setText(dayNums+"天包车+司导");
+        }
+
         daysRight.setText("用车费用￥"+ carBean.vehiclePrice+"\n+司导费用￥"+ carBean.servicePrice);
         allMoneyRight.setText("￥"+(carBean.vehiclePrice+carBean.servicePrice));
         averageMoney.setText("￥"+(carBean.vehiclePrice+carBean.servicePrice)/mans);
