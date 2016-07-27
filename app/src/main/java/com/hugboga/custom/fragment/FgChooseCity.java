@@ -82,6 +82,8 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
     ChooseCityTabLayout tabLayout;
     @Bind(R.id.head_search)
     TextView editSearch;
+    @Bind(R.id.head_text_right)
+    TextView searchTV;
 
     @Bind(R.id.choose_city_head_layout)
     View chooseCityHeadLayout;
@@ -178,6 +180,9 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
     @Override
     protected void initView() {
         setProgressState(0);
+        searchTV.setText(getContext().getString(R.string.dialog_btn_cancel));
+        searchTV.setVisibility(View.GONE);
+
         mDialogUtil = DialogUtil.getInstance(getActivity());
         mDialogUtil.showLoadingDialog();
         emptyTV.setVisibility(View.GONE);
@@ -275,6 +280,7 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
         emptyTV.setVisibility(View.GONE);
         emptyIV.setVisibility(View.GONE);
         if (TextUtils.isEmpty(s) || TextUtils.isEmpty(s.toString().trim())) {
+            searchTV.setVisibility(View.GONE);
             if (showType != ShowType.SELECT_CITY) {
 //                headerView.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, AbsListView.LayoutParams.WRAP_CONTENT));
                 headerRootView.removeAllViews();
@@ -289,6 +295,7 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
 
             requestData();
         } else {
+            searchTV.setVisibility(View.VISIBLE);
             if (showType != ShowType.SELECT_CITY) {
                 headerRootView.removeAllViews();
 //                headerView.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, 1));
@@ -361,6 +368,7 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
                     CommonUtils.showToast("请输入搜索内容");
                     return;
                 }
+                searchTV.setVisibility(View.GONE);
                 collapseSoftInputMethod();
                 break;
         }
@@ -472,7 +480,7 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
     public void onTouchingLetterChanged(String s) {
         //该字母首次出现的位置
         int position = getPositionForSection(s);
-        if (s.equals("历史") || s.equals("热门")) {
+        if (s.equals("定位") || s.equals("历史") || s.equals("热门")) {
             mListview.setSelection(0);
         } else if (position != -1) {
             position += 1;
@@ -510,6 +518,9 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
         }
         ArrayList<String> sectionIndices = new ArrayList<String>();
         if (showType != ShowType.SELECT_CITY) {
+            if (showType == ShowType.PICK_UP) {
+                sectionIndices.add("定位");
+            }
             sectionIndices.add("历史");
             sectionIndices.add("热门");
         }

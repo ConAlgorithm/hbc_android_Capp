@@ -1,6 +1,7 @@
 package com.hugboga.custom.utils;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.constants.Constants;
@@ -176,28 +177,28 @@ public final class DatabaseManager {
      * 获取国内城市
      */
     public static String getInlandCitySql() {
-        return "select * from city where is_city_code=1 and place_name='中国'order by initial asc";
+        return "select * from city where is_city_code=1 and place_name='中国' or place_name='中国大陆' order by initial asc";
     }
 
     /**
      * 获取国外城市
      */
     public static String getAbroadCitySql() {
-        return "select * from city where is_city_code=1 and place_name<>'中国'order by initial asc";
+        return "select * from city where is_city_code=1 and place_name<>'中国' and place_name<>'中国大陆' order by initial asc";
     }
 
     /**
      * 获取国内热门城市
      */
     public static String getInlandHotCitySql() {
-        return "select * from city where is_city_code=1 and place_name='中国' and is_hot=1 order by hot_weight desc";
+        return "select * from city where is_city_code=1 and (place_name='中国' or place_name='中国大陆') and is_hot=1 order by hot_weight desc";
     }
 
     /**
      * 获取国际热门城市
      */
     public static String getAbroadHotCitySql() {
-        return "select * from city where is_city_code=1 and place_name<>'中国' and is_hot=1 order by hot_weight desc";
+        return "select * from city where is_city_code=1 and (place_name<>'中国' and place_name<>'中国大陆') and is_hot=1 order by hot_weight desc";
     }
 
     /**
