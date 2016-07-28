@@ -323,11 +323,11 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
                 changeText();
                 if (null != carListBean.additionalServicePrice && null != carListBean.additionalServicePrice.checkInPrice) {
                     checkinLayout.setVisibility(View.VISIBLE);
-                    checkinMoney.setText("(服务费 ￥" + carListBean.additionalServicePrice.checkInPrice + ")");
+                    checkinMoney.setText(" ￥" + carListBean.additionalServicePrice.checkInPrice );
                 }
                 if (null != carListBean.additionalServicePrice && null != carListBean.additionalServicePrice.pickupSignPrice) {
                     waitLayout.setVisibility(View.VISIBLE);
-                    waitMoney.setText("(服务费 ￥" + carListBean.additionalServicePrice.pickupSignPrice + ")");
+                    waitMoney.setText(" ￥" + carListBean.additionalServicePrice.pickupSignPrice);
                 }
             }
         }
