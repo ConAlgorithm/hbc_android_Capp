@@ -251,7 +251,7 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
 
     private boolean checkParams(){
         if(null == manLuggageBean) {
-            CommonUtils.showToast("请选择人数行李数");
+            CommonUtils.showToast(R.string.add_man_toast);
             return false;
         }
         return true;

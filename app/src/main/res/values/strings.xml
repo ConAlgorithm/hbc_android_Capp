@@ -727,5 +727,9 @@
 
     <string name="order_detail_top1_tips">绝大多数情况在1小时内有司导接单；最迟不超过24小时。</string>
 
+    <string name="add_man_toast">请选择出行人数</string>
+
+
+
 
 </resources>

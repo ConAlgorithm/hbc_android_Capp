@@ -38,6 +38,7 @@ import com.hugboga.custom.data.bean.CollectGuideBean;
 import com.hugboga.custom.data.bean.SelectCarBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestCollectGuidesFilter;
 import com.hugboga.custom.data.request.RequestGetCarInfo;
 import com.hugboga.custom.data.request.RequestGuideConflict;
@@ -271,6 +272,25 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
                 }
             }
         });
+
+        fgRightBtn.setVisibility(View.VISIBLE);
+        fgRightBtn.setText("常见问题");
+        fgRightBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_PROBLEM);
+                bundle.putBoolean(FgWebInfo.CONTACT_SERVICE, true);
+                startFragment(new FgWebInfo(), bundle);
+
+                HashMap<String, String> map = new HashMap<String, String>();
+                map.put("source", "填写行程页面");
+                MobclickAgent.onEvent(getActivity(), "callcenter_oneway", map);
+                v.setTag("填写行程页面,calldomestic_oneway,calloverseas_oneway");
+
+            }
+        });
+
 
     }
 

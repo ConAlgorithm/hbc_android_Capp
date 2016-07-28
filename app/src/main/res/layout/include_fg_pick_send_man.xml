@@ -68,7 +68,6 @@
                 android:layout_alignParentLeft="true"
                 android:layout_marginLeft="15dp"
                 android:minEms="4"
-                android:text="@string/air_info"
                 android:textColor="@color/basic_black"
                 android:textSize="15sp"
                 android:visibility="gone" />
@@ -80,7 +79,6 @@
                 android:layout_marginLeft="15dp"
                 android:layout_toRightOf="@id/man_text"
                 android:minEms="4"
-                android:text="@string/air_info"
                 android:textColor="@color/basic_black"
                 android:textSize="15sp"
                 android:visibility="gone" />
@@ -94,7 +92,6 @@
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="10dp"
                 android:minEms="4"
-                android:text="@string/air_info"
                 android:textColor="@color/basic_black"
                 android:textSize="15sp"
                 android:visibility="gone" />

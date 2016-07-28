@@ -253,7 +253,7 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
                 }
 
                 manText.setText("乘客 x " + (manLuggageBean.mans + manLuggageBean.childs));
-                luggageText.setText("行李箱 x " + manLuggageBean.luggages);
+//                luggageText.setText("行李箱 x " + manLuggageBean.luggages);
                 childseatText.setText("儿童座椅 x " + (manLuggageBean.childSeats));
                 luggageTipsLayout.setVisibility(View.VISIBLE);
                 int maxLuuages = (carBean.capOfLuggage+ carBean.capOfPerson) - manLuggageBean.mans - Math.round(manLuggageBean.childSeats * 1.5f) - (manLuggageBean.childs - manLuggageBean.childSeats);
