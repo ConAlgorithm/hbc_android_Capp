@@ -5,7 +5,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
@@ -129,7 +128,9 @@ public class FgPickFlightList extends BaseFragment implements AdapterView.OnItem
         }
         try {
             String tFlightDate = DateUtils.getWeekStrByDate(flightDate, DateUtils.dateDateFormat, DateUtils.dateWeekFormat2);
-            flightInfo.setText(tFlightDate + " (共" + count + "趟航班)");
+            if(count != 0) {
+                flightInfo.setText(tFlightDate + " (共" + count + "趟航班)");
+            }
         } catch (ParseException e) {
             e.printStackTrace();
         }

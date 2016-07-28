@@ -46,8 +46,8 @@
             android:clickable="true"
             android:gravity="center_vertical"
             android:orientation="vertical"
-            android:paddingBottom="15dp"
-            android:paddingTop="15dp">
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp">
 
             <TextView
                 android:id="@+id/man_tips"
@@ -66,9 +66,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
                 android:layout_marginLeft="15dp"
                 android:minEms="4"
-                android:text="@string/air_info"
+                android:textColor="@color/basic_black"
+                android:textSize="15sp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/childseat_text"
+                android:layout_width="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_toRightOf="@id/man_text"
+                android:minEms="4"
                 android:textColor="@color/basic_black"
                 android:textSize="15sp"
                 android:visibility="gone" />
@@ -77,24 +89,11 @@
                 android:id="@+id/luggage_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_toRightOf="@id/man_text"
-                android:minEms="4"
-                android:text="@string/air_info"
-                android:textColor="@color/basic_black"
-                android:textSize="15sp"
-                android:visibility="gone" />
-
-            <TextView
-                android:id="@+id/childseat_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_below="@id/man_text"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="10dp"
                 android:minEms="4"
-                android:text="@string/air_info"
                 android:textColor="@color/basic_black"
                 android:textSize="15sp"
                 android:visibility="gone" />

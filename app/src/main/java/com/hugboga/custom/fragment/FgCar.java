@@ -5,7 +5,6 @@ import android.support.v4.view.ViewPager;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.huangbaoche.hbcframe.data.net.ExceptionErrorCode;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
@@ -419,7 +418,7 @@ public class FgCar extends BaseFragment implements ViewPager.OnPageChangeListene
         Integer[] carInfo = Constants.CarSeatInfoMap.get(carBean.carSeat);
         carInfoText.setText(String.format("乘坐%d人 | 行李%d件", carInfo[0], carInfo[1]));
         carTotalValue.setText(carBean.originalPrice + "元");
-        carInfoIntro.setText("此车型包括：" + carBean.models);
+        carInfoIntro.setText(carBean.models);
     }
 
     @Override

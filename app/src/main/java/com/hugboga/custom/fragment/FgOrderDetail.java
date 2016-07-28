@@ -4,8 +4,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -34,10 +32,11 @@ import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.HbcViewBehavior;
 import com.hugboga.custom.widget.OrderDetailFloatView;
 import com.hugboga.custom.widget.OrderDetailGuideInfo;
-import com.hugboga.custom.widget.OrderDetailInfoView;
 import com.hugboga.custom.widget.OrderDetailItineraryView;
 import com.hugboga.custom.widget.OrderDetailTitleBar;
+import com.hugboga.custom.widget.TopTipsLayout;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
@@ -45,7 +44,6 @@ import org.xutils.view.annotation.ViewInject;
 
 import java.io.Serializable;
 
-import org.greenrobot.eventbus.EventBus;
 import io.rong.imkit.RongIM;
 
 /**
@@ -56,6 +54,10 @@ import io.rong.imkit.RongIM;
  */
 @ContentView(R.layout.fg_order_detail)
 public class FgOrderDetail extends BaseFragment implements View.OnClickListener{
+
+
+    @ViewInject(R.id.top_tips_layout)
+    private TopTipsLayout topTipsLayout;
 
     @ViewInject(R.id.order_detail_title_layout)
     private OrderDetailTitleBar titleBar;
@@ -131,6 +133,20 @@ public class FgOrderDetail extends BaseFragment implements View.OnClickListener{
         itineraryView.setFragment(this);
     }
 
+    private void genTopTIps(){
+        if(null != orderBean) {
+            if (orderBean.orderStatus.code == 1) {//未付款
+                topTipsLayout.setText(R.string.order_detail_top1_tips);
+            } else if (orderBean.orderStatus.code == 2) {//已付款
+                topTipsLayout.setText(R.string.order_detail_top2_tips);
+            } else {
+                topTipsLayout.hide();
+            }
+        }else{
+            topTipsLayout.hide();
+        }
+    }
+
     @Override
     protected void initHeader() {
 
@@ -172,7 +188,7 @@ public class FgOrderDetail extends BaseFragment implements View.OnClickListener{
             emptyTV.setVisibility(View.GONE);
             RequestOrderDetail mParser = (RequestOrderDetail) _request;
             orderBean = mParser.getData();
-
+            genTopTIps();
             titleBar.update(orderBean);
             floatView.update(orderBean);
             final int count = groupLayout.getChildCount();

@@ -428,7 +428,7 @@ public class OrderUtils {
             if (null == couponBean && null != mostFitBean) {
                 orderBean.coupId = mostFitBean.couponId;
                 orderBean.coupPriceInfo = mostFitBean.couponPrice + "";
-                if(mostFitBean.actualPrice != 0) {
+                if(null != mostFitBean && null != mostFitBean.actualPrice  && mostFitBean.actualPrice != 0) {
                     orderBean.priceActual = mostFitBean.actualPrice + "";
                 }
             } else if (null != couponBean && null == mostFitBean) {

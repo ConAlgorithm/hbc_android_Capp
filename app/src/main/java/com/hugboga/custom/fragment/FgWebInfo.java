@@ -150,7 +150,12 @@ public class FgWebInfo extends BaseFragment implements View.OnKeyListener {
         @Override
         public void onReceivedTitle(WebView view, String title) {
             super.onReceivedTitle(view, title);
-            fgTitle.setText(view.getTitle());
+            if(!view.getTitle().startsWith("http:")){
+                fgTitle.setText(view.getTitle());
+            }else{
+                fgTitle.setText("");
+            }
+
         }
 
         @Override

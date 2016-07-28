@@ -253,7 +253,7 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
                 }
 
                 manText.setText("乘客 x " + (manLuggageBean.mans + manLuggageBean.childs));
-                luggageText.setText("行李箱 x " + manLuggageBean.luggages);
+//                luggageText.setText("行李箱 x " + manLuggageBean.luggages);
                 childseatText.setText("儿童座椅 x " + (manLuggageBean.childSeats));
                 luggageTipsLayout.setVisibility(View.VISIBLE);
                 int maxLuuages = (carBean.capOfLuggage+ carBean.capOfPerson) - manLuggageBean.mans - Math.round(manLuggageBean.childSeats * 1.5f) - (manLuggageBean.childs - manLuggageBean.childSeats);
@@ -323,11 +323,11 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
                 changeText();
                 if (null != carListBean.additionalServicePrice && null != carListBean.additionalServicePrice.checkInPrice) {
                     checkinLayout.setVisibility(View.VISIBLE);
-                    checkinMoney.setText("(服务费 ￥" + carListBean.additionalServicePrice.checkInPrice + ")");
+                    checkinMoney.setText(" ￥" + carListBean.additionalServicePrice.checkInPrice );
                 }
                 if (null != carListBean.additionalServicePrice && null != carListBean.additionalServicePrice.pickupSignPrice) {
                     waitLayout.setVisibility(View.VISIBLE);
-                    waitMoney.setText("(服务费 ￥" + carListBean.additionalServicePrice.pickupSignPrice + ")");
+                    waitMoney.setText(" ￥" + carListBean.additionalServicePrice.pickupSignPrice);
                 }
             }
         }
@@ -336,7 +336,7 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
 
     private void changeText() {
         carBean = carList.get(currentIndex);
-        fgCarIntro.setText("此车型包括：" + carBean.models);
+        fgCarIntro.setText(carBean.models);
         mansNum.setText("x " + carBean.capOfPerson);
         luggageNum.setText("x " + carBean.capOfLuggage);
 
@@ -466,7 +466,7 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
                         mJazzy.setAdapter(mAdapter);
                         if (null != carList) {
                             carBean = carList.get(currentIndex);
-                            fgCarIntro.setText("此车型包括：" + carBean.models);
+                            fgCarIntro.setText(carBean.models);
                             mansNum.setText("x " + carBean.capOfPerson);
                             luggageNum.setText("x " + carBean.capOfLuggage);
                             manTips.setVisibility(View.VISIBLE);
@@ -480,7 +480,7 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
             });
 
             if (null != carBean) {
-                fgCarIntro.setText("此车型包括：" + carBean.models);
+                fgCarIntro.setText(carBean.models);
                 mansNum.setText("x " + carBean.capOfPerson);
                 luggageNum.setText("x " + carBean.capOfLuggage);
             }

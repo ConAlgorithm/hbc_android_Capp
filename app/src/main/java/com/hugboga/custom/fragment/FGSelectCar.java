@@ -1,6 +1,7 @@
 package com.hugboga.custom.fragment;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -8,7 +9,6 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -19,8 +19,8 @@ import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.LuggageInfoActivity;
 import com.hugboga.custom.adapter.CarViewpagerAdapter;
-import com.hugboga.custom.constants.CarTypeEnum;
 import com.hugboga.custom.constants.ChooseCarTypeEnum;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CarBean;
@@ -47,6 +47,16 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static com.hugboga.custom.R.id.all_money_left_text;
+import static com.hugboga.custom.R.id.all_money_right;
+import static com.hugboga.custom.R.id.average_money;
+import static com.hugboga.custom.R.id.child_right;
+import static com.hugboga.custom.R.id.days_left;
+import static com.hugboga.custom.R.id.days_right;
+import static com.hugboga.custom.R.id.man_have;
+import static com.hugboga.custom.R.id.man_right;
+import static com.hugboga.custom.R.id.max_luggage_content;
 
 /**
  * Created  on 16/4/16.
@@ -117,7 +127,7 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
     @Bind(R.id.befer48_tips)
     TextView befer48Tips;
     @Bind(R.id.next_btn_click)
-    Button nextBtnClick;
+    TextView nextBtnClick;
     @Bind(R.id.coupon_listview_empty)
     LinearLayout coupon_listview_empty;
     @Bind(R.id.scrollView)
@@ -130,12 +140,77 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
     TextView inPhone;
     @Bind(R.id.out_phone)
     TextView outPhone;
+    @Bind(R.id.viewpager_layout)
+    LinearLayout viewpagerLayout;
+    @Bind(R.id.people_img)
+    ImageView peopleImg;
+    @Bind(R.id.order_style_img)
+    ImageView orderStyleImg;
+    @Bind(R.id.all_charge_yuan)
+    TextView allChargeYuan;
+    @Bind(R.id.per_charge_yuan)
+    TextView perChargeYuan;
+    @Bind(R.id.man_left)
+    TextView manLeft;
+    @Bind(man_right)
+    TextView manRight;
+    @Bind(man_have)
+    TextView manHave;
+    @Bind(R.id.child_left)
+    TextView childLeft;
+    @Bind(child_right)
+    TextView childRight;
+    @Bind(R.id.max_luggage_tv)
+    TextView maxLuggageTv;
+    @Bind(max_luggage_content)
+    TextView maxLuggageContent;
+    @Bind(R.id.max_luggage_img)
+    ImageView maxLuggageImg;
+    @Bind(R.id.max_luggage_tips)
+    TextView maxLuggageTips;
+    @Bind(days_left)
+    TextView daysLeft;
+    @Bind(days_right)
+    TextView daysRight;
+    @Bind(R.id.all_money)
+    TextView allMoney;
+    @Bind(all_money_right)
+    TextView allMoneyRight;
+    @Bind(R.id.average_left)
+    TextView averageLeft;
+    @Bind(average_money)
+    TextView averageMoney;
+    @Bind(R.id.all_money_left)
+    TextView allMoneyLeft;
+    @Bind(all_money_left_text)
+    TextView allMoneyLeftText;
+    @Bind(R.id.all_money_info)
+    TextView allMoneyInfo;
+    @Bind(R.id.childseat_layout)
+    RelativeLayout childseatLayout;
 
     @Override
     protected void initHeader() {
         fgRightBtn.setVisibility(View.VISIBLE);
         fgTitle.setText(R.string.select_city_title);
         source = getArguments().getString("source");
+        fgRightBtn.setVisibility(View.VISIBLE);
+        fgRightBtn.setText("常见问题");
+        fgRightBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_PROBLEM);
+                bundle.putBoolean(FgWebInfo.CONTACT_SERVICE, true);
+                startFragment(new FgWebInfo(), bundle);
+
+                HashMap<String, String> map = new HashMap<String, String>();
+                map.put("source", "填写行程页面");
+                MobclickAgent.onEvent(getActivity(), "callcenter_oneway", map);
+                v.setTag("填写行程页面,calldomestic_oneway,calloverseas_oneway");
+
+            }
+        });
     }
 
     @Override
@@ -282,10 +357,10 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
             jazzyPager.setCurrentItem(selctIndex);
             carBean = cars.get(selctIndex);
             carType.setText(carBean.carDesc);
-            carContent.setText("此车型包括:" + carBean.models);
+            carContent.setText(carBean.models);
             if (carBean.match == 0) {
                 nextBtnClick.setBackgroundColor(Color.parseColor("#d5dadb"));
-                nextBtnClick.setText("人数已超限，请更换车型");
+//                nextBtnClick.setText("人数已超限，请更换车型");
                 nextBtnClick.setClickable(false);
             } else {
                 nextBtnClick.setClickable(true);
@@ -295,9 +370,38 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
             genServiceInfo(false);
             genCarsInfo(false);
             genTotal();
+            genNewContent();
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+
+    private void genNewContent() {
+        if(Integer.valueOf(childseatNum) > 0){
+            childseatLayout.setVisibility(View.VISIBLE);
+        }
+        int mans = Integer.valueOf(adultNum) + Integer.valueOf(childrenNum);
+        manHave.setText(mans + "人");
+        manRight.setText(" / " + carBean.capOfPerson + "人");
+        childRight.setText(childseatNum + "个");
+
+        int maxLuuages = (carBean.capOfLuggage + carBean.capOfPerson)
+                - Integer.valueOf(adultNum) - Math.round(Integer.valueOf(childseatNum) * 1.5f)
+                - (Integer.valueOf(childrenNum) - Integer.valueOf(childseatNum));
+        luggageNum = maxLuuages + "";
+        maxLuggageContent.setText(maxLuuages + "件");
+
+        if (halfDay.equalsIgnoreCase("1")) {
+            daysLeft.setText("0.5天包车+司导");
+        } else {
+            daysLeft.setText(dayNums + "天包车+司导");
+        }
+
+        daysRight.setText("用车费用￥" + carBean.vehiclePrice + "\n+司导费用￥" + carBean.servicePrice);
+        allMoneyRight.setText("￥" + (carBean.vehiclePrice + carBean.servicePrice));
+        averageMoney.setText("￥" + (carBean.vehiclePrice + carBean.servicePrice) / mans);
+        allMoneyLeftText.setText("￥" + (carBean.vehiclePrice + carBean.servicePrice));
     }
 
     public void genTotal() {
@@ -305,7 +409,7 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
         mans.setText(String.format(getString(R.string.have_mas), carBean.capOfPerson));
         baggages.setText(String.format(getString(R.string.have_baggages), carBean.capOfLuggage));
         carType.setText(carBean.carDesc);
-        carContent.setText("此车型包括:" + carBean.models);
+        carContent.setText(carBean.models);
         if (TextUtils.isEmpty(carBean.serviceCityNote)) {
             mans_serviceCityNote.setVisibility(View.GONE);
         } else {
@@ -546,10 +650,19 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
 
     }
 
-    @OnClick({R.id.in_phone,R.id.out_phone,R.id.befer48_tips, R.id.left, R.id.right, R.id.mans_money_show_info, R.id.cars_money_show_info, R.id.next_btn_click})
+    @OnClick({R.id.all_money_info, R.id.max_luggage_img, R.id.in_phone, R.id.out_phone, R.id.befer48_tips, R.id.left, R.id.right, R.id.mans_money_show_info, R.id.cars_money_show_info, R.id.next_btn_click})
     public void onClick(View view) {
         HashMap<String, String> map = new HashMap<String, String>();
         switch (view.getId()) {
+            case R.id.all_money_info:
+                Bundle bundleInfo = new Bundle();
+                bundleInfo.putParcelable("carBean", carBean);
+                bundleInfo.putString("halfDay", halfDay);
+                startFragment(new FgOrderInfo(), bundleInfo);
+                break;
+            case R.id.max_luggage_img:
+                startActivity(new Intent(getActivity(), LuggageInfoActivity.class));
+                break;
             case R.id.in_phone:
                 PhoneInfo.CallDial(this.getActivity(), Constants.CALL_NUMBER_IN);
                 break;
@@ -690,6 +803,7 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
     private boolean isMatchLocal(CarBean bean) {
         for (int i = 0; i < cars.size(); i++) {
             if (cars.get(i).carType == bean.carType && cars.get(i).seatCategory == bean.carSeat) {
+                bean.desc = cars.get(i).carDesc;
                 return true;
             }
         }
@@ -711,5 +825,6 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
     public void onPageScrollStateChanged(int state) {
 
     }
+
 
 }
