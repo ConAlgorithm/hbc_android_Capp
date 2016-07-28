@@ -14,6 +14,7 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -39,6 +40,8 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
+import com.hugboga.custom.action.ActionBean;
+import com.hugboga.custom.action.ActionFactory;
 import com.hugboga.custom.activity.BaseActivity;
 import com.hugboga.custom.adapter.MenuItemAdapter;
 import com.hugboga.custom.constants.Constants;
@@ -137,9 +140,19 @@ public class MainActivity extends BaseActivity
     private FgTravel fgTravel;
     private SharedPre sharedPre;
 
+    private ActionBean actionBean;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (savedInstanceState != null) {
+            actionBean = (ActionBean) savedInstanceState.getSerializable(Constants.PARAMS_ACTION);
+        } else {
+            Bundle bundle = getIntent().getExtras();
+            if (bundle != null) {
+                actionBean = (ActionBean) bundle.getSerializable(Constants.PARAMS_ACTION);
+            }
+        }
 //        setSupportActionBar(toolbar);
         sharedPre = new SharedPre(this);
         initBottomView();
@@ -180,6 +193,12 @@ public class MainActivity extends BaseActivity
         drawer.addDrawerListener(mDrawerToggle);
 
         showAdWebView(getIntent().getStringExtra("url"));
+
+        if (actionBean != null) {
+            ActionFactory actionFactory = new ActionFactory(this);
+            actionFactory.doAction(actionBean);
+            //TODO 聊天和行程列表需要单独处理
+        }
     }
 
     private void showAdWebView(String url){
@@ -189,6 +208,15 @@ public class MainActivity extends BaseActivity
             startFragment(new FgActivity(), bundle);
         }
     }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+        if (actionBean != null) {
+            outState.putSerializable(Constants.PARAMS_ACTION, actionBean);
+        }
+    }
+
 
     Timer timer;
     TimerTask timerTask;
