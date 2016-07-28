@@ -336,7 +336,7 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
 
     private void changeText() {
         carBean = carList.get(currentIndex);
-        fgCarIntro.setText("此车型包括：" + carBean.models);
+        fgCarIntro.setText(carBean.models);
         mansNum.setText("x " + carBean.capOfPerson);
         luggageNum.setText("x " + carBean.capOfLuggage);
 
@@ -466,7 +466,7 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
                         mJazzy.setAdapter(mAdapter);
                         if (null != carList) {
                             carBean = carList.get(currentIndex);
-                            fgCarIntro.setText("此车型包括：" + carBean.models);
+                            fgCarIntro.setText(carBean.models);
                             mansNum.setText("x " + carBean.capOfPerson);
                             luggageNum.setText("x " + carBean.capOfLuggage);
                             manTips.setVisibility(View.VISIBLE);
@@ -480,7 +480,7 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
             });
 
             if (null != carBean) {
-                fgCarIntro.setText("此车型包括：" + carBean.models);
+                fgCarIntro.setText(carBean.models);
                 mansNum.setText("x " + carBean.capOfPerson);
                 luggageNum.setText("x " + carBean.capOfLuggage);
             }
