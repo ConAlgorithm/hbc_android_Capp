@@ -25,7 +25,7 @@ public class TopTipsLayout extends RelativeLayout {
     TextView topLine;
 
     public TopTipsLayout(Context context) {
-        super(context,null);
+        this(context,null);
     }
 
     public TopTipsLayout(Context context, AttributeSet attrs) {

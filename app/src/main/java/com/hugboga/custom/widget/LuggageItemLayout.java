@@ -23,7 +23,7 @@ public class LuggageItemLayout extends LinearLayout {
     ImageView luggageIcon;
 
     public LuggageItemLayout(Context context) {
-        super(context, null);
+        this(context, null);
     }
 
     View view;
