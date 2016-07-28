@@ -11,6 +11,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -25,6 +26,7 @@ import com.hugboga.custom.fragment.FgOrderDetail;
 import com.hugboga.custom.fragment.FgSkuDetail;
 import com.hugboga.custom.fragment.FgSkuList;
 import com.hugboga.custom.fragment.FgWebInfo;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
 
@@ -128,7 +130,14 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
             if (!TextUtils.isEmpty(orderBean.passengerInfos)) {
                 passengerInfos = getContext().getString(R.string.order_detail_seat_info, orderBean.passengerInfos);
             }
-            addItemView(R.mipmap.order_car, orderBean.carDesc, passengerInfos, null);
+            LinearLayout itemView = addItemView(R.mipmap.order_car, orderBean.carDesc, passengerInfos, null);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+            params.leftMargin = UIUtils.dip2px(25);
+            params.topMargin = UIUtils.dip2px(2);
+            params.bottomMargin = UIUtils.dip2px(2);
+            LuggageItemLayout luggageItemLayout = new LuggageItemLayout(getContext());
+            itemView.addView(luggageItemLayout, params);
+            luggageItemLayout.setText(CommonUtils.getCountString(orderBean.luggageNum) + getContext().getString(R.string.piece));//可携带行李数
         }
 
         if (orderBean.orderGoodsType == 1  && "1".equalsIgnoreCase(orderBean.isFlightSign)) {//接机
@@ -146,8 +155,8 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
         addItemView(iconId, title, null, null);
     }
 
-    private void addItemView(int iconId, String title, String subtitle, String describe) {
-        View itemView = LayoutInflater.from(getContext()).inflate(R.layout.item_order_detail_itinerary, null, false);
+    private LinearLayout addItemView(int iconId, String title, String subtitle, String describe) {
+        LinearLayout itemView = (LinearLayout) LayoutInflater.from(getContext()).inflate(R.layout.item_order_detail_itinerary, null, false);
 
         ImageView iconIV = (ImageView) itemView.findViewById(R.id.item_itinerary_iv);
         iconIV.setBackgroundResource(iconId);
@@ -171,6 +180,7 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
         }
 
         itineraryLayout.addView(itemView);
+        return itemView;
     }
 
     public void setRouteLayoutVisible(int resId) {
