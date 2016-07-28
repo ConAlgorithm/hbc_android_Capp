@@ -25,12 +25,12 @@ public class ActionType {
      * WIKI: http://wiki.hbc.tech/pages/viewpage.action?pageId=5505204
      * */
     public static class PageType {
-        public static final int WEBVIEW = 1;       // 1：通用webView
-        public static final int HOME = 2;          // 2：首页
-        public static final int SEARCH = 3;        // 3：搜索页
-//        public static final int SEARCH = 15;       // 15：优惠券列表
-//        public static final int SEARCH = 16;       // 16：旅游基金
-//        public static final int SEARCH = 21;       // 21：活动列表
+        public static final int WEBVIEW = 1;            // 1：通用webView
+        public static final int HOME = 2;               // 2：首页
+        public static final int SEARCH = 3;             // 3：搜索页
+        public static final int COUPON = 15;            // 15：优惠券列表
+        public static final int TRAVEL_FUND = 16;       // 16：旅游基金
+        public static final int ACTIVITY_LIST = 21;     // 21：活动列表
     }
 
     public static class FunctionType {

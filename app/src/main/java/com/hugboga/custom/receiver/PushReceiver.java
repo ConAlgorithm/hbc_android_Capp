@@ -16,14 +16,18 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.MainActivity;
+import com.hugboga.custom.action.ActionBean;
 import com.hugboga.custom.data.bean.PushMessage;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestPushReceive;
+import com.hugboga.custom.utils.JsonUtils;
 import com.hugboga.custom.utils.PushUtils;
 
 import cn.jpush.android.api.JPushInterface;
 import org.greenrobot.eventbus.EventBus;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Push
@@ -45,11 +49,24 @@ public class PushReceiver extends BroadcastReceiver implements HttpRequestListen
         if(msg2==null || msg2.isEmpty()){
             return;
         }
+
         //格式化返回的json对象
         PushMessage pushMessage = new PushMessage();
-        pushMessage.parser(msg2);
         pushMessage.title = title;
         pushMessage.content = msg1;
+
+        JSONObject jsonObject = null;
+        try {
+            jsonObject = new JSONObject(msg2);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        if (jsonObject != null && jsonObject.has("t")) {
+            pushMessage.actionBean = (ActionBean)JsonUtils.fromJson(msg2, ActionBean.class);
+        } else {
+            pushMessage.parser(msg2);
+        }
+
         /*
         部分工作在此处进行过滤
 		1. 是否使用当前版本

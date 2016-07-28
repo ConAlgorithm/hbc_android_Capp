@@ -5,10 +5,14 @@ import android.os.Bundle;
 
 import com.hugboga.custom.activity.BaseActivity;
 import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.bean.UserEntity;
+import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.fragment.BaseFragment;
 import com.hugboga.custom.fragment.FgActivity;
 import com.hugboga.custom.fragment.FgChooseCityNew;
+import com.hugboga.custom.fragment.FgCoupon;
 import com.hugboga.custom.fragment.FgHome;
+import com.hugboga.custom.fragment.FgLogin;
 import com.hugboga.custom.fragment.FgWebInfo;
 import com.hugboga.custom.utils.CommonUtils;
 
@@ -60,6 +64,12 @@ public class ActionFactory implements ActionFactoryBehavior {
     public void intentPage(ActionBean _actionBaseBean) {
         if (activity == null) {
             return;
+        } else {
+            if (activity.getFragmentList().size() > 3) {
+                for (int i = activity.getFragmentList().size() - 1; i >= 3; i--) {
+                    activity.getFragmentList().get(i).finish();
+                }
+            }
         }
         Bundle bundle = new Bundle();
         switch (CommonUtils.getCountInteger(_actionBaseBean.vcid)) {
@@ -76,6 +86,19 @@ public class ActionFactory implements ActionFactoryBehavior {
                 bundle.putInt("com.hugboga.custom.home.flush", Constants.BUSINESS_TYPE_HOME);
                 bundle.putString("source","小搜索按钮");
                 activity.startFragment(new FgChooseCityNew(), bundle);
+                break;
+            case ActionType.PageType.COUPON:
+                if (isLogin()) {
+                    activity.startFragment(new FgCoupon());
+                }
+                break;
+            case ActionType.PageType.TRAVEL_FUND:
+                break;
+            case ActionType.PageType.ACTIVITY_LIST:
+                if (isLogin()) {
+                    bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_ACTIVITY + UserEntity.getUser().getUserId(activity) + "&t=" + new Random().nextInt(100000));
+                    activity.startFragment(new FgActivity(), bundle);
+                }
                 break;
             default:
                 break;
@@ -97,5 +120,13 @@ public class ActionFactory implements ActionFactoryBehavior {
             default:
                 break;
         }
+    }
+
+    private boolean isLogin() {
+        boolean isLogin = UserEntity.getUser().isLogin(activity);
+        if (!isLogin) {
+            activity.startFragment(new FgLogin());
+        }
+        return isLogin;
     }
 }

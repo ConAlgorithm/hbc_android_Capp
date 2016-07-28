@@ -373,19 +373,24 @@ public class MainActivity extends BaseActivity
                 PushMessage message = (PushMessage) intent.getSerializableExtra(MainActivity.PUSH_BUNDLE_MSG);
                 if (message != null) {
                     uploadPushClick(message.messageID);
-                    if ("IM".equals(message.type)) {
-                        gotoChatList();
-                    } else if (message.orderType == 888) {
-                        if (getFragmentList().size() > 3) {
-                            for (int i = getFragmentList().size() - 1; i >= 3; i--) {
-                                getFragmentList().get(i).finish();
-                            }
-                        }
-                        if (mViewPager != null) {
-                            mViewPager.setCurrentItem(2);
-                        }
+                    if (message.actionBean != null) {
+                        ActionFactory actionFactory = new ActionFactory(this);
+                        actionFactory.doAction(actionBean);
                     } else {
-                        gotoOrder(message);
+                        if ("IM".equals(message.type)) {
+                            gotoChatList();
+                        } else if (message.orderType == 888) {
+                            if (getFragmentList().size() > 3) {
+                                for (int i = getFragmentList().size() - 1; i >= 3; i--) {
+                                    getFragmentList().get(i).finish();
+                                }
+                            }
+                            if (mViewPager != null) {
+                                mViewPager.setCurrentItem(2);
+                            }
+                        } else {
+                            gotoOrder(message);
+                        }
                     }
                 }
             }
@@ -420,6 +425,10 @@ public class MainActivity extends BaseActivity
         switch (action.getType()) {
             case CLICK_USER_LOGIN:
 //                getUserCoupon();
+                if (actionBean != null) {
+                    ActionFactory actionFactory = new ActionFactory(this);
+                    actionFactory.doAction(actionBean);
+                }
             case CLICK_USER_LOOUT:
                 refreshContent();
                 break;
@@ -703,7 +712,6 @@ public class MainActivity extends BaseActivity
             } else {
                 if (!TextUtils.isEmpty(source)) {
                     Bundle bundle = new Bundle();
-                    ;
                     bundle.putString("source", source);
                     startFragment(new FgLogin(), bundle);
 

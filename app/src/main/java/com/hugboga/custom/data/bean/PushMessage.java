@@ -3,6 +3,7 @@ package com.hugboga.custom.data.bean;
 import android.util.Log;
 
 import com.huangbaoche.hbcframe.util.MLog;
+import com.hugboga.custom.action.ActionBean;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -26,6 +27,8 @@ public class PushMessage implements IBaseBean {
     public String orderID;
     public int orderType;
     public int goodsType;
+
+    public ActionBean actionBean;
 
     public void parser(String str){
         try {
