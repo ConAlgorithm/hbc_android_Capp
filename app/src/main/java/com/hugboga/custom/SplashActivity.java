@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.PersistableBundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
@@ -14,7 +15,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.hugboga.custom.action.ActionBean;
 import com.hugboga.custom.activity.BaseActivity;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.utils.AnimationUtils;
 import com.hugboga.custom.utils.PhoneInfo;
@@ -38,10 +41,29 @@ public class SplashActivity extends BaseActivity {
     ViewPager viewPager;
     LinePageIndicator mIndicator;
     TextView enter;
+
+    private ActionBean actionBean;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (savedInstanceState != null) {
+            actionBean = (ActionBean) savedInstanceState.getSerializable(Constants.PARAMS_ACTION);
+        } else {
+            Bundle bundle = getIntent().getExtras();
+            if (bundle != null) {
+                actionBean = (ActionBean) bundle.getSerializable(Constants.PARAMS_ACTION);
+            }
+        }
         gotoSetp(); //执行主体任务
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+        if (actionBean != null) {
+            outState.putSerializable(Constants.PARAMS_ACTION, actionBean);
+        }
     }
 
     @Override
@@ -139,7 +161,11 @@ public class SplashActivity extends BaseActivity {
         public void handleMessage(Message msg) {
             //记录首次运行标记
             super.handleMessage(msg);
-            startActivity(new Intent(SplashActivity.this, MainActivity.class));
+            Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+            if (actionBean != null) {
+                intent.putExtra(Constants.PARAMS_ACTION, actionBean);
+            }
+            startActivity(intent);
             finish();
         }
 

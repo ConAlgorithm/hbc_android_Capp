@@ -4,11 +4,13 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,7 +23,9 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
+import com.hugboga.custom.action.ActionBean;
 import com.hugboga.custom.activity.BaseActivity;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.ADPictureBean;
 import com.hugboga.custom.data.bean.CheckVersionBean;
 import com.hugboga.custom.data.bean.UserEntity;
@@ -30,6 +34,7 @@ import com.hugboga.custom.data.request.RequestCheckVersion;
 import com.hugboga.custom.service.LogService;
 import com.hugboga.custom.utils.ChannelUtils;
 import com.hugboga.custom.utils.ImageUtils;
+import com.hugboga.custom.utils.JsonUtils;
 import com.hugboga.custom.utils.PermissionRes;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.utils.PushUtils;
@@ -61,6 +66,8 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
     TextView bottom_txt;
     ImageView show_ad;
 
+    private ActionBean actionBean;
+
     int loading_time = 3;
     @Override
     protected void onStart() {
@@ -74,6 +81,19 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
         UIUtils.initDisplayConfiguration(LoadingActivity.this);
         MobclickAgent.UMAnalyticsConfig config = new MobclickAgent.UMAnalyticsConfig(this, "55ccb4cfe0f55ab500004a9d", ChannelUtils.getChannel(this));
         MobclickAgent.startWithConfigure(config);
+
+        Intent intent = getIntent();
+        String scheme = intent.getScheme();
+        if (getString(R.string.hbc_scheme).equals(scheme)) {
+            String dataString = intent.getDataString();
+            if (!TextUtils.isEmpty(dataString)) {
+                scheme += "://";
+                String data = dataString.substring(scheme.length(), dataString.length());
+                if (!TextUtils.isEmpty(data)) {
+                    actionBean = (ActionBean) JsonUtils.fromJson(data, ActionBean.class);
+                }
+            }
+        }
     }
 
     private void initView() {
@@ -174,12 +194,17 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
 
 
     private void goNext(){
+        Intent intent = null;
         handler.removeMessages(200);
         if (PhoneInfo.isNewVersion(LoadingActivity.this)) {
-            startActivity(new Intent(LoadingActivity.this, SplashActivity.class));
+            intent = new Intent(LoadingActivity.this, SplashActivity.class);
         } else {
-            startActivity(new Intent(LoadingActivity.this, MainActivity.class));
+            intent = new Intent(LoadingActivity.this, MainActivity.class);
         }
+        if (actionBean != null) {
+            intent.putExtra(Constants.PARAMS_ACTION, actionBean);
+        }
+        startActivity(intent);
         finish();
     }
 
@@ -210,7 +235,7 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
                 public void onClick(DialogInterface dialog, int which) {
                     PushUtils.startDownloadApk(LoadingActivity.this, cvBean.url);
                 }
-            }, new DialogInterface.OnClickListener() {
+            },  new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     //在版本检测后 检测DB
@@ -258,6 +283,9 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
                 public void onClick(View v) {
                     handler.removeMessages(200);
                     Intent intent = new Intent(LoadingActivity.this, MainActivity.class);
+                    if (actionBean != null) {
+                        intent.putExtra(Constants.PARAMS_ACTION, actionBean);
+                    }
                     intent.putExtra("url",adPictureBean.urlAddress);
                     startActivity(intent);
                     finish();

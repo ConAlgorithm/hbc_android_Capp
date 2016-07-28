@@ -622,6 +622,7 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
                 Bundle bundle = new Bundle();
                 bundle.putString(KEY_FROM, "lastCity");
                 bundle.putString("source", "首页");
+                bundle.putInt(BaseFragment.KEY_BUSINESS_TYPE, Constants.BUSINESS_TYPE_DAILY);
                 bundle.putInt(FgChooseCity.KEY_CITY_ID, preCityBean.cityId);
                 startFragment(new FgChooseCity(), bundle);
                 hideSelectPeoplePop();

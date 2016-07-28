@@ -9,6 +9,7 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -222,9 +223,10 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
         editSearch.addTextChangedListener(this);
         editSearch.setHint("请输入城市名称");
         if ("startAddress".equals(from)) {
-            editSearch.setHint("搜索出发城市");
+            editSearch.setHint("请输入出发城市名称");
         } else if ("end".equals(from)) {
-            editSearch.setHint("搜索到达城市");
+            editSearch.setHint("请输入达到城市名称");
+            tabLayout.findViewById(R.id.choose_city_tab_foreign_layout).performClick();
         } else if (showType == ShowType.SELECT_CITY) {
             editSearch.setHint("搜索途经城市");
         } else if (getBusinessType() == Constants.BUSINESS_TYPE_RENT) {
@@ -282,7 +284,6 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
         if (TextUtils.isEmpty(s) || TextUtils.isEmpty(s.toString().trim())) {
             searchTV.setVisibility(View.GONE);
             if (showType != ShowType.SELECT_CITY) {
-//                headerView.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, AbsListView.LayoutParams.WRAP_CONTENT));
                 headerRootView.removeAllViews();
                 headerRootView.addView(headerView);
                 if (showType == ShowType.PICK_UP) {
@@ -298,7 +299,6 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
             searchTV.setVisibility(View.VISIBLE);
             if (showType != ShowType.SELECT_CITY) {
                 headerRootView.removeAllViews();
-//                headerView.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, 1));
                 if (showType == ShowType.PICK_UP) {
                     tabLayout.setVisibility(View.GONE);
                 }
@@ -368,6 +368,7 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
                     CommonUtils.showToast("请输入搜索内容");
                     return;
                 }
+                editSearch.setText("");
                 searchTV.setVisibility(View.GONE);
                 collapseSoftInputMethod();
                 break;
@@ -549,15 +550,6 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
         mAsyncHandler = new Handler(mHandlerThread.getLooper()) {
             @Override
             public void handleMessage(Message msg) {
-                //此处逻辑来自旧代码
-                if (cityId != -1 && groupId == -1) {
-                    CityBean cityBean = DatabaseManager.getCityBean("" + cityId);
-                    if (cityBean != null) {
-                        groupId = cityBean.groupId;
-                        startCityName = cityBean.name;
-                    }
-                }
-
                 Message message = Message.obtain();
                 message.what = msg.what;
                 if (msg.obj instanceof String) {
@@ -596,6 +588,14 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
                             mAdapter.setShowType(ChooseCityAdapter.ShowType.SHOW_COUNTRY);
                         }
                     } else {
+                        //此处逻辑来自旧代码,之后需要移动到子线程
+                        if (cityId != -1 && groupId == -1) {
+                            CityBean cityBean = DatabaseManager.getCityBean("" + cityId);
+                            if (cityBean != null) {
+                                groupId = cityBean.groupId;
+                                startCityName = cityBean.name;
+                            }
+                        }
                         message.obj = DatabaseManager.getAllCitySql(getBusinessType(), groupId, cityId, from);
                         if (showType == ShowType.SELECT_CITY) {
                             mAdapter.setShowType(ChooseCityAdapter.ShowType.SELECT_CITY);
