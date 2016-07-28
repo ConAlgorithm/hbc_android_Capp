@@ -42,6 +42,10 @@ public class TopTipsLayout extends RelativeLayout {
         topText.setText(text);
     }
 
+    public void hide(){
+        view.setVisibility(GONE);
+    }
+
     @OnClick(R.id.img_close)
     public void onClick() {
         view.setVisibility(GONE);
