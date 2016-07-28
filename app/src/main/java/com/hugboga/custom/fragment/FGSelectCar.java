@@ -194,6 +194,23 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
         fgRightBtn.setVisibility(View.VISIBLE);
         fgTitle.setText(R.string.select_city_title);
         source = getArguments().getString("source");
+        fgRightBtn.setVisibility(View.VISIBLE);
+        fgRightBtn.setText("常见问题");
+        fgRightBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_PROBLEM);
+                bundle.putBoolean(FgWebInfo.CONTACT_SERVICE, true);
+                startFragment(new FgWebInfo(), bundle);
+
+                HashMap<String, String> map = new HashMap<String, String>();
+                map.put("source", "填写行程页面");
+                MobclickAgent.onEvent(getActivity(), "callcenter_oneway", map);
+                v.setTag("填写行程页面,calldomestic_oneway,calloverseas_oneway");
+
+            }
+        });
     }
 
     @Override
