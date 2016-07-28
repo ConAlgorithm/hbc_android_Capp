@@ -134,7 +134,7 @@
     <string name="tap_city_tip">如有中转请写末趟航班</string>
 
     <!-- 页面 pick_flight_list -->
-    <string name="title_pick_flight_list">选择航班列表</string>
+    <string name="title_pick_flight_list">选择航班</string>
     <string name="flight_empty_no">未搜索到航班号 %1$s</string>
     <string name="flight_empty_no_city">未搜索到符合条件的航班</string>
     <string name="flight_empty_tip">如有中转请搜索末趟航班</string>
