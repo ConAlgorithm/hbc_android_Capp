@@ -103,11 +103,9 @@ public class FgPickFlightList extends BaseFragment implements AdapterView.OnItem
         }
         BaseRequest request;
         if (flightType == 1) {
-            flightInfo.setVisibility(View.INVISIBLE);
 //            emptyNo.setText(String.format(getString(R.string.flight_empty_no), flightNo));
             request = new RequestFlightByNo(getActivity(), flightNo, flightDate, mBusinessType);
         } else {
-            flightInfo.setVisibility(View.INVISIBLE);
             emptyNo.setText(R.string.flight_empty_no_city);
             request = new RequestFlightByCity(getActivity(), flightFromCityId, flightToCityId, flightDate);
         }
@@ -133,6 +131,8 @@ public class FgPickFlightList extends BaseFragment implements AdapterView.OnItem
             String tFlightDate = DateUtils.getWeekStrByDate(flightDate, DateUtils.dateDateFormat, DateUtils.dateWeekFormat2);
             if(count != 0) {
                 flightInfo.setText(tFlightDate + " (共" + count + "趟航班)");
+            }else{
+                flightInfo.setVisibility(View.INVISIBLE);
             }
         } catch (ParseException e) {
             e.printStackTrace();
