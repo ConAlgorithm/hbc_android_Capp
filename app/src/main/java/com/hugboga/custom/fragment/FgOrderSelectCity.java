@@ -1047,9 +1047,11 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
                 }
                 break;
             case R.id.add:
-                if (childSeatNums <= 10) {
+                if (childSeatNums < childNum) {
                     childSeatNums++;
                     childText.setText(getString(R.string.select_city_child) + childSeatNums);
+                }else{
+                    CommonUtils.showToast("儿童座椅数不能大于儿童数");
                 }
                 break;
             case start_city_click:
