@@ -102,9 +102,11 @@ public class FgPickFlightList extends BaseFragment implements AdapterView.OnItem
         }
         BaseRequest request;
         if (flightType == 1) {
-            emptyNo.setText(String.format(getString(R.string.flight_empty_no), flightNo));
+            flightInfo.setVisibility(View.INVISIBLE);
+//            emptyNo.setText(String.format(getString(R.string.flight_empty_no), flightNo));
             request = new RequestFlightByNo(getActivity(), flightNo, flightDate, mBusinessType);
         } else {
+            flightInfo.setVisibility(View.INVISIBLE);
             emptyNo.setText(R.string.flight_empty_no_city);
             request = new RequestFlightByCity(getActivity(), flightFromCityId, flightToCityId, flightDate);
         }
