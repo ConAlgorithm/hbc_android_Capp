@@ -19,4 +19,4 @@ gen
 app/app.iml
 hbcframe/hbcframe.iml
 polygonimageview/polygonimageview.iml
-/app/build.gradle
+/build.gradle
