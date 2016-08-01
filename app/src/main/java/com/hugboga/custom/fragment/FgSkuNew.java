@@ -290,9 +290,13 @@ public class FgSkuNew extends BaseFragment {
     ManLuggageBean manLuggageBean;
     int hotelNum = 1;//几晚
     int hourseNum = 1;//几间房
+    int maxLuuages = 0;
     @Subscribe
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
+            case MAX_LUGGAGE_NUM:
+                maxLuuages = (int)action.getData();
+                    break;
             case CAR_CHANGE_SMALL:
 //                confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
 //                confirmJourney.setOnClickListener(null);
@@ -375,7 +379,7 @@ public class FgSkuNew extends BaseFragment {
         bundle.putString("adultNum", manLuggageBean.mans + "");
         bundle.putString("childrenNum", manLuggageBean.childs + "");
         bundle.putString("childseatNum", manLuggageBean.childSeats + "");
-        bundle.putString("luggageNum", manLuggageBean.luggages + "");
+        bundle.putString("luggageNum", maxLuuages+"");//manLuggageBean.luggages + "");
         bundle.putString("passCities", "");
         bundle.putString("carTypeName", carBean.desc);
         bundle.putString("startCityName", cityBean.name);

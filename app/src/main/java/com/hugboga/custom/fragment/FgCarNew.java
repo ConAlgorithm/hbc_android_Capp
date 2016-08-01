@@ -223,7 +223,7 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
     }
 
     ManLuggageBean manLuggageBean;
-
+    int maxLuuages = 0;
     @Subscribe
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
@@ -256,8 +256,9 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
 //                luggageText.setText("行李箱 x " + manLuggageBean.luggages);
                 childseatText.setText("儿童座椅 x " + (manLuggageBean.childSeats));
                 luggageTipsLayout.setVisibility(View.VISIBLE);
-                int maxLuuages = (carBean.capOfLuggage+ carBean.capOfPerson) - manLuggageBean.mans - Math.round(manLuggageBean.childSeats * 1.5f) - (manLuggageBean.childs - manLuggageBean.childSeats);
+                maxLuuages = (carBean.capOfLuggage+ carBean.capOfPerson) - manLuggageBean.mans - Math.round(manLuggageBean.childSeats * 1.5f) - (manLuggageBean.childs - manLuggageBean.childSeats);
                 maxLuggageContent.setText(maxLuuages+"件");
+                EventBus.getDefault().post(new EventAction(EventType.MAX_LUGGAGE_NUM,maxLuuages));
                 break;
             default:
                 break;
