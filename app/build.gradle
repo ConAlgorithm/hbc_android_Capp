@@ -183,7 +183,7 @@ dependencies {
     compile project(':hbcframe')
     compile project(':IMKit')
     compile project(':polygonimageview')
-    compile project(':WheelPicker')
+    compile project(':timepicker')
     compile 'com.wdullaer:materialdatetimepicker:2.1.1'
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.1.14'
