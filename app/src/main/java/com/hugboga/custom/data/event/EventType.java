@@ -71,6 +71,7 @@ public enum EventType {
     CHOOSE_DATE,//选日期
 
     CAR_CHANGE_SMALL,//车型小于人数
+    MAX_LUGGAGE_NUM,//计算出的最大行李数
 
 
 }

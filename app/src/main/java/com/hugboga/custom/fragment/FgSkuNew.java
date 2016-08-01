@@ -1,6 +1,7 @@
 package com.hugboga.custom.fragment;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -19,8 +20,10 @@ import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.DatePickerActivity;
 import com.hugboga.custom.data.bean.CarBean;
 import com.hugboga.custom.data.bean.CarListBean;
+import com.hugboga.custom.data.bean.ChooseDateBean;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.ManLuggageBean;
 import com.hugboga.custom.data.bean.PoiBean;
@@ -55,6 +58,8 @@ import butterknife.OnClick;
 import static com.hugboga.custom.R.id.all_journey_text;
 import static com.hugboga.custom.R.id.all_money_left;
 import static com.hugboga.custom.R.id.all_money_text_sku;
+import static com.hugboga.custom.R.id.go_city_text_click_right;
+import static com.hugboga.custom.R.id.time_layout;
 
 /**
  * Created  on 16/5/20.
@@ -79,7 +84,7 @@ public class FgSkuNew extends BaseFragment {
     TextView timeLeft;
     @Bind(R.id.time_text)
     TextView timeText;
-    @Bind(R.id.time_layout)
+    @Bind(time_layout)
     LinearLayout timeLayout;
     @Bind(R.id.rl_starttime)
     RelativeLayout rlStarttime;
@@ -290,9 +295,24 @@ public class FgSkuNew extends BaseFragment {
     ManLuggageBean manLuggageBean;
     int hotelNum = 1;//几晚
     int hourseNum = 1;//几间房
+    int maxLuuages = 0;
+    ChooseDateBean chooseDateBean;
     @Subscribe
     public void onEventMainThread(EventAction action) {
+
         switch (action.getType()) {
+            case CHOOSE_DATE:
+                chooseDateBean = (ChooseDateBean)action.getData();
+                if(chooseDateBean.type == 1){
+                    serverDate = chooseDateBean.halfDateStr;
+                    timeText.setText(serverDate);
+                    getData();
+
+                }
+                break;
+            case MAX_LUGGAGE_NUM:
+                maxLuuages = (int)action.getData();
+                    break;
             case CAR_CHANGE_SMALL:
 //                confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
 //                confirmJourney.setOnClickListener(null);
@@ -375,7 +395,7 @@ public class FgSkuNew extends BaseFragment {
         bundle.putString("adultNum", manLuggageBean.mans + "");
         bundle.putString("childrenNum", manLuggageBean.childs + "");
         bundle.putString("childseatNum", manLuggageBean.childSeats + "");
-        bundle.putString("luggageNum", manLuggageBean.luggages + "");
+        bundle.putString("luggageNum", maxLuuages+"");//manLuggageBean.luggages + "");
         bundle.putString("passCities", "");
         bundle.putString("carTypeName", carBean.desc);
         bundle.putString("startCityName", cityBean.name);
@@ -427,6 +447,11 @@ public class FgSkuNew extends BaseFragment {
 
 
     public void showDaySelect() {
+//        Intent intent = new Intent(getActivity(),DatePickerActivity.class);
+//        intent.putExtra("type",1);
+//        intent.putExtra("title","请选择出发日期");
+//        startActivity(intent);
+
         Calendar cal = Calendar.getInstance();
         MyDatePickerListener myDatePickerDialog = new MyDatePickerListener(timeText);
         DatePickerDialog dpd = DatePickerDialog.newInstance(
@@ -497,11 +522,11 @@ public class FgSkuNew extends BaseFragment {
         EventBus.getDefault().unregister(this);
     }
 
-    @OnClick({R.id.time_text, R.id.time_layout, R.id.confirm_journey})
+    @OnClick({R.id.time_text, time_layout, R.id.confirm_journey})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.time_text:
-            case R.id.time_layout:
+            case time_layout:
                 showDaySelect();
                 break;
             case R.id.confirm_journey:

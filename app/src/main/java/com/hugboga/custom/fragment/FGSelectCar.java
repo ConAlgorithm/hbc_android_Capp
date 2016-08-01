@@ -189,6 +189,9 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
     @Bind(R.id.childseat_layout)
     RelativeLayout childseatLayout;
 
+    @Bind(R.id.empty_text)
+    TextView empty_text;
+
     @Override
     protected void initHeader() {
         fgRightBtn.setVisibility(View.VISIBLE);
@@ -326,12 +329,17 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
                     coupon_listview_empty.setVisibility(View.VISIBLE);
                     scrollView.setVisibility(View.GONE);
                     nextBtnClick.setVisibility(View.GONE);
+                    empty_text.setText("很抱歉，该日期暂无可服务司导");
                 } else {
                     initListData();
                     getMatchCarIndex();
                     showContent();
                     if (carBean.match == 0) {
-                        jazzyPager.setCurrentItem(cars.size() - 1);
+//                        jazzyPager.setCurrentItem(cars.size() - 1);
+                        coupon_listview_empty.setVisibility(View.VISIBLE);
+                        scrollView.setVisibility(View.GONE);
+                        nextBtnClick.setVisibility(View.GONE);
+                        empty_text.setText("很抱歉，您的出行人数过多，没有找到适合的车型");
                     }
                 }
             }

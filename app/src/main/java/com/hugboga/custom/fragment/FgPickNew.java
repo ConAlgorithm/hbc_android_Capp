@@ -259,9 +259,13 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
 
 
     ManLuggageBean manLuggageBean;
+    int maxLuuages = 0;
     @Subscribe
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
+            case MAX_LUGGAGE_NUM:
+                maxLuuages = (int)action.getData();
+                break;
             case CAR_CHANGE_SMALL:
 //                confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
 //                confirmJourney.setOnClickListener(null);
@@ -451,7 +455,7 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
         bundle.putString("adultNum", manLuggageBean.mans + "");
         bundle.putString("childrenNum", manLuggageBean.childs + "");
         bundle.putString("childseatNum", manLuggageBean.childSeats + "");
-        bundle.putString("luggageNum", manLuggageBean.luggages + "");
+        bundle.putString("luggageNum", maxLuuages+"");//manLuggageBean.luggages + "");
         bundle.putParcelable("carListBean", carListBean);
 
         bundle.putBoolean("needCheckin", checkInChecked);

@@ -661,6 +661,10 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
                     }
                     if (manNum == 0) manNum = 1;
                     peopleTextClick.setText(String.format(getString(R.string.select_city_man_child_num), manNum, childNum));
+                    if(childNum < childSeatNums) {
+                        childSeatNums = childNum;
+                        childText.setText(getString(R.string.select_city_child) + childSeatNums);
+                    }
                     peopleTextClick.setTextColor(Color.parseColor("#000000"));
                 }
 //                checkNextBtnStatus();
@@ -1047,9 +1051,11 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
                 }
                 break;
             case R.id.add:
-                if (childSeatNums <= 10) {
+                if (childSeatNums < childNum) {
                     childSeatNums++;
                     childText.setText(getString(R.string.select_city_child) + childSeatNums);
+                }else{
+                    CommonUtils.showToast("儿童座椅数不能大于儿童数");
                 }
                 break;
             case start_city_click:

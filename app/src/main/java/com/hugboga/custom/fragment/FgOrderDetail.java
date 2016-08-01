@@ -135,9 +135,9 @@ public class FgOrderDetail extends BaseFragment implements View.OnClickListener{
 
     private void genTopTIps(){
         if(null != orderBean) {
-            if (orderBean.orderStatus.code == 1) {//未付款
+            if (orderBean.orderStatus.code == 2) {//未付款
                 topTipsLayout.setText(R.string.order_detail_top1_tips);
-            } else if (orderBean.orderStatus.code == 2) {//已付款
+            } else if (orderBean.orderStatus.code == 1) {//已付款
                 topTipsLayout.setText(R.string.order_detail_top2_tips);
             } else {
                 topTipsLayout.hide();
