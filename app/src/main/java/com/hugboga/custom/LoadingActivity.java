@@ -87,7 +87,7 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
         if (getString(R.string.hbc_scheme).equals(scheme)) {
             String dataString = intent.getDataString();
             if (!TextUtils.isEmpty(dataString)) {
-                scheme += "://";
+                scheme += "://?";
                 String data = dataString.substring(scheme.length(), dataString.length());
                 if (!TextUtils.isEmpty(data)) {
                     actionBean = (ActionBean) JsonUtils.fromJson(data, ActionBean.class);
