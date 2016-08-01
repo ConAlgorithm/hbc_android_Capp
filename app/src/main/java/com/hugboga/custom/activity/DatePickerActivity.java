@@ -206,9 +206,15 @@ public class DatePickerActivity extends BaseActivity {
         }
     }
 
-
+    String title = null;
     private void initViews() {
-        headerTitle.setText(getString(R.string.select_day));
+        title = getIntent().getStringExtra("title");
+        if(null == title) {
+            headerTitle.setText(getString(R.string.select_day));
+        }else{
+            headerTitle.setText(title);
+        }
+
         headerLeftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

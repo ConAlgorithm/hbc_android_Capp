@@ -59,6 +59,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.qqtheme.framework.picker.DateTimePicker;
 
 import static android.view.View.GONE;
 
@@ -727,11 +728,32 @@ public class FgSingleNew extends BaseFragment {
                     CommonUtils.showToast("请先选择城市");
                     return;
                 }
-                showDaySelect();
+//                showDaySelect();
+                showYearMonthDayTimePicker();
                 break;
             case R.id.confirm_journey:
                 break;
         }
+    }
+
+
+    public void showYearMonthDayTimePicker() {
+        Calendar calendar = Calendar.getInstance();
+        DateTimePicker picker = new DateTimePicker(getActivity(), DateTimePicker.HOUR_OF_DAY);
+        picker.setRange(2000, 2030);
+        picker.setSelectedItem(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH),
+                calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
+        picker.setOnDateTimePickListener(new DateTimePicker.OnYearMonthDayTimePickListener() {
+            @Override
+            public void onDateTimePicked(String year, String month, String day, String hour, String minute) {
+//                showToast(year + "-" + month + "-" + day + " " + hour + ":" + minute);
+                serverDate = year + "-" + month + "-" + day;
+                serverTime = hour + ":" + minute;
+                timeText.setText(serverDate + " " + serverTime);
+                checkInput();
+            }
+        });
+        picker.show();
     }
 
 

@@ -32,7 +32,6 @@ import com.hugboga.custom.data.request.RequestCheckPriceForTransfer;
 import com.hugboga.custom.data.request.RequestGuideConflict;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.CarUtils;
-import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.widget.DialogUtil;
@@ -52,8 +51,10 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.qqtheme.framework.picker.DateTimePicker;
 
 import static android.view.View.GONE;
+import static com.hugboga.custom.utils.CommonUtils.showToast;
 
 /**
  * Created  on 16/5/13.
@@ -185,7 +186,7 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
 
     private boolean checkParams(){
         if(null == manLuggageBean) {
-            CommonUtils.showToast(R.string.add_man_toast);
+            showToast(R.string.add_man_toast);
             return false;
         }
         return true;
@@ -477,7 +478,7 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
                     fg.setArguments(bundle);
                     startFragment(fg);
                 } else {
-                    CommonUtils.showToast("先选择机场");
+                    showToast("先选择机场");
                 }
                 break;
             case R.id.address_layout:
@@ -491,14 +492,35 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
             case R.id.time_layout:
             case R.id.time_text://出发时间
                 if (airPortBean == null) {
-                    CommonUtils.showToast("先选择机场");
+                    showToast("先选择机场");
                     return;
                 }
-                showDaySelect();
+//                showDaySelect();
+                showYearMonthDayTimePicker();
                 break;
             case R.id.rl_starttime:
                 break;
         }
+    }
+
+
+    public void showYearMonthDayTimePicker() {
+        Calendar calendar = Calendar.getInstance();
+        DateTimePicker picker = new DateTimePicker(getActivity(), DateTimePicker.HOUR_OF_DAY);
+        picker.setRange(2000, 2030);
+        picker.setSelectedItem(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH),
+                calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
+        picker.setOnDateTimePickListener(new DateTimePicker.OnYearMonthDayTimePickListener() {
+            @Override
+            public void onDateTimePicked(String year, String month, String day, String hour, String minute) {
+//                showToast(year + "-" + month + "-" + day + " " + hour + ":" + minute);
+                serverDate = year + "-" + month + "-" + day;
+                serverTime = hour + ":" + minute;
+                timeText.setText(serverDate + " " + serverTime);
+                checkInput();
+            }
+        });
+        picker.show();
     }
 
     boolean isNetError = false;
@@ -538,7 +560,7 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
                     bottom.setVisibility(View.VISIBLE);
                 }else{
                     bottom.setVisibility(View.GONE);
-                    CommonUtils.showToast(R.string.no_price_error);
+                    showToast(R.string.no_price_error);
                 }
             } else {
                 bottom.setVisibility(View.GONE);
