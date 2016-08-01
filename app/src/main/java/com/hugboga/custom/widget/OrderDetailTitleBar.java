@@ -46,7 +46,7 @@ public class OrderDetailTitleBar extends LinearLayout implements HbcViewBehavior
         findViewById(R.id.header_detail_back_btn).setOnClickListener(this);
 
         serviceIV = (ImageView)findViewById(R.id.header_detail_right_2_btn);
-        serviceIV.setImageResource(R.mipmap.service);
+        serviceIV.setImageResource(R.mipmap.order_deatil_service);
 //        serviceIV.setOnClickListener(this);
 
         otherIV = (ImageView)findViewById(R.id.header_detail_right_1_btn);
