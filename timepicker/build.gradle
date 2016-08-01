@@ -1,0 +1,22 @@
+apply plugin: 'com.android.library'
+
+android {
+
+  compileSdkVersion 23
+  buildToolsVersion '24'
+
+  defaultConfig {
+    minSdkVersion 15
+  }
+
+  lintOptions {
+    warning 'MissingTranslation'
+    textReport true
+    textOutput 'stdout'
+  }
+}
+
+dependencies {
+  compile "com.android.support:support-annotations:latest.release"
+}
+
