@@ -177,6 +177,11 @@ public class ChooseCityAdapter extends BaseAdapter implements StickyListHeadersA
         }
         CityBean cityBean = cityList.get(position);
         holder.sectionsTV.setText(getSectionsStr(cityBean));
+        if (showType == ShowType.SEARCH_PROMPT) {
+            convertView.setVisibility(View.GONE);
+        } else {
+            convertView.setVisibility(View.VISIBLE);
+        }
         return convertView;
     }
 

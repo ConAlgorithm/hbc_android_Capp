@@ -32,6 +32,7 @@ import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DBHelper;
 import com.hugboga.custom.utils.DatabaseManager;
 import com.hugboga.custom.utils.SharedPre;
+import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.ChooseCityHeaderView;
 import com.hugboga.custom.widget.ChooseCityTabLayout;
 import com.hugboga.custom.widget.DialogUtil;
@@ -282,6 +283,8 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
         emptyTV.setVisibility(View.GONE);
         emptyIV.setVisibility(View.GONE);
         if (TextUtils.isEmpty(s) || TextUtils.isEmpty(s.toString().trim())) {
+            mListview.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT));
+
             searchTV.setVisibility(View.GONE);
             if (showType != ShowType.SELECT_CITY) {
                 headerRootView.removeAllViews();
@@ -296,6 +299,10 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
 
             requestData();
         } else {
+            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);
+            params.topMargin = -UIUtils.dip2px(32);
+            mListview.setLayoutParams(params);
+
             searchTV.setVisibility(View.VISIBLE);
             if (showType != ShowType.SELECT_CITY) {
                 headerRootView.removeAllViews();
