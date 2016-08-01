@@ -31,9 +31,9 @@ public abstract class ConfirmPopup<V extends View> extends BottomPopup<View> {
     protected CharSequence cancelText = "";
     protected CharSequence submitText = "";
     protected CharSequence titleText = "";
-    protected int cancelTextColor = Color.BLACK;
-    protected int submitTextColor = Color.BLACK;
-    protected int titleTextColor = Color.BLACK;
+    protected int cancelTextColor = Color.WHITE;
+    protected int submitTextColor = Color.WHITE;
+    protected int titleTextColor = Color.WHITE;
 
     /**
      * Instantiates a new Confirm popup.
@@ -44,6 +44,7 @@ public abstract class ConfirmPopup<V extends View> extends BottomPopup<View> {
         super(activity);
         cancelText = activity.getString(android.R.string.cancel);
         submitText = activity.getString(android.R.string.ok);
+        setTitleText("请选择出发时间");
     }
 
     /**
@@ -204,7 +205,7 @@ public abstract class ConfirmPopup<V extends View> extends BottomPopup<View> {
     protected View makeHeaderView() {
         RelativeLayout topButtonLayout = new RelativeLayout(activity);
         topButtonLayout.setLayoutParams(new RelativeLayout.LayoutParams(MATCH_PARENT, ConvertUtils.toPx(activity, 40)));
-        topButtonLayout.setBackgroundColor(topBackgroundColor);
+        topButtonLayout.setBackgroundColor(Color.parseColor("#fbd003"));
         topButtonLayout.setGravity(Gravity.CENTER_VERTICAL);
 
         Button cancelButton = new Button(activity);
