@@ -96,6 +96,7 @@ public class FgPickFlightList extends BaseFragment implements AdapterView.OnItem
 
         try {
             String tFlightDate = DateUtils.getWeekStrByDate(flightDate, DateUtils.dateDateFormat, DateUtils.dateWeekFormat2);
+            flightInfo.setVisibility(View.VISIBLE);
             flightInfo.setText(tFlightDate);
         } catch (ParseException e) {
             e.printStackTrace();

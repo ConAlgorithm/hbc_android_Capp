@@ -661,6 +661,10 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
                     }
                     if (manNum == 0) manNum = 1;
                     peopleTextClick.setText(String.format(getString(R.string.select_city_man_child_num), manNum, childNum));
+                    if(childNum < childSeatNums) {
+                        childSeatNums = childNum;
+                        childText.setText(getString(R.string.select_city_child) + childSeatNums);
+                    }
                     peopleTextClick.setTextColor(Color.parseColor("#000000"));
                 }
 //                checkNextBtnStatus();
