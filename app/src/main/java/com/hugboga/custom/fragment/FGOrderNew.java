@@ -570,7 +570,7 @@ public class FGOrderNew extends BaseFragment {
         cancleTipsTime = flightBean.depDate + " " + flightBean.arrivalTime + ":00";
 
         citysLineTitle.setText("当地时间" + flightBean.arrivalTime + "(" + DateUtils.getWeekOfDate(flightBean.depDate) + ")");
-        citys_line_title_tips.setText("航班" + flightBean.arrivalAirport.airportCode + " " + flightBean.depAirport.cityName + "-" + flightBean.arrivalAirport.cityName);
+        citys_line_title_tips.setText("航班" + flightBean.flightNo + " " + flightBean.depAirport.cityName + "-" + flightBean.arrivalAirport.cityName);
 
 
         startHospitalTitle.setText(flightBean.arrivalAirport.airportName);
