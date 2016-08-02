@@ -198,7 +198,7 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
         super.onDestroy();
     }
 
-    protected void initHeader() {
+    public void initHeader() {
 //        fgTitle.setTextColor(getResources().getColor(R.color.my_content_title_color));
 //        fgTitle.setText("客服中心");
         fgLeftBtn.setOnClickListener(new View.OnClickListener() {
@@ -223,9 +223,7 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
         }
     }
 
-    @Override
     public void initView() {
-        super.initView();
         // 启用javaScript
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setDefaultTextEncodingName("UTF-8");

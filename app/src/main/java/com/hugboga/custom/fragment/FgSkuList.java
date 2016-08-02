@@ -19,6 +19,7 @@ import com.huangbaoche.hbcframe.widget.recycler.ZDefaultDivider;
 import com.huangbaoche.hbcframe.widget.recycler.ZListRecyclerView;
 import com.huangbaoche.hbcframe.widget.recycler.ZSwipeRefreshLayout;
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.ChooseCityNewActivity;
 import com.hugboga.custom.activity.DailyWebInfoActivity;
 import com.hugboga.custom.activity.SkuDetailActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
@@ -415,7 +416,7 @@ public class FgSkuList extends BaseFragment implements HbcRecyclerBaseAdapter.On
     @Override
     public void onFragmentResult(Bundle bundle) {
         String fragmentName = bundle.getString(KEY_FRAGMENT_NAME);
-        if (FgChooseCityNew.class.getSimpleName().equals(fragmentName)) {
+        if (ChooseCityNewActivity.class.getSimpleName().equals(fragmentName)) {
             paramsData = (FgSkuList.Params) bundle.getSerializable(Constants.PARAMS_DATA);
             initHeader();
         }

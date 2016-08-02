@@ -1,6 +1,7 @@
 package com.hugboga.custom.activity;
 
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -22,7 +23,7 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.LevelCityAdapter;
 import com.hugboga.custom.adapter.SearchNewAdapter;
 import com.hugboga.custom.data.bean.SearchGroupBean;
-import com.hugboga.custom.fragment.FgOrderSelectCity;
+import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.fragment.FgPickSend;
 import com.hugboga.custom.fragment.FgSingleNew;
 import com.hugboga.custom.fragment.FgSkuList;
@@ -31,14 +32,12 @@ import com.hugboga.custom.utils.LogUtils;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.FlowLayout;
 
-import org.xutils.common.Callback;
-import org.xutils.view.annotation.Event;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
-
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class ChooseCityNewActivity extends BaseActivity {
 
@@ -70,10 +69,11 @@ public class ChooseCityNewActivity extends BaseActivity {
     LinearLayout emptyLayout;
 
 
-    protected void initHeader() {
+    public void initHeader() {
         headTextRight.setText("取消");
         headSearch.setHint(R.string.home_search_hint);
         headTextRight.setVisibility(View.GONE);
+        initPop();
     }
 
     SearchNewAdapter searchNewAdapter;
@@ -111,6 +111,13 @@ public class ChooseCityNewActivity extends BaseActivity {
 
     }
 
+    @Override
+    public void onCreate(Bundle arg0) {
+        super.onCreate(arg0);
+        setContentView(R.layout.fg_city_new);
+        ButterKnife.bind(this);
+        initView();
+    }
 
     private void showSearchPop(List<SearchGroupBean> list) {
         headTextRight.setVisibility(View.VISIBLE);
@@ -131,17 +138,14 @@ public class ChooseCityNewActivity extends BaseActivity {
     }
 
 
-    @Event(value = {R.id.head_search, R.id.header_left_btn, R.id.city_choose_btn, R.id.head_search_clean, R.id.head_text_right})
-    private void onClickView(View view) {
+    @OnClick({R.id.head_search, R.id.header_left_btn, R.id.head_search_clean, R.id.head_text_right})
+    public void onClick(View view) {
         switch (view.getId()) {
             case R.id.head_search:
                 showSoftInputMethod(headSearch);
                 break;
             case R.id.header_left_btn:
                 expandableListView.setVisibility(View.GONE);
-                finish();
-                break;
-            case R.id.city_choose_btn:
                 finish();
                 break;
             case R.id.head_search_clean:
@@ -154,7 +158,6 @@ public class ChooseCityNewActivity extends BaseActivity {
                 collapseSoftInputMethod(headSearch);
                 break;
         }
-
     }
 
 
@@ -166,6 +169,7 @@ public class ChooseCityNewActivity extends BaseActivity {
     List<SearchGroupBean> list;
 
     public void initView() {
+        initHeader();
         headSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -237,8 +241,16 @@ public class ChooseCityNewActivity extends BaseActivity {
                     startFragment(fgSingleNew);
                 } else if (groupList2.get(position).spot_id == -3) {
                     finish();
-                    FgOrderSelectCity fgOrderSelectCity = new FgOrderSelectCity();
-                    startFragment(fgOrderSelectCity);
+//                    Bundle bundle = new Bundle();
+//                    bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_DAIRY);
+//                    startFragment(new FgDailyWeb(), bundle);
+
+                    Intent intent = new Intent(activity, WebInfoActivity.class);
+                    intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_DAIRY);
+                    startActivity(intent);
+
+//                    FgOrderSelectCity fgOrderSelectCity = new FgOrderSelectCity();
+//                    startFragment(fgOrderSelectCity);
                 } else {
                     if (CityUtils.canGoCityList(groupList2.get(position))) {
                         goCityList(groupList2.get(position));
@@ -290,7 +302,7 @@ public class ChooseCityNewActivity extends BaseActivity {
 
             SearchGroupBean lineGroupBean;
             SearchGroupBean searchGroupBean = groupList2.get(position);
-            lineGroupBean = (SearchGroupBean)searchGroupBean.clone();
+            lineGroupBean = (SearchGroupBean) searchGroupBean.clone();
             lineGroupBean.isSelected = false;
 
 
@@ -312,7 +324,7 @@ public class ChooseCityNewActivity extends BaseActivity {
         } else {
             SearchGroupBean lineGroupBean;
             SearchGroupBean searchGroupBean = groupList.get(position);
-            lineGroupBean = (SearchGroupBean)searchGroupBean.clone();
+            lineGroupBean = (SearchGroupBean) searchGroupBean.clone();
             lineGroupBean.isSelected = false;
             groupList2 = new ArrayList<>();
             groupList2.add(0, lineGroupBean);
@@ -325,7 +337,7 @@ public class ChooseCityNewActivity extends BaseActivity {
 
 
     private void genHistoryCity() {
-        if(null != historyCityLayout) {
+        if (null != historyCityLayout) {
             historyCityLayout.removeAllViews();
             List<SearchGroupBean> list = CityUtils.getSaveCity();
             if (null != list) {
@@ -395,7 +407,7 @@ public class ChooseCityNewActivity extends BaseActivity {
                 params.titleName = searchGroupBean.spot_name;
             }
         }
-        startFragment(FgSkuList.newInstance(params));
+//        startFragment(FgSkuList.newInstance(params));
 
 //        Bundle bundle = new Bundle();
 //        bundle.putSerializable(Constants.PARAMS_DATA, params);
@@ -404,12 +416,6 @@ public class ChooseCityNewActivity extends BaseActivity {
     }
 
 
-    protected Callback.Cancelable requestData() {
-        return null;
-    }
-
-
-    @Override
     public void onBackPressed() {
         expandableListView.setVisibility(View.GONE);
         super.onBackPressed();
@@ -419,13 +425,6 @@ public class ChooseCityNewActivity extends BaseActivity {
     public void onResume() {
         super.onResume();
         genHistoryCity();
-    }
-
-    @Override
-    public void onCreate(Bundle arg0) {
-        super.onCreate(arg0);
-        setContentView(R.layout.fg_city_new);
-        initPop();
     }
 
     @Override
@@ -446,7 +445,7 @@ public class ChooseCityNewActivity extends BaseActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        ButterKnife.unbind(this);
     }
-
 
 }

@@ -174,9 +174,7 @@ public class OrderSelectCityActivity extends BaseActivity implements NumberPicke
 
     boolean isFromGuideList = false;
 
-    @Override
     public void initView() {
-        super.initView();
         initHeader();
         initSelectPeoplePop(false);
         enableNextBtn();
@@ -405,7 +403,7 @@ public class OrderSelectCityActivity extends BaseActivity implements NumberPicke
 
 
 
-    protected void initHeader() {
+    public void initHeader() {
         fgRightBtn.setVisibility(View.VISIBLE);
         fgTitle.setText(R.string.select_city_title);
     }

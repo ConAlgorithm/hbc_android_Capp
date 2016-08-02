@@ -42,21 +42,14 @@ public class BaseActivity extends BaseFragmentActivity implements View.OnClickLi
     public Callback.Cancelable cancelable;
     private ErrorHandler errorHandler;
 
+
+
     @Override
     public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         activity = this;
-        ButterKnife.bind(this);
-        initView();
     }
 
-    public void initView(){
-        fgTitle = (TextView) findViewById(R.id.header_title);
-        fgLeftBtn = findViewById(R.id.header_left_btn);
-        fgRightBtn = (TextView) findViewById(R.id.header_right_txt);
-        if (fgRightBtn != null) fgRightBtn.setOnClickListener(this);
-        if (fgLeftBtn != null) fgLeftBtn.setOnClickListener(this);
-    }
 
     @Override
     public void onClick(View v) {
