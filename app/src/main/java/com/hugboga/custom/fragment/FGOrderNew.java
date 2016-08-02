@@ -1,5 +1,6 @@
 package com.hugboga.custom.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -18,6 +19,7 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.AirPort;
 import com.hugboga.custom.data.bean.CarListBean;
@@ -77,6 +79,7 @@ import static android.view.View.GONE;
 import static com.hugboga.custom.R.id.man_name;
 import static com.hugboga.custom.R.id.up_address_right;
 import static com.hugboga.custom.R.id.up_right;
+import static com.tencent.bugly.crashreport.inner.InnerAPI.context;
 
 /**
  * Created  on 16/4/18.
@@ -241,10 +244,15 @@ public class FGOrderNew extends BaseFragment {
         fgRightBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bundle bundle = new Bundle();
-                bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_PROBLEM);
-                bundle.putBoolean(FgWebInfo.CONTACT_SERVICE, true);
-                startFragment(new FgWebInfo(), bundle);
+//                Bundle bundle = new Bundle();
+//                bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_PROBLEM);
+//                bundle.putBoolean(FgWebInfo.CONTACT_SERVICE, true);
+//                startFragment(new FgWebInfo(), bundle);
+
+                Intent intent = new Intent(context, WebInfoActivity.class);
+                intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_PROBLEM);
+                intent.putExtra(WebInfoActivity.CONTACT_SERVICE, true);
+                startActivity(intent);
             }
         });
 
@@ -551,9 +559,26 @@ public class FGOrderNew extends BaseFragment {
         }
     }
 
+    public static final String KEY_CITY_ID = "KEY_CITY_ID";
+    public static final String KEY_CITY = "KEY_CITY";
+    public static final String KEY_FLIGHT = "KEY_FLIGHT";
+    public static final String KEY_AIRPORT = "KEY_AIRPORT";
+    public static final String KEY_START = "KEY_START";
+    public static final String KEY_ARRIVAL = "KEY_ARRIVAL";
+    public static final String KEY_TIME = "KEY_TIME";
+    public static final String KEY_CAR = "KEY_CAR";
+    public static final String KEY_DAILY = "KEY_DAILY";
+    public static final String KEY_MASK = "KEY_MASK";
+    public static final String KEY_DISTANCE = "KEY_DISTANCE";
+    public static final String KEY_COM_TIME = "KEY_EXPECTED_COMP_TIME";
+    public static final String KEY_URGENT_FLAG = "KEY_URGENT_FLAG";
+    public static final String KEY_NEED_CHILDREN_SEAT = "KEY_NEED_CHILDREN_SEAT";
+    public static final String KEY_NEED_BANNER = "KEY_NEED_BANNER";
+
+
     private void genPick() {
-        flightBean = (FlightBean) this.getArguments().getSerializable(FgCar.KEY_FLIGHT);
-        poiBean = (PoiBean) this.getArguments().getSerializable(FgCar.KEY_ARRIVAL);
+        flightBean = (FlightBean) this.getArguments().getSerializable(KEY_FLIGHT);
+        poiBean = (PoiBean) this.getArguments().getSerializable(KEY_ARRIVAL);
 
         hotelPhoneTextCodeClick.setText("+" + flightBean.arrivalAirport.areaCode);
 

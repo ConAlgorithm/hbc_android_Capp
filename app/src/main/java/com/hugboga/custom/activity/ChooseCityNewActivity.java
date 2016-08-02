@@ -165,7 +165,7 @@ public class ChooseCityNewActivity extends BaseActivity {
 
     List<SearchGroupBean> list;
 
-    protected void initView() {
+    public void initView() {
         headSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -422,7 +422,7 @@ public class ChooseCityNewActivity extends BaseActivity {
     }
 
     @Override
-    protected void onCreate(Bundle arg0) {
+    public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         setContentView(R.layout.fg_city_new);
         initPop();
@@ -444,7 +444,7 @@ public class ChooseCityNewActivity extends BaseActivity {
     }
 
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         super.onDestroy();
     }
 

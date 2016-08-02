@@ -20,6 +20,7 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.LuggageInfoActivity;
+import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.adapter.CarViewpagerAdapter;
 import com.hugboga.custom.constants.ChooseCarTypeEnum;
 import com.hugboga.custom.constants.Constants;
@@ -57,6 +58,7 @@ import static com.hugboga.custom.R.id.days_right;
 import static com.hugboga.custom.R.id.man_have;
 import static com.hugboga.custom.R.id.man_right;
 import static com.hugboga.custom.R.id.max_luggage_content;
+import static com.tencent.bugly.crashreport.inner.InnerAPI.context;
 
 /**
  * Created  on 16/4/16.
@@ -202,10 +204,16 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
         fgRightBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bundle bundle = new Bundle();
-                bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_PROBLEM);
-                bundle.putBoolean(FgWebInfo.CONTACT_SERVICE, true);
-                startFragment(new FgWebInfo(), bundle);
+//                Bundle bundle = new Bundle();
+//                bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_PROBLEM);
+//                bundle.putBoolean(FgWebInfo.CONTACT_SERVICE, true);
+//                startFragment(new FgWebInfo(), bundle);
+
+                Intent intent = new Intent(context, WebInfoActivity.class);
+                intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_PROBLEM);
+                intent.putExtra(WebInfoActivity.CONTACT_SERVICE, true);
+                context.startActivity(intent);
+
 
                 HashMap<String, String> map = new HashMap<String, String>();
                 map.put("source", "填写行程页面");
@@ -678,9 +686,14 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
                 PhoneInfo.CallDial(this.getActivity(), Constants.CALL_NUMBER_IN);
                 break;
             case R.id.befer48_tips:
-                Bundle bundle = new Bundle();
-                bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_CANCEL);
-                startFragment(new FgActivity(), bundle);
+//                Bundle bundle = new Bundle();
+//                bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_CANCEL);
+//                startFragment(new FgActivity(), bundle);
+
+                Intent intent = new Intent(context, WebInfoActivity.class);
+                intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_CANCEL);
+                context.startActivity(intent);
+
                 break;
             case R.id.header_right_txt:
                 map.put("source", "选车页面");
@@ -767,8 +780,8 @@ public class FGSelectCar extends BaseFragment implements ViewPager.OnPageChangeL
         bundleCar.putString("startCityName", startCityName);
         bundleCar.putString("dayNums", dayNums);
         bundleCar.putParcelable("carBean", carBean);
-        bundleCar.putParcelable("startBean", startBean);
-        bundleCar.putParcelable("endBean", endBean);
+        bundleCar.putSerializable("startBean", startBean);
+        bundleCar.putSerializable("endBean", endBean);
         bundleCar.putInt("outnum", outNum);
         bundleCar.putInt("innum", inNum);
         bundleCar.putSerializable("passCityList", passCityList);

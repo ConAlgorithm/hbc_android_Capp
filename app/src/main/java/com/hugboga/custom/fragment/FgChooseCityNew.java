@@ -1,5 +1,6 @@
 package com.hugboga.custom.fragment;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.adapter.LevelCityAdapter;
 import com.hugboga.custom.adapter.SearchNewAdapter;
 import com.hugboga.custom.constants.Constants;
@@ -38,6 +40,8 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+
+import static com.tencent.bugly.crashreport.inner.InnerAPI.context;
 
 
 public class FgChooseCityNew extends BaseFragment {
@@ -244,9 +248,13 @@ public class FgChooseCityNew extends BaseFragment {
                     startFragment(fgSingleNew);
                 } else if (groupList2.get(position).spot_id == -3) {
                     finish();
-                    Bundle bundle = new Bundle();
-                    bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_DAIRY);
-                    startFragment(new FgDailyWeb(), bundle);
+//                    Bundle bundle = new Bundle();
+//                    bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_DAIRY);
+//                    startFragment(new FgDailyWeb(), bundle);
+
+                    Intent intent = new Intent(context, WebInfoActivity.class);
+                    intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_DAIRY);
+                    startActivity(intent);
 
 //                    FgOrderSelectCity fgOrderSelectCity = new FgOrderSelectCity();
 //                    startFragment(fgOrderSelectCity);

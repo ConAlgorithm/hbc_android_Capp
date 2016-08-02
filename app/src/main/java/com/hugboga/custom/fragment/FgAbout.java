@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.BuildConfig;
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.data.bean.CheckVersionBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.net.UrlLibs;
@@ -26,6 +27,8 @@ import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
+
+import static com.tencent.bugly.crashreport.inner.InnerAPI.context;
 
 /**
  * Created by qingcha on 16/5/18.
@@ -106,9 +109,14 @@ public class FgAbout extends BaseFragment {
                 }
                 break;
             case R.id.about_story_layout://关于我们
-                Bundle bundle = new Bundle();
-                bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_ABOUT);
-                startFragment(new FgWebInfo(), bundle);
+
+//                Bundle bundle = new Bundle();
+//                bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_ABOUT);
+//                startFragment(new FgWebInfo(), bundle);
+
+                Intent intent = new Intent(context, WebInfoActivity.class);
+                intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_ABOUT);
+                context.startActivity(intent);
 
                 break;
             default:

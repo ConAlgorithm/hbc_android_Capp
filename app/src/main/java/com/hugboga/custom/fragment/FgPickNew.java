@@ -441,8 +441,8 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
         bundle.putString("guideCollectId", collectGuideBean == null ? "" : collectGuideBean.guideId);
         bundle.putSerializable("collectGuideBean", collectGuideBean == null ? null : collectGuideBean);
         bundle.putString("source", source);
-        bundle.putSerializable(FgCar.KEY_FLIGHT, flightBean);
-        bundle.putSerializable(FgCar.KEY_ARRIVAL, poiBean);
+        bundle.putSerializable(KEY_FLIGHT, flightBean);
+        bundle.putSerializable(KEY_ARRIVAL, poiBean);
         bundle.putString("serverTime", flightBean.arrivalTime);
         bundle.putParcelable("carListBean", carListBean);
         bundle.putString("price", carBean.price + "");

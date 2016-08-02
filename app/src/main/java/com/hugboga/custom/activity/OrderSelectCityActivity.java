@@ -1,4 +1,5 @@
-package com.hugboga.custom.fragment;
+package com.hugboga.custom.activity;
+
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -28,8 +29,6 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
-import com.hugboga.custom.activity.DatePickerActivity;
-import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.adapter.OrderSelectCityAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CarInfoBean;
@@ -43,6 +42,13 @@ import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestCollectGuidesFilter;
 import com.hugboga.custom.data.request.RequestGetCarInfo;
 import com.hugboga.custom.data.request.RequestGuideConflict;
+import com.hugboga.custom.fragment.BaseFragment;
+import com.hugboga.custom.fragment.FGOrderNew;
+import com.hugboga.custom.fragment.FGSelectCar;
+import com.hugboga.custom.fragment.FgChooseCity;
+import com.hugboga.custom.fragment.FgCollectGuideList;
+import com.hugboga.custom.fragment.FgLogin;
+import com.hugboga.custom.fragment.FgOrderSelectCity;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.CityUtils;
 import com.hugboga.custom.utils.CommonUtils;
@@ -70,16 +76,14 @@ import java.util.List;
 import butterknife.ButterKnife;
 
 import static android.view.View.GONE;
+import static com.huangbaoche.hbcframe.fragment.BaseFragment.KEY_FRAGMENT_NAME;
 import static com.hugboga.custom.R.id.baggage_text_click;
 import static com.hugboga.custom.R.id.people_text_click;
 import static com.hugboga.custom.R.id.start_city_click;
-import static com.tencent.bugly.crashreport.inner.InnerAPI.context;
 
-/**
- * Created  on 16/4/14.
- */
+
 @ContentView(R.layout.activity_order_select_city)
-public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Formatter {
+public class OrderSelectCityActivity extends BaseActivity implements NumberPicker.Formatter {
 
 
     @ViewInject(R.id.header_left_btn)
@@ -168,19 +172,16 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
     @ViewInject(R.id.time_text_click)
     TextView time_text_click;
 
-    @Override
-    protected void inflateContent() {
-    }
-
     boolean isFromGuideList = false;
 
     @Override
-    protected void initView() {
+    public void initView() {
+        super.initView();
         initHeader();
         initSelectPeoplePop(false);
         enableNextBtn();
 
-        startBean = this.getArguments().getParcelable("cityBean");
+        startBean = this.getIntent().getParcelableExtra("cityBean");
 
         if(null !=startBean){
             endBean = startBean;
@@ -188,20 +189,19 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
             endCityId = startBean.cityId + "";
             startCityClick.setText(startCity);
         }else{
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    Bundle bundle = new Bundle();
-                    bundle.putString(KEY_FROM, "startAddress");
-                    bundle.putString("source", "首页");
-                    startFragment(new FgChooseCity(), bundle);
-                }
-            },500);
+//            new Handler().postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
+//                    Bundle bundle = new Bundle();
+//                    bundle.putString("source", "首页");
+//                    startFragment(new FgChooseCity(), bundle);
+//                }
+//            },500);
 
         }
 
 
-        collectGuideBean = (CollectGuideBean) this.getArguments().getSerializable("collectGuideBean");
+        collectGuideBean = (CollectGuideBean) this.getIntent().getSerializableExtra("collectGuideBean");
         if (null != collectGuideBean) {
             driver_layout.setVisibility(View.VISIBLE);
             driver_name.setText(collectGuideBean.name);
@@ -265,7 +265,7 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
         driver_name.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (UserEntity.getUser().isLogin(getActivity())) {
+                if (UserEntity.getUser().isLogin(activity)) {
                     goCollectGuid(2);
                 } else {
                     Bundle bundle = new Bundle();//用于统计
@@ -285,14 +285,14 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
 //                bundle.putBoolean(FgWebInfo.CONTACT_SERVICE, true);
 //                startFragment(new FgWebInfo(), bundle);
 
-                Intent intent = new Intent(context, WebInfoActivity.class);
+                Intent intent = new Intent(activity,WebInfoActivity.class);
                 intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_PROBLEM);
                 intent.putExtra(WebInfoActivity.CONTACT_SERVICE, true);
-                context.startActivity(intent);
+                activity.startActivity(intent);
 
                 HashMap<String, String> map = new HashMap<String, String>();
                 map.put("source", "填写行程页面");
-                MobclickAgent.onEvent(getActivity(), "callcenter_oneway", map);
+                MobclickAgent.onEvent(activity, "callcenter_oneway", map);
                 v.setTag("填写行程页面,calldomestic_oneway,calloverseas_oneway");
 
             }
@@ -302,7 +302,7 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
     }
 
     private void showSaveDialog() {
-        android.support.v7.app.AlertDialog dialog = AlertDialogUtils.showAlertDialog(getContext(), "离开当前页面所选行程将会丢失，确定要离开吗？", "离开", "取消", new DialogInterface.OnClickListener() {
+        android.support.v7.app.AlertDialog dialog = AlertDialogUtils.showAlertDialog(activity, "离开当前页面所选行程将会丢失，确定要离开吗？", "离开", "取消", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
@@ -317,12 +317,11 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
     }
 
     @Override
-    public boolean onBackPressed() {
+    public void onBackPressed() {
         if (isAddinfo()) {
             showSaveDialog();
-            return true;
         } else {
-            return super.onBackPressed();
+            super.onBackPressed();
         }
     }
 
@@ -350,7 +349,7 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
 
     private void enableNextBtn() {
         nextBtnClick.setEnabled(true);
-        nextBtnClick.setBackgroundColor(ContextCompat.getColor(this.getActivity(), R.color.all_bg_yellow));
+        nextBtnClick.setBackgroundColor(ContextCompat.getColor(this.activity, R.color.all_bg_yellow));
     }
 
 
@@ -404,15 +403,11 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
 //        enableNextBtn();
     }
 
-    @Override
-    protected Callback.Cancelable requestData() {
-        return null;
-    }
+
 
     protected void initHeader() {
         fgRightBtn.setVisibility(View.VISIBLE);
         fgTitle.setText(R.string.select_city_title);
-        source = getArguments().getString("source");
     }
 
     public String format(int value) {
@@ -584,7 +579,7 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
     //途径城市
     String passCities = "";
     private void initSelectPeoplePop(boolean isEndDay) {
-        view = LayoutInflater.from(this.getActivity()).inflate(R.layout.pop_select_people, null);
+        view = LayoutInflater.from(this.activity).inflate(R.layout.pop_select_people, null);
         scope_layout = (LinearLayout) view.findViewById(R.id.scope_layout);
         scope_layout_in = (LinearLayout) view.findViewById(R.id.scope_layout_in);
         scope_layout_out = (LinearLayout) view.findViewById(R.id.scope_layout_out);
@@ -627,11 +622,10 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
             @Override
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
-                bundle.putString(KEY_FROM, "lastCity");
                 bundle.putString("source", "首页");
                 bundle.putInt(BaseFragment.KEY_BUSINESS_TYPE, Constants.BUSINESS_TYPE_DAILY);
                 bundle.putInt(FgChooseCity.KEY_CITY_ID, preCityBean.cityId);
-                startFragment(new FgChooseCity(), bundle);
+//                startFragment(new FgChooseCity(), bundle);
                 hideSelectPeoplePop();
             }
         });
@@ -737,7 +731,6 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
 
     List<CityBean> hotCitys;//热门城市
 
-    @Override
     public void onFragmentResult(Bundle bundle) {
         MLog.w(this + " onFragmentResult " + bundle);
         String from = bundle.getString(KEY_FRAGMENT_NAME);
@@ -761,7 +754,7 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
                     addDayView(true);
                 }
 
-                List<CityBean> list = CityUtils.requestDataByKeyword(getActivity(),
+                List<CityBean> list = CityUtils.requestDataByKeyword(activity,
                         preCityBean.groupId, preCityBean.cityId, "", true);
 
                 if (null == list || list.size() == 0) {
@@ -771,7 +764,7 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
                 }
 
 
-                hotCitys = CityUtils.requestHotDate(getActivity(),startBean.groupId);
+                hotCitys = CityUtils.requestHotDate(activity,startBean.groupId);
             } else if ("lastCity".equalsIgnoreCase(fromKey) || "nearby".equalsIgnoreCase(fromKey)) {
                 endBean = (CityBean) bundle.getSerializable(FgChooseCity.KEY_CITY);
 
@@ -847,7 +840,7 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
                 || isHalfTravel ? TextUtils.isEmpty(halfDate) : TextUtils.isEmpty(start_date_str)
                 || isHalfTravel ? TextUtils.isEmpty(halfDate) : TextUtils.isEmpty(end_date_str)) {
 //                || isHalfTravel?false:passBeanList.size() != nums){
-            AlertDialogUtils.showAlertDialogOneBtn(this.getActivity(), getString(R.string.dairy_choose_guide), "好的");
+            AlertDialogUtils.showAlertDialogOneBtn(this.activity, getString(R.string.dairy_choose_guide), "好的");
             return false;
         } else {
             return true;
@@ -862,7 +855,7 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
             startFragment(fgCollectGuideList);
         } else {
             if (checkParams()) {
-                if (UserEntity.getUser().isLogin(getActivity())) {
+                if (UserEntity.getUser().isLogin(activity)) {
                     FgCollectGuideList fgCollectGuideList = new FgCollectGuideList();
                     Bundle bundle = new Bundle();
                     RequestCollectGuidesFilter.CollectGuidesFilterParams params = new RequestCollectGuidesFilter.CollectGuidesFilterParams();
@@ -896,13 +889,13 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
     CarInfoBean carBean;
 
     private void getCarInfo() {
-        final RequestGetCarInfo requestGetCarInfo = new RequestGetCarInfo(this.getActivity(),
+        final RequestGetCarInfo requestGetCarInfo = new RequestGetCarInfo(this.activity,
                 startBean.cityId + "", isHalfTravel ? (startBean.cityId + "") : passBeanList.get(passBeanList.size() - 1).cityId + "",
                 isHalfTravel ? halfDate + " " +serverTime +":00" : start_date_str + " " +serverTime +":00",
                 isHalfTravel ? halfDate + " " +serverTime +":00" : end_date_str + " " +serverTime +":00",
                 isHalfTravel ? "1" : "0", manNum + "",
                 childNum + "", childSeatNums + "", baggageNum + "", isHalfTravel ? "" : getPassCities(), "18",collectGuideBean.carType+"-"+collectGuideBean.carClass);
-        HttpRequestUtils.request(this.getActivity(), requestGetCarInfo, new HttpRequestListener() {
+        HttpRequestUtils.request(this.activity, requestGetCarInfo, new HttpRequestListener() {
             @Override
             public void onDataRequestSucceed(BaseRequest request) {
                 RequestGetCarInfo requestGetCarInfo = (RequestGetCarInfo) request;
@@ -942,7 +935,7 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
                     bundle.putInt("type", 3);
                     bundle.putString("orderType", "3");
                     fgOrderNew.setArguments(bundle);
-                    startFragment(fgOrderNew);
+//                    startFragment(fgOrderNew);
                 }else{
                     CommonUtils.showToast(R.string.no_price_error);
                 }
@@ -985,7 +978,7 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
             if("00:00".equalsIgnoreCase(serverTime)){
                 end_time = (isHalfTravel ? halfDate : end_date_str) + " " +"23:59:59";
             }
-            OrderUtils.checkGuideCoflict(getContext(), 3, startBean.cityId,
+            OrderUtils.checkGuideCoflict(activity, 3, startBean.cityId,
                     collectGuideBean.guideId, (isHalfTravel ? halfDate : start_date_str) + " " +serverTime +":00" ,
                     end_time, getPassCitiesId(),
                     nums, collectGuideBean.carType, collectGuideBean.carClass,
@@ -1021,7 +1014,7 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
         Calendar cal = Calendar.getInstance();
         MyTimePickerDialogListener myTimePickerDialog = new MyTimePickerDialogListener();
         TimePickerDialog datePickerDialog = TimePickerDialog.newInstance(myTimePickerDialog, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), true);
-        datePickerDialog.show(this.getActivity().getFragmentManager(), "TimePickerDialog");                //显示日期设置对话框
+        datePickerDialog.show(this.activity.getFragmentManager(), "TimePickerDialog");                //显示日期设置对话框
     }
 
     String serverTime = "00:00";
@@ -1085,7 +1078,7 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
             case R.id.show_child_seat_layout:
                 break;
             case R.id.child_no_confirm_click:
-                AlertDialogUtils.showAlertDialog(this.getActivity(), getString(R.string.man_no_confirm_tips));
+                AlertDialogUtils.showAlertDialog(this.activity, getString(R.string.man_no_confirm_tips));
                 break;
             case baggage_text_click:
                 if (null != collectGuideBean && !TextUtils.isEmpty(baggageTextClick.getText())) {
@@ -1095,14 +1088,14 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
                 }
                 break;
             case R.id.baggage_no_confirm_click:
-                AlertDialogUtils.showAlertDialog(this.getActivity(), getString(R.string.baggage_no_confirm_tips));
+                AlertDialogUtils.showAlertDialog(this.activity, getString(R.string.baggage_no_confirm_tips));
                 break;
             case R.id.end_layout_click:
                 if (null != collectGuideBean && !TextUtils.isEmpty(endDate.getText())) {
                     CommonUtils.showToast(R.string.alert_del_after_edit);
                 } else {
 //                    showDaySelect(endDate);
-                    Intent intent = new Intent(getActivity(),DatePickerActivity.class);
+                    Intent intent = new Intent(activity,DatePickerActivity.class);
                     intent.putExtra("type",TYPE_RANGE);
                     intent.putExtra("chooseDateBean",chooseDateBean);
                     startActivity(intent);
@@ -1114,7 +1107,7 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
                     CommonUtils.showToast(R.string.alert_del_after_edit);
                 } else {
 //                    showDaySelect(goCityTextClick);
-                    Intent intent = new Intent(getActivity(),DatePickerActivity.class);
+                    Intent intent = new Intent(activity,DatePickerActivity.class);
                     intent.putExtra("type",TYPE_SINGLE);
                     intent.putExtra("chooseDateBean",chooseDateBean);
                     startActivity(intent);
@@ -1128,7 +1121,7 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
                     if (null != collectGuideBean) {
                         if ((collectGuideBean.carType == 1 && collectGuideBean.numOfPerson == 4 && (manNum + childNum) == 4)
                                 || (collectGuideBean.carType == 1 && collectGuideBean.numOfPerson == 6 && (manNum + childNum) == 6)) {
-                            AlertDialogUtils.showAlertDialog(getActivity(), getString(R.string.alert_car_full),
+                            AlertDialogUtils.showAlertDialog(activity, getString(R.string.alert_car_full),
                                     "继续下单", "更换车型", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
@@ -1185,7 +1178,7 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
 //                map.put("guestcount", manNum + childNum + "");
 //                map.put("luggagecount", baggageNum + "");
 //                map.put("drivedays", getOutNum() + getInNum() + "");
-                    MobclickAgent.onEventValue(getActivity(), "chosecar_oneday", map, isHalfTravel ? 1 : getOutNum() * 2 + getInNum() * 2);
+                    MobclickAgent.onEventValue(activity, "chosecar_oneday", map, isHalfTravel ? 1 : getOutNum() * 2 + getInNum() * 2);
                 }
                 break;
         }
@@ -1197,7 +1190,7 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
             case R.id.header_right_txt:
                 HashMap<String, String> map = new HashMap<String, String>();
                 map.put("source", "填写行程页面");
-                MobclickAgent.onEvent(getActivity(), "callcenter_oneday", map);
+                MobclickAgent.onEvent(activity, "callcenter_oneday", map);
                 v.setTag("填写行程页面,calldomestic_oneday,calloverseas_oneday");
                 break;
         }
@@ -1282,7 +1275,7 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
     int currentIndex = 0;
     //生成经过城市列表
     private void genDayViews(int index) {
-        dayView = LayoutInflater.from(this.getActivity()).inflate(R.layout.add_day_item, null);
+        dayView = LayoutInflater.from(this.activity).inflate(R.layout.add_day_item, null);
         day_text = (TextView) dayView.findViewById(R.id.day_text);
         day_go_city_text_click = (TextView) dayView.findViewById(R.id.day_go_city_text_click);
         day_text.setText("第" + index + "天");
@@ -1308,7 +1301,7 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
         }
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        params.setMargins(0, 0, 0, (int) ScreenUtils.d2p(this.getActivity(), 15));
+        params.setMargins(0, 0, 0, (int) ScreenUtils.d2p(this.activity, 15));
 
         dayView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1316,13 +1309,13 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
                 if (null != v.getTag()) {
                     currentClickView = v;
                     TextView text = (TextView) v.findViewById(R.id.day_go_city_text_click);
-                     currentIndex = Integer.valueOf(currentClickView.getTag().toString()) - 1;
-                        if (Integer.valueOf(v.getTag().toString()) == full_day_show.getChildCount()) {
-                            initScopeLayoutValue(true);
-                        } else{
-                            initScopeLayoutValue(false);
-                        }
-                        showSelectPeoplePop(3);
+                    currentIndex = Integer.valueOf(currentClickView.getTag().toString()) - 1;
+                    if (Integer.valueOf(v.getTag().toString()) == full_day_show.getChildCount()) {
+                        initScopeLayoutValue(true);
+                    } else{
+                        initScopeLayoutValue(false);
+                    }
+                    showSelectPeoplePop(3);
 
 //                    }
                 }
@@ -1348,7 +1341,7 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
         cal = Calendar.getInstance();
         cal.set(Calendar.MONTH, cal.get(Calendar.MONTH) + 6);
         dpd.setMaxDate(cal);
-        dpd.show(this.getActivity().getFragmentManager(), "DatePickerDialog");   //显示日期设置对话框
+        dpd.show(this.activity.getFragmentManager(), "DatePickerDialog");   //显示日期设置对话框
 
     }
     ChooseDateBean chooseDateBean;
@@ -1406,28 +1399,6 @@ public class FgOrderSelectCity extends BaseFragment implements NumberPicker.Form
     }
 
     CollectGuideBean collectGuideBean;
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        ButterKnife.bind(this, rootView);
-        EventBus.getDefault().register(this);
-        return rootView;
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        ButterKnife.unbind(this);
-        EventBus.getDefault().unregister(this);
-    }
-
-    @Override
-    public int getBusinessType() {
-        mBusinessType = Constants.BUSINESS_TYPE_DAILY;
-        setGoodsType(mBusinessType);
-        return mBusinessType;
-    }
 
     String start_date_str = "";
     String end_date_str = "";

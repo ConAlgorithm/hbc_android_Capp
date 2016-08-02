@@ -23,15 +23,15 @@ import com.hugboga.custom.widget.DialogUtil;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
-import org.xutils.view.annotation.ViewInject;
 import org.xutils.view.annotation.Event;
+import org.xutils.view.annotation.ViewInject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import org.greenrobot.eventbus.EventBus;
 
 /**
  * Created on 16/6/4.
@@ -103,7 +103,7 @@ public class FgOrderEdit extends BaseFragment {
     public static FgOrderEdit newInstance(OrderBean _orderBean) {
         FgOrderEdit fragment = new FgOrderEdit();
         Bundle bundle = new Bundle();
-        bundle.putParcelable(Constants.PARAMS_DATA, _orderBean);
+        bundle.putSerializable(Constants.PARAMS_DATA, _orderBean);
         fragment.setArguments(bundle);
         return fragment;
     }

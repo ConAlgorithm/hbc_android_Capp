@@ -2,6 +2,7 @@ package com.hugboga.custom.data.net;
 
 import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -20,6 +21,9 @@ import com.huangbaoche.hbcframe.fragment.BaseFragment;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.huangbaoche.hbcframe.util.WXShareUtils;
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.OrderSelectCityActivity;
+import com.hugboga.custom.activity.SkuDetailActivity;
+import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.data.bean.ChatInfo;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.CurrentServerInfoData;
@@ -27,11 +31,7 @@ import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.parser.ParserChatInfo;
 import com.hugboga.custom.data.request.RequestCurrentServerInfo;
 import com.hugboga.custom.data.request.RequestWebInfo;
-import com.hugboga.custom.fragment.FgActivity;
 import com.hugboga.custom.fragment.FgLogin;
-import com.hugboga.custom.fragment.FgOrderSelectCity;
-import com.hugboga.custom.fragment.FgSkuDetail;
-import com.hugboga.custom.fragment.FgWebInfo;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.widget.DialogUtil;
@@ -40,6 +40,8 @@ import org.json.JSONObject;
 
 import io.rong.imkit.RongIM;
 import io.rong.imlib.model.Conversation;
+
+import static com.tencent.bugly.crashreport.inner.InnerAPI.context;
 
 /**
  * 请求代理模式
@@ -245,14 +247,12 @@ public class WebAgent implements HttpRequestListener {
         mActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                FgOrderSelectCity fgOrderSelectCity = new FgOrderSelectCity();
-                if(null != cityBean){
                     Bundle bundle = new Bundle();
-                    bundle.putParcelable("cityBean", cityBean);
-                    mFragment.startFragment(fgOrderSelectCity,bundle);
-                }else {
-                    mFragment.startFragment(fgOrderSelectCity);
-                }
+                    bundle.putSerializable("cityBean", cityBean);
+                    Intent intent = new Intent(mActivity,OrderSelectCityActivity.class);
+                    intent.putExtras(bundle);
+                    mActivity.startActivity(intent);
+//                    mFragment.startFragment(fgOrderSelectCity,bundle);
             }
         });
 
@@ -342,7 +342,9 @@ public class WebAgent implements HttpRequestListener {
             mActivity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    mFragment.startFragment(new FgOrderSelectCity());
+                    Intent intent = new Intent(mActivity,OrderSelectCityActivity.class);
+                    mActivity.startActivity(intent);
+//                    mFragment.startFragment(new FgOrderSelectCity());
                 }
             });
         }
@@ -357,7 +359,9 @@ public class WebAgent implements HttpRequestListener {
             mActivity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    mFragment.startFragment(new FgOrderSelectCity());
+                    Intent intent = new Intent(mActivity,OrderSelectCityActivity.class);
+                    mActivity.startActivity(intent);
+//                    mFragment.startFragment(new FgOrderSelectCity());
                 }
             });
         }
@@ -372,9 +376,13 @@ public class WebAgent implements HttpRequestListener {
             mActivity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Bundle bundle = new Bundle();
-                    bundle.putString(FgWebInfo.WEB_URL, url);
-                    mFragment.startFragment(new FgActivity(), bundle);
+//                    Bundle bundle = new Bundle();
+//                    bundle.putString(FgWebInfo.WEB_URL, url);
+//                    mFragment.startFragment(new FgActivity(), bundle);
+
+                    Intent intent = new Intent(context,WebInfoActivity.class);
+                    intent.putExtra(WebInfoActivity.WEB_URL, url);
+                    context.startActivity(intent);
                 }
             });
         }
@@ -388,8 +396,8 @@ public class WebAgent implements HttpRequestListener {
         mActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (!TextUtils.isEmpty(title) && mFragment instanceof FgWebInfo) {
-                    FgWebInfo fgWebInfo = ((FgWebInfo) mFragment);
+                if (!TextUtils.isEmpty(title) && mActivity instanceof WebInfoActivity) {
+                    WebInfoActivity fgWebInfo = ((WebInfoActivity) mActivity);
                     fgWebInfo.setTitle(title);
                 }
             }
@@ -401,8 +409,9 @@ public class WebAgent implements HttpRequestListener {
      */
     @JavascriptInterface
     public void goodsHadOutOfStock() {
-        if (mFragment instanceof FgSkuDetail) {
-            FgSkuDetail fgSkuDetail = ((FgSkuDetail) mFragment);
+
+        if (mActivity instanceof SkuDetailActivity) {
+            SkuDetailActivity fgSkuDetail = ((SkuDetailActivity) mActivity);
             fgSkuDetail.isGoodsOut = true;
         }
     }

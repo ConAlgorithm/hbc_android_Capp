@@ -54,7 +54,7 @@ public class DatePickerActivity extends BaseActivity {
     ChooseDateBean mChooseDateBean;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.date_picker_layout);
         ButterKnife.bind(this);

@@ -1,6 +1,7 @@
 package com.hugboga.custom.fragment;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -17,6 +18,7 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.adapter.CarViewpagerAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.AirPort;
@@ -62,6 +64,7 @@ import butterknife.OnClick;
 import cn.qqtheme.framework.picker.DateTimePicker;
 
 import static android.view.View.GONE;
+import static com.tencent.bugly.crashreport.inner.InnerAPI.context;
 
 /**
  * Created  on 16/5/20.
@@ -170,10 +173,15 @@ public class FgSingleNew extends BaseFragment {
         fgRightBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bundle bundle = new Bundle();
-                bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_PROBLEM);
-                bundle.putBoolean(FgWebInfo.CONTACT_SERVICE, true);
-                startFragment(new FgWebInfo(), bundle);
+//                Bundle bundle = new Bundle();
+//                bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_PROBLEM);
+//                bundle.putBoolean(FgWebInfo.CONTACT_SERVICE, true);
+//                startFragment(new FgWebInfo(), bundle);
+
+                Intent intent = new Intent(context, WebInfoActivity.class);
+                intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_PROBLEM);
+                intent.putExtra(WebInfoActivity.CONTACT_SERVICE, true);
+                context.startActivity(intent);
 
                 HashMap<String, String> map = new HashMap<String, String>();
                 map.put("source", "填写行程页面");
@@ -551,8 +559,8 @@ public class FgSingleNew extends BaseFragment {
         bundle.putString("passCities", "");
         bundle.putString("carTypeName", carBean.desc);
         bundle.putString("startCityName", cityBean.name);
-        bundle.putParcelable("cityBean", cityBean);
-        bundle.putParcelable("carListBean", carListBean);
+        bundle.putSerializable("cityBean", cityBean);
+        bundle.putSerializable("carListBean", carListBean);
         bundle.putInt("outnum", 0);
         bundle.putInt("innum", 0);
         bundle.putString("dayNums", "0");

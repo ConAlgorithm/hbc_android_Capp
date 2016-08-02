@@ -1,18 +1,22 @@
 package com.hugboga.custom.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.constants.Constants;
-import com.hugboga.custom.constants.ResourcesConstants;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.utils.PhoneInfo;
 
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
+
+import static com.hugboga.custom.data.net.UrlLibs.H5_CANCEL;
+import static com.tencent.bugly.crashreport.inner.InnerAPI.context;
 
 @ContentView(R.layout.fg_servicer_center)
 public class FgServicerCenter extends BaseFragment {
@@ -67,7 +71,7 @@ public class FgServicerCenter extends BaseFragment {
                 break;
             case R.id.service_center_btn3:
                 //订单取消规则
-                toWebInfo(UrlLibs.H5_CANCEL);
+                toWebInfo(H5_CANCEL);
                 break;
             case R.id.service_center_btn4:
                 //费用说明
@@ -75,10 +79,16 @@ public class FgServicerCenter extends BaseFragment {
                 break;
             case R.id.service_center_btn5:
                 //常见问题
-                Bundle bundle = new Bundle();
-                bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_PROBLEM);
-                bundle.putBoolean(FgWebInfo.CONTACT_SERVICE, true);
-                startFragment(new FgWebInfo(), bundle);
+//                Bundle bundle = new Bundle();
+//                bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_PROBLEM);
+//                bundle.putBoolean(FgWebInfo.CONTACT_SERVICE, true);
+//                startFragment(new FgWebInfo(), bundle);
+
+                Intent intent = new Intent(context, WebInfoActivity.class);
+                intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_PROBLEM);
+                intent.putExtra(WebInfoActivity.CONTACT_SERVICE, true);
+                context.startActivity(intent);
+
                 break;
             default:
                 break;
@@ -91,9 +101,14 @@ public class FgServicerCenter extends BaseFragment {
      * @param url
      */
     private void toWebInfo(String url) {
-        Bundle bundle = new Bundle();
-        bundle.putString(FgWebInfo.WEB_URL, url);
-        startFragment(new FgWebInfo(), bundle);
+//        Bundle bundle = new Bundle();
+//        bundle.putString(FgWebInfo.WEB_URL, url);
+//        startFragment(new FgWebInfo(), bundle);
+
+
+        Intent intent = new Intent(context, WebInfoActivity.class);
+        intent.putExtra(WebInfoActivity.WEB_URL, url);
+        context.startActivity(intent);
     }
 
     @Override

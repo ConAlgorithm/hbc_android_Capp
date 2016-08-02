@@ -13,12 +13,13 @@ import android.widget.TextView;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.SkuCityBean;
-import com.hugboga.custom.fragment.FgDaily;
 import com.hugboga.custom.fragment.FgPickSend;
 import com.hugboga.custom.fragment.FgSingleNew;
 import com.hugboga.custom.fragment.FgSkuList;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
+
+import static com.hugboga.custom.fragment.FgSkuList.KEY_CITY_BEAN;
 
 /**
  * Created by qingcha on 16/6/27.
@@ -139,8 +140,8 @@ public class SkuCityFooterView extends LinearLayout implements HbcViewBehavior, 
                 if (cityBean != null) {
                     FgPickSend fgPickSend = new FgPickSend();
                     Bundle bundle = new Bundle();
-                    bundle.putSerializable(FgDaily.KEY_CITY_BEAN, cityBean);
-                    bundle.putParcelable("cityBean", cityBean);
+                    bundle.putSerializable(KEY_CITY_BEAN, cityBean);
+                    bundle.putSerializable("cityBean", cityBean);
                     bundle.putString("source", cityBean.name);
                     fgPickSend.setArguments(bundle);
                     fragment.startFragment(fgPickSend, bundle);
@@ -152,8 +153,8 @@ public class SkuCityFooterView extends LinearLayout implements HbcViewBehavior, 
                 if (cityBean != null) {
                     FgSingleNew fgSingleNew = new FgSingleNew();
                     Bundle bundle = new Bundle();
-                    bundle.putSerializable(FgDaily.KEY_CITY_BEAN, cityBean);
-                    bundle.putParcelable("cityBean", cityBean);
+                    bundle.putSerializable(KEY_CITY_BEAN, cityBean);
+                    bundle.putSerializable("cityBean", cityBean);
                     bundle.putString("source", cityBean.name);
                     fgSingleNew.setArguments(bundle);
                     fragment.startFragment(fgSingleNew);

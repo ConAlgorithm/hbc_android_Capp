@@ -1,6 +1,6 @@
 package com.hugboga.custom.fragment;
 
-import android.os.Bundle;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ListView;
@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.adapter.OverPriceAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CouponBean;
@@ -20,6 +21,8 @@ import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
+
+import static com.tencent.bugly.crashreport.inner.InnerAPI.context;
 
 /**
  * 订单增项费用
@@ -135,9 +138,14 @@ public class FgOrderOverPrice extends BaseFragment {
     private void onClickView(View view) {
         switch (view.getId()) {
             case R.id.over_price_tip:
-                Bundle bundle = new Bundle();
-                bundle.putString(FgWebInfo.WEB_URL, UrlLibs.OverPriceMap.get(mBusinessType));
-                startFragment(new FgWebInfo(), bundle);
+//                Bundle bundle = new Bundle();
+//                bundle.putString(FgWebInfo.WEB_URL, UrlLibs.OverPriceMap.get(mBusinessType));
+//                startFragment(new FgWebInfo(), bundle);
+
+                Intent intent = new Intent(context, WebInfoActivity.class);
+                intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.OverPriceMap.get(mBusinessType));
+                context.startActivity(intent);
+
                 break;
         }
     }
