@@ -7,12 +7,23 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import com.huangbaoche.hbcframe.activity.BaseFragmentActivity;
+import com.huangbaoche.hbcframe.data.net.ErrorHandler;
+import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
+import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
+import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
+import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.umeng.analytics.MobclickAgent;
 
+import org.xutils.common.Callback;
 
-public class BaseActivity extends BaseFragmentActivity {
+
+public class BaseActivity extends BaseFragmentActivity implements HttpRequestListener {
 
     public Activity activity;
+
+    public Callback.Cancelable cancelable;
+    private ErrorHandler errorHandler;
+
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
@@ -44,6 +55,9 @@ public class BaseActivity extends BaseFragmentActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if (cancelable != null) {
+            cancelable.cancel();
+        }
     }
 
     /**
@@ -63,5 +77,29 @@ public class BaseActivity extends BaseFragmentActivity {
             if (imm != null && inputText != null)
                 imm.hideSoftInputFromWindow(inputText.getWindowToken(), 0);
         }
+    }
+    protected Callback.Cancelable requestData(BaseRequest request) {
+        cancelable = HttpRequestUtils.request(this, request, this);
+        return cancelable;
+    }
+
+    @Override
+    public void onDataRequestSucceed(BaseRequest request) {
+
+    }
+
+    @Override
+    public void onDataRequestCancel(BaseRequest request) {
+
+    }
+
+    @Override
+    public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+        if (errorHandler == null) {
+            errorHandler = new ErrorHandler(this, this);
+        }
+        errorHandler.onDataRequestError(errorInfo, request);
+        errorHandler = null;//TODO 旧代码粘贴，没必要赋空，耗内存，需优化。
+
     }
 }
