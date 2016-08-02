@@ -1,4 +1,4 @@
-package com.hugboga.custom.fragment;
+package com.hugboga.custom.activity;
 
 import android.annotation.TargetApi;
 import android.content.DialogInterface;
@@ -21,13 +21,11 @@ import android.webkit.WebViewClient;
 import com.huangbaoche.hbcframe.data.net.DefaultSSLSocketFactory;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
-import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.net.WebAgent;
 import com.hugboga.custom.utils.ChannelUtils;
 import com.hugboga.custom.widget.DialogUtil;
 
-import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 
@@ -37,11 +35,8 @@ import java.net.URL;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLHandshakeException;
 
-/**
- * Created by ZHZEPHI on 2015/7/31.
- */
 @ContentView(R.layout.fg_webview)
-public class FgWebInfo extends BaseFragment implements View.OnKeyListener {
+public class WebInfoActivity extends BaseActivity implements View.OnKeyListener {
 
     public static final String WEB_URL = "web_url";
     public static final String CONTACT_SERVICE = "contact_service";
@@ -57,7 +52,7 @@ public class FgWebInfo extends BaseFragment implements View.OnKeyListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.cityBean = getArguments().getParcelable("cityBean");
+        this.cityBean = getIntent().getParcelableExtra("cityBean");
     }
 
     public void setTitle(String title) {
@@ -116,7 +111,7 @@ public class FgWebInfo extends BaseFragment implements View.OnKeyListener {
                 URL url = new URL(uri.toString());
                 HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
                 // Set SSL Socket Factory for this request
-                urlConnection.setSSLSocketFactory(DefaultSSLSocketFactory.getSocketFactory(getActivity()).getSslContext().getSocketFactory());
+                urlConnection.setSSLSocketFactory(DefaultSSLSocketFactory.getSocketFactory(activity).getSslContext().getSocketFactory());
                 // Get content, contentType and encoding
                 InputStream is = urlConnection.getInputStream();
                 String contentType = urlConnection.getContentType();
@@ -150,9 +145,9 @@ public class FgWebInfo extends BaseFragment implements View.OnKeyListener {
         @Override
         public void onReceivedTitle(WebView view, String title) {
             super.onReceivedTitle(view, title);
-            if(!view.getTitle().startsWith("http:")){
+            if (!view.getTitle().startsWith("http:")) {
                 fgTitle.setText(view.getTitle());
-            }else{
+            } else {
                 fgTitle.setText("");
             }
 
@@ -187,14 +182,6 @@ public class FgWebInfo extends BaseFragment implements View.OnKeyListener {
         }
     };
 
-    @Override
-    protected int getBusinessType() {
-        return Constants.BUSINESS_TYPE_OTHER;
-    }
-
-    @Override
-    protected void inflateContent() {
-    }
 
     @Override
     public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -211,7 +198,6 @@ public class FgWebInfo extends BaseFragment implements View.OnKeyListener {
         super.onDestroy();
     }
 
-    @Override
     protected void initHeader() {
 //        fgTitle.setTextColor(getResources().getColor(R.color.my_content_title_color));
 //        fgTitle.setText("客服中心");
@@ -220,12 +206,12 @@ public class FgWebInfo extends BaseFragment implements View.OnKeyListener {
             public void onClick(View v) {
                 if (webView.canGoBack()) {
                     webView.goBack();
-                }else{
+                } else {
                     finish();
                 }
             }
         });
-        if (this.getArguments().getBoolean(CONTACT_SERVICE, false)) {
+        if (this.getIntent().getBooleanExtra(CONTACT_SERVICE, false)) {
             fgRightBtn.setVisibility(View.VISIBLE);
             fgRightBtn.setText("联系客服");
             fgRightBtn.setOnClickListener(new View.OnClickListener() {
@@ -238,30 +224,28 @@ public class FgWebInfo extends BaseFragment implements View.OnKeyListener {
     }
 
     @Override
-    protected void initView() {
+    public void initView() {
+        super.initView();
         // 启用javaScript
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setDefaultTextEncodingName("UTF-8");
-        webView.addJavascriptInterface(new WebAgent(this, webView,cityBean), "javaObj");
+        webView.addJavascriptInterface(new WebAgent(this, webView, cityBean), "javaObj");
         webView.setOnKeyListener(this);
         webView.setWebViewClient(webClient);
         webView.setWebChromeClient(webChromeClient);
         webView.setBackgroundColor(0x00000000);
         String ua = webView.getSettings().getUserAgentString();
-        webView.getSettings().setUserAgentString(ua+ " HbcC/"+ ChannelUtils.getVersion());
+        webView.getSettings().setUserAgentString(ua + " HbcC/" + ChannelUtils.getVersion());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             WebView.setWebContentsDebuggingEnabled(true);
         }
-        mDialogUtil = DialogUtil.getInstance(getActivity());
-    }
-
-    @Override
-    protected Callback.Cancelable requestData() {
-        String url = getArguments().getString(WEB_URL);
+        mDialogUtil = DialogUtil.getInstance(activity);
+        initHeader();
+        String url = getIntent().getStringExtra(WEB_URL);
         if (!TextUtils.isEmpty(url)) {
             webView.loadUrl(url);
         }
         MLog.e("url=" + url);
-        return null;
     }
+
 }

@@ -1,6 +1,7 @@
 package com.hugboga.custom.widget;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -10,16 +11,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.data.bean.HomeData;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.net.UrlLibs;
-import com.hugboga.custom.fragment.FgDailyWeb;
 import com.hugboga.custom.fragment.FgHome;
 import com.hugboga.custom.fragment.FgLogin;
-import com.hugboga.custom.fragment.FgOrderSelectCity;
 import com.hugboga.custom.fragment.FgPickSend;
 import com.hugboga.custom.fragment.FgSingleNew;
-import com.hugboga.custom.fragment.FgWebInfo;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
@@ -118,10 +117,17 @@ public class HomeBottomLayout extends LinearLayout implements View.OnClickListen
                 if (urlAddress.lastIndexOf("?") != urlAddress.length() - 1) {
                     urlAddress = urlAddress + "?";
                 }
+
                 urlAddress = urlAddress + "userId="+ UserEntity.getUser().getUserId(fragment.getContext())+"&t=" + new Random().nextInt(100000);
-                Bundle bundle = new Bundle();
-                bundle.putString(FgWebInfo.WEB_URL, urlAddress);
-                fragment.startFragment(new FgDailyWeb(), bundle);
+
+//                Bundle bundle = new Bundle();
+//                bundle.putString(FgWebInfo.WEB_URL, urlAddress);
+//                fragment.startFragment(new FgDailyWeb(), bundle);
+
+                Intent intent = new Intent(v.getContext(), WebInfoActivity.class);
+                intent.putExtra(WebInfoActivity.WEB_URL, urlAddress);
+                v.getContext().startActivity(intent);
+
                 break;
         }
     }
@@ -156,12 +162,18 @@ public class HomeBottomLayout extends LinearLayout implements View.OnClickListen
     private void goDairy(){
         Bundle bundle = new Bundle();
         HashMap<String,String> map = new HashMap<String,String>();
-        FgOrderSelectCity fgOrderSelectCity = new FgOrderSelectCity();
+//        OrderSelectCityActivity fgOrderSelectCity = new OrderSelectCityActivity();
         bundle.putString("source","首页");
-        fgOrderSelectCity.setArguments(bundle);
+        Intent intent = new Intent(this.getContext(), WebInfoActivity.class);
+        intent.putExtras(bundle);
+//        fgOrderSelectCity.setIntent(intent);
 //        fragment.startFragment(fgOrderSelectCity, bundle);
-        bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_DAIRY);
-        fragment.startFragment(new FgDailyWeb(), bundle);
+
+//        bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_DAIRY);
+//        fragment.startFragment(new FgDailyWeb(), bundle);
+
+        intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_DAIRY);
+        this.getContext().startActivity(intent);
 
 
         map.put("source", "首页");

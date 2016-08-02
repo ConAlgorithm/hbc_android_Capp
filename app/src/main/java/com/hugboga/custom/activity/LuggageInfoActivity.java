@@ -17,7 +17,7 @@ public class LuggageInfoActivity extends BaseActivity {
     TextView headerTitle;
 
     @Override
-    protected void onCreate(Bundle arg0) {
+    public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         setContentView(R.layout.activity_luggageinfo);
         ButterKnife.bind(this);
@@ -51,7 +51,7 @@ public class LuggageInfoActivity extends BaseActivity {
     }
 
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         super.onDestroy();
     }
 }

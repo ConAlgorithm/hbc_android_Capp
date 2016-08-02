@@ -1,6 +1,7 @@
 package com.hugboga.custom.fragment;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -19,6 +20,7 @@ import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.BuildConfig;
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.UserBean;
 import com.hugboga.custom.data.bean.UserEntity;
@@ -31,6 +33,7 @@ import com.hugboga.custom.data.request.RequestVerity;
 import com.hugboga.custom.widget.DialogUtil;
 import com.umeng.analytics.MobclickAgent;
 
+import org.greenrobot.eventbus.EventBus;
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
@@ -39,7 +42,9 @@ import org.xutils.view.annotation.ViewInject;
 import java.util.HashMap;
 import java.util.regex.Pattern;
 
-import org.greenrobot.eventbus.EventBus;;
+import static com.tencent.bugly.crashreport.inner.InnerAPI.context;
+
+;
 
 @ContentView(R.layout.fg_register)
 public class FgRegister extends BaseFragment implements TextWatcher {
@@ -272,11 +277,16 @@ public class FgRegister extends BaseFragment implements TextWatcher {
                 requestData(requestVerity);
                 break;
             case R.id.register_protocol:
-                FgWebInfo fgWebInfo = new FgWebInfo();
-                Bundle bundle1 = new Bundle();
-                bundle1.putString(FgWebInfo.WEB_URL, UrlLibs.H5_PROTOCOL);
-                fgWebInfo.setArguments(bundle1);
-                startFragment(fgWebInfo);
+//                FgWebInfo fgWebInfo = new FgWebInfo();
+//                Bundle bundle1 = new Bundle();
+//                bundle1.putString(FgWebInfo.WEB_URL, UrlLibs.H5_PROTOCOL);
+//                fgWebInfo.setArguments(bundle1);
+//                startFragment(fgWebInfo);
+
+                Intent intent = new Intent(context, WebInfoActivity.class);
+                intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_PROTOCOL);
+                context.startActivity(intent);
+
                 break;
             default:
                 break;

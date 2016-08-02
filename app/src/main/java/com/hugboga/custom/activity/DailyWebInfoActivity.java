@@ -1,10 +1,9 @@
-package com.hugboga.custom.fragment;
+package com.hugboga.custom.activity;
 
-import android.os.Bundle;
+import android.content.Intent;
 import android.view.View;
 import android.widget.TextView;
 
-import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.WXShareUtils;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.CityBean;
@@ -20,11 +19,10 @@ import org.xutils.view.annotation.ViewInject;
 
 import java.util.HashMap;
 
-
+import static com.tencent.bugly.crashreport.inner.InnerAPI.context;
 
 @ContentView(R.layout.fg_sku_detail)
-public class FgDailyWeb extends FgWebInfo {
-
+public class DailyWebInfoActivity extends WebInfoActivity {
     @ViewInject(R.id.goto_order)
     TextView gotoOrder;
 
@@ -38,12 +36,12 @@ public class FgDailyWeb extends FgWebInfo {
     private boolean isPerformClick = false;
 
     @Override
-    protected void initView() {
+    public void initView() {
         super.initView();
         isGoodsOut = false;
-        getView().findViewById(R.id.header_right_btn).setVisibility(WXShareUtils.getInstance(getActivity()).isInstall(false)?View.VISIBLE:View.VISIBLE);
-        if(this.getArguments()!=null){
-            cityBean =  (CityBean)getArguments().getSerializable("cityBean");
+        findViewById(R.id.header_right_btn).setVisibility(WXShareUtils.getInstance(activity).isInstall(false)? View.VISIBLE:View.VISIBLE);
+        if(this.getIntent()!=null){
+            cityBean =  (CityBean)getIntent().getSerializableExtra("cityBean");
         }
         fgLeftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,7 +54,7 @@ public class FgDailyWeb extends FgWebInfo {
 
 
     private CityBean findCityById(String cityId) {
-        DbManager mDbManager = new DBHelper(getActivity()).getDbManager();
+        DbManager mDbManager = new DBHelper(activity).getDbManager();
         try {
             cityBean = mDbManager.findById(CityBean.class, cityId);
         } catch (DbException e) {
@@ -70,34 +68,23 @@ public class FgDailyWeb extends FgWebInfo {
         HashMap<String,String> map = new HashMap<String,String>();
         switch (view.getId()){
             case R.id.header_right_btn:
-                    skuShare(UrlLibs.H5_DAIRY);
+                skuShare(UrlLibs.H5_DAIRY);
                 break;
             case R.id.goto_order:
-                Bundle bundle =new Bundle();
-                bundle.putParcelable("cityBean", cityBean);
-                startFragment(new FgOrderSelectCity(),bundle);
+//                Bundle bundle =new Bundle();
+//                bundle.putSerializable("cityBean", cityBean);
+//                startFragment(new FgOrderSelectCity(),bundle);
+
+                Intent intent =  new Intent(context,OrderSelectCityActivity.class);
+                intent.putExtra("cityBean", cityBean);
+                startActivity(intent);
+
                 break;
         }
     }
 
     private void skuShare(final String shareUrl) {
-        CommonUtils.shareDialog(getActivity(),R.drawable.wxshare_img, getString(R.string.share_title), getString(R.string.share_content), shareUrl);
+        CommonUtils.shareDialog(activity,R.drawable.wxshare_img, getString(R.string.share_title), getString(R.string.share_content), shareUrl);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-
-    @Override
-    public void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    public void onDataRequestSucceed(BaseRequest _request) {
-        super.onDataRequestSucceed(_request);
-
-    }
 }

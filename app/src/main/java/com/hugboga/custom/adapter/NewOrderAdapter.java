@@ -1,5 +1,6 @@
 package com.hugboga.custom.adapter;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Spannable;
@@ -13,6 +14,7 @@ import com.huangbaoche.hbcframe.adapter.ZBaseAdapter;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.huangbaoche.hbcframe.viewholder.ZBaseViewHolder;
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.adapter.viewholder.NewOrderVH;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.ChatInfo;
@@ -20,19 +22,16 @@ import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.parser.ParserChatInfo;
 import com.hugboga.custom.fragment.BaseFragment;
-import com.hugboga.custom.fragment.FgActivity;
 import com.hugboga.custom.fragment.FgEvaluate;
 import com.hugboga.custom.fragment.FgGuideDetail;
 import com.hugboga.custom.fragment.FgInsure;
 import com.hugboga.custom.fragment.FgOrderDetail;
-import com.hugboga.custom.fragment.FgWebInfo;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.DialogUtil;
 
 import org.xutils.image.ImageOptions;
-
 
 import io.rong.imkit.RongIM;
 
@@ -266,7 +265,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                         public void onClick(View v) {
                             FgInsure fgAddInsure = new FgInsure();
                             Bundle bundle = new Bundle();
-                            bundle.putParcelable("orderBean",orderBean);
+                            bundle.putSerializable("orderBean",orderBean);
                             bundle.putString("from","orderList");
                             fgAddInsure.setArguments(bundle);
                             fragment.startFragment(fgAddInsure);
@@ -275,9 +274,16 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                     vh.travel_item_btn_br_tips.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Bundle bundleUrlAll = new Bundle();
-                            bundleUrlAll.putString(FgWebInfo.WEB_URL, UrlLibs.H5_INSURANCE);
-                            fragment.startFragment(new FgActivity(), bundleUrlAll);
+
+//                            Bundle bundleUrlAll = new Bundle();
+//                            bundleUrlAll.putString(FgWebInfo.WEB_URL, UrlLibs.H5_INSURANCE);
+//                            fragment.startFragment(new FgActivity(), bundleUrlAll);
+
+                            Intent intent = new Intent(v.getContext(), WebInfoActivity.class);
+                            intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_INSURANCE);
+                            v.getContext().startActivity(intent);
+
+
                         }
                     });
                 } else {

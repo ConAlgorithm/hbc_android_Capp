@@ -3,17 +3,11 @@ package com.hugboga.custom.fragment;
 import android.os.Bundle;
 import android.widget.ListView;
 
-import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.FgInsureInfoAdapter;
 import com.hugboga.custom.constants.Constants;
-import com.hugboga.custom.data.bean.InsureBean;
 import com.hugboga.custom.data.bean.InsureListBean;
-import com.hugboga.custom.data.bean.InsureResultBean;
 import com.hugboga.custom.data.bean.OrderBean;
-import com.hugboga.custom.data.bean.UserEntity;
-import com.hugboga.custom.data.request.RequestInsureList;
-import com.hugboga.custom.widget.ZListView;
 
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
@@ -36,7 +30,7 @@ public class FgInsureInfo extends BaseFragment {
     public static FgInsureInfo newInstance(OrderBean orderBean) {
         FgInsureInfo fragment = new FgInsureInfo();
         Bundle bundle = new Bundle();
-        bundle.putParcelable(Constants.PARAMS_DATA, orderBean);
+        bundle.putSerializable(Constants.PARAMS_DATA, orderBean);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -58,7 +52,7 @@ public class FgInsureInfo extends BaseFragment {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         if (orderBean != null) {
-            outState.putParcelable(Constants.PARAMS_DATA, orderBean);
+            outState.putSerializable(Constants.PARAMS_DATA, orderBean);
         }
     }
 

@@ -2,7 +2,6 @@ package com.hugboga.custom.adapter;
 
 import android.app.Activity;
 import android.graphics.Color;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,9 +18,7 @@ import com.hugboga.custom.data.bean.ChatInfo;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.parser.ParserChatInfo;
 import com.hugboga.custom.fragment.BaseFragment;
-import com.hugboga.custom.fragment.FgAssessment;
 import com.hugboga.custom.fragment.FgEvaluate;
-import com.hugboga.custom.fragment.FgOrder;
 import com.hugboga.custom.fragment.FgOrderDetail;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.widget.CircularImage;

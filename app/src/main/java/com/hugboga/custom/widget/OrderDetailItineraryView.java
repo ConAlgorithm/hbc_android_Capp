@@ -1,6 +1,7 @@
 package com.hugboga.custom.widget;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Spannable;
@@ -18,17 +19,19 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.SkuDetailActivity;
+import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.OrderPriceInfo;
-import com.hugboga.custom.fragment.FgActivity;
+import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.fragment.FgOrderDetail;
-import com.hugboga.custom.fragment.FgSkuDetail;
 import com.hugboga.custom.fragment.FgSkuList;
-import com.hugboga.custom.fragment.FgWebInfo;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
+
+import static com.tencent.bugly.crashreport.inner.InnerAPI.context;
 
 /**
  * Created by qingcha on 16/6/2.
@@ -208,12 +211,19 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
         }
         switch (v.getId()) {
             case R.id.order_itinerary_route_layout:
-                FgSkuDetail fgSkuDetail = new FgSkuDetail();
-                Bundle bundle = new Bundle();
-                bundle.putString(FgWebInfo.WEB_URL, orderBean.skuDetailUrl);
-                bundle.putString(Constants.PARAMS_ID, orderBean.goodsNo);
-                fgSkuDetail.setArguments(bundle);
-                mFragment.startFragment(fgSkuDetail, bundle);
+                SkuDetailActivity fgSkuDetail = new SkuDetailActivity();
+//                intent.putString(WebInfoActivity.WEB_URL, orderBean.skuDetailUrl);
+//                intent.putString(Constants.PARAMS_ID, orderBean.goodsNo);
+//                fgSkuDetail.setArguments(bundle);
+//                mFragment.startFragment(fgSkuDetail, bundle);
+//
+                Intent intent = new Intent(context, SkuDetailActivity.class);
+                intent.putExtra(WebInfoActivity.WEB_URL, orderBean.skuDetailUrl);
+                intent.putExtra(Constants.PARAMS_ID, orderBean.goodsNo);
+//                intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_DAIRY);
+                context.startActivity(intent);
+
+
                 break;
         }
     }

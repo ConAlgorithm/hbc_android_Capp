@@ -98,6 +98,14 @@
             android:name=".activity.ChooseCityNewActivity"
             android:screenOrientation="portrait"/>
 
+        <activity
+            android:name=".activity.OrderSelectCityActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.WebInfoActivity"
+            android:screenOrientation="portrait" />
+
 
 
         <service

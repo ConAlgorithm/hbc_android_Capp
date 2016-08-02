@@ -1,14 +1,13 @@
 package com.hugboga.custom.fragment;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.widget.DrawerLayout;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -17,35 +16,26 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
-import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
-import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
-import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.data.bean.CollectGuideBean;
 import com.hugboga.custom.data.event.EventAction;
-import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.net.UrlLibs;
-import com.hugboga.custom.data.request.RequestGuideConflict;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.umeng.analytics.MobclickAgent;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 
 import java.util.HashMap;
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static com.hugboga.custom.R.id.driver_layout;
-import static com.hugboga.custom.R.id.driver_name;
-import static com.hugboga.custom.R.id.driver_tips;
-import static com.hugboga.custom.R.id.nums;
-import org.greenrobot.eventbus.EventBus;
+import static com.tencent.bugly.crashreport.inner.InnerAPI.context;
 /**
  * Created  on 16/5/13.
  */
@@ -105,10 +95,19 @@ public class FgPickSend extends BaseFragment implements View.OnTouchListener{
         fgRightBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bundle bundle = new Bundle();
-                bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_PROBLEM);
-                bundle.putBoolean(FgWebInfo.CONTACT_SERVICE, true);
-                startFragment(new FgWebInfo(), bundle);
+
+//                Bundle bundle = new Bundle();
+//                bundle.putString(WebInfoActivity.WEB_URL, UrlLibs.H5_PROBLEM);
+//                bundle.putBoolean(WebInfoActivity.CONTACT_SERVICE, true);
+//                startFragment(new FgWebInfo(), bundle);
+
+                Intent intent = new Intent(context, WebInfoActivity.class);
+                intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_PROBLEM);
+                intent.putExtra(WebInfoActivity.CONTACT_SERVICE, true);
+                context.startActivity(intent);
+
+
+
                 if(pickOrSend == 1){
                     HashMap<String,String> map = new HashMap<String,String>();
                     map.put("source", "填写行程页面");

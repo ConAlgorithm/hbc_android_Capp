@@ -21,6 +21,8 @@ import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.DatePickerActivity;
+import com.hugboga.custom.activity.SkuDetailActivity;
+import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.data.bean.CarBean;
 import com.hugboga.custom.data.bean.CarListBean;
 import com.hugboga.custom.data.bean.ChooseDateBean;
@@ -60,6 +62,7 @@ import static com.hugboga.custom.R.id.all_money_left;
 import static com.hugboga.custom.R.id.all_money_text_sku;
 import static com.hugboga.custom.R.id.go_city_text_click_right;
 import static com.hugboga.custom.R.id.time_layout;
+import static com.tencent.bugly.crashreport.inner.InnerAPI.context;
 
 /**
  * Created  on 16/5/20.
@@ -123,10 +126,15 @@ public class FgSkuNew extends BaseFragment {
         fgRightBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bundle bundle = new Bundle();
-                bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_PROBLEM);
-                bundle.putBoolean(FgWebInfo.CONTACT_SERVICE, true);
-                startFragment(new FgWebInfo(), bundle);
+//                Bundle bundle = new Bundle();
+//                bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_PROBLEM);
+//                bundle.putBoolean(FgWebInfo.CONTACT_SERVICE, true);
+//                startFragment(new FgWebInfo(), bundle);
+
+                Intent intent = new Intent(context, WebInfoActivity.class);
+                intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_PROBLEM);
+                intent.putExtra(WebInfoActivity.CONTACT_SERVICE, true);
+                startActivity(intent);
 
                 HashMap<String, String> map = new HashMap<String, String>();
                 map.put("source", "填写行程页面");
@@ -155,8 +163,8 @@ public class FgSkuNew extends BaseFragment {
 
     @Override
     protected void initView() {
-        skuBean = (SkuItemBean) getArguments().getSerializable(FgSkuDetail.WEB_SKU);
-        cityBean = (CityBean) getArguments().getSerializable(FgSkuDetail.WEB_CITY);
+        skuBean = (SkuItemBean) getArguments().getSerializable(SkuDetailActivity.WEB_SKU);
+        cityBean = (CityBean) getArguments().getSerializable(SkuDetailActivity.WEB_CITY);
         source = getArguments().getString("source");
         MLog.e("skuBean= " + skuBean);
         if (skuBean == null) return;
@@ -400,8 +408,8 @@ public class FgSkuNew extends BaseFragment {
         bundle.putString("carTypeName", carBean.desc);
         bundle.putString("startCityName", cityBean.name);
         bundle.putString("dayNums", skuBean.daysCount + "");
-        bundle.putParcelable("startBean", cityBean);
-        bundle.putParcelable("endBean", cityBean);
+        bundle.putSerializable("startBean", cityBean);
+        bundle.putSerializable("endBean", cityBean);
         bundle.putInt("outnum", skuBean.daysCount);
         bundle.putInt("innum", 0);
         bundle.putString("source", source);

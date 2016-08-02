@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.LuggageInfoActivity;
+import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.adapter.CarViewpagerAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CarBean;
@@ -551,10 +552,16 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
         carPriceInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FgWebInfo fgWebInfo = new FgWebInfo();
-                Bundle bundle = new Bundle();
-                bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_PRICE);
-                startFragment(fgWebInfo, bundle);
+//                FgWebInfo fgWebInfo = new FgWebInfo();
+//                Bundle bundle = new Bundle();
+//                bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_PRICE);
+//                startFragment(fgWebInfo, bundle);
+
+                Intent intent = new Intent(v.getContext(), WebInfoActivity.class);
+                intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_PRICE);
+                v.getContext().startActivity(intent);
+
+
             }
         });
     }

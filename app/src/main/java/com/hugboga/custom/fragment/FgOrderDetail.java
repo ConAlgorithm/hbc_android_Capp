@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.ChatInfo;
 import com.hugboga.custom.data.bean.OrderBean;
@@ -45,6 +46,9 @@ import org.xutils.view.annotation.ViewInject;
 import java.io.Serializable;
 
 import io.rong.imkit.RongIM;
+
+import static com.hugboga.custom.data.net.UrlLibs.H5_INSURANCE;
+import static com.tencent.bugly.crashreport.inner.InnerAPI.context;
 
 /**
  * Created by qingcha on 16/6/1.
@@ -262,9 +266,15 @@ public class FgOrderDetail extends BaseFragment implements View.OnClickListener{
 //                startFragment(FgChoosePayment.newInstance(requestParams));
 //                break;
             case ORDER_DETAIL_INSURANCE_H5://皇包车免费赠送保险
-                Bundle bundle = new Bundle();
-                bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_INSURANCE);
-                startFragment(new FgWebInfo(), bundle);
+
+//                Bundle bundle = new Bundle();
+//                bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_INSURANCE);
+//                startFragment(new FgWebInfo(), bundle);
+
+                Intent intent = new Intent(context, WebInfoActivity.class);
+                intent.putExtra(WebInfoActivity.WEB_URL, H5_INSURANCE);
+                context.startActivity(intent);
+
                 break;
             case ORDER_DETAIL_BACK://返回
                 finish();
@@ -278,7 +288,7 @@ public class FgOrderDetail extends BaseFragment implements View.OnClickListener{
             case ORDER_DETAIL_ADD_INSURER://添加投保人 copy FgOrder
                 FgInsure fgAddInsure = new FgInsure();
                 Bundle insureBundle = new Bundle();
-                insureBundle.putParcelable("orderBean", orderBean);
+                insureBundle.putSerializable("orderBean", orderBean);
                 fgAddInsure.setArguments(insureBundle);
                 startFragment(fgAddInsure);
                 break;
@@ -455,10 +465,16 @@ public class FgOrderDetail extends BaseFragment implements View.OnClickListener{
         commonProblemTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bundle bundle = new Bundle();
-                bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_PROBLEM);
-                bundle.putBoolean(FgWebInfo.CONTACT_SERVICE, true);
-                startFragment(new FgWebInfo(), bundle);
+//                Bundle bundle = new Bundle();
+//                bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_PROBLEM);
+//                bundle.putBoolean(FgWebInfo.CONTACT_SERVICE, true);
+//                startFragment(new FgWebInfo(), bundle);
+
+                Intent intent = new Intent(context, WebInfoActivity.class);
+                intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_PROBLEM);
+                intent.putExtra(WebInfoActivity.CONTACT_SERVICE, true);
+                context.startActivity(intent);
+
                 popup.dismiss();
             }
         });

@@ -14,7 +14,6 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -43,6 +42,7 @@ import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.action.ActionBean;
 import com.hugboga.custom.action.ActionFactory;
 import com.hugboga.custom.activity.BaseActivity;
+import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.adapter.MenuItemAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.LvMenuItem;
@@ -56,7 +56,6 @@ import com.hugboga.custom.data.request.RequestPushClick;
 import com.hugboga.custom.data.request.RequestPushToken;
 import com.hugboga.custom.data.request.RequestUploadLocation;
 import com.hugboga.custom.data.request.RequestUserInfo;
-import com.hugboga.custom.fragment.FgActivity;
 import com.hugboga.custom.fragment.FgChat;
 import com.hugboga.custom.fragment.FgCollectGuideList;
 import com.hugboga.custom.fragment.FgCoupon;
@@ -71,7 +70,6 @@ import com.hugboga.custom.fragment.FgServicerCenter;
 import com.hugboga.custom.fragment.FgSetting;
 import com.hugboga.custom.fragment.FgTravel;
 import com.hugboga.custom.fragment.FgTravelFund;
-import com.hugboga.custom.fragment.FgWebInfo;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.ChannelUtils;
 import com.hugboga.custom.utils.CommonUtils;
@@ -105,6 +103,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import cn.jpush.android.api.JPushInterface;
+
+import static com.tencent.bugly.crashreport.inner.InnerAPI.context;
 
 @ContentView(R.layout.activity_main)
 public class MainActivity extends BaseActivity
@@ -143,7 +143,7 @@ public class MainActivity extends BaseActivity
     private ActionBean actionBean;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
             actionBean = (ActionBean) savedInstanceState.getSerializable(Constants.PARAMS_ACTION);
@@ -203,9 +203,14 @@ public class MainActivity extends BaseActivity
 
     private void showAdWebView(String url){
         if(null != url) {
-            Bundle bundle = new Bundle();
-            bundle.putString(FgWebInfo.WEB_URL, url);
-            startFragment(new FgActivity(), bundle);
+//            Bundle bundle = new Bundle();
+//            bundle.putString(WebInfoActivity.WEB_URL, url);
+//            startFragment(new FgActivity(), bundle);
+
+            Intent intent = new Intent(activity,WebInfoActivity.class);
+            intent.putExtra(WebInfoActivity.WEB_URL, url);
+            startActivity(intent);
+
         }
     }
 
@@ -300,7 +305,7 @@ public class MainActivity extends BaseActivity
     }
 
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         super.onDestroy();
         try {
             if (timer != null) {
@@ -654,9 +659,13 @@ public class MainActivity extends BaseActivity
                 break;
             case Constants.PERSONAL_CENTER_HD://活动
                 if (isLogin("个人中心首页")) {
-                    Bundle bundle = new Bundle();
-                    bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_ACTIVITY + UserEntity.getUser().getUserId(this.getApplicationContext()) + "&t=" + new Random().nextInt(100000));
-                    startFragment(new FgActivity(), bundle);
+//                    Bundle bundle = new Bundle();
+//                    bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_ACTIVITY + UserEntity.getUser().getUserId(this.getApplicationContext()) + "&t=" + new Random().nextInt(100000));
+//                    startFragment(new FgActivity(), bundle);
+
+                    Intent intent = new Intent(context, WebInfoActivity.class);
+                    intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_ACTIVITY + UserEntity.getUser().getUserId(this.getApplicationContext()) + "&t=" + new Random().nextInt(100000));
+                    startActivity(intent);
                 }
                 break;
             case Constants.PERSONAL_CENTER_CUSTOMER_SERVICE://服务规则

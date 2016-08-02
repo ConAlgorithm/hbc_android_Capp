@@ -4,7 +4,6 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -76,7 +75,7 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
     }
 
     @Override
-    protected void onCreate(Bundle arg0) {
+    public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         UIUtils.initDisplayConfiguration(LoadingActivity.this);
         MobclickAgent.UMAnalyticsConfig config = new MobclickAgent.UMAnalyticsConfig(this, "55ccb4cfe0f55ab500004a9d", ChannelUtils.getChannel(this));
@@ -96,7 +95,7 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
         }
     }
 
-    private void initView() {
+    public void initView() {
         show_ad = (ImageView) findViewById(R.id.show_ad);
         bottom_txt = (TextView) findViewById(R.id.bottom_txt);
         UpdateResources.checkLocalDB(this);

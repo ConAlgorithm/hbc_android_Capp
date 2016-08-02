@@ -78,7 +78,7 @@ public class FgEvaluate extends BaseFragment implements RatingView.OnLevelChange
     public static FgEvaluate newInstance(OrderBean orderBean) {
         FgEvaluate fragment = new FgEvaluate();
         Bundle bundle = new Bundle();
-        bundle.putParcelable(Constants.PARAMS_DATA, orderBean);
+        bundle.putSerializable(Constants.PARAMS_DATA, orderBean);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -101,7 +101,7 @@ public class FgEvaluate extends BaseFragment implements RatingView.OnLevelChange
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         if (orderBean != null) {
-            outState.putParcelable(Constants.PARAMS_DATA, orderBean);
+            outState.putSerializable(Constants.PARAMS_DATA, orderBean);
         }
     }
 

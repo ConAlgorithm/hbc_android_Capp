@@ -1,19 +1,18 @@
 package com.hugboga.custom.action;
 
-import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.hugboga.custom.activity.BaseActivity;
+import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.fragment.BaseFragment;
-import com.hugboga.custom.fragment.FgActivity;
 import com.hugboga.custom.fragment.FgChooseCityNew;
 import com.hugboga.custom.fragment.FgCoupon;
 import com.hugboga.custom.fragment.FgHome;
 import com.hugboga.custom.fragment.FgLogin;
-import com.hugboga.custom.fragment.FgWebInfo;
 import com.hugboga.custom.utils.CommonUtils;
 
 import java.util.Random;
@@ -45,9 +44,15 @@ public class ActionFactory implements ActionFactoryBehavior {
                 if (activity == null) {
                     return;
                 }
-                Bundle bundle = new Bundle();
-                bundle.putString(FgWebInfo.WEB_URL, _actionBaseBean.url);
-                activity.startFragment(new FgActivity(), bundle);
+//                Bundle bundle = new Bundle();
+//                bundle.putString(FgWebInfo.WEB_URL, _actionBaseBean.url);
+//                activity.startFragment(new FgActivity(), bundle);
+
+                Intent intent = new Intent(activity,WebInfoActivity.class);
+                intent.putExtra(WebInfoActivity.WEB_URL,  _actionBaseBean.url);
+                intent.putExtra(WebInfoActivity.CONTACT_SERVICE, true);
+                activity.startActivity(intent);
+
                 break;
             case ActionType.NATIVE_PAGE:
                 intentPage(_actionBaseBean);
@@ -72,10 +77,14 @@ public class ActionFactory implements ActionFactoryBehavior {
             }
         }
         Bundle bundle = new Bundle();
+        Intent intent = new Intent(activity,WebInfoActivity.class);
         switch (CommonUtils.getCountInteger(_actionBaseBean.vcid)) {
             case ActionType.PageType.WEBVIEW:
-                bundle.putString(FgWebInfo.WEB_URL, _actionBaseBean.vcid);
-                activity.startFragment(new FgActivity(), bundle);
+//                bundle.putString(FgWebInfo.WEB_URL, _actionBaseBean.vcid);
+//                activity.startFragment(new FgActivity(), bundle);
+                intent.putExtra(WebInfoActivity.WEB_URL,  _actionBaseBean.vcid);
+                intent.putExtra(WebInfoActivity.CONTACT_SERVICE, true);
+                activity.startActivity(intent);
                 break;
             case ActionType.PageType.HOME:
                 if (fragment != null) {
@@ -96,8 +105,12 @@ public class ActionFactory implements ActionFactoryBehavior {
                 break;
             case ActionType.PageType.ACTIVITY_LIST:
                 if (isLogin()) {
-                    bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_ACTIVITY + UserEntity.getUser().getUserId(activity) + "&t=" + new Random().nextInt(100000));
-                    activity.startFragment(new FgActivity(), bundle);
+//                    bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_ACTIVITY + UserEntity.getUser().getUserId(activity) + "&t=" + new Random().nextInt(100000));
+//                    activity.startFragment(new FgActivity(), bundle);
+                    intent.putExtra(WebInfoActivity.WEB_URL,  UrlLibs.H5_ACTIVITY + UserEntity.getUser().getUserId(activity) + "&t=" + new Random().nextInt(100000));
+                    intent.putExtra(WebInfoActivity.CONTACT_SERVICE, true);
+                    activity.startActivity(intent);
+
                 }
                 break;
             default:

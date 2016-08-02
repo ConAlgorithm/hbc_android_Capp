@@ -1,5 +1,6 @@
 package com.hugboga.custom.fragment;
 
+import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -18,6 +19,9 @@ import com.huangbaoche.hbcframe.widget.recycler.ZDefaultDivider;
 import com.huangbaoche.hbcframe.widget.recycler.ZListRecyclerView;
 import com.huangbaoche.hbcframe.widget.recycler.ZSwipeRefreshLayout;
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.DailyWebInfoActivity;
+import com.hugboga.custom.activity.SkuDetailActivity;
+import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.adapter.HbcRecyclerBaseAdapter;
 import com.hugboga.custom.adapter.SkuAdapter;
 import com.hugboga.custom.constants.Constants;
@@ -44,6 +48,8 @@ import java.io.Serializable;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+
+import static com.tencent.bugly.crashreport.inner.InnerAPI.context;
 
 /**
  * 城市SKU列表
@@ -247,7 +253,7 @@ public class FgSkuList extends BaseFragment implements HbcRecyclerBaseAdapter.On
     protected void inflateContent() {
 
     }
-
+    public static final String KEY_CITY_BEAN = "KEY_CITY_BEAN";
     @Override
     public void onItemClick(View view, int position, Object _itemData) {
         if (_itemData != null && _itemData instanceof SkuItemBean) {
@@ -277,11 +283,18 @@ public class FgSkuList extends BaseFragment implements HbcRecyclerBaseAdapter.On
                         }
                     }
 
-                    bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_DAIRY+params);
-                    bundle.putParcelable("cityBean", cityBean);
-                    bundle.putString("source", cityBean.name);
-                    bundle.putSerializable(FgDaily.KEY_CITY_BEAN, cityBean);
-                    startFragment(new FgDailyWeb(), bundle);
+//                    bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_DAIRY+params);
+//                    bundle.putParcelable("cityBean", cityBean);
+//                    bundle.putString("source", cityBean.name);
+//                    bundle.putSerializable(FgDaily.KEY_CITY_BEAN, cityBean);
+//                    startFragment(new FgDailyWeb(), bundle);
+
+                    Intent intent = new Intent(context, DailyWebInfoActivity.class);
+                    intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_DAIRY+params);
+                    intent.putExtra("cityBean", cityBean);
+                    intent.putExtra("source", cityBean.name);
+                    intent.putExtra(KEY_CITY_BEAN, cityBean);
+                    context.startActivity(intent);
 
                 } else {
 //                    startFragment(new FgOrderSelectCity());
@@ -291,21 +304,32 @@ public class FgSkuList extends BaseFragment implements HbcRecyclerBaseAdapter.On
                     if(!TextUtils.isEmpty(userId)){
                         params += "?userId="+userId;
                     }
-                    bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_DAIRY+params);
-                    startFragment(new FgDailyWeb(), bundle);
+//                    bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_DAIRY+params);
+//                    startFragment(new FgDailyWeb(), bundle);
+
+                    Intent intent = new Intent(context,WebInfoActivity.class);
+                    intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_DAIRY+params);
+                    startActivity(intent);
+
                 }
             } else {
-                FgSkuDetail fgSkuDetail = new FgSkuDetail();
+//                FgSkuDetail fgSkuDetail = new FgSkuDetail();
                 Bundle bundle = new Bundle();
                 String userId = UserEntity.getUser().getUserId(getActivity());
                 String skuDetailUrl = skuItemBean.skuDetailUrl;
                 if(!TextUtils.isEmpty(userId)){
                     skuDetailUrl += "&userId="+userId;
                 }
-                bundle.putString(FgWebInfo.WEB_URL, skuDetailUrl);
-                bundle.putSerializable(FgSkuDetail.WEB_SKU, skuItemBean);
-                fgSkuDetail.setArguments(bundle);
-                startFragment(fgSkuDetail, bundle);
+//                bundle.putString(WebInfoActivity.WEB_URL, skuDetailUrl);
+//                bundle.putSerializable(SkuDetailActivity.WEB_SKU, skuItemBean);
+//                fgSkuDetail.setArguments(bundle);
+//                startFragment(fgSkuDetail, bundle);
+
+                Intent intent = new Intent(context,SkuDetailActivity.class);
+                intent.putExtra(WebInfoActivity.WEB_URL, skuDetailUrl);
+                intent.putExtra(SkuDetailActivity.WEB_SKU, skuItemBean);
+
+                startActivity(intent);
             }
         }
     }
