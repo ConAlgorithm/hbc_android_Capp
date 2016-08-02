@@ -4,12 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.hugboga.custom.activity.BaseActivity;
+import com.hugboga.custom.activity.ChooseCityNewActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.fragment.BaseFragment;
-import com.hugboga.custom.fragment.FgChooseCityNew;
 import com.hugboga.custom.fragment.FgCoupon;
 import com.hugboga.custom.fragment.FgHome;
 import com.hugboga.custom.fragment.FgLogin;
@@ -92,9 +92,15 @@ public class ActionFactory implements ActionFactoryBehavior {
                 }
                 break;
             case ActionType.PageType.SEARCH:
-                bundle.putInt("com.hugboga.custom.home.flush", Constants.BUSINESS_TYPE_HOME);
-                bundle.putString("source","小搜索按钮");
-                activity.startFragment(new FgChooseCityNew(), bundle);
+//                bundle.putInt("com.hugboga.custom.home.flush", Constants.BUSINESS_TYPE_HOME);
+//                bundle.putString("source","小搜索按钮");
+//                activity.startFragment(new FgChooseCityNew(), bundle);
+
+                intent = new Intent(activity, ChooseCityNewActivity.class);
+                intent.putExtra("com.hugboga.custom.home.flush", Constants.BUSINESS_TYPE_HOME);
+                intent.putExtra("source","小搜索按钮");
+                activity.startActivity(intent);
+
                 break;
             case ActionType.PageType.COUPON:
                 if (isLogin()) {
