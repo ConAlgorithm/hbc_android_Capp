@@ -6,15 +6,11 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
-import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
-import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.BaseActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.OrderBean;
-import com.hugboga.custom.data.request.RequestOrderDetail;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.OrderDetailFloatView;
 import com.hugboga.custom.widget.OrderDetailGuideInfo;
@@ -23,7 +19,6 @@ import com.hugboga.custom.widget.OrderDetailTitleBar;
 import com.hugboga.custom.widget.TopTipsLayout;
 
 import org.greenrobot.eventbus.EventBus;
-import org.xutils.common.Callback;
 
 import java.io.Serializable;
 
@@ -105,7 +100,7 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
     }
 
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
     }
