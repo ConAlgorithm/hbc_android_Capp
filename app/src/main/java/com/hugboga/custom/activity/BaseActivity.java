@@ -10,15 +10,22 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.activity.BaseFragmentActivity;
+import com.huangbaoche.hbcframe.data.net.ErrorHandler;
+import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
+import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
+import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
+import com.huangbaoche.hbcframe.data.request.BaseRequest;
+import com.umeng.analytics.MobclickAgent;
+
+import org.xutils.common.Callback;
+
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 import com.hugboga.custom.widget.DialogUtil;
-import com.umeng.analytics.MobclickAgent;
-
 import butterknife.ButterKnife;
 
 
-public class BaseActivity extends BaseFragmentActivity implements View.OnClickListener {
+public class BaseActivity extends BaseFragmentActivity implements View.OnClickListener, HttpRequestListener {
 
     public static String KEY_FROM = "key_from";
     public static String KEY_BUSINESS_TYPE = "key_business_Type";
@@ -31,6 +38,10 @@ public class BaseActivity extends BaseFragmentActivity implements View.OnClickLi
 
     protected String source = ""; //友盟统计用 获取从哪个界面进入
     protected String umeng_key = "";//友盟事件ID
+
+    public Callback.Cancelable cancelable;
+    private ErrorHandler errorHandler;
+
 
 
     @Override
@@ -90,6 +101,9 @@ public class BaseActivity extends BaseFragmentActivity implements View.OnClickLi
     @Override
     public void onDestroy() {
         super.onDestroy();
+        if (cancelable != null) {
+            cancelable.cancel();
+        }
         ButterKnife.unbind(this);
     }
 
@@ -110,5 +124,29 @@ public class BaseActivity extends BaseFragmentActivity implements View.OnClickLi
             if (imm != null && inputText != null)
                 imm.hideSoftInputFromWindow(inputText.getWindowToken(), 0);
         }
+    }
+    protected Callback.Cancelable requestData(BaseRequest request) {
+        cancelable = HttpRequestUtils.request(this, request, this);
+        return cancelable;
+    }
+
+    @Override
+    public void onDataRequestSucceed(BaseRequest request) {
+
+    }
+
+    @Override
+    public void onDataRequestCancel(BaseRequest request) {
+
+    }
+
+    @Override
+    public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+        if (errorHandler == null) {
+            errorHandler = new ErrorHandler(this, this);
+        }
+        errorHandler.onDataRequestError(errorInfo, request);
+        errorHandler = null;//TODO 旧代码粘贴，没必要赋空，耗内存，需优化。
+
     }
 }
