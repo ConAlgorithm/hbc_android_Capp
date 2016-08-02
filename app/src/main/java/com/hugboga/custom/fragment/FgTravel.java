@@ -24,6 +24,7 @@ import com.huangbaoche.hbcframe.widget.recycler.ZListPageView;
 import com.huangbaoche.hbcframe.widget.recycler.ZSwipeRefreshLayout;
 import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.OrderDetailActivity;
 import com.hugboga.custom.adapter.NewOrderAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.OrderBean;
@@ -391,11 +392,20 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, OnIt
             } else if (view == fgTravelCancel) {
                 bean = cancelAdapter.getDatas().get(position);
             }
+//            FgOrderDetail.Params params = new FgOrderDetail.Params();
+//            params.orderType = bean.orderType;
+//            params.orderId = bean.orderNo;
+//            params.source = bean.orderType == 5 ? bean.serviceCityName : "首页";
+//            startFragment(FgOrderDetail.newInstance(params));
+
             FgOrderDetail.Params params = new FgOrderDetail.Params();
             params.orderType = bean.orderType;
             params.orderId = bean.orderNo;
             params.source = bean.orderType == 5 ? bean.serviceCityName : "首页";
-            startFragment(FgOrderDetail.newInstance(params));
+            Intent intent = new Intent(getActivity(), OrderDetailActivity.class);
+            intent.putExtra(Constants.PARAMS_DATA, params);
+            getActivity().startActivity(intent);
+
 //            if (view == fgTravelRunning) {
 //                OrderBean bean = runningAdapter.getDatas().get(position);
 //                Bundle bundle = new Bundle();

@@ -106,7 +106,9 @@
             android:name=".activity.WebInfoActivity"
             android:screenOrientation="portrait" />
 
-
+        <activity
+            android:name=".activity.OrderDetailActivity"
+            android:screenOrientation="portrait" />
 
         <service
             android:name=".service.LogService"
