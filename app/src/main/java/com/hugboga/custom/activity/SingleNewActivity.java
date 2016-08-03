@@ -37,7 +37,6 @@ import com.hugboga.custom.data.request.RequestCheckPriceForSingle;
 import com.hugboga.custom.data.request.RequestGuideConflict;
 import com.hugboga.custom.fragment.FGOrderNew;
 import com.hugboga.custom.fragment.FgCarNew;
-import com.hugboga.custom.fragment.FgChooseCity;
 import com.hugboga.custom.fragment.FgLogin;
 import com.hugboga.custom.fragment.FgPoiSearch;
 import com.hugboga.custom.utils.AlertDialogUtils;
@@ -265,7 +264,7 @@ public class SingleNewActivity extends BaseActivity {
     public void onFragmentResult(Bundle bundle) {
         MLog.w(this + " onFragmentResult " + bundle);
         String from = bundle.getString(KEY_FRAGMENT_NAME);
-        if (FgChooseCity.class.getSimpleName().equals(from)) {
+        if (ChooseCityActivity.class.getSimpleName().equals(from)) {
             cityBean = (CityBean) bundle.getSerializable(ChooseCityActivity.KEY_CITY);
             useCityTips.setText(cityBean.name);
             startBean = null;
@@ -694,11 +693,13 @@ public class SingleNewActivity extends BaseActivity {
         Bundle bundle = new Bundle();
         switch (view.getId()) {
             case R.id.city_layout:
-                bundle.putString("source", "下单过程中");
-                bundle.putInt(KEY_BUSINESS_TYPE, Constants.BUSINESS_TYPE_RENT);
-                startFragment(new FgChooseCity(), bundle);
-                map.put("source", "下单过程中");
-                MobclickAgent.onEvent(activity, "search_trigger", map);
+//                bundle.putString("source", "下单过程中");
+//                bundle.putInt(KEY_BUSINESS_TYPE, Constants.BUSINESS_TYPE_RENT);
+//                startFragment(new FgChooseCity(), bundle);
+                Intent intent = new Intent(this, ChooseCityActivity.class);
+                intent.putExtra("source", "下单过程中");
+                intent.putExtra(KEY_BUSINESS_TYPE, Constants.BUSINESS_TYPE_RENT);
+                startActivity(intent);
                 break;
             case R.id.start_tips:
             case R.id.start_title:

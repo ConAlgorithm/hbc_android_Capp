@@ -48,6 +48,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
 /**
@@ -343,8 +344,8 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
         }
     }
 
-    @Event(value = {R.id.city_choose_btn, R.id.head_search_clean, R.id.head_text_right})
-    private void onClickView(View view) {
+    @OnClick({R.id.city_choose_btn, R.id.head_search_clean, R.id.head_text_right, R.id.header_left_btn})
+    public void onClick(View view) {
         switch (view.getId()) {
             case R.id.city_choose_btn:
                 //FIXME qingcha
@@ -357,6 +358,9 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
                     break;
                 }
                 editSearch.setText("");
+                break;
+            case R.id.header_left_btn:
+                finish();
                 break;
             case R.id.head_text_right:
                 String keyword = editSearch.getText().toString().trim();
