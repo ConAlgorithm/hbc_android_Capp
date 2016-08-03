@@ -107,6 +107,11 @@
             android:screenOrientation="portrait" />
 
         <activity
+            android:name=".activity.DailyWebInfoActivity"
+            android:screenOrientation="portrait" />
+
+
+        <activity
             android:name=".activity.OrderDetailActivity"
             android:screenOrientation="portrait" />
 

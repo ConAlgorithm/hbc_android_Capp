@@ -6,8 +6,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -48,7 +48,6 @@ import com.hugboga.custom.fragment.FGSelectCar;
 import com.hugboga.custom.fragment.FgChooseCity;
 import com.hugboga.custom.fragment.FgCollectGuideList;
 import com.hugboga.custom.fragment.FgLogin;
-import com.hugboga.custom.fragment.FgOrderSelectCity;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.CityUtils;
 import com.hugboga.custom.utils.CommonUtils;
@@ -61,9 +60,7 @@ import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
@@ -73,6 +70,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
 
 import static android.view.View.GONE;
@@ -173,6 +171,8 @@ public class OrderSelectCityActivity extends BaseActivity implements NumberPicke
     TextView time_text_click;
 
     boolean isFromGuideList = false;
+    @Bind(R.id.header_right_txt)
+    TextView headerRightTxt;
 
     public void initView() {
         initHeader();
@@ -181,12 +181,12 @@ public class OrderSelectCityActivity extends BaseActivity implements NumberPicke
 
         startBean = this.getIntent().getParcelableExtra("cityBean");
 
-        if(null !=startBean){
+        if (null != startBean) {
             endBean = startBean;
             startCity = startBean.name;
             endCityId = startBean.cityId + "";
             startCityClick.setText(startCity);
-        }else{
+        } else {
 //            new Handler().postDelayed(new Runnable() {
 //                @Override
 //                public void run() {
@@ -211,7 +211,7 @@ public class OrderSelectCityActivity extends BaseActivity implements NumberPicke
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    if(null != chooseDateBean){
+                    if (null != chooseDateBean) {
                         chooseDateBean.type = TYPE_RANGE;
                     }
                     fullDay.setTextColor(Color.parseColor("#000000"));
@@ -226,7 +226,7 @@ public class OrderSelectCityActivity extends BaseActivity implements NumberPicke
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    if(null != chooseDateBean){
+                    if (null != chooseDateBean) {
                         chooseDateBean.type = TYPE_SINGLE;
                     }
                     fullDay.setTextColor(Color.parseColor("#888888"));
@@ -238,7 +238,7 @@ public class OrderSelectCityActivity extends BaseActivity implements NumberPicke
                 }
             }
         });
-        fgLeftBtn.setOnClickListener(new View.OnClickListener() {
+        headerLeftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (isAddinfo()) {
@@ -273,9 +273,9 @@ public class OrderSelectCityActivity extends BaseActivity implements NumberPicke
             }
         });
 
-        fgRightBtn.setVisibility(View.VISIBLE);
-        fgRightBtn.setText("常见问题");
-        fgRightBtn.setOnClickListener(new View.OnClickListener() {
+        headerRightTxt.setVisibility(View.VISIBLE);
+        headerRightTxt.setText("常见问题");
+        headerRightTxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 //                Bundle bundle = new Bundle();
@@ -283,7 +283,7 @@ public class OrderSelectCityActivity extends BaseActivity implements NumberPicke
 //                bundle.putBoolean(FgWebInfo.CONTACT_SERVICE, true);
 //                startFragment(new FgWebInfo(), bundle);
 
-                Intent intent = new Intent(activity,WebInfoActivity.class);
+                Intent intent = new Intent(activity, WebInfoActivity.class);
                 intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_PROBLEM);
                 intent.putExtra(WebInfoActivity.CONTACT_SERVICE, true);
                 activity.startActivity(intent);
@@ -300,7 +300,7 @@ public class OrderSelectCityActivity extends BaseActivity implements NumberPicke
     }
 
     private void showSaveDialog() {
-        android.support.v7.app.AlertDialog dialog = AlertDialogUtils.showAlertDialog(activity, "离开当前页面所选行程将会丢失，确定要离开吗？", "离开", "取消", new DialogInterface.OnClickListener() {
+        AlertDialog dialog = AlertDialogUtils.showAlertDialog(activity, "离开当前页面所选行程将会丢失，确定要离开吗？", "离开", "取消", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
@@ -372,7 +372,7 @@ public class OrderSelectCityActivity extends BaseActivity implements NumberPicke
 //            return false;
 //        }
 
-        if(serverTime.equalsIgnoreCase("00:00") && isIncludeToday){
+        if (serverTime.equalsIgnoreCase("00:00") && isIncludeToday) {
             CommonUtils.showToast("请选择上车时间");
 //            disableNextBtn();
             return false;
@@ -402,10 +402,9 @@ public class OrderSelectCityActivity extends BaseActivity implements NumberPicke
     }
 
 
-
     public void initHeader() {
-        fgRightBtn.setVisibility(View.VISIBLE);
-        fgTitle.setText(R.string.select_city_title);
+        headerTitle.setVisibility(View.VISIBLE);
+        headerTitle.setText(R.string.select_city_title);
     }
 
     public String format(int value) {
@@ -476,7 +475,7 @@ public class OrderSelectCityActivity extends BaseActivity implements NumberPicke
 
     LinearLayout scope_layout, scope_layout_in, scope_layout_out, scope_layout_other;
     TextView out_title, in_title, other_title;
-    TextView out_tips, in_tips,other_tips;
+    TextView out_tips, in_tips, other_tips;
 
     //    List<String> passCitiesList = new ArrayList<>();
     ArrayList<CityBean> passBeanList = new ArrayList<>();
@@ -576,6 +575,7 @@ public class OrderSelectCityActivity extends BaseActivity implements NumberPicke
 
     //途径城市
     String passCities = "";
+
     private void initSelectPeoplePop(boolean isEndDay) {
         view = LayoutInflater.from(this.activity).inflate(R.layout.pop_select_people, null);
         scope_layout = (LinearLayout) view.findViewById(R.id.scope_layout);
@@ -660,7 +660,7 @@ public class OrderSelectCityActivity extends BaseActivity implements NumberPicke
                     }
                     if (manNum == 0) manNum = 1;
                     peopleTextClick.setText(String.format(getString(R.string.select_city_man_child_num), manNum, childNum));
-                    if(childNum < childSeatNums) {
+                    if (childNum < childSeatNums) {
                         childSeatNums = childNum;
                         childText.setText(getString(R.string.select_city_child) + childSeatNums);
                     }
@@ -762,7 +762,7 @@ public class OrderSelectCityActivity extends BaseActivity implements NumberPicke
                 }
 
 
-                hotCitys = CityUtils.requestHotDate(activity,startBean.groupId);
+                hotCitys = CityUtils.requestHotDate(activity, startBean.groupId);
             } else if ("lastCity".equalsIgnoreCase(fromKey) || "nearby".equalsIgnoreCase(fromKey)) {
                 endBean = (CityBean) bundle.getSerializable(FgChooseCity.KEY_CITY);
 
@@ -783,21 +783,22 @@ public class OrderSelectCityActivity extends BaseActivity implements NumberPicke
 
     CityBean preCityBean;
     boolean showOtherLayout = true;
+
     public void initScopeLayoutValue(boolean isEndDay) {
-        preCityBean = (passBeanList.size() == 0 || currentIndex ==0 )?startBean:passBeanList.get(currentIndex -1);
+        preCityBean = (passBeanList.size() == 0 || currentIndex == 0) ? startBean : passBeanList.get(currentIndex - 1);
         if (isEndDay) {
             scope_in_str = "在" + preCityBean.name + "市内结束行程,市内游玩";
             scope_around_str = "在" + preCityBean.name + "市内结束行程,周边游玩";
             scope_other_str = "在其它城市结束行程";
         } else {
-            scope_in_str = String.format(getString(R.string.scope_in), "住在" + preCityBean.name+"市内");
-            scope_around_str = String.format(getString(R.string.scope_around), "住在" + preCityBean.name+"市内");
+            scope_in_str = String.format(getString(R.string.scope_in), "住在" + preCityBean.name + "市内");
+            scope_around_str = String.format(getString(R.string.scope_around), "住在" + preCityBean.name + "市内");
             scope_other_str = "住在其它城市";
         }
 
-        if(showOtherLayout) {
+        if (showOtherLayout) {
             scope_layout_other.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             scope_layout_other.setVisibility(View.GONE);
         }
 
@@ -807,14 +808,14 @@ public class OrderSelectCityActivity extends BaseActivity implements NumberPicke
         out_tips.setText(preCityBean.neighbourTip);
         in_tips.setText(preCityBean.dailyTip);
 
-        if(null != hotCitys) {
+        if (null != hotCitys) {
             if (hotCitys.size() > 0) {
                 other_tips.setVisibility(View.VISIBLE);
                 other_tips.setText(CityUtils.getHotCityStr(hotCitys));
             } else {
                 other_tips.setVisibility(View.INVISIBLE);
             }
-        }else{
+        } else {
             other_tips.setVisibility(View.INVISIBLE);
         }
     }
@@ -858,11 +859,11 @@ public class OrderSelectCityActivity extends BaseActivity implements NumberPicke
                     Bundle bundle = new Bundle();
                     RequestCollectGuidesFilter.CollectGuidesFilterParams params = new RequestCollectGuidesFilter.CollectGuidesFilterParams();
                     params.startCityId = startBean.cityId;
-                    params.startTime = isHalfTravel ? halfDate + " " +serverTime +":00" : start_date_str + " " +serverTime +":00" ;
+                    params.startTime = isHalfTravel ? halfDate + " " + serverTime + ":00" : start_date_str + " " + serverTime + ":00";
 
-                    String end_time = (isHalfTravel ? halfDate : end_date_str) + " " +serverTime +":00";
-                    if("00:00".equalsIgnoreCase(serverTime)){
-                        end_time = (isHalfTravel ? halfDate : end_date_str) + " " +"23:59:59";
+                    String end_time = (isHalfTravel ? halfDate : end_date_str) + " " + serverTime + ":00";
+                    if ("00:00".equalsIgnoreCase(serverTime)) {
+                        end_time = (isHalfTravel ? halfDate : end_date_str) + " " + "23:59:59";
                     }
                     params.endTime = end_time;
                     params.adultNum = manNum;
@@ -889,17 +890,17 @@ public class OrderSelectCityActivity extends BaseActivity implements NumberPicke
     private void getCarInfo() {
         final RequestGetCarInfo requestGetCarInfo = new RequestGetCarInfo(this.activity,
                 startBean.cityId + "", isHalfTravel ? (startBean.cityId + "") : passBeanList.get(passBeanList.size() - 1).cityId + "",
-                isHalfTravel ? halfDate + " " +serverTime +":00" : start_date_str + " " +serverTime +":00",
-                isHalfTravel ? halfDate + " " +serverTime +":00" : end_date_str + " " +serverTime +":00",
+                isHalfTravel ? halfDate + " " + serverTime + ":00" : start_date_str + " " + serverTime + ":00",
+                isHalfTravel ? halfDate + " " + serverTime + ":00" : end_date_str + " " + serverTime + ":00",
                 isHalfTravel ? "1" : "0", manNum + "",
-                childNum + "", childSeatNums + "", baggageNum + "", isHalfTravel ? "" : getPassCities(), "18",collectGuideBean.carType+"-"+collectGuideBean.carClass);
+                childNum + "", childSeatNums + "", baggageNum + "", isHalfTravel ? "" : getPassCities(), "18", collectGuideBean.carType + "-" + collectGuideBean.carClass);
         HttpRequestUtils.request(this.activity, requestGetCarInfo, new HttpRequestListener() {
             @Override
             public void onDataRequestSucceed(BaseRequest request) {
                 RequestGetCarInfo requestGetCarInfo = (RequestGetCarInfo) request;
                 carBean = requestGetCarInfo.getData();
 
-                if(null != carBean && null!= carBean.cars  && carBean.cars.size() != 0) {
+                if (null != carBean && null != carBean.cars && carBean.cars.size() != 0) {
                     FGOrderNew fgOrderNew = new FGOrderNew();
                     Bundle bundle = new Bundle();
                     bundle.putString("guideCollectId", guideCollectId);
@@ -934,7 +935,7 @@ public class OrderSelectCityActivity extends BaseActivity implements NumberPicke
                     bundle.putString("orderType", "3");
                     fgOrderNew.setArguments(bundle);
 //                    startFragment(fgOrderNew);
-                }else{
+                } else {
                     CommonUtils.showToast(R.string.no_price_error);
                 }
             }
@@ -972,12 +973,12 @@ public class OrderSelectCityActivity extends BaseActivity implements NumberPicke
         if (((manNum + Math.round(childSeatNums * 1.5) + (childNum - childSeatNums)) <= collectGuideBean.numOfPerson)
                 && ((manNum + Math.round((childSeatNums) * 1.5) + (childNum - childSeatNums)) + baggageNum)
                 <= (collectGuideBean.numOfPerson + collectGuideBean.numOfLuggage)) {
-            String end_time = (isHalfTravel ? halfDate : end_date_str) + " " +serverTime +":00";
-            if("00:00".equalsIgnoreCase(serverTime)){
-                end_time = (isHalfTravel ? halfDate : end_date_str) + " " +"23:59:59";
+            String end_time = (isHalfTravel ? halfDate : end_date_str) + " " + serverTime + ":00";
+            if ("00:00".equalsIgnoreCase(serverTime)) {
+                end_time = (isHalfTravel ? halfDate : end_date_str) + " " + "23:59:59";
             }
             OrderUtils.checkGuideCoflict(activity, 3, startBean.cityId,
-                    collectGuideBean.guideId, (isHalfTravel ? halfDate : start_date_str) + " " +serverTime +":00" ,
+                    collectGuideBean.guideId, (isHalfTravel ? halfDate : start_date_str) + " " + serverTime + ":00",
                     end_time, getPassCitiesId(),
                     nums, collectGuideBean.carType, collectGuideBean.carClass,
                     new HttpRequestListener() {
@@ -1017,6 +1018,12 @@ public class OrderSelectCityActivity extends BaseActivity implements NumberPicke
 
     String serverTime = "00:00";
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        ButterKnife.bind(this);
+    }
+
     class MyTimePickerDialogListener implements TimePickerDialog.OnTimeSetListener {
 
 
@@ -1033,7 +1040,7 @@ public class OrderSelectCityActivity extends BaseActivity implements NumberPicke
     private final int TYPE_SINGLE = 1;
     private final int TYPE_RANGE = 2;
 
-    @Event({R.id.time_text_click,R.id.go_city_text_layout,R.id.choose_driver, R.id.minus, R.id.add, R.id.header_left_btn, start_city_click, people_text_click, R.id.show_child_seat_layout, R.id.child_no_confirm_click, baggage_text_click, R.id.baggage_no_confirm_click, R.id.end_layout_click, R.id.go_city_text_click, R.id.next_btn_click})
+    @Event({R.id.time_text_click, R.id.go_city_text_layout, R.id.choose_driver, R.id.minus, R.id.add, R.id.header_left_btn, start_city_click, people_text_click, R.id.show_child_seat_layout, R.id.child_no_confirm_click, baggage_text_click, R.id.baggage_no_confirm_click, R.id.end_layout_click, R.id.go_city_text_click, R.id.next_btn_click})
     private void onClickView(View view) {
         switch (view.getId()) {
             case R.id.time_text_click:
@@ -1052,7 +1059,7 @@ public class OrderSelectCityActivity extends BaseActivity implements NumberPicke
                 if (childSeatNums < childNum) {
                     childSeatNums++;
                     childText.setText(getString(R.string.select_city_child) + childSeatNums);
-                }else{
+                } else {
                     CommonUtils.showToast("儿童座椅数不能大于儿童数");
                 }
                 break;
@@ -1093,9 +1100,9 @@ public class OrderSelectCityActivity extends BaseActivity implements NumberPicke
                     CommonUtils.showToast(R.string.alert_del_after_edit);
                 } else {
 //                    showDaySelect(endDate);
-                    Intent intent = new Intent(activity,DatePickerActivity.class);
-                    intent.putExtra("type",TYPE_RANGE);
-                    intent.putExtra("chooseDateBean",chooseDateBean);
+                    Intent intent = new Intent(activity, DatePickerActivity.class);
+                    intent.putExtra("type", TYPE_RANGE);
+                    intent.putExtra("chooseDateBean", chooseDateBean);
                     startActivity(intent);
                 }
                 break;
@@ -1105,16 +1112,16 @@ public class OrderSelectCityActivity extends BaseActivity implements NumberPicke
                     CommonUtils.showToast(R.string.alert_del_after_edit);
                 } else {
 //                    showDaySelect(goCityTextClick);
-                    Intent intent = new Intent(activity,DatePickerActivity.class);
-                    intent.putExtra("type",TYPE_SINGLE);
-                    intent.putExtra("chooseDateBean",chooseDateBean);
+                    Intent intent = new Intent(activity, DatePickerActivity.class);
+                    intent.putExtra("type", TYPE_SINGLE);
+                    intent.putExtra("chooseDateBean", chooseDateBean);
                     startActivity(intent);
 
                 }
                 break;
             case R.id.next_btn_click:
 
-                if(checkNextBtnStatus()) {
+                if (checkNextBtnStatus()) {
 
                     if (null != collectGuideBean) {
                         if ((collectGuideBean.carType == 1 && collectGuideBean.numOfPerson == 4 && (manNum + childNum) == 4)
@@ -1141,7 +1148,7 @@ public class OrderSelectCityActivity extends BaseActivity implements NumberPicke
                         bundleCar.putString("endCityId", isHalfTravel ? (startBean.cityId + "") : passBeanList.get(passBeanList.size() - 1).cityId + "");//endCityId);
                         bundleCar.putString("startDate", isHalfTravel ? (halfDate) : (start_date_str));
                         bundleCar.putString("endDate", isHalfTravel ? (halfDate) : (end_date_str));
-                        bundleCar.putString("serverTime",serverTime);
+                        bundleCar.putString("serverTime", serverTime);
                         bundleCar.putString("halfDay", isHalfTravel ? "1" : "0");
                         bundleCar.putString("adultNum", manNum + "");
                         bundleCar.putString("childrenNum", childNum + "");
@@ -1271,6 +1278,7 @@ public class OrderSelectCityActivity extends BaseActivity implements NumberPicke
 
     View currentClickView = null;
     int currentIndex = 0;
+
     //生成经过城市列表
     private void genDayViews(int index) {
         dayView = LayoutInflater.from(this.activity).inflate(R.layout.add_day_item, null);
@@ -1310,7 +1318,7 @@ public class OrderSelectCityActivity extends BaseActivity implements NumberPicke
                     currentIndex = Integer.valueOf(currentClickView.getTag().toString()) - 1;
                     if (Integer.valueOf(v.getTag().toString()) == full_day_show.getChildCount()) {
                         initScopeLayoutValue(true);
-                    } else{
+                    } else {
                         initScopeLayoutValue(false);
                     }
                     showSelectPeoplePop(3);
@@ -1342,7 +1350,9 @@ public class OrderSelectCityActivity extends BaseActivity implements NumberPicke
         dpd.show(this.activity.getFragmentManager(), "DatePickerDialog");   //显示日期设置对话框
 
     }
+
     ChooseDateBean chooseDateBean;
+
     @Subscribe
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
@@ -1355,38 +1365,38 @@ public class OrderSelectCityActivity extends BaseActivity implements NumberPicke
                 }
                 break;
             case CHOOSE_DATE:
-                chooseDateBean = (ChooseDateBean)action.getData();
-                if(chooseDateBean.type == 1){
+                chooseDateBean = (ChooseDateBean) action.getData();
+                if (chooseDateBean.type == 1) {
                     halfDate = chooseDateBean.halfDateStr;
                     goCityTextClick.setText(chooseDateBean.showHalfDateStr);
-                    if(chooseDateBean.isToday) {
+                    if (chooseDateBean.isToday) {
                         go_city_text_click_right.setText("今天");
                         time_layout.setVisibility(View.VISIBLE);
-                        isIncludeToday =  true;
-                    }else{
+                        isIncludeToday = true;
+                    } else {
                         go_city_text_click_right.setText("");
                         time_layout.setVisibility(View.GONE);
-                        isIncludeToday =  false;
+                        isIncludeToday = false;
                     }
 
 //                    checkNextBtnStatus();
-                }else{
+                } else {
                     start_date_str = chooseDateBean.start_date;
                     end_date_str = chooseDateBean.end_date;
                     startDate.setText(chooseDateBean.showStartDateStr);
                     endDate.setText(chooseDateBean.showEndDateStr);
 
-                    if(chooseDateBean.isToday) {
+                    if (chooseDateBean.isToday) {
                         start_date_right.setText("今天");
                         time_layout.setVisibility(View.VISIBLE);
-                        isIncludeToday =  true;
-                    }else{
+                        isIncludeToday = true;
+                    } else {
                         start_date_right.setText("");
                         time_layout.setVisibility(View.GONE);
-                        isIncludeToday =  false;
+                        isIncludeToday = false;
                     }
 
-                    end_date_right.setText("共包车"+chooseDateBean.dayNums+"天");
+                    end_date_right.setText("共包车" + chooseDateBean.dayNums + "天");
                     addDayView(false);
 //                    checkNextBtnStatus();
                 }
@@ -1402,7 +1412,7 @@ public class OrderSelectCityActivity extends BaseActivity implements NumberPicke
     String end_date_str = "";
     String halfDate = "";
 
-    class MyDatePickerListener implements com.wdullaer.materialdatetimepicker.date.DatePickerDialog.OnDateSetListener {
+    class MyDatePickerListener implements DatePickerDialog.OnDateSetListener {
         TextView mTextView;
 
         MyDatePickerListener(TextView textView) {
@@ -1410,7 +1420,7 @@ public class OrderSelectCityActivity extends BaseActivity implements NumberPicke
         }
 
         @Override
-        public void onDateSet(com.wdullaer.materialdatetimepicker.date.DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+        public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
             int month = monthOfYear + 1;
             String monthStr = String.format("%02d", month);
             String dayOfMonthStr = String.format("%02d", dayOfMonth);
