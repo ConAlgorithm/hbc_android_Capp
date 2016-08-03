@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.activity.BaseFragmentActivity;
 import com.huangbaoche.hbcframe.data.net.ErrorHandler;
@@ -38,12 +39,22 @@ public class BaseActivity extends BaseFragmentActivity implements View.OnClickLi
     public Callback.Cancelable cancelable;
     private ErrorHandler errorHandler;
 
-
+    protected TextView fgTitle; //标题
+    protected TextView fgRightBtn; //右按钮
+    protected View fgLeftBtn;//左按钮
 
     @Override
     public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         activity = this;
+    }
+
+    protected void initDefaultTitleBar() {
+        fgTitle = (TextView) findViewById(R.id.header_title);
+        fgLeftBtn = findViewById(R.id.header_left_btn);
+        fgRightBtn = (TextView) findViewById(R.id.header_right_txt);
+        if (fgRightBtn != null) fgRightBtn.setOnClickListener(this);
+        if (fgLeftBtn != null) fgLeftBtn.setOnClickListener(this);
     }
 
     @Override

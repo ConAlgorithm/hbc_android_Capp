@@ -103,6 +103,7 @@ public class SkuListActivity extends BaseActivity implements HbcRecyclerBaseAdap
             }
         }
         setContentView(R.layout.fg_sku_list);
+        initDefaultTitleBar();
         ButterKnife.bind(this);
         initView();
     }
