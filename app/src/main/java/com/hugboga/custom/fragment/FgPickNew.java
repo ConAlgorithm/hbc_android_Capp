@@ -1,6 +1,7 @@
 package com.hugboga.custom.fragment;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -16,6 +17,7 @@ import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.ChooseAirActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.AirPort;
 import com.hugboga.custom.data.bean.CarBean;
@@ -559,8 +561,10 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
             case R.id.air_title:
             case R.id.air_detail:
             case R.id.rl_info:
-                FgChooseAir fgChooseAir = new FgChooseAir();
-                startFragment(fgChooseAir);
+//                FgChooseAir fgChooseAir = new FgChooseAir();
+//                startFragment(fgChooseAir);
+                Intent intent = new Intent(getActivity(),ChooseAirActivity.class);
+                getActivity().startActivity(intent);
                 break;
             case R.id.address_tips:
             case R.id.address_title:
