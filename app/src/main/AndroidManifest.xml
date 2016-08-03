@@ -106,6 +106,10 @@
             android:name=".activity.WebInfoActivity"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".activity.DailyWebInfoActivity"
+            android:screenOrientation="portrait" />
+
 
 
         <service

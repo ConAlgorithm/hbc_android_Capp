@@ -245,7 +245,7 @@ public class ChooseCityNewActivity extends BaseActivity {
 //                    bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_DAIRY);
 //                    startFragment(new FgDailyWeb(), bundle);
 
-                    Intent intent = new Intent(activity, WebInfoActivity.class);
+                    Intent intent = new Intent(activity, DailyWebInfoActivity.class);
                     intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_DAIRY);
                     startActivity(intent);
 

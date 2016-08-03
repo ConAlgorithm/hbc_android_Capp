@@ -17,6 +17,8 @@ import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.net.DefaultSSLSocketFactory;
 import com.huangbaoche.hbcframe.util.MLog;
@@ -26,26 +28,32 @@ import com.hugboga.custom.data.net.WebAgent;
 import com.hugboga.custom.utils.ChannelUtils;
 import com.hugboga.custom.widget.DialogUtil;
 
-import org.xutils.view.annotation.ContentView;
-import org.xutils.view.annotation.ViewInject;
-
 import java.io.InputStream;
 import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLHandshakeException;
 
-@ContentView(R.layout.fg_webview)
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 public class WebInfoActivity extends BaseActivity implements View.OnKeyListener {
 
     public static final String WEB_URL = "web_url";
     public static final String CONTACT_SERVICE = "contact_service";
 
     public boolean isHttps = false;
+    @Bind(R.id.header_left_btn)
+    ImageView headerLeftBtn;
+    @Bind(R.id.header_right_btn)
+    ImageView headerRightBtn;
+    @Bind(R.id.header_title)
+    TextView headerTitle;
+    @Bind(R.id.header_right_txt)
+    TextView headerRightTxt;
+    @Bind(R.id.webview)
+    WebView webView;
     private DialogUtil mDialogUtil;
-
-    @ViewInject(R.id.webview)
-    public WebView webView;
 
     private CityBean cityBean;
 
@@ -53,6 +61,9 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.cityBean = getIntent().getParcelableExtra("cityBean");
+        setContentView(R.layout.fg_webview);
+        ButterKnife.bind(this);
+        initView();
     }
 
     public void setTitle(String title) {
@@ -196,6 +207,7 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
     public void onDestroy() {
         webView.destroy();
         super.onDestroy();
+        ButterKnife.unbind(this);
     }
 
     public void initHeader() {
