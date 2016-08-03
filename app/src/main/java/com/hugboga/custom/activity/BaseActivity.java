@@ -7,7 +7,6 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.activity.BaseFragmentActivity;
 import com.huangbaoche.hbcframe.data.net.ErrorHandler;
@@ -15,13 +14,13 @@ import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
+import com.huangbaoche.hbcframe.util.MLog;
+import com.hugboga.custom.R;
+import com.hugboga.custom.widget.DialogUtil;
 import com.umeng.analytics.MobclickAgent;
 
 import org.xutils.common.Callback;
 
-import com.huangbaoche.hbcframe.util.MLog;
-import com.hugboga.custom.R;
-import com.hugboga.custom.widget.DialogUtil;
 import butterknife.ButterKnife;
 
 
@@ -32,9 +31,6 @@ public class BaseActivity extends BaseFragmentActivity implements View.OnClickLi
     public static String KEY_GOODS_TYPE = "key_goods_type";
 
     public Activity activity;
-    protected TextView fgTitle; //标题
-    protected TextView fgRightBtn; //右按钮
-    protected View fgLeftBtn;//左按钮
 
     protected String source = ""; //友盟统计用 获取从哪个界面进入
     protected String umeng_key = "";//友盟事件ID
@@ -49,7 +45,6 @@ public class BaseActivity extends BaseFragmentActivity implements View.OnClickLi
         super.onCreate(arg0);
         activity = this;
     }
-
 
     @Override
     public void onClick(View v) {

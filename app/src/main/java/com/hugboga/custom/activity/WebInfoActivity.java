@@ -66,13 +66,6 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
         initView();
     }
 
-    public void setTitle(String title) {
-        if (fgTitle == null) {
-            return;
-        }
-        fgTitle.setText(title);
-    }
-
 
     WebViewClient webClient = new WebViewClient() {
 
@@ -157,9 +150,9 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
         public void onReceivedTitle(WebView view, String title) {
             super.onReceivedTitle(view, title);
             if (!view.getTitle().startsWith("http:")) {
-                fgTitle.setText(view.getTitle());
+                headerTitle.setText(view.getTitle());
             } else {
-                fgTitle.setText("");
+                headerTitle.setText("");
             }
 
         }
@@ -213,7 +206,7 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
     public void initHeader() {
 //        fgTitle.setTextColor(getResources().getColor(R.color.my_content_title_color));
 //        fgTitle.setText("客服中心");
-        fgLeftBtn.setOnClickListener(new View.OnClickListener() {
+        headerLeftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (webView.canGoBack()) {
@@ -224,9 +217,9 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
             }
         });
         if (this.getIntent().getBooleanExtra(CONTACT_SERVICE, false)) {
-            fgRightBtn.setVisibility(View.VISIBLE);
-            fgRightBtn.setText("联系客服");
-            fgRightBtn.setOnClickListener(new View.OnClickListener() {
+            headerTitle.setVisibility(View.VISIBLE);
+            headerTitle.setText("联系客服");
+            headerTitle.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     mDialogUtil.showCallDialog();

@@ -6,6 +6,8 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.webkit.WebView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
@@ -27,19 +29,31 @@ import org.xutils.common.util.LogUtil;
 import org.xutils.ex.DbException;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
-import org.xutils.view.annotation.ViewInject;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 
 @ContentView(R.layout.fg_sku_detail)
 public class SkuDetailActivity extends WebInfoActivity {
-    @ViewInject(R.id.goto_order)
-    TextView gotoOrder;
 
     public static final String WEB_SKU = "web_sku";
     public static final String WEB_CITY = "web_city";
+    @Bind(R.id.header_left_btn)
+    ImageView headerLeftBtn;
+    @Bind(R.id.header_right_btn)
+    ImageView headerRightBtn;
+    @Bind(R.id.header_title)
+    TextView headerTitle;
+    @Bind(R.id.header_right_txt)
+    TextView headerRightTxt;
+    @Bind(R.id.goto_order)
+    TextView gotoOrder;
+    @Bind(R.id.webview)
+    WebView webview;
 
     private SkuItemBean skuItemBean;//sku详情
     private CityBean cityBean;
@@ -52,17 +66,17 @@ public class SkuDetailActivity extends WebInfoActivity {
     public void initView() {
         super.initView();
         isGoodsOut = false;
-        findViewById(R.id.header_right_btn).setVisibility(WXShareUtils.getInstance(activity).isInstall(false)? View.VISIBLE:View.VISIBLE);
-        if(this.getIntent()!=null){
-            skuItemBean =  (SkuItemBean)getIntent().getSerializableExtra(WEB_SKU);
-            cityBean =  (CityBean)getIntent().getSerializableExtra(WEB_CITY);
+        findViewById(R.id.header_right_btn).setVisibility(WXShareUtils.getInstance(activity).isInstall(false) ? View.VISIBLE : View.VISIBLE);
+        if (this.getIntent() != null) {
+            skuItemBean = (SkuItemBean) getIntent().getSerializableExtra(WEB_SKU);
+            cityBean = (CityBean) getIntent().getSerializableExtra(WEB_CITY);
             source = getIntent().getStringExtra("source");
             goodsNo = getIntent().getStringExtra(Constants.PARAMS_ID);
         }
         if (cityBean == null && skuItemBean != null && skuItemBean.arrCityId != 0) {
             cityBean = findCityById("" + skuItemBean.arrCityId);
         }
-        fgLeftBtn.setOnClickListener(new View.OnClickListener() {
+        headerLeftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
@@ -75,7 +89,7 @@ public class SkuDetailActivity extends WebInfoActivity {
         if (skuItemBean == null && !TextUtils.isEmpty(goodsNo)) {
             isPerformClick = isShowLoading;
             RequestGoodsById request = new RequestGoodsById(activity, goodsNo);
-            HttpRequestUtils.request(activity, request, new HttpRequestListener(){
+            HttpRequestUtils.request(activity, request, new HttpRequestListener() {
                 @Override
                 public void onDataRequestCancel(BaseRequest request) {
 
@@ -88,7 +102,7 @@ public class SkuDetailActivity extends WebInfoActivity {
 
                 public void onDataRequestSucceed(BaseRequest _request) {
                     if (_request instanceof RequestGoodsById) {
-                        RequestGoodsById requestGoodsById = (RequestGoodsById)_request;
+                        RequestGoodsById requestGoodsById = (RequestGoodsById) _request;
                         skuItemBean = requestGoodsById.getData();
                         if (skuItemBean == null) {
                             return;
@@ -115,17 +129,17 @@ public class SkuDetailActivity extends WebInfoActivity {
         return cityBean;
     }
 
-    @Event({R.id.header_right_btn,R.id.goto_order})
-    private void onClickView(View view){
-        HashMap<String,String> map = new HashMap<String,String>();
-        switch (view.getId()){
+    @Event({R.id.header_right_btn, R.id.goto_order})
+    private void onClickView(View view) {
+        HashMap<String, String> map = new HashMap<String, String>();
+        switch (view.getId()) {
             case R.id.header_right_btn:
-                if(skuItemBean!=null){
-                    String title =skuItemBean.goodsName;
+                if (skuItemBean != null) {
+                    String title = skuItemBean.goodsName;
                     String content = activity.getString(R.string.wx_share_content);
-                    String shareUrl = skuItemBean.shareURL==null?skuItemBean.skuDetailUrl:skuItemBean.shareURL;
-                    shareUrl = shareUrl==null?"http://www.huangbaoche.com":shareUrl;
-                    skuShare(skuItemBean.goodsPicture,title,content,shareUrl);
+                    String shareUrl = skuItemBean.shareURL == null ? skuItemBean.skuDetailUrl : skuItemBean.shareURL;
+                    shareUrl = shareUrl == null ? "http://www.huangbaoche.com" : shareUrl;
+                    skuShare(skuItemBean.goodsPicture, title, content, shareUrl);
                 }
                 break;
             case R.id.goto_order:
@@ -136,12 +150,12 @@ public class SkuDetailActivity extends WebInfoActivity {
                 if (cityBean == null) {
                     cityBean = findCityById("" + skuItemBean.arrCityId);
                 }
-                Bundle bundle =new Bundle();
-                bundle.putSerializable(SkuDetailActivity.WEB_SKU,skuItemBean);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(SkuDetailActivity.WEB_SKU, skuItemBean);
                 if (cityBean != null) {
-                    bundle.putSerializable(SkuDetailActivity.WEB_CITY,cityBean);
+                    bundle.putSerializable(SkuDetailActivity.WEB_CITY, cityBean);
                 }
-                bundle.putString("source",source);
+                bundle.putString("source", source);
 //                startFragment(new FgSkuSubmit(), source);
                 startFragment(new FgSkuNew(), bundle);
 //                if (cityBean != null) {
@@ -152,7 +166,7 @@ public class SkuDetailActivity extends WebInfoActivity {
                 int countResult = 0;
                 try {
                     countResult = Integer.parseInt(skuItemBean.goodsMinPrice);
-                }catch (Exception e){
+                } catch (Exception e) {
                     LogUtil.e(e.toString());
                 }
                 MobclickAgent.onEventValue(activity, "chose_route", map, countResult);
@@ -166,12 +180,12 @@ public class SkuDetailActivity extends WebInfoActivity {
         }
         final AlertDialog.Builder callDialog = new AlertDialog.Builder(activity);
         callDialog.setTitle("分享");
-        final String [] callItems = new String[]{"分享好友","分享朋友圈"};
+        final String[] callItems = new String[]{"分享好友", "分享朋友圈"};
         callDialog.setItems(callItems, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 uMengClickEvent("share_route");
-                WXShareUtils.getInstance(activity).share(which+1, skuItemBean.goodsPicture, title, content, shareUrl);
+                WXShareUtils.getInstance(activity).share(which + 1, skuItemBean.goodsPicture, title, content, shareUrl);
             }
         });
         AlertDialog dialog = callDialog.create();
@@ -186,16 +200,16 @@ public class SkuDetailActivity extends WebInfoActivity {
         uMengClickEvent("launch_route");
     }
 
-    private void uMengClickEvent(String type){
+    private void uMengClickEvent(String type) {
         Map<String, String> map_value = new HashMap<String, String>();
-        map_value.put("routecity" , source);
+        map_value.put("routecity", source);
         int countResult = 0;
         if (skuItemBean != null) {
-            map_value.put("routename" , skuItemBean.goodsName);
+            map_value.put("routename", skuItemBean.goodsName);
 //          map_value.put("quoteprice" , skuItemBean.goodsMinPrice);
             try {
                 countResult = Integer.parseInt(skuItemBean.goodsMinPrice);
-            }catch (Exception e){
+            } catch (Exception e) {
                 LogUtil.e(e.toString());
             }
         }
@@ -208,4 +222,9 @@ public class SkuDetailActivity extends WebInfoActivity {
     }
 
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        ButterKnife.bind(this);
+    }
 }
