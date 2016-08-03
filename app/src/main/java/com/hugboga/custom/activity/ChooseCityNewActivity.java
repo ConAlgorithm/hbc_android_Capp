@@ -22,11 +22,11 @@ import android.widget.TextView;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.LevelCityAdapter;
 import com.hugboga.custom.adapter.SearchNewAdapter;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.SearchGroupBean;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.fragment.FgPickSend;
 import com.hugboga.custom.fragment.FgSingleNew;
-import com.hugboga.custom.fragment.FgSkuList;
 import com.hugboga.custom.utils.CityUtils;
 import com.hugboga.custom.utils.LogUtils;
 import com.hugboga.custom.utils.UIUtils;
@@ -38,6 +38,8 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static com.huangbaoche.hbcframe.fragment.BaseFragment.KEY_FRAGMENT_NAME;
 
 public class ChooseCityNewActivity extends BaseActivity {
 
@@ -367,52 +369,57 @@ public class ChooseCityNewActivity extends BaseActivity {
         CityUtils.addCityHistoryData(searchGroupBean);
 //        finish();
         expandableListView.setVisibility(View.GONE);
-        FgSkuList.Params params = new FgSkuList.Params();
+        SkuListActivity.Params params = new SkuListActivity.Params();
 
         if (searchGroupBean.flag == 1) {
             params.id = searchGroupBean.group_id;
-            params.skuType = FgSkuList.SkuType.ROUTE;
+            params.skuType = SkuListActivity.SkuType.ROUTE;
             params.titleName = searchGroupBean.group_name;
         } else if (searchGroupBean.flag == 2) {
             if (searchGroupBean.type == 1) {
                 params.id = searchGroupBean.sub_place_id;
-                params.skuType = FgSkuList.SkuType.ROUTE;
+                params.skuType = SkuListActivity.SkuType.ROUTE;
                 params.titleName = searchGroupBean.sub_place_name;
             } else if (searchGroupBean.type == 2) {
                 params.id = searchGroupBean.sub_place_id;
                 params.titleName = searchGroupBean.sub_place_name;
-                params.skuType = FgSkuList.SkuType.COUNTRY;
+                params.skuType = SkuListActivity.SkuType.COUNTRY;
             } else {
                 params.id = searchGroupBean.sub_place_id;
-                params.skuType = FgSkuList.SkuType.COUNTRY;
+                params.skuType = SkuListActivity.SkuType.COUNTRY;
                 params.titleName = searchGroupBean.sub_place_name;
             }
         } else if (searchGroupBean.flag == 3) {
             if (searchGroupBean.sub_city_name.equalsIgnoreCase("全境")) {
                 params.id = searchGroupBean.sub_city_id;
-                params.skuType = FgSkuList.SkuType.COUNTRY;
+                params.skuType = SkuListActivity.SkuType.COUNTRY;
                 params.titleName = searchGroupBean.sub_place_name;
             } else {
                 params.id = searchGroupBean.sub_city_id;
-                params.skuType = FgSkuList.SkuType.CITY;
+                params.skuType = SkuListActivity.SkuType.CITY;
                 params.titleName = searchGroupBean.sub_place_name;
             }
         } else if (searchGroupBean.flag == 4) {
             params.id = searchGroupBean.spot_id;
             if (searchGroupBean.type == 1) {
-                params.skuType = FgSkuList.SkuType.CITY;
+                params.skuType = SkuListActivity.SkuType.CITY;
                 params.titleName = searchGroupBean.spot_name;
             } else if (searchGroupBean.type == 2) {
-                params.skuType = FgSkuList.SkuType.COUNTRY;
+                params.skuType = SkuListActivity.SkuType.COUNTRY;
                 params.titleName = searchGroupBean.spot_name;
             }
         }
 //        startFragment(FgSkuList.newInstance(params));
 
-//        Bundle bundle = new Bundle();
-//        bundle.putSerializable(Constants.PARAMS_DATA, params);
-//        bundle.putString(KEY_FRAGMENT_NAME, this.getClass().getSimpleName());
-//        bringToFront(FgSkuList.class, bundle);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(Constants.PARAMS_DATA, params);
+        bundle.putString(KEY_FRAGMENT_NAME, this.getClass().getSimpleName());
+//        bringToFront(FgSkuList.class, undle);
+
+        Intent intent = new Intent(activity, SkuListActivity.class);
+        intent.putExtras(bundle);
+        startActivity(intent);
+
     }
 
 
