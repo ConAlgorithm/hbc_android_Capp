@@ -174,6 +174,10 @@ public class OrderSelectCityActivity extends BaseActivity  {
     @Bind(R.id.header_right_txt)
     TextView headerRightTxt;
 
+
+
+
+
     public void initView() {
         initSelectPeoplePop(false);
         enableNextBtn();
@@ -962,6 +966,7 @@ public class OrderSelectCityActivity extends BaseActivity  {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
+        initView();
     }
 
     class MyTimePickerDialogListener implements TimePickerDialog.OnTimeSetListener {

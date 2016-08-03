@@ -27,7 +27,6 @@ import com.hugboga.custom.data.bean.SearchGroupBean;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.fragment.FgPickSend;
 import com.hugboga.custom.fragment.FgSingleNew;
-import com.hugboga.custom.fragment.FgSkuList;
 import com.hugboga.custom.utils.CityUtils;
 import com.hugboga.custom.utils.LogUtils;
 import com.hugboga.custom.utils.UIUtils;
@@ -39,6 +38,8 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static com.huangbaoche.hbcframe.fragment.BaseFragment.KEY_FRAGMENT_NAME;
 
 public class ChooseCityNewActivity extends BaseActivity {
 
@@ -409,7 +410,6 @@ public class ChooseCityNewActivity extends BaseActivity {
             }
         }
 //        startFragment(FgSkuList.newInstance(params));
-
 //        Bundle bundle = new Bundle();
 //        bundle.putSerializable(Constants.PARAMS_DATA, params);
 //        bundle.putString(KEY_FRAGMENT_NAME, this.getClass().getSimpleName());
