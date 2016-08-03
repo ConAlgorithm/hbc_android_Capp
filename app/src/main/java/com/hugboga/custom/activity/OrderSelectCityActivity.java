@@ -81,7 +81,7 @@ import static com.hugboga.custom.R.id.start_city_click;
 
 
 @ContentView(R.layout.activity_order_select_city)
-public class OrderSelectCityActivity extends BaseActivity implements NumberPicker.Formatter {
+public class OrderSelectCityActivity extends BaseActivity  {
 
 
     @ViewInject(R.id.header_left_btn)
@@ -175,7 +175,6 @@ public class OrderSelectCityActivity extends BaseActivity implements NumberPicke
     TextView headerRightTxt;
 
     public void initView() {
-        initHeader();
         initSelectPeoplePop(false);
         enableNextBtn();
 
@@ -272,7 +271,8 @@ public class OrderSelectCityActivity extends BaseActivity implements NumberPicke
                 }
             }
         });
-
+        headerTitle.setVisibility(View.VISIBLE);
+        headerTitle.setText(R.string.select_city_title);
         headerRightTxt.setVisibility(View.VISIBLE);
         headerRightTxt.setText("常见问题");
         headerRightTxt.setOnClickListener(new View.OnClickListener() {
@@ -328,7 +328,6 @@ public class OrderSelectCityActivity extends BaseActivity implements NumberPicke
         full_day_show.setVisibility(View.VISIBLE);
         full_day_date_layout.setVisibility(View.VISIBLE);
         isHalfTravel = false;
-//        checkNextBtnStatus();
     }
 
     private void showHalf() {
@@ -336,7 +335,6 @@ public class OrderSelectCityActivity extends BaseActivity implements NumberPicke
         full_day_show.setVisibility(GONE);
         full_day_date_layout.setVisibility(GONE);
         isHalfTravel = true;
-//        checkNextBtnStatus();
     }
 
 
@@ -355,65 +353,42 @@ public class OrderSelectCityActivity extends BaseActivity implements NumberPicke
 
     public boolean checkNextBtnStatus() {
         if (null == startBean) {
-//            disableNextBtn();
             CommonUtils.showToast("请选择城市");
             return false;
         }
 
         if (TextUtils.isEmpty(peopleTextClick.getText())) {
             CommonUtils.showToast("请选择出发人数");
-//            disableNextBtn();
             return false;
         }
 
-//        if (TextUtils.isEmpty(baggageTextClick.getText())) {
-//            CommonUtils.showToast("请选择行李数");
-////            disableNextBtn();
-//            return false;
-//        }
-
         if (serverTime.equalsIgnoreCase("00:00") && isIncludeToday) {
             CommonUtils.showToast("请选择上车时间");
-//            disableNextBtn();
             return false;
         }
 
         if (isHalfTravel) {
             if (TextUtils.isEmpty(halfDate)) {
                 CommonUtils.showToast("请选择游玩日期");
-//                disableNextBtn();
                 return false;
             }
         } else {
             if (TextUtils.isEmpty(start_date_str) || TextUtils.isEmpty(end_date_str)) {
                 CommonUtils.showToast("请选择开始日期和结束日期");
-//                disableNextBtn();
                 return false;
             }
 
             if (passBeanList.size() != nums) {
                 CommonUtils.showToast("请填写每日行程");
-//                disableNextBtn();
                 return false;
             }
         }
         return true;
-//        enableNextBtn();
     }
 
-
-    public void initHeader() {
-        headerTitle.setVisibility(View.VISIBLE);
-        headerTitle.setText(R.string.select_city_title);
-    }
-
-    public String format(int value) {
-        return value + "";
-    }
 
     //初始化人数,座位选择
     private void init() {
-        manList.setFormatter(this);
         manList.setMaxValue(11);
         manList.setMinValue(1);
         manList.setValue(manNum == 0 ? 1 : manNum);
@@ -421,7 +396,6 @@ public class OrderSelectCityActivity extends BaseActivity implements NumberPicke
         manList.setFocusable(false);
         manList.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
 
-        childList.setFormatter(this);
         childList.setMaxValue(11);
         childList.setMinValue(0);
         childList.setValue(childNum);
@@ -429,7 +403,6 @@ public class OrderSelectCityActivity extends BaseActivity implements NumberPicke
         childList.setFocusable(false);
         childList.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
 
-        baggageList.setFormatter(this);
         baggageList.setMaxValue(11);
         baggageList.setMinValue(0);
         baggageList.setValue(baggageNum);
@@ -536,41 +509,14 @@ public class OrderSelectCityActivity extends BaseActivity implements NumberPicke
             }
             addPassCityBean(3, cityBean, currentClickView.getTag().toString());
         }
-//        if(passCitiesList.size() > tag-1){
-//            passCitiesList.set((tag - 1), cityId + "-1" + "-" + type);
-//        }else{
-//            passCitiesList.add((tag - 1), cityId + "-1" + "-" + type);
-//        }
         View view = full_day_show.getChildAt(tag);
         if (null != view && null == view.getTag()) {
             view.setTag(tag + 1);
-//            TextView endText = (TextView) view.findViewById(R.id.day_go_city_text_click);
-//            TextView end_add_tips = (TextView) view.findViewById(R.id.add_tips);
-//            if (type == 3 && (tag + 1) == nums) {
-//                endText.setText(R.string.select_end_city);
-//            } else if (type == 3 && (tag + 1) != nums) {
-//                endText.setText(R.string.select_stay_city);
-//            } else {
-//                endText.setText(R.string.select_scope);
-//                end_add_tips.setVisibility(View.GONE);
-//            }
             view.setBackgroundColor(Color.parseColor("#ffffff"));
         } else if (null != view && null != view.getTag()) {
-//            TextView endText = (TextView) view.findViewById(R.id.day_go_city_text_click);
-//            TextView end_add_tips = (TextView) view.findViewById(R.id.add_tips);
-//            if (type == 3 && (tag + 1) == nums) {
-//                endText.setText(R.string.select_end_city);
-//            } else if (type == 3 && (tag + 1) != nums) {
-//                endText.setText(R.string.select_stay_city);
-//            } else {
-//                endText.setText(R.string.select_scope);
-//                end_add_tips.setVisibility(View.GONE);
-//            }
         } else {
             endCityId = cityId;
         }
-//        checkNextBtnStatus();
-
     }
 
     //途径城市
@@ -588,12 +534,6 @@ public class OrderSelectCityActivity extends BaseActivity implements NumberPicke
         out_tips = (TextView) view.findViewById(R.id.out_tips);
         in_tips = (TextView) view.findViewById(R.id.in_tips);
         other_tips = (TextView) view.findViewById(R.id.other_tips);
-
-//        if(currentIndex > 0) {
-//            preCityBean = passBeanList.get(currentIndex);
-//        }else{
-//            preCityBean = startBean;
-//        }
 
         if (isEndDay) {
             in_title.setText("在" + preCityBean.name + "市内结束行程,市内游玩");
@@ -1040,9 +980,15 @@ public class OrderSelectCityActivity extends BaseActivity implements NumberPicke
     private final int TYPE_SINGLE = 1;
     private final int TYPE_RANGE = 2;
 
-    @Event({R.id.time_text_click, R.id.go_city_text_layout, R.id.choose_driver, R.id.minus, R.id.add, R.id.header_left_btn, start_city_click, people_text_click, R.id.show_child_seat_layout, R.id.child_no_confirm_click, baggage_text_click, R.id.baggage_no_confirm_click, R.id.end_layout_click, R.id.go_city_text_click, R.id.next_btn_click})
+    @Event({R.id.header_right_txt,R.id.time_text_click, R.id.go_city_text_layout, R.id.choose_driver, R.id.minus, R.id.add, R.id.header_left_btn, start_city_click, people_text_click, R.id.show_child_seat_layout, R.id.child_no_confirm_click, baggage_text_click, R.id.baggage_no_confirm_click, R.id.end_layout_click, R.id.go_city_text_click, R.id.next_btn_click})
     private void onClickView(View view) {
         switch (view.getId()) {
+            case R.id.header_right_txt:
+                HashMap<String, String> map = new HashMap<String, String>();
+                map.put("source", "填写行程页面");
+                MobclickAgent.onEvent(activity, "callcenter_oneday", map);
+                view.setTag("填写行程页面,calldomestic_oneday,calloverseas_oneday");
+                break;
             case R.id.time_text_click:
                 showTimeSelect();
                 break;
@@ -1171,36 +1117,12 @@ public class OrderSelectCityActivity extends BaseActivity implements NumberPicke
                         fgSelectCar.setArguments(bundleCar);
                         startFragment(fgSelectCar);
                     }
-//                try {
-//                    Reservoir.clear();
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-                    //统计,这代码应该加到点击事件方法的最后边
-                    HashMap<String, String> map = new HashMap<String, String>();
-                    map.put("source", source);
-                    map.put("begincity", startBean.name);
-//                map.put("guestcount", manNum + childNum + "");
-//                map.put("luggagecount", baggageNum + "");
-//                map.put("drivedays", getOutNum() + getInNum() + "");
-                    MobclickAgent.onEventValue(activity, "chosecar_oneday", map, isHalfTravel ? 1 : getOutNum() * 2 + getInNum() * 2);
-                }
+
+                 }
                 break;
         }
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.header_right_txt:
-                HashMap<String, String> map = new HashMap<String, String>();
-                map.put("source", "填写行程页面");
-                MobclickAgent.onEvent(activity, "callcenter_oneday", map);
-                v.setTag("填写行程页面,calldomestic_oneday,calloverseas_oneday");
-                break;
-        }
-        super.onClick(v);
-    }
 
     private String getPassCities() {
         passCities = "";
