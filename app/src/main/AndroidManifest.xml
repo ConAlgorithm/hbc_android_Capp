@@ -123,6 +123,10 @@
             android:name=".activity.ChooseCityActivity"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".activity.SkuDetailActivity"
+            android:screenOrientation="portrait" />
+
         <service
             android:name=".service.LogService"
             android:process="com.hugboga.custom.hbclog" />
