@@ -10,7 +10,9 @@ import android.widget.TextView;
 
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.SkuDetailActivity;
+import com.hugboga.custom.activity.SkuListActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.HomeData;
 import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.fragment.FgHome;
@@ -18,7 +20,6 @@ import com.hugboga.custom.fragment.FgSkuList;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
 
-import static com.tencent.bugly.crashreport.inner.InnerAPI.context;
 
 /**
  * Created by qingcha on 16/6/19.
@@ -169,10 +170,16 @@ public class HomeRouteItemView extends RelativeLayout implements HbcViewBehavior
                 break;
             case R.id.home_route_item_display_iv:
             case R.id.home_route_item_more_layout:
-                FgSkuList.Params params = new FgSkuList.Params();
+//                FgSkuList.Params params = new FgSkuList.Params();
+//                params.id = data.getCityId();
+//                params.skuType = FgSkuList.SkuType.CITY;
+//                fgHome.startFragment(FgSkuList.newInstance(params));
+                SkuListActivity.Params params = new SkuListActivity.Params();
                 params.id = data.getCityId();
-                params.skuType = FgSkuList.SkuType.CITY;
-                fgHome.startFragment(FgSkuList.newInstance(params));
+                params.skuType = SkuListActivity.SkuType.CITY;
+                Intent intent = new Intent(getContext(), SkuListActivity.class);
+                intent.putExtra(Constants.PARAMS_DATA, params);
+                getContext().startActivity(intent);
                 break;
         }
     }
@@ -188,10 +195,10 @@ public class HomeRouteItemView extends RelativeLayout implements HbcViewBehavior
 //        bundle.putString("source" , "首页");
 //        fgHome.startFragment(new FgSkuDetail(),bundle);
 
-        Intent intent = new Intent(context,WebInfoActivity.class);
+        Intent intent = new Intent(getContext(),WebInfoActivity.class);
         intent.putExtra(WebInfoActivity.WEB_URL, skuItemBean.skuDetailUrl);
         intent.putExtra(WebInfoActivity.CONTACT_SERVICE, true);
         intent.putExtra(SkuDetailActivity.WEB_SKU, skuItemBean);
-        context.startActivity(intent);
+        getContext().startActivity(intent);
     }
 }

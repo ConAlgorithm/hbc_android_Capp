@@ -59,7 +59,7 @@ import static com.tencent.bugly.crashreport.inner.InnerAPI.context;
 /**
  * Created by qingcha on 16/8/2.
  */
-public class OrderDetailActivity extends BaseActivity implements View.OnClickListener, HttpRequestListener {
+public class OrderDetailActivity extends BaseActivity implements View.OnClickListener {
 
     @Bind(R.id.top_tips_layout)
     TopTipsLayout topTipsLayout;

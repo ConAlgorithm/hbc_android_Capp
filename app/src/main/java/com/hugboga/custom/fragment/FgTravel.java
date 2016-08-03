@@ -398,7 +398,7 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, OnIt
 //            params.source = bean.orderType == 5 ? bean.serviceCityName : "首页";
 //            startFragment(FgOrderDetail.newInstance(params));
 
-            FgOrderDetail.Params params = new FgOrderDetail.Params();
+            OrderDetailActivity.Params params = new OrderDetailActivity.Params();
             params.orderType = bean.orderType;
             params.orderId = bean.orderNo;
             params.source = bean.orderType == 5 ? bean.serviceCityName : "首页";

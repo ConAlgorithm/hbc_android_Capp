@@ -22,8 +22,6 @@ import com.hugboga.custom.utils.UIUtils;
  */
 public class SkuCityHeaderView extends LinearLayout implements HbcViewBehavior, View.OnClickListener{
 
-    private FgSkuList fragment;
-
     private ImageView bgIV;
     private TextView guideCountTV, routeCountTV, citynameTV, citynameEnTV;
 
@@ -48,10 +46,6 @@ public class SkuCityHeaderView extends LinearLayout implements HbcViewBehavior, 
 
         displayLayoutHeight = (int)((360 / 750.0) * UIUtils.getScreenWidth());
         findViewById(R.id.skulist_header_display_layout).setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, displayLayoutHeight));
-    }
-
-    public void setFragment(FgSkuList _fragment) {
-        this.fragment = _fragment;
     }
 
     @Override
@@ -99,9 +93,6 @@ public class SkuCityHeaderView extends LinearLayout implements HbcViewBehavior, 
 
     @Override
     public void onClick(View v) {
-        if (fragment == null) {
-            return;
-        }
         switch (v.getId()) {
             case R.id.skulist_header_cityname_layout://搜索
 //                Bundle bundle = new Bundle();

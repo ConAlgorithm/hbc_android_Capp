@@ -1,5 +1,6 @@
-package com.hugboga.custom.fragment;
+package com.hugboga.custom.activity;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -8,16 +9,12 @@ import android.os.Message;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -27,8 +24,8 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.ChooseCityAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityBean;
+import com.hugboga.custom.fragment.FgSkuList;
 import com.hugboga.custom.utils.CommonUtils;
-
 import com.hugboga.custom.utils.DBHelper;
 import com.hugboga.custom.utils.DatabaseManager;
 import com.hugboga.custom.utils.SharedPre;
@@ -36,7 +33,6 @@ import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.ChooseCityHeaderView;
 import com.hugboga.custom.widget.ChooseCityTabLayout;
 import com.hugboga.custom.widget.DialogUtil;
-import com.hugboga.custom.widget.FlowLayout;
 import com.hugboga.custom.widget.SideBar;
 import com.zhy.m.permission.MPermissions;
 
@@ -45,7 +41,6 @@ import org.xutils.common.Callback;
 import org.xutils.db.Selector;
 import org.xutils.db.sqlite.WhereBuilder;
 import org.xutils.ex.DbException;
-import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 
 import java.util.ArrayList;
@@ -56,11 +51,9 @@ import butterknife.ButterKnife;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
 /**
- * Created by qingcha on 16/7/23.
+ * Created by qingcha on 16/8/3.
  */
-@ContentView(R.layout.fg_choose_city)
-public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLetterChangedListener, ChooseCityTabLayout.OnChangeListener, TextWatcher, TextView.OnEditorActionListener, AdapterView.OnItemClickListener{
-
+public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchingLetterChangedListener, ChooseCityTabLayout.OnChangeListener, TextWatcher, TextView.OnEditorActionListener, AdapterView.OnItemClickListener{
     public static final String KEY_CITY_ID = "key_city_id";
     public static final String KEY_CITY = "key_city";
     public static final String KEY_CITY_LIST_CHOSEN = "key_city_list_chosen";
@@ -83,7 +76,7 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
     @Bind(R.id.choose_city_tab_layout)
     ChooseCityTabLayout tabLayout;
     @Bind(R.id.head_search)
-    TextView editSearch;
+    EditText editSearch;
     @Bind(R.id.head_text_right)
     TextView searchTV;
 
@@ -110,6 +103,7 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
     public volatile int cityId = -1;
     public int showType = ShowType.PICK_UP;
     private DialogUtil mDialogUtil;
+    private int mBusinessType;
 
     public volatile int groupId = -1;
     public volatile String startCityName;
@@ -153,51 +147,46 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        ButterKnife.bind(this, rootView);
-        return rootView;
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.fg_choose_city);
+        ButterKnife.bind(this);
+        initView();
     }
 
     @Override
-    protected void initHeader(Bundle savedInstanceState) {
-        super.initHeader(savedInstanceState);
-    }
-
-    @Override
-    protected void initHeader() {}
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        this.getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-    }
-
-    @Override
-    public void onStart() {
+    protected void onStart() {
         super.onStart();
-        this.getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
     }
 
     @Override
-    protected void initView() {
-        setProgressState(0);
-        searchTV.setText(getContext().getString(R.string.dialog_btn_cancel));
+    protected void onStop() {
+        super.onStop();
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+    }
+
+    private void initView() {
+//        setProgressState(0);
+        searchTV.setText(getString(R.string.dialog_btn_cancel));
         searchTV.setVisibility(View.GONE);
 
-        mDialogUtil = DialogUtil.getInstance(getActivity());
+        mDialogUtil = DialogUtil.getInstance(this);
         mDialogUtil.showLoadingDialog();
         emptyTV.setVisibility(View.GONE);
         emptyIV.setVisibility(View.GONE);
 
-        cityId = getArguments().getInt(KEY_CITY_ID, -1);
-        from = getArguments().getString(KEY_FROM);
-        showType = getArguments().getInt(KEY_SHOW_TYPE, ShowType.MULTIPLY);
-        exceptCityId = (ArrayList<Integer>) getArguments().getSerializable(KEY_CITY_EXCEPT_ID_LIST);
-        source = getArguments().getString("source");
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            cityId = bundle.getInt(KEY_CITY_ID, -1);
+            from = bundle.getString(KEY_FROM);
+            showType = bundle.getInt(KEY_SHOW_TYPE, ShowType.MULTIPLY);
+            exceptCityId = (ArrayList<Integer>) bundle.getSerializable(KEY_CITY_EXCEPT_ID_LIST);
+            source = bundle.getString("source");
+            mBusinessType = bundle.getInt(KEY_BUSINESS_TYPE, -1);
+        }
 
-        View rootView = getView();
-        sideBar.setTextView((TextView) rootView.findViewById(R.id.choose_city_sidebar_firstletter));
+        sideBar.setTextView((TextView) findViewById(R.id.choose_city_sidebar_firstletter));
         sideBar.setOnTouchingLetterChangedListener(this);
         sideBar.setVisibility(View.VISIBLE);
 
@@ -205,8 +194,8 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
             chooseCityHeadLayout.setVisibility(View.VISIBLE);
             chooseBtn.setVisibility(View.VISIBLE);
         } else {
-            headerView = new ChooseCityHeaderView(getContext());
-            headerRootView = new FrameLayout(getContext());
+            headerView = new ChooseCityHeaderView(this);
+            headerRootView = new FrameLayout(this);
             headerRootView.addView(headerView);
             mListview.addHeaderView(headerRootView);
             if (showType == ShowType.PICK_UP) {
@@ -215,7 +204,7 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
             }
         }
 
-        mAdapter = new ChooseCityAdapter(getContext());
+        mAdapter = new ChooseCityAdapter(ChooseCityActivity.this);
         mListview.setAdapter(mAdapter);
         mListview.setEmptyView(emptyLayout);
         mListview.setOnItemClickListener(this);
@@ -230,23 +219,22 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
             tabLayout.findViewById(R.id.choose_city_tab_foreign_layout).performClick();
         } else if (showType == ShowType.SELECT_CITY) {
             editSearch.setHint("搜索途经城市");
-        } else if (getBusinessType() == Constants.BUSINESS_TYPE_RENT) {
+        } else if (mBusinessType == Constants.BUSINESS_TYPE_RENT) {
             editSearch.setHint("搜索用车城市");
         } else if ("lastCity".equals(from) || "nearby".equals(from)) {
             editSearch.setHint("请输入城市名称");
         }
 
-        sharedPer = new SharedPre(getActivity());
-        mDbManager = new DBHelper(getActivity()).getDbManager();
+        sharedPer = new SharedPre(this);
+        mDbManager = new DBHelper(this).getDbManager();
 
         doInBackground();
+        requestData();
     }
 
-    @Override
-    protected Callback.Cancelable requestData() {
+    private void requestData() {
         processSelectedData();
         onPreExecuteHandler.sendEmptyMessage(MessageType.ALL_CITY);
-        return null;
     }
 
     @Override
@@ -262,7 +250,7 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
                 CommonUtils.showToast("请输入搜索内容");
                 return true;
             }
-            collapseSoftInputMethod();
+            collapseSoftInputMethod(editSearch);
             return true;
         }
         return false;
@@ -316,11 +304,11 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
 
             mAdapter.setShowType(ChooseCityAdapter.ShowType.SEARCH_PROMPT);
 
-            List<CityBean> dataList = requestDataByKeyword(getBusinessType(), groupId, editSearch.getText().toString().trim(), false);
+            List<CityBean> dataList = requestDataByKeyword(mBusinessType, groupId, editSearch.getText().toString().trim(), false);
             cityList.addAll(dataList);
 
             if (cityList.size() < 10) {
-                List<CityBean> moreDataList = requestDataByKeyword(getBusinessType(), groupId, editSearch.getText().toString().trim(), true);
+                List<CityBean> moreDataList = requestDataByKeyword(mBusinessType, groupId, editSearch.getText().toString().trim(), true);
                 if (moreDataList.size() > 0) {
                     if (cityList.size() <= 0) {
                         cityList.addAll(moreDataList);
@@ -337,7 +325,7 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
                         }
                     }
                 } else if (cityList.size() <= 0){
-                    if (getBusinessType() == Constants.BUSINESS_TYPE_DAILY) {
+                    if (mBusinessType == Constants.BUSINESS_TYPE_DAILY) {
                         if ("lastCity".equals(from) && s.toString().trim().equals(startCityName)) {
                             emptyTV.setText(getString(R.string.can_not_choose_start_city_text));
                         } else {
@@ -359,9 +347,10 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
     private void onClickView(View view) {
         switch (view.getId()) {
             case R.id.city_choose_btn:
-                Bundle bundle = new Bundle(getArguments());
-                bundle.putSerializable(KEY_CITY_LIST, chooseCityList);
-                finishForResult(bundle);
+                //FIXME qingcha
+//                Bundle bundle = new Bundle(getArguments());
+//                bundle.putSerializable(KEY_CITY_LIST, chooseCityList);
+//                finishForResult(bundle);
                 break;
             case R.id.head_search_clean:
                 if(TextUtils.isEmpty(editSearch.getText().toString().trim())){
@@ -377,7 +366,7 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
                 }
                 editSearch.setText("");
                 searchTV.setVisibility(View.GONE);
-                collapseSoftInputMethod();
+                collapseSoftInputMethod(editSearch);
                 break;
         }
     }
@@ -393,13 +382,13 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
     }
 
     public void onItemClick(CityBean _cityBean) {
-        Bundle bundle = new Bundle(getArguments());
+        Bundle bundle = new Bundle(getIntent().getExtras());
         CityBean cityBean = _cityBean;
         if (cityBean.isNationality) {
             return;
         }
         //从首页进城市搜索，到城市sku列表
-        if (getBusinessType() == Constants.BUSINESS_TYPE_HOME) {
+        if (mBusinessType == Constants.BUSINESS_TYPE_HOME) {
             saveHistoryDate(cityBean);
             FgSkuList fg = new FgSkuList();
             bundle.putString(FgSkuList.KEY_CITY_ID, String.valueOf(cityBean.cityId));
@@ -431,12 +420,15 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
         } else {//包车城市搜索
             saveHistoryDate(cityBean);
             bundle.putSerializable(KEY_CITY, cityBean);
-            finishForResult(bundle);
+//            finishForResult(bundle);FIXME qingcha
         }
     }
 
     private void processSelectedData() {
-        ArrayList<CityBean> mChooseCityList = (ArrayList<CityBean>) getArguments().getSerializable(KEY_CITY_LIST_CHOSEN);
+        ArrayList<CityBean> mChooseCityList = null;
+        if (getIntent().getExtras() != null) {
+            mChooseCityList = (ArrayList<CityBean>) getIntent().getExtras().getSerializable(KEY_CITY_LIST_CHOSEN);
+        }
         chooseCityList = new ArrayList<>();
         if (mChooseCityList != null) chooseCityList.addAll(mChooseCityList);
         StringBuffer sb = new StringBuffer();
@@ -477,11 +469,6 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
             cityHistory.remove(i);
         }
         sharedPer.saveStringValue(mBusinessType + SharedPre.RESOURCES_CITY_HISTORY, TextUtils.join(",", cityHistory));
-    }
-
-    @Override
-    protected void inflateContent() {
-
     }
 
     @Override
@@ -603,7 +590,7 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
                                 startCityName = cityBean.name;
                             }
                         }
-                        message.obj = DatabaseManager.getAllCitySql(getBusinessType(), groupId, cityId, from);
+                        message.obj = DatabaseManager.getAllCitySql(mBusinessType, groupId, cityId, from);
                         if (showType == ShowType.SELECT_CITY) {
                             mAdapter.setShowType(ChooseCityAdapter.ShowType.SELECT_CITY);
                         } else {
@@ -625,7 +612,7 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
                             message.obj = DatabaseManager.getAbroadHotCitySql();
                         }
                     } else {
-                        message.obj = DatabaseManager.getHotDateSql(getBusinessType(), groupId, cityId, from);
+                        message.obj = DatabaseManager.getHotDateSql(mBusinessType, groupId, cityId, from);
                     }
                     mAsyncHandler.sendMessage(message);
                     break;
@@ -640,7 +627,7 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
                     if (cityHistory.size() == 0) {
                         return;
                     }
-                    message.obj = DatabaseManager.getHistoryDateSql(getBusinessType(), groupId, cityId, from, cityHistory);
+                    message.obj = DatabaseManager.getHistoryDateSql(mBusinessType, groupId, cityId, from, cityHistory);
                     mAsyncHandler.sendMessage(message);
                     break;
                 case MessageType.LOCATION:

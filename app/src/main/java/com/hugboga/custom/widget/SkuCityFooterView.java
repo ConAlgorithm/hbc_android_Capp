@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.SkuListActivity;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.SkuCityBean;
 import com.hugboga.custom.fragment.FgPickSend;
@@ -25,8 +26,6 @@ import static com.hugboga.custom.fragment.FgSkuList.KEY_CITY_BEAN;
  * Created by qingcha on 16/6/27.
  */
 public class SkuCityFooterView extends LinearLayout implements HbcViewBehavior, View.OnClickListener{
-
-    private FgSkuList fragment;
 
     private TextView pickupTV, singleTV;
     private ImageView emptyIV;
@@ -57,10 +56,6 @@ public class SkuCityFooterView extends LinearLayout implements HbcViewBehavior, 
         int guidesLayoutHeight = (int)((367 / 750.0) * UIUtils.getScreenWidth());
         LinearLayout.LayoutParams guidesParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, guidesLayoutHeight);
         guidesLayout.setLayoutParams(guidesParams);
-    }
-
-    public void setFragment(FgSkuList _fragment) {
-        this.fragment = _fragment;
     }
 
     @Override
@@ -131,36 +126,37 @@ public class SkuCityFooterView extends LinearLayout implements HbcViewBehavior, 
 
     @Override
     public void onClick(View v) {
-        if (fragment == null) {
-            return;
+        SkuListActivity activity = null;
+        if (getContext() instanceof SkuListActivity) {
+            activity = (SkuListActivity) getContext();
         }
-        CityBean cityBean = fragment.getCityBean();
+        CityBean cityBean = activity.getCityBean();
         switch (v.getId()) {
             case R.id.sku_city_footer_pickup_tv:
-                if (cityBean != null) {
-                    FgPickSend fgPickSend = new FgPickSend();
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable(KEY_CITY_BEAN, cityBean);
-                    bundle.putSerializable("cityBean", cityBean);
-                    bundle.putString("source", cityBean.name);
-                    fgPickSend.setArguments(bundle);
-                    fragment.startFragment(fgPickSend, bundle);
-                } else {
-                    fragment.startFragment(new FgPickSend());
-                }
+//                if (cityBean != null) {
+//                    FgPickSend fgPickSend = new FgPickSend();
+//                    Bundle bundle = new Bundle();
+//                    bundle.putSerializable(KEY_CITY_BEAN, cityBean);
+//                    bundle.putSerializable("cityBean", cityBean);
+//                    bundle.putString("source", cityBean.name);
+//                    fgPickSend.setArguments(bundle);
+//                    fragment.startFragment(fgPickSend, bundle);
+//                } else {
+//                    fragment.startFragment(new FgPickSend());
+//                }
                 break;
             case R.id.sku_city_footer_single_tv:
-                if (cityBean != null) {
-                    FgSingleNew fgSingleNew = new FgSingleNew();
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable(KEY_CITY_BEAN, cityBean);
-                    bundle.putSerializable("cityBean", cityBean);
-                    bundle.putString("source", cityBean.name);
-                    fgSingleNew.setArguments(bundle);
-                    fragment.startFragment(fgSingleNew);
-                } else {
-                    fragment.startFragment(new FgSingleNew());
-                }
+//                if (cityBean != null) {
+//                    FgSingleNew fgSingleNew = new FgSingleNew();
+//                    Bundle bundle = new Bundle();
+//                    bundle.putSerializable(KEY_CITY_BEAN, cityBean);
+//                    bundle.putSerializable("cityBean", cityBean);
+//                    bundle.putString("source", cityBean.name);
+//                    fgSingleNew.setArguments(bundle);
+//                    fragment.startFragment(fgSingleNew);
+//                } else {
+//                    fragment.startFragment(new FgSingleNew());
+//                }
                 break;
         }
     }

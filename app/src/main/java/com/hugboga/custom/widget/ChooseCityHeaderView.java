@@ -24,6 +24,7 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.ChooseCityActivity;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.request.RequestUploadLocation;
 import com.hugboga.custom.fragment.FgChooseCity;
@@ -40,7 +41,7 @@ import java.util.List;
  */
 public class ChooseCityHeaderView extends LinearLayout{
 
-    private FgChooseCity fgChooseCity;
+    private ChooseCityActivity chooseCityActivity;
 
     private LinearLayout lociationTitleView;
     private LinearLayout historyTitleView;
@@ -58,9 +59,9 @@ public class ChooseCityHeaderView extends LinearLayout{
     private List<CityBean> hotCityList;
 
 
-    public ChooseCityHeaderView(FgChooseCity _fragment) {
-        this(_fragment.getContext(), null);
-        this.fgChooseCity = _fragment;
+    public ChooseCityHeaderView(Context context) {
+        this(context, null);
+        this.chooseCityActivity = (ChooseCityActivity) context;
     }
 
     public ChooseCityHeaderView(Context context, AttributeSet attrs) {
@@ -85,7 +86,7 @@ public class ChooseCityHeaderView extends LinearLayout{
                 if (locationCityBean == null) {
                     initLocation();
                 } else {
-                    fgChooseCity.onItemClick(locationCityBean);
+                    chooseCityActivity.onItemClick(locationCityBean);
                 }
             }
         });
@@ -98,7 +99,7 @@ public class ChooseCityHeaderView extends LinearLayout{
             @Override
             public void onTagClick(View view, int position) {
                 if (historyList != null && position < historyList.size()) {
-                    fgChooseCity.onItemClick(historyList.get(position));
+                    chooseCityActivity.onItemClick(historyList.get(position));
                 }
             }
         });
@@ -111,7 +112,7 @@ public class ChooseCityHeaderView extends LinearLayout{
             @Override
             public void onTagClick(View view, int position) {
                 if (hotCityList != null && position < hotCityList.size()) {
-                    fgChooseCity.onItemClick(hotCityList.get(position));
+                    chooseCityActivity.onItemClick(hotCityList.get(position));
                 }
             }
         });
