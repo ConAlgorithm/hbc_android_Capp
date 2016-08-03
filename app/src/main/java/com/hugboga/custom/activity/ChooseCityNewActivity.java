@@ -410,16 +410,14 @@ public class ChooseCityNewActivity extends BaseActivity {
             }
         }
 //        startFragment(FgSkuList.newInstance(params));
+//        Bundle bundle = new Bundle();
+//        bundle.putSerializable(Constants.PARAMS_DATA, params);
+//        bundle.putString(KEY_FRAGMENT_NAME, this.getClass().getSimpleName());
+//        bringToFront(FgSkuList.class, bundle);
 
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(Constants.PARAMS_DATA, params);
-        bundle.putString(KEY_FRAGMENT_NAME, this.getClass().getSimpleName());
-//        bringToFront(FgSkuList.class, undle);
-
-        Intent intent = new Intent(activity, SkuListActivity.class);
-        intent.putExtras(bundle);
+        Intent intent = new Intent(this, SkuListActivity.class);
+        intent.putExtra(Constants.PARAMS_DATA, params);
         startActivity(intent);
-
     }
 
 

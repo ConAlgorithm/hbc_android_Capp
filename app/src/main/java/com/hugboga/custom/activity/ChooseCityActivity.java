@@ -194,7 +194,7 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
             chooseCityHeadLayout.setVisibility(View.VISIBLE);
             chooseBtn.setVisibility(View.VISIBLE);
         } else {
-            headerView = new ChooseCityHeaderView(this);
+            headerView = new ChooseCityHeaderView(ChooseCityActivity.this);
             headerRootView = new FrameLayout(this);
             headerRootView.addView(headerView);
             mListview.addHeaderView(headerRootView);
@@ -387,16 +387,6 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
         if (cityBean.isNationality) {
             return;
         }
-        //从首页进城市搜索，到城市sku列表
-        if (mBusinessType == Constants.BUSINESS_TYPE_HOME) {
-            saveHistoryDate(cityBean);
-            FgSkuList fg = new FgSkuList();
-            bundle.putString(FgSkuList.KEY_CITY_ID, String.valueOf(cityBean.cityId));
-            finish();
-            startFragment(fg, bundle);
-            return;
-        }
-
         if (showType == ShowType.SELECT_CITY) {//途径城市
             cityBean.isSelected = !cityBean.isSelected;
             if (chooseCityList.size() >= 10 && cityBean.isSelected) {

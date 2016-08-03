@@ -60,12 +60,9 @@ public class ChooseCityHeaderView extends LinearLayout{
 
 
     public ChooseCityHeaderView(Context context) {
-        this(context, null);
+        super(context, null);
         this.chooseCityActivity = (ChooseCityActivity) context;
-    }
 
-    public ChooseCityHeaderView(Context context, AttributeSet attrs) {
-        super(context, attrs);
         setOrientation(LinearLayout.VERTICAL);
         setBackgroundColor(0xFFEBEBEB);
 
