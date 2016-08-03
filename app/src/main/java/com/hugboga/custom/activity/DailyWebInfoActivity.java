@@ -85,7 +85,7 @@ public class DailyWebInfoActivity extends BaseActivity implements View.OnKeyList
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.cityBean = getIntent().getParcelableExtra("cityBean");
+        this.cityBean = (CityBean)getIntent().getSerializableExtra("cityBean");
         setContentView(R.layout.fg_sku_detail);
         ButterKnife.bind(this);
         initView();
@@ -313,16 +313,9 @@ public class DailyWebInfoActivity extends BaseActivity implements View.OnKeyList
                 }
                 break;
             case R.id.goto_order:
-                if (skuItemBean == null) {
-                    getSkuItemBean(true);
-                    break;
-                }
-                if (cityBean == null) {
-                    cityBean = findCityById("" + skuItemBean.arrCityId);
-                }
+
                 Bundle bundle =new Bundle();
 
-                bundle.putSerializable(SkuDetailActivity.WEB_SKU,skuItemBean);
                 if (cityBean != null) {
                     bundle.putSerializable(SkuDetailActivity.WEB_CITY,cityBean);
                 }
@@ -333,19 +326,6 @@ public class DailyWebInfoActivity extends BaseActivity implements View.OnKeyList
                 Intent intent = new Intent(activity,OrderSelectCityActivity.class);
                 intent.putExtras(bundle);
                 startActivity(intent);
-
-//                if (cityBean != null) {
-//                    map.put("routecity", cityBean.name);
-//                }
-                map.put("routename", skuItemBean.goodsName);
-//                map.put("quoteprice", skuItemBean.goodsMinPrice);
-                int countResult = 0;
-                try {
-                    countResult = Integer.parseInt(skuItemBean.goodsMinPrice);
-                }catch (Exception e){
-                    LogUtil.e(e.toString());
-                }
-                MobclickAgent.onEventValue(activity, "chose_route", map, countResult);
                 break;
         }
     }

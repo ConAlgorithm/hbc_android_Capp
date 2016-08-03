@@ -1295,7 +1295,7 @@ public class OrderSelectCityActivity extends BaseActivity  {
 
     ChooseDateBean chooseDateBean;
 
-    @Subscribe
+//    @Subscribe
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
             case CHOOSE_GUIDE:
