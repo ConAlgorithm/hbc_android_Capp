@@ -152,6 +152,10 @@
             android:name=".activity.ManLuggageActivity"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".activity.OrderNewActivity"
+            android:screenOrientation="portrait" />
+
         <service
             android:name=".service.LogService"
             android:process="com.hugboga.custom.hbclog" />

@@ -6,7 +6,7 @@ import android.os.Parcelable;
 /**
  * Created  on 16/4/16.
  */
-public class SelectCarBean implements Parcelable{
+public class SelectCarBean implements Parcelable,IBaseBean{
 
     public int avgSpend;
     public int capOfLuggage;
