@@ -22,8 +22,6 @@ import com.umeng.analytics.MobclickAgent;
 
 import org.xutils.common.Callback;
 
-import butterknife.ButterKnife;
-
 
 public class BaseActivity extends BaseFragmentActivity implements View.OnClickListener, HttpRequestListener {
 
@@ -110,7 +108,6 @@ public class BaseActivity extends BaseFragmentActivity implements View.OnClickLi
         if (cancelable != null) {
             cancelable.cancel();
         }
-        ButterKnife.unbind(this);
     }
 
     /**

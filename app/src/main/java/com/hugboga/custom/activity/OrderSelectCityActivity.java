@@ -72,102 +72,104 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import io.rong.eventbus.EventBus;
 
 import static android.view.View.GONE;
 import static com.huangbaoche.hbcframe.fragment.BaseFragment.KEY_FRAGMENT_NAME;
 import static com.hugboga.custom.R.id.baggage_text_click;
 import static com.hugboga.custom.R.id.people_text_click;
+import static com.hugboga.custom.R.id.start;
 import static com.hugboga.custom.R.id.start_city_click;
 
 
-@ContentView(R.layout.activity_order_select_city)
 public class OrderSelectCityActivity extends BaseActivity  {
 
 
-    @ViewInject(R.id.header_left_btn)
+    @Bind(R.id.header_left_btn)
     ImageView headerLeftBtn;
-    @ViewInject(R.id.header_title)
+    @Bind(R.id.header_title)
     TextView headerTitle;
-    @ViewInject(R.id.header_right_btn)
+    @Bind(R.id.header_right_btn)
     ImageView headerRightBtn;
-    @ViewInject(start_city_click)
+    @Bind(start_city_click)
     TextView startCityClick;
-    @ViewInject(R.id.full_day)
+    @Bind(R.id.full_day)
     RadioButton fullDay;
-    @ViewInject(R.id.half_day)
+    @Bind(R.id.half_day)
     RadioButton halfDay;
-    @ViewInject(people_text_click)
+    @Bind(people_text_click)
     TextView peopleTextClick;
-    @ViewInject(R.id.child_text)
+    @Bind(R.id.child_text)
     TextView childText;
-    @ViewInject(R.id.show_child_seat_layout)
+    @Bind(R.id.show_child_seat_layout)
     LinearLayout showChildSeatLayout;
-    @ViewInject(R.id.child_no_confirm_click)
+    @Bind(R.id.child_no_confirm_click)
     ImageView childNoConfirmClick;
-    @ViewInject(baggage_text_click)
+    @Bind(baggage_text_click)
     TextView baggageTextClick;
-    @ViewInject(R.id.baggage_no_confirm_click)
+    @Bind(R.id.baggage_no_confirm_click)
     ImageView baggageNoConfirmClick;
-    @ViewInject(R.id.start_date)
+    @Bind(R.id.start_date)
     TextView startDate;
 
-    @ViewInject(R.id.end_date)
+    @Bind(R.id.end_date)
     TextView endDate;
-    @ViewInject(R.id.end_layout_click)
+    @Bind(R.id.end_layout_click)
     RelativeLayout endLayoutClick;
-    @ViewInject(R.id.go_city_text_click)
+    @Bind(R.id.go_city_text_click)
     TextView goCityTextClick;
-    @ViewInject(R.id.next_btn_click)
+    @Bind(R.id.next_btn_click)
     Button nextBtnClick;
-    @ViewInject(R.id.half_day_show)
+    @Bind(R.id.half_day_show)
     LinearLayout half_day_show;
 
-    @ViewInject(R.id.full_day_show)
+    @Bind(R.id.full_day_show)
     LinearLayout full_day_show;
 
-    @ViewInject(R.id.minus)
+    @Bind(R.id.minus)
     TextView minus;
-    @ViewInject(R.id.add)
+    @Bind(R.id.add)
     TextView add;
 
-    @ViewInject(R.id.full_day_date_layout)
+    @Bind(R.id.full_day_date_layout)
     LinearLayout full_day_date_layout;
 
-    @ViewInject(R.id.driver_layout)
+    @Bind(R.id.driver_layout)
     RelativeLayout driver_layout;
 
-    @ViewInject(R.id.del_text)
+    @Bind(R.id.del_text)
     TextView del_text;
 
-    @ViewInject(R.id.driver_name)
+    @Bind(R.id.driver_name)
     TextView driver_name;
 
-    @ViewInject(R.id.choose_driver)
+    @Bind(R.id.choose_driver)
     TextView choose_driver;
 
-    @ViewInject(R.id.driver_tips)
+    @Bind(R.id.driver_tips)
     TextView driver_tips;
 
-    @ViewInject(R.id.left_line)
+    @Bind(R.id.left_line)
     TextView left_line;
 
-    @ViewInject(R.id.right_line)
+    @Bind(R.id.right_line)
     TextView right_line;
 
 
-    @ViewInject(R.id.start_date_right)
+    @Bind(R.id.start_date_right)
     TextView start_date_right;
 
-    @ViewInject(R.id.end_date_right)
+    @Bind(R.id.end_date_right)
     TextView end_date_right;
 
-    @ViewInject(R.id.go_city_text_click_right)
+    @Bind(R.id.go_city_text_click_right)
     TextView go_city_text_click_right;
 
-    @ViewInject(R.id.time_layout)
+    @Bind(R.id.time_layout)
     LinearLayout time_layout;
 
-    @ViewInject(R.id.time_text_click)
+    @Bind(R.id.time_text_click)
     TextView time_text_click;
 
     boolean isFromGuideList = false;
@@ -563,10 +565,10 @@ public class OrderSelectCityActivity extends BaseActivity  {
         scope_layout_other.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bundle bundle = new Bundle();
-                bundle.putString("source", "首页");
-                bundle.putInt(BaseFragment.KEY_BUSINESS_TYPE, Constants.BUSINESS_TYPE_DAILY);
-                bundle.putInt(FgChooseCity.KEY_CITY_ID, preCityBean.cityId);
+//                Bundle bundle = new Bundle();
+//                bundle.putString("source", "首页");
+//                bundle.putInt(BaseFragment.KEY_BUSINESS_TYPE, Constants.BUSINESS_TYPE_DAILY);
+//                bundle.putInt(FgChooseCity.KEY_CITY_ID, preCityBean.cityId);
 //                startFragment(new FgChooseCity(), bundle);
                 hideSelectPeoplePop();
             }
@@ -965,8 +967,17 @@ public class OrderSelectCityActivity extends BaseActivity  {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_order_select_city);
         ButterKnife.bind(this);
+        EventBus.getDefault().register(this);
         initView();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        ButterKnife.unbind(this);
+        EventBus.getDefault().unregister(this);
     }
 
     class MyTimePickerDialogListener implements TimePickerDialog.OnTimeSetListener {
@@ -985,8 +996,8 @@ public class OrderSelectCityActivity extends BaseActivity  {
     private final int TYPE_SINGLE = 1;
     private final int TYPE_RANGE = 2;
 
-    @Event({R.id.header_right_txt,R.id.time_text_click, R.id.go_city_text_layout, R.id.choose_driver, R.id.minus, R.id.add, R.id.header_left_btn, start_city_click, people_text_click, R.id.show_child_seat_layout, R.id.child_no_confirm_click, baggage_text_click, R.id.baggage_no_confirm_click, R.id.end_layout_click, R.id.go_city_text_click, R.id.next_btn_click})
-    private void onClickView(View view) {
+    @OnClick({R.id.header_right_txt,R.id.time_text_click, R.id.go_city_text_layout, R.id.choose_driver, R.id.minus, R.id.add, R.id.header_left_btn, start_city_click, people_text_click, R.id.show_child_seat_layout, R.id.child_no_confirm_click, baggage_text_click, R.id.baggage_no_confirm_click, R.id.end_layout_click, R.id.go_city_text_click, R.id.next_btn_click})
+    public void onClick(View view) {
         switch (view.getId()) {
             case R.id.header_right_txt:
                 HashMap<String, String> map = new HashMap<String, String>();
@@ -1020,8 +1031,12 @@ public class OrderSelectCityActivity extends BaseActivity  {
                 } else {
                     Bundle bundle = new Bundle();
                     bundle.putString(KEY_FROM, "startAddress");
-                    bundle.putString("source", "首页");
-                    startFragment(new FgChooseCity(), bundle);
+//                    bundle.putString("source", "首页");
+//                    startFragment(new FgChooseCity(), bundle);
+
+                    Intent intent = new Intent(activity,ChooseCityActivity.class);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
                 }
                 break;
             case people_text_click:
