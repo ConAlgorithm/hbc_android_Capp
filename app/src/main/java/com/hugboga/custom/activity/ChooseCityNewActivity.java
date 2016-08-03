@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.LevelCityAdapter;
 import com.hugboga.custom.adapter.SearchNewAdapter;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.SearchGroupBean;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.fragment.FgPickSend;
@@ -367,43 +368,43 @@ public class ChooseCityNewActivity extends BaseActivity {
         CityUtils.addCityHistoryData(searchGroupBean);
 //        finish();
         expandableListView.setVisibility(View.GONE);
-        FgSkuList.Params params = new FgSkuList.Params();
+        SkuListActivity.Params params = new SkuListActivity.Params();
 
         if (searchGroupBean.flag == 1) {
             params.id = searchGroupBean.group_id;
-            params.skuType = FgSkuList.SkuType.ROUTE;
+            params.skuType = SkuListActivity.SkuType.ROUTE;
             params.titleName = searchGroupBean.group_name;
         } else if (searchGroupBean.flag == 2) {
             if (searchGroupBean.type == 1) {
                 params.id = searchGroupBean.sub_place_id;
-                params.skuType = FgSkuList.SkuType.ROUTE;
+                params.skuType = SkuListActivity.SkuType.ROUTE;
                 params.titleName = searchGroupBean.sub_place_name;
             } else if (searchGroupBean.type == 2) {
                 params.id = searchGroupBean.sub_place_id;
                 params.titleName = searchGroupBean.sub_place_name;
-                params.skuType = FgSkuList.SkuType.COUNTRY;
+                params.skuType = SkuListActivity.SkuType.COUNTRY;
             } else {
                 params.id = searchGroupBean.sub_place_id;
-                params.skuType = FgSkuList.SkuType.COUNTRY;
+                params.skuType = SkuListActivity.SkuType.COUNTRY;
                 params.titleName = searchGroupBean.sub_place_name;
             }
         } else if (searchGroupBean.flag == 3) {
             if (searchGroupBean.sub_city_name.equalsIgnoreCase("全境")) {
                 params.id = searchGroupBean.sub_city_id;
-                params.skuType = FgSkuList.SkuType.COUNTRY;
+                params.skuType = SkuListActivity.SkuType.COUNTRY;
                 params.titleName = searchGroupBean.sub_place_name;
             } else {
                 params.id = searchGroupBean.sub_city_id;
-                params.skuType = FgSkuList.SkuType.CITY;
+                params.skuType = SkuListActivity.SkuType.CITY;
                 params.titleName = searchGroupBean.sub_place_name;
             }
         } else if (searchGroupBean.flag == 4) {
             params.id = searchGroupBean.spot_id;
             if (searchGroupBean.type == 1) {
-                params.skuType = FgSkuList.SkuType.CITY;
+                params.skuType = SkuListActivity.SkuType.CITY;
                 params.titleName = searchGroupBean.spot_name;
             } else if (searchGroupBean.type == 2) {
-                params.skuType = FgSkuList.SkuType.COUNTRY;
+                params.skuType = SkuListActivity.SkuType.COUNTRY;
                 params.titleName = searchGroupBean.spot_name;
             }
         }
@@ -413,6 +414,10 @@ public class ChooseCityNewActivity extends BaseActivity {
 //        bundle.putSerializable(Constants.PARAMS_DATA, params);
 //        bundle.putString(KEY_FRAGMENT_NAME, this.getClass().getSimpleName());
 //        bringToFront(FgSkuList.class, bundle);
+
+        Intent intent = new Intent(this, SkuListActivity.class);
+        intent.putExtra(Constants.PARAMS_DATA, params);
+        startActivity(intent);
     }
 
 

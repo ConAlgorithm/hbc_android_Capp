@@ -205,7 +205,7 @@ public class FgChooseCity extends BaseFragment implements SideBar.OnTouchingLett
             chooseCityHeadLayout.setVisibility(View.VISIBLE);
             chooseBtn.setVisibility(View.VISIBLE);
         } else {
-            headerView = new ChooseCityHeaderView(getContext());
+//            headerView = new ChooseCityHeaderView(getContext());
             headerRootView = new FrameLayout(getContext());
             headerRootView.addView(headerView);
             mListview.addHeaderView(headerRootView);

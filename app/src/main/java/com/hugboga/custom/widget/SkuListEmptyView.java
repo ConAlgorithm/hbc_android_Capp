@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.OrderSelectCityActivity;
+import com.hugboga.custom.activity.SkuListActivity;
 import com.hugboga.custom.fragment.FgOrderSelectCity;
 import com.hugboga.custom.fragment.FgSkuList;
 import com.hugboga.custom.utils.UIUtils;
@@ -74,13 +75,16 @@ public class SkuListEmptyView extends LinearLayout implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.sku_list_empty_custom_tv:
-                Intent intent =  new Intent(context,OrderSelectCityActivity.class);
+                Intent intent =  new Intent(getContext(), OrderSelectCityActivity.class);
                 getContext().startActivity(intent);
                 break;
             case R.id.sku_list_empty_tv:
                 emptyTV.setOnClickListener(null);
                 emptyTV.setText("");
-//                fragment.sendRequest(0, true);//TODO qingcha
+                if (getContext() instanceof SkuListActivity) {
+                    SkuListActivity activity = (SkuListActivity) getContext();
+                    activity.sendRequest(0, true);
+                }
                 break;
         }
     }

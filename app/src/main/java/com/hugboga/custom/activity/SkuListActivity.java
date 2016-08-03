@@ -50,9 +50,10 @@ import static com.tencent.bugly.crashreport.inner.InnerAPI.context;
 /**
  * Created by qingcha on 16/8/3.
  *
- * SkuListEmptyView
- * SkuCityFooterView
- * SkuCityHeaderView
+ * SkuListEmptyView ok
+ * SkuCityFooterView todo
+ * SkuCityHeaderView ok
+ * onItemClick todo
  */
 public class SkuListActivity extends BaseActivity implements HbcRecyclerBaseAdapter.OnItemClickListener{
 
