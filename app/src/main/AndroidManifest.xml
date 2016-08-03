@@ -127,6 +127,14 @@
             android:name=".activity.SkuDetailActivity"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".activity.SingleNewActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.PickSendActivity"
+            android:screenOrientation="portrait" />
+
         <service
             android:name=".service.LogService"
             android:process="com.hugboga.custom.hbclog" />

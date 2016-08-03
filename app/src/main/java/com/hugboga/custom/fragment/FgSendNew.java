@@ -75,7 +75,7 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
     @Bind(R.id.address_left)
     TextView addressLeft;
     @Bind(R.id.address_tips)
-    TextView addressTips;
+    public TextView addressTips;
     @Bind(R.id.rl_address)
     RelativeLayout rlAddress;
     @Bind(R.id.time_left)

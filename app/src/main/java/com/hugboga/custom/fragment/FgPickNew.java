@@ -63,7 +63,7 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
     @Bind(R.id.info_tips)
     TextView infoTips;
     @Bind(R.id.air_title)
-    TextView airTitle;
+    public TextView airTitle;
     @Bind(R.id.air_detail)
     TextView airDetail;
     @Bind(R.id.rl_info)

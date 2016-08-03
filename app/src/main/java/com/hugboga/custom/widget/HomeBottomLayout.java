@@ -11,14 +11,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.DailyWebInfoActivity;
+import com.hugboga.custom.activity.PickSendActivity;
+import com.hugboga.custom.activity.SingleNewActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.data.bean.HomeData;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.fragment.FgHome;
 import com.hugboga.custom.fragment.FgLogin;
-import com.hugboga.custom.fragment.FgPickSend;
-import com.hugboga.custom.fragment.FgSingleNew;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
@@ -148,15 +149,20 @@ public class HomeBottomLayout extends LinearLayout implements View.OnClickListen
      * 以下代码copy自久版本首页
      * */
     private void goPickSend(){
-        Bundle bundle = new Bundle();
+//        Bundle bundle = new Bundle();
+//
+//        FgPickSend fgPickSend = new FgPickSend();
+//        bundle.putString("source", "首页");
+//        fgPickSend.setArguments(bundle);
+//        fragment.startFragment(fgPickSend, bundle);
+//        HashMap<String,String> map = new HashMap<String,String>();
+//        map.put("source", "首页");
+//        MobclickAgent.onEvent(fragment.getActivity(), "chose_pndairport", map);
 
-        FgPickSend fgPickSend = new FgPickSend();
-        bundle.putString("source", "首页");
-        fgPickSend.setArguments(bundle);
-        fragment.startFragment(fgPickSend, bundle);
-        HashMap<String,String> map = new HashMap<String,String>();
-        map.put("source", "首页");
-        MobclickAgent.onEvent(fragment.getActivity(), "chose_pndairport", map);
+        Intent intent = new Intent(getContext(), PickSendActivity.class);
+        intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_DAIRY);
+        this.getContext().startActivity(intent);
+
     }
 
     private void goDairy(){
@@ -164,7 +170,7 @@ public class HomeBottomLayout extends LinearLayout implements View.OnClickListen
         HashMap<String,String> map = new HashMap<String,String>();
 //        OrderSelectCityActivity fgOrderSelectCity = new OrderSelectCityActivity();
         bundle.putString("source","首页");
-        Intent intent = new Intent(this.getContext(), WebInfoActivity.class);
+        Intent intent = new Intent(this.getContext(), DailyWebInfoActivity.class);
         intent.putExtras(bundle);
 //        fgOrderSelectCity.setIntent(intent);
 //        fragment.startFragment(fgOrderSelectCity, bundle);
@@ -181,12 +187,15 @@ public class HomeBottomLayout extends LinearLayout implements View.OnClickListen
     }
 
     private void goSingle(){
-        FgSingleNew fgSingleNew = new FgSingleNew();
-        Bundle bundle = new Bundle();
-        fgSingleNew.setArguments(bundle);
-        fragment.startFragment(fgSingleNew);
-        HashMap<String,String> map = new HashMap<String,String>();
-        map.put("source", "首页");
-        MobclickAgent.onEvent(fragment.getActivity(), "chose_oneway", map);
+//        FgSingleNew fgSingleNew = new FgSingleNew();
+//        Bundle bundle = new Bundle();
+//        fgSingleNew.setArguments(bundle);
+//        fragment.startFragment(fgSingleNew);
+//        HashMap<String,String> map = new HashMap<String,String>();
+//        map.put("source", "首页");
+//        MobclickAgent.onEvent(fragment.getActivity(), "chose_oneway", map);
+
+        Intent intent = new Intent(getContext(),SingleNewActivity.class);
+        getContext().startActivity(intent);
     }
 }
