@@ -263,12 +263,12 @@ public class SkuListActivity extends BaseActivity implements HbcRecyclerBaseAdap
 //                    bundle.putSerializable(FgDaily.KEY_CITY_BEAN, cityBean);
 //                    startFragment(new FgDailyWeb(), bundle);
 
-                    Intent intent = new Intent(context, DailyWebInfoActivity.class);
+                    Intent intent = new Intent(SkuListActivity.this, DailyWebInfoActivity.class);
                     intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_DAIRY+params);
                     intent.putExtra("cityBean", cityBean);
                     intent.putExtra("source", cityBean.name);
                     intent.putExtra(KEY_CITY_BEAN, cityBean);
-                    context.startActivity(intent);
+                    startActivity(intent);
 
                 } else {
 //                    startFragment(new FgOrderSelectCity());
@@ -281,7 +281,7 @@ public class SkuListActivity extends BaseActivity implements HbcRecyclerBaseAdap
 //                    bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_DAIRY+params);
 //                    startFragment(new FgDailyWeb(), bundle);
 
-                    Intent intent = new Intent(context,WebInfoActivity.class);
+                    Intent intent = new Intent(SkuListActivity.this,WebInfoActivity.class);
                     intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_DAIRY+params);
                     startActivity(intent);
 
@@ -299,7 +299,7 @@ public class SkuListActivity extends BaseActivity implements HbcRecyclerBaseAdap
 //                fgSkuDetail.setArguments(bundle);
 //                startFragment(fgSkuDetail, bundle);
 
-                Intent intent = new Intent(context,SkuDetailActivity.class);
+                Intent intent = new Intent(SkuListActivity.this,SkuDetailActivity.class);
                 intent.putExtra(WebInfoActivity.WEB_URL, skuDetailUrl);
                 intent.putExtra(SkuDetailActivity.WEB_SKU, skuItemBean);
 
