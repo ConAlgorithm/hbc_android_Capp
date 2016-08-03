@@ -1,6 +1,7 @@
 package com.hugboga.custom.activity;
 
 import android.annotation.TargetApi;
+import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -22,23 +23,27 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.net.DefaultSSLSocketFactory;
+import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.huangbaoche.hbcframe.util.WXShareUtils;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.CityBean;
-import com.hugboga.custom.data.net.UrlLibs;
+import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.data.net.WebAgent;
+import com.hugboga.custom.data.request.RequestGoodsById;
 import com.hugboga.custom.utils.ChannelUtils;
-import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DBHelper;
 import com.hugboga.custom.widget.DialogUtil;
+import com.umeng.analytics.MobclickAgent;
 
 import org.xutils.DbManager;
+import org.xutils.common.util.LogUtil;
 import org.xutils.ex.DbException;
 
 import java.io.InputStream;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLHandshakeException;
@@ -66,6 +71,8 @@ public class DailyWebInfoActivity extends BaseActivity implements View.OnKeyList
     TextView gotoOrder;
     @Bind(R.id.webview)
     WebView webView;
+
+    private SkuItemBean skuItemBean;//sku详情
 
     private CityBean cityBean;
     private String goodsNo;
@@ -284,28 +291,99 @@ public class DailyWebInfoActivity extends BaseActivity implements View.OnKeyList
         return cityBean;
     }
 
-    @OnClick({R.id.header_right_btn, R.id.goto_order})
-    public void onClick(View view) {
-        HashMap<String, String> map = new HashMap<String, String>();
-        switch (view.getId()) {
+    private void getSkuItemBean(boolean isShowLoading) {
+        if (skuItemBean == null && !TextUtils.isEmpty(goodsNo)) {
+            isPerformClick = isShowLoading;
+            RequestGoodsById request = new RequestGoodsById(activity, goodsNo);
+            HttpRequestUtils.request(activity, request, this, isShowLoading);
+        }
+    }
+
+    @OnClick({R.id.header_right_btn,R.id.goto_order})
+    public void onClick(View view){
+        HashMap<String,String> map = new HashMap<String,String>();
+        switch (view.getId()){
             case R.id.header_right_btn:
-                skuShare(UrlLibs.H5_DAIRY);
+                if(skuItemBean!=null){
+                    String title =skuItemBean.goodsName;
+                    String content = getString(R.string.wx_share_content);
+                    String shareUrl = skuItemBean.shareURL==null?skuItemBean.skuDetailUrl:skuItemBean.shareURL;
+                    shareUrl = shareUrl==null?"http://www.huangbaoche.com":shareUrl;
+                    skuShare(skuItemBean.goodsPicture,title,content,shareUrl);
+                }
                 break;
             case R.id.goto_order:
-//                Bundle bundle =new Bundle();
-//                bundle.putSerializable("cityBean", cityBean);
-//                startFragment(new FgOrderSelectCity(),bundle);
+                if (skuItemBean == null) {
+                    getSkuItemBean(true);
+                    break;
+                }
+                if (cityBean == null) {
+                    cityBean = findCityById("" + skuItemBean.arrCityId);
+                }
+                Bundle bundle =new Bundle();
 
-                Intent intent = new Intent(activity, OrderSelectCityActivity.class);
-                intent.putExtra("cityBean", cityBean);
+                bundle.putSerializable(SkuDetailActivity.WEB_SKU,skuItemBean);
+                if (cityBean != null) {
+                    bundle.putSerializable(SkuDetailActivity.WEB_CITY,cityBean);
+                }
+                bundle.putString("source",source);
+//                startFragment(new FgSkuSubmit(), source);
+//                startFragment(new FgSkuNew(), bundle);
+
+                Intent intent = new Intent(activity,OrderSelectCityActivity.class);
+                intent.putExtras(bundle);
                 startActivity(intent);
 
+//                if (cityBean != null) {
+//                    map.put("routecity", cityBean.name);
+//                }
+                map.put("routename", skuItemBean.goodsName);
+//                map.put("quoteprice", skuItemBean.goodsMinPrice);
+                int countResult = 0;
+                try {
+                    countResult = Integer.parseInt(skuItemBean.goodsMinPrice);
+                }catch (Exception e){
+                    LogUtil.e(e.toString());
+                }
+                MobclickAgent.onEventValue(activity, "chose_route", map, countResult);
                 break;
         }
     }
 
-    private void skuShare(final String shareUrl) {
-        CommonUtils.shareDialog(activity, R.drawable.wxshare_img, getString(R.string.share_title), getString(R.string.share_content), shareUrl);
+    private void skuShare(String goodsPicture, final String title, final String content, final String shareUrl) {
+        if (isGoodsOut) {
+            return;
+        }
+        final AlertDialog.Builder callDialog = new AlertDialog.Builder(activity);
+        callDialog.setTitle("分享");
+        final String [] callItems = new String[]{"分享好友","分享朋友圈"};
+        callDialog.setItems(callItems, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                uMengClickEvent("share_route");
+                WXShareUtils.getInstance(activity).share(which+1, skuItemBean.goodsPicture, title, content, shareUrl);
+            }
+        });
+        AlertDialog dialog = callDialog.create();
+        dialog.setCancelable(true);
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.show();
+    }
+
+    private void uMengClickEvent(String type){
+        Map<String, String> map_value = new HashMap<String, String>();
+        map_value.put("routecity" , source);
+        int countResult = 0;
+        if (skuItemBean != null) {
+            map_value.put("routename" , skuItemBean.goodsName);
+//          map_value.put("quoteprice" , skuItemBean.goodsMinPrice);
+            try {
+                countResult = Integer.parseInt(skuItemBean.goodsMinPrice);
+            }catch (Exception e){
+                LogUtil.e(e.toString());
+            }
+        }
+        MobclickAgent.onEventValue(activity, type, map_value, countResult);
     }
 
 }

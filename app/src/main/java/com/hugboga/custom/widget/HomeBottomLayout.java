@@ -125,7 +125,7 @@ public class HomeBottomLayout extends LinearLayout implements View.OnClickListen
 //                bundle.putString(FgWebInfo.WEB_URL, urlAddress);
 //                fragment.startFragment(new FgDailyWeb(), bundle);
 
-                Intent intent = new Intent(v.getContext(), WebInfoActivity.class);
+                Intent intent = new Intent(v.getContext(), DailyWebInfoActivity.class);
                 intent.putExtra(WebInfoActivity.WEB_URL, urlAddress);
                 v.getContext().startActivity(intent);
 

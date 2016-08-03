@@ -16,7 +16,6 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.HomeData;
 import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.fragment.FgHome;
-import com.hugboga.custom.fragment.FgSkuList;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
 
@@ -195,7 +194,7 @@ public class HomeRouteItemView extends RelativeLayout implements HbcViewBehavior
 //        bundle.putString("source" , "首页");
 //        fgHome.startFragment(new FgSkuDetail(),bundle);
 
-        Intent intent = new Intent(getContext(),WebInfoActivity.class);
+        Intent intent = new Intent(getContext(),SkuDetailActivity.class);
         intent.putExtra(WebInfoActivity.WEB_URL, skuItemBean.skuDetailUrl);
         intent.putExtra(WebInfoActivity.CONTACT_SERVICE, true);
         intent.putExtra(SkuDetailActivity.WEB_SKU, skuItemBean);
