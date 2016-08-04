@@ -1,16 +1,26 @@
 package com.hugboga.custom.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.event.EventType;
+import com.hugboga.custom.fragment.FgOrderDetail;
+
+import org.greenrobot.eventbus.EventBus;
+import org.xutils.view.annotation.Event;
+
 import java.io.Serializable;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by qingcha on 16/8/4.
@@ -50,6 +60,7 @@ public class PayResultActivity extends BaseActivity{
 
         setContentView(R.layout.fg_pay_result);
         ButterKnife.bind(this);
+        initDefaultTitleBar();
 
         initView();
     }
@@ -83,6 +94,48 @@ public class PayResultActivity extends BaseActivity{
         }
     }
 
+
+    @OnClick({R.id.par_result_left_tv, R.id.par_result_right_tv})
+    public void onClick(View view) {
+        Intent intent = null;
+        switch (view.getId()){
+            case R.id.par_result_left_tv:
+                if (params.payResult) {//回首页
+                    intent = new Intent(this, MainActivity.class);
+                    startActivity(intent);
+                    EventBus.getDefault().post(new EventAction(EventType.FGTRAVEL_UPDATE));
+                    EventBus.getDefault().post(new EventAction(EventType.SET_MAIN_PAGE_INDEX, 0));
+                } else {//订单详情
+                    intent = new Intent(this, MainActivity.class);
+                    startActivity(intent);
+                    EventBus.getDefault().post(new EventAction(EventType.SET_MAIN_PAGE_INDEX, 0));
+
+                    OrderDetailActivity.Params orderParams = new OrderDetailActivity.Params();
+                    orderParams.orderId = params.orderId;
+                    intent = new Intent(this, OrderDetailActivity.class);
+                    intent.putExtra(Constants.PARAMS_DATA, orderParams);
+                    startActivity(intent);
+                }
+                break;
+            case R.id.par_result_right_tv:
+                if (params.payResult) {//订单详情
+                    intent = new Intent(this, MainActivity.class);
+                    startActivity(intent);
+                    EventBus.getDefault().post(new EventAction(EventType.SET_MAIN_PAGE_INDEX, 0));
+                    EventBus.getDefault().post(new EventAction(EventType.FGTRAVEL_UPDATE));
+
+                    OrderDetailActivity.Params orderParams = new OrderDetailActivity.Params();
+                    orderParams.orderId = params.orderId;
+                    intent = new Intent(this, OrderDetailActivity.class);
+                    intent.putExtra(Constants.PARAMS_DATA, orderParams);
+                    startActivity(intent);
+                } else {//重新支付
+                    finish();
+                }
+                break;
+        }
+    }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -91,6 +144,10 @@ public class PayResultActivity extends BaseActivity{
 //            Bundle bundle =new Bundle();
 //            bundle.putString(KEY_FRAGMENT_NAME, this.getClass().getSimpleName());
 //            bringToFront(FgHome.class, bundle);
+
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            EventBus.getDefault().post(new EventAction(EventType.SET_MAIN_PAGE_INDEX, 0));
         } else {
             finish();
         }

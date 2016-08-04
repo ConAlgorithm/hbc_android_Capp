@@ -203,11 +203,18 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                 floatView.findViewById(R.id.order_detail_pay_tv).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        FgChoosePayment.RequestParams requestParams = new FgChoosePayment.RequestParams();
+//                        FgChoosePayment.RequestParams requestParams = new FgChoosePayment.RequestParams();
+//                        requestParams.orderId = orderBean.orderNo;
+//                        requestParams.shouldPay = orderBean.orderPriceInfo.actualPay;
+//                        requestParams.source = source;
+//                        startFragment(FgChoosePayment.newInstance(requestParams));
+                        ChoosePaymentActivity.RequestParams requestParams = new ChoosePaymentActivity.RequestParams();
                         requestParams.orderId = orderBean.orderNo;
                         requestParams.shouldPay = orderBean.orderPriceInfo.actualPay;
                         requestParams.source = source;
-                        startFragment(FgChoosePayment.newInstance(requestParams));
+                        Intent intent = new Intent(OrderDetailActivity.this, ChoosePaymentActivity.class);
+                        intent.putExtra(Constants.PARAMS_DATA, requestParams);
+                        OrderDetailActivity.this.startActivity(intent);
                     }
                 });
             }

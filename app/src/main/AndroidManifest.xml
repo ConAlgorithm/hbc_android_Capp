@@ -113,6 +113,7 @@
 
         <activity
             android:name=".activity.OrderDetailActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait" />
 
         <activity

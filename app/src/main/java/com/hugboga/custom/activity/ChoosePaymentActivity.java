@@ -1,6 +1,7 @@
 package com.hugboga.custom.activity;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -16,6 +17,7 @@ import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.ServerException;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.WXShareUtils;
+import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.R;
 import com.hugboga.custom.alipay.PayResult;
 import com.hugboga.custom.constants.Constants;
@@ -23,8 +25,6 @@ import com.hugboga.custom.data.bean.WXpayBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestPayNo;
-import com.hugboga.custom.fragment.FgOrderDetail;
-import com.hugboga.custom.fragment.FgPayResult;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.wxapi.WXPay;
@@ -32,8 +32,6 @@ import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
 import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-
 import java.io.Serializable;
 
 import butterknife.Bind;
@@ -67,8 +65,8 @@ public class ChoosePaymentActivity extends BaseActivity {
     ImageView choosePaymentWechatIv;
     @Bind(R.id.choose_payment_wechat_layout)
     RelativeLayout choosePaymentWechatLayout;
+
     private DialogUtil mDialogUtil;
-    private int wxResultCode = 0;
 
 
     public static class RequestParams implements Serializable {
@@ -97,7 +95,7 @@ public class ChoosePaymentActivity extends BaseActivity {
 
         setContentView(R.layout.fg_choose_payment);
         ButterKnife.bind(this);
-        EventBus.getDefault().register(this);
+        initDefaultTitleBar();
 
         initView();
     }
@@ -108,36 +106,6 @@ public class ChoosePaymentActivity extends BaseActivity {
         if (requestParams != null) {
             outState.putSerializable(Constants.PARAMS_DATA, requestParams);
         }
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        if (wxResultCode == EventType.BACK_HOME.ordinal()) {
-            //TODO qingcha
-//            clearFragment();
-            EventBus.getDefault().post(new EventAction(EventType.SET_MAIN_PAGE_INDEX, 0));
-        } else if (wxResultCode == EventType.ORDER_DETAIL.ordinal()) {
-            //TODO qingcha
-//            clearFragment();
-            FgOrderDetail.Params orderParams = new FgOrderDetail.Params();
-            orderParams.orderId = requestParams.orderId;
-            Bundle detailBundle = new Bundle();
-            detailBundle.putSerializable(Constants.PARAMS_DATA, orderParams);
-            startFragment(new FgOrderDetail(), detailBundle);
-        }
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        wxResultCode = 0;
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        EventBus.getDefault().unregister(this);
     }
 
     private void initView() {
@@ -158,23 +126,6 @@ public class ChoosePaymentActivity extends BaseActivity {
     private void sendRequest(int payType) {
         RequestPayNo request = new RequestPayNo(this, requestParams.orderId, requestParams.shouldPay, payType, requestParams.couponId);
         requestData(request);
-    }
-
-    @Subscribe
-    public void onEventMainThread(EventAction action) {
-        switch (action.getType()) {
-            case BACK_HOME:
-                EventBus.getDefault().post(new EventAction(EventType.FGTRAVEL_UPDATE));
-                wxResultCode = EventType.BACK_HOME.ordinal();
-                break;
-            case ORDER_DETAIL:
-                if (action.getData() instanceof Integer && (int) action.getData() == 1) {
-                    EventBus.getDefault().post(new EventAction(EventType.FGTRAVEL_UPDATE));
-                }
-                wxResultCode = EventType.ORDER_DETAIL.ordinal();
-            default:
-                break;
-        }
     }
 
     @OnClick({R.id.choose_payment_alipay_layout, R.id.choose_payment_wechat_layout,})
@@ -273,11 +224,13 @@ public class ChoosePaymentActivity extends BaseActivity {
 //            startFragment(new FgPayResult(), bundle);
 //            notifyOrderList(FgTravel.TYPE_ORDER_RUNNING, true, false, false);
 
-            FgPayResult.Params params = new FgPayResult.Params();
+            PayResultActivity.Params params = new PayResultActivity.Params();
             params.payResult = msg.what == 1;//1.支付成功，2.支付失败
             params.orderId = requestParams.orderId;
             params.paymentAmount = requestParams.getShouldPay();
-            startFragment(FgPayResult.newInstance(params));
+            Intent intent = new Intent(ChoosePaymentActivity.this, PayResultActivity.class);
+            intent.putExtra(Constants.PARAMS_DATA, params);
+            ChoosePaymentActivity.this.startActivity(intent);
         }
     };
 
@@ -320,11 +273,20 @@ public class ChoosePaymentActivity extends BaseActivity {
         dialogUtil.showCustomDialog(getString(R.string.app_name), getString(R.string.order_cancel_pay), "确定离开", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                //TODO qingcha
 //                clearFragmentList();
-                FgOrderDetail.Params orderParams = new FgOrderDetail.Params();
+//                FgOrderDetail.Params orderParams = new FgOrderDetail.Params();
+//                orderParams.orderId = requestParams.orderId;
+//                startFragment(FgOrderDetail.newInstance(orderParams));
+
+                Intent intent = new Intent(ChoosePaymentActivity.this, MainActivity.class);
+                startActivity(intent);
+                EventBus.getDefault().post(new EventAction(EventType.SET_MAIN_PAGE_INDEX, 0));
+
+                OrderDetailActivity.Params orderParams = new OrderDetailActivity.Params();
                 orderParams.orderId = requestParams.orderId;
-                startFragment(FgOrderDetail.newInstance(orderParams));
+                intent = new Intent(ChoosePaymentActivity.this, OrderDetailActivity.class);
+                intent.putExtra(Constants.PARAMS_DATA, orderParams);
+                startActivity(intent);
             }
         }, "继续支付", new DialogInterface.OnClickListener() {
             @Override
