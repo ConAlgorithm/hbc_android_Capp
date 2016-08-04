@@ -123,16 +123,17 @@ public class ChooseOtherActivity extends BaseActivity {
 
     ContactUsersBean contactUsersBean;
     protected void initHeader() {
-        fgLeftBtn.setOnClickListener(new View.OnClickListener() {
+
+        headerLeftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
-        fgTitle.setText("乘车联系人");
-        fgRightBtn.setText("确定");
-        fgRightBtn.setVisibility(View.VISIBLE);
-        fgRightBtn.setOnClickListener(new View.OnClickListener() {
+        headerTitle.setText("乘车联系人");
+        headerRightTxt.setText("确定");
+        headerRightTxt.setVisibility(View.VISIBLE);
+        headerRightTxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(TextUtils.isEmpty(nameText.getText())

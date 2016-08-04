@@ -25,7 +25,6 @@ import com.hugboga.custom.widget.SideBar;
 
 import org.greenrobot.eventbus.EventBus;
 import org.xutils.DbManager;
-import org.xutils.common.Callback;
 import org.xutils.db.Selector;
 import org.xutils.db.sqlite.WhereBuilder;
 import org.xutils.ex.DbException;
@@ -70,13 +69,6 @@ public class ChooseCountryActivity extends BaseActivity {
     }
 
 
-
-    protected Callback.Cancelable requestData() {
-//        collapseSoftInputMethod();
-        requestDate(null);
-        return null;
-    }
-
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -91,6 +83,7 @@ public class ChooseCountryActivity extends BaseActivity {
         ButterKnife.bind(this);
         initViews();
         initHeader();
+        requestDate(null);
     }
 
     /**
