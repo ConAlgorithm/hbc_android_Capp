@@ -3,7 +3,6 @@ package com.hugboga.custom.activity;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -29,7 +28,6 @@ import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestCitySkuList;
 import com.hugboga.custom.data.request.RequestCountrySkuList;
 import com.hugboga.custom.data.request.RequestRouteSkuList;
-import com.hugboga.custom.fragment.FgSkuList;
 import com.hugboga.custom.utils.DBHelper;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.SkuCityFooterView;
@@ -45,19 +43,13 @@ import java.io.Serializable;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-import static com.tencent.bugly.crashreport.inner.InnerAPI.context;
-
 /**
  * Created by qingcha on 16/8/3.
- *
- * SkuListEmptyView ok
- * SkuCityFooterView todo
- * SkuCityHeaderView ok
- * onItemClick todo
  */
 public class SkuListActivity extends BaseActivity implements HbcRecyclerBaseAdapter.OnItemClickListener{
 
     public static final String KEY_CITY_ID = "KEY_CITY_ID";
+    public static final String KEY_CITY_BEAN = "KEY_CITY_BEAN";
 
     @Bind(R.id.suk_list_titlebar)
     RelativeLayout titlebar;
@@ -227,23 +219,12 @@ public class SkuListActivity extends BaseActivity implements HbcRecyclerBaseAdap
         return HttpRequestUtils.request(this, request, this, needShowLoading);
     }
 
-    public static final String KEY_CITY_BEAN = "KEY_CITY_BEAN";
-
     @Override
     public void onItemClick(View view, int position, Object _itemData) {
         if (_itemData != null && _itemData instanceof SkuItemBean) {
             SkuItemBean skuItemBean = (SkuItemBean) _itemData;
             if (skuItemBean.goodsClass == -1) {//按天包车
-                if (cityBean != null) {//旧代码，俩cityBean。。。
-//                    FgOrderSelectCity fgOrderSelectCity = new FgOrderSelectCity();
-//                    Bundle bundle = new Bundle();
-//                    bundle.putSerializable(FgDaily.KEY_CITY_BEAN, cityBean);
-//                    bundle.putString("source", cityBean.name);
-//                    bundle.putParcelable("cityBean", cityBean);
-//                    fgOrderSelectCity.setArguments(bundle);
-//                    startFragment(fgOrderSelectCity, bundle);
-
-                    Bundle bundle = new Bundle();
+                if (cityBean != null) {
                     String userId = UserEntity.getUser().getUserId(this);
                     String params = "";
                     if(!TextUtils.isEmpty(userId)){
@@ -257,13 +238,6 @@ public class SkuListActivity extends BaseActivity implements HbcRecyclerBaseAdap
                             params += "?cityId=" + cityId;
                         }
                     }
-
-//                    bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_DAIRY+params);
-//                    bundle.putParcelable("cityBean", cityBean);
-//                    bundle.putString("source", cityBean.name);
-//                    bundle.putSerializable(FgDaily.KEY_CITY_BEAN, cityBean);
-//                    startFragment(new FgDailyWeb(), bundle);
-
                     Intent intent = new Intent(SkuListActivity.this, DailyWebInfoActivity.class);
                     intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_DAIRY+params);
                     intent.putExtra("cityBean", cityBean);
@@ -272,38 +246,25 @@ public class SkuListActivity extends BaseActivity implements HbcRecyclerBaseAdap
                     startActivity(intent);
 
                 } else {
-//                    startFragment(new FgOrderSelectCity());
-                    Bundle bundle = new Bundle();
                     String userId = UserEntity.getUser().getUserId(this);
                     String params = "";
                     if(!TextUtils.isEmpty(userId)){
-                        params += "?userId="+userId;
+                        params += "?userId=" + userId;
                     }
-//                    bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_DAIRY+params);
-//                    startFragment(new FgDailyWeb(), bundle);
-
-                    Intent intent = new Intent(SkuListActivity.this,WebInfoActivity.class);
-                    intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_DAIRY+params);
+                    Intent intent = new Intent(SkuListActivity.this, WebInfoActivity.class);
+                    intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_DAIRY + params);
                     startActivity(intent);
 
                 }
             } else {
-//                FgSkuDetail fgSkuDetail = new FgSkuDetail();
-                Bundle bundle = new Bundle();
                 String userId = UserEntity.getUser().getUserId(this);
                 String skuDetailUrl = skuItemBean.skuDetailUrl;
                 if(!TextUtils.isEmpty(userId)){
                     skuDetailUrl += "&userId="+userId;
                 }
-//                bundle.putString(WebInfoActivity.WEB_URL, skuDetailUrl);
-//                bundle.putSerializable(SkuDetailActivity.WEB_SKU, skuItemBean);
-//                fgSkuDetail.setArguments(bundle);
-//                startFragment(fgSkuDetail, bundle);
-
-                Intent intent = new Intent(SkuListActivity.this,SkuDetailActivity.class);
+                Intent intent = new Intent(SkuListActivity.this, SkuDetailActivity.class);
                 intent.putExtra(WebInfoActivity.WEB_URL, skuDetailUrl);
                 intent.putExtra(SkuDetailActivity.WEB_SKU, skuItemBean);
-
                 startActivity(intent);
             }
         }
@@ -397,15 +358,5 @@ public class SkuListActivity extends BaseActivity implements HbcRecyclerBaseAdap
             }
         }
         return cityBean;
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-//        String fragmentName = bundle.getString(KEY_FRAGMENT_NAME);
-//        if (ChooseCityNewActivity.class.getSimpleName().equals(fragmentName)) {
-//            paramsData = (FgSkuList.Params) bundle.getSerializable(Constants.PARAMS_DATA);
-//            initHeader();
-//        }
     }
 }
