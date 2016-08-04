@@ -39,7 +39,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static com.huangbaoche.hbcframe.fragment.BaseFragment.KEY_FRAGMENT_NAME;
+import static com.hugboga.custom.R.mipmap.closed_btn;
+import static com.hugboga.custom.R.mipmap.top_back_white;
 
 public class ChooseCityNewActivity extends BaseActivity {
 
@@ -70,8 +71,14 @@ public class ChooseCityNewActivity extends BaseActivity {
     @Bind(R.id.empty_layout)
     LinearLayout emptyLayout;
 
-
+    boolean isHomeIn = false;
     public void initHeader() {
+        isHomeIn = this.getIntent().getBooleanExtra("isHomeIn",false);
+        if(isHomeIn){
+            headerLeftBtn.setImageResource(top_back_white);
+        }else {
+            headerLeftBtn.setImageResource(closed_btn);
+        }
         headTextRight.setText("取消");
         headSearch.setHint(R.string.home_search_hint);
         headTextRight.setVisibility(View.GONE);
@@ -80,6 +87,7 @@ public class ChooseCityNewActivity extends BaseActivity {
 
     SearchNewAdapter searchNewAdapter;
 //    PopupWindow popupWindow = null;
+
 
 
     private void initPop() {
@@ -118,7 +126,7 @@ public class ChooseCityNewActivity extends BaseActivity {
         super.onCreate(arg0);
         setContentView(R.layout.fg_city_new);
         ButterKnife.bind(this);
-        initView();
+
     }
 
     private void showSearchPop(List<SearchGroupBean> list) {
@@ -140,6 +148,7 @@ public class ChooseCityNewActivity extends BaseActivity {
     }
 
 
+
     @OnClick({R.id.head_search, R.id.header_left_btn, R.id.head_search_clean, R.id.head_text_right})
     public void onClick(View view) {
         switch (view.getId()) {
@@ -149,6 +158,9 @@ public class ChooseCityNewActivity extends BaseActivity {
             case R.id.header_left_btn:
                 expandableListView.setVisibility(View.GONE);
                 finish();
+                if(!isHomeIn) {
+                    overridePendingTransition(R.anim.push_buttom_out, 0);
+                }
                 break;
             case R.id.head_search_clean:
                 headSearch.setText("");
@@ -429,6 +441,7 @@ public class ChooseCityNewActivity extends BaseActivity {
     @Override
     public void onResume() {
         super.onResume();
+        initView();
         genHistoryCity();
     }
 

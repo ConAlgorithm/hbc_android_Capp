@@ -1,5 +1,6 @@
 package com.hugboga.custom.widget;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.AttributeSet;
@@ -98,6 +99,7 @@ public class SkuCityHeaderView extends LinearLayout implements HbcViewBehavior, 
                 intent.putExtra("com.hugboga.custom.home.flush", Constants.BUSINESS_TYPE_HOME);
                 intent.putExtra("source","小搜索按钮");
                 this.getContext().startActivity(intent);
+                ((Activity)(this.getContext())).overridePendingTransition(R.anim.push_bottom_in,0);
                 break;
             default:
                 break;

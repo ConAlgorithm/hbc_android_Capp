@@ -109,6 +109,16 @@ public class SkuListActivity extends BaseActivity implements HbcRecyclerBaseAdap
         }
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        Bundle bundle = intent.getExtras();
+        if (bundle != null) {
+            paramsData = (SkuListActivity.Params) bundle.getSerializable(Constants.PARAMS_DATA);
+        }
+        initView();
+    }
+
     private void initView() {
         if (paramsData == null) {
             return;
