@@ -157,6 +157,14 @@
             android:screenOrientation="portrait" />
 
         <activity
+            android:name=".activity.CollectGuideListActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.GuideDetailActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
             android:name=".activity.SelectCarActivity"
             android:screenOrientation="portrait" />
 

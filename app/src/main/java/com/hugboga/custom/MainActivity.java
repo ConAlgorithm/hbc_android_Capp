@@ -104,7 +104,6 @@ import java.util.TimerTask;
 
 import cn.jpush.android.api.JPushInterface;
 
-import static com.tencent.bugly.crashreport.inner.InnerAPI.context;
 
 @ContentView(R.layout.activity_main)
 public class MainActivity extends BaseActivity
@@ -654,7 +653,8 @@ public class MainActivity extends BaseActivity
                 break;
             case Constants.PERSONAL_CENTER_COLLECT://收藏司导
                 if (isLogin("个人中心首页")) {
-                    startFragment(new FgCollectGuideList());
+//                    startFragment(new FgCollectGuideList());
+                    startActivity(new Intent(MainActivity.this, WebInfoActivity.class));
                 }
                 break;
             case Constants.PERSONAL_CENTER_HD://活动
@@ -663,7 +663,7 @@ public class MainActivity extends BaseActivity
 //                    bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_ACTIVITY + UserEntity.getUser().getUserId(this.getApplicationContext()) + "&t=" + new Random().nextInt(100000));
 //                    startFragment(new FgActivity(), bundle);
 
-                    Intent intent = new Intent(context, WebInfoActivity.class);
+                    Intent intent = new Intent(MainActivity.this, WebInfoActivity.class);
                     intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_ACTIVITY + UserEntity.getUser().getUserId(this.getApplicationContext()) + "&t=" + new Random().nextInt(100000));
                     startActivity(intent);
                 }

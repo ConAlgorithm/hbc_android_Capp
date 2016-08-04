@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
@@ -45,7 +46,6 @@ import com.hugboga.custom.data.request.RequestGuideConflict;
 import com.hugboga.custom.fragment.BaseFragment;
 import com.hugboga.custom.fragment.FGOrderNew;
 import com.hugboga.custom.fragment.FGSelectCar;
-import com.hugboga.custom.fragment.FgChooseCity;
 import com.hugboga.custom.fragment.FgCollectGuideList;
 import com.hugboga.custom.fragment.FgLogin;
 import com.hugboga.custom.utils.AlertDialogUtils;
@@ -192,14 +192,17 @@ public class OrderSelectCityActivity extends BaseActivity  {
             endCityId = startBean.cityId + "";
             startCityClick.setText(startCity);
         } else {
-//            new Handler().postDelayed(new Runnable() {
-//                @Override
-//                public void run() {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
 //                    Bundle bundle = new Bundle();
 //                    bundle.putString("source", "首页");
 //                    startFragment(new FgChooseCity(), bundle);
-//                }
-//            },500);
+//                    Intent intent = new Intent(OrderSelectCityActivity.this, ChooseCityActivity.class);
+//                    intent.putExtra("source", "首页");
+//                    startActivity(intent);
+                }
+            },500);
 
         }
 
@@ -565,11 +568,20 @@ public class OrderSelectCityActivity extends BaseActivity  {
         scope_layout_other.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                Bundle bundle = new Bundle();
+//                bundle.putString("source", "首页");
+//                bundle.putInt(BaseFragment.KEY_BUSINESS_TYPE, Constants.BUSINESS_TYPE_DAILY);
+//                bundle.putInt(ChooseCityActivity.KEY_CITY_ID, preCityBean.cityId);
                 Bundle bundle = new Bundle();
                 bundle.putString("source", "首页");
                 bundle.putInt(BaseFragment.KEY_BUSINESS_TYPE, Constants.BUSINESS_TYPE_DAILY);
                 bundle.putInt(FgChooseCity.KEY_CITY_ID, preCityBean.cityId);
 //                startFragment(new FgChooseCity(), bundle);
+                Intent intent = new Intent(OrderSelectCityActivity.this, ChooseCityActivity.class);
+                intent.putExtra("source", "首页");
+                intent.putExtra(BaseFragment.KEY_BUSINESS_TYPE, Constants.BUSINESS_TYPE_DAILY);
+                intent.putExtra(ChooseCityActivity.KEY_CITY_ID, preCityBean.cityId);
+                startActivity(intent);
 
                 bundle.putString(KEY_FROM, "lastCity");
                 Intent intent = new Intent(activity,ChooseCityActivity.class);
@@ -685,10 +697,10 @@ public class OrderSelectCityActivity extends BaseActivity  {
     public void onFragmentResult(Bundle bundle) {
         MLog.w(this + " onFragmentResult " + bundle);
         String from = bundle.getString(KEY_FRAGMENT_NAME);
-        if (FgChooseCity.class.getSimpleName().equals(from)) {
+        if (ChooseCityActivity.class.getSimpleName().equals(from)) {
             String fromKey = bundle.getString(KEY_FROM);
             if ("startAddress".equals(fromKey)) {
-                startBean = (CityBean) bundle.getSerializable(FgChooseCity.KEY_CITY);
+                startBean = (CityBean) bundle.getSerializable(ChooseCityActivity.KEY_CITY);
                 preCityBean = startBean;
                 passBeanList.clear();
 //                passBeanList.add(startBean);
@@ -717,7 +729,7 @@ public class OrderSelectCityActivity extends BaseActivity  {
 
                 hotCitys = CityUtils.requestHotDate(activity, startBean.groupId);
             } else if ("lastCity".equalsIgnoreCase(fromKey) || "nearby".equalsIgnoreCase(fromKey)) {
-                endBean = (CityBean) bundle.getSerializable(FgChooseCity.KEY_CITY);
+                endBean = (CityBean) bundle.getSerializable(ChooseCityActivity.KEY_CITY);
 
 //                passBeanList.add(endBean);
                 setDayText(3, endBean);
@@ -803,12 +815,13 @@ public class OrderSelectCityActivity extends BaseActivity  {
     //type 1 司导列表   2, 预约司导列表
     private void goCollectGuid(int type) {
         if (type == 1) {
-            FgCollectGuideList fgCollectGuideList = new FgCollectGuideList();
-            startFragment(fgCollectGuideList);
+//            FgCollectGuideList fgCollectGuideList = new FgCollectGuideList();
+//            startFragment(fgCollectGuideList);
+            startActivity(new Intent(this, FgCollectGuideList.class));
         } else {
             if (checkParams()) {
                 if (UserEntity.getUser().isLogin(activity)) {
-                    FgCollectGuideList fgCollectGuideList = new FgCollectGuideList();
+//                    FgCollectGuideList fgCollectGuideList = new FgCollectGuideList();
                     Bundle bundle = new Bundle();
                     RequestCollectGuidesFilter.CollectGuidesFilterParams params = new RequestCollectGuidesFilter.CollectGuidesFilterParams();
                     params.startCityId = startBean.cityId;
@@ -827,8 +840,11 @@ public class OrderSelectCityActivity extends BaseActivity  {
                     params.totalDays = isHalfTravel ? 1 : nums;
                     params.passCityId = startBean.cityId + "";//isHalfTravel ? startBean.cityId + "" : getPassCitiesId();
                     bundle.putSerializable(Constants.PARAMS_DATA, params);
-                    fgCollectGuideList.setArguments(bundle);
-                    startFragment(fgCollectGuideList);
+//                    fgCollectGuideList.setArguments(bundle);
+//                    startFragment(fgCollectGuideList);
+                    Intent intent = new Intent(this, FgCollectGuideList.class);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
                 } else {
                     Bundle bundle = new Bundle();//用于统计
                     bundle.putString("source", "包车下单");
@@ -1046,7 +1062,7 @@ public class OrderSelectCityActivity extends BaseActivity  {
 //                    bundle.putString("source", "首页");
 //                    startFragment(new FgChooseCity(), bundle);
 
-                    Intent intent = new Intent(activity,ChooseCityActivity.class);
+                    Intent intent = new Intent(activity, ChooseCityActivity.class);
                     intent.putExtras(bundle);
                     startActivity(intent);
                 }

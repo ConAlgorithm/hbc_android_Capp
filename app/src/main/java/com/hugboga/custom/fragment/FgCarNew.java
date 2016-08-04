@@ -495,7 +495,7 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
                     if (TextUtils.isEmpty(startTime)) {
                         AlertDialogUtils.showAlertDialogOneBtn(getActivity(), getString(R.string.dairy_choose_guide), "好的");
                     } else {
-                        FgCollectGuideList fgCollectGuideList = new FgCollectGuideList();
+//                        FgCollectGuideList fgCollectGuideList = new FgCollectGuideList();
                         Bundle bundle = new Bundle();
                         RequestCollectGuidesFilter.CollectGuidesFilterParams params = new RequestCollectGuidesFilter.CollectGuidesFilterParams();
                         params.startCityId = cityId;
@@ -509,8 +509,11 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
                         params.totalDays = 0;
                         params.passCityId = cityId + "";
                         bundle.putSerializable(Constants.PARAMS_DATA, params);
-                        fgCollectGuideList.setArguments(bundle);
-                        startFragment(fgCollectGuideList);
+//                        fgCollectGuideList.setArguments(bundle);
+//                        startFragment(fgCollectGuideList);
+                        Intent intent = new Intent(v.getContext(), FgCollectGuideList.class);
+                        intent.putExtras(bundle);
+                        startActivity(intent);
                     }
                 }
             });

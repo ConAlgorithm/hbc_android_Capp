@@ -308,7 +308,10 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                 if (orderBean == null || orderBean.orderGuideInfo == null) {
                     return;
                 }
-                startFragment(FgGuideDetail.newInstance(orderBean.orderGuideInfo.guideID));
+//                startFragment(FgGuideDetail.newInstance(orderBean.orderGuideInfo.guideID));
+                Intent intent1 = new Intent(this, GuideDetailActivity.class);
+                intent1.putExtra(Constants.PARAMS_DATA, orderBean.orderGuideInfo.guideID);
+                startActivity(intent1);
                 break;
             case ORDER_DETAIL_UPDATE_COLLECT://更新收藏UI
                 orderBean.orderGuideInfo.storeStatus = (int) action.getData();
