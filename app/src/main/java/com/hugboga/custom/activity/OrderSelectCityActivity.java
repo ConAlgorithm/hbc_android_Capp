@@ -44,8 +44,7 @@ import com.hugboga.custom.data.request.RequestCollectGuidesFilter;
 import com.hugboga.custom.data.request.RequestGetCarInfo;
 import com.hugboga.custom.data.request.RequestGuideConflict;
 import com.hugboga.custom.fragment.BaseFragment;
-import com.hugboga.custom.fragment.FGOrderNew;
-import com.hugboga.custom.fragment.FGSelectCar;
+import com.hugboga.custom.fragment.FgChooseCity;
 import com.hugboga.custom.fragment.FgCollectGuideList;
 import com.hugboga.custom.fragment.FgLogin;
 import com.hugboga.custom.utils.AlertDialogUtils;
@@ -61,9 +60,6 @@ import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
 import org.greenrobot.eventbus.Subscribe;
-import org.xutils.view.annotation.ContentView;
-import org.xutils.view.annotation.Event;
-import org.xutils.view.annotation.ViewInject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -79,7 +75,6 @@ import static android.view.View.GONE;
 import static com.huangbaoche.hbcframe.fragment.BaseFragment.KEY_FRAGMENT_NAME;
 import static com.hugboga.custom.R.id.baggage_text_click;
 import static com.hugboga.custom.R.id.people_text_click;
-import static com.hugboga.custom.R.id.start;
 import static com.hugboga.custom.R.id.start_city_click;
 
 
@@ -568,27 +563,14 @@ public class OrderSelectCityActivity extends BaseActivity  {
         scope_layout_other.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Bundle bundle = new Bundle();
-//                bundle.putString("source", "首页");
-//                bundle.putInt(BaseFragment.KEY_BUSINESS_TYPE, Constants.BUSINESS_TYPE_DAILY);
-//                bundle.putInt(ChooseCityActivity.KEY_CITY_ID, preCityBean.cityId);
                 Bundle bundle = new Bundle();
-                bundle.putString("source", "首页");
-                bundle.putInt(BaseFragment.KEY_BUSINESS_TYPE, Constants.BUSINESS_TYPE_DAILY);
-                bundle.putInt(FgChooseCity.KEY_CITY_ID, preCityBean.cityId);
-//                startFragment(new FgChooseCity(), bundle);
                 Intent intent = new Intent(OrderSelectCityActivity.this, ChooseCityActivity.class);
                 intent.putExtra("source", "首页");
                 intent.putExtra(BaseFragment.KEY_BUSINESS_TYPE, Constants.BUSINESS_TYPE_DAILY);
                 intent.putExtra(ChooseCityActivity.KEY_CITY_ID, preCityBean.cityId);
-                startActivity(intent);
-
-                bundle.putString(KEY_FROM, "lastCity");
-                Intent intent = new Intent(activity,ChooseCityActivity.class);
+                intent.putExtra(KEY_FROM,"lastCity");
                 intent.putExtras(bundle);
                 startActivity(intent);
-
-
                 hideSelectPeoplePop();
             }
         });

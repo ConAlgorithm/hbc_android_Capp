@@ -676,9 +676,9 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
 //                bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_CANCEL);
 //                startFragment(new FgActivity(), bundle);
 
-                intent = new Intent(context, WebInfoActivity.class);
+                intent = new Intent(activity, WebInfoActivity.class);
                 intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_CANCEL);
-                context.startActivity(intent);
+                startActivity(intent);
 
                 break;
             case R.id.header_right_txt:
@@ -749,7 +749,7 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
 
 
     private void goNext() {
-        FGOrderNew fgOrderNew = new FGOrderNew();
+//        FGOrderNew fgOrderNew = new FGOrderNew();
         Bundle bundleCar = new Bundle();
         bundleCar.putString("source", source);
         bundleCar.putString("startCityId", startCityId);
@@ -774,8 +774,12 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
         bundleCar.putBoolean("isHalfTravel", isHalfTravel);
         bundleCar.putInt("type", 3);
         bundleCar.putString("orderType", "3");
-        fgOrderNew.setArguments(bundleCar);
-        startFragment(fgOrderNew);
+//        fgOrderNew.setArguments(bundleCar);
+//        startFragment(fgOrderNew);
+
+        Intent intent = new Intent(activity,OrderNewActivity.class);
+        intent.putExtras(bundleCar);
+        startActivity(intent);
     }
 
     private void initListData() {
