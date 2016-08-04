@@ -211,7 +211,7 @@ public class FgGuideDetail extends BaseFragment implements GuideCarPhotosAdapter
                 boolean isShowRightLine = (isShowSingle && isShowCar) || (isShowSingle && isShowPlane);
                 rightLineView.setVisibility(isShowRightLine ? View.VISIBLE : View.GONE);
             }
-            evaluateItemView.setGuideDetailData(FgGuideDetail.this, data);
+            evaluateItemView.setGuideDetailData(data);
 
             if (data.getCarPhotosS() != null && data.getCarPhotosS().size() > 0) {
                 carRecyclerView.setVisibility(View.VISIBLE);

@@ -17,6 +17,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.CollectGuideListActivity;
 import com.hugboga.custom.activity.LuggageInfoActivity;
 import com.hugboga.custom.activity.ManLuggageActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
@@ -511,7 +512,7 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
                         bundle.putSerializable(Constants.PARAMS_DATA, params);
 //                        fgCollectGuideList.setArguments(bundle);
 //                        startFragment(fgCollectGuideList);
-                        Intent intent = new Intent(v.getContext(), FgCollectGuideList.class);
+                        Intent intent = new Intent(v.getContext(), CollectGuideListActivity.class);
                         intent.putExtras(bundle);
                         startActivity(intent);
                     }

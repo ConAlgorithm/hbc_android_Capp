@@ -1,5 +1,6 @@
 package com.hugboga.custom.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,6 +22,7 @@ import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.net.ShareUrls;
+import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestCollectGuidesId;
 import com.hugboga.custom.data.request.RequestGuideDetail;
 import com.hugboga.custom.data.request.RequestUncollectGuidesId;
@@ -111,6 +113,7 @@ public class GuideDetailActivity extends BaseActivity implements GuideCarPhotosA
         setContentView(R.layout.fg_guide_detail);
         ButterKnife.bind(this);
 
+        initDefaultTitleBar();
         mDialogUtil = DialogUtil.getInstance(this);
         titleTV.setText(getString(R.string.guide_detail_subtitle_title));
 
@@ -192,7 +195,7 @@ public class GuideDetailActivity extends BaseActivity implements GuideCarPhotosA
                 boolean isShowRightLine = (isShowSingle && isShowCar) || (isShowSingle && isShowPlane);
                 rightLineView.setVisibility(isShowRightLine ? View.VISIBLE : View.GONE);
             }
-//            evaluateItemView.setGuideDetailData(FgGuideDetail.this, data); FIXME qingcha
+            evaluateItemView.setGuideDetailData(data);
 
             if (data.getCarPhotosS() != null && data.getCarPhotosS().size() > 0) {
                 carRecyclerView.setVisibility(View.VISIBLE);
@@ -228,29 +231,39 @@ public class GuideDetailActivity extends BaseActivity implements GuideCarPhotosA
     @OnClick({R.id.guide_detail_plane_layout, R.id.guide_detail_car_layout,
             R.id.guide_detail_single_layout, R.id.header_detail_back_btn, R.id.header_detail_right_1_btn, R.id.header_detail_right_2_btn})
     public void onClick(View view) {
-        Bundle bundle = new Bundle();
-        HashMap<String,String> map = new HashMap<String,String>();
+        Intent intent = null;
         switch (view.getId()) {
             case R.id.guide_detail_plane_layout:
+//                FgPickSend fgPickSend = new FgPickSend();
+//                bundle.putSerializable("collectGuideBean",beanConversion());
+//                fgPickSend.setArguments(bundle);
+//                startFragment(fgPickSend, bundle);
+
+                intent = new Intent(this, PickSendActivity.class);
+                intent.putExtra("collectGuideBean", beanConversion());
+                startActivity(intent);
                 finish();
-                FgPickSend fgPickSend = new FgPickSend();
-                bundle.putSerializable("collectGuideBean",beanConversion());
-                fgPickSend.setArguments(bundle);
-                startFragment(fgPickSend, bundle);
                 break;
             case R.id.guide_detail_car_layout:
+//                FgOrderSelectCity fgOrderSelectCity = new FgOrderSelectCity();
+//                bundle.putSerializable("collectGuideBean",beanConversion());
+//                fgOrderSelectCity.setArguments(bundle);
+//                startFragment(fgOrderSelectCity, bundle);
+                intent = new Intent(this, DailyWebInfoActivity.class);
+                intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_DAIRY);
+                intent.putExtra("collectGuideBean", beanConversion());
+                startActivity(intent);
                 finish();
-                FgOrderSelectCity fgOrderSelectCity = new FgOrderSelectCity();
-                bundle.putSerializable("collectGuideBean",beanConversion());
-                fgOrderSelectCity.setArguments(bundle);
-                startFragment(fgOrderSelectCity, bundle);
                 break;
             case R.id.guide_detail_single_layout:
+//                FgSingleNew fgSingleNew = new FgSingleNew();
+//                bundle.putSerializable("collectGuideBean",beanConversion());
+//                fgSingleNew.setArguments(bundle);
+//                startFragment(fgSingleNew);
+                intent = new Intent(this, SingleNewActivity.class);
+                intent.putExtra("collectGuideBean", beanConversion());
+                startActivity(intent);
                 finish();
-                FgSingleNew fgSingleNew = new FgSingleNew();
-                bundle.putSerializable("collectGuideBean",beanConversion());
-                fgSingleNew.setArguments(bundle);
-                startFragment(fgSingleNew);
                 break;
 //            case R.id.guide_detail_call_iv:
 //                if (data == null) {

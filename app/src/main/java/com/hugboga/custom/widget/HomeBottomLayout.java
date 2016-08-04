@@ -146,7 +146,7 @@ public class HomeBottomLayout extends LinearLayout implements View.OnClickListen
     }
 
     /**
-     * 以下代码copy自久版本首页
+     * 以下代码copy自旧版本首页
      * */
     private void goPickSend(){
 //        Bundle bundle = new Bundle();
