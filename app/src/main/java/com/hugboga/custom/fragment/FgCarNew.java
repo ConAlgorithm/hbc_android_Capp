@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.LuggageInfoActivity;
+import com.hugboga.custom.activity.ManLuggageActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.adapter.CarViewpagerAdapter;
 import com.hugboga.custom.constants.Constants;
@@ -626,7 +627,7 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
                     CommonUtils.showToast(R.string.no_price_error);
                     return;
                 }
-                FgManLuggage fgManLuggage = new FgManLuggage();
+//                FgManLuggage fgManLuggage = new FgManLuggage();
                 Bundle bundle = new Bundle();
                 if (null != collectGuideBean) {
                     carListBean.carList = guideCarList;
@@ -636,8 +637,16 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
                 bundle.putParcelable("carListBean", carListBean);
                 bundle.putInt("currentIndex", currentIndex);
                 bundle.putParcelable("manLuggageBean", manLuggageBean);
-                fgManLuggage.setArguments(bundle);
-                startFragment(fgManLuggage);
+//                fgManLuggage.setArguments(bundle);
+//                startFragment(fgManLuggage);
+
+
+                Intent intent = new Intent(getActivity(), ManLuggageActivity.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
+
+
+
                 break;
         }
     }

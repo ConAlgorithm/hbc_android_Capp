@@ -143,8 +143,17 @@
             android:name=".activity.ChooseAirActivity"
             android:screenOrientation="portrait" />
 
+
         <activity
             android:name=".activity.PickFlightListActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.ManLuggageActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.OrderNewActivity"
             android:screenOrientation="portrait" />
 
         <service

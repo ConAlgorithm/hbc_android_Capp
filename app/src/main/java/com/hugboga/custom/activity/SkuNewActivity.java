@@ -164,6 +164,7 @@ public class SkuNewActivity extends BaseActivity {
         super.onCreate(arg0);
         setContentView(R.layout.fg_sku_new);
         ButterKnife.bind(this);
+        EventBus.getDefault().register(this);
         initView();
         initHeader();
     }
@@ -172,6 +173,7 @@ public class SkuNewActivity extends BaseActivity {
     public void onDestroy() {
         super.onDestroy();
         ButterKnife.unbind(this);
+        EventBus.getDefault().unregister(this);
     }
 
     protected void initView() {
@@ -308,6 +310,7 @@ public class SkuNewActivity extends BaseActivity {
     int hourseNum = 1;//几间房
     int maxLuuages = 0;
     ChooseDateBean chooseDateBean;
+
     @Subscribe
     public void onEventMainThread(EventAction action) {
 
@@ -390,12 +393,12 @@ public class SkuNewActivity extends BaseActivity {
 
     private void goNext() {
 
-        FGOrderNew fgOrderNew = new FGOrderNew();
+//        FGOrderNew fgOrderNew = new FGOrderNew();
         Bundle bundle = new Bundle();
         bundle.putString("guideCollectId", "");
         bundle.putSerializable("collectGuideBean", null);
         bundle.putString("source", source);
-        bundle.putParcelable("carListBean", carListBean);
+        bundle.putSerializable("carListBean", carListBean);
 
         bundle.putString("startCityId", cityBean.cityId + "");
         bundle.putString("endCityId", cityBean.cityId + "");//endCityId);
@@ -418,7 +421,7 @@ public class SkuNewActivity extends BaseActivity {
         bundle.putString("source", source);
         bundle.putBoolean("isHalfTravel", false);
         bundle.putSerializable("passCityList", null);
-        bundle.putParcelable("carBean", CarUtils.carBeanAdapter(carBean));
+        bundle.putSerializable("carBean", CarUtils.carBeanAdapter(carBean));
 
         if(skuBean.goodsClass == 1){
             bundle.putInt("type", 5);
@@ -430,8 +433,12 @@ public class SkuNewActivity extends BaseActivity {
 
         bundle.putSerializable("web_sku", skuBean);
         bundle.putSerializable("web_city", cityBean);
-        fgOrderNew.setArguments(bundle);
-        startFragment(fgOrderNew);
+//        fgOrderNew.setArguments(bundle);
+//        startFragment(fgOrderNew);
+
+        Intent intent = new Intent(activity,OrderNewActivity.class);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
     FragmentManager fm;
