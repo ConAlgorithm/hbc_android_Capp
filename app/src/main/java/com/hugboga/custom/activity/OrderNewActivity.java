@@ -1233,13 +1233,7 @@ public class OrderNewActivity extends BaseActivity {
 
         }else if(action.getType() == EventType.CHOOSE_COUNTRY_BACK){
             AreaCodeBean areaCodeBean = (AreaCodeBean)action.getData();
-            int viewId = Integer.valueOf(areaCodeBean.getCode());
-            TextView codeTv = (TextView) findViewById(viewId);
-
-            if (codeTv != null) {
-                String areaCode = areaCodeBean.getCode();
-                codeTv.setText("+" + areaCode);
-            }
+            hotelPhoneTextCodeClick.setText("+" + areaCodeBean.getCode());
         }
     }
 
@@ -1401,7 +1395,7 @@ public class OrderNewActivity extends BaseActivity {
                 bundle.putParcelable("contactUsersBean", contactUsersBean);
 //                fgChooseOther.setArguments(bundle);
 //                startFragment(fgChooseOther);
-                intent = new Intent(activity,ChooseCityActivity.class);
+                intent = new Intent(activity,ChooseOtherActivity.class);
                 intent.putExtras(bundle);
                 startActivity(intent);
                 break;
@@ -1417,7 +1411,7 @@ public class OrderNewActivity extends BaseActivity {
                 bundleCode.putInt("airportCode", view.getId());
 //                startFragment(chooseCountry, bundleCode);
 
-                intent = new Intent(activity,ChooseCityActivity.class);
+                intent = new Intent(activity,ChooseCountryActivity.class);
                 intent.putExtras(bundleCode);
                 startActivity(intent);
                 break;
