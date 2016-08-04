@@ -254,7 +254,7 @@ public class OrderNewActivity extends BaseActivity {
 //                bundle.putBoolean(FgWebInfo.CONTACT_SERVICE, true);
 //                startFragment(new FgWebInfo(), bundle);
 
-                Intent intent = new Intent(context, WebInfoActivity.class);
+                Intent intent = new Intent(activity, WebInfoActivity.class);
                 intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_PROBLEM);
                 intent.putExtra(WebInfoActivity.CONTACT_SERVICE, true);
                 startActivity(intent);
