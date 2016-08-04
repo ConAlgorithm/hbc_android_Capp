@@ -158,11 +158,51 @@
 
         <activity
             android:name=".activity.CollectGuideListActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
 
         <activity
             android:name=".activity.GuideDetailActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
+
+        <activity
+            android:name=".activity.EvaluateActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity
+            android:name=".activity.LargerImageActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity
+            android:name=".activity.EvaluateListActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity
+            android:name=".activity.InsureInfoActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity
+            android:name=".activity.PayResultActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity
+            android:name=".activity.ChoosePaymentActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity
+            android:name=".activity.CouponActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity
+            android:name=".activity.OrderCancelActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity
+            android:name=".activity.OrderEditActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity
+            android:name=".activity.ShareGuidesActivity"
+            android:screenOrientation="portrait"/>
 
         <activity
             android:name=".activity.SelectCarActivity"

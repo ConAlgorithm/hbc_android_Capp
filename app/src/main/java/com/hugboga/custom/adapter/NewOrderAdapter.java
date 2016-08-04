@@ -444,15 +444,6 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
             Intent intent = null;
             switch (v.getId()) {
                 case R.id.travel_item_btn_assessment:
-//                    MLog.e("评价车导2 " + mOrderBean.orderNo + " orderType = " + mOrderBean.orderType);
-//                    Bundle bundle = new Bundle();
-//                    bundle.putString(FgAssessment.GUIDE_ID, mOrderBean.orderGuideInfo.guideID);
-//                    bundle.putString(FgAssessment.ORDER_ID, mOrderBean.orderNo);
-//                    bundle.putInt(FgAssessment.ORDER_TYPE, mOrderBean.orderType);
-//                    bundle.putInt(BaseFragment.KEY_BUSINESS_TYPE, mOrderBean.orderType);
-//                    bundle.putString(FgAssessment.GUIDE_NAME, mOrderBean.orderGuideInfo.guideName);
-//                    fragment.startFragment(new FgAssessment(), bundle);
-
                     fragment.startFragment(FgEvaluate.newInstance(mOrderBean));
                     break;
                 case R.id.travel_item_btn_pay:
