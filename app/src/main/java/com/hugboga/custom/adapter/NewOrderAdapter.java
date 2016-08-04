@@ -14,6 +14,8 @@ import com.huangbaoche.hbcframe.adapter.ZBaseAdapter;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.huangbaoche.hbcframe.viewholder.ZBaseViewHolder;
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.GuideDetailActivity;
+import com.hugboga.custom.activity.OrderDetailActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.adapter.viewholder.NewOrderVH;
 import com.hugboga.custom.constants.Constants;
@@ -439,6 +441,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
 
         @Override
         public void onClick(View v) {
+            Intent intent = null;
             switch (v.getId()) {
                 case R.id.travel_item_btn_assessment:
 //                    MLog.e("评价车导2 " + mOrderBean.orderNo + " orderType = " + mOrderBean.orderType);
@@ -455,19 +458,21 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                 case R.id.travel_item_btn_pay:
                     MLog.e("立即支付 " + mOrderBean.orderNo);
                     //立即支付，进入订单详情
-//                    bundle = new Bundle();
-//                    bundle.putInt(FgOrder.KEY_BUSINESS_TYPE, mOrderBean.orderType);
-//                    bundle.putInt(FgOrder.KEY_GOODS_TYPE, mOrderBean.orderGoodsType);
-//                    bundle.putString(FgOrder.KEY_ORDER_ID, mOrderBean.orderNo);
-//                    bundle.putString("source", mOrderBean.orderType == 5 ? mOrderBean.serviceCityName : "首页");
-//                    fragment.startFragment(new FgOrder(), bundle);
-                    FgOrderDetail.Params params = new FgOrderDetail.Params();
-                    params.orderType = mOrderBean.orderGoodsType;
+//                    FgOrderDetail.Params params = new FgOrderDetail.Params();
+//                    params.orderType = mOrderBean.orderGoodsType;
+//                    params.orderId = mOrderBean.orderNo;
+//                    params.source =  mOrderBean.orderType == 5 ? mOrderBean.serviceCityName : "首页";
+//                    Bundle bundle = new Bundle();
+//                    bundle.putSerializable(Constants.PARAMS_DATA, params);
+//                    fragment.startFragment(new FgOrderDetail(), bundle);
+
+                    OrderDetailActivity.Params params = new OrderDetailActivity.Params();
+                    params.orderType = mOrderBean.orderType;
                     params.orderId = mOrderBean.orderNo;
-                    params.source =  mOrderBean.orderType == 5 ? mOrderBean.serviceCityName : "首页";
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable(Constants.PARAMS_DATA, params);
-                    fragment.startFragment(new FgOrderDetail(), bundle);
+                    params.source = mOrderBean.orderType == 5 ? mOrderBean.serviceCityName : "首页";
+                    intent = new Intent(v.getContext(), OrderDetailActivity.class);
+                    intent.putExtra(Constants.PARAMS_DATA, params);
+                    v.getContext().startActivity(intent);
                     break;
                 case R.id.travel_item_btn_chat:
                     MLog.e("进入聊天" + mOrderBean.orderNo);
@@ -477,10 +482,15 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                     break;
                 case R.id.travel_item_head_img:
                 case R.id.travel_item_head_title:
-                    if(fragment == null || mOrderBean.orderGuideInfo == null || mOrderBean.orderGuideInfo.guideID == null) {
+                    if(mOrderBean.orderGuideInfo == null || mOrderBean.orderGuideInfo.guideID == null) {
                         return;
                     }
-                    fragment.startFragment(FgGuideDetail.newInstance(mOrderBean.orderGuideInfo.guideID));
+
+                    //fragment == null ||
+                    //fragment.startFragment(FgGuideDetail.newInstance(mOrderBean.orderGuideInfo.guideID));
+                    intent = new Intent(v.getContext(), GuideDetailActivity.class);
+                    intent.putExtra(Constants.PARAMS_DATA, mOrderBean.orderGuideInfo.guideID);
+                    v.getContext().startActivity(intent);
                     break;
             }
         }

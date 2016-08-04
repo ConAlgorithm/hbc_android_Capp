@@ -156,6 +156,14 @@
             android:name=".activity.OrderNewActivity"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".activity.CollectGuideListActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.GuideDetailActivity"
+            android:screenOrientation="portrait" />
+
         <service
             android:name=".service.LogService"
             android:process="com.hugboga.custom.hbclog" />

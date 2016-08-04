@@ -174,9 +174,10 @@ public class CollectGuideAdapter extends BaseAdapter<CollectGuideBean> {
                     @Override
                     public void onClick(View v) {
                         EventBus.getDefault().post(new EventAction(EventType.CHOOSE_GUIDE,bean));
-                        if(null != fragment) {
-                            fragment.finish();
-                        }
+                        // FIXME qingcha
+//                        if(null != fragment) {
+//                            fragment.finish();
+//                        }
                     }
                 });
 
@@ -191,10 +192,11 @@ public class CollectGuideAdapter extends BaseAdapter<CollectGuideBean> {
         holder.topLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(fragment == null) {
-                    return;
-                }
-                fragment.startFragment(FgGuideDetail.newInstance(bean.guideId));
+                // FIXME qingcha
+//                if(fragment == null) {
+//                    return;
+//                }
+//                fragment.startFragment(FgGuideDetail.newInstance(bean.guideId));
             }
         });
         return convertView;
