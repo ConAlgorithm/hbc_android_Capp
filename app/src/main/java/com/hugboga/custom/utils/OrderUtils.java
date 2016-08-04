@@ -167,8 +167,13 @@ public class OrderUtils {
         orderBean.totalDays = (inNum + outNum);
         orderBean.isHalfDaily = isHalfTravel ? 1 : 0;
 
-        orderBean.startAddress = poiBean.placeName;//upRight.getText().toString();
-        orderBean.startAddressDetail = poiBean.placeDetail;//upSiteText.getText().toString();
+        if(null != poiBean) {
+            orderBean.startAddress = poiBean.placeName;//upRight.getText().toString();
+            orderBean.startAddressDetail = poiBean.placeDetail;//upSiteText.getText().toString();
+        }else{
+            orderBean.startAddress = "";
+            orderBean.startAddressDetail = "";
+        }
 
 
         orderBean.userName = userName;//manName.getText().toString();

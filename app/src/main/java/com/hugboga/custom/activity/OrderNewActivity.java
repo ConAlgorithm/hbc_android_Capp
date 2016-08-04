@@ -763,6 +763,7 @@ public class OrderNewActivity extends BaseActivity {
 
     //包车界面
     private void genDairy() {
+        upAddressLeft.setText("上车地点");
         show_day_layout.setVisibility(View.VISIBLE);
         if (isHalfTravel) {
             citysLineTitle.setText(startBean.name + "-0.5天包车");
@@ -1133,7 +1134,7 @@ public class OrderNewActivity extends BaseActivity {
             CommonUtils.showToast("联系人电话不能为空!");
             return;
         }
-        if (type == 3 || type == 5 || type == 6) {
+        if (type == 5 || type == 6) {
             if (TextUtils.isEmpty(upAddressRight.getText())) {
                 CommonUtils.showToast("上车地点不能为空!");
                 return;
