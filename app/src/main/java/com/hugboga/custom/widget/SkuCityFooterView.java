@@ -1,6 +1,7 @@
 package com.hugboga.custom.widget;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.AttributeSet;
 import android.view.Gravity;
@@ -11,12 +12,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.PickSendActivity;
+import com.hugboga.custom.activity.SingleNewActivity;
 import com.hugboga.custom.activity.SkuListActivity;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.SkuCityBean;
-import com.hugboga.custom.fragment.FgPickSend;
-import com.hugboga.custom.fragment.FgSingleNew;
-import com.hugboga.custom.fragment.FgSkuList;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
 
@@ -131,32 +131,31 @@ public class SkuCityFooterView extends LinearLayout implements HbcViewBehavior, 
             activity = (SkuListActivity) getContext();
         }
         CityBean cityBean = activity.getCityBean();
+        Intent intent = null;
         switch (v.getId()) {
             case R.id.sku_city_footer_pickup_tv:
-//                if (cityBean != null) {
-//                    FgPickSend fgPickSend = new FgPickSend();
-//                    Bundle bundle = new Bundle();
-//                    bundle.putSerializable(KEY_CITY_BEAN, cityBean);
-//                    bundle.putSerializable("cityBean", cityBean);
-//                    bundle.putString("source", cityBean.name);
-//                    fgPickSend.setArguments(bundle);
-//                    fragment.startFragment(fgPickSend, bundle);
-//                } else {
-//                    fragment.startFragment(new FgPickSend());
-//                }
+                intent = new Intent(getContext(), PickSendActivity.class);
+                if (cityBean != null) {
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(KEY_CITY_BEAN, cityBean);
+                    bundle.putSerializable("cityBean", cityBean);
+                    bundle.putString("source", cityBean.name);
+                    intent.putExtras(bundle);
+                }
+                getContext().startActivity(intent);
                 break;
             case R.id.sku_city_footer_single_tv:
-//                if (cityBean != null) {
-//                    FgSingleNew fgSingleNew = new FgSingleNew();
-//                    Bundle bundle = new Bundle();
-//                    bundle.putSerializable(KEY_CITY_BEAN, cityBean);
-//                    bundle.putSerializable("cityBean", cityBean);
-//                    bundle.putString("source", cityBean.name);
-//                    fgSingleNew.setArguments(bundle);
-//                    fragment.startFragment(fgSingleNew);
-//                } else {
-//                    fragment.startFragment(new FgSingleNew());
-//                }
+                intent = new Intent(getContext(),SingleNewActivity.class);
+                if (cityBean != null) {
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(KEY_CITY_BEAN, cityBean);
+                    bundle.putSerializable("cityBean", cityBean);
+                    bundle.putString("source", cityBean.name);
+                    intent.putExtras(bundle);
+                }
+                getContext().startActivity(intent);
+                break;
+            default:
                 break;
         }
     }
