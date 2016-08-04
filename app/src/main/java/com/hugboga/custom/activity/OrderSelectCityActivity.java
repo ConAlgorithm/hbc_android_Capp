@@ -69,7 +69,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.rong.eventbus.EventBus;
+import org.greenrobot.eventbus.EventBus;
 
 import static android.view.View.GONE;
 import static com.huangbaoche.hbcframe.fragment.BaseFragment.KEY_FRAGMENT_NAME;

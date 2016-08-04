@@ -3,6 +3,7 @@ package com.hugboga.custom.activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v4.app.ActivityCompat;
@@ -17,11 +18,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.data.bean.AreaCodeBean;
 import com.hugboga.custom.data.bean.ContactUsersBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
-import com.hugboga.custom.fragment.FgChooseCountry;
 import com.hugboga.custom.utils.CommonUtils;
+import com.hugboga.custom.utils.PhoneInfo;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -30,10 +32,10 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static com.huangbaoche.hbcframe.fragment.BaseFragment.KEY_FRAGMENT_NAME;
 import static com.hugboga.custom.R.id.add_other_phone_click;
 import static com.hugboga.custom.R.id.passenger_phone_text;
 import static com.hugboga.custom.R.id.user_phone_text;
+import static com.hugboga.custom.data.event.EventType.CONTACT;
 
 /**
  * Created on 16/8/4.
@@ -190,6 +192,44 @@ public class ChooseOtherActivity extends BaseActivity {
         });
     }
 
+    // 接收通讯录的选择号码事件
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (data == null) {
+                return;
+            }
+            if (PICK_CONTACTS == requestCode) {
+                Uri result = data.getData();
+                String[] contact = PhoneInfo.getPhoneContacts(this, result);
+//                org.greenrobot.eventbus.EventBus.getDefault().post(new EventAction(CONTACT, contact));
+
+                        switch (clickViewId) {
+                            case R.id.name_right:
+                                nameText.setText(contact[0]);
+                                String userPhone = contact[1];
+                                userPhoneText.setText(""+userPhone.replace("+86",""));
+                                break;
+                            case R.id.name1_right:
+                                String user1Phone = contact[1];
+                                name1Text.setText(contact[0]);
+                                user1PhoneText.setText(""+user1Phone.replace("+86",""));
+                                break;
+                            case R.id.name2_right:
+                                String user2Phone = contact[1];
+                                name2Text.setText(contact[0]);
+                                user2PhoneText.setText(""+user2Phone.replace("+86",""));
+                                break;
+                            case R.id.passenger_right:
+                                String passPhone = contact[1];
+                                passengerText.setText(contact[0]);
+                                passengerPhoneText.setText(""+passPhone.replace("+86",""));
+                                break;
+                        }
+
+            }
+        }
+    }
 
     protected void initView() {
         getPermission();
@@ -270,26 +310,15 @@ public class ChooseOtherActivity extends BaseActivity {
         super.onCreate(arg0);
         setContentView(R.layout.add_user_layout);
         ButterKnife.bind(this);
+        EventBus.getDefault().register(this);
         initView();
         initHeader();
-    }
-
-    public void onFragmentResult(Bundle bundle) {
-        String fragmentName = bundle.getString(KEY_FRAGMENT_NAME);
-        if (FgChooseCountry.class.getSimpleName().equals(fragmentName)) {
-            int viewId = bundle.getInt("airportCode");
-            TextView codeTv = (TextView)findViewById(viewId);
-            if (codeTv != null) {
-                String areaCode = bundle.getString(FgChooseCountry.KEY_COUNTRY_CODE);
-                codeTv.setText("+" + areaCode);
-            }
-        }
     }
 
     private  int clickViewId = -1;//点击的通讯录view id
     @Subscribe
     public void onEventMainThread(EventAction action) {
-        if(action.getType() == EventType.CONTACT){
+        if(action.getType() == CONTACT){
             String[] contact = (String[])action.getData();
             switch (action.getType()) {
                 case CONTACT:
@@ -319,6 +348,9 @@ public class ChooseOtherActivity extends BaseActivity {
                 default:
                     break;
             }
+        }else if(action.getType() == EventType.CHOOSE_COUNTRY_BACK){
+            AreaCodeBean areaCodeBean = (AreaCodeBean)action.getData();
+            ((TextView)findViewById(areaCodeBean.viewId)).setText("+" + areaCodeBean.getCode());
         }
     }
 
@@ -361,10 +393,21 @@ public class ChooseOtherActivity extends BaseActivity {
             case R.id.user1_phone_text_code_click:
             case R.id.user2_phone_text_code_click:
             case R.id.passenger_phone_text_code_click:
-                FgChooseCountry chooseCountry = new FgChooseCountry();
+//                FgChooseCountry chooseCountry = new FgChooseCountry();
+//                Bundle bundleCode = new Bundle();
+//                bundleCode.putInt("airportCode", view.getId());
+//                startFragment(chooseCountry, bundleCode);
+
+
                 Bundle bundleCode = new Bundle();
-                bundleCode.putInt("airportCode", view.getId());
-                startFragment(chooseCountry, bundleCode);
+                bundleCode.putInt("viewId", view.getId());
+//                startFragment(chooseCountry, bundleCode);
+
+                intent = new Intent(activity,ChooseCountryActivity.class);
+                intent.putExtras(bundleCode);
+                startActivity(intent);
+
+
                 break;
         }
     }

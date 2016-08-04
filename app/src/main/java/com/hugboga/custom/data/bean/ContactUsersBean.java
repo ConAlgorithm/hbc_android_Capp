@@ -7,7 +7,7 @@ import android.os.Parcelable;
  * Created on 16/5/27.
  */
 
-public class ContactUsersBean implements Parcelable {
+public class ContactUsersBean implements Parcelable ,IBaseBean{
 
     public String userName;
     public String userPhone;

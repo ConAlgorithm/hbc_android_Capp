@@ -58,6 +58,7 @@ public class ChooseCountryActivity extends BaseActivity {
 //    @ViewInject(R.id.head_btn_left)
 //    ImageView head_btn_leftl;
 
+    int viewId = 0;
 
     private SortCountryAdapter adapter;
     private List<AreaCodeBean> sourceDateList;
@@ -80,6 +81,7 @@ public class ChooseCountryActivity extends BaseActivity {
     public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         setContentView(R.layout.activity_choose_country);
+        viewId = this.getIntent().getIntExtra("viewId",0);
         ButterKnife.bind(this);
         initViews();
         initHeader();
@@ -159,7 +161,7 @@ public class ChooseCountryActivity extends BaseActivity {
 //                bundle.putString(KEY_COUNTRY_CODE, areaCodeBean.getCode());
 //                bundle.putString(KEY_COUNTRY_NAME, areaCodeBean.getName());
 //                finishForResult(bundle);
-
+                areaCodeBean.viewId = viewId;
                 finish();
                 EventBus.getDefault().post(new EventAction(EventType.CHOOSE_COUNTRY_BACK,areaCodeBean));
             }
