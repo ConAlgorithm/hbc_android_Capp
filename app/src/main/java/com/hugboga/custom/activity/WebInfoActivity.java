@@ -198,9 +198,13 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
 
     @Override
     public void onDestroy() {
-        webView.destroy();
         super.onDestroy();
-        ButterKnife.unbind(this);
+        try {
+            webView.destroy();
+            ButterKnife.unbind(this);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     public void initHeader() {

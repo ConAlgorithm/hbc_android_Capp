@@ -1,6 +1,5 @@
 package com.hugboga.custom.activity;
 
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -24,7 +23,8 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.ChooseCityAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityBean;
-import com.hugboga.custom.fragment.FgSkuList;
+import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DBHelper;
 import com.hugboga.custom.utils.DatabaseManager;
@@ -37,11 +37,9 @@ import com.hugboga.custom.widget.SideBar;
 import com.zhy.m.permission.MPermissions;
 
 import org.xutils.DbManager;
-import org.xutils.common.Callback;
 import org.xutils.db.Selector;
 import org.xutils.db.sqlite.WhereBuilder;
 import org.xutils.ex.DbException;
-import org.xutils.view.annotation.Event;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +47,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.rong.eventbus.EventBus;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
 /**
@@ -100,7 +99,7 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
     private ArrayList<Integer> exceptCityId = new ArrayList<>();
     private SharedPre sharedPer;
     private DbManager mDbManager;
-    public String from;
+    public String from = "startAddress";
     public volatile int cityId = -1;
     public int showType = ShowType.PICK_UP;
     private DialogUtil mDialogUtil;
@@ -352,6 +351,7 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
 //                Bundle bundle = new Bundle(getArguments());
 //                bundle.putSerializable(KEY_CITY_LIST, chooseCityList);
 //                finishForResult(bundle);
+
                 break;
             case R.id.head_search_clean:
                 if(TextUtils.isEmpty(editSearch.getText().toString().trim())){
@@ -414,7 +414,13 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
         } else {//包车城市搜索
             saveHistoryDate(cityBean);
             bundle.putSerializable(KEY_CITY, cityBean);
-//            finishForResult(bundle);FIXME qingcha
+
+            finish();
+            if(null != from  && from.equalsIgnoreCase("lastCity")){
+                EventBus.getDefault().post(new EventAction(EventType.CHOOSE_END_CITY_BACK, cityBean));
+            }else {
+                EventBus.getDefault().post(new EventAction(EventType.CHOOSE_START_CITY_BACK, cityBean));
+            }
         }
     }
 

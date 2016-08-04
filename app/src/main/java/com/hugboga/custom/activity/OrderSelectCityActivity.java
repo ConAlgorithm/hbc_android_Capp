@@ -44,8 +44,7 @@ import com.hugboga.custom.data.request.RequestCollectGuidesFilter;
 import com.hugboga.custom.data.request.RequestGetCarInfo;
 import com.hugboga.custom.data.request.RequestGuideConflict;
 import com.hugboga.custom.fragment.BaseFragment;
-import com.hugboga.custom.fragment.FGOrderNew;
-import com.hugboga.custom.fragment.FGSelectCar;
+import com.hugboga.custom.fragment.FgChooseCity;
 import com.hugboga.custom.fragment.FgCollectGuideList;
 import com.hugboga.custom.fragment.FgLogin;
 import com.hugboga.custom.utils.AlertDialogUtils;
@@ -61,9 +60,6 @@ import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
 import org.greenrobot.eventbus.Subscribe;
-import org.xutils.view.annotation.ContentView;
-import org.xutils.view.annotation.Event;
-import org.xutils.view.annotation.ViewInject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -79,7 +75,6 @@ import static android.view.View.GONE;
 import static com.huangbaoche.hbcframe.fragment.BaseFragment.KEY_FRAGMENT_NAME;
 import static com.hugboga.custom.R.id.baggage_text_click;
 import static com.hugboga.custom.R.id.people_text_click;
-import static com.hugboga.custom.R.id.start;
 import static com.hugboga.custom.R.id.start_city_click;
 
 
@@ -568,15 +563,13 @@ public class OrderSelectCityActivity extends BaseActivity  {
         scope_layout_other.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Bundle bundle = new Bundle();
-//                bundle.putString("source", "首页");
-//                bundle.putInt(BaseFragment.KEY_BUSINESS_TYPE, Constants.BUSINESS_TYPE_DAILY);
-//                bundle.putInt(ChooseCityActivity.KEY_CITY_ID, preCityBean.cityId);
-//                startFragment(new FgChooseCity(), bundle);
+                Bundle bundle = new Bundle();
                 Intent intent = new Intent(OrderSelectCityActivity.this, ChooseCityActivity.class);
                 intent.putExtra("source", "首页");
                 intent.putExtra(BaseFragment.KEY_BUSINESS_TYPE, Constants.BUSINESS_TYPE_DAILY);
                 intent.putExtra(ChooseCityActivity.KEY_CITY_ID, preCityBean.cityId);
+                intent.putExtra(KEY_FROM,"lastCity");
+                intent.putExtras(bundle);
                 startActivity(intent);
                 hideSelectPeoplePop();
             }
@@ -859,7 +852,7 @@ public class OrderSelectCityActivity extends BaseActivity  {
                 carBean = requestGetCarInfo.getData();
 
                 if (null != carBean && null != carBean.cars && carBean.cars.size() != 0) {
-                    FGOrderNew fgOrderNew = new FGOrderNew();
+//                    FGOrderNew fgOrderNew = new FGOrderNew();
                     Bundle bundle = new Bundle();
                     bundle.putString("guideCollectId", guideCollectId);
                     bundle.putSerializable("collectGuideBean", collectGuideBean);
@@ -891,7 +884,12 @@ public class OrderSelectCityActivity extends BaseActivity  {
                     bundle.putBoolean("isHalfTravel", isHalfTravel);
                     bundle.putInt("type", 3);
                     bundle.putString("orderType", "3");
-                    fgOrderNew.setArguments(bundle);
+//                    fgOrderNew.setArguments(bundle);
+
+
+                    Intent intent = new Intent(activity,OrderNewActivity.class);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
 //                    startFragment(fgOrderNew);
                 } else {
                     CommonUtils.showToast(R.string.no_price_error);
@@ -1145,9 +1143,14 @@ public class OrderSelectCityActivity extends BaseActivity  {
                         bundleCar.putSerializable("passCityList", passBeanList);
                         bundleCar.putString("orderType", "3");
 
-                        FGSelectCar fgSelectCar = new FGSelectCar();
-                        fgSelectCar.setArguments(bundleCar);
-                        startFragment(fgSelectCar);
+
+                        Intent intent = new Intent(activity,SelectCarActivity.class);
+                        intent.putExtras(bundleCar);
+                        startActivity(intent);
+
+//                        FGSelectCar fgSelectCar = new FGSelectCar();
+//                        fgSelectCar.setArguments(bundleCar);
+//                        startFragment(fgSelectCar);
                     }
 
                  }
@@ -1307,9 +1310,39 @@ public class OrderSelectCityActivity extends BaseActivity  {
 
     ChooseDateBean chooseDateBean;
 
-//    @Subscribe
+    @Subscribe
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
+            case CHOOSE_START_CITY_BACK:
+                startBean = (CityBean)action.getData();
+                preCityBean = startBean;
+                passBeanList.clear();
+                endBean = startBean;
+                if (!startCity.equalsIgnoreCase(startBean.name)) {
+                    startCity = startBean.name;
+                    endCityId = startBean.cityId + "";
+                    startCityClick.setText(startCity);
+                    startCityClick.setTextColor(Color.parseColor("#000000"));
+                    initScopeLayoutValue(true);
+                    addDayView(true);
+                }
+
+                List<CityBean> list = CityUtils.requestDataByKeyword(activity,
+                        preCityBean.groupId, preCityBean.cityId, "", true);
+
+                if (null == list || list.size() == 0) {
+                    showOtherLayout = false;
+                } else {
+                    showOtherLayout = true;
+                }
+
+
+                hotCitys = CityUtils.requestHotDate(activity, startBean.groupId);
+                break;
+            case CHOOSE_END_CITY_BACK:
+                endBean = (CityBean)action.getData();
+                setDayText(3, endBean);
+                break;
             case CHOOSE_GUIDE:
                 collectGuideBean = (CollectGuideBean) action.getData();
                 if (null != collectGuideBean) {

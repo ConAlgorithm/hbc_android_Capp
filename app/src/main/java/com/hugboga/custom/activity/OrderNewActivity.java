@@ -21,6 +21,7 @@ import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.AirPort;
+import com.hugboga.custom.data.bean.AreaCodeBean;
 import com.hugboga.custom.data.bean.CarBean;
 import com.hugboga.custom.data.bean.CarListBean;
 import com.hugboga.custom.data.bean.CityBean;
@@ -86,6 +87,7 @@ import butterknife.OnClick;
 import static android.view.View.GONE;
 import static com.huangbaoche.hbcframe.fragment.BaseFragment.KEY_FRAGMENT_NAME;
 import static com.hugboga.custom.R.id.man_name;
+import static com.hugboga.custom.R.id.start;
 import static com.hugboga.custom.R.id.up_address_right;
 import static com.hugboga.custom.R.id.up_right;
 import static com.tencent.bugly.crashreport.inner.InnerAPI.context;
@@ -1057,6 +1059,9 @@ public class OrderNewActivity extends BaseActivity {
         }
     }
 
+
+
+
     /**
      * 时间选择器
      */
@@ -1221,6 +1226,20 @@ public class OrderNewActivity extends BaseActivity {
             }
             mostFitBean = null;
 
+        }else if(action.getType() == EventType.CHOOSE_POI_BACK){
+
+                poiBean = (PoiBean) action.getData();
+                upAddressRight.setText(poiBean.placeName + "\n" + poiBean.placeDetail);
+
+        }else if(action.getType() == EventType.CHOOSE_COUNTRY_BACK){
+            AreaCodeBean areaCodeBean = (AreaCodeBean)action.getData();
+            int viewId = Integer.valueOf(areaCodeBean.getCode());
+            TextView codeTv = (TextView) findViewById(viewId);
+
+            if (codeTv != null) {
+                String areaCode = areaCodeBean.getCode();
+                codeTv.setText("+" + areaCode);
+            }
         }
     }
 
@@ -1360,10 +1379,15 @@ public class OrderNewActivity extends BaseActivity {
             Bundle bundle = new Bundle();
             bundle.putInt(FgPoiSearch.KEY_CITY_ID, cityId);
             bundle.putString(FgPoiSearch.KEY_LOCATION, location);
-            startFragment(fg, bundle);
+//            startFragment(fg, bundle);
+
+            Intent intent = new Intent(activity,PoiSearchActivity.class);
+            intent.putExtras(bundle);
+            startActivity(intent);
         }
     }
 
+    Intent intent;
     @OnClick({R.id.all_money_submit_click, R.id.other_phone_layout, R.id.other_phone_name, R.id.for_other_man, man_name, R.id.man_phone, R.id.man_phone_layout, up_right, up_address_right, R.id.hotel_phone_text_code_click, R.id.hotel_phone_text})
     public void onClick(View view) {
         switch (view.getId()) {
@@ -1372,11 +1396,14 @@ public class OrderNewActivity extends BaseActivity {
             case R.id.other_phone_layout:
             case R.id.man_name:
             case R.id.man_phone:
-                FgChooseOther fgChooseOther = new FgChooseOther();
+//                FgChooseOther fgChooseOther = new FgChooseOther();
                 Bundle bundle = new Bundle();
                 bundle.putParcelable("contactUsersBean", contactUsersBean);
-                fgChooseOther.setArguments(bundle);
-                startFragment(fgChooseOther);
+//                fgChooseOther.setArguments(bundle);
+//                startFragment(fgChooseOther);
+                intent = new Intent(activity,ChooseCityActivity.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
                 break;
             case up_right:
                 showTimeSelect();
@@ -1385,10 +1412,14 @@ public class OrderNewActivity extends BaseActivity {
                 startArrivalSearch(Integer.valueOf((null == startCityId) ? poiBean.id + "" : startCityId), (null == startBean) ? poiBean.location : startBean.location);
                 break;
             case R.id.hotel_phone_text_code_click:
-                FgChooseCountry chooseCountry = new FgChooseCountry();
+//                FgChooseCountry chooseCountry = new FgChooseCountry();
                 Bundle bundleCode = new Bundle();
                 bundleCode.putInt("airportCode", view.getId());
-                startFragment(chooseCountry, bundleCode);
+//                startFragment(chooseCountry, bundleCode);
+
+                intent = new Intent(activity,ChooseCityActivity.class);
+                intent.putExtras(bundleCode);
+                startActivity(intent);
                 break;
             case R.id.all_money_submit_click:
                 checkData();
