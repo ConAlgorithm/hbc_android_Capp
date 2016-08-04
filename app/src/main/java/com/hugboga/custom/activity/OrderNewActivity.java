@@ -869,9 +869,11 @@ public class OrderNewActivity extends BaseActivity {
                         @Override
                         public void onClick(View v) {
                             if (0 == money) {
-                                startFragment(new FgInviteFriends());
+                                startActivity(new Intent(activity,InviteFriendsActivity.class));
+//                                startFragment(new FgInviteFriends());
                             } else {
-                                startFragment(new FgTravelFund());
+                                startActivity(new Intent(activity,TravelFundActivity.class));
+//                                startFragment(new FgTravelFund());
                             }
                         }
                     });

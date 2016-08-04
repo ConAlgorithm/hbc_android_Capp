@@ -115,6 +115,12 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
 
     private void initView() {
         headerTitle.setText("优惠券");
+        headerLeftBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         listView.setEmptyView(emptyLayout);
         listView.setOnItemClickListener(this);
         listView.setonRefreshListener(onRefreshListener);
