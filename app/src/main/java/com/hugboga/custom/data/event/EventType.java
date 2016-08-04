@@ -72,6 +72,8 @@ public enum EventType {
 
     CAR_CHANGE_SMALL,//车型小于人数
     MAX_LUGGAGE_NUM,//计算出的最大行李数
+    CHOOSE_START_CITY_BACK,//选开始城市返回
+    CHOOSE_END_CITY_BACK,//选结束城市返回
 
 
 }

@@ -565,11 +565,18 @@ public class OrderSelectCityActivity extends BaseActivity  {
         scope_layout_other.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Bundle bundle = new Bundle();
-//                bundle.putString("source", "首页");
-//                bundle.putInt(BaseFragment.KEY_BUSINESS_TYPE, Constants.BUSINESS_TYPE_DAILY);
-//                bundle.putInt(FgChooseCity.KEY_CITY_ID, preCityBean.cityId);
+                Bundle bundle = new Bundle();
+                bundle.putString("source", "首页");
+                bundle.putInt(BaseFragment.KEY_BUSINESS_TYPE, Constants.BUSINESS_TYPE_DAILY);
+                bundle.putInt(FgChooseCity.KEY_CITY_ID, preCityBean.cityId);
 //                startFragment(new FgChooseCity(), bundle);
+
+                bundle.putString(KEY_FROM, "lastCity");
+                Intent intent = new Intent(activity,ChooseCityActivity.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
+
+
                 hideSelectPeoplePop();
             }
         });
@@ -847,7 +854,7 @@ public class OrderSelectCityActivity extends BaseActivity  {
                 carBean = requestGetCarInfo.getData();
 
                 if (null != carBean && null != carBean.cars && carBean.cars.size() != 0) {
-                    FGOrderNew fgOrderNew = new FGOrderNew();
+//                    FGOrderNew fgOrderNew = new FGOrderNew();
                     Bundle bundle = new Bundle();
                     bundle.putString("guideCollectId", guideCollectId);
                     bundle.putSerializable("collectGuideBean", collectGuideBean);
@@ -879,7 +886,12 @@ public class OrderSelectCityActivity extends BaseActivity  {
                     bundle.putBoolean("isHalfTravel", isHalfTravel);
                     bundle.putInt("type", 3);
                     bundle.putString("orderType", "3");
-                    fgOrderNew.setArguments(bundle);
+//                    fgOrderNew.setArguments(bundle);
+
+
+                    Intent intent = new Intent(activity,OrderNewActivity.class);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
 //                    startFragment(fgOrderNew);
                 } else {
                     CommonUtils.showToast(R.string.no_price_error);
@@ -1133,9 +1145,14 @@ public class OrderSelectCityActivity extends BaseActivity  {
                         bundleCar.putSerializable("passCityList", passBeanList);
                         bundleCar.putString("orderType", "3");
 
-                        FGSelectCar fgSelectCar = new FGSelectCar();
-                        fgSelectCar.setArguments(bundleCar);
-                        startFragment(fgSelectCar);
+
+                        Intent intent = new Intent(activity,SelectCarActivity.class);
+                        intent.putExtras(bundleCar);
+                        startActivity(intent);
+
+//                        FGSelectCar fgSelectCar = new FGSelectCar();
+//                        fgSelectCar.setArguments(bundleCar);
+//                        startFragment(fgSelectCar);
                     }
 
                  }
@@ -1295,9 +1312,39 @@ public class OrderSelectCityActivity extends BaseActivity  {
 
     ChooseDateBean chooseDateBean;
 
-//    @Subscribe
+    @Subscribe
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
+            case CHOOSE_START_CITY_BACK:
+                startBean = (CityBean)action.getData();
+                preCityBean = startBean;
+                passBeanList.clear();
+                endBean = startBean;
+                if (!startCity.equalsIgnoreCase(startBean.name)) {
+                    startCity = startBean.name;
+                    endCityId = startBean.cityId + "";
+                    startCityClick.setText(startCity);
+                    startCityClick.setTextColor(Color.parseColor("#000000"));
+                    initScopeLayoutValue(true);
+                    addDayView(true);
+                }
+
+                List<CityBean> list = CityUtils.requestDataByKeyword(activity,
+                        preCityBean.groupId, preCityBean.cityId, "", true);
+
+                if (null == list || list.size() == 0) {
+                    showOtherLayout = false;
+                } else {
+                    showOtherLayout = true;
+                }
+
+
+                hotCitys = CityUtils.requestHotDate(activity, startBean.groupId);
+                break;
+            case CHOOSE_END_CITY_BACK:
+                endBean = (CityBean)action.getData();
+                setDayText(3, endBean);
+                break;
             case CHOOSE_GUIDE:
                 collectGuideBean = (CollectGuideBean) action.getData();
                 if (null != collectGuideBean) {

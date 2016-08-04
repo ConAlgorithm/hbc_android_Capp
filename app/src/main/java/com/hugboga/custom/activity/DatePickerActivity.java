@@ -18,8 +18,6 @@ import com.hugboga.custom.utils.AnimationUtils;
 import com.hugboga.custom.utils.DateUtils;
 import com.squareup.timessquare.CalendarPickerView;
 
-import org.greenrobot.eventbus.EventBus;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -27,7 +25,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
+import io.rong.eventbus.EventBus;
 
 import static android.view.View.GONE;
 
@@ -103,7 +101,6 @@ public class DatePickerActivity extends BaseActivity {
             }
             calendar.init(lastYear.getTime(), nextYear.getTime()).inMode(model);
         }
-//                .withSelectedDate(new Date());
 
         calendar.setOnDateSelectedListener(new CalendarPickerView.OnDateSelectedListener() {
             @Override
@@ -111,7 +108,6 @@ public class DatePickerActivity extends BaseActivity {
                 ChooseDateBean chooseDateBean = new ChooseDateBean();
                 if (calender_type == 1) {
                     showTips.setVisibility(GONE);
-                    finishDelay();
                     chooseDateBean.halfDateStr = DateUtils.dateDateFormat.format(date);
                     chooseDateBean.halfDate = date;
                     chooseDateBean.showHalfDateStr = DateUtils.dateSimpleDateFormatMMdd.format(date);
@@ -126,8 +122,7 @@ public class DatePickerActivity extends BaseActivity {
                         chooseDateBean.showEndDateStr = mChooseDateBean.showEndDateStr;
                         chooseDateBean.dayNums = mChooseDateBean.dayNums;
                     }
-                    EventBus.getDefault().post(new EventAction(EventType.CHOOSE_DATE, chooseDateBean));
-//                    disPlayOnly();
+                    finishDelay(chooseDateBean);
                 } else {
                     if (clickTimes == 1) {
                         if (calendar.getSelectedDate().before(selectedDate)) {
@@ -137,7 +132,7 @@ public class DatePickerActivity extends BaseActivity {
                             AnimationUtils.showAnimation(showTips,200,null);
                         } else {
                             showTips.setVisibility(GONE);
-                            finishDelay();
+
                             List<Date> dates = calendar.getSelectedDates();
                             chooseDateBean.type = calender_type;
                             chooseDateBean.showStartDateStr = DateUtils.dateSimpleDateFormatMMdd.format(dates.get(0));
@@ -153,8 +148,7 @@ public class DatePickerActivity extends BaseActivity {
                                 chooseDateBean.halfDate = mChooseDateBean.halfDate;
                                 chooseDateBean.halfDateStr = mChooseDateBean.halfDateStr;
                             }
-                            EventBus.getDefault().post(new EventAction(EventType.CHOOSE_DATE, chooseDateBean));
-//                            disPlayOnly();
+                            finishDelay(chooseDateBean);
                         }
                     } else {
                         clickTimes += 1;
@@ -175,28 +169,16 @@ public class DatePickerActivity extends BaseActivity {
     }
 
 
-    private void disPlayOnly() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                calendar.init(lastYear.getTime(), nextYear.getTime())
-                        .inMode(CalendarPickerView.SelectionMode.SINGLE)
-                        .displayOnly();
-            }
-        }, 100);
-
-    }
-
-    private void finishDelay() {
+    public void finishDelay(final ChooseDateBean chooseDateBean) {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 finish();
+                EventBus.getDefault().post(new EventAction(EventType.CHOOSE_DATE, chooseDateBean));
             }
         }, 100);
     }
 
-    ;
 
     private void initWeek() {
         String[] weekStr = new String[]{"日", "一", "二", "三", "四", "五", "六"};
@@ -229,7 +211,5 @@ public class DatePickerActivity extends BaseActivity {
         super.onConfigurationChanged(newConfig);
     }
 
-    @OnClick(R.id.header_left_btn)
-    public void onClick() {
-    }
+
 }
