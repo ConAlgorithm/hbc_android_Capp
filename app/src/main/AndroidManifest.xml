@@ -172,6 +172,18 @@
             android:name=".activity.OrderInfoActivity"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".activity.PoiSearchActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.ChooseOtherActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.ChooseCountryActivity"
+            android:screenOrientation="portrait" />
+
         <service
             android:name=".service.LogService"
             android:process="com.hugboga.custom.hbclog" />
