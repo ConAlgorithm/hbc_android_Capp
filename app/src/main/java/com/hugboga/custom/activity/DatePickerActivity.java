@@ -18,6 +18,8 @@ import com.hugboga.custom.utils.AnimationUtils;
 import com.hugboga.custom.utils.DateUtils;
 import com.squareup.timessquare.CalendarPickerView;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -25,7 +27,6 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import io.rong.eventbus.EventBus;
 
 import static android.view.View.GONE;
 

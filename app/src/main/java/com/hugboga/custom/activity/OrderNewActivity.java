@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -22,7 +21,6 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.AirPort;
 import com.hugboga.custom.data.bean.AreaCodeBean;
-import com.hugboga.custom.data.bean.CarBean;
 import com.hugboga.custom.data.bean.CarListBean;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.CollectGuideBean;
@@ -52,9 +50,7 @@ import com.hugboga.custom.data.request.RequestSubmitLine;
 import com.hugboga.custom.data.request.RequestSubmitPick;
 import com.hugboga.custom.data.request.RequestSubmitRent;
 import com.hugboga.custom.data.request.RequestSubmitSend;
-import com.hugboga.custom.fragment.FGOrderNew;
 import com.hugboga.custom.fragment.FgChooseCountry;
-import com.hugboga.custom.fragment.FgChooseOther;
 import com.hugboga.custom.fragment.FgChoosePayment;
 import com.hugboga.custom.fragment.FgCoupon;
 import com.hugboga.custom.fragment.FgInviteFriends;
@@ -71,9 +67,7 @@ import com.umeng.analytics.MobclickAgent;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-import org.xutils.common.Callback;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -83,13 +77,15 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import org.greenrobot.eventbus.EventBus;
 
+import static android.R.attr.fragment;
 import static android.view.View.GONE;
 import static com.huangbaoche.hbcframe.fragment.BaseFragment.KEY_FRAGMENT_NAME;
 import static com.hugboga.custom.R.id.man_name;
-import static com.hugboga.custom.R.id.start;
 import static com.hugboga.custom.R.id.up_address_right;
 import static com.hugboga.custom.R.id.up_right;
+import static com.hugboga.custom.data.event.EventType.COUPON_BACK;
 import static com.tencent.bugly.crashreport.inner.InnerAPI.context;
 
 /**
@@ -981,7 +977,7 @@ public class OrderNewActivity extends BaseActivity {
                 couponRight.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        FgCoupon fgCoupon = new FgCoupon();
+//                        FgCoupon fgCoupon = new FgCoupon();
                         Bundle bundle = new Bundle();
                         MostFitAvailableBean mostFitAvailableBean = new MostFitAvailableBean();
 
@@ -1011,8 +1007,11 @@ public class OrderNewActivity extends BaseActivity {
                         } else {
                             bundle.putString("idStr", "");
                         }
-                        fgCoupon.setArguments(bundle);
-                        startFragment(fgCoupon);
+//                        fgCoupon.setArguments(bundle);
+//                        startFragment(fgCoupon);
+                        Intent intent = new Intent(activity,CouponActivity.class);
+                        intent.putExtras(bundle);
+                        startActivity(intent);
                     }
                 });
             }
@@ -1092,7 +1091,7 @@ public class OrderNewActivity extends BaseActivity {
         if (request instanceof RequestSubmitBase) {
 //            bringToFront(FgTravel.class, new Bundle());
             OrderInfoBean orderInfoBean = ((RequestSubmitBase) request).getData();
-            FgChoosePayment.RequestParams requestParams = new FgChoosePayment.RequestParams();
+            ChoosePaymentActivity.RequestParams requestParams = new ChoosePaymentActivity.RequestParams();
             requestParams.orderId = orderInfoBean.getOrderno();
             if (couponLeft.isChecked()) {
                 if (null == couponBean && null != mostFitBean) {
@@ -1105,7 +1104,11 @@ public class OrderNewActivity extends BaseActivity {
             requestParams.shouldPay = orderInfoBean.getPriceActual();
             requestParams.source = source;
             requestParams.needShowAlert = true;
-            startFragment(FgChoosePayment.newInstance(requestParams));
+
+            Intent intent = new Intent(activity,ChoosePaymentActivity.class);
+            intent.putExtra(Constants.PARAMS_DATA, requestParams);
+            startActivity(intent);
+
         }
 
     }

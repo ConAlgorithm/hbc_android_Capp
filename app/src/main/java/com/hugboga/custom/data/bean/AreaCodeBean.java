@@ -18,6 +18,8 @@ public class AreaCodeBean implements Serializable {
     @Column(name = "area_code")
     private String code; //显示的区号
 
+    public int viewId;
+
 
     private boolean isFirst = false; //是否是第一个
 

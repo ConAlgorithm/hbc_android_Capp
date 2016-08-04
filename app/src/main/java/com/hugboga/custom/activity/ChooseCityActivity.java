@@ -36,6 +36,7 @@ import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.SideBar;
 import com.zhy.m.permission.MPermissions;
 
+import org.greenrobot.eventbus.EventBus;
 import org.xutils.DbManager;
 import org.xutils.db.Selector;
 import org.xutils.db.sqlite.WhereBuilder;
@@ -47,7 +48,6 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.rong.eventbus.EventBus;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
 /**
