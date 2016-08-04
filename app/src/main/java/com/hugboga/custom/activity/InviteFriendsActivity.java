@@ -1,6 +1,7 @@
 package com.hugboga.custom.activity;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.ClipboardManager;
 import android.text.SpannableString;
@@ -11,6 +12,7 @@ import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -41,37 +43,51 @@ import butterknife.ButterKnife;
 
 public class InviteFriendsActivity extends BaseActivity implements View.OnClickListener {
 
-        @Bind(R.id.invite_listview)
-        ZListView listView;
-        private TextView headerCodeTV, headerSucceedTV;
-        private LinearLayout footerItemsLayout;
+    @Bind(R.id.invite_listview)
+    ZListView listView;
+    @Bind(R.id.header_left_btn)
+    ImageView headerLeftBtn;
+    @Bind(R.id.header_right_btn)
+    ImageView headerRightBtn;
+    @Bind(R.id.header_title)
+    TextView headerTitle;
+    @Bind(R.id.header_right_txt)
+    TextView headerRightTxt;
+    private TextView headerCodeTV, headerSucceedTV;
+    private LinearLayout footerItemsLayout;
 
-        private TravelFundAdapter adapter;
+    private TravelFundAdapter adapter;
 
-        protected void initHeader() {
-            fgTitle.setText(getString(R.string.invite_friends_title));
-            listView.setonLoadListener(onLoadListener);
-            LayoutInflater inflater = LayoutInflater.from(activity);
+    protected void initHeader() {
+        headerLeftBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        headerTitle.setText(getString(R.string.invite_friends_title));
+        listView.setonLoadListener(onLoadListener);
+        LayoutInflater inflater = LayoutInflater.from(activity);
 
-            View headerView = inflater.inflate(R.layout.header_invite_friends, null);
-            int headerExplainImgHeight = (int)((655 / 720.0) * UIUtils.getScreenWidth());//顶部图片比例655*720
-            LinearLayout.LayoutParams imgParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, headerExplainImgHeight);
-            headerView.findViewById(R.id.header_invite_friends_explain_iv).setLayoutParams(imgParams);
-            headerCodeTV = (TextView) headerView.findViewById(R.id.header_invite_friends_promotion_code_tv);
-            headerSucceedTV = (TextView) headerView.findViewById(R.id.header_invite_friends_succeed_tv);
-            headerView.findViewById(R.id.header_invite_friends_share_tv).setOnClickListener(this);
-            headerView.findViewById(R.id.header_invite_friends_copy_tv).setOnClickListener(this);
-            listView.addHeaderView(headerView);
+        View headerView = inflater.inflate(R.layout.header_invite_friends, null);
+        int headerExplainImgHeight = (int) ((655 / 720.0) * UIUtils.getScreenWidth());//顶部图片比例655*720
+        LinearLayout.LayoutParams imgParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, headerExplainImgHeight);
+        headerView.findViewById(R.id.header_invite_friends_explain_iv).setLayoutParams(imgParams);
+        headerCodeTV = (TextView) headerView.findViewById(R.id.header_invite_friends_promotion_code_tv);
+        headerSucceedTV = (TextView) headerView.findViewById(R.id.header_invite_friends_succeed_tv);
+        headerView.findViewById(R.id.header_invite_friends_share_tv).setOnClickListener(this);
+        headerView.findViewById(R.id.header_invite_friends_copy_tv).setOnClickListener(this);
+        listView.addHeaderView(headerView);
 
-            View footerView = inflater.inflate(R.layout.footer_invite_friends, null);
-            footerItemsLayout = (LinearLayout) footerView.findViewById(R.id.footer_invite_layout);
-            listView.addFooterView(footerView);
+        View footerView = inflater.inflate(R.layout.footer_invite_friends, null);
+        footerItemsLayout = (LinearLayout) footerView.findViewById(R.id.footer_invite_layout);
+        listView.addFooterView(footerView);
 
-            RequestGetInvitationCode codeRequest = new RequestGetInvitationCode(activity);
-            requestData(codeRequest);
-            RequestInvitationIntroduction introductionRequest = new RequestInvitationIntroduction(activity);
-            requestData(introductionRequest);
-        }
+        RequestGetInvitationCode codeRequest = new RequestGetInvitationCode(activity);
+        requestData(codeRequest);
+        RequestInvitationIntroduction introductionRequest = new RequestInvitationIntroduction(activity);
+        requestData(introductionRequest);
+    }
 
     @Override
     public void onCreate(Bundle arg0) {
@@ -79,6 +95,7 @@ public class InviteFriendsActivity extends BaseActivity implements View.OnClickL
         setContentView(R.layout.fg_invite_friends);
         ButterKnife.bind(this);
         initHeader();
+        requestData();
     }
 
     private Callback.Cancelable runData(int pageIndex) {
@@ -101,7 +118,6 @@ public class InviteFriendsActivity extends BaseActivity implements View.OnClickL
         }
         return runData(0);
     }
-
 
 
     @Override
@@ -179,11 +195,11 @@ public class InviteFriendsActivity extends BaseActivity implements View.OnClickL
 
         sp.setSpan(new RelativeSizeSpan(1.8f), userStart, userEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         sp.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.invite_friends_basic)), userStart, userEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        sp.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), userStart, userEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        sp.setSpan(new StyleSpan(Typeface.BOLD), userStart, userEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         sp.setSpan(new RelativeSizeSpan(1.8f), amountStart, amountEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         sp.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.invite_friends_basic)), amountStart, amountEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        sp.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), amountStart, amountEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        sp.setSpan(new StyleSpan(Typeface.BOLD), amountStart, amountEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         headerSucceedTV.setText(sp);
     }
