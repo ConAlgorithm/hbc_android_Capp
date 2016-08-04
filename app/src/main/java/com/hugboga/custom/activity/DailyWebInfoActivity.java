@@ -28,6 +28,7 @@ import com.huangbaoche.hbcframe.util.MLog;
 import com.huangbaoche.hbcframe.util.WXShareUtils;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.CityBean;
+import com.hugboga.custom.data.bean.CollectGuideBean;
 import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.data.net.WebAgent;
 import com.hugboga.custom.data.request.RequestGoodsById;
@@ -81,11 +82,13 @@ public class DailyWebInfoActivity extends BaseActivity implements View.OnKeyList
     private boolean isPerformClick = false;
 
     private DialogUtil mDialogUtil;
+    CollectGuideBean collectGuideBean;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.cityBean = (CityBean)getIntent().getSerializableExtra("cityBean");
+        this.collectGuideBean = (CollectGuideBean)getIntent().getSerializableExtra("cityBean");
         setContentView(R.layout.fg_sku_detail);
         ButterKnife.bind(this);
         initView();
@@ -320,6 +323,7 @@ public class DailyWebInfoActivity extends BaseActivity implements View.OnKeyList
                     bundle.putSerializable(SkuDetailActivity.WEB_CITY,cityBean);
                 }
                 bundle.putString("source",source);
+//                bundle.putSerializable("collectGuideBean",collectGuideBean);
 //                startFragment(new FgSkuSubmit(), source);
 //                startFragment(new FgSkuNew(), bundle);
 
