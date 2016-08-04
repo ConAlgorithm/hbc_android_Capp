@@ -158,7 +158,9 @@ public class ChooseCityNewActivity extends BaseActivity {
             case R.id.header_left_btn:
                 expandableListView.setVisibility(View.GONE);
                 finish();
-                overridePendingTransition(R.anim.push_buttom_out,0);
+                if(!isHomeIn) {
+                    overridePendingTransition(R.anim.push_buttom_out, 0);
+                }
                 break;
             case R.id.head_search_clean:
                 headSearch.setText("");
