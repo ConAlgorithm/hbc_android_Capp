@@ -125,7 +125,6 @@ public class FgCollectGuideList extends BaseFragment {
         if (list != null) {
             if (adapter == null) {
                 adapter = new CollectGuideAdapter(getActivity());
-                adapter.setFragment(this);
                 if (paramsData != null) {
                     adapter.setShowStatusLayout(false);
                 }

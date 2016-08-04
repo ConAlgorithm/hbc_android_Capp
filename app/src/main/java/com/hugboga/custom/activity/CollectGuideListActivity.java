@@ -47,6 +47,7 @@ public class CollectGuideListActivity extends BaseActivity{
 
         setContentView(R.layout.fg_collect_guide_list);
         ButterKnife.bind(this);
+        initDefaultTitleBar();
 
         fgTitle.setText(getString(R.string.collect_guide_title));
         listView.setEmptyView(emptyLayout);

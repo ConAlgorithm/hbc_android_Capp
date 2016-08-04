@@ -44,8 +44,6 @@ import com.hugboga.custom.data.request.RequestCollectGuidesFilter;
 import com.hugboga.custom.data.request.RequestGetCarInfo;
 import com.hugboga.custom.data.request.RequestGuideConflict;
 import com.hugboga.custom.fragment.BaseFragment;
-import com.hugboga.custom.fragment.FgChooseCity;
-import com.hugboga.custom.fragment.FgCollectGuideList;
 import com.hugboga.custom.fragment.FgLogin;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.CityUtils;
@@ -799,7 +797,7 @@ public class OrderSelectCityActivity extends BaseActivity  {
         if (type == 1) {
 //            FgCollectGuideList fgCollectGuideList = new FgCollectGuideList();
 //            startFragment(fgCollectGuideList);
-            startActivity(new Intent(this, FgCollectGuideList.class));
+            startActivity(new Intent(this, CollectGuideListActivity.class));
         } else {
             if (checkParams()) {
                 if (UserEntity.getUser().isLogin(activity)) {
@@ -824,7 +822,7 @@ public class OrderSelectCityActivity extends BaseActivity  {
                     bundle.putSerializable(Constants.PARAMS_DATA, params);
 //                    fgCollectGuideList.setArguments(bundle);
 //                    startFragment(fgCollectGuideList);
-                    Intent intent = new Intent(this, FgCollectGuideList.class);
+                    Intent intent = new Intent(this, CollectGuideListActivity.class);
                     intent.putExtras(bundle);
                     startActivity(intent);
                 } else {

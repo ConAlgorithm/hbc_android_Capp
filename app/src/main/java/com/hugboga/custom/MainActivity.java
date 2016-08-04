@@ -42,6 +42,7 @@ import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.action.ActionBean;
 import com.hugboga.custom.action.ActionFactory;
 import com.hugboga.custom.activity.BaseActivity;
+import com.hugboga.custom.activity.CollectGuideListActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.adapter.MenuItemAdapter;
 import com.hugboga.custom.constants.Constants;
@@ -57,7 +58,6 @@ import com.hugboga.custom.data.request.RequestPushToken;
 import com.hugboga.custom.data.request.RequestUploadLocation;
 import com.hugboga.custom.data.request.RequestUserInfo;
 import com.hugboga.custom.fragment.FgChat;
-import com.hugboga.custom.fragment.FgCollectGuideList;
 import com.hugboga.custom.fragment.FgCoupon;
 import com.hugboga.custom.fragment.FgHome;
 import com.hugboga.custom.fragment.FgIMChat;
@@ -654,7 +654,7 @@ public class MainActivity extends BaseActivity
             case Constants.PERSONAL_CENTER_COLLECT://收藏司导
                 if (isLogin("个人中心首页")) {
 //                    startFragment(new FgCollectGuideList());
-                    startActivity(new Intent(MainActivity.this, WebInfoActivity.class));
+                    startActivity(new Intent(MainActivity.this, CollectGuideListActivity.class));
                 }
                 break;
             case Constants.PERSONAL_CENTER_HD://活动
