@@ -6,6 +6,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alipay.sdk.app.PayTask;
@@ -31,6 +33,7 @@ import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+
 import java.io.Serializable;
 
 import butterknife.Bind;
@@ -40,12 +43,30 @@ import butterknife.OnClick;
 /**
  * Created by qingcha on 16/8/4.
  */
-public class ChoosePaymentActivity extends BaseActivity{
+public class ChoosePaymentActivity extends BaseActivity {
 
     @Bind(R.id.choose_payment_price_tv)
     TextView priceTV;
 
     public static RequestParams requestParams;
+    @Bind(R.id.header_left_btn)
+    ImageView headerLeftBtn;
+    @Bind(R.id.header_right_btn)
+    ImageView headerRightBtn;
+    @Bind(R.id.header_title)
+    TextView headerTitle;
+    @Bind(R.id.header_right_txt)
+    TextView headerRightTxt;
+    @Bind(R.id.choose_payment_sign_tv)
+    TextView choosePaymentSignTv;
+    @Bind(R.id.choose_payment_alipay_iv)
+    ImageView choosePaymentAlipayIv;
+    @Bind(R.id.choose_payment_alipay_layout)
+    RelativeLayout choosePaymentAlipayLayout;
+    @Bind(R.id.choose_payment_wechat_iv)
+    ImageView choosePaymentWechatIv;
+    @Bind(R.id.choose_payment_wechat_layout)
+    RelativeLayout choosePaymentWechatLayout;
     private DialogUtil mDialogUtil;
     private int wxResultCode = 0;
 
@@ -66,15 +87,15 @@ public class ChoosePaymentActivity extends BaseActivity{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
-            requestParams = (RequestParams)savedInstanceState.getSerializable(Constants.PARAMS_DATA);
+            requestParams = (RequestParams) savedInstanceState.getSerializable(Constants.PARAMS_DATA);
         } else {
             Bundle bundle = getIntent().getExtras();
             if (bundle != null) {
-                requestParams = (RequestParams)bundle.getSerializable(Constants.PARAMS_DATA);
+                requestParams = (RequestParams) bundle.getSerializable(Constants.PARAMS_DATA);
             }
         }
 
-        setContentView(R.layout.fg_order_detail);
+        setContentView(R.layout.fg_choose_payment);
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
 
@@ -101,7 +122,7 @@ public class ChoosePaymentActivity extends BaseActivity{
 //            clearFragment();
             FgOrderDetail.Params orderParams = new FgOrderDetail.Params();
             orderParams.orderId = requestParams.orderId;
-            Bundle detailBundle =new Bundle();
+            Bundle detailBundle = new Bundle();
             detailBundle.putSerializable(Constants.PARAMS_DATA, orderParams);
             startFragment(new FgOrderDetail(), detailBundle);
         }
@@ -120,13 +141,13 @@ public class ChoosePaymentActivity extends BaseActivity{
     }
 
     private void initView() {
-        fgTitle.setText(getString(R.string.choose_payment_title));
+        headerTitle.setText(getString(R.string.choose_payment_title));
         priceTV.setText(requestParams.getShouldPay());
         // 将该app注册到微信
         IWXAPI msgApi = WXAPIFactory.createWXAPI(this, Constants.WX_APP_ID);
         msgApi.registerApp(Constants.WX_APP_ID);
         mDialogUtil = DialogUtil.getInstance(this);
-        fgLeftBtn.setOnClickListener(new View.OnClickListener() {
+        headerLeftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 backWarn();
@@ -147,7 +168,7 @@ public class ChoosePaymentActivity extends BaseActivity{
                 wxResultCode = EventType.BACK_HOME.ordinal();
                 break;
             case ORDER_DETAIL:
-                if (action.getData() instanceof Integer && (int)action.getData() == 1) {
+                if (action.getData() instanceof Integer && (int) action.getData() == 1) {
                     EventBus.getDefault().post(new EventAction(EventType.FGTRAVEL_UPDATE));
                 }
                 wxResultCode = EventType.ORDER_DETAIL.ordinal();
@@ -262,7 +283,7 @@ public class ChoosePaymentActivity extends BaseActivity{
 
     //支付宝回调
     private Handler mAlipayHandler = new Handler() {
-        public void handleMessage(android.os.Message msg) {
+        public void handleMessage(Message msg) {
             switch (msg.what) {
                 case PayResult.SDK_PAY_FLAG: {
                     PayResult payResult = new PayResult((String) msg.obj);

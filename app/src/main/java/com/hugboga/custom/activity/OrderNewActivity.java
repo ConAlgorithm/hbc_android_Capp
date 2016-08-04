@@ -79,6 +79,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import org.greenrobot.eventbus.EventBus;
 
+import static android.R.attr.fragment;
 import static android.view.View.GONE;
 import static com.huangbaoche.hbcframe.fragment.BaseFragment.KEY_FRAGMENT_NAME;
 import static com.hugboga.custom.R.id.man_name;
@@ -1090,7 +1091,7 @@ public class OrderNewActivity extends BaseActivity {
         if (request instanceof RequestSubmitBase) {
 //            bringToFront(FgTravel.class, new Bundle());
             OrderInfoBean orderInfoBean = ((RequestSubmitBase) request).getData();
-            FgChoosePayment.RequestParams requestParams = new FgChoosePayment.RequestParams();
+            ChoosePaymentActivity.RequestParams requestParams = new ChoosePaymentActivity.RequestParams();
             requestParams.orderId = orderInfoBean.getOrderno();
             if (couponLeft.isChecked()) {
                 if (null == couponBean && null != mostFitBean) {
@@ -1103,7 +1104,11 @@ public class OrderNewActivity extends BaseActivity {
             requestParams.shouldPay = orderInfoBean.getPriceActual();
             requestParams.source = source;
             requestParams.needShowAlert = true;
-            startFragment(FgChoosePayment.newInstance(requestParams));
+
+            Intent intent = new Intent(activity,ChoosePaymentActivity.class);
+            intent.putExtra(Constants.PARAMS_DATA, requestParams);
+            startActivity(intent);
+
         }
 
     }
