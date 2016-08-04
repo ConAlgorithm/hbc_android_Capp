@@ -29,6 +29,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import butterknife.ButterKnife;
+
 /**
  * Created on 16/8/4.
  */
@@ -95,6 +97,14 @@ public class PoiSearchActivity extends BaseActivity implements AdapterView.OnIte
                 break;
         }
         super.onClick(v);
+    }
+
+    @Override
+    public void onCreate(Bundle arg0) {
+        super.onCreate(arg0);
+        setContentView(R.layout.fg_arrival_search);
+        ButterKnife.bind(this);
+        initHeader();
     }
 
     protected Callback.Cancelable requestData() {

@@ -58,7 +58,6 @@ import static com.hugboga.custom.R.id.days_right;
 import static com.hugboga.custom.R.id.man_have;
 import static com.hugboga.custom.R.id.man_right;
 import static com.hugboga.custom.R.id.max_luggage_content;
-import static com.tencent.bugly.crashreport.inner.InnerAPI.context;
 
 /**
  * Created on 16/8/4.
@@ -739,9 +738,10 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
 //                map.put("payableamount", carBean.price + "");
                     MobclickAgent.onEventValue(activity, "carnext_oneday", map, carBean.price);
                 } else {
-                    Bundle bundle1 = new Bundle();//用于统计
-                    bundle1.putString("source", "包车下单");
-                    startFragment(new FgLogin(), bundle1);
+//                    Bundle bundle1 = new Bundle();//用于统计
+//                    bundle1.putString("source", "包车下单");
+//                    startFragment(new FgLogin(), bundle1);
+                    startActivity(new Intent(activity,LoginActivity.class));
                 }
                 break;
         }

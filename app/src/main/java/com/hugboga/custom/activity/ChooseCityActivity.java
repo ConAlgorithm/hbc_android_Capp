@@ -99,7 +99,7 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
     private ArrayList<Integer> exceptCityId = new ArrayList<>();
     private SharedPre sharedPer;
     private DbManager mDbManager;
-    public String from;
+    public String from = "startAddress";
     public volatile int cityId = -1;
     public int showType = ShowType.PICK_UP;
     private DialogUtil mDialogUtil;
@@ -416,7 +416,7 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
             bundle.putSerializable(KEY_CITY, cityBean);
 
             finish();
-            if(from.equalsIgnoreCase("lastCity")){
+            if(null != from  && from.equalsIgnoreCase("lastCity")){
                 EventBus.getDefault().post(new EventAction(EventType.CHOOSE_END_CITY_BACK, cityBean));
             }else {
                 EventBus.getDefault().post(new EventAction(EventType.CHOOSE_START_CITY_BACK, cityBean));
