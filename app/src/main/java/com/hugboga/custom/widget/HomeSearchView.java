@@ -94,6 +94,7 @@ public class HomeSearchView extends RelativeLayout implements View.OnClickListen
 
                 Intent intent = new Intent(this.getContext(), ChooseCityNewActivity.class);
                 intent.putExtra("com.hugboga.custom.home.flush", Constants.BUSINESS_TYPE_HOME);
+                intent.putExtra("isHomeIn",true);
                 intent.putExtra("source","小搜索按钮");
                 this.getContext().startActivity(intent);
 
