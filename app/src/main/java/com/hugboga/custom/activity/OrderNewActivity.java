@@ -84,6 +84,7 @@ import static com.huangbaoche.hbcframe.fragment.BaseFragment.KEY_FRAGMENT_NAME;
 import static com.hugboga.custom.R.id.man_name;
 import static com.hugboga.custom.R.id.up_address_right;
 import static com.hugboga.custom.R.id.up_right;
+import static com.hugboga.custom.data.event.EventType.COUPON_BACK;
 import static com.tencent.bugly.crashreport.inner.InnerAPI.context;
 
 /**
@@ -975,7 +976,7 @@ public class OrderNewActivity extends BaseActivity {
                 couponRight.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        FgCoupon fgCoupon = new FgCoupon();
+//                        FgCoupon fgCoupon = new FgCoupon();
                         Bundle bundle = new Bundle();
                         MostFitAvailableBean mostFitAvailableBean = new MostFitAvailableBean();
 
@@ -1005,8 +1006,11 @@ public class OrderNewActivity extends BaseActivity {
                         } else {
                             bundle.putString("idStr", "");
                         }
-                        fgCoupon.setArguments(bundle);
-                        startFragment(fgCoupon);
+//                        fgCoupon.setArguments(bundle);
+//                        startFragment(fgCoupon);
+                        Intent intent = new Intent(activity,CouponActivity.class);
+                        intent.putExtras(bundle);
+                        startActivity(intent);
                     }
                 });
             }

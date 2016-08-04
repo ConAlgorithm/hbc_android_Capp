@@ -9,6 +9,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -34,34 +35,44 @@ import com.hugboga.custom.widget.ZListView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.xutils.common.Callback;
-import org.xutils.view.annotation.Event;
-import org.xutils.view.annotation.ViewInject;
 
 import java.text.ParseException;
 import java.util.List;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by qingcha on 16/8/4.
  */
-public class CouponActivity extends BaseActivity implements AdapterView.OnItemClickListener{
+public class CouponActivity extends BaseActivity implements AdapterView.OnItemClickListener {
 
     public static final String ORDER_ID = "ORDER_ID";
     public static final String ORDER_PRICE = "ORDER_PRICE";
     public static final String KEY_COUPON = "KEY_COUPON";
     public static final String KEY_COUPON_ID = "KEY_COUPON_ID";
 
-    @ViewInject(R.id.coupon_listview)
+    @Bind(R.id.coupon_listview)
     ZListView listView;
-    @ViewInject(R.id.coupon_btn_carnumber)
+    @Bind(R.id.coupon_btn_carnumber)
     EditText carNumberEditText;
-    @ViewInject(R.id.coupon_listview_empty)
+    @Bind(R.id.coupon_listview_empty)
     RelativeLayout emptyLayout;
-    @ViewInject(R.id.coupon_pay_layout)
+    @Bind(R.id.coupon_pay_layout)
     RelativeLayout payLayout;
 
     CouponAdapter adapter;
+    @Bind(R.id.header_left_btn)
+    ImageView headerLeftBtn;
+    @Bind(R.id.header_right_btn)
+    ImageView headerRightBtn;
+    @Bind(R.id.header_title)
+    TextView headerTitle;
+    @Bind(R.id.header_right_txt)
+    TextView headerRightTxt;
+    @Bind(R.id.coupon_btn_pay)
+    Button couponBtnPay;
     private String orderId;
     private double orderPrice;
     private String couponId;
@@ -103,7 +114,7 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
     }
 
     private void initView() {
-        fgTitle.setText("优惠券");
+        headerTitle.setText("优惠券");
         listView.setEmptyView(emptyLayout);
         listView.setOnItemClickListener(this);
         listView.setonRefreshListener(onRefreshListener);
@@ -149,8 +160,8 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
         runData(orderId, 0);
     }
 
-    @Event({R.id.coupon_btn_pay})
-    private void onClickView(View view) {
+    @OnClick({R.id.coupon_btn_pay})
+    public void onClick(View view) {
         switch (view.getId()) {
             case R.id.coupon_btn_pay:
                 //兑换优惠券
@@ -218,7 +229,7 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
         CouponBean bean = (CouponBean) adapter.getItem(position - 1);
         if (paramsData != null) {
             //TODO
-            EventBus.getDefault().post(new EventAction(EventType.SELECT_COUPON_BACK,bean));
+            EventBus.getDefault().post(new EventAction(EventType.SELECT_COUPON_BACK, bean));
             finish();
         } else if (!TextUtils.isEmpty(orderId)) {
             //点击回传优惠券
@@ -227,6 +238,7 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(KEY_COUPON, bean);
 //                finishForResult(bundle);
+                EventBus.getDefault().post(new EventAction(EventType.SELECT_COUPON_BACK, bean));
             }
         } else {
             //点击查看详情
@@ -247,9 +259,9 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
     private void showCouponInfo(CouponBean bean) throws ParseException {
         LayoutInflater inflater = LayoutInflater.from(this);
         final View popView = inflater.inflate(R.layout.coupon_info_layout, null);
-        ImageView leftBtn = (ImageView)popView.findViewById(R.id.header_left_btn);
+        ImageView leftBtn = (ImageView) popView.findViewById(R.id.header_left_btn);
         leftBtn.setImageResource(R.mipmap.closed_btn);
-        TextView header_title = (TextView)popView.findViewById(R.id.header_title);
+        TextView header_title = (TextView) popView.findViewById(R.id.header_title);
         header_title.setText("我的优惠券");
 
 //        if (bean.couponStatus == 1) {
@@ -314,7 +326,7 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
             }
         });
 
-        AnimationUtils.showAnimation(popView,500,null);
+        AnimationUtils.showAnimation(popView, 500, null);
     }
 
 

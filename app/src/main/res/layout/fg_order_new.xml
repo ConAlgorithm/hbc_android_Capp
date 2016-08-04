@@ -683,7 +683,6 @@
                         android:gravity="center"
                         android:minEms="4"
                         android:paddingRight="15dp"
-                        android:text="@string/coupon_num"
                         android:textColor="#c3c5c5"
                         android:textSize="12sp" />
 
