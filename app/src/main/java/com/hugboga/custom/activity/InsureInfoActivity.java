@@ -20,7 +20,7 @@ import butterknife.ButterKnife;
 public class InsureInfoActivity extends BaseActivity {
 
     @Bind(R.id.insure_info_listview)
-    private ListView listView;
+    ListView listView;
 
     private FgInsureInfoAdapter adapter;
     private OrderBean orderBean;
