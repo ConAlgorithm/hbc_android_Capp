@@ -259,13 +259,18 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
 //                luggageText.setText("行李箱 x " + manLuggageBean.luggages);
                 childseatText.setText("儿童座椅 x " + (manLuggageBean.childSeats));
                 luggageTipsLayout.setVisibility(View.VISIBLE);
-                maxLuuages = (carBean.capOfLuggage+ carBean.capOfPerson) - manLuggageBean.mans - Math.round(manLuggageBean.childSeats * 1.5f) - (manLuggageBean.childs - manLuggageBean.childSeats);
-                maxLuggageContent.setText(maxLuuages+"件");
-                EventBus.getDefault().post(new EventAction(EventType.MAX_LUGGAGE_NUM,maxLuuages));
+                genMaxLuggage();
                 break;
             default:
                 break;
         }
+    }
+
+    //计算最大行李数
+    private void genMaxLuggage(){
+        maxLuuages = (carBean.capOfLuggage+ carBean.capOfPerson) - manLuggageBean.mans - Math.round(manLuggageBean.childSeats * 1.5f) - (manLuggageBean.childs - manLuggageBean.childSeats);
+        maxLuggageContent.setText(maxLuuages+"件");
+        EventBus.getDefault().post(new EventAction(EventType.MAX_LUGGAGE_NUM,maxLuuages));
     }
 
 
@@ -282,6 +287,7 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
         currentIndex = position;
         carBean = carList.get(position);
         changeText();
+        genMaxLuggage();
         EventBus.getDefault().post(new EventAction(EventType.CHANGE_CAR, carBean));
     }
 
@@ -353,8 +359,8 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
         }
 
         if (null != manLuggageBean
-                && selectMansNUm >= carBean.capOfPerson
-                && (selectMansNUm + manLuggageBean.luggages) >= (carBean.capOfPerson + carBean.capOfLuggage)) {
+                && selectMansNUm > carBean.capOfPerson){
+//                && (selectMansNUm + manLuggageBean.luggages) >= (carBean.capOfPerson + carBean.capOfLuggage)) {
             manTips.setVisibility(View.VISIBLE);
             manText.setVisibility(View.GONE);
             luggageText.setVisibility(View.GONE);

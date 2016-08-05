@@ -466,58 +466,6 @@ public class SkuNewActivity extends BaseActivity {
         intent.putExtra("title","请选择出发日期");
         intent.putExtra("chooseDateBean",chooseDateBean);
         startActivity(intent);
-
-//        Calendar cal = Calendar.getInstance();
-//        MyDatePickerListener myDatePickerDialog = new MyDatePickerListener(timeText);
-//        DatePickerDialog dpd = DatePickerDialog.newInstance(
-//                myDatePickerDialog, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
-//        cal = Calendar.getInstance();
-//        dpd.setMinDate(cal);
-//        cal = Calendar.getInstance();
-//        cal.set(Calendar.MONTH, cal.get(Calendar.MONTH) + 6);
-//        dpd.setMaxDate(cal);
-//        dpd.show(this.getFragmentManager(), "DatePickerDialog");   //显示日期设置对话框
-
-    }
-
-    class MyDatePickerListener implements DatePickerDialog.OnDateSetListener {
-        TextView mTextView;
-
-        MyDatePickerListener(TextView textView) {
-            this.mTextView = textView;
-        }
-
-        @Override
-        public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-            int month = monthOfYear + 1;
-            String monthStr = String.format("%02d", month);
-            String dayOfMonthStr = String.format("%02d", dayOfMonth);
-            serverDate = year + "-" + monthStr + "-" + dayOfMonthStr;
-            timeText.setText(serverDate);
-            getData();
-//            showTimeSelect();
-        }
-    }
-
-    public void showTimeSelect() {
-        Calendar cal = Calendar.getInstance();
-        MyTimePickerDialogListener myTimePickerDialog = new MyTimePickerDialogListener();
-        TimePickerDialog datePickerDialog = TimePickerDialog.newInstance(myTimePickerDialog, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), true);
-        datePickerDialog.show(this.getFragmentManager(), "TimePickerDialog");                //显示日期设置对话框
-    }
-
-
-    class MyTimePickerDialogListener implements TimePickerDialog.OnTimeSetListener {
-
-
-        @Override
-        public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute, int second) {
-            String hour = String.format("%02d", hourOfDay);
-            String minuteStr = String.format("%02d", minute);
-            serverTime = hour + ":" + minuteStr;
-            timeText.setText(serverDate + " " + serverTime);
-            getData();
-        }
     }
 
 
