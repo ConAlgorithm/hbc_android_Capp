@@ -22,6 +22,13 @@ public class CarInfoBean implements Parcelable{
     public boolean supportChildseat;
     public int timeNotReachFlag;
     public int halfDay;
+    public int noneCarsState;
+    public String noneCarsReason;
+
+//    noneCarsState  int  没有车型报价状态
+//    -1.有车型报价 1. 当前时段无法提供服务
+//    2.无法提供和您乘坐人数和行李数匹配的车型
+//    noneCarsReason  String  无车原因描述
 
     @Override
     public int describeContents() {

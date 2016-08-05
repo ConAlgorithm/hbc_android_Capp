@@ -210,22 +210,10 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
         headerRightTxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Bundle bundle = new Bundle();
-//                bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_PROBLEM);
-//                bundle.putBoolean(FgWebInfo.CONTACT_SERVICE, true);
-//                startFragment(new FgWebInfo(), bundle);
-
                 Intent intent = new Intent(activity, WebInfoActivity.class);
                 intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_PROBLEM);
                 intent.putExtra(WebInfoActivity.CONTACT_SERVICE, true);
                 startActivity(intent);
-
-
-                HashMap<String, String> map = new HashMap<String, String>();
-                map.put("source", "填写行程页面");
-                MobclickAgent.onEvent(activity, "callcenter_oneway", map);
-                v.setTag("填写行程页面,calldomestic_oneway,calloverseas_oneway");
-
             }
         });
     }
@@ -325,22 +313,19 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
             if (null != bean) {
                 cars = bean.cars;
                 halfDay = bean.halfDay == 1 ? "1" : "0";
-                if (cars.size() == 0) {
+                if (bean.noneCarsState == 1) {
                     coupon_listview_empty.setVisibility(View.VISIBLE);
                     scrollView.setVisibility(View.GONE);
                     nextBtnClick.setVisibility(View.GONE);
-                    empty_text.setText("很抱歉，该日期暂无可服务司导");
+                    empty_text.setText(bean.noneCarsReason);
+                }else if(bean.noneCarsState == 2){
+                    scrollView.setVisibility(View.GONE);
+                    nextBtnClick.setVisibility(View.GONE);
+                    empty_text.setText(bean.noneCarsReason);
                 } else {
                     initListData();
                     getMatchCarIndex();
                     showContent();
-                    if (carBean.match == 0) {
-//                        jazzyPager.setCurrentItem(cars.size() - 1);
-                        coupon_listview_empty.setVisibility(View.VISIBLE);
-                        scrollView.setVisibility(View.GONE);
-                        nextBtnClick.setVisibility(View.GONE);
-                        empty_text.setText("很抱歉，您的出行人数过多，没有找到适合的车型");
-                    }
                 }
             }
         }
@@ -721,20 +706,7 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
                     } else {
                         goNext();
                     }
-
-
-                    map.put("source", source);
-                    map.put("begincity", startBean.name);
-                    map.put("carstyle", carBean.carDesc);
-//                map.put("guestcount", adultNum + childrenNum + "");
-//                map.put("luggagecount", luggageNum + "");
-//                map.put("drivedays", dayNums + "");
-//                map.put("payableamount", carBean.price + "");
-                    MobclickAgent.onEventValue(activity, "carnext_oneday", map, carBean.price);
                 } else {
-//                    Bundle bundle1 = new Bundle();//用于统计
-//                    bundle1.putString("source", "包车下单");
-//                    startFragment(new FgLogin(), bundle1);
                     startActivity(new Intent(activity,LoginActivity.class));
                 }
                 break;
