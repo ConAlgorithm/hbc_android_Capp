@@ -171,7 +171,7 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
             bundle.putAll(getArguments());
         }
         bundle.putSerializable("collectGuideBean",collectGuideBean);
-        bundle.putParcelable("carListBean", carListBean);
+        bundle.putSerializable("carListBean", carListBean);
         bundle.putBoolean("isNetError", isNetError);
         if(isDataBack && null !=carListBean) {
             String sTime = serverDate +":00";
@@ -458,11 +458,11 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
         bundle.putSerializable(KEY_FLIGHT, flightBean);
         bundle.putSerializable(KEY_ARRIVAL, poiBean);
         bundle.putString("serverTime", flightBean.arrivalTime);
-        bundle.putParcelable("carListBean", carListBean);
+        bundle.putSerializable("carListBean", carListBean);
         bundle.putString("price", carBean.price + "");
         bundle.putString("distance", carListBean.distance + "");
         carBean.expectedCompTime = carListBean.estTime;
-        bundle.putParcelable("carBean", CarUtils.carBeanAdapter(carBean));
+        bundle.putSerializable("carBean", CarUtils.carBeanAdapter(carBean));
         bundle.putInt("type", 1);
         bundle.putString("orderType", "1");
         bundle.putSerializable("manLuggageBean", manLuggageBean);
@@ -470,7 +470,7 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
         bundle.putString("childrenNum", manLuggageBean.childs + "");
         bundle.putString("childseatNum", manLuggageBean.childSeats + "");
         bundle.putString("luggageNum", maxLuuages+"");//manLuggageBean.luggages + "");
-        bundle.putParcelable("carListBean", carListBean);
+        bundle.putSerializable("carListBean", carListBean);
 
         bundle.putBoolean("needCheckin", checkInChecked);
 

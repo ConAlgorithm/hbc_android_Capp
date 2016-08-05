@@ -86,10 +86,12 @@ public class PoiSearchActivity extends BaseActivity implements AdapterView.OnIte
         super.onBackPressed();
     }
 
+    String type;
     @Override
     public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         setContentView(R.layout.fg_arrival_search);
+        type = this.getIntent().getStringExtra("key_from");
         ButterKnife.bind(this);
         initHeader();
         initData();
@@ -116,6 +118,7 @@ public class PoiSearchActivity extends BaseActivity implements AdapterView.OnIte
      *
      * @param type
      */
+
     public void initSearchTip(Integer type) {
         switch (type) {
             case Constants.BUSINESS_TYPE_PICK:
@@ -235,16 +238,17 @@ public class PoiSearchActivity extends BaseActivity implements AdapterView.OnIte
                 editSearch.setText(bean.placeName);
                 search();
             } else {
-                HashMap<String, String> map = new HashMap<String, String>();
-                map.put("source", source);
-                map.put("searchinput", editSearch.getText().toString().trim());
-                map.put("searchcity", bean.placeName);
-                MobclickAgent.onEvent(activity, "search", map);
 
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(KEY_ARRIVAL, bean);
+
 //                finishForResult(bundle);
                 finish();
+                if(type != null){
+                    if(null != bean){
+                        bean.type = type;
+                    }
+                }
                 EventBus.getDefault().post(new EventAction(EventType.CHOOSE_POI_BACK, bean));
             }
         }

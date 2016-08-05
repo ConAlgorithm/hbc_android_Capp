@@ -644,7 +644,7 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
                 } else {
                     carListBean.carList = oldCarList;
                 }
-                bundle.putParcelable("carListBean", carListBean);
+                bundle.putSerializable("carListBean", carListBean);
                 bundle.putInt("currentIndex", currentIndex);
                 bundle.putSerializable("manLuggageBean", manLuggageBean);
 //                fgManLuggage.setArguments(bundle);

@@ -447,7 +447,7 @@ public class SkuNewActivity extends BaseActivity {
 
         fgCarNew = new FgCarNew();
         Bundle bundle = new Bundle();
-        bundle.putParcelable("carListBean", carListBean);
+        bundle.putSerializable("carListBean", carListBean);
         bundle.putBoolean("isNetError", isNetError);
         fgCarNew.setArguments(bundle);
         transaction.add(R.id.show_cars_layout_sku, fgCarNew);

@@ -39,9 +39,6 @@ import com.hugboga.custom.utils.CarUtils;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.widget.DialogUtil;
-import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
-import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
-import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -171,7 +168,7 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
             bundle.putAll(getArguments());
         }
         bundle.putSerializable("collectGuideBean",collectGuideBean);
-        bundle.putParcelable("carListBean", carListBean);
+        bundle.putSerializable("carListBean", carListBean);
         bundle.putBoolean("isNetError", isNetError);
         if(isDataBack && null !=carListBean) {
             String sTime = serverDate +" " + serverTime +":00";
@@ -443,17 +440,17 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
         bundle.putSerializable("collectGuideBean", collectGuideBean == null ? null : collectGuideBean);
         bundle.putString("source", source);
         carBean.expectedCompTime = carListBean.estTime;
-        bundle.putParcelable("carBean", CarUtils.carBeanAdapter(carBean));
-        bundle.putParcelable("carListBean", carListBean);
-        bundle.putParcelable("airPortBean", airPortBean);
-        bundle.putParcelable("poiBean", poiBean);
+        bundle.putSerializable("carBean", CarUtils.carBeanAdapter(carBean));
+        bundle.putSerializable("carListBean", carListBean);
+        bundle.putSerializable("airPortBean", airPortBean);
+        bundle.putSerializable("poiBean", poiBean);
         bundle.putString("serverTime", serverTime);
         bundle.putString("serverDate", serverDate);
         bundle.putString("adultNum", manLuggageBean.mans + "");
         bundle.putString("childrenNum", manLuggageBean.childs + "");
         bundle.putString("childseatNum", manLuggageBean.childSeats + "");
         bundle.putString("luggageNum", maxLuuages+"");//manLuggageBean.luggages + "");
-        bundle.putParcelable("carListBean", carListBean);
+        bundle.putSerializable("carListBean", carListBean);
         bundle.putInt("type", 2);
         bundle.putString("orderType", "2");
         bundle.putBoolean("needCheckin", checkInChecked);
@@ -606,58 +603,6 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
 
         }
     }
-
-
-    public void showDaySelect() {
-        Calendar cal = Calendar.getInstance();
-        MyDatePickerListener myDatePickerDialog = new MyDatePickerListener(timeText);
-        DatePickerDialog dpd = DatePickerDialog.newInstance(
-                myDatePickerDialog, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
-        cal = Calendar.getInstance();
-        dpd.setMinDate(cal);
-        cal = Calendar.getInstance();
-        cal.set(Calendar.MONTH, cal.get(Calendar.MONTH) + 6);
-        dpd.setMaxDate(cal);
-        dpd.show(this.getActivity().getFragmentManager(), "DatePickerDialog");   //显示日期设置对话框
-
-    }
-
-    class MyDatePickerListener implements DatePickerDialog.OnDateSetListener {
-        TextView mTextView;
-
-        MyDatePickerListener(TextView textView) {
-            this.mTextView = textView;
-        }
-
-        @Override
-        public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-            int month = monthOfYear + 1;
-            String monthStr = String.format("%02d", month);
-            String dayOfMonthStr = String.format("%02d", dayOfMonth);
-            serverDate = year + "-" + monthStr + "-" + dayOfMonthStr;
-            showTimeSelect();
-        }
-    }
-
-    public void showTimeSelect() {
-        Calendar cal = Calendar.getInstance();
-        MyTimePickerDialogListener myTimePickerDialog = new MyTimePickerDialogListener();
-        TimePickerDialog datePickerDialog = TimePickerDialog.newInstance(myTimePickerDialog, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), true);
-        datePickerDialog.show(this.getActivity().getFragmentManager(), "TimePickerDialog");                //显示日期设置对话框
-    }
-
-
-    class MyTimePickerDialogListener implements TimePickerDialog.OnTimeSetListener {
-        @Override
-        public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute, int second) {
-            String hour = String.format("%02d", hourOfDay);
-            String minuteStr = String.format("%02d", minute);
-            serverTime = hour + ":" + minuteStr;
-            timeText.setText(serverDate + " " + serverTime);
-            checkInput();
-        }
-    }
-
 
     @Override
     public boolean onBackPressed() {

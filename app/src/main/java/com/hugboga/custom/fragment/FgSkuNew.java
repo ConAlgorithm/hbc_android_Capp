@@ -392,7 +392,7 @@ public class FgSkuNew extends BaseFragment {
         bundle.putString("guideCollectId", "");
         bundle.putSerializable("collectGuideBean", null);
         bundle.putString("source", source);
-        bundle.putParcelable("carListBean", carListBean);
+        bundle.putSerializable("carListBean", carListBean);
 
         bundle.putString("startCityId", cityBean.cityId + "");
         bundle.putString("endCityId", cityBean.cityId + "");//endCityId);
@@ -415,7 +415,7 @@ public class FgSkuNew extends BaseFragment {
         bundle.putString("source", source);
         bundle.putBoolean("isHalfTravel", false);
         bundle.putSerializable("passCityList", null);
-        bundle.putParcelable("carBean", CarUtils.carBeanAdapter(carBean));
+        bundle.putSerializable("carBean", CarUtils.carBeanAdapter(carBean));
 
         if(skuBean.goodsClass == 1){
             bundle.putInt("type", 5);
@@ -446,7 +446,7 @@ public class FgSkuNew extends BaseFragment {
         if (getArguments() != null) {
             bundle.putAll(getArguments());
         }
-        bundle.putParcelable("carListBean", carListBean);
+        bundle.putSerializable("carListBean", carListBean);
         bundle.putBoolean("isNetError", isNetError);
         fgCarNew.setArguments(bundle);
         transaction.add(R.id.show_cars_layout_sku, fgCarNew);
