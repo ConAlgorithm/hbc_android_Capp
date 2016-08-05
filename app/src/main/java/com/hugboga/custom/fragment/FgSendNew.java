@@ -138,14 +138,6 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
             }
         }
 
-//        if(waitChecked) {
-//            if (!TextUtils.isEmpty(carListBean.additionalServicePrice.pickupSignPrice)) {
-//                total += Integer.valueOf(carListBean.additionalServicePrice.pickupSignPrice);
-//            }
-//        }
-
-
-
         allMoneyText.setText("￥" + total);
 
         if(null != carListBean) {
@@ -262,19 +254,10 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
     boolean checkInChecked = true;
     boolean waitChecked = true;
     int maxLuuages = 0;
+
     @Subscribe
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
-            case CHOOSE_POI_BACK:
-                poiBean = (PoiBean) action.getData();
-                infoTips.setVisibility(View.GONE);
-                airTitle.setVisibility(View.VISIBLE);
-                airDetail.setVisibility(View.VISIBLE);
-                airTitle.setText(poiBean.placeName);
-                airDetail.setText(poiBean.placeDetail);
-                collapseSoftInputMethod();
-                checkInput();
-                break;
             case AIR_PORT_BACK:
                 airPortBean = (AirPort) action.getData();
                 addressTips.setText(airPortBean.cityName + " " + airPortBean.airportName);
@@ -287,6 +270,16 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
                 timeText.setText("");
 //            showCarsLayoutSend.setVisibility(View.GONE);
                 bottom.setVisibility(View.GONE);
+                checkInput();
+                break;
+            case CHOOSE_POI_BACK:
+                poiBean = (PoiBean) action.getData();
+                infoTips.setVisibility(View.GONE);
+                airTitle.setVisibility(View.VISIBLE);
+                airDetail.setVisibility(View.VISIBLE);
+                airTitle.setText(poiBean.placeName);
+                airDetail.setText(poiBean.placeDetail);
+                collapseSoftInputMethod();
                 checkInput();
                 break;
             case MAX_LUGGAGE_NUM:

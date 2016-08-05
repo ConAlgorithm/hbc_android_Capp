@@ -26,6 +26,7 @@ import com.hugboga.custom.utils.DBHelper;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.widget.SideBar;
 
+import org.greenrobot.eventbus.EventBus;
 import org.xutils.DbManager;
 import org.xutils.common.Callback;
 import org.xutils.db.Selector;
@@ -38,7 +39,6 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.rong.eventbus.EventBus;
 
 /**
  * Created on 16/8/5.
@@ -306,13 +306,11 @@ public class ChooseAirPortActivity extends BaseActivity implements SideBar.OnTou
     @Override
     public void onItemClick(AdapterView<?> parent, View view,
                             int position, long id) {
-        Bundle bundle = new Bundle();
         AirPort airPort = sourceDateList.get(position);
         if(TextUtils.isEmpty(airPort.airportName)){
             return;
         }
         saveHistoryDate(airPort);
-        bundle.putSerializable(KEY_AIRPORT, sourceDateList.get(position));
         finish();
         EventBus.getDefault().post(new EventAction(EventType.AIR_PORT_BACK,sourceDateList.get(position)));
 
