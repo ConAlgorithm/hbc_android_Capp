@@ -58,7 +58,9 @@ public class CalendarPickerView extends ListView {
      * <li>Have one date selected and then select an earlier date.</li>
      * </ul>
      */
-    RANGE
+    RANGE,
+
+    SINGLE_NO_TEXT
   }
 
   private final CalendarPickerView.MonthAdapter adapter;
@@ -601,6 +603,7 @@ public class CalendarPickerView extends ListView {
         date = applyMultiSelect(date, newlySelectedCal);
         break;
 
+      case SINGLE_NO_TEXT:
       case SINGLE:
         clearOldSelections();
         break;
@@ -656,6 +659,8 @@ public class CalendarPickerView extends ListView {
         }
       }else if(selectionMode == SelectionMode.SINGLE){
         selectedCells.get(0).setRangeState(RangeState.SELECT);
+      }else if(selectionMode == SelectionMode.SINGLE_NO_TEXT){
+        selectedCells.get(0).setRangeState(RangeState.SELECT_NO_TEXT);
       }
     }
 

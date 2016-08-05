@@ -312,12 +312,12 @@ public class SkuNewActivity extends BaseActivity {
     ChooseDateBean chooseDateBean;
 
     @Subscribe
-    public void onEventMainThread(EventAction action) {
+    public void onEventMainThread(final EventAction action) {
 
         switch (action.getType()) {
             case CHOOSE_DATE:
                 chooseDateBean = (ChooseDateBean)action.getData();
-                if(chooseDateBean.type == 1){
+                if(chooseDateBean.type == 3){
                     serverDate = chooseDateBean.halfDateStr;
                     timeText.setText(serverDate);
                     getData();
@@ -377,9 +377,8 @@ public class SkuNewActivity extends BaseActivity {
                                 }
 
                             } else {
-                                Bundle bundle = new Bundle();//用于统计
-                                bundle.putString("source", "sku下单");
-                                startFragment(new FgLogin(), bundle);
+                                Intent intent = new Intent(activity,LoginActivity.class);
+                                startActivity(intent);
                             }
                         }
                     }
@@ -462,21 +461,22 @@ public class SkuNewActivity extends BaseActivity {
 
 
     public void showDaySelect() {
-//        Intent intent = new Intent(activity,DatePickerActivity.class);
-//        intent.putExtra("type",1);
-//        intent.putExtra("title","请选择出发日期");
-//        startActivity(intent);
+        Intent intent = new Intent(activity,DatePickerActivity.class);
+        intent.putExtra("type",3);
+        intent.putExtra("title","请选择出发日期");
+        intent.putExtra("chooseDateBean",chooseDateBean);
+        startActivity(intent);
 
-        Calendar cal = Calendar.getInstance();
-        MyDatePickerListener myDatePickerDialog = new MyDatePickerListener(timeText);
-        DatePickerDialog dpd = DatePickerDialog.newInstance(
-                myDatePickerDialog, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
-        cal = Calendar.getInstance();
-        dpd.setMinDate(cal);
-        cal = Calendar.getInstance();
-        cal.set(Calendar.MONTH, cal.get(Calendar.MONTH) + 6);
-        dpd.setMaxDate(cal);
-        dpd.show(this.getFragmentManager(), "DatePickerDialog");   //显示日期设置对话框
+//        Calendar cal = Calendar.getInstance();
+//        MyDatePickerListener myDatePickerDialog = new MyDatePickerListener(timeText);
+//        DatePickerDialog dpd = DatePickerDialog.newInstance(
+//                myDatePickerDialog, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
+//        cal = Calendar.getInstance();
+//        dpd.setMinDate(cal);
+//        cal = Calendar.getInstance();
+//        cal.set(Calendar.MONTH, cal.get(Calendar.MONTH) + 6);
+//        dpd.setMaxDate(cal);
+//        dpd.show(this.getFragmentManager(), "DatePickerDialog");   //显示日期设置对话框
 
     }
 
