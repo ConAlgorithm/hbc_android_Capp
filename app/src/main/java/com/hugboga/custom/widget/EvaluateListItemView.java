@@ -11,11 +11,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.EvaluateListActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.EvaluateItemData;
 import com.hugboga.custom.data.bean.GuidesDetailData;
-import com.hugboga.custom.fragment.FgEvaluateList;
-import com.hugboga.custom.fragment.FgGuideDetail;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
 
@@ -79,7 +78,7 @@ public class EvaluateListItemView extends LinearLayout{
                 moreComments.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(v.getContext(), FgEvaluateList.class);
+                        Intent intent = new Intent(v.getContext(), EvaluateListActivity.class);
                         intent.putExtra(Constants.PARAMS_ID, _data.getGuideId());
                         intent.putExtra(Constants.PARAMS_DATA, ""+_data.getCommentNum());
                         v.getContext().startActivity(intent);

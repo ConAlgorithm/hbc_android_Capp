@@ -8,13 +8,11 @@ import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
-import com.hugboga.custom.adapter.OverPriceAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestOrderCancel;
-import com.hugboga.custom.fragment.FgOrderDetail;
 import com.hugboga.custom.fragment.FgTravel;
 import com.hugboga.custom.widget.DialogUtil;
 import com.umeng.analytics.MobclickAgent;
@@ -28,7 +26,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * Created by qingcha on 16/8/4.
+ * Created by on 16/8/4.
  */
 public class OrderCancelActivity extends BaseActivity{
 
@@ -69,8 +67,9 @@ public class OrderCancelActivity extends BaseActivity{
             orderBean = (OrderBean) bundle.getSerializable(KEY_ORDER);
             mBusinessType = bundle.getInt(KEY_BUSINESS_TYPE, -1);
         }
+        initDefaultTitleBar();
+        fgTitle.setText("申请取消行程");
         mDialogUtil = DialogUtil.getInstance(this);
-        OverPriceAdapter adapter = new OverPriceAdapter(this);
         if(orderBean.orderType==3){
             orderType.setText(getString(Constants.TitleMap.get(orderBean.orderGoodsType)));
         }else{
@@ -96,7 +95,6 @@ public class OrderCancelActivity extends BaseActivity{
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        finish();
         goBackOrderFg();
     }
 
@@ -106,13 +104,12 @@ public class OrderCancelActivity extends BaseActivity{
 //        bundle.putString(FgOrder.KEY_ORDER_ID, orderBean.orderNo);
 //        bringToFront(FgOrder.class, bundle);
 
-        //FIXME qingcha
-//        FgOrderDetail.Params params = new FgOrderDetail.Params();
-//        params.orderType = orderBean.orderType;
-//        params.orderId = orderBean.orderNo;
-//        Bundle bundle = new Bundle();
-//        bundle.putSerializable(Constants.PARAMS_DATA, params);
-//        bringToFront(FgOrderDetail.class, bundle);
+        OrderDetailActivity.Params params = new OrderDetailActivity.Params();
+        params.orderType = orderBean.orderType;
+        params.orderId = orderBean.orderNo;
+        Intent intent = new Intent(this, OrderDetailActivity.class);
+        intent.putExtra(Constants.PARAMS_DATA, params);
+        startActivity(intent);
     }
 
     @OnClick({R.id.order_cancel_btn})

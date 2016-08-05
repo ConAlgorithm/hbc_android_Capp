@@ -12,16 +12,14 @@ import android.widget.TextView;
 import com.huangbaoche.hbcframe.adapter.BaseAdapter;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.CollectGuideListActivity;
-import com.hugboga.custom.activity.DailyWebInfoActivity;
 import com.hugboga.custom.activity.GuideDetailActivity;
+import com.hugboga.custom.activity.OrderSelectCityActivity;
 import com.hugboga.custom.activity.PickSendActivity;
 import com.hugboga.custom.activity.SingleNewActivity;
-import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CollectGuideBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
-import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.widget.CircleImageView;
 import com.hugboga.custom.widget.RatingView;
@@ -109,13 +107,6 @@ public class CollectGuideAdapter extends BaseAdapter<CollectGuideBean> {
                 holder.planeLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-//                        Bundle bundle = new Bundle();
-//                        HashMap<String,String> map = new HashMap<String,String>();
-//                        FgPickSend fgPickSend = new FgPickSend();
-//                        bundle.putString("source","首页");
-//                        bundle.putSerializable("collectGuideBean",collectGuideBean);
-//                        fgPickSend.setArguments(bundle);
-//                        ((MainActivity)context).startFragment(fgPickSend, bundle);
                         Intent intent = new Intent(context, PickSendActivity.class);
                         intent.putExtra("collectGuideBean", collectGuideBean);
                         context.startActivity(intent);
@@ -124,16 +115,7 @@ public class CollectGuideAdapter extends BaseAdapter<CollectGuideBean> {
                 holder.carLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-//                        Bundle bundle = new Bundle();
-//                        HashMap<String,String> map = new HashMap<String,String>();
-//                        FgOrderSelectCity fgOrderSelectCity = new FgOrderSelectCity();
-//                        bundle.putString("source","首页");
-//                        bundle.putSerializable("collectGuideBean",collectGuideBean);
-//                        fgOrderSelectCity.setArguments(bundle);
-//                        ((MainActivity)context).startFragment(fgOrderSelectCity, bundle);
-
-                        Intent intent = new Intent(context, DailyWebInfoActivity.class);
-                        intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_DAIRY);
+                        Intent intent = new Intent(context, OrderSelectCityActivity.class);
                         intent.putExtra("collectGuideBean", collectGuideBean);
                         context.startActivity(intent);
                     }
@@ -141,13 +123,6 @@ public class CollectGuideAdapter extends BaseAdapter<CollectGuideBean> {
                 holder.singleLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-//                        Bundle bundle = new Bundle();
-//                        HashMap<String,String> map = new HashMap<String,String>();
-//                        FgSingleNew fgSingleNew = new FgSingleNew();
-//                        bundle.putSerializable("collectGuideBean",collectGuideBean);
-//                        fgSingleNew.setArguments(bundle);
-//                        ((MainActivity)context).startFragment(fgSingleNew);
-
                         Intent intent = new Intent(context, SingleNewActivity.class);
                         intent.putExtra("collectGuideBean", collectGuideBean);
                         context.startActivity(intent);

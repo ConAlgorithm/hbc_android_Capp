@@ -15,7 +15,9 @@
         android:id="@+id/header_detail_title_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_toRightOf="@id/header_detail_back_btn"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="4dp"
         android:textColor="@color/allbg_white"
         android:textSize="@dimen/text_size_largex" />
     <ImageView
@@ -24,15 +26,15 @@
         android:layout_height="match_parent"
         android:layout_alignParentRight="true"
         android:padding="@dimen/fab_margin"
-        android:src="@mipmap/top_more" />
+        android:src="@drawable/selector_guide_detail_collect" />
     <ImageView
         android:id="@+id/header_detail_right_2_btn"
         android:layout_width="?android:attr/actionBarSize"
         android:layout_height="match_parent"
         android:layout_marginRight="-10dp"
         android:layout_toLeftOf="@id/header_detail_right_1_btn"
-        android:padding="11dp"
-        android:src="@mipmap/order_deatil_service" />
+        android:padding="@dimen/fab_margin"
+        android:src="@mipmap/sddate_share" />
 
 
 </RelativeLayout>

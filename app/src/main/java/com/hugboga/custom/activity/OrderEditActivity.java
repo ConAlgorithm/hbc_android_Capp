@@ -1,5 +1,6 @@
 package com.hugboga.custom.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -10,8 +11,8 @@ import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
-import com.hugboga.custom.activity.BaseActivity;
 import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.bean.AreaCodeBean;
 import com.hugboga.custom.data.bean.ContactUsersBean;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.OrderContactBean;
@@ -19,8 +20,6 @@ import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestOrderEdit;
-import com.hugboga.custom.fragment.FgChooseCountry;
-import com.hugboga.custom.fragment.FgChooseOther;
 import com.hugboga.custom.fragment.FgPoiSearch;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.widget.DialogUtil;
@@ -29,12 +28,8 @@ import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-import org.xutils.view.annotation.Event;
-
 import java.util.ArrayList;
 import java.util.Calendar;
-
-import butterknife.Bind;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -109,12 +104,12 @@ public class OrderEditActivity extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
-            orderBean = savedInstanceState.getParcelable(Constants.PARAMS_DATA);
+            orderBean = (OrderBean) savedInstanceState.getSerializable(Constants.PARAMS_DATA);
             contactUsersBean = savedInstanceState.getParcelable("contactUsersBean");
         } else {
             Bundle bundle = getIntent().getExtras();
             if (bundle != null) {
-                orderBean = bundle.getParcelable(Constants.PARAMS_DATA);
+                orderBean = (OrderBean) bundle.getSerializable(Constants.PARAMS_DATA);
             }
         }
 
@@ -122,7 +117,6 @@ public class OrderEditActivity extends BaseActivity {
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
 
-        mDialogUtil = DialogUtil.getInstance(this);
         initView();
     }
 
@@ -144,11 +138,15 @@ public class OrderEditActivity extends BaseActivity {
     }
 
     private void initView() {
+        mDialogUtil = DialogUtil.getInstance(this);
+        initDefaultTitleBar();
         fgTitle.setText("出行人信息");
         fgLeftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_UPDATE_INFO, contactUsersBean.userName));
+                if (orderBean.orderStatus.code <= 5) {
+                    EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_UPDATE_INFO, orderBean.orderNo));
+                }
                 finish();
             }
         });
@@ -278,40 +276,51 @@ public class OrderEditActivity extends BaseActivity {
 
     @Subscribe
     public void onEventMainThread(EventAction action) {
-        if (action.getType() == EventType.CONTACT_BACK) {
-            contactUsersBean = (ContactUsersBean) action.getData();
-            if (!TextUtils.isEmpty(contactUsersBean.userName)) {
-                manName.setText(contactUsersBean.userName);
-                manPhone.setText(contactUsersBean.phoneCode + " " + contactUsersBean.userPhone);
-            }
-            if (contactUsersBean.isForOther && !TextUtils.isEmpty(contactUsersBean.otherName)) {
-                otherLayout.setVisibility(View.VISIBLE);
-                otherName.setText(contactUsersBean.otherName);
-            } else {
-                otherLayout.setVisibility(View.GONE);
-            }
+        switch (action.getType()) {
+            case CONTACT_BACK:
+                if (!(action.getData() instanceof ContactUsersBean)) {
+                    break;
+                }
+                contactUsersBean = (ContactUsersBean) action.getData();
+                if (contactUsersBean == null) {
+                    break;
+                }
+                if (!TextUtils.isEmpty(contactUsersBean.userName)) {
+                    manName.setText(contactUsersBean.userName);
+                    manPhone.setText(contactUsersBean.phoneCode + " " + contactUsersBean.userPhone);
+                }
+                if (contactUsersBean.isForOther && !TextUtils.isEmpty(contactUsersBean.otherName)) {
+                    otherLayout.setVisibility(View.VISIBLE);
+                    otherName.setText(contactUsersBean.otherName);
+                } else {
+                    otherLayout.setVisibility(View.GONE);
+                }
+                break;
+            case CHOOSE_COUNTRY_BACK:
+                if (!(action.getData() instanceof AreaCodeBean)) {
+                    break;
+                }
+                AreaCodeBean areaCodeBean = (AreaCodeBean) action.getData();
+                if (areaCodeBean == null) {
+                    break;
+                }
+                orderBean.serviceAreaCode = areaCodeBean.getCode();
+                hotelPhoneTextCodeClick.setText("+" + areaCodeBean.getCode());
+                break;
+            case CHOOSE_POI_BACK:
+                if (!(action.getData() instanceof PoiBean)) {
+                    break;
+                }
+                PoiBean poiBean = (PoiBean) action.getData();
+                if (poiBean == null) {
+                    break;
+                }
+                upAddressRight.setText(poiBean.placeName + "\n" + poiBean.placeDetail);
+                break;
+            default:
+                break;
         }
     }
-
-// FIXME qingcha
-//    @Override
-//    public void onFragmentResult(Bundle bundle) {
-//        String fragmentName = bundle.getString(KEY_FRAGMENT_NAME);
-//        if (FgChooseCountry.class.getSimpleName().equals(fragmentName)) {
-//            int viewId = bundle.getInt("airportCode");
-//            TextView codeTv = (TextView) getView().findViewById(viewId);
-//            if (codeTv != null) {
-//                String areaCode = bundle.getString(FgChooseCountry.KEY_COUNTRY_CODE);
-//                if (!TextUtils.isEmpty(areaCode)) {
-//                    orderBean.serviceAreaCode = areaCode;
-//                    codeTv.setText("+" + areaCode);
-//                }
-//            }
-//        } else if (FgPoiSearch.class.getSimpleName().equals(fragmentName)) {
-//            PoiBean poiBean = (PoiBean) bundle.getSerializable(FgPoiSearch.KEY_ARRIVAL);
-//            upAddressRight.setText(poiBean.placeName + "\n" + poiBean.placeDetail);
-//        }
-//    }
 
     /**
      * 时间选择器
@@ -321,7 +330,7 @@ public class OrderEditActivity extends BaseActivity {
         MyTimePickerDialogListener myTimePickerDialog = new MyTimePickerDialogListener();
         TimePickerDialog datePickerDialog = TimePickerDialog.newInstance(myTimePickerDialog, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), true);
         datePickerDialog.setAccentColor(getResources().getColor(R.color.all_bg_yellow));
-        datePickerDialog.show(getFragmentManager(), "TimePickerDialog");                //显示日期设置对话框
+        datePickerDialog.show(getFragmentManager(), "TimePickerDialog"); //显示日期设置对话框
     }
 
     String serverTime = "09:00";
@@ -336,40 +345,38 @@ public class OrderEditActivity extends BaseActivity {
         }
     }
 
-    private void startArrivalSearch(int cityId, String location) {
-        if (location != null) {
-            FgPoiSearch fg = new FgPoiSearch();
-            Bundle bundle = new Bundle();
-            bundle.putInt(FgPoiSearch.KEY_CITY_ID, cityId);
-            bundle.putString(FgPoiSearch.KEY_LOCATION, location);
-            startFragment(fg, bundle);
-        }
-    }
-
-
     @OnClick({R.id.man_phone_layout, R.id.for_other_man, R.id.up_right, R.id.up_address_right, R.id.hotel_phone_text_code_click, R.id.other_layout})
     public void onClick(View view) {
+        Intent intent = null;
         switch (view.getId()) {
             case R.id.man_phone_layout://为他人订车
             case R.id.for_other_man:
             case R.id.other_layout:
-                FgChooseOther fgChooseOther = new FgChooseOther();
                 Bundle bundle = new Bundle();
                 bundle.putParcelable("contactUsersBean", contactUsersBean);
-                fgChooseOther.setArguments(bundle);
-                startFragment(fgChooseOther);
+                intent = new Intent(OrderEditActivity.this, ChooseOtherActivity.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
                 break;
             case R.id.hotel_phone_text_code_click://选择区号
-                FgChooseCountry chooseCountry = new FgChooseCountry();
                 Bundle bundleCode = new Bundle();
                 bundleCode.putInt("airportCode", view.getId());
-                startFragment(chooseCountry, bundleCode);
+                intent = new Intent(OrderEditActivity.this, ChooseCountryActivity.class);
+                intent.putExtras(bundleCode);
+                startActivity(intent);
                 break;
             case R.id.up_right:
                 showTimeSelect();
                 break;
             case R.id.up_address_right:
-                startArrivalSearch(orderBean.serviceCityId, orderBean.startLocation);
+                if (orderBean.startLocation != null) {
+                    Bundle bundlePoiSearch = new Bundle();
+                    bundlePoiSearch.putInt(FgPoiSearch.KEY_CITY_ID, orderBean.serviceCityId);
+                    bundlePoiSearch.putString(FgPoiSearch.KEY_LOCATION, orderBean.startLocation);
+                    intent = new Intent(OrderEditActivity.this, PoiSearchActivity.class);
+                    intent.putExtras(bundlePoiSearch);
+                    startActivity(intent);
+                }
                 break;
         }
     }
@@ -419,7 +426,7 @@ public class OrderEditActivity extends BaseActivity {
     public void onDataRequestSucceed(BaseRequest _request) {
         if (_request instanceof RequestOrderEdit) {
             CommonUtils.showToast("信息修改成功");
-            EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_UPDATE_INFO, contactUsersBean.userName));
+            EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_UPDATE_INFO, orderBean.orderNo));
             finish();
         }
     }

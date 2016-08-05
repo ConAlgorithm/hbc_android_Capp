@@ -29,15 +29,15 @@ public class InsureInfoActivity extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
-            orderBean = savedInstanceState.getParcelable(Constants.PARAMS_DATA);
+            orderBean = (OrderBean) savedInstanceState.getSerializable(Constants.PARAMS_DATA);
         } else {
             Bundle bundle = getIntent().getExtras();
             if (bundle != null) {
-                orderBean = bundle.getParcelable(Constants.PARAMS_DATA);
+                orderBean = (OrderBean)bundle.getSerializable(Constants.PARAMS_DATA);
             }
         }
 
-        setContentView(R.layout.fg_order_detail);
+        setContentView(R.layout.fg_insure_info);
         ButterKnife.bind(this);
 
         initView();
@@ -52,6 +52,7 @@ public class InsureInfoActivity extends BaseActivity {
     }
 
     private void initView() {
+        initDefaultTitleBar();
         fgTitle.setText(getString(R.string.insure_info_title));
         List<InsureListBean> list = orderBean.insuranceList;
         if (list != null && list.size() > 0) {

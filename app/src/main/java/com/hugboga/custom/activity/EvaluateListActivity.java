@@ -47,6 +47,7 @@ public class EvaluateListActivity extends BaseActivity{
 
         setContentView(R.layout.fg_evaluate_list);
         ButterKnife.bind(this);
+        initDefaultTitleBar();
 
         initView();
         requestData();

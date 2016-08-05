@@ -222,10 +222,4 @@ public class OrderBean implements IBaseBean{
         return resultStr;
     }
 
-
-
-    public OrderBean() {
-    }
-
-
 }
