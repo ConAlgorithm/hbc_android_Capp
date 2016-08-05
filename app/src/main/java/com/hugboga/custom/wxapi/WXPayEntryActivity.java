@@ -53,7 +53,6 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler, 
 
     private IWXAPI api;
     private boolean isPaySucceed = false;
-    private DialogUtil mDialogUtil;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -71,7 +70,6 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler, 
 
         api = WXAPIFactory.createWXAPI(this, Constants.WX_APP_ID);
         api.handleIntent(getIntent(), this);
-        mDialogUtil = DialogUtil.getInstance(WXPayEntryActivity.this);
     }
 
     @Override
