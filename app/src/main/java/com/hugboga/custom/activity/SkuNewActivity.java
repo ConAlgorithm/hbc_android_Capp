@@ -30,11 +30,8 @@ import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestPriceSku;
-import com.hugboga.custom.fragment.FGOrderNew;
 import com.hugboga.custom.fragment.FgCarNew;
 import com.hugboga.custom.fragment.FgCarSuk;
-import com.hugboga.custom.fragment.FgLogin;
-import com.hugboga.custom.fragment.FgSkuNew;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.CarUtils;
 import com.hugboga.custom.utils.CityUtils;
@@ -42,15 +39,11 @@ import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.OrderUtils;
 import com.umeng.analytics.MobclickAgent;
-import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
-import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
-import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
+
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-import org.xutils.common.Callback;
 
-import java.util.Calendar;
 import java.util.HashMap;
 
 import butterknife.Bind;
@@ -416,6 +409,8 @@ public class SkuNewActivity extends BaseActivity {
         bundle.putSerializable("startBean", cityBean);
         bundle.putSerializable("endBean", cityBean);
         bundle.putInt("outnum", skuBean.daysCount);
+        manLuggageBean.luggages = maxLuuages;
+        bundle.putSerializable("manLuggageBean",manLuggageBean);
         bundle.putInt("innum", 0);
         bundle.putString("source", source);
         bundle.putBoolean("isHalfTravel", false);

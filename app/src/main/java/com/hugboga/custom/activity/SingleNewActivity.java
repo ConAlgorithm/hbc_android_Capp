@@ -35,7 +35,6 @@ import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestCheckPrice;
 import com.hugboga.custom.data.request.RequestCheckPriceForSingle;
 import com.hugboga.custom.data.request.RequestGuideConflict;
-import com.hugboga.custom.fragment.FGOrderNew;
 import com.hugboga.custom.fragment.FgCarNew;
 import com.hugboga.custom.fragment.FgLogin;
 import com.hugboga.custom.fragment.FgPoiSearch;
@@ -544,7 +543,7 @@ public class SingleNewActivity extends BaseActivity {
     }
 
     private void goOrder() {
-        FGOrderNew fgOrderNew = new FGOrderNew();
+//        FGOrderNew fgOrderNew = new FGOrderNew();
         Bundle bundle = new Bundle();
         bundle.putString("guideCollectId", collectGuideBean == null ? "" : collectGuideBean.guideId);
         bundle.putSerializable("collectGuideBean", collectGuideBean == null ? null : collectGuideBean);
@@ -588,10 +587,14 @@ public class SingleNewActivity extends BaseActivity {
         bundle.putInt("type", 4);
         bundle.putString("orderType", "4");
 
-        bundle.putParcelable("manLuggageBean", manLuggageBean);
+        bundle.putSerializable("manLuggageBean", manLuggageBean);
+//
+//        fgOrderNew.setArguments(bundle);
+//        startFragment(fgOrderNew);
 
-        fgOrderNew.setArguments(bundle);
-        startFragment(fgOrderNew);
+        Intent intent = new Intent(activity,OrderNewActivity.class);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
     FragmentManager fm;

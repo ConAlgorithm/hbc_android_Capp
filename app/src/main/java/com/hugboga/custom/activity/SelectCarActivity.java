@@ -8,7 +8,6 @@ import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -31,15 +30,10 @@ import com.hugboga.custom.data.bean.ServiceQuoteSumBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestGetCarInfo;
-import com.hugboga.custom.fragment.FGOrderNew;
-import com.hugboga.custom.fragment.FgLogin;
-import com.hugboga.custom.fragment.FgOrderInfo;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.widget.JazzyViewPager;
 import com.umeng.analytics.MobclickAgent;
-
-import org.xutils.common.Callback;
 
 import java.util.ArrayList;
 import java.util.HashMap;

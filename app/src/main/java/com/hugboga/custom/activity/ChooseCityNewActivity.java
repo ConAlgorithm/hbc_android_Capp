@@ -25,8 +25,6 @@ import com.hugboga.custom.adapter.SearchNewAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.SearchGroupBean;
 import com.hugboga.custom.data.net.UrlLibs;
-import com.hugboga.custom.fragment.FgPickSend;
-import com.hugboga.custom.fragment.FgSingleNew;
 import com.hugboga.custom.utils.CityUtils;
 import com.hugboga.custom.utils.LogUtils;
 import com.hugboga.custom.utils.UIUtils;
@@ -247,12 +245,14 @@ public class ChooseCityNewActivity extends BaseActivity {
 
                 if (groupList2.get(position).spot_id == -1) {
                     finish();
-                    FgPickSend fgPickSend = new FgPickSend();
-                    startFragment(fgPickSend);
+                    Intent intent = new Intent(activity, PickSendActivity.class);
+                    startActivity(intent);
+
                 } else if (groupList2.get(position).spot_id == -2) {
                     finish();
-                    FgSingleNew fgSingleNew = new FgSingleNew();
-                    startFragment(fgSingleNew);
+                    Intent intent = new Intent(activity, SingleNewActivity.class);
+                    startActivity(intent);
+
                 } else if (groupList2.get(position).spot_id == -3) {
                     finish();
 //                    Bundle bundle = new Bundle();

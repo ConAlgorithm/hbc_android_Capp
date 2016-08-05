@@ -1,6 +1,7 @@
 package com.hugboga.custom.fragment;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -17,6 +18,7 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.OrderNewActivity;
 import com.hugboga.custom.adapter.CarViewpagerAdapter;
 import com.hugboga.custom.data.bean.AirPort;
 import com.hugboga.custom.data.bean.CarBean;
@@ -410,7 +412,7 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
     }
 
     private void goOrder(){
-        FGOrderNew fgOrderNew = new FGOrderNew();
+//        FGOrderNew fgOrderNew = new FGOrderNew();
         Bundle bundle = new Bundle();
         bundle.putString("guideCollectId", collectGuideBean == null ? "" : collectGuideBean.guideId);
         bundle.putSerializable("collectGuideBean", collectGuideBean == null ? null : collectGuideBean);
@@ -430,9 +432,10 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
         bundle.putInt("type", 2);
         bundle.putString("orderType", "2");
         bundle.putBoolean("needCheckin", checkInChecked);
-        bundle.putParcelable("manLuggageBean", manLuggageBean);
-        fgOrderNew.setArguments(bundle);
-        startFragment(fgOrderNew);
+        bundle.putSerializable("manLuggageBean", manLuggageBean);
+        Intent intent = new Intent(getActivity(),OrderNewActivity.class);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
 

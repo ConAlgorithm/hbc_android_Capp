@@ -599,7 +599,7 @@ public class OrderUtils {
                                         String userRemark,String userName,PoiBean poiBean,
                                         boolean dreamLeftischeck,
                                         String travelFund,CouponBean couponBean,MostFitBean mostFitBean,
-                                        CarListBean carListBean,ManLuggageBean manLuggageBean,int hotelRoom ,double priceHotel,int orderType){
+                                        CarListBean carListBean,ManLuggageBean manLuggageBean,int hotelRoom ,double priceHotel,int orderType,String luggageNum){
         OrderBean orderBean = new OrderBean();//订单
 
         if (!TextUtils.isEmpty(guideCollectId)) {
@@ -624,6 +624,7 @@ public class OrderUtils {
         orderBean.adult = Integer.valueOf(adultNum);//成人数
         orderBean.child = Integer.valueOf(childrenNum);//儿童数
         orderBean.contactName = "";
+        orderBean.luggageNum = luggageNum;
         orderBean.contact = new ArrayList<OrderContact>();
         OrderContact orderContact = new OrderContact();
         orderContact.areaCode = "+86";

@@ -15,7 +15,6 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.EvaluateItemData;
 import com.hugboga.custom.data.bean.GuidesDetailData;
 import com.hugboga.custom.fragment.FgEvaluateList;
-import com.hugboga.custom.fragment.FgGuideDetail;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
 

@@ -1241,7 +1241,7 @@ public class FGOrderNew extends BaseFragment {
                 carBean, adultNum, childrenNum,
                 startBean, getPassCityStr(),
                 contactUsersBean, mark.getText().toString(), manName.getText().toString(), poiBean, dreamLeft.isChecked(),
-                travelFund, couponBean, mostFitBean, carListBean, manLuggageBean, hourseNum, hotelPrice, 5);
+                travelFund, couponBean, mostFitBean, carListBean, manLuggageBean, hourseNum, hotelPrice, 5,luggageNum);
 
     }
 
@@ -1252,7 +1252,7 @@ public class FGOrderNew extends BaseFragment {
                 carBean, adultNum, childrenNum,
                 startBean, getPassCityStr(),
                 contactUsersBean, mark.getText().toString(), manName.getText().toString(), poiBean, dreamLeft.isChecked(),
-                travelFund, couponBean, mostFitBean, carListBean, manLuggageBean, hourseNum, hotelPrice, 6);
+                travelFund, couponBean, mostFitBean, carListBean, manLuggageBean, hourseNum, hotelPrice, 6,luggageNum);
 
     }
 

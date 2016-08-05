@@ -569,7 +569,7 @@ public class FgSingleNew extends BaseFragment {
         bundle.putInt("type", 4);
         bundle.putString("orderType", "4");
 
-        bundle.putParcelable("manLuggageBean", manLuggageBean);
+        bundle.putSerializable("manLuggageBean", manLuggageBean);
 
         fgOrderNew.setArguments(bundle);
         startFragment(fgOrderNew);

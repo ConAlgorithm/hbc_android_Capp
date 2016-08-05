@@ -14,7 +14,6 @@ import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestOrderCancel;
-import com.hugboga.custom.fragment.FgOrderDetail;
 import com.hugboga.custom.fragment.FgTravel;
 import com.hugboga.custom.widget.DialogUtil;
 import com.umeng.analytics.MobclickAgent;
