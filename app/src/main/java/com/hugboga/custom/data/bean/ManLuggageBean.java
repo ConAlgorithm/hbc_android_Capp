@@ -14,7 +14,4 @@ public class ManLuggageBean implements IBaseBean{
     public ManLuggageBean() {
     }
 
-
-
-
 }
