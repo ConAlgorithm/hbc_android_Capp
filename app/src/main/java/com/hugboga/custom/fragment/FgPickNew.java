@@ -19,6 +19,7 @@ import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.ChooseAirActivity;
 import com.hugboga.custom.activity.OrderNewActivity;
+import com.hugboga.custom.activity.PoiSearchActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.AirPort;
 import com.hugboga.custom.data.bean.CarBean;
@@ -266,6 +267,16 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
     @Subscribe
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
+            case CHOOSE_POI_BACK:
+                poiBean = (PoiBean) action.getData();
+                addressTips.setVisibility(GONE);
+                addressTitle.setVisibility(View.VISIBLE);
+                addressDetail.setVisibility(View.VISIBLE);
+                addressTitle.setText(poiBean.placeName);
+                addressDetail.setText(poiBean.placeDetail);
+                collapseSoftInputMethod();
+                getData();
+            break;
             case MAX_LUGGAGE_NUM:
                 maxLuuages = (int)action.getData();
                 break;
@@ -491,6 +502,8 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
         }
     }
 
+
+
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
         if (request instanceof RequestCheckPrice) {
@@ -524,21 +537,24 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
     }
 
 
-    @Override
-    public void onFragmentResult(Bundle bundle) {
-        String from = bundle.getString(KEY_FRAGMENT_NAME);
-        if (FgPoiSearch.class.getSimpleName().equals(from)) {
-            poiBean = (PoiBean) bundle.getSerializable("arrival");
-            addressTips.setVisibility(GONE);
-            addressTitle.setVisibility(View.VISIBLE);
-            addressDetail.setVisibility(View.VISIBLE);
-            addressTitle.setText(poiBean.placeName);
-            addressDetail.setText(poiBean.placeDetail);
-            collapseSoftInputMethod();
-            getData();
 
-        }
-    }
+
+
+//    @Override
+//    public void onFragmentResult(Bundle bundle) {
+//        String from = bundle.getString(KEY_FRAGMENT_NAME);
+//        if (FgPoiSearch.class.getSimpleName().equals(from)) {
+//            poiBean = (PoiBean) bundle.getSerializable("arrival");
+//            addressTips.setVisibility(GONE);
+//            addressTitle.setVisibility(View.VISIBLE);
+//            addressDetail.setVisibility(View.VISIBLE);
+//            addressTitle.setText(poiBean.placeName);
+//            addressDetail.setText(poiBean.placeDetail);
+//            collapseSoftInputMethod();
+//            getData();
+//
+//        }
+//    }
 
 
     @Override
@@ -556,6 +572,7 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
         EventBus.getDefault().unregister(this);
     }
 
+    Intent intent;
     @OnClick({R.id.info_tips, R.id.air_title, R.id.air_detail, R.id.rl_info, R.id.address_tips, R.id.address_title, R.id.address_detail, R.id.rl_address})
     public void onClick(View view) {
         switch (view.getId()) {
@@ -565,7 +582,7 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
             case R.id.rl_info:
 //                FgChooseAir fgChooseAir = new FgChooseAir();
 //                startFragment(fgChooseAir);
-                Intent intent = new Intent(getActivity(),ChooseAirActivity.class);
+                intent = new Intent(getActivity(),ChooseAirActivity.class);
                 getActivity().startActivity(intent);
                 break;
             case R.id.address_tips:
@@ -573,12 +590,17 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
             case R.id.address_detail:
             case R.id.rl_address:
                 if (airDetail.isShown()) {
-                    FgPoiSearch fg = new FgPoiSearch();
+
+//                    FgPoiSearch fg = new FgPoiSearch();
                     Bundle bundle = new Bundle();
                     bundle.putString("source", "下单过程中");
-                    bundle.putInt(FgPoiSearch.KEY_CITY_ID, flightBean.arrivalAirport.cityId);
-                    bundle.putString(FgPoiSearch.KEY_LOCATION, flightBean.arrivalAirport.location);
-                    startFragment(fg, bundle);
+                    bundle.putInt(PoiSearchActivity.KEY_CITY_ID, flightBean.arrivalAirport.cityId);
+                    bundle.putString(PoiSearchActivity.KEY_LOCATION, flightBean.arrivalAirport.location);
+//                    startFragment(fg, bundle);
+
+                    intent = new Intent(getActivity(),PoiSearchActivity.class);
+                    intent.putExtras(bundle);
+                    getActivity().startActivity(intent);
                 } else {
                     CommonUtils.showToast("请先选择航班");
                 }

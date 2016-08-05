@@ -418,7 +418,9 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
             finish();
             if(null != from  && from.equalsIgnoreCase("lastCity")){
                 EventBus.getDefault().post(new EventAction(EventType.CHOOSE_END_CITY_BACK, cityBean));
-            }else {
+            }else if(null != from && from.equalsIgnoreCase("end")){
+                EventBus.getDefault().post(new EventAction(EventType.CHOOSE_END_CITY_BACK, cityBean));
+            }else{
                 EventBus.getDefault().post(new EventAction(EventType.CHOOSE_START_CITY_BACK, cityBean));
             }
         }

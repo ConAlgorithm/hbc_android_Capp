@@ -13,8 +13,15 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.data.bean.ChooseDateBean;
+import com.hugboga.custom.data.bean.FlightBean;
+import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.fragment.FgChooseAirAddress;
 import com.hugboga.custom.fragment.FgChooseAirNumber;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -69,8 +76,29 @@ public class ChooseAirActivity extends BaseActivity {
         super.onCreate(arg0);
         setContentView(R.layout.fg_choose_air);
         ButterKnife.bind(this);
+        EventBus.getDefault().register(this);
         initView();
         initHeader();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        ButterKnife.unbind(this);
+        EventBus.getDefault().unregister(this);
+    }
+
+    ChooseDateBean chooseDateBean;
+    @Subscribe
+    public void onEventMainThread(final EventAction action) {
+
+        switch (action.getType()) {
+            case PICK_FLIGHT_BACK:
+                FlightBean flightBean  = (FlightBean) action.getData();
+                EventBus.getDefault().post(new EventAction(EventType.AIR_NO,flightBean));
+                finish();
+                break;
+        }
     }
 
     FgChooseAirAddress fgChooseAirAddress;

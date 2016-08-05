@@ -3,6 +3,8 @@ package com.hugboga.custom.activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -12,6 +14,8 @@ import com.hugboga.custom.adapter.FlightAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.AirPort;
 import com.hugboga.custom.data.bean.FlightBean;
+import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestFlightByCity;
 import com.hugboga.custom.data.request.RequestFlightByNo;
 import com.hugboga.custom.fragment.FgPickFlight;
@@ -20,11 +24,11 @@ import com.hugboga.custom.utils.DBHelper;
 import com.hugboga.custom.utils.DateUtils;
 import com.umeng.analytics.MobclickAgent;
 
+import org.greenrobot.eventbus.EventBus;
 import org.xutils.DbManager;
 import org.xutils.common.Callback;
 import org.xutils.db.Selector;
 import org.xutils.ex.DbException;
-import org.xutils.view.annotation.Event;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -49,6 +53,20 @@ public class PickFlightListActivity extends BaseActivity implements AdapterView.
 
     @Bind(R.id.flight_info)
     TextView flightInfo;
+    @Bind(R.id.header_left_btn)
+    ImageView headerLeftBtn;
+    @Bind(R.id.header_right_btn)
+    ImageView headerRightBtn;
+    @Bind(R.id.header_title)
+    TextView headerTitle;
+    @Bind(R.id.header_right_txt)
+    TextView headerRightTxt;
+    @Bind(R.id.flight_list)
+    ListView flightList;
+    @Bind(R.id.flight_empty_no)
+    TextView flightEmptyNo;
+    @Bind(R.id.flight_empty_btn)
+    Button flightEmptyBtn;
 
     private FlightAdapter mAdapter;
     private ArrayList<FlightBean> mListDate;
@@ -65,14 +83,20 @@ public class PickFlightListActivity extends BaseActivity implements AdapterView.
     @Override
     public void onStart() {
         super.onStart();
-        HashMap<String,String> map = new HashMap<String,String>();
+        HashMap<String, String> map = new HashMap<String, String>();
         map.put("source", source);
         MobclickAgent.onEvent(activity, "search_launch", map);
     }
 
     public void initHeader() {
-        fgTitle.setText(getString(R.string.title_pick_flight_list));
+        headerTitle.setText(getString(R.string.title_pick_flight_list));
         source = getIntent().getStringExtra("source");
+        headerLeftBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     public void initView() {
@@ -86,19 +110,20 @@ public class PickFlightListActivity extends BaseActivity implements AdapterView.
         emptyView.setVisibility(View.GONE);
         flightNo = getIntent().getStringExtra(KEY_FLIGHT_NO);
         flightDate = getIntent().getStringExtra(KEY_FLIGHT_DATE);
-        flightFromCityId = getIntent().getIntExtra(KEY_FLIGHT_FROM,-1);
-        flightToCityId = getIntent().getIntExtra(KEY_FLIGHT_TO,-1);
-        flightType = getIntent().getIntExtra(KEY_FLIGHT_TYPE,-1);
+        flightFromCityId = getIntent().getIntExtra(KEY_FLIGHT_FROM, -1);
+        flightToCityId = getIntent().getIntExtra(KEY_FLIGHT_TO, -1);
+        flightType = getIntent().getIntExtra(KEY_FLIGHT_TYPE, -1);
     }
 
     @Override
     public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         setContentView(R.layout.fg_pick_flight_list);
-        mBusinessType = this.getIntent().getIntExtra("mBusinessType",-1);
+        mBusinessType = this.getIntent().getIntExtra("mBusinessType", -1);
         ButterKnife.bind(this);
         initView();
         initHeader();
+        requestData();
     }
 
     protected Callback.Cancelable requestData() {
@@ -139,9 +164,9 @@ public class PickFlightListActivity extends BaseActivity implements AdapterView.
         }
         try {
             String tFlightDate = DateUtils.getWeekStrByDate(flightDate, DateUtils.dateDateFormat, DateUtils.dateWeekFormat2);
-            if(count != 0) {
+            if (count != 0) {
                 flightInfo.setText(tFlightDate + " (共" + count + "趟航班)");
-            }else{
+            } else {
                 flightInfo.setVisibility(View.INVISIBLE);
             }
         } catch (ParseException e) {
@@ -156,14 +181,6 @@ public class PickFlightListActivity extends BaseActivity implements AdapterView.
     }
 
 
-    @Event({R.id.pick_btn, R.id.flight_empty_btn})
-    private void onClickView(View view) {
-        switch (view.getId()) {
-            case R.id.pick_btn:
-                break;
-        }
-    }
-
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -173,7 +190,7 @@ public class PickFlightListActivity extends BaseActivity implements AdapterView.
             return;
         }
 
-        HashMap<String,String> map = new HashMap<String,String>();
+        HashMap<String, String> map = new HashMap<String, String>();
         map.put("source", source);
         map.put("searchinput", flightNo);
         map.put("searchcity", bean.flightNo);
@@ -182,6 +199,9 @@ public class PickFlightListActivity extends BaseActivity implements AdapterView.
         Bundle bundle = new Bundle();
         bundle.putSerializable(FgPickFlight.KEY_AIRPORT, bean);
         bundle.putString(KEY_FROM, "FlightList");
+
+        EventBus.getDefault().post(new EventAction(EventType.PICK_FLIGHT_BACK, bean));
+        finish();
 //        finishForResult(bundle);
     }
 
@@ -202,7 +222,7 @@ public class PickFlightListActivity extends BaseActivity implements AdapterView.
         selector.where("airport_code", "IN", sets);
         try {
             List<AirPort> list = selector.findAll();
-            if(null != list) {
+            if (null != list) {
                 for (int i = listDate.size() - 1; i >= 0; i--) {
                     FlightBean flightBean = listDate.get(i);
                     for (AirPort airPort : list) {

@@ -16,9 +16,11 @@ import android.widget.TextView;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
-import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.ChooseAirPortActivity;
+import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.activity.OrderNewActivity;
+import com.hugboga.custom.activity.PoiSearchActivity;
 import com.hugboga.custom.adapter.CarViewpagerAdapter;
 import com.hugboga.custom.data.bean.AirPort;
 import com.hugboga.custom.data.bean.CarBean;
@@ -266,6 +268,30 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
     @Subscribe
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
+            case CHOOSE_POI_BACK:
+                poiBean = (PoiBean) action.getData();
+                infoTips.setVisibility(View.GONE);
+                airTitle.setVisibility(View.VISIBLE);
+                airDetail.setVisibility(View.VISIBLE);
+                airTitle.setText(poiBean.placeName);
+                airDetail.setText(poiBean.placeDetail);
+                collapseSoftInputMethod();
+                checkInput();
+                break;
+            case AIR_PORT_BACK:
+                airPortBean = (AirPort) action.getData();
+                addressTips.setText(airPortBean.cityName + " " + airPortBean.airportName);
+                poiBean = null;
+                airTitle.setText("");
+                airDetail.setText("");
+                infoTips.setVisibility(View.VISIBLE);
+                airTitle.setVisibility(View.GONE);
+                airDetail.setVisibility(View.GONE);
+                timeText.setText("");
+//            showCarsLayoutSend.setVisibility(View.GONE);
+                bottom.setVisibility(View.GONE);
+                checkInput();
+                break;
             case MAX_LUGGAGE_NUM:
                 maxLuuages = (int)action.getData();
                 break;
@@ -367,9 +393,8 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
                                     }
                                 }
                             } else {
-                                Bundle bundle = new Bundle();//用于统计
-                                bundle.putString("source", "送机下单");
-                                startFragment(new FgLogin(), bundle);
+                                Intent intent = new Intent(getActivity(), LoginActivity.class);
+                                getActivity().startActivity(intent);
                             }
                         }
                     }
@@ -466,6 +491,7 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
         EventBus.getDefault().unregister(this);
     }
 
+    Intent intent;
     @OnClick({R.id.address_layout, R.id.air_send_layout, R.id.time_layout,R.id.info_tips, R.id.air_title, R.id.air_detail, R.id.rl_info, R.id.address_tips, R.id.rl_address, R.id.time_text, R.id.rl_starttime})
     public void onClick(View view) {
         switch (view.getId()) {
@@ -474,19 +500,27 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
             case R.id.air_detail:
             case R.id.air_send_layout://从哪里出发
                 if (airPortBean != null) {
-                    FgPoiSearch fg = new FgPoiSearch();
+//                    FgPoiSearch fg = new FgPoiSearch();
                     Bundle bundle = new Bundle();
                     bundle.putInt(FgPoiSearch.KEY_CITY_ID, airPortBean.cityId);
                     bundle.putString(FgPoiSearch.KEY_LOCATION, airPortBean.location);
-                    fg.setArguments(bundle);
-                    startFragment(fg);
+//                    fg.setArguments(bundle);
+//                    startFragment(fg);
+//
+                    intent = new Intent(getActivity(), PoiSearchActivity.class);
+                    intent.putExtras(bundle);
+                    getActivity().startActivity(intent);
+
                 } else {
                     showToast("先选择机场");
                 }
                 break;
             case R.id.address_layout:
             case R.id.address_tips://选择机场
-                startFragment(new FgChooseAirport());
+//                startFragment(new FgChooseAirport());
+                Intent intent = new Intent(getActivity(),ChooseAirPortActivity.class);
+                getActivity().startActivity(intent);
+
                 break;
 //            case R.id.air_send_layout:
 //                FgChooseAir fgChooseAir = new FgChooseAir();
@@ -573,35 +607,6 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
         }
     }
 
-    @Override
-    public void onFragmentResult(Bundle bundle) {
-        MLog.w(this + " onFragmentResult " + bundle);
-        String from = bundle.getString(KEY_FRAGMENT_NAME);
-        if (FgChooseAirport.class.getSimpleName().equals(from)) {
-            airPortBean = (AirPort) bundle.getSerializable(FgChooseAirport.KEY_AIRPORT);
-            addressTips.setText(airPortBean.cityName + " " + airPortBean.airportName);
-            poiBean = null;
-            airTitle.setText("");
-            airDetail.setText("");
-            infoTips.setVisibility(View.VISIBLE);
-            airTitle.setVisibility(View.GONE);
-            airDetail.setVisibility(View.GONE);
-            timeText.setText("");
-//            showCarsLayoutSend.setVisibility(View.GONE);
-            bottom.setVisibility(View.GONE);
-            checkInput();
-
-        } else if (FgPoiSearch.class.getSimpleName().equals(from)) {
-            poiBean = (PoiBean) bundle.getSerializable("arrival");
-            infoTips.setVisibility(View.GONE);
-            airTitle.setVisibility(View.VISIBLE);
-            airDetail.setVisibility(View.VISIBLE);
-            airTitle.setText(poiBean.placeName);
-            airDetail.setText(poiBean.placeDetail);
-            collapseSoftInputMethod();
-            checkInput();
-        }
-    }
 
     public void showDaySelect() {
         Calendar cal = Calendar.getInstance();
