@@ -37,6 +37,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static android.view.View.GONE;
 import static com.hugboga.custom.R.mipmap.closed_btn;
 import static com.hugboga.custom.R.mipmap.top_back_white;
 
@@ -79,7 +80,7 @@ public class ChooseCityNewActivity extends BaseActivity {
         }
         headTextRight.setText("取消");
         headSearch.setHint(R.string.home_search_hint);
-        headTextRight.setVisibility(View.GONE);
+        headTextRight.setVisibility(GONE);
         initPop();
     }
 
@@ -132,7 +133,7 @@ public class ChooseCityNewActivity extends BaseActivity {
         if (null != list && list.size() != 0) {
             searchNewAdapter.setKey(headSearch.getText().toString().trim());
             searchNewAdapter.setGroupArray(list);
-            emptyLayout.setVisibility(View.GONE);
+            emptyLayout.setVisibility(GONE);
         } else {
             searchNewAdapter.clearList();
             emptyLayout.setVisibility(View.VISIBLE);
@@ -154,7 +155,7 @@ public class ChooseCityNewActivity extends BaseActivity {
                 showSoftInputMethod(headSearch);
                 break;
             case R.id.header_left_btn:
-                expandableListView.setVisibility(View.GONE);
+                expandableListView.setVisibility(GONE);
                 finish();
                 if(!isHomeIn) {
                     overridePendingTransition(R.anim.push_buttom_out, 0);
@@ -164,8 +165,8 @@ public class ChooseCityNewActivity extends BaseActivity {
                 headSearch.setText("");
                 break;
             case R.id.head_text_right:
-                expandableListView.setVisibility(View.GONE);
-                headTextRight.setVisibility(View.GONE);
+                expandableListView.setVisibility(GONE);
+                headTextRight.setVisibility(GONE);
                 headSearch.setText("");
                 collapseSoftInputMethod(headSearch);
                 break;
@@ -182,6 +183,7 @@ public class ChooseCityNewActivity extends BaseActivity {
 
     public void initView() {
         initHeader();
+        rightList.setVisibility(GONE);
         headSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -200,9 +202,9 @@ public class ChooseCityNewActivity extends BaseActivity {
                     LogUtils.e(list.size() + "====" + headSearch.getText().toString());
                     showSearchPop(list);
                 } else {
-                    expandableListView.setVisibility(View.GONE);
-                    headTextRight.setVisibility(View.GONE);
-                    emptyLayout.setVisibility(View.GONE);
+                    expandableListView.setVisibility(GONE);
+                    headTextRight.setVisibility(GONE);
+                    emptyLayout.setVisibility(GONE);
                 }
             }
         });
@@ -221,7 +223,7 @@ public class ChooseCityNewActivity extends BaseActivity {
         leftList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                rightList.setVisibility(View.GONE);
+                rightList.setVisibility(GONE);
                 for (SearchGroupBean lineGroupBean : groupList) {
                     lineGroupBean.isSelected = false;
                 }
@@ -236,7 +238,7 @@ public class ChooseCityNewActivity extends BaseActivity {
         middleList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                rightList.setVisibility(View.GONE);
+                rightList.setVisibility(GONE);
                 for (SearchGroupBean lineGroupBean : groupList2) {
                     lineGroupBean.isSelected = false;
                 }
@@ -380,7 +382,7 @@ public class ChooseCityNewActivity extends BaseActivity {
     private void goCityList(SearchGroupBean searchGroupBean) {
         CityUtils.addCityHistoryData(searchGroupBean);
 //        finish();
-        expandableListView.setVisibility(View.GONE);
+        expandableListView.setVisibility(GONE);
         SkuListActivity.Params params = new SkuListActivity.Params();
 
         if (searchGroupBean.flag == 1) {
@@ -434,7 +436,7 @@ public class ChooseCityNewActivity extends BaseActivity {
 
 
     public void onBackPressed() {
-        expandableListView.setVisibility(View.GONE);
+        expandableListView.setVisibility(GONE);
         super.onBackPressed();
     }
 
