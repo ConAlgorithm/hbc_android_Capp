@@ -177,7 +177,7 @@ public class OrderSelectCityActivity extends BaseActivity  {
         initSelectPeoplePop(false);
         enableNextBtn();
 
-        startBean = this.getIntent().getParcelableExtra("cityBean");
+        startBean = (CityBean)this.getIntent().getSerializableExtra("cityBean");
 
         if (null != startBean) {
             endBean = startBean;

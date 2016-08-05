@@ -60,7 +60,7 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.cityBean = getIntent().getParcelableExtra("cityBean");
+        this.cityBean = (CityBean)getIntent().getSerializableExtra("cityBean");
         setContentView(R.layout.fg_webview);
         ButterKnife.bind(this);
         initView();

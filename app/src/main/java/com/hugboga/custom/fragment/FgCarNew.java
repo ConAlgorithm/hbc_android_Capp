@@ -411,7 +411,7 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
         });
         waitSwitch.setChecked(true);
         checkSwitch.setChecked(true);
-        carListBean = this.getArguments().getParcelable("carListBean");
+        carListBean = (CarListBean)this.getArguments().getSerializable("carListBean");
 
         isNetError = this.getArguments().getBoolean("isNetError", false);
         if (isNetError) {

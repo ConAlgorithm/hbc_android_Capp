@@ -169,6 +169,7 @@ public class SingleNewActivity extends BaseActivity {
         super.onCreate(arg0);
         setContentView(R.layout.fg_single_new);
         ButterKnife.bind(this);
+        EventBus.getDefault().register(this);
         initView();
         initHeader();
     }
@@ -401,14 +402,16 @@ public class SingleNewActivity extends BaseActivity {
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
             case CHOOSE_POI_BACK:
-                startBean  = (PoiBean)action.getData();
-                if ("from".equals(startBean.type)) {
+                PoiBean poiBean  = (PoiBean)action.getData();
+                if ("from".equals(poiBean.type)) {
+                    startBean  = (PoiBean)action.getData();
                     startTips.setVisibility(GONE);
                     startTitle.setVisibility(View.VISIBLE);
                     startDetail.setVisibility(View.VISIBLE);
                     startTitle.setText(startBean.placeName);
                     startDetail.setText(startBean.placeDetail);
-                } else if ("to".equals(startBean.type)) {
+                } else if ("to".equals(poiBean.type)) {
+                    arrivalBean =(PoiBean)action.getData();
                     endTips.setVisibility(GONE);
                     endTitle.setVisibility(View.VISIBLE);
                     endDetail.setVisibility(View.VISIBLE);
