@@ -35,7 +35,6 @@ import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestCheckPrice;
 import com.hugboga.custom.data.request.RequestCheckPriceForSingle;
 import com.hugboga.custom.data.request.RequestGuideConflict;
-import com.hugboga.custom.fragment.FGOrderNew;
 import com.hugboga.custom.fragment.FgCarNew;
 import com.hugboga.custom.fragment.FgLogin;
 import com.hugboga.custom.fragment.FgPoiSearch;
@@ -170,6 +169,7 @@ public class SingleNewActivity extends BaseActivity {
         super.onCreate(arg0);
         setContentView(R.layout.fg_single_new);
         ButterKnife.bind(this);
+        EventBus.getDefault().register(this);
         initView();
         initHeader();
     }
@@ -401,6 +401,49 @@ public class SingleNewActivity extends BaseActivity {
     @Subscribe
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
+            case CHOOSE_POI_BACK:
+                PoiBean poiBean  = (PoiBean)action.getData();
+                if ("from".equals(poiBean.type)) {
+                    startBean  = (PoiBean)action.getData();
+                    startTips.setVisibility(GONE);
+                    startTitle.setVisibility(View.VISIBLE);
+                    startDetail.setVisibility(View.VISIBLE);
+                    startTitle.setText(startBean.placeName);
+                    startDetail.setText(startBean.placeDetail);
+                } else if ("to".equals(poiBean.type)) {
+                    arrivalBean =(PoiBean)action.getData();
+                    endTips.setVisibility(GONE);
+                    endTitle.setVisibility(View.VISIBLE);
+                    endDetail.setVisibility(View.VISIBLE);
+                    endTitle.setText(arrivalBean.placeName);
+                    endDetail.setText(arrivalBean.placeDetail);
+                }
+                break;
+
+            case CHOOSE_START_CITY_BACK:
+                cityBean =  (CityBean)action.getData();
+                useCityTips.setText(cityBean.name);
+                startBean = null;
+                arrivalBean = null;
+                startTips.setVisibility(View.VISIBLE);
+                startTitle.setVisibility(GONE);
+                startDetail.setVisibility(GONE);
+                startTitle.setText("");
+                startDetail.setText("");
+
+                endTips.setVisibility(View.VISIBLE);
+                endTitle.setVisibility(GONE);
+                endDetail.setVisibility(GONE);
+                endTitle.setText("");
+                endDetail.setText("");
+
+                bottom.setVisibility(GONE);
+                if (null == collectGuideBean) {
+                    showCarsLayoutSingle.setVisibility(GONE);
+                }
+                timeText.setText("");
+
+                break;
             case MAX_LUGGAGE_NUM:
                 maxLuuages = (int) action.getData();
                 break;
@@ -544,7 +587,7 @@ public class SingleNewActivity extends BaseActivity {
     }
 
     private void goOrder() {
-        FGOrderNew fgOrderNew = new FGOrderNew();
+//        FGOrderNew fgOrderNew = new FGOrderNew();
         Bundle bundle = new Bundle();
         bundle.putString("guideCollectId", collectGuideBean == null ? "" : collectGuideBean.guideId);
         bundle.putSerializable("collectGuideBean", collectGuideBean == null ? null : collectGuideBean);
@@ -588,10 +631,14 @@ public class SingleNewActivity extends BaseActivity {
         bundle.putInt("type", 4);
         bundle.putString("orderType", "4");
 
-        bundle.putParcelable("manLuggageBean", manLuggageBean);
+        bundle.putSerializable("manLuggageBean", manLuggageBean);
+//
+//        fgOrderNew.setArguments(bundle);
+//        startFragment(fgOrderNew);
 
-        fgOrderNew.setArguments(bundle);
-        startFragment(fgOrderNew);
+        Intent intent = new Intent(activity,OrderNewActivity.class);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
     FragmentManager fm;
@@ -608,7 +655,7 @@ public class SingleNewActivity extends BaseActivity {
         fgCarNew = new FgCarNew();
         Bundle bundle = new Bundle();
         bundle.putSerializable("collectGuideBean", collectGuideBean);
-        bundle.putParcelable("carListBean", carListBean);
+        bundle.putSerializable("carListBean", carListBean);
         bundle.putBoolean("isDataBack", isDataBack);
         bundle.putBoolean("isNetError", isNetError);
 //        if(null != carListBean && carListBean.carList.size() == 0 && null != collectGuideBean){
@@ -686,7 +733,7 @@ public class SingleNewActivity extends BaseActivity {
         }
     }
 
-
+    Intent intent;
     @OnClick({R.id.city_layout, R.id.start_layout, R.id.end_layout, R.id.time_layout, R.id.confirm_journey, R.id.start_tips, R.id.start_title, R.id.start_detail, R.id.end_tips, R.id.end_title, R.id.end_detail})
     public void onClick(View view) {
         HashMap<String, String> map = new HashMap<String, String>();
@@ -696,7 +743,7 @@ public class SingleNewActivity extends BaseActivity {
 //                bundle.putString("source", "下单过程中");
 //                bundle.putInt(KEY_BUSINESS_TYPE, Constants.BUSINESS_TYPE_RENT);
 //                startFragment(new FgChooseCity(), bundle);
-                Intent intent = new Intent(this, ChooseCityActivity.class);
+                intent = new Intent(this, ChooseCityActivity.class);
                 intent.putExtra("source", "下单过程中");
                 intent.putExtra(KEY_BUSINESS_TYPE, Constants.BUSINESS_TYPE_RENT);
                 startActivity(intent);
@@ -706,14 +753,15 @@ public class SingleNewActivity extends BaseActivity {
             case R.id.start_detail:
             case R.id.start_layout:
                 if (cityBean != null) {
-                    FgPoiSearch fg = new FgPoiSearch();
+//                    FgPoiSearch fg = new FgPoiSearch();
                     bundle.putString("source", "下单过程中");
                     bundle.putString(KEY_FROM, "from");
-                    bundle.putInt(FgPoiSearch.KEY_CITY_ID, cityBean.cityId);
-                    bundle.putString(FgPoiSearch.KEY_LOCATION, cityBean.location);
-                    startFragment(fg, bundle);
-                    map.put("source", "下单过程中");
-                    MobclickAgent.onEvent(activity, "search_trigger", map);
+                    bundle.putInt(PoiSearchActivity.KEY_CITY_ID, cityBean.cityId);
+                    bundle.putString(PoiSearchActivity.KEY_LOCATION, cityBean.location);
+                    intent = new Intent(activity,PoiSearchActivity.class);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+
                 } else {
                     CommonUtils.showToast("先选择城市");
                 }
@@ -723,14 +771,23 @@ public class SingleNewActivity extends BaseActivity {
             case R.id.end_detail:
             case R.id.end_layout:
                 if (cityBean != null) {
-                    FgPoiSearch fg = new FgPoiSearch();
+//                    FgPoiSearch fg = new FgPoiSearch();
+//                    bundle.putString("source", "下单过程中");
+//                    bundle.putString(KEY_FROM, "to");
+//                    bundle.putInt(FgPoiSearch.KEY_CITY_ID, cityBean.cityId);
+//                    bundle.putString(FgPoiSearch.KEY_LOCATION, cityBean.location);
+//                    startFragment(fg, bundle);
+//                    map.put("source", "下单过程中");
+//                    MobclickAgent.onEvent(activity, "search_trigger", map);
+
                     bundle.putString("source", "下单过程中");
                     bundle.putString(KEY_FROM, "to");
-                    bundle.putInt(FgPoiSearch.KEY_CITY_ID, cityBean.cityId);
-                    bundle.putString(FgPoiSearch.KEY_LOCATION, cityBean.location);
-                    startFragment(fg, bundle);
-                    map.put("source", "下单过程中");
-                    MobclickAgent.onEvent(activity, "search_trigger", map);
+                    bundle.putInt(PoiSearchActivity.KEY_CITY_ID, cityBean.cityId);
+                    bundle.putString(PoiSearchActivity.KEY_LOCATION, cityBean.location);
+                    intent = new Intent(activity,PoiSearchActivity.class);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+
                 } else {
                     CommonUtils.showToast("先选择城市");
                 }

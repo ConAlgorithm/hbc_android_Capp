@@ -1,5 +1,6 @@
 package com.hugboga.custom.fragment;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
@@ -13,30 +14,29 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.anupcowkur.reservoir.Reservoir;
 import com.google.gson.reflect.TypeToken;
-import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.DatePickerActivity;
+import com.hugboga.custom.activity.PickFlightListActivity;
+import com.hugboga.custom.data.bean.ChooseDateBean;
 import com.hugboga.custom.data.bean.SaveStartEndCity;
 import com.hugboga.custom.data.event.EventAction;
-import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.utils.CommonUtils;
-import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import org.greenrobot.eventbus.EventBus;
 
 /**
  * Created  on 16/5/13.
@@ -210,6 +210,7 @@ public class FgChooseAirNumber extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
         ButterKnife.bind(this, rootView);
+        EventBus.getDefault().register(this);
         return rootView;
     }
 
@@ -217,6 +218,7 @@ public class FgChooseAirNumber extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+        EventBus.getDefault().unregister(this);
     }
 
     @OnClick({R.id.search, R.id.clean_all_history,R.id.address_tips})
@@ -239,21 +241,15 @@ public class FgChooseAirNumber extends BaseFragment {
                 }
                 break;
             case R.id.address_tips:
-                showDaySelect(addressTips);
+//                showDaySelect(addressTips);
+                Intent intent = new Intent(getActivity(),DatePickerActivity.class);
+                intent.putExtra("type",3);
+                intent.putExtra("title","请选择出发日期");
+                intent.putExtra("chooseDateBean",chooseDateBean);
+                getActivity().startActivity(intent);
                 break;
         }
     }
-
-    @Override
-    public void onFragmentResult(Bundle bundle) {
-        MLog.w(this + " onFragmentResult " + bundle);
-        String from = bundle.getString(KEY_FROM);
-        if ("FlightList".equals(from)) {
-            EventBus.getDefault().post(new EventAction(EventType.AIR_NO,bundle.getSerializable(FgPickFlight.KEY_AIRPORT)));
-            finish();
-        }
-    }
-
 
 
     String noStr= "";
@@ -272,31 +268,29 @@ public class FgChooseAirNumber extends BaseFragment {
             return;
         }
 
-        FgPickFlightList fragment = new FgPickFlightList();
         Bundle bundle = new Bundle();
         bundle.putString(FgPickFlightList.KEY_FLIGHT_NO, noStr.toUpperCase());
         bundle.putString(FgPickFlightList.KEY_FLIGHT_DATE, time1Str);
         bundle.putInt(FgPickFlightList.KEY_FLIGHT_TYPE, 1);
         bundle.putString("source",source);
-        fragment.setArguments(bundle);
-        startFragment(fragment);
+        Intent intent = new Intent(getActivity(),PickFlightListActivity.class);
+        intent.putExtras(bundle);
+        getActivity().startActivity(intent);
     }
 
-    class MyDatePickerListener implements com.wdullaer.materialdatetimepicker.date.DatePickerDialog.OnDateSetListener {
-        TextView mTextView;
+    ChooseDateBean chooseDateBean;
+    @Subscribe
+    public void onEventMainThread(final EventAction action) {
 
-        MyDatePickerListener(TextView textView) {
-            this.mTextView = textView;
-        }
-
-        @Override
-        public void onDateSet(com.wdullaer.materialdatetimepicker.date.DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-            int month = monthOfYear + 1;
-            String monthStr = String.format("%02d", month);
-            String dayOfMonthStr = String.format("%02d", dayOfMonth);
-            String serverDate = year + "-" + monthStr + "-" + dayOfMonthStr;
-            mTextView.setText(serverDate);
-            checkNextBtnStatus();
+        switch (action.getType()) {
+            case CHOOSE_DATE:
+                chooseDateBean = (ChooseDateBean) action.getData();
+                if (chooseDateBean.type == 3) {
+                    String serverDate = chooseDateBean.halfDateStr;
+                    addressTips.setText(serverDate);
+                    checkNextBtnStatus();
+                }
+                break;
         }
     }
 
@@ -316,20 +310,6 @@ public class FgChooseAirNumber extends BaseFragment {
     }
 
 
-
-    public void showDaySelect(TextView sDateTime) {
-        Calendar cal = Calendar.getInstance();
-        MyDatePickerListener myDatePickerDialog = new MyDatePickerListener(sDateTime);
-        DatePickerDialog dpd = DatePickerDialog.newInstance(
-                myDatePickerDialog, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
-        cal = Calendar.getInstance();
-        dpd.setMinDate(cal);
-        cal = Calendar.getInstance();
-        cal.set(Calendar.MONTH, cal.get(Calendar.MONTH) + 6);
-        dpd.setMaxDate(cal);
-        dpd.show(this.getActivity().getFragmentManager(), "DatePickerDialog");   //显示日期设置对话框
-
-    }
 
 
 }

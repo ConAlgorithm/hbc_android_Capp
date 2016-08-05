@@ -1,6 +1,7 @@
 package com.hugboga.custom.fragment;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -15,8 +16,11 @@ import android.widget.TextView;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
-import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.ChooseAirPortActivity;
+import com.hugboga.custom.activity.LoginActivity;
+import com.hugboga.custom.activity.OrderNewActivity;
+import com.hugboga.custom.activity.PoiSearchActivity;
 import com.hugboga.custom.adapter.CarViewpagerAdapter;
 import com.hugboga.custom.data.bean.AirPort;
 import com.hugboga.custom.data.bean.CarBean;
@@ -35,9 +39,6 @@ import com.hugboga.custom.utils.CarUtils;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.widget.DialogUtil;
-import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
-import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
-import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -137,14 +138,6 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
             }
         }
 
-//        if(waitChecked) {
-//            if (!TextUtils.isEmpty(carListBean.additionalServicePrice.pickupSignPrice)) {
-//                total += Integer.valueOf(carListBean.additionalServicePrice.pickupSignPrice);
-//            }
-//        }
-
-
-
         allMoneyText.setText("￥" + total);
 
         if(null != carListBean) {
@@ -167,7 +160,7 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
             bundle.putAll(getArguments());
         }
         bundle.putSerializable("collectGuideBean",collectGuideBean);
-        bundle.putParcelable("carListBean", carListBean);
+        bundle.putSerializable("carListBean", carListBean);
         bundle.putBoolean("isNetError", isNetError);
         if(isDataBack && null !=carListBean) {
             String sTime = serverDate +" " + serverTime +":00";
@@ -261,9 +254,34 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
     boolean checkInChecked = true;
     boolean waitChecked = true;
     int maxLuuages = 0;
+
     @Subscribe
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
+            case AIR_PORT_BACK:
+                airPortBean = (AirPort) action.getData();
+                addressTips.setText(airPortBean.cityName + " " + airPortBean.airportName);
+                poiBean = null;
+                airTitle.setText("");
+                airDetail.setText("");
+                infoTips.setVisibility(View.VISIBLE);
+                airTitle.setVisibility(View.GONE);
+                airDetail.setVisibility(View.GONE);
+                timeText.setText("");
+//            showCarsLayoutSend.setVisibility(View.GONE);
+                bottom.setVisibility(View.GONE);
+                checkInput();
+                break;
+            case CHOOSE_POI_BACK:
+                poiBean = (PoiBean) action.getData();
+                infoTips.setVisibility(View.GONE);
+                airTitle.setVisibility(View.VISIBLE);
+                airDetail.setVisibility(View.VISIBLE);
+                airTitle.setText(poiBean.placeName);
+                airDetail.setText(poiBean.placeDetail);
+                collapseSoftInputMethod();
+                checkInput();
+                break;
             case MAX_LUGGAGE_NUM:
                 maxLuuages = (int)action.getData();
                 break;
@@ -365,9 +383,8 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
                                     }
                                 }
                             } else {
-                                Bundle bundle = new Bundle();//用于统计
-                                bundle.putString("source", "送机下单");
-                                startFragment(new FgLogin(), bundle);
+                                Intent intent = new Intent(getActivity(), LoginActivity.class);
+                                getActivity().startActivity(intent);
                             }
                         }
                     }
@@ -410,29 +427,30 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
     }
 
     private void goOrder(){
-        FGOrderNew fgOrderNew = new FGOrderNew();
+//        FGOrderNew fgOrderNew = new FGOrderNew();
         Bundle bundle = new Bundle();
         bundle.putString("guideCollectId", collectGuideBean == null ? "" : collectGuideBean.guideId);
         bundle.putSerializable("collectGuideBean", collectGuideBean == null ? null : collectGuideBean);
         bundle.putString("source", source);
         carBean.expectedCompTime = carListBean.estTime;
-        bundle.putParcelable("carBean", CarUtils.carBeanAdapter(carBean));
-        bundle.putParcelable("carListBean", carListBean);
-        bundle.putParcelable("airPortBean", airPortBean);
-        bundle.putParcelable("poiBean", poiBean);
+        bundle.putSerializable("carBean", CarUtils.carBeanAdapter(carBean));
+        bundle.putSerializable("carListBean", carListBean);
+        bundle.putSerializable("airPortBean", airPortBean);
+        bundle.putSerializable("poiBean", poiBean);
         bundle.putString("serverTime", serverTime);
         bundle.putString("serverDate", serverDate);
         bundle.putString("adultNum", manLuggageBean.mans + "");
         bundle.putString("childrenNum", manLuggageBean.childs + "");
         bundle.putString("childseatNum", manLuggageBean.childSeats + "");
         bundle.putString("luggageNum", maxLuuages+"");//manLuggageBean.luggages + "");
-        bundle.putParcelable("carListBean", carListBean);
+        bundle.putSerializable("carListBean", carListBean);
         bundle.putInt("type", 2);
         bundle.putString("orderType", "2");
         bundle.putBoolean("needCheckin", checkInChecked);
-        bundle.putParcelable("manLuggageBean", manLuggageBean);
-        fgOrderNew.setArguments(bundle);
-        startFragment(fgOrderNew);
+        bundle.putSerializable("manLuggageBean", manLuggageBean);
+        Intent intent = new Intent(getActivity(),OrderNewActivity.class);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
 
@@ -463,6 +481,7 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
         EventBus.getDefault().unregister(this);
     }
 
+    Intent intent;
     @OnClick({R.id.address_layout, R.id.air_send_layout, R.id.time_layout,R.id.info_tips, R.id.air_title, R.id.air_detail, R.id.rl_info, R.id.address_tips, R.id.rl_address, R.id.time_text, R.id.rl_starttime})
     public void onClick(View view) {
         switch (view.getId()) {
@@ -471,19 +490,27 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
             case R.id.air_detail:
             case R.id.air_send_layout://从哪里出发
                 if (airPortBean != null) {
-                    FgPoiSearch fg = new FgPoiSearch();
+//                    FgPoiSearch fg = new FgPoiSearch();
                     Bundle bundle = new Bundle();
                     bundle.putInt(FgPoiSearch.KEY_CITY_ID, airPortBean.cityId);
                     bundle.putString(FgPoiSearch.KEY_LOCATION, airPortBean.location);
-                    fg.setArguments(bundle);
-                    startFragment(fg);
+//                    fg.setArguments(bundle);
+//                    startFragment(fg);
+//
+                    intent = new Intent(getActivity(), PoiSearchActivity.class);
+                    intent.putExtras(bundle);
+                    getActivity().startActivity(intent);
+
                 } else {
                     showToast("先选择机场");
                 }
                 break;
             case R.id.address_layout:
             case R.id.address_tips://选择机场
-                startFragment(new FgChooseAirport());
+//                startFragment(new FgChooseAirport());
+                Intent intent = new Intent(getActivity(),ChooseAirPortActivity.class);
+                getActivity().startActivity(intent);
+
                 break;
 //            case R.id.air_send_layout:
 //                FgChooseAir fgChooseAir = new FgChooseAir();
@@ -569,87 +596,6 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
 
         }
     }
-
-    @Override
-    public void onFragmentResult(Bundle bundle) {
-        MLog.w(this + " onFragmentResult " + bundle);
-        String from = bundle.getString(KEY_FRAGMENT_NAME);
-        if (FgChooseAirport.class.getSimpleName().equals(from)) {
-            airPortBean = (AirPort) bundle.getSerializable(FgChooseAirport.KEY_AIRPORT);
-            addressTips.setText(airPortBean.cityName + " " + airPortBean.airportName);
-            poiBean = null;
-            airTitle.setText("");
-            airDetail.setText("");
-            infoTips.setVisibility(View.VISIBLE);
-            airTitle.setVisibility(View.GONE);
-            airDetail.setVisibility(View.GONE);
-            timeText.setText("");
-//            showCarsLayoutSend.setVisibility(View.GONE);
-            bottom.setVisibility(View.GONE);
-            checkInput();
-
-        } else if (FgPoiSearch.class.getSimpleName().equals(from)) {
-            poiBean = (PoiBean) bundle.getSerializable("arrival");
-            infoTips.setVisibility(View.GONE);
-            airTitle.setVisibility(View.VISIBLE);
-            airDetail.setVisibility(View.VISIBLE);
-            airTitle.setText(poiBean.placeName);
-            airDetail.setText(poiBean.placeDetail);
-            collapseSoftInputMethod();
-            checkInput();
-        }
-    }
-
-    public void showDaySelect() {
-        Calendar cal = Calendar.getInstance();
-        MyDatePickerListener myDatePickerDialog = new MyDatePickerListener(timeText);
-        DatePickerDialog dpd = DatePickerDialog.newInstance(
-                myDatePickerDialog, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
-        cal = Calendar.getInstance();
-        dpd.setMinDate(cal);
-        cal = Calendar.getInstance();
-        cal.set(Calendar.MONTH, cal.get(Calendar.MONTH) + 6);
-        dpd.setMaxDate(cal);
-        dpd.show(this.getActivity().getFragmentManager(), "DatePickerDialog");   //显示日期设置对话框
-
-    }
-
-    class MyDatePickerListener implements DatePickerDialog.OnDateSetListener {
-        TextView mTextView;
-
-        MyDatePickerListener(TextView textView) {
-            this.mTextView = textView;
-        }
-
-        @Override
-        public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-            int month = monthOfYear + 1;
-            String monthStr = String.format("%02d", month);
-            String dayOfMonthStr = String.format("%02d", dayOfMonth);
-            serverDate = year + "-" + monthStr + "-" + dayOfMonthStr;
-            showTimeSelect();
-        }
-    }
-
-    public void showTimeSelect() {
-        Calendar cal = Calendar.getInstance();
-        MyTimePickerDialogListener myTimePickerDialog = new MyTimePickerDialogListener();
-        TimePickerDialog datePickerDialog = TimePickerDialog.newInstance(myTimePickerDialog, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), true);
-        datePickerDialog.show(this.getActivity().getFragmentManager(), "TimePickerDialog");                //显示日期设置对话框
-    }
-
-
-    class MyTimePickerDialogListener implements TimePickerDialog.OnTimeSetListener {
-        @Override
-        public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute, int second) {
-            String hour = String.format("%02d", hourOfDay);
-            String minuteStr = String.format("%02d", minute);
-            serverTime = hour + ":" + minuteStr;
-            timeText.setText(serverDate + " " + serverTime);
-            checkInput();
-        }
-    }
-
 
     @Override
     public boolean onBackPressed() {

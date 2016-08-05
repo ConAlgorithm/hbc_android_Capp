@@ -400,7 +400,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.cityBean = getIntent().getParcelableExtra("cityBean");
+        this.cityBean = (CityBean) getIntent().getSerializableExtra("cityBean");
         setContentView(R.layout.fg_sku_detail);
         ButterKnife.bind(this);
         initView();

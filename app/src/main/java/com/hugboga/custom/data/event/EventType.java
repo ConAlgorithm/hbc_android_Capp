@@ -78,4 +78,6 @@ public enum EventType {
     CHOOSE_POI_BACK,//选POI返回
     CHOOSE_COUNTRY_BACK,//选country返回
     COUPON_BACK,//选country返回
+    PICK_FLIGHT_BACK,//选航班号返回
+    AIR_PORT_BACK,//选airport返回
 }

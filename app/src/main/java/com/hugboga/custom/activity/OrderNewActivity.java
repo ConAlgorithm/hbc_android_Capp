@@ -341,7 +341,6 @@ public class OrderNewActivity extends BaseActivity {
 
 
         luggageItemLayout.setText(luggageNum+"件");
-
         startCityName = this.getIntent().getStringExtra("startCityName");
         dayNums = this.getIntent().getStringExtra("dayNums");
 
@@ -1173,30 +1172,12 @@ public class OrderNewActivity extends BaseActivity {
                     requestData(requestSubmitRent);
                     break;
             }
-            doUMengStatistic();
         } else {
-            Bundle bundle = new Bundle();//用于统计
-            bundle.putString("source", "包车下单");
-            startFragment(new FgLogin(), bundle);
+            Intent intent = new Intent(activity,LoginActivity.class);
+            startActivity(intent);
         }
     }
 
-    private void doUMengStatistic() {
-        HashMap<String, String> map = new HashMap<String, String>();
-        map.put("source", source);
-//        map.put("begincity", startBean.name);
-//        map.put("carstyle", carBean.carDesc);
-//        if (checkboxOther.isChecked()) {
-//            map.put("forother", "是");
-//        } else {
-//            map.put("forother", "否");
-//        }
-//        map.put("guestcount", adultNum + childrenNum + "");
-//        map.put("luggagecount", luggageNum + "");
-//        map.put("drivedays", dayNums + "");
-//        map.put("payableamount", carBean.price + "");
-        MobclickAgent.onEventValue(activity, "submitorder_oneday", map, carBean.price);
-    }
 
     ContactUsersBean contactUsersBean = null;
     CouponBean couponBean;
@@ -1250,7 +1231,7 @@ public class OrderNewActivity extends BaseActivity {
                 carBean, adultNum, childrenNum,
                 startBean, getPassCityStr(),
                 contactUsersBean, mark.getText().toString(), manName.getText().toString(), poiBean, dreamLeft.isChecked(),
-                travelFund, couponBean, mostFitBean, carListBean, manLuggageBean, hourseNum, hotelPrice, 5);
+                travelFund, couponBean, mostFitBean, carListBean, manLuggageBean, hourseNum, hotelPrice, 5,luggageNum);
 
     }
 
@@ -1261,7 +1242,7 @@ public class OrderNewActivity extends BaseActivity {
                 carBean, adultNum, childrenNum,
                 startBean, getPassCityStr(),
                 contactUsersBean, mark.getText().toString(), manName.getText().toString(), poiBean, dreamLeft.isChecked(),
-                travelFund, couponBean, mostFitBean, carListBean, manLuggageBean, hourseNum, hotelPrice, 6);
+                travelFund, couponBean, mostFitBean, carListBean, manLuggageBean, hourseNum, hotelPrice, 6,luggageNum);
 
     }
 

@@ -569,7 +569,7 @@ public class FgSingleNew extends BaseFragment {
         bundle.putInt("type", 4);
         bundle.putString("orderType", "4");
 
-        bundle.putParcelable("manLuggageBean", manLuggageBean);
+        bundle.putSerializable("manLuggageBean", manLuggageBean);
 
         fgOrderNew.setArguments(bundle);
         startFragment(fgOrderNew);
@@ -592,7 +592,7 @@ public class FgSingleNew extends BaseFragment {
             bundle.putAll(getArguments());
         }
         bundle.putSerializable("collectGuideBean", collectGuideBean);
-        bundle.putParcelable("carListBean", carListBean);
+        bundle.putSerializable("carListBean", carListBean);
         bundle.putBoolean("isDataBack", isDataBack);
         bundle.putBoolean("isNetError", isNetError);
 //        if(null != carListBean && carListBean.carList.size() == 0 && null != collectGuideBean){

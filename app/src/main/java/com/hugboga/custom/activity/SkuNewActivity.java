@@ -30,11 +30,8 @@ import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestPriceSku;
-import com.hugboga.custom.fragment.FGOrderNew;
 import com.hugboga.custom.fragment.FgCarNew;
 import com.hugboga.custom.fragment.FgCarSuk;
-import com.hugboga.custom.fragment.FgLogin;
-import com.hugboga.custom.fragment.FgSkuNew;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.CarUtils;
 import com.hugboga.custom.utils.CityUtils;
@@ -42,15 +39,11 @@ import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.OrderUtils;
 import com.umeng.analytics.MobclickAgent;
-import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
-import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
-import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
+
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-import org.xutils.common.Callback;
 
-import java.util.Calendar;
 import java.util.HashMap;
 
 import butterknife.Bind;
@@ -312,12 +305,12 @@ public class SkuNewActivity extends BaseActivity {
     ChooseDateBean chooseDateBean;
 
     @Subscribe
-    public void onEventMainThread(EventAction action) {
+    public void onEventMainThread(final EventAction action) {
 
         switch (action.getType()) {
             case CHOOSE_DATE:
                 chooseDateBean = (ChooseDateBean)action.getData();
-                if(chooseDateBean.type == 1){
+                if(chooseDateBean.type == 3){
                     serverDate = chooseDateBean.halfDateStr;
                     timeText.setText(serverDate);
                     getData();
@@ -377,9 +370,8 @@ public class SkuNewActivity extends BaseActivity {
                                 }
 
                             } else {
-                                Bundle bundle = new Bundle();//用于统计
-                                bundle.putString("source", "sku下单");
-                                startFragment(new FgLogin(), bundle);
+                                Intent intent = new Intent(activity,LoginActivity.class);
+                                startActivity(intent);
                             }
                         }
                     }
@@ -417,6 +409,8 @@ public class SkuNewActivity extends BaseActivity {
         bundle.putSerializable("startBean", cityBean);
         bundle.putSerializable("endBean", cityBean);
         bundle.putInt("outnum", skuBean.daysCount);
+        manLuggageBean.luggages = maxLuuages;
+        bundle.putSerializable("manLuggageBean",manLuggageBean);
         bundle.putInt("innum", 0);
         bundle.putString("source", source);
         bundle.putBoolean("isHalfTravel", false);
@@ -453,7 +447,7 @@ public class SkuNewActivity extends BaseActivity {
 
         fgCarNew = new FgCarNew();
         Bundle bundle = new Bundle();
-        bundle.putParcelable("carListBean", carListBean);
+        bundle.putSerializable("carListBean", carListBean);
         bundle.putBoolean("isNetError", isNetError);
         fgCarNew.setArguments(bundle);
         transaction.add(R.id.show_cars_layout_sku, fgCarNew);
@@ -462,62 +456,11 @@ public class SkuNewActivity extends BaseActivity {
 
 
     public void showDaySelect() {
-//        Intent intent = new Intent(activity,DatePickerActivity.class);
-//        intent.putExtra("type",1);
-//        intent.putExtra("title","请选择出发日期");
-//        startActivity(intent);
-
-        Calendar cal = Calendar.getInstance();
-        MyDatePickerListener myDatePickerDialog = new MyDatePickerListener(timeText);
-        DatePickerDialog dpd = DatePickerDialog.newInstance(
-                myDatePickerDialog, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
-        cal = Calendar.getInstance();
-        dpd.setMinDate(cal);
-        cal = Calendar.getInstance();
-        cal.set(Calendar.MONTH, cal.get(Calendar.MONTH) + 6);
-        dpd.setMaxDate(cal);
-        dpd.show(this.getFragmentManager(), "DatePickerDialog");   //显示日期设置对话框
-
-    }
-
-    class MyDatePickerListener implements DatePickerDialog.OnDateSetListener {
-        TextView mTextView;
-
-        MyDatePickerListener(TextView textView) {
-            this.mTextView = textView;
-        }
-
-        @Override
-        public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-            int month = monthOfYear + 1;
-            String monthStr = String.format("%02d", month);
-            String dayOfMonthStr = String.format("%02d", dayOfMonth);
-            serverDate = year + "-" + monthStr + "-" + dayOfMonthStr;
-            timeText.setText(serverDate);
-            getData();
-//            showTimeSelect();
-        }
-    }
-
-    public void showTimeSelect() {
-        Calendar cal = Calendar.getInstance();
-        MyTimePickerDialogListener myTimePickerDialog = new MyTimePickerDialogListener();
-        TimePickerDialog datePickerDialog = TimePickerDialog.newInstance(myTimePickerDialog, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), true);
-        datePickerDialog.show(this.getFragmentManager(), "TimePickerDialog");                //显示日期设置对话框
-    }
-
-
-    class MyTimePickerDialogListener implements TimePickerDialog.OnTimeSetListener {
-
-
-        @Override
-        public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute, int second) {
-            String hour = String.format("%02d", hourOfDay);
-            String minuteStr = String.format("%02d", minute);
-            serverTime = hour + ":" + minuteStr;
-            timeText.setText(serverDate + " " + serverTime);
-            getData();
-        }
+        Intent intent = new Intent(activity,DatePickerActivity.class);
+        intent.putExtra("type",3);
+        intent.putExtra("title","请选择出发日期");
+        intent.putExtra("chooseDateBean",chooseDateBean);
+        startActivity(intent);
     }
 
 

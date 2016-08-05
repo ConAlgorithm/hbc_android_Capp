@@ -1,5 +1,6 @@
 package com.hugboga.custom.fragment;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -13,24 +14,23 @@ import android.widget.TextView;
 
 import com.anupcowkur.reservoir.Reservoir;
 import com.google.gson.reflect.TypeToken;
-import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.ChooseCityActivity;
+import com.hugboga.custom.activity.DatePickerActivity;
+import com.hugboga.custom.activity.PickFlightListActivity;
 import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.bean.ChooseDateBean;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.SaveStartEndCity;
 import com.hugboga.custom.data.event.EventAction;
-import com.hugboga.custom.data.event.EventType;
-import com.umeng.analytics.MobclickAgent;
-import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
 
 import butterknife.Bind;
@@ -97,6 +97,7 @@ public class FgChooseAirAddress extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
         ButterKnife.bind(this, rootView);
+        EventBus.getDefault().register(this);
         return rootView;
     }
 
@@ -104,6 +105,7 @@ public class FgChooseAirAddress extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+        EventBus.getDefault().unregister(this);
     }
 
 
@@ -226,63 +228,62 @@ public class FgChooseAirAddress extends BaseFragment {
     int cityFromId, cityToId;
     String fromCityName, endCityName;
 
-    @Override
-    public void onFragmentResult(Bundle bundle) {
-        MLog.w(this + " onFragmentResult " + bundle);
-        String from = bundle.getString(KEY_FROM);
-        if ("startAddress".equals(from)) {
-            CityBean city = (CityBean) bundle.getSerializable(FgChooseCity.KEY_CITY);
-            if (city != null) {
-                fromCityName = city.name;
-                fromCity.setText(fromCityName);
-                cityFromId = city.cityId;
-            }
-        } else if ("end".equals(from)) {
-            CityBean city = (CityBean) bundle.getSerializable(FgChooseCity.KEY_CITY);
-            if (city != null) {
-                endCityName = city.name;
-                endCity.setText(endCityName);
-                cityToId = city.cityId;
-            }
-        } else if ("FlightList".equals(from)) {
-            EventBus.getDefault().post(new EventAction(EventType.AIR_NO, bundle.getSerializable(FgPickFlight.KEY_AIRPORT)));
-            finish();
-        }
-        checkNextBtnStatus();
-    }
+//    @Override
+//    public void onFragmentResult(Bundle bundle) {
+//        MLog.w(this + " onFragmentResult " + bundle);
+//        String from = bundle.getString(KEY_FROM);
+//        if ("startAddress".equals(from)) {
+//            CityBean city = (CityBean) bundle.getSerializable(FgChooseCity.KEY_CITY);
+//            if (city != null) {
+//                fromCityName = city.name;
+//                fromCity.setText(fromCityName);
+//                cityFromId = city.cityId;
+//            }
+//        } else if ("end".equals(from)) {
+//            CityBean city = (CityBean) bundle.getSerializable(FgChooseCity.KEY_CITY);
+//            if (city != null) {
+//                endCityName = city.name;
+//                endCity.setText(endCityName);
+//                cityToId = city.cityId;
+//            }
+//        } else if ("FlightList".equals(from)) {
+//            EventBus.getDefault().post(new EventAction(EventType.AIR_NO, bundle.getSerializable(FgPickFlight.KEY_AIRPORT)));
+//            finish();
+//        }
+//        checkNextBtnStatus();
+//    }
 
     @OnClick({R.id.start_layout,R.id.end_layout,R.id.end_city_tips, R.id.from_city_tips, R.id.from_city, R.id.end_city, R.id.search, R.id.clean_all_history, R.id.exchange, R.id.address_tips, R.id.rl_address})
     public void onClick(View view) {
-        FgChooseCity city = new FgChooseCity();
+//        FgChooseCity city = new FgChooseCity();
+        Intent intent = new Intent(getActivity(), ChooseCityActivity.class);
         Bundle bundle = new Bundle();
         switch (view.getId()) {
             case R.id.start_layout:
             case R.id.from_city_tips:
             case R.id.from_city:
                 bundle.putString(KEY_FROM, "startAddress");
-                bundle.putInt(FgChooseCity.KEY_SHOW_TYPE, FgChooseCity.ShowType.PICK_UP);
-                bundle.putInt(FgChooseCity.KEY_BUSINESS_TYPE, Constants.BUSINESS_TYPE_PICK);
-                bundle.putString("source", "下单过程中");
-                city.setArguments(bundle);
-                startFragment(city);
+                bundle.putInt(ChooseCityActivity.KEY_SHOW_TYPE, ChooseCityActivity.ShowType.PICK_UP);
+                bundle.putInt(ChooseCityActivity.KEY_BUSINESS_TYPE, Constants.BUSINESS_TYPE_PICK);
+//                city.setArguments(bundle);
+//                startFragment(city);
 
-                HashMap<String, String> map = new HashMap<String, String>();
-                map.put("source", "下单过程中");
-                MobclickAgent.onEvent(getActivity(), "search_trigger", map);
+                intent.putExtras(bundle);
+                getActivity().startActivity(intent);
+
                 break;
             case R.id.end_layout:
             case R.id.end_city_tips:
             case R.id.end_city:
                 bundle.putString(KEY_FROM, "end");
-                bundle.putInt(FgChooseCity.KEY_SHOW_TYPE, FgChooseCity.ShowType.PICK_UP);
-                bundle.putInt(FgChooseCity.KEY_BUSINESS_TYPE, Constants.BUSINESS_TYPE_PICK);
-                bundle.putString("source", "下单过程中");
-                city.setArguments(bundle);
-                startFragment(city);
+                bundle.putInt(ChooseCityActivity.KEY_SHOW_TYPE, ChooseCityActivity.ShowType.PICK_UP);
+                bundle.putInt(ChooseCityActivity.KEY_BUSINESS_TYPE, Constants.BUSINESS_TYPE_PICK);
+//                city.setArguments(bundle);
+//                startFragment(city);
 
-                HashMap<String, String> mapEnd = new HashMap<String, String>();
-                mapEnd.put("source", "下单过程中");
-                MobclickAgent.onEvent(getActivity(), "search_trigger", mapEnd);
+                intent.putExtras(bundle);
+                getActivity().startActivity(intent);
+
                 break;
             case R.id.search:
                 addHistoryData();
@@ -305,8 +306,51 @@ public class FgChooseAirAddress extends BaseFragment {
                 break;
             case R.id.address_tips:
             case R.id.rl_address:
-                showDaySelect(addressTips);
+//                showDaySelect(addressTips);
+                intent = new Intent(getActivity(),DatePickerActivity.class);
+                intent.putExtra("type",3);
+                intent.putExtra("title","请选择出发日期");
+                intent.putExtra("chooseDateBean",chooseDateBean);
+                getActivity().startActivity(intent);
                 break;
+        }
+    }
+
+    ChooseDateBean chooseDateBean;
+    CityBean city;
+    @Subscribe
+    public void onEventMainThread(final EventAction action) {
+
+        switch (action.getType()) {
+            case CHOOSE_DATE:
+                chooseDateBean = (ChooseDateBean) action.getData();
+                if (chooseDateBean.type == 3) {
+                    time2Str = chooseDateBean.halfDateStr;
+                    addressTips.setText(time2Str);
+                    checkNextBtnStatus();
+                }
+                break;
+            case CHOOSE_START_CITY_BACK:
+                city =  (CityBean)action.getData();
+                if (city != null) {
+                    fromCityName = city.name;
+                    fromCity.setText(fromCityName);
+                    cityFromId = city.cityId;
+                }
+                checkNextBtnStatus();
+                break;
+            case CHOOSE_END_CITY_BACK:
+                city =  (CityBean)action.getData();
+                if (city != null) {
+                    endCityName = city.name;
+                    endCity.setText(endCityName);
+                    cityToId = city.cityId;
+                }
+                checkNextBtnStatus();
+                break;
+
+
+
         }
     }
 
@@ -330,14 +374,17 @@ public class FgChooseAirAddress extends BaseFragment {
      * 根据城市查
      */
     private void startFlightByCity() {
-        FgPickFlightList fragment = new FgPickFlightList();
+//        FgPickFlightList fragment = new FgPickFlightList();
         Bundle bundle = new Bundle();
         bundle.putInt(FgPickFlightList.KEY_FLIGHT_FROM, cityFromId);
         bundle.putInt(FgPickFlightList.KEY_FLIGHT_TO, cityToId);
         bundle.putInt(FgPickFlightList.KEY_FLIGHT_TYPE, 2);
         bundle.putString(FgPickFlightList.KEY_FLIGHT_DATE, time2Str);
-        fragment.setArguments(bundle);
-        startFragment(fragment);
+//        fragment.setArguments(bundle);
+//        startFragment(fragment);
+        Intent intent = new Intent(getActivity(),PickFlightListActivity.class);
+        intent.putExtras(bundle);
+        getActivity().startActivity(intent);
     }
 
     private void exChangeCity() {
@@ -351,40 +398,4 @@ public class FgChooseAirAddress extends BaseFragment {
         endCity.setText(endCityName);
     }
 
-    public void showDaySelect(TextView textView) {
-        Calendar cal = Calendar.getInstance();
-        DatePickerDialog dpd = DatePickerDialog.newInstance(
-                new MyDatePickerListener(textView),
-                cal.get(Calendar.YEAR),
-                cal.get(Calendar.MONTH),
-                cal.get(Calendar.DAY_OF_MONTH)
-        );
-        cal = Calendar.getInstance();
-        dpd.setMinDate(cal);
-        cal = Calendar.getInstance();
-        cal.set(Calendar.MONTH, cal.get(Calendar.MONTH) + 6);
-        dpd.setMaxDate(cal);
-        dpd.show(this.getActivity().getFragmentManager(), "DatePickerDialog");   //显示日期设置对话框
-
-    }
-
-
-    class MyDatePickerListener implements DatePickerDialog.OnDateSetListener {
-        TextView mTextView;
-
-        MyDatePickerListener(TextView textView) {
-            this.mTextView = textView;
-        }
-
-        @Override
-        public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-            int month = monthOfYear + 1;
-            String monthStr = String.format("%02d", month);
-            String dayOfMonthStr = String.format("%02d", dayOfMonth);
-            time2Str = year + "-" + monthStr + "-" + dayOfMonthStr;
-
-            mTextView.setText(time2Str);
-            checkNextBtnStatus();
-        }
-    }
 }
