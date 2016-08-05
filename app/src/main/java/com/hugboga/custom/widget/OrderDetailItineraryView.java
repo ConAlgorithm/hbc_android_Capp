@@ -1,44 +1,32 @@
 package com.hugboga.custom.widget;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
-import android.text.style.ImageSpan;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
-import com.hugboga.custom.activity.SkuDetailActivity;
-import com.hugboga.custom.activity.WebInfoActivity;
-import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.OrderBean;
-import com.hugboga.custom.data.bean.OrderPriceInfo;
-import com.hugboga.custom.data.net.UrlLibs;
-import com.hugboga.custom.fragment.FgOrderDetail;
-import com.hugboga.custom.fragment.FgSkuList;
+import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
 
-import static com.tencent.bugly.crashreport.inner.InnerAPI.context;
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * Created by qingcha on 16/6/2.
  */
 public class OrderDetailItineraryView extends LinearLayout implements HbcViewBehavior, View.OnClickListener{
-
-    private FgOrderDetail mFragment;
 
     private LinearLayout itineraryLayout;
     private TextView orderNumberTV;
@@ -64,10 +52,6 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
         routeTV = (TextView) findViewById(R.id.order_itinerary_route_tv);
         routeIV = (ImageView) findViewById(R.id.order_itinerary_route_iv);
         routeLayout = (RelativeLayout) findViewById(R.id.order_itinerary_route_layout);
-    }
-
-    public void setFragment(FgOrderDetail _fragment) {
-        this.mFragment = _fragment;
     }
 
     @Override
@@ -206,24 +190,9 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
 
     @Override
     public void onClick(View v) {
-        if (mFragment == null) {
-            return;
-        }
         switch (v.getId()) {
-            case R.id.order_itinerary_route_layout:
-                SkuDetailActivity fgSkuDetail = new SkuDetailActivity();
-//                intent.putString(WebInfoActivity.WEB_URL, orderBean.skuDetailUrl);
-//                intent.putString(Constants.PARAMS_ID, orderBean.goodsNo);
-//                fgSkuDetail.setArguments(bundle);
-//                mFragment.startFragment(fgSkuDetail, bundle);
-//
-                Intent intent = new Intent(context, SkuDetailActivity.class);
-                intent.putExtra(WebInfoActivity.WEB_URL, orderBean.skuDetailUrl);
-                intent.putExtra(Constants.PARAMS_ID, orderBean.goodsNo);
-//                intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_DAIRY);
-                context.startActivity(intent);
-
-
+            case R.id.order_itinerary_route_layout://路线详情
+                EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_ROUTE, orderBean.orderNo));
                 break;
         }
     }

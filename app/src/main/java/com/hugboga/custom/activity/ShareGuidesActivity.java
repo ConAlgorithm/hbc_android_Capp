@@ -88,6 +88,7 @@ public class ShareGuidesActivity extends BaseActivity{
     }
 
     private void initView() {
+        initDefaultTitleBar();
         shareSucceed = false;
         fgTitle.setText(getString(R.string.share_guides_title));
         if (fgLeftBtn != null) {

@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -11,7 +12,6 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
-import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
@@ -27,11 +27,8 @@ import com.hugboga.custom.data.request.RequestCollectGuidesId;
 import com.hugboga.custom.data.request.RequestOrderCancel;
 import com.hugboga.custom.data.request.RequestOrderDetail;
 import com.hugboga.custom.data.request.RequestUncollectGuidesId;
-import com.hugboga.custom.fragment.FgEvaluate;
 import com.hugboga.custom.fragment.FgInsure;
-import com.hugboga.custom.fragment.FgInsureInfo;
 import com.hugboga.custom.fragment.FgOrderCancel;
-import com.hugboga.custom.fragment.FgOrderEdit;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.widget.DialogUtil;
@@ -40,7 +37,6 @@ import com.hugboga.custom.widget.OrderDetailFloatView;
 import com.hugboga.custom.widget.OrderDetailGuideInfo;
 import com.hugboga.custom.widget.OrderDetailItineraryView;
 import com.hugboga.custom.widget.OrderDetailTitleBar;
-import com.hugboga.custom.widget.TopTipsLayout;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -51,16 +47,10 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import io.rong.imkit.RongIM;
 
-import static com.hugboga.custom.data.net.UrlLibs.H5_INSURANCE;
-import static com.tencent.bugly.crashreport.inner.InnerAPI.context;
-
 /**
  * Created by qingcha on 16/8/2.
  */
 public class OrderDetailActivity extends BaseActivity implements View.OnClickListener {
-
-    @Bind(R.id.top_tips_layout)
-    TopTipsLayout topTipsLayout;
 
     @Bind(R.id.order_detail_title_layout)
     OrderDetailTitleBar titleBar;
@@ -113,19 +103,6 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
         mDialogUtil = DialogUtil.getInstance(this);
         titleBar.setTitle(params.orderType);
         emptyTV.setVisibility(View.VISIBLE);
-        titleBar.findViewById(R.id.header_detail_right_1_btn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showPopupWindow();
-            }
-        });
-        titleBar.findViewById(R.id.header_detail_right_2_btn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mDialogUtil.showCallDialog();
-            }
-        });
-//        TODO itineraryView.setFragment(this);
         requestData();
     }
 
@@ -140,20 +117,6 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
         super.onSaveInstanceState(outState);
         if (params != null) {
             outState.putSerializable(Constants.PARAMS_DATA, params);
-        }
-    }
-
-    private void genTopTIps() {
-        if (null != orderBean) {
-            if (orderBean.orderStatus.code == 2) {//未付款
-                topTipsLayout.setText(R.string.order_detail_top1_tips);
-            } else if (orderBean.orderStatus.code == 1) {//已付款
-                topTipsLayout.setText(R.string.order_detail_top2_tips);
-            } else {
-                topTipsLayout.hide();
-            }
-        } else {
-            topTipsLayout.hide();
         }
     }
 
@@ -180,7 +143,6 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
             emptyTV.setVisibility(View.GONE);
             RequestOrderDetail mParser = (RequestOrderDetail) _request;
             orderBean = mParser.getData();
-            genTopTIps();
             titleBar.update(orderBean);
             floatView.update(orderBean);
             final int count = groupLayout.getChildCount();
@@ -190,31 +152,13 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                     ((HbcViewBehavior) item).update(orderBean);
                 }
             }
+
             if (orderBean.cancelRules != null && orderBean.cancelRules.size() > 0) {
                 String explainStr = "";
                 for (int i = 0; i < orderBean.cancelRules.size(); i++) {
                     explainStr += orderBean.cancelRules.get(i);
                 }
                 explainTV.setText(explainStr);
-            }
-            if (floatView.findViewById(R.id.order_detail_pay_tv) != null) {
-                floatView.findViewById(R.id.order_detail_pay_tv).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-//                        FgChoosePayment.RequestParams requestParams = new FgChoosePayment.RequestParams();
-//                        requestParams.orderId = orderBean.orderNo;
-//                        requestParams.shouldPay = orderBean.orderPriceInfo.actualPay;
-//                        requestParams.source = source;
-//                        startFragment(FgChoosePayment.newInstance(requestParams));
-                        ChoosePaymentActivity.RequestParams requestParams = new ChoosePaymentActivity.RequestParams();
-                        requestParams.orderId = orderBean.orderNo;
-                        requestParams.shouldPay = orderBean.orderPriceInfo.actualPay;
-                        requestParams.source = source;
-                        Intent intent = new Intent(OrderDetailActivity.this, ChoosePaymentActivity.class);
-                        intent.putExtra(Constants.PARAMS_DATA, requestParams);
-                        OrderDetailActivity.this.startActivity(intent);
-                    }
-                });
             }
         } else if (_request instanceof RequestOrderCancel) {//取消订单
 //            DialogUtil dialogUtil = DialogUtil.getInstance(getActivity());
@@ -251,36 +195,47 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
 
     @Subscribe
     public void onEventMainThread(EventAction action) {
+        Intent intent = null;
         switch (action.getType()) {
-//            case ORDER_DETAIL_PAY://立即支付
-//                FgChoosePayment.RequestParams requestParams = new FgChoosePayment.RequestParams();
-//                requestParams.orderId = orderBean.orderNo;
-//                requestParams.shouldPay = orderBean.orderPriceInfo.actualPay;
-//                requestParams.source = source;
-//                Log.i("aa", "FgOrderDetail 2222 "+  orderBean.orderNo);
-//                startFragment(FgChoosePayment.newInstance(requestParams));
-//                break;
-            case ORDER_DETAIL_INSURANCE_H5://皇包车免费赠送保险
-
-//                Bundle bundle = new Bundle();
-//                bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_INSURANCE);
-//                startFragment(new FgWebInfo(), bundle);
-
-                Intent intent = new Intent(context, WebInfoActivity.class);
-                intent.putExtra(WebInfoActivity.WEB_URL, H5_INSURANCE);
-                context.startActivity(intent);
-
-                break;
             case ORDER_DETAIL_BACK://返回
                 finish();
                 break;
-//            case ORDER_DETAIL_CALL://联系客服
-//                mDialogUtil.showCallDialog();
-//                break;
-//            case ORDER_DETAIL_MORE://更多
-//                showPopupWindow();
-//                break;
-            case ORDER_DETAIL_ADD_INSURER://添加投保人 copy FgOrder
+            case ORDER_DETAIL_MORE://更多
+                showPopupWindow();
+                break;
+            case ORDER_DETAIL_CALL://联系客服
+                mDialogUtil.showCallDialog();
+                break;
+            case ORDER_DETAIL_PAY://立即支付
+                if (!eventVerification(action)) {
+                    break;
+                }
+                if (orderBean == null) {
+                    return;
+                }
+                ChoosePaymentActivity.RequestParams requestParams = new ChoosePaymentActivity.RequestParams();
+                requestParams.orderId = orderBean.orderNo;
+                requestParams.shouldPay = orderBean.orderPriceInfo.actualPay;
+                requestParams.source = source;
+                intent = new Intent(OrderDetailActivity.this, ChoosePaymentActivity.class);
+                intent.putExtra(Constants.PARAMS_DATA, requestParams);
+                OrderDetailActivity.this.startActivity(intent);
+                break;
+            case ORDER_DETAIL_INSURANCE_H5://皇包车免费赠送保险
+                if (!eventVerification(action)) {
+                    break;
+                }
+                intent = new Intent(OrderDetailActivity.this, WebInfoActivity.class);
+                intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_INSURANCE);
+                startActivity(intent);
+                break;
+            case ORDER_DETAIL_ADD_INSURER://添加投保人 copy FgOrder   TODO
+                if (!eventVerification(action)) {
+                    break;
+                }
+                if (orderBean == null) {
+                    return;
+                }
                 FgInsure fgAddInsure = new FgInsure();
                 Bundle insureBundle = new Bundle();
                 insureBundle.putSerializable("orderBean", orderBean);
@@ -288,15 +243,29 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                 startFragment(fgAddInsure);
                 break;
             case ORDER_DETAIL_LIST_INSURER://投保人列表
-                startFragment(FgInsureInfo.newInstance(orderBean));
+                if (!eventVerification(action)) {
+                    break;
+                }
+                if (orderBean == null) {
+                    return;
+                }
+                intent = new Intent(OrderDetailActivity.this, InsureInfoActivity.class);
+                intent.putExtra(Constants.PARAMS_DATA, orderBean);
+                startActivity(intent);
                 break;
             case ORDER_DETAIL_GUIDE_CALL://联系司导
-                if (orderBean.orderGuideInfo == null) {
+                if (!eventVerification(action)) {
+                    break;
+                }
+                if (orderBean == null || orderBean.orderGuideInfo == null) {
                     return;
                 }
                 PhoneInfo.CallDial(OrderDetailActivity.this, orderBean.orderGuideInfo.guideTel);
                 break;
             case ORDER_DETAIL_GUIDE_CHAT://和司导聊天
+                if (!eventVerification(action)) {
+                    break;
+                }
                 final OrderGuideInfo guideInfo = orderBean.orderGuideInfo;
                 if (guideInfo == null) {
                     return;
@@ -309,48 +278,91 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                 chatInfo.targetType = "1";
                 RongIM.getInstance().startPrivateChat(OrderDetailActivity.this, "G" + guideInfo.guideID, new ParserChatInfo().toJsonString(chatInfo));
                 break;
-            case ORDER_DETAIL_GUIDE_INFO://司导个人信息
+            case ORDER_DETAIL_GUIDE_INFO://司导详情
+                if (!eventVerification(action)) {
+                    break;
+                }
                 if (orderBean == null || orderBean.orderGuideInfo == null) {
                     return;
                 }
-//                startFragment(FgGuideDetail.newInstance(orderBean.orderGuideInfo.guideID));
-                Intent intent1 = new Intent(this, GuideDetailActivity.class);
-                intent1.putExtra(Constants.PARAMS_DATA, orderBean.orderGuideInfo.guideID);
-                startActivity(intent1);
+                intent = new Intent(this, GuideDetailActivity.class);
+                intent.putExtra(Constants.PARAMS_DATA, orderBean.orderGuideInfo.guideID);
+                startActivity(intent);
                 break;
             case ORDER_DETAIL_UPDATE_COLLECT://更新收藏UI
                 orderBean.orderGuideInfo.storeStatus = (int) action.getData();
                 updateCollectViewText();
                 break;
             case ORDER_DETAIL_GUIDE_COLLECT://收藏 只可收藏不可取消
-                if (orderBean.orderGuideInfo == null || orderBean.orderGuideInfo.isCollected()) {
+                if (!eventVerification(action)) {
+                    break;
+                }
+                if (orderBean == null || orderBean.orderGuideInfo == null || orderBean.orderGuideInfo.isCollected()) {
                     return;
                 }
                 mDialogUtil.showLoadingDialog();
                 requestData(new RequestCollectGuidesId(OrderDetailActivity.this, orderBean.orderGuideInfo.guideID));
                 break;
+            case ORDER_DETAIL_GUIDE_EVALUATION://评价司导
+                if (!eventVerification(action)) {
+                    break;
+                }
+                if (orderBean == null) {
+                    return;
+                }
+                intent = new Intent(this, EvaluateActivity.class);
+                intent.putExtra(Constants.PARAMS_DATA, orderBean);
+                startActivity(intent);
+                break;
+            case ORDER_DETAIL_TOURIST_INFO://出行人信息
+                if (!eventVerification(action)) {
+                    break;
+                }
+                if (orderBean == null) {
+                    return;
+                }
+                intent = new Intent(this, OrderEditActivity.class);
+                intent.putExtra(Constants.PARAMS_DATA, orderBean);
+                startActivity(intent);
+                break;
+            case ORDER_DETAIL_ROUTE://路线详情
+                if (!eventVerification(action)) {
+                    break;
+                }
+                if (orderBean == null) {
+                    return;
+                }
+                intent = new Intent(this, SkuDetailActivity.class);
+                intent.putExtra(WebInfoActivity.WEB_URL, orderBean.skuDetailUrl);
+                intent.putExtra(Constants.PARAMS_ID, orderBean.goodsNo);
+                startActivity(intent);
+                break;
+
             case ORDER_DETAIL_UPDATE_EVALUATION://更新评价UI
+                if (!eventVerification(action)) {
+                    break;
+                }
                 requestData();
                 break;
-            case ORDER_DETAIL_GUIDE_EVALUATION://评价司导
-                startFragment(FgEvaluate.newInstance(orderBean));
-                break;
             case ORDER_DETAIL_UPDATE_INFO://更新个人信息UI
+                if (!eventVerification(action)) {
+                    break;
+                }
                 requestData();
                 break;
             case ADD_INSURE_SUCCESS://更新添加投保人
+                if (!eventVerification(action)) {
+                    break;
+                }
                 if (orderBean.orderNo.equals(action.getData())) {
                     requestData();
                 }
                 break;
             case ORDER_DETAIL_UPDATE://更新数据
-                requestData();
-                break;
-            case ORDER_DETAIL_TOURIST_INFO://出行人信息
-                if (orderBean == null) {
-                    return;
+                if (!eventVerification(action)) {
+                    break;
                 }
-                startFragment(FgOrderEdit.newInstance(orderBean));
+                requestData();
                 break;
             default:
                 break;
@@ -360,6 +372,13 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
     private void updateCollectViewText() {
         TextView collectTV = (TextView) guideInfoView.findViewById(R.id.ogi_collect_tv);
         collectTV.setText(getString(orderBean.orderGuideInfo.isCollected() ? R.string.uncollect : R.string.collect));
+    }
+
+    private boolean eventVerification(EventAction action) {
+        if (orderBean != null && orderBean.orderNo.equals(action.getData())) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -373,7 +392,7 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
     }
 
     /**
-     * 右上角的菜单，取消订单 联系客服
+     * 右上角的菜单，取消订单 联系客服，此部分copy自旧代码
      */
     public void showPopupWindow() {
         if (popup != null && popup.isShowing()) {
@@ -426,10 +445,10 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                             if (orderBean.orderStatus == OrderStatus.INITSTATE) {
                                 cancelOrder(orderBean.orderNo, 0);
                             } else {
-                                Bundle bundle = new Bundle();
-                                bundle.putSerializable(FgOrderCancel.KEY_ORDER, orderBean);
-                                bundle.putString("source", source);
-                                startFragment(new FgOrderCancel(), bundle);
+                                Intent intent = new Intent(OrderDetailActivity.this, OrderCancelActivity.class);
+                                intent.putExtra(FgOrderCancel.KEY_ORDER, orderBean);
+                                intent.putExtra("source", source);
+                                OrderDetailActivity.this.startActivity(intent);
                             }
                         }
                     }, "返回", null);
@@ -438,19 +457,14 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                 }
             }
         });
+
         commonProblemTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Bundle bundle = new Bundle();
-//                bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_PROBLEM);
-//                bundle.putBoolean(FgWebInfo.CONTACT_SERVICE, true);
-//                startFragment(new FgWebInfo(), bundle);
-
-                Intent intent = new Intent(context, WebInfoActivity.class);
+                Intent intent = new Intent(OrderDetailActivity.this, WebInfoActivity.class);
                 intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_PROBLEM);
                 intent.putExtra(WebInfoActivity.CONTACT_SERVICE, true);
-                context.startActivity(intent);
-
+                OrderDetailActivity.this.startActivity(intent);
                 popup.dismiss();
             }
         });

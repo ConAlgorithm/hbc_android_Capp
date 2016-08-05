@@ -21,7 +21,6 @@ import butterknife.ButterKnife;
 
 /**
  * Created by qingcha on 16/8/4.
- * adapter
  */
 public class CollectGuideListActivity extends BaseActivity{
 

@@ -14,6 +14,7 @@ import com.huangbaoche.hbcframe.adapter.ZBaseAdapter;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.huangbaoche.hbcframe.viewholder.ZBaseViewHolder;
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.EvaluateActivity;
 import com.hugboga.custom.activity.GuideDetailActivity;
 import com.hugboga.custom.activity.OrderDetailActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
@@ -24,7 +25,6 @@ import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.parser.ParserChatInfo;
 import com.hugboga.custom.fragment.BaseFragment;
-import com.hugboga.custom.fragment.FgEvaluate;
 import com.hugboga.custom.fragment.FgInsure;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.Tools;
@@ -442,19 +442,13 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
             Intent intent = null;
             switch (v.getId()) {
                 case R.id.travel_item_btn_assessment:
-                    fragment.startFragment(FgEvaluate.newInstance(mOrderBean));
+                    intent = new Intent(v.getContext(), EvaluateActivity.class);
+                    intent.putExtra(Constants.PARAMS_DATA, mOrderBean);
+                    v.getContext().startActivity(intent);
                     break;
                 case R.id.travel_item_btn_pay:
                     MLog.e("立即支付 " + mOrderBean.orderNo);
                     //立即支付，进入订单详情
-//                    FgOrderDetail.Params params = new FgOrderDetail.Params();
-//                    params.orderType = mOrderBean.orderGoodsType;
-//                    params.orderId = mOrderBean.orderNo;
-//                    params.source =  mOrderBean.orderType == 5 ? mOrderBean.serviceCityName : "首页";
-//                    Bundle bundle = new Bundle();
-//                    bundle.putSerializable(Constants.PARAMS_DATA, params);
-//                    fragment.startFragment(new FgOrderDetail(), bundle);
-
                     OrderDetailActivity.Params params = new OrderDetailActivity.Params();
                     params.orderType = mOrderBean.orderType;
                     params.orderId = mOrderBean.orderNo;
@@ -474,9 +468,6 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                     if(mOrderBean.orderGuideInfo == null || mOrderBean.orderGuideInfo.guideID == null) {
                         return;
                     }
-
-                    //fragment == null ||
-                    //fragment.startFragment(FgGuideDetail.newInstance(mOrderBean.orderGuideInfo.guideID));
                     intent = new Intent(v.getContext(), GuideDetailActivity.class);
                     intent.putExtra(Constants.PARAMS_DATA, mOrderBean.orderGuideInfo.guideID);
                     v.getContext().startActivity(intent);

@@ -22,12 +22,9 @@ import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.net.ShareUrls;
-import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestCollectGuidesId;
 import com.hugboga.custom.data.request.RequestGuideDetail;
 import com.hugboga.custom.data.request.RequestUncollectGuidesId;
-import com.hugboga.custom.fragment.FgLargerImage;
-
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
@@ -40,7 +37,6 @@ import net.grobas.view.PolygonImageView;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -79,16 +75,18 @@ public class GuideDetailActivity extends BaseActivity implements GuideCarPhotosA
     LinearLayout charteredCarLayout;
     @Bind(R.id.guide_detail_single_layout)
     LinearLayout singleLayout;
-    @Bind(R.id.header_detail_title_tv)
-    TextView titleTV;
-    @Bind(R.id.header_detail_right_1_btn)
-    ImageView collectIV;
     @Bind(R.id.guide_detail_evaluate_item)
     EvaluateListItemView evaluateItemView;
     @Bind(R.id.guide_detail_photo_recyclerview)
     RecyclerView carRecyclerView;
     @Bind(R.id.guide_detail_subtitle_photo_layout)
     FrameLayout carPhotosLayout;
+    @Bind(R.id.header_detail_title_tv)
+    TextView titleTV;
+    @Bind(R.id.header_detail_right_2_btn)
+    ImageView shareIV;
+    @Bind(R.id.header_detail_right_1_btn)
+    ImageView collectIV;
 
     private String guideId;
     private GuidesDetailData data;
@@ -111,9 +109,10 @@ public class GuideDetailActivity extends BaseActivity implements GuideCarPhotosA
         setContentView(R.layout.fg_guide_detail);
         ButterKnife.bind(this);
 
-        initDefaultTitleBar();
         mDialogUtil = DialogUtil.getInstance(this);
         titleTV.setText(getString(R.string.guide_detail_subtitle_title));
+        shareIV.setImageResource(R.mipmap.sddate_share);
+        collectIV.setImageResource(R.drawable.selector_guide_detail_collect);
 
         requestData();
     }
@@ -232,52 +231,23 @@ public class GuideDetailActivity extends BaseActivity implements GuideCarPhotosA
         Intent intent = null;
         switch (view.getId()) {
             case R.id.guide_detail_plane_layout:
-//                FgPickSend fgPickSend = new FgPickSend();
-//                bundle.putSerializable("collectGuideBean",beanConversion());
-//                fgPickSend.setArguments(bundle);
-//                startFragment(fgPickSend, bundle);
-
                 intent = new Intent(this, PickSendActivity.class);
                 intent.putExtra("collectGuideBean", beanConversion());
                 startActivity(intent);
                 finish();
                 break;
             case R.id.guide_detail_car_layout:
-//                FgOrderSelectCity fgOrderSelectCity = new FgOrderSelectCity();
-//                bundle.putSerializable("collectGuideBean",beanConversion());
-//                fgOrderSelectCity.setArguments(bundle);
-//                startFragment(fgOrderSelectCity, bundle);
-                intent = new Intent(this, DailyWebInfoActivity.class);
-                intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_DAIRY);
+                intent = new Intent(this, OrderSelectCityActivity.class);
                 intent.putExtra("collectGuideBean", beanConversion());
                 startActivity(intent);
                 finish();
                 break;
             case R.id.guide_detail_single_layout:
-//                FgSingleNew fgSingleNew = new FgSingleNew();
-//                bundle.putSerializable("collectGuideBean",beanConversion());
-//                fgSingleNew.setArguments(bundle);
-//                startFragment(fgSingleNew);
                 intent = new Intent(this, SingleNewActivity.class);
                 intent.putExtra("collectGuideBean", beanConversion());
                 startActivity(intent);
                 finish();
                 break;
-//            case R.id.guide_detail_call_iv:
-//                if (data == null) {
-//                    break;
-//                }
-//                PhoneInfo.CallDial(getActivity(), data.getMobile());
-//                break;
-//            case R.id.ogi_evaluate_chat_iv:
-//                ChatInfo chatInfo = new ChatInfo();
-//                chatInfo.isChat = true;
-//                chatInfo.userId = data.getGuideId();
-//                chatInfo.userAvatar = data.getAvatar();
-//                chatInfo.title = data.getGuideName();
-//                chatInfo.targetType = "1";
-//                RongIM.getInstance().startPrivateChat(getActivity(), "G" + data.getGuideId(), new ParserChatInfo().toJsonString(chatInfo));
-//                break;
             case R.id.header_detail_back_btn:
                 finish();
                 break;
@@ -327,11 +297,12 @@ public class GuideDetailActivity extends BaseActivity implements GuideCarPhotosA
     @Override
     public void onItemClick(View view, int postion) {
         if (data.getCarPhotosL() != null && data.getCarPhotosL().size() > 0) {
-            //FIXME qingcha
-            FgLargerImage.Params params = new FgLargerImage.Params();
+            Intent intent = new Intent(GuideDetailActivity.this, LargerImageActivity.class);
+            LargerImageActivity.Params params = new LargerImageActivity.Params();
             params.position = postion;
             params.imageUrlList = data.getCarPhotosL();
-            startFragment(FgLargerImage.newInstance(params));
+            intent.putExtra(Constants.PARAMS_DATA, params);
+            startActivity(intent);
         }
     }
 }

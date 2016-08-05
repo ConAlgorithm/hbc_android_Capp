@@ -40,28 +40,31 @@ public class OrderDetailFloatView extends LinearLayout implements HbcViewBehavio
             inflate(getContext(), R.layout.view_order_detail_pay, this);
             TextView needPayTV = (TextView) findViewById(R.id.order_detail_pay_price_tv);
             needPayTV.setText(String.valueOf(orderBean.orderPriceInfo.actualPay));
-//            findViewById(R.id.order_detail_pay_tv).setOnClickListener(new OnClickListener() {
-//                @Override
-//                public void onClick(View v) {//立即支付
-//                    EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_PAY));
-//                }
-//            });
+            //立即支付
+            findViewById(R.id.order_detail_pay_tv).setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_PAY, orderBean.orderNo));
+                }
+            });
         } else if (orderBean.insuranceEnable) { //是否添加保险
             setVisibility(View.VISIBLE);
             removeAllViews();
             inflate(getContext(), R.layout.view_order_detail_insurance, this);
             TextView timeTV = (TextView) findViewById(R.id.order_detail_insurance_time_tv);
             timeTV.setText(orderBean.insuranceTips);
+            //皇包车免费赠送保险H5
             findViewById(R.id.order_detail_insurance_explain_iv).setOnClickListener(new OnClickListener() {
                 @Override
-                public void onClick(View v) {//皇包车免费赠送保险H5
-                    EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_INSURANCE_H5));
+                public void onClick(View v) {
+                    EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_INSURANCE_H5, orderBean.orderNo));
                 }
             });
+            //添加投保人
             findViewById(R.id.order_detail_insurance_add_tv).setOnClickListener(new OnClickListener() {
                 @Override
-                public void onClick(View v) {//添加投保人
-                    EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_ADD_INSURER));
+                public void onClick(View v) {
+                    EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_ADD_INSURER, orderBean.orderNo));
                 }
             });
         } else {

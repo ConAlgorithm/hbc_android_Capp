@@ -1,5 +1,6 @@
 package com.hugboga.custom.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -21,7 +22,6 @@ import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestCollectGuidesId;
 import com.hugboga.custom.data.request.RequestEvaluateNew;
 import com.hugboga.custom.data.request.RequestEvaluateTag;
-import com.hugboga.custom.fragment.FgShareGuides;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.widget.DialogUtil;
@@ -77,17 +77,18 @@ public class EvaluateActivity extends BaseActivity implements RatingView.OnLevel
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
-            orderBean = savedInstanceState.getParcelable(Constants.PARAMS_DATA);
+            orderBean = (OrderBean) savedInstanceState.getSerializable(Constants.PARAMS_DATA);
         } else {
             Bundle bundle = getIntent().getExtras();
             if (bundle != null) {
-                orderBean = bundle.getParcelable(Constants.PARAMS_DATA);
+                orderBean = (OrderBean) bundle.getSerializable(Constants.PARAMS_DATA);
             }
         }
         mDialogUtil = DialogUtil.getInstance(this);
 
         setContentView(R.layout.fg_evaluate);
         ButterKnife.bind(this);
+
         initView();
     }
 
@@ -100,7 +101,11 @@ public class EvaluateActivity extends BaseActivity implements RatingView.OnLevel
     }
 
     private void initView() {
+        initDefaultTitleBar();
         fgTitle.setText(getString(R.string.evaluate_title));
+        if (orderBean == null) {
+            return;
+        }
         final OrderGuideInfo guideInfo = orderBean.orderGuideInfo;
         if (guideInfo == null) {
             return;
@@ -109,7 +114,7 @@ public class EvaluateActivity extends BaseActivity implements RatingView.OnLevel
             @Override
             public void onClick(View v) {
                 if (isSubmitEvaluated) {
-                    EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_UPDATE_EVALUATION));
+                    EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_UPDATE_EVALUATION, orderBean.orderNo));
                 }
                 finish();
             }
@@ -251,12 +256,14 @@ public class EvaluateActivity extends BaseActivity implements RatingView.OnLevel
                 if (!orderBean.orderGuideInfo.isCollected()) {
                     requestData(new RequestCollectGuidesId(this, orderBean.orderGuideInfo.guideID));
                 }
-                finish();
-                FgShareGuides.Params params = new FgShareGuides.Params();
+                ShareGuidesActivity.Params params = new ShareGuidesActivity.Params();
                 params.evaluateData = evaluateData;
                 params.orderNo = orderBean.orderNo;
                 params.guideAvatar = orderBean.orderGuideInfo.guideAvatar;
-                startFragment(FgShareGuides.newInstance(params));
+                Intent intent = new Intent(EvaluateActivity.this, ShareGuidesActivity.class);
+                intent.putExtra(Constants.PARAMS_DATA, params);
+                EvaluateActivity.this.startActivity(intent);
+                finish();
             }
         } else if (_request instanceof RequestEvaluateTag) {
             RequestEvaluateTag request = (RequestEvaluateTag) _request;

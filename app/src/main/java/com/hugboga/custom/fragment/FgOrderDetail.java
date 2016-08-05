@@ -134,7 +134,6 @@ public class FgOrderDetail extends BaseFragment implements View.OnClickListener{
                 mDialogUtil.showCallDialog();
             }
         });
-        itineraryView.setFragment(this);
     }
 
     private void genTopTIps(){
