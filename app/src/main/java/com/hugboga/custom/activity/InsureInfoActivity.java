@@ -64,13 +64,15 @@ public class InsureInfoActivity extends BaseActivity {
     private void initView() {
         initDefaultTitleBar();
         headerTitle.setText(getString(R.string.insure_info_title));
-        List<InsureListBean> list = orderBean.insuranceList;
-        if (list != null && list.size() > 0) {
-            if (adapter == null) {
-                adapter = new FgInsureInfoAdapter(this);
-                listView.setAdapter(adapter);
+        if(null != orderBean){
+            List<InsureListBean> list = orderBean.insuranceList;
+            if (list != null && list.size() > 0) {
+                if (adapter == null) {
+                    adapter = new FgInsureInfoAdapter(this);
+                    listView.setAdapter(adapter);
+                }
+                adapter.setList(list);
             }
-            adapter.setList(list);
         }
     }
 }
