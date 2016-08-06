@@ -43,7 +43,10 @@ import com.hugboga.custom.action.ActionBean;
 import com.hugboga.custom.action.ActionFactory;
 import com.hugboga.custom.activity.BaseActivity;
 import com.hugboga.custom.activity.CollectGuideListActivity;
+import com.hugboga.custom.activity.CouponActivity;
 import com.hugboga.custom.activity.InsureActivity;
+import com.hugboga.custom.activity.PersonInfoActivity;
+import com.hugboga.custom.activity.TravelFundActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.adapter.MenuItemAdapter;
 import com.hugboga.custom.constants.Constants;
@@ -59,17 +62,13 @@ import com.hugboga.custom.data.request.RequestPushToken;
 import com.hugboga.custom.data.request.RequestUploadLocation;
 import com.hugboga.custom.data.request.RequestUserInfo;
 import com.hugboga.custom.fragment.FgChat;
-import com.hugboga.custom.fragment.FgCoupon;
 import com.hugboga.custom.fragment.FgHome;
 import com.hugboga.custom.fragment.FgIMChat;
-import com.hugboga.custom.fragment.FgInviteFriends;
 import com.hugboga.custom.fragment.FgLogin;
 import com.hugboga.custom.fragment.FgOrderDetail;
-import com.hugboga.custom.fragment.FgPersonInfo;
 import com.hugboga.custom.fragment.FgServicerCenter;
 import com.hugboga.custom.fragment.FgSetting;
 import com.hugboga.custom.fragment.FgTravel;
-import com.hugboga.custom.fragment.FgTravelFund;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.ChannelUtils;
 import com.hugboga.custom.utils.CommonUtils;
@@ -483,7 +482,6 @@ public class MainActivity extends BaseActivity
 
     private List<LvMenuItem> mItems = new ArrayList<LvMenuItem>(
             Arrays.asList(
-                    new LvMenuItem(R.mipmap.personal_icon_invite, "邀请好友赢旅游基金"),
                     new LvMenuItem(R.mipmap.personal_icon_safe, "常用投保人"),
                     new LvMenuItem(R.mipmap.personal_icon_collection, "我收藏的司导"),
                     new LvMenuItem(MenuItemAdapter.ItemType.SPACE),
@@ -639,12 +637,6 @@ public class MainActivity extends BaseActivity
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         HashMap<String, String> map = new HashMap<String, String>();
         switch (position) {
-            case Constants.PERSONAL_CENTER_FUND://旅游基金
-                if (isLogin("个人中心首页")) {
-                    FgInviteFriends fgInviteFriends = new FgInviteFriends();
-                    startFragment(fgInviteFriends);
-                }
-                break;
             case Constants.PERSONAL_CENTER_BR://常用投保人
                 if (isLogin("个人中心首页")) {
                     Intent intent = new Intent(activity, InsureActivity.class);
@@ -659,10 +651,6 @@ public class MainActivity extends BaseActivity
                 break;
             case Constants.PERSONAL_CENTER_HD://活动
                 if (isLogin("个人中心首页")) {
-//                    Bundle bundle = new Bundle();
-//                    bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_ACTIVITY + UserEntity.getUser().getUserId(this.getApplicationContext()) + "&t=" + new Random().nextInt(100000));
-//                    startFragment(new FgActivity(), bundle);
-
                     Intent intent = new Intent(MainActivity.this, WebInfoActivity.class);
                     intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_ACTIVITY + UserEntity.getUser().getUserId(this.getApplicationContext()) + "&t=" + new Random().nextInt(100000));
                     startActivity(intent);
@@ -737,7 +725,7 @@ public class MainActivity extends BaseActivity
         }
         return false;
     }
-
+    Intent intent;
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -745,19 +733,24 @@ public class MainActivity extends BaseActivity
             case R.id.my_icon_head:
             case R.id.tv_nickname:
                 if (isLogin("个人中心首页")) {
-                    startFragment(new FgPersonInfo());
+                    intent = new Intent(activity,PersonInfoActivity.class);
+                    startActivity(intent);
                 }
                 ;
                 break;
             case R.id.slidemenu_header_coupon_layout://我的优惠券
                 if (isLogin("个人中心首页")) {
-                    startFragment(new FgCoupon());
+//                    startFragment(new FgCoupon());
+                    intent = new Intent(activity, CouponActivity.class);
+                    startActivity(intent);
                     UserEntity.getUser().setHasNewCoupon(false);
                 }
                 break;
             case R.id.slidemenu_header_travelfund_layout://旅游基金
                 if (isLogin("个人中心首页")) {
-                    startFragment(new FgTravelFund());
+//                    startFragment(new FgTravelFund());
+                    intent = new Intent(activity, TravelFundActivity.class);
+                    startActivity(intent);
                 }
                 break;
         }

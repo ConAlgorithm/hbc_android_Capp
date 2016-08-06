@@ -250,6 +250,14 @@
             android:name=".activity.ChooseAirPortActivity"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".activity.PersonInfoActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.ServicerCenterActivity"
+            android:screenOrientation="portrait" />
+
         <service
             android:name=".service.LogService"
             android:process="com.hugboga.custom.hbclog" />
