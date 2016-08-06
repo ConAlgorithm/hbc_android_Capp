@@ -92,8 +92,8 @@ public class InsureActivity extends BaseActivity implements HttpRequestListener 
             orderBean = (OrderBean) this.getIntent().getSerializableExtra("orderBean");
             from = this.getIntent().getStringExtra("from");
             if (null != orderBean && !TextUtils.isEmpty(orderBean.orderNo)) {
-                bottom.setVisibility(View.VISIBLE);
                 insureListSize = orderBean.insuranceList.size();
+                bottom.setVisibility(View.VISIBLE);
                 peopleNum.setText(insureListSize + "");
                 peopleNumAll.setText("/" + (orderBean.adult + orderBean.child));
             }
@@ -220,6 +220,9 @@ public class InsureActivity extends BaseActivity implements HttpRequestListener 
                 beanList.add(0, (InsureResultBean) (action.data));
                 if (null != orderBean) {
                     showCheckBox();
+                    if(beanList.size() > 0){
+                        bottom.setVisibility(View.VISIBLE);
+                    }
                 } else {
                     adapter.notifyDataSetChanged();
                 }
@@ -314,6 +317,11 @@ public class InsureActivity extends BaseActivity implements HttpRequestListener 
             if (null != orderBean) {
                 showCheckBox();
                 list.setOnItemLongClickListener(null);
+                if(beanList.size() > 0){
+                    bottom.setVisibility(View.VISIBLE);
+                }else{
+                    bottom.setVisibility(View.GONE);
+                }
             }
             adapter.notifyDataSetChanged();
 
@@ -356,6 +364,8 @@ public class InsureActivity extends BaseActivity implements HttpRequestListener 
     public void onClick() {
         if (!TextUtils.isEmpty(getInsuranceUserId())) {
             commitInsure();
+        }else{
+            CommonUtils.showToast("请选择投保人");
         }
     }
 }

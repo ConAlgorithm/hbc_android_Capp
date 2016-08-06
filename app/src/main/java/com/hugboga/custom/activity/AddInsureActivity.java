@@ -224,13 +224,17 @@ public class AddInsureActivity extends BaseActivity implements HttpRequestListen
 
     public void showDaySelect(TextView sDateTime) {
         Calendar cal = Calendar.getInstance();
+        cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR,1990);
+        cal.set(Calendar.MONTH, 0);
+        cal.set(Calendar.DAY_OF_MONTH,1);
+
         MyDatePickerListener myDatePickerDialog = new MyDatePickerListener(sDateTime);
         DatePickerDialog dpd = DatePickerDialog.newInstance(
                 myDatePickerDialog, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
-        cal = Calendar.getInstance();
+//        cal = Calendar.getInstance();
 //        dpd.setMinDate(cal);
-        cal = Calendar.getInstance();
-        cal.set(Calendar.MONTH, cal.get(Calendar.MONTH) + 6);
+
 //        dpd.setMaxDate(cal);
         dpd.show(activity.getFragmentManager(), "DatePickerDialog");   //显示日期设置对话框
 
