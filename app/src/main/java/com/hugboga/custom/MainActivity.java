@@ -43,6 +43,7 @@ import com.hugboga.custom.action.ActionBean;
 import com.hugboga.custom.action.ActionFactory;
 import com.hugboga.custom.activity.BaseActivity;
 import com.hugboga.custom.activity.CollectGuideListActivity;
+import com.hugboga.custom.activity.InsureInfoActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.adapter.MenuItemAdapter;
 import com.hugboga.custom.constants.Constants;
@@ -647,8 +648,8 @@ public class MainActivity extends BaseActivity
                 break;
             case Constants.PERSONAL_CENTER_BR://常用投保人
                 if (isLogin("个人中心首页")) {
-                    FgInsure fgInsure = new FgInsure();
-                    startFragment(fgInsure);
+                    Intent intent = new Intent(activity, InsureInfoActivity.class);
+                    startActivity(intent);
                 }
                 break;
             case Constants.PERSONAL_CENTER_COLLECT://收藏司导
