@@ -46,6 +46,8 @@ import com.hugboga.custom.activity.CollectGuideListActivity;
 import com.hugboga.custom.activity.CouponActivity;
 import com.hugboga.custom.activity.InsureActivity;
 import com.hugboga.custom.activity.PersonInfoActivity;
+import com.hugboga.custom.activity.ServicerCenterActivity;
+import com.hugboga.custom.activity.SettingActivity;
 import com.hugboga.custom.activity.TravelFundActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.adapter.MenuItemAdapter;
@@ -66,8 +68,6 @@ import com.hugboga.custom.fragment.FgHome;
 import com.hugboga.custom.fragment.FgIMChat;
 import com.hugboga.custom.fragment.FgLogin;
 import com.hugboga.custom.fragment.FgOrderDetail;
-import com.hugboga.custom.fragment.FgServicerCenter;
-import com.hugboga.custom.fragment.FgSetting;
 import com.hugboga.custom.fragment.FgTravel;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.ChannelUtils;
@@ -657,7 +657,9 @@ public class MainActivity extends BaseActivity
                 }
                 break;
             case Constants.PERSONAL_CENTER_CUSTOMER_SERVICE://服务规则
-                startFragment(new FgServicerCenter());
+//                startFragment(new FgServicerCenter());
+                intent = new Intent(activity, ServicerCenterActivity.class);
+                startActivity(intent);
                 break;
             case Constants.PERSONAL_CENTER_INTERNAL_SERVICE://境内客服
                 PhoneInfo.CallDial(MainActivity.this, Constants.CALL_NUMBER_IN);
@@ -667,7 +669,11 @@ public class MainActivity extends BaseActivity
                 break;
             case Constants.PERSONAL_CENTER_SETTING://设置
                 if (isLogin("个人中心首页")) {
-                    startFragment(new FgSetting());
+//                    startFragment(new FgSetting());
+
+                    intent = new Intent(activity,SettingActivity.class);
+                    startActivity(intent);
+
                 }
                 break;
             default:

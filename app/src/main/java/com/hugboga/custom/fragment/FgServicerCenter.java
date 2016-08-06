@@ -106,7 +106,7 @@ public class FgServicerCenter extends BaseFragment {
 //        startFragment(new FgWebInfo(), bundle);
 
 
-        Intent intent = new Intent(context, WebInfoActivity.class);
+        Intent intent = new Intent(getActivity(), WebInfoActivity.class);
         intent.putExtra(WebInfoActivity.WEB_URL, url);
         context.startActivity(intent);
     }
