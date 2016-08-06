@@ -183,6 +183,10 @@
             android:screenOrientation="portrait"/>
 
         <activity
+            android:name=".activity.InsureActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity
             android:name=".activity.PayResultActivity"
             android:screenOrientation="portrait"/>
 
