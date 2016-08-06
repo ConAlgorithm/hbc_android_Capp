@@ -2,6 +2,7 @@ package com.hugboga.custom.activity;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -17,9 +18,6 @@ import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.parser.ParserLogout;
 import com.hugboga.custom.data.request.RequestLogout;
-import com.hugboga.custom.fragment.FgAbout;
-import com.hugboga.custom.fragment.FgCallBack;
-import com.hugboga.custom.fragment.FgChangePsw;
 import com.hugboga.custom.utils.SharedPre;
 
 import org.greenrobot.eventbus.EventBus;
@@ -99,20 +97,28 @@ public class SettingActivity extends BaseActivity {
         }
     }
 
+    Intent intent;
     @OnClick({R.id.setting_menu_layout2, R.id.setting_menu_layout3, R.id.setting_menu_layout5, R.id.setting_exit, R.id.setting_menu_layout7})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.setting_menu_layout2:
                 //修改密码
-                startFragment(new FgChangePsw());
+//                startFragment(new FgChangePsw());
+                intent = new Intent(activity,ChangePswActivity.class);
+                startActivity(intent);
                 break;
             case R.id.setting_menu_layout3:
                 //意见反馈
-                startFragment(new FgCallBack());
+//                startFragment(new FgCallBack());
+                intent = new Intent(activity,CallBackActivity.class);
+                startActivity(intent);
+
                 break;
             case R.id.setting_menu_layout5:
                 //关于我们
-                startFragment(new FgAbout());
+//                startFragment(new FgAbout());
+                intent = new Intent(activity,AboutActivity.class);
+                startActivity(intent);
                 break;
             case R.id.setting_exit:
                 //退出登录

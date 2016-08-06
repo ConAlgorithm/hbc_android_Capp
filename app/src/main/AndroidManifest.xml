@@ -262,6 +262,18 @@
             android:name=".activity.SettingActivity"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".activity.ChangePswActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.AboutActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.CallBackActivity"
+            android:screenOrientation="portrait" />
+
         <service
             android:name=".service.LogService"
             android:process="com.hugboga.custom.hbclog" />
