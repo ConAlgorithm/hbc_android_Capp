@@ -4,7 +4,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -27,7 +26,6 @@ import com.hugboga.custom.data.request.RequestCollectGuidesId;
 import com.hugboga.custom.data.request.RequestOrderCancel;
 import com.hugboga.custom.data.request.RequestOrderDetail;
 import com.hugboga.custom.data.request.RequestUncollectGuidesId;
-import com.hugboga.custom.fragment.FgInsure;
 import com.hugboga.custom.fragment.FgOrderCancel;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.PhoneInfo;
@@ -236,11 +234,12 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                 if (orderBean == null) {
                     return;
                 }
-                FgInsure fgAddInsure = new FgInsure();
+//                FgInsure fgAddInsure = new FgInsure();
                 Bundle insureBundle = new Bundle();
                 insureBundle.putSerializable("orderBean", orderBean);
-                fgAddInsure.setArguments(insureBundle);
-                startFragment(fgAddInsure);
+                Intent intent1 = new Intent(activity,InsureActivity.class);
+                intent1.putExtras(insureBundle);
+                startActivity(intent1);
                 break;
             case ORDER_DETAIL_LIST_INSURER://投保人列表
                 if (!eventVerification(action)) {

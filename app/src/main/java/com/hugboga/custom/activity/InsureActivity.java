@@ -76,6 +76,13 @@ public class InsureActivity extends BaseActivity implements HttpRequestListener 
     TextView left;
 
     protected void initHeader() {
+        headerLeftBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
         headerTitle.setText("常用投保人");
         rightBtnDefault();
         adapter = new InSureListAdapter(beanList, activity);
