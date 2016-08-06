@@ -179,6 +179,13 @@ public class OrderEditActivity extends BaseActivity {
             if (!TextUtils.isEmpty(orderBean.flightNo)) {
                 airportName.setText(orderBean.flightNo);
             }
+            if (!TextUtils.isEmpty(orderBean.serviceAreaCode)) {
+                String serviceCode = orderBean.serviceAreaCode;
+                hotelPhoneTextCodeClick.setText("+" + serviceCode.replace("+",""));
+            }
+            if (!TextUtils.isEmpty(orderBean.serviceAddressTel)) {
+                hotelPhoneText.setText(orderBean.serviceAddressTel);
+            }
         } else if (orderBean.orderGoodsType == 4) {//单次接送
             pickNameLayout.setVisibility(View.GONE);
             pickUpTime.setVisibility(View.GONE);
