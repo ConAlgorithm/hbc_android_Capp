@@ -1119,7 +1119,6 @@ public class OrderNewActivity extends BaseActivity {
         super.onDataRequestError(errorInfo, request);
     }
 
-    //TODO;时间太紧 文字先写代码里
     List<OrderContact> contact = new ArrayList<OrderContact>();
 
     private void checkData() {

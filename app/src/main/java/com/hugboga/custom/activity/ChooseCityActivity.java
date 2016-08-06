@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
@@ -50,10 +51,12 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
+import static android.view.View.GONE;
+
 /**
  * Created by on 16/8/3.
  */
-public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchingLetterChangedListener, ChooseCityTabLayout.OnChangeListener, TextWatcher, TextView.OnEditorActionListener, AdapterView.OnItemClickListener{
+public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchingLetterChangedListener, ChooseCityTabLayout.OnChangeListener, TextWatcher, TextView.OnEditorActionListener, AdapterView.OnItemClickListener {
     public static final String KEY_CITY_ID = "key_city_id";
     public static final String KEY_CITY = "key_city";
     public static final String KEY_CITY_LIST_CHOSEN = "key_city_list_chosen";
@@ -86,6 +89,18 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
     TextView cityHeadText;
     @Bind(R.id.city_choose_btn)
     View chooseBtn;
+    @Bind(R.id.header_left_btn_new)
+    ImageView headerLeftBtnNew;
+    @Bind(R.id.header_title_new)
+    TextView headerTitleNew;
+    @Bind(R.id.header_left_btn)
+    ImageView headerLeftBtn;
+    @Bind(R.id.head_search_clean)
+    ImageView headSearchClean;
+    @Bind(R.id.activity_head_layout)
+    RelativeLayout activityHeadLayout;
+    @Bind(R.id.daily_layout)
+    RelativeLayout dailyLayout;
 
     private ChooseCityHeaderView headerView;
     private FrameLayout headerRootView;
@@ -93,7 +108,8 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
 
     private ChooseCityAdapter mAdapter;
     private Handler mAsyncHandler;
-    private List<CityBean> cityList = new ArrayList<>();;
+    private List<CityBean> cityList = new ArrayList<>();
+    ;
     private ArrayList<String> cityHistory = new ArrayList<>();//历史数据
     private ArrayList<CityBean> chooseCityList = new ArrayList<CityBean>();
     private ArrayList<Integer> exceptCityId = new ArrayList<>();
@@ -111,22 +127,22 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
     private static final class MessageType {
         /**
          * 全部城市
-         * */
+         */
         public static final int ALL_CITY = 0x0001;
 
         /**
          * 热门城市
-         * */
+         */
         public static final int HOT_CITY = 0x0002;
 
         /**
          * 搜索历史
-         * */
+         */
         public static final int SEARCH_HISTORY = 0x0003;
 
         /**
          * 当前定位
-         * */
+         */
         public static final int LOCATION = 0x0004;
 
     }
@@ -134,14 +150,14 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
     public static final class ShowType {
         /**
          * 选城市
-         * */
+         */
         public static final int SELECT_CITY = 0x0001;
 
         public static final int MULTIPLY = 0x0002;
 
         /**
          * 接送机选城市
-         * */
+         */
         public static final int PICK_UP = 0x0003;
 
     }
@@ -166,15 +182,40 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
     }
 
+    boolean fromDaily = false;//包车选城市
     private void initView() {
 //        setProgressState(0);
+        fromDaily = this.getIntent().getBooleanExtra("fromDaily",false);
+        if (fromDaily) {
+            dailyLayout.setVisibility(View.VISIBLE);
+            headerTitleNew.setText("请选择包车开始城市");
+            headerLeftBtnNew.setImageResource(R.mipmap.closed_btn);
+            headerLeftBtnNew.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish();
+                    overridePendingTransition(R.anim.push_buttom_out,0);
+                }
+            });
+        }else{
+            dailyLayout.setVisibility(GONE);
+            headerLeftBtn.setVisibility(View.VISIBLE);
+            headerLeftBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish();
+                }
+            });
+        }
+
+
         searchTV.setText(getString(R.string.dialog_btn_cancel));
-        searchTV.setVisibility(View.GONE);
+        searchTV.setVisibility(GONE);
 
         mDialogUtil = DialogUtil.getInstance(this);
         mDialogUtil.showLoadingDialog();
-        emptyTV.setVisibility(View.GONE);
-        emptyIV.setVisibility(View.GONE);
+        emptyTV.setVisibility(GONE);
+        emptyIV.setVisibility(GONE);
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
@@ -244,7 +285,7 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
 
     @Override
     public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-        if (actionId == EditorInfo.IME_ACTION_SEARCH){
+        if (actionId == EditorInfo.IME_ACTION_SEARCH) {
             String keyword = editSearch.getText().toString().trim();
             if (TextUtils.isEmpty(keyword)) {
                 CommonUtils.showToast("请输入搜索内容");
@@ -268,12 +309,12 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
 
     @Override
     public void afterTextChanged(Editable s) {
-        emptyTV.setVisibility(View.GONE);
-        emptyIV.setVisibility(View.GONE);
+        emptyTV.setVisibility(GONE);
+        emptyIV.setVisibility(GONE);
         if (TextUtils.isEmpty(s) || TextUtils.isEmpty(s.toString().trim())) {
             mListview.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT));
 
-            searchTV.setVisibility(View.GONE);
+            searchTV.setVisibility(GONE);
             if (showType != ShowType.SELECT_CITY) {
                 headerRootView.removeAllViews();
                 headerRootView.addView(headerView);
@@ -295,11 +336,11 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
             if (showType != ShowType.SELECT_CITY) {
                 headerRootView.removeAllViews();
                 if (showType == ShowType.PICK_UP) {
-                    tabLayout.setVisibility(View.GONE);
+                    tabLayout.setVisibility(GONE);
                 }
             }
             cityList.clear();
-            sideBar.setVisibility(View.GONE);
+            sideBar.setVisibility(GONE);
             mListview.setAreHeadersSticky(false);
 
             mAdapter.setShowType(ChooseCityAdapter.ShowType.SEARCH_PROMPT);
@@ -313,18 +354,18 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
                     if (cityList.size() <= 0) {
                         cityList.addAll(moreDataList);
                     } else {
-                        for(CityBean cityBean : moreDataList) {
-                            for (int i=0; i< cityList.size(); i++) {
+                        for (CityBean cityBean : moreDataList) {
+                            for (int i = 0; i < cityList.size(); i++) {
                                 if (cityBean.cityId == cityList.get(i).cityId) {
                                     break;
                                 }
-                                if ( i == cityList.size() - 1) {
+                                if (i == cityList.size() - 1) {
                                     cityList.add(cityBean);
                                 }
                             }
                         }
                     }
-                } else if (cityList.size() <= 0){
+                } else if (cityList.size() <= 0) {
                     if (mBusinessType == Constants.BUSINESS_TYPE_DAILY) {
                         if ("lastCity".equals(from) && s.toString().trim().equals(startCityName)) {
                             emptyTV.setText(getString(R.string.can_not_choose_start_city_text));
@@ -354,7 +395,7 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
 
                 break;
             case R.id.head_search_clean:
-                if(TextUtils.isEmpty(editSearch.getText().toString().trim())){
+                if (TextUtils.isEmpty(editSearch.getText().toString().trim())) {
                     break;
                 }
                 editSearch.setText("");
@@ -369,7 +410,7 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
                     return;
                 }
                 editSearch.setText("");
-                searchTV.setVisibility(View.GONE);
+                searchTV.setVisibility(GONE);
                 collapseSoftInputMethod(editSearch);
                 break;
         }
@@ -416,11 +457,11 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
             bundle.putSerializable(KEY_CITY, cityBean);
 
             finish();
-            if(null != from  && from.equalsIgnoreCase("lastCity")){
+            if (null != from && from.equalsIgnoreCase("lastCity")) {
                 EventBus.getDefault().post(new EventAction(EventType.CHOOSE_END_CITY_BACK, cityBean));
-            }else if(null != from && from.equalsIgnoreCase("end")){
+            } else if (null != from && from.equalsIgnoreCase("end")) {
                 EventBus.getDefault().post(new EventAction(EventType.CHOOSE_END_CITY_BACK, cityBean));
-            }else{
+            } else {
                 EventBus.getDefault().post(new EventAction(EventType.CHOOSE_START_CITY_BACK, cityBean));
             }
         }
@@ -665,7 +706,7 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
                     mListview.setSelection(0);
                     setSectionIndices();
                     mDialogUtil.dismissLoadingDialog();
-                    emptyLayout.setVisibility(View.GONE);
+                    emptyLayout.setVisibility(GONE);
                     break;
                 case MessageType.HOT_CITY:
                     if (msg.obj == null) {
@@ -724,7 +765,7 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
             } else {
                 selector.and("group_id", "=", groupId);
             }
-            if ("lastCity".equals(from) && cityId != -1){
+            if ("lastCity".equals(from) && cityId != -1) {
                 selector.and("city_id", "<>", cityId);
             }
         } else if (orderType == Constants.BUSINESS_TYPE_RENT) {

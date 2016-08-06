@@ -56,6 +56,7 @@ import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
@@ -66,7 +67,6 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import org.greenrobot.eventbus.EventBus;
 
 import static android.view.View.GONE;
 import static com.huangbaoche.hbcframe.fragment.BaseFragment.KEY_FRAGMENT_NAME;
@@ -187,14 +187,12 @@ public class OrderSelectCityActivity extends BaseActivity  {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-//                    Bundle bundle = new Bundle();
-//                    bundle.putString("source", "首页");
-//                    startFragment(new FgChooseCity(), bundle);
-//                    Intent intent = new Intent(OrderSelectCityActivity.this, ChooseCityActivity.class);
-//                    intent.putExtra("source", "首页");
-//                    startActivity(intent);
+                    Intent intent = new Intent(OrderSelectCityActivity.this, ChooseCityActivity.class);
+                    intent.putExtra("fromDaily",true);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.push_bottom_in,0);
                 }
-            },500);
+            },200);
 
         }
 

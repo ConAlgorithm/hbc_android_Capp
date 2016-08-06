@@ -1,5 +1,6 @@
 package com.hugboga.custom.activity;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -8,6 +9,7 @@ import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -35,6 +37,14 @@ import butterknife.ButterKnife;
 public class TravelFundActivity extends BaseActivity {
     @Bind(R.id.tracel_fund_listview)
     ZListView listView;
+    @Bind(R.id.header_left_btn)
+    ImageView headerLeftBtn;
+    @Bind(R.id.header_right_btn)
+    ImageView headerRightBtn;
+    @Bind(R.id.header_title)
+    TextView headerTitle;
+    @Bind(R.id.header_right_txt)
+    TextView headerRightTxt;
     private LinearLayout footerItemsLayout;
     private TextView amountTV, effectiveDateTV;
     private FrameLayout titleLayout;
@@ -42,13 +52,19 @@ public class TravelFundActivity extends BaseActivity {
     private TravelFundAdapter adapter;
 
     protected void initHeader() {
-        fgTitle.setText(getString(R.string.travel_fund_title));
+        headerLeftBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        headerTitle.setText(getString(R.string.travel_fund_title));
         listView.setonLoadListener(onLoadListener);
         LayoutInflater inflater = LayoutInflater.from(activity);
 
         View headerView = inflater.inflate(R.layout.header_travel_fund, null);
-        int headerExplainImgHeight = (int)((773 / 1080.0) * UIUtils.getScreenWidth());//顶部图片比例773*1080
-        LinearLayout.LayoutParams imgParams = new  LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, headerExplainImgHeight);
+        int headerExplainImgHeight = (int) ((773 / 1080.0) * UIUtils.getScreenWidth());//顶部图片比例773*1080
+        LinearLayout.LayoutParams imgParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, headerExplainImgHeight);
         headerView.findViewById(R.id.header_travel_fund_explain_iv).setLayoutParams(imgParams);
         amountTV = (TextView) headerView.findViewById(R.id.header_travel_fund_amount_tv);
         effectiveDateTV = (TextView) headerView.findViewById(R.id.header_travel_fund_effectivedate_tv);
@@ -70,6 +86,7 @@ public class TravelFundActivity extends BaseActivity {
         setContentView(R.layout.fg_travel_fund);
         ButterKnife.bind(this);
         initHeader();
+        requestData();
     }
 
     private Callback.Cancelable runData(int pageIndex) {
@@ -123,7 +140,7 @@ public class TravelFundActivity extends BaseActivity {
             int end = start + travelFundData.getFundAmount().length();
             SpannableString sp = new SpannableString(fundAmountString);
             sp.setSpan(new RelativeSizeSpan(1.6f), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            sp.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            sp.setSpan(new StyleSpan(Typeface.BOLD), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             amountTV.setText(sp);
 
             if (travelFundData.getFundAmountInt() <= 0) {

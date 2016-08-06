@@ -92,17 +92,17 @@ public final class Constants {
     /**
      * 左侧navigation menu
      */
-    public static final int PERSONAL_CENTER_FUND = 1;//旅游基金
-    public static final int PERSONAL_CENTER_BR = 2;//常用投保人
-    public static final int PERSONAL_CENTER_COLLECT = 3;//我收藏的司导
+//    public static final int PERSONAL_CENTER_FUND = 1;//旅游基金
+    public static final int PERSONAL_CENTER_BR = 1;//常用投保人
+    public static final int PERSONAL_CENTER_COLLECT = 2;//我收藏的司导
     //4 space
-    public static final int PERSONAL_CENTER_HD = 5;//活动
+    public static final int PERSONAL_CENTER_HD = 4;//活动
     //6 space
-    public static final int PERSONAL_CENTER_CUSTOMER_SERVICE = 7;//服务规则
-    public static final int PERSONAL_CENTER_INTERNAL_SERVICE = 8;//境内客服
-    public static final int PERSONAL_CENTER_OVERSEAS_SERVICE = 9;//境外客服
+    public static final int PERSONAL_CENTER_CUSTOMER_SERVICE = 6;//服务规则
+    public static final int PERSONAL_CENTER_INTERNAL_SERVICE = 7;//境内客服
+    public static final int PERSONAL_CENTER_OVERSEAS_SERVICE = 8;//境外客服
     //10 space
-    public static final int PERSONAL_CENTER_SETTING = 11;//设置
+    public static final int PERSONAL_CENTER_SETTING = 10;//设置
 
 
     /**

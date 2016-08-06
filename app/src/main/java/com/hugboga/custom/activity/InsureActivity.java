@@ -1,12 +1,12 @@
 package com.hugboga.custom.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -26,12 +26,10 @@ import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestDelInsure;
 import com.hugboga.custom.data.request.RequestInsureList;
 import com.hugboga.custom.data.request.RequestSubmitInsure;
-import com.hugboga.custom.fragment.FgAddInsure;
 import com.hugboga.custom.utils.CommonUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-import org.xutils.common.Callback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,32 +64,51 @@ public class InsureActivity extends BaseActivity implements HttpRequestListener 
     int insureListSize = 0;
     @Bind(R.id.people_num_all)
     TextView peopleNumAll;
+    @Bind(R.id.header_left_btn)
+    ImageView headerLeftBtn;
+    @Bind(R.id.header_right_btn)
+    ImageView headerRightBtn;
+    @Bind(R.id.header_title)
+    TextView headerTitle;
+    @Bind(R.id.header_right_txt)
+    TextView headerRightTxt;
+    @Bind(R.id.left)
+    TextView left;
 
     protected void initHeader() {
-        fgTitle.setText("常用投保人");
+        headerLeftBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        headerTitle.setText("常用投保人");
         rightBtnDefault();
         adapter = new InSureListAdapter(beanList, activity);
         list.setAdapter(adapter);
         if (null != this.getIntent()) {
-            fgTitle.setText("添加投保人");
-            orderBean =(OrderBean) this.getIntent().getSerializableExtra("orderBean");
+            headerTitle.setText("添加投保人");
+            orderBean = (OrderBean) this.getIntent().getSerializableExtra("orderBean");
             from = this.getIntent().getStringExtra("from");
             if (null != orderBean && !TextUtils.isEmpty(orderBean.orderNo)) {
-                bottom.setVisibility(View.VISIBLE);
                 insureListSize = orderBean.insuranceList.size();
-                peopleNum.setText(insureListSize+"");
-                peopleNumAll.setText("/"+(orderBean.adult+orderBean.child));
+                bottom.setVisibility(View.VISIBLE);
+                peopleNum.setText(insureListSize + "");
+                peopleNumAll.setText("/" + (orderBean.adult + orderBean.child));
             }
         }
     }
 
     private void rightBtnDefault() {
-        fgRightBtn.setText("新增");
-        fgRightBtn.setVisibility(View.VISIBLE);
-        fgRightBtn.setOnClickListener(new View.OnClickListener() {
+        headerRightTxt.setText("新增");
+        headerRightTxt.setVisibility(View.VISIBLE);
+        headerRightTxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startFragment(new FgAddInsure());
+//                startFragment(new FgAddInsure());
+                Intent intent = new Intent(activity,AddInsureActivity.class);
+                startActivity(intent);
             }
         });
     }
@@ -103,9 +120,9 @@ public class InsureActivity extends BaseActivity implements HttpRequestListener 
         }
         adapter.notifyDataSetChanged();
 
-        fgRightBtn.setText("删除");
-        fgRightBtn.setVisibility(View.VISIBLE);
-        fgRightBtn.setOnClickListener(new View.OnClickListener() {
+        headerRightTxt.setText("删除");
+        headerRightTxt.setVisibility(View.VISIBLE);
+        headerRightTxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 hideCheckBox();
@@ -151,7 +168,24 @@ public class InsureActivity extends BaseActivity implements HttpRequestListener 
         }
     }
 
-//    String insuranceUserIds = "";
+    @Override
+    public void onCreate(Bundle arg0) {
+        super.onCreate(arg0);
+        setContentView(R.layout.fg_insure_list);
+        ButterKnife.bind(this);
+        EventBus.getDefault().register(this);
+        initView();
+        initHeader();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        ButterKnife.unbind(this);
+        EventBus.getDefault().unregister(this);
+    }
+
+    //    String insuranceUserIds = "";
 
     private String getInsuranceUserId() {
         String insuranceUserIds = "";
@@ -176,16 +210,19 @@ public class InsureActivity extends BaseActivity implements HttpRequestListener 
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
             case EDIT_INSURE:
-                FgAddInsure fgAddInsure = new FgAddInsure();
                 Bundle bundle = new Bundle();
-                bundle.putParcelable("insureResultBean", (InsureResultBean) (action.data));
-                fgAddInsure.setArguments(bundle);
-                startFragment(fgAddInsure);
+                bundle.putSerializable("insureResultBean", (InsureResultBean) (action.data));
+                Intent intent = new Intent(activity,AddInsureActivity.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
                 break;
             case ADD_INSURE:
                 beanList.add(0, (InsureResultBean) (action.data));
                 if (null != orderBean) {
                     showCheckBox();
+                    if(beanList.size() > 0){
+                        bottom.setVisibility(View.VISIBLE);
+                    }
                 } else {
                     adapter.notifyDataSetChanged();
                 }
@@ -206,12 +243,14 @@ public class InsureActivity extends BaseActivity implements HttpRequestListener 
                 break;
             case CHECK_INSURE:
                 final InsureResultBean beanCheck = (InsureResultBean) (action.data);
-                if (getCheckNums() <= (orderBean.adult + orderBean.child)) {
-                    int checkNums = getCheckNums();
-                    peopleNum.setText("" + checkNums);
-                } else {
-                    resetCheck(beanCheck);
-                    CommonUtils.showToast("不能超过用车人数");
+                if(null != orderBean) {
+                    if (getCheckNums() <= (orderBean.adult + orderBean.child)) {
+                        int checkNums = getCheckNums();
+                        peopleNum.setText("" + checkNums);
+                    } else {
+                        resetCheck(beanCheck);
+                        CommonUtils.showToast("不能超过用车人数");
+                    }
                 }
                 break;
             default:
@@ -278,6 +317,11 @@ public class InsureActivity extends BaseActivity implements HttpRequestListener 
             if (null != orderBean) {
                 showCheckBox();
                 list.setOnItemLongClickListener(null);
+                if(beanList.size() > 0){
+                    bottom.setVisibility(View.VISIBLE);
+                }else{
+                    bottom.setVisibility(View.GONE);
+                }
             }
             adapter.notifyDataSetChanged();
 
@@ -316,12 +360,12 @@ public class InsureActivity extends BaseActivity implements HttpRequestListener 
     }
 
 
-
-
     @OnClick(R.id.commit)
     public void onClick() {
         if (!TextUtils.isEmpty(getInsuranceUserId())) {
             commitInsure();
+        }else{
+            CommonUtils.showToast("请选择投保人");
         }
     }
 }
