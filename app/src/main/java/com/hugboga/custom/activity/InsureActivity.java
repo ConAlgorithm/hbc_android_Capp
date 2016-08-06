@@ -233,12 +233,14 @@ public class InsureActivity extends BaseActivity implements HttpRequestListener 
                 break;
             case CHECK_INSURE:
                 final InsureResultBean beanCheck = (InsureResultBean) (action.data);
-                if (getCheckNums() <= (orderBean.adult + orderBean.child)) {
-                    int checkNums = getCheckNums();
-                    peopleNum.setText("" + checkNums);
-                } else {
-                    resetCheck(beanCheck);
-                    CommonUtils.showToast("不能超过用车人数");
+                if(null != orderBean) {
+                    if (getCheckNums() <= (orderBean.adult + orderBean.child)) {
+                        int checkNums = getCheckNums();
+                        peopleNum.setText("" + checkNums);
+                    } else {
+                        resetCheck(beanCheck);
+                        CommonUtils.showToast("不能超过用车人数");
+                    }
                 }
                 break;
             default:
