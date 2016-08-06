@@ -67,16 +67,15 @@ public class InsureActivity extends BaseActivity implements HttpRequestListener 
     @Bind(R.id.people_num_all)
     TextView peopleNumAll;
 
-    @Override
     protected void initHeader() {
         fgTitle.setText("常用投保人");
         rightBtnDefault();
-        adapter = new InSureListAdapter(beanList, this.getContext());
+        adapter = new InSureListAdapter(beanList, activity);
         list.setAdapter(adapter);
-        if (null != this.getArguments()) {
+        if (null != this.getIntent()) {
             fgTitle.setText("添加投保人");
-            orderBean = this.getArguments().getParcelable("orderBean");
-            from = this.getArguments().getParcelable("from");
+            orderBean =(OrderBean) this.getIntent().getSerializableExtra("orderBean");
+            from = this.getIntent().getStringExtra("from");
             if (null != orderBean && !TextUtils.isEmpty(orderBean.orderNo)) {
                 bottom.setVisibility(View.VISIBLE);
                 insureListSize = orderBean.insuranceList.size();
@@ -169,8 +168,8 @@ public class InsureActivity extends BaseActivity implements HttpRequestListener 
     }
 
     private void delInsure() {
-        RequestDelInsure requestDelInsure = new RequestDelInsure(this.getActivity(), getInsuranceUserId());
-        HttpRequestUtils.request(this.getActivity(), requestDelInsure, this);
+        RequestDelInsure requestDelInsure = new RequestDelInsure(activity, getInsuranceUserId());
+        HttpRequestUtils.request(activity, requestDelInsure, this);
     }
 
     @Subscribe
@@ -224,7 +223,6 @@ public class InsureActivity extends BaseActivity implements HttpRequestListener 
     int offset = 0;
     int limit = 20;
 
-    @Override
     protected void initView() {
         list.setEmptyView(emptyView);
         list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -257,15 +255,15 @@ public class InsureActivity extends BaseActivity implements HttpRequestListener 
     }
 
     private void getData() {
-        RequestInsureList requestInsureList = new RequestInsureList(this.getActivity(), UserEntity.getUser().getUserId(this.getActivity()), "", offset + "", limit + "");
-        HttpRequestUtils.request(this.getActivity(), requestInsureList, this);
+        RequestInsureList requestInsureList = new RequestInsureList(activity, UserEntity.getUser().getUserId(activity), "", offset + "", limit + "");
+        HttpRequestUtils.request(activity, requestInsureList, this);
     }
 
 
     private void commitInsure() {
-        RequestSubmitInsure requestSubmitInsure = new RequestSubmitInsure(this.getContext(),
-                UserEntity.getUser().getUserId(this.getContext()), getInsuranceUserId(), orderBean.orderNo);
-        HttpRequestUtils.request(this.getActivity(), requestSubmitInsure, this);
+        RequestSubmitInsure requestSubmitInsure = new RequestSubmitInsure(activity,
+                UserEntity.getUser().getUserId(activity), getInsuranceUserId(), orderBean.orderNo);
+        HttpRequestUtils.request(activity, requestSubmitInsure, this);
     }
 
 
@@ -317,15 +315,7 @@ public class InsureActivity extends BaseActivity implements HttpRequestListener 
         super.onDataRequestError(errorInfo, request);
     }
 
-    @Override
-    protected Callback.Cancelable requestData() {
-        return null;
-    }
 
-    @Override
-    protected void inflateContent() {
-
-    }
 
 
     @OnClick(R.id.commit)
