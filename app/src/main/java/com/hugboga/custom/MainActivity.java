@@ -726,6 +726,7 @@ public class MainActivity extends BaseActivity
             case R.id.tv_nickname:
                 if (isLogin()) {
                     intent = new Intent(this, PersonInfoActivity.class);
+                    startActivity(intent);
                 }
                 break;
             case R.id.slidemenu_header_coupon_layout://我的优惠券
