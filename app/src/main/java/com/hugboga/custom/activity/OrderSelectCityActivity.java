@@ -44,7 +44,6 @@ import com.hugboga.custom.data.request.RequestCollectGuidesFilter;
 import com.hugboga.custom.data.request.RequestGetCarInfo;
 import com.hugboga.custom.data.request.RequestGuideConflict;
 import com.hugboga.custom.fragment.BaseFragment;
-import com.hugboga.custom.fragment.FgLogin;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.CityUtils;
 import com.hugboga.custom.utils.CommonUtils;
@@ -267,9 +266,7 @@ public class OrderSelectCityActivity extends BaseActivity  {
                 if (UserEntity.getUser().isLogin(activity)) {
                     goCollectGuid(2);
                 } else {
-                    Bundle bundle = new Bundle();//用于统计
-                    bundle.putString("source", "包车下单");
-                    startFragment(new FgLogin(), bundle);
+                    startActivity(new Intent(activity, LoginActivity.class));
                 }
             }
         });
@@ -826,9 +823,7 @@ public class OrderSelectCityActivity extends BaseActivity  {
                     intent.putExtras(bundle);
                     startActivity(intent);
                 } else {
-                    Bundle bundle = new Bundle();//用于统计
-                    bundle.putString("source", "包车下单");
-                    startFragment(new FgLogin(), bundle);
+                    startActivity(new Intent(this, LoginActivity.class));
                 }
             }
         }

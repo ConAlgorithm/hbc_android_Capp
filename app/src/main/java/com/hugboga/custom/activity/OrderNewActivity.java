@@ -54,7 +54,6 @@ import com.hugboga.custom.fragment.FgChooseCountry;
 import com.hugboga.custom.fragment.FgChoosePayment;
 import com.hugboga.custom.fragment.FgCoupon;
 import com.hugboga.custom.fragment.FgInviteFriends;
-import com.hugboga.custom.fragment.FgLogin;
 import com.hugboga.custom.fragment.FgPoiSearch;
 import com.hugboga.custom.fragment.FgTravelFund;
 import com.hugboga.custom.utils.CommonUtils;

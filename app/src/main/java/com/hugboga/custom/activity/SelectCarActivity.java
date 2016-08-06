@@ -664,7 +664,6 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
                 map.put("source", "选车页面");
                 MobclickAgent.onEvent(activity, "callcenter_oneday", map);
                 view.setTag("选车页面,calldomestic_oneday,calloverseas_oneday");
-                super.onClick(view);
                 break;
             case R.id.header_left_btn:
                 finish();

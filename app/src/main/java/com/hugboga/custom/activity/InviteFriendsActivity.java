@@ -163,7 +163,6 @@ public class InviteFriendsActivity extends BaseActivity implements View.OnClickL
 
     @Override
     public void onClick(View v) {
-        super.onClick(v);
         switch (v.getId()) {
             case R.id.header_invite_friends_share_tv:
                 if (TextUtils.isEmpty(headerCodeTV.getText().toString())) {

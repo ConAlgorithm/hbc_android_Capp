@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import com.hugboga.custom.activity.BaseActivity;
 import com.hugboga.custom.activity.ChooseCityNewActivity;
+import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.UserEntity;
@@ -12,7 +13,6 @@ import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.fragment.BaseFragment;
 import com.hugboga.custom.fragment.FgCoupon;
 import com.hugboga.custom.fragment.FgHome;
-import com.hugboga.custom.fragment.FgLogin;
 import com.hugboga.custom.utils.CommonUtils;
 
 import java.util.Random;
@@ -144,7 +144,7 @@ public class ActionFactory implements ActionFactoryBehavior {
     private boolean isLogin() {
         boolean isLogin = UserEntity.getUser().isLogin(activity);
         if (!isLogin) {
-            activity.startFragment(new FgLogin());
+            activity.startActivity(new Intent(activity, LoginActivity.class));
         }
         return isLogin;
     }

@@ -127,7 +127,6 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
-        super.onClick(v);
         switch (v.getId()) {
             case R.id.order_detail_empty_tv:
                 emptyTV.setOnClickListener(null);

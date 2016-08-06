@@ -6,10 +6,10 @@ import android.util.Log;
 
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.MainActivity;
+import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
-import com.hugboga.custom.fragment.FgLogin;
 import com.tencent.mm.sdk.modelbase.BaseReq;
 import com.tencent.mm.sdk.modelbase.BaseResp;
 import com.tencent.mm.sdk.modelmsg.SendAuth;
@@ -44,10 +44,9 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
         MLog.e("onResp " + resp.errCode + " " + resp.errStr);
         switch (resp.errCode) {
             case BaseResp.ErrCode.ERR_OK:
-                if(FgLogin.isWXLogin){
+                if(LoginActivity.isWXLogin){
                     SendAuth.Resp sendResp = (SendAuth.Resp) resp;
-//                    FgLogin.WX_CODE = sendResp.code;
-                    FgLogin.isWXLogin = false;
+                    LoginActivity.isWXLogin = false;
                     EventBus.getDefault().post(new EventAction(EventType.WECHAT_LOGIN_CODE,sendResp));
                 }
                 EventBus.getDefault().post(new EventAction(EventType.WECHAT_SHARE_SUCCEED));

@@ -44,6 +44,8 @@ import com.hugboga.custom.action.ActionFactory;
 import com.hugboga.custom.activity.BaseActivity;
 import com.hugboga.custom.activity.CollectGuideListActivity;
 import com.hugboga.custom.activity.InsureActivity;
+import com.hugboga.custom.activity.LoginActivity;
+import com.hugboga.custom.activity.PersonInfoActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.adapter.MenuItemAdapter;
 import com.hugboga.custom.constants.Constants;
@@ -63,7 +65,6 @@ import com.hugboga.custom.fragment.FgCoupon;
 import com.hugboga.custom.fragment.FgHome;
 import com.hugboga.custom.fragment.FgIMChat;
 import com.hugboga.custom.fragment.FgInviteFriends;
-import com.hugboga.custom.fragment.FgLogin;
 import com.hugboga.custom.fragment.FgOrderDetail;
 import com.hugboga.custom.fragment.FgPersonInfo;
 import com.hugboga.custom.fragment.FgServicerCenter;
@@ -79,7 +80,6 @@ import com.hugboga.custom.utils.PermissionRes;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.Tools;
-import com.umeng.analytics.MobclickAgent;
 import com.zhy.m.permission.MPermissions;
 import com.zhy.m.permission.PermissionDenied;
 import com.zhy.m.permission.PermissionGrant;
@@ -640,25 +640,25 @@ public class MainActivity extends BaseActivity
         HashMap<String, String> map = new HashMap<String, String>();
         switch (position) {
             case Constants.PERSONAL_CENTER_FUND://旅游基金
-                if (isLogin("个人中心首页")) {
+                if (isLogin()) {
                     FgInviteFriends fgInviteFriends = new FgInviteFriends();
                     startFragment(fgInviteFriends);
                 }
                 break;
             case Constants.PERSONAL_CENTER_BR://常用投保人
-                if (isLogin("个人中心首页")) {
+                if (isLogin()) {
                     Intent intent = new Intent(activity, InsureActivity.class);
                     startActivity(intent);
                 }
                 break;
             case Constants.PERSONAL_CENTER_COLLECT://收藏司导
-                if (isLogin("个人中心首页")) {
+                if (isLogin()) {
 //                    startFragment(new FgCollectGuideList());
                     startActivity(new Intent(MainActivity.this, CollectGuideListActivity.class));
                 }
                 break;
             case Constants.PERSONAL_CENTER_HD://活动
-                if (isLogin("个人中心首页")) {
+                if (isLogin()) {
 //                    Bundle bundle = new Bundle();
 //                    bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_ACTIVITY + UserEntity.getUser().getUserId(this.getApplicationContext()) + "&t=" + new Random().nextInt(100000));
 //                    startFragment(new FgActivity(), bundle);
@@ -678,7 +678,7 @@ public class MainActivity extends BaseActivity
                 PhoneInfo.CallDial(MainActivity.this, Constants.CALL_NUMBER_OUT);
                 break;
             case Constants.PERSONAL_CENTER_SETTING://设置
-                if (isLogin("个人中心首页")) {
+                if (isLogin()) {
                     startFragment(new FgSetting());
                 }
                 break;
@@ -711,52 +711,36 @@ public class MainActivity extends BaseActivity
 
     /**
      * 判断是否登录
-     * @param source 来源，用于统计
-     * @return
      */
-    private boolean isLogin(String source) {
-        try {
-            if (UserEntity.getUser().isLogin(this)) {
-                return true;
-            } else {
-                if (!TextUtils.isEmpty(source)) {
-                    Bundle bundle = new Bundle();
-                    bundle.putString("source", source);
-                    startFragment(new FgLogin(), bundle);
-
-                    HashMap<String, String> map = new HashMap<String, String>();
-                    map.put("source", source);
-                    MobclickAgent.onEvent(MainActivity.this, "login_trigger", map);
-                    return false;
-                } else {
-                    startFragment(new FgLogin());
-                    return false;
-                }
-            }
-        } catch (Exception e) {
+    private boolean isLogin() {
+        if (UserEntity.getUser().isLogin(this)) {
+            return true;
+        } else {
+            startActivity(new Intent(this, LoginActivity.class));
+            return false;
         }
-        return false;
     }
 
     @Override
     public void onClick(View v) {
+        Intent intent = null;
         switch (v.getId()) {
             case R.id.head_view:
             case R.id.my_icon_head:
             case R.id.tv_nickname:
-                if (isLogin("个人中心首页")) {
-                    startFragment(new FgPersonInfo());
+                if (isLogin()) {
+                    intent = new Intent(this, PersonInfoActivity.class);
+                    startActivity(intent);
                 }
-                ;
                 break;
             case R.id.slidemenu_header_coupon_layout://我的优惠券
-                if (isLogin("个人中心首页")) {
+                if (isLogin()) {
                     startFragment(new FgCoupon());
                     UserEntity.getUser().setHasNewCoupon(false);
                 }
                 break;
             case R.id.slidemenu_header_travelfund_layout://旅游基金
-                if (isLogin("个人中心首页")) {
+                if (isLogin()) {
                     startFragment(new FgTravelFund());
                 }
                 break;

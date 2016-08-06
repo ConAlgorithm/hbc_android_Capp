@@ -21,6 +21,7 @@ import com.huangbaoche.hbcframe.fragment.BaseFragment;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.huangbaoche.hbcframe.util.WXShareUtils;
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.activity.OrderSelectCityActivity;
 import com.hugboga.custom.activity.SkuDetailActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
@@ -31,7 +32,6 @@ import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.parser.ParserChatInfo;
 import com.hugboga.custom.data.request.RequestCurrentServerInfo;
 import com.hugboga.custom.data.request.RequestWebInfo;
-import com.hugboga.custom.fragment.FgLogin;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.widget.DialogUtil;
@@ -195,7 +195,7 @@ public class WebAgent implements HttpRequestListener {
         mActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                mFragment.startFragment(new FgLogin());
+                mActivity.startActivity(new Intent(mActivity, LoginActivity.class));
             }
         });
     }
@@ -225,17 +225,17 @@ public class WebAgent implements HttpRequestListener {
                     String countryCode = json.optString("countryCode");
                     String phone = json.optString("phone");
                     message = json.optString("message");
-                    bundle.putString(FgLogin.KEY_AREA_CODE, countryCode);
-                    bundle.putString(FgLogin.KEY_PHONE, phone);
+                    bundle.putString(LoginActivity.KEY_AREA_CODE, countryCode);
+                    bundle.putString(LoginActivity.KEY_PHONE, phone);
                 } catch (Exception e) {
                     MLog.e("gotoLogin", e);
                 }
                 dialog.showCustomDialog(message, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if (mFragment != null) {
-                            mFragment.startFragment(new FgLogin(), bundle);
-                        }
+                        Intent intent = new Intent(mActivity, LoginActivity.class);
+                        intent.putExtras(bundle);
+                        mActivity.startActivity(intent);
                     }
                 });
             }
@@ -303,9 +303,7 @@ public class WebAgent implements HttpRequestListener {
     public void pushToServiceChatVC() {
         if (mActivity != null && !UserEntity.getUser().isLogin(mActivity) && mFragment != null) {
             CommonUtils.showToast(R.string.login_hint);
-            Bundle bundle = new Bundle();
-            ;
-            mFragment.startFragment(new FgLogin(), bundle);
+            mActivity.startActivity(new Intent(mActivity, LoginActivity.class));
             return;
         }
         mActivity.runOnUiThread(new Runnable() {

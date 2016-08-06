@@ -51,7 +51,7 @@ import butterknife.OnClick;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
 /**
- * Created by qingcha on 16/8/3.
+ * Created by on 16/8/3.
  */
 public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchingLetterChangedListener, ChooseCityTabLayout.OnChangeListener, TextWatcher, TextView.OnEditorActionListener, AdapterView.OnItemClickListener{
     public static final String KEY_CITY_ID = "key_city_id";

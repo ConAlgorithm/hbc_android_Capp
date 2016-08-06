@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -23,7 +24,7 @@ import com.umeng.analytics.MobclickAgent;
 import org.xutils.common.Callback;
 
 
-public class BaseActivity extends BaseFragmentActivity implements View.OnClickListener, HttpRequestListener {
+public class BaseActivity extends BaseFragmentActivity implements HttpRequestListener {
 
     public static String KEY_FROM = "key_from";
     public static String KEY_BUSINESS_TYPE = "key_business_Type";
@@ -51,32 +52,33 @@ public class BaseActivity extends BaseFragmentActivity implements View.OnClickLi
         fgTitle = (TextView) findViewById(R.id.header_title);
         fgLeftBtn = findViewById(R.id.header_left_btn);
         fgRightBtn = (TextView) findViewById(R.id.header_right_txt);
-        if (fgRightBtn != null) fgRightBtn.setOnClickListener(this);
-        if (fgLeftBtn != null) fgLeftBtn.setOnClickListener(this);
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.header_left_btn:
-                MLog.e("header_left_btn");
-                finish();
-                break;
-            case R.id.header_right_txt:
-                Object o = v.getTag();
-                String source = "";
-                if(o != null && o instanceof String){
-                    source = (String) o;
-                }
-                if(!TextUtils.isEmpty(source)){
-                    String[] strArr = source.split(",");
-                    if (strArr != null && strArr.length == 3) {
-                        DialogUtil.getInstance(activity).showCallDialog(strArr[0],strArr[1],strArr[2]);
+        if (fgRightBtn != null) {
+            fgRightBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Object o = v.getTag();
+                    String source = "";
+                    if(o != null && o instanceof String){
+                        source = (String) o;
                     }
-                }else{
-                    DialogUtil.getInstance(activity).showCallDialog();
+                    if(!TextUtils.isEmpty(source)){
+                        String[] strArr = source.split(",");
+                        if (strArr != null && strArr.length == 3) {
+                            DialogUtil.getInstance(activity).showCallDialog(strArr[0],strArr[1],strArr[2]);
+                        }
+                    }else{
+                        DialogUtil.getInstance(activity).showCallDialog();
+                    }
                 }
-                break;
+            });
+        }
+        if (fgLeftBtn != null) {
+            fgLeftBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish();
+                }
+            });
         }
     }
 
@@ -128,6 +130,7 @@ public class BaseActivity extends BaseFragmentActivity implements View.OnClickLi
                 imm.hideSoftInputFromWindow(inputText.getWindowToken(), 0);
         }
     }
+
     protected Callback.Cancelable requestData(BaseRequest request) {
         cancelable = HttpRequestUtils.request(this, request, this);
         return cancelable;

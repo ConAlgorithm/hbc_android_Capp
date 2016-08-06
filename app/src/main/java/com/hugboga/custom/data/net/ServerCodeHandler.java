@@ -2,6 +2,7 @@ package com.hugboga.custom.data.net;
 
 import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
@@ -11,12 +12,12 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.net.ServerCodeHandlerInterface;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
+import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.fragment.BaseFragment;
 import com.hugboga.custom.fragment.FgHome;
-import com.hugboga.custom.fragment.FgLogin;
 import com.hugboga.custom.widget.DialogUtil;
 
 import java.util.ArrayList;
@@ -83,7 +84,8 @@ public class ServerCodeHandler implements ServerCodeHandlerInterface {
             if (fragment != null) {
                 if(finish)
                 fragment.bringToFront(FgHome.class, new Bundle());
-                fragment.startFragment(new FgLogin());
+//                fragment.startFragment(new FgLogin());
+                mContext.startActivity(new Intent(mContext, LoginActivity.class));
             }
         }
     }

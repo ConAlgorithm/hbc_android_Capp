@@ -36,7 +36,6 @@ import com.hugboga.custom.data.request.RequestCheckPrice;
 import com.hugboga.custom.data.request.RequestCheckPriceForSingle;
 import com.hugboga.custom.data.request.RequestGuideConflict;
 import com.hugboga.custom.fragment.FgCarNew;
-import com.hugboga.custom.fragment.FgLogin;
 import com.hugboga.custom.fragment.FgPoiSearch;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.CarUtils;
@@ -543,9 +542,7 @@ public class SingleNewActivity extends BaseActivity {
                                     }
                                 }
                             } else {
-                                Bundle bundle = new Bundle();//用于统计
-                                bundle.putString("source", "单次接送下单");
-                                startFragment(new FgLogin(), bundle);
+                                startActivity(new Intent(SingleNewActivity.this, LoginActivity.class));
                             }
                         }
                     }

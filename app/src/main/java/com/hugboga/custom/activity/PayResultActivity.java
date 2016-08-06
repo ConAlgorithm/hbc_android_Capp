@@ -11,7 +11,6 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
-import com.hugboga.custom.fragment.FgOrderDetail;
 
 import org.greenrobot.eventbus.EventBus;
 import org.xutils.view.annotation.Event;
@@ -140,7 +139,6 @@ public class PayResultActivity extends BaseActivity{
     public void onBackPressed() {
         super.onBackPressed();
         if (params.payResult) {
-            //FIXME qingcha
 //            Bundle bundle =new Bundle();
 //            bundle.putString(KEY_FRAGMENT_NAME, this.getClass().getSimpleName());
 //            bringToFront(FgHome.class, bundle);

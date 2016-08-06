@@ -25,6 +25,7 @@ import com.hugboga.custom.data.bean.WXpayBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestPayNo;
+import com.hugboga.custom.fragment.FgOrderDetail;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.wxapi.WXPay;
@@ -32,6 +33,8 @@ import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import java.io.Serializable;
 
 import butterknife.Bind;
@@ -67,7 +70,7 @@ public class ChoosePaymentActivity extends BaseActivity {
     RelativeLayout choosePaymentWechatLayout;
 
     private DialogUtil mDialogUtil;
-
+    private int wxResultCode = 0;
 
     public static class RequestParams implements Serializable {
         public String orderId;
@@ -94,6 +97,7 @@ public class ChoosePaymentActivity extends BaseActivity {
         }
 
         setContentView(R.layout.fg_choose_payment);
+        EventBus.getDefault().register(this);
         ButterKnife.bind(this);
         initDefaultTitleBar();
 
@@ -122,6 +126,60 @@ public class ChoosePaymentActivity extends BaseActivity {
             }
         });
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Intent intent = null;
+        if (wxResultCode == EventType.BACK_HOME.ordinal()) {
+            intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            EventBus.getDefault().post(new EventAction(EventType.FGTRAVEL_UPDATE));
+            EventBus.getDefault().post(new EventAction(EventType.SET_MAIN_PAGE_INDEX, 0));
+        } else if (wxResultCode == EventType.ORDER_DETAIL.ordinal()) {
+            intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            EventBus.getDefault().post(new EventAction(EventType.SET_MAIN_PAGE_INDEX, 0));
+            EventBus.getDefault().post(new EventAction(EventType.FGTRAVEL_UPDATE));
+
+            OrderDetailActivity.Params orderParams = new OrderDetailActivity.Params();
+            orderParams.orderId = requestParams.orderId;
+            intent = new Intent(this, OrderDetailActivity.class);
+            intent.putExtra(Constants.PARAMS_DATA, orderParams);
+            startActivity(intent);
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        wxResultCode = 0;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe
+    public void onEventMainThread(EventAction action) {
+        switch (action.getType()) {
+            case BACK_HOME:
+                EventBus.getDefault().post(new EventAction(EventType.FGTRAVEL_UPDATE));
+                wxResultCode = EventType.BACK_HOME.ordinal();
+                break;
+            case ORDER_DETAIL:
+                if (action.getData() instanceof Integer && (int)action.getData() == 1) {
+                    EventBus.getDefault().post(new EventAction(EventType.FGTRAVEL_UPDATE));
+                }
+                wxResultCode = EventType.ORDER_DETAIL.ordinal();
+            default:
+                break;
+        }
+    }
+
+
 
     private void sendRequest(int payType) {
         RequestPayNo request = new RequestPayNo(this, requestParams.orderId, requestParams.shouldPay, payType, requestParams.couponId);

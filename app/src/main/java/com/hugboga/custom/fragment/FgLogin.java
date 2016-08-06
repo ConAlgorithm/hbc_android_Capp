@@ -266,13 +266,13 @@ public class FgLogin extends BaseFragment implements TextWatcher {
                     CommonUtils.showToast("手机未安装微信或版本太低");
                     return;
                 }
+                isWXLogin = true;
                 wxapi = WXAPIFactory.createWXAPI(this.getActivity(), Constants.WX_APP_ID);
                 wxapi.registerApp(Constants.WX_APP_ID);
                 SendAuth.Req req = new SendAuth.Req();
                 req.scope = "snsapi_userinfo";
                 req.state = "hbc";
                 wxapi.sendReq(req);
-                isWXLogin = true;
 
                 HashMap<String,String> map = new HashMap<String,String>();
                 map.put("source", source);

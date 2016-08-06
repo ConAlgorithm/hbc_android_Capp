@@ -246,6 +246,30 @@
             android:name=".activity.ChooseAirPortActivity"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".activity.SetPasswordActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.BindMobileActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.ChangeMobileActivtiy"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.PersonInfoActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.ForgetPasswdActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.RegisterActivity"
+            android:screenOrientation="portrait" />
+
         <service
             android:name=".service.LogService"
             android:process="com.hugboga.custom.hbclog" />

@@ -24,6 +24,7 @@ import com.huangbaoche.hbcframe.widget.recycler.ZListPageView;
 import com.huangbaoche.hbcframe.widget.recycler.ZSwipeRefreshLayout;
 import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.activity.OrderDetailActivity;
 import com.hugboga.custom.adapter.NewOrderAdapter;
 import com.hugboga.custom.constants.Constants;
@@ -311,9 +312,7 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, OnIt
                 reSetTabView(2);
                 break;
             case R.id.travel_login_btn:
-                Bundle bundle = new Bundle();
-                bundle.putString("source","行程页");
-                startFragment(new FgLogin(),bundle);
+                startActivity(new Intent(view.getContext(), LoginActivity.class));
 
                 HashMap<String,String> map = new HashMap<String,String>();
                 map.put("source", "行程页");

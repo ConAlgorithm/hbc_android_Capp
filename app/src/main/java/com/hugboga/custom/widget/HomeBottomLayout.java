@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.DailyWebInfoActivity;
+import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.activity.PickSendActivity;
 import com.hugboga.custom.activity.SingleNewActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
@@ -19,7 +20,6 @@ import com.hugboga.custom.data.bean.HomeData;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.fragment.FgHome;
-import com.hugboga.custom.fragment.FgLogin;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
@@ -106,9 +106,7 @@ public class HomeBottomLayout extends LinearLayout implements View.OnClickListen
             case R.id.home_bottom_active_iv:
                 if (!UserEntity.getUser().isLogin(fragment.getActivity())) {
                     CommonUtils.showToast(R.string.login_hint);
-                    Bundle bundle = new Bundle();;
-                    bundle.putString("source", "首页");
-                    fragment.startFragment(new FgLogin(), bundle);
+                    fragment.getActivity().startActivity(new Intent(fragment.getActivity(), LoginActivity.class));
                     break;
                 }
                 if (activeData == null || TextUtils.isEmpty(activeData.getUrlAddress())) {

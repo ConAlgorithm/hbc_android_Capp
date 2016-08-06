@@ -1,5 +1,6 @@
 package com.hugboga.custom.activity;
 
+import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.text.Editable;
@@ -7,6 +8,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -20,16 +22,13 @@ import com.huangbaoche.hbcframe.util.MLog;
 import com.huangbaoche.hbcframe.util.WXShareUtils;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.bean.AreaCodeBean;
 import com.hugboga.custom.data.bean.UserBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestLogin;
 import com.hugboga.custom.data.request.RequestLoginCheckOpenId;
-import com.hugboga.custom.fragment.FgBindMobile;
-import com.hugboga.custom.fragment.FgChooseCountry;
-import com.hugboga.custom.fragment.FgForgetPasswd;
-import com.hugboga.custom.fragment.FgRegister;
 import com.hugboga.custom.utils.ApiFeedbackUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.IMUtil;
@@ -49,8 +48,6 @@ import java.util.regex.Pattern;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
-import static com.huangbaoche.hbcframe.fragment.BaseFragment.KEY_FRAGMENT_NAME;
 
 /**
  * Created on 16/8/4.
@@ -130,6 +127,19 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
                         loginCheckOpenId(resp.code);
                     }
                 }
+                break;
+            case BIND_MOBILE:
+                finish();
+                break;
+            case CHOOSE_COUNTRY_BACK:
+                if (!(action.getData() instanceof AreaCodeBean)) {
+                    break;
+                }
+                AreaCodeBean areaCodeBean = (AreaCodeBean) action.getData();
+                if (areaCodeBean == null) {
+                    break;
+                }
+                areaCodeTextView.setText("+" + areaCodeBean.getCode());
                 break;
             default:
                 break;
@@ -218,18 +228,21 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
 
             MobclickAgent.onEvent(activity, "login_succeed", map);
 //            finishForResult(new Bundle());
+
+            CommonUtils.showToast("登录成功");
             finish();
 
         } else if (request instanceof RequestLoginCheckOpenId) {
             RequestLoginCheckOpenId request1 = (RequestLoginCheckOpenId) request;
             UserBean userBean = request1.getData();
+            Log.i("aa", "RequestLoginCheckOpenId " +userBean.isNotRegister);
             if (userBean.isNotRegister == 1) {//未注册，走注册流程
-                FgBindMobile fgBindMobile = new FgBindMobile();
                 Bundle bundle = new Bundle();
                 bundle.putString("unionid", userBean.unionid);
                 bundle.putString("source", "提示弹层");
-                startFragment(fgBindMobile, bundle);
-
+                Intent intent = new Intent(LoginActivity.this, BindMobileActivity.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
                 HashMap<String, String> map = new HashMap<String, String>();
                 map.put("source", "提示弹层");
                 MobclickAgent.onEvent(activity, "bind_trigger", map);
@@ -248,6 +261,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
                 map.put("phone", !TextUtils.isEmpty(userBean.mobile) ? "是" : "否");
                 MobclickAgent.onEvent(activity, "login_succeed", map);
 //                finishForResult(new Bundle());
+                CommonUtils.showToast("登录成功");
                 finish();
             }
         }
@@ -259,6 +273,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
 
     @OnClick({R.id.header_left_btn, R.id.login_weixin, R.id.login_submit, R.id.change_mobile_areacode, R.id.login_register, R.id.change_mobile_diepwd, R.id.iv_pwd_visible})
     public void onClick(View view) {
+        Intent intent = null;
         HashMap<String, String> map = new HashMap<String, String>();
         switch (view.getId()) {
             case R.id.header_left_btn:
@@ -292,10 +307,9 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
                 phoneEditText.clearFocus();
                 //选择区号
 //                collapseSoftInputMethod(); //隐藏键盘
-                FgChooseCountry fg = new FgChooseCountry();
-                Bundle bundle = new Bundle();
-                bundle.putString(KEY_FROM, "login");
-                startFragment(fg, bundle);
+                intent = new Intent(LoginActivity.this, ChooseCountryActivity.class);
+                intent.putExtra(KEY_FROM, "login");
+                startActivity(intent);
                 break;
             case R.id.login_register:
                 //注册
@@ -304,10 +318,13 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
                 Bundle bundle2 = new Bundle();
                 bundle2.putString("areaCode", areaCode);
                 bundle2.putString("phone", phone);
+                bundle2.putString(KEY_FROM, "login");
                 if (!TextUtils.isEmpty(source)) {
                     bundle2.putString("source", source);
                 }
-                startFragment(new FgRegister(), bundle2);
+                intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                intent.putExtras(bundle2);
+                startActivity(intent);
 
                 HashMap<String, String> map1 = new HashMap<String, String>();
                 map1.put("source", source);
@@ -321,7 +338,10 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
                 Bundle bundle1 = new Bundle();
                 bundle1.putString("areaCode", areaCode);
                 bundle1.putString("phone", phone);
-                startFragment(new FgForgetPasswd(), bundle1);
+                bundle1.putString(KEY_FROM, "login");
+                intent = new Intent(LoginActivity.this, ForgetPasswdActivity.class);
+                intent.putExtras(bundle1);
+                startActivity(intent);
                 break;
             case R.id.iv_pwd_visible:
                 if (passwordEditText != null) {
@@ -373,17 +393,6 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
         HashMap<String, String> map = new HashMap<String, String>();
         map.put("source", source);
         MobclickAgent.onEvent(activity, "login_phone", map);
-    }
-
-    public void onFragmentResult(Bundle bundle) {
-        String from = bundle.getString(KEY_FRAGMENT_NAME);
-        if (FgChooseCountry.class.getSimpleName().equals(from)) {
-            areaCode = bundle.getString(FgChooseCountry.KEY_COUNTRY_CODE);
-            MLog.e("areaCode+" + areaCode);
-            areaCodeTextView.setText("+" + areaCode);
-        } else if (FgBindMobile.class.getSimpleName().equals(from)) {
-            finish();
-        }
     }
 
     @Override
