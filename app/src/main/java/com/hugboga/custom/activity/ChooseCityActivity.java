@@ -188,6 +188,7 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
         fromDaily = this.getIntent().getBooleanExtra("fromDaily",false);
         if (fromDaily) {
             dailyLayout.setVisibility(View.VISIBLE);
+            headerLeftBtn.setVisibility(View.INVISIBLE);
             headerTitleNew.setText("请选择包车开始城市");
             headerLeftBtnNew.setImageResource(R.mipmap.closed_btn);
             headerLeftBtnNew.setOnClickListener(new View.OnClickListener() {

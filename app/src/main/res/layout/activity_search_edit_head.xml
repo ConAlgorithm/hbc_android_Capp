@@ -12,7 +12,6 @@
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:padding="10dip"
-        android:visibility="invisible"
         android:src="@mipmap/top_back" />
 
     <TextView
