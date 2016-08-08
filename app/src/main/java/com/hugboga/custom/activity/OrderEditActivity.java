@@ -104,7 +104,7 @@ public class OrderEditActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
             orderBean = (OrderBean) savedInstanceState.getSerializable(Constants.PARAMS_DATA);
-            contactUsersBean = savedInstanceState.getParcelable("contactUsersBean");
+            contactUsersBean = (ContactUsersBean)savedInstanceState.getSerializable("contactUsersBean");
         } else {
             Bundle bundle = getIntent().getExtras();
             if (bundle != null) {
