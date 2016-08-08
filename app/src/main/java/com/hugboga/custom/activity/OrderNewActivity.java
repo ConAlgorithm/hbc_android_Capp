@@ -71,6 +71,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import org.greenrobot.eventbus.EventBus;
+import org.xutils.view.annotation.Event;
 
 import static android.R.attr.fragment;
 import static android.view.View.GONE;
@@ -1036,6 +1037,7 @@ public class OrderNewActivity extends BaseActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     /**
