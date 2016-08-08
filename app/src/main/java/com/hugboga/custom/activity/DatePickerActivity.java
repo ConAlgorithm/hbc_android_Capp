@@ -52,12 +52,15 @@ public class DatePickerActivity extends BaseActivity {
 
     ChooseDateBean mChooseDateBean;
 
+    String startDate = "";
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.date_picker_layout);
         ButterKnife.bind(this);
         calender_type = this.getIntent().getIntExtra("type", 1);
+        startDate = this.getIntent().getStringExtra("startDate");
         initViews();
         initWeek();
         mChooseDateBean = (ChooseDateBean)this.getIntent().getSerializableExtra("chooseDateBean");
@@ -84,7 +87,13 @@ public class DatePickerActivity extends BaseActivity {
                 calendar.init(lastYear.getTime(), nextYear.getTime()).inMode(model).withSelectedDates(dates);
             }else if(calender_type == 3 && null != mChooseDateBean.halfDate){
                 model = CalendarPickerView.SelectionMode.SINGLE_NO_TEXT;
-                calendar.init(lastYear.getTime(), nextYear.getTime()).inMode(model).withSelectedDate(mChooseDateBean.halfDate);
+                Date date = DateUtils.getDateByStr(startDate);
+                Date sDate = DateUtils.getDateByStr("1900-01-01");
+                if(null != date){
+                    calendar.init(sDate, nextYear.getTime()).inMode(model).withSelectedDate(date);
+                }else {
+                    calendar.init(lastYear.getTime(), nextYear.getTime()).inMode(model).withSelectedDate(mChooseDateBean.halfDate);
+                }
                 showTips.setText(R.string.show_tips_half);
             } else {
                 if (calender_type == 1) {
@@ -100,14 +109,23 @@ public class DatePickerActivity extends BaseActivity {
             if (calender_type == 1) {
                 model = CalendarPickerView.SelectionMode.SINGLE;
                 showTips.setText(R.string.show_tips_half);
+                calendar.init(lastYear.getTime(), nextYear.getTime()).inMode(model);
             } else if(calender_type == 2){
                 model = CalendarPickerView.SelectionMode.RANGE;
                 showTips.setText(R.string.show_tips_start);
+                calendar.init(lastYear.getTime(), nextYear.getTime()).inMode(model);
             } else if(calender_type == 3){
                 model = CalendarPickerView.SelectionMode.SINGLE_NO_TEXT;
+                Date date = DateUtils.getDateByStr(startDate);
+                Date sDate = DateUtils.getDateByStr("1900-01-01");
+                if(null != date){
+                    calendar.init(sDate, nextYear.getTime()).inMode(model).withSelectedDate(date);
+                }else {
+                    calendar.init(lastYear.getTime(), nextYear.getTime()).inMode(model);
+                }
                 showTips.setText(R.string.show_tips_half);
             }
-            calendar.init(lastYear.getTime(), nextYear.getTime()).inMode(model);
+
         }
 
         calendar.setOnDateSelectedListener(new CalendarPickerView.OnDateSelectedListener() {
