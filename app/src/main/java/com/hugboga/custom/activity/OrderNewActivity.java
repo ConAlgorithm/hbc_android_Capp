@@ -50,19 +50,13 @@ import com.hugboga.custom.data.request.RequestSubmitLine;
 import com.hugboga.custom.data.request.RequestSubmitPick;
 import com.hugboga.custom.data.request.RequestSubmitRent;
 import com.hugboga.custom.data.request.RequestSubmitSend;
-import com.hugboga.custom.fragment.FgChooseCountry;
-import com.hugboga.custom.fragment.FgChoosePayment;
-import com.hugboga.custom.fragment.FgCoupon;
-import com.hugboga.custom.fragment.FgInviteFriends;
-import com.hugboga.custom.fragment.FgPoiSearch;
-import com.hugboga.custom.fragment.FgTravelFund;
+
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.LogUtils;
 import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.widget.LuggageItemLayout;
 import com.hugboga.custom.widget.TopTipsLayout;
-import com.umeng.analytics.MobclickAgent;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
@@ -1044,24 +1038,6 @@ public class OrderNewActivity extends BaseActivity {
         super.onDestroy();
     }
 
-    public void onFragmentResult(Bundle bundle) {
-        String fragmentName = bundle.getString(KEY_FRAGMENT_NAME);
-        if (FgChooseCountry.class.getSimpleName().equals(fragmentName)) {
-            int viewId = bundle.getInt("airportCode");
-            TextView codeTv = (TextView) findViewById(viewId);
-            if (codeTv != null) {
-                String areaCode = bundle.getString(FgChooseCountry.KEY_COUNTRY_CODE);
-                codeTv.setText("+" + areaCode);
-            }
-        } else if (FgPoiSearch.class.getSimpleName().equals(fragmentName)) {
-            poiBean = (PoiBean) bundle.getSerializable(FgPoiSearch.KEY_ARRIVAL);
-            upAddressRight.setText(poiBean.placeName + "\n" + poiBean.placeDetail);
-        }
-    }
-
-
-
-
     /**
      * 时间选择器
      */
@@ -1354,12 +1330,9 @@ public class OrderNewActivity extends BaseActivity {
 
     private void startArrivalSearch(int cityId, String location) {
         if (location != null) {
-            FgPoiSearch fg = new FgPoiSearch();
             Bundle bundle = new Bundle();
-            bundle.putInt(FgPoiSearch.KEY_CITY_ID, cityId);
-            bundle.putString(FgPoiSearch.KEY_LOCATION, location);
-//            startFragment(fg, bundle);
-
+            bundle.putInt(PoiSearchActivity.KEY_CITY_ID, cityId);
+            bundle.putString(PoiSearchActivity.KEY_LOCATION, location);
             Intent intent = new Intent(activity,PoiSearchActivity.class);
             intent.putExtras(bundle);
             startActivity(intent);
@@ -1377,7 +1350,7 @@ public class OrderNewActivity extends BaseActivity {
             case R.id.man_phone:
 //                FgChooseOther fgChooseOther = new FgChooseOther();
                 Bundle bundle = new Bundle();
-                bundle.putParcelable("contactUsersBean", contactUsersBean);
+                bundle.putSerializable("contactUsersBean", contactUsersBean);
 //                fgChooseOther.setArguments(bundle);
 //                startFragment(fgChooseOther);
                 intent = new Intent(activity,ChooseOtherActivity.class);

@@ -18,7 +18,6 @@ import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestFlightByCity;
 import com.hugboga.custom.data.request.RequestFlightByNo;
-import com.hugboga.custom.fragment.FgPickFlight;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DBHelper;
 import com.hugboga.custom.utils.DateUtils;
@@ -197,7 +196,7 @@ public class PickFlightListActivity extends BaseActivity implements AdapterView.
         MobclickAgent.onEvent(activity, "search", map);
 
         Bundle bundle = new Bundle();
-        bundle.putSerializable(FgPickFlight.KEY_AIRPORT, bean);
+        bundle.putSerializable("key_airport", bean);
         bundle.putString(KEY_FROM, "FlightList");
 
         EventBus.getDefault().post(new EventAction(EventType.PICK_FLIGHT_BACK, bean));

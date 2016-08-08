@@ -16,6 +16,7 @@ import com.huangbaoche.hbcframe.viewholder.ZBaseViewHolder;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.EvaluateActivity;
 import com.hugboga.custom.activity.GuideDetailActivity;
+import com.hugboga.custom.activity.InsureActivity;
 import com.hugboga.custom.activity.OrderDetailActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.adapter.viewholder.NewOrderVH;
@@ -25,7 +26,6 @@ import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.parser.ParserChatInfo;
 import com.hugboga.custom.fragment.BaseFragment;
-import com.hugboga.custom.fragment.FgInsure;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
@@ -263,12 +263,12 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                     vh.travel_item_btn_br.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            FgInsure fgAddInsure = new FgInsure();
                             Bundle bundle = new Bundle();
                             bundle.putSerializable("orderBean",orderBean);
                             bundle.putString("from","orderList");
-                            fgAddInsure.setArguments(bundle);
-                            fragment.startFragment(fgAddInsure);
+                            Intent intent = new Intent(context, InsureActivity.class);
+                            intent.putExtras(bundle);
+                            context.startActivity(intent);
                         }
                     });
                     vh.travel_item_btn_br_tips.setOnClickListener(new View.OnClickListener() {

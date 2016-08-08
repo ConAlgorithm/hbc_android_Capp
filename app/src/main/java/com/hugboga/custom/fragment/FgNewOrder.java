@@ -1,16 +1,16 @@
 package com.hugboga.custom.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.adapter.ZBaseAdapter;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.widget.recycler.ZListPageView;
 import com.huangbaoche.hbcframe.widget.recycler.ZSwipeRefreshLayout;
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.OrderDetailActivity;
 import com.hugboga.custom.adapter.NewOrderAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.OrderBean;
@@ -18,7 +18,6 @@ import com.hugboga.custom.data.request.RequestOrder;
 
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
-import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
 @ContentView(R.layout.activity_new_order)
@@ -138,12 +137,14 @@ public class FgNewOrder extends BaseFragment implements ZBaseAdapter.OnItemClick
 //                bundle.putInt(KEY_GOODS_TYPE, order.orderGoodsType);
 //                bundle.putString(FgOrder.KEY_ORDER_ID, order.orderNo);
 //                startFragment(new FgOrder(), bundle);
-                FgOrderDetail.Params params = new FgOrderDetail.Params();
+                OrderDetailActivity.Params params = new OrderDetailActivity.Params();
                 params.orderType = order.orderType;
                 params.orderId = order.orderNo;
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(Constants.PARAMS_DATA, params);
-                startFragment(new FgOrderDetail(), bundle);
+                Intent intent = new Intent(getActivity(), OrderDetailActivity.class);
+                intent.putExtra(Constants.PARAMS_DATA, params);
+                getActivity().startActivity(intent);
             }
         }
     }

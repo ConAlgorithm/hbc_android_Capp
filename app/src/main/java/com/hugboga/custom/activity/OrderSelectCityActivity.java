@@ -871,7 +871,7 @@ public class OrderSelectCityActivity extends BaseActivity  {
                     bundle.putBoolean("isHalfTravel", isHalfTravel);
                     bundle.putSerializable("passCityList", passBeanList);
                     bundle.putString("orderType", "3");
-                    bundle.putParcelable("carBean", getMatchCarBean());
+                    bundle.putSerializable("carBean", getMatchCarBean());
                     bundle.putBoolean("isHalfTravel", isHalfTravel);
                     bundle.putInt("type", 3);
                     bundle.putString("orderType", "3");

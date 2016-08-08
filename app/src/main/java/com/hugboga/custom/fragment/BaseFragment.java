@@ -1,30 +1,21 @@
 package com.hugboga.custom.fragment;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
-import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.utils.CommonUtils;
-import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.widget.DialogUtil;
 import com.umeng.analytics.MobclickAgent;
 import com.zhy.m.permission.MPermissions;
-
-import org.xutils.view.annotation.Event;
-import org.xutils.view.annotation.ViewInject;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -145,7 +136,7 @@ public abstract class BaseFragment extends com.huangbaoche.hbcframe.fragment.Bas
     @Override
     public boolean onBackPressed() {
         if(this instanceof FgPickNew || this instanceof FgSendNew
-                || this instanceof FgChooseAir || this instanceof FgChooseAirAddress){
+                | this instanceof FgChooseAirAddress){
             EventBus.getDefault().post(new EventAction(EventType.PICK_SEND_ONBACKPRESS));
         }else {
             EventBus.getDefault().post(new EventAction(EventType.ONBACKPRESS));

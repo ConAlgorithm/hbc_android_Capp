@@ -15,7 +15,6 @@ import android.widget.TextView;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
-import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.CarViewpagerAdapter;
 import com.hugboga.custom.constants.Constants;
@@ -36,7 +35,6 @@ import com.hugboga.custom.data.request.RequestCheckPrice;
 import com.hugboga.custom.data.request.RequestCheckPriceForSingle;
 import com.hugboga.custom.data.request.RequestGuideConflict;
 import com.hugboga.custom.fragment.FgCarNew;
-import com.hugboga.custom.fragment.FgPoiSearch;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.CarUtils;
 import com.hugboga.custom.utils.CommonUtils;
@@ -62,7 +60,6 @@ import butterknife.OnClick;
 import cn.qqtheme.framework.picker.DateTimePicker;
 
 import static android.view.View.GONE;
-import static com.huangbaoche.hbcframe.fragment.BaseFragment.KEY_FRAGMENT_NAME;
 
 /**
  * Created on 16/8/3.
@@ -260,53 +257,7 @@ public class SingleNewActivity extends BaseActivity {
         }
     }
 
-    public void onFragmentResult(Bundle bundle) {
-        MLog.w(this + " onFragmentResult " + bundle);
-        String from = bundle.getString(KEY_FRAGMENT_NAME);
-        if (ChooseCityActivity.class.getSimpleName().equals(from)) {
-            cityBean = (CityBean) bundle.getSerializable(ChooseCityActivity.KEY_CITY);
-            useCityTips.setText(cityBean.name);
-            startBean = null;
-            arrivalBean = null;
-            startTips.setVisibility(View.VISIBLE);
-            startTitle.setVisibility(GONE);
-            startDetail.setVisibility(GONE);
-            startTitle.setText("");
-            startDetail.setText("");
 
-            endTips.setVisibility(View.VISIBLE);
-            endTitle.setVisibility(GONE);
-            endDetail.setVisibility(GONE);
-            endTitle.setText("");
-            endDetail.setText("");
-
-            bottom.setVisibility(GONE);
-            if (null == collectGuideBean) {
-                showCarsLayoutSingle.setVisibility(GONE);
-            }
-            timeText.setText("");
-
-        } else if (FgPoiSearch.class.getSimpleName().equals(from)) {
-            String fromKey = bundle.getString(KEY_FROM);
-            if ("from".equals(fromKey)) {
-                startBean = (PoiBean) bundle.getSerializable(FgPoiSearch.KEY_ARRIVAL);
-                startTips.setVisibility(GONE);
-                startTitle.setVisibility(View.VISIBLE);
-                startDetail.setVisibility(View.VISIBLE);
-                startTitle.setText(startBean.placeName);
-                startDetail.setText(startBean.placeDetail);
-            } else if ("to".equals(fromKey)) {
-                arrivalBean = (PoiBean) bundle.getSerializable(FgPoiSearch.KEY_ARRIVAL);
-                endTips.setVisibility(GONE);
-                endTitle.setVisibility(View.VISIBLE);
-                endDetail.setVisibility(View.VISIBLE);
-                endTitle.setText(arrivalBean.placeName);
-                endDetail.setText(arrivalBean.placeDetail);
-            }
-//            collapseSoftInputMethod();
-            checkInput();
-        }
-    }
 
     String startLocation, termLocation;
 
@@ -599,7 +550,7 @@ public class SingleNewActivity extends BaseActivity {
         bundle.putString("distance", carListBean.distance + "");
 
         carBean.expectedCompTime = carListBean.estTime;
-        bundle.putParcelable("carBean", CarUtils.carBeanAdapter(carBean));
+        bundle.putSerializable("carBean", CarUtils.carBeanAdapter(carBean));
 
         bundle.putString("startCityId", cityBean.cityId + "");
         bundle.putString("endCityId", cityBean.cityId + "");//endCityId);

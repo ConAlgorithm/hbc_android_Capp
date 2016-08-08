@@ -376,10 +376,10 @@ public class FgChooseAirAddress extends BaseFragment {
     private void startFlightByCity() {
 //        FgPickFlightList fragment = new FgPickFlightList();
         Bundle bundle = new Bundle();
-        bundle.putInt(FgPickFlightList.KEY_FLIGHT_FROM, cityFromId);
-        bundle.putInt(FgPickFlightList.KEY_FLIGHT_TO, cityToId);
-        bundle.putInt(FgPickFlightList.KEY_FLIGHT_TYPE, 2);
-        bundle.putString(FgPickFlightList.KEY_FLIGHT_DATE, time2Str);
+        bundle.putInt(PickFlightListActivity.KEY_FLIGHT_FROM, cityFromId);
+        bundle.putInt(PickFlightListActivity.KEY_FLIGHT_TO, cityToId);
+        bundle.putInt(PickFlightListActivity.KEY_FLIGHT_TYPE, 2);
+        bundle.putString(PickFlightListActivity.KEY_FLIGHT_DATE, time2Str);
 //        fragment.setArguments(bundle);
 //        startFragment(fragment);
         Intent intent = new Intent(getActivity(),PickFlightListActivity.class);

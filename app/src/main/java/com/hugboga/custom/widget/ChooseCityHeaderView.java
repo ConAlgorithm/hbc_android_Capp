@@ -27,7 +27,6 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.activity.ChooseCityActivity;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.request.RequestUploadLocation;
-import com.hugboga.custom.fragment.FgChooseCity;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.LocationUtils;

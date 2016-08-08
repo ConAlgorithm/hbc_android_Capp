@@ -269,9 +269,9 @@ public class FgChooseAirNumber extends BaseFragment {
         }
 
         Bundle bundle = new Bundle();
-        bundle.putString(FgPickFlightList.KEY_FLIGHT_NO, noStr.toUpperCase());
-        bundle.putString(FgPickFlightList.KEY_FLIGHT_DATE, time1Str);
-        bundle.putInt(FgPickFlightList.KEY_FLIGHT_TYPE, 1);
+        bundle.putString(PickFlightListActivity.KEY_FLIGHT_NO, noStr.toUpperCase());
+        bundle.putString(PickFlightListActivity.KEY_FLIGHT_DATE, time1Str);
+        bundle.putInt(PickFlightListActivity.KEY_FLIGHT_TYPE, 1);
         bundle.putString("source",source);
         Intent intent = new Intent(getActivity(),PickFlightListActivity.class);
         intent.putExtras(bundle);

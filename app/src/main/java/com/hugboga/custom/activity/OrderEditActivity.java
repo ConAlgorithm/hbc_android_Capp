@@ -20,7 +20,6 @@ import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestOrderEdit;
-import com.hugboga.custom.fragment.FgPoiSearch;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.widget.DialogUtil;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
@@ -127,7 +126,7 @@ public class OrderEditActivity extends BaseActivity {
             outState.putSerializable(Constants.PARAMS_DATA, orderBean);
         }
         if (contactUsersBean != null) {
-            outState.putParcelable("contactUsersBean", contactUsersBean);
+            outState.putSerializable("contactUsersBean", contactUsersBean);
         }
     }
 
@@ -360,7 +359,7 @@ public class OrderEditActivity extends BaseActivity {
             case R.id.for_other_man:
             case R.id.other_layout:
                 Bundle bundle = new Bundle();
-                bundle.putParcelable("contactUsersBean", contactUsersBean);
+                bundle.putSerializable("contactUsersBean", contactUsersBean);
                 intent = new Intent(OrderEditActivity.this, ChooseOtherActivity.class);
                 intent.putExtras(bundle);
                 startActivity(intent);
@@ -378,8 +377,8 @@ public class OrderEditActivity extends BaseActivity {
             case R.id.up_address_right:
                 if (orderBean.startLocation != null) {
                     Bundle bundlePoiSearch = new Bundle();
-                    bundlePoiSearch.putInt(FgPoiSearch.KEY_CITY_ID, orderBean.serviceCityId);
-                    bundlePoiSearch.putString(FgPoiSearch.KEY_LOCATION, orderBean.startLocation);
+                    bundlePoiSearch.putInt(PoiSearchActivity.KEY_CITY_ID, orderBean.serviceCityId);
+                    bundlePoiSearch.putString(PoiSearchActivity.KEY_LOCATION, orderBean.startLocation);
                     intent = new Intent(OrderEditActivity.this, PoiSearchActivity.class);
                     intent.putExtras(bundlePoiSearch);
                     startActivity(intent);

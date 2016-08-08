@@ -26,7 +26,6 @@ import com.hugboga.custom.data.request.RequestCollectGuidesId;
 import com.hugboga.custom.data.request.RequestOrderCancel;
 import com.hugboga.custom.data.request.RequestOrderDetail;
 import com.hugboga.custom.data.request.RequestUncollectGuidesId;
-import com.hugboga.custom.fragment.FgOrderCancel;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.widget.DialogUtil;
@@ -444,7 +443,7 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                                 cancelOrder(orderBean.orderNo, 0);
                             } else {
                                 Intent intent = new Intent(OrderDetailActivity.this, OrderCancelActivity.class);
-                                intent.putExtra(FgOrderCancel.KEY_ORDER, orderBean);
+                                intent.putExtra(OrderCancelActivity.KEY_ORDER, orderBean);
                                 intent.putExtra("source", source);
                                 OrderDetailActivity.this.startActivity(intent);
                             }

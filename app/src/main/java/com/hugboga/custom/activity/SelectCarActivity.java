@@ -632,7 +632,7 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
         switch (view.getId()) {
             case R.id.all_money_info:
                 Bundle bundleInfo = new Bundle();
-                bundleInfo.putParcelable("carBean", carBean);
+                bundleInfo.putSerializable("carBean", carBean);
                 bundleInfo.putString("halfDay", halfDay);
 //                startFragment(new FgOrderInfo(), bundleInfo);
 
@@ -731,7 +731,7 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
         bundleCar.putString("carTypeName", carBean.carDesc);
         bundleCar.putString("startCityName", startCityName);
         bundleCar.putString("dayNums", dayNums);
-        bundleCar.putParcelable("carBean", carBean);
+        bundleCar.putSerializable("carBean", carBean);
         bundleCar.putSerializable("startBean", startBean);
         bundleCar.putSerializable("endBean", endBean);
         bundleCar.putInt("outnum", outNum);

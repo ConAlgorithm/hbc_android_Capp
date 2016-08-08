@@ -20,7 +20,7 @@ import com.hugboga.custom.data.bean.SkuCityBean;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
 
-import static com.hugboga.custom.fragment.FgSkuList.KEY_CITY_BEAN;
+import static com.hugboga.custom.activity.SkuListActivity.KEY_CITY_BEAN;
 
 /**
  * Created by qingcha on 16/6/27.

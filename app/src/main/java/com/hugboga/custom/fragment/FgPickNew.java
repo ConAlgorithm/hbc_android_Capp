@@ -18,6 +18,7 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.ChooseAirActivity;
+import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.activity.OrderNewActivity;
 import com.hugboga.custom.activity.PoiSearchActivity;
 import com.hugboga.custom.constants.Constants;
@@ -407,7 +408,7 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
                             } else {
                                 Bundle bundle = new Bundle();//用于统计
                                 bundle.putString("source", "接机下单");
-                                startFragment(new FgLogin(), bundle);
+                                startActivity(new Intent(getActivity(), LoginActivity.class));
                             }
                         }
                     }

@@ -5,13 +5,13 @@ import android.os.Bundle;
 
 import com.hugboga.custom.activity.BaseActivity;
 import com.hugboga.custom.activity.ChooseCityNewActivity;
+import com.hugboga.custom.activity.CouponActivity;
 import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.fragment.BaseFragment;
-import com.hugboga.custom.fragment.FgCoupon;
 import com.hugboga.custom.fragment.FgHome;
 import com.hugboga.custom.utils.CommonUtils;
 
@@ -104,7 +104,8 @@ public class ActionFactory implements ActionFactoryBehavior {
                 break;
             case ActionType.PageType.COUPON:
                 if (isLogin()) {
-                    activity.startFragment(new FgCoupon());
+                    intent = new Intent(activity, CouponActivity.class);
+                    activity.startActivity(intent);
                 }
                 break;
             case ActionType.PageType.TRAVEL_FUND:

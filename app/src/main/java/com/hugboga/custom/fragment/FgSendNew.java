@@ -492,8 +492,8 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
                 if (airPortBean != null) {
 //                    FgPoiSearch fg = new FgPoiSearch();
                     Bundle bundle = new Bundle();
-                    bundle.putInt(FgPoiSearch.KEY_CITY_ID, airPortBean.cityId);
-                    bundle.putString(FgPoiSearch.KEY_LOCATION, airPortBean.location);
+                    bundle.putInt(PoiSearchActivity.KEY_CITY_ID, airPortBean.cityId);
+                    bundle.putString(PoiSearchActivity.KEY_LOCATION, airPortBean.location);
 //                    fg.setArguments(bundle);
 //                    startFragment(fg);
 //

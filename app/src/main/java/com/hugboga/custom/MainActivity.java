@@ -46,6 +46,7 @@ import com.hugboga.custom.activity.CollectGuideListActivity;
 import com.hugboga.custom.activity.CouponActivity;
 import com.hugboga.custom.activity.InsureActivity;
 import com.hugboga.custom.activity.LoginActivity;
+import com.hugboga.custom.activity.OrderDetailActivity;
 import com.hugboga.custom.activity.PersonInfoActivity;
 import com.hugboga.custom.activity.ServicerCenterActivity;
 import com.hugboga.custom.activity.SettingActivity;
@@ -67,7 +68,6 @@ import com.hugboga.custom.data.request.RequestUserInfo;
 import com.hugboga.custom.fragment.FgChat;
 import com.hugboga.custom.fragment.FgHome;
 import com.hugboga.custom.fragment.FgIMChat;
-import com.hugboga.custom.fragment.FgOrderDetail;
 import com.hugboga.custom.fragment.FgTravel;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.ChannelUtils;
@@ -416,10 +416,13 @@ public class MainActivity extends BaseActivity
 //        bundle.putInt(BaseFragment.KEY_GOODS_TYPE, message.goodsType);
 //        bundle.putString(FgOrder.KEY_ORDER_ID, message.orderID);
 //        startFragment(new FgOrder(), bundle);
-        FgOrderDetail.Params params = new FgOrderDetail.Params();
+        OrderDetailActivity.Params params = new OrderDetailActivity.Params();
         params.orderType = message.orderType;
         params.orderId = message.orderID;
-        startFragment(FgOrderDetail.newInstance(params));
+
+        Intent intent = new Intent(this, OrderDetailActivity.class);
+        intent.putExtra(Constants.PARAMS_DATA, params);
+        startActivity(intent);
     }
 
     @Subscribe
