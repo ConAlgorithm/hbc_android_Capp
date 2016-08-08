@@ -167,6 +167,10 @@ public class OrderUtils {
         orderBean.totalDays = (inNum + outNum);
         orderBean.isHalfDaily = isHalfTravel ? 1 : 0;
 
+        orderBean.carId = carBean.carId;
+        orderBean.capOfPerson = carBean.capOfPerson;
+        orderBean.special = carBean.special;
+
         if(null != poiBean) {
             orderBean.startAddress = poiBean.placeName;//upRight.getText().toString();
             orderBean.startAddressDetail = poiBean.placeDetail;//upSiteText.getText().toString();
@@ -300,7 +304,9 @@ public class OrderUtils {
         orderBean.realMobile = contactUsersBean.otherPhone;
         orderBean.isCheckin = isCheckIn ? "1" : "0";
 
-
+        orderBean.carId = carBean.carId;
+        orderBean.capOfPerson = carBean.capOfPerson;
+        orderBean.special = carBean.special;
 
 
         if (contactUsersBean.isForOther) {
@@ -392,6 +398,10 @@ public class OrderUtils {
         orderBean.contact = contact;
         orderBean.serviceStartTime = serverTime + ":00";
         orderBean.serviceTime = serverDate + " " + serverTime + ":00";
+
+        orderBean.carId = carBean.carId;
+        orderBean.capOfPerson = carBean.capOfPerson;
+        orderBean.special = carBean.special;
 
         orderBean.startAddress = startPoi.placeName;
         orderBean.startAddressDetail = startPoi.placeDetail;
@@ -523,6 +533,10 @@ public class OrderUtils {
         orderBean.realAreaCode = contactUsersBean.otherphoneCode;
         orderBean.realMobile = contactUsersBean.otherPhone;
 
+        orderBean.carId = carBean.carId;
+        orderBean.capOfPerson = carBean.capOfPerson;
+        orderBean.special = carBean.special;
+
         int checkInPrice = 0;
         if(null != carListBean.additionalServicePrice && null != carListBean.additionalServicePrice.checkInPrice){
             checkInPrice = Integer.valueOf(carListBean.additionalServicePrice.checkInPrice);
@@ -637,6 +651,10 @@ public class OrderUtils {
             orderBean.startLocation = startBean.location;
         }
         orderBean.realSendSms = contactUsersBean.isSendMessage ? "1" : "0";
+
+        orderBean.carId = carBean.carId;
+        orderBean.capOfPerson = carBean.capOfPerson;
+        orderBean.special = carBean.special;
 
         if (contactUsersBean.isForOther) {
             orderBean.isRealUser = "2";
