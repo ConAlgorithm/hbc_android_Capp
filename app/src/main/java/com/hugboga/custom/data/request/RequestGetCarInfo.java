@@ -43,6 +43,7 @@ public class RequestGetCarInfo extends BaseRequest<CarInfoBean> {
             map.put("luggageNum", luggageNum);
             map.put("passCities", passCities);
             map.put("channelId",channelId);
+            map.put("specialCarsIncluded","1");
             if(null != carIds){
                 map.put("carIds",carIds);
             }

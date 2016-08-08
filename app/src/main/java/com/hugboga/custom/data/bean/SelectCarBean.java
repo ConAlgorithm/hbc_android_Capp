@@ -33,6 +33,7 @@ public class SelectCarBean implements IBaseBean{
     public int originalPrice;
 
     public int carId;
+    public int special;
     public String carIntroduction;
     public List<String> carPictures;
 
