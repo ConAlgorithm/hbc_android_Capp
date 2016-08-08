@@ -20,7 +20,7 @@ public class CarInfoBean implements IBaseBean{
     public int timeNotReachFlag;
     public int halfDay;
     public int noneCarsState;
-    public String noneCarsReason;
+    public List<String> noneCarsReason;
 
 //    noneCarsState  int  没有车型报价状态
 //    -1.有车型报价 1. 当前时段无法提供服务
