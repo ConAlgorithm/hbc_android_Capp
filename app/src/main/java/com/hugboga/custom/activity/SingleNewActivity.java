@@ -158,6 +158,7 @@ public class SingleNewActivity extends BaseActivity {
     public void onDestroy() {
         super.onDestroy();
         ButterKnife.unbind(this);
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
