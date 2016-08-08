@@ -9,7 +9,7 @@
         android:id="@+id/item_car_img"
         android:layout_marginTop="20dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="80dp"
         android:src="@mipmap/hh5"
         android:scaleType="fitCenter" />
 
