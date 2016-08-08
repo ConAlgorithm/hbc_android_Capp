@@ -284,7 +284,11 @@ public class DatePicker extends WheelPicker {
             //截取掉前缀0以便转换为整数
             text = text.substring(1);
         }
-        return Integer.parseInt(text);
+        if(!TextUtils.isEmpty(text)) {
+            return Integer.parseInt(text);
+        }else{
+            return 0;
+        }
     }
 
     @Override

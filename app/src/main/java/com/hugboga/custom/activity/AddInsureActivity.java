@@ -3,7 +3,6 @@ package com.hugboga.custom.activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -35,6 +34,7 @@ import org.greenrobot.eventbus.Subscribe;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.qqtheme.framework.picker.DatePicker;
 
 /**
  * Created on 16/8/6.
@@ -236,11 +236,25 @@ public class AddInsureActivity extends BaseActivity implements HttpRequestListen
 
 
     public void showDaySelect() {
-        Intent intent = new Intent(activity,DatePickerActivity.class);
-        intent.putExtra("startDate","1990-01-01");
-        intent.putExtra("title","请选择出生日期");
-        intent.putExtra("type",3);
-        startActivity(intent);
+//        Intent intent = new Intent(activity,DatePickerActivity.class);
+//        intent.putExtra("startDate","1990-01-01");
+//        intent.putExtra("title","请选择出生日期");
+//        intent.putExtra("type",3);
+//        startActivity(intent);
+
+        DatePicker picker = new DatePicker(activity, DatePicker.YEAR_MONTH_DAY);
+        picker.setRange(1900,2050);
+        picker.setSelectedItem(1990,1,1);
+        picker.setOnDatePickListener(new DatePicker.OnYearMonthDayPickListener() {
+            @Override
+            public void onDatePicked(String year, String month, String day) {
+                String serverDate = year + "-" + month + "-" + day;
+                birthday.setText(serverDate);
+                check();
+            }
+        });
+        picker.show();
+
     }
 
 
