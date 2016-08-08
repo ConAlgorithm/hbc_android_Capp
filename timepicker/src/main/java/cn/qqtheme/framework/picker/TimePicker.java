@@ -74,13 +74,16 @@ public class TimePicker extends WheelPicker {
      */
     public void setSelectedItem(int hour, int minute) {
         selectedHour = String.valueOf(hour);
-        selectedMinute = String.valueOf(minute);
+        selectedMinute = DateUtils.getFirstMinute(minute);
     }
 
     public void setOnTimePickListener(OnTimePickListener listener) {
         this.onTimePickListener = listener;
     }
 
+
+    ArrayList<String> minutes = new ArrayList<String>();
+    ArrayList<String> hours = new ArrayList<String>();
     @Override
     @NonNull
     protected View makeCenterView() {
@@ -118,7 +121,6 @@ public class TimePicker extends WheelPicker {
             minuteTextView.setText(minuteLabel);
         }
         layout.addView(minuteTextView);
-        ArrayList<String> hours = new ArrayList<String>();
         if (mode == HOUR) {
             for (int i = 1; i <= 12; i++) {
                 hours.add(DateUtils.fillZero(i));
@@ -129,21 +131,20 @@ public class TimePicker extends WheelPicker {
             }
         }
         hourView.setItems(hours, selectedHour);
-        ArrayList<String> minutes = new ArrayList<String>();
-        for (int i = 0; i < 60; i++) {
-            minutes.add(DateUtils.fillZero(i));
+        for (int i = 0; i < 6; i++) {
+            minutes.add(DateUtils.endAddZero(i));
         }
         minuteView.setItems(minutes, selectedMinute);
         hourView.setOnWheelViewListener(new WheelView.OnWheelViewListener() {
             @Override
             public void onSelected(boolean isUserScroll, int selectedIndex, String item) {
-                selectedHour = item;
+                selectedHour = hours.get(selectedIndex);//item;
             }
         });
         minuteView.setOnWheelViewListener(new WheelView.OnWheelViewListener() {
             @Override
             public void onSelected(boolean isUserScroll, int selectedIndex, String item) {
-                selectedMinute = item;
+                selectedMinute = minutes.get(selectedIndex);//item;
             }
         });
         return layout;

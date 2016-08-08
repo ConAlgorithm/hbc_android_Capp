@@ -26,15 +26,13 @@ import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestAddInsure;
 import com.hugboga.custom.data.request.RequestEditInsure;
-import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import org.greenrobot.eventbus.EventBus;
-
-import java.util.Calendar;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.qqtheme.framework.picker.DatePicker;
 
 /**
  * Created on 16/8/6.
@@ -223,40 +221,21 @@ public class AddInsureActivity extends BaseActivity implements HttpRequestListen
 
 
     public void showDaySelect(TextView sDateTime) {
-        Calendar cal = Calendar.getInstance();
-        cal = Calendar.getInstance();
-        cal.set(Calendar.YEAR,1990);
-        cal.set(Calendar.MONTH, 0);
-        cal.set(Calendar.DAY_OF_MONTH,1);
-
-        MyDatePickerListener myDatePickerDialog = new MyDatePickerListener(sDateTime);
-        DatePickerDialog dpd = DatePickerDialog.newInstance(
-                myDatePickerDialog, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
-//        cal = Calendar.getInstance();
-//        dpd.setMinDate(cal);
-
-//        dpd.setMaxDate(cal);
-        dpd.show(activity.getFragmentManager(), "DatePickerDialog");   //显示日期设置对话框
+        DatePicker picker = new DatePicker(activity,DatePicker.YEAR_MONTH_DAY);
+        picker.setSelectedItem(1990,1,1);
+        picker.setOnDatePickListener(new DatePicker.OnYearMonthDayPickListener() {
+            @Override
+            public void onDatePicked(String year, String month, String day) {
+                String serverDate = year + "-" + month + "-" + day;
+                birthday.setText(serverDate);
+                check();
+            }
+        });
+        picker.show();
 
     }
 
-    class MyDatePickerListener implements DatePickerDialog.OnDateSetListener {
-        TextView mTextView;
 
-        MyDatePickerListener(TextView textView) {
-            this.mTextView = textView;
-        }
-
-        @Override
-        public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-            int month = monthOfYear + 1;
-            String monthStr = String.format("%02d", month);
-            String dayOfMonthStr = String.format("%02d", dayOfMonth);
-            String serverDate = year + "-" + monthStr + "-" + dayOfMonthStr;
-            mTextView.setText(serverDate);
-            check();
-        }
-    }
 
     private int getSexInt(CharSequence[] items3) {
         String str = sex.getText().toString();

@@ -1,6 +1,8 @@
 package com.hugboga.custom.activity;
 
 
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -52,9 +54,6 @@ import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.utils.ScreenUtils;
 import com.umeng.analytics.MobclickAgent;
-import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
-import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
-import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -67,6 +66,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.qqtheme.framework.picker.TimePicker;
 
 import static android.view.View.GONE;
 import static com.huangbaoche.hbcframe.fragment.BaseFragment.KEY_FRAGMENT_NAME;
@@ -956,12 +956,7 @@ public class OrderSelectCityActivity extends BaseActivity  {
     }
 
 
-    public void showTimeSelect() {
-        Calendar cal = Calendar.getInstance();
-        MyTimePickerDialogListener myTimePickerDialog = new MyTimePickerDialogListener();
-        TimePickerDialog datePickerDialog = TimePickerDialog.newInstance(myTimePickerDialog, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), true);
-        datePickerDialog.show(this.activity.getFragmentManager(), "TimePickerDialog");                //显示日期设置对话框
-    }
+
 
     String serverTime = "00:00";
 
@@ -981,18 +976,6 @@ public class OrderSelectCityActivity extends BaseActivity  {
         EventBus.getDefault().unregister(this);
     }
 
-    class MyTimePickerDialogListener implements TimePickerDialog.OnTimeSetListener {
-
-
-        @Override
-        public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute, int second) {
-            String hour = String.format("%02d", hourOfDay);
-            String minuteStr = String.format("%02d", minute);
-            serverTime = hour + ":" + minuteStr;
-            time_text_click.setText(serverTime);
-        }
-    }
-
     boolean isHalfTravel = false;
     private final int TYPE_SINGLE = 1;
     private final int TYPE_RANGE = 2;
@@ -1007,7 +990,7 @@ public class OrderSelectCityActivity extends BaseActivity  {
                 view.setTag("填写行程页面,calldomestic_oneday,calloverseas_oneday");
                 break;
             case R.id.time_text_click:
-                showTimeSelect();
+                showYearMonthDayTimePicker();
                 break;
             case R.id.choose_driver:
                 goCollectGuid(2);
@@ -1150,6 +1133,22 @@ public class OrderSelectCityActivity extends BaseActivity  {
     }
 
 
+    public void showYearMonthDayTimePicker() {
+        Calendar calendar = Calendar.getInstance();
+        TimePicker picker = new TimePicker(activity, TimePicker.HOUR_OF_DAY);
+        picker.setSelectedItem(calendar.get(Calendar.HOUR_OF_DAY),calendar.get(Calendar.MINUTE));
+        picker.setOnTimePickListener(new TimePicker.OnTimePickListener() {
+            @Override
+            public void onTimePicked(String hour, String minute) {
+                serverTime = hour + ":" + minute;
+                time_text_click.setText(serverTime);
+            }
+        });
+
+        picker.show();
+    }
+
+
     private String getPassCities() {
         passCities = "";
         for (int i = 0; i < passBeanList.size(); i++) {
@@ -1285,19 +1284,6 @@ public class OrderSelectCityActivity extends BaseActivity  {
         }
     }
 
-    public void showDaySelect(TextView sDateTime) {
-        Calendar cal = Calendar.getInstance();
-        MyDatePickerListener myDatePickerDialog = new MyDatePickerListener(sDateTime);
-        DatePickerDialog dpd = DatePickerDialog.newInstance(
-                myDatePickerDialog, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
-        cal = Calendar.getInstance();
-        dpd.setMinDate(cal);
-        cal = Calendar.getInstance();
-        cal.set(Calendar.MONTH, cal.get(Calendar.MONTH) + 6);
-        dpd.setMaxDate(cal);
-        dpd.show(this.activity.getFragmentManager(), "DatePickerDialog");   //显示日期设置对话框
-
-    }
 
     ChooseDateBean chooseDateBean;
 
@@ -1389,67 +1375,6 @@ public class OrderSelectCityActivity extends BaseActivity  {
     String start_date_str = "";
     String end_date_str = "";
     String halfDate = "";
-
-    class MyDatePickerListener implements DatePickerDialog.OnDateSetListener {
-        TextView mTextView;
-
-        MyDatePickerListener(TextView textView) {
-            this.mTextView = textView;
-        }
-
-        @Override
-        public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-            int month = monthOfYear + 1;
-            String monthStr = String.format("%02d", month);
-            String dayOfMonthStr = String.format("%02d", dayOfMonth);
-            String serverDate = year + "-" + monthStr + "-" + dayOfMonthStr;
-            if (mTextView.getId() == R.id.start_date) {
-
-                if (TextUtils.isEmpty(start_date_str)) {
-                    if (TextUtils.isEmpty(end_date_str)) {
-                        start_date_str = serverDate;
-                        mTextView.setText(serverDate);
-                    } else {
-                        if (DateUtils.compareDate(serverDate, end_date_str) <= 0) {
-                            start_date_str = serverDate;
-                            mTextView.setText(serverDate);
-                        } else {
-                            CommonUtils.showToast(R.string.start_end_error);
-                        }
-                    }
-                } else {
-
-                    if (DateUtils.compareDate(serverDate, end_date_str) <= 0) {
-                        start_date_str = serverDate;
-                        mTextView.setText(serverDate);
-                        addDayView(false);
-                    } else {
-                        CommonUtils.showToast(R.string.start_end_error);
-                    }
-                }
-
-            } else if (mTextView.getId() == R.id.end_date) {
-                if (TextUtils.isEmpty(start_date_str)) {
-                    end_date_str = serverDate;
-                    mTextView.setText(serverDate);
-                } else {
-                    if (DateUtils.compareDate(start_date_str, serverDate) <= 0) {
-                        end_date_str = serverDate;
-                        mTextView.setText(serverDate);
-                        addDayView(false);
-                    } else {
-                        CommonUtils.showToast(R.string.start_end_error);
-                    }
-
-                }
-            } else {
-                halfDate = serverDate;
-                goCityTextClick.setText(serverDate);
-                goCityTextClick.setTextColor(Color.parseColor("#000000"));
-            }
-//            checkNextBtnStatus();
-        }
-    }
 
 
 }

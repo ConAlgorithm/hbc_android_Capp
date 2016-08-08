@@ -22,17 +22,17 @@ import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestOrderEdit;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.widget.DialogUtil;
-import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
-import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.qqtheme.framework.picker.DateTimePicker;
 
 /**
  * Created by qingcha on 16/8/4.
@@ -327,29 +327,23 @@ public class OrderEditActivity extends BaseActivity {
                 break;
         }
     }
-
-    /**
-     * 时间选择器
-     */
-    public void showTimeSelect() {
-        Calendar cal = Calendar.getInstance();
-        MyTimePickerDialogListener myTimePickerDialog = new MyTimePickerDialogListener();
-        TimePickerDialog datePickerDialog = TimePickerDialog.newInstance(myTimePickerDialog, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), true);
-        datePickerDialog.setAccentColor(getResources().getColor(R.color.all_bg_yellow));
-        datePickerDialog.show(getFragmentManager(), "TimePickerDialog"); //显示日期设置对话框
-    }
-
     String serverTime = "09:00";
-    class MyTimePickerDialogListener implements TimePickerDialog.OnTimeSetListener {
-        @Override
-        public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute, int second) {
-            String hour = String.format("%02d", hourOfDay);
-            String minuteStr = String.format("%02d", minute);
-            serverTime = hour + ":" + minuteStr + ":00";
-            upRight.setText(serverTime + "(当地时间)");
-            orderBean.serviceStartTime = serverTime;
-        }
+    public void showYearMonthDayTimePicker() {
+        Calendar calendar = Calendar.getInstance();
+        DateTimePicker picker = new DateTimePicker(activity, DateTimePicker.HOUR_OF_DAY);
+        picker.setSelectedItem(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH),
+                calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
+        picker.setOnDateTimePickListener(new DateTimePicker.OnYearMonthDayTimePickListener() {
+            @Override
+            public void onDateTimePicked(String year, String month, String day, String hour, String minute) {
+                serverTime = hour + ":" + minute + ":00";
+                upRight.setText(serverTime + "(当地时间)");
+                orderBean.serviceStartTime = serverTime;
+            }
+        });
+        picker.show();
     }
+
 
     @OnClick({R.id.man_phone_layout, R.id.for_other_man, R.id.up_right, R.id.up_address_right, R.id.hotel_phone_text_code_click, R.id.other_layout})
     public void onClick(View view) {
@@ -372,7 +366,7 @@ public class OrderEditActivity extends BaseActivity {
                 startActivity(intent);
                 break;
             case R.id.up_right:
-                showTimeSelect();
+                showYearMonthDayTimePicker();
                 break;
             case R.id.up_address_right:
                 if (orderBean.startLocation != null) {
