@@ -228,15 +228,6 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
             total += seat1Price + seat2Price;
         }
 
-//        if(checkInChecked){
-//            if (!TextUtils.isEmpty(carListBean.additionalServicePrice.checkInPrice)) {
-//                total += Integer.valueOf(carListBean.additionalServicePrice.checkInPrice);
-//            }
-//        }
-
-
-
-
         if(checkInChecked) {
             if (!TextUtils.isEmpty(carListBean.additionalServicePrice.pickupSignPrice) && null != carListBean.additionalServicePrice) {
                 total += Integer.valueOf(carListBean.additionalServicePrice.pickupSignPrice);

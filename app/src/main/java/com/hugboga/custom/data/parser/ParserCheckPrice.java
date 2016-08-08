@@ -62,7 +62,7 @@ public class ParserCheckPrice extends ImplParser {
                 bean.special = jsonObj.getInt("special");
 
                 bean.carPictures = new ArrayList<>();
-                JSONArray carPictures = obj.optJSONArray("carPictures");
+                JSONArray carPictures = jsonObj.optJSONArray("carPictures");
                 if(null != carPictures) {
                     for (int n = 0; n < carPictures.length(); n++) {
                         bean.carPictures.add(carPictures.getString(n));
