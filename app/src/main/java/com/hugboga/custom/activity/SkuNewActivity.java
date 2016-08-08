@@ -31,7 +31,6 @@ import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestPriceSku;
 import com.hugboga.custom.fragment.FgCarNew;
-import com.hugboga.custom.fragment.FgCarSuk;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.CarUtils;
 import com.hugboga.custom.utils.CityUtils;
@@ -145,7 +144,6 @@ public class SkuNewActivity extends BaseActivity {
     private boolean needChildrenSeat = false;//是否需要儿童座椅
     private PopupWindow popupWindow;//弹窗
     private CarListBean carListBean;//车型
-    private FgCarSuk fgCarSuk;
     private CarBean carTypeBean;//车型
     private String areaCode;//区号
     private PoiBean startPoiBean;//上车地点
