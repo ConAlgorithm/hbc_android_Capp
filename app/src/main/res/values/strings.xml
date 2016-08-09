@@ -742,6 +742,7 @@
 
     <string name="add_man_toast">请选择出行人数</string>
 
+    <string name="time_out_180">时间不能超过半年</string>
 
 
 
