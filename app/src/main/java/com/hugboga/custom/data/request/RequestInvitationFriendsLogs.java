@@ -18,12 +18,12 @@ import org.xutils.http.annotation.HttpRequest;
 import java.util.HashMap;
 
 /**
- * Created by qingcha on 16/5/26.
+ * Created by on 16/5/26.
  */
 @HttpRequest(path = UrlLibs.TRAVELFUND_INVITATION_LOGS, builder = NewParamsBuilder.class)
-public class RequestTravelFundLogsInvitation extends BaseRequest<TravelFundData> {
+public class RequestInvitationFriendsLogs extends BaseRequest<TravelFundData> {
 
-    public RequestTravelFundLogsInvitation(Context context, int offset) {
+    public RequestInvitationFriendsLogs(Context context, int offset) {
         super(context);
         map = new HashMap<String, Object>();
         map.put("source", Constants.REQUEST_SOURCE);

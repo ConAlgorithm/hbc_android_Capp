@@ -4,16 +4,17 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:paddingLeft="28dip"
-    android:paddingRight="28dip">
+    android:paddingLeft="24dip"
+    android:paddingRight="24dip">
 
     <net.grobas.view.PolygonImageView
         android:id="@+id/travelfund_avatar_iv"
         android:layout_width="44dp"
         android:layout_height="44dp"
+        android:layout_marginLeft="5dp"
         android:layout_centerVertical="true"
-        android:layout_marginBottom="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginBottom="24dp"
+        android:layout_marginTop="24dp"
         android:src="@mipmap/collection_icon_pic"
         app:poly_border="false"
         app:poly_border_color="@android:color/white"
@@ -30,10 +31,11 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:paddingTop="4dp"
+        android:layout_marginRight="5dp"
+        android:paddingTop="3dp"
         android:text="@string/yuan"
-        android:textColor="@color/invite_friends_basic"
-        android:textSize="11sp" />
+        android:textColor="@color/travel_fund_basic"
+        android:textSize="10sp" />
 
     <TextView
         android:id="@+id/travelfund_amount_tv"
@@ -41,9 +43,8 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_toLeftOf="@id/travelfund_amount_unit_tv"
-        android:textStyle="bold"
-        android:textColor="@color/invite_friends_basic"
-        android:textSize="18sp"
+        android:textColor="@color/travel_fund_basic"
+        android:textSize="16sp"
         android:text="0"
         />
     <TextView
@@ -53,7 +54,7 @@
         android:layout_toLeftOf="@id/travelfund_amount_tv"
         android:layout_centerVertical="true"
         android:text="+"
-        android:textColor="@color/invite_friends_basic"
+        android:textColor="@color/travel_fund_basic"
         android:textSize="15sp" />
 
     <LinearLayout
@@ -76,15 +77,15 @@
                 android:id="@+id/travelfund_name_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="6dp"
-                android:textColor="#333333"
-                android:textSize="15sp" />
+                android:layout_marginRight="12dp"
+                android:textColor="#000000"
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/travelfund_source_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/invite_friends_basic"
+                android:textColor="#000000"
                 android:textSize="12sp" />
         </LinearLayout>
 

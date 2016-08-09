@@ -243,10 +243,6 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".activity.InviteFriendsActivity"
-            android:screenOrientation="portrait" />
-
-        <activity
             android:name=".activity.ChooseAirPortActivity"
             android:screenOrientation="portrait" />
 
@@ -292,6 +288,10 @@
 
         <activity
             android:name=".activity.CallBackActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.TravelFundRecordActivity"
             android:screenOrientation="portrait" />
 
         <service

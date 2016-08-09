@@ -1,17 +1,187 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/basic_white"
-    android:orientation="vertical">
-    <include
-        android:id="@+id/tracel_fund_header"
-        layout="@layout/include_header" />
+    android:layout_height="wrap_content"
+    android:background="#eeeeee">
 
-    <com.hugboga.custom.widget.ZListView
-        android:id="@+id/tracel_fund_listview"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/tracel_fund_header"
-        android:divider="@null" />
-</RelativeLayout>
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:paddingBottom="30dp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY"
+                android:src="@drawable/travel_fund_header_bg" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <include
+                    android:id="@+id/tracel_fund_header"
+                    layout="@layout/include_header" />
+
+                <TextView
+                    android:id="@+id/travel_fund_residue_price_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:textColor="#f1eaff"
+                    android:textSize="54sp" />
+
+                <TextView
+                    android:id="@+id/travel_fund_validity_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginTop="-8dp"
+                    android:textColor="#ffffff"
+                    android:textSize="13sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/travel_fund_invite_record_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:minWidth="100dp"
+                        android:paddingTop="15dp"
+                        android:text="@string/travel_fund_invite_record"
+                        android:textColor="#ffffff"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/travel_fund_use_record_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="40dp"
+                        android:gravity="center"
+                        android:minWidth="100dp"
+                        android:paddingTop="15dp"
+                        android:text="@string/travel_fund_use_record"
+                        android:textColor="#ffffff"
+                        android:textSize="14sp" />
+                </LinearLayout>
+            </LinearLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-10dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp">
+            <ImageView
+                android:id="@+id/travel_fund_frame_left_iv"
+                android:layout_width="16dp"
+                android:layout_height="72dp"
+                android:layout_alignParentBottom="true"
+                android:scaleType="centerCrop"
+                android:paddingBottom="30dp"
+                android:src="@mipmap/travel_fund_frame_left" />
+
+            <ImageView
+                android:id="@+id/travel_fund_frame_right_iv"
+                android:layout_width="16dp"
+                android:layout_height="72dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:scaleType="centerCrop"
+                android:paddingBottom="30dp"
+                android:src="@mipmap/travel_fund_frame_right" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@id/travel_fund_frame_right_iv"
+                android:layout_toRightOf="@id/travel_fund_frame_left_iv"
+                android:background="#ffffff"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginRight="25dp"
+                    android:layout_marginTop="40dp"
+                    android:lineSpacingExtra="2dp"
+                    android:gravity="center"
+                    android:text="@string/travel_fund_subtitle"
+                    android:textColor="#000000"
+                    android:textSize="20sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginRight="25dp"
+                    android:layout_marginTop="15dp"
+                    android:background="#000000" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginRight="25dp"
+                    android:layout_marginTop="2dp"
+                    android:background="#000000" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_marginTop="30dp"
+                    android:text="@string/travel_fund_subtitle_2"
+                    android:textColor="#000000"
+                    android:textSize="14sp" />
+                <TextView
+                    android:id="@+id/travel_fund_activity_price_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-8dp"
+                    android:gravity="center"
+                    android:text="600"
+                    android:textStyle="italic"
+                    android:textColor="#ffcf03"
+                    android:textSize="54sp" />
+
+                <TextView
+                    android:id="@+id/travel_fund_description_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="20dp"
+                    android:lineSpacingExtra="2dp"
+                    android:text="好友通过客户端完成首单，\n24小时内反您\n30元 + 5% x 好友首单总金额"
+                    android:textColor="#000000"
+                    android:textSize="14sp" />
+                <TextView
+                    android:id="@+id/travel_fund_invite_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="42dp"
+                    android:background="#000000"
+                    android:gravity="center"
+                    android:text="@string/travel_fund_invite"
+                    android:textColor="#ffffff"
+                    android:textStyle="bold"
+                    android:textSize="18sp" />
+            </LinearLayout>
+        </RelativeLayout>
+    </LinearLayout>
+</ScrollView>

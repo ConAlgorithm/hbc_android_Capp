@@ -30,6 +30,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -123,6 +124,7 @@ public class MainActivity extends BaseActivity
     private TextView tv_nickname;//header的昵称
     private TextView couponTV, couponUnitTV;
     private TextView travelFundTV, travelFundUnitTV;
+    private ImageView travelFundHintIV;
 
     private TextView tabMenu[] = new TextView[3];
 
@@ -511,6 +513,12 @@ public class MainActivity extends BaseActivity
         travelFundTV = (TextView) header.findViewById(R.id.slidemenu_header_travelfund_tv);//旅游基金
         couponUnitTV = (TextView) header.findViewById(R.id.slidemenu_header_coupon_unit_tv);
         travelFundUnitTV = (TextView) header.findViewById(R.id.slidemenu_header_travelfund_unit_tv);
+        travelFundHintIV = (ImageView) header.findViewById(R.id.travel_fund_hint_iv);
+        if (new SharedPre(this).isShowTravelFundHint()) {
+            travelFundHintIV.setVisibility(View.VISIBLE);
+        } else {
+            travelFundHintIV.setVisibility(View.GONE);
+        }
 
         header.findViewById(R.id.slidemenu_header_coupon_layout).setOnClickListener(this);
         header.findViewById(R.id.slidemenu_header_travelfund_layout).setOnClickListener(this);
@@ -639,12 +647,6 @@ public class MainActivity extends BaseActivity
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         HashMap<String, String> map = new HashMap<String, String>();
         switch (position) {
-//            case Constants.PERSONAL_CENTER_FUND://旅游基金
-//                if (isLogin()) {
-//                    FgInviteFriends fgInviteFriends = new FgInviteFriends();
-//                    startFragment(fgInviteFriends);
-//                }
-//                break;
             case Constants.PERSONAL_CENTER_BR://常用投保人
                 if (isLogin()) {
                     Intent intent = new Intent(activity, InsureActivity.class);
@@ -653,7 +655,6 @@ public class MainActivity extends BaseActivity
                 break;
             case Constants.PERSONAL_CENTER_COLLECT://收藏司导
                 if (isLogin()) {
-//                    startFragment(new FgCollectGuideList());
                     startActivity(new Intent(MainActivity.this, CollectGuideListActivity.class));
                 }
                 break;
@@ -665,7 +666,6 @@ public class MainActivity extends BaseActivity
                 }
                 break;
             case Constants.PERSONAL_CENTER_CUSTOMER_SERVICE://服务规则
-//                startFragment(new FgServicerCenter());
                 intent = new Intent(activity, ServicerCenterActivity.class);
                 startActivity(intent);
                 break;
@@ -741,6 +741,11 @@ public class MainActivity extends BaseActivity
                 break;
             case R.id.slidemenu_header_travelfund_layout://旅游基金
                 if (isLogin()) {
+                    SharedPre sharedPre= new SharedPre(this);
+                    if (sharedPre.isShowTravelFundHint()) {
+                        sharedPre.setTravelFundHintIsShow(false);
+                        travelFundHintIV.setVisibility(View.GONE);
+                    }
                     intent = new Intent(activity, TravelFundActivity.class);
                     startActivity(intent);
                 }
