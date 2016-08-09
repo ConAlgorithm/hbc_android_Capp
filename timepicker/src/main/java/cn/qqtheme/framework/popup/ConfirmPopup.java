@@ -258,7 +258,7 @@ public abstract class ConfirmPopup<V extends View> extends BottomPopup<View> {
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dismiss();
+//                dismiss();
                 onSubmit();
             }
         });

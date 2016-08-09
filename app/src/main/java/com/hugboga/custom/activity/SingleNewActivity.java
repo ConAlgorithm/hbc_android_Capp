@@ -701,19 +701,23 @@ public class SingleNewActivity extends BaseActivity {
         }
     }
 
-
+    DateTimePicker picker;
     public void showYearMonthDayTimePicker() {
         final Calendar calendar = Calendar.getInstance();
-        DateTimePicker picker = new DateTimePicker(activity, DateTimePicker.YEAR_MONTH_DAY);
+        picker = new DateTimePicker(activity, DateTimePicker.YEAR_MONTH_DAY);
         picker.setRange(calendar.get(Calendar.YEAR),calendar.get(Calendar.YEAR)+1);
         picker.setSelectedItem(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH),
                 calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
         picker.setOnDateTimePickListener(new DateTimePicker.OnYearMonthDayTimePickListener() {
             @Override
             public void onDateTimePicked(String year, String month, String day, String hour, String minute) {
-
                 String tmpDate = year + "-" + month + "-" + day;
                 String startDate = calendar.get(Calendar.YEAR) +"-"+ (calendar.get(Calendar.MONTH) +1)+"-"+ calendar.get(Calendar.DAY_OF_MONTH);
+
+                if(DateUtils.getDateByStr(tmpDate).before(DateUtils.getDateByStr(startDate))){
+                    CommonUtils.showToast("不能选择今天之前的时间");
+                    return;
+                }
                 if(DateUtils.getDistanceDays(startDate,tmpDate)>180){
                     CommonUtils.showToast(R.string.time_out_180);
                 }else {
@@ -721,6 +725,7 @@ public class SingleNewActivity extends BaseActivity {
                     serverTime = hour + ":" + minute;
                     timeText.setText(serverDate + " " + serverTime);
                     checkInput();
+                    picker.dismiss();
                 }
             }
         });
