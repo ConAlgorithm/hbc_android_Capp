@@ -531,10 +531,10 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
         }
     }
 
-
+    DateTimePicker picker;
     public void showYearMonthDayTimePicker() {
         final Calendar calendar = Calendar.getInstance();
-        DateTimePicker picker = new DateTimePicker(getActivity(), DateTimePicker.HOUR_OF_DAY);
+        picker = new DateTimePicker(getActivity(), DateTimePicker.HOUR_OF_DAY);
         picker.setRange(calendar.get(Calendar.YEAR), calendar.get(Calendar.YEAR)+1);
         picker.setSelectedItem(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH),
                 calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
