@@ -88,7 +88,7 @@ public class DailyWebInfoActivity extends BaseActivity implements View.OnKeyList
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.cityBean = (CityBean)getIntent().getSerializableExtra("cityBean");
-        this.collectGuideBean = (CollectGuideBean)getIntent().getSerializableExtra("cityBean");
+        this.collectGuideBean = (CollectGuideBean)getIntent().getSerializableExtra("collectGuideBean");
         setContentView(R.layout.fg_sku_detail);
         ButterKnife.bind(this);
         initView();
@@ -320,7 +320,7 @@ public class DailyWebInfoActivity extends BaseActivity implements View.OnKeyList
                 Bundle bundle =new Bundle();
 
                 if (cityBean != null) {
-                    bundle.putSerializable(SkuDetailActivity.WEB_CITY,cityBean);
+                    bundle.putSerializable("cityBean",cityBean);
                 }
                 bundle.putString("source",source);
 //                bundle.putSerializable("collectGuideBean",collectGuideBean);
