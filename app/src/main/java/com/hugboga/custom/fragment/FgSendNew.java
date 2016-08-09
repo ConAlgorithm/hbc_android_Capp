@@ -36,6 +36,7 @@ import com.hugboga.custom.data.request.RequestCheckPriceForTransfer;
 import com.hugboga.custom.data.request.RequestGuideConflict;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.CarUtils;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.widget.DialogUtil;
@@ -530,21 +531,33 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
         }
     }
 
-
+    DateTimePicker picker;
     public void showYearMonthDayTimePicker() {
-        Calendar calendar = Calendar.getInstance();
-        DateTimePicker picker = new DateTimePicker(getActivity(), DateTimePicker.HOUR_OF_DAY);
-        picker.setRange(2000, 2030);
+        final Calendar calendar = Calendar.getInstance();
+        picker = new DateTimePicker(getActivity(), DateTimePicker.HOUR_OF_DAY);
+        picker.setRange(calendar.get(Calendar.YEAR), calendar.get(Calendar.YEAR)+1);
         picker.setSelectedItem(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH),
                 calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
         picker.setOnDateTimePickListener(new DateTimePicker.OnYearMonthDayTimePickListener() {
             @Override
             public void onDateTimePicked(String year, String month, String day, String hour, String minute) {
-//                showToast(year + "-" + month + "-" + day + " " + hour + ":" + minute);
-                serverDate = year + "-" + month + "-" + day;
-                serverTime = hour + ":" + minute;
-                timeText.setText(serverDate + " " + serverTime);
-                checkInput();
+                String tmpDate = year + "-" + month + "-" + day;
+                String startDate = calendar.get(Calendar.YEAR) +"-"+ (calendar.get(Calendar.MONTH) +1)+"-"+ calendar.get(Calendar.DAY_OF_MONTH);
+
+                if(DateUtils.getDateByStr(tmpDate).before(DateUtils.getDateByStr(startDate))){
+                    CommonUtils.showToast("不能选择今天之前的时间");
+                    return;
+                }
+
+                if(DateUtils.getDistanceDays(startDate,tmpDate)>180){
+                    CommonUtils.showToast(R.string.time_out_180);
+                }else {
+                    serverDate = year + "-" + month + "-" + day;
+                    serverTime = hour + ":" + minute;
+                    timeText.setText(serverDate + " " + serverTime);
+                    checkInput();
+                    picker.dismiss();
+                }
             }
         });
         picker.show();
