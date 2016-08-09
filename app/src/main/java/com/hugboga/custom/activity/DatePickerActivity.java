@@ -52,12 +52,15 @@ public class DatePickerActivity extends BaseActivity {
 
     ChooseDateBean mChooseDateBean;
 
+    String startDate = "";
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.date_picker_layout);
         ButterKnife.bind(this);
         calender_type = this.getIntent().getIntExtra("type", 1);
+        startDate = this.getIntent().getStringExtra("startDate");
         initViews();
         initWeek();
         mChooseDateBean = (ChooseDateBean)this.getIntent().getSerializableExtra("chooseDateBean");

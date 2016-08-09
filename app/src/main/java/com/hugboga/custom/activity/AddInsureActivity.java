@@ -20,21 +20,21 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
+import com.hugboga.custom.data.bean.ChooseDateBean;
 import com.hugboga.custom.data.bean.InsureResultBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestAddInsure;
 import com.hugboga.custom.data.request.RequestEditInsure;
-import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import org.greenrobot.eventbus.EventBus;
-
-import java.util.Calendar;
+import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.qqtheme.framework.picker.DatePicker;
 
 /**
  * Created on 16/8/6.
@@ -120,6 +120,7 @@ public class AddInsureActivity extends BaseActivity implements HttpRequestListen
         super.onCreate(arg0);
         setContentView(R.layout.add_new_insure);
         ButterKnife.bind(this);
+        EventBus.getDefault().register(this);
         getArgument();
         initView();
         initHeader();
@@ -129,6 +130,7 @@ public class AddInsureActivity extends BaseActivity implements HttpRequestListen
     public void onDestroy() {
         super.onDestroy();
         ButterKnife.unbind(this);
+        EventBus.getDefault().unregister(this);
     }
 
     boolean isEdit = false;
@@ -196,6 +198,17 @@ public class AddInsureActivity extends BaseActivity implements HttpRequestListen
         nextBtnClick.setBackgroundColor(ContextCompat.getColor(activity, R.color.all_bg_yellow));
     }
 
+    ChooseDateBean chooseDateBean;
+    @Subscribe
+    public void onEventMainThread(EventAction action) {
+        switch (action.getType()) {
+            case CHOOSE_DATE:
+                chooseDateBean = (ChooseDateBean) action.getData();
+                birthday.setText(chooseDateBean.halfDateStr);
+                check();
+                break;
+        }
+    }
 
     private void check() {
         if (TextUtils.isEmpty(name.getText())) {
@@ -222,41 +235,29 @@ public class AddInsureActivity extends BaseActivity implements HttpRequestListen
     }
 
 
-    public void showDaySelect(TextView sDateTime) {
-        Calendar cal = Calendar.getInstance();
-        cal = Calendar.getInstance();
-        cal.set(Calendar.YEAR,1990);
-        cal.set(Calendar.MONTH, 0);
-        cal.set(Calendar.DAY_OF_MONTH,1);
+    public void showDaySelect() {
+//        Intent intent = new Intent(activity,DatePickerActivity.class);
+//        intent.putExtra("startDate","1990-01-01");
+//        intent.putExtra("title","请选择出生日期");
+//        intent.putExtra("type",3);
+//        startActivity(intent);
 
-        MyDatePickerListener myDatePickerDialog = new MyDatePickerListener(sDateTime);
-        DatePickerDialog dpd = DatePickerDialog.newInstance(
-                myDatePickerDialog, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
-//        cal = Calendar.getInstance();
-//        dpd.setMinDate(cal);
-
-//        dpd.setMaxDate(cal);
-        dpd.show(activity.getFragmentManager(), "DatePickerDialog");   //显示日期设置对话框
+        DatePicker picker = new DatePicker(activity, DatePicker.YEAR_MONTH_DAY);
+        picker.setRange(1900,2050);
+        picker.setSelectedItem(1990,1,1);
+        picker.setOnDatePickListener(new DatePicker.OnYearMonthDayPickListener() {
+            @Override
+            public void onDatePicked(String year, String month, String day) {
+                String serverDate = year + "-" + month + "-" + day;
+                birthday.setText(serverDate);
+                check();
+            }
+        });
+        picker.show();
 
     }
 
-    class MyDatePickerListener implements DatePickerDialog.OnDateSetListener {
-        TextView mTextView;
 
-        MyDatePickerListener(TextView textView) {
-            this.mTextView = textView;
-        }
-
-        @Override
-        public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-            int month = monthOfYear + 1;
-            String monthStr = String.format("%02d", month);
-            String dayOfMonthStr = String.format("%02d", dayOfMonth);
-            String serverDate = year + "-" + monthStr + "-" + dayOfMonthStr;
-            mTextView.setText(serverDate);
-            check();
-        }
-    }
 
     private int getSexInt(CharSequence[] items3) {
         String str = sex.getText().toString();
@@ -304,7 +305,7 @@ public class AddInsureActivity extends BaseActivity implements HttpRequestListen
                 dialog.show();
                 break;
             case R.id.birthday:
-                showDaySelect(birthday);
+                showDaySelect();
                 break;
         }
     }

@@ -42,9 +42,6 @@ import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.widget.DialogUtil;
 import com.umeng.analytics.MobclickAgent;
-import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
-import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
-import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -158,6 +155,7 @@ public class SingleNewActivity extends BaseActivity {
     public void onDestroy() {
         super.onDestroy();
         ButterKnife.unbind(this);
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -169,6 +167,8 @@ public class SingleNewActivity extends BaseActivity {
         initView();
         initHeader();
     }
+
+
 
     public void initHeader() {
         headerTitle.setText("单次接送");
@@ -629,58 +629,6 @@ public class SingleNewActivity extends BaseActivity {
     }
 
 
-    public void showDaySelect() {
-        Calendar cal = Calendar.getInstance();
-        MyDatePickerListener myDatePickerDialog = new MyDatePickerListener(timeText);
-        DatePickerDialog dpd = DatePickerDialog.newInstance(
-                myDatePickerDialog, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
-        cal = Calendar.getInstance();
-        dpd.setMinDate(cal);
-        cal = Calendar.getInstance();
-        cal.set(Calendar.MONTH, cal.get(Calendar.MONTH) + 6);
-        dpd.setMaxDate(cal);
-        dpd.show(this.activity.getFragmentManager(), "DatePickerDialog");   //显示日期设置对话框
-
-    }
-
-    class MyDatePickerListener implements DatePickerDialog.OnDateSetListener {
-        TextView mTextView;
-
-        MyDatePickerListener(TextView textView) {
-            this.mTextView = textView;
-        }
-
-        @Override
-        public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-            int month = monthOfYear + 1;
-            String monthStr = String.format("%02d", month);
-            String dayOfMonthStr = String.format("%02d", dayOfMonth);
-            serverDate = year + "-" + monthStr + "-" + dayOfMonthStr;
-            showTimeSelect();
-        }
-    }
-
-    public void showTimeSelect() {
-        Calendar cal = Calendar.getInstance();
-        MyTimePickerDialogListener myTimePickerDialog = new MyTimePickerDialogListener();
-        TimePickerDialog datePickerDialog = TimePickerDialog.newInstance(myTimePickerDialog, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), true);
-        datePickerDialog.show(this.activity.getFragmentManager(), "TimePickerDialog");                //显示日期设置对话框
-    }
-
-
-    class MyTimePickerDialogListener implements TimePickerDialog.OnTimeSetListener {
-
-
-        @Override
-        public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute, int second) {
-            String hour = String.format("%02d", hourOfDay);
-            String minuteStr = String.format("%02d", minute);
-            serverTime = hour + ":" + minuteStr;
-            timeText.setText(serverDate + " " + serverTime);
-            checkInput();
-        }
-    }
-
     Intent intent;
     @OnClick({R.id.city_layout, R.id.start_layout, R.id.end_layout, R.id.time_layout, R.id.confirm_journey, R.id.start_tips, R.id.start_title, R.id.start_detail, R.id.end_tips, R.id.end_title, R.id.end_detail})
     public void onClick(View view) {
@@ -757,13 +705,11 @@ public class SingleNewActivity extends BaseActivity {
     public void showYearMonthDayTimePicker() {
         Calendar calendar = Calendar.getInstance();
         DateTimePicker picker = new DateTimePicker(activity, DateTimePicker.HOUR_OF_DAY);
-        picker.setRange(2000, 2030);
         picker.setSelectedItem(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH),
                 calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
         picker.setOnDateTimePickListener(new DateTimePicker.OnYearMonthDayTimePickListener() {
             @Override
             public void onDateTimePicked(String year, String month, String day, String hour, String minute) {
-//                showToast(year + "-" + month + "-" + day + " " + hour + ":" + minute);
                 serverDate = year + "-" + month + "-" + day;
                 serverTime = hour + ":" + minute;
                 timeText.setText(serverDate + " " + serverTime);

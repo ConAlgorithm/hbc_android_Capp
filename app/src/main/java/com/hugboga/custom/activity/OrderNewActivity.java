@@ -1,5 +1,6 @@
 package com.hugboga.custom.activity;
 
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -50,36 +51,30 @@ import com.hugboga.custom.data.request.RequestSubmitLine;
 import com.hugboga.custom.data.request.RequestSubmitPick;
 import com.hugboga.custom.data.request.RequestSubmitRent;
 import com.hugboga.custom.data.request.RequestSubmitSend;
-
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.LogUtils;
 import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.widget.LuggageItemLayout;
 import com.hugboga.custom.widget.TopTipsLayout;
-import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
-import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import org.greenrobot.eventbus.EventBus;
+import cn.qqtheme.framework.picker.TimePicker;
 
-import static android.R.attr.fragment;
 import static android.view.View.GONE;
-import static com.huangbaoche.hbcframe.fragment.BaseFragment.KEY_FRAGMENT_NAME;
 import static com.hugboga.custom.R.id.man_name;
+import static com.hugboga.custom.R.id.time_text_click;
 import static com.hugboga.custom.R.id.up_address_right;
 import static com.hugboga.custom.R.id.up_right;
-import static com.hugboga.custom.data.event.EventType.COUPON_BACK;
-import static com.tencent.bugly.crashreport.inner.InnerAPI.context;
 
 /**
  * Created on 16/8/3.
@@ -370,7 +365,7 @@ public class OrderNewActivity extends BaseActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     dreamLeft.setChecked(false);
-                    if (null == mostFitBean || mostFitBean.actualPrice == 0) {
+                    if (null == mostFitBean || null == mostFitBean.actualPrice  ||  mostFitBean.actualPrice == 0) {
                         int showPrice = 0;
                         if (null != couponBean) {
                             showPrice = couponBean.actualPrice.intValue();
@@ -380,7 +375,11 @@ public class OrderNewActivity extends BaseActivity {
                         allMoneyLeftText.setText("￥" + (showPrice + checkInOrPickupPrice + hotelPrice + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean)));
 
                     } else {
-                        allMoneyLeftText.setText("￥" + (mostFitBean.actualPrice.intValue() + hotelPrice + checkInOrPickupPrice + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean)));
+                        int price = 0;
+                        if(null != mostFitBean && null != mostFitBean.actualPrice){
+                            price = mostFitBean.actualPrice.intValue();
+                        }
+                        allMoneyLeftText.setText("￥" + (price + hotelPrice + checkInOrPickupPrice + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean)));
                     }
                 }
             }
@@ -961,7 +960,11 @@ public class OrderNewActivity extends BaseActivity {
                     allMoneyLeftText.setText("￥" + (carBean.price + checkInOrPickupPrice + hotelPrice + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean)));
                 } else {
                     couponRight.setText((mostFitBean.priceInfo) + "优惠券");
-                    allMoneyLeftText.setText("￥" + (mostFitBean.actualPrice.intValue() + checkInOrPickupPrice + hotelPrice + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean)));
+                    int price = 0;
+                    if(null != mostFitBean && null != mostFitBean.actualPrice){
+                        price = mostFitBean.actualPrice.intValue();
+                    }
+                    allMoneyLeftText.setText("￥" + (price + checkInOrPickupPrice + hotelPrice + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean)));
                 }
                 couponRight.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -1030,31 +1033,23 @@ public class OrderNewActivity extends BaseActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
-
-    /**
-     * 时间选择器
-     */
-    public void showTimeSelect() {
-        Calendar cal = Calendar.getInstance();
-        MyTimePickerDialogListener myTimePickerDialog = new MyTimePickerDialogListener();
-        TimePickerDialog datePickerDialog = TimePickerDialog.newInstance(myTimePickerDialog, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), true);
-        datePickerDialog.setAccentColor(activity.getResources().getColor(R.color.all_bg_yellow));
-        datePickerDialog.show(this.activity.getFragmentManager(), "TimePickerDialog");                //显示日期设置对话框
-    }
-
     String serverTime = "09:00";
+    public void showYearMonthDayTimePicker() {
+        Calendar calendar = Calendar.getInstance();
+        TimePicker picker = new TimePicker(activity, TimePicker.HOUR_OF_DAY);
+        picker.setSelectedItem(calendar.get(Calendar.HOUR_OF_DAY),calendar.get(Calendar.MINUTE));
+        picker.setOnTimePickListener(new TimePicker.OnTimePickListener() {
+            @Override
+            public void onTimePicked(String hour, String minute) {
+                serverTime = hour + ":" + minute;
+                upRight.setText(serverTime + "(当地时间)");
+            }
+        });
 
-    class MyTimePickerDialogListener implements TimePickerDialog.OnTimeSetListener {
-        @Override
-        public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute, int second) {
-            String hour = String.format("%02d", hourOfDay);
-            String minuteStr = String.format("%02d", minute);
-            serverTime = hour + ":" + minuteStr;
-            upRight.setText(serverTime + "(当地时间)");
-        }
+        picker.show();
     }
-
 
 
     @Override
@@ -1352,7 +1347,7 @@ public class OrderNewActivity extends BaseActivity {
                 startActivity(intent);
                 break;
             case up_right:
-                showTimeSelect();
+                showYearMonthDayTimePicker();
                 break;
             case up_address_right:
                 startArrivalSearch(Integer.valueOf((null == startCityId) ? poiBean.id + "" : startCityId), (null == startBean) ? poiBean.location : startBean.location);

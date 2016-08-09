@@ -491,9 +491,14 @@ public class DateUtils {
      * @return
      * @throws ParseException
      */
-    public static Date getDateByStr(String dateStr) throws ParseException {
-        Date date = getDateByStr(dateStr, dateDateFormat);
-        return date;
+    public static Date getDateByStr(String dateStr)  {
+        try {
+            Date date = getDateByStr(dateStr, dateDateFormat);
+            return date;
+        }catch (Exception e){
+            e.printStackTrace();
+            return new Date();
+        }
     }
 
 

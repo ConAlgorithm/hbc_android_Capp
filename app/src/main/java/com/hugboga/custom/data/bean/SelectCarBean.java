@@ -1,5 +1,7 @@
 package com.hugboga.custom.data.bean;
 
+import java.util.List;
+
 /**
  * Created  on 16/4/16.
  */
@@ -31,7 +33,8 @@ public class SelectCarBean implements IBaseBean{
     public int originalPrice;
 
     public int carId;
+    public int special;
     public String carIntroduction;
-    public String carPictures;
+    public List<String> carPictures;
 
 }

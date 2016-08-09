@@ -207,7 +207,7 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
         serverDate = flightBean.arrDate + " " + flightBean.arrivalTime;
         needChildrenSeat = flightBean.arrivalAirport.childSeatSwitch;
         needBanner = flightBean.arrivalAirport.bannerSwitch;
-        RequestCheckPriceForPickup requestCheckPriceForPickup = new RequestCheckPriceForPickup(getActivity(), mBusinessType, airportCode, cityId, startLocation, termLocation, serverDate);
+        RequestCheckPriceForPickup requestCheckPriceForPickup = new RequestCheckPriceForPickup(getActivity(), 1, airportCode, cityId, startLocation, termLocation, serverDate);
         requestData(requestCheckPriceForPickup);
     }
 
@@ -227,15 +227,6 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
             int seat2Price = OrderUtils.getSeat2PriceTotal(carListBean,manLuggageBean);
             total += seat1Price + seat2Price;
         }
-
-//        if(checkInChecked){
-//            if (!TextUtils.isEmpty(carListBean.additionalServicePrice.checkInPrice)) {
-//                total += Integer.valueOf(carListBean.additionalServicePrice.checkInPrice);
-//            }
-//        }
-
-
-
 
         if(checkInChecked) {
             if (!TextUtils.isEmpty(carListBean.additionalServicePrice.pickupSignPrice) && null != carListBean.additionalServicePrice) {

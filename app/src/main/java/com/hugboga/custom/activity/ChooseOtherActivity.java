@@ -315,6 +315,13 @@ public class ChooseOtherActivity extends BaseActivity {
         initHeader();
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        ButterKnife.unbind(this);
+        EventBus.getDefault().unregister(this);
+    }
+
     private  int clickViewId = -1;//点击的通讯录view id
     @Subscribe
     public void onEventMainThread(EventAction action) {

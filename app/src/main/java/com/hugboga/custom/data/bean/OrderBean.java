@@ -52,6 +52,13 @@ public class OrderBean implements IBaseBean{
     public String startLocation;   // startAddressPoi 起始位置
 
 
+    public int carId;
+    public int special;
+    public String carIntroduction;
+    public List<String> carPictures;
+    public int capOfPerson;
+
+
 
 
     public String realUserName;                       // 乘车人姓名
