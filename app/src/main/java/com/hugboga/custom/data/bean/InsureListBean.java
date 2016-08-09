@@ -3,10 +3,12 @@ package com.hugboga.custom.data.bean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.io.Serializable;
+
 /**
  * Created  on 16/4/24.
  */
-public class InsureListBean implements Parcelable{
+public class InsureListBean implements Parcelable, Serializable {
     public  String  insuranceUserName;//下保险人
     public  String  passportNo;//护照号
     public  String  createtime;//下保险时间

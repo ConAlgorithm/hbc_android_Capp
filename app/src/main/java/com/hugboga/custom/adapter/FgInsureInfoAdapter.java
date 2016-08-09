@@ -44,7 +44,7 @@ public class FgInsureInfoAdapter extends BaseAdapter<InsureListBean> {
         final InsureListBean bean = getItem(position);
         holder.nameTV.setText(bean.insuranceUserName);
         holder.passportTV.setText(mContext.getString(R.string.insure_info_passport, bean.passportNo));
-        holder.policyNumTV.setText(mContext.getString(R.string.insure_info_policy_num, TextUtils.isEmpty(bean.insuranceUserId) ? "----" : bean.insuranceUserId));
+        holder.policyNumTV.setText(mContext.getString(R.string.insure_info_policy_num, TextUtils.isEmpty(bean.insuranceNo) ? "----" : bean.insuranceNo));
         holder.stateTV.setText(bean.getUserStatusString());
         if (bean.insuranceStatus == 4 || bean.insuranceStatus == 7 || bean.insuranceStatus == 8) {//失败的情况
             holder.stateTV.setTextColor(0xFFFE6635);

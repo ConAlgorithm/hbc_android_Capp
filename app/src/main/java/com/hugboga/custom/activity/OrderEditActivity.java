@@ -157,7 +157,7 @@ public class OrderEditActivity extends BaseActivity {
                 sendRequest();
             }
         });
-        if (orderBean.orderGoodsType == 1) {//接机
+        if (orderBean.orderType == 1) {//接机
             pickUpTime.setVisibility(View.GONE);
             pickUpLocationLayout.setVisibility(View.GONE);
             airportNameLayout.setVisibility(View.GONE);
@@ -171,7 +171,7 @@ public class OrderEditActivity extends BaseActivity {
             if (!TextUtils.isEmpty(orderBean.serviceAddressTel)) {
                 hotelPhoneText.setText(orderBean.serviceAddressTel);
             }
-        } else if (orderBean.orderGoodsType == 2) {//送机
+        } else if (orderBean.orderType == 2) {//送机
             pickNameLayout.setVisibility(View.GONE);
             pickUpTime.setVisibility(View.GONE);
             pickUpLocationLayout.setVisibility(View.GONE);
@@ -185,7 +185,7 @@ public class OrderEditActivity extends BaseActivity {
             if (!TextUtils.isEmpty(orderBean.serviceAddressTel)) {
                 hotelPhoneText.setText(orderBean.serviceAddressTel);
             }
-        } else if (orderBean.orderGoodsType == 4) {//单次接送
+        } else if (orderBean.orderType == 4) {//单次接送
             pickNameLayout.setVisibility(View.GONE);
             pickUpTime.setVisibility(View.GONE);
             pickUpLocationLayout.setVisibility(View.GONE);
@@ -390,12 +390,12 @@ public class OrderEditActivity extends BaseActivity {
             CommonUtils.showToast("联系人电话不能为空");
             return;
         }
-        if (orderBean.orderGoodsType == 1) {//接机
+        if (orderBean.orderType == 1) {//接机
             if (TextUtils.isEmpty(pickName.getText())) {
                 CommonUtils.showToast("接机牌姓名不能为空");
                 return;
             }
-        } else if (orderBean.orderGoodsType == 3 || orderBean.orderGoodsType == 5) {//包车
+        } else if (orderBean.orderType == 5 || orderBean.orderType == 6) {//线路
             if (TextUtils.isEmpty(upAddressRight.getText())) {
                 CommonUtils.showToast("上车地点不能为空");
                 return;
@@ -411,7 +411,7 @@ public class OrderEditActivity extends BaseActivity {
         if (orderBean.orderType == 3 || orderBean.orderType == 5 || orderBean.orderType == 6) {
             requestParams.startAddress = TextUtils.isEmpty(upAddressRight.getText()) ? "" : upAddressRight.getText().toString();//出发地
         }
-        if (orderBean.orderGoodsType == 1) {
+        if (orderBean.orderType == 1) {
             requestParams.flightBrandSign = TextUtils.isEmpty(pickName.getText()) ? "" : pickName.getText().toString();//接送机接机牌名称
         }
         requestParams.flightNo = TextUtils.isEmpty(airportName.getText()) ? "" : airportName.getText().toString();//送机航班号

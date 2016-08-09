@@ -43,7 +43,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * Created by qingcha on 16/8/4.
+ * Created by on 16/8/4.
  */
 public class GuideDetailActivity extends BaseActivity implements GuideCarPhotosAdapter.OnItemClickListener {
 
@@ -218,10 +218,12 @@ public class GuideDetailActivity extends BaseActivity implements GuideCarPhotosA
             data.setIsFavored(0);
             collectIV.setSelected(false);
             EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_UPDATE_COLLECT, 0));
+            CommonUtils.showToast(getString(R.string.collect_cancel));
         } else if (_request instanceof RequestCollectGuidesId) {//收藏
             data.setIsFavored(1);
             collectIV.setSelected(true);
             EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_UPDATE_COLLECT, 1));
+            CommonUtils.showToast(getString(R.string.collect_succeed));
         }
     }
 

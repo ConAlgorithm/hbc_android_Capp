@@ -47,8 +47,6 @@ public enum EventType {
     ORDER_DETAIL_PAY,//去支付
     ORDER_DETAIL_INSURANCE_H5,//皇包车免费赠送保险说
     ORDER_DETAIL_ADD_INSURER,//添加投保人
-    ORDER_DETAIL_LIST_INSURER,//添加列表
-    ORDER_DETAIL_TOURIST_INFO,//出行人信息
     ORDER_DETAIL_BACK,//返回
     ORDER_DETAIL_CALL,//电话
     ORDER_DETAIL_MORE,//更多

@@ -200,6 +200,7 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                 showPopupWindow();
                 break;
             case ORDER_DETAIL_CALL://联系客服
+                mDialogUtil = DialogUtil.getInstance(this);
                 mDialogUtil.showCallDialog();
                 break;
             case ORDER_DETAIL_PAY://立即支付
@@ -225,30 +226,18 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                 intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_INSURANCE);
                 startActivity(intent);
                 break;
-            case ORDER_DETAIL_ADD_INSURER://添加投保人 copy FgOrder   TODO
+            case ORDER_DETAIL_ADD_INSURER://添加投保人 copy FgOrder
                 if (!eventVerification(action)) {
                     break;
                 }
                 if (orderBean == null) {
                     return;
                 }
-//                FgInsure fgAddInsure = new FgInsure();
                 Bundle insureBundle = new Bundle();
                 insureBundle.putSerializable("orderBean", orderBean);
                 Intent intent1 = new Intent(activity,InsureActivity.class);
                 intent1.putExtras(insureBundle);
                 startActivity(intent1);
-                break;
-            case ORDER_DETAIL_LIST_INSURER://投保人列表
-                if (!eventVerification(action)) {
-                    break;
-                }
-                if (orderBean == null) {
-                    return;
-                }
-                intent = new Intent(OrderDetailActivity.this, InsureInfoActivity.class);
-                intent.putExtra(Constants.PARAMS_DATA, orderBean);
-                startActivity(intent);
                 break;
             case ORDER_DETAIL_GUIDE_CALL://联系司导
                 if (!eventVerification(action)) {
@@ -308,17 +297,6 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                     return;
                 }
                 intent = new Intent(this, EvaluateActivity.class);
-                intent.putExtra(Constants.PARAMS_DATA, orderBean);
-                startActivity(intent);
-                break;
-            case ORDER_DETAIL_TOURIST_INFO://出行人信息
-                if (!eventVerification(action)) {
-                    break;
-                }
-                if (orderBean == null) {
-                    return;
-                }
-                intent = new Intent(this, OrderEditActivity.class);
                 intent.putExtra(Constants.PARAMS_DATA, orderBean);
                 startActivity(intent);
                 break;
