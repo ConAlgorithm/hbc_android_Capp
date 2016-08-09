@@ -9,6 +9,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
@@ -46,35 +47,18 @@ public class PushReceiver extends BroadcastReceiver implements HttpRequestListen
         String msg1 = bundle.getString(JPushInterface.EXTRA_MESSAGE);
         String msg2 = bundle.getString(JPushInterface.EXTRA_EXTRA);
         MLog.e(", msgId="+msgId+", msg1="+msg1+" msg2="+msg2);
+
         if(msg2==null || msg2.isEmpty()){
             return;
         }
 
-        //格式化返回的json对象
-        PushMessage pushMessage = new PushMessage();
-        pushMessage.title = title;
-        pushMessage.content = msg1;
-
-        JSONObject jsonObject = null;
-        try {
-            jsonObject = new JSONObject(msg2);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        if (jsonObject != null && jsonObject.has("t")) {
-            pushMessage.actionBean = (ActionBean)JsonUtils.fromJson(msg2, ActionBean.class);
-        } else {
-            pushMessage.parser(msg2);
-        }
-
+        PushMessage pushMessage = (PushMessage) JsonUtils.fromJson(msg2, PushMessage.class);
         /*
         部分工作在此处进行过滤
 		1. 是否使用当前版本
 		2. 是否超过有效期
 		3. 是否需要验证当前账号
 		 */
-        PushUtils pushUtils = new PushUtils();
-//        gotoMain(context, pushMessage);
         PushUtils.showNotification(pushMessage);
         uploadPushReceive(context,msgId);
         if("IM".equals(pushMessage.type)){

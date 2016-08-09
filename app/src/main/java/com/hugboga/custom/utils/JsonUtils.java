@@ -3,6 +3,7 @@ package com.hugboga.custom.utils;
 import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
+import com.huangbaoche.hbcframe.HbcConfig;
 
 import java.lang.reflect.Type;
 
@@ -24,7 +25,17 @@ public enum JsonUtils {
     }
 
     public static Object fromJson(String obj, Type type) {
-        return INSTANCE.gson.fromJson(obj, type);
+        Object result = null;
+        if (HbcConfig.IS_DEBUG) {
+            result = INSTANCE.gson.fromJson(obj, type);
+        } else {
+            try {
+                result = INSTANCE.gson.fromJson(obj, type);
+            } catch (Exception e) {
+                result = null;
+            }
+        }
+        return result;
     }
 
     public static <T> T getObject(String objStr, Type type) {

@@ -145,6 +145,7 @@ public class DailyWebInfoActivity extends BaseActivity implements View.OnKeyList
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
 //            fgTitle.setText(view.getTitle());
+            gotoOrder.setVisibility(View.VISIBLE);
         }
 
         @Override
