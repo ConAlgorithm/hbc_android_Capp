@@ -95,7 +95,7 @@ public class DateTimePicker extends WheelPicker {
         yearView.setLineVisible(lineVisible);
         yearView.setLineColor(lineColor);
         yearView.setOffset(offset);
-//        layout.addView(yearView);
+        layout.addView(yearView);
         TextView yearTextView = new TextView(activity);
         yearTextView.setLayoutParams(new LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT));
         yearTextView.setTextSize(textSize);
@@ -103,7 +103,7 @@ public class DateTimePicker extends WheelPicker {
         if (!TextUtils.isEmpty(yearLabel)) {
             yearTextView.setText(yearLabel);
         }
-//        layout.addView(yearTextView);
+        layout.addView(yearTextView);
 
         WheelView monthView = new WheelView(activity.getBaseContext());
         monthView.setLayoutParams(new LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT));
@@ -321,7 +321,11 @@ public class DateTimePicker extends WheelPicker {
             //截取掉前缀0以便转换为整数
             text = text.substring(1);
         }
-        return Integer.parseInt(text);
+        if(TextUtils.isEmpty(text)){
+            return 0;
+        }else {
+            return Integer.parseInt(text);
+        }
     }
 
     /**
