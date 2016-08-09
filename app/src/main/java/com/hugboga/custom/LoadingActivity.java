@@ -187,7 +187,9 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            goNext();
+            if(!adClick) {
+                goNext();
+            }
         }
     };
 
@@ -266,7 +268,7 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
 
     }
 
-
+    boolean adClick = false;
     private void showAd(final ADPictureBean adPictureBean) {
         try {
             if (ImageUtils.getScreenWidth(this) <= 720) {
@@ -282,6 +284,7 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
             show_ad.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    adClick = true;
                     handler.removeMessages(200);
                     Intent intent = new Intent(LoadingActivity.this, MainActivity.class);
                     if (actionBean != null) {
