@@ -3,6 +3,7 @@ package com.hugboga.custom.activity;
 import android.Manifest;
 import android.app.Fragment;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -39,7 +40,6 @@ import com.hugboga.custom.data.request.RequestBlackMan;
 import com.hugboga.custom.data.request.RequestIMClear;
 import com.hugboga.custom.data.request.RequestIMOrder;
 import com.hugboga.custom.data.request.RequestUnBlackMan;
-import com.hugboga.custom.fragment.FgNewOrder;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.ApiFeedbackUtils;
 import com.hugboga.custom.utils.IMUtil;
@@ -52,9 +52,6 @@ import com.zhy.m.permission.PermissionGrant;
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.xutils.common.Callback;
-import org.xutils.view.annotation.ViewInject;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -127,21 +124,20 @@ public class IMChatActivity extends BaseActivity implements IMUtil.OnImSuccessLi
             }
         }
 
-//        Bundle bundle = getIntent().getExtras();
-//        if (bundle == null) {
-//            return;
-//        }
-//        Fragment fragment = getFragmentManager().findFragmentById(R.id.conversation);
-//        ConversationFragment conversation = (ConversationFragment) fragment;
-//        if (conversation == null) {
-//            return;
-//        }
-//        Uri uri = Uri.parse(bundle.getString(KEY_TITLE));
-//        conversation.setUri(uri);
-//        view = (RelativeLayout) conversation.getView();
-//        //刷新订单信息
-//        getUserInfoToOrder(uri);
-//        IMUtil.getInstance().setOnImSuccessListener(this);
+        Bundle bundle = getIntent().getExtras();
+        if (bundle == null) {
+            return;
+        }
+        ConversationFragment conversation = (ConversationFragment) getSupportFragmentManager().findFragmentById(R.id.conversation);
+        if (conversation == null) {
+            return;
+        }
+        Uri uri = Uri.parse(bundle.getString(KEY_TITLE));
+        conversation.setUri(uri);
+        view = (RelativeLayout) conversation.getView();
+        //刷新订单信息
+        getUserInfoToOrder(uri);
+        IMUtil.getInstance().setOnImSuccessListener(this);
     }
 
     @Override
@@ -548,9 +544,11 @@ public class IMChatActivity extends BaseActivity implements IMUtil.OnImSuccessLi
             public void onClick(View v) {
                 MLog.e("进入历史订单列表");
                 Bundle bundle = new Bundle();
-                bundle.putInt(FgNewOrder.SEARCH_TYPE, FgNewOrder.SearchType.SEARCH_TYPE_HISTORY.getType());
-                bundle.putString(FgNewOrder.SEARCH_USER, userId);
-                startFragment(new FgNewOrder(), bundle);
+                bundle.putInt(NewOrderActivity.SEARCH_TYPE, NewOrderActivity.SearchType.SEARCH_TYPE_HISTORY.getType());
+                bundle.putString(NewOrderActivity.SEARCH_USER, userId);
+                Intent intent = new Intent(v.getContext(), NewOrderActivity.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
 
                 popup.dismiss();
             }

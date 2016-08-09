@@ -45,6 +45,7 @@ import com.hugboga.custom.action.ActionFactory;
 import com.hugboga.custom.activity.BaseActivity;
 import com.hugboga.custom.activity.CollectGuideListActivity;
 import com.hugboga.custom.activity.CouponActivity;
+import com.hugboga.custom.activity.IMChatActivity;
 import com.hugboga.custom.activity.InsureActivity;
 import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.activity.OrderDetailActivity;
@@ -68,7 +69,6 @@ import com.hugboga.custom.data.request.RequestUploadLocation;
 import com.hugboga.custom.data.request.RequestUserInfo;
 import com.hugboga.custom.fragment.FgChat;
 import com.hugboga.custom.fragment.FgHome;
-import com.hugboga.custom.fragment.FgIMChat;
 import com.hugboga.custom.fragment.FgTravel;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.ChannelUtils;
@@ -375,9 +375,9 @@ public class MainActivity extends BaseActivity
     private void receivePushMessage(Intent intent) {
         if (intent != null) {
             if (intent.getData() != null && "rong".equals(intent.getData().getScheme())) {
-                Bundle bundle = new Bundle();
-                bundle.putString(FgIMChat.KEY_TITLE, intent.getData().toString());
-                startFragment(new FgIMChat(), bundle);
+                Intent intentIm = new Intent(this, IMChatActivity.class);
+                intentIm.putExtra(IMChatActivity.KEY_TITLE, intent.getData().toString());
+                startActivity(intentIm);
             } else {
                 PushMessage message = (PushMessage) intent.getSerializableExtra(MainActivity.PUSH_BUNDLE_MSG);
                 if (message != null) {

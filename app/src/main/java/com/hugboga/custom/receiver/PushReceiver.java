@@ -44,15 +44,18 @@ public class PushReceiver extends BroadcastReceiver implements HttpRequestListen
         MLog.e("bundle="+bundle);
         String msgId = bundle.getString(JPushInterface.EXTRA_MSG_ID);
         String title = bundle.getString(JPushInterface.EXTRA_TITLE);
-        String msg1 = bundle.getString(JPushInterface.EXTRA_MESSAGE);
+        String message = bundle.getString(JPushInterface.EXTRA_MESSAGE);
         String msg2 = bundle.getString(JPushInterface.EXTRA_EXTRA);
-        MLog.e(", msgId="+msgId+", msg1="+msg1+" msg2="+msg2);
+        MLog.e(", msgId="+msgId+", msg1="+message+" msg2="+msg2);
 
         if(msg2==null || msg2.isEmpty()){
             return;
         }
 
         PushMessage pushMessage = (PushMessage) JsonUtils.fromJson(msg2, PushMessage.class);
+        pushMessage.messageID = msgId;
+        pushMessage.title = title;
+        pushMessage.message = message;
         /*
         部分工作在此处进行过滤
 		1. 是否使用当前版本

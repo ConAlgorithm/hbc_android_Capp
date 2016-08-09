@@ -142,7 +142,7 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, OnIt
         fgTravelRunning.removeItemDecoration(fgTravelRunning.divider);
         runningSwipeRefresh = (ZSwipeRefreshLayout) runninLayout.findViewById(R.id.swipe);
         runningEmptyLayout = (RelativeLayout) runninLayout.findViewById(R.id.list_empty);
-        runningAdapter = new NewOrderAdapter(this);
+        runningAdapter = new NewOrderAdapter(getContext());
         fgTravelRunning.setAdapter(runningAdapter);
         fgTravelRunning.setzSwipeRefreshLayout(runningSwipeRefresh);
         fgTravelRunning.setEmptyLayout(runningEmptyLayout);
@@ -159,7 +159,7 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, OnIt
         fgTravelFinish.removeItemDecoration(fgTravelFinish.divider);
         finishSwipeRefresh = (ZSwipeRefreshLayout) finishLayout.findViewById(R.id.swipe);
         finishEmptyLayout = (RelativeLayout) finishLayout.findViewById(R.id.list_empty);
-        finishAdapter = new NewOrderAdapter(this);
+        finishAdapter = new NewOrderAdapter(getContext());
         fgTravelFinish.setAdapter(finishAdapter);
         fgTravelFinish.setzSwipeRefreshLayout(finishSwipeRefresh);
         fgTravelFinish.setEmptyLayout(finishEmptyLayout);
@@ -173,7 +173,7 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, OnIt
         fgTravelCancel.removeItemDecoration(fgTravelCancel.divider);
         cancelSwipeRefresh = (ZSwipeRefreshLayout) cancelLayout.findViewById(R.id.swipe);
         cancelEmptyLayout = (RelativeLayout) cancelLayout.findViewById(R.id.list_empty);
-        cancelAdapter = new NewOrderAdapter(this);
+        cancelAdapter = new NewOrderAdapter(getContext());
         fgTravelCancel.setAdapter(cancelAdapter);
         fgTravelCancel.setzSwipeRefreshLayout(cancelSwipeRefresh);
         fgTravelCancel.setEmptyLayout(cancelEmptyLayout);

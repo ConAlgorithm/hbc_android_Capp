@@ -198,8 +198,8 @@
 }
 
 -keep class com.hugboga.custom.data.event.EventAction { *; }
--keep class com.hugboga.custom.fragment.FgPersonInfo{ *; }
--keep class com.hugboga.custom.fragment.FgIMChat{ *; }
+-keep class com.hugboga.custom.activity.PersonInfoActivity{ *; }
+-keep class com.hugboga.custom.activity.IMChatActivity{ *; }
 -keep class com.hugboga.custom.activity.BaseActivity{ *; }
 -keep class com.hugboga.custom.MyApplication{ *; }
 
@@ -219,7 +219,7 @@
 
 -keep class com.hugboga.custom.data.bean.**{*;}
 -keep class com.hugboga.custom.widget.**{*;}
--keep class com.hugboga.custom.fragment.FgChooseCity
+-keep class com.hugboga.custom.activity.ChooseCityActivity
 
 
 

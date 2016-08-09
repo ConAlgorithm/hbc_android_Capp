@@ -1,4 +1,4 @@
-package com.hugboga.custom.fragment;
+package com.hugboga.custom.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,65 +10,57 @@ import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.widget.recycler.ZListPageView;
 import com.huangbaoche.hbcframe.widget.recycler.ZSwipeRefreshLayout;
 import com.hugboga.custom.R;
-import com.hugboga.custom.activity.OrderDetailActivity;
 import com.hugboga.custom.adapter.NewOrderAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.request.RequestOrder;
 
-import org.xutils.common.Callback;
-import org.xutils.view.annotation.ContentView;
-import org.xutils.view.annotation.ViewInject;
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
-@ContentView(R.layout.activity_new_order)
-public class FgNewOrder extends BaseFragment implements ZBaseAdapter.OnItemClickListener {
+/**
+ * Created by on 16/8/9.
+ */
+public class NewOrderActivity extends BaseActivity implements ZBaseAdapter.OnItemClickListener{
 
     public static final String SEARCH_TYPE = "search_type";
     public static final String SEARCH_USER = "search_user";
 
-    @ViewInject(R.id.listview)
+    @Bind(R.id.listview)
     ZListPageView recyclerView;
-    @ViewInject(R.id.swipe)
+    @Bind(R.id.swipe)
     ZSwipeRefreshLayout swipeRefreshLayout;
-    @ViewInject(R.id.order_empty)
+    @Bind(R.id.order_empty)
     RelativeLayout emptyLayout;
 
     private NewOrderAdapter adapter;
     Bundle bundle;
 
     @Override
-    protected void initHeader() {
-       fgTitle.setText(R.string.letter_chat_btn);
-        fgRightBtn.setVisibility(View.GONE);
+    public void onCreate(Bundle arg0) {
+        super.onCreate(arg0);
+        setContentView(R.layout.activity_new_order);
+        ButterKnife.bind(this);
+        initView();
     }
 
     @Override
-    protected void initView() {
-        bundle = getArguments();
+    public void onDestroy() {
+        super.onDestroy();
+        ButterKnife.unbind(this);
+    }
+
+    private void initView() {
+        bundle = getIntent().getExtras();
         if (bundle == null) {
             return;
         }
         SearchType searchType = SearchType.getSerachType(bundle.getInt(SEARCH_TYPE, SearchType.SEARCH_TYPE_HISTORY.getType()));
+        initDefaultTitleBar();
         initTitle(searchType);
-        initListView(searchType);
-    }
+        fgTitle.setText(R.string.letter_chat_btn);
+        fgRightBtn.setVisibility(View.GONE);
 
-    @Override
-    protected Callback.Cancelable requestData() {
-        return null;
-    }
-
-    @Override
-    protected void inflateContent() {
-
-    }
-
-    /**
-     * 设置列表数据
-     *
-     * @param searchType
-     */
-    private void initListView(SearchType searchType) {
         adapter = new NewOrderAdapter(this);
         recyclerView.setAdapter(adapter);
         recyclerView.setzSwipeRefreshLayout(swipeRefreshLayout);
@@ -87,11 +79,11 @@ public class FgNewOrder extends BaseFragment implements ZBaseAdapter.OnItemClick
     private BaseRequest getRequest(SearchType searchType) {
         switch (searchType) {
             case SEARCH_TYPE_NEW:
-                return new RequestOrder(getActivity(), bundle.getString(SEARCH_USER, ""));
+                return new RequestOrder(this, bundle.getString(SEARCH_USER, ""));
             case SEARCH_TYPE_HISTORY:
-                return new RequestOrder(getActivity(), bundle.getString(SEARCH_USER, ""));
+                return new RequestOrder(this, bundle.getString(SEARCH_USER, ""));
             default:
-                return new RequestOrder(getActivity(), bundle.getString(SEARCH_USER, ""));
+                return new RequestOrder(this, bundle.getString(SEARCH_USER, ""));
         }
     }
 
@@ -132,19 +124,14 @@ public class FgNewOrder extends BaseFragment implements ZBaseAdapter.OnItemClick
             OrderBean order = adapter.getDatas().get(position);
             if (order != null) {
                 // 跳转到订单详情
-//                Bundle bundle = new Bundle();
-//                bundle.putInt(KEY_BUSINESS_TYPE, order.orderType);
-//                bundle.putInt(KEY_GOODS_TYPE, order.orderGoodsType);
-//                bundle.putString(FgOrder.KEY_ORDER_ID, order.orderNo);
-//                startFragment(new FgOrder(), bundle);
                 OrderDetailActivity.Params params = new OrderDetailActivity.Params();
                 params.orderType = order.orderType;
                 params.orderId = order.orderNo;
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(Constants.PARAMS_DATA, params);
-                Intent intent = new Intent(getActivity(), OrderDetailActivity.class);
+                Intent intent = new Intent(this, OrderDetailActivity.class);
                 intent.putExtra(Constants.PARAMS_DATA, params);
-                getActivity().startActivity(intent);
+                startActivity(intent);
             }
         }
     }
@@ -180,5 +167,4 @@ public class FgNewOrder extends BaseFragment implements ZBaseAdapter.OnItemClick
             }
         }
     }
-
 }

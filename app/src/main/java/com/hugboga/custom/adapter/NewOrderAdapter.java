@@ -1,5 +1,7 @@
 package com.hugboga.custom.adapter;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -25,7 +27,6 @@ import com.hugboga.custom.data.bean.ChatInfo;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.parser.ParserChatInfo;
-import com.hugboga.custom.fragment.BaseFragment;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
@@ -43,12 +44,12 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
 
     private final ImageOptions options;
     DialogUtil dialog;
-    BaseFragment fragment;
+    private Context context;
 
-    public NewOrderAdapter(BaseFragment fragment) {
-        super(fragment.getActivity());
-        this.fragment = fragment;
-        dialog = DialogUtil.getInstance(fragment.getActivity());
+    public NewOrderAdapter(Context _context) {
+        super(_context);
+        this.context = _context;
+        dialog = DialogUtil.getInstance((Activity) context);
         options = new ImageOptions.Builder()
                 .setFailureDrawableId(R.mipmap.chat_head)
                 .setLoadingDrawableId(R.mipmap.chat_head)
@@ -77,7 +78,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
             vh.mCarType.setVisibility(View.GONE);
 
             if (orderBean.carPool) {//是否拼车
-                Drawable drawable = fragment.getResources().getDrawable(R.mipmap.carpooling);
+                Drawable drawable = context.getResources().getDrawable(R.mipmap.carpooling);
                 drawable.setBounds(0, 0, UIUtils.dip2px(36), UIUtils.dip2px(18));
                 SpannableString spannable = new SpannableString("[icon]" + orderBean.lineSubject);
                 ImageSpan span = new ImageSpan(drawable, ImageSpan.ALIGN_BASELINE);
@@ -477,7 +478,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
     }
     private void gotoChatView( final String chatId,String targetAvatar,String targetName) {
         String titleJson = getChatInfo(chatId,  targetAvatar, targetName, "1");
-        RongIM.getInstance().startPrivateChat(fragment.getActivity(), "G"+chatId, titleJson);
+        RongIM.getInstance().startPrivateChat(context, "G"+chatId, titleJson);
     }
     private String getChatInfo(String userId, String userAvatar, String title, String targetType) {
         ChatInfo chatInfo = new ChatInfo();
