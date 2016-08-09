@@ -70,6 +70,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.qqtheme.framework.picker.TimePicker;
 
+import static android.R.attr.id;
 import static android.view.View.GONE;
 import static com.hugboga.custom.R.id.man_name;
 import static com.hugboga.custom.R.id.time_text_click;
