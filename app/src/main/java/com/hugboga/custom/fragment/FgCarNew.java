@@ -268,9 +268,11 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
 
     //计算最大行李数
     private void genMaxLuggage(){
-        maxLuuages = (carBean.capOfLuggage+ carBean.capOfPerson) - manLuggageBean.mans - Math.round(manLuggageBean.childSeats * 1.5f) - (manLuggageBean.childs - manLuggageBean.childSeats);
-        maxLuggageContent.setText(maxLuuages+"件");
-        EventBus.getDefault().post(new EventAction(EventType.MAX_LUGGAGE_NUM,maxLuuages));
+        if(null != manLuggageBean) {
+            maxLuuages = (carBean.capOfLuggage + carBean.capOfPerson) - manLuggageBean.mans - Math.round(manLuggageBean.childSeats * 1.5f) - (manLuggageBean.childs - manLuggageBean.childSeats);
+            maxLuggageContent.setText(maxLuuages + "件");
+            EventBus.getDefault().post(new EventAction(EventType.MAX_LUGGAGE_NUM, maxLuuages));
+        }
     }
 
 
