@@ -473,9 +473,9 @@
 
                 <RelativeLayout
                     android:id="@+id/childseat_layout"
-                    android:visibility="gone"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:visibility="gone">
 
                     <TextView
                         android:id="@+id/child_left"
@@ -747,70 +747,77 @@
             android:textColor="@color/coupon_empty_text"
             android:textSize="15sp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="30dp"
-            android:gravity="center"
-            android:text="@string/your_service"
-            android:textColor="@color/coupon_empty_text"
-            android:textSize="15sp" />
-
         <LinearLayout
+            android:id="@+id/call_phone"
             android:layout_width="match_parent"
+            android:gravity="center_horizontal"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:gravity="center_horizontal">
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
+                android:layout_marginTop="30dp"
                 android:gravity="center"
-                android:text="境内拨打:"
+                android:text="@string/your_service"
                 android:textColor="@color/coupon_empty_text"
                 android:textSize="15sp" />
 
-            <TextView
-                android:id="@+id/in_phone"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginLeft="10dp"
-                android:gravity="center"
-                android:text="400-610-0066"
-                android:textColor="#629ffa"
-                android:textSize="15sp" />
+                android:layout_marginTop="15dp"
+                android:gravity="center_horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:gravity="center"
+                    android:text="境内拨打:"
+                    android:textColor="@color/coupon_empty_text"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/in_phone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="10dp"
+                    android:gravity="center"
+                    android:text="400-610-0066"
+                    android:textColor="#629ffa"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center_horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:gravity="center"
+                    android:text="境外拨打:"
+                    android:textColor="@color/coupon_empty_text"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/out_phone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="10dp"
+                    android:gravity="center"
+                    android:text="+86 10-57812003"
+                    android:textColor="#629ffa"
+                    android:textSize="15sp" />
+            </LinearLayout>
         </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:gravity="center_horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:gravity="center"
-                android:text="境外拨打:"
-                android:textColor="@color/coupon_empty_text"
-                android:textSize="15sp" />
-
-            <TextView
-                android:id="@+id/out_phone"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginLeft="10dp"
-                android:gravity="center"
-                android:text="+86 10-57812003"
-                android:textColor="#629ffa"
-                android:textSize="15sp" />
-        </LinearLayout>
-
     </LinearLayout>
 </RelativeLayout>

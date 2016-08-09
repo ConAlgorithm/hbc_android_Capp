@@ -43,6 +43,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static android.view.View.GONE;
 import static com.hugboga.custom.R.id.all_money_left_text;
 import static com.hugboga.custom.R.id.all_money_right;
 import static com.hugboga.custom.R.id.average_money;
@@ -147,38 +148,20 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
     TextView perChargeYuan;
     @Bind(R.id.man_left)
     TextView manLeft;
-    @Bind(man_right)
-    TextView manRight;
-    @Bind(man_have)
-    TextView manHave;
     @Bind(R.id.child_left)
     TextView childLeft;
-    @Bind(child_right)
-    TextView childRight;
     @Bind(R.id.max_luggage_tv)
     TextView maxLuggageTv;
-    @Bind(max_luggage_content)
-    TextView maxLuggageContent;
     @Bind(R.id.max_luggage_img)
     ImageView maxLuggageImg;
     @Bind(R.id.max_luggage_tips)
     TextView maxLuggageTips;
-    @Bind(days_left)
-    TextView daysLeft;
-    @Bind(days_right)
-    TextView daysRight;
     @Bind(R.id.all_money)
     TextView allMoney;
-    @Bind(all_money_right)
-    TextView allMoneyRight;
     @Bind(R.id.average_left)
     TextView averageLeft;
-    @Bind(average_money)
-    TextView averageMoney;
     @Bind(R.id.all_money_left)
     TextView allMoneyLeft;
-    @Bind(all_money_left_text)
-    TextView allMoneyLeftText;
     @Bind(R.id.all_money_info)
     TextView allMoneyInfo;
     @Bind(R.id.childseat_layout)
@@ -186,6 +169,30 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
 
     @Bind(R.id.empty_text)
     TextView empty_text;
+    @Bind(R.id.man_right)
+    TextView manRight;
+    @Bind(R.id.man_have)
+    TextView manHave;
+    @Bind(R.id.child_right)
+    TextView childRight;
+    @Bind(R.id.max_luggage_content)
+    TextView maxLuggageContent;
+    @Bind(R.id.days_left)
+    TextView daysLeft;
+    @Bind(R.id.days_right)
+    TextView daysRight;
+    @Bind(R.id.all_money_right)
+    TextView allMoneyRight;
+    @Bind(R.id.line)
+    TextView line;
+    @Bind(R.id.average_money)
+    TextView averageMoney;
+    @Bind(R.id.all_money_left_text)
+    TextView allMoneyLeftText;
+    @Bind(R.id.bottom)
+    RelativeLayout bottom;
+    @Bind(R.id.call_phone)
+    LinearLayout callPhone;
 
     @Override
     public void onCreate(Bundle arg0) {
@@ -295,9 +302,9 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
         startBean = (CityBean) this.getIntent().getSerializableExtra("startBean");
         endBean = (CityBean) this.getIntent().getSerializableExtra("endBean");
 
-        inNum = this.getIntent().getIntExtra("innum",0);
-        outNum = this.getIntent().getIntExtra("outnum",0);
-        isHalfTravel = this.getIntent().getBooleanExtra("isHalfTravel",false);
+        inNum = this.getIntent().getIntExtra("innum", 0);
+        outNum = this.getIntent().getIntExtra("outnum", 0);
+        isHalfTravel = this.getIntent().getBooleanExtra("isHalfTravel", false);
 
         orderType = this.getIntent().getStringExtra("orderType");
     }
@@ -315,14 +322,16 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
                 halfDay = bean.halfDay == 1 ? "1" : "0";
                 if (bean.noneCarsState == 1) {
                     coupon_listview_empty.setVisibility(View.VISIBLE);
-                    scrollView.setVisibility(View.GONE);
-                    nextBtnClick.setVisibility(View.GONE);
+                    scrollView.setVisibility(GONE);
+                    nextBtnClick.setVisibility(GONE);
                     empty_text.setText(bean.noneCarsReason);
-                }else if(bean.noneCarsState == 2){
+                    callPhone.setVisibility(GONE);
+                } else if (bean.noneCarsState == 2) {
                     coupon_listview_empty.setVisibility(View.VISIBLE);
-                    scrollView.setVisibility(View.GONE);
-                    nextBtnClick.setVisibility(View.GONE);
+                    scrollView.setVisibility(GONE);
+                    nextBtnClick.setVisibility(GONE);
                     empty_text.setText(bean.noneCarsReason);
+                    callPhone.setVisibility(View.VISIBLE);
                 } else {
                     initListData();
                     getMatchCarIndex();
@@ -372,7 +381,7 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
 
 
     private void genNewContent() {
-        if(Integer.valueOf(childseatNum) > 0){
+        if (Integer.valueOf(childseatNum) > 0) {
             childseatLayout.setVisibility(View.VISIBLE);
         }
         int mans = Integer.valueOf(adultNum) + Integer.valueOf(childrenNum);
@@ -405,14 +414,14 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
         carType.setText(carBean.carDesc);
         carContent.setText(carBean.models);
         if (TextUtils.isEmpty(carBean.serviceCityNote)) {
-            mans_serviceCityNote.setVisibility(View.GONE);
+            mans_serviceCityNote.setVisibility(GONE);
         } else {
             mans_serviceCityNote.setVisibility(View.VISIBLE);
             mans_serviceCityNote.setText(carBean.serviceCityNote);
         }
 
         if (TextUtils.isEmpty(carBean.serviceCityNote)) {
-            cars_serviceCityNote.setVisibility(View.GONE);
+            cars_serviceCityNote.setVisibility(GONE);
         } else {
             cars_serviceCityNote.setVisibility(View.VISIBLE);
             cars_serviceCityNote.setText(carBean.serviceCityNote);
@@ -440,7 +449,7 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
             carsMoneyAllInfo.removeAllViews();
             if (isMando) {
                 if (carsMoneyAllInfo.isShown()) {
-                    carsMoneyAllInfo.setVisibility(View.GONE);
+                    carsMoneyAllInfo.setVisibility(GONE);
                     carsMoneyShowInfo.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.journey_unfold, 0, 0, 0);
                     carsMoneyShowInfo.setText("展开详情");
                 } else {
@@ -485,9 +494,9 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
 
                     day_line2_money_right.setText(dayQuoteBean.vehiclePrice + "元");
                 } else {
-                    day_line2_money_middle.setVisibility(View.GONE);
-                    day_line2_money_left.setVisibility(View.GONE);
-                    day_line2_money_right.setVisibility(View.GONE);
+                    day_line2_money_middle.setVisibility(GONE);
+                    day_line2_money_left.setVisibility(GONE);
+                    day_line2_money_right.setVisibility(GONE);
                 }
 
 
@@ -502,9 +511,9 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
                     }
                     day_line3_money_right.setText(dayQuoteBean.emptyDrivePrice + "元");
                 } else {
-                    day_line3_money_middle.setVisibility(View.GONE);
-                    day_line3_money_left.setVisibility(View.GONE);
-                    day_line3_money_right.setVisibility(View.GONE);
+                    day_line3_money_middle.setVisibility(GONE);
+                    day_line3_money_left.setVisibility(GONE);
+                    day_line3_money_right.setVisibility(GONE);
                 }
 
                 if (dayQuoteBean.longDisPrice != 0) {
@@ -514,9 +523,9 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
                     day_line4_money_left.setText(getString(R.string.longDisPrice));
                     day_line4_money_right.setText(dayQuoteBean.longDisPrice + "元");
                 } else {
-                    day_line4_money_middle.setVisibility(View.GONE);
-                    day_line4_money_left.setVisibility(View.GONE);
-                    day_line4_money_right.setVisibility(View.GONE);
+                    day_line4_money_middle.setVisibility(GONE);
+                    day_line4_money_left.setVisibility(GONE);
+                    day_line4_money_right.setVisibility(GONE);
                 }
 
                 carsMoneyAllInfo.addView(view);
@@ -532,7 +541,7 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
             mansMoneyAllInfo.removeAllViews();
             if (isMando) {
                 if (mansMoneyAllInfo.isShown()) {
-                    mansMoneyAllInfo.setVisibility(View.GONE);
+                    mansMoneyAllInfo.setVisibility(GONE);
                     mansMoneyShowInfo.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.journey_unfold, 0, 0, 0);
                     mansMoneyShowInfo.setText("展开详情");
                 } else {
@@ -576,9 +585,9 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
                     }
                     day_line2_money_right.setText(dayQuoteBean.guideServicePrice + "元");
                 } else {
-                    day_line2_money_middle.setVisibility(View.GONE);
-                    day_line2_money_left.setVisibility(View.GONE);
-                    day_line2_money_right.setVisibility(View.GONE);
+                    day_line2_money_middle.setVisibility(GONE);
+                    day_line2_money_left.setVisibility(GONE);
+                    day_line2_money_right.setVisibility(GONE);
                 }
 
                 if (dayQuoteBean.stayPrice != 0) {
@@ -592,9 +601,9 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
                     }
                     day_line3_money_right.setText(dayQuoteBean.stayPrice + "元");
                 } else {
-                    day_line3_money_middle.setVisibility(View.GONE);
-                    day_line3_money_left.setVisibility(View.GONE);
-                    day_line3_money_right.setVisibility(View.GONE);
+                    day_line3_money_middle.setVisibility(GONE);
+                    day_line3_money_left.setVisibility(GONE);
+                    day_line3_money_right.setVisibility(GONE);
                 }
 
                 mansMoneyAllInfo.addView(view);
@@ -608,25 +617,25 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
         super.onDataRequestError(errorInfo, request);
         coupon_listview_empty.setVisibility(View.VISIBLE);
-        scrollView.setVisibility(View.GONE);
+        scrollView.setVisibility(GONE);
     }
 
 
     private void changeLeftRightStatus() {
         if (selctIndex == 0) {
-            left.setVisibility(View.GONE);
+            left.setVisibility(GONE);
             right.setVisibility(View.VISIBLE);
         } else if (selctIndex < (cars.size() - 1)) {
             right.setVisibility(View.VISIBLE);
             left.setVisibility(View.VISIBLE);
         } else if (selctIndex == (cars.size() - 1)) {
-            right.setVisibility(View.GONE);
+            right.setVisibility(GONE);
             left.setVisibility(View.VISIBLE);
         }
 
     }
 
-    @OnClick({R.id.header_left_btn,R.id.all_money_info, R.id.max_luggage_img, R.id.in_phone, R.id.out_phone, R.id.befer48_tips, R.id.left, R.id.right, R.id.mans_money_show_info, R.id.cars_money_show_info, R.id.next_btn_click})
+    @OnClick({R.id.header_left_btn, R.id.all_money_info, R.id.max_luggage_img, R.id.in_phone, R.id.out_phone, R.id.befer48_tips, R.id.left, R.id.right, R.id.mans_money_show_info, R.id.cars_money_show_info, R.id.next_btn_click})
     public void onClick(View view) {
         HashMap<String, String> map = new HashMap<String, String>();
         switch (view.getId()) {
@@ -637,7 +646,7 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
 //                startFragment(new FgOrderInfo(), bundleInfo);
 
 
-                Intent intent = new Intent(activity,OrderInfoActivity.class);
+                Intent intent = new Intent(activity, OrderInfoActivity.class);
                 intent.putExtras(bundleInfo);
                 startActivity(intent);
                 break;
@@ -707,7 +716,7 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
                         goNext();
                     }
                 } else {
-                    startActivity(new Intent(activity,LoginActivity.class));
+                    startActivity(new Intent(activity, LoginActivity.class));
                 }
                 break;
         }
@@ -743,7 +752,7 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
 //        fgOrderNew.setArguments(bundleCar);
 //        startFragment(fgOrderNew);
 
-        Intent intent = new Intent(activity,OrderNewActivity.class);
+        Intent intent = new Intent(activity, OrderNewActivity.class);
         intent.putExtras(bundleCar);
         startActivity(intent);
     }
