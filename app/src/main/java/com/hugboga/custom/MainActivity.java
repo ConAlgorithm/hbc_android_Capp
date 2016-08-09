@@ -74,9 +74,11 @@ import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.ChannelUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.IMUtil;
+import com.hugboga.custom.utils.JsonUtils;
 import com.hugboga.custom.utils.LocationUtils;
 import com.hugboga.custom.utils.PermissionRes;
 import com.hugboga.custom.utils.PhoneInfo;
+import com.hugboga.custom.utils.PushUtils;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.Tools;
 import com.zhy.m.permission.MPermissions;
@@ -196,16 +198,19 @@ public class MainActivity extends BaseActivity
         if (actionBean != null) {
             ActionFactory actionFactory = new ActionFactory(this);
             actionFactory.doAction(actionBean);
-            //TODO 聊天和行程列表需要单独处理
         }
+    }
+
+    private void testPush() {
+        String teset  = "{\"action\":\"{\\\"t\\\":\\\"2\\\",\\\"v\\\":\\\"16\\\"}\",\"orderNo\":\"J100091049121\",\"type\":\"G1\",\"orderType\":\"1\",\"sound\":\"newOrder.mp3\"}";
+        PushMessage pushMessage = (PushMessage) JsonUtils.fromJson(teset, PushMessage.class);
+        pushMessage.title = "";
+        pushMessage.message = "您有1个新订单，能收到声音吗,请赶快登录皇包车-司导端APP去接单吧";
+        PushUtils.showNotification(pushMessage);
     }
 
     private void showAdWebView(String url){
         if(null != url) {
-//            Bundle bundle = new Bundle();
-//            bundle.putString(WebInfoActivity.WEB_URL, url);
-//            startFragment(new FgActivity(), bundle);
-
             Intent intent = new Intent(activity,WebInfoActivity.class);
             intent.putExtra(WebInfoActivity.WEB_URL, url);
             startActivity(intent);
@@ -377,13 +382,15 @@ public class MainActivity extends BaseActivity
                 PushMessage message = (PushMessage) intent.getSerializableExtra(MainActivity.PUSH_BUNDLE_MSG);
                 if (message != null) {
                     uploadPushClick(message.messageID);
-                    if (message.actionBean != null) {
+                    ActionBean actionBean = message.getActionBean();
+                    if (actionBean != null) {
                         ActionFactory actionFactory = new ActionFactory(this);
                         actionFactory.doAction(actionBean);
+                        this.actionBean = actionBean;
                     } else {
                         if ("IM".equals(message.type)) {
                             gotoChatList();
-                        } else if (message.orderType == 888) {
+                        } else if ("888".equals(message.orderType)) {
                             if (getFragmentList().size() > 3) {
                                 for (int i = getFragmentList().size() - 1; i >= 3; i--) {
                                     getFragmentList().get(i).finish();
@@ -419,8 +426,8 @@ public class MainActivity extends BaseActivity
 //        bundle.putString(FgOrder.KEY_ORDER_ID, message.orderID);
 //        startFragment(new FgOrder(), bundle);
         OrderDetailActivity.Params params = new OrderDetailActivity.Params();
-        params.orderType = message.orderType;
-        params.orderId = message.orderID;
+        params.orderType = CommonUtils.getCountInteger(message.orderType);
+        params.orderId = message.orderNo;
 
         Intent intent = new Intent(this, OrderDetailActivity.class);
         intent.putExtra(Constants.PARAMS_DATA, params);
@@ -435,6 +442,7 @@ public class MainActivity extends BaseActivity
                 if (actionBean != null) {
                     ActionFactory actionFactory = new ActionFactory(this);
                     actionFactory.doAction(actionBean);
+                    actionBean = null;
                 }
             case CLICK_USER_LOOUT:
                 refreshContent();
