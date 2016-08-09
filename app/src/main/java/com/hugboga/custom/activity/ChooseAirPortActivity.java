@@ -7,7 +7,12 @@ import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
@@ -38,7 +43,6 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 /**
  * Created on 16/8/5.
@@ -50,6 +54,30 @@ public class ChooseAirPortActivity extends BaseActivity implements SideBar.OnTou
     public static final String KEY_AIRPORT = "key_airport";
 
     public AirportAdapter adapter;
+    @Bind(R.id.header_left_btn)
+    ImageView headerLeftBtn;
+    @Bind(R.id.head_text_right)
+    TextView headTextRight;
+    @Bind(R.id.head_search)
+    EditText headSearch;
+    @Bind(R.id.head_search_clean)
+    ImageView headSearchClean;
+    @Bind(R.id.activity_head_layout)
+    RelativeLayout activityHeadLayout;
+    @Bind(R.id.city_choose_head_text)
+    TextView cityChooseHeadText;
+    @Bind(R.id.choose_city_head_layout)
+    LinearLayout chooseCityHeadLayout;
+    @Bind(R.id.arrival_empty_layout)
+    LinearLayout arrivalEmptyLayout;
+    @Bind(R.id.country_lvcountry)
+    ListView countryLvcountry;
+    @Bind(R.id.dialog)
+    TextView dialog;
+    @Bind(R.id.sidrbar)
+    SideBar sidrbar;
+    @Bind(R.id.city_choose_btn)
+    Button cityChooseBtn;
     private ListView sortListView;
     private long t = 0;
     private List<AirPort> sourceDateList;
@@ -67,6 +95,19 @@ public class ChooseAirPortActivity extends BaseActivity implements SideBar.OnTou
         mDbManager = new DBHelper(activity).getDbManager();
         sharedPer = new SharedPre(activity);
 //		fgTitle.setText(getString(R.string.title_choose_airport));
+        headTextRight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String keyword = editSearch.getText().toString().trim();
+                requestDate(keyword); //进行点击搜索
+            }
+        });
+        headerLeftBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     protected void initView() {
@@ -78,7 +119,7 @@ public class ChooseAirPortActivity extends BaseActivity implements SideBar.OnTou
         sideBar.setTextView(dialog);
         //设置右侧触摸监听
         sideBar.setOnTouchingLetterChangedListener(this);
-        sortListView = (ListView)findViewById(R.id.country_lvcountry);
+        sortListView = (ListView) findViewById(R.id.country_lvcountry);
         sortListView.setOnItemClickListener(this);
         editSearch = (TextView) findViewById(R.id.head_search);
         editSearch.setHint("输入城市或机场");
@@ -93,8 +134,8 @@ public class ChooseAirPortActivity extends BaseActivity implements SideBar.OnTou
     }
 
 
-    private void getGPSAirport(){
-        if(null != GPSBean.lat && null!= GPSBean.lng) {
+    private void getGPSAirport() {
+        if (null != GPSBean.lat && null != GPSBean.lng) {
             RequestUploadLocationV11 requestUploadLocationV11 = new RequestUploadLocationV11(activity);
             HttpRequestUtils.request(activity, requestUploadLocationV11, this, false);
         }
@@ -240,17 +281,17 @@ public class ChooseAirPortActivity extends BaseActivity implements SideBar.OnTou
             RequestAirPort mParser = (RequestAirPort) request;
             sourceDateList = mParser.getData();
             inflateContent();
-        }else if(request instanceof RequestUploadLocationV11){
+        } else if (request instanceof RequestUploadLocationV11) {
             RequestUploadLocationV11 mParser = (RequestUploadLocationV11) request;
             LocationData data = mParser.getData();
             AirPort airPort;
-            if(data.airports.size() > 0 && !data.city.countryId.equalsIgnoreCase(68+"")){
+            if (data.airports.size() > 0 && !data.city.countryId.equalsIgnoreCase(68 + "")) {
                 List<AirPort> gpsDateList = new ArrayList<>();
-                for(int i = 0;i < data.airports.size();i++) {
+                for (int i = 0; i < data.airports.size(); i++) {
                     airPort = new AirPort();
-                    if(i == 0) {
+                    if (i == 0) {
                         airPort.isFirst = true;
-                    }else{
+                    } else {
                         airPort.isFirst = false;
                     }
                     airPort.cityFirstLetter = getString(R.string.location_airport);
@@ -279,19 +320,6 @@ public class ChooseAirPortActivity extends BaseActivity implements SideBar.OnTou
         adapter.updateListView(sourceDateList);
     }
 
-    @OnClick({R.id.head_search_clean, R.id.head_text_right})
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.head_search_clean:
-                editSearch.setText("");
-                break;
-            case R.id.head_text_right:
-                String keyword = editSearch.getText().toString().trim();
-                if (TextUtils.isEmpty(keyword)) return;
-                requestDate(keyword); //进行点击搜索
-                break;
-        }
-    }
 
     @Override
     public void onTouchingLetterChanged(String s) {
@@ -307,12 +335,12 @@ public class ChooseAirPortActivity extends BaseActivity implements SideBar.OnTou
     public void onItemClick(AdapterView<?> parent, View view,
                             int position, long id) {
         AirPort airPort = sourceDateList.get(position);
-        if(TextUtils.isEmpty(airPort.airportName)){
+        if (TextUtils.isEmpty(airPort.airportName)) {
             return;
         }
         saveHistoryDate(airPort);
         finish();
-        EventBus.getDefault().post(new EventAction(EventType.AIR_PORT_BACK,sourceDateList.get(position)));
+        EventBus.getDefault().post(new EventAction(EventType.AIR_PORT_BACK, sourceDateList.get(position)));
 
     }
 
@@ -356,7 +384,7 @@ public class ChooseAirPortActivity extends BaseActivity implements SideBar.OnTou
         if (TextUtils.isEmpty(s)) {
             requestData();
         } else {
-            requestDate(editSearch.getText().toString().trim());
+//            requestDate(editSearch.getText().toString().trim());
         }
     }
 }

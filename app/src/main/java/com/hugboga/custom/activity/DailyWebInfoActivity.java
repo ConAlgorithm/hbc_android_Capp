@@ -1,7 +1,6 @@
 package com.hugboga.custom.activity;
 
 import android.annotation.TargetApi;
-import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -30,9 +29,11 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.CollectGuideBean;
 import com.hugboga.custom.data.bean.SkuItemBean;
+import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.net.WebAgent;
 import com.hugboga.custom.data.request.RequestGoodsById;
 import com.hugboga.custom.utils.ChannelUtils;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DBHelper;
 import com.hugboga.custom.widget.DialogUtil;
 import com.umeng.analytics.MobclickAgent;
@@ -88,7 +89,7 @@ public class DailyWebInfoActivity extends BaseActivity implements View.OnKeyList
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.cityBean = (CityBean)getIntent().getSerializableExtra("cityBean");
-        this.collectGuideBean = (CollectGuideBean)getIntent().getSerializableExtra("cityBean");
+        this.collectGuideBean = (CollectGuideBean)getIntent().getSerializableExtra("collectGuideBean");
         setContentView(R.layout.fg_sku_detail);
         ButterKnife.bind(this);
         initView();
@@ -213,6 +214,7 @@ public class DailyWebInfoActivity extends BaseActivity implements View.OnKeyList
     @Override
     public void onDestroy() {
         super.onDestroy();
+        ButterKnife.unbind(this);
     }
 
     @Override
@@ -308,20 +310,14 @@ public class DailyWebInfoActivity extends BaseActivity implements View.OnKeyList
         HashMap<String,String> map = new HashMap<String,String>();
         switch (view.getId()){
             case R.id.header_right_btn:
-                if(skuItemBean!=null){
-                    String title =skuItemBean.goodsName;
-                    String content = getString(R.string.wx_share_content);
-                    String shareUrl = skuItemBean.shareURL==null?skuItemBean.skuDetailUrl:skuItemBean.shareURL;
-                    shareUrl = shareUrl==null?"http://www.huangbaoche.com":shareUrl;
-                    skuShare(skuItemBean.goodsPicture,title,content,shareUrl);
-                }
+                skuShare(UrlLibs.H5_DAIRY);
                 break;
             case R.id.goto_order:
 
                 Bundle bundle =new Bundle();
 
                 if (cityBean != null) {
-                    bundle.putSerializable(SkuDetailActivity.WEB_CITY,cityBean);
+                    bundle.putSerializable("cityBean",cityBean);
                 }
                 bundle.putString("source",source);
 //                bundle.putSerializable("collectGuideBean",collectGuideBean);
@@ -335,24 +331,8 @@ public class DailyWebInfoActivity extends BaseActivity implements View.OnKeyList
         }
     }
 
-    private void skuShare(String goodsPicture, final String title, final String content, final String shareUrl) {
-        if (isGoodsOut) {
-            return;
-        }
-        final AlertDialog.Builder callDialog = new AlertDialog.Builder(activity);
-        callDialog.setTitle("分享");
-        final String [] callItems = new String[]{"分享好友","分享朋友圈"};
-        callDialog.setItems(callItems, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                uMengClickEvent("share_route");
-                WXShareUtils.getInstance(activity).share(which+1, skuItemBean.goodsPicture, title, content, shareUrl);
-            }
-        });
-        AlertDialog dialog = callDialog.create();
-        dialog.setCancelable(true);
-        dialog.setCanceledOnTouchOutside(true);
-        dialog.show();
+    private void skuShare(final String shareUrl) {
+        CommonUtils.shareDialog(activity,R.drawable.wxshare_img, getString(R.string.share_title), getString(R.string.share_content), shareUrl);
     }
 
     private void uMengClickEvent(String type){

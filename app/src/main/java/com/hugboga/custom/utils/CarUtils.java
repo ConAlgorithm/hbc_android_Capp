@@ -27,6 +27,11 @@ public class CarUtils {
         selectCarBean.pricemark = carBean.pricemark;
         selectCarBean.expectedCompTime = carBean.expectedCompTime;
         selectCarBean.originalPrice = carBean.originalPrice;
+
+        selectCarBean.special = carBean.special;
+        selectCarBean.carIntroduction = carBean.carIntroduction;
+        selectCarBean.carPictures = carBean.carPictures;
+        selectCarBean.carId = carBean.carId;
         return selectCarBean;
     }
 

@@ -70,6 +70,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.qqtheme.framework.picker.TimePicker;
 
+import static android.R.attr.id;
 import static android.view.View.GONE;
 import static com.hugboga.custom.R.id.man_name;
 import static com.hugboga.custom.R.id.time_text_click;
@@ -915,7 +916,7 @@ public class OrderNewActivity extends BaseActivity {
                 areaCode4MostFit = flightBean.arrivalAirport.areaCode;
                 break;
             case 2:
-                startCityId4MostFit = poiBean.id + "";
+                startCityId4MostFit = airPort.cityId + "";
                 date4MostFit = serverDate + " " + serverTime + ":00";
                 areaCode4MostFit = airPort.areaCode + "";
                 break;
@@ -926,7 +927,7 @@ public class OrderNewActivity extends BaseActivity {
                 break;
             case 4:
                 date4MostFit = serverDate + " " + serverTime + ":00";
-                startCityId4MostFit = startPoi.id + "";
+                startCityId4MostFit = startBean.cityId + "";
                 areaCode4MostFit = startBean.areaCode;
                 break;
             case 5:

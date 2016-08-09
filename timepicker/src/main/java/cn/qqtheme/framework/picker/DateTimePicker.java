@@ -95,7 +95,7 @@ public class DateTimePicker extends WheelPicker {
         yearView.setLineVisible(lineVisible);
         yearView.setLineColor(lineColor);
         yearView.setOffset(offset);
-//        layout.addView(yearView);
+        layout.addView(yearView);
         TextView yearTextView = new TextView(activity);
         yearTextView.setLayoutParams(new LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT));
         yearTextView.setTextSize(textSize);
@@ -103,7 +103,7 @@ public class DateTimePicker extends WheelPicker {
         if (!TextUtils.isEmpty(yearLabel)) {
             yearTextView.setText(yearLabel);
         }
-//        layout.addView(yearTextView);
+        layout.addView(yearTextView);
 
         WheelView monthView = new WheelView(activity.getBaseContext());
         monthView.setLayoutParams(new LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT));
@@ -222,7 +222,7 @@ public class DateTimePicker extends WheelPicker {
                 if (mode != YEAR_MONTH) {
                     //年月日或年月模式下，需要根据年份及月份动态计算天数
                     days.clear();
-                    int maxDays = DateUtils.calculateDaysInMonth(stringToYearMonthDay(years.get(selectedYearIndex)), stringToYearMonthDay(item));
+                    int maxDays = DateUtils.calculateDaysInMonth(stringToYearMonthDay(years.get(selectedYearIndex)), (selectedIndex+1));
                     for (int i = 1; i <= maxDays; i++) {
                         days.add(DateUtils.fillZero(i));
                     }
@@ -321,7 +321,11 @@ public class DateTimePicker extends WheelPicker {
             //截取掉前缀0以便转换为整数
             text = text.substring(1);
         }
-        return Integer.parseInt(text);
+        if(TextUtils.isEmpty(text)){
+            return 0;
+        }else {
+            return Integer.parseInt(text);
+        }
     }
 
     /**

@@ -65,7 +65,7 @@ public class DatePickerActivity extends BaseActivity {
         initWeek();
         mChooseDateBean = (ChooseDateBean)this.getIntent().getSerializableExtra("chooseDateBean");
         nextYear = Calendar.getInstance();
-        nextYear.add(Calendar.YEAR, 1);
+        nextYear.add(Calendar.MONTH, 6);
 
         lastYear = Calendar.getInstance();
 
