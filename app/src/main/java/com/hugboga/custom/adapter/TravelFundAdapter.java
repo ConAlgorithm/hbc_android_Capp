@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.adapter.BaseAdapter;
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.TravelFundRecordActivity;
 import com.hugboga.custom.data.bean.TravelFundData;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.utils.Tools;
@@ -20,21 +21,18 @@ import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
 /**
- * Created by qingcha on 16/5/26.
+ * Created by on 16/5/26.
  */
 public class TravelFundAdapter extends BaseAdapter<TravelFundData.TravelFundBean> {
 
-    private boolean isFgTravelFund = false;
+    private int type = 0;
 
     public TravelFundAdapter(Context context) {
         super(context);
     }
 
-    /**
-     *  判断是否为旅游基金页面 FgTravelFund
-     *  */
-    public void setFgTravelFund(boolean fgTravelFund) {
-        isFgTravelFund = fgTravelFund;
+    public void setType(int _type) {
+        this.type = _type;
     }
 
     @Override
@@ -46,20 +44,11 @@ public class TravelFundAdapter extends BaseAdapter<TravelFundData.TravelFundBean
             holder = new ViewHolder();
             x.view().inject(holder, convertView);
             convertView.setTag(holder);
-            if (isFgTravelFund) {
-                int basicColor = mContext.getResources().getColor(R.color.travel_fund_basic);
-                holder.sourceTV.setTextColor(basicColor);
-                holder.amountTV.setTextColor(basicColor);
-                holder.unitTV.setTextColor(basicColor);
-                holder.signTV.setTextColor(basicColor);
-                holder.avatarIV.setLayoutParams(new RelativeLayout.LayoutParams(0, UIUtils.dip2px(76)));
-                holder.sourceTV.setTextSize(14);
-            }
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
         TravelFundData.TravelFundBean bean = getItem(position);
-        if (!isFgTravelFund) {
+        if (type == TravelFundRecordActivity.TYPE_INVITE_FRIENDS) {
             if (TextUtils.isEmpty(bean.getAvatar())) {
                 holder.avatarIV.setImageResource(R.mipmap.collection_icon_pic);
             } else {
@@ -68,6 +57,7 @@ public class TravelFundAdapter extends BaseAdapter<TravelFundData.TravelFundBean
             holder.nameTV.setText(bean.getUsername());
             holder.sourceTV.setText(bean.getDesc());
         } else {
+            holder.avatarIV.setLayoutParams(new RelativeLayout.LayoutParams(0, UIUtils.dip2px(60)));
             holder.nameTV.setVisibility(View.GONE);
             String sourceStr = bean.getDesc();
             if (!TextUtils.equals(UserEntity.getUser().getUserName(mContext), bean.getUsername())) {
@@ -80,8 +70,12 @@ public class TravelFundAdapter extends BaseAdapter<TravelFundData.TravelFundBean
         holder.amountTV.setText("" + bean.getAmount());
         if (bean.getAmount() >= 0) {
             holder.signTV.setVisibility(View.VISIBLE);
+            holder.amountTV.setTextColor(mContext.getResources().getColor(R.color.travel_fund_basic));
+            holder.unitTV.setTextColor(mContext.getResources().getColor(R.color.travel_fund_basic));
         } else {
             holder.signTV.setVisibility(View.GONE);
+            holder.amountTV.setTextColor(0xFFCECECE);
+            holder.unitTV.setTextColor(0xFFCECECE);
         }
         return convertView;
     }

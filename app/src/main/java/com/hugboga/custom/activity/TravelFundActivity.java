@@ -1,172 +1,170 @@
 package com.hugboga.custom.activity;
 
-import android.graphics.Typeface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
+import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
-import android.text.style.StyleSpan;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
-import com.hugboga.custom.adapter.TravelFundAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.TravelFundData;
-import com.hugboga.custom.data.request.RequestTravelFundIntroduction;
-import com.hugboga.custom.data.request.TrequestTravelFundLogs;
-import com.hugboga.custom.utils.UIUtils;
-import com.hugboga.custom.widget.ZListView;
-
-import org.xutils.common.Callback;
-
-import java.util.ArrayList;
+import com.hugboga.custom.data.bean.UserEntity;
+import com.hugboga.custom.data.net.ShareUrls;
+import com.hugboga.custom.data.net.UrlLibs;
+import com.hugboga.custom.data.request.RequestGetInvitationCode;
+import com.hugboga.custom.data.request.RequestTravelFundLogs;
+import com.hugboga.custom.utils.CommonUtils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
- * Created on 16/8/4.
+ * Created on 16/8/4.TravelFund
  */
-
 public class TravelFundActivity extends BaseActivity {
-    @Bind(R.id.tracel_fund_listview)
-    ZListView listView;
-    @Bind(R.id.header_left_btn)
-    ImageView headerLeftBtn;
-    @Bind(R.id.header_right_btn)
-    ImageView headerRightBtn;
-    @Bind(R.id.header_title)
-    TextView headerTitle;
-    @Bind(R.id.header_right_txt)
-    TextView headerRightTxt;
-    private LinearLayout footerItemsLayout;
-    private TextView amountTV, effectiveDateTV;
-    private FrameLayout titleLayout;
 
-    private TravelFundAdapter adapter;
+    @Bind(R.id.travel_fund_residue_price_tv)
+    TextView residuePriceTV;
+    @Bind(R.id.travel_fund_validity_tv)
+    TextView validityTV;
+    @Bind(R.id.travel_fund_activity_price_tv)
+    TextView activityPriceTV;
+    @Bind(R.id.travel_fund_description_tv)
+    TextView descriptionTV;
 
-    protected void initHeader() {
-        headerLeftBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-        headerTitle.setText(getString(R.string.travel_fund_title));
-        listView.setonLoadListener(onLoadListener);
-        LayoutInflater inflater = LayoutInflater.from(activity);
+    @Bind(R.id.tracel_fund_header)
+    RelativeLayout titlerBar;
 
-        View headerView = inflater.inflate(R.layout.header_travel_fund, null);
-        int headerExplainImgHeight = (int) ((773 / 1080.0) * UIUtils.getScreenWidth());//顶部图片比例773*1080
-        LinearLayout.LayoutParams imgParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, headerExplainImgHeight);
-        headerView.findViewById(R.id.header_travel_fund_explain_iv).setLayoutParams(imgParams);
-        amountTV = (TextView) headerView.findViewById(R.id.header_travel_fund_amount_tv);
-        effectiveDateTV = (TextView) headerView.findViewById(R.id.header_travel_fund_effectivedate_tv);
-        titleLayout = (FrameLayout) headerView.findViewById(R.id.header_travel_fund_title_layout);
-        listView.addHeaderView(headerView);
-
-        View footerView = inflater.inflate(R.layout.footer_invite_friends, null);
-        footerItemsLayout = (LinearLayout) footerView.findViewById(R.id.footer_invite_layout);
-        listView.addFooterView(footerView);
-
-        RequestTravelFundIntroduction introductionRequest = new RequestTravelFundIntroduction(activity);
-        requestData(introductionRequest);
-    }
-
+    private String invitationCode;
+    private TravelFundData travelFundData;
 
     @Override
     public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         setContentView(R.layout.fg_travel_fund);
         ButterKnife.bind(this);
-        initHeader();
-        requestData();
+        initView();
     }
 
-    private Callback.Cancelable runData(int pageIndex) {
-        TrequestTravelFundLogs request = new TrequestTravelFundLogs(activity, pageIndex);
-        return requestData(request);
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        ButterKnife.unbind(this);
     }
 
+    private void initView() {
+        initTitleBar();
+        sendRequest();
+        setFundAmount("0");
+        setActivityPrice("600");
+    }
 
-    ZListView.OnLoadListener onLoadListener = new ZListView.OnLoadListener() {
-        @Override
-        public void onLoad() {
-            if (adapter.getCount() > 0) {
-                runData(adapter == null ? 0 : adapter.getCount());
+    private void initTitleBar() {
+        initDefaultTitleBar();
+        titlerBar.setBackgroundColor(0x00000000);
+        fgTitle.setText(getString(R.string.travel_fund_title));
+        fgRightBtn.setVisibility(View.VISIBLE);
+        fgRightBtn.setText(getString(R.string.travel_fund_rule));
+        fgRightBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(TravelFundActivity.this, WebInfoActivity.class);
+                intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_RAVEL_FUND_RULE);
+                startActivity(intent);
             }
-        }
-    };
-
-    protected Callback.Cancelable requestData() {
-        if (adapter != null) {
-            adapter = null;
-        }
-        return runData(0);
+        });
     }
 
+    private void sendRequest() {
+        RequestTravelFundLogs request = new RequestTravelFundLogs(activity, 0);
+        requestData(request);
+        RequestGetInvitationCode codeRequest = new RequestGetInvitationCode(activity);
+        requestData(codeRequest);
+    }
 
     @Override
     public void onDataRequestSucceed(final BaseRequest _request) {
-        if (_request instanceof TrequestTravelFundLogs) {
-            TrequestTravelFundLogs request = (TrequestTravelFundLogs) _request;
-            TravelFundData travelFundData = request.getData();
-            if (travelFundData != null) {
-                ArrayList<TravelFundData.TravelFundBean> listData = travelFundData.getListData();
-                if (adapter == null) {
-                    adapter = new TravelFundAdapter(activity);
-                    adapter.setFgTravelFund(true);
-                    listView.setAdapter(adapter);
-                    if (listData == null || listData.size() <= 0) {
-                        titleLayout.setVisibility(View.GONE);
-                    }
-                }
-                adapter.addList(listData);
-                if (listData != null && listData.size() < Constants.DEFAULT_PAGESIZE) {
-                    listView.onLoadCompleteNone();
-                }
-            } else {
-                listView.onLoadComplete();
+        if (_request instanceof RequestTravelFundLogs) {
+            RequestTravelFundLogs request = (RequestTravelFundLogs) _request;
+            travelFundData = request.getData();
+            if (travelFundData == null) {
+                return;
             }
-
-            String fundAmountString = getString(R.string.travel_fund_price, travelFundData.getFundAmount());
-            int start = 5;
-            int end = start + travelFundData.getFundAmount().length();
-            SpannableString sp = new SpannableString(fundAmountString);
-            sp.setSpan(new RelativeSizeSpan(1.6f), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            sp.setSpan(new StyleSpan(Typeface.BOLD), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            amountTV.setText(sp);
 
             if (travelFundData.getFundAmountInt() <= 0) {
-                effectiveDateTV.setVisibility(View.GONE);
+                validityTV.setVisibility(View.INVISIBLE);
             } else {
-                effectiveDateTV.setVisibility(View.VISIBLE);
-                effectiveDateTV.setText(getString(R.string.travel_fund_validity, travelFundData.getEffectiveDate()));
+                validityTV.setVisibility(View.VISIBLE);
+                validityTV.setText(getString(R.string.travel_fund_validity, travelFundData.getEffectiveDate()));
             }
 
-            listView.onRefreshComplete();
-        } else if (_request instanceof RequestTravelFundIntroduction) {
-            RequestTravelFundIntroduction introductionRequest = (RequestTravelFundIntroduction) _request;
-            final String[] itemData = introductionRequest.getData();
-            if (itemData != null) {
-                footerItemsLayout.removeAllViews();
-                LayoutInflater inflater = LayoutInflater.from(activity);
-                for (int i = 0; i < itemData.length; i++) {
-                    View footerItem = inflater.inflate(R.layout.item_travelfund_footer, null);
-                    TextView serialTV = (TextView) footerItem.findViewById(R.id.item_travelfund_footer_serial_tv);
-                    serialTV.setBackgroundResource(R.drawable.item_travel_fund_serial_bg);
-                    TextView contentTV = (TextView) footerItem.findViewById(R.id.item_travelfund_footer_content_tv);
-                    serialTV.setText(String.valueOf(i + 1));
-                    contentTV.setText(itemData[i]);
-                    footerItemsLayout.addView(footerItem);
-                }
+            setFundAmount(travelFundData.getFundAmount());
+
+            TravelFundData.RewardFields rewardFields = travelFundData.getRewardFields();
+            if (rewardFields != null) {
+                setActivityPrice(rewardFields.getCouponAmount());
+                descriptionTV.setText(getString(R.string.travel_fund_description, rewardFields.getRewardAmountPerOrder(), rewardFields.getRewardRatePerOrder()));
             }
+        } else if (_request instanceof RequestGetInvitationCode) {
+            RequestGetInvitationCode codeRequest = (RequestGetInvitationCode) _request;
+            invitationCode = codeRequest.getData();
         }
+    }
+
+    @OnClick({R.id.travel_fund_invite_record_tv, R.id.travel_fund_use_record_tv, R.id.travel_fund_invite_tv})
+    public void onClick(View view) {
+        Intent intent = null;
+        switch (view.getId()) {
+            case R.id.travel_fund_invite_record_tv://邀请记录
+                intent = new Intent(this, TravelFundRecordActivity.class);
+                intent.putExtra(Constants.PARAMS_TYPE, TravelFundRecordActivity.TYPE_INVITE_FRIENDS);
+                startActivity(intent);
+                break;
+            case R.id.travel_fund_use_record_tv://使用明细
+                intent = new Intent(this, TravelFundRecordActivity.class);
+                intent.putExtra(Constants.PARAMS_TYPE, TravelFundRecordActivity.TYPE_USE_Bill);
+                startActivity(intent);
+                break;
+            case R.id.travel_fund_invite_tv://立即邀请
+                if (TextUtils.isEmpty(invitationCode) || travelFundData == null || travelFundData.getRewardFields() == null) {
+                    break;
+                }
+                String shareUrl = ShareUrls.getShareThirtyCouponUrl(UserEntity.getUser().getAvatar(this),
+                        UserEntity.getUser().getUserName(this),
+                        invitationCode);
+                CommonUtils.shareDialog(activity, R.mipmap.share_coupon
+                        , getString(R.string.invite_friends_share_title, travelFundData.getRewardFields().getCouponAmount())
+                        , getString(R.string.invite_friends_share_content), shareUrl);
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void setFundAmount(String fundAmount) {
+        String fundAmountString = getString(R.string.sign_rmb) + fundAmount;
+        int start = 0;
+        int end = getString(R.string.sign_rmb).length() + start;
+        SpannableString sp = new SpannableString(fundAmountString);
+        sp.setSpan(new RelativeSizeSpan(0.5f), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        sp.setSpan(new ForegroundColorSpan(0xFFFFFFFF), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        residuePriceTV.setText(sp);
+    }
+
+    private void setActivityPrice(String activityPrice) {
+        String activityPriceString = activityPrice + getString(R.string.yuan);
+        int start = activityPrice.length();
+        int end = activityPriceString.length();
+        SpannableString spannableString = new SpannableString(activityPriceString);
+        spannableString.setSpan(new RelativeSizeSpan(0.3f), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        activityPriceTV.setText(spannableString);
     }
 }

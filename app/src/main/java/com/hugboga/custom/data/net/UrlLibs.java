@@ -64,6 +64,7 @@ public class UrlLibs {
     public static String H5_PROBLEM = H5_HOST+"/cinfos/problem.html"; //常见问题
     public static String H5_PROTOCOL = H5_HOST+"/cinfos/protocol.html"; // 用户协议
     public static String H5_SERVICE = H5_HOST+"/cinfos/service.html"; // 服务承诺
+    public static String H5_RAVEL_FUND_RULE = H5_HOST+ "/cinfos/actdes.html";//旅游基金规则说明
 
     public static String H5_TAI_MANGU = H5_HOST + "/cinfos/tai/BBK.html";//曼谷
     public static String H5_TAI_PUJIDAO = H5_HOST + "/cinfos/tai/bki.html";//普吉
@@ -433,16 +434,6 @@ public class UrlLibs {
      * 旅游基金流水
      */
     public static final String TRAVELFUND_LOGS = "/ucenter/v1.0/c/travelFund/logs";
-
-    /**
-     * 旅游基金说明
-     */
-    public static final String TRAVELFUND_INTRODUCTION = "ucenter/v1.0/c/travelFund/introduction";
-
-    /**
-     * 邀请说明
-     */
-    public static final String INVITATION_INTRODUCTION = "ucenter/v1.0/c/invitation/introduction";
 
     /**
      * 导游详情

@@ -5,10 +5,12 @@ import android.content.Context;
 import com.google.gson.Gson;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
+import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.bean.TravelFundData;
+import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.net.NewParamsBuilder;
 import com.hugboga.custom.data.net.UrlLibs;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 import org.xutils.http.HttpMethod;
 import org.xutils.http.annotation.HttpRequest;
@@ -16,14 +18,18 @@ import org.xutils.http.annotation.HttpRequest;
 import java.util.HashMap;
 
 /**
- * Created by qingcha on 16/5/26.
+ * Created by on 16/5/26.
  */
-@HttpRequest(path = UrlLibs.TRAVELFUND_INTRODUCTION, builder = NewParamsBuilder.class)
-public class RequestTravelFundIntroduction extends BaseRequest<String[]> {
+@HttpRequest(path = UrlLibs.TRAVELFUND_LOGS, builder = NewParamsBuilder.class)
+public class RequestTravelFundLogs extends BaseRequest<TravelFundData> {
 
-    public RequestTravelFundIntroduction(Context context) {
+    public RequestTravelFundLogs(Context context, int offset) {
         super(context);
         map = new HashMap<String, Object>();
+        map.put("source", Constants.REQUEST_SOURCE);
+        map.put("userId", UserEntity.getUser().getUserId(context));
+        map.put("offset", offset);
+        map.put("limit", Constants.DEFAULT_PAGESIZE);
     }
 
     @Override
@@ -38,28 +44,15 @@ public class RequestTravelFundIntroduction extends BaseRequest<String[]> {
 
     @Override
     public String getUrlErrorCode() {
-        return "40075";
+        return "40086";
     }
 
     private static class DataParser extends ImplParser {
         @Override
         public Object parseObject(JSONObject obj) throws Throwable {
-            return null;
-        }
-
-        @Override
-        public Object parseArray(JSONArray array) throws Throwable {
-            String[] result = null;
-            if (array != null) {
-                final int length = array.length();
-                result = new String[length];
-                for (int i = 0; i < length; i++) {
-                    result[i] = array.get(i).toString();
-                }
-            }
-            return result;
+            Gson gson = new Gson();
+            TravelFundData travelFundData = gson.fromJson(obj.toString(), TravelFundData.class);
+            return travelFundData;
         }
     }
-
-
 }

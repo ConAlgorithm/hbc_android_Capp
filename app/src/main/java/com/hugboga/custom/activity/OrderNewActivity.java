@@ -861,13 +861,7 @@ public class OrderNewActivity extends BaseActivity {
                     dream_right_tips.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            if (0 == money) {
-                                startActivity(new Intent(activity,InviteFriendsActivity.class));
-//                                startFragment(new FgInviteFriends());
-                            } else {
-                                startActivity(new Intent(activity,TravelFundActivity.class));
-//                                startFragment(new FgTravelFund());
-                            }
+                            startActivity(new Intent(activity, TravelFundActivity.class));
                         }
                     });
                 } else {
