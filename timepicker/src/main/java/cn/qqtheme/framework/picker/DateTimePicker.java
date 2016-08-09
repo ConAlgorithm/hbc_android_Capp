@@ -222,7 +222,7 @@ public class DateTimePicker extends WheelPicker {
                 if (mode != YEAR_MONTH) {
                     //年月日或年月模式下，需要根据年份及月份动态计算天数
                     days.clear();
-                    int maxDays = DateUtils.calculateDaysInMonth(stringToYearMonthDay(years.get(selectedYearIndex)), stringToYearMonthDay(item));
+                    int maxDays = DateUtils.calculateDaysInMonth(stringToYearMonthDay(years.get(selectedYearIndex)), (selectedIndex+1));
                     for (int i = 1; i <= maxDays; i++) {
                         days.add(DateUtils.fillZero(i));
                     }

@@ -704,7 +704,7 @@ public class SingleNewActivity extends BaseActivity {
 
     public void showYearMonthDayTimePicker() {
         Calendar calendar = Calendar.getInstance();
-        DateTimePicker picker = new DateTimePicker(activity, DateTimePicker.HOUR_OF_DAY);
+        DateTimePicker picker = new DateTimePicker(activity, DateTimePicker.YEAR_MONTH_DAY);
         picker.setRange(calendar.get(Calendar.YEAR),calendar.get(Calendar.YEAR)+1);
         picker.setSelectedItem(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH),
                 calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
