@@ -55,6 +55,7 @@ import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.LogUtils;
 import com.hugboga.custom.utils.OrderUtils;
+import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.widget.LuggageItemLayout;
 import com.hugboga.custom.widget.TopTipsLayout;
 
@@ -1108,6 +1109,14 @@ public class OrderNewActivity extends BaseActivity {
             if (TextUtils.isEmpty(pickName.getText())) {
                 CommonUtils.showToast("接机牌姓名不能为空!");
                 return;
+            }else{
+                String text = pickName.getText().toString();
+                for(int i =0;i< text.length();i++) {
+                    if(Tools.isEmojiCharacter(text.charAt(i))){
+                        CommonUtils.showToast("接机牌姓名不能含有表情!");
+                        return;
+                    }
+                }
             }
         }
 
