@@ -212,6 +212,7 @@ public class DailyWebInfoActivity extends BaseActivity implements View.OnKeyList
     @Override
     public void onDestroy() {
         super.onDestroy();
+        ButterKnife.unbind(this);
     }
 
     @Override
@@ -307,13 +308,11 @@ public class DailyWebInfoActivity extends BaseActivity implements View.OnKeyList
         HashMap<String,String> map = new HashMap<String,String>();
         switch (view.getId()){
             case R.id.header_right_btn:
-                if(skuItemBean!=null){
                     String title =skuItemBean.goodsName;
                     String content = getString(R.string.wx_share_content);
                     String shareUrl = skuItemBean.shareURL==null?skuItemBean.skuDetailUrl:skuItemBean.shareURL;
                     shareUrl = shareUrl==null?"http://www.huangbaoche.com":shareUrl;
                     skuShare(skuItemBean.goodsPicture,title,content,shareUrl);
-                }
                 break;
             case R.id.goto_order:
 

@@ -222,7 +222,6 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
         });
         if (this.getIntent().getBooleanExtra(CONTACT_SERVICE, false)) {
             headerTitle.setVisibility(View.VISIBLE);
-            headerTitle.setText("联系客服");
             headerTitle.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
