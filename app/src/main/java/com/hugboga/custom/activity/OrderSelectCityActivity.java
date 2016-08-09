@@ -192,7 +192,7 @@ public class OrderSelectCityActivity extends BaseActivity  {
                     startActivity(intent);
                     overridePendingTransition(R.anim.push_bottom_in,0);
                 }
-            },200);
+            },500);
 
         }
 
