@@ -1132,16 +1132,17 @@ public class OrderSelectCityActivity extends BaseActivity  {
         }
     }
 
-
+    TimePicker picker;
     public void showYearMonthDayTimePicker() {
         Calendar calendar = Calendar.getInstance();
-        TimePicker picker = new TimePicker(activity, TimePicker.HOUR_OF_DAY);
+        picker = new TimePicker(activity, TimePicker.HOUR_OF_DAY);
         picker.setSelectedItem(calendar.get(Calendar.HOUR_OF_DAY),calendar.get(Calendar.MINUTE));
         picker.setOnTimePickListener(new TimePicker.OnTimePickListener() {
             @Override
             public void onTimePicked(String hour, String minute) {
                 serverTime = hour + ":" + minute;
                 time_text_click.setText(serverTime);
+                picker.dismiss();
             }
         });
 

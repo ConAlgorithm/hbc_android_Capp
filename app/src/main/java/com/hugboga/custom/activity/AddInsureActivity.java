@@ -234,7 +234,7 @@ public class AddInsureActivity extends BaseActivity implements HttpRequestListen
         enableNextBtn();
     }
 
-
+    DatePicker picker;
     public void showDaySelect() {
 //        Intent intent = new Intent(activity,DatePickerActivity.class);
 //        intent.putExtra("startDate","1990-01-01");
@@ -242,8 +242,9 @@ public class AddInsureActivity extends BaseActivity implements HttpRequestListen
 //        intent.putExtra("type",3);
 //        startActivity(intent);
 
-        DatePicker picker = new DatePicker(activity, DatePicker.YEAR_MONTH_DAY);
+        picker = new DatePicker(activity, DatePicker.YEAR_MONTH_DAY);
         picker.setRange(1900,2050);
+        picker.setTitle("请选择出生日期");
         picker.setSelectedItem(1990,1,1);
         picker.setOnDatePickListener(new DatePicker.OnYearMonthDayPickListener() {
             @Override
@@ -251,6 +252,7 @@ public class AddInsureActivity extends BaseActivity implements HttpRequestListen
                 String serverDate = year + "-" + month + "-" + day;
                 birthday.setText(serverDate);
                 check();
+                picker.dismiss();
             }
         });
         picker.show();
