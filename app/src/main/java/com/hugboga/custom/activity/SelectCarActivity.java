@@ -31,6 +31,7 @@ import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestGetCarInfo;
 import com.hugboga.custom.utils.AlertDialogUtils;
+import com.hugboga.custom.utils.CarUtils;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.widget.JazzyViewPager;
 import com.umeng.analytics.MobclickAgent;
@@ -758,25 +759,15 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
     }
 
     private void initListData() {
-        int id = 1;
-        CarBean bean;
-        carList = new ArrayList<CarBean>(16);
-        for (int i = 1; i <= 4; i++) {
-            for (int j = 1; j <= 4; j++) {
-                bean = new CarBean();
-                bean.id = id;
-                bean.carType = i;
-                bean.carSeat = Constants.CarSeatMap.get(j);
-                bean.originalPrice = 0;
-                bean.models = Constants.CarDescInfoMap.get(i).get(j);
-                ChooseCarTypeEnum carTypeEnum = ChooseCarTypeEnum.getCarType(bean.carType, bean.carSeat);
-                if (carTypeEnum != null) {
-                    bean.imgRes = carTypeEnum.imgRes;
-                }
-                if (isMatchLocal(bean)) {
-                    carList.add(bean);
-                }
-                id++;
+        carList = new ArrayList<>();
+        for(SelectCarBean selectCarBean:cars){
+            CarBean carBean = CarUtils.selectCarBeanAdapter(selectCarBean);
+            ChooseCarTypeEnum carTypeEnum = ChooseCarTypeEnum.getCarType(carBean.carType, carBean.carSeat);
+            if (carTypeEnum != null) {
+                carBean.imgRes = carTypeEnum.imgRes;
+            }
+            if (isMatchLocal(carBean)) {
+                carList.add(carBean);
             }
         }
         mAdapter.setList(carList);
