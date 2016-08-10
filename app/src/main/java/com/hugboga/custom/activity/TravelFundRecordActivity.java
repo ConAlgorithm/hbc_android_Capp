@@ -3,6 +3,7 @@ package com.hugboga.custom.activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
@@ -31,6 +32,8 @@ public class TravelFundRecordActivity extends BaseActivity{
     ZListView listView;
     @Bind(R.id.trave_fund_record_empty_layout)
     LinearLayout emptyLayout;
+    @Bind(R.id.trave_fund_record_empty_tv)
+    TextView emptyHintTV;
     private TravelFundRecordHeaderView headerView;
 
     private int type = 0;
@@ -144,14 +147,17 @@ public class TravelFundRecordActivity extends BaseActivity{
         }
         listView.onRefreshComplete();
 
+
         if (_request instanceof RequestTravelFundLogs) {//使用明细
-            if (adapter != null && adapter.getCount() <= 0) {
-                emptyLayout.setVisibility(View.VISIBLE);
-            } else {
-                emptyLayout.setVisibility(View.GONE);
-            }
+            emptyHintTV.setText(getString(R.string.travel_fund_record_empty_hint));
         } else if (_request instanceof RequestInvitationFriendsLogs) {
-            headerView.update(travelFundData);
+            headerView.update(travelFundData);//邀请记录
+            emptyHintTV.setText(getString(R.string.travel_fund_invitation_friends_record_empty_hint));
+        }
+        if (adapter != null && adapter.getCount() <= 0) {
+            emptyLayout.setVisibility(View.VISIBLE);
+        } else {
+            emptyLayout.setVisibility(View.GONE);
         }
     }
 }

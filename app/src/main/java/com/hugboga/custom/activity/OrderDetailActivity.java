@@ -15,6 +15,7 @@ import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.ChatInfo;
+import com.hugboga.custom.data.bean.CouponBean;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.OrderGuideInfo;
 import com.hugboga.custom.data.bean.OrderPriceInfo;
@@ -26,6 +27,7 @@ import com.hugboga.custom.data.parser.ParserChatInfo;
 import com.hugboga.custom.data.request.RequestCollectGuidesId;
 import com.hugboga.custom.data.request.RequestOrderCancel;
 import com.hugboga.custom.data.request.RequestOrderDetail;
+import com.hugboga.custom.data.request.RequestPayNo;
 import com.hugboga.custom.data.request.RequestUncollectGuidesId;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.PhoneInfo;
@@ -167,6 +169,19 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
         } else if (_request instanceof RequestCollectGuidesId) {//收藏
             orderBean.orderGuideInfo.storeStatus = 1;
             updateCollectViewText();
+        } else if (_request instanceof RequestPayNo) {
+            RequestPayNo mParser = (RequestPayNo) _request;
+            if (mParser.payType == Constants.PAY_STATE_ALIPAY) {
+                if ("travelFundPay".equals(mParser.getData()) || "couppay".equals(mParser.getData())) {//支付宝使用旅游基金和优惠券0元支付
+                    PayResultActivity.Params params = new PayResultActivity.Params();
+                    params.payResult = true;
+                    params.orderId = orderBean.orderNo;
+                    params.paymentAmount = "" + orderBean.orderPriceInfo.actualPay;
+                    Intent intent = new Intent(OrderDetailActivity.this, PayResultActivity.class);
+                    intent.putExtra(Constants.PARAMS_DATA, params);
+                    startActivity(intent);
+                }
+            }
         }
     }
 
@@ -201,13 +216,26 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                 if (orderBean == null) {
                     return;
                 }
-                ChoosePaymentActivity.RequestParams requestParams = new ChoosePaymentActivity.RequestParams();
-                requestParams.orderId = orderBean.orderNo;
-                requestParams.shouldPay = orderBean.orderPriceInfo.actualPay;
-                requestParams.source = source;
-                intent = new Intent(OrderDetailActivity.this, ChoosePaymentActivity.class);
-                intent.putExtra(Constants.PARAMS_DATA, requestParams);
-                startActivity(intent);
+                String couponId = null;
+                CouponBean orderCoupon = orderBean.orderCoupon;
+                if (orderCoupon != null) {
+                    couponId = orderCoupon.couponID;
+                }
+
+                OrderPriceInfo priceInfo = orderBean.orderPriceInfo;
+                if (priceInfo.actualPay == 0) {
+                    RequestPayNo request = new RequestPayNo(this, orderBean.orderNo, 0, Constants.PAY_STATE_ALIPAY, couponId);
+                    requestData(request);
+                } else {
+                    ChoosePaymentActivity.RequestParams requestParams = new ChoosePaymentActivity.RequestParams();
+                    requestParams.orderId = orderBean.orderNo;
+                    requestParams.shouldPay = orderBean.orderPriceInfo.actualPay;
+                    requestParams.source = source;
+                    requestParams.couponId = couponId;
+                    intent = new Intent(OrderDetailActivity.this, ChoosePaymentActivity.class);
+                    intent.putExtra(Constants.PARAMS_DATA, requestParams);
+                    startActivity(intent);
+                }
                 break;
             case ORDER_DETAIL_INSURANCE_H5://皇包车免费赠送保险
                 if (!eventVerification(action)) {

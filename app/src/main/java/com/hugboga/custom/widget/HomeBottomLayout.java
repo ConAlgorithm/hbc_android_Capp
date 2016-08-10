@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -29,7 +30,7 @@ import java.util.HashMap;
 import java.util.Random;
 
 /**
- * Created by qingcha on 16/6/19.
+ * Created by on 16/6/19.
  */
 public class HomeBottomLayout extends LinearLayout implements View.OnClickListener{
 
@@ -118,12 +119,7 @@ public class HomeBottomLayout extends LinearLayout implements View.OnClickListen
                 }
 
                 urlAddress = urlAddress + "userId="+ UserEntity.getUser().getUserId(fragment.getContext())+"&t=" + new Random().nextInt(100000);
-
-//                Bundle bundle = new Bundle();
-//                bundle.putString(FgWebInfo.WEB_URL, urlAddress);
-//                fragment.startFragment(new FgDailyWeb(), bundle);
-
-                Intent intent = new Intent(v.getContext(), DailyWebInfoActivity.class);
+                Intent intent = new Intent(v.getContext(), WebInfoActivity.class);
                 intent.putExtra(WebInfoActivity.WEB_URL, urlAddress);
                 v.getContext().startActivity(intent);
 
@@ -147,52 +143,24 @@ public class HomeBottomLayout extends LinearLayout implements View.OnClickListen
      * 以下代码copy自旧版本首页
      * */
     private void goPickSend(){
-//        Bundle bundle = new Bundle();
-//
-//        FgPickSend fgPickSend = new FgPickSend();
-//        bundle.putString("source", "首页");
-//        fgPickSend.setArguments(bundle);
-//        fragment.startFragment(fgPickSend, bundle);
-//        HashMap<String,String> map = new HashMap<String,String>();
-//        map.put("source", "首页");
-//        MobclickAgent.onEvent(fragment.getActivity(), "chose_pndairport", map);
-
         Intent intent = new Intent(getContext(), PickSendActivity.class);
         intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_DAIRY);
-        this.getContext().startActivity(intent);
-
+        getContext().startActivity(intent);
     }
 
     private void goDairy(){
         Bundle bundle = new Bundle();
         HashMap<String,String> map = new HashMap<String,String>();
-//        OrderSelectCityActivity fgOrderSelectCity = new OrderSelectCityActivity();
         bundle.putString("source","首页");
         Intent intent = new Intent(this.getContext(), DailyWebInfoActivity.class);
         intent.putExtras(bundle);
-//        fgOrderSelectCity.setIntent(intent);
-//        fragment.startFragment(fgOrderSelectCity, bundle);
-
-//        bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_DAIRY);
-//        fragment.startFragment(new FgDailyWeb(), bundle);
-
         intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_DAIRY);
         this.getContext().startActivity(intent);
-
-
         map.put("source", "首页");
         MobclickAgent.onEvent(fragment.getActivity(), "chose_oneday", map);
     }
 
     private void goSingle(){
-//        FgSingleNew fgSingleNew = new FgSingleNew();
-//        Bundle bundle = new Bundle();
-//        fgSingleNew.setArguments(bundle);
-//        fragment.startFragment(fgSingleNew);
-//        HashMap<String,String> map = new HashMap<String,String>();
-//        map.put("source", "首页");
-//        MobclickAgent.onEvent(fragment.getActivity(), "chose_oneway", map);
-
         Intent intent = new Intent(getContext(),SingleNewActivity.class);
         getContext().startActivity(intent);
     }

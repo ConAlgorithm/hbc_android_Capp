@@ -113,7 +113,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
         // 启用javaScript
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setDefaultTextEncodingName("UTF-8");
-        webView.addJavascriptInterface(new WebAgent(this, webView, cityBean), "javaObj");
+        webView.addJavascriptInterface(new WebAgent(this, webView, cityBean, headerLeftBtn), "javaObj");
         webView.setOnKeyListener(this);
         webView.setWebViewClient(webClient);
         webView.setWebChromeClient(webChromeClient);
@@ -311,6 +311,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
 //            fgTitle.setText(view.getTitle());
+            gotoOrder.setVisibility(View.VISIBLE);
         }
 
         @Override

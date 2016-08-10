@@ -205,8 +205,9 @@ public class ChoosePaymentActivity extends BaseActivity {
         if (request instanceof RequestPayNo) {
             RequestPayNo mParser = (RequestPayNo) request;
             if (mParser.payType == Constants.PAY_STATE_ALIPAY) {
-                if ("travelFundPay".equals(mParser.getData())) {//全部使用旅游基金支付的时候
-                    mHandler.sendEmptyMessageDelayed(1, 3000);
+                //支付宝使用旅游基金和优惠券0元支付
+                if ("travelFundPay".equals(mParser.getData()) || "couppay".equals(mParser.getData())) {
+                    mHandler.sendEmptyMessage(1);
                 } else {
                     payByAlipay((String) mParser.getData());
                 }

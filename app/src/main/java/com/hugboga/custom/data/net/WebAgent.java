@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
@@ -17,9 +18,9 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.parser.ServerParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
-import com.huangbaoche.hbcframe.fragment.BaseFragment;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.huangbaoche.hbcframe.util.WXShareUtils;
+import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.activity.OrderSelectCityActivity;
@@ -41,8 +42,6 @@ import org.json.JSONObject;
 import io.rong.imkit.RongIM;
 import io.rong.imlib.model.Conversation;
 
-import static com.tencent.bugly.crashreport.inner.InnerAPI.context;
-
 /**
  * 请求代理模式
  * Created by admin on 2016/3/16.
@@ -50,26 +49,18 @@ import static com.tencent.bugly.crashreport.inner.InnerAPI.context;
 public class WebAgent implements HttpRequestListener {
 
     private Activity mActivity;
-    private BaseFragment mFragment;
     private WebView mWebView;
     private DialogUtil dialog;
+    private CityBean cityBean;
+    private View leftBtn;
 
-    public WebAgent(Activity activity, WebView webView, CityBean cityBean) {
+    public WebAgent(Activity activity, WebView webView, CityBean cityBean, View leftBtn) {
         this.mActivity = activity;
         this.mWebView = webView;
         dialog = DialogUtil.getInstance(mActivity);
         this.cityBean = cityBean;
+        this.leftBtn = leftBtn;
     }
-
-    private CityBean cityBean;
-    public WebAgent(BaseFragment fragment, WebView webView, CityBean cityBean) {
-        this.mFragment = fragment;
-        this.mWebView = webView;
-        mActivity = fragment.getActivity();
-        dialog = DialogUtil.getInstance(mActivity);
-        this.cityBean = cityBean;
-    }
-
 
     @JavascriptInterface
     public void redirect(final String url) {
@@ -108,13 +99,9 @@ public class WebAgent implements HttpRequestListener {
         mActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (mFragment != null && mFragment.getView() != null) {
+                if (leftBtn != null) {
                     boolean isVisible = Boolean.valueOf(isBack);
-                    mFragment.getView().findViewById(R.id.header_left_btn).setVisibility(isVisible ? View.VISIBLE : View.GONE);
-                    View backBtn = mFragment.getView().findViewById(R.id.header_left_btn);
-                    if (backBtn != null) {
-                        backBtn.setVisibility(isVisible ? View.VISIBLE : View.GONE);
-                    }
+                    leftBtn.setVisibility(isVisible ? View.VISIBLE : View.GONE);
                 }
             }
         });
@@ -180,9 +167,7 @@ public class WebAgent implements HttpRequestListener {
             @Override
             public void run() {
                 if (mWebView != null) {
-                    if (mFragment != null) {
-                        mFragment.finish();
-                    } else if (mActivity != null) {
+                    if (mActivity != null) {
                         mActivity.finish();
                     }
                 }
@@ -301,7 +286,7 @@ public class WebAgent implements HttpRequestListener {
      */
     @JavascriptInterface
     public void pushToServiceChatVC() {
-        if (mActivity != null && !UserEntity.getUser().isLogin(mActivity) && mFragment != null) {
+        if (mActivity != null && !UserEntity.getUser().isLogin(mActivity)) {
             CommonUtils.showToast(R.string.login_hint);
             mActivity.startActivity(new Intent(mActivity, LoginActivity.class));
             return;
@@ -336,16 +321,14 @@ public class WebAgent implements HttpRequestListener {
      */
     @JavascriptInterface
     public void customLineOrder() {
-        if (mFragment != null) {
-            mActivity.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    Intent intent = new Intent(mActivity,OrderSelectCityActivity.class);
-                    mActivity.startActivity(intent);
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = new Intent(mActivity,OrderSelectCityActivity.class);
+                mActivity.startActivity(intent);
 //                    mFragment.startFragment(new FgOrderSelectCity());
-                }
-            });
-        }
+            }
+        });
     }
 
     /**
@@ -353,16 +336,14 @@ public class WebAgent implements HttpRequestListener {
      */
     @JavascriptInterface
     public void fixedLineOrder() {
-        if (mFragment != null) {
-            mActivity.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    Intent intent = new Intent(mActivity,OrderSelectCityActivity.class);
-                    mActivity.startActivity(intent);
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = new Intent(mActivity,OrderSelectCityActivity.class);
+                mActivity.startActivity(intent);
 //                    mFragment.startFragment(new FgOrderSelectCity());
-                }
-            });
-        }
+            }
+        });
     }
 
     /**
@@ -370,20 +351,18 @@ public class WebAgent implements HttpRequestListener {
      */
     @JavascriptInterface
     public void pushToNextPageWithUrl(final String url) {
-        if (mFragment != null) {
-            mActivity.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
 //                    Bundle bundle = new Bundle();
 //                    bundle.putString(FgWebInfo.WEB_URL, url);
 //                    mFragment.startFragment(new FgActivity(), bundle);
 
-                    Intent intent = new Intent(context,WebInfoActivity.class);
-                    intent.putExtra(WebInfoActivity.WEB_URL, url);
-                    context.startActivity(intent);
-                }
-            });
-        }
+                Intent intent = new Intent(mActivity, WebInfoActivity.class);
+                intent.putExtra(WebInfoActivity.WEB_URL, url);
+                mActivity.startActivity(intent);
+            }
+        });
     }
 
     /**

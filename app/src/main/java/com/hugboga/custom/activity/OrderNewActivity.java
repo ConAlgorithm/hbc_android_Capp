@@ -45,6 +45,7 @@ import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestCancleTips;
 import com.hugboga.custom.data.request.RequestDeduction;
 import com.hugboga.custom.data.request.RequestMostFit;
+import com.hugboga.custom.data.request.RequestPayNo;
 import com.hugboga.custom.data.request.RequestSubmitBase;
 import com.hugboga.custom.data.request.RequestSubmitDaily;
 import com.hugboga.custom.data.request.RequestSubmitLine;
@@ -300,6 +301,7 @@ public class OrderNewActivity extends BaseActivity {
     private PoiBean poiBean;//达到目的地
 
     CollectGuideBean collectGuideBean;
+    private OrderInfoBean orderInfoBean;
 
     String goodsVersion = "";
     String goodsNo = "";
@@ -1058,25 +1060,44 @@ public class OrderNewActivity extends BaseActivity {
     public void onDataRequestSucceed(BaseRequest request) {
         if (request instanceof RequestSubmitBase) {
 //            bringToFront(FgTravel.class, new Bundle());
-            OrderInfoBean orderInfoBean = ((RequestSubmitBase) request).getData();
-            ChoosePaymentActivity.RequestParams requestParams = new ChoosePaymentActivity.RequestParams();
-            requestParams.orderId = orderInfoBean.getOrderno();
+            orderInfoBean = ((RequestSubmitBase) request).getData();
+            String couponId = null;
             if (couponLeft.isChecked()) {
                 if (null == couponBean && null != mostFitBean) {
-                    requestParams.couponId = mostFitBean.couponId;
+                    couponId = mostFitBean.couponId;
                 } else if (null != couponBean && null == mostFitBean) {
-                    requestParams.couponId = couponBean.couponID;
+                    couponId = couponBean.couponID;
                 }
-
             }
-            requestParams.shouldPay = orderInfoBean.getPriceActual();
-            requestParams.source = source;
-            requestParams.needShowAlert = true;
 
-            Intent intent = new Intent(activity,ChoosePaymentActivity.class);
-            intent.putExtra(Constants.PARAMS_DATA, requestParams);
-            startActivity(intent);
+            if (orderInfoBean.getPriceActual() == 0) {
+                RequestPayNo pequestPayNo = new RequestPayNo(this, orderInfoBean.getOrderno(), 0, Constants.PAY_STATE_ALIPAY, couponId);
+                requestData(pequestPayNo);
+            } else {
+                ChoosePaymentActivity.RequestParams requestParams = new ChoosePaymentActivity.RequestParams();
+                requestParams.couponId = couponId;
+                requestParams.orderId = orderInfoBean.getOrderno();
+                requestParams.shouldPay = orderInfoBean.getPriceActual();
+                requestParams.source = source;
+                requestParams.needShowAlert = true;
 
+                Intent intent = new Intent(activity,ChoosePaymentActivity.class);
+                intent.putExtra(Constants.PARAMS_DATA, requestParams);
+                startActivity(intent);
+            }
+        }  else if (request instanceof RequestPayNo) {
+            RequestPayNo mParser = (RequestPayNo) request;
+            if (mParser.payType == Constants.PAY_STATE_ALIPAY) {
+                if ("travelFundPay".equals(mParser.getData()) || "couppay".equals(mParser.getData())) {
+                    PayResultActivity.Params params = new PayResultActivity.Params();
+                    params.payResult = true;
+                    params.orderId =  orderInfoBean.getOrderno();
+                    params.paymentAmount = "" + orderInfoBean.getPriceActual();
+                    Intent intent = new Intent(OrderNewActivity.this, PayResultActivity.class);
+                    intent.putExtra(Constants.PARAMS_DATA, params);
+                    startActivity(intent);
+                }
+            }
         }
 
     }
