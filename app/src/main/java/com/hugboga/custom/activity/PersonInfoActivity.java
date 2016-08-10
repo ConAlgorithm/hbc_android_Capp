@@ -34,6 +34,7 @@ import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.FileUtil;
 import com.hugboga.custom.utils.ImageUtils;
 import com.hugboga.custom.utils.PermissionRes;
+import com.hugboga.custom.utils.Tools;
 import com.yalantis.ucrop.UCrop;
 import com.zhy.m.permission.MPermissions;
 import com.zhy.m.permission.PermissionDenied;
@@ -264,8 +265,14 @@ public class PersonInfoActivity extends BaseActivity{
                     public void onClick(DialogInterface dialog, int which) {
                         String nickStr = editText.getText().toString().trim();
                         if (TextUtils.isEmpty(nickStr)) {
-                            showTip("没输入真实姓名，请重新填写");
+                            CommonUtils.showToast("没输入真实姓名，请重新填写");
                             return;
+                        }else{
+                            for(int i = 0;i< nickStr.length();i++)
+                            if(!Tools.isEmojiCharacter(nickStr.charAt(i))){
+                                CommonUtils.showToast("真实姓名不能包含表情符号");
+                                return;
+                            }
                         }
                         realNameTextView.setText(editText.getText().toString());
                         submitChangeUserInfo(6, editText.getText().toString());
