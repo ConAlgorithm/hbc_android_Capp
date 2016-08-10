@@ -1112,7 +1112,7 @@ public class OrderNewActivity extends BaseActivity {
             }else{
                 String text = pickName.getText().toString();
                 for(int i =0;i< text.length();i++) {
-                    if(Tools.isEmojiCharacter(text.charAt(i))){
+                    if(!Tools.isEmojiCharacter(text.charAt(i))){
                         CommonUtils.showToast("接机牌姓名不能含有表情!");
                         return;
                     }
