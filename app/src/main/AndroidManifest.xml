@@ -84,22 +84,27 @@
         <activity
             android:name=".SplashActivity"
             android:label="@string/title_activity_splash"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:screenOrientation="portrait"/>
 
         <activity
             android:name=".activity.DatePickerActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:screenOrientation="portrait"/>
 
         <activity
             android:name=".activity.LuggageInfoActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:screenOrientation="portrait"/>
 
         <activity
             android:name=".activity.ChooseCityNewActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:screenOrientation="portrait"/>
 
         <activity
             android:name=".activity.OrderSelectCityActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:screenOrientation="portrait" />
 
         <activity
@@ -108,62 +113,76 @@
 
         <activity
             android:name=".activity.DailyWebInfoActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:screenOrientation="portrait" />
 
 
         <activity
             android:name=".activity.OrderDetailActivity"
             android:launchMode="singleTask"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:screenOrientation="portrait" />
 
         <activity
             android:name=".activity.SkuListActivity"
             android:launchMode="singleTask"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:screenOrientation="portrait" />
 
         <activity
             android:name=".activity.ChooseCityActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:screenOrientation="portrait" />
 
         <activity
             android:name=".activity.SkuDetailActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:screenOrientation="portrait" />
 
         <activity
             android:name=".activity.SingleNewActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:screenOrientation="portrait" />
 
         <activity
             android:name=".activity.PickSendActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:screenOrientation="portrait" />
 
         <activity
             android:name=".activity.SkuNewActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:screenOrientation="portrait" />
 
         <activity
             android:name=".activity.ChooseAirActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:screenOrientation="portrait" />
 
 
         <activity
             android:name=".activity.PickFlightListActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:screenOrientation="portrait" />
 
         <activity
             android:name=".activity.ManLuggageActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:screenOrientation="portrait" />
 
         <activity
             android:name=".activity.OrderNewActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:screenOrientation="portrait" />
 
         <activity
             android:name=".activity.CollectGuideListActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:screenOrientation="portrait"/>
 
         <activity
             android:name=".activity.GuideDetailActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:screenOrientation="portrait"/>
 
         <activity
@@ -174,134 +193,167 @@
 
         <activity
             android:name=".activity.LargerImageActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:screenOrientation="portrait"/>
 
         <activity
             android:name=".activity.EvaluateListActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:screenOrientation="portrait"/>
 
         <activity
             android:name=".activity.InsureInfoActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:screenOrientation="portrait"/>
 
         <activity
             android:name=".activity.InsureActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:screenOrientation="portrait"/>
 
         <activity
             android:name=".activity.AddInsureActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:screenOrientation="portrait"/>
 
         <activity
             android:name=".activity.PayResultActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:screenOrientation="portrait"/>
 
         <activity
             android:name=".activity.ChoosePaymentActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:screenOrientation="portrait"/>
 
         <activity
             android:name=".activity.CouponActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:screenOrientation="portrait"/>
 
         <activity
             android:name=".activity.OrderCancelActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:screenOrientation="portrait"/>
 
         <activity
             android:name=".activity.OrderEditActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:screenOrientation="portrait"/>
 
         <activity
             android:name=".activity.ShareGuidesActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:screenOrientation="portrait"/>
 
         <activity
             android:name=".activity.SelectCarActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:screenOrientation="portrait" />
 
         <activity
             android:name=".activity.OrderInfoActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:screenOrientation="portrait" />
 
         <activity
             android:name=".activity.PoiSearchActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:screenOrientation="portrait" />
 
         <activity
             android:name=".activity.ChooseOtherActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:screenOrientation="portrait" />
 
         <activity
             android:name=".activity.ChooseCountryActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:screenOrientation="portrait" />
 
         <activity
             android:name=".activity.LoginActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:screenOrientation="portrait" />
 
         <activity
             android:name=".activity.TravelFundActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:screenOrientation="portrait" />
 
         <activity
             android:name=".activity.ChooseAirPortActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:screenOrientation="portrait" />
 
         <activity
             android:name=".activity.SetPasswordActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:screenOrientation="portrait" />
 
         <activity
             android:name=".activity.BindMobileActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:screenOrientation="portrait" />
 
         <activity
             android:name=".activity.ChangeMobileActivtiy"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:screenOrientation="portrait" />
 
         <activity
             android:name=".activity.PersonInfoActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:screenOrientation="portrait" />
 
         <activity
             android:name=".activity.ForgetPasswdActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:screenOrientation="portrait" />
 
         <activity
             android:name=".activity.RegisterActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:screenOrientation="portrait" />
 
         <activity
             android:name=".activity.ServicerCenterActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:screenOrientation="portrait" />
 
         <activity
             android:name=".activity.SettingActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:screenOrientation="portrait" />
 
         <activity
             android:name=".activity.ChangePswActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:screenOrientation="portrait" />
 
         <activity
             android:name=".activity.AboutActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:screenOrientation="portrait" />
 
         <activity
             android:name=".activity.CallBackActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:screenOrientation="portrait" />
 
         <activity
             android:name=".activity.TravelFundRecordActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:screenOrientation="portrait" />
 
         <activity
             android:name=".activity.IMChatActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:screenOrientation="portrait" />
 
         <activity
             android:name=".activity.NewOrderActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:screenOrientation="portrait" />
 
         <service

@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
+import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.CarBean;
 import com.hugboga.custom.data.bean.CarListBean;
@@ -368,8 +369,7 @@ public class SkuNewActivity extends BaseActivity {
                                 }
 
                             } else {
-                                Intent intent = new Intent(activity,LoginActivity.class);
-                                startActivity(intent);
+                                goLogin();
                             }
                         }
                     }
@@ -380,9 +380,13 @@ public class SkuNewActivity extends BaseActivity {
         }
     }
 
+    public void goLogin(){
+        Intent intent = new Intent(activity,LoginActivity.class);
+        startActivity(intent);
+    }
+
 
     private void goNext() {
-
 //        FGOrderNew fgOrderNew = new FGOrderNew();
         Bundle bundle = new Bundle();
         bundle.putString("guideCollectId", "");

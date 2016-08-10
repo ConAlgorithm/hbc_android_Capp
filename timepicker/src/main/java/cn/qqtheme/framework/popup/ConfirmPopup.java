@@ -47,6 +47,10 @@ public abstract class ConfirmPopup<V extends View> extends BottomPopup<View> {
         setTitleText("请选择出发时间");
     }
 
+    public void setTitle(String text){
+        setTitleText(text);
+    }
+
     /**
      * Sets top line color.
      *
