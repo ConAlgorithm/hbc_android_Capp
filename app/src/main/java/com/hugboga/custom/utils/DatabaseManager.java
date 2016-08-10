@@ -65,15 +65,13 @@ public final class DatabaseManager {
             selector.and("is_single", "=", 1);
         } else if (orderType == Constants.BUSINESS_TYPE_PICK || orderType == Constants.BUSINESS_TYPE_SEND) {
             selector.and("is_city_code", "=", 1);
-        } else if (orderType == Constants.BUSINESS_TYPE_HOME) {
-            WhereBuilder whereBuilder = WhereBuilder.b();
-            whereBuilder.and("place_name", "<>", "中国");
-            selector.and(whereBuilder);
-            WhereBuilder whereBuilder2 = WhereBuilder.b();
-            whereBuilder2.and("has_airport", "=", 1).or("is_daily", "=", 1).or("is_single", "=", 1);
-            selector.and(whereBuilder2);
         }
+        WhereBuilder whereBuilder = WhereBuilder.b();
+        whereBuilder.and("place_name", "<>", "中国");
+        whereBuilder.and("place_name", "<>", "中国大陆");
+        selector.and(whereBuilder);
         selector.orderBy("initial");
+        Log.i("aa", "selector " + selector.toString());
         return selector;
     }
 
@@ -101,13 +99,13 @@ public final class DatabaseManager {
             selector.and("is_single", "=", 1);
         } else if (orderType == Constants.BUSINESS_TYPE_PICK || orderType == Constants.BUSINESS_TYPE_SEND) {
             selector.and("is_city_code", "=", 1);
-        } else if (orderType == Constants.BUSINESS_TYPE_HOME) {
+        }
+
+        if (orderType != Constants.BUSINESS_TYPE_PICK && orderType != Constants.BUSINESS_TYPE_SEND) {
             WhereBuilder whereBuilder = WhereBuilder.b();
             whereBuilder.and("place_name", "<>", "中国");
+            whereBuilder.and("place_name", "<>", "中国大陆");
             selector.and(whereBuilder);
-            WhereBuilder whereBuilder2 = WhereBuilder.b();
-            whereBuilder2.and("has_airport", "=", 1).or("is_daily", "=", 1).or("is_single", "=", 1);
-            selector.and(whereBuilder2);
         }
         // 修改热门城市排序
         selector.orderBy("hot_weight", true);
@@ -143,13 +141,12 @@ public final class DatabaseManager {
             selector.and("is_single", "=", 1);
         } else if (orderType == Constants.BUSINESS_TYPE_PICK || orderType == Constants.BUSINESS_TYPE_SEND) {
             selector.and("is_city_code", "=", 1);
-        } else if (orderType == Constants.BUSINESS_TYPE_HOME) {
+        }
+        if (orderType != Constants.BUSINESS_TYPE_PICK && orderType != Constants.BUSINESS_TYPE_SEND) {
             WhereBuilder whereBuilder = WhereBuilder.b();
             whereBuilder.and("place_name", "<>", "中国");
+            whereBuilder.and("place_name", "<>", "中国大陆");
             selector.and(whereBuilder);
-            WhereBuilder whereBuilder2 = WhereBuilder.b();
-            whereBuilder2.and("has_airport", "=", 1).or("is_daily", "=", 1).or("is_single", "=", 1);
-            selector.and(whereBuilder2);
         }
         return selector;
     }
@@ -169,6 +166,7 @@ public final class DatabaseManager {
         selector.where(where);
         WhereBuilder whereBuilder = WhereBuilder.b();
         whereBuilder.and("place_name", "<>", "中国");
+        whereBuilder.and("place_name", "<>", "中国大陆");
         selector.and(whereBuilder);
         return selector;
     }

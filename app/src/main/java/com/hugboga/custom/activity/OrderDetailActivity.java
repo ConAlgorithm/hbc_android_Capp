@@ -17,6 +17,7 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.ChatInfo;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.OrderGuideInfo;
+import com.hugboga.custom.data.bean.OrderPriceInfo;
 import com.hugboga.custom.data.bean.OrderStatus;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
@@ -157,16 +158,6 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                 explainTV.setText(explainStr);
             }
         } else if (_request instanceof RequestOrderCancel) {//取消订单
-//            DialogUtil dialogUtil = DialogUtil.getInstance(getActivity());
-//            dialogUtil.showCustomDialog(getContext().getString(R.string.order_cancel_succeed), new DialogInterface.OnClickListener() {
-//                @Override
-//                public void onClick(DialogInterface dialog, int which) {
-//                    bringToFront(FgTravel.class,new Bundle());
-//                    finish();
-//                }
-//            });
-//            notifyOrderList(FgTravel.TYPE_ORDER_CANCEL, true, false, true);
-//            CommonUtils.showToast();
             CommonUtils.showToast(R.string.order_detail_cancel_oeder);
             requestData();
             EventBus.getDefault().post(new EventAction(EventType.CLICK_USER_LOGIN));
@@ -216,7 +207,7 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                 requestParams.source = source;
                 intent = new Intent(OrderDetailActivity.this, ChoosePaymentActivity.class);
                 intent.putExtra(Constants.PARAMS_DATA, requestParams);
-                OrderDetailActivity.this.startActivity(intent);
+                startActivity(intent);
                 break;
             case ORDER_DETAIL_INSURANCE_H5://皇包车免费赠送保险
                 if (!eventVerification(action)) {
@@ -398,9 +389,7 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
         cancelOrderTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mDialogUtil == null) {
-                    mDialogUtil = DialogUtil.getInstance(OrderDetailActivity.this);
-                }
+                mDialogUtil = DialogUtil.getInstance(OrderDetailActivity.this);
                 //如果此订单不能取消，直接进行提示
                 popup.dismiss();
 

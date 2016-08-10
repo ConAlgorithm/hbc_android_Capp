@@ -71,6 +71,8 @@ public class OrderEditActivity extends BaseActivity {
     //上车地点
     @Bind(R.id.single_no_show_address)
     RelativeLayout pickUpLocationLayout;
+    @Bind(R.id.up_address_left)
+    TextView upAddressLeft;
     @Bind(R.id.up_address_right)
     TextView upAddressRight;
 
@@ -206,6 +208,11 @@ public class OrderEditActivity extends BaseActivity {
             }
             if (!TextUtils.isEmpty(orderBean.serviceAddressTel)) {
                 hotelPhoneText.setText(orderBean.serviceAddressTel);
+            }
+            if (orderBean.orderType == 5 || orderBean.orderType == 6) {
+                upAddressLeft.setText(getString(R.string.up_site));
+            } else {
+                upAddressLeft.setText("上车地点");
             }
         }
         contactUsersBean = new ContactUsersBean();

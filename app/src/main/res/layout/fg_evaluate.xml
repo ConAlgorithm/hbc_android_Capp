@@ -17,14 +17,15 @@
         android:layout_alignParentBottom="true" />
 
     <ScrollView
+        android:id="@+id/evaluate_scrollview"
         android:layout_above="@id/evaluate_share_view"
         android:layout_below="@id/evaluate_titlebar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
             <LinearLayout

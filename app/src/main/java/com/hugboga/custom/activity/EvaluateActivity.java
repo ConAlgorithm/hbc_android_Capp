@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
@@ -41,6 +42,8 @@ import butterknife.OnClick;
  */
 public class EvaluateActivity extends BaseActivity implements RatingView.OnLevelChangedListener {
 
+    @Bind(R.id.evaluate_scrollview)
+    ScrollView scrollview;
     @Bind(R.id.evaluate_avatar_iv)
     PolygonImageView avatarIV;
     @Bind(R.id.evaluate_name_tv)
@@ -72,6 +75,7 @@ public class EvaluateActivity extends BaseActivity implements RatingView.OnLevel
     private DialogUtil mDialogUtil;
     private boolean isFirstIn = true;
     private boolean isSubmitEvaluated = false;//是否提交过评价，提交了通知详情页更新。
+    private boolean hasMeasured = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -181,6 +185,9 @@ public class EvaluateActivity extends BaseActivity implements RatingView.OnLevel
         } else {
             activeTV.setVisibility(View.GONE);
         }
+        scrollview.setFocusable(true);
+        scrollview.setFocusableInTouchMode(true);
+        scrollview.requestFocus();
     }
 
     /**

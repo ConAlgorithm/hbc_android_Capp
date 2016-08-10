@@ -27,6 +27,7 @@ public class OrderDetailAmountView extends LinearLayout implements HbcViewBehavi
 
     private LinearLayout billLayout;
     private LinearLayout groupLayout;
+    private View lineView;
 
     private LinearLayout refundLayout;
     private LinearLayout refundItemLayout;
@@ -41,6 +42,7 @@ public class OrderDetailAmountView extends LinearLayout implements HbcViewBehavi
         inflate(context, R.layout.view_order_detail_amount, this);
         billLayout = (LinearLayout) findViewById(R.id.order_detail_amount_bill_layout);
         groupLayout = (LinearLayout) findViewById(R.id.order_detail_amount_group_layout);
+        lineView = findViewById(R.id.order_detail_amount_line_view);
 
         refundLayout = (LinearLayout) findViewById(R.id.order_detail_amount_refund_layout);
         refundItemLayout = (LinearLayout) findViewById(R.id.order_detail_amount_refund_item_layout);
@@ -58,40 +60,52 @@ public class OrderDetailAmountView extends LinearLayout implements HbcViewBehavi
         groupLayout.removeAllViews();
 
         OrderPriceInfo priceInfo = orderBean.orderPriceInfo;
-        addBillView(R.string.order_detail_cost_chartered, "" + (int)priceInfo.orderPrice);//包车费用
-        if (orderBean.orderGoodsType == 1 && priceInfo.flightBrandSignPrice > 0) {//接机 举牌费用
-            addBillView(R.string.order_detail_cost_placards, "" + (int)priceInfo.flightBrandSignPrice);
-        } else if(orderBean.orderGoodsType == 2 && !Double.isNaN(priceInfo.checkInPrice) && priceInfo.checkInPrice > 0) {//送机 checkin费用
-            addBillView(R.string.order_detail_cost_checkin, "" + (int)priceInfo.checkInPrice);
-        }
-        if (priceInfo.childSeatPrice > 0) {
-            addBillView(R.string.order_detail_cost_child_seats, "" + (int)priceInfo.childSeatPrice);//儿童座椅
-        }
-        if (orderBean.hotelStatus == 1 && priceInfo.priceHotel > 0) {//是否有酒店
-            addBillView(R.string.order_detail_cost_hotel, "" + (int)priceInfo.priceHotel);
-        }
+        if (orderBean.orderSource == 1) {
+            lineView.setVisibility(View.VISIBLE);
+            addBillView(R.string.order_detail_cost_chartered, "" + (int)priceInfo.orderPrice);//包车费用
+            if (orderBean.orderGoodsType == 1 && priceInfo.flightBrandSignPrice > 0) {//接机 举牌费用
+                addBillView(R.string.order_detail_cost_placards, "" + (int)priceInfo.flightBrandSignPrice);
+            } else if(orderBean.orderGoodsType == 2 && !Double.isNaN(priceInfo.checkInPrice) && priceInfo.checkInPrice > 0) {//送机 checkin费用
+                addBillView(R.string.order_detail_cost_checkin, "" + (int)priceInfo.checkInPrice);
+            }
+            if (priceInfo.childSeatPrice > 0) {
+                addBillView(R.string.order_detail_cost_child_seats, "" + (int)priceInfo.childSeatPrice);//儿童座椅
+            }
+            if (orderBean.hotelStatus == 1 && priceInfo.priceHotel > 0) {//是否有酒店
+                addBillView(R.string.order_detail_cost_hotel, "" + (int)priceInfo.priceHotel);
+            }
 
-        addGroupView(R.string.order_detail_cost_total, "" + (int)priceInfo.shouldPay);//费用总计
-        if (priceInfo.couponPrice != 0) {
-            addGroupView(R.string.order_detail_cost_coupon, "" + (int)priceInfo.couponPrice);//优惠金额
+            addGroupView(R.string.order_detail_cost_total, "" + (int)priceInfo.shouldPay);//费用总计
+            if (priceInfo.couponPrice != 0) {
+                addGroupView(R.string.order_detail_cost_coupon, "" + (int)priceInfo.couponPrice);//优惠金额
+            }
+            if (priceInfo.travelFundPrice != 0) {
+                addGroupView(R.string.order_detail_cost_travelfund, "" + (int)priceInfo.travelFundPrice);//旅游基金
+            }
+            addGroupView(R.string.order_detail_cost_realpay, "" + (int)priceInfo.actualPay);//实付款
+        } else {
+            lineView.setVisibility(View.GONE);
+            addGroupView(R.string.order_detail_cost_total, "" + (int)priceInfo.shouldPay);//费用总计
+            addGroupView(R.string.order_detail_cost_realpay, "" + (int)priceInfo.actualPay);//实付款
         }
-        if (priceInfo.travelFundPrice != 0) {
-            addGroupView(R.string.order_detail_cost_travelfund, "" + (int)priceInfo.travelFundPrice);//旅游基金
-        }
-        addGroupView(R.string.order_detail_cost_realpay, "" + (int)priceInfo.actualPay);//实付款
-
 
         setRefundLayout(orderBean, priceInfo);//退款详情
     }
 
+    /**
+     * 退款详情
+     * */
     private void setRefundLayout(OrderBean orderBean, OrderPriceInfo priceInfo) {
+        if (orderBean.orderSource != 1) {//非app下单不显示退款
+            return;
+        }
         if (priceInfo.isRefund == 1) {//已经退款
             refundLayout.setVisibility(View.VISIBLE);
 
             refundItemLayout.removeAllViews();
-            addGroupView(refundItemLayout, R.string.order_detail_cost_refund,  "" + (int)priceInfo.refundPrice);//退款金额
+            addGroupView(refundItemLayout, R.string.order_detail_cost_refund, "" + (int) priceInfo.refundPrice);//退款金额
 
-            View withholdView = getGroupView(R.string.order_detail_cost_withhold,  "" + (int)priceInfo.cancelFee);//订单退改扣款
+            View withholdView = getGroupView(R.string.order_detail_cost_withhold, "" + (int) priceInfo.cancelFee);//订单退改扣款
             ((TextView) withholdView.findViewById(R.id.order_detail_amount_title_tv)).setTextSize(13);
             ((TextView) withholdView.findViewById(R.id.order_detail_amount_price_tv)).setTextSize(14);
             LinearLayout.LayoutParams withholdViewParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, UIUtils.dip2px(35));
@@ -99,10 +113,10 @@ public class OrderDetailAmountView extends LinearLayout implements HbcViewBehavi
             refundItemLayout.addView(withholdView, withholdViewParams);
 
             String description = null;
-            if (orderBean.orderSource == 1) {//订单来源：app下单
-                description = getContext().getString(R.string.order_detail_refund_description1, priceInfo.payGatewayName);
-            } else {//非APP下单
-                description = getContext().getString(R.string.order_detail_refund_description2);
+            if (priceInfo.refundPrice <= 0) {//退款金额为0
+                description = getContext().getString(R.string.order_detail_refund_pattern_payment, priceInfo.payGatewayName);
+            } else {
+                description = getContext().getString(R.string.order_detail_refund_description) + getContext().getString(R.string.order_detail_refund_pattern_payment, priceInfo.payGatewayName);
             }
             refundDescriptionTV.setText(description);
         } else {

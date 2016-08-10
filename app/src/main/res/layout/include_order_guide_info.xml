@@ -70,6 +70,7 @@
                     android:layout_marginLeft="13dp"
                     app:gap="4dip"
                     app:rating_bg="@drawable/btn_yellow_ratingbar"
+                    app:half_bg="@mipmap/collection_icon_star_half"
                     app:touchable="false" />
             </LinearLayout>
 

@@ -270,17 +270,6 @@ public class ChoosePaymentActivity extends BaseActivity {
         @Override
         public void handleMessage(Message msg) {
             mDialogUtil.dismissLoadingDialog();
-//            finish();
-//            Bundle bundle = new Bundle();
-//            int overPrice = 0;
-//            bundle.putInt("pay", overPrice);
-//            bundle.putInt("orderType", mOrderBean.orderType);
-//            bundle.putString(KEY_ORDER_ID, mOrderBean.orderNo);
-//            bundle.putString("from", mSourceFragment.getClass().getSimpleName());
-//            bundle.putString("source",source);
-//            startFragment(new FgPayResult(), bundle);
-//            notifyOrderList(FgTravel.TYPE_ORDER_RUNNING, true, false, false);
-
             PayResultActivity.Params params = new PayResultActivity.Params();
             params.payResult = msg.what == 1;//1.支付成功，2.支付失败
             params.orderId = requestParams.orderId;
@@ -330,10 +319,6 @@ public class ChoosePaymentActivity extends BaseActivity {
         dialogUtil.showCustomDialog(getString(R.string.app_name), getString(R.string.order_cancel_pay), "确定离开", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-//                clearFragmentList();
-//                FgOrderDetail.Params orderParams = new FgOrderDetail.Params();
-//                orderParams.orderId = requestParams.orderId;
-//                startFragment(FgOrderDetail.newInstance(orderParams));
 
                 Intent intent = new Intent(ChoosePaymentActivity.this, MainActivity.class);
                 startActivity(intent);

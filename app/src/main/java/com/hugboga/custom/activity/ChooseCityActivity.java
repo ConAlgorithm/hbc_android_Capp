@@ -773,13 +773,12 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
             selector.and("is_single", "=", 1);
         } else if (orderType == Constants.BUSINESS_TYPE_PICK || orderType == Constants.BUSINESS_TYPE_SEND) {
             selector.and("is_city_code", "=", 1);
-        } else if (orderType == Constants.BUSINESS_TYPE_HOME) {
+        }
+        if (orderType != Constants.BUSINESS_TYPE_PICK && orderType != Constants.BUSINESS_TYPE_SEND) {
             WhereBuilder whereBuilder = WhereBuilder.b();
             whereBuilder.and("place_name", "<>", "中国");
+            whereBuilder.and("place_name", "<>", "中国大陆");
             selector.and(whereBuilder);
-            WhereBuilder whereBuilder2 = WhereBuilder.b();
-            whereBuilder2.and("has_airport", "=", 1).or("is_daily", "=", 1).or("is_single", "=", 1);
-            selector.and(whereBuilder2);
         }
         try {
             dataList = selector.findAll();

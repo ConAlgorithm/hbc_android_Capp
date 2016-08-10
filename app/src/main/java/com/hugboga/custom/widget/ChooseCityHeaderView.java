@@ -36,7 +36,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by qingcha on 16/7/23.
+ * Created by on 16/7/23.
  */
 public class ChooseCityHeaderView extends LinearLayout{
 
