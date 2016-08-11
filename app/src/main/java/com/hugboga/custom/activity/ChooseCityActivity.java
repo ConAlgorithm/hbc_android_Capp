@@ -109,7 +109,6 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
     private ChooseCityAdapter mAdapter;
     private Handler mAsyncHandler;
     private List<CityBean> cityList = new ArrayList<>();
-    ;
     private ArrayList<String> cityHistory = new ArrayList<>();//历史数据
     private ArrayList<CityBean> chooseCityList = new ArrayList<CityBean>();
     private ArrayList<Integer> exceptCityId = new ArrayList<>();
@@ -318,7 +317,7 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
             searchTV.setVisibility(GONE);
             if (showType != ShowType.SELECT_CITY) {
                 headerRootView.removeAllViews();
-                headerRootView.addView(headerView);
+                headerRootView.addView(headerView, UIUtils.getScreenWidth(), FrameLayout.LayoutParams.WRAP_CONTENT);
                 if (showType == ShowType.PICK_UP) {
                     tabLayout.setVisibility(View.VISIBLE);
                 }
