@@ -406,4 +406,10 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
         ButterKnife.bind(this);
         initView();
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        ButterKnife.unbind(this);
+    }
 }
