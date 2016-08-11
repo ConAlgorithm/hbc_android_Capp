@@ -72,6 +72,7 @@
                             android:layout_marginLeft="16dp"
                             android:layout_marginTop="1dip"
                             app:gap="4dip"
+                            app:half_bg="@mipmap/sddate_star_half"
                             app:rating_bg="@drawable/btn_yellow_ratingbar"
                             app:touchable="false" />
                     </LinearLayout>

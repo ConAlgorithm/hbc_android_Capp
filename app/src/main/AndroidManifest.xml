@@ -58,7 +58,7 @@
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
-                <data android:scheme="znn"/>
+                <data android:scheme="@string/hbc_scheme"/>
             </intent-filter>
         </activity>
 
