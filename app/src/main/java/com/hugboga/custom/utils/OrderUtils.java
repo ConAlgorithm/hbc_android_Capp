@@ -208,6 +208,8 @@ public class OrderUtils {
                 orderBean.orderPrice = carBean.price;
                 if(null != mostFitBean && null != mostFitBean.actualPrice  && mostFitBean.actualPrice != 0) {
                     orderBean.priceActual = mostFitBean.actualPrice + "";
+                }else{
+                    orderBean.priceActual = "0";
                 }
             } else if (null != couponBean && null == mostFitBean) {
                 orderBean.coupId = couponBean.couponID;
@@ -215,6 +217,8 @@ public class OrderUtils {
                 orderBean.orderPrice = carBean.price;
                 if(couponBean.actualPrice != 0) {
                     orderBean.priceActual = couponBean.actualPrice + "";
+                }else{
+                    orderBean.priceActual = "0";
                 }
             }
         }
@@ -325,6 +329,8 @@ public class OrderUtils {
                 orderBean.orderPrice = carBean.price;
                 if(null != mostFitBean && null != mostFitBean.actualPrice  && mostFitBean.actualPrice != 0) {
                     orderBean.priceActual = mostFitBean.actualPrice + "";
+                }else{
+                    orderBean.priceActual = "0";
                 }
             } else if (null != couponBean && null == mostFitBean) {
                 orderBean.coupId = couponBean.couponID;
@@ -332,6 +338,8 @@ public class OrderUtils {
                 orderBean.orderPrice = carBean.price;
                 if(couponBean.actualPrice != 0) {
                     orderBean.priceActual = couponBean.actualPrice + "";
+                }else{
+                    orderBean.priceActual = "0";
                 }
             }
         }
@@ -445,12 +453,16 @@ public class OrderUtils {
                 orderBean.coupPriceInfo = mostFitBean.couponPrice + "";
                 if(null != mostFitBean && null != mostFitBean.actualPrice  && mostFitBean.actualPrice != 0) {
                     orderBean.priceActual = mostFitBean.actualPrice + "";
+                }else{
+                    orderBean.priceActual = "0";
                 }
             } else if (null != couponBean && null == mostFitBean) {
                 orderBean.coupId = couponBean.couponID;
                 orderBean.coupPriceInfo = couponBean.price;
                 if(couponBean.actualPrice != 0) {
                     orderBean.priceActual = couponBean.actualPrice + "";
+                }else{
+                    orderBean.priceActual = "0";
                 }
             }
         }
@@ -564,6 +576,8 @@ public class OrderUtils {
                 orderBean.orderPrice = carBean.price;
                 if(null != mostFitBean && null != mostFitBean.actualPrice  && mostFitBean.actualPrice != 0) {
                     orderBean.priceActual = mostFitBean.actualPrice + "";
+                }else{
+                    orderBean.priceActual = "0";
                 }
             } else if (null != couponBean && null == mostFitBean) {
                 orderBean.coupId = couponBean.couponID;
@@ -571,6 +585,8 @@ public class OrderUtils {
                 orderBean.orderPrice = carBean.price;
                 if(couponBean.actualPrice != 0) {
                     orderBean.priceActual = couponBean.actualPrice + "";
+                }else{
+                    orderBean.priceActual = "0";
                 }
             }
         }
@@ -672,6 +688,8 @@ public class OrderUtils {
                 orderBean.orderPrice = carBean.price;
                 if(null != mostFitBean && null != mostFitBean.actualPrice  && mostFitBean.actualPrice != 0) {
                     orderBean.priceActual = mostFitBean.actualPrice + "";
+                }else{
+                    orderBean.priceActual = "0";
                 }
             } else if (null != couponBean && null == mostFitBean) {
                 orderBean.coupId = couponBean.couponID;
@@ -679,6 +697,8 @@ public class OrderUtils {
                 orderBean.orderPrice = carBean.price;
                 if(couponBean.actualPrice != 0) {
                     orderBean.priceActual = couponBean.actualPrice + "";
+                }else{
+                    orderBean.priceActual = "0";
                 }
             }
         }
