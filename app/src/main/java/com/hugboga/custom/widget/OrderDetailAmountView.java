@@ -105,17 +105,17 @@ public class OrderDetailAmountView extends LinearLayout implements HbcViewBehavi
             refundItemLayout.removeAllViews();
             addGroupView(refundItemLayout, R.string.order_detail_cost_refund, "" + (int) priceInfo.refundPrice);//退款金额
 
-            View withholdView = getGroupView(R.string.order_detail_cost_withhold, "" + (int) priceInfo.cancelFee);//订单退改扣款
-            ((TextView) withholdView.findViewById(R.id.order_detail_amount_title_tv)).setTextSize(13);
-            ((TextView) withholdView.findViewById(R.id.order_detail_amount_price_tv)).setTextSize(14);
-            LinearLayout.LayoutParams withholdViewParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, UIUtils.dip2px(35));
-            withholdViewParams.setMargins(UIUtils.dip2px(10), 0, UIUtils.dip2px(10), 0);
-            refundItemLayout.addView(withholdView, withholdViewParams);
-
             String description = null;
             if (priceInfo.refundPrice <= 0) {//退款金额为0
                 description = getContext().getString(R.string.order_detail_refund_pattern_payment, priceInfo.payGatewayName);
             } else {
+                View withholdView = getGroupView(R.string.order_detail_cost_withhold, "" + (int) priceInfo.cancelFee);//订单退改扣款
+                ((TextView) withholdView.findViewById(R.id.order_detail_amount_title_tv)).setTextSize(13);
+                ((TextView) withholdView.findViewById(R.id.order_detail_amount_price_tv)).setTextSize(14);
+                LinearLayout.LayoutParams withholdViewParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, UIUtils.dip2px(35));
+                withholdViewParams.setMargins(UIUtils.dip2px(10), 0, UIUtils.dip2px(10), 0);
+                refundItemLayout.addView(withholdView, withholdViewParams);
+
                 description = getContext().getString(R.string.order_detail_refund_description) + getContext().getString(R.string.order_detail_refund_pattern_payment, priceInfo.payGatewayName);
             }
             refundDescriptionTV.setText(description);
@@ -158,11 +158,13 @@ public class OrderDetailAmountView extends LinearLayout implements HbcViewBehavi
         if (TextUtils.isEmpty(price)) {
             price = "0";
         }
-        String priceText = getContext().getString(R.string.sign_rmb) + price;
-        if (titleID == R.string.order_detail_cost_coupon) {
+        String priceText = null;
+        if (titleID == R.string.order_detail_cost_coupon || titleID == R.string.order_detail_cost_travelfund) {//旅游基金和优惠券需要加减号
             priceText = getContext().getString(R.string.sign_rmb) + " -" + price;
         } else if (titleID == R.string.order_detail_cost_realpay) {
             priceTV.setTextColor(0xFFF44437);
+        } else {
+            priceText = getContext().getString(R.string.sign_rmb) + price;
         }
         priceTV.setText(priceText);
         return itemView;
