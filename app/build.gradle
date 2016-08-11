@@ -124,7 +124,7 @@ android {
                 flavor.buildConfigField('String', 'H5_HOST','"http://info.test.hbc.tech"')
                 flavor.buildConfigField('String', 'SHARE_BASE_URL_1','"http://test.op.huangbaoche.com/test/app/auth.html"')
                 flavor.buildConfigField('String', 'SHARE_BASE_URL_2','"http://act.test.huangbaoche.com"')
-                flavor.buildConfigField('String', 'SHARE_BASE_URL_3','"http://act.test.hbc.tech"')
+                flavor.buildConfigField('String', 'SHARE_BASE_URL_3','"http://act.test.huangbaoche.com"')
                 flavor.buildConfigField('String', 'SHARE_BASE_URL_4','"http://m.test.huangbaoche.com"')
                 flavor.buildConfigField('String', 'SHARE_APPID','"wx1354271c597184ee"')
                 flavor.manifestPlaceholders(JPUSH_KEY: "a351a47a9106354c59188e16", APP_CHANNEL: "examination", RONG_CLOUD_APP_KEY: "3argexb6r2kve")

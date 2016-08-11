@@ -39,7 +39,7 @@ public class UrlLibs {
 
     public static  String SHARE_BASE_URL_1 = "http://op.huangbaoche.com/app/auth.html";
     public static  String SHARE_BASE_URL_2 = "http://act.huangbaoche.com";
-    public static  String SHARE_BASE_URL_3 = "http://act.huangbaoche.com";
+    public static  String SHARE_BASE_URL_3 = "http://act.test.huangbaoche.com";
     public static  String SHARE_BASE_URL_4 = "http://m.test.huangbaoche.com";
     public static  String SHARE_APPID = "wx62ad814ba9bf0b68";//测试wx1354271c597184ee 线上wx62ad814ba9bf0b68
 
