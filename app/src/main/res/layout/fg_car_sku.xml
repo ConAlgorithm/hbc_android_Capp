@@ -27,7 +27,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="50dip"
-                android:src="@mipmap/journey_sorry" />
+                android:src="@drawable/error_show" />
 
             <TextView
                 android:layout_width="wrap_content"
