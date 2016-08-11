@@ -35,7 +35,7 @@ public class UrlLibs {
     public static String TEST_H5_HOST = "http://info.test.hbc.tech";
     public static String FORMAL_H5_HOST = "https://info.huangbaoche.com";
 
-    public static String H5_HOST = FORMAL_H5_HOST;
+    public static String H5_HOST = TEST_H5_HOST;
 
     public static  String SHARE_BASE_URL_1 = "http://op.huangbaoche.com/app/auth.html";
     public static  String SHARE_BASE_URL_2 = "http://act.huangbaoche.com";
