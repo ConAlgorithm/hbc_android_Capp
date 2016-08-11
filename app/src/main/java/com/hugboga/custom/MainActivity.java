@@ -667,11 +667,9 @@ public class MainActivity extends BaseActivity
                 }
                 break;
             case Constants.PERSONAL_CENTER_HD://活动
-                if (isLogin()) {
                     Intent intent = new Intent(MainActivity.this, WebInfoActivity.class);
                     intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_ACTIVITY + UserEntity.getUser().getUserId(this.getApplicationContext()) + "&t=" + new Random().nextInt(100000));
                     startActivity(intent);
-                }
                 break;
             case Constants.PERSONAL_CENTER_CUSTOMER_SERVICE://服务规则
                 intent = new Intent(activity, ServicerCenterActivity.class);
