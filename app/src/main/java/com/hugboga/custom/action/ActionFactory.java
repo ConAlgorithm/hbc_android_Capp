@@ -2,6 +2,7 @@ package com.hugboga.custom.action;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.hugboga.custom.MainActivity;
@@ -10,13 +11,16 @@ import com.hugboga.custom.activity.ChooseCityNewActivity;
 import com.hugboga.custom.activity.CouponActivity;
 import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.activity.TravelFundActivity;
+import com.hugboga.custom.activity.TravelFundRecordActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.bean.PushMessage;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.fragment.BaseFragment;
 import com.hugboga.custom.fragment.FgHome;
 import com.hugboga.custom.utils.CommonUtils;
+import com.hugboga.custom.utils.JsonUtils;
 
 import java.util.Random;
 
@@ -34,28 +38,20 @@ public class ActionFactory implements ActionFactoryBehavior {
     @Override
     public void doAction(final ActionBean _actionBaseBean) {
         if (_actionBaseBean == null) {
-            Log.i("qingcha_push", "doAction  wocao   ");
             return;
         }
-        Log.i("qingcha_push", "doAction  yeyeye   ");
         switch (CommonUtils.getCountInteger(_actionBaseBean.type)) {
             case ActionType.WEB_ACTIVITY:
-                if (activity == null) {
-                    return;
-                }
-                Intent intent = new Intent(activity, WebInfoActivity.class);
-                intent.putExtra(WebInfoActivity.WEB_URL,  _actionBaseBean.url);
-                intent.putExtra(WebInfoActivity.CONTACT_SERVICE, true);
-                activity.startActivity(intent);
+                intentWebInfoActivity(_actionBaseBean.url);
                 break;
             case ActionType.NATIVE_PAGE:
                 intentPage(_actionBaseBean);
-                Log.i("qingcha_push", "doAction  hahahah");
                 break;
             case ActionType.FUNCTION:
                 doFunction(_actionBaseBean);
                 break;
             default:
+                nonsupportToast();
                 break;
         }
     }
@@ -64,20 +60,14 @@ public class ActionFactory implements ActionFactoryBehavior {
     public void intentPage(ActionBean _actionBaseBean) {
         if (activity == null) {
             return;
-        } else {
-            if (activity.getFragmentList().size() > 3) {
-                for (int i = activity.getFragmentList().size() - 1; i >= 3; i--) {
-                    activity.getFragmentList().get(i).finish();
-                }
-            }
         }
         Intent intent = null;
         switch (CommonUtils.getCountInteger(_actionBaseBean.vcid)) {
             case ActionType.PageType.WEBVIEW:
-                intent = new Intent(activity, WebInfoActivity.class);
-                intent.putExtra(WebInfoActivity.WEB_URL,  _actionBaseBean.vcid);
-                intent.putExtra(WebInfoActivity.CONTACT_SERVICE, true);
-                activity.startActivity(intent);
+                if (!TextUtils.isEmpty(_actionBaseBean.data)) {
+                    ActionWebBean actionWebBean = (ActionWebBean) JsonUtils.fromJson(_actionBaseBean.data, ActionWebBean.class);
+                    intentWebInfoActivity(actionWebBean.url);
+                }
                 break;
             case ActionType.PageType.HOME:
                 intent = new Intent(activity, MainActivity.class);
@@ -109,7 +99,15 @@ public class ActionFactory implements ActionFactoryBehavior {
                     activity.startActivity(intent);
                 }
                 break;
+            case ActionType.PageType.TRAVEL_FUND_USED_BILL:
+                if (isLogin()) {
+                    intent = new Intent(activity, TravelFundRecordActivity.class);
+                    intent.putExtra(Constants.PARAMS_TYPE, TravelFundRecordActivity.TYPE_USE_Bill);
+                    activity.startActivity(intent);
+                }
+                break;
             default:
+                nonsupportToast();
                 break;
         }
     }
@@ -127,8 +125,19 @@ public class ActionFactory implements ActionFactoryBehavior {
 
                 break;
             default:
+                nonsupportToast();
                 break;
         }
+    }
+
+    private void intentWebInfoActivity(String _url) {
+        if (activity == null || TextUtils.isEmpty(_url)) {
+            return;
+        }
+        Intent intent = new Intent(activity, WebInfoActivity.class);
+        intent.putExtra(WebInfoActivity.WEB_URL,  ActionUtils.getWebUrl(_url));
+        intent.putExtra(WebInfoActivity.CONTACT_SERVICE, true);
+        activity.startActivity(intent);
     }
 
     private boolean isLogin() {
@@ -138,5 +147,9 @@ public class ActionFactory implements ActionFactoryBehavior {
             activity.startActivity(new Intent(activity, LoginActivity.class));
         }
         return isLogin;
+    }
+
+    private void nonsupportToast() {
+        CommonUtils.showToast("版本较低，请升级到最新版本，体验新功能！");
     }
 }
