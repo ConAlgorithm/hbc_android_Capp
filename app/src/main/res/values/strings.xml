@@ -417,7 +417,7 @@
     <string name="man_luggage_num_left">出行人数</string>
     <string name="choose_man_luggage">请选择</string>
     <string name="child_seat_money">收费儿童座椅</string>
-    <string name="checkin">协助办理登机check in</string>
+    <string name="checkin">协助登机check in</string>
     <string name="pick_wait">接机举牌等待</string>
     <string name="cost_0">(服务费 ￥0)</string>
     <string name="all_cost">费用总计:</string>
