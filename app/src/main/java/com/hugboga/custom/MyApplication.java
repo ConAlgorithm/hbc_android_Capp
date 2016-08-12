@@ -14,6 +14,7 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.net.ServerCodeHandler;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestAccessKey;
+import com.hugboga.custom.utils.LogUtils;
 import com.hugboga.custom.widget.DialogUtil;
 import com.umeng.analytics.MobclickAgent;
 
@@ -85,7 +86,9 @@ public class MyApplication extends HbcApplication {
         UrlLibs.SHARE_APPID = BuildConfig.SHARE_APPID;
         UrlLibs.H5_HOST = BuildConfig.H5_HOST;
 
-
+        LogUtils.e(UrlLibs.SHARE_BASE_URL_1+"\n" +UrlLibs.SHARE_BASE_URL_2
+                +"\n"+UrlLibs.SHARE_BASE_URL_3+"\n"+UrlLibs.SHARE_BASE_URL_4
+                +"\n"+UrlLibs.H5_HOST);
     }
 
     private void initConfig() {

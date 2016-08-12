@@ -1,6 +1,7 @@
 package com.hugboga.custom.data.net;
 
 
+import com.hugboga.custom.BuildConfig;
 import com.hugboga.custom.constants.Constants;
 
 import java.util.HashMap;
@@ -35,7 +36,7 @@ public class UrlLibs {
     public static String TEST_H5_HOST = "http://info.test.hbc.tech";
     public static String FORMAL_H5_HOST = "https://info.huangbaoche.com";
 
-    public static String H5_HOST = FORMAL_H5_HOST;
+    public static String H5_HOST = BuildConfig.H5_HOST;
 
     public static  String SHARE_BASE_URL_1 = "http://op.huangbaoche.com/app/auth.html";
     public static  String SHARE_BASE_URL_2 = "http://act.huangbaoche.com";
@@ -45,10 +46,10 @@ public class UrlLibs {
 
 //    http://m.test.huangbaoche.com/app/dailyDetail.html?userId=100000001023&cityId=217
 //    http://m.huangbaoche.com/app/dailyDetail.html?userId=100000001023&cityId=217
-    public static String H5_DAIRY = SHARE_BASE_URL_4 + "/app/dailyDetail.html";
+    public static String H5_DAIRY = BuildConfig.SHARE_BASE_URL_4 + "/app/dailyDetail.html";
 
 
-    public static String H5_ACTIVITY= SHARE_BASE_URL_3 + "/h5/cactivity/index.html?userId=";//国行
+    public static String H5_ACTIVITY= BuildConfig.SHARE_BASE_URL_3 + "/h5/cactivity/index.html?userId=";//国行
     public static String H5_ABOUT = H5_HOST+"/cinfos/about.html";//  关于我们
     public static String H5_ADDFEE_C = H5_HOST+"/cinfos/addfee_c.html";//  单次接送—后付费用说明
     public static String H5_ADDFEE_J = H5_HOST+"/cinfos/addfee_j.html";//  接机—后付费用说明

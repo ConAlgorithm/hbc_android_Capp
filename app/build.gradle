@@ -110,7 +110,7 @@ android {
                 flavor.buildConfigField('String', 'H5_HOST','"http://info.dev.hbc.tech"')
                 flavor.buildConfigField('String', 'SHARE_BASE_URL_1','"http://test.op.huangbaoche.com/dev/app/auth.html"')
                 flavor.buildConfigField('String', 'SHARE_BASE_URL_2','"http://act.dev.huangbaoche.com"')
-                flavor.buildConfigField('String', 'SHARE_BASE_URL_3','"http://act.dev.hbc.tech"')
+                flavor.buildConfigField('String', 'SHARE_BASE_URL_3','"http://act.dev.huangbaoche.com"')
                 flavor.buildConfigField('String', 'SHARE_BASE_URL_4','"http://m.dev.huangbaoche.com"')
                 flavor.buildConfigField('String', 'SHARE_APPID','"wx1354271c597184ee"')
                 flavor.manifestPlaceholders(JPUSH_KEY: "a351a47a9106354c59188e16", APP_CHANNEL: "developer", RONG_CLOUD_APP_KEY: "3argexb6r2kve")
