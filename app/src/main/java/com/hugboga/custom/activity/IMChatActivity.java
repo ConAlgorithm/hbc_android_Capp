@@ -1,7 +1,6 @@
 package com.hugboga.custom.activity;
 
 import android.Manifest;
-import android.app.Fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
@@ -52,6 +51,7 @@ import com.zhy.m.permission.PermissionGrant;
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -125,14 +125,16 @@ public class IMChatActivity extends BaseActivity implements IMUtil.OnImSuccessLi
         }
 
         Bundle bundle = getIntent().getExtras();
-        if (bundle == null) {
-            return;
-        }
         ConversationFragment conversation = (ConversationFragment) getSupportFragmentManager().findFragmentById(R.id.conversation);
         if (conversation == null) {
             return;
         }
-        Uri uri = Uri.parse(bundle.getString(KEY_TITLE));
+        Uri uri;
+        if(null == bundle){
+            uri = getIntent().getData();
+        }else {
+            uri = Uri.parse(bundle.getString(KEY_TITLE));
+        }
         conversation.setUri(uri);
         view = (RelativeLayout) conversation.getView();
         //刷新订单信息
