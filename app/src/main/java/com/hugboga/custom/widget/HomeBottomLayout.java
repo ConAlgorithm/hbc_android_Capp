@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -152,9 +151,14 @@ public class HomeBottomLayout extends LinearLayout implements View.OnClickListen
         Bundle bundle = new Bundle();
         HashMap<String,String> map = new HashMap<String,String>();
         bundle.putString("source","首页");
+        String userId = UserEntity.getUser().getUserId(this.getContext());
+        String params = "";
+        if(!TextUtils.isEmpty(userId)){
+            params += "?userId=" + userId;
+        }
         Intent intent = new Intent(this.getContext(), DailyWebInfoActivity.class);
         intent.putExtras(bundle);
-        intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_DAIRY);
+        intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_DAIRY + params);
         this.getContext().startActivity(intent);
         map.put("source", "首页");
         MobclickAgent.onEvent(fragment.getActivity(), "chose_oneday", map);
