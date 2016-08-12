@@ -27,6 +27,10 @@ public class ZListHttpUtils extends HttpRequestUtils {
         this.zSwipeRefreshLayout = zSwipeRefreshLayout;
     }
 
+    public void setRequest(BaseRequest request) {
+        this.request = request;
+    }
+
     public void exec(String limit, String offset) {
         int dataCount = adapter.getDataCount();
         int itemCount = adapter.getDatas() == null ? 0 : adapter.getDatas().size();
