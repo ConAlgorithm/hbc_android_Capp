@@ -167,6 +167,8 @@ public class ZListPageView extends ZListRecyclerView implements IPageList {
             zListHttpUtils = new ZListHttpUtils(getContext(), this, requestData, pageLoadListener, adapter, zSwipeRefreshLayout);
 //            zListHttpUtils.setNetworkLayout(networkErrorLayout);
 //            zListHttpUtils.setIsShowLoading(); //RecyclerView缺陷
+        } else {
+            zListHttpUtils.setRequest(requestData);
         }
         int pageIndex = 0;
         if (pageType == Page.pageType.FIRST) {

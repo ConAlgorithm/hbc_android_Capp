@@ -247,6 +247,8 @@ public class FgChat extends BaseFragment implements View.OnClickListener, ZBaseA
         switch (action.getType()) {
             case CLICK_USER_LOGIN:
             case REFRESH_CHAT_LIST:
+                RequestChatList parserChatList = new RequestChatList(getActivity());
+                recyclerView.setRequestData(parserChatList);
                 requestData();
                 break;
             case CLICK_USER_LOOUT:
