@@ -22,7 +22,7 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
-import com.hugboga.custom.action.ActionBean;
+import com.hugboga.custom.action.data.ActionBean;
 import com.hugboga.custom.activity.BaseActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.ADPictureBean;

@@ -14,7 +14,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.hugboga.custom.action.ActionBean;
+import com.hugboga.custom.action.data.ActionBean;
 import com.hugboga.custom.activity.BaseActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.UserEntity;

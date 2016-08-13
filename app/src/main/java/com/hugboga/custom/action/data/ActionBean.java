@@ -1,4 +1,4 @@
-package com.hugboga.custom.action;
+package com.hugboga.custom.action.data;
 
 import com.google.gson.annotations.SerializedName;
 

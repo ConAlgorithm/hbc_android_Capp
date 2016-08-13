@@ -40,8 +40,8 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
-import com.hugboga.custom.action.ActionBean;
-import com.hugboga.custom.action.ActionFactory;
+import com.hugboga.custom.action.data.ActionBean;
+import com.hugboga.custom.action.ActionController;
 import com.hugboga.custom.activity.BaseActivity;
 import com.hugboga.custom.activity.CollectGuideListActivity;
 import com.hugboga.custom.activity.CouponActivity;
@@ -196,7 +196,7 @@ public class MainActivity extends BaseActivity
         showAdWebView(getIntent().getStringExtra("url"));
 
         if (actionBean != null) {
-            ActionFactory actionFactory = new ActionFactory(this);
+            ActionController actionFactory = ActionController.getInstance(this);
             actionFactory.doAction(actionBean);
         }
     }
@@ -384,7 +384,7 @@ public class MainActivity extends BaseActivity
                     uploadPushClick(message.messageID);
                     ActionBean actionBean = message.getActionBean();
                     if (actionBean != null) {
-                        ActionFactory actionFactory = new ActionFactory(this);
+                        ActionController actionFactory = ActionController.getInstance(this);
                         actionFactory.doAction(actionBean);
                         this.actionBean = actionBean;
                     } else {
@@ -440,7 +440,7 @@ public class MainActivity extends BaseActivity
             case CLICK_USER_LOGIN:
 //                getUserCoupon();
                 if (actionBean != null) {
-                    ActionFactory actionFactory = new ActionFactory(this);
+                    ActionController actionFactory = ActionController.getInstance(this);
                     actionFactory.doAction(actionBean);
                     actionBean = null;
                 }
