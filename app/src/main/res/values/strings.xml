@@ -234,7 +234,7 @@
     <string name="empty_text">没有找到相关结果</string>
     <string name="empty_city_text">抱歉，没有找到您要的地点</string>
     <string name="can_not_choose_start_city_text">跨城市包车不能选择出发城市哦</string>
-    <string name="out_of_range_city_text">您搜索的城市超出了包车游玩范围</string>
+    <string name="out_of_range_city_text">该地区暂未开通服务</string>
 
     <!-- sku-->
     <string name="sku_car_tip">注意:不同车型会影响总价上下浮动</string>
@@ -666,7 +666,7 @@
     <string name="home_featured_active">精选活动</string>
     <string name="home_more_featured_route">更多包车游线路</string>
     <string name="home_custom_chartered">自定义包车游</string>
-    <string name="home_custom_chartered_description">定制行程，中文司导兼导游全程陪同</string>
+    <string name="home_custom_chartered_description">定制行程，中文司导全程陪同</string>
     <string name="home_picksend">中文接送机</string>
     <string name="home_single">单次接送</string>
     <string name="alert_car_full">特别提示：此车型空间较小，目前已达人数极限，部分成员会很不舒服，且只能携带极少行李，是否继续？</string>

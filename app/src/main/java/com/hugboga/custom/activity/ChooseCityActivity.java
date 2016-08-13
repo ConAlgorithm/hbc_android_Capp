@@ -254,9 +254,9 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
         editSearch.addTextChangedListener(this);
         editSearch.setHint("请输入城市名称");
         if ("startAddress".equals(from)) {
-            editSearch.setHint("请输入出发城市名称");
+            editSearch.setHint("请输入城市名称");
         } else if ("end".equals(from)) {
-            editSearch.setHint("请输入达到城市名称");
+            editSearch.setHint("请输入城市名称");
             tabLayout.findViewById(R.id.choose_city_tab_foreign_layout).performClick();
         } else if (showType == ShowType.SELECT_CITY) {
             editSearch.setHint("搜索途经城市");
