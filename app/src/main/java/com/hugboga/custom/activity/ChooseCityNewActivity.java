@@ -24,6 +24,7 @@ import com.hugboga.custom.adapter.LevelCityAdapter;
 import com.hugboga.custom.adapter.SearchNewAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.SearchGroupBean;
+import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.utils.CityUtils;
 import com.hugboga.custom.utils.LogUtils;
@@ -260,9 +261,13 @@ public class ChooseCityNewActivity extends BaseActivity {
 //                    Bundle bundle = new Bundle();
 //                    bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_DAIRY);
 //                    startFragment(new FgDailyWeb(), bundle);
-
+                    String userId = UserEntity.getUser().getUserId(activity);
+                    String params = "";
+                    if(!TextUtils.isEmpty(userId)){
+                        params += "?userId=" + userId;
+                    }
                     Intent intent = new Intent(activity, DailyWebInfoActivity.class);
-                    intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_DAIRY);
+                    intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_DAIRY +params);
                     startActivity(intent);
 
 //                    FgOrderSelectCity fgOrderSelectCity = new FgOrderSelectCity();
