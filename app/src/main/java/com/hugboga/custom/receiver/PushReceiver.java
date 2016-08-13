@@ -9,7 +9,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
@@ -17,7 +16,6 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.MainActivity;
-import com.hugboga.custom.action.ActionBean;
 import com.hugboga.custom.data.bean.PushMessage;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
@@ -27,8 +25,6 @@ import com.hugboga.custom.utils.PushUtils;
 
 import cn.jpush.android.api.JPushInterface;
 import org.greenrobot.eventbus.EventBus;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 /**
  * Push

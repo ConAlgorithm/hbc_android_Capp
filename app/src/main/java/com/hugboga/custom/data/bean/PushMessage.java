@@ -1,16 +1,9 @@
 package com.hugboga.custom.data.bean;
 
 import android.text.TextUtils;
-import android.util.Log;
 
-import com.google.gson.annotations.SerializedName;
-import com.huangbaoche.hbcframe.util.MLog;
-import com.hugboga.custom.action.ActionBean;
+import com.hugboga.custom.action.data.ActionBean;
 import com.hugboga.custom.utils.JsonUtils;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 /**
  * Created by ZHZEPHI on 2015/7/29.
