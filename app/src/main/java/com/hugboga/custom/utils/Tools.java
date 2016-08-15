@@ -92,6 +92,12 @@ public class Tools {
         }
     }
 
+    //人民币符号
+    public static String getRMB(){
+        char symbol = 165;
+        return String.valueOf(symbol);
+    }
+
     public static File downLoadImage(Context context,String url){
         FutureTarget<File> future = Glide.with(context)
                 .load(url)

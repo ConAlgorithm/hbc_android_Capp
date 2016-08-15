@@ -1,6 +1,5 @@
 package com.hugboga.custom.activity;
 
-import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -72,10 +71,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.qqtheme.framework.picker.TimePicker;
 
-import static android.R.attr.id;
 import static android.view.View.GONE;
 import static com.hugboga.custom.R.id.man_name;
-import static com.hugboga.custom.R.id.time_text_click;
 import static com.hugboga.custom.R.id.up_address_right;
 import static com.hugboga.custom.R.id.up_right;
 
@@ -376,14 +373,14 @@ public class OrderNewActivity extends BaseActivity {
                         } else {
                             showPrice = carBean.price;
                         }
-                        allMoneyLeftText.setText(getString(R.string.sign_rmb) + (showPrice + checkInOrPickupPrice + hotelPrice + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean)));
+                        allMoneyLeftText.setText(Tools.getRMB() + (showPrice + checkInOrPickupPrice + hotelPrice + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean)));
 
                     } else {
                         int price = 0;
                         if(null != mostFitBean && null != mostFitBean.actualPrice){
                             price = mostFitBean.actualPrice.intValue();
                         }
-                        allMoneyLeftText.setText(getString(R.string.sign_rmb) + (price + hotelPrice + checkInOrPickupPrice + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean)));
+                        allMoneyLeftText.setText(Tools.getRMB() + (price + hotelPrice + checkInOrPickupPrice + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean)));
                     }
                 }
             }
@@ -394,9 +391,9 @@ public class OrderNewActivity extends BaseActivity {
                 if (isChecked) {
                     couponLeft.setChecked(false);
                     if (null == deductionBean || null == deductionBean.priceToPay) {
-                        allMoneyLeftText.setText(getString(R.string.sign_rmb) + (carBean.price + hotelPrice + checkInOrPickupPrice + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean)));
+                        allMoneyLeftText.setText(Tools.getRMB() + (carBean.price + hotelPrice + checkInOrPickupPrice + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean)));
                     } else {
-                        allMoneyLeftText.setText(getString(R.string.sign_rmb) + (carBean.price - money + hotelPrice + checkInOrPickupPrice + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean)));
+                        allMoneyLeftText.setText(Tools.getRMB() + (carBean.price - money + hotelPrice + checkInOrPickupPrice + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean)));
                     }
                 }
             }
@@ -417,7 +414,8 @@ public class OrderNewActivity extends BaseActivity {
     private void getCancleTips() {
         RequestCancleTips requestCancleTips = new RequestCancleTips(activity,
                 cancleTipsId, orderType + "",
-                carBean.capOfPerson + "", carBean.carType + "",
+                carBean.capOfPerson + "",
+                carBean.seatCategory + "",
                 cancleTipsTime, halfDay, goodsVersion, goodsNo, orderType + "");
         HttpRequestUtils.request(activity, requestCancleTips, new HttpRequestListener() {
             @Override
@@ -537,7 +535,7 @@ public class OrderNewActivity extends BaseActivity {
         singleNoShowTime.setVisibility(GONE);
         singleNoShowAddress.setVisibility(GONE);
 
-        allMoneyLeftText.setText(getString(R.string.sign_rmb) + (carBean.price + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean)
+        allMoneyLeftText.setText(Tools.getRMB() + (carBean.price + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean)
                 + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean) + hotelPrice));
 
         checkin.setText("协助办理登机check in");
@@ -548,7 +546,7 @@ public class OrderNewActivity extends BaseActivity {
             if (null != carListBean && null != carListBean.additionalServicePrice && null != carListBean.additionalServicePrice.checkInPrice) {
                 checkin.setVisibility(View.VISIBLE);
                 checkInOrPickupPrice = Integer.valueOf(carListBean.additionalServicePrice.checkInPrice);
-                allMoneyLeftText.setText(getString(R.string.sign_rmb) + (carBean.price + checkInOrPickupPrice + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean)) + hotelPrice);
+                allMoneyLeftText.setText(Tools.getRMB() + (carBean.price + checkInOrPickupPrice + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean)) + hotelPrice);
             } else {
                 checkin.setVisibility(View.GONE);
             }
@@ -611,13 +609,13 @@ public class OrderNewActivity extends BaseActivity {
 
         singleNoShowTime.setVisibility(GONE);
         singleNoShowAddress.setVisibility(GONE);
-        allMoneyLeftText.setText(getString(R.string.sign_rmb) + (carBean.price + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean)));
+        allMoneyLeftText.setText(Tools.getRMB() + (carBean.price + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean)));
 
         if (isCheckIn) {
             if (null != carListBean && null != carListBean.additionalServicePrice && null != carListBean.additionalServicePrice.pickupSignPrice) {
                 checkin.setVisibility(View.VISIBLE);
                 checkInOrPickupPrice = Integer.valueOf(carListBean.additionalServicePrice.pickupSignPrice);
-                allMoneyLeftText.setText(getString(R.string.sign_rmb) + (carBean.price + checkInOrPickupPrice + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean)));
+                allMoneyLeftText.setText(Tools.getRMB() + (carBean.price + checkInOrPickupPrice + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean)));
             } else {
                 checkin.setVisibility(View.GONE);
             }
@@ -661,7 +659,7 @@ public class OrderNewActivity extends BaseActivity {
 
         carSeat.setText(getCarDesc());
         genCarInfoText();
-        allMoneyLeftText.setText(getString(R.string.sign_rmb) + (carBean.price + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean)));
+        allMoneyLeftText.setText(Tools.getRMB() + (carBean.price + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean)));
         citys_line_title_tips.setVisibility(GONE);
         checkin.setVisibility(GONE);
         pick_name_layout.setVisibility(GONE);
@@ -708,7 +706,7 @@ public class OrderNewActivity extends BaseActivity {
             hourseNum = carListBean.hourseNum;
             hotelPrice = carListBean.hotelPrice * hourseNum;
         }
-        allMoneyLeftText.setText(getString(R.string.sign_rmb)
+        allMoneyLeftText.setText(Tools.getRMB()
                 + (carBean.price + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean)
                 + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean)
                 + hotelPrice));
@@ -838,7 +836,7 @@ public class OrderNewActivity extends BaseActivity {
         checkin.setVisibility(GONE);
         pick_name_layout.setVisibility(GONE);
 
-        allMoneyLeftText.setText(getString(R.string.sign_rmb) + (carBean.price + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean)
+        allMoneyLeftText.setText(Tools.getRMB() + (carBean.price + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean)
                 + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean)));
 
 
@@ -868,9 +866,9 @@ public class OrderNewActivity extends BaseActivity {
                         }
                     });
                 } else {
-                    dreamRight.setText(getString(R.string.sign_rmb) + (Integer.valueOf(deductionBean.deduction) + Integer.valueOf(deductionBean.leftAmount)));
+                    dreamRight.setText(Tools.getRMB() + (Integer.valueOf(deductionBean.deduction) + Integer.valueOf(deductionBean.leftAmount)));
                     if (dreamLeft.isChecked()) {
-                        allMoneyLeftText.setText(getString(R.string.sign_rmb) + (Integer.valueOf(deductionBean.priceToPay) + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean)
+                        allMoneyLeftText.setText(Tools.getRMB() + (Integer.valueOf(deductionBean.priceToPay) + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean)
                                 + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean) + hotelPrice));
                     }
                     dream_right_tips.setVisibility(GONE);
@@ -961,14 +959,14 @@ public class OrderNewActivity extends BaseActivity {
                 mostFitBean = requestMostFit1.getData();
                 if (null == mostFitBean.priceInfo) {
                     couponRight.setText("还没有优惠券");
-                    allMoneyLeftText.setText(getString(R.string.sign_rmb) + (carBean.price + checkInOrPickupPrice + hotelPrice + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean)));
+                    allMoneyLeftText.setText(Tools.getRMB() + (carBean.price + checkInOrPickupPrice + hotelPrice + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean)));
                 } else {
                     couponRight.setText((mostFitBean.priceInfo) + "优惠券");
                     int price = 0;
                     if(null != mostFitBean && null != mostFitBean.actualPrice){
                         price = mostFitBean.actualPrice.intValue();
                     }
-                    allMoneyLeftText.setText(getString(R.string.sign_rmb) + (price + checkInOrPickupPrice + hotelPrice + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean)));
+                    allMoneyLeftText.setText(Tools.getRMB() + (price + checkInOrPickupPrice + hotelPrice + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean)));
                 }
                 couponRight.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -1197,12 +1195,12 @@ public class OrderNewActivity extends BaseActivity {
                 couponBean = null;
                 couponRight.setText("");
                 if (couponLeft.isChecked()) {
-                    allMoneyLeftText.setText(getString(R.string.sign_rmb) + (carBean.price + checkInOrPickupPrice + hotelPrice + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean)));
+                    allMoneyLeftText.setText(Tools.getRMB() + (carBean.price + checkInOrPickupPrice + hotelPrice + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean)));
                 }
             } else {
                 couponRight.setText(couponBean.price + "优惠券");
                 if (couponLeft.isChecked()) {
-                    allMoneyLeftText.setText(getString(R.string.sign_rmb) + (couponBean.actualPrice.intValue() + checkInOrPickupPrice + hotelPrice + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean)));
+                    allMoneyLeftText.setText(Tools.getRMB() + (couponBean.actualPrice.intValue() + checkInOrPickupPrice + hotelPrice + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean)));
                 }
             }
             mostFitBean = null;
