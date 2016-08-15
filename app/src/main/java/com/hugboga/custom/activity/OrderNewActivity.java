@@ -1076,6 +1076,7 @@ public class OrderNewActivity extends BaseActivity {
                 requestParams.couponId = couponId;
                 requestParams.orderId = orderInfoBean.getOrderno();
                 requestParams.shouldPay = orderInfoBean.getPriceActual();
+                requestParams.payDeadTime = orderInfoBean.getPayDeadTime();
                 requestParams.source = source;
                 requestParams.needShowAlert = true;
 
