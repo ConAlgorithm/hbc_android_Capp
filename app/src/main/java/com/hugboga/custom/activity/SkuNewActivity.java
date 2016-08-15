@@ -93,7 +93,7 @@ public class SkuNewActivity extends BaseActivity {
     @Bind(R.id.all_money_left_sku)
     TextView allMoneyLeftSku;
     @Bind(all_money_text_sku)
-    TextView allMoneyTextSku;
+    MoneyTextView allMoneyTextSku;
     @Bind(all_journey_text)
     TextView allJourneyText;
     @Bind(R.id.bottom)
@@ -103,7 +103,7 @@ public class SkuNewActivity extends BaseActivity {
     @Bind(R.id.time_text_start_end)
     TextView timeTextStartEnd;
     @Bind(R.id.money_pre)
-    TextView moneyPre;
+    MoneyTextView moneyPre;
 
     public void initHeader() {
         headerTitle.setText(R.string.sku_new_title);

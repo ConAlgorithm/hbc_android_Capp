@@ -35,7 +35,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
-    <TextView
+    <com.hugboga.custom.widget.MoneyTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toLeftOf="@id/confirm_journey"
@@ -88,7 +88,7 @@
         android:textSize="14sp"
         android:textColor="@color/basic_white"/>
 
-    <TextView
+    <com.hugboga.custom.widget.MoneyTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
