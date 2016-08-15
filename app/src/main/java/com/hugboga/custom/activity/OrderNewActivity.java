@@ -72,6 +72,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.qqtheme.framework.picker.TimePicker;
 
+import static android.R.attr.id;
 import static android.view.View.GONE;
 import static com.hugboga.custom.R.id.man_name;
 import static com.hugboga.custom.R.id.up_address_right;
@@ -417,10 +418,12 @@ public class OrderNewActivity extends BaseActivity {
 
     private void getCancleTips() {
         RequestCancleTips requestCancleTips = new RequestCancleTips(activity,
-                cancleTipsId, orderType + "",
-                carBean.capOfPerson + "",
+                cancleTipsId,
+                orderType + "",
+                carBean.carType + "",
                 carBean.seatCategory + "",
-                cancleTipsTime, halfDay, goodsVersion, goodsNo, orderType + "");
+                cancleTipsTime, halfDay,
+                goodsVersion, goodsNo, orderType + "");
         HttpRequestUtils.request(activity, requestCancleTips, new HttpRequestListener() {
             @Override
             public void onDataRequestSucceed(BaseRequest request) {
@@ -583,7 +586,7 @@ public class OrderNewActivity extends BaseActivity {
 
         hotelPhoneTextCodeClick.setText("+" + flightBean.arrivalAirport.areaCode);
 
-        cancleTipsId = poiBean.id + "";
+        cancleTipsId = flightBean.depAirport.cityId + "";
 
 
         carBean = (SelectCarBean) this.getIntent().getSerializableExtra("carBean");
