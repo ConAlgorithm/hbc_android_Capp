@@ -73,7 +73,7 @@ public class TimePicker extends WheelPicker {
      * 设置默认选中的时间
      */
     public void setSelectedItem(int hour, int minute) {
-        selectedHour = String.valueOf(hour);
+        selectedHour = String.valueOf(DateUtils.fillZero(hour));
         selectedMinute = DateUtils.getFirstMinute(minute);
     }
 
