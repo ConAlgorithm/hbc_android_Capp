@@ -57,6 +57,7 @@ import com.hugboga.custom.utils.LogUtils;
 import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.widget.LuggageItemLayout;
+import com.hugboga.custom.widget.MoneyTextView;
 import com.hugboga.custom.widget.TopTipsLayout;
 
 import org.greenrobot.eventbus.EventBus;
@@ -136,7 +137,7 @@ public class OrderNewActivity extends BaseActivity {
     @Bind(R.id.all_money_left)
     TextView allMoneyLeft;
     @Bind(R.id.all_money_left_text)
-    TextView allMoneyLeftText;
+    MoneyTextView allMoneyLeftText;
     @Bind(R.id.all_money_submit_click)
     TextView allMoneySubmitClick;
     @Bind(R.id.all_money_info)
@@ -195,7 +196,7 @@ public class OrderNewActivity extends BaseActivity {
     @Bind(R.id.up_address_right)
     TextView upAddressRight;//上车地点
     @Bind(R.id.dream_right)
-    TextView dreamRight;
+    MoneyTextView dreamRight;
     @Bind(R.id.airpost_name_left)
     TextView airpostNameLeft;
 
@@ -408,6 +409,9 @@ public class OrderNewActivity extends BaseActivity {
 //        "servceTime": servceTime,       // 2015-02-10 12:00:00
 //        "halfDaily": halfDaily,         // 半日包1，其它0
 //        "orderType": orderType
+//    http://api.test.hbc.tech/trade/v1.0/c/order/cancelTips?
+//    carSeatNum=5&carTypeId=1&channelId=18&goodsType=4&halfDaily=0&
+//    orderType=4&servceTime=2016-08-17%2015%3A40%3A25&serviceCityId=217&userId=120342571527,
 
     String cancleTips = "";
 
