@@ -35,6 +35,7 @@ import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.CarUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.widget.JazzyViewPager;
+import com.hugboga.custom.widget.MoneyTextView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -103,25 +104,25 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
     @Bind(R.id.free_c_seat_left)
     TextView freeCSeatLeft;
     @Bind(R.id.free_c_seat_right)
-    TextView freeCSeatRight;
+    MoneyTextView freeCSeatRight;
     @Bind(R.id.free_c_seat_num)
     TextView freeCSeatNum;
     @Bind(R.id.child_left)
     TextView childLeft;
     @Bind(child_count_cost)
-    TextView childCountCost;
+    MoneyTextView childCountCost;
     @Bind(R.id.child_count_text)
     TextView childCountText;
     @Bind(R.id.checkin_left)
     TextView checkinLeft;
     @Bind(R.id.checkin_money)
-    TextView checkinMoney;
+    MoneyTextView checkinMoney;
     @Bind(R.id.check_switch)
     CheckBox checkSwitch;
     @Bind(R.id.wait_left)
     TextView waitLeft;
     @Bind(R.id.wait_money)
-    TextView waitMoney;
+    MoneyTextView waitMoney;
     @Bind(R.id.wait_switch)
     CheckBox waitSwitch;
     @Bind(R.id.car_empty_layout)
