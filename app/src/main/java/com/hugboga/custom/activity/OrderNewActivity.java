@@ -607,7 +607,7 @@ public class OrderNewActivity extends BaseActivity {
         endHospitalTitle.setText(poiBean.placeName);
         endHospitalTitleTips.setText(poiBean.placeDetail);
 
-        isCheckIn = this.getIntent().getBooleanExtra("needCheckin",true);
+        isCheckIn = this.getIntent().getBooleanExtra("needCheckin",false);
 
         carSeat.setText(getCarDesc());
 
