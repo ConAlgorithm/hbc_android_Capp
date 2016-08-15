@@ -27,6 +27,7 @@ import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestAirPort;
 import com.hugboga.custom.data.request.RequestUploadLocationV11;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DBHelper;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.widget.SideBar;
@@ -99,7 +100,11 @@ public class ChooseAirPortActivity extends BaseActivity implements SideBar.OnTou
             @Override
             public void onClick(View v) {
                 String keyword = editSearch.getText().toString().trim();
-                requestDate(keyword); //进行点击搜索
+                if(!TextUtils.isEmpty(keyword)) {
+                    requestDate(keyword); //进行点击搜索
+                }else{
+                    CommonUtils.showToast("请输入城市或机场");
+                }
             }
         });
         headerLeftBtn.setOnClickListener(new View.OnClickListener() {
