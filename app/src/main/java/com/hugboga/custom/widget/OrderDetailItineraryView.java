@@ -113,10 +113,11 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
         }
 
         if (!TextUtils.isEmpty(orderBean.carDesc)) {//车型描述
-            String passengerInfos = null;
-            if (!TextUtils.isEmpty(orderBean.passengerInfos)) {
-                passengerInfos = getContext().getString(R.string.order_detail_seat_info, orderBean.passengerInfos);
+            String passengerInfos = getContext().getString(R.string.order_detail_adult_seat_info, orderBean.adult + orderBean.child);//座位总数
+            if (orderBean.child > 0) {//儿童座椅数
+                passengerInfos += getContext().getString(R.string.order_detail_child_seat_info, orderBean.child);
             }
+            passengerInfos = getContext().getString(R.string.order_detail_seat_info, passengerInfos);
             LinearLayout itemView = addItemView(R.mipmap.order_car, orderBean.carDesc, passengerInfos, null);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
             params.leftMargin = UIUtils.dip2px(25);

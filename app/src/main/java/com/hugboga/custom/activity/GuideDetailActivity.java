@@ -142,7 +142,7 @@ public class GuideDetailActivity extends BaseActivity implements GuideCarPhotosA
             attestationIV.setVisibility(View.VISIBLE);
             locationIV.setVisibility(View.VISIBLE);
             if (TextUtils.isEmpty(data.getAvatar())) {
-                avatarIV.setImageResource(R.mipmap.collection_icon_pic);
+                avatarIV.setImageResource(R.mipmap.journey_head_portrait);
             } else {
                 Tools.showImage(this, avatarIV, data.getAvatar());
             }
