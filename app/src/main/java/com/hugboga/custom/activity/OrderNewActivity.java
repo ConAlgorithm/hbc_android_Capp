@@ -625,6 +625,8 @@ public class OrderNewActivity extends BaseActivity {
                 allMoneyLeftText.setText(Tools.getRMB() + (carBean.price + checkInOrPickupPrice + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean)));
             } else {
                 checkin.setVisibility(View.GONE);
+                pick_name_layout.setVisibility(GONE);
+                isCheckIn = false;
             }
         } else {
             checkInOrPickupPrice = 0;
