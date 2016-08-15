@@ -1,7 +1,6 @@
 package com.hugboga.custom.data.request;
 
 import android.content.Context;
-import android.text.TextUtils;
 
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.net.NewParamsBuilder;
@@ -42,6 +41,10 @@ public class RequestSubmitPick extends RequestSubmitBase {
             map.put("flightFlyTimeL", orderBean.flightBean.depDate + " " + orderBean.flightBean.depTime + ":00");
             map.put("flightArriveTimeL", orderBean.flightBean.arrDate + " " + orderBean.flightBean.arrivalTime + ":00");
             map.put("flightAirportBuiding", orderBean.flightBean == null ? null : orderBean.flightBean.arrTerminal);
+
+
+            map.put("flightDeptCityName",orderBean.flightBean.depCityName);// 起飞机场城市名
+            map.put("flightDestCityName",orderBean.flightBean.arrCityName);// 降落机场城市名
         }
     }
 
