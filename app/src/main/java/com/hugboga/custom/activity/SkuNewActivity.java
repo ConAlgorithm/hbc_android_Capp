@@ -89,11 +89,11 @@ public class SkuNewActivity extends BaseActivity {
     @Bind(all_money_left)
     TextView allMoneyLeft;
     @Bind(R.id.all_money_text)
-    TextView allMoneyText;
+    MoneyTextView allMoneyText;
     @Bind(R.id.all_money_left_sku)
     TextView allMoneyLeftSku;
     @Bind(all_money_text_sku)
-    MoneyTextView allMoneyTextSku;
+    TextView allMoneyTextSku;
     @Bind(all_journey_text)
     TextView allJourneyText;
     @Bind(R.id.bottom)
