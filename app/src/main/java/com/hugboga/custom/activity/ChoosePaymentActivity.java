@@ -48,7 +48,6 @@ public class ChoosePaymentActivity extends BaseActivity {
     @Bind(R.id.choose_payment_price_tv)
     TextView priceTV;
 
-    public static RequestParams requestParams;
     @Bind(R.id.header_left_btn)
     ImageView headerLeftBtn;
     @Bind(R.id.header_right_btn)
@@ -70,11 +69,13 @@ public class ChoosePaymentActivity extends BaseActivity {
 
     private DialogUtil mDialogUtil;
     private int wxResultCode = 0;
+    public RequestParams requestParams;
 
     public static class RequestParams implements Serializable {
         public String orderId;
         public double shouldPay;
         public String couponId;
+        public String payDeadTime;
         public String source;
         public boolean needShowAlert;
 
@@ -317,7 +318,7 @@ public class ChoosePaymentActivity extends BaseActivity {
 
     private void backWarn() {
         DialogUtil dialogUtil = DialogUtil.getInstance(this);
-        dialogUtil.showCustomDialog(getString(R.string.app_name), getString(R.string.order_cancel_pay), "确定离开", new DialogInterface.OnClickListener() {
+        dialogUtil.showCustomDialog(getString(R.string.app_name), getString(R.string.order_cancel_pay, requestParams.payDeadTime), "确定离开", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 

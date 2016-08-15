@@ -230,6 +230,7 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                     ChoosePaymentActivity.RequestParams requestParams = new ChoosePaymentActivity.RequestParams();
                     requestParams.orderId = orderBean.orderNo;
                     requestParams.shouldPay = orderBean.orderPriceInfo.actualPay;
+                    requestParams.payDeadTime = orderBean.payDeadTime;
                     requestParams.source = source;
                     requestParams.couponId = couponId;
                     intent = new Intent(OrderDetailActivity.this, ChoosePaymentActivity.class);
