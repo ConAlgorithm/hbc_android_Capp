@@ -34,6 +34,7 @@ import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.CarUtils;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.widget.JazzyViewPager;
+import com.hugboga.custom.widget.MoneyTextView;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
@@ -183,13 +184,13 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
     @Bind(R.id.days_right)
     TextView daysRight;
     @Bind(R.id.all_money_right)
-    TextView allMoneyRight;
+    MoneyTextView allMoneyRight;
     @Bind(R.id.line)
     TextView line;
     @Bind(R.id.average_money)
-    TextView averageMoney;
+    MoneyTextView averageMoney;
     @Bind(R.id.all_money_left_text)
-    TextView allMoneyLeftText;
+    MoneyTextView allMoneyLeftText;
     @Bind(R.id.bottom)
     RelativeLayout bottom;
     @Bind(R.id.call_phone)

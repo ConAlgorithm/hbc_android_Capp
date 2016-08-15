@@ -57,6 +57,7 @@ import com.hugboga.custom.utils.LogUtils;
 import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.widget.LuggageItemLayout;
+import com.hugboga.custom.widget.MoneyTextView;
 import com.hugboga.custom.widget.TopTipsLayout;
 
 import org.greenrobot.eventbus.EventBus;
@@ -71,6 +72,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.qqtheme.framework.picker.TimePicker;
 
+import static android.R.attr.id;
 import static android.view.View.GONE;
 import static com.hugboga.custom.R.id.man_name;
 import static com.hugboga.custom.R.id.up_address_right;
@@ -136,7 +138,7 @@ public class OrderNewActivity extends BaseActivity {
     @Bind(R.id.all_money_left)
     TextView allMoneyLeft;
     @Bind(R.id.all_money_left_text)
-    TextView allMoneyLeftText;
+    MoneyTextView allMoneyLeftText;
     @Bind(R.id.all_money_submit_click)
     TextView allMoneySubmitClick;
     @Bind(R.id.all_money_info)
@@ -195,7 +197,7 @@ public class OrderNewActivity extends BaseActivity {
     @Bind(R.id.up_address_right)
     TextView upAddressRight;//上车地点
     @Bind(R.id.dream_right)
-    TextView dreamRight;
+    MoneyTextView dreamRight;
     @Bind(R.id.airpost_name_left)
     TextView airpostNameLeft;
 
@@ -408,15 +410,20 @@ public class OrderNewActivity extends BaseActivity {
 //        "servceTime": servceTime,       // 2015-02-10 12:00:00
 //        "halfDaily": halfDaily,         // 半日包1，其它0
 //        "orderType": orderType
+//    http://api.test.hbc.tech/trade/v1.0/c/order/cancelTips?
+//    carSeatNum=5&carTypeId=1&channelId=18&goodsType=4&halfDaily=0&
+//    orderType=4&servceTime=2016-08-17%2015%3A40%3A25&serviceCityId=217&userId=120342571527,
 
     String cancleTips = "";
 
     private void getCancleTips() {
         RequestCancleTips requestCancleTips = new RequestCancleTips(activity,
-                cancleTipsId, orderType + "",
-                carBean.capOfPerson + "",
+                cancleTipsId,
+                orderType + "",
+                carBean.carType + "",
                 carBean.seatCategory + "",
-                cancleTipsTime, halfDay, goodsVersion, goodsNo, orderType + "");
+                cancleTipsTime, halfDay,
+                goodsVersion, goodsNo, orderType + "");
         HttpRequestUtils.request(activity, requestCancleTips, new HttpRequestListener() {
             @Override
             public void onDataRequestSucceed(BaseRequest request) {
@@ -579,7 +586,7 @@ public class OrderNewActivity extends BaseActivity {
 
         hotelPhoneTextCodeClick.setText("+" + flightBean.arrivalAirport.areaCode);
 
-        cancleTipsId = poiBean.id + "";
+        cancleTipsId = flightBean.depAirport.cityId + "";
 
 
         carBean = (SelectCarBean) this.getIntent().getSerializableExtra("carBean");
@@ -951,7 +958,7 @@ public class OrderNewActivity extends BaseActivity {
                 startCityId4MostFit,
                 areaCode4MostFit,
                 (null == dayNums ? "0" : dayNums) + "",
-                distance, inNum + "", outNum + "", (null == dayNums ? "0" : dayNums) + "", orderType);
+                distance, inNum + "", outNum + "", (null == dayNums ? "0" : dayNums) + "", orderType,carBean.carId+"");
         HttpRequestUtils.request(activity, requestMostFit, new HttpRequestListener() {
             @Override
             public void onDataRequestSucceed(BaseRequest request) {
@@ -991,6 +998,7 @@ public class OrderNewActivity extends BaseActivity {
                         mostFitAvailableBean.userId = UserEntity.getUser().getUserId(activity);
                         mostFitAvailableBean.totalDays = (null == dayNums) ? "0" : dayNums + "";
                         mostFitAvailableBean.orderType = orderType;
+                        mostFitAvailableBean.carModelId = carBean.carId+"";
                         bundle.putSerializable(Constants.PARAMS_DATA, mostFitAvailableBean);
                         if (null != mostFitBean) {
                             idStr = mostFitBean.couponId;

@@ -38,6 +38,7 @@ import com.hugboga.custom.utils.CityUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.OrderUtils;
+import com.hugboga.custom.widget.MoneyTextView;
 import com.umeng.analytics.MobclickAgent;
 
 
@@ -88,7 +89,7 @@ public class SkuNewActivity extends BaseActivity {
     @Bind(all_money_left)
     TextView allMoneyLeft;
     @Bind(R.id.all_money_text)
-    TextView allMoneyText;
+    MoneyTextView allMoneyText;
     @Bind(R.id.all_money_left_sku)
     TextView allMoneyLeftSku;
     @Bind(all_money_text_sku)

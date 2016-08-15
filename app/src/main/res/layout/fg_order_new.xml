@@ -717,7 +717,7 @@
                         android:layout_centerVertical="true"
                         android:gravity="center_vertical">
 
-                        <TextView
+                        <com.hugboga.custom.widget.MoneyTextView
                             android:id="@+id/dream_right"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -872,7 +872,7 @@
             android:textColor="@color/basic_white"
             android:textSize="15sp" />
 
-        <TextView
+        <com.hugboga.custom.widget.MoneyTextView
             android:id="@+id/all_money_left_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

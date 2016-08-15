@@ -53,7 +53,7 @@
                         <com.hugboga.custom.widget.JazzyViewPager
                             android:id="@+id/jazzy_pager"
                             android:layout_width="match_parent"
-                            android:layout_height="120dip"
+                            android:layout_height="135dip"
                             android:layout_marginLeft="80dp"
                             android:layout_marginRight="80dp"
                             android:clipChildren="false" />
@@ -594,7 +594,7 @@
                     android:textColor="@color/basic_black"
                     android:textSize="13sp" />
 
-                <TextView
+                <com.hugboga.custom.widget.MoneyTextView
                     android:id="@+id/all_money_right"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -626,7 +626,7 @@
                     android:textColor="@color/basic_black"
                     android:textSize="13sp" />
 
-                <TextView
+                <com.hugboga.custom.widget.MoneyTextView
                     android:id="@+id/average_money"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -667,61 +667,6 @@
         </LinearLayout>
     </ScrollView>
 
-
-    <RelativeLayout
-        android:id="@+id/bottom"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_alignParentBottom="true"
-        android:background="@color/basic_black"
-        android:orientation="vertical">f
-
-        <TextView
-            android:id="@+id/all_money_left"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="20sp"
-            android:text="费用总计:"
-            android:textColor="@color/basic_white"
-            android:textSize="15sp" />
-
-        <TextView
-            android:id="@+id/all_money_left_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="5sp"
-            android:layout_toRightOf="@id/all_money_left"
-            android:textColor="#f8ca18"
-            android:textSize="18sp" />
-
-        <TextView
-            android:id="@+id/next_btn_click"
-            android:layout_width="120dp"
-            android:layout_height="60dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10sp"
-            android:background="@color/all_bg_yellow"
-            android:gravity="center"
-            android:text="@string/go_next"
-            android:textColor="@color/basic_black"
-            android:textSize="18sp" />
-
-        <TextView
-            android:id="@+id/all_money_info"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="5dp"
-            android:layout_toLeftOf="@id/next_btn_click"
-            android:drawablePadding="10dp"
-            android:drawableRight="@mipmap/bottom_arrow_up"
-            android:text="@string/order_info"
-            android:textColor="@color/basic_white"
-            android:textSize="15sp" />
-    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/coupon_listview_empty"
@@ -820,4 +765,61 @@
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/bottom"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/basic_black"
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">f
+
+        <TextView
+            android:id="@+id/all_money_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20sp"
+            android:text="费用总计:"
+            android:textColor="@color/basic_white"
+            android:textSize="15sp" />
+
+        <com.hugboga.custom.widget.MoneyTextView
+            android:id="@+id/all_money_left_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5sp"
+            android:layout_toRightOf="@id/all_money_left"
+            android:textColor="#f8ca18"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/next_btn_click"
+            android:layout_width="120dp"
+            android:layout_height="60dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10sp"
+            android:background="@color/all_bg_yellow"
+            android:gravity="center"
+            android:text="@string/go_next"
+            android:textColor="@color/basic_black"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/all_money_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
+            android:layout_toLeftOf="@id/next_btn_click"
+            android:drawablePadding="10dp"
+            android:drawableRight="@mipmap/bottom_arrow_up"
+            android:text="@string/order_info"
+            android:textColor="@color/basic_white"
+            android:textSize="15sp" />
+    </RelativeLayout>
 </RelativeLayout>
