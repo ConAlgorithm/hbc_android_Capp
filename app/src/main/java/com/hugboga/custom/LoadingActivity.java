@@ -51,6 +51,8 @@ import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 
 @ContentView(R.layout.activity_loading)
 public class LoadingActivity extends BaseActivity implements HttpRequestListener {
@@ -86,6 +88,11 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
         if (getString(R.string.hbc_scheme).equals(scheme)) {
             String dataString = intent.getDataString();
             if (!TextUtils.isEmpty(dataString)) {
+                try {
+                    dataString = URLDecoder.decode(dataString, "utf-8");
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
                 scheme += "://?";
                 String data = dataString.substring(scheme.length(), dataString.length());
                 if (!TextUtils.isEmpty(data)) {

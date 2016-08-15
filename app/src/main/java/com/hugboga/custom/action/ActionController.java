@@ -38,7 +38,7 @@ public class ActionController implements ActionControllerBehavior {
             case ActionType.WEB_ACTIVITY:
                 _actionBean.type = "" + ActionType.NATIVE_PAGE;
                 _actionBean.vcid = "" + ActionPageType.WEBVIEW;
-                _actionBean.data = "{u:" + _actionBean.url + "}";
+                _actionBean.data = "{\"u\":\"" + _actionBean.url + "\"}";
             case ActionType.NATIVE_PAGE:
                 ActionPageBase actionPageBase = ActionMapping.getActionPage(_actionBean.vcid);
                 if (actionPageBase == null) {

@@ -42,7 +42,7 @@ public class ActionPageWeb extends ActionPageBase {
         }
         if ('$' == _url.charAt(0)) {
             String type = String.valueOf(_url.charAt(1));
-            result = getBaseUrl(type);
+            result = getBaseUrl(type) + _url.substring(2, _url.length());
         }
         return result;
     }
