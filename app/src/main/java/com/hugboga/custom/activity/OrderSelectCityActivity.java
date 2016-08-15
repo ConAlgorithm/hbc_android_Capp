@@ -703,7 +703,7 @@ public class OrderSelectCityActivity extends BaseActivity  {
                 }
 
 
-                hotCitys = CityUtils.requestHotDate(activity, startBean.groupId);
+                hotCitys = CityUtils.requestHotDate(activity, startBean.groupId,startBean.cityId,"lastCity");
             } else if ("lastCity".equalsIgnoreCase(fromKey) || "nearby".equalsIgnoreCase(fromKey)) {
                 endBean = (CityBean) bundle.getSerializable(ChooseCityActivity.KEY_CITY);
 
@@ -1318,7 +1318,7 @@ public class OrderSelectCityActivity extends BaseActivity  {
                 }
 
 
-                hotCitys = CityUtils.requestHotDate(activity, startBean.groupId);
+                hotCitys = CityUtils.requestHotDate(activity, startBean.groupId,startBean.cityId,"lastCity");
                 break;
             case CHOOSE_END_CITY_BACK:
                 endBean = (CityBean)action.getData();

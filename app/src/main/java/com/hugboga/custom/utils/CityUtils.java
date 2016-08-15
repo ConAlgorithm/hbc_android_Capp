@@ -14,6 +14,7 @@ import android.text.style.ImageSpan;
 
 import com.anupcowkur.reservoir.Reservoir;
 import com.google.gson.reflect.TypeToken;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.LineGroupBean;
 import com.hugboga.custom.data.bean.LineGroupItem;
@@ -54,7 +55,7 @@ public class CityUtils {
      * @param orderType
      * @param groupId
      */
-    public static List<CityBean> requestHotDate(Activity activity, int groupId) {
+    public static List<CityBean> requestHotDate(Activity activity, int groupId,int cityId, String from) {
         List<CityBean> sourceDateList = new ArrayList<CityBean>();//全部城市数据
         DbManager mDbManager = new DBHelper(activity).getDbManager();
         Selector selector = null;
@@ -69,9 +70,9 @@ public class CityUtils {
         } else {
             selector.and("group_id", "=", groupId);
         }
-//        if ("lastCity".equals(from) && cityId != -1){
-//            selector.and("city_id", "<>", cityId);
-//        }
+        if ("lastCity".equals(from) && cityId != -1){
+            selector.and("city_id", "<>", cityId);
+        }
         // 修改热门城市排序
         selector.orderBy("hot_weight", true);
 //        selector.orderBy("hot_weight");
