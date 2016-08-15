@@ -7,6 +7,7 @@ package com.hugboga.custom.action.constants;
  * WIKI: http://wiki.hbc.tech/pages/viewpage.action?pageId=5505204
  */
 public class ActionPageType {
+
     public static final int WEBVIEW = 1;                      // 1：通用webView
     public static final int HOME = 2;                         // 2：首页
     public static final int SEARCH = 3;                       // 3：搜索页
@@ -27,7 +28,7 @@ public class ActionPageType {
     public static final int GUIDE_DETAIL = 20;                // 20：司导详情页（登录、司导ID）
     public static final int ACTIVITY_LIST = 21;               // 21：活动列表
     public static final int SERVICER_CENTER = 22;             // 22：服务规则
-    public static final int CHAt_LIST = 30;                   // 30：私聊列表
+    public static final int CHAT_LIST = 30;                   // 30：私聊列表
     public static final int TRAVEL_FUND_USED_BILL = 31;       // 31：旅游基金使用明细
     public static final int INVITE_BILL = 32;                 // 32：邀请记录（登录）
 

@@ -1,10 +1,15 @@
 package com.hugboga.custom.action;
 
+import android.support.v4.util.ArrayMap;
+import android.text.TextUtils;
+
 import com.hugboga.custom.action.constants.ActionPageType;
 import com.hugboga.custom.action.constants.ActionType;
 import com.hugboga.custom.action.data.ActionBean;
 import com.hugboga.custom.activity.BaseActivity;
 import com.hugboga.custom.utils.CommonUtils;
+
+import java.lang.reflect.Constructor;
 
 /**
  * Created by qingcha on 16/7/27.
@@ -13,6 +18,7 @@ public class ActionController implements ActionControllerBehavior {
 
     private BaseActivity activity;
     private volatile static ActionController actionController;
+    private ArrayMap<Integer, Class> pageMap;
 
     private ActionController(BaseActivity activity) {
         this.activity = activity;
@@ -40,9 +46,28 @@ public class ActionController implements ActionControllerBehavior {
                 _actionBean.vcid = "" + ActionPageType.WEBVIEW;
                 _actionBean.data = "{\"u\":\"" + _actionBean.url + "\"}";
             case ActionType.NATIVE_PAGE:
-                ActionPageBase actionPageBase = ActionMapping.getActionPage(_actionBean.vcid);
+                if (TextUtils.isEmpty(_actionBean.vcid)) {
+                    nonsupportToast();
+                    break;
+                }
+                if (pageMap == null) {
+                    pageMap = ActionMapping.getPageMap();
+                }
+                Class pageActionClass = pageMap.get(CommonUtils.getCountInteger(_actionBean.vcid));
+                if (pageActionClass == null) {
+                    nonsupportToast();
+                    break;
+                }
+                ActionPageBase actionPageBase = null;
+                try {
+                    Class<ActionPageBase> cls = (Class<ActionPageBase>) Class.forName(pageActionClass.getName());
+                    actionPageBase = cls.newInstance();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 if (actionPageBase == null) {
                     nonsupportToast();
+                    break;
                 } else {
                     actionPageBase.intentPage(activity, _actionBean);
                 }

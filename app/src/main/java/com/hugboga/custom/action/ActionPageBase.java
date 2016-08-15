@@ -14,7 +14,6 @@ public abstract class ActionPageBase implements ActionPageBehavior {
     @Override
     public void intentPage(Context context, ActionBean actionBean) {
         this.context = context;
-
     }
 
     @Override
