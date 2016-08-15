@@ -958,7 +958,7 @@ public class OrderNewActivity extends BaseActivity {
                 startCityId4MostFit,
                 areaCode4MostFit,
                 (null == dayNums ? "0" : dayNums) + "",
-                distance, inNum + "", outNum + "", (null == dayNums ? "0" : dayNums) + "", orderType);
+                distance, inNum + "", outNum + "", (null == dayNums ? "0" : dayNums) + "", orderType,carBean.carId+"");
         HttpRequestUtils.request(activity, requestMostFit, new HttpRequestListener() {
             @Override
             public void onDataRequestSucceed(BaseRequest request) {
@@ -998,6 +998,7 @@ public class OrderNewActivity extends BaseActivity {
                         mostFitAvailableBean.userId = UserEntity.getUser().getUserId(activity);
                         mostFitAvailableBean.totalDays = (null == dayNums) ? "0" : dayNums + "";
                         mostFitAvailableBean.orderType = orderType;
+                        mostFitAvailableBean.carModelId = carBean.carId+"";
                         bundle.putSerializable(Constants.PARAMS_DATA, mostFitAvailableBean);
                         if (null != mostFitBean) {
                             idStr = mostFitBean.couponId;
