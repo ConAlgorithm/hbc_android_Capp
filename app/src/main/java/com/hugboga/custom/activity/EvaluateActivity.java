@@ -75,7 +75,6 @@ public class EvaluateActivity extends BaseActivity implements RatingView.OnLevel
     private DialogUtil mDialogUtil;
     private boolean isFirstIn = true;
     private boolean isSubmitEvaluated = false;//是否提交过评价，提交了通知详情页更新。
-    private boolean hasMeasured = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

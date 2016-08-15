@@ -68,7 +68,7 @@ public class CollectGuideAdapter extends BaseAdapter<CollectGuideBean> {
         }
         final CollectGuideBean collectGuideBean = getItem(position);
         if (TextUtils.isEmpty(collectGuideBean.avatar)) {
-            holder.avatarIV.setImageResource(R.mipmap.collection_icon_pic);
+            holder.avatarIV.setImageResource(R.mipmap.journey_head_portrait);
         } else {
             Tools.showImage(holder.avatarIV, collectGuideBean.avatar);
         }
