@@ -7,11 +7,11 @@
 
     <ImageView
         android:id="@+id/item_car_img"
-        android:layout_marginTop="20dp"
-        android:layout_width="wrap_content"
-        android:layout_height="80dp"
+        android:layout_marginTop="30dp"
+        android:layout_width="150dp"
+        android:layout_height="75dp"
         android:src="@mipmap/hh5"
-        android:scaleType="fitCenter" />
+        android:scaleType="centerCrop" />
 
     <View
         android:id="@+id/item_car_line"
