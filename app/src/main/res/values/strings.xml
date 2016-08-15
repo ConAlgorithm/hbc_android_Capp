@@ -743,7 +743,7 @@
 
     <string name="order_detail_top2_tips">司导接单后，您可以在app内通过私聊与Ta联系；请不要线下交易，否则将无法获得平台保障。</string>
 
-    <string name="order_detail_top1_tips">绝大多数情况在1小时内有司导接单；最迟不超过24小时。</string>
+    <string name="order_detail_top1_tips">下单后一般在24小时内有司导接单。如果下单时间距离实际出行时间较远，最晚在出行前为您安排司导接单。</string>
 
     <string name="add_man_toast">请选择出行人数</string>
 

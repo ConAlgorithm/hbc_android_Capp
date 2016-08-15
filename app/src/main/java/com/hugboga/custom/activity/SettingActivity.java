@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.huangbaoche.hbcframe.HbcConfig;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.BuildConfig;
@@ -61,6 +62,9 @@ public class SettingActivity extends BaseActivity {
     @Bind(R.id.setting_exit)
     TextView settingExit;
 
+    @Bind(R.id.setting_menu_developer_layout)
+    RelativeLayout developerLayout;
+
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
         if (request instanceof RequestLogout) {
@@ -77,6 +81,12 @@ public class SettingActivity extends BaseActivity {
         setContentView(R.layout.fg_setting);
         ButterKnife.bind(this);
         initHeader();
+
+//        if (HbcConfig.IS_DEBUG) {
+//            developerLayout.setVisibility(View.VISIBLE);
+//        } else {
+//            developerLayout.setVisibility(View.GONE);
+//        }
     }
 
     @Override
