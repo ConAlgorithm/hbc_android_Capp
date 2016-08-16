@@ -508,6 +508,7 @@ public class OrderNewActivity extends BaseActivity {
 
         hotelPhoneTextCodeClick.setText("+" + airPort.areaCode);
 
+        cancleTipsId = airPort.cityId+"";
 
         adultNum = this.getIntent().getStringExtra("adultNum");
         childrenNum = this.getIntent().getStringExtra("childrenNum");
@@ -586,7 +587,7 @@ public class OrderNewActivity extends BaseActivity {
 
         hotelPhoneTextCodeClick.setText("+" + flightBean.arrivalAirport.areaCode);
 
-        cancleTipsId = flightBean.depAirport.cityId + "";
+        cancleTipsId = flightBean.arrivalAirport.cityId + "";
 
 
         carBean = (SelectCarBean) this.getIntent().getSerializableExtra("carBean");
