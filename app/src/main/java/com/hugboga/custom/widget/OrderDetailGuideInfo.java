@@ -84,8 +84,10 @@ public class OrderDetailGuideInfo extends LinearLayout implements HbcViewBehavio
             }
             ((TextView)findViewById(R.id.ogi_name_tv)).setText(guideInfo.guideName);
             ((TextView)findViewById(R.id.ogi_describe_tv)).setText(guideInfo.guideCar);
-            ((TextView)findViewById(R.id.ogi_plate_number_tv)).setText(guideInfo.carNumber);
             ((RatingView)findViewById(R.id.ogi_ratingview)).setLevel((float)guideInfo.guideStarLevel);
+            if (!TextUtils.isEmpty(guideInfo.carNumber)) {
+                ((TextView)findViewById(R.id.ogi_plate_number_tv)).setText(getContext().getString(R.string.platenumber) + guideInfo.carNumber);
+            }
 
             imTV.setVisibility(orderBean.isIm ? View.VISIBLE : View.GONE);
             phoneTV.setVisibility(orderBean.isPhone ? View.VISIBLE : View.GONE);
