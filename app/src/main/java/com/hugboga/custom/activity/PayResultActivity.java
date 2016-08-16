@@ -2,6 +2,8 @@ package com.hugboga.custom.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -136,18 +138,16 @@ public class PayResultActivity extends BaseActivity{
     }
 
     @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        if (params.payResult) {
-//            Bundle bundle =new Bundle();
-//            bundle.putString(KEY_FRAGMENT_NAME, this.getClass().getSimpleName());
-//            bringToFront(FgHome.class, bundle);
-
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-            EventBus.getDefault().post(new EventAction(EventType.SET_MAIN_PAGE_INDEX, 0));
-        } else {
-            finish();
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+            if (params.payResult) {
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+                EventBus.getDefault().post(new EventAction(EventType.FGTRAVEL_UPDATE));
+                EventBus.getDefault().post(new EventAction(EventType.SET_MAIN_PAGE_INDEX, 0));
+                return true;
+            }
         }
+        return super.onKeyUp(keyCode, event);
     }
 }

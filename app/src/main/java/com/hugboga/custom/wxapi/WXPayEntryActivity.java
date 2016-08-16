@@ -3,6 +3,7 @@ package com.hugboga.custom.wxapi;
 
 import com.huangbaoche.hbcframe.fragment.BaseFragment;
 import com.huangbaoche.hbcframe.util.MLog;
+import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.BaseActivity;
 import com.hugboga.custom.constants.Constants;
@@ -109,6 +110,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler, 
             case R.id.par_result_left_tv:
                 if (isPaySucceed) {//回首页
                     EventBus.getDefault().post(new EventAction(EventType.BACK_HOME));
+                    EventBus.getDefault().post(new EventAction(EventType.FGTRAVEL_UPDATE));
                     finish();
                 } else {//订单详情ORDER_DETAIL
                     EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL));
@@ -118,6 +120,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler, 
             case R.id.par_result_right_tv:
                 if (isPaySucceed) {//订单详情
                     EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL, 1));
+                    EventBus.getDefault().post(new EventAction(EventType.FGTRAVEL_UPDATE));
                     finish();
                 } else {//重新支付
                     finish();
@@ -128,6 +131,14 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler, 
 
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+            if (isPaySucceed) {
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+                EventBus.getDefault().post(new EventAction(EventType.SET_MAIN_PAGE_INDEX, 0));
+                return true;
+            }
+        }
         return super.onKeyUp(keyCode, event);
     }
 

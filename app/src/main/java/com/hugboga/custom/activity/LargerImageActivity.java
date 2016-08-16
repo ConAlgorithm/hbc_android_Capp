@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -93,6 +94,7 @@ public class LargerImageActivity extends BaseActivity{
             PhotoView photoView = new PhotoView(container.getContext());
             Glide.with(LargerImageActivity.this)
                     .load(params.imageUrlList.get(position))
+                    .placeholder(R.mipmap.guide_car_default)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(photoView);
             container.addView(photoView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
