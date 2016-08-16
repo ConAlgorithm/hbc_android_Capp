@@ -419,7 +419,7 @@ public class OrderNewActivity extends BaseActivity {
     private void getCancleTips() {
         RequestCancleTips requestCancleTips = new RequestCancleTips(activity,
                 cancleTipsId,
-                orderType + "",
+                goodsType + "",
                 carBean.carType + "",
                 carBean.seatCategory + "",
                 cancleTipsTime, halfDay,
@@ -687,13 +687,12 @@ public class OrderNewActivity extends BaseActivity {
         skuCityLine.setText(skuBean.places);
         skuLayout.setVisibility(View.VISIBLE);
 
-        cancleTipsId = skuBean.cityId+"";
+
 
         cancleTipsTime = startDate + " " + serverTime + ":00";
 
         citysLineTitle.setText("当地时间" + startDate + "(" + DateUtils.getWeekOfDate(startDate) + ")");
         citys_line_title_tips.setVisibility(GONE);
-        cancleTipsId = skuBean.depCityId + "";
         goodsVersion = skuBean.goodsVersion + "";
         goodsNo = skuBean.goodsNo + "";
         goodsType = skuBean.goodsType + "";
@@ -704,8 +703,11 @@ public class OrderNewActivity extends BaseActivity {
         childseatNum = this.getIntent().getStringExtra("childseatNum");
         luggageNum = this.getIntent().getStringExtra("luggageNum");
 
+
+
         if (null != startBean) {
             hotelPhoneTextCodeClick.setText("+" + startBean.areaCode);
+            cancleTipsId = startBean.cityId+"";
         }
 
         startHospitalTitle.setVisibility(GONE);
@@ -777,6 +779,9 @@ public class OrderNewActivity extends BaseActivity {
         } else {
             citysLineTitle.setText(startBean.name + "-" + dayNums + "天包车");
         }
+
+
+
         String startWeekDay = "";
         startWeekDay = DateUtils.getWeekOfDate(startDate);
         String endWeekDay = "";
@@ -837,7 +842,7 @@ public class OrderNewActivity extends BaseActivity {
         startBean = (CityBean) this.getIntent().getSerializableExtra("startBean");
         endBean = (CityBean)this.getIntent().getSerializableExtra("endBean");
 
-        cancleTipsId = startBean.cityId + "";
+        cancleTipsId = endBean.cityId + "";
 
         carSeat.setText(getCarDesc());
         genCarInfoText();
