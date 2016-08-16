@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -216,10 +218,11 @@ public class ChoosePaymentActivity extends BaseActivity {
                 WXpayBean bean = (WXpayBean) mParser.getData();
                 if (bean != null) {
                     if (bean.travelFundPay) {//全部使用旅游基金支付的时候
-                        mHandler.sendEmptyMessageDelayed(1, 3000);
+                        mDialogUtil.showLoadingDialog();
+                        mHandler.sendEmptyMessage(1);
                     } else if (bean.coupPay) {
                         mDialogUtil.showLoadingDialog();
-                        mHandler.sendEmptyMessageDelayed(1, 3000);
+                        mHandler.sendEmptyMessage(1);
                     } else {
                         WXPay.pay(this, bean);
                     }
@@ -246,7 +249,7 @@ public class ChoosePaymentActivity extends BaseActivity {
             if ("couppay".equals(payInfo)) {
                 //优惠券0元支付
                 mDialogUtil.showLoadingDialog();
-                mHandler.sendEmptyMessageDelayed(1, 3000);
+                mHandler.sendEmptyMessage(1);
             } else {//正常支付
                 Runnable payRunnable = new Runnable() {
                     @Override
@@ -310,12 +313,6 @@ public class ChoosePaymentActivity extends BaseActivity {
         }
     };
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        backWarn();
-    }
-
     private void backWarn() {
         DialogUtil dialogUtil = DialogUtil.getInstance(this);
         dialogUtil.showCustomDialog(getString(R.string.app_name), getString(R.string.order_cancel_pay, requestParams.payDeadTime), "确定离开", new DialogInterface.OnClickListener() {
@@ -338,5 +335,14 @@ public class ChoosePaymentActivity extends BaseActivity {
 
             }
         });
+    }
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+            backWarn();
+            return true;
+        }
+        return super.onKeyUp(keyCode, event);
     }
 }
