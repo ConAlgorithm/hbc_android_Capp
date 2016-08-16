@@ -10,7 +10,6 @@ import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -215,6 +214,7 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
 
 
     private void goNext(){
+        adClick = true;
         Intent intent = null;
         handler.removeMessages(200);
         if (PhoneInfo.isNewVersion(LoadingActivity.this)) {
