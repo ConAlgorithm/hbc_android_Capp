@@ -687,6 +687,8 @@ public class OrderNewActivity extends BaseActivity {
         skuCityLine.setText(skuBean.places);
         skuLayout.setVisibility(View.VISIBLE);
 
+        cancleTipsId = skuBean.cityId+"";
+
         cancleTipsTime = startDate + " " + serverTime + ":00";
 
         citysLineTitle.setText("当地时间" + startDate + "(" + DateUtils.getWeekOfDate(startDate) + ")");
