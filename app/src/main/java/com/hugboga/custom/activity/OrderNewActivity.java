@@ -508,6 +508,7 @@ public class OrderNewActivity extends BaseActivity {
 
         hotelPhoneTextCodeClick.setText("+" + airPort.areaCode);
 
+        cancleTipsId = airPort.cityId+"";
 
         adultNum = this.getIntent().getStringExtra("adultNum");
         childrenNum = this.getIntent().getStringExtra("childrenNum");
@@ -586,7 +587,7 @@ public class OrderNewActivity extends BaseActivity {
 
         hotelPhoneTextCodeClick.setText("+" + flightBean.arrivalAirport.areaCode);
 
-        cancleTipsId = flightBean.depAirport.cityId + "";
+        cancleTipsId = flightBean.arrivalAirport.cityId + "";
 
 
         carBean = (SelectCarBean) this.getIntent().getSerializableExtra("carBean");
@@ -685,6 +686,8 @@ public class OrderNewActivity extends BaseActivity {
         skuDay.setText(getString(R.string.sku_days, skuBean.daysCount));
         skuCityLine.setText(skuBean.places);
         skuLayout.setVisibility(View.VISIBLE);
+
+        cancleTipsId = skuBean.cityId+"";
 
         cancleTipsTime = startDate + " " + serverTime + ":00";
 
@@ -875,6 +878,7 @@ public class OrderNewActivity extends BaseActivity {
                             startActivity(new Intent(activity, TravelFundActivity.class));
                         }
                     });
+                    dreamRight.setText(Tools.getRMB()+"0");
                 } else {
                     dreamRight.setText(Tools.getRMB() + (Integer.valueOf(deductionBean.deduction) + Integer.valueOf(deductionBean.leftAmount)));
                     if (dreamLeft.isChecked()) {

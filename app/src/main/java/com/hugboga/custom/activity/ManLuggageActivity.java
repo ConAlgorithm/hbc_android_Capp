@@ -18,6 +18,7 @@ import com.hugboga.custom.data.bean.CarListBean;
 import com.hugboga.custom.data.bean.ManLuggageBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
+import com.hugboga.custom.utils.Tools;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -316,11 +317,11 @@ public class ManLuggageActivity extends BaseActivity {
             } else if (seatNums == 1) {
                 freeCSeatLeft.setText("收费儿童座椅");
                 freeLayout.setVisibility(View.VISIBLE);
-                freeCSeatRight.setText("￥" + seat1 + "/次");
+                freeCSeatRight.setText(Tools.getRMB()+ seat1 + "/次");
             }
             if (seatNums > 1) {
                 chargeLayout.setVisibility(View.VISIBLE);
-                chargeSeatRight.setText("￥" + seat2 + "/次");
+                chargeSeatRight.setText(Tools.getRMB() + seat2 + "/次");
                 chargeSeatNum.setText("x" + (seatNums - 1) + "");
             }
         } catch (Exception e) {
