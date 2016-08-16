@@ -141,7 +141,7 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
             }
         }
 
-        allMoneyText.setText(Tools.getRMB()+ total);
+        allMoneyText.setText(Tools.getRMB(getActivity())+ total);
 
         if(null != carListBean) {
             allJourneyText.setText("全程预估: " + carListBean.distance + "公里," + carListBean.interval + "分钟");

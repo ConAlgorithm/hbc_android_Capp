@@ -404,10 +404,10 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
             daysLeft.setText(dayNums + "天包车+司导");
         }
 
-        daysRight.setText("用车费用"+ Tools.getRMB() + carBean.vehiclePrice + "\n+司导费用"+Tools.getRMB() + carBean.servicePrice);
-        allMoneyRight.setText(Tools.getRMB() + (carBean.vehiclePrice + carBean.servicePrice));
-        averageMoney.setText(Tools.getRMB() + (carBean.vehiclePrice + carBean.servicePrice) / mans);
-        allMoneyLeftText.setText(Tools.getRMB() + (carBean.vehiclePrice + carBean.servicePrice));
+        daysRight.setText("用车费用"+ Tools.getRMB(activity) + carBean.vehiclePrice + "\n+司导费用"+Tools.getRMB(activity) + carBean.servicePrice);
+        allMoneyRight.setText(Tools.getRMB(activity) + (carBean.vehiclePrice + carBean.servicePrice));
+        averageMoney.setText(Tools.getRMB(activity) + (carBean.vehiclePrice + carBean.servicePrice) / mans);
+        allMoneyLeftText.setText(Tools.getRMB(activity) + (carBean.vehiclePrice + carBean.servicePrice));
     }
 
     public void genTotal() {

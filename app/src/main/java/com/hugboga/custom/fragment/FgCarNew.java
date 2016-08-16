@@ -189,19 +189,19 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
             } else if (seatNums == 1) {
                 freeCSeatLeft.setText("收费儿童座椅");
                 freeSeatLayout.setVisibility(View.VISIBLE);
-                freeCSeatRight.setText(Tools.getRMB() + seat1 + "/次");
+                freeCSeatRight.setText(Tools.getRMB(getActivity()) + seat1 + "/次");
             }
             if (seatNums > 1) {
                 if (null != seat1) {
                     freeCSeatLeft.setText("收费儿童座椅");
                     freeSeatLayout.setVisibility(View.VISIBLE);
-                    freeCSeatRight.setText(Tools.getRMB() + seat1 + "/次");
+                    freeCSeatRight.setText(Tools.getRMB(getActivity()) + seat1 + "/次");
                 } else {
                     freeSeatLayout.setVisibility(View.VISIBLE);
                 }
 
                 chargeSeatLayout.setVisibility(View.VISIBLE);
-                childCountCost.setText(Tools.getRMB() + seat2 + "/次");
+                childCountCost.setText(Tools.getRMB(getActivity()) + seat2 + "/次");
                 childCountText.setText("x" + (seatNums - 1) + "");
             }
         }
@@ -337,11 +337,11 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
                 changeText();
                 if (null != carListBean.additionalServicePrice && null != carListBean.additionalServicePrice.checkInPrice) {
                     checkinLayout.setVisibility(View.VISIBLE);
-                    checkinMoney.setText(Tools.getRMB() + carListBean.additionalServicePrice.checkInPrice );
+                    checkinMoney.setText(Tools.getRMB(getActivity()) + carListBean.additionalServicePrice.checkInPrice );
                 }
                 if (null != carListBean.additionalServicePrice && null != carListBean.additionalServicePrice.pickupSignPrice) {
                     waitLayout.setVisibility(View.VISIBLE);
-                    waitMoney.setText(Tools.getRMB()+ carListBean.additionalServicePrice.pickupSignPrice);
+                    waitMoney.setText(Tools.getRMB(getActivity())+ carListBean.additionalServicePrice.pickupSignPrice);
                 }
             }
         }
