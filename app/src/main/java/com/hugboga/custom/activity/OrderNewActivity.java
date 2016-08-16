@@ -419,7 +419,7 @@ public class OrderNewActivity extends BaseActivity {
     private void getCancleTips() {
         RequestCancleTips requestCancleTips = new RequestCancleTips(activity,
                 cancleTipsId,
-                orderType + "",
+                goodsType + "",
                 carBean.carType + "",
                 carBean.seatCategory + "",
                 cancleTipsTime, halfDay,
