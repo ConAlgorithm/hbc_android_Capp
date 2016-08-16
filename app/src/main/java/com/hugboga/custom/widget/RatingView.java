@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.utils.UIUtils;
 
 /**
  * Created by qingcha on 16/5/24.
@@ -89,10 +90,15 @@ public class RatingView extends LinearLayout {
         height = getMeasuredHeight();
         width = getMeasuredWidth();
         int s = width / maxLevels;
+        int start = 0;
+        if (itemWidth > 0) {
+            start = (UIUtils.getScreenWidth() - (itemWidth + gap) * maxLevels) / 2;
+            s = (width - start * 2) / maxLevels;
+        }
         if (distances == null) {
             distances = new int[maxLevels];
             for (int i = 0; i < maxLevels; i++) {
-                distances[i] = (i + 1) * s;
+                distances[i] = start + (i + 1) * s;
             }
         }
     }
