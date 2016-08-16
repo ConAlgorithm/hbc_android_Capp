@@ -33,6 +33,7 @@ import com.hugboga.custom.data.request.RequestGetCarInfo;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.CarUtils;
 import com.hugboga.custom.utils.PhoneInfo;
+import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.widget.JazzyViewPager;
 import com.hugboga.custom.widget.MoneyTextView;
 import com.umeng.analytics.MobclickAgent;
@@ -403,10 +404,10 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
             daysLeft.setText(dayNums + "天包车+司导");
         }
 
-        daysRight.setText("用车费用￥" + carBean.vehiclePrice + "\n+司导费用￥" + carBean.servicePrice);
-        allMoneyRight.setText("￥" + (carBean.vehiclePrice + carBean.servicePrice));
-        averageMoney.setText("￥" + (carBean.vehiclePrice + carBean.servicePrice) / mans);
-        allMoneyLeftText.setText("￥" + (carBean.vehiclePrice + carBean.servicePrice));
+        daysRight.setText("用车费用"+ Tools.getRMB(activity) + carBean.vehiclePrice + "\n+司导费用"+Tools.getRMB(activity) + carBean.servicePrice);
+        allMoneyRight.setText(Tools.getRMB(activity) + (carBean.vehiclePrice + carBean.servicePrice));
+        averageMoney.setText(Tools.getRMB(activity) + (carBean.vehiclePrice + carBean.servicePrice) / mans);
+        allMoneyLeftText.setText(Tools.getRMB(activity) + (carBean.vehiclePrice + carBean.servicePrice));
     }
 
     public void genTotal() {

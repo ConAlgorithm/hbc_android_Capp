@@ -159,7 +159,9 @@ public class GuideDetailActivity extends BaseActivity implements GuideCarPhotosA
                 describeTV.setText(describe);
             }
 
-            platenumberTV.setText(data.getCarLicenceNo());
+            if (!TextUtils.isEmpty(data.getCarLicenceNo())) {
+                platenumberTV.setText(getString(R.string.platenumber) + data.getCarLicenceNo());
+            }
             ratingView.setLevel(data.getServiceStar());
             scoreTV.setText(String.valueOf(data.getServiceStar()));
             collectIV.setSelected(data.isCollected());

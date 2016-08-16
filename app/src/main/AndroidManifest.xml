@@ -61,6 +61,13 @@
                 <!--<data android:scheme="@string/hbc_scheme"/>-->
                 <data android:scheme="hbcc" android:host="hbcc_a" android:path="/"/>
             </intent-filter>
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <!--<data android:scheme="@string/hbc_scheme"/>-->
+                <data android:scheme="hbcc"/>
+            </intent-filter>
         </activity>
 
         <activity

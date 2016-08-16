@@ -723,7 +723,6 @@
                             android:layout_height="wrap_content"
                             android:layout_marginRight="15dp"
                             android:gravity="center"
-                            android:text="￥0"
                             android:textColor="#ec866d"
                             android:textSize="15sp" />
 
