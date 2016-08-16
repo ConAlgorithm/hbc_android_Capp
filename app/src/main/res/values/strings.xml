@@ -27,6 +27,7 @@
     <string name="people">人</string>
     <string name="collect_succeed">收藏成功</string>
     <string name="collect_cancel">已取消收藏</string>
+    <string name="platenumber">车牌：</string>
 
     <!-- Basic name -->
     <string name="call_info_tip">如有问题，请拨打客服电话 4006 1000 66</string>用户协议

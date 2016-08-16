@@ -93,7 +93,7 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
             Bundle extras = getIntent().getExtras();
             if (extras != null) {
                 data = extras.getString("action");
-                MLog.i("hbcc 短信跳转 intent " + data);
+                MLog.i("hbcc 短信跳转 intent" + data);
             }
             if (TextUtils.isEmpty(data)) {
                 String dataString = intent.getDataString();

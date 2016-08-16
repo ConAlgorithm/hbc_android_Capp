@@ -83,11 +83,11 @@ public class SettingActivity extends BaseActivity {
         ButterKnife.bind(this);
         initHeader();
 
-        if (HbcConfig.IS_DEBUG) {
-            developerLayout.setVisibility(View.VISIBLE);
-        } else {
+//        if (HbcConfig.IS_DEBUG) {
+//            developerLayout.setVisibility(View.VISIBLE);
+//        } else {
             developerLayout.setVisibility(View.GONE);
-        }
+//        }
     }
 
     @Override

@@ -50,7 +50,7 @@ public final class Constants {
         客服电话
          */
     public static final String CALL_NUMBER_IN = "400-6100-066";
-    public static final String CALL_NUMBER_OUT = "+861057812003";
+    public static final String CALL_NUMBER_OUT = "+861059715436";
     /**
      * 微信
      **/

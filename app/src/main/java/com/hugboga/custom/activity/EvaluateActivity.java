@@ -130,7 +130,9 @@ public class EvaluateActivity extends BaseActivity implements RatingView.OnLevel
         nameTV.setText(guideInfo.guideName);
         scoreRatingview.setLevel((float)guideInfo.guideStarLevel);
         describeTV.setText(guideInfo.guideCar);
-        plateNumberTV.setText(guideInfo.carNumber);
+        if (!TextUtils.isEmpty(guideInfo.carNumber)) {
+            plateNumberTV.setText(getString(R.string.platenumber) + guideInfo.carNumber);
+        }
 
         if (isEvaluated()) {//已评价
             ratingview.setLevel(orderBean.appraisement.totalScore);
