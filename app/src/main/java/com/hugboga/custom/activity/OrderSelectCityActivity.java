@@ -859,6 +859,12 @@ public class OrderSelectCityActivity extends BaseActivity  {
                     bundle.putString("adultNum", manNum + "");
                     bundle.putString("childrenNum", childNum + "");
                     bundle.putString("childseatNum", childSeatNums + "");
+                    if(null != collectGuideBean) {
+                        int maxLuuages = (collectGuideBean.numOfLuggage + collectGuideBean.numOfPerson)
+                                - Integer.valueOf(manNum) - Math.round(Integer.valueOf(childSeatNums) * 1.5f)
+                                - (Integer.valueOf(childNum) - Integer.valueOf(childSeatNums));
+                        baggageNum = maxLuuages;
+                    }
                     bundle.putString("luggageNum", baggageNum + "");
                     bundle.putString("passCities", isHalfTravel ? "" : getPassCities());
                     bundle.putString("carTypeName", null != getMatchCarBean() ? getMatchCarBean().carDesc : "");

@@ -182,7 +182,7 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
     @Bind(R.id.days_left)
     TextView daysLeft;
     @Bind(R.id.days_right)
-    TextView daysRight;
+    MoneyTextView daysRight;
     @Bind(R.id.all_money_right)
     MoneyTextView allMoneyRight;
     @Bind(R.id.line)

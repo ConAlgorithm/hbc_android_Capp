@@ -122,9 +122,9 @@ public class SingleNewActivity extends BaseActivity {
     @Bind(R.id.all_money_left_sku)
     TextView allMoneyLeftSku;
     @Bind(R.id.all_money_text_sku)
-    TextView allMoneyTextSku;
+    MoneyTextView allMoneyTextSku;
     @Bind(R.id.money_pre)
-    TextView moneyPre;
+    MoneyTextView moneyPre;
 
     private PoiBean arrivalBean;//达到目的地
     private String serverTime;

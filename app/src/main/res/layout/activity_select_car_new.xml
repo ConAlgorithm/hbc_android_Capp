@@ -573,7 +573,7 @@
                     android:textColor="@color/basic_black"
                     android:textSize="15sp" />
 
-                <TextView
+                <com.hugboga.custom.widget.MoneyTextView
                     android:id="@+id/days_right"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

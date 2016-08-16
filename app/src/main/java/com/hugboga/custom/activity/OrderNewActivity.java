@@ -607,7 +607,7 @@ public class OrderNewActivity extends BaseActivity {
         endHospitalTitle.setText(poiBean.placeName);
         endHospitalTitleTips.setText(poiBean.placeDetail);
 
-        isCheckIn = this.getIntent().getBooleanExtra("needCheckin",true);
+        isCheckIn = this.getIntent().getBooleanExtra("needCheckin",false);
 
         carSeat.setText(getCarDesc());
 
@@ -625,10 +625,13 @@ public class OrderNewActivity extends BaseActivity {
                 allMoneyLeftText.setText(Tools.getRMB() + (carBean.price + checkInOrPickupPrice + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean)));
             } else {
                 checkin.setVisibility(View.GONE);
+                pick_name_layout.setVisibility(GONE);
+                isCheckIn = false;
             }
         } else {
             checkInOrPickupPrice = 0;
             checkin.setVisibility(GONE);
+            pick_name_layout.setVisibility(GONE);
         }
     }
 
@@ -1139,15 +1142,17 @@ public class OrderNewActivity extends BaseActivity {
         }
 
         if (type == 1) {
-            if (TextUtils.isEmpty(pickName.getText())) {
-                CommonUtils.showToast("接机牌姓名不能为空!");
-                return;
-            }else{
-                String text = pickName.getText().toString();
-                for(int i =0;i< text.length();i++) {
-                    if(!Tools.isEmojiCharacter(text.charAt(i))){
-                        CommonUtils.showToast("接机牌姓名不能含有表情!");
-                        return;
+            if(isCheckIn) {
+                if (TextUtils.isEmpty(pickName.getText())) {
+                    CommonUtils.showToast("接机牌姓名不能为空!");
+                    return;
+                } else {
+                    String text = pickName.getText().toString();
+                    for (int i = 0; i < text.length(); i++) {
+                        if (!Tools.isEmojiCharacter(text.charAt(i))) {
+                            CommonUtils.showToast("接机牌姓名不能含有表情!");
+                            return;
+                        }
                     }
                 }
             }

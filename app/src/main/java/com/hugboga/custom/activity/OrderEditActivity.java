@@ -32,7 +32,7 @@ import java.util.Calendar;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import cn.qqtheme.framework.picker.DateTimePicker;
+import cn.qqtheme.framework.picker.TimePicker;
 
 /**
  * Created by qingcha on 16/8/4.
@@ -335,19 +335,24 @@ public class OrderEditActivity extends BaseActivity {
         }
     }
     String serverTime = "09:00";
+    TimePicker picker;
     public void showYearMonthDayTimePicker() {
         Calendar calendar = Calendar.getInstance();
-        DateTimePicker picker = new DateTimePicker(activity, DateTimePicker.HOUR_OF_DAY);
-        picker.setSelectedItem(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH),
-                calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
-        picker.setOnDateTimePickListener(new DateTimePicker.OnYearMonthDayTimePickListener() {
+        calendar.set(Calendar.HOUR_OF_DAY,9);
+        calendar.set(Calendar.MINUTE,0);
+        picker = new TimePicker(activity, TimePicker.HOUR_OF_DAY);
+        picker.setTitle("请选择上车时间");
+        picker.setSelectedItem(calendar.get(Calendar.HOUR_OF_DAY),calendar.get(Calendar.MINUTE));
+        picker.setOnTimePickListener(new TimePicker.OnTimePickListener() {
             @Override
-            public void onDateTimePicked(String year, String month, String day, String hour, String minute) {
+            public void onTimePicked(String hour, String minute) {
                 serverTime = hour + ":" + minute + ":00";
                 upRight.setText(serverTime + "(当地时间)");
                 orderBean.serviceStartTime = serverTime;
+                picker.dismiss();
             }
         });
+
         picker.show();
     }
 

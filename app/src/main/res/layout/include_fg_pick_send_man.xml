@@ -126,7 +126,7 @@
             android:textColor="@color/basic_black"
             android:textSize="16sp" />
 
-        <TextView
+        <com.hugboga.custom.widget.MoneyTextView
             android:id="@+id/free_c_seat_right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -174,7 +174,7 @@
             android:textColor="@color/basic_black"
             android:textSize="15sp" />
 
-        <TextView
+        <com.hugboga.custom.widget.MoneyTextView
             android:id="@+id/child_count_cost"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -221,7 +221,7 @@
             android:textColor="@color/basic_black"
             android:textSize="15sp" />
 
-        <TextView
+        <com.hugboga.custom.widget.MoneyTextView
             android:id="@+id/checkin_money"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -268,7 +268,7 @@
             android:textColor="@color/basic_black"
             android:textSize="15sp" />
 
-        <TextView
+        <com.hugboga.custom.widget.MoneyTextView
             android:id="@+id/wait_money"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
