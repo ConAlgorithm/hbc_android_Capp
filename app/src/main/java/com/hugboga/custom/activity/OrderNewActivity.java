@@ -878,6 +878,7 @@ public class OrderNewActivity extends BaseActivity {
                             startActivity(new Intent(activity, TravelFundActivity.class));
                         }
                     });
+                    dreamRight.setText(Tools.getRMB()+"0");
                 } else {
                     dreamRight.setText(Tools.getRMB() + (Integer.valueOf(deductionBean.deduction) + Integer.valueOf(deductionBean.leftAmount)));
                     if (dreamLeft.isChecked()) {

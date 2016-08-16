@@ -38,6 +38,7 @@ import com.hugboga.custom.utils.CityUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.OrderUtils;
+import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.widget.MoneyTextView;
 import com.umeng.analytics.MobclickAgent;
 
@@ -288,10 +289,10 @@ public class SkuNewActivity extends BaseActivity {
             perPrice = total / (manLuggageBean.childs + manLuggageBean.mans);
         }
 
-        allMoneyTextSku.setText("￥ " + total);
+        allMoneyTextSku.setText(Tools.getRMB() + total);
         if(carListBean.showHotel) {
             moneyPre.setVisibility(View.VISIBLE);
-            moneyPre.setText("人均:￥ " + perPrice);
+            moneyPre.setText("人均:"+Tools.getRMB()  + perPrice);
             carListBean.hourseNum = hourseNum;
         }
     }

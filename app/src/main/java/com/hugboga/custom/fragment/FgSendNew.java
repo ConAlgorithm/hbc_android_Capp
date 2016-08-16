@@ -39,6 +39,7 @@ import com.hugboga.custom.utils.CarUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.OrderUtils;
+import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.MoneyTextView;
 
@@ -140,7 +141,7 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
             }
         }
 
-        allMoneyText.setText("￥" + total);
+        allMoneyText.setText(Tools.getRMB()+ total);
 
         if(null != carListBean) {
             allJourneyText.setText("全程预估: " + carListBean.distance + "公里," + carListBean.interval + "分钟");
