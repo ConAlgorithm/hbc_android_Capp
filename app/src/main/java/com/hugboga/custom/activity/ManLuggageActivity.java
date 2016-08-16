@@ -317,11 +317,11 @@ public class ManLuggageActivity extends BaseActivity {
             } else if (seatNums == 1) {
                 freeCSeatLeft.setText("收费儿童座椅");
                 freeLayout.setVisibility(View.VISIBLE);
-                freeCSeatRight.setText(Tools.getRMB()+ seat1 + "/次");
+                freeCSeatRight.setText(Tools.getRMB(activity)+ seat1 + "/次");
             }
             if (seatNums > 1) {
                 chargeLayout.setVisibility(View.VISIBLE);
-                chargeSeatRight.setText(Tools.getRMB() + seat2 + "/次");
+                chargeSeatRight.setText(Tools.getRMB(activity) + seat2 + "/次");
                 chargeSeatNum.setText("x" + (seatNums - 1) + "");
             }
         } catch (Exception e) {

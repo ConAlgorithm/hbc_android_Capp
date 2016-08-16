@@ -287,7 +287,7 @@ public class SingleNewActivity extends BaseActivity {
             total += seat1Price + seat2Price;
         }
 
-        allMoneyText.setText(Tools.getRMB()+ total);
+        allMoneyText.setText(Tools.getRMB(activity)+ total);
         if (null != carListBean) {
             allJourneyText.setText("全程预估: " + carListBean.distance + "公里," + carListBean.interval + "分钟");
         }

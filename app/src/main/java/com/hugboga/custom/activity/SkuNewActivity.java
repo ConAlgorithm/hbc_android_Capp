@@ -289,10 +289,10 @@ public class SkuNewActivity extends BaseActivity {
             perPrice = total / (manLuggageBean.childs + manLuggageBean.mans);
         }
 
-        allMoneyTextSku.setText(Tools.getRMB() + total);
+        allMoneyTextSku.setText(Tools.getRMB(activity) + total);
         if(carListBean.showHotel) {
             moneyPre.setVisibility(View.VISIBLE);
-            moneyPre.setText("人均:"+Tools.getRMB()  + perPrice);
+            moneyPre.setText("人均:"+Tools.getRMB(activity)  + perPrice);
             carListBean.hourseNum = hourseNum;
         }
     }

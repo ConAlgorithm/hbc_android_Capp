@@ -9,6 +9,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.FutureTarget;
 import com.hugboga.custom.MyApplication;
+import com.hugboga.custom.R;
 import com.hugboga.custom.widget.GlideRoundTransform;
 
 import java.io.File;
@@ -93,9 +94,10 @@ public class Tools {
     }
 
     //人民币符号
-    public static String getRMB(){
-        char symbol = 165;
-        return String.valueOf(symbol);
+    public static String getRMB(Context context){
+//        char symbol = 165;
+//        return String.valueOf(symbol);
+        return context.getString(R.string.sign_rmb);
     }
 
     public static File downLoadImage(Context context,String url){
