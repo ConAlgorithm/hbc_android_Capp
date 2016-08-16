@@ -30,6 +30,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -39,7 +40,20 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
+import com.hugboga.custom.action.data.ActionBean;
+import com.hugboga.custom.action.ActionController;
 import com.hugboga.custom.activity.BaseActivity;
+import com.hugboga.custom.activity.CollectGuideListActivity;
+import com.hugboga.custom.activity.CouponActivity;
+import com.hugboga.custom.activity.IMChatActivity;
+import com.hugboga.custom.activity.InsureActivity;
+import com.hugboga.custom.activity.LoginActivity;
+import com.hugboga.custom.activity.OrderDetailActivity;
+import com.hugboga.custom.activity.PersonInfoActivity;
+import com.hugboga.custom.activity.ServicerCenterActivity;
+import com.hugboga.custom.activity.SettingActivity;
+import com.hugboga.custom.activity.TravelFundActivity;
+import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.adapter.MenuItemAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.LvMenuItem;
@@ -53,32 +67,20 @@ import com.hugboga.custom.data.request.RequestPushClick;
 import com.hugboga.custom.data.request.RequestPushToken;
 import com.hugboga.custom.data.request.RequestUploadLocation;
 import com.hugboga.custom.data.request.RequestUserInfo;
-import com.hugboga.custom.fragment.FgActivity;
 import com.hugboga.custom.fragment.FgChat;
-import com.hugboga.custom.fragment.FgCollectGuideList;
-import com.hugboga.custom.fragment.FgCoupon;
 import com.hugboga.custom.fragment.FgHome;
-import com.hugboga.custom.fragment.FgIMChat;
-import com.hugboga.custom.fragment.FgInsure;
-import com.hugboga.custom.fragment.FgInviteFriends;
-import com.hugboga.custom.fragment.FgLogin;
-import com.hugboga.custom.fragment.FgOrderDetail;
-import com.hugboga.custom.fragment.FgPersonInfo;
-import com.hugboga.custom.fragment.FgServicerCenter;
-import com.hugboga.custom.fragment.FgSetting;
 import com.hugboga.custom.fragment.FgTravel;
-import com.hugboga.custom.fragment.FgTravelFund;
-import com.hugboga.custom.fragment.FgWebInfo;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.ChannelUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.IMUtil;
+import com.hugboga.custom.utils.JsonUtils;
 import com.hugboga.custom.utils.LocationUtils;
 import com.hugboga.custom.utils.PermissionRes;
 import com.hugboga.custom.utils.PhoneInfo;
+import com.hugboga.custom.utils.PushUtils;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.Tools;
-import com.umeng.analytics.MobclickAgent;
 import com.zhy.m.permission.MPermissions;
 import com.zhy.m.permission.PermissionDenied;
 import com.zhy.m.permission.PermissionGrant;
@@ -103,6 +105,7 @@ import java.util.TimerTask;
 
 import cn.jpush.android.api.JPushInterface;
 
+
 @ContentView(R.layout.activity_main)
 public class MainActivity extends BaseActivity
         implements ViewPager.OnPageChangeListener, AdapterView.OnItemClickListener, View.OnClickListener, HttpRequestListener {
@@ -123,6 +126,7 @@ public class MainActivity extends BaseActivity
     private TextView tv_nickname;//header的昵称
     private TextView couponTV, couponUnitTV;
     private TextView travelFundTV, travelFundUnitTV;
+    private ImageView travelFundHintIV;
 
     private TextView tabMenu[] = new TextView[3];
 
@@ -137,9 +141,19 @@ public class MainActivity extends BaseActivity
     private FgTravel fgTravel;
     private SharedPre sharedPre;
 
+    private ActionBean actionBean;
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (savedInstanceState != null) {
+            actionBean = (ActionBean) savedInstanceState.getSerializable(Constants.PARAMS_ACTION);
+        } else {
+            Bundle bundle = getIntent().getExtras();
+            if (bundle != null) {
+                actionBean = (ActionBean) bundle.getSerializable(Constants.PARAMS_ACTION);
+            }
+        }
 //        setSupportActionBar(toolbar);
         sharedPre = new SharedPre(this);
         initBottomView();
@@ -178,28 +192,62 @@ public class MainActivity extends BaseActivity
             }
         };
         drawer.addDrawerListener(mDrawerToggle);
+
+        showAdWebView(getIntent().getStringExtra("url"));
+
+        if (actionBean != null) {
+            ActionController actionFactory = ActionController.getInstance(this);
+            actionFactory.doAction(actionBean);
+        }
     }
+
+    private void testPush() {
+        String teset  = "{\"action\":\"{\\\"t\\\":\\\"2\\\",\\\"v\\\":\\\"16\\\"}\",\"orderNo\":\"J100091049121\",\"type\":\"G1\",\"orderType\":\"1\",\"sound\":\"newOrder.mp3\"}";
+        PushMessage pushMessage = (PushMessage) JsonUtils.fromJson(teset, PushMessage.class);
+        pushMessage.title = "";
+        pushMessage.message = "您有1个新订单，能收到声音吗,请赶快登录皇包车-司导端APP去接单吧";
+        PushUtils.showNotification(pushMessage);
+    }
+
+    private void showAdWebView(String url){
+        if(null != url) {
+            Intent intent = new Intent(activity,WebInfoActivity.class);
+            intent.putExtra(WebInfoActivity.WEB_URL, url);
+            startActivity(intent);
+
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (actionBean != null) {
+            outState.putSerializable(Constants.PARAMS_ACTION, actionBean);
+        }
+    }
+
 
     Timer timer;
     TimerTask timerTask;
-    public void uploadLocation(){
+
+    public void uploadLocation() {
         timer = new Timer();
-        timerTask = new TimerTask(){
+        timerTask = new TimerTask() {
             @Override
             public void run() {
 
                 String lat = new SharedPre(MainActivity.this).getStringValue("lat");
                 String lng = new SharedPre(MainActivity.this).getStringValue("lng");
-                Log.e("========","============lat="+lat+"====lng="+lng);
+                Log.e("========", "============lat=" + lat + "====lng=" + lng);
 
-                if(!TextUtils.isEmpty(lat)){
+                if (!TextUtils.isEmpty(lat)) {
                     RequestUploadLocation requestUploadLocation = new RequestUploadLocation(MainActivity.this);
-                    HttpRequestUtils.request(MainActivity.this,requestUploadLocation,MainActivity.this,false);
+                    HttpRequestUtils.request(MainActivity.this, requestUploadLocation, MainActivity.this, false);
 
                 }
             }
         };
-        timer.schedule(timerTask,0,30000);
+        timer.schedule(timerTask, 0, 30000);
     }
 
     /**
@@ -261,14 +309,14 @@ public class MainActivity extends BaseActivity
     }
 
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         super.onDestroy();
         try {
-            if(timer != null){
+            if (timer != null) {
                 timer.cancel();
                 timer = null;
             }
-            if(timerTask != null){
+            if (timerTask != null) {
                 timerTask.cancel();
                 timerTask = null;
             }
@@ -282,13 +330,13 @@ public class MainActivity extends BaseActivity
     public void onDataRequestSucceed(BaseRequest request) {
         if (request instanceof RequestPushToken) {
             MLog.e(request.getData().toString());
-        }else if(request instanceof RequestUploadLocation){
+        } else if (request instanceof RequestUploadLocation) {
             LocationUtils.cleanLocationInfo(MainActivity.this);
             String cityId = ((RequestUploadLocation) request).getData().cityId;
             String cityName = ((RequestUploadLocation) request).getData().cityName;
             String countryId = ((RequestUploadLocation) request).getData().countryId;
             String countryName = ((RequestUploadLocation) request).getData().countryName;
-            LocationUtils.saveLocationCity(MainActivity.this,cityId,cityName,countryId,countryName);
+            LocationUtils.saveLocationCity(MainActivity.this, cityId, cityName, countryId, countryName);
 //            MLog.e("Location: cityId:"+cityId + ",  cityName:"+cityName);
         } else if (request instanceof RequestUserInfo) {
             if (couponTV == null || travelFundTV == null) {
@@ -327,26 +375,33 @@ public class MainActivity extends BaseActivity
     private void receivePushMessage(Intent intent) {
         if (intent != null) {
             if (intent.getData() != null && "rong".equals(intent.getData().getScheme())) {
-                Bundle bundle = new Bundle();
-                bundle.putString(FgIMChat.KEY_TITLE, intent.getData().toString());
-                startFragment(new FgIMChat(), bundle);
+                Intent intentIm = new Intent(this, IMChatActivity.class);
+                intentIm.putExtra(IMChatActivity.KEY_TITLE, intent.getData().toString());
+                startActivity(intentIm);
             } else {
                 PushMessage message = (PushMessage) intent.getSerializableExtra(MainActivity.PUSH_BUNDLE_MSG);
                 if (message != null) {
                     uploadPushClick(message.messageID);
-                    if ("IM".equals(message.type)) {
-                        gotoChatList();
-                    } else if (message.orderType == 888) {
-                        if (getFragmentList().size() > 3) {
-                            for (int i = getFragmentList().size() - 1; i >= 3; i--) {
-                                getFragmentList().get(i).finish();
-                            }
-                        }
-                        if (mViewPager != null) {
-                            mViewPager.setCurrentItem(2);
-                        }
+                    ActionBean actionBean = message.getActionBean();
+                    if (actionBean != null) {
+                        ActionController actionFactory = ActionController.getInstance(this);
+                        actionFactory.doAction(actionBean);
+                        this.actionBean = actionBean;
                     } else {
-                        gotoOrder(message);
+                        if ("IM".equals(message.type)) {
+                            gotoChatList();
+                        } else if ("888".equals(message.orderType)) {
+                            if (getFragmentList().size() > 3) {
+                                for (int i = getFragmentList().size() - 1; i >= 3; i--) {
+                                    getFragmentList().get(i).finish();
+                                }
+                            }
+                            if (mViewPager != null) {
+                                mViewPager.setCurrentItem(2);
+                            }
+                        } else {
+                            gotoOrder(message);
+                        }
                     }
                 }
             }
@@ -370,10 +425,13 @@ public class MainActivity extends BaseActivity
 //        bundle.putInt(BaseFragment.KEY_GOODS_TYPE, message.goodsType);
 //        bundle.putString(FgOrder.KEY_ORDER_ID, message.orderID);
 //        startFragment(new FgOrder(), bundle);
-        FgOrderDetail.Params params = new FgOrderDetail.Params();
-        params.orderType = message.orderType;
-        params.orderId = message.orderID;
-        startFragment(FgOrderDetail.newInstance(params));
+        OrderDetailActivity.Params params = new OrderDetailActivity.Params();
+        params.orderType = CommonUtils.getCountInteger(message.orderType);
+        params.orderId = message.orderNo;
+
+        Intent intent = new Intent(this, OrderDetailActivity.class);
+        intent.putExtra(Constants.PARAMS_DATA, params);
+        startActivity(intent);
     }
 
     @Subscribe
@@ -381,6 +439,11 @@ public class MainActivity extends BaseActivity
         switch (action.getType()) {
             case CLICK_USER_LOGIN:
 //                getUserCoupon();
+                if (actionBean != null) {
+                    ActionController actionFactory = ActionController.getInstance(this);
+                    actionFactory.doAction(actionBean);
+                    actionBean = null;
+                }
             case CLICK_USER_LOOUT:
                 refreshContent();
                 break;
@@ -407,7 +470,7 @@ public class MainActivity extends BaseActivity
 
     private void connectIM() {
         if (UserEntity.getUser().isLogin(this))
-        IMUtil.getInstance().connect();
+            IMUtil.getInstance().connect();
     }
 
     private void initBottomView() {
@@ -431,7 +494,6 @@ public class MainActivity extends BaseActivity
 
     private List<LvMenuItem> mItems = new ArrayList<LvMenuItem>(
             Arrays.asList(
-                    new LvMenuItem(R.mipmap.personal_icon_invite, "邀请好友赢旅游基金"),
                     new LvMenuItem(R.mipmap.personal_icon_safe, "常用投保人"),
                     new LvMenuItem(R.mipmap.personal_icon_collection, "我收藏的司导"),
                     new LvMenuItem(MenuItemAdapter.ItemType.SPACE),
@@ -459,13 +521,19 @@ public class MainActivity extends BaseActivity
         travelFundTV = (TextView) header.findViewById(R.id.slidemenu_header_travelfund_tv);//旅游基金
         couponUnitTV = (TextView) header.findViewById(R.id.slidemenu_header_coupon_unit_tv);
         travelFundUnitTV = (TextView) header.findViewById(R.id.slidemenu_header_travelfund_unit_tv);
+        travelFundHintIV = (ImageView) header.findViewById(R.id.travel_fund_hint_iv);
+        if (new SharedPre(this).isShowTravelFundHint()) {
+            travelFundHintIV.setVisibility(View.VISIBLE);
+        } else {
+            travelFundHintIV.setVisibility(View.GONE);
+        }
 
         header.findViewById(R.id.slidemenu_header_coupon_layout).setOnClickListener(this);
         header.findViewById(R.id.slidemenu_header_travelfund_layout).setOnClickListener(this);
         tv_nickname.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                CommonUtils.showToast("version="+ChannelUtils.getVersion()+" versioncode="+ChannelUtils.getVersionCode()+" channel ="+ChannelUtils.getChannel(MainActivity.this)+"");
+                CommonUtils.showToast("version=" + ChannelUtils.getVersion() + " versioncode=" + ChannelUtils.getVersionCode() + " channel =" + ChannelUtils.getChannel(MainActivity.this) + "");
                 return false;
             }
         });
@@ -492,7 +560,7 @@ public class MainActivity extends BaseActivity
             tv_nickname.setTextColor(0xFF999999);
         } else {
             if (!TextUtils.isEmpty(UserEntity.getUser().getAvatar(this))) {
-                Tools.showImage(this,my_icon_head,UserEntity.getUser().getAvatar(this));
+                Tools.showImage(this, my_icon_head, UserEntity.getUser().getAvatar(this));
 //                x.image().bind(my_icon_head, UserEntity.getUser().getAvatar(this));
             } else {
                 my_icon_head.setImageResource(R.mipmap.chat_head);
@@ -585,34 +653,27 @@ public class MainActivity extends BaseActivity
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        HashMap<String,String> map = new HashMap<String,String>();
+        HashMap<String, String> map = new HashMap<String, String>();
         switch (position) {
-            case Constants.PERSONAL_CENTER_FUND://旅游基金
-                if(isLogin("个人中心首页")) {
-                    FgInviteFriends fgInviteFriends = new FgInviteFriends();
-                    startFragment(fgInviteFriends);
-                }
-                break;
             case Constants.PERSONAL_CENTER_BR://常用投保人
-                if(isLogin("个人中心首页")) {
-                    FgInsure fgInsure = new FgInsure();
-                    startFragment(fgInsure);
+                if (isLogin()) {
+                    Intent intent = new Intent(activity, InsureActivity.class);
+                    startActivity(intent);
                 }
                 break;
             case Constants.PERSONAL_CENTER_COLLECT://收藏司导
-                if(isLogin("个人中心首页")) {
-                    startFragment(new FgCollectGuideList());
+                if (isLogin()) {
+                    startActivity(new Intent(MainActivity.this, CollectGuideListActivity.class));
                 }
                 break;
             case Constants.PERSONAL_CENTER_HD://活动
-                if(isLogin("个人中心首页")) {
-                    Bundle bundle = new Bundle();
-                    bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_ACTIVITY+UserEntity.getUser().getUserId(this.getApplicationContext())+"&t=" + new Random().nextInt(100000));
-                    startFragment(new FgActivity(), bundle);
-                }
+                    Intent intent = new Intent(MainActivity.this, WebInfoActivity.class);
+                    intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_ACTIVITY + UserEntity.getUser().getUserId(this.getApplicationContext()) + "&t=" + new Random().nextInt(100000));
+                    startActivity(intent);
                 break;
             case Constants.PERSONAL_CENTER_CUSTOMER_SERVICE://服务规则
-                startFragment(new FgServicerCenter());
+                intent = new Intent(activity, ServicerCenterActivity.class);
+                startActivity(intent);
                 break;
             case Constants.PERSONAL_CENTER_INTERNAL_SERVICE://境内客服
                 PhoneInfo.CallDial(MainActivity.this, Constants.CALL_NUMBER_IN);
@@ -621,8 +682,9 @@ public class MainActivity extends BaseActivity
                 PhoneInfo.CallDial(MainActivity.this, Constants.CALL_NUMBER_OUT);
                 break;
             case Constants.PERSONAL_CENTER_SETTING://设置
-                if (isLogin("个人中心首页")) {
-                    startFragment(new FgSetting());
+                if (isLogin()) {
+                    intent = new Intent(activity,SettingActivity.class);
+                    startActivity(intent);
                 }
                 break;
             default:
@@ -634,71 +696,64 @@ public class MainActivity extends BaseActivity
     }
 
     //通讯录
-    private  final int PICK_CONTACTS = 101;
+    private final int PICK_CONTACTS = 101;
+
     // 接收通讯录的选择号码事件
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-            if (resultCode == RESULT_OK) {
-                if (data == null) {
-                    return;
-                }
-                if(PICK_CONTACTS == requestCode) {
-                    Uri result = data.getData();
-                    String[] contact = PhoneInfo.getPhoneContacts(this, result);
-                    EventBus.getDefault().post(new EventAction(EventType.CONTACT, contact));
-                }
+        if (resultCode == RESULT_OK) {
+            if (data == null) {
+                return;
             }
+            if (PICK_CONTACTS == requestCode) {
+                Uri result = data.getData();
+                String[] contact = PhoneInfo.getPhoneContacts(this, result);
+                EventBus.getDefault().post(new EventAction(EventType.CONTACT, contact));
+            }
+        }
     }
 
 
     /**
      * 判断是否登录
-     * @param source 来源，用于统计
-     * @return
      */
-    private boolean isLogin(String source) {
-        try {
-            if (UserEntity.getUser().isLogin(this)) {
-                return true;
-            } else {
-                if(!TextUtils.isEmpty(source)){
-                    Bundle bundle = new Bundle();;
-                    bundle.putString("source",source);
-                    startFragment(new FgLogin(), bundle);
-
-                    HashMap<String,String> map = new HashMap<String,String>();
-                    map.put("source", source);
-                    MobclickAgent.onEvent(MainActivity.this, "login_trigger", map);
-                    return false;
-                }else{
-                    startFragment(new FgLogin());
-                    return false;
-                }
-            }
-        } catch (Exception e) {
+    private boolean isLogin() {
+        if (UserEntity.getUser().isLogin(this)) {
+            return true;
+        } else {
+            startActivity(new Intent(this, LoginActivity.class));
+            return false;
         }
-        return false;
     }
-
+    Intent intent;
     @Override
     public void onClick(View v) {
+        Intent intent = null;
         switch (v.getId()) {
             case R.id.head_view:
             case R.id.my_icon_head:
             case R.id.tv_nickname:
-                if(isLogin("个人中心首页")){
-                    startFragment(new FgPersonInfo());
-                };
+                if (isLogin()) {
+                    intent = new Intent(this, PersonInfoActivity.class);
+                    startActivity(intent);
+                }
                 break;
             case R.id.slidemenu_header_coupon_layout://我的优惠券
-                if (isLogin("个人中心首页")) {
-                    startFragment(new FgCoupon());
+                if (isLogin()) {
+                    intent = new Intent(activity, CouponActivity.class);
+                    startActivity(intent);
                     UserEntity.getUser().setHasNewCoupon(false);
                 }
                 break;
             case R.id.slidemenu_header_travelfund_layout://旅游基金
-                if (isLogin("个人中心首页")) {
-                    startFragment(new FgTravelFund());
+                if (isLogin()) {
+                    SharedPre sharedPre= new SharedPre(this);
+                    if (sharedPre.isShowTravelFundHint()) {
+                        sharedPre.setTravelFundHintIsShow(false);
+                        travelFundHintIV.setVisibility(View.GONE);
+                    }
+                    intent = new Intent(activity, TravelFundActivity.class);
+                    startActivity(intent);
                 }
                 break;
         }
@@ -754,8 +809,8 @@ public class MainActivity extends BaseActivity
         if (count > 0) {
             if (count > 99) {
                 bottomPoint2.setText("99+");
-            }else {
-                bottomPoint2.setText(""+count);
+            } else {
+                bottomPoint2.setText("" + count);
             }
             bottomPoint2.setVisibility(View.VISIBLE);
 
@@ -824,19 +879,19 @@ public class MainActivity extends BaseActivity
         return length;
     }
 
-    public void grantLocation(){
+    public void grantLocation() {
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                || ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED ) {
+                || ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,
-                    new String[] {android.Manifest.permission.ACCESS_COARSE_LOCATION , Manifest.permission.ACCESS_FINE_LOCATION },
+                    new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION},
                     PERMISSION_ACCESS_COARSE_LOCATION);
-        }else{
+        } else {
             requestLocation();
         }
     }
 
 
-    public void requestLocation(){
+    public void requestLocation() {
         try {
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 100, locationListener);
         }catch (Exception e){

@@ -1,25 +1,24 @@
 package com.hugboga.custom.widget;
 
 import android.content.Context;
-import android.os.Bundle;
+import android.content.Intent;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.view.Gravity;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.SkuDetailActivity;
+import com.hugboga.custom.activity.SkuListActivity;
+import com.hugboga.custom.activity.WebInfoActivity;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.HomeData;
 import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.fragment.FgHome;
-import com.hugboga.custom.fragment.FgSkuDetail;
-import com.hugboga.custom.fragment.FgSkuList;
-import com.hugboga.custom.fragment.FgWebInfo;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
+
 
 /**
  * Created by qingcha on 16/6/19.
@@ -170,10 +169,16 @@ public class HomeRouteItemView extends RelativeLayout implements HbcViewBehavior
                 break;
             case R.id.home_route_item_display_iv:
             case R.id.home_route_item_more_layout:
-                FgSkuList.Params params = new FgSkuList.Params();
+//                FgSkuList.Params params = new FgSkuList.Params();
+//                params.id = data.getCityId();
+//                params.skuType = FgSkuList.SkuType.CITY;
+//                fgHome.startFragment(FgSkuList.newInstance(params));
+                SkuListActivity.Params params = new SkuListActivity.Params();
                 params.id = data.getCityId();
-                params.skuType = FgSkuList.SkuType.CITY;
-                fgHome.startFragment(FgSkuList.newInstance(params));
+                params.skuType = SkuListActivity.SkuType.CITY;
+                Intent intent = new Intent(getContext(), SkuListActivity.class);
+                intent.putExtra(Constants.PARAMS_DATA, params);
+                getContext().startActivity(intent);
                 break;
         }
     }
@@ -183,10 +188,16 @@ public class HomeRouteItemView extends RelativeLayout implements HbcViewBehavior
             return;
         }
         skuItemBean.cityId = "" + data.getCityId();
-        Bundle bundle = new Bundle();
-        bundle.putString(FgWebInfo.WEB_URL, skuItemBean.skuDetailUrl);
-        bundle.putSerializable(FgSkuDetail.WEB_SKU, skuItemBean);
-        bundle.putString("source" , "首页");
-        fgHome.startFragment(new FgSkuDetail(),bundle);
+//        Bundle bundle = new Bundle();
+//        bundle.putString(FgWebInfo.WEB_URL, skuItemBean.skuDetailUrl);
+//        bundle.putSerializable(FgSkuDetail.WEB_SKU, skuItemBean);
+//        bundle.putString("source" , "首页");
+//        fgHome.startFragment(new FgSkuDetail(),bundle);
+
+        Intent intent = new Intent(getContext(),SkuDetailActivity.class);
+        intent.putExtra(WebInfoActivity.WEB_URL, skuItemBean.skuDetailUrl);
+        intent.putExtra(WebInfoActivity.CONTACT_SERVICE, true);
+        intent.putExtra(SkuDetailActivity.WEB_SKU, skuItemBean);
+        getContext().startActivity(intent);
     }
 }

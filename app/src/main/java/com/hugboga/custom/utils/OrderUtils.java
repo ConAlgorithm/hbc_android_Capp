@@ -167,8 +167,17 @@ public class OrderUtils {
         orderBean.totalDays = (inNum + outNum);
         orderBean.isHalfDaily = isHalfTravel ? 1 : 0;
 
-        orderBean.startAddress = poiBean.placeName;//upRight.getText().toString();
-        orderBean.startAddressDetail = poiBean.placeDetail;//upSiteText.getText().toString();
+        orderBean.carId = carBean.carId;
+        orderBean.capOfPerson = carBean.capOfPerson;
+        orderBean.special = carBean.special;
+
+        if(null != poiBean) {
+            orderBean.startAddress = poiBean.placeName;//upRight.getText().toString();
+            orderBean.startAddressDetail = poiBean.placeDetail;//upSiteText.getText().toString();
+        }else{
+            orderBean.startAddress = "";
+            orderBean.startAddressDetail = "";
+        }
 
 
         orderBean.userName = userName;//manName.getText().toString();
@@ -197,8 +206,10 @@ public class OrderUtils {
                 orderBean.coupId = mostFitBean.couponId;
                 orderBean.coupPriceInfo = mostFitBean.couponPrice + "";
                 orderBean.orderPrice = carBean.price;
-                if(mostFitBean.actualPrice != 0) {
+                if(null != mostFitBean && null != mostFitBean.actualPrice  && mostFitBean.actualPrice != 0) {
                     orderBean.priceActual = mostFitBean.actualPrice + "";
+                }else{
+                    orderBean.priceActual = "0";
                 }
             } else if (null != couponBean && null == mostFitBean) {
                 orderBean.coupId = couponBean.couponID;
@@ -206,6 +217,8 @@ public class OrderUtils {
                 orderBean.orderPrice = carBean.price;
                 if(couponBean.actualPrice != 0) {
                     orderBean.priceActual = couponBean.actualPrice + "";
+                }else{
+                    orderBean.priceActual = "0";
                 }
             }
         }
@@ -295,7 +308,9 @@ public class OrderUtils {
         orderBean.realMobile = contactUsersBean.otherPhone;
         orderBean.isCheckin = isCheckIn ? "1" : "0";
 
-
+        orderBean.carId = carBean.carId;
+        orderBean.capOfPerson = carBean.capOfPerson;
+        orderBean.special = carBean.special;
 
 
         if (contactUsersBean.isForOther) {
@@ -312,8 +327,10 @@ public class OrderUtils {
                 orderBean.coupId = mostFitBean.couponId;
                 orderBean.coupPriceInfo = mostFitBean.couponPrice + "";
                 orderBean.orderPrice = carBean.price;
-                if(mostFitBean.actualPrice != 0) {
+                if(null != mostFitBean && null != mostFitBean.actualPrice  && mostFitBean.actualPrice != 0) {
                     orderBean.priceActual = mostFitBean.actualPrice + "";
+                }else{
+                    orderBean.priceActual = "0";
                 }
             } else if (null != couponBean && null == mostFitBean) {
                 orderBean.coupId = couponBean.couponID;
@@ -321,6 +338,8 @@ public class OrderUtils {
                 orderBean.orderPrice = carBean.price;
                 if(couponBean.actualPrice != 0) {
                     orderBean.priceActual = couponBean.actualPrice + "";
+                }else{
+                    orderBean.priceActual = "0";
                 }
             }
         }
@@ -388,6 +407,10 @@ public class OrderUtils {
         orderBean.serviceStartTime = serverTime + ":00";
         orderBean.serviceTime = serverDate + " " + serverTime + ":00";
 
+        orderBean.carId = carBean.carId;
+        orderBean.capOfPerson = carBean.capOfPerson;
+        orderBean.special = carBean.special;
+
         orderBean.startAddress = startPoi.placeName;
         orderBean.startAddressDetail = startPoi.placeDetail;
         orderBean.startLocation = startPoi.location;
@@ -428,14 +451,18 @@ public class OrderUtils {
             if (null == couponBean && null != mostFitBean) {
                 orderBean.coupId = mostFitBean.couponId;
                 orderBean.coupPriceInfo = mostFitBean.couponPrice + "";
-                if(mostFitBean.actualPrice != 0) {
+                if(null != mostFitBean && null != mostFitBean.actualPrice  && mostFitBean.actualPrice != 0) {
                     orderBean.priceActual = mostFitBean.actualPrice + "";
+                }else{
+                    orderBean.priceActual = "0";
                 }
             } else if (null != couponBean && null == mostFitBean) {
                 orderBean.coupId = couponBean.couponID;
                 orderBean.coupPriceInfo = couponBean.price;
                 if(couponBean.actualPrice != 0) {
                     orderBean.priceActual = couponBean.actualPrice + "";
+                }else{
+                    orderBean.priceActual = "0";
                 }
             }
         }
@@ -518,6 +545,10 @@ public class OrderUtils {
         orderBean.realAreaCode = contactUsersBean.otherphoneCode;
         orderBean.realMobile = contactUsersBean.otherPhone;
 
+        orderBean.carId = carBean.carId;
+        orderBean.capOfPerson = carBean.capOfPerson;
+        orderBean.special = carBean.special;
+
         int checkInPrice = 0;
         if(null != carListBean.additionalServicePrice && null != carListBean.additionalServicePrice.checkInPrice){
             checkInPrice = Integer.valueOf(carListBean.additionalServicePrice.checkInPrice);
@@ -543,8 +574,10 @@ public class OrderUtils {
                 orderBean.coupId = mostFitBean.couponId;
                 orderBean.coupPriceInfo = mostFitBean.couponPrice + "";
                 orderBean.orderPrice = carBean.price;
-                if(mostFitBean.actualPrice != 0) {
+                if(null != mostFitBean && null != mostFitBean.actualPrice  && mostFitBean.actualPrice != 0) {
                     orderBean.priceActual = mostFitBean.actualPrice + "";
+                }else{
+                    orderBean.priceActual = "0";
                 }
             } else if (null != couponBean && null == mostFitBean) {
                 orderBean.coupId = couponBean.couponID;
@@ -552,6 +585,8 @@ public class OrderUtils {
                 orderBean.orderPrice = carBean.price;
                 if(couponBean.actualPrice != 0) {
                     orderBean.priceActual = couponBean.actualPrice + "";
+                }else{
+                    orderBean.priceActual = "0";
                 }
             }
         }
@@ -594,7 +629,7 @@ public class OrderUtils {
                                         String userRemark,String userName,PoiBean poiBean,
                                         boolean dreamLeftischeck,
                                         String travelFund,CouponBean couponBean,MostFitBean mostFitBean,
-                                        CarListBean carListBean,ManLuggageBean manLuggageBean,int hotelRoom ,double priceHotel,int orderType){
+                                        CarListBean carListBean,ManLuggageBean manLuggageBean,int hotelRoom ,double priceHotel,int orderType,String luggageNum){
         OrderBean orderBean = new OrderBean();//订单
 
         if (!TextUtils.isEmpty(guideCollectId)) {
@@ -619,6 +654,7 @@ public class OrderUtils {
         orderBean.adult = Integer.valueOf(adultNum);//成人数
         orderBean.child = Integer.valueOf(childrenNum);//儿童数
         orderBean.contactName = "";
+        orderBean.luggageNum = luggageNum;
         orderBean.contact = new ArrayList<OrderContact>();
         OrderContact orderContact = new OrderContact();
         orderContact.areaCode = "+86";
@@ -631,6 +667,10 @@ public class OrderUtils {
             orderBean.startLocation = startBean.location;
         }
         orderBean.realSendSms = contactUsersBean.isSendMessage ? "1" : "0";
+
+        orderBean.carId = carBean.carId;
+        orderBean.capOfPerson = carBean.capOfPerson;
+        orderBean.special = carBean.special;
 
         if (contactUsersBean.isForOther) {
             orderBean.isRealUser = "2";
@@ -646,8 +686,10 @@ public class OrderUtils {
                 orderBean.coupId = mostFitBean.couponId;
                 orderBean.coupPriceInfo = mostFitBean.couponPrice + "";
                 orderBean.orderPrice = carBean.price;
-                if(mostFitBean.actualPrice != 0) {
+                if(null != mostFitBean && null != mostFitBean.actualPrice  && mostFitBean.actualPrice != 0) {
                     orderBean.priceActual = mostFitBean.actualPrice + "";
+                }else{
+                    orderBean.priceActual = "0";
                 }
             } else if (null != couponBean && null == mostFitBean) {
                 orderBean.coupId = couponBean.couponID;
@@ -655,6 +697,8 @@ public class OrderUtils {
                 orderBean.orderPrice = carBean.price;
                 if(couponBean.actualPrice != 0) {
                     orderBean.priceActual = couponBean.actualPrice + "";
+                }else{
+                    orderBean.priceActual = "0";
                 }
             }
         }

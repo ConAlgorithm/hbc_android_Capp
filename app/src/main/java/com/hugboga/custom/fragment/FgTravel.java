@@ -24,6 +24,8 @@ import com.huangbaoche.hbcframe.widget.recycler.ZListPageView;
 import com.huangbaoche.hbcframe.widget.recycler.ZSwipeRefreshLayout;
 import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.LoginActivity;
+import com.hugboga.custom.activity.OrderDetailActivity;
 import com.hugboga.custom.adapter.NewOrderAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.OrderBean;
@@ -140,7 +142,7 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, OnIt
         fgTravelRunning.removeItemDecoration(fgTravelRunning.divider);
         runningSwipeRefresh = (ZSwipeRefreshLayout) runninLayout.findViewById(R.id.swipe);
         runningEmptyLayout = (RelativeLayout) runninLayout.findViewById(R.id.list_empty);
-        runningAdapter = new NewOrderAdapter(this);
+        runningAdapter = new NewOrderAdapter(getContext());
         fgTravelRunning.setAdapter(runningAdapter);
         fgTravelRunning.setzSwipeRefreshLayout(runningSwipeRefresh);
         fgTravelRunning.setEmptyLayout(runningEmptyLayout);
@@ -157,7 +159,7 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, OnIt
         fgTravelFinish.removeItemDecoration(fgTravelFinish.divider);
         finishSwipeRefresh = (ZSwipeRefreshLayout) finishLayout.findViewById(R.id.swipe);
         finishEmptyLayout = (RelativeLayout) finishLayout.findViewById(R.id.list_empty);
-        finishAdapter = new NewOrderAdapter(this);
+        finishAdapter = new NewOrderAdapter(getContext());
         fgTravelFinish.setAdapter(finishAdapter);
         fgTravelFinish.setzSwipeRefreshLayout(finishSwipeRefresh);
         fgTravelFinish.setEmptyLayout(finishEmptyLayout);
@@ -171,7 +173,7 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, OnIt
         fgTravelCancel.removeItemDecoration(fgTravelCancel.divider);
         cancelSwipeRefresh = (ZSwipeRefreshLayout) cancelLayout.findViewById(R.id.swipe);
         cancelEmptyLayout = (RelativeLayout) cancelLayout.findViewById(R.id.list_empty);
-        cancelAdapter = new NewOrderAdapter(this);
+        cancelAdapter = new NewOrderAdapter(getContext());
         fgTravelCancel.setAdapter(cancelAdapter);
         fgTravelCancel.setzSwipeRefreshLayout(cancelSwipeRefresh);
         fgTravelCancel.setEmptyLayout(cancelEmptyLayout);
@@ -310,9 +312,7 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, OnIt
                 reSetTabView(2);
                 break;
             case R.id.travel_login_btn:
-                Bundle bundle = new Bundle();
-                bundle.putString("source","行程页");
-                startFragment(new FgLogin(),bundle);
+                startActivity(new Intent(view.getContext(), LoginActivity.class));
 
                 HashMap<String,String> map = new HashMap<String,String>();
                 map.put("source", "行程页");
@@ -391,11 +391,20 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, OnIt
             } else if (view == fgTravelCancel) {
                 bean = cancelAdapter.getDatas().get(position);
             }
-            FgOrderDetail.Params params = new FgOrderDetail.Params();
+//            FgOrderDetail.Params params = new FgOrderDetail.Params();
+//            params.orderType = bean.orderType;
+//            params.orderId = bean.orderNo;
+//            params.source = bean.orderType == 5 ? bean.serviceCityName : "首页";
+//            startFragment(FgOrderDetail.newInstance(params));
+
+            OrderDetailActivity.Params params = new OrderDetailActivity.Params();
             params.orderType = bean.orderType;
             params.orderId = bean.orderNo;
             params.source = bean.orderType == 5 ? bean.serviceCityName : "首页";
-            startFragment(FgOrderDetail.newInstance(params));
+            Intent intent = new Intent(getActivity(), OrderDetailActivity.class);
+            intent.putExtra(Constants.PARAMS_DATA, params);
+            getActivity().startActivity(intent);
+
 //            if (view == fgTravelRunning) {
 //                OrderBean bean = runningAdapter.getDatas().get(position);
 //                Bundle bundle = new Bundle();

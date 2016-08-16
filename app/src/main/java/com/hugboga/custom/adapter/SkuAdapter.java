@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.View;
 
 import com.hugboga.custom.data.bean.SkuItemBean;
-import com.hugboga.custom.fragment.FgSkuList;
 import com.hugboga.custom.widget.SkuListItem;
 
 /**

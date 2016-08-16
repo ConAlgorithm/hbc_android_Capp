@@ -9,6 +9,7 @@
         android:id="@+id/header"
         layout="@layout/include_header" />
 
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -22,120 +23,127 @@
             android:background="#e8eaeb"
             android:orientation="vertical">
 
+            <com.hugboga.custom.widget.TopTipsLayout
+                android:id="@+id/top_tips_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="15dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingBottom="15dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:background="@color/basic_white"
-                    android:orientation="vertical"
-                    android:layout_height="wrap_content">
+                    android:orientation="vertical">
 
 
                     <RelativeLayout
                         android:id="@+id/sku_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="1dp"
                         android:background="@color/basic_white"
-                        android:visibility="gone"
-                        android:layout_width="match_parent"
                         android:minHeight="60dp"
-                        android:layout_height="wrap_content">
+                        android:visibility="gone">
 
                         <TextView
                             android:id="@+id/sku_title"
-                            android:textSize="18sp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
                             android:layout_margin="15dp"
                             android:textColor="@color/basic_black"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:textSize="18sp" />
 
                         <TextView
                             android:id="@+id/sku_day"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_below="@id/sku_title"
-                            android:textSize="14sp"
+                            android:layout_marginBottom="20dp"
                             android:layout_marginLeft="15dp"
                             android:layout_marginRight="15dp"
-                            android:layout_marginBottom="20dp"
                             android:textColor="#949596"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:textSize="14sp" />
 
                         <TextView
                             android:id="@+id/sku_city_line"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
                             android:layout_below="@id/sku_title"
-                            android:layout_toRightOf="@id/sku_day"
-                            android:textSize="14sp"
+                            android:layout_marginBottom="20dp"
                             android:layout_marginLeft="15dp"
                             android:layout_marginRight="15dp"
-                            android:layout_marginBottom="20dp"
+                            android:layout_toRightOf="@id/sku_day"
                             android:textColor="#949596"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:textSize="14sp" />
 
                         <TextView
-                            android:layout_below="@id/sku_city_line"
                             android:layout_width="match_parent"
-                            android:background="#e8eaeb"
-                            android:layout_height="10dp" />
+                            android:layout_height="10dp"
+                            android:layout_below="@id/sku_city_line"
+                            android:background="#e8eaeb" />
 
 
                     </RelativeLayout>
 
 
                     <TextView
-                    android:text="@string/my_travel_title"
-                    android:textSize="15sp"
-                    android:textColor="@color/basic_black"
-                    android:background="@color/basic_white"
-                    android:layout_margin="15dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="15dp"
+                        android:background="@color/basic_white"
+                        android:text="@string/my_travel_title"
+                        android:textColor="@color/basic_black"
+                        android:textSize="15sp" />
 
-                <TextView
-                    android:id="@+id/citys_line_title"
-                    android:text="@string/my_travel_title"
-                    android:drawablePadding="10dp"
-                    android:drawableLeft="@mipmap/order_time"
-                    android:textSize="15sp"
-                    android:layout_marginLeft="15dp"
-                    android:textColor="@color/basic_black"
-                    android:background="@color/basic_white"
-                    android:layout_marginRight="15dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-                <TextView
-                    android:id="@+id/citys_line_title_tips"
-                    android:text="@string/my_travel_title"
-                    android:textSize="12sp"
-                    android:background="@color/basic_white"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginLeft="42dp"
-                    android:textColor="#c3c5c5"
-                    android:layout_marginRight="15dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    <TextView
+                        android:id="@+id/citys_line_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                        android:background="@color/basic_white"
+                        android:drawableLeft="@mipmap/order_time"
+                        android:drawablePadding="10dp"
+                        android:text="@string/my_travel_title"
+                        android:textColor="@color/basic_black"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/citys_line_title_tips"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="42dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@color/basic_white"
+                        android:text="@string/my_travel_title"
+                        android:textColor="#c3c5c5"
+                        android:textSize="12sp" />
 
 
                     <LinearLayout
                         android:id="@+id/show_day_layout"
                         android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="20dp"
                         android:layout_marginTop="10dp"
                         android:background="#fdfed8"
-                        android:visibility="gone"
                         android:gravity="center_horizontal"
                         android:orientation="vertical"
-                        android:layout_height="wrap_content">
+                        android:visibility="gone">
+
                         <LinearLayout
                             android:id="@+id/day_layout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical">
-                        </LinearLayout>
+                            android:orientation="vertical"></LinearLayout>
+
                         <TextView
                             android:id="@+id/day_show_all"
                             android:layout_width="wrap_content"
@@ -148,110 +156,115 @@
                             android:text="@string/show_all_info"
                             android:textColor="@color/basic_black"
                             android:textSize="15sp" />
-                     </LinearLayout>
+                    </LinearLayout>
 
-
-                <TextView
-                    android:id="@+id/start_hospital_title"
-                    android:text="@string/my_travel_title"
-                    android:layout_marginTop="15dp"
-                    android:drawablePadding="10dp"
-                    android:drawableLeft="@mipmap/order_place"
-                    android:background="@color/basic_white"
-                    android:textSize="15sp"
-                    android:layout_marginLeft="15dp"
-                    android:textColor="@color/basic_black"
-                    android:layout_marginRight="15dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-
-                <TextView
-                    android:id="@+id/start_hospital_title_tips"
-                    android:text="@string/my_travel_title"
-                    android:textSize="12sp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginLeft="42dp"
-                    android:background="@color/basic_white"
-                    android:textColor="#c3c5c5"
-                    android:layout_marginRight="15dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-
-                <TextView
-                    android:id="@+id/end_hospital_title"
-                    android:text="@string/my_travel_title"
-                    android:drawableLeft="@mipmap/order_flag"
-                    android:background="@color/basic_white"
-                    android:textSize="15sp"
-                    android:layout_marginTop="15dp"
-                    android:drawablePadding="10dp"
-                    android:layout_marginLeft="15dp"
-                    android:textColor="@color/basic_black"
-                    android:layout_marginRight="15dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-
-                <TextView
-                    android:id="@+id/end_hospital_title_tips"
-                    android:text="@string/my_travel_title"
-                    android:textSize="13sp"
-                    android:layout_marginTop="10dp"
-                    android:background="@color/basic_white"
-                    android:layout_marginLeft="42dp"
-                    android:textColor="#c3c5c5"
-                    android:layout_marginRight="15dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="15dp"
-                    android:background="@color/basic_white"
-                    android:layout_height="wrap_content">
 
                     <TextView
-                        android:id="@+id/car_seat"
-                        android:text="@string/my_travel_title"
-                        android:drawableLeft="@mipmap/order_car"
-                        android:textSize="15sp"
-                        android:drawablePadding="10dp"
-                        android:layout_marginLeft="15dp"
-                        android:textColor="@color/basic_black"
-                        android:layout_marginRight="15dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-
-                    <TextView
-                        android:id="@+id/car_seat_tips"
-                        android:text="@string/my_travel_title"
-                        android:textSize="12sp"
-                        android:textColor="#c3c5c5"
-                        android:layout_marginRight="15dp"
+                        android:id="@+id/start_hospital_title"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginTop="15dp"
+                        android:background="@color/basic_white"
+                        android:drawableLeft="@mipmap/order_place"
+                        android:drawablePadding="10dp"
+                        android:text="@string/my_travel_title"
+                        android:textColor="@color/basic_black"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/start_hospital_title_tips"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="42dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@color/basic_white"
+                        android:text="@string/my_travel_title"
+                        android:textColor="#c3c5c5"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/end_hospital_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginTop="15dp"
+                        android:background="@color/basic_white"
+                        android:drawableLeft="@mipmap/order_flag"
+                        android:drawablePadding="10dp"
+                        android:text="@string/my_travel_title"
+                        android:textColor="@color/basic_black"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/end_hospital_title_tips"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="42dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/basic_white"
+                        android:text="@string/my_travel_title"
+                        android:textColor="#c3c5c5"
+                        android:textSize="13sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:background="@color/basic_white">
+
+                        <TextView
+                            android:id="@+id/car_seat"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginRight="15dp"
+                            android:drawableLeft="@mipmap/order_car"
+                            android:drawablePadding="10dp"
+                            android:text="@string/my_travel_title"
+                            android:textColor="@color/basic_black"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:id="@+id/car_seat_tips"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="15dp"
+                            android:text="@string/my_travel_title"
+                            android:textColor="#c3c5c5"
+                            android:textSize="12sp" />
+
+
+                    </LinearLayout>
+
+                    <com.hugboga.custom.widget.LuggageItemLayout
+                        android:id="@+id/luggage_item_layout"
+                        android:layout_width="match_parent"
+                        android:paddingLeft="40dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="15dp"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:id="@+id/checkin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="15dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                        android:background="@color/basic_white"
+                        android:drawableLeft="@mipmap/order_jp"
+                        android:drawablePadding="10dp"
+                        android:text="接机举牌等待"
+                        android:textColor="@color/basic_black"
+                        android:textSize="15sp" />
 
 
                 </LinearLayout>
-
-                <TextView
-                    android:id="@+id/checkin"
-                    android:drawablePadding="10dp"
-                    android:drawableLeft="@mipmap/order_jp"
-                    android:text="接机举牌等待"
-                    android:textSize="15sp"
-                    android:background="@color/basic_white"
-                    android:layout_marginLeft="15dp"
-                    android:textColor="@color/basic_black"
-                    android:layout_marginRight="15dp"
-                    android:layout_marginBottom="15dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-
-            </LinearLayout>
-
-
 
 
                 <RelativeLayout
@@ -268,26 +281,26 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="15dp"
-                        android:textColor="@color/basic_black"
                         android:minEms="4"
                         android:text="@string/add_user_name_left"
+                        android:textColor="@color/basic_black"
                         android:textSize="15sp" />
 
                     <TextView
                         android:id="@+id/for_other_man"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="15dp"
-                        android:gravity="center"
-                        android:layout_alignParentRight="true"
-                        android:paddingRight="15dp"
-                        android:minEms="4"
-                        android:text="@string/for_other_people"
-                        android:drawableRight="@mipmap/personalcenter_right"
                         android:drawablePadding="10dp"
+                        android:drawableRight="@mipmap/personalcenter_right"
+                        android:gravity="center"
+                        android:minEms="4"
+                        android:paddingRight="15dp"
+                        android:text="@string/for_other_people"
                         android:textColor="#c3c5c5"
-                        android:textSize="15sp"/>
+                        android:textSize="15sp" />
 
                     <LinearLayout
                         android:id="@+id/man_phone_layout"
@@ -313,7 +326,7 @@
                             android:minEms="4"
                             android:text="@string/air_info"
                             android:textColor="@color/basic_black"
-                            android:textSize="15sp"/>
+                            android:textSize="15sp" />
 
                         <TextView
                             android:id="@+id/man_phone"
@@ -325,7 +338,7 @@
                             android:minEms="4"
                             android:text="@string/air_info"
                             android:textColor="#9d9e9f"
-                            android:textSize="15sp"/>
+                            android:textSize="15sp" />
 
 
                     </LinearLayout>
@@ -333,14 +346,14 @@
                 </RelativeLayout>
 
                 <RelativeLayout
+                    android:id="@+id/other_layout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="1dp"
-                    android:id="@+id/other_layout"
-                    android:visibility="gone"
                     android:background="@color/basic_white"
                     android:clickable="true"
-                    android:minHeight="60dp">
+                    android:minHeight="60dp"
+                    android:visibility="gone">
 
                     <TextView
                         android:id="@+id/other_phone_name"
@@ -348,9 +361,9 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="15dp"
-                        android:textColor="@color/basic_black"
                         android:minEms="4"
                         android:text="@string/passenger_no_star"
+                        android:textColor="@color/basic_black"
                         android:textSize="15sp" />
 
 
@@ -377,7 +390,7 @@
                             android:minEms="4"
                             android:text="@string/air_info"
                             android:textColor="@color/basic_black"
-                            android:textSize="15sp"/>
+                            android:textSize="15sp" />
 
                         <TextView
                             android:id="@+id/other_phone"
@@ -389,7 +402,7 @@
                             android:minEms="4"
                             android:text="@string/air_info"
                             android:textColor="#9d9e9f"
-                            android:textSize="15sp"/>
+                            android:textSize="15sp" />
 
 
                     </LinearLayout>
@@ -412,9 +425,9 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="15dp"
-                        android:textColor="@color/basic_black"
                         android:minEms="4"
                         android:text="@string/pick_name_star"
+                        android:textColor="@color/basic_black"
                         android:textSize="15sp" />
 
                     <EditText
@@ -422,12 +435,12 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_toRightOf="@id/pick_name_left"
                         android:layout_marginLeft="15dp"
+                        android:layout_toRightOf="@id/pick_name_left"
                         android:background="@color/basic_white"
-                        android:textColor="@color/basic_black"
-                        android:minEms="4"
                         android:hint="请填写接机牌姓名"
+                        android:minEms="4"
+                        android:textColor="@color/basic_black"
                         android:textSize="15sp" />
                 </RelativeLayout>
 
@@ -436,10 +449,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="1dp"
-                    android:visibility="gone"
                     android:background="@color/basic_white"
                     android:clickable="true"
-                    android:minHeight="60dp">
+                    android:minHeight="60dp"
+                    android:visibility="gone">
 
                     <TextView
                         android:id="@+id/airpost_name_left"
@@ -447,9 +460,9 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="15dp"
-                        android:textColor="@color/basic_black"
                         android:minEms="4"
                         android:text="起飞航班"
+                        android:textColor="@color/basic_black"
                         android:textSize="15sp" />
 
                     <EditText
@@ -457,54 +470,54 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_toRightOf="@id/airpost_name_left"
                         android:layout_marginLeft="15dp"
+                        android:layout_toRightOf="@id/airpost_name_left"
                         android:background="@color/basic_white"
-                        android:textColor="@color/basic_black"
-                        android:minEms="4"
                         android:hint="请输入起飞航班号,方便司导协助"
+                        android:minEms="4"
+                        android:textColor="@color/basic_black"
                         android:textSize="15sp" />
                 </RelativeLayout>
 
 
                 <RelativeLayout
                     android:id="@+id/single_no_show_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="1dp"
-                android:background="@color/basic_white"
-                android:clickable="true"
-                android:minHeight="60dp">
-
-                <TextView
-                    android:id="@+id/up_left"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="15dp"
-                    android:textColor="@color/basic_black"
-                    android:minEms="4"
-                    android:text="@string/up_time"
-                    android:textSize="15sp" />
+                    android:layout_marginTop="1dp"
+                    android:background="@color/basic_white"
+                    android:clickable="true"
+                    android:minHeight="60dp">
 
-                <TextView
-                    android:id="@+id/up_right"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toRightOf="@id/up_left"
-                    android:layout_marginLeft="15dp"
-                    android:gravity="left|center_vertical"
-                    android:hint="@string/local_time"
-                    android:layout_alignParentRight="true"
-                    android:paddingRight="15dp"
-                    android:minEms="4"
-                    android:drawableRight="@mipmap/personalcenter_right"
-                    android:drawablePadding="10dp"
-                    android:textColor="@color/basic_black"
-                    android:textSize="15sp"/>
+                    <TextView
+                        android:id="@+id/up_left"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="15dp"
+                        android:minEms="4"
+                        android:text="@string/up_time"
+                        android:textColor="@color/basic_black"
+                        android:textSize="15sp" />
 
-            </RelativeLayout>
+                    <TextView
+                        android:id="@+id/up_right"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="15dp"
+                        android:layout_toRightOf="@id/up_left"
+                        android:drawablePadding="10dp"
+                        android:drawableRight="@mipmap/personalcenter_right"
+                        android:gravity="left|center_vertical"
+                        android:hint="@string/local_time"
+                        android:minEms="4"
+                        android:paddingRight="15dp"
+                        android:textColor="@color/basic_black"
+                        android:textSize="15sp" />
+
+                </RelativeLayout>
 
 
                 <RelativeLayout
@@ -522,29 +535,30 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="15dp"
-                        android:textColor="@color/basic_black"
                         android:minEms="4"
                         android:text="@string/up_site"
+                        android:textColor="@color/basic_black"
                         android:textSize="15sp" />
 
                     <TextView
                         android:id="@+id/up_address_right"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_toRightOf="@id/up_address_left"
-                        android:layout_marginLeft="15dp"
-                        android:gravity="left|center_vertical"
                         android:layout_alignParentRight="true"
-                        android:paddingRight="15dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="15dp"
+                        android:layout_toRightOf="@id/up_address_left"
+                        android:drawablePadding="10dp"
+                        android:drawableRight="@mipmap/personalcenter_right"
+                        android:gravity="left|center_vertical"
                         android:hint="@string/aboard_where"
                         android:minEms="4"
-                        android:drawableRight="@mipmap/personalcenter_right"
-                        android:drawablePadding="10dp"
+                        android:paddingRight="15dp"
                         android:textColor="@color/basic_black"
-                        android:textSize="15sp"/>
+                        android:textSize="15sp" />
 
                 </RelativeLayout>
+
                 <LinearLayout
                     android:id="@+id/hospital_layout"
                     android:layout_width="match_parent"
@@ -557,24 +571,24 @@
                     <TextView
                         android:layout_width="90dp"
                         android:layout_height="50dp"
-                        android:textSize="15sp"
                         android:layout_marginLeft="20sp"
-                        android:textColor="@color/basic_black"
                         android:gravity="center_vertical"
-                        android:text="@string/hotel_phone" />
+                        android:text="@string/hotel_phone"
+                        android:textColor="@color/basic_black"
+                        android:textSize="15sp" />
 
                     <TextView
                         android:id="@+id/hotel_phone_text_code_click"
                         android:layout_width="wrap_content"
                         android:layout_height="50dp"
-                        android:textColor="@color/basic_black"
-                        android:textSize="15sp"
                         android:background="@null"
-                        android:textColorHint="#c3c5c5"
                         android:ellipsize="end"
                         android:gravity="center"
                         android:hint="@string/add_user_phone_area_no"
-                        android:lines="1" />
+                        android:lines="1"
+                        android:textColor="@color/basic_black"
+                        android:textColorHint="#c3c5c5"
+                        android:textSize="15sp" />
 
                     <TextView
                         android:layout_width="1dp"
@@ -587,51 +601,53 @@
                         android:id="@+id/hotel_phone_text"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
-                        android:textSize="15sp"
-                        android:background="@null"
-                        android:textColorHint="#c3c5c5"
                         android:layout_marginRight="10dp"
-                        android:textColor="@color/basic_black"
+                        android:background="@null"
                         android:ellipsize="end"
-                        android:maxEms="30"
-                        android:inputType="phone"
                         android:gravity="center_vertical"
                         android:hint="@string/hotel_phone"
-                        android:lines="1" />
+                        android:inputType="phone"
+                        android:lines="1"
+                        android:maxEms="30"
+                        android:textColor="@color/basic_black"
+                        android:textColorHint="#c3c5c5"
+                        android:textSize="15sp" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:orientation="horizontal"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="1dp"
-                    android:gravity="left|top"
                     android:background="@color/basic_white"
-                    android:layout_height="wrap_content">
+                    android:gravity="left|top"
+                    android:orientation="horizontal">
+
                     <TextView
                         android:layout_width="wrap_content"
-                        android:minEms="4"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginLeft="15dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginTop="10dp"
                         android:gravity="center"
-                        android:textSize="15sp"
+                        android:minEms="4"
+                        android:text="@string/edit_mark_left"
                         android:textColor="@color/basic_black"
-                        android:text="@string/edit_mark_left" />
+                        android:textSize="15sp" />
+
                     <EditText
                         android:id="@+id/mark"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginRight="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
                         android:layout_marginLeft="15dp"
-                        android:layout_width="match_parent"
-                        android:textColor="@color/basic_black"
-                        android:layout_height="wrap_content"
-                        android:textColorHint="#c3c5c5"
-                        android:textSize="15sp"
-                        android:maxLength="200"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="10dp"
                         android:background="@null"
                         android:gravity="left|top"
-                        android:hint="@string/edit_mark" />
+                        android:hint="@string/edit_mark"
+                        android:maxLength="200"
+                        android:textColor="@color/basic_black"
+                        android:textColorHint="#c3c5c5"
+                        android:textSize="15sp" />
                 </LinearLayout>
 
                 <RelativeLayout
@@ -649,27 +665,26 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="15dp"
                         android:background="@color/basic_white"
-                        android:textColor="@color/basic_black"
                         android:checked="true"
                         android:minEms="4"
                         android:text="@string/my_coupon"
+                        android:textColor="@color/basic_black"
                         android:textSize="15sp" />
 
                     <TextView
                         android:id="@+id/coupon_right"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="15dp"
-                        android:gravity="center"
-                        android:layout_alignParentRight="true"
-                        android:paddingRight="15dp"
-                        android:text="@string/coupon_num"
-                        android:minEms="4"
-                        android:drawableRight="@mipmap/personalcenter_right"
                         android:drawablePadding="10dp"
+                        android:drawableRight="@mipmap/personalcenter_right"
+                        android:gravity="center"
+                        android:minEms="4"
+                        android:paddingRight="15dp"
                         android:textColor="#c3c5c5"
-                        android:textSize="12sp"/>
+                        android:textSize="12sp" />
 
 
                 </RelativeLayout>
@@ -688,39 +703,39 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="15dp"
-                        android:textColor="@color/basic_black"
                         android:background="@color/basic_white"
                         android:minEms="4"
                         android:text="@string/dream_money"
+                        android:textColor="@color/basic_black"
                         android:textSize="15sp" />
 
 
                     <LinearLayout
                         android:layout_width="wrap_content"
-                        android:layout_centerVertical="true"
+                        android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
-                        android:gravity="center_vertical"
-                        android:layout_height="wrap_content">
+                        android:layout_centerVertical="true"
+                        android:gravity="center_vertical">
 
-                        <TextView
+                        <com.hugboga.custom.widget.MoneyTextView
                             android:id="@+id/dream_right"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:gravity="center"
                             android:layout_marginRight="15dp"
+                            android:gravity="center"
                             android:text="￥0"
                             android:textColor="#ec866d"
-                            android:textSize="15sp"/>
+                            android:textSize="15sp" />
 
                         <TextView
                             android:id="@+id/dream_right_tips"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="15dp"
+                            android:drawablePadding="10dp"
+                            android:drawableRight="@mipmap/personalcenter_right"
                             android:minEms="4"
                             android:text="如何赚取基金?"
-                            android:drawableRight="@mipmap/personalcenter_right"
-                            android:drawablePadding="10dp"
                             android:textColor="#c3c5c5"
                             android:textSize="12sp" />
 
@@ -744,63 +759,94 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="25dp"
-                        android:textColor="@color/basic_black"
-                        android:drawablePadding="10dp"
                         android:drawableLeft="@mipmap/order_right"
+                        android:drawablePadding="10dp"
                         android:minEms="4"
                         android:text="@string/insure_8wan"
+                        android:textColor="@color/basic_black"
                         android:textSize="15sp" />
 
                     <TextView
                         android:id="@+id/insure_right"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="15dp"
+                        android:drawablePadding="10dp"
                         android:gravity="center"
-                        android:layout_alignParentRight="true"
+                        android:minEms="4"
                         android:paddingRight="15dp"
                         android:text="@string/free_huangbaoche"
-                        android:minEms="4"
-                        android:drawablePadding="10dp"
                         android:textColor="#c3c5c5"
-                        android:textSize="12sp"/>
+                        android:textSize="12sp" />
 
 
                 </RelativeLayout>
 
                 <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="15dp"
+                    android:drawablePadding="10dp"
+                    android:gravity="center"
+                    android:minEms="4"
+                    android:text="@string/order_detail_tips_title"
+                    android:textColor="#8e8e8e"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginBottom="30dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="10dp"
+                    android:drawablePadding="10dp"
+                    android:gravity="left"
+                    android:minEms="4"
+                    android:text="@string/order_detail_tips"
+                    android:textColor="#b2b2b2"
+                    android:textSize="13sp" />
+
+                <TextView
                     android:id="@+id/change_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="15dp"
-                    android:layout_marginTop="15dp"
-                    android:gravity="center"
-                    android:layout_alignParentRight="true"
                     android:layout_marginRight="15dp"
-                    android:text="@string/change_title_txt"
-                    android:minEms="4"
+                    android:layout_marginTop="15dp"
                     android:drawablePadding="10dp"
+                    android:gravity="center"
+                    android:minEms="4"
+                    android:text="@string/change_title_txt"
                     android:textColor="#8e8e8e"
-                    android:textSize="15sp"/>
+                    android:textSize="15sp" />
 
                 <TextView
                     android:id="@+id/change_detail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginBottom="30dp"
-                    android:gravity="left"
                     android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginBottom="30dp"
+                    android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
-                    android:text="@string/change_detail_txt"
-                    android:minEms="4"
+                    android:layout_marginTop="10dp"
                     android:drawablePadding="10dp"
-                    android:textColor="#c3c5c5"
-                    android:textSize="13sp"/>
+                    android:gravity="left"
+                    android:minEms="4"
+                    android:text="@string/change_detail_txt"
+                    android:textColor="#b2b2b2"
+                    android:textSize="13sp" />
 
             </LinearLayout>
 
@@ -826,7 +872,7 @@
             android:textColor="@color/basic_white"
             android:textSize="15sp" />
 
-        <TextView
+        <com.hugboga.custom.widget.MoneyTextView
             android:id="@+id/all_money_left_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -846,7 +892,7 @@
             android:background="#f8ca18"
             android:gravity="center"
             android:text="@string/progress_order"
-            android:textColor="@color/basic_white"
+            android:textColor="@color/basic_black"
             android:textSize="18sp" />
 
         <TextView
@@ -857,9 +903,9 @@
             android:layout_marginRight="10dp"
             android:layout_toLeftOf="@id/all_money_submit_click"
             android:text="@string/order_info"
-            android:visibility="gone"
             android:textColor="@color/basic_white"
-            android:textSize="15sp" />
+            android:textSize="15sp"
+            android:visibility="gone" />
     </RelativeLayout>
 
 </RelativeLayout>

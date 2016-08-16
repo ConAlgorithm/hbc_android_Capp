@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.CarBean;
+import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.widget.JazzyViewPager;
 import com.hugboga.custom.widget.OutlineContainer;
 
@@ -50,6 +51,11 @@ public class CarViewpagerAdapter extends PagerAdapter {
         int resId = bean.imgRes;
         if (resId != 0)
             image.setImageResource(resId);
+
+        if(bean.special == 1 && null != bean.carPictures){
+            Tools.showImage(image,bean.carPictures.get(0),R.mipmap.car_default);
+        }
+        //416  143
         TextView tv = (TextView) view.findViewById(R.id.item_car_title);
         tv.setText(bean.desc);
         container.addView(view);

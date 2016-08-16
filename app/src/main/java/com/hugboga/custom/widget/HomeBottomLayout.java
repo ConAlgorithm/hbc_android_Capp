@@ -1,6 +1,7 @@
 package com.hugboga.custom.widget;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -10,15 +11,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.DailyWebInfoActivity;
+import com.hugboga.custom.activity.LoginActivity;
+import com.hugboga.custom.activity.PickSendActivity;
+import com.hugboga.custom.activity.SingleNewActivity;
+import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.data.bean.HomeData;
 import com.hugboga.custom.data.bean.UserEntity;
-import com.hugboga.custom.fragment.FgActivity;
+import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.fragment.FgHome;
-import com.hugboga.custom.fragment.FgLogin;
-import com.hugboga.custom.fragment.FgOrderSelectCity;
-import com.hugboga.custom.fragment.FgPickSend;
-import com.hugboga.custom.fragment.FgSingleNew;
-import com.hugboga.custom.fragment.FgWebInfo;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
@@ -28,7 +29,7 @@ import java.util.HashMap;
 import java.util.Random;
 
 /**
- * Created by qingcha on 16/6/19.
+ * Created by on 16/6/19.
  */
 public class HomeBottomLayout extends LinearLayout implements View.OnClickListener{
 
@@ -105,9 +106,7 @@ public class HomeBottomLayout extends LinearLayout implements View.OnClickListen
             case R.id.home_bottom_active_iv:
                 if (!UserEntity.getUser().isLogin(fragment.getActivity())) {
                     CommonUtils.showToast(R.string.login_hint);
-                    Bundle bundle = new Bundle();;
-                    bundle.putString("source", "首页");
-                    fragment.startFragment(new FgLogin(), bundle);
+                    fragment.getActivity().startActivity(new Intent(fragment.getActivity(), LoginActivity.class));
                     break;
                 }
                 if (activeData == null || TextUtils.isEmpty(activeData.getUrlAddress())) {
@@ -117,10 +116,12 @@ public class HomeBottomLayout extends LinearLayout implements View.OnClickListen
                 if (urlAddress.lastIndexOf("?") != urlAddress.length() - 1) {
                     urlAddress = urlAddress + "?";
                 }
+
                 urlAddress = urlAddress + "userId="+ UserEntity.getUser().getUserId(fragment.getContext())+"&t=" + new Random().nextInt(100000);
-                Bundle bundle = new Bundle();
-                bundle.putString(FgWebInfo.WEB_URL, urlAddress);
-                fragment.startFragment(new FgActivity(), bundle);
+                Intent intent = new Intent(v.getContext(), WebInfoActivity.class);
+                intent.putExtra(WebInfoActivity.WEB_URL, urlAddress);
+                v.getContext().startActivity(intent);
+
                 break;
         }
     }
@@ -138,38 +139,33 @@ public class HomeBottomLayout extends LinearLayout implements View.OnClickListen
     }
 
     /**
-     * 以下代码copy自久版本首页
+     * 以下代码copy自旧版本首页
      * */
     private void goPickSend(){
-        Bundle bundle = new Bundle();
-
-        FgPickSend fgPickSend = new FgPickSend();
-        bundle.putString("source", "首页");
-        fgPickSend.setArguments(bundle);
-        fragment.startFragment(fgPickSend, bundle);
-        HashMap<String,String> map = new HashMap<String,String>();
-        map.put("source", "首页");
-        MobclickAgent.onEvent(fragment.getActivity(), "chose_pndairport", map);
+        Intent intent = new Intent(getContext(), PickSendActivity.class);
+        intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_DAIRY);
+        getContext().startActivity(intent);
     }
 
     private void goDairy(){
         Bundle bundle = new Bundle();
         HashMap<String,String> map = new HashMap<String,String>();
-        FgOrderSelectCity fgOrderSelectCity = new FgOrderSelectCity();
         bundle.putString("source","首页");
-        fgOrderSelectCity.setArguments(bundle);
-        fragment.startFragment(fgOrderSelectCity, bundle);
+        String userId = UserEntity.getUser().getUserId(this.getContext());
+        String params = "";
+        if(!TextUtils.isEmpty(userId)){
+            params += "?userId=" + userId;
+        }
+        Intent intent = new Intent(this.getContext(), DailyWebInfoActivity.class);
+        intent.putExtras(bundle);
+        intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_DAIRY + params);
+        this.getContext().startActivity(intent);
         map.put("source", "首页");
         MobclickAgent.onEvent(fragment.getActivity(), "chose_oneday", map);
     }
 
     private void goSingle(){
-        FgSingleNew fgSingleNew = new FgSingleNew();
-        Bundle bundle = new Bundle();
-        fgSingleNew.setArguments(bundle);
-        fragment.startFragment(fgSingleNew);
-        HashMap<String,String> map = new HashMap<String,String>();
-        map.put("source", "首页");
-        MobclickAgent.onEvent(fragment.getActivity(), "chose_oneway", map);
+        Intent intent = new Intent(getContext(),SingleNewActivity.class);
+        getContext().startActivity(intent);
     }
 }

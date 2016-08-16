@@ -28,8 +28,8 @@ import java.util.List;
 
 @HttpRequest(path = UrlLibs.CANCLE_TIPS, builder = NewParamsBuilder.class)
 public class RequestCancleTips extends BaseRequest<List<String>> {
-    public RequestCancleTips(Context context,String serviceCityId,String goodsType,String carSeatNum,
-                             String carTypeId,String servceTime,String halfDaily,String goodsVersion,String goodsNo,String orderType) {
+    public RequestCancleTips(Context context,String serviceCityId,String goodsType,String carTypeId,
+                             String carSeatNum,String servceTime,String halfDaily,String goodsVersion,String goodsNo,String orderType) {
         super(context);
         map = new HashMap<String, Object>();
         try {

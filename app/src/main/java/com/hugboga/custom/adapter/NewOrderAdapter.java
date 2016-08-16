@@ -1,5 +1,8 @@
 package com.hugboga.custom.adapter;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Spannable;
@@ -13,26 +16,23 @@ import com.huangbaoche.hbcframe.adapter.ZBaseAdapter;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.huangbaoche.hbcframe.viewholder.ZBaseViewHolder;
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.EvaluateActivity;
+import com.hugboga.custom.activity.GuideDetailActivity;
+import com.hugboga.custom.activity.InsureActivity;
+import com.hugboga.custom.activity.OrderDetailActivity;
+import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.adapter.viewholder.NewOrderVH;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.ChatInfo;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.parser.ParserChatInfo;
-import com.hugboga.custom.fragment.BaseFragment;
-import com.hugboga.custom.fragment.FgActivity;
-import com.hugboga.custom.fragment.FgEvaluate;
-import com.hugboga.custom.fragment.FgGuideDetail;
-import com.hugboga.custom.fragment.FgInsure;
-import com.hugboga.custom.fragment.FgOrderDetail;
-import com.hugboga.custom.fragment.FgWebInfo;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.DialogUtil;
 
 import org.xutils.image.ImageOptions;
-
 
 import io.rong.imkit.RongIM;
 
@@ -44,12 +44,12 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
 
     private final ImageOptions options;
     DialogUtil dialog;
-    BaseFragment fragment;
+    private Context context;
 
-    public NewOrderAdapter(BaseFragment fragment) {
-        super(fragment.getActivity());
-        this.fragment = fragment;
-        dialog = DialogUtil.getInstance(fragment.getActivity());
+    public NewOrderAdapter(Context _context) {
+        super(_context);
+        this.context = _context;
+        dialog = DialogUtil.getInstance((Activity) context);
         options = new ImageOptions.Builder()
                 .setFailureDrawableId(R.mipmap.chat_head)
                 .setLoadingDrawableId(R.mipmap.chat_head)
@@ -78,7 +78,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
             vh.mCarType.setVisibility(View.GONE);
 
             if (orderBean.carPool) {//是否拼车
-                Drawable drawable = fragment.getResources().getDrawable(R.mipmap.carpooling);
+                Drawable drawable = context.getResources().getDrawable(R.mipmap.carpooling);
                 drawable.setBounds(0, 0, UIUtils.dip2px(36), UIUtils.dip2px(18));
                 SpannableString spannable = new SpannableString("[icon]" + orderBean.lineSubject);
                 ImageSpan span = new ImageSpan(drawable, ImageSpan.ALIGN_BASELINE);
@@ -264,20 +264,27 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                     vh.travel_item_btn_br.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            FgInsure fgAddInsure = new FgInsure();
                             Bundle bundle = new Bundle();
-                            bundle.putParcelable("orderBean",orderBean);
+                            bundle.putSerializable("orderBean",orderBean);
                             bundle.putString("from","orderList");
-                            fgAddInsure.setArguments(bundle);
-                            fragment.startFragment(fgAddInsure);
+                            Intent intent = new Intent(context, InsureActivity.class);
+                            intent.putExtras(bundle);
+                            context.startActivity(intent);
                         }
                     });
                     vh.travel_item_btn_br_tips.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Bundle bundleUrlAll = new Bundle();
-                            bundleUrlAll.putString(FgWebInfo.WEB_URL, UrlLibs.H5_INSURANCE);
-                            fragment.startFragment(new FgActivity(), bundleUrlAll);
+
+//                            Bundle bundleUrlAll = new Bundle();
+//                            bundleUrlAll.putString(FgWebInfo.WEB_URL, UrlLibs.H5_INSURANCE);
+//                            fragment.startFragment(new FgActivity(), bundleUrlAll);
+
+                            Intent intent = new Intent(v.getContext(), WebInfoActivity.class);
+                            intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_INSURANCE);
+                            v.getContext().startActivity(intent);
+
+
                         }
                     });
                 } else {
@@ -433,35 +440,23 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
 
         @Override
         public void onClick(View v) {
+            Intent intent = null;
             switch (v.getId()) {
                 case R.id.travel_item_btn_assessment:
-//                    MLog.e("评价车导2 " + mOrderBean.orderNo + " orderType = " + mOrderBean.orderType);
-//                    Bundle bundle = new Bundle();
-//                    bundle.putString(FgAssessment.GUIDE_ID, mOrderBean.orderGuideInfo.guideID);
-//                    bundle.putString(FgAssessment.ORDER_ID, mOrderBean.orderNo);
-//                    bundle.putInt(FgAssessment.ORDER_TYPE, mOrderBean.orderType);
-//                    bundle.putInt(BaseFragment.KEY_BUSINESS_TYPE, mOrderBean.orderType);
-//                    bundle.putString(FgAssessment.GUIDE_NAME, mOrderBean.orderGuideInfo.guideName);
-//                    fragment.startFragment(new FgAssessment(), bundle);
-
-                    fragment.startFragment(FgEvaluate.newInstance(mOrderBean));
+                    intent = new Intent(v.getContext(), EvaluateActivity.class);
+                    intent.putExtra(Constants.PARAMS_DATA, mOrderBean);
+                    v.getContext().startActivity(intent);
                     break;
                 case R.id.travel_item_btn_pay:
                     MLog.e("立即支付 " + mOrderBean.orderNo);
                     //立即支付，进入订单详情
-//                    bundle = new Bundle();
-//                    bundle.putInt(FgOrder.KEY_BUSINESS_TYPE, mOrderBean.orderType);
-//                    bundle.putInt(FgOrder.KEY_GOODS_TYPE, mOrderBean.orderGoodsType);
-//                    bundle.putString(FgOrder.KEY_ORDER_ID, mOrderBean.orderNo);
-//                    bundle.putString("source", mOrderBean.orderType == 5 ? mOrderBean.serviceCityName : "首页");
-//                    fragment.startFragment(new FgOrder(), bundle);
-                    FgOrderDetail.Params params = new FgOrderDetail.Params();
-                    params.orderType = mOrderBean.orderGoodsType;
+                    OrderDetailActivity.Params params = new OrderDetailActivity.Params();
+                    params.orderType = mOrderBean.orderType;
                     params.orderId = mOrderBean.orderNo;
-                    params.source =  mOrderBean.orderType == 5 ? mOrderBean.serviceCityName : "首页";
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable(Constants.PARAMS_DATA, params);
-                    fragment.startFragment(new FgOrderDetail(), bundle);
+                    params.source = mOrderBean.orderType == 5 ? mOrderBean.serviceCityName : "首页";
+                    intent = new Intent(v.getContext(), OrderDetailActivity.class);
+                    intent.putExtra(Constants.PARAMS_DATA, params);
+                    v.getContext().startActivity(intent);
                     break;
                 case R.id.travel_item_btn_chat:
                     MLog.e("进入聊天" + mOrderBean.orderNo);
@@ -471,17 +466,19 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                     break;
                 case R.id.travel_item_head_img:
                 case R.id.travel_item_head_title:
-                    if(fragment == null || mOrderBean.orderGuideInfo == null || mOrderBean.orderGuideInfo.guideID == null) {
+                    if(mOrderBean.orderGuideInfo == null || mOrderBean.orderGuideInfo.guideID == null) {
                         return;
                     }
-                    fragment.startFragment(FgGuideDetail.newInstance(mOrderBean.orderGuideInfo.guideID));
+                    intent = new Intent(v.getContext(), GuideDetailActivity.class);
+                    intent.putExtra(Constants.PARAMS_DATA, mOrderBean.orderGuideInfo.guideID);
+                    v.getContext().startActivity(intent);
                     break;
             }
         }
     }
     private void gotoChatView( final String chatId,String targetAvatar,String targetName) {
         String titleJson = getChatInfo(chatId,  targetAvatar, targetName, "1");
-        RongIM.getInstance().startPrivateChat(fragment.getActivity(), "G"+chatId, titleJson);
+        RongIM.getInstance().startPrivateChat(context, "G"+chatId, titleJson);
     }
     private String getChatInfo(String userId, String userAvatar, String title, String targetType) {
         ChatInfo chatInfo = new ChatInfo();

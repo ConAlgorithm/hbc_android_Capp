@@ -20,6 +20,7 @@ import com.hugboga.custom.data.bean.PushMessage;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestPushReceive;
+import com.hugboga.custom.utils.JsonUtils;
 import com.hugboga.custom.utils.PushUtils;
 
 import cn.jpush.android.api.JPushInterface;
@@ -39,25 +40,24 @@ public class PushReceiver extends BroadcastReceiver implements HttpRequestListen
         MLog.e("bundle="+bundle);
         String msgId = bundle.getString(JPushInterface.EXTRA_MSG_ID);
         String title = bundle.getString(JPushInterface.EXTRA_TITLE);
-        String msg1 = bundle.getString(JPushInterface.EXTRA_MESSAGE);
+        String message = bundle.getString(JPushInterface.EXTRA_MESSAGE);
         String msg2 = bundle.getString(JPushInterface.EXTRA_EXTRA);
-        MLog.e(", msgId="+msgId+", msg1="+msg1+" msg2="+msg2);
+        MLog.e(", msgId="+msgId+", msg1="+message+" msg2="+msg2);
+
         if(msg2==null || msg2.isEmpty()){
             return;
         }
-        //格式化返回的json对象
-        PushMessage pushMessage = new PushMessage();
-        pushMessage.parser(msg2);
+
+        PushMessage pushMessage = (PushMessage) JsonUtils.fromJson(msg2, PushMessage.class);
+        pushMessage.messageID = msgId;
         pushMessage.title = title;
-        pushMessage.content = msg1;
+        pushMessage.message = message;
         /*
         部分工作在此处进行过滤
 		1. 是否使用当前版本
 		2. 是否超过有效期
 		3. 是否需要验证当前账号
 		 */
-        PushUtils pushUtils = new PushUtils();
-//        gotoMain(context, pushMessage);
         PushUtils.showNotification(pushMessage);
         uploadPushReceive(context,msgId);
         if("IM".equals(pushMessage.type)){

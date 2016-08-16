@@ -1,6 +1,7 @@
 package com.hugboga.custom.data.net;
 
 
+import com.hugboga.custom.BuildConfig;
 import com.hugboga.custom.constants.Constants;
 
 import java.util.HashMap;
@@ -35,15 +36,20 @@ public class UrlLibs {
     public static String TEST_H5_HOST = "http://info.test.hbc.tech";
     public static String FORMAL_H5_HOST = "https://info.huangbaoche.com";
 
-    public static String H5_HOST = FORMAL_H5_HOST;
+    public static String H5_HOST = BuildConfig.H5_HOST;
 
     public static  String SHARE_BASE_URL_1 = "http://op.huangbaoche.com/app/auth.html";
     public static  String SHARE_BASE_URL_2 = "http://act.huangbaoche.com";
-    public static  String SHARE_BASE_URL_3 = "http://act.huangbaoche.com";
+    public static  String SHARE_BASE_URL_3 = "http://act.test.huangbaoche.com";
+    public static  String SHARE_BASE_URL_4 = "http://m.test.huangbaoche.com";
     public static  String SHARE_APPID = "wx62ad814ba9bf0b68";//测试wx1354271c597184ee 线上wx62ad814ba9bf0b68
 
+//    http://m.test.huangbaoche.com/app/dailyDetail.html?userId=100000001023&cityId=217
+//    http://m.huangbaoche.com/app/dailyDetail.html?userId=100000001023&cityId=217
+    public static String H5_DAIRY = BuildConfig.SHARE_BASE_URL_4 + "/app/dailyDetail.html";
 
-    public static String H5_ACTIVITY= SHARE_BASE_URL_3 + "/h5/cactivity/index.html?userId=";//国行
+
+    public static String H5_ACTIVITY= BuildConfig.SHARE_BASE_URL_3 + "/h5/cactivity/index.html?userId=";//国行
     public static String H5_ABOUT = H5_HOST+"/cinfos/about.html";//  关于我们
     public static String H5_ADDFEE_C = H5_HOST+"/cinfos/addfee_c.html";//  单次接送—后付费用说明
     public static String H5_ADDFEE_J = H5_HOST+"/cinfos/addfee_j.html";//  接机—后付费用说明
@@ -59,6 +65,7 @@ public class UrlLibs {
     public static String H5_PROBLEM = H5_HOST+"/cinfos/problem.html"; //常见问题
     public static String H5_PROTOCOL = H5_HOST+"/cinfos/protocol.html"; // 用户协议
     public static String H5_SERVICE = H5_HOST+"/cinfos/service.html"; // 服务承诺
+    public static String H5_RAVEL_FUND_RULE = H5_HOST+ "/cinfos/actdes.html";//旅游基金规则说明
 
     public static String H5_TAI_MANGU = H5_HOST + "/cinfos/tai/BBK.html";//曼谷
     public static String H5_TAI_PUJIDAO = H5_HOST + "/cinfos/tai/bki.html";//普吉
@@ -235,9 +242,10 @@ public class UrlLibs {
     public static final String SERVER_IP_TRADE_1_2 = "trade/v1.4/c/order/";
 
 
-
-    //推荐线路
-    public static final String RECOMMENDLIN = "trade/v1.0/c/order/recommendline";
+    /**
+     * 推荐线路
+     */
+    public static final String RECOMMENDLIN = "trade/v1.0/c/order/recommendline?";
 
 
 
@@ -427,16 +435,6 @@ public class UrlLibs {
      * 旅游基金流水
      */
     public static final String TRAVELFUND_LOGS = "/ucenter/v1.0/c/travelFund/logs";
-
-    /**
-     * 旅游基金说明
-     */
-    public static final String TRAVELFUND_INTRODUCTION = "ucenter/v1.0/c/travelFund/introduction";
-
-    /**
-     * 邀请说明
-     */
-    public static final String INVITATION_INTRODUCTION = "ucenter/v1.0/c/invitation/introduction";
 
     /**
      * 导游详情

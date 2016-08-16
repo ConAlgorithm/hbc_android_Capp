@@ -1,9 +1,8 @@
 package com.hugboga.custom.adapter;
 
 import android.content.Context;
-import android.os.Bundle;
+import android.content.Intent;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -11,33 +10,26 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.adapter.BaseAdapter;
-import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.CollectGuideListActivity;
+import com.hugboga.custom.activity.GuideDetailActivity;
+import com.hugboga.custom.activity.OrderSelectCityActivity;
+import com.hugboga.custom.activity.PickSendActivity;
+import com.hugboga.custom.activity.SingleNewActivity;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CollectGuideBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
-import com.hugboga.custom.fragment.FgCollectGuideList;
-import com.hugboga.custom.fragment.FgGuideDetail;
-import com.hugboga.custom.fragment.FgOrderSelectCity;
-import com.hugboga.custom.fragment.FgPickSend;
-import com.hugboga.custom.fragment.FgSingleNew;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.widget.CircleImageView;
 import com.hugboga.custom.widget.RatingView;
-import com.umeng.analytics.MobclickAgent;
-
-import net.grobas.view.PolygonImageView;
 
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import org.greenrobot.eventbus.EventBus;
-
-import static android.R.attr.fragment;
-import static android.R.attr.targetActivity;
 
 
 /**
@@ -51,12 +43,6 @@ public class CollectGuideAdapter extends BaseAdapter<CollectGuideBean> {
     public CollectGuideAdapter(Context context) {
         super(context);
         this.context = context;
-    }
-
-    private FgCollectGuideList fragment;
-
-    public void setFragment(FgCollectGuideList fragment){
-        this.fragment = fragment;
     }
 
     /**
@@ -80,18 +66,18 @@ public class CollectGuideAdapter extends BaseAdapter<CollectGuideBean> {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        final CollectGuideBean bean = getItem(position);
-        if (TextUtils.isEmpty(bean.avatar)) {
-            holder.avatarIV.setImageResource(R.mipmap.collection_icon_pic);
+        final CollectGuideBean collectGuideBean = getItem(position);
+        if (TextUtils.isEmpty(collectGuideBean.avatar)) {
+            holder.avatarIV.setImageResource(R.mipmap.journey_head_portrait);
         } else {
-            Tools.showImage(context, holder.avatarIV, bean.avatar);
+            Tools.showImage(holder.avatarIV, collectGuideBean.avatar);
         }
-        holder.nameTV.setText(bean.name);
-        holder.ratingView.setLevel(bean.stars);
+        holder.nameTV.setText(collectGuideBean.name);
+        holder.ratingView.setLevel(collectGuideBean.stars);
         if (isShowStatusLayout) {
             holder.appointmentTV.setVisibility(View.GONE);
-            holder.describeTV.setText(context.getString(R.string.collect_guide_describe, bean.carModel, bean.numOfPerson, bean.numOfLuggage));
-            ArrayList<Integer> serviceTypes = bean.serviceTypes;
+            holder.describeTV.setText(context.getString(R.string.collect_guide_describe, collectGuideBean.carModel, collectGuideBean.numOfPerson, collectGuideBean.numOfLuggage));
+            ArrayList<Integer> serviceTypes = collectGuideBean.serviceTypes;
             if (serviceTypes != null) {
                 boolean isShowPlane = false;
                 boolean isShowCar = false;
@@ -118,46 +104,28 @@ public class CollectGuideAdapter extends BaseAdapter<CollectGuideBean> {
                 boolean isShowRightLine = (isShowSingle && isShowCar) || (isShowSingle && isShowPlane);
                 holder.rightLine.setVisibility(isShowRightLine ? View.VISIBLE : View.GONE);
 
-                holder.planeLayout.setTag(position);
                 holder.planeLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Bundle bundle = new Bundle();
-                        HashMap<String,String> map = new HashMap<String,String>();
-                        FgPickSend fgPickSend = new FgPickSend();
-                        bundle.putString("source","首页");
-                        bundle.putSerializable("collectGuideBean",bean);
-                        fgPickSend.setArguments(bundle);
-                        ((MainActivity)context).startFragment(fgPickSend, bundle);
-//                        EventBus.getDefault().post(new EventAction(EventType.PICK_SEND_TYPE,getItem(Integer.valueOf(v.getTag().toString()))));
+                        Intent intent = new Intent(context, PickSendActivity.class);
+                        intent.putExtra("collectGuideBean", collectGuideBean);
+                        context.startActivity(intent);
                     }
                 });
-                holder.carLayout.setTag(position);
                 holder.carLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Bundle bundle = new Bundle();
-                        HashMap<String,String> map = new HashMap<String,String>();
-                        FgOrderSelectCity fgOrderSelectCity = new FgOrderSelectCity();
-                        bundle.putString("source","首页");
-                        bundle.putSerializable("collectGuideBean",bean);
-                        fgOrderSelectCity.setArguments(bundle);
-                        ((MainActivity)context).startFragment(fgOrderSelectCity, bundle);
-
-//                        EventBus.getDefault().post(new EventAction(EventType.DAIRY_TYPE,getItem(Integer.valueOf(v.getTag().toString()))));
+                        Intent intent = new Intent(context, OrderSelectCityActivity.class);
+                        intent.putExtra("collectGuideBean", collectGuideBean);
+                        context.startActivity(intent);
                     }
                 });
-                holder.singleLayout.setTag(position);
                 holder.singleLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Bundle bundle = new Bundle();
-                        HashMap<String,String> map = new HashMap<String,String>();
-                        FgSingleNew fgSingleNew = new FgSingleNew();
-                        bundle.putSerializable("collectGuideBean",bean);
-                        fgSingleNew.setArguments(bundle);
-                        ((MainActivity)context).startFragment(fgSingleNew);
-//                        EventBus.getDefault().post(new EventAction(EventType.SINGLE_TYPE,getItem(Integer.valueOf(v.getTag().toString()))));
+                        Intent intent = new Intent(context, SingleNewActivity.class);
+                        intent.putExtra("collectGuideBean", collectGuideBean);
+                        context.startActivity(intent);
                     }
                 });
             }
@@ -165,7 +133,7 @@ public class CollectGuideAdapter extends BaseAdapter<CollectGuideBean> {
             holder.statusLayout.setVisibility(View.GONE);
             holder.horizontalLine.setVisibility(View.GONE);
             holder.appointmentTV.setVisibility(View.VISIBLE);
-            if (bean.isAppointments()) {
+            if (collectGuideBean.isAppointments()) {
                 holder.appointmentTV.setTag(position);
                 holder.appointmentTV.setText(context.getString(R.string.collect_guide_appointments));
                 holder.appointmentTV.setBackgroundResource(R.drawable.shape_rounded_orange);
@@ -173,9 +141,9 @@ public class CollectGuideAdapter extends BaseAdapter<CollectGuideBean> {
                 holder.appointmentTV.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        EventBus.getDefault().post(new EventAction(EventType.CHOOSE_GUIDE,bean));
-                        if(null != fragment) {
-                            fragment.finish();
+                        EventBus.getDefault().post(new EventAction(EventType.CHOOSE_GUIDE, collectGuideBean));
+                        if (context instanceof CollectGuideListActivity) {
+                            ((CollectGuideListActivity) context).finish();
                         }
                     }
                 });
@@ -185,16 +153,15 @@ public class CollectGuideAdapter extends BaseAdapter<CollectGuideBean> {
                 holder.appointmentTV.setBackgroundResource(R.drawable.shape_rounded_gray_light);
                 holder.appointmentTV.setTextColor(context.getResources().getColor(R.color.basic_gray_light));
             }
-            holder.describeTV.setText(context.getString(R.string.collect_guide_describe_filter, bean.carDesc, bean.carModel));
+            holder.describeTV.setText(context.getString(R.string.collect_guide_describe_filter, collectGuideBean.carDesc, collectGuideBean.carModel));
         }
 
         holder.topLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(fragment == null) {
-                    return;
-                }
-                fragment.startFragment(FgGuideDetail.newInstance(bean.guideId));
+                Intent intent = new Intent(context, GuideDetailActivity.class);
+                intent.putExtra(Constants.PARAMS_DATA, collectGuideBean.guideId);
+                context.startActivity(intent);
             }
         });
         return convertView;

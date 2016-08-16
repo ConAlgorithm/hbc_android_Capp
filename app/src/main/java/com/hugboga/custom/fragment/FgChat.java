@@ -3,6 +3,7 @@ package com.hugboga.custom.fragment;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -21,6 +22,7 @@ import com.huangbaoche.hbcframe.widget.recycler.ZListPageView;
 import com.huangbaoche.hbcframe.widget.recycler.ZSwipeRefreshLayout;
 import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.adapter.ChatAdapter;
 import com.hugboga.custom.data.bean.ChatBean;
 import com.hugboga.custom.data.bean.ChatInfo;
@@ -198,9 +200,7 @@ public class FgChat extends BaseFragment implements View.OnClickListener, ZBaseA
     private void onClickView(View view) {
         switch (view.getId()) {
             case R.id.login_btn:
-                Bundle bundle = new Bundle();
-                bundle.putString("source","私聊页");
-                startFragment(new FgLogin(), bundle);
+                startActivity(new Intent(view.getContext(), LoginActivity.class));
 
                 HashMap<String,String> map = new HashMap<String,String>();
                 map.put("source", "私聊页");
@@ -247,6 +247,8 @@ public class FgChat extends BaseFragment implements View.OnClickListener, ZBaseA
         switch (action.getType()) {
             case CLICK_USER_LOGIN:
             case REFRESH_CHAT_LIST:
+                RequestChatList parserChatList = new RequestChatList(getActivity());
+                recyclerView.setRequestData(parserChatList);
                 requestData();
                 break;
             case CLICK_USER_LOOUT:

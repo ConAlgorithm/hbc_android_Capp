@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:gravity="center_vertical"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:text="可携带行李数(24寸)"
+        android:layout_width="wrap_content"
+        android:textColor="#b2b2b2"
+        android:textSize="13sp"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/luggage_num"
+        android:layout_width="wrap_content"
+        android:textColor="@color/basic_red"
+        android:layout_marginLeft="20dp"
+        android:text="1件"
+        android:textSize="13sp"
+        android:layout_height="wrap_content" />
+
+    <ImageView
+        android:id="@+id/luggage_icon"
+        android:layout_width="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="0.5dp"
+        android:src="@mipmap/max_luggage_icon"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

@@ -2,19 +2,15 @@ package com.hugboga.custom.data.request;
 
 import android.content.Context;
 
-import com.google.gson.Gson;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CouponBean;
 import com.hugboga.custom.data.bean.MostFitAvailableBean;
-import com.hugboga.custom.data.bean.TravelFundData;
-import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.net.NewParamsBuilder;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.parser.ParserCoupon;
 
-import org.json.JSONObject;
 import org.xutils.http.HttpMethod;
 import org.xutils.http.annotation.HttpRequest;
 
@@ -47,6 +43,7 @@ public class RequestAvailableCoupon extends BaseRequest<ArrayList<CouponBean>> {
         map.put("totalDays", params.totalDays);
         map.put("orderType", params.orderType);
         map.put("useOrderPrice", params.useOrderPrice);
+        map.put("carModelId", params.carModelId);
     }
 
     @Override

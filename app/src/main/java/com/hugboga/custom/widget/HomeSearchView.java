@@ -1,7 +1,7 @@
 package com.hugboga.custom.widget;
 
 import android.content.Context;
-import android.os.Bundle;
+import android.content.Intent;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
@@ -10,8 +10,8 @@ import android.widget.RelativeLayout;
 
 import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.ChooseCityNewActivity;
 import com.hugboga.custom.constants.Constants;
-import com.hugboga.custom.fragment.FgChooseCityNew;
 import com.hugboga.custom.fragment.FgHome;
 
 /**
@@ -87,10 +87,17 @@ public class HomeSearchView extends RelativeLayout implements View.OnClickListen
                 break;
             case R.id.home_search_iv:
             case R.id.home_search_layout:
-                Bundle bundle = new Bundle();
-                bundle.putInt("com.hugboga.custom.home.flush", Constants.BUSINESS_TYPE_HOME);
-                bundle.putString("source","小搜索按钮");
-                fragment.startFragment(new FgChooseCityNew(), bundle);
+//                Bundle bundle = new Bundle();
+//                bundle.putInt("com.hugboga.custom.home.flush", Constants.BUSINESS_TYPE_HOME);
+//                bundle.putString("source","小搜索按钮");
+//                fragment.startFragment(new FgChooseCityNew(), bundle);
+
+                Intent intent = new Intent(this.getContext(), ChooseCityNewActivity.class);
+                intent.putExtra("com.hugboga.custom.home.flush", Constants.BUSINESS_TYPE_HOME);
+                intent.putExtra("isHomeIn",true);
+                intent.putExtra("source","小搜索按钮");
+                this.getContext().startActivity(intent);
+
                 break;
         }
     }

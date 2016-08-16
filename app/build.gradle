@@ -47,13 +47,13 @@ android {
         }
     }
     compileSdkVersion 23
-    buildToolsVersion '23.0.2'
+    buildToolsVersion '24'
     defaultConfig {
         applicationId "com.hugboga.custom"
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 100300
-        versionName "2.8.1"
+        versionCode 100280
+        versionName "2.9.0"
         signingConfig signingConfigs.hbcSign
         ndk {
             //设置支持的SO库架构
@@ -108,9 +108,10 @@ android {
             case 'developer':
                 flavor.buildConfigField('String', 'API_SERVER_URL', '"http://api.dev.hbc.tech/"')
                 flavor.buildConfigField('String', 'H5_HOST','"http://info.dev.hbc.tech"')
-                flavor.buildConfigField('String', 'SHARE_BASE_URL_1','"http://op.test.huangbaoche.com/dev/app/auth.html"')
+                flavor.buildConfigField('String', 'SHARE_BASE_URL_1','"http://test.op.huangbaoche.com/dev/app/auth.html"')
                 flavor.buildConfigField('String', 'SHARE_BASE_URL_2','"http://act.dev.huangbaoche.com"')
-                flavor.buildConfigField('String', 'SHARE_BASE_URL_3','"http://act.dev.hbc.tech"')
+                flavor.buildConfigField('String', 'SHARE_BASE_URL_3','"http://act.dev.huangbaoche.com"')
+                flavor.buildConfigField('String', 'SHARE_BASE_URL_4','"http://m.dev.huangbaoche.com"')
                 flavor.buildConfigField('String', 'SHARE_APPID','"wx1354271c597184ee"')
                 flavor.manifestPlaceholders(JPUSH_KEY: "a351a47a9106354c59188e16", APP_CHANNEL: "developer", RONG_CLOUD_APP_KEY: "3argexb6r2kve")
                 break;
@@ -121,9 +122,10 @@ android {
             case 'examination':
                 flavor.buildConfigField('String', 'API_SERVER_URL', '"http://api.test.hbc.tech/"')
                 flavor.buildConfigField('String', 'H5_HOST','"http://info.test.hbc.tech"')
-                flavor.buildConfigField('String', 'SHARE_BASE_URL_1','"http://op.test.huangbaoche.com/test/app/auth.html"')
+                flavor.buildConfigField('String', 'SHARE_BASE_URL_1','"http://test.op.huangbaoche.com/test/app/auth.html"')
                 flavor.buildConfigField('String', 'SHARE_BASE_URL_2','"http://act.test.huangbaoche.com"')
-                flavor.buildConfigField('String', 'SHARE_BASE_URL_3','"http://act.test.hbc.tech"')
+                flavor.buildConfigField('String', 'SHARE_BASE_URL_3','"http://act.test.huangbaoche.com"')
+                flavor.buildConfigField('String', 'SHARE_BASE_URL_4','"http://m.test.huangbaoche.com"')
                 flavor.buildConfigField('String', 'SHARE_APPID','"wx1354271c597184ee"')
                 flavor.manifestPlaceholders(JPUSH_KEY: "a351a47a9106354c59188e16", APP_CHANNEL: "examination", RONG_CLOUD_APP_KEY: "3argexb6r2kve")
                 break;
@@ -151,6 +153,7 @@ android {
                 flavor.buildConfigField('String', 'SHARE_BASE_URL_1','"http://op.huangbaoche.com/app/auth.html"')
                 flavor.buildConfigField('String', 'SHARE_BASE_URL_2','"http://act.huangbaoche.com"')
                 flavor.buildConfigField('String', 'SHARE_BASE_URL_3','"http://act.huangbaoche.com"')
+                flavor.buildConfigField('String', 'SHARE_BASE_URL_4','"http://m.huangbaoche.com"')
                 flavor.buildConfigField('String', 'SHARE_APPID','"wx62ad814ba9bf0b68"')
                 flavor.manifestPlaceholders(JPUSH_KEY: "580ff852cd505c00c4be92d6", APP_CHANNEL: ""+flavor.name, RONG_CLOUD_APP_KEY: "6tnym1brna4s7")
                 break;
@@ -180,7 +183,7 @@ dependencies {
     compile project(':hbcframe')
     compile project(':IMKit')
     compile project(':polygonimageview')
-    compile 'com.wdullaer:materialdatetimepicker:2.1.1'
+    compile project(':timepicker')
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.1.14'
     compile 'com.yalantis:ucrop:1.3.2'
@@ -198,4 +201,5 @@ dependencies {
     compile project(':viewpagerindicator')
     compile project(path: ':datepicker')
     compile 'org.greenrobot:eventbus:3.0.0'
+    compile 'se.emilsjolander:stickylistheaders:2.7.0'
 }

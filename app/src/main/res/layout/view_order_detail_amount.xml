@@ -3,34 +3,89 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
-    android:paddingLeft="17dp"
-    android:paddingRight="17dp"
     android:orientation="vertical">
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="42dp"
+        android:layout_marginLeft="17dp"
+        android:layout_marginRight="17dp"
         android:gravity="bottom"
         android:paddingBottom="7dp"
-        android:textSize="16sp"
+        android:text="@string/order_detail_price"
         android:textColor="#333333"
-        android:text="@string/order_detail_price"/>
+        android:textSize="16sp" />
+
     <LinearLayout
         android:id="@+id/order_detail_amount_bill_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="17dp"
+        android:layout_marginRight="17dp"
         android:orientation="vertical" />
+
     <View
+        android:id="@+id/order_detail_amount_line_view"
         android:layout_width="match_parent"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
         android:layout_height="1px"
-        android:background="@color/default_dividing_line"
-        />
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="17dp"
+        android:layout_marginRight="17dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/default_dividing_line" />
+
     <LinearLayout
         android:id="@+id/order_detail_amount_group_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="30dp"
+        android:layout_marginLeft="17dp"
+        android:layout_marginRight="17dp"
         android:orientation="vertical"
-        />
+        android:paddingBottom="30dp" />
+
+    <LinearLayout
+        android:id="@+id/order_detail_amount_refund_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:paddingBottom="30dp"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:background="@color/default_bg" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="42dp"
+            android:layout_marginLeft="17dp"
+            android:layout_marginRight="17dp"
+            android:gravity="bottom"
+            android:paddingBottom="7dp"
+            android:text="@string/order_detail_refund_title"
+            android:textColor="#333333"
+            android:textSize="16sp" />
+
+        <LinearLayout
+            android:id="@+id/order_detail_amount_refund_item_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="17dp"
+            android:layout_marginRight="17dp"
+            android:orientation="vertical" />
+        <TextView
+            android:id="@+id/order_detail_amount_refund_description_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="27dp"
+            android:layout_marginRight="17dp"
+            android:lineSpacingExtra="2dp"
+            android:layout_marginTop="5dp"
+            android:minHeight="35dp"
+            android:gravity="center_vertical"
+            android:textSize="12sp"
+            android:textColor="#666666"
+            />
+    </LinearLayout>
 </LinearLayout>

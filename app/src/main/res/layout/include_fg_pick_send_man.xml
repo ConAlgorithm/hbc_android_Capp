@@ -46,8 +46,8 @@
             android:clickable="true"
             android:gravity="center_vertical"
             android:orientation="vertical"
-            android:paddingBottom="15dp"
-            android:paddingTop="15dp">
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp">
 
             <TextView
                 android:id="@+id/man_tips"
@@ -66,9 +66,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
                 android:layout_marginLeft="15dp"
                 android:minEms="4"
-                android:text="@string/air_info"
+                android:textColor="@color/basic_black"
+                android:textSize="15sp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/childseat_text"
+                android:layout_width="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_toRightOf="@id/man_text"
+                android:minEms="4"
                 android:textColor="@color/basic_black"
                 android:textSize="15sp"
                 android:visibility="gone" />
@@ -77,24 +89,11 @@
                 android:id="@+id/luggage_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_toRightOf="@id/man_text"
-                android:minEms="4"
-                android:text="@string/air_info"
-                android:textColor="@color/basic_black"
-                android:textSize="15sp"
-                android:visibility="gone" />
-
-            <TextView
-                android:id="@+id/childseat_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_below="@id/man_text"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="10dp"
                 android:minEms="4"
-                android:text="@string/air_info"
                 android:textColor="@color/basic_black"
                 android:textSize="15sp"
                 android:visibility="gone" />
@@ -103,6 +102,8 @@
         </RelativeLayout>
 
     </RelativeLayout>
+
+    <include  layout="@layout/luggage_layout" android:layout_height="wrap_content" android:layout_width="match_parent"></include>
 
     <RelativeLayout
         android:id="@+id/free_seat_layout"
@@ -125,7 +126,7 @@
             android:textColor="@color/basic_black"
             android:textSize="16sp" />
 
-        <TextView
+        <com.hugboga.custom.widget.MoneyTextView
             android:id="@+id/free_c_seat_right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -173,7 +174,7 @@
             android:textColor="@color/basic_black"
             android:textSize="15sp" />
 
-        <TextView
+        <com.hugboga.custom.widget.MoneyTextView
             android:id="@+id/child_count_cost"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -220,7 +221,7 @@
             android:textColor="@color/basic_black"
             android:textSize="15sp" />
 
-        <TextView
+        <com.hugboga.custom.widget.MoneyTextView
             android:id="@+id/checkin_money"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -267,7 +268,7 @@
             android:textColor="@color/basic_black"
             android:textSize="15sp" />
 
-        <TextView
+        <com.hugboga.custom.widget.MoneyTextView
             android:id="@+id/wait_money"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

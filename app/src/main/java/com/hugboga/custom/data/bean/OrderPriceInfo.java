@@ -14,16 +14,20 @@ public class OrderPriceInfo implements IBaseBean ,Parcelable{
     public double orderPrice;  //订单金额
     public double shouldPay;   //应付
     public double actualPay;           //实付金额
-    public double refundPrice;        // 退款金额
     public double refundablePrice;    // 可退款金额
     public double checkInPrice;// check in费用
-    public double cancelFee;//退改费用
     public double priceFlightBrandSign;//举牌费用
     public double couponPrice;//优惠价格
     public double travelFundPrice;//旅游基金
     public double childSeatPrice;//儿童座椅价格
     public double flightBrandSignPrice;//举牌价格
+    public double refundPrice;        // 退款金额
+    public double cancelFee;//退改费用
     public double priceHotel;// 住宿总费用(单价 * hotelRoom * hotelDays)
+
+    public int isRefund;//是否已经退款 0没有退款 1 已经退款
+    public int payGateway;//支付方式 1:支付宝,2:微信,3:内部账户支付,4:券支付,5:旅游基金,6:百付宝,17:QUNA渠道,20:携程渠道,19:去啊渠道,
+    public String payGatewayName;//支付方式的文字描述
 
     public void parser(JSONObject jsonObj) throws JSONException {
         if (jsonObj == null) return;
@@ -40,6 +44,9 @@ public class OrderPriceInfo implements IBaseBean ,Parcelable{
         childSeatPrice = jsonObj.optDouble("childSeatPrice", 0);
         flightBrandSignPrice = jsonObj.optDouble("flightBrandSignPrice", 0);
         priceHotel = jsonObj.optDouble("priceHotel", 0);
+        isRefund = jsonObj.optInt("isRefund");
+        payGateway = jsonObj.optInt("payGateway");
+        payGatewayName = jsonObj.optString("payGatewayName");
     }
 
     @Override
@@ -62,6 +69,9 @@ public class OrderPriceInfo implements IBaseBean ,Parcelable{
         dest.writeDouble(this.childSeatPrice);
         dest.writeDouble(this.flightBrandSignPrice);
         dest.writeDouble(this.priceHotel);
+        dest.writeInt(this.isRefund);
+        dest.writeInt(this.payGateway);
+        dest.writeString(this.payGatewayName);
     }
 
     public OrderPriceInfo() {
@@ -81,6 +91,9 @@ public class OrderPriceInfo implements IBaseBean ,Parcelable{
         this.childSeatPrice = in.readDouble();
         this.flightBrandSignPrice = in.readDouble();
         this.priceHotel = in.readDouble();
+        this.isRefund = in.readInt();
+        this.payGateway = in.readInt();
+        this.payGatewayName = in.readString();
     }
 
     public static final Creator<OrderPriceInfo> CREATOR = new Creator<OrderPriceInfo>() {

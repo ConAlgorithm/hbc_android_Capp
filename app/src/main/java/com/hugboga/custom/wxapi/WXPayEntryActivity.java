@@ -8,11 +8,7 @@ import com.hugboga.custom.activity.BaseActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
-import com.hugboga.custom.fragment.FgAbout;
-import com.hugboga.custom.fragment.FgChoosePayment;
-import com.hugboga.custom.fragment.FgOrderDetail;
-import com.hugboga.custom.fragment.FgTravel;
-import com.hugboga.custom.widget.DialogUtil;
+
 import com.tencent.mm.sdk.constants.ConstantsAPI;
 import com.tencent.mm.sdk.modelbase.BaseReq;
 import com.tencent.mm.sdk.modelbase.BaseResp;
@@ -53,7 +49,6 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler, 
 
     private IWXAPI api;
     private boolean isPaySucceed = false;
-    private DialogUtil mDialogUtil;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -71,7 +66,6 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler, 
 
         api = WXAPIFactory.createWXAPI(this, Constants.WX_APP_ID);
         api.handleIntent(getIntent(), this);
-        mDialogUtil = DialogUtil.getInstance(WXPayEntryActivity.this);
     }
 
     @Override

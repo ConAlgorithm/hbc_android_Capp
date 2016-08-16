@@ -34,7 +34,7 @@ public class MostFitBean implements  IBaseBean,Parcelable{
      * startTime : 2016.05.20
      * status : 1
      */
-        public int actualPrice;
+        public Double actualPrice;
         public String applyArea;
         public String applyCar;
         public String applyCarClass;
@@ -66,7 +66,7 @@ public class MostFitBean implements  IBaseBean,Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.actualPrice);
+        dest.writeDouble(this.actualPrice);
         dest.writeString(this.applyArea);
         dest.writeString(this.applyCar);
         dest.writeString(this.applyCarClass);
@@ -96,7 +96,7 @@ public class MostFitBean implements  IBaseBean,Parcelable{
     }
 
     protected MostFitBean(Parcel in) {
-        this.actualPrice = in.readInt();
+        this.actualPrice = in.readDouble();
         this.applyArea = in.readString();
         this.applyCar = in.readString();
         this.applyCarClass = in.readString();

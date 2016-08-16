@@ -26,6 +26,9 @@ public enum EventType {
     CONTACT_BACK, //通讯录选取联系人返回显示
     WECHAT_SHARE_SUCCEED,//微信分享成功
 
+    CHANGE_MOBILE,//修改手机号
+    BIND_MOBILE,//绑定手机号
+
     SINGLE_TYPE, //单次接送
     DAIRY_TYPE, //包车
     PICK_SEND_TYPE, //接送机
@@ -44,8 +47,6 @@ public enum EventType {
     ORDER_DETAIL_PAY,//去支付
     ORDER_DETAIL_INSURANCE_H5,//皇包车免费赠送保险说
     ORDER_DETAIL_ADD_INSURER,//添加投保人
-    ORDER_DETAIL_LIST_INSURER,//添加列表
-    ORDER_DETAIL_TOURIST_INFO,//出行人信息
     ORDER_DETAIL_BACK,//返回
     ORDER_DETAIL_CALL,//电话
     ORDER_DETAIL_MORE,//更多
@@ -58,6 +59,7 @@ public enum EventType {
     ORDER_DETAIL_UPDATE_EVALUATION,//更新评价UI
     ORDER_DETAIL_UPDATE_INFO,//更新个人信息UI
     ORDER_DETAIL_UPDATE,//刷新数据
+    ORDER_DETAIL_ROUTE,//路线详情
 
     SHOW_ORDER_DETAIL,//显示订单详情
     ORDER_GO_HOME,//支付成功回首页
@@ -71,6 +73,12 @@ public enum EventType {
     CHOOSE_DATE,//选日期
 
     CAR_CHANGE_SMALL,//车型小于人数
-
-
+    MAX_LUGGAGE_NUM,//计算出的最大行李数
+    CHOOSE_START_CITY_BACK,//选开始城市返回
+    CHOOSE_END_CITY_BACK,//选结束城市返回
+    CHOOSE_POI_BACK,//选POI返回
+    CHOOSE_COUNTRY_BACK,//选country返回
+    COUPON_BACK,//选country返回
+    PICK_FLIGHT_BACK,//选航班号返回
+    AIR_PORT_BACK,//选airport返回
 }

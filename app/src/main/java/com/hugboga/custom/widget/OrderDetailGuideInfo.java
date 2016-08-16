@@ -29,6 +29,8 @@ public class OrderDetailGuideInfo extends LinearLayout implements HbcViewBehavio
     private View lineView;
     private LinearLayout navLayout;
 
+    private String orderNo;
+
     public OrderDetailGuideInfo(Context context) {
         this(context, null);
     }
@@ -58,6 +60,7 @@ public class OrderDetailGuideInfo extends LinearLayout implements HbcViewBehavio
             return;
         }
         OrderBean orderBean = (OrderBean) _data;
+        this.orderNo = orderBean.orderNo;
         final OrderGuideInfo guideInfo = orderBean.orderGuideInfo;
         if (orderBean.orderStatus == OrderStatus.INITSTATE || orderBean.orderStatus == OrderStatus.PAYSUCCESS || guideInfo == null) {//1:未付款 || 2:已付款
             setVisibility(View.GONE);
@@ -93,19 +96,19 @@ public class OrderDetailGuideInfo extends LinearLayout implements HbcViewBehavio
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ogi_collect_tv:
-                EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_GUIDE_COLLECT));
+                EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_GUIDE_COLLECT, orderNo));
                 break;
             case R.id.ogi_evaluate_tv:
-                EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_GUIDE_EVALUATION));
+                EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_GUIDE_EVALUATION, orderNo));
                 break;
             case R.id.ogi_im_tv:
-                EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_GUIDE_CHAT));
+                EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_GUIDE_CHAT, orderNo));
                 break;
             case R.id.ogi_phone_tv:
-                EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_GUIDE_CALL));
+                EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_GUIDE_CALL, orderNo));
                 break;
             case R.id.ogi_avatar_iv:
-                EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_GUIDE_INFO));
+                EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_GUIDE_INFO, orderNo));
                 break;
         }
     }

@@ -42,9 +42,22 @@ public class SharedPre {
 	public static String CACHE_SIZE ="cache_size";
 	public static String TRAVELFUND ="travelFund";
 	public static String COUPONS = "coupons";
+	public static String TRAVEL_FUND_HINT = "travelFundHint";
 
 	public SharedPre(Context ctx) {
 		this.ctx = ctx;
+	}
+
+	public void setTravelFundHintIsShow(boolean isShow) {
+		SharedPreferences sharePre = ctx.getSharedPreferences(FileName, Context.MODE_PRIVATE);
+		SharedPreferences.Editor editor = sharePre.edit();
+		editor.putBoolean(TRAVEL_FUND_HINT, isShow);
+		editor.commit();
+	}
+
+	public boolean isShowTravelFundHint() {
+		SharedPreferences sharePre = ctx.getSharedPreferences(FileName, Context.MODE_PRIVATE);
+		return sharePre.getBoolean(TRAVEL_FUND_HINT, false);
 	}
 
 	/**

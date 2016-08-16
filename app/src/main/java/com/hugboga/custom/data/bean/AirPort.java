@@ -1,8 +1,5 @@
 package com.hugboga.custom.data.bean;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import org.xutils.db.annotation.Column;
 import org.xutils.db.annotation.Table;
 
@@ -10,7 +7,7 @@ import org.xutils.db.annotation.Table;
  * Created by admin on 2015/7/21.
  */
 @Table(name = "airport")
-public class AirPort implements IBaseBean ,Parcelable{
+public class AirPort implements IBaseBean {
     @Column(name = "airport_id", isId = true)
     public int airportId;
     @Column(name = "airport_name")
@@ -55,60 +52,5 @@ public class AirPort implements IBaseBean ,Parcelable{
 //        location = jsonObj.optString("location");
 //    }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.airportId);
-        dest.writeString(this.airportName);
-        dest.writeString(this.areaCode);
-        dest.writeString(this.cityFirstLetter);
-        dest.writeInt(this.cityId);
-        dest.writeString(this.cityName);
-        dest.writeString(this.location);
-        dest.writeString(this.placeName);
-        dest.writeString(this.airportCode);
-        dest.writeByte(childSeatSwitch ? (byte) 1 : (byte) 0);
-        dest.writeByte(bannerSwitch ? (byte) 1 : (byte) 0);
-        dest.writeByte(visaSwitch ? (byte) 1 : (byte) 0);
-        dest.writeByte(isHot ? (byte) 1 : (byte) 0);
-        dest.writeInt(this.hotWeight);
-        dest.writeByte(isFirst ? (byte) 1 : (byte) 0);
-    }
-
-    public AirPort() {
-    }
-
-    protected AirPort(Parcel in) {
-        this.airportId = in.readInt();
-        this.airportName = in.readString();
-        this.areaCode = in.readString();
-        this.cityFirstLetter = in.readString();
-        this.cityId = in.readInt();
-        this.cityName = in.readString();
-        this.location = in.readString();
-        this.placeName = in.readString();
-        this.airportCode = in.readString();
-        this.childSeatSwitch = in.readByte() != 0;
-        this.bannerSwitch = in.readByte() != 0;
-        this.visaSwitch = in.readByte() != 0;
-        this.isHot = in.readByte() != 0;
-        this.hotWeight = in.readInt();
-        this.isFirst = in.readByte() != 0;
-    }
-
-    public static final Creator<AirPort> CREATOR = new Creator<AirPort>() {
-        @Override
-        public AirPort createFromParcel(Parcel source) {
-            return new AirPort(source);
-        }
-
-        @Override
-        public AirPort[] newArray(int size) {
-            return new AirPort[size];
-        }
-    };
 }

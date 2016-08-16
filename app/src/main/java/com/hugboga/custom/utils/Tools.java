@@ -8,9 +8,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.FutureTarget;
-import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.hugboga.custom.MyApplication;
-import com.hugboga.custom.widget.GlideCircleTransform;
 import com.hugboga.custom.widget.GlideRoundTransform;
 
 import java.io.File;
@@ -30,6 +28,19 @@ public class Tools {
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(imageView);
     }
+
+    public static void showImage(ImageView imageView, String url,int resId) {
+        if (TextUtils.isEmpty(url)) {
+            return;
+        }
+        Glide.with(MyApplication.getAppContext())
+                .load(url)
+                .placeholder(resId)
+                .centerCrop()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(imageView);
+    }
+
 
     public static void showRoundImage(ImageView imageView, String url, float radius) {
         Glide.with(MyApplication.getAppContext())
@@ -81,6 +92,12 @@ public class Tools {
         }
     }
 
+    //人民币符号
+    public static String getRMB(){
+        char symbol = 165;
+        return String.valueOf(symbol);
+    }
+
     public static File downLoadImage(Context context,String url){
         FutureTarget<File> future = Glide.with(context)
                 .load(url)
@@ -93,4 +110,11 @@ public class Tools {
             return null;
         }
     }
+
+    public static boolean isEmojiCharacter(char codePoint) {
+                return ((codePoint == 0x0) || (codePoint == 0x9) || (codePoint == 0xA)
+                        || (codePoint == 0xD) || ((codePoint >= 0x20) && codePoint <= 0xD7FF))
+                        || ((codePoint >= 0xE000) && (codePoint <= 0xFFFD))
+                        || ((codePoint >= 0x10000) && (codePoint <= 0x10FFFF));
+     }
 }

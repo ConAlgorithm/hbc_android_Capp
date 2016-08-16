@@ -26,6 +26,8 @@ public class SearchGroupBean implements Cloneable{
 
     public int flag;//1,线路 2,国家,3,城市 4,热门
 
+    public int has_sub;//是否有子级城市
+
     @Override
     public Object clone() {
         try {

@@ -17,14 +17,15 @@
         android:layout_alignParentBottom="true" />
 
     <ScrollView
+        android:id="@+id/evaluate_scrollview"
         android:layout_above="@id/evaluate_share_view"
         android:layout_below="@id/evaluate_titlebar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
             <LinearLayout
@@ -71,6 +72,7 @@
                             android:layout_marginLeft="16dp"
                             android:layout_marginTop="1dip"
                             app:gap="4dip"
+                            app:half_bg="@mipmap/sddate_star_half"
                             app:rating_bg="@drawable/btn_yellow_ratingbar"
                             app:touchable="false" />
                     </LinearLayout>

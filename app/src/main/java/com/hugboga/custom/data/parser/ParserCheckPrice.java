@@ -34,7 +34,6 @@ public class ParserCheckPrice extends ImplParser {
         carListBean.estTime = obj.optString("estTime");
         carListBean.enableLocal = obj.optString("enableLocal");
 
-
         JSONArray priceList = obj.optJSONArray("cars");
         CarBean bean;
         if (priceList != null) {
@@ -57,6 +56,18 @@ public class ParserCheckPrice extends ImplParser {
                 bean.capOfPerson = jsonObj.optInt("capOfPerson", 0);
                 bean.price = jsonObj.optInt("price", 0);
                 bean.localPrice = jsonObj.optInt("localPrice", 0);
+
+                bean.carId = jsonObj.optInt("carId");
+                bean.carIntroduction = jsonObj.optString("carIntroduction");
+                bean.special = jsonObj.getInt("special");
+
+                bean.carPictures = new ArrayList<>();
+                JSONArray carPictures = jsonObj.optJSONArray("carPictures");
+                if(null != carPictures) {
+                    for (int n = 0; n < carPictures.length(); n++) {
+                        bean.carPictures.add(carPictures.getString(n));
+                    }
+                }
 
                 carListBean.carList.add(bean);
             }
