@@ -58,7 +58,8 @@
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
-                <data android:scheme="@string/hbc_scheme"/>
+                <!--<data android:scheme="@string/hbc_scheme"/>-->
+                <data android:scheme="hbcc" android:host="hbcc_a" android:path="/"/>
             </intent-filter>
         </activity>
 
@@ -341,6 +342,16 @@
 
         <activity
             android:name=".activity.TravelFundRecordActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name="com.hugboga.custom.developer.DeveloperOptionsActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name="com.hugboga.custom.developer.DeveloperActionTestActivity"
             android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:screenOrientation="portrait" />
 

@@ -19,6 +19,7 @@ import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.parser.ParserLogout;
 import com.hugboga.custom.data.request.RequestLogout;
+import com.hugboga.custom.developer.DeveloperOptionsActivity;
 import com.hugboga.custom.utils.SharedPre;
 
 import org.greenrobot.eventbus.EventBus;
@@ -82,11 +83,11 @@ public class SettingActivity extends BaseActivity {
         ButterKnife.bind(this);
         initHeader();
 
-//        if (HbcConfig.IS_DEBUG) {
-//            developerLayout.setVisibility(View.VISIBLE);
-//        } else {
-//            developerLayout.setVisibility(View.GONE);
-//        }
+        if (HbcConfig.IS_DEBUG) {
+            developerLayout.setVisibility(View.VISIBLE);
+        } else {
+            developerLayout.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -108,7 +109,7 @@ public class SettingActivity extends BaseActivity {
     }
 
     Intent intent;
-    @OnClick({R.id.setting_menu_layout2, R.id.setting_menu_layout3, R.id.setting_menu_layout5, R.id.setting_exit, R.id.setting_menu_layout7})
+    @OnClick({R.id.setting_menu_layout2, R.id.setting_menu_layout3, R.id.setting_menu_layout5, R.id.setting_exit, R.id.setting_menu_layout7, R.id.setting_menu_developer_layout})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.setting_menu_layout2:
@@ -156,6 +157,10 @@ public class SettingActivity extends BaseActivity {
                                 sharedPre.saveLongValue(SharedPre.CACHE_SIZE, 0);
                             }
                         }).show();
+                break;
+            case R.id.setting_menu_developer_layout:
+                intent = new Intent(activity, DeveloperOptionsActivity.class);
+                startActivity(intent);
                 break;
             default:
                 break;

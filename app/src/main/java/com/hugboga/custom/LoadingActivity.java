@@ -10,6 +10,7 @@ import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -93,8 +94,10 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
+                MLog.i("hbcc 短信跳转 all " + dataString);
                 scheme += "://?";
                 String data = dataString.substring(scheme.length(), dataString.length());
+                MLog.i("hbcc 短信跳转 " + data);
                 if (!TextUtils.isEmpty(data)) {
                     actionBean = (ActionBean) JsonUtils.fromJson(data, ActionBean.class);
                 }
