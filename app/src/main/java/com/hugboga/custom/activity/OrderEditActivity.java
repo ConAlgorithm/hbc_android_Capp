@@ -163,8 +163,12 @@ public class OrderEditActivity extends BaseActivity {
             pickUpTime.setVisibility(View.GONE);
             pickUpLocationLayout.setVisibility(View.GONE);
             airportNameLayout.setVisibility(View.GONE);
-            if (!TextUtils.isEmpty(orderBean.flightBrandSign)) {
-                pickName.setText(orderBean.flightBrandSign);
+            if ("1".equals(orderBean.isFlightSign)) {
+                if (!TextUtils.isEmpty(orderBean.flightBrandSign)) {
+                    pickName.setText(orderBean.flightBrandSign);
+                }
+            } else {
+                pickNameLayout.setVisibility(View.GONE);
             }
             if (!TextUtils.isEmpty(orderBean.serviceAreaCode)) {
                 String serviceCode = orderBean.serviceAreaCode;
@@ -402,7 +406,7 @@ public class OrderEditActivity extends BaseActivity {
             CommonUtils.showToast("联系人电话不能为空");
             return;
         }
-        if (orderBean.orderType == 1) {//接机
+        if (orderBean.orderType == 1 && "1".equals(orderBean.isFlightSign)) {//接机
             if (TextUtils.isEmpty(pickName.getText())) {
                 CommonUtils.showToast("接机牌姓名不能为空");
                 return;
