@@ -87,20 +87,30 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
         Intent intent = getIntent();
         String scheme = intent.getScheme();
         if (getString(R.string.hbc_scheme).equals(scheme)) {
-            String dataString = intent.getDataString();
-            if (!TextUtils.isEmpty(dataString)) {
-                try {
-                    dataString = URLDecoder.decode(dataString, "utf-8");
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
+
+            String data = null;
+
+            Bundle extras = getIntent().getExtras();
+            if (extras != null) {
+                data = extras.getString("action");
+                MLog.i("hbcc 短信跳转 intent " + data);
+            }
+            if (TextUtils.isEmpty(data)) {
+                String dataString = intent.getDataString();
+                if (!TextUtils.isEmpty(dataString)) {
+                    try {
+                        dataString = URLDecoder.decode(dataString, "utf-8");
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+                    MLog.i("hbcc 短信跳转 all " + dataString);
+                    scheme += "://?";
+                    data = dataString.substring(scheme.length(), dataString.length());
+                    MLog.i("hbcc 短信跳转 " + data);
                 }
-                MLog.i("hbcc 短信跳转 all " + dataString);
-                scheme += "://?";
-                String data = dataString.substring(scheme.length(), dataString.length());
-                MLog.i("hbcc 短信跳转 " + data);
-                if (!TextUtils.isEmpty(data)) {
-                    actionBean = (ActionBean) JsonUtils.fromJson(data, ActionBean.class);
-                }
+            }
+            if (!TextUtils.isEmpty(data)) {
+                actionBean = (ActionBean) JsonUtils.fromJson(data, ActionBean.class);
             }
         }
     }
