@@ -49,7 +49,6 @@ public class GuideCarPhotosAdapter extends RecyclerView.Adapter<GuideCarPhotosAd
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("aa", "position " + position);
                 if (listener != null) {
                     listener.onItemClick(v, position);
                 }
