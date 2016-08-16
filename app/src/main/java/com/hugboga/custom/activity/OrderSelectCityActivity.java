@@ -846,7 +846,7 @@ public class OrderSelectCityActivity extends BaseActivity  {
                 if (null != carBean && null != carBean.cars && carBean.cars.size() != 0) {
 //                    FGOrderNew fgOrderNew = new FGOrderNew();
                     Bundle bundle = new Bundle();
-                    bundle.putString("guideCollectId", guideCollectId);
+                    bundle.putString("guideCollectId", null != collectGuideBean?collectGuideBean.guideId:"");
                     bundle.putSerializable("collectGuideBean", collectGuideBean);
                     bundle.putString("source", source);
 
@@ -1336,6 +1336,7 @@ public class OrderSelectCityActivity extends BaseActivity  {
                     driver_layout.setVisibility(View.VISIBLE);
                     driver_name.setText(collectGuideBean.name);
                     choose_driver.setVisibility(GONE);
+                    guideCollectId = collectGuideBean.guideId;
                 }
                 break;
             case CHOOSE_DATE:

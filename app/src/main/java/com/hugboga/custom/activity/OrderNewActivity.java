@@ -318,6 +318,9 @@ public class OrderNewActivity extends BaseActivity {
         collectGuideBean = (CollectGuideBean) this.getIntent().getSerializableExtra("collectGuideBean");
 
         carBean = (SelectCarBean)this.getIntent().getSerializableExtra("carBean");
+        if(null != collectGuideBean) {
+            guideCollectId = collectGuideBean.guideId;
+        }
 
         startCityId = this.getIntent().getStringExtra("startCityId");
         endCityId = this.getIntent().getStringExtra("endCityId");
