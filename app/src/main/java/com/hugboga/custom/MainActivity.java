@@ -369,6 +369,16 @@ public class MainActivity extends BaseActivity
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
+        if (intent != null) {
+            Bundle bundle = intent.getExtras();
+            if (bundle != null) {
+                actionBean = (ActionBean) bundle.getSerializable(Constants.PARAMS_ACTION);
+            }
+            if (actionBean != null) {
+                ActionController actionFactory = ActionController.getInstance(this);
+                actionFactory.doAction(actionBean);
+            }
+        }
         receivePushMessage(intent);
     }
 
