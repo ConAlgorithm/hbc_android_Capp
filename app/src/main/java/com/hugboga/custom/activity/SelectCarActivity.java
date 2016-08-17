@@ -662,7 +662,7 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
                 PhoneInfo.CallDial(this.activity, Constants.CALL_NUMBER_IN);
                 break;
             case R.id.out_phone:
-                PhoneInfo.CallDial(this.activity, Constants.CALL_NUMBER_IN);
+                PhoneInfo.CallDial(this.activity, Constants.CALL_NUMBER_OUT);
                 break;
             case R.id.befer48_tips:
 //                Bundle bundle = new Bundle();
