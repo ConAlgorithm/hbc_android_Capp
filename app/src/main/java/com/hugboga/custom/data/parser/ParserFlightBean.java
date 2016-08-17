@@ -30,6 +30,12 @@ public class ParserFlightBean extends ImplParser {
         flightBean.arrLocation = jsonObj.optString("arrLocation");
         flightBean.depCityId = jsonObj.optInt("depCityId");
         flightBean.arrCityId = jsonObj.optInt("arrCityId");
+
+//        "startLocation":"may not be empty","airportCode":"may not be null"
+
+        flightBean.depAirportCode = jsonObj.optString("depAirportCode");
+        flightBean.arrAirportCode = jsonObj.optString("arrAirportCode");
+
         return flightBean;
     }
 }

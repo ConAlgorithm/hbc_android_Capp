@@ -16,6 +16,7 @@ public class FlightBean implements IBaseBean{
     public String depTime;//计划出发时间 HH-mm
     public String arrivalTime;//计划到达时间 HH-mm
     public String depAirportCode;// 出发机场三字码
+    public String arrAirportCode;
     public String arrivalAirportCode;// 到达机场三字码
     public String depAirportName; //出发机场
     public String arrAirportName; //到达机场
