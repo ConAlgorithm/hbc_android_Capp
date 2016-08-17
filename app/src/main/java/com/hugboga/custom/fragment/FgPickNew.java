@@ -201,10 +201,10 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
     String startLocation, termLocation;
 
     protected void getData() {
-        cityId = flightBean.arrivalAirport.cityId;
-        airportCode = flightBean.arrivalAirport.airportCode;
+        cityId = flightBean.arrCityId;//.arrivalAirport.cityId;
+        airportCode = flightBean.arrAirportCode;//.arrivalAirport.airportCode;
         //出发地，到达地经纬度
-        startLocation = flightBean.arrivalAirport.location;
+        startLocation = flightBean.arrLocation;//.arrivalAirport.location;
         termLocation = poiBean.location;
         serverDate = flightBean.arrDate + " " + flightBean.arrivalTime;
         needChildrenSeat = flightBean.arrivalAirport.childSeatSwitch;
@@ -321,7 +321,7 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
                 if (mBusinessType == Constants.BUSINESS_TYPE_SEND && flightBean != null) {
                 } else {
                     String flightInfoStr = flightBean.flightNo + " ";
-                    flightInfoStr += flightBean.depAirport.cityName + "-" + flightBean.arrivalAirport.cityName;
+                    flightInfoStr += flightBean.depCityName + "-" + flightBean.arrCityName;
                     flightInfoStr += "\n当地时间" + flightBean.arrDate + " " + flightBean.depTime + " 降落";
                     infoTips.setVisibility(GONE);
                     airTitle.setVisibility(View.VISIBLE);
@@ -588,8 +588,8 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
 //                    FgPoiSearch fg = new FgPoiSearch();
                     Bundle bundle = new Bundle();
                     bundle.putString("source", "下单过程中");
-                    bundle.putInt(PoiSearchActivity.KEY_CITY_ID, flightBean.arrivalAirport.cityId);
-                    bundle.putString(PoiSearchActivity.KEY_LOCATION, flightBean.arrivalAirport.location);
+                    bundle.putInt(PoiSearchActivity.KEY_CITY_ID, flightBean.arrCityId);//.arrivalAirport.cityId);
+                    bundle.putString(PoiSearchActivity.KEY_LOCATION, flightBean.arrLocation);//.arrivalAirport.location);
 //                    startFragment(fg, bundle);
 
                     intent = new Intent(getActivity(),PoiSearchActivity.class);
