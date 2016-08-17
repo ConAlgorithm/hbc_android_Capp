@@ -26,6 +26,10 @@ public class ParserFlightBean extends ImplParser {
         flightBean.depDate = jsonObj.optString("depDate");
         flightBean.depCityName = jsonObj.optString("depCityName");
         flightBean.arrCityName = jsonObj.optString("arrCityName");
+        flightBean.depLocation = jsonObj.optString("depLocation");
+        flightBean.arrLocation = jsonObj.optString("arrLocation");
+        flightBean.depCityId = jsonObj.optInt("depCityId");
+        flightBean.arrCityId = jsonObj.optInt("arrCityId");
         return flightBean;
     }
 }

@@ -27,6 +27,11 @@ public class FlightBean implements IBaseBean{
     public String depCityName; // 出发城市名
     public String arrCityName; // 到达城市名
 
+    public String depLocation;//开始经纬度
+    public String arrLocation;//到达经纬度
+
+    public int depCityId;
+    public int arrCityId;
 
     public boolean serviceStatus = true;
 

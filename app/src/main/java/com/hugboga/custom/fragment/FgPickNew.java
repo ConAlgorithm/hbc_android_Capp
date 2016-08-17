@@ -588,8 +588,8 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
 //                    FgPoiSearch fg = new FgPoiSearch();
                     Bundle bundle = new Bundle();
                     bundle.putString("source", "下单过程中");
-                    bundle.putInt(PoiSearchActivity.KEY_CITY_ID, flightBean.arrivalAirport.cityId);
-                    bundle.putString(PoiSearchActivity.KEY_LOCATION, flightBean.arrivalAirport.location);
+                    bundle.putInt(PoiSearchActivity.KEY_CITY_ID, flightBean.arrCityId);//.arrivalAirport.cityId);
+                    bundle.putString(PoiSearchActivity.KEY_LOCATION, flightBean.arrLocation);//.arrivalAirport.location);
 //                    startFragment(fg, bundle);
 
                     intent = new Intent(getActivity(),PoiSearchActivity.class);
