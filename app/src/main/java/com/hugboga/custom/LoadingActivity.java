@@ -304,15 +304,17 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
             show_ad.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    adClick = true;
-                    handler.removeMessages(200);
-                    Intent intent = new Intent(LoadingActivity.this, MainActivity.class);
-                    if (actionBean != null) {
-                        intent.putExtra(Constants.PARAMS_ACTION, actionBean);
+                    if(!TextUtils.isEmpty(adPictureBean.urlAddress)) {
+                        adClick = true;
+                        handler.removeMessages(200);
+                        Intent intent = new Intent(LoadingActivity.this, MainActivity.class);
+                        if (actionBean != null) {
+                            intent.putExtra(Constants.PARAMS_ACTION, actionBean);
+                        }
+                        intent.putExtra("url", adPictureBean.urlAddress);
+                        startActivity(intent);
+                        finish();
                     }
-                    intent.putExtra("url",adPictureBean.urlAddress);
-                    startActivity(intent);
-                    finish();
                 }
             });
         } catch (Exception e) {
