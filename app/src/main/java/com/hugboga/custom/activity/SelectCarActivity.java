@@ -329,12 +329,14 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
                     nextBtnClick.setVisibility(GONE);
                     empty_text.setText(bean.noneCarsReason);
                     callPhone.setVisibility(GONE);
+                    bottom.setVisibility(GONE);
                 } else if (bean.noneCarsState == 2) {
                     coupon_listview_empty.setVisibility(View.VISIBLE);
                     scrollView.setVisibility(GONE);
                     nextBtnClick.setVisibility(GONE);
                     empty_text.setText(bean.noneCarsReason);
                     callPhone.setVisibility(View.VISIBLE);
+                    bottom.setVisibility(GONE);
                 } else {
                     initListData();
                     getMatchCarIndex();
