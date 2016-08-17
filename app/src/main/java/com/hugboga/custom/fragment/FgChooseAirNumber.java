@@ -273,6 +273,7 @@ public class FgChooseAirNumber extends BaseFragment {
         bundle.putString(PickFlightListActivity.KEY_FLIGHT_DATE, time1Str);
         bundle.putInt(PickFlightListActivity.KEY_FLIGHT_TYPE, 1);
         bundle.putString("source",source);
+        bundle.putInt("mBusinessType",1);
         Intent intent = new Intent(getActivity(),PickFlightListActivity.class);
         intent.putExtras(bundle);
         getActivity().startActivity(intent);

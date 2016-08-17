@@ -380,6 +380,7 @@ public class FgChooseAirAddress extends BaseFragment {
         bundle.putInt(PickFlightListActivity.KEY_FLIGHT_TO, cityToId);
         bundle.putInt(PickFlightListActivity.KEY_FLIGHT_TYPE, 2);
         bundle.putString(PickFlightListActivity.KEY_FLIGHT_DATE, time2Str);
+        bundle.putInt("mBusinessType",1);
 //        fragment.setArguments(bundle);
 //        startFragment(fragment);
         Intent intent = new Intent(getActivity(),PickFlightListActivity.class);
