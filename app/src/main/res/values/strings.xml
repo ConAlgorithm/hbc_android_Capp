@@ -515,7 +515,7 @@
     <string name="travel_fund_use_record_title">使用明细</string>
     <string name="travel_fund_subtitle">邀请更多好友加入皇包车\n免费赚取更多旅游基金</string>
     <string name="travel_fund_subtitle_2">送Ta大礼包</string>
-    <string name="travel_fund_description">好友通过客户端完成首单，\n24小时内反您\n%1$s元&#160;+&#160;%2$s&#160;×&#160;好友首单总金额</string>
+    <string name="travel_fund_description">好友通过客户端完成首单，\n24小时内返您\n%1$s元&#160;+&#160;%2$s&#160;×&#160;好友首单总金额</string>
     <string name="travel_fund_invite">立即邀请</string>
     <string name="invite_friends_share_title">想出境玩吗？送你%1$s元大礼包</string>
     <string name="invite_friends_share_content">皇包车邀您一起中文包车游世界。每一次出境游都自在如乡。领券下手要快哦！</string>
