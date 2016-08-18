@@ -30,6 +30,7 @@ import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestLogin;
 import com.hugboga.custom.data.request.RequestRegister;
 import com.hugboga.custom.data.request.RequestVerity;
+import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.widget.DialogUtil;
 import com.umeng.analytics.MobclickAgent;
@@ -38,6 +39,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 import butterknife.Bind;
@@ -101,6 +103,21 @@ public class RegisterActivity extends BaseActivity implements TextWatcher {
         phoneEditText.addTextChangedListener(this);
         verityEditText.addTextChangedListener(this);
         passwordEditText.addTextChangedListener(this);
+    }
+
+    @Override
+    public String getEventId() {
+        return StatisticConstant.REGIST_LAUNCH;
+    }
+
+    @Override
+    public String getEventSource() {
+        return "注册页";
+    }
+
+    @Override
+    public Map getEventMap() {
+        return super.getEventMap();
     }
 
     @Override

@@ -29,6 +29,7 @@ import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestLogin;
 import com.hugboga.custom.data.request.RequestLoginCheckOpenId;
+import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.utils.ApiFeedbackUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.IMUtil;
@@ -43,6 +44,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 import butterknife.Bind;
@@ -267,6 +269,21 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
         }
     }
 
+    @Override
+    public String getEventId() {
+        return StatisticConstant.LOGIN_LAUNCH;
+    }
+
+    @Override
+    public String getEventSource() {
+        return "登录页";
+    }
+
+    @Override
+    public Map getEventMap() {
+        return super.getEventMap();
+    }
+
     private void connectIM() {
         IMUtil.getInstance().connect();
     }
@@ -323,13 +340,9 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
                     bundle2.putString("source", source);
                 }
                 intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                intent.putExtra("source",getEventSource());
                 intent.putExtras(bundle2);
                 startActivity(intent);
-
-                HashMap<String, String> map1 = new HashMap<String, String>();
-                map1.put("source", source);
-                MobclickAgent.onEvent(activity, "regist_trigger", map1);
-
                 break;
             case R.id.change_mobile_diepwd:
                 //忘记密码

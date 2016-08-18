@@ -1,18 +1,14 @@
 package com.hugboga.custom.fragment;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.adapter.ZBaseAdapter;
-import com.huangbaoche.hbcframe.data.net.ErrorHandler;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
@@ -29,12 +25,10 @@ import com.hugboga.custom.data.bean.ChatInfo;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.parser.ParserChatInfo;
-import com.hugboga.custom.data.request.RequestApiFeedback;
 import com.hugboga.custom.data.request.RequestChatList;
 import com.hugboga.custom.data.request.RequestRemoveChat;
-import com.hugboga.custom.data.request.RequestResetIMToken;
+import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.utils.AlertDialogUtils;
-import com.hugboga.custom.utils.ApiFeedbackUtils;
 import com.hugboga.custom.utils.IMUtil;
 import com.umeng.analytics.MobclickAgent;
 
@@ -47,19 +41,10 @@ import org.xutils.view.annotation.ViewInject;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-
-import io.rong.imkit.RongContext;
 import io.rong.imkit.RongIM;
-import io.rong.imkit.widget.provider.CameraInputProvider;
-import io.rong.imkit.widget.provider.ImageInputProvider;
-import io.rong.imkit.widget.provider.InputProvider;
-import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
-import jp.wasabeef.recyclerview.animators.adapters.SlideInBottomAnimationAdapter;
-
-import static u.aly.au.T;
-import static u.aly.au.ad;
 
 /**
  * 聊天页面
@@ -196,15 +181,28 @@ public class FgChat extends BaseFragment implements View.OnClickListener, ZBaseA
     public void onDataRequestSucceed(BaseRequest request) {
     }
 
+    @Override
+    public String getEventId() {
+        return StatisticConstant.REGIST_LAUNCH;
+    }
+
+    @Override
+    public String getEventSource() {
+        return "私聊页";
+    }
+
+    @Override
+    public Map getEventMap() {
+        return super.getEventMap();
+    }
+
     @Event({R.id.login_btn, R.id.header_left_btn, R.id.chat_list_empty_tv})
     private void onClickView(View view) {
         switch (view.getId()) {
-            case R.id.login_btn:
-                startActivity(new Intent(view.getContext(), LoginActivity.class));
-
-                HashMap<String,String> map = new HashMap<String,String>();
-                map.put("source", "私聊页");
-                MobclickAgent.onEvent(getActivity(), "login_trigger", map);
+          case R.id.login_btn:
+                Intent intent = new Intent(view.getContext(), LoginActivity.class);
+                intent.putExtra("source",getEventSource());
+                startActivity(intent);
                 break;
             case R.id.header_left_btn:
                 MLog.e("left  " + view);

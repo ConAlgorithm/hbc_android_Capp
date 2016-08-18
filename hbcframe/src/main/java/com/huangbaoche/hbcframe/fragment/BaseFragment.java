@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
+import android.support.v4.util.ArrayMap;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -27,6 +27,7 @@ import org.xutils.common.Callback;
 import org.xutils.x;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 
 public abstract class BaseFragment extends Fragment implements HttpRequestListener, View.OnTouchListener {
@@ -453,5 +454,28 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
                 break;
             }
         }
+    }
+
+    /**
+     * 获取点击事件ID
+     */
+    public String getEventId(){
+        return "";
+    }
+
+    /**
+     * 获取来源
+     */
+    public String getEventSource(){
+        return "";
+    }
+
+    /**
+     * 获取来源map
+     */
+    public Map getEventMap(){
+        ArrayMap map = new ArrayMap();
+        map.put("source", getEventSource());
+        return map;
     }
 }
