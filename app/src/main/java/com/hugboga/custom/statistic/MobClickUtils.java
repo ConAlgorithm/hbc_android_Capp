@@ -1,4 +1,4 @@
-package com.hugboga.custom.utils;
+package com.hugboga.custom.statistic;
 
 import android.content.Context;
 
