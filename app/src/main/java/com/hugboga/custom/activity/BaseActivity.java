@@ -49,7 +49,7 @@ public class BaseActivity extends BaseFragmentActivity implements HttpRequestLis
     public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         activity = this;
-        MobClickUtils.OnEvent(this, getEventId(), getEventMap());
+        MobClickUtils.onEvent(getEventId(), getEventMap());
     }
 
     protected void initDefaultTitleBar() {
