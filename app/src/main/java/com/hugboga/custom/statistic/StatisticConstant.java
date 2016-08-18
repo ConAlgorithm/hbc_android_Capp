@@ -90,22 +90,22 @@ public class StatisticConstant {
     // MARK: 05_评价+优惠+基金+分享
     public static final String CLICKMARK_J = "05_clickmark_J";           // 0接机点击去评价
     public static final String CLICKMARK_S = "05_clickmark_S";           // 0送机点击去评价
-    public static final String CLICKMARK_C = "05_clickmark_C";           // 0单次接送点击去评价
     public static final String CLICKMARK_R = "05_clickmark_R";           // 0自定义包车点击去评价
+    public static final String CLICKMARK_C = "05_clickmark_C";           // 0单次接送点击去评价
     public static final String CLICKMARK_RG = "05_clickmark_RG";         // 0固定线路点击去评价
     public static final String CLICKMARK_RT = "05_clickmark_RT";         // 0推荐线路点击去评价
 
     public static final String MARK_J = "05_mark_J";           // 0接机提交评价
     public static final String MARK_S = "05_mark_S";           // 0送机提交评价
-    public static final String MARK_C = "05_mark_C";           // 0单次接送提交评价
     public static final String MARK_R = "05_mark_R";           // 0自定义包车提交评价
+    public static final String MARK_C = "05_mark_C";           // 0单次接送提交评价
     public static final String MARK_RG = "05_mark_RG";         // 0固定线路提交评价
     public static final String MARK_RT = "05_mark_RT";         // 0推荐线路提交评价
 
     public static final String SHAREMARK_J = "05_sharemark_J";           // 0接机评价后分享司导
     public static final String SHAREMARK_S = "05_sharemark_S";           // 0送机评价后分享司导
-    public static final String SHAREMARK_C = "05_sharemark_C";           // 0单次接送评价后分享司导
     public static final String SHAREMARK_R = "05_sharemark_R";           // 0自定义包车评价后分享司导
+    public static final String SHAREMARK_C = "05_sharemark_C";           // 0单次接送评价后分享司导
     public static final String SHAREMARK_RG = "05_sharemark_RG";         // 0固定线路评价后分享司导
     public static final String SHAREMARK_RT = "05_sharemark_RT";         // 0推荐线路评价后分享司导
 

@@ -17,6 +17,10 @@ import com.hugboga.custom.widget.ShareDialog;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 
 /**
  * Created by qingcha on 16/5/26.
