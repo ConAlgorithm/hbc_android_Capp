@@ -747,7 +747,7 @@ public class MainActivity extends BaseActivity
             return true;
         } else {
             Intent intent = new Intent(this, LoginActivity.class);
-            intent.putExtra("source",);
+            intent.putExtra("source",getEventSource());
             startActivity(intent);
             return false;
         }
