@@ -99,6 +99,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -723,6 +724,20 @@ public class MainActivity extends BaseActivity
         }
     }
 
+    @Override
+    public String getEventId() {
+        return super.getEventId();
+    }
+
+    @Override
+    public String getEventSource() {
+        return "个人中心首页";
+    }
+
+    @Override
+    public Map getEventMap() {
+        return super.getEventMap();
+    }
 
     /**
      * 判断是否登录
@@ -731,7 +746,9 @@ public class MainActivity extends BaseActivity
         if (UserEntity.getUser().isLogin(this)) {
             return true;
         } else {
-            startActivity(new Intent(this, LoginActivity.class));
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.putExtra("source",);
+            startActivity(intent);
             return false;
         }
     }

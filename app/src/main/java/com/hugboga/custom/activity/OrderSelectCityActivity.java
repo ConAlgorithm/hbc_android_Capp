@@ -265,7 +265,9 @@ public class OrderSelectCityActivity extends BaseActivity  {
                 if (UserEntity.getUser().isLogin(activity)) {
                     goCollectGuid(2);
                 } else {
-                    startActivity(new Intent(activity, LoginActivity.class));
+                    Intent intent = new Intent(activity, LoginActivity.class);
+                    intent.putExtra("source",getEventSource());
+                    startActivity(intent);
                 }
             }
         });
@@ -822,7 +824,9 @@ public class OrderSelectCityActivity extends BaseActivity  {
                     intent.putExtras(bundle);
                     startActivity(intent);
                 } else {
-                    startActivity(new Intent(this, LoginActivity.class));
+                    Intent intent = new Intent(activity, LoginActivity.class);
+                    intent.putExtra("source",getEventSource());
+                    startActivity(intent);
                 }
             }
         }

@@ -52,6 +52,7 @@ import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 
 import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -399,9 +400,9 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
                                     }
                                 }
                             } else {
-                                Bundle bundle = new Bundle();//用于统计
-                                bundle.putString("source", "接机下单");
-                                startActivity(new Intent(getActivity(), LoginActivity.class));
+                                Intent intent = new Intent(getActivity(), LoginActivity.class);
+                                intent.putExtra("source",getEventSource());
+                                startActivity(intent);
                             }
                         }
                     }
@@ -410,6 +411,21 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
             default:
                 break;
         }
+    }
+
+    @Override
+    public String getEventId() {
+        return super.getEventId();
+    }
+
+    @Override
+    public String getEventSource() {
+        return "接机订单";
+    }
+
+    @Override
+    public Map getEventMap() {
+        return super.getEventMap();
     }
 
     private void checkGuide(){

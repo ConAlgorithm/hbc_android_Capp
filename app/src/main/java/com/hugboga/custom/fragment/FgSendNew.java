@@ -51,6 +51,7 @@ import org.xutils.view.annotation.ContentView;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -387,7 +388,8 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
                                 }
                             } else {
                                 Intent intent = new Intent(getActivity(), LoginActivity.class);
-                                getActivity().startActivity(intent);
+                                intent.putExtra("source",getEventSource());
+                                startActivity(intent);
                             }
                         }
                     }
@@ -398,6 +400,20 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
         }
     }
 
+    @Override
+    public String getEventId() {
+        return super.getEventId();
+    }
+
+    @Override
+    public String getEventSource() {
+        return "送机订单";
+    }
+
+    @Override
+    public Map getEventMap() {
+        return super.getEventMap();
+    }
 
     private void checkGuide(){
         String sTime = serverDate + " " + serverTime+":00";

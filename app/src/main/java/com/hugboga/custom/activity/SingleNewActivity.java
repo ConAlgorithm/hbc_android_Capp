@@ -495,7 +495,9 @@ public class SingleNewActivity extends BaseActivity {
                                     }
                                 }
                             } else {
-                                startActivity(new Intent(SingleNewActivity.this, LoginActivity.class));
+                                Intent intent = new Intent(activity, LoginActivity.class);
+                                intent.putExtra("source",getEventSource());
+                                startActivity(intent);
                             }
                         }
                     }
@@ -504,6 +506,11 @@ public class SingleNewActivity extends BaseActivity {
             default:
                 break;
         }
+    }
+
+    @Override
+    public String getEventSource() {
+        return "单次订单";
     }
 
     private void checkGuide() {

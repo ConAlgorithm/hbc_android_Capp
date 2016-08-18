@@ -155,6 +155,8 @@ public class SkuNewActivity extends BaseActivity {
 
     @Override
     public void onCreate(Bundle arg0) {
+        skuBean = (SkuItemBean) getIntent().getSerializableExtra(SkuDetailActivity.WEB_SKU);
+        cityBean = (CityBean) getIntent().getSerializableExtra(SkuDetailActivity.WEB_CITY);
         super.onCreate(arg0);
         setContentView(R.layout.fg_sku_new);
         ButterKnife.bind(this);
@@ -171,8 +173,8 @@ public class SkuNewActivity extends BaseActivity {
     }
 
     protected void initView() {
-        skuBean = (SkuItemBean) getIntent().getSerializableExtra(SkuDetailActivity.WEB_SKU);
-        cityBean = (CityBean) getIntent().getSerializableExtra(SkuDetailActivity.WEB_CITY);
+//        skuBean = (SkuItemBean) getIntent().getSerializableExtra(SkuDetailActivity.WEB_SKU);
+//        cityBean = (CityBean) getIntent().getSerializableExtra(SkuDetailActivity.WEB_CITY);
         source = getIntent().getStringExtra("source");
         MLog.e("skuBean= " + skuBean);
         if (skuBean == null) return;
@@ -384,9 +386,18 @@ public class SkuNewActivity extends BaseActivity {
 
     public void goLogin(){
         Intent intent = new Intent(activity,LoginActivity.class);
+        intent.putExtra("source",getEventSource());
         startActivity(intent);
     }
 
+    @Override
+    public String getEventSource() {
+        if(skuBean.goodsClass == 1) {//固定
+            return "固定线路包车订单";
+        }else {
+            return "推荐线路包车订单";
+        }
+    }
 
     private void goNext() {
 //        FGOrderNew fgOrderNew = new FGOrderNew();
