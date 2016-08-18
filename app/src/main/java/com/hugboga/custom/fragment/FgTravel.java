@@ -33,8 +33,8 @@ import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestTravel;
-import com.umeng.analytics.MobclickAgent;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
@@ -44,8 +44,7 @@ import org.xutils.view.annotation.ViewInject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import org.greenrobot.eventbus.EventBus;
+import java.util.Map;
 
 @ContentView(R.layout.fg_travel)
 public class FgTravel extends BaseFragment implements View.OnClickListener, OnItemClickListener {
@@ -122,6 +121,21 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, OnIt
         super.onCreate(savedInstanceState);
         if (!EventBus.getDefault().isRegistered(this))
             EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public String getEventId() {
+        return super.getEventId();
+    }
+
+    @Override
+    public String getEventSource() {
+        return "行程页";
+    }
+
+    @Override
+    public Map getEventMap() {
+        return super.getEventMap();
     }
 
     @Override
@@ -312,11 +326,9 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, OnIt
                 reSetTabView(2);
                 break;
             case R.id.travel_login_btn:
-                startActivity(new Intent(view.getContext(), LoginActivity.class));
-
-                HashMap<String,String> map = new HashMap<String,String>();
-                map.put("source", "行程页");
-                MobclickAgent.onEvent(getActivity(), "login_trigger", map);
+                Intent intent = new Intent(view.getContext(), LoginActivity.class);
+                intent.putExtra("source",getEventSource());
+                startActivity(intent);
                 break;
             default:
                 break;

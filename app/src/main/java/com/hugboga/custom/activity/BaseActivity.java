@@ -2,6 +2,7 @@ package com.hugboga.custom.activity;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.util.ArrayMap;
 import android.text.TextUtils;
@@ -23,7 +24,6 @@ import com.umeng.analytics.MobclickAgent;
 
 import org.xutils.common.Callback;
 
-import java.util.HashMap;
 import java.util.Map;
 
 
@@ -50,6 +50,16 @@ public class BaseActivity extends BaseFragmentActivity implements HttpRequestLis
         super.onCreate(arg0);
         activity = this;
         MobClickUtils.onEvent(getEventId(), getEventMap());
+    }
+
+    //获取上个界面的来源
+    private String getIntentSource(){
+        Intent intent = this.getIntent();
+        String source = null;
+        if(null != intent){
+            source= intent.getStringExtra("source");
+        }
+        return source;
     }
 
     protected void initDefaultTitleBar() {
@@ -179,7 +189,11 @@ public class BaseActivity extends BaseFragmentActivity implements HttpRequestLis
      */
     public Map getEventMap(){
         ArrayMap map = new ArrayMap();
-        map.put("source", getEventSource());
+        if(null != getIntentSource()){
+            map.put("source", getIntentSource());
+        }else {
+            map.put("source", getEventSource());
+        }
         return map;
     }
 }
