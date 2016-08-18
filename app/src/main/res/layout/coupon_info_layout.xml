@@ -274,7 +274,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="120dp"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/basic_margin_large"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
@@ -304,6 +304,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/coupon_info_memo_right"
                     android:layout_marginTop="5dp"
+                    android:paddingBottom="30dp"
                     android:textSize="@dimen/text_size_large" />
             </RelativeLayout>
 
