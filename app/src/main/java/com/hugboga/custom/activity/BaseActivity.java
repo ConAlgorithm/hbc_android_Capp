@@ -3,6 +3,7 @@ package com.hugboga.custom.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.util.ArrayMap;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -48,7 +49,7 @@ public class BaseActivity extends BaseFragmentActivity implements HttpRequestLis
     public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         activity = this;
-        MobClickUtils.OnEvent(this,getEventId(),getEventMap());
+        MobClickUtils.OnEvent(this, getEventId(), getEventMap());
     }
 
     protected void initDefaultTitleBar() {
@@ -177,8 +178,8 @@ public class BaseActivity extends BaseFragmentActivity implements HttpRequestLis
      * 获取来源map
      */
     public Map getEventMap(){
-        Map map = new HashMap();
-        map.put("source",getEventSource());
+        ArrayMap map = new ArrayMap();
+        map.put("source", getEventSource());
         return map;
     }
 }
