@@ -16,10 +16,14 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
+import com.hugboga.custom.utils.MobClickUtils;
 import com.hugboga.custom.widget.DialogUtil;
 import com.umeng.analytics.MobclickAgent;
 
 import org.xutils.common.Callback;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class BaseActivity extends BaseFragmentActivity implements HttpRequestListener {
@@ -44,7 +48,7 @@ public class BaseActivity extends BaseFragmentActivity implements HttpRequestLis
     public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         activity = this;
-
+        MobClickUtils.OnEvent(this,getEventId(),getEventMap());
     }
 
     protected void initDefaultTitleBar() {
@@ -153,5 +157,28 @@ public class BaseActivity extends BaseFragmentActivity implements HttpRequestLis
         errorHandler.onDataRequestError(errorInfo, request);
         errorHandler = null;//TODO 旧代码粘贴，没必要赋空，耗内存，需优化。
 
+    }
+
+    /**
+     * 获取点击事件ID
+     */
+    public String getEventId(){
+        return "";
+    }
+
+    /**
+     * 获取来源
+     */
+    public String getEventSource(){
+        return "";
+    }
+
+    /**
+     * 获取来源map
+     */
+    public Map getEventMap(){
+        Map map = new HashMap();
+        map.put("source",getEventSource());
+        return map;
     }
 }
