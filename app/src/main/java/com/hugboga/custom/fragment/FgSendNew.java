@@ -403,7 +403,7 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
 
     @Override
     public String getEventId() {
-        return StatisticConstant.LAUNCH_S
+        return StatisticConstant.LAUNCH_S;
     }
 
     @Override
