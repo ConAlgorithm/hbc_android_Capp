@@ -224,7 +224,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
             connectIM();
             EventBus.getDefault().post(new EventAction(EventType.CLICK_USER_LOGIN));
             HashMap<String, String> map = new HashMap<String, String>();
-            map.put("source", "手机登录成功");
+            map.put("source", getEventSource());
             map.put("loginstyle", "手机号");
             map.put("head", !TextUtils.isEmpty(user.avatar) ? "是" : "否");
             map.put("nickname", !TextUtils.isEmpty(user.nickname) ? "是" : "否");

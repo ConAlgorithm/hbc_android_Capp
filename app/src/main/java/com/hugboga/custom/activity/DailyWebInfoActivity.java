@@ -103,6 +103,11 @@ public class DailyWebInfoActivity extends BaseActivity implements View.OnKeyList
     }
 
     @Override
+    public String getEventId() {
+        return StatisticConstant.LAUNCH_DETAIL_R;
+    }
+
+    @Override
     public String getEventSource() {
         return "包车详情咨询客服";
     }

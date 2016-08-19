@@ -35,6 +35,7 @@ import com.hugboga.custom.data.request.RequestCheckPrice;
 import com.hugboga.custom.data.request.RequestCheckPriceForSingle;
 import com.hugboga.custom.data.request.RequestGuideConflict;
 import com.hugboga.custom.fragment.FgCarNew;
+import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.CarUtils;
 import com.hugboga.custom.utils.CommonUtils;
@@ -506,6 +507,11 @@ public class SingleNewActivity extends BaseActivity {
             default:
                 break;
         }
+    }
+
+    @Override
+    public String getEventId() {
+        return StatisticConstant.LAUNCH_C;
     }
 
     @Override
