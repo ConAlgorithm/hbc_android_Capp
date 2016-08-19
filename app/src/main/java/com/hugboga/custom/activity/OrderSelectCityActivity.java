@@ -47,6 +47,7 @@ import com.hugboga.custom.data.request.RequestGetCarInfo;
 import com.hugboga.custom.data.request.RequestGuideConflict;
 import com.hugboga.custom.fragment.BaseFragment;
 import com.hugboga.custom.statistic.event.EventUtil;
+import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.CityUtils;
 import com.hugboga.custom.utils.CommonUtils;
@@ -326,6 +327,16 @@ public class OrderSelectCityActivity extends BaseActivity  {
         } else {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    public String getEventId() {
+        return StatisticConstant.LAUNCH_R;
+    }
+
+    @Override
+    public String getEventSource() {
+        return "包车填写行程";
     }
 
     private void showFull() {

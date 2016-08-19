@@ -34,6 +34,7 @@ import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestCheckPrice;
 import com.hugboga.custom.data.request.RequestCheckPriceForTransfer;
 import com.hugboga.custom.data.request.RequestGuideConflict;
+import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.CarUtils;
 import com.hugboga.custom.utils.CommonUtils;
@@ -402,7 +403,7 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
 
     @Override
     public String getEventId() {
-        return super.getEventId();
+        return StatisticConstant.LAUNCH_S;
     }
 
     @Override
