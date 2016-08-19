@@ -51,6 +51,7 @@ import com.hugboga.custom.data.request.RequestSubmitLine;
 import com.hugboga.custom.data.request.RequestSubmitPick;
 import com.hugboga.custom.data.request.RequestSubmitRent;
 import com.hugboga.custom.data.request.RequestSubmitSend;
+import com.hugboga.custom.statistic.bean.EventPayBean;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.LogUtils;
@@ -1128,6 +1129,21 @@ public class OrderNewActivity extends BaseActivity {
             }
         }
 
+    }
+
+    private EventPayBean setChoosePaymentStatisticParams() {
+        EventPayBean eventPayBean = new EventPayBean();
+//        eventPayBean.carType =
+//        eventPayBean.seatCategory =
+//        eventPayBean.guestcount =
+//        eventPayBean.isFlightSign =
+//        eventPayBean.isCheckin =
+//        eventPayBean.guideCollectId =
+//        eventPayBean.orderStatus =
+//        eventPayBean.orderType =
+//        eventPayBean.forother =
+
+        return eventPayBean;
     }
 
     @Override

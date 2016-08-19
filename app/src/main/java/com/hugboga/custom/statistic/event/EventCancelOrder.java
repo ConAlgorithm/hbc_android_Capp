@@ -70,7 +70,9 @@ public class EventCancelOrder extends EventBase{
                 map.put("assist", EventUtil.booleanTransform(orderBean.isCheckin));//协助办理登记 是、否
                 break;
             case 3:
-                map.put("source_detail", eventUtil.sourceDetail);//触发来源-第一步 无、首页、搜索、城市页
+                if (!TextUtils.isEmpty(eventUtil.sourceDetail)) {
+                    map.put("source_detail", eventUtil.sourceDetail);//触发来源-第一步 无、首页、搜索、城市页
+                }
                 map.put("selectG", EventUtil.booleanTransform(TextUtils.isEmpty(orderBean.guideCollectId)));//选择已收藏司导 是、否
                 break;
         }

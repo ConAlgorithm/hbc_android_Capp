@@ -60,22 +60,22 @@ public class StatisticConstant {
     // MARK: 03_支付
     public static final String PAY_J = "03_pay_J";           // 0接机支付
     public static final String PAY_S = "03_pay_S";           // 0送机支付
-    public static final String PAY_C = "03_pay_C";           // 0单次支付
     public static final String PAY_R = "03_pay_R";           // 0自定义包车支付
+    public static final String PAY_C = "03_pay_C";           // 0单次支付
     public static final String PAY_RG = "03_pay_RG";         // 1固定线路包车支付
     public static final String PAY_RT = "03_pay_RT";         // 1推荐线路包车支付
 
     public static final String LAUNCH_PAYSUCCEED_J = "03_launch_paysucceed_J";   // 0接机支付成功展示
     public static final String LAUNCH_PAYSUCCEED_S = "03_launch_paysucceed_S";   // 0送机支付成功展示
-    public static final String LAUNCH_PAYSUCCEED_C = "03_launch_paysucceed_C";   // 0单次支付成功展示
     public static final String LAUNCH_PAYSUCCEED_R = "03_launch_paysucceed_R";   // 0自定义包车支付成功展示
+    public static final String LAUNCH_PAYSUCCEED_C = "03_launch_paysucceed_C";   // 0单次支付成功展示
     public static final String LAUNCH_PAYSUCCEED_RG = "03_launch_paysucceed_RG"; // 1固定线路包车支付成功展示
     public static final String LAUNCH_PAYSUCCEED_RT = "03_launch_paysucceed_RT"; // 1推荐线路包车支付成功展示
 
     public static final String LAUNCH_PAYFAILED_J = "03_launch_payfailed_J";     // 0接机支付失败展示
     public static final String LAUNCH_PAYFAILED_S = "03_launch_payfailed_S";     // 0送机支付失败展示
-    public static final String LAUNCH_PAYFAILED_C = "03_launch_payfailed_C";     // 0单次支付失败展示
     public static final String LAUNCH_PAYFAILED_R = "03_launch_payfailed_R";     // 0自定义包车支付失败展示
+    public static final String LAUNCH_PAYFAILED_C = "03_launch_payfailed_C";     // 0单次支付失败展示
     public static final String LAUNCH_PAYFAILED_RG = "03_launch_payfailed_RG";   // 1固定线路包车支付失败展示
     public static final String LAUNCH_PAYFAILED_RT = "03_launch_payfailed_RT";   // 1推荐线路包车支付失败展示
 
