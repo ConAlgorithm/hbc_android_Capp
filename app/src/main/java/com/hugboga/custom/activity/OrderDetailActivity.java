@@ -30,6 +30,7 @@ import com.hugboga.custom.data.request.RequestOrderDetail;
 import com.hugboga.custom.data.request.RequestPayNo;
 import com.hugboga.custom.data.request.RequestUncollectGuidesId;
 import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.statistic.event.EventUtil;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.PhoneInfo;
@@ -335,6 +336,11 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                 intent.putExtra(WebInfoActivity.WEB_URL, orderBean.skuDetailUrl);
                 intent.putExtra(Constants.PARAMS_ID, orderBean.goodsNo);
                 startActivity(intent);
+                if(orderBean.orderGoodsType == 1) {
+                    StatisticClickEvent.click(StatisticConstant.CLICK_RG, "订单详情页");
+                }else {
+                    StatisticClickEvent.click(StatisticConstant.CLICK_RT, "订单详情页");
+                }
                 break;
 
             case ORDER_DETAIL_UPDATE_EVALUATION://更新评价UI
