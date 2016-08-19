@@ -55,7 +55,7 @@ public class EventEvaluateShareBack extends EventBase{
     public HashMap getParamsMap() {
         HashMap<String, Object> map = new HashMap<String, Object>(2);
         map.put("source", source);
-        map.put("sharetype", "1".equals(shareType) ? "微信好友": "朋友圈");
+        map.put("sharetype", EventUtil.getShareTypeText(shareType));
         return map;
     }
 

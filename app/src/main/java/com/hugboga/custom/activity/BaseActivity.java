@@ -53,7 +53,12 @@ public class BaseActivity extends BaseFragmentActivity implements HttpRequestLis
         activity = this;
         String eventId = getEventId();
         if (!TextUtils.isEmpty(eventId)) {
-            MobClickUtils.onEvent(getEventId(), getEventMap());
+            HashMap map = (HashMap) getEventMap();
+            if (map.size() == 0) {
+                MobClickUtils.onEvent(getEventId());
+            } else {
+                MobClickUtils.onEvent(getEventId(), getEventMap());
+            }
         }
     }
 
@@ -194,7 +199,9 @@ public class BaseActivity extends BaseFragmentActivity implements HttpRequestLis
      */
     public Map getEventMap(){
         HashMap map = new HashMap();
-        map.put(Constants.PARAMS_SOURCE, getIntentSource());
+        if (!TextUtils.isEmpty(getIntentSource())) {
+            map.put(Constants.PARAMS_SOURCE, getIntentSource());
+        }
         return map;
     }
 }

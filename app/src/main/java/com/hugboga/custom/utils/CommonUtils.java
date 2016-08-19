@@ -84,42 +84,37 @@ public final class CommonUtils {
 
     public static void shareDialog(final Context context, final String picUrl
             , final String title, final String content, final String shareUrl) {
-//        final AlertDialog.Builder callDialog = new AlertDialog.Builder(context);
-//        callDialog.setTitle(context.getString(R.string.share));
-//        final String [] callItems = new String[]{context.getString(R.string.share_friend), context.getString(R.string.share_moments)};
-//        callDialog.setItems(callItems, new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                WXShareUtils.getInstance(context).share(which + 1, Tools.getBitmap(context, picUrl), title, content, shareUrl);
-//            }
-//        });
-//        AlertDialog dialog = callDialog.create();
-//        dialog.setCancelable(true);
-//        dialog.setCanceledOnTouchOutside(true);
-//        dialog.show();
+        shareDialog(context, picUrl, title, content, shareUrl, "", null);
+    }
+
+    public static void shareDialog(final Context context, final String picUrl
+            , final String title, final String content, final String shareUrl, final String source, ShareDialog.OnShareListener listener) {
         ShareDialog shareDialog = new ShareDialog(context);
-        shareDialog.setParams(new ShareDialog.Params(picUrl, title, content, shareUrl));
+        shareDialog.setParams(new ShareDialog.Params(picUrl, title, content, shareUrl, source));
+        if (listener != null) {
+            shareDialog.setOnShareListener(listener);
+        }
         shareDialog.show();
     }
 
     public static void shareDialog(final Context context, final int resID
             , final String title, final String content, final String shareUrl) {
+        shareDialog(context, resID, title, content, shareUrl, "", null);
+    }
+
+    public static void shareDialog(final Context context, final int resID
+            , final String title, final String content, final String shareUrl, final String source) {
+        shareDialog(context, resID, title, content, shareUrl, source, null);
+    }
+
+    public static void shareDialog(final Context context, final int resID
+            , final String title, final String content, final String shareUrl, final String source, ShareDialog.OnShareListener listener) {
         ShareDialog shareDialog = new ShareDialog(context);
-        shareDialog.setParams(new ShareDialog.Params(resID, title, content, shareUrl));
+        shareDialog.setParams(new ShareDialog.Params(resID, title, content, shareUrl, source));
+        if (listener != null) {
+            shareDialog.setOnShareListener(listener);
+        }
         shareDialog.show();
-//        final AlertDialog.Builder callDialog = new AlertDialog.Builder(context);
-//        callDialog.setTitle(context.getString(R.string.share));
-//        final String [] callItems = new String[]{context.getString(R.string.share_friend), context.getString(R.string.share_moments)};
-//        callDialog.setItems(callItems, new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                WXShareUtils.getInstance(context).share(which + 1, resID, title, content, shareUrl);
-//            }
-//        });
-//        AlertDialog dialog = callDialog.create();
-//        dialog.setCancelable(true);
-//        dialog.setCanceledOnTouchOutside(true);
-//        dialog.show();
     }
 
     public static void share(final Context context, final int type, final String picUrl, final String title, final String content, final String shareUrl) {

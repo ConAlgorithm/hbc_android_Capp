@@ -28,6 +28,7 @@ import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestAvailableCoupon;
 import com.hugboga.custom.data.request.RequestCoupon;
 import com.hugboga.custom.data.request.RequestCouponExchange;
+import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.utils.AnimationUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.widget.DialogUtil;
@@ -335,5 +336,8 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
         AnimationUtils.showAnimation(popView, 500, null);
     }
 
-
+    @Override
+    public String getEventId() {
+        return StatisticConstant.LAUNCH_COUPON;
+    }
 }

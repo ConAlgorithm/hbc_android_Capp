@@ -10,6 +10,7 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CollectGuideBean;
 import com.hugboga.custom.data.request.RequestCollectGuideList;
 import com.hugboga.custom.data.request.RequestCollectGuidesFilter;
+import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.widget.ZListView;
 
 import org.xutils.common.Callback;
@@ -128,5 +129,15 @@ public class CollectGuideListActivity extends BaseActivity{
             listView.onLoadComplete();
         }
         listView.onRefreshComplete();
+    }
+
+    @Override
+    public String getEventId() {
+        return StatisticConstant.LAUNCH_COLLCTGLIST;
+    }
+
+    @Override
+    public String getEventSource() {
+        return "收藏司导列表";
     }
 }

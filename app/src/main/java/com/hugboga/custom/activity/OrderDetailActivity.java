@@ -29,6 +29,8 @@ import com.hugboga.custom.data.request.RequestOrderCancel;
 import com.hugboga.custom.data.request.RequestOrderDetail;
 import com.hugboga.custom.data.request.RequestPayNo;
 import com.hugboga.custom.data.request.RequestUncollectGuidesId;
+import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.statistic.event.EventUtil;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.widget.DialogUtil;
@@ -293,6 +295,7 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                 }
                 intent = new Intent(this, GuideDetailActivity.class);
                 intent.putExtra(Constants.PARAMS_DATA, orderBean.orderGuideInfo.guideID);
+                intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                 startActivity(intent);
                 break;
             case ORDER_DETAIL_UPDATE_COLLECT://更新收藏UI
@@ -306,6 +309,7 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                 if (orderBean == null || orderBean.orderGuideInfo == null || orderBean.orderGuideInfo.isCollected()) {
                     return;
                 }
+                EventUtil.onDefaultEvent(StatisticConstant.COLLECTG, getEventSource());
                 mDialogUtil.showLoadingDialog();
                 requestData(new RequestCollectGuidesId(OrderDetailActivity.this, orderBean.orderGuideInfo.guideID));
                 break;
@@ -461,6 +465,11 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                 popup.dismiss();
             }
         });
+    }
+
+    @Override
+    public String getEventSource() {
+        return "订单详情";
     }
 
 }

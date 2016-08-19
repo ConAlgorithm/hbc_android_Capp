@@ -29,15 +29,21 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.CollectGuideBean;
 import com.hugboga.custom.data.bean.SkuItemBean;
+import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.net.WebAgent;
 import com.hugboga.custom.data.request.RequestGoodsById;
+import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.statistic.event.EventUtil;
 import com.hugboga.custom.utils.ChannelUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DBHelper;
 import com.hugboga.custom.widget.DialogUtil;
+import com.hugboga.custom.widget.ShareDialog;
 import com.umeng.analytics.MobclickAgent;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 import org.xutils.DbManager;
 import org.xutils.common.util.LogUtil;
 import org.xutils.ex.DbException;
@@ -92,6 +98,7 @@ public class DailyWebInfoActivity extends BaseActivity implements View.OnKeyList
         this.collectGuideBean = (CollectGuideBean)getIntent().getSerializableExtra("collectGuideBean");
         setContentView(R.layout.fg_sku_detail);
         ButterKnife.bind(this);
+        EventBus.getDefault().register(this);
         initView();
     }
 
@@ -219,6 +226,19 @@ public class DailyWebInfoActivity extends BaseActivity implements View.OnKeyList
     public void onDestroy() {
         super.onDestroy();
         ButterKnife.unbind(this);
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe
+    public void onEventMainThread(EventAction action) {
+        switch (action.getType()) {
+            case WECHAT_SHARE_SUCCEED:
+                WXShareUtils wxShareUtils = WXShareUtils.getInstance(this);
+                if (getClass().getSimpleName().equals(wxShareUtils.source)) {//分享成功
+                    EventUtil.onShareDefaultEvent(StatisticConstant.SHARER_BACK, "" + wxShareUtils.type);
+                }
+                break;
+        }
     }
 
     @Override
@@ -336,7 +356,16 @@ public class DailyWebInfoActivity extends BaseActivity implements View.OnKeyList
     }
 
     private void skuShare(final String shareUrl) {
-        CommonUtils.shareDialog(activity,R.drawable.wxshare_img, getString(R.string.share_title), getString(R.string.share_content), shareUrl);
+        CommonUtils.shareDialog(activity,R.drawable.wxshare_img
+                , getString(R.string.share_title), getString(R.string.share_content)
+                , shareUrl
+                , DailyWebInfoActivity.this.getClass().getSimpleName()
+                , new ShareDialog.OnShareListener() {
+                    @Override
+                    public void onShare(int type) {
+                        EventUtil.onShareDefaultEvent(StatisticConstant.SHARER, "" + type);
+                    }
+                });
     }
 
     private void uMengClickEvent(String type){

@@ -17,6 +17,7 @@ import com.hugboga.custom.R;
 public class ShareDialog extends Dialog implements View.OnClickListener{
 
     private Params mParams;
+    private OnShareListener listener;
 
     public ShareDialog(Context context) {
         this(context, R.style.ShareDialog);
@@ -54,7 +55,11 @@ public class ShareDialog extends Dialog implements View.OnClickListener{
         if (mParams == null) {
             return;
         }
+        if (listener != null) {
+            listener.onShare(type);
+        }
         WXShareUtils wxShareUtils = WXShareUtils.getInstance(getContext());
+        wxShareUtils.source = mParams.source;
         if (TextUtils.isEmpty(mParams.picUrl)) {
             wxShareUtils.share(type, mParams.resID, mParams.title, mParams.content, mParams.shareUrl);
         } else {
@@ -79,25 +84,36 @@ public class ShareDialog extends Dialog implements View.OnClickListener{
         }
     }
 
+    public interface OnShareListener {
+        public void onShare(int type);
+    }
+
+    public void setOnShareListener(OnShareListener listener) {
+        this.listener = listener;
+    }
+
     public static class Params {
         int resID;
         String picUrl;
         String title;
         String content;
         String shareUrl;
+        String source;
 
-        public Params(String picUrl, String title, String content, String shareUrl) {
+        public Params(String picUrl, String title, String content, String shareUrl, String source) {
             this.picUrl = picUrl;
             this.title = title;
             this.content = content;
             this.shareUrl = shareUrl;
+            this.source = source;
         }
 
-        public Params(int resID, String title, String content, String shareUrl) {
+        public Params(int resID, String title, String content, String shareUrl, String source) {
             this.resID = resID;
             this.title = title;
             this.content = content;
             this.shareUrl = shareUrl;
+            this.source = source;
         }
     }
 }

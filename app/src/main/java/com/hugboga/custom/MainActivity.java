@@ -70,6 +70,8 @@ import com.hugboga.custom.data.request.RequestUserInfo;
 import com.hugboga.custom.fragment.FgChat;
 import com.hugboga.custom.fragment.FgHome;
 import com.hugboga.custom.fragment.FgTravel;
+import com.hugboga.custom.statistic.MobClickUtils;
+import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.ChannelUtils;
 import com.hugboga.custom.utils.CommonUtils;
@@ -678,6 +680,7 @@ public class MainActivity extends BaseActivity
                 }
                 break;
             case Constants.PERSONAL_CENTER_HD://活动
+                    MobClickUtils.onEvent(StatisticConstant.LAUNCH_ACTLIST);
                     Intent intent = new Intent(MainActivity.this, WebInfoActivity.class);
                     intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_ACTIVITY + UserEntity.getUser().getUserId(this.getApplicationContext()) + "&t=" + new Random().nextInt(100000));
                     startActivity(intent);

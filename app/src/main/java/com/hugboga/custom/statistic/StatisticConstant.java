@@ -132,13 +132,10 @@ public class StatisticConstant {
     public static final String CLICK_SHAREFOUND = "05_click_sharefound";     // 0点击基金分享浮层
     public static final String SHAREFOUND_BACK = "05_sharefound_back";       // 0基金分享后回到应用内
 
-    public static final String SHARE_RG = "05_share_RG";         // 1固定线路包车分享
-    public static final String SHARERG = "05_shareRG";           // 1固定线路包车点击分享浮层
-    public static final String SHARERG_BACK = "05_shareRG_back"; // 1固定线路包车分享后回到应用内
-    public static final String SHARE_RT = "05_share_RT";         // 1推荐线路包车分享
-    public static final String SHARERT = "05_shareRT";           // 1推荐线路包车点击分享浮层
-    public static final String SHARERT_BACK = "05_shareRT_back"; // 1推荐线路包车分享后回到应用内
-    public static final String SHARE_R = "05_share_R";           // 0自定义包车分享
+    public static final String SHARERG = "05_shareRG";           // 0固定线路包车点击分享浮层
+    public static final String SHARERG_BACK = "05_shareRG_back"; // 0固定线路包车分享后回到应用内
+    public static final String SHARERT = "05_shareRT";           // 0推荐线路包车点击分享浮层
+    public static final String SHARERT_BACK = "05_shareRT_back"; // 0推荐线路包车分享后回到应用内
     public static final String SHARER = "05_shareR";             // 0自定义包车点击分享浮层
     public static final String SHARER_BACK = "05_shareR_back";   // 0自定义包车分享后回到应用内
 

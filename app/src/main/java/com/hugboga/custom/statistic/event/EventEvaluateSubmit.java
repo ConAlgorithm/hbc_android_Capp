@@ -60,8 +60,8 @@ public class EventEvaluateSubmit extends EventBase{
     public HashMap getParamsMap() {
         HashMap<String, Object> map = new HashMap<String, Object>(3);
         map.put("score", score + "星");
-        map.put("content", booleanTransform(content));
-        map.put("picture", booleanTransform(picture));
+        map.put("content", EventUtil.booleanTransform(content));
+        map.put("picture", EventUtil.booleanTransform(picture));
         return map;
     }
 }

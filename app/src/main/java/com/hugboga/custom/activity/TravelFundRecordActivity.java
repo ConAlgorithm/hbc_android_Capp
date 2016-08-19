@@ -12,6 +12,7 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.TravelFundData;
 import com.hugboga.custom.data.request.RequestInvitationFriendsLogs;
 import com.hugboga.custom.data.request.RequestTravelFundLogs;
+import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.widget.TravelFundRecordHeaderView;
 import com.hugboga.custom.widget.ZListView;
 
@@ -158,6 +159,15 @@ public class TravelFundRecordActivity extends BaseActivity{
             emptyLayout.setVisibility(View.VISIBLE);
         } else {
             emptyLayout.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public String getEventId() {
+        if (type == TYPE_USE_Bill) {
+            return StatisticConstant.LAUNCH_FOUNDDETAIL;
+        } else {
+            return StatisticConstant.LAUNCH_FOUNDRECORD;
         }
     }
 }

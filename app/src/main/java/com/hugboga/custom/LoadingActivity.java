@@ -31,6 +31,9 @@ import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.request.RequestADPicture;
 import com.hugboga.custom.data.request.RequestCheckVersion;
 import com.hugboga.custom.service.LogService;
+import com.hugboga.custom.statistic.MobClickUtils;
+import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.statistic.event.EventUtil;
 import com.hugboga.custom.utils.ChannelUtils;
 import com.hugboga.custom.utils.ImageUtils;
 import com.hugboga.custom.utils.JsonUtils;
@@ -130,6 +133,7 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
             @Override
 
             public void onClick(View v) {
+                MobClickUtils.onEvent(StatisticConstant.CLICK_SKIP_ACTIVITY);
                 handler.sendEmptyMessage(200);
             }
         });
@@ -305,6 +309,7 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
                 @Override
                 public void onClick(View v) {
                     if(!TextUtils.isEmpty(adPictureBean.urlAddress)) {
+                        EventUtil.onShareDefaultEvent(StatisticConstant.CLICK_ACTIVITY, "启动页推广图");
                         adClick = true;
                         handler.removeMessages(200);
                         Intent intent = new Intent(LoadingActivity.this, MainActivity.class);
