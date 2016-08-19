@@ -2,7 +2,6 @@ package com.hugboga.custom.statistic.event;
 
 import android.text.TextUtils;
 
-import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.bean.EventPayBean;
 
@@ -11,17 +10,14 @@ import java.util.HashMap;
 /**
  * Created by qingcha on 16/8/19.
  */
-public class EventPay extends EventBase{
+public class EventPayResult extends EventBase{
 
     private EventPayBean eventPayBean;
+    private boolean payResult;
 
-    public EventPay(EventPayBean eventPayBean) {
+    public EventPayResult(EventPayBean eventPayBean, boolean payResult) {
         this.eventPayBean = eventPayBean;
-    }
-
-    public EventPay(OrderBean orderBean) {
-        eventPayBean = new EventPayBean();
-        eventPayBean.transform(orderBean);
+        this.payResult = payResult;
     }
 
     @Override
@@ -33,22 +29,22 @@ public class EventPay extends EventBase{
         }
         switch (eventPayBean.orderType) {
             case 1:
-                result = StatisticConstant.PAY_J;
+                result = payResult ? StatisticConstant.LAUNCH_PAYSUCCEED_J : StatisticConstant.LAUNCH_PAYFAILED_J;
                 break;
             case 2:
-                result = StatisticConstant.PAY_S;
+                result = payResult ? StatisticConstant.LAUNCH_PAYSUCCEED_S : StatisticConstant.LAUNCH_PAYFAILED_S;
                 break;
             case 3:
-                result = StatisticConstant.PAY_R;
+                result = payResult ? StatisticConstant.LAUNCH_PAYSUCCEED_R : StatisticConstant.LAUNCH_PAYFAILED_R;
                 break;
             case 4:
-                result = StatisticConstant.PAY_C;
+                result = payResult ? StatisticConstant.LAUNCH_PAYSUCCEED_C : StatisticConstant.LAUNCH_PAYFAILED_C;
                 break;
             case 5:
-                result = StatisticConstant.PAY_RG;
+                result = payResult ? StatisticConstant.LAUNCH_PAYSUCCEED_RG : StatisticConstant.LAUNCH_PAYFAILED_RG;
                 break;
             case 6:
-                result = StatisticConstant.PAY_RT;
+                result = payResult ? StatisticConstant.LAUNCH_PAYSUCCEED_RT : StatisticConstant.LAUNCH_PAYFAILED_RT;
                 break;
         }
         return result;

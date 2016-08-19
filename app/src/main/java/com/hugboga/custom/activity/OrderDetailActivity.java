@@ -31,8 +31,10 @@ import com.hugboga.custom.data.request.RequestPayNo;
 import com.hugboga.custom.data.request.RequestUncollectGuidesId;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.statistic.bean.EventPayBean;
 import com.hugboga.custom.statistic.event.EventCancelOrder;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
+import com.hugboga.custom.statistic.event.EventPay;
 import com.hugboga.custom.statistic.event.EventUtil;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.PhoneInfo;
@@ -228,9 +230,12 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                 }
 
                 OrderPriceInfo priceInfo = orderBean.orderPriceInfo;
+                EventPayBean eventPayBean = new EventPayBean();
+                eventPayBean.transform(orderBean);
                 if (priceInfo.actualPay == 0) {
                     RequestPayNo request = new RequestPayNo(this, orderBean.orderNo, 0, Constants.PAY_STATE_ALIPAY, couponId);
                     requestData(request);
+                    MobClickUtils.onEvent(new EventPay(eventPayBean));
                 } else {
                     ChoosePaymentActivity.RequestParams requestParams = new ChoosePaymentActivity.RequestParams();
                     requestParams.orderId = orderBean.orderNo;
@@ -238,6 +243,7 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                     requestParams.payDeadTime = orderBean.payDeadTime;
                     requestParams.source = source;
                     requestParams.couponId = couponId;
+                    requestParams.eventPayBean = eventPayBean;
                     intent = new Intent(OrderDetailActivity.this, ChoosePaymentActivity.class);
                     intent.putExtra(Constants.PARAMS_DATA, requestParams);
                     startActivity(intent);

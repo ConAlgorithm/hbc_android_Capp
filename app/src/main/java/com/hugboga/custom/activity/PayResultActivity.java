@@ -93,6 +93,7 @@ public class PayResultActivity extends BaseActivity{
             rightTV.setText(getString(R.string.par_result_repay));
             promptTV.setVisibility(View.GONE);
         }
+        EventBus.getDefault().post(new EventAction(EventType.PAY_RESULT, params.payResult));
     }
 
 

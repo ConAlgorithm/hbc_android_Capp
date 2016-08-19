@@ -51,7 +51,10 @@ import com.hugboga.custom.data.request.RequestSubmitLine;
 import com.hugboga.custom.data.request.RequestSubmitPick;
 import com.hugboga.custom.data.request.RequestSubmitRent;
 import com.hugboga.custom.data.request.RequestSubmitSend;
+import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.bean.EventPayBean;
+import com.hugboga.custom.statistic.event.EventCancelOrder;
+import com.hugboga.custom.statistic.event.EventPay;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.LogUtils;
@@ -1099,9 +1102,11 @@ public class OrderNewActivity extends BaseActivity {
                 }
             }
 
+            EventPayBean eventPayBean = getChoosePaymentStatisticParams();
             if (orderInfoBean.getPriceActual() == 0) {
                 RequestPayNo pequestPayNo = new RequestPayNo(this, orderInfoBean.getOrderno(), 0, Constants.PAY_STATE_ALIPAY, couponId);
                 requestData(pequestPayNo);
+                MobClickUtils.onEvent(new EventPay(eventPayBean));
             } else {
                 ChoosePaymentActivity.RequestParams requestParams = new ChoosePaymentActivity.RequestParams();
                 requestParams.couponId = couponId;
@@ -1110,6 +1115,7 @@ public class OrderNewActivity extends BaseActivity {
                 requestParams.payDeadTime = orderInfoBean.getPayDeadTime();
                 requestParams.source = source;
                 requestParams.needShowAlert = true;
+                requestParams.eventPayBean = eventPayBean;
 
                 Intent intent = new Intent(activity,ChoosePaymentActivity.class);
                 intent.putExtra(Constants.PARAMS_DATA, requestParams);
@@ -1132,18 +1138,18 @@ public class OrderNewActivity extends BaseActivity {
 
     }
 
-    private EventPayBean setChoosePaymentStatisticParams() {
+    private EventPayBean getChoosePaymentStatisticParams() {
         EventPayBean eventPayBean = new EventPayBean();
-        eventPayBean.carType = carBean.carType+"";
-        eventPayBean.seatCategory = carBean.seatCategory+"";
+        eventPayBean.carType = carBean.carType;
+        eventPayBean.seatCategory = carBean.seatCategory;
         eventPayBean.guestcount = carBean.capOfPerson+"";
         eventPayBean.isFlightSign = orderBean.isFlightSign;
         eventPayBean.isCheckin = orderBean.isCheckin;
-        eventPayBean.guideCollectId = null != collectGuideBean?collectGuideBean.guideId+"";
-        eventPayBean.orderStatus = orderBean.orderStatus+"";
+        eventPayBean.guideCollectId = null != collectGuideBean ? collectGuideBean.guideId + "" : "";
+        eventPayBean.orderStatus = orderBean.orderStatus;
         eventPayBean.orderType = orderBean.orderType;
         eventPayBean.forother = contactUsersBean.isForOther;
-
+        eventPayBean.paysource = "下单过程中";
         return eventPayBean;
     }
 

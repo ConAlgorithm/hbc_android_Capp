@@ -25,6 +25,7 @@ public enum EventType {
     CONTACT, //通讯录选取联系人
     CONTACT_BACK, //通讯录选取联系人返回显示
     WECHAT_SHARE_SUCCEED,//微信分享成功
+    PAY_RESULT,//支付回调
 
     CHANGE_MOBILE,//修改手机号
     BIND_MOBILE,//绑定手机号

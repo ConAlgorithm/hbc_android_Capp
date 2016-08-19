@@ -27,6 +27,10 @@ import com.hugboga.custom.data.bean.WXpayBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestPayNo;
+import com.hugboga.custom.statistic.MobClickUtils;
+import com.hugboga.custom.statistic.bean.EventPayBean;
+import com.hugboga.custom.statistic.event.EventPay;
+import com.hugboga.custom.statistic.event.EventPayResult;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.wxapi.WXPay;
@@ -71,6 +75,7 @@ public class ChoosePaymentActivity extends BaseActivity {
 
     private DialogUtil mDialogUtil;
     private int wxResultCode = 0;
+    private int payType;
     public RequestParams requestParams;
 
     public static class RequestParams implements Serializable {
@@ -80,6 +85,7 @@ public class ChoosePaymentActivity extends BaseActivity {
         public String payDeadTime;
         public String source;
         public boolean needShowAlert;
+        public EventPayBean eventPayBean;
 
         public String getShouldPay() {
             return String.valueOf(shouldPay);
@@ -176,6 +182,13 @@ public class ChoosePaymentActivity extends BaseActivity {
                     EventBus.getDefault().post(new EventAction(EventType.FGTRAVEL_UPDATE));
                 }
                 wxResultCode = EventType.ORDER_DETAIL.ordinal();
+                break;
+            case PAY_RESULT:
+                if (requestParams.eventPayBean != null) {
+                    requestParams.eventPayBean.paystyle = this.payType == Constants.PAY_STATE_ALIPAY ? "支付宝" : "微信支付";
+                    MobClickUtils.onEvent(new EventPayResult(requestParams.eventPayBean, (boolean) action.getData()));
+                }
+                break;
             default:
                 break;
         }
@@ -184,6 +197,11 @@ public class ChoosePaymentActivity extends BaseActivity {
 
 
     private void sendRequest(int payType) {
+        if (requestParams.eventPayBean != null) {
+            requestParams.eventPayBean.paystyle = payType == Constants.PAY_STATE_ALIPAY ? "支付宝" : "微信支付";
+            MobClickUtils.onEvent(new EventPay(requestParams.eventPayBean));
+        }
+        this.payType = payType;
         RequestPayNo request = new RequestPayNo(this, requestParams.orderId, requestParams.shouldPay, payType, requestParams.couponId);
         requestData(request);
     }
