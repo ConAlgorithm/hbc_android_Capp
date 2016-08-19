@@ -26,6 +26,8 @@ import com.hugboga.custom.data.net.ShareUrls;
 import com.hugboga.custom.data.request.RequestCollectGuidesId;
 import com.hugboga.custom.data.request.RequestGuideDetail;
 import com.hugboga.custom.data.request.RequestUncollectGuidesId;
+import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.statistic.event.EventUtil;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
@@ -260,6 +262,7 @@ public class GuideDetailActivity extends BaseActivity implements GuideCarPhotosA
                 if (data == null) {
                     return;
                 }
+                EventUtil.onDefaultEvent(StatisticConstant.COLLECTG, getEventSource());
                 mDialogUtil.showLoadingDialog();
                 BaseRequest baseRequest = null;
                 if (data.isCollected()) {
@@ -309,5 +312,15 @@ public class GuideDetailActivity extends BaseActivity implements GuideCarPhotosA
             intent.putExtra(Constants.PARAMS_DATA, params);
             startActivity(intent);
         }
+    }
+
+    @Override
+    public String getEventSource() {
+        return "司导个人页";
+    }
+
+    @Override
+    public String getEventId() {
+        return StatisticConstant.LAUNCH_GPROFILE;
     }
 }

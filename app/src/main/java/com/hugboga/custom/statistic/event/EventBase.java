@@ -13,12 +13,4 @@ public abstract class EventBase {
         return null;
     }
 
-    public String booleanTransform(int is) {
-        return booleanTransform(is == 1);
-    }
-
-    public String booleanTransform(boolean is) {
-        return is ? "是" : "否";
-    }
-
 }

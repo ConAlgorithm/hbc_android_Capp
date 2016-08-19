@@ -161,6 +161,9 @@ public class CollectGuideAdapter extends BaseAdapter<CollectGuideBean> {
             public void onClick(View v) {
                 Intent intent = new Intent(context, GuideDetailActivity.class);
                 intent.putExtra(Constants.PARAMS_DATA, collectGuideBean.guideId);
+                if (context instanceof CollectGuideListActivity) {
+                    intent.putExtra(Constants.PARAMS_SOURCE, ((CollectGuideListActivity)context).getEventSource());
+                }
                 context.startActivity(intent);
             }
         });

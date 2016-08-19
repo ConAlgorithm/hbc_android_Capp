@@ -20,6 +20,8 @@ import com.hugboga.custom.data.bean.HomeData;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.fragment.FgHome;
+import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.statistic.event.EventUtil;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
@@ -112,6 +114,7 @@ public class HomeBottomLayout extends LinearLayout implements View.OnClickListen
                 if (activeData == null || TextUtils.isEmpty(activeData.getUrlAddress())) {
                     return;
                 }
+                EventUtil.onShareDefaultEvent(StatisticConstant.CLICK_ACTIVITY, "首页精选活动");
                 String urlAddress = activeData.getUrlAddress();
                 if (urlAddress.lastIndexOf("?") != urlAddress.length() - 1) {
                     urlAddress = urlAddress + "?";

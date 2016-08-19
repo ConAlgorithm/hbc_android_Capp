@@ -12,15 +12,24 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
+import com.huangbaoche.hbcframe.util.WXShareUtils;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.TravelFundData;
 import com.hugboga.custom.data.bean.UserEntity;
+import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.net.ShareUrls;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestGetInvitationCode;
 import com.hugboga.custom.data.request.RequestTravelFundLogs;
+import com.hugboga.custom.statistic.MobClickUtils;
+import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.statistic.event.EventUtil;
 import com.hugboga.custom.utils.CommonUtils;
+import com.hugboga.custom.widget.ShareDialog;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -51,6 +60,7 @@ public class TravelFundActivity extends BaseActivity {
         super.onCreate(arg0);
         setContentView(R.layout.fg_travel_fund);
         ButterKnife.bind(this);
+        EventBus.getDefault().register(this);
         initView();
     }
 
@@ -58,6 +68,19 @@ public class TravelFundActivity extends BaseActivity {
     public void onDestroy() {
         super.onDestroy();
         ButterKnife.unbind(this);
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe
+    public void onEventMainThread(EventAction action) {
+        switch (action.getType()) {
+            case WECHAT_SHARE_SUCCEED:
+                WXShareUtils wxShareUtils = WXShareUtils.getInstance(this);
+                if (getClass().getSimpleName().equals(wxShareUtils.source)) {//分享成功
+                    EventUtil.onShareDefaultEvent(StatisticConstant.SHAREFOUND_BACK, "" + wxShareUtils.type);
+                }
+                break;
+        }
     }
 
     private void initView() {
@@ -76,6 +99,7 @@ public class TravelFundActivity extends BaseActivity {
         fgRightBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MobClickUtils.onEvent(StatisticConstant.LAUNCH_FOUNDREGUL);
                 Intent intent = new Intent(TravelFundActivity.this, WebInfoActivity.class);
                 intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_RAVEL_FUND_RULE);
                 startActivity(intent);
@@ -137,12 +161,21 @@ public class TravelFundActivity extends BaseActivity {
                 if (TextUtils.isEmpty(invitationCode) || travelFundData == null || travelFundData.getRewardFields() == null) {
                     break;
                 }
+                MobClickUtils.onEvent(StatisticConstant.CLICK_INVITE);
                 String shareUrl = ShareUrls.getShareThirtyCouponUrl(UserEntity.getUser().getAvatar(this),
                         UserEntity.getUser().getUserName(this),
                         invitationCode);
                 CommonUtils.shareDialog(activity, R.mipmap.share_coupon
                         , getString(R.string.invite_friends_share_title, travelFundData.getRewardFields().getCouponAmount())
-                        , getString(R.string.invite_friends_share_content), shareUrl);
+                        , getString(R.string.invite_friends_share_content)
+                        , shareUrl
+                        , getClass().getSimpleName()
+                        , new ShareDialog.OnShareListener() {
+                            @Override
+                            public void onShare(int type) {
+                                EventUtil.onShareDefaultEvent(StatisticConstant.CLICK_SHAREFOUND, "" + type);
+                            }
+                        });
                 break;
             default:
                 break;
@@ -166,5 +199,10 @@ public class TravelFundActivity extends BaseActivity {
         SpannableString spannableString = new SpannableString(activityPriceString);
         spannableString.setSpan(new RelativeSizeSpan(0.3f), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         activityPriceTV.setText(spannableString);
+    }
+
+    @Override
+    public String getEventId() {
+        return StatisticConstant.LAUNCH_TRAVELFOUND;
     }
 }
