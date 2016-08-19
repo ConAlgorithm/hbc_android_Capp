@@ -41,6 +41,7 @@ import com.umeng.analytics.MobclickAgent;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -721,12 +722,28 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
                         goNext();
                     }
                 } else {
-                    startActivity(new Intent(activity, LoginActivity.class));
+                    intent = new Intent(activity, LoginActivity.class);
+                    intent.putExtra("source",getEventSource());
+                    startActivity(intent);
                 }
                 break;
         }
     }
 
+    @Override
+    public String getEventId() {
+        return super.getEventId();
+    }
+
+    @Override
+    public String getEventSource() {
+        return "包车订单";
+    }
+
+    @Override
+    public Map getEventMap() {
+        return super.getEventMap();
+    }
 
     private void goNext() {
 //        FGOrderNew fgOrderNew = new FGOrderNew();

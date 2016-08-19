@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
@@ -20,8 +19,8 @@ import com.huangbaoche.hbcframe.data.parser.ServerParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.huangbaoche.hbcframe.util.WXShareUtils;
-import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.BaseActivity;
 import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.activity.OrderSelectCityActivity;
 import com.hugboga.custom.activity.SkuDetailActivity;
@@ -180,7 +179,9 @@ public class WebAgent implements HttpRequestListener {
         mActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                mActivity.startActivity(new Intent(mActivity, LoginActivity.class));
+                Intent intent = new Intent(mActivity, LoginActivity.class);
+                intent.putExtra("source",((BaseActivity)mActivity).getEventSource());
+                mActivity.startActivity(intent);
             }
         });
     }
@@ -288,7 +289,9 @@ public class WebAgent implements HttpRequestListener {
     public void pushToServiceChatVC() {
         if (mActivity != null && !UserEntity.getUser().isLogin(mActivity)) {
             CommonUtils.showToast(R.string.login_hint);
-            mActivity.startActivity(new Intent(mActivity, LoginActivity.class));
+            Intent intent= new Intent(mActivity, LoginActivity.class);
+            intent.putExtra("source","商品详情咨询客服");
+            mActivity.startActivity(intent);
             return;
         }
         mActivity.runOnUiThread(new Runnable() {

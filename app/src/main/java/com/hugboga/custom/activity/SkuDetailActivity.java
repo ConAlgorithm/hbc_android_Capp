@@ -49,7 +49,6 @@ import org.xutils.view.annotation.ContentView;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.HashMap;
-import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLHandshakeException;
@@ -130,7 +129,10 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
         }
     }
 
-
+    @Override
+    public String getEventSource() {
+        return "商品详情咨询客服";
+    }
 
     private void getSkuItemBean(boolean isShowLoading) {
         if (skuItemBean == null && !TextUtils.isEmpty(goodsNo)) {
@@ -245,7 +247,6 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
         callDialog.setItems(callItems, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                uMengClickEvent("share_route");
                 WXShareUtils.getInstance(activity).share(which + 1, skuItemBean.goodsPicture, title, content, shareUrl);
             }
         });
@@ -258,7 +259,6 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
     @Override
     public void onResume() {
         super.onResume();
-        uMengClickEvent("launch_route");
     }
 
 
@@ -375,22 +375,6 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
 
     };
 
-
-    private void uMengClickEvent(String type) {
-        Map<String, String> map_value = new HashMap<String, String>();
-        map_value.put("routecity", source);
-        int countResult = 0;
-        if (skuItemBean != null) {
-            map_value.put("routename", skuItemBean.goodsName);
-//          map_value.put("quoteprice" , skuItemBean.goodsMinPrice);
-            try {
-                countResult = Integer.parseInt(skuItemBean.goodsMinPrice);
-            } catch (Exception e) {
-                LogUtil.e(e.toString());
-            }
-        }
-        MobclickAgent.onEventValue(activity, type, map_value, countResult);
-    }
 
     @Override
     public void onPause() {

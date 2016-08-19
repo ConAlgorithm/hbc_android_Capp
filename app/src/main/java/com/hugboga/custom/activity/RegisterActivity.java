@@ -31,6 +31,7 @@ import com.hugboga.custom.data.request.RequestLogin;
 import com.hugboga.custom.data.request.RequestRegister;
 import com.hugboga.custom.data.request.RequestVerity;
 import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.widget.DialogUtil;
 import com.umeng.analytics.MobclickAgent;
@@ -163,6 +164,7 @@ public class RegisterActivity extends BaseActivity implements TextWatcher {
             RequestRegister register = (RequestRegister) request;
             UserBean userBean = register.getData();
             if (userBean != null) {
+                StatisticClickEvent.click(StatisticConstant.REGIST_SUCCEED,getEventSource());
                 //注册成功，进行登录操作
                 //登录成功
                 UserEntity.getUser().setUserId(this, userBean.userID);
@@ -325,9 +327,7 @@ public class RegisterActivity extends BaseActivity implements TextWatcher {
                 RequestRegister requestRegister = new RequestRegister(this, areaCode, phone, password, verity, null, channelInt);
                 requestData(requestRegister);
 
-                HashMap<String,String> map = new HashMap<String,String>();
-                map.put("source",source);
-                MobclickAgent.onEvent(this, "regist", map);
+                StatisticClickEvent.click(StatisticConstant.CLICK_VERIFTXT,getEventSource());
 
                 break;
             case R.id.register_login:
@@ -368,6 +368,7 @@ public class RegisterActivity extends BaseActivity implements TextWatcher {
                 }
                 RequestVerity requestVerity = new RequestVerity(this, areaCode, phone, 1);
                 requestData(requestVerity);
+                StatisticClickEvent.click(StatisticConstant.CLICK_VERIFTXT,"点击获取短信验证码");
                 break;
             case R.id.register_protocol:
 //                FgWebInfo fgWebInfo = new FgWebInfo();

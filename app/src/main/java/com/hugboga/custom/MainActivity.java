@@ -99,6 +99,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -666,13 +667,13 @@ public class MainActivity extends BaseActivity
         HashMap<String, String> map = new HashMap<String, String>();
         switch (position) {
             case Constants.PERSONAL_CENTER_BR://常用投保人
-                if (isLogin()) {
+                if (isLogin("个人中心-常用投保人")) {
                     Intent intent = new Intent(activity, InsureActivity.class);
                     startActivity(intent);
                 }
                 break;
             case Constants.PERSONAL_CENTER_COLLECT://收藏司导
-                if (isLogin()) {
+                if (isLogin("个人中心-收藏司导")) {
                     startActivity(new Intent(MainActivity.this, CollectGuideListActivity.class));
                 }
                 break;
@@ -692,7 +693,7 @@ public class MainActivity extends BaseActivity
                 PhoneInfo.CallDial(MainActivity.this, Constants.CALL_NUMBER_OUT);
                 break;
             case Constants.PERSONAL_CENTER_SETTING://设置
-                if (isLogin()) {
+                if (isLogin("个人中心-设置")) {
                     intent = new Intent(activity,SettingActivity.class);
                     startActivity(intent);
                 }
@@ -723,15 +724,31 @@ public class MainActivity extends BaseActivity
         }
     }
 
+    @Override
+    public String getEventId() {
+        return super.getEventId();
+    }
+
+    @Override
+    public String getEventSource() {
+        return "个人中心首页";
+    }
+
+    @Override
+    public Map getEventMap() {
+        return super.getEventMap();
+    }
 
     /**
      * 判断是否登录
      */
-    private boolean isLogin() {
+    private boolean isLogin(String source) {
         if (UserEntity.getUser().isLogin(this)) {
             return true;
         } else {
-            startActivity(new Intent(this, LoginActivity.class));
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.putExtra("source",source);
+            startActivity(intent);
             return false;
         }
     }
@@ -743,20 +760,20 @@ public class MainActivity extends BaseActivity
             case R.id.head_view:
             case R.id.my_icon_head:
             case R.id.tv_nickname:
-                if (isLogin()) {
+                if (isLogin("个人中心首页")) {
                     intent = new Intent(this, PersonInfoActivity.class);
                     startActivity(intent);
                 }
                 break;
             case R.id.slidemenu_header_coupon_layout://我的优惠券
-                if (isLogin()) {
+                if (isLogin("个人中心-优惠券")) {
                     intent = new Intent(activity, CouponActivity.class);
                     startActivity(intent);
                     UserEntity.getUser().setHasNewCoupon(false);
                 }
                 break;
             case R.id.slidemenu_header_travelfund_layout://旅游基金
-                if (isLogin()) {
+                if (isLogin("个人中心-旅游基金")) {
                     SharedPre sharedPre= new SharedPre(this);
                     if (sharedPre.isShowTravelFundHint()) {
                         sharedPre.setTravelFundHintIsShow(false);
