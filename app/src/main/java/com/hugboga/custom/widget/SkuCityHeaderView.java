@@ -97,7 +97,7 @@ public class SkuCityHeaderView extends LinearLayout implements HbcViewBehavior, 
             case R.id.skulist_header_cityname_layout://搜索
                 Intent intent = new Intent(this.getContext(), ChooseCityNewActivity.class);
                 intent.putExtra("com.hugboga.custom.home.flush", Constants.BUSINESS_TYPE_HOME);
-                intent.putExtra("source","小搜索按钮");
+                intent.putExtra("source","城市切换");
                 this.getContext().startActivity(intent);
                 ((Activity)(this.getContext())).overridePendingTransition(R.anim.push_bottom_in,0);
                 break;

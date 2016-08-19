@@ -26,6 +26,8 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.SearchGroupBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.net.UrlLibs;
+import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.utils.CityUtils;
 import com.hugboga.custom.utils.LogUtils;
 import com.hugboga.custom.utils.UIUtils;
@@ -84,6 +86,13 @@ public class ChooseCityNewActivity extends BaseActivity {
         headTextRight.setVisibility(GONE);
         initPop();
     }
+
+    @Override
+    public String getEventId() {
+        return StatisticConstant.SEARCH_LAUNCH;
+    }
+
+
 
     SearchNewAdapter searchNewAdapter;
 //    PopupWindow popupWindow = null;
@@ -437,6 +446,8 @@ public class ChooseCityNewActivity extends BaseActivity {
         Intent intent = new Intent(this, SkuListActivity.class);
         intent.putExtra(Constants.PARAMS_DATA, params);
         startActivity(intent);
+
+        StatisticClickEvent.click(StatisticConstant.SEARCH,getIntentSource());
     }
 
 

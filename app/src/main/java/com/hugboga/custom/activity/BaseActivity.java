@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.util.ArrayMap;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -58,7 +57,7 @@ public class BaseActivity extends BaseFragmentActivity implements HttpRequestLis
     }
 
     //获取上个界面的来源
-    private String getIntentSource(){
+    public String getIntentSource(){
         Intent intent = this.getIntent();
         String source = null;
         if(null != intent){
