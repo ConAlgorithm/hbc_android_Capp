@@ -74,6 +74,7 @@ import butterknife.OnClick;
 import cn.qqtheme.framework.picker.TimePicker;
 
 import static android.R.attr.id;
+import static android.R.attr.order;
 import static android.view.View.GONE;
 import static com.hugboga.custom.R.id.man_name;
 import static com.hugboga.custom.R.id.up_address_right;
@@ -1133,15 +1134,15 @@ public class OrderNewActivity extends BaseActivity {
 
     private EventPayBean setChoosePaymentStatisticParams() {
         EventPayBean eventPayBean = new EventPayBean();
-//        eventPayBean.carType =
-//        eventPayBean.seatCategory =
-//        eventPayBean.guestcount =
-//        eventPayBean.isFlightSign =
-//        eventPayBean.isCheckin =
-//        eventPayBean.guideCollectId =
-//        eventPayBean.orderStatus =
-//        eventPayBean.orderType =
-//        eventPayBean.forother =
+        eventPayBean.carType = carBean.carType+"";
+        eventPayBean.seatCategory = carBean.seatCategory+"";
+        eventPayBean.guestcount = carBean.capOfPerson+"";
+        eventPayBean.isFlightSign = orderBean.isFlightSign;
+        eventPayBean.isCheckin = orderBean.isCheckin;
+        eventPayBean.guideCollectId = null != collectGuideBean?collectGuideBean.guideId+"";
+        eventPayBean.orderStatus = orderBean.orderStatus+"";
+        eventPayBean.orderType = orderBean.orderType;
+        eventPayBean.forother = contactUsersBean.isForOther;
 
         return eventPayBean;
     }
