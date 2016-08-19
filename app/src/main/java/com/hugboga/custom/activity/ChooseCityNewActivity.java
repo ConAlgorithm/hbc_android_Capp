@@ -26,14 +26,18 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.SearchGroupBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.net.UrlLibs;
-import com.hugboga.custom.fragment.BaseFragment;
+import com.hugboga.custom.statistic.MobClickUtils;
+import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.utils.CityUtils;
 import com.hugboga.custom.utils.LogUtils;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.FlowLayout;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -85,6 +89,13 @@ public class ChooseCityNewActivity extends BaseActivity {
         headTextRight.setVisibility(GONE);
         initPop();
     }
+
+    @Override
+    public String getEventId() {
+        return StatisticConstant.SEARCH_LAUNCH;
+    }
+
+
 
     SearchNewAdapter searchNewAdapter;
 //    PopupWindow popupWindow = null;
@@ -159,6 +170,7 @@ public class ChooseCityNewActivity extends BaseActivity {
             case R.id.header_left_btn:
                 expandableListView.setVisibility(GONE);
                 finish();
+                StatisticClickEvent.click(StatisticConstant.SEARCH_CLOSE,getIntentSource());
                 if(!isHomeIn) {
                     overridePendingTransition(R.anim.push_buttom_out, 0);
                 }
@@ -438,7 +450,13 @@ public class ChooseCityNewActivity extends BaseActivity {
 
         Intent intent = new Intent(this, SkuListActivity.class);
         intent.putExtra(Constants.PARAMS_DATA, params);
+        intent.putExtra("source","搜索");
         startActivity(intent);
+
+        Map map = new HashMap();
+        map.put("source",getIntentSource());
+        map.put("searchinput","输入内容后联想");
+        MobClickUtils.onEvent(StatisticConstant.SEARCH,map);
     }
 
 

@@ -28,6 +28,8 @@ import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestCitySkuList;
 import com.hugboga.custom.data.request.RequestCountrySkuList;
 import com.hugboga.custom.data.request.RequestRouteSkuList;
+import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.utils.DBHelper;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.SkuCityFooterView;
@@ -99,6 +101,11 @@ public class SkuListActivity extends BaseActivity implements HbcRecyclerBaseAdap
         initDefaultTitleBar();
         ButterKnife.bind(this);
         initView();
+    }
+
+    @Override
+    public String getEventId() {
+        return StatisticConstant.LAUNCH_CITY;
     }
 
     @Override
@@ -277,6 +284,11 @@ public class SkuListActivity extends BaseActivity implements HbcRecyclerBaseAdap
                 intent.putExtra(WebInfoActivity.WEB_URL, skuDetailUrl);
                 intent.putExtra(SkuDetailActivity.WEB_SKU, skuItemBean);
                 startActivity(intent);
+                if(skuItemBean.goodsClass == 1) {
+                    StatisticClickEvent.click(StatisticConstant.CLICK_RG, "城市页");
+                }else {
+                    StatisticClickEvent.click(StatisticConstant.CLICK_RT, "城市页");
+                }
             }
         }
     }

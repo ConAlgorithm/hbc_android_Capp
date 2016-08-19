@@ -16,6 +16,8 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.HomeData;
 import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.fragment.FgHome;
+import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
 
@@ -178,6 +180,7 @@ public class HomeRouteItemView extends RelativeLayout implements HbcViewBehavior
                 params.skuType = SkuListActivity.SkuType.CITY;
                 Intent intent = new Intent(getContext(), SkuListActivity.class);
                 intent.putExtra(Constants.PARAMS_DATA, params);
+                intent.putExtra("source","首页");
                 getContext().startActivity(intent);
                 break;
         }
@@ -199,5 +202,11 @@ public class HomeRouteItemView extends RelativeLayout implements HbcViewBehavior
         intent.putExtra(WebInfoActivity.CONTACT_SERVICE, true);
         intent.putExtra(SkuDetailActivity.WEB_SKU, skuItemBean);
         getContext().startActivity(intent);
+
+        if(skuItemBean.goodsClass == 1) {
+            StatisticClickEvent.click(StatisticConstant.CLICK_RG, "首页");
+        }else {
+            StatisticClickEvent.click(StatisticConstant.CLICK_RT, "首页");
+        }
     }
 }
