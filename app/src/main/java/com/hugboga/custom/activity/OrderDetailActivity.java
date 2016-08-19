@@ -29,7 +29,10 @@ import com.hugboga.custom.data.request.RequestOrderCancel;
 import com.hugboga.custom.data.request.RequestOrderDetail;
 import com.hugboga.custom.data.request.RequestPayNo;
 import com.hugboga.custom.data.request.RequestUncollectGuidesId;
+import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.statistic.event.EventCancelOrder;
+import com.hugboga.custom.statistic.event.EventEvaluateSubmit;
 import com.hugboga.custom.statistic.event.EventUtil;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.PhoneInfo;
@@ -439,6 +442,7 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                     mDialogUtil.showCustomDialog(getString(R.string.app_name), tip, "确定", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            MobClickUtils.onEvent(new EventCancelOrder(orderBean));
                             if (orderBean.orderStatus == OrderStatus.INITSTATE) {
                                 cancelOrder(orderBean.orderNo, 0);
                             } else {

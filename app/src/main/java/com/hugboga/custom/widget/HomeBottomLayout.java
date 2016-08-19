@@ -16,6 +16,7 @@ import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.activity.PickSendActivity;
 import com.hugboga.custom.activity.SingleNewActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.HomeData;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.net.UrlLibs;
@@ -160,6 +161,7 @@ public class HomeBottomLayout extends LinearLayout implements View.OnClickListen
             params += "?userId=" + userId;
         }
         Intent intent = new Intent(this.getContext(), DailyWebInfoActivity.class);
+        intent.putExtra(Constants.PARAMS_SOURCE, "首页");
         intent.putExtras(bundle);
         intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_DAIRY + params);
         this.getContext().startActivity(intent);

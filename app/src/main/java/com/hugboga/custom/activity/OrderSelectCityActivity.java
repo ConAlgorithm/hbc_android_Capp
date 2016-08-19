@@ -46,6 +46,7 @@ import com.hugboga.custom.data.request.RequestCollectGuidesFilter;
 import com.hugboga.custom.data.request.RequestGetCarInfo;
 import com.hugboga.custom.data.request.RequestGuideConflict;
 import com.hugboga.custom.fragment.BaseFragment;
+import com.hugboga.custom.statistic.event.EventUtil;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.CityUtils;
 import com.hugboga.custom.utils.CommonUtils;
@@ -296,7 +297,11 @@ public class OrderSelectCityActivity extends BaseActivity  {
             }
         });
 
-
+        EventUtil eventUtil = EventUtil.getInstance();
+        eventUtil.source = getIntentSource();
+        if (!eventUtil.source.equals(DailyWebInfoActivity.EVENT_SOURCE)) {
+            eventUtil.sourceDetail = "";
+        }
     }
 
     private void showSaveDialog() {

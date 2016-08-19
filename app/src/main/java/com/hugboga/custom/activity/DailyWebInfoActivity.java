@@ -26,6 +26,7 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.huangbaoche.hbcframe.util.WXShareUtils;
 import com.hugboga.custom.R;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.CollectGuideBean;
 import com.hugboga.custom.data.bean.SkuItemBean;
@@ -65,6 +66,8 @@ import static com.hugboga.custom.activity.WebInfoActivity.WEB_URL;
 
 public class DailyWebInfoActivity extends BaseActivity implements View.OnKeyListener {
 
+    public static final String EVENT_SOURCE = "包车详情咨询客服";
+
     public static final String WEB_SKU = "web_sku";
     public static final String WEB_CITY = "web_city";
     @Bind(R.id.header_left_btn)
@@ -100,11 +103,14 @@ public class DailyWebInfoActivity extends BaseActivity implements View.OnKeyList
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
         initView();
+
+        EventUtil eventUtil = EventUtil.getInstance();
+        eventUtil.sourceDetail = getIntentSource();
     }
 
     @Override
     public String getEventSource() {
-        return "包车详情咨询客服";
+        return EVENT_SOURCE;
     }
 
     WebChromeClient webChromeClient = new WebChromeClient() {
@@ -349,6 +355,7 @@ public class DailyWebInfoActivity extends BaseActivity implements View.OnKeyList
 //                startFragment(new FgSkuNew(), bundle);
 
                 Intent intent = new Intent(activity,OrderSelectCityActivity.class);
+                intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                 intent.putExtras(bundle);
                 startActivity(intent);
                 break;

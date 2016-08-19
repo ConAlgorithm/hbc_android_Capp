@@ -229,4 +229,26 @@ public class OrderBean implements IBaseBean{
         return resultStr;
     }
 
+    /**
+     * 车辆类型
+     * */
+    public String getCarType() {
+        String resultStr = "";
+        switch (carType) {
+            case 1:
+                resultStr = "经济型";
+                break;
+            case 2:
+                resultStr = "舒适型";
+                break;
+            case 3:
+                resultStr = "豪华型";
+                break;
+            case 4:
+                resultStr = "奢华型";
+                break;
+        }
+        return resultStr;
+    }
+
 }

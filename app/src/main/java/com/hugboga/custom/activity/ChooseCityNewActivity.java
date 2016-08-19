@@ -26,6 +26,7 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.SearchGroupBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.net.UrlLibs;
+import com.hugboga.custom.fragment.BaseFragment;
 import com.hugboga.custom.utils.CityUtils;
 import com.hugboga.custom.utils.LogUtils;
 import com.hugboga.custom.utils.UIUtils;
@@ -267,6 +268,7 @@ public class ChooseCityNewActivity extends BaseActivity {
                         params += "?userId=" + userId;
                     }
                     Intent intent = new Intent(activity, DailyWebInfoActivity.class);
+                    intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                     intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_DAIRY +params);
                     startActivity(intent);
 
@@ -471,6 +473,11 @@ public class ChooseCityNewActivity extends BaseActivity {
     public void onDestroy() {
         super.onDestroy();
         ButterKnife.unbind(this);
+    }
+
+    @Override
+    public String getEventSource() {
+        return "搜索";
     }
 
 }

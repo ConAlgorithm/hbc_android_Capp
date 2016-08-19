@@ -21,10 +21,12 @@ import com.huangbaoche.hbcframe.util.MLog;
 import com.huangbaoche.hbcframe.util.WXShareUtils;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.BaseActivity;
+import com.hugboga.custom.activity.DailyWebInfoActivity;
 import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.activity.OrderSelectCityActivity;
 import com.hugboga.custom.activity.SkuDetailActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.ChatInfo;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.CurrentServerInfoData;
@@ -236,6 +238,7 @@ public class WebAgent implements HttpRequestListener {
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("cityBean", cityBean);
                     Intent intent = new Intent(mActivity,OrderSelectCityActivity.class);
+                    intent.putExtra(Constants.PARAMS_SOURCE, DailyWebInfoActivity.EVENT_SOURCE);
                     intent.putExtras(bundle);
                     mActivity.startActivity(intent);
 //                    mFragment.startFragment(fgOrderSelectCity,bundle);
@@ -328,6 +331,7 @@ public class WebAgent implements HttpRequestListener {
             @Override
             public void run() {
                 Intent intent = new Intent(mActivity,OrderSelectCityActivity.class);
+                intent.putExtra(Constants.PARAMS_SOURCE, DailyWebInfoActivity.EVENT_SOURCE);
                 mActivity.startActivity(intent);
 //                    mFragment.startFragment(new FgOrderSelectCity());
             }
@@ -343,6 +347,7 @@ public class WebAgent implements HttpRequestListener {
             @Override
             public void run() {
                 Intent intent = new Intent(mActivity,OrderSelectCityActivity.class);
+                intent.putExtra(Constants.PARAMS_SOURCE, DailyWebInfoActivity.EVENT_SOURCE);
                 mActivity.startActivity(intent);
 //                    mFragment.startFragment(new FgOrderSelectCity());
             }
