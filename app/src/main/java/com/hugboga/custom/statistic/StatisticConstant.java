@@ -83,8 +83,8 @@ public class StatisticConstant {
     // MARK: 04_取消订单 heke begin
     public static final String CANCELORDER_J = "04_cancelorder_J";           // 0接机取消订单
     public static final String CANCELORDER_S = "04_cancelorder_S";           // 0送机取消订单
-    public static final String CANCELORDER_C = "04_cancelorder_C";           // 0单次取消订单
     public static final String CANCELORDER_R = "04_cancelorder_R";           // 0自定义包车取消订单
+    public static final String CANCELORDER_C = "04_cancelorder_C";           // 0单次取消订单
     public static final String CANCELORDER_RG = "04_cancelorder_RG";         // 1固定线路包车取消订单
     public static final String CANCELORDER_RT = "04_cancelorder_RT";         // 1推荐线路包车取消订单
 

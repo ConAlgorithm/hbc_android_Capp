@@ -240,18 +240,21 @@ public class GuideDetailActivity extends BaseActivity implements GuideCarPhotosA
             case R.id.guide_detail_plane_layout:
                 intent = new Intent(this, PickSendActivity.class);
                 intent.putExtra("collectGuideBean", beanConversion());
+                intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                 startActivity(intent);
                 finish();
                 break;
             case R.id.guide_detail_car_layout:
                 intent = new Intent(this, OrderSelectCityActivity.class);
                 intent.putExtra("collectGuideBean", beanConversion());
+                intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                 startActivity(intent);
                 finish();
                 break;
             case R.id.guide_detail_single_layout:
                 intent = new Intent(this, SingleNewActivity.class);
                 intent.putExtra("collectGuideBean", beanConversion());
+                intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                 startActivity(intent);
                 finish();
                 break;

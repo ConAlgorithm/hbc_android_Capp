@@ -46,6 +46,8 @@ public class BaseActivity extends BaseFragmentActivity implements HttpRequestLis
     protected TextView fgRightBtn; //右按钮
     protected View fgLeftBtn;//左按钮
 
+    private String intentSource;
+
     @Override
     public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
@@ -63,12 +65,13 @@ public class BaseActivity extends BaseFragmentActivity implements HttpRequestLis
 
     //获取上个界面的来源
     public String getIntentSource(){
-        Intent intent = this.getIntent();
-        String source = null;
-        if(null != intent){
-            source= intent.getStringExtra(Constants.PARAMS_SOURCE);
+        if (TextUtils.isEmpty(intentSource)) {
+            Intent intent = this.getIntent();
+            if (null != intent) {
+                intentSource = intent.getStringExtra(Constants.PARAMS_SOURCE);
+            }
         }
-        return source;
+        return intentSource;
     }
 
     protected void initDefaultTitleBar() {

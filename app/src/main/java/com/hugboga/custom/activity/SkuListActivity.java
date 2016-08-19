@@ -256,6 +256,7 @@ public class SkuListActivity extends BaseActivity implements HbcRecyclerBaseAdap
                         }
                     }
                     Intent intent = new Intent(SkuListActivity.this, DailyWebInfoActivity.class);
+                    intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                     intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_DAIRY+params);
                     intent.putExtra("cityBean", cityBean);
                     intent.putExtra("source", cityBean.name);
@@ -380,5 +381,10 @@ public class SkuListActivity extends BaseActivity implements HbcRecyclerBaseAdap
             }
         }
         return cityBean;
+    }
+
+    @Override
+    public String getEventSource() {
+        return "城市列表";
     }
 }
