@@ -30,6 +30,8 @@ import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestChangeUserInfo;
 import com.hugboga.custom.data.request.RequestUpLoadFile;
 import com.hugboga.custom.data.request.RequestUserInfo;
+import com.hugboga.custom.statistic.MobClickUtils;
+import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.FileUtil;
 import com.hugboga.custom.utils.ImageUtils;
@@ -254,6 +256,7 @@ public class PersonInfoActivity extends BaseActivity{
                     intent = new Intent(PersonInfoActivity.this, BindMobileActivity.class);
                     intent.putExtras(bundle);
                     startActivity(intent);
+                    MobClickUtils.onEvent(StatisticConstant.BIND_TRIGGER);
                 }
                 break;
             case R.id.my_info_menu_realname_layout://真实姓名
