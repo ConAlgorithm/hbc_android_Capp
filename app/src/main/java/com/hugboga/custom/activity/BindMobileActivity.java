@@ -21,6 +21,8 @@ import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestBindMobile;
 import com.hugboga.custom.data.request.RequestChangeMobile;
 import com.hugboga.custom.data.request.RequestVerity;
+import com.hugboga.custom.statistic.MobClickUtils;
+import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.IMUtil;
 import com.umeng.analytics.MobclickAgent;
@@ -65,6 +67,16 @@ public class BindMobileActivity extends BaseActivity{
         EventBus.getDefault().register(this);
         requestData();
         initView();
+    }
+
+    @Override
+    public String getEventSource() {
+        return "";
+    }
+
+    @Override
+    public String getEventId() {
+        return StatisticConstant.BIND_LAUNCH;
     }
 
     private void initView() {
@@ -247,9 +259,7 @@ public class BindMobileActivity extends BaseActivity{
             intent.putExtras(bundle);
             BindMobileActivity.this.startActivityForResult(intent, REQUEST_CODE);
 
-            HashMap<String,String> map = new HashMap<String,String>();
-            map.put("source", source);
-            MobclickAgent.onEvent(this, "bind_succeed", map);
+            MobClickUtils.onEvent(StatisticConstant.BIND_SUCCEED);
         }
     }
 
@@ -321,9 +331,7 @@ public class BindMobileActivity extends BaseActivity{
                     RequestBindMobile request = new RequestBindMobile(this,areaCode,mobile,verity,unionid,"0");
                     requestData(request);
                 }
-                HashMap<String,String> map = new HashMap<String,String>();
-                map.put("source", source);
-                MobclickAgent.onEvent(this, "bind", map);
+                MobClickUtils.onEvent(StatisticConstant.BIND);
                 break;
             case R.id.bind_mobile_areacode:
                 //选择区号

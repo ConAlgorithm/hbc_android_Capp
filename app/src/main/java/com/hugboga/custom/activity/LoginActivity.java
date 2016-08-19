@@ -29,7 +29,9 @@ import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestLogin;
 import com.hugboga.custom.data.request.RequestLoginCheckOpenId;
+import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.utils.ApiFeedbackUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.IMUtil;
@@ -222,15 +224,14 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
             connectIM();
             EventBus.getDefault().post(new EventAction(EventType.CLICK_USER_LOGIN));
             HashMap<String, String> map = new HashMap<String, String>();
-            map.put("source", source);
+            map.put("source", "手机登录成功");
             map.put("loginstyle", "手机号");
             map.put("head", !TextUtils.isEmpty(user.avatar) ? "是" : "否");
             map.put("nickname", !TextUtils.isEmpty(user.nickname) ? "是" : "否");
             map.put("phone", !TextUtils.isEmpty(user.mobile) ? "是" : "否");
 
-            MobclickAgent.onEvent(activity, "login_succeed", map);
+            MobClickUtils.onEvent(StatisticConstant.LOGIN_SUCCEED,map);
 //            finishForResult(new Bundle());
-
             CommonUtils.showToast("登录成功");
             finish();
 
@@ -245,24 +246,17 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
                 Intent intent = new Intent(LoginActivity.this, BindMobileActivity.class);
                 intent.putExtras(bundle);
                 startActivity(intent);
-                HashMap<String, String> map = new HashMap<String, String>();
-                map.put("source", "提示弹层");
-                MobclickAgent.onEvent(activity, "bind_trigger", map);
+
+                MobClickUtils.onEvent(StatisticConstant.WEIXINBIND_LAUNCH);
             } else {//注册了，有用户信息
                 userBean.setUserEntity(activity);
                 UserSession.getUser().setUserToken(activity, userBean.userToken);
                 connectIM();
-                EventBus.getDefault().post(
-                        new EventAction(EventType.CLICK_USER_LOGIN));
+                EventBus.getDefault().post(new EventAction(EventType.CLICK_USER_LOGIN));
 
                 HashMap<String, String> map = new HashMap<String, String>();
-                map.put("source", source);
-                map.put("loginstyle", "微信");
-                map.put("head", !TextUtils.isEmpty(userBean.avatar) ? "是" : "否");
-                map.put("nickname", !TextUtils.isEmpty(userBean.nickname) ? "是" : "否");
-                map.put("phone", !TextUtils.isEmpty(userBean.mobile) ? "是" : "否");
-                MobclickAgent.onEvent(activity, "login_succeed", map);
-//                finishForResult(new Bundle());
+                map.put("bind", !TextUtils.isEmpty(userBean.mobile) ? "是" : "否");
+                MobClickUtils.onEvent(StatisticConstant.WEIXINREGISTER_SUCCEED,map);
                 CommonUtils.showToast("登录成功");
                 finish();
             }
@@ -294,15 +288,15 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
         HashMap<String, String> map = new HashMap<String, String>();
         switch (view.getId()) {
             case R.id.header_left_btn:
-                map.put("source", source);
-                MobclickAgent.onEvent(activity, "login_close", map);
+                StatisticClickEvent.click(StatisticConstant.LOGIN_CLOSE,"放弃登录");
                 finish();
                 break;
             case R.id.login_weixin:
                 if (!WXShareUtils.getInstance(activity).isInstall(false)) {
                     CommonUtils.showToast("手机未安装微信或版本太低");
                     return;
-                }
+               }
+                StatisticClickEvent.click(StatisticConstant.LOGIN_WEIXIN,"点击微信登录");
                 wxapi = WXAPIFactory.createWXAPI(this.activity, Constants.WX_APP_ID);
                 wxapi.registerApp(Constants.WX_APP_ID);
                 SendAuth.Req req = new SendAuth.Req();
@@ -355,6 +349,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
                 intent = new Intent(LoginActivity.this, ForgetPasswdActivity.class);
                 intent.putExtras(bundle1);
                 startActivity(intent);
+                MobClickUtils.onEvent(StatisticConstant.FIND_PASSWORD);
                 break;
             case R.id.iv_pwd_visible:
                 if (passwordEditText != null) {
@@ -403,9 +398,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
         RequestLogin request = new RequestLogin(activity, areaCode, phone, password);
         requestData(request);
 
-        HashMap<String, String> map = new HashMap<String, String>();
-        map.put("source", source);
-        MobclickAgent.onEvent(activity, "login_phone", map);
+        StatisticClickEvent.click(StatisticConstant.LOGIN_PHONE,"点击手机登录");
     }
 
     @Override

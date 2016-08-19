@@ -20,6 +20,8 @@ import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.request.RequestForgetPwd;
 import com.hugboga.custom.data.request.RequestVerity;
+import com.hugboga.custom.statistic.MobClickUtils;
+import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.utils.CommonUtils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -225,6 +227,7 @@ public class ForgetPasswdActivity extends BaseActivity implements TextWatcher {
                 }
                 RequestForgetPwd requestForgetPwd = new RequestForgetPwd(this, areaCode,phone,password, verity);
                 requestData(requestForgetPwd);
+                MobClickUtils.onEvent(StatisticConstant.PASSWORD_RESET);
                 break;
             case R.id.forget_passwd_getcode:
                 //获取验证码
