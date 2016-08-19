@@ -38,6 +38,7 @@ public final class Constants {
     public static final String PARAMS_ID = "id";
     public static final String PARAMS_ACTION = "action";
     public static final String PARAMS_TYPE = "type";
+    public static final String PARAMS_SOURCE = "source";
 
     public static final int DEFAULT_PAGESIZE = 20;
     public static final String REQUEST_SOURCE = "c";

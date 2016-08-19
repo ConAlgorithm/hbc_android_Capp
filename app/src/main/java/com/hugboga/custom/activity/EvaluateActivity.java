@@ -10,6 +10,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
+import com.huangbaoche.hbcframe.util.WXShareUtils;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.AppraisementBean;
@@ -23,6 +24,11 @@ import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestCollectGuidesId;
 import com.hugboga.custom.data.request.RequestEvaluateNew;
 import com.hugboga.custom.data.request.RequestEvaluateTag;
+import com.hugboga.custom.statistic.MobClickUtils;
+import com.hugboga.custom.statistic.event.EventEvaluate;
+import com.hugboga.custom.statistic.event.EventEvaluateShareBack;
+import com.hugboga.custom.statistic.event.EventEvaluateShareFloat;
+import com.hugboga.custom.statistic.event.EventEvaluateSubmit;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.widget.DialogUtil;
@@ -33,6 +39,8 @@ import com.hugboga.custom.widget.RatingView;
 import net.grobas.view.PolygonImageView;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -88,11 +96,13 @@ public class EvaluateActivity extends BaseActivity implements RatingView.OnLevel
             }
         }
         mDialogUtil = DialogUtil.getInstance(this);
-
         setContentView(R.layout.fg_evaluate);
         ButterKnife.bind(this);
+        EventBus.getDefault().register(this);
 
         initView();
+
+        MobClickUtils.onEvent(new EventEvaluate("" + orderBean.orderType));
     }
 
     @Override
@@ -100,6 +110,24 @@ public class EvaluateActivity extends BaseActivity implements RatingView.OnLevel
         super.onSaveInstanceState(outState);
         if (orderBean != null) {
             outState.putSerializable(Constants.PARAMS_DATA, orderBean);
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe
+    public void onEventMainThread(EventAction action) {
+        switch (action.getType()) {
+            case WECHAT_SHARE_SUCCEED:
+                WXShareUtils wxShareUtils = WXShareUtils.getInstance(this);
+                if (getEventSource().equals(wxShareUtils.source)) {//分享成功
+                    MobClickUtils.onEvent(new EventEvaluateShareBack("" + orderBean.orderType, getEventSource(), "" + wxShareUtils.type));
+                }
+                break;
         }
     }
 
@@ -257,6 +285,7 @@ public class EvaluateActivity extends BaseActivity implements RatingView.OnLevel
             CommonUtils.showToast(R.string.evaluate_succeed);
             isSubmitEvaluated = true;
             EventBus.getDefault().post(new EventAction(EventType.FGTRAVEL_UPDATE));
+            MobClickUtils.onEvent(new EventEvaluateSubmit(("" + orderBean.orderType), "" + Math.round(ratingview.getLevel()), !TextUtils.isEmpty(commentET.getText()), false));
 
             RequestEvaluateNew request = (RequestEvaluateNew) _request;
             EvaluateData evaluateData = request.getData();
@@ -264,6 +293,7 @@ public class EvaluateActivity extends BaseActivity implements RatingView.OnLevel
                 if (!orderBean.orderGuideInfo.isCollected()) {
                     requestData(new RequestCollectGuidesId(this, orderBean.orderGuideInfo.guideID));
                 }
+                MobClickUtils.onEvent(new EventEvaluateShareFloat("" + orderBean.orderType, getEventSource()));
                 ShareGuidesActivity.Params params = new ShareGuidesActivity.Params();
                 params.evaluateData = evaluateData;
                 params.orderNo = orderBean.orderNo;
@@ -302,5 +332,10 @@ public class EvaluateActivity extends BaseActivity implements RatingView.OnLevel
 
         }
         return getString(resultStrId);
+    }
+
+    @Override
+    public String getEventSource() {
+        return "评价页";
     }
 }

@@ -13,9 +13,14 @@ import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.util.WXShareUtils;
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.EvaluateActivity;
 import com.hugboga.custom.data.bean.AppraisementBean;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.UserEntity;
+import com.hugboga.custom.statistic.MobClickUtils;
+import com.hugboga.custom.statistic.event.EventEvaluate;
+import com.hugboga.custom.statistic.event.EventEvaluateShare;
+import com.hugboga.custom.statistic.event.EventEvaluateShareFloat;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.Tools;
 
@@ -27,6 +32,7 @@ public class EvaluateShareView extends LinearLayout implements View.OnClickListe
     private ImageView drawerIV;
     private TextView drawerTV, descriptionTV, rulesTV;
 
+    private OrderBean orderBean;
     private AppraisementBean appraisement;
     private String orderNo;
 
@@ -69,18 +75,19 @@ public class EvaluateShareView extends LinearLayout implements View.OnClickListe
     }
 
     private void share(int type) {
+        String source = null;
+        if (getContext() instanceof EvaluateActivity) {
+            source = ((EvaluateActivity) getContext()).getEventSource();
+            MobClickUtils.onEvent(new EventEvaluateShare("" + orderBean.orderType, source, "" + type));
+        }
         String shareUrl = CommonUtils.getBaseUrl(appraisement.wechatShareUrl) + "orderNo=" + orderNo + "&userId=" + UserEntity.getUser().getUserId(getContext());
-        WXShareUtils.getInstance(getContext()).share(type
+        WXShareUtils wxShareUtils = WXShareUtils.getInstance(getContext());
+        wxShareUtils.source = source;
+        wxShareUtils.share(type
                 , appraisement.wechatShareHeadSrc
                 , appraisement.wechatShareTitle
                 , appraisement.wechatShareContent
                 , shareUrl);
-//        CommonUtils.share(getContext()
-//                , type
-//                , appraisement.wechatShareHeadSrc
-//                , appraisement.wechatShareTitle
-//                , appraisement.wechatShareContent
-//                , shareUrl);
     }
 
     public void toggle(boolean _isShow) {
@@ -118,7 +125,7 @@ public class EvaluateShareView extends LinearLayout implements View.OnClickListe
     @Override
     public void update(Object _data) {
         if (_data instanceof OrderBean) {
-            OrderBean orderBean = (OrderBean) _data;
+            orderBean = (OrderBean) _data;
             if (orderBean != null && orderBean.appraisement != null) {
                 appraisement = orderBean.appraisement;
                 orderNo = orderBean.orderNo;

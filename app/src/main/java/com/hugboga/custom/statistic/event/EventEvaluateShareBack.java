@@ -8,18 +8,17 @@ import java.util.HashMap;
 /**
  * Created by qingcha on 16/8/18.
  */
-public class EventEvaluateShare extends EventBase{
+public class EventEvaluateShareBack extends EventBase{
 
     private String orderType;
     private String source;
     private String shareType;
 
-
     /**
      *  @param source     触发来源
      *  @param shareType  分享方式    微信好友、朋友圈
      * */
-    public EventEvaluateShare(String orderType, String source, String shareType) {
+    public EventEvaluateShareBack(String orderType, String source, String shareType) {
         this.orderType = orderType;
         this.source = source;
         this.shareType = shareType;
@@ -31,22 +30,22 @@ public class EventEvaluateShare extends EventBase{
         String result = null;
         switch (CommonUtils.getCountInteger(orderType)) {
             case 1:
-                result = StatisticConstant.SHAREM_J;
+                result = StatisticConstant.SHAREMJ_BACK;
                 break;
             case 2:
-                result = StatisticConstant.SHAREM_S;
+                result = StatisticConstant.SHAREMS_BACK;
                 break;
             case 3:
-                result = StatisticConstant.SHAREM_R;
+                result = StatisticConstant.SHAREMR_BACK;
                 break;
             case 4:
-                result = StatisticConstant.SHAREM_C;
+                result = StatisticConstant.SHAREMC_BACK;
                 break;
             case 5:
-                result = StatisticConstant.SHAREM_RG;
+                result = StatisticConstant.SHAREMRG_BACK;
                 break;
             case 6:
-                result = StatisticConstant.SHAREM_RT;
+                result = StatisticConstant.SHAREMRT_BACK;
                 break;
         }
         return result;

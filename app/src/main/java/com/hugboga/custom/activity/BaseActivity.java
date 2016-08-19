@@ -18,12 +18,14 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.widget.DialogUtil;
 import com.umeng.analytics.MobclickAgent;
 
 import org.xutils.common.Callback;
 
+import java.util.HashMap;
 import java.util.Map;
 
 
@@ -49,7 +51,10 @@ public class BaseActivity extends BaseFragmentActivity implements HttpRequestLis
     public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         activity = this;
-        MobClickUtils.onEvent(getEventId(), getEventMap());
+        String eventId = getEventId();
+        if (!TextUtils.isEmpty(eventId)) {
+            MobClickUtils.onEvent(getEventId(), getEventMap());
+        }
     }
 
     //获取上个界面的来源
@@ -57,7 +62,7 @@ public class BaseActivity extends BaseFragmentActivity implements HttpRequestLis
         Intent intent = this.getIntent();
         String source = null;
         if(null != intent){
-            source= intent.getStringExtra("source");
+            source= intent.getStringExtra(Constants.PARAMS_SOURCE);
         }
         return source;
     }
@@ -188,12 +193,8 @@ public class BaseActivity extends BaseFragmentActivity implements HttpRequestLis
      * 获取来源map
      */
     public Map getEventMap(){
-        ArrayMap map = new ArrayMap();
-        if(null != getIntentSource()){
-            map.put("source", getIntentSource());
-        }else {
-            map.put("source", getEventSource());
-        }
+        HashMap map = new HashMap();
+        map.put(Constants.PARAMS_SOURCE, getIntentSource());
         return map;
     }
 }

@@ -3,17 +3,19 @@ package com.hugboga.custom.statistic.event;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.utils.CommonUtils;
 
+import java.util.HashMap;
+
 /**
  * Created by qingcha on 16/8/18.
- *
- * 评价页
  */
-public class EventEvaluate extends EventBase{
+public class EventEvaluateShareFloat extends EventBase{
 
     private String orderType;
+    private String source;
 
-    public EventEvaluate(String orderType) {
+    public EventEvaluateShareFloat(String orderType, String source) {
         this.orderType = orderType;
+        this.source = source;
     }
 
     @Override
@@ -22,25 +24,32 @@ public class EventEvaluate extends EventBase{
         String result = null;
         switch (CommonUtils.getCountInteger(orderType)) {
             case 1:
-                result = StatisticConstant.CLICKMARK_J;
+                result = StatisticConstant.SHAREMARK_J;
                 break;
             case 2:
-                result = StatisticConstant.CLICKMARK_S;
+                result = StatisticConstant.SHAREMARK_S;
                 break;
             case 3:
-                result = StatisticConstant.CLICKMARK_R;
+                result = StatisticConstant.SHAREMARK_R;
                 break;
             case 4:
-                result = StatisticConstant.CLICKMARK_C;
+                result = StatisticConstant.SHAREMARK_C;
                 break;
             case 5:
-                result = StatisticConstant.CLICKMARK_RG;
+                result = StatisticConstant.SHAREMARK_RG;
                 break;
             case 6:
-                result = StatisticConstant.CLICKMARK_RT;
+                result = StatisticConstant.SHAREMARK_RT;
                 break;
         }
         return result;
+    }
+
+    @Override
+    public HashMap getParamsMap() {
+        HashMap<String, Object> map = new HashMap<String, Object>(1);
+        map.put("source", source);
+        return map;
     }
 
 }

@@ -111,15 +111,15 @@ public class StatisticConstant {
 
     public static final String SHAREM_J = "05_sharem_J";           // 0接机点击评价分享浮层
     public static final String SHAREM_S = "05_sharem_S";           // 0送机点击评价分享浮层
-    public static final String SHAREM_C = "05_sharem_C";           // 0单次接送点击评价分享浮层
     public static final String SHAREM_R = "05_sharem_R";           // 0自定义包车点击评价分享浮层
+    public static final String SHAREM_C = "05_sharem_C";           // 0单次接送点击评价分享浮层
     public static final String SHAREM_RG = "05_sharem_RG";         // 0固定线路点击评价分享浮层
     public static final String SHAREM_RT = "05_sharem_RT";         // 0推荐线路点击评价分享浮层
 
     public static final String SHAREMJ_BACK = "05_sharemJ_back";     // 0接机评价分享后返回应用内
     public static final String SHAREMS_BACK = "05_sharemS_back";     // 0送机评价分享后返回应用内
-    public static final String SHAREMC_BACK = "05_sharemC_back";     // 0单次接送评价分享后返回应用内
     public static final String SHAREMR_BACK = "05_sharemR_back";     // 0自定义包车评价分享后返回应用内
+    public static final String SHAREMC_BACK = "05_sharemC_back";     // 0单次接送评价分享后返回应用内
     public static final String SHAREMRG_BACK = "05_sharemRG_back";   // 0固定线路评价分享后返回应用内
     public static final String SHAREMRT_BACK = "05_sharemRT_back";   // 0推荐线路评价分享后返回应用内
 

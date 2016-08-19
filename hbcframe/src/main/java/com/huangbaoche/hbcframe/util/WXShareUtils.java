@@ -35,6 +35,9 @@ public class WXShareUtils {
     private static WXShareUtils wxShareUtils;
     private static IWXAPI iwxapi; //微信分享
 
+    public String source;//评价来源
+    public int type;
+
     private WXShareUtils(Context mContext) {
         this.mContext = mContext;
         /*
@@ -188,6 +191,7 @@ public class WXShareUtils {
 
     public void share(final int type, final Bitmap bitmap, final String title, final String content, final String goUrl) {
         if (isInstall(true)) {
+            this.type = type;
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inSampleSize = 2;
             WXWebpageObject webpage = new WXWebpageObject();
