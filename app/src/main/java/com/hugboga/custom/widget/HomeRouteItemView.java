@@ -178,6 +178,7 @@ public class HomeRouteItemView extends RelativeLayout implements HbcViewBehavior
                 params.skuType = SkuListActivity.SkuType.CITY;
                 Intent intent = new Intent(getContext(), SkuListActivity.class);
                 intent.putExtra(Constants.PARAMS_DATA, params);
+                intent.putExtra("source","首页");
                 getContext().startActivity(intent);
                 break;
         }

@@ -28,6 +28,7 @@ import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestCitySkuList;
 import com.hugboga.custom.data.request.RequestCountrySkuList;
 import com.hugboga.custom.data.request.RequestRouteSkuList;
+import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.utils.DBHelper;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.SkuCityFooterView;
@@ -99,6 +100,11 @@ public class SkuListActivity extends BaseActivity implements HbcRecyclerBaseAdap
         initDefaultTitleBar();
         ButterKnife.bind(this);
         initView();
+    }
+
+    @Override
+    public String getEventId() {
+        return StatisticConstant.LAUNCH_CITY;
     }
 
     @Override
