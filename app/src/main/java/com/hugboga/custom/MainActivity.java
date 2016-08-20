@@ -750,7 +750,7 @@ public class MainActivity extends BaseActivity
             return true;
         } else {
             Intent intent = new Intent(this, LoginActivity.class);
-            intent.putExtra("source",source);
+            intent.putExtra(Constants.PARAMS_SOURCE,source);
             startActivity(intent);
             return false;
         }

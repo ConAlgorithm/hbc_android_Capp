@@ -139,7 +139,7 @@ public class SkuCityFooterView extends LinearLayout implements HbcViewBehavior, 
                     Bundle bundle = new Bundle();
                     bundle.putSerializable(KEY_CITY_BEAN, cityBean);
                     bundle.putSerializable("cityBean", cityBean);
-                    bundle.putString("source", cityBean.name);
+                    bundle.putString("source", "城市页");
                     intent.putExtras(bundle);
                 }
                 getContext().startActivity(intent);
@@ -150,7 +150,7 @@ public class SkuCityFooterView extends LinearLayout implements HbcViewBehavior, 
                     Bundle bundle = new Bundle();
                     bundle.putSerializable(KEY_CITY_BEAN, cityBean);
                     bundle.putSerializable("cityBean", cityBean);
-                    bundle.putString("source", cityBean.name);
+                    bundle.putString("source", "城市页");
                     intent.putExtras(bundle);
                 }
                 getContext().startActivity(intent);

@@ -109,6 +109,7 @@ public class CollectGuideAdapter extends BaseAdapter<CollectGuideBean> {
                     public void onClick(View v) {
                         Intent intent = new Intent(context, PickSendActivity.class);
                         intent.putExtra("collectGuideBean", collectGuideBean);
+                        intent.putExtra("source","收藏司导列表");
                         if (context instanceof GuideDetailActivity) {
                             intent.putExtra(Constants.PARAMS_SOURCE, ((GuideDetailActivity) context).getEventSource());
                         }
@@ -120,6 +121,7 @@ public class CollectGuideAdapter extends BaseAdapter<CollectGuideBean> {
                     public void onClick(View v) {
                         Intent intent = new Intent(context, OrderSelectCityActivity.class);
                         intent.putExtra("collectGuideBean", collectGuideBean);
+                        intent.putExtra("source","收藏司导列表");
                         if (context instanceof GuideDetailActivity) {
                             intent.putExtra(Constants.PARAMS_SOURCE, ((GuideDetailActivity) context).getEventSource());
                         }
@@ -131,6 +133,7 @@ public class CollectGuideAdapter extends BaseAdapter<CollectGuideBean> {
                     public void onClick(View v) {
                         Intent intent = new Intent(context, SingleNewActivity.class);
                         intent.putExtra("collectGuideBean", collectGuideBean);
+                        intent.putExtra("source","收藏司导列表");
                         if (context instanceof GuideDetailActivity) {
                             intent.putExtra(Constants.PARAMS_SOURCE, ((GuideDetailActivity) context).getEventSource());
                         }
