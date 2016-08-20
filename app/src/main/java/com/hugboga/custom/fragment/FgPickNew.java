@@ -38,6 +38,7 @@ import com.hugboga.custom.data.request.RequestCheckPrice;
 import com.hugboga.custom.data.request.RequestCheckPriceForPickup;
 import com.hugboga.custom.data.request.RequestGuideConflict;
 import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.CarUtils;
 import com.hugboga.custom.utils.CommonUtils;
@@ -485,6 +486,8 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
 
         bundle.putBoolean("needCheckin", checkInChecked);
 
+
+        StatisticClickEvent.pickClick(StatisticConstant.CONFIRM_J,"接机确认行程",carBean.carType+"",checkInChecked,manLuggageBean);
         Intent intent = new Intent(getActivity(),OrderNewActivity.class);
         intent.putExtras(bundle);
         startActivity(intent);

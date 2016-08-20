@@ -30,6 +30,8 @@ import com.hugboga.custom.data.bean.ServiceQuoteSumBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestGetCarInfo;
+import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.CarUtils;
 import com.hugboga.custom.utils.PhoneInfo;
@@ -774,6 +776,7 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
 //        fgOrderNew.setArguments(bundleCar);
 //        startFragment(fgOrderNew);
 
+        StatisticClickEvent.selectCarClick(StatisticConstant.CARNEXT_R,"自定义包车选车",getIntentSource(),carType+"",(adultNum+childrenNum)+"");
         Intent intent = new Intent(activity, OrderNewActivity.class);
         intent.putExtras(bundleCar);
         startActivity(intent);

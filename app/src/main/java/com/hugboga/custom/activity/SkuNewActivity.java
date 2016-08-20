@@ -32,6 +32,8 @@ import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestPriceSku;
 import com.hugboga.custom.fragment.FgCarNew;
+import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.CarUtils;
 import com.hugboga.custom.utils.CityUtils;
@@ -52,11 +54,15 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static android.R.attr.order;
 import static com.hugboga.custom.R.id.all_journey_text;
 import static com.hugboga.custom.R.id.all_money_left;
 import static com.hugboga.custom.R.id.all_money_text_sku;
+import static com.hugboga.custom.R.id.mans;
+import static com.hugboga.custom.R.id.mans_num;
 import static com.hugboga.custom.R.id.time_layout;
 import static com.tencent.bugly.crashreport.inner.InnerAPI.context;
+import static u.aly.au.S;
 
 /**
  * Created on 16/8/3.
@@ -404,7 +410,7 @@ public class SkuNewActivity extends BaseActivity {
         Bundle bundle = new Bundle();
         bundle.putString("guideCollectId", "");
         bundle.putSerializable("collectGuideBean", null);
-        bundle.putString("source", source);
+        bundle.putString("source", getEventSource());
         bundle.putSerializable("carListBean", carListBean);
 
         bundle.putString("startCityId", cityBean.cityId + "");
@@ -434,10 +440,12 @@ public class SkuNewActivity extends BaseActivity {
 
         if(skuBean.goodsClass == 1){
             bundle.putInt("type", 5);
-            bundle.putString("orderType", "5");
-        }else{
+            bundle.putString("ordeType", "5");
+            StatisticClickEvent.singleSkuClick(StatisticConstant.CONFIRM_RG,"固定线路确认行程",carBean.carType+"",manLuggageBean);
+         }else{
             bundle.putInt("type", 6);
             bundle.putString("orderType", "6");
+            StatisticClickEvent.singleSkuClick(StatisticConstant.CONFIRM_RT,"推荐线路确认行程",carBean.carType+"",manLuggageBean);
         }
 
         bundle.putSerializable("web_sku", skuBean);

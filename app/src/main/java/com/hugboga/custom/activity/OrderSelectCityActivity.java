@@ -1,8 +1,6 @@
 package com.hugboga.custom.activity;
 
 
-import android.app.DatePickerDialog;
-import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -46,8 +44,10 @@ import com.hugboga.custom.data.request.RequestCollectGuidesFilter;
 import com.hugboga.custom.data.request.RequestGetCarInfo;
 import com.hugboga.custom.data.request.RequestGuideConflict;
 import com.hugboga.custom.fragment.BaseFragment;
-import com.hugboga.custom.statistic.event.EventUtil;
+import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.statistic.click.StatisticClickEvent;
+import com.hugboga.custom.statistic.event.EventUtil;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.CityUtils;
 import com.hugboga.custom.utils.CommonUtils;
@@ -64,6 +64,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -303,6 +304,11 @@ public class OrderSelectCityActivity extends BaseActivity  {
         if (!eventUtil.source.equals(DailyWebInfoActivity.EVENT_SOURCE)) {
             eventUtil.sourceDetail = "";
         }
+
+        Map map = new HashMap();
+        map.put(Constants.PARAMS_SOURCE,getEventSource());
+        map.put(Constants.PARAMS_SOURCE_DETAIL,eventUtil.sourceDetail);
+        MobClickUtils.onEvent(getEventId(),map);
     }
 
     private void showSaveDialog() {
@@ -904,6 +910,7 @@ public class OrderSelectCityActivity extends BaseActivity  {
                     bundle.putString("orderType", "3");
 //                    fgOrderNew.setArguments(bundle);
 
+                    StatisticClickEvent.dailyClick(StatisticConstant.CONFIRM_R,"自定义包车确认行程",getIntentSource(),collectGuideBean,collectGuideBean.numOfPerson+"");
 
                     Intent intent = new Intent(activity,OrderNewActivity.class);
                     intent.putExtras(bundle);
@@ -1145,7 +1152,7 @@ public class OrderSelectCityActivity extends BaseActivity  {
                         bundleCar.putSerializable("passCityList", passBeanList);
                         bundleCar.putString("orderType", "3");
 
-
+                        StatisticClickEvent.dailyClick(StatisticConstant.CONFIRM_R,"自定义包车确认行程",getIntentSource(),collectGuideBean,(childNum+manNum)+"");
                         Intent intent = new Intent(activity,SelectCarActivity.class);
                         intent.putExtras(bundleCar);
                         startActivity(intent);

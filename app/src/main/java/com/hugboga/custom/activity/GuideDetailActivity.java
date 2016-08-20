@@ -247,6 +247,7 @@ public class GuideDetailActivity extends BaseActivity implements GuideCarPhotosA
                 intent = new Intent(this, OrderSelectCityActivity.class);
                 intent.putExtra("collectGuideBean", beanConversion());
                 intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+                intent.putExtra(Constants.PARAMS_SOURCE_DETAIL, getIntentSource());
                 startActivity(intent);
                 finish();
                 break;

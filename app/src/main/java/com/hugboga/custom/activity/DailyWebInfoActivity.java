@@ -34,6 +34,7 @@ import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.net.WebAgent;
 import com.hugboga.custom.data.request.RequestGoodsById;
+import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.event.EventUtil;
 import com.hugboga.custom.utils.ChannelUtils;
@@ -106,6 +107,9 @@ public class DailyWebInfoActivity extends BaseActivity implements View.OnKeyList
 
         EventUtil eventUtil = EventUtil.getInstance();
         eventUtil.sourceDetail = getIntentSource();
+        Map map = new HashMap();
+        map.put(Constants.PARAMS_SOURCE_DETAIL,eventUtil.sourceDetail);
+        MobClickUtils.onEvent(getEventId(),map);
     }
 
     @Override

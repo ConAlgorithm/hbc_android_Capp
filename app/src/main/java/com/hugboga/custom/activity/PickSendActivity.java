@@ -108,29 +108,10 @@ public class PickSendActivity extends BaseActivity {
         headerRightTxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-//                Bundle bundle = new Bundle();
-//                bundle.putString(WebInfoActivity.WEB_URL, UrlLibs.H5_PROBLEM);
-//                bundle.putBoolean(WebInfoActivity.CONTACT_SERVICE, true);
-//                startFragment(new FgWebInfo(), bundle);
-
                 Intent intent = new Intent(activity, WebInfoActivity.class);
                 intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_PROBLEM);
                 intent.putExtra(WebInfoActivity.CONTACT_SERVICE, true);
                 startActivity(intent);
-
-
-                if (pickOrSend == 1) {
-                    HashMap<String, String> map = new HashMap<String, String>();
-                    map.put("source", "填写行程页面");
-                    MobclickAgent.onEvent(activity, "callcenter_pickup", map);
-                    v.setTag("填写行程页面,calldomestic_pickup,calldomestic_pickup");
-                } else if (pickOrSend == 2) {
-                    HashMap<String, String> map = new HashMap<String, String>();
-                    map.put("source", "填写行程页面");
-                    MobclickAgent.onEvent(activity, "callcenter_dropoff", map);
-                    v.setTag("填写行程页面,calldomestic_dropoff,calloverseas_dropoff");
-                }
             }
         });
     }

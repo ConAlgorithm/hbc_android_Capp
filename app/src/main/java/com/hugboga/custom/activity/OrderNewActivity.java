@@ -52,7 +52,9 @@ import com.hugboga.custom.data.request.RequestSubmitPick;
 import com.hugboga.custom.data.request.RequestSubmitRent;
 import com.hugboga.custom.data.request.RequestSubmitSend;
 import com.hugboga.custom.statistic.MobClickUtils;
+import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.bean.EventPayBean;
+import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.statistic.event.EventCancelOrder;
 import com.hugboga.custom.statistic.event.EventPay;
 import com.hugboga.custom.utils.CommonUtils;
@@ -80,6 +82,7 @@ import static android.R.attr.id;
 import static android.R.attr.order;
 import static android.view.View.GONE;
 import static com.hugboga.custom.R.id.man_name;
+import static com.hugboga.custom.R.id.mans;
 import static com.hugboga.custom.R.id.up_address_right;
 import static com.hugboga.custom.R.id.up_right;
 
@@ -1273,6 +1276,8 @@ public class OrderNewActivity extends BaseActivity {
 
     //SKU参数
     private OrderBean getSKUOrderByInput() {
+        StatisticClickEvent.commitClick(StatisticConstant.SUBMITORDER_RG,"固定线路提交订单",carBean.carType+"",manLuggageBean,contactUsersBean.isForOther);
+
         return new OrderUtils().getSKUOrderByInput(guideCollectId, skuBean,
                 startDate, serverTime, distance,
                 carBean, adultNum, childrenNum,
@@ -1284,6 +1289,8 @@ public class OrderNewActivity extends BaseActivity {
 
     //推荐线路
     private OrderBean getLineOrderByInput() {
+        StatisticClickEvent.commitClick(StatisticConstant.SUBMITORDER_RT,"推荐线路提交订单",carBean.carType+"",manLuggageBean,contactUsersBean.isForOther);
+
         return new OrderUtils().getSKUOrderByInput(guideCollectId, skuBean,
                 startDate, serverTime, distance,
                 carBean, adultNum, childrenNum,
@@ -1313,6 +1320,8 @@ public class OrderNewActivity extends BaseActivity {
 
     //包车参数
     private OrderBean getDayOrderByInput() {
+        StatisticClickEvent.commitClick(StatisticConstant.SUBMITORDER_R,"包车提交订单",getIntentSource(),collectGuideBean,carBean.carType+"",manLuggageBean,contactUsersBean.isForOther);
+
         return new OrderUtils().getDayOrderByInput(adultNum, carBean,
                 childrenNum, endCityId,
                 endBean, contact,
@@ -1330,6 +1339,8 @@ public class OrderNewActivity extends BaseActivity {
     }
 
     private OrderBean getPickOrderByInput() {
+        StatisticClickEvent.commitClick(StatisticConstant.SUBMITORDER_J,"接机提交订单",carBean.carType+"",manLuggageBean,contactUsersBean.isForOther);
+
         return new OrderUtils().getPickOrderByInput(flightBean, poiBean,
                 carBean, pickName.getText().toString(),
                 carListBean, pickName.getText().toString(),
@@ -1344,6 +1355,8 @@ public class OrderNewActivity extends BaseActivity {
 
 
     private OrderBean getSingleOrderByInput() {
+        StatisticClickEvent.commitClick(StatisticConstant.SUBMITORDER_C,"单次提交订单",carBean.carType+"",manLuggageBean,contactUsersBean.isForOther);
+
         return new OrderUtils().getSingleOrderByInput(adultNum, carBean,
                 childrenNum, endCityId,
                 startCityId, contact,
@@ -1362,6 +1375,7 @@ public class OrderNewActivity extends BaseActivity {
     }
 
     private OrderBean getSendOrderByInput() {
+        StatisticClickEvent.commitClick(StatisticConstant.SUBMITORDER_S,"送机提交订单",carBean.carType+"",manLuggageBean,contactUsersBean.isForOther);
 
         return new OrderUtils().getSendOrderByInput(poiBean,
                 carBean, manName.getText().toString(),

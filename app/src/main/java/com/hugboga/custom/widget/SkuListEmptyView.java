@@ -75,6 +75,7 @@ public class SkuListEmptyView extends LinearLayout implements View.OnClickListen
                 Intent intent = new Intent(getContext(), OrderSelectCityActivity.class);
                 if(v.getContext() instanceof SkuListActivity) {
                     intent.putExtra(Constants.PARAMS_SOURCE, ((SkuListActivity)v.getContext()).getEventSource());
+                    intent.putExtra(Constants.PARAMS_SOURCE_DETAIL, ((SkuListActivity)v.getContext()).getIntentSource());
                 }
                 getContext().startActivity(intent);
                 break;

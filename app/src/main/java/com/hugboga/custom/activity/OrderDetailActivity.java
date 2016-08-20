@@ -32,8 +32,8 @@ import com.hugboga.custom.data.request.RequestUncollectGuidesId;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.bean.EventPayBean;
-import com.hugboga.custom.statistic.event.EventCancelOrder;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
+import com.hugboga.custom.statistic.event.EventCancelOrder;
 import com.hugboga.custom.statistic.event.EventPay;
 import com.hugboga.custom.statistic.event.EventUtil;
 import com.hugboga.custom.utils.CommonUtils;
@@ -49,6 +49,8 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -111,6 +113,10 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
         titleBar.setTitle(params.orderType);
         emptyTV.setVisibility(View.VISIBLE);
         requestData();
+
+        Map map = new HashMap();
+        map.put(Constants.PARAMS_SOURCE,getEventSource());
+        MobClickUtils.onEvent(getEventId(),map);
     }
 
     @Override
@@ -343,6 +349,7 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                 intent = new Intent(this, SkuDetailActivity.class);
                 intent.putExtra(WebInfoActivity.WEB_URL, orderBean.skuDetailUrl);
                 intent.putExtra(Constants.PARAMS_ID, orderBean.goodsNo);
+                intent.putExtra(Constants.PARAMS_SOURCE,getEventSource());
                 startActivity(intent);
                 if(orderBean.orderGoodsType == 1) {
                     StatisticClickEvent.click(StatisticConstant.CLICK_RG, "订单详情页");

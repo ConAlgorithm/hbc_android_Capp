@@ -34,6 +34,7 @@ import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.parser.ParserChatInfo;
 import com.hugboga.custom.data.request.RequestCurrentServerInfo;
 import com.hugboga.custom.data.request.RequestWebInfo;
+import com.hugboga.custom.statistic.event.EventUtil;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.widget.DialogUtil;
@@ -239,6 +240,7 @@ public class WebAgent implements HttpRequestListener {
                     bundle.putSerializable("cityBean", cityBean);
                     Intent intent = new Intent(mActivity,OrderSelectCityActivity.class);
                     intent.putExtra(Constants.PARAMS_SOURCE, DailyWebInfoActivity.EVENT_SOURCE);
+                    intent.putExtra(Constants.PARAMS_SOURCE_DETAIL, EventUtil.getInstance().sourceDetail);
                     intent.putExtras(bundle);
                     mActivity.startActivity(intent);
 //                    mFragment.startFragment(fgOrderSelectCity,bundle);
