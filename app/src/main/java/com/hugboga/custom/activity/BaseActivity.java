@@ -52,14 +52,18 @@ public class BaseActivity extends BaseFragmentActivity implements HttpRequestLis
     public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         activity = this;
-        String eventId = getEventId();
-        if (!TextUtils.isEmpty(eventId)) {
-            HashMap map = (HashMap) getEventMap();
-            if (map.size() == 0) {
-                MobClickUtils.onEvent(getEventId());
-            } else {
-                MobClickUtils.onEvent(getEventId(), getEventMap());
+        try {
+            String eventId = getEventId();
+            if (!TextUtils.isEmpty(eventId)) {
+                HashMap map = (HashMap) getEventMap();
+                if (map.size() == 0) {
+                    MobClickUtils.onEvent(getEventId());
+                } else {
+                    MobClickUtils.onEvent(getEventId(), getEventMap());
+                }
             }
+        }catch (Exception e){
+            e.printStackTrace();
         }
     }
 

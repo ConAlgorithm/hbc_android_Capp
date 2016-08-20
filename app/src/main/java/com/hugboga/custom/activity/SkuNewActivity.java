@@ -397,11 +397,20 @@ public class SkuNewActivity extends BaseActivity {
     }
 
     @Override
+    public String getEventId() {
+        if(skuBean.goodsClass == 1) {//固定
+            return StatisticConstant.LAUNCH_RG;
+        }else {
+            return StatisticConstant.LAUNCH_RT;
+        }
+    }
+
+    @Override
     public String getEventSource() {
         if(skuBean.goodsClass == 1) {//固定
-            return "固定线路包车订单";
+            return "固定线路包车";
         }else {
-            return "推荐线路包车订单";
+            return "推荐线路包车";
         }
     }
 

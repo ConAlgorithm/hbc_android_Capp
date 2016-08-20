@@ -2,7 +2,6 @@ package com.hugboga.custom.activity;
 
 
 import android.annotation.TargetApi;
-import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -37,7 +36,6 @@ import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.net.WebAgent;
 import com.hugboga.custom.data.request.RequestGoodsById;
-import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.event.EventUtil;
 import com.hugboga.custom.utils.ChannelUtils;
@@ -138,8 +136,21 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
     }
 
     @Override
+    public String getEventId() {
+        if(skuItemBean.goodsClass == 1) {//固定
+            return StatisticConstant.LAUNCH_DETAIL_RG;
+        }else {
+            return StatisticConstant.LAUNCH_DETAIL_RT;
+        }
+    }
+
+    @Override
     public String getEventSource() {
-        return "商品详情咨询客服";
+        if(skuItemBean.goodsClass == 1) {//固定
+            return "固定线路包车";
+        }else {
+            return "推荐线路包车";
+        }
     }
 
     private void getSkuItemBean(boolean isShowLoading) {
@@ -226,6 +237,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
 //                startFragment(new FgSkuNew(), bundle);
 
                 Intent intent = new Intent(activity,SkuNewActivity.class);
+                intent.putExtra(Constants.PARAMS_SOURCE,getIntentSource());
                 intent.putExtras(bundle);
                 startActivity(intent);
 

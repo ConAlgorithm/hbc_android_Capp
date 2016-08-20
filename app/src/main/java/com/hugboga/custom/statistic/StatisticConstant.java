@@ -42,6 +42,8 @@ public class StatisticConstant {
     public static final String LAUNCH_DETAIL_RG = "02_launch_detail_RG";     // 1固定线路包车详情页展示
     public static final String LAUNCH_DETAIL_RT = "02_launch_detail_RT";     // 1推荐线路详情页展示
     public static final String LAUNCH_RT = "02_launch_RT";                   // 1推荐线路包车界面展示
+    public static final String LAUNCH_RG = "02_launch_RG";                   // 1固定线路包车界面展示
+
 
     public static final String CONFIRM_J = "02_confirm_J";                   // 0接机确定行程
     public static final String CONFIRM_S = "02_confirm_S";                   // 0送机确定行程
