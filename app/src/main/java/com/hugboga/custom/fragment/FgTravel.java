@@ -26,6 +26,7 @@ import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.activity.OrderDetailActivity;
+import com.hugboga.custom.activity.TravelFundActivity;
 import com.hugboga.custom.adapter.NewOrderAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.OrderBean;
@@ -162,6 +163,8 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, OnIt
         fgTravelRunning.setEmptyLayout(runningEmptyLayout);
         fgTravelRunning.setRequestData(new RequestTravel(getActivity(), 1));
         fgTravelRunning.setOnItemClickListener(new TravelOnItemClickListener(fgTravelRunning));
+        addFooterView(inflater, runningAdapter);
+
         //设置间距
         ZDefaultDivider zDefaultDivider = fgTravelRunning.getItemDecoration();
         zDefaultDivider.setItemOffsets(0, 15, 0, 15);
@@ -181,6 +184,8 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, OnIt
         fgTravelFinish.setOnItemClickListener(new TravelOnItemClickListener(fgTravelFinish));
         ZDefaultDivider zDefaultDivider2 = fgTravelFinish.getItemDecoration();
         zDefaultDivider2.setItemOffsets(0, 15, 0, 15);
+        addFooterView(inflater, finishAdapter);
+
         //已取消
         cancelLayout = (RelativeLayout) inflater.inflate(R.layout.travel_list_layout_cancel, null);
         fgTravelCancel = (ZListPageView) cancelLayout.findViewById(R.id.listview);
@@ -195,6 +200,7 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, OnIt
         fgTravelCancel.setOnItemClickListener(new TravelOnItemClickListener(fgTravelCancel));
         ZDefaultDivider zDefaultDivider3 = fgTravelCancel.getItemDecoration();
         zDefaultDivider3.setItemOffsets(0, 15, 0, 15);
+        addFooterView(inflater, cancelAdapter);
 
         //Tab相关
         tab1TextView.setSelected(true);
@@ -228,6 +234,21 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, OnIt
             }
         });
         reSetTabView(0); //刷新第一个标签页
+
+    }
+
+    private void addFooterView(LayoutInflater inflater, NewOrderAdapter adapter) {
+        View footerView = inflater.inflate(R.layout.view_travel_footer, null, false);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        footerView.setLayoutParams(params);
+        footerView.findViewById(R.id.travel_footer_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), TravelFundActivity.class);
+                getContext().startActivity(intent);
+            }
+        });
+        adapter.addFooterView(footerView);
     }
 
     @Override
