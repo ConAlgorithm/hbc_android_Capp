@@ -391,6 +391,7 @@ public class OrderEditActivity extends BaseActivity {
                     bundlePoiSearch.putString(PoiSearchActivity.KEY_LOCATION, orderBean.startLocation);
                     intent = new Intent(OrderEditActivity.this, PoiSearchActivity.class);
                     intent.putExtras(bundlePoiSearch);
+                    intent.putExtra("mBusinessType",orderBean.orderType);
                     startActivity(intent);
                 }
                 break;
