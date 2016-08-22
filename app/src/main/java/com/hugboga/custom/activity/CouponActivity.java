@@ -22,6 +22,7 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.CouponAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CouponBean;
+import com.hugboga.custom.data.bean.CouponTitleContent;
 import com.hugboga.custom.data.bean.MostFitAvailableBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
@@ -31,6 +32,7 @@ import com.hugboga.custom.data.request.RequestCouponExchange;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.utils.AnimationUtils;
 import com.hugboga.custom.utils.CommonUtils;
+import com.hugboga.custom.widget.CouponItemView;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.ZListView;
 
@@ -270,19 +272,6 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
         leftBtn.setImageResource(R.mipmap.closed_btn);
         TextView header_title = (TextView) popView.findViewById(R.id.header_title);
         header_title.setText("我的优惠券");
-
-//        if (bean.couponStatus == 1) {
-//            //可用
-//            popView.findViewById(R.id.coupon_info_layout).setBackgroundResource(R.mipmap.coupon_details);
-////            popView.findViewById(R.id.coupon_info_price_line).setBackgroundResource(R.drawable.coupon_dash_line);
-////            popView.findViewById(R.id.coupon_info_content_line).setBackgroundColor(Color.parseColor("#E997A4"));
-//        } else {
-//            //已使用，已过期
-//            popView.findViewById(R.id.coupon_info_layout).setBackgroundResource(R.mipmap.coupon_details_no);
-////            popView.findViewById(R.id.coupon_info_price_line).setBackgroundResource(R.drawable.coupon_dash_line2);
-////            popView.findViewById(R.id.coupon_info_content_line).setBackgroundColor(Color.parseColor("#BCBCBC"));
-//        }
-
         final PopupWindow pw = new PopupWindow(popView, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
         //内容赋值
         ((TextView) popView.findViewById(R.id.coupon_info_price)).setText(bean.price);
@@ -292,14 +281,14 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
         } else {
             ((TextView) popView.findViewById(R.id.coupon_info_limit_time)).setText("有效期：" + bean.startDate + " 至 " + bean.endDate);
         }
-        ((TextView) popView.findViewById(R.id.coupon_info_limit1_content)).setText(bean.applyArea);
-        ((TextView) popView.findViewById(R.id.coupon_info_limit2_content)).setText(bean.applyType);
-        ((TextView) popView.findViewById(R.id.coupon_info_limit3_content)).setText(bean.applyCar);
-        ((TextView) popView.findViewById(R.id.coupon_info_content)).setText(bean.applyRule);
-        ((TextView) popView.findViewById(R.id.coupon_info_memo)).setText(bean.content);
-
-        ((TextView) popView.findViewById(R.id.appcarclass_label_content)).setText(bean.applyCarClass);
-
+        LinearLayout dataListLayout = (LinearLayout) popView.findViewById(R.id.data_list_layout);
+        CouponItemView couponItemView;
+        for(CouponTitleContent titleContent:bean.dataList){
+            couponItemView = new CouponItemView(activity);
+            couponItemView.setTitle(titleContent.title);
+            couponItemView.setContent(titleContent.content);
+            dataListLayout.addView(couponItemView);
+        }
         //设置后进行展示
         pw.setBackgroundDrawable(new ColorDrawable(0));
         pw.setFocusable(true);

@@ -2,8 +2,13 @@ package com.hugboga.custom.data.parser;
 
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.hugboga.custom.data.bean.CouponBean;
+import com.hugboga.custom.data.bean.CouponTitleContent;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Administrator on 2016/3/9.
@@ -27,6 +32,20 @@ public class ParserCouponBean extends ImplParser {
         couponBean.applyRule = jsonObj.optString("orderRuleRemark");
         couponBean.batchName = jsonObj.optString("couponBatchName");
         couponBean.applyCarClass = jsonObj.optString("applyCarClass");
+
+        List<CouponTitleContent> dataList = new ArrayList<>();
+        CouponTitleContent titleContent = null;
+        JSONArray array = jsonObj.getJSONArray("dataList");
+        if(null != array) {
+            for (int i = 0; i < array.length(); i++) {
+                titleContent = new CouponTitleContent();
+                titleContent.title = array.getJSONObject(i).getString("title");
+                titleContent.content = array.getJSONObject(i).getString("content");
+                dataList.add(titleContent);
+            }
+        }
+        couponBean.dataList = dataList;
+
         return couponBean;
     }
 }

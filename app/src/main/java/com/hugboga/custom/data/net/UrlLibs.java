@@ -306,7 +306,8 @@ public class UrlLibs {
     /**
      * 优惠券
      **/
-    public static final String SERVER_IP_COUPONS = "marketing/v1.0/c/coupons?";
+    public static final String SERVER_IP_COUPONS = "marketing/v2.0/c/coupons?";
+
     /**
      * 优惠券 绑定
      **/
