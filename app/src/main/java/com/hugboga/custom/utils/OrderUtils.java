@@ -775,23 +775,32 @@ public class OrderUtils {
         HttpRequestUtils.request(context, requestGuideConflict,listener,false);
     }
 
-    //协议
+    //确认订单协议
     public static void genAgreeMent(final Activity activity, TextView textView) {
-        String agree_text = activity.getString(R.string.commit_agree);
-        String agree_text_click = activity.getString(R.string.commit_agree_click);
+        genCLickSpan(activity,textView,activity.getString(R.string.commit_agree),activity.getString(R.string.commit_agree_click),UrlLibs.H5_TAI_AGREEMENT);
+    }
+
+    //注册协议
+    public static void genRegisterAgreeMent(final Activity activity, TextView textView) {
+        genCLickSpan(activity,textView,activity.getString(R.string.register_info_tip),activity.getString(R.string.register_info_tip_protocol),UrlLibs.H5_PROTOCOL);
+    }
+
+    public static void genCLickSpan(final Activity activity, TextView textView,String agree_text,String agree_text_click,String url) {
         int start = agree_text.indexOf(agree_text_click);
         int end = agree_text.length();
         SpannableString clickSpan = new SpannableString(agree_text);
-        clickSpan.setSpan(new MyCLickSpan(activity), start,end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        clickSpan.setSpan(new MyCLickSpan(activity,url), start,end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         textView.setMovementMethod(LinkMovementMethod.getInstance());
         textView.setText(clickSpan);
     }
 
     static class MyCLickSpan extends ClickableSpan{
         Activity activity;
-        public MyCLickSpan(Activity activity) {
+        String url;
+        public MyCLickSpan(Activity activity,String url) {
             super();
             this.activity = activity;
+            this.url = url;
         }
 
         @Override
@@ -804,7 +813,7 @@ public class OrderUtils {
         @Override
         public void onClick(View widget) {
             Intent intent = new Intent(activity,WebInfoActivity.class);
-            intent.putExtra("web_url", UrlLibs.H5_TAI_AGREEMENT);
+            intent.putExtra("web_url", url);
             activity.startActivity(intent);
         }
     }

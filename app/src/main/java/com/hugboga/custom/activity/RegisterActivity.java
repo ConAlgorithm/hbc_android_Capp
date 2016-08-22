@@ -33,6 +33,7 @@ import com.hugboga.custom.data.request.RequestVerity;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.utils.CommonUtils;
+import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.widget.DialogUtil;
 import com.umeng.analytics.MobclickAgent;
 
@@ -64,6 +65,10 @@ public class RegisterActivity extends BaseActivity implements TextWatcher {
     TextView getCodeBtn; //发送验证码按钮
     @Bind(R.id.register_time)
     TextView timeTextView; //验证码倒计时
+
+    @Bind(R.id.left_protocol)
+    TextView leftProtocol; //协议
+
     private String source = "";
 
     @Bind(R.id.register_submit)
@@ -82,6 +87,8 @@ public class RegisterActivity extends BaseActivity implements TextWatcher {
 
         initDefaultTitleBar();
         fgTitle.setText("注册");
+
+        OrderUtils.genRegisterAgreeMent(this,leftProtocol);
 
         Bundle bundle = getIntent().getExtras();
         String keyFrom = null;
