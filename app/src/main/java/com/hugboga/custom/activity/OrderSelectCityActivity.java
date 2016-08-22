@@ -78,9 +78,7 @@ import static com.hugboga.custom.R.id.people_text_click;
 import static com.hugboga.custom.R.id.start_city_click;
 
 
-public class OrderSelectCityActivity extends BaseActivity  {
-
-
+public class OrderSelectCityActivity extends BaseActivity {
     @Bind(R.id.header_left_btn)
     ImageView headerLeftBtn;
     @Bind(R.id.header_title)
@@ -171,15 +169,11 @@ public class OrderSelectCityActivity extends BaseActivity  {
     @Bind(R.id.header_right_txt)
     TextView headerRightTxt;
 
-
-
-
-
     public void initView() {
         initSelectPeoplePop(false);
         enableNextBtn();
 
-        startBean = (CityBean)this.getIntent().getSerializableExtra("cityBean");
+        startBean = (CityBean) this.getIntent().getSerializableExtra("cityBean");
 
         if (null != startBean) {
             endBean = startBean;
@@ -192,11 +186,11 @@ public class OrderSelectCityActivity extends BaseActivity  {
                 public void run() {
                     Intent intent = new Intent(OrderSelectCityActivity.this, ChooseCityActivity.class);
                     intent.putExtra(BaseFragment.KEY_BUSINESS_TYPE, Constants.BUSINESS_TYPE_DAILY);
-                    intent.putExtra("fromDaily",true);
+                    intent.putExtra("fromDaily", true);
                     startActivity(intent);
-                    overridePendingTransition(R.anim.push_bottom_in,0);
+                    overridePendingTransition(R.anim.push_bottom_in, 0);
                 }
-            },500);
+            }, 500);
 
         }
 
@@ -269,7 +263,7 @@ public class OrderSelectCityActivity extends BaseActivity  {
                     goCollectGuid(2);
                 } else {
                     Intent intent = new Intent(activity, LoginActivity.class);
-                    intent.putExtra("source",getEventSource());
+                    intent.putExtra("source", getEventSource());
                     startActivity(intent);
                 }
             }
@@ -281,21 +275,10 @@ public class OrderSelectCityActivity extends BaseActivity  {
         headerRightTxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Bundle bundle = new Bundle();
-//                bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_PROBLEM);
-//                bundle.putBoolean(FgWebInfo.CONTACT_SERVICE, true);
-//                startFragment(new FgWebInfo(), bundle);
-
                 Intent intent = new Intent(activity, WebInfoActivity.class);
                 intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_PROBLEM);
                 intent.putExtra(WebInfoActivity.CONTACT_SERVICE, true);
                 activity.startActivity(intent);
-
-                HashMap<String, String> map = new HashMap<String, String>();
-                map.put("source", "填写行程页面");
-                MobclickAgent.onEvent(activity, "callcenter_oneway", map);
-                v.setTag("填写行程页面,calldomestic_oneway,calloverseas_oneway");
-
             }
         });
 
@@ -306,9 +289,9 @@ public class OrderSelectCityActivity extends BaseActivity  {
         }
 
         Map map = new HashMap();
-        map.put(Constants.PARAMS_SOURCE,getEventSource());
-        map.put(Constants.PARAMS_SOURCE_DETAIL,eventUtil.sourceDetail);
-        MobClickUtils.onEvent(getEventId(),map);
+        map.put(Constants.PARAMS_SOURCE, getEventSource());
+        map.put(Constants.PARAMS_SOURCE_DETAIL, eventUtil.sourceDetail);
+        MobClickUtils.onEvent(getEventId(), map);
     }
 
     private void showSaveDialog() {
@@ -472,7 +455,6 @@ public class OrderSelectCityActivity extends BaseActivity  {
     TextView out_title, in_title, other_title;
     TextView out_tips, in_tips, other_tips;
 
-    //    List<String> passCitiesList = new ArrayList<>();
     ArrayList<CityBean> passBeanList = new ArrayList<>();
 
     //添加经过城市
@@ -586,7 +568,7 @@ public class OrderSelectCityActivity extends BaseActivity  {
                 intent.putExtra("source", "首页");
                 intent.putExtra(BaseFragment.KEY_BUSINESS_TYPE, Constants.BUSINESS_TYPE_DAILY);
                 intent.putExtra(ChooseCityActivity.KEY_CITY_ID, preCityBean.cityId);
-                intent.putExtra(KEY_FROM,"lastCity");
+                intent.putExtra(KEY_FROM, "lastCity");
                 intent.putExtras(bundle);
                 startActivity(intent);
                 hideSelectPeoplePop();
@@ -693,59 +675,6 @@ public class OrderSelectCityActivity extends BaseActivity  {
     String endCityId = "";
 
     List<CityBean> hotCitys;//热门城市
-
-    public void onFragmentResult(Bundle bundle) {
-        MLog.w(this + " onFragmentResult " + bundle);
-        String from = bundle.getString(KEY_FRAGMENT_NAME);
-        if (ChooseCityActivity.class.getSimpleName().equals(from)) {
-            String fromKey = bundle.getString(KEY_FROM);
-            if ("startAddress".equals(fromKey)) {
-                startBean = (CityBean) bundle.getSerializable(ChooseCityActivity.KEY_CITY);
-                preCityBean = startBean;
-                passBeanList.clear();
-//                passBeanList.add(startBean);
-                endBean = startBean;
-                if (!startCity.equalsIgnoreCase(startBean.name)) {
-                    startCity = startBean.name;
-                    endCityId = startBean.cityId + "";
-                    startCityClick.setText(startCity);
-                    startCityClick.setTextColor(Color.parseColor("#000000"));
-                    DBCityUtils dbCityUtils = new DBCityUtils();
-//                    cityBeanList = dbCityUtils.requestDataByKeyword(startBean.name, false);
-//                    initScopeLayoutValue(cityBeanList);
-                    initScopeLayoutValue(true);
-                    addDayView(true);
-                }
-
-                List<CityBean> list = CityUtils.requestDataByKeyword(activity,
-                        preCityBean.groupId, preCityBean.cityId, "", true);
-
-                if (null == list || list.size() == 0) {
-                    showOtherLayout = false;
-                } else {
-                    showOtherLayout = true;
-                }
-
-
-                hotCitys = CityUtils.requestHotDate(activity, startBean.groupId,startBean.cityId,"lastCity");
-            } else if ("lastCity".equalsIgnoreCase(fromKey) || "nearby".equalsIgnoreCase(fromKey)) {
-                endBean = (CityBean) bundle.getSerializable(ChooseCityActivity.KEY_CITY);
-
-//                passBeanList.add(endBean);
-                setDayText(3, endBean);
-//                resetLastText();
-//                if(Integer.valueOf(currentClickView.getTag().toString()) != full_day_show.getChildCount()) {
-//                    if (endBean.cityId == startBean.cityId) {
-//                        resetLastText(false);
-//                    } else {
-//                        resetLastText(true);
-//                    }
-//                }
-            }
-//            checkNextBtnStatus();
-        }
-    }
-
     CityBean preCityBean;
     boolean showOtherLayout = true;
 
@@ -815,13 +744,10 @@ public class OrderSelectCityActivity extends BaseActivity  {
     //type 1 司导列表   2, 预约司导列表
     private void goCollectGuid(int type) {
         if (type == 1) {
-//            FgCollectGuideList fgCollectGuideList = new FgCollectGuideList();
-//            startFragment(fgCollectGuideList);
             startActivity(new Intent(this, CollectGuideListActivity.class));
         } else {
             if (checkParams()) {
                 if (UserEntity.getUser().isLogin(activity)) {
-//                    FgCollectGuideList fgCollectGuideList = new FgCollectGuideList();
                     Bundle bundle = new Bundle();
                     RequestCollectGuidesFilter.CollectGuidesFilterParams params = new RequestCollectGuidesFilter.CollectGuidesFilterParams();
                     params.startCityId = startBean.cityId;
@@ -840,14 +766,12 @@ public class OrderSelectCityActivity extends BaseActivity  {
                     params.totalDays = isHalfTravel ? 1 : nums;
                     params.passCityId = startBean.cityId + "";//isHalfTravel ? startBean.cityId + "" : getPassCitiesId();
                     bundle.putSerializable(Constants.PARAMS_DATA, params);
-//                    fgCollectGuideList.setArguments(bundle);
-//                    startFragment(fgCollectGuideList);
                     Intent intent = new Intent(this, CollectGuideListActivity.class);
                     intent.putExtras(bundle);
                     startActivity(intent);
                 } else {
                     Intent intent = new Intent(activity, LoginActivity.class);
-                    intent.putExtra("source",getEventSource());
+                    intent.putExtra("source", getEventSource());
                     startActivity(intent);
                 }
             }
@@ -870,13 +794,10 @@ public class OrderSelectCityActivity extends BaseActivity  {
                 carBean = requestGetCarInfo.getData();
 
                 if (null != carBean && null != carBean.cars && carBean.cars.size() != 0) {
-//                    FGOrderNew fgOrderNew = new FGOrderNew();
                     Bundle bundle = new Bundle();
-                    bundle.putString("guideCollectId", null != collectGuideBean?collectGuideBean.guideId:"");
+                    bundle.putString("guideCollectId", null != collectGuideBean ? collectGuideBean.guideId : "");
                     bundle.putSerializable("collectGuideBean", collectGuideBean);
                     bundle.putString("source", source);
-
-
                     bundle.putString("startCityId", startBean.cityId + "");
                     bundle.putString("endCityId", isHalfTravel ? (startBean.cityId + "") : passBeanList.get(passBeanList.size() - 1).cityId + "");//endCityId);
                     bundle.putString("startDate", isHalfTravel ? (halfDate) : (start_date_str));
@@ -885,7 +806,7 @@ public class OrderSelectCityActivity extends BaseActivity  {
                     bundle.putString("adultNum", manNum + "");
                     bundle.putString("childrenNum", childNum + "");
                     bundle.putString("childseatNum", childSeatNums + "");
-                    if(null != collectGuideBean) {
+                    if (null != collectGuideBean) {
                         int maxLuuages = (collectGuideBean.numOfLuggage + collectGuideBean.numOfPerson)
                                 - Integer.valueOf(manNum) - Math.round(Integer.valueOf(childSeatNums) * 1.5f)
                                 - (Integer.valueOf(childNum) - Integer.valueOf(childSeatNums));
@@ -908,14 +829,11 @@ public class OrderSelectCityActivity extends BaseActivity  {
                     bundle.putBoolean("isHalfTravel", isHalfTravel);
                     bundle.putInt("type", 3);
                     bundle.putString("orderType", "3");
-//                    fgOrderNew.setArguments(bundle);
+                    StatisticClickEvent.dailyClick(StatisticConstant.CONFIRM_R, "自定义包车确认行程", getIntentSource(), collectGuideBean, collectGuideBean.numOfPerson + "");
 
-                    StatisticClickEvent.dailyClick(StatisticConstant.CONFIRM_R,"自定义包车确认行程",getIntentSource(),collectGuideBean,collectGuideBean.numOfPerson+"");
-
-                    Intent intent = new Intent(activity,OrderNewActivity.class);
+                    Intent intent = new Intent(activity, OrderNewActivity.class);
                     intent.putExtras(bundle);
                     startActivity(intent);
-//                    startFragment(fgOrderNew);
                 } else {
                     CommonUtils.showToast(R.string.no_price_error);
                 }
@@ -989,9 +907,6 @@ public class OrderSelectCityActivity extends BaseActivity  {
         }
     }
 
-
-
-
     String serverTime = "00:00";
 
     @Override
@@ -1014,7 +929,7 @@ public class OrderSelectCityActivity extends BaseActivity  {
     private final int TYPE_SINGLE = 1;
     private final int TYPE_RANGE = 2;
 
-    @OnClick({R.id.header_right_txt,R.id.time_text_click, R.id.go_city_text_layout, R.id.choose_driver, R.id.minus, R.id.add, R.id.header_left_btn, start_city_click, people_text_click, R.id.show_child_seat_layout, R.id.child_no_confirm_click, baggage_text_click, R.id.baggage_no_confirm_click, R.id.end_layout_click, R.id.go_city_text_click, R.id.next_btn_click})
+    @OnClick({R.id.header_right_txt, R.id.time_text_click, R.id.go_city_text_layout, R.id.choose_driver, R.id.minus, R.id.add, R.id.header_left_btn, start_city_click, people_text_click, R.id.show_child_seat_layout, R.id.child_no_confirm_click, baggage_text_click, R.id.baggage_no_confirm_click, R.id.end_layout_click, R.id.go_city_text_click, R.id.next_btn_click})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.header_right_txt:
@@ -1050,9 +965,6 @@ public class OrderSelectCityActivity extends BaseActivity  {
                     Bundle bundle = new Bundle();
                     bundle.putString(KEY_FROM, "startAddress");
                     bundle.putInt(KEY_BUSINESS_TYPE, Constants.BUSINESS_TYPE_DAILY);
-//                    bundle.putString("source", "首页");
-//                    startFragment(new FgChooseCity(), bundle);
-
                     Intent intent = new Intent(activity, ChooseCityActivity.class);
                     intent.putExtras(bundle);
                     startActivity(intent);
@@ -1084,7 +996,6 @@ public class OrderSelectCityActivity extends BaseActivity  {
                 if (null != collectGuideBean && !TextUtils.isEmpty(endDate.getText())) {
                     CommonUtils.showToast(R.string.alert_del_after_edit);
                 } else {
-//                    showDaySelect(endDate);
                     Intent intent = new Intent(activity, DatePickerActivity.class);
                     intent.putExtra("type", TYPE_RANGE);
                     intent.putExtra("chooseDateBean", chooseDateBean);
@@ -1096,7 +1007,6 @@ public class OrderSelectCityActivity extends BaseActivity  {
                 if (null != collectGuideBean && !TextUtils.isEmpty(goCityTextClick.getText())) {
                     CommonUtils.showToast(R.string.alert_del_after_edit);
                 } else {
-//                    showDaySelect(goCityTextClick);
                     Intent intent = new Intent(activity, DatePickerActivity.class);
                     intent.putExtra("type", TYPE_SINGLE);
                     intent.putExtra("chooseDateBean", chooseDateBean);
@@ -1152,27 +1062,24 @@ public class OrderSelectCityActivity extends BaseActivity  {
                         bundleCar.putSerializable("passCityList", passBeanList);
                         bundleCar.putString("orderType", "3");
 
-                        StatisticClickEvent.dailyClick(StatisticConstant.CONFIRM_R,"自定义包车确认行程",getIntentSource(),collectGuideBean,(childNum+manNum)+"");
-                        Intent intent = new Intent(activity,SelectCarActivity.class);
+                        StatisticClickEvent.dailyClick(StatisticConstant.CONFIRM_R, "自定义包车确认行程", getIntentSource(), collectGuideBean, (childNum + manNum) + "");
+                        Intent intent = new Intent(activity, SelectCarActivity.class);
                         intent.putExtras(bundleCar);
                         startActivity(intent);
-
-//                        FGSelectCar fgSelectCar = new FGSelectCar();
-//                        fgSelectCar.setArguments(bundleCar);
-//                        startFragment(fgSelectCar);
                     }
 
-                 }
+                }
                 break;
         }
     }
 
     TimePicker picker;
+
     public void showYearMonthDayTimePicker() {
         Calendar calendar = Calendar.getInstance();
         picker = new TimePicker(activity, TimePicker.HOUR_OF_DAY);
         picker.setTitle("请选择上车时间");
-        picker.setSelectedItem(calendar.get(Calendar.HOUR_OF_DAY),calendar.get(Calendar.MINUTE));
+        picker.setSelectedItem(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
         picker.setOnTimePickListener(new TimePicker.OnTimePickListener() {
             @Override
             public void onTimePicked(String hour, String minute) {
@@ -1328,7 +1235,7 @@ public class OrderSelectCityActivity extends BaseActivity  {
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
             case CHOOSE_START_CITY_BACK:
-                startBean = (CityBean)action.getData();
+                startBean = (CityBean) action.getData();
                 preCityBean = startBean;
                 passBeanList.clear();
                 endBean = startBean;
@@ -1351,10 +1258,10 @@ public class OrderSelectCityActivity extends BaseActivity  {
                 }
 
 
-                hotCitys = CityUtils.requestHotDate(activity, startBean.groupId,startBean.cityId,"lastCity");
+                hotCitys = CityUtils.requestHotDate(activity, startBean.groupId, startBean.cityId, "lastCity");
                 break;
             case CHOOSE_END_CITY_BACK:
-                endBean = (CityBean)action.getData();
+                endBean = (CityBean) action.getData();
                 setDayText(3, endBean);
                 break;
             case CHOOSE_GUIDE:
