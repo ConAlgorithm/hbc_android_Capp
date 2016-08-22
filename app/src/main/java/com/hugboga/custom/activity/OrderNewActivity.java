@@ -1,8 +1,12 @@
 package com.hugboga.custom.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.ClickableSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CompoundButton;
@@ -55,7 +59,6 @@ import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.bean.EventPayBean;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
-import com.hugboga.custom.statistic.event.EventCancelOrder;
 import com.hugboga.custom.statistic.event.EventPay;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DateUtils;
@@ -78,11 +81,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.qqtheme.framework.picker.TimePicker;
 
-import static android.R.attr.id;
-import static android.R.attr.order;
 import static android.view.View.GONE;
 import static com.hugboga.custom.R.id.man_name;
-import static com.hugboga.custom.R.id.mans;
+import static com.hugboga.custom.R.id.text;
 import static com.hugboga.custom.R.id.up_address_right;
 import static com.hugboga.custom.R.id.up_right;
 
@@ -228,6 +229,9 @@ public class OrderNewActivity extends BaseActivity {
     @Bind(R.id.luggage_item_layout)
     LuggageItemLayout luggageItemLayout;
 
+    @Bind(R.id.agree_text)
+    TextView agreeText;
+
     /**
      * 基于原来代码修改,有时间了优化
      */
@@ -366,8 +370,7 @@ public class OrderNewActivity extends BaseActivity {
         if (null == distance) {
             distance = "0";
         }
-
-
+        OrderUtils.genAgreeMent(activity,agreeText);
         genType(type);
 
         requestMostFit();
@@ -412,7 +415,6 @@ public class OrderNewActivity extends BaseActivity {
             }
         });
     }
-
 
     //        "serviceCityId": serviceCityId,
 //        "goodsType": goodsType,

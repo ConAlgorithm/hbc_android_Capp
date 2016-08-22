@@ -71,6 +71,7 @@ public class UrlLibs {
     public static String H5_TAI_PUJIDAO = H5_HOST + "/cinfos/tai/bki.html";//普吉
     public static String H5_TAI_QINGMAI = H5_HOST + "/cinfos/tai/cnx.html";//清迈
     public static String H5_TAI_SUMEIDAO = H5_HOST + "/cinfos/tai/VSM.html";//苏梅岛
+    public static String H5_TAI_AGREEMENT = H5_HOST + "/cinfos/agreement.html";//用户协议和条款
 
 
     public static HashMap<Integer, String> OverPriceMap = new HashMap<Integer, String>();

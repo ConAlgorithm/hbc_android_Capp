@@ -750,6 +750,10 @@
 
     <string name="time_out_180">时间不能超过半年</string>
 
+    <string name="commit_agree">点击“提交订单”表示您已阅读并同意皇包车协议和条款</string>
+    <string name="commit_agree_click">皇包车协议和条款</string>
+
+
 
 
 </resources>

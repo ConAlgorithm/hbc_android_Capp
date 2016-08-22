@@ -1,11 +1,22 @@
 package com.hugboga.custom.utils;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextPaint;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
+import android.view.View;
+import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.util.MLog;
+import com.hugboga.custom.R;
+import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.data.bean.AirPort;
 import com.hugboga.custom.data.bean.CarListBean;
 import com.hugboga.custom.data.bean.CityBean;
@@ -20,6 +31,7 @@ import com.hugboga.custom.data.bean.OrderPriceInfo;
 import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.bean.SelectCarBean;
 import com.hugboga.custom.data.bean.SkuItemBean;
+import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestGuideConflict;
 
 import java.util.ArrayList;
@@ -762,4 +774,40 @@ public class OrderUtils {
                 carType,carClass);
         HttpRequestUtils.request(context, requestGuideConflict,listener,false);
     }
+
+    //协议
+    public static void genAgreeMent(final Activity activity, TextView textView) {
+        String agree_text = activity.getString(R.string.commit_agree);
+        String agree_text_click = activity.getString(R.string.commit_agree_click);
+        int start = agree_text.indexOf(agree_text_click);
+        int end = agree_text.length();
+        SpannableString clickSpan = new SpannableString(agree_text);
+        clickSpan.setSpan(new MyCLickSpan(activity), start,end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        textView.setMovementMethod(LinkMovementMethod.getInstance());
+        textView.setText(clickSpan);
+    }
+
+    static class MyCLickSpan extends ClickableSpan{
+        Activity activity;
+        public MyCLickSpan(Activity activity) {
+            super();
+            this.activity = activity;
+        }
+
+        @Override
+        public void updateDrawState(TextPaint ds) {
+            super.updateDrawState(ds);
+            ds.setColor(0xff008cef);
+            ds.setUnderlineText(false);
+        }
+
+        @Override
+        public void onClick(View widget) {
+            Intent intent = new Intent(activity,WebInfoActivity.class);
+            intent.putExtra("web_url", UrlLibs.H5_TAI_AGREEMENT);
+            activity.startActivity(intent);
+        }
+    }
+
+
 }
