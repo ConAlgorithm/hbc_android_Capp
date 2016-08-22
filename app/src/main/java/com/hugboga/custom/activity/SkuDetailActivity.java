@@ -97,15 +97,6 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
     public void initView() {
         isGoodsOut = false;
         findViewById(R.id.header_right_btn).setVisibility(WXShareUtils.getInstance(activity).isInstall(false) ? View.VISIBLE : View.VISIBLE);
-        if (this.getIntent() != null) {
-            skuItemBean = (SkuItemBean) getIntent().getSerializableExtra(WEB_SKU);
-            cityBean = (CityBean) getIntent().getSerializableExtra(WEB_CITY);
-            source = getIntent().getStringExtra("source");
-            goodsNo = getIntent().getStringExtra(Constants.PARAMS_ID);
-        }
-        if (cityBean == null && skuItemBean != null && skuItemBean.arrCityId != 0) {
-            cityBean = findCityById("" + skuItemBean.arrCityId);
-        }
         headerLeftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -404,8 +395,17 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        if (this.getIntent() != null) {
+            skuItemBean = (SkuItemBean) getIntent().getSerializableExtra(WEB_SKU);
+            cityBean = (CityBean) getIntent().getSerializableExtra(WEB_CITY);
+            source = getIntent().getStringExtra("source");
+            goodsNo = getIntent().getStringExtra(Constants.PARAMS_ID);
+        }
+        if (cityBean == null && skuItemBean != null && skuItemBean.arrCityId != 0) {
+            cityBean = findCityById("" + skuItemBean.arrCityId);
+        }
         this.cityBean = (CityBean) getIntent().getSerializableExtra("cityBean");
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.fg_sku_detail);
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
