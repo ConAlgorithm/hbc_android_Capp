@@ -672,6 +672,7 @@ public class SingleNewActivity extends BaseActivity {
                     bundle.putString(PoiSearchActivity.KEY_LOCATION, cityBean.location);
                     intent = new Intent(activity,PoiSearchActivity.class);
                     intent.putExtras(bundle);
+                    intent.putExtra("mBusinessType",4);
                     startActivity(intent);
 
                 } else {
@@ -698,6 +699,7 @@ public class SingleNewActivity extends BaseActivity {
                     bundle.putString(PoiSearchActivity.KEY_LOCATION, cityBean.location);
                     intent = new Intent(activity,PoiSearchActivity.class);
                     intent.putExtras(bundle);
+                    intent.putExtra("mBusinessType",4);
                     startActivity(intent);
 
                 } else {

@@ -614,6 +614,7 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
 
                     intent = new Intent(getActivity(),PoiSearchActivity.class);
                     intent.putExtras(bundle);
+                    intent.putExtra("mBusinessType",1);
                     getActivity().startActivity(intent);
                 } else {
                     CommonUtils.showToast("请先选择航班");

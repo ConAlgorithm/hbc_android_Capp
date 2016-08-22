@@ -174,7 +174,7 @@ public class PoiSearchActivity extends BaseActivity implements AdapterView.OnIte
     }
 
     private void requestKeyword(int offset) {
-        RequestPoiSearch requestPoiSearch = new RequestPoiSearch(activity, cityId, location, searchWord, offset, PAGESIZE);
+        RequestPoiSearch requestPoiSearch = new RequestPoiSearch(activity, cityId, location, searchWord, offset, PAGESIZE,mBusinessType);
         requestData(requestPoiSearch);
     }
 

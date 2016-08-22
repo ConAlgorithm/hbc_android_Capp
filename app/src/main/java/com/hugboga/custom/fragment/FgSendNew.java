@@ -521,6 +521,7 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
 //
                     intent = new Intent(getActivity(), PoiSearchActivity.class);
                     intent.putExtras(bundle);
+                    intent.putExtra("mBusinessType",2);
                     getActivity().startActivity(intent);
 
                 } else {
