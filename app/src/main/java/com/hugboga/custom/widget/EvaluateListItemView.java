@@ -29,7 +29,7 @@ public class EvaluateListItemView extends LinearLayout{
 
     private PolygonImageView avatarIV;
     private TextView nameTV, stateTV, timeTV, contentTV;
-    private RatingView ratingview;
+    private SimpleRatingBar ratingview;
     private EvaluateTagGroup tagGroup;
     private View bottomLineView, topLineView;
     private TextView moreComments;
@@ -46,7 +46,7 @@ public class EvaluateListItemView extends LinearLayout{
         nameTV = (TextView) findViewById(R.id.evaluate_list_item_name_tv);
         stateTV = (TextView) findViewById(R.id.evaluate_list_item_state_tv);
         timeTV = (TextView) findViewById(R.id.evaluate_list_item_time_tv);
-        ratingview = (RatingView) findViewById(R.id.evaluate_list_item_ratingview);
+        ratingview = (SimpleRatingBar) findViewById(R.id.evaluate_list_item_ratingview);
         tagGroup = (EvaluateTagGroup) findViewById(R.id.evaluate_list_item_taggroup);
         contentTV = (TextView) findViewById(R.id.evaluate_list_item_content_tv);
         bottomLineView = findViewById(R.id.evaluate_list_item_line_bottom);
@@ -106,7 +106,7 @@ public class EvaluateListItemView extends LinearLayout{
         nameTV.setText(data.getName());
         stateTV.setText(data.getOrderTypeStr());
         timeTV.setText(data.getCreateTimeYMD());
-        ratingview.setLevel(data.getTotalScore());
+        ratingview.setRating(data.getTotalScore());
         contentTV.setText(data.getContent());
 
         if (data.getLabelNamesArr() != null && data.getLabelNamesArr().size() > 0) {

@@ -22,7 +22,7 @@ import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.widget.CircleImageView;
-import com.hugboga.custom.widget.RatingView;
+import com.hugboga.custom.widget.SimpleRatingBar;
 
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
@@ -73,7 +73,7 @@ public class CollectGuideAdapter extends BaseAdapter<CollectGuideBean> {
             Tools.showImage(holder.avatarIV, collectGuideBean.avatar);
         }
         holder.nameTV.setText(collectGuideBean.name);
-        holder.ratingView.setLevel(collectGuideBean.stars);
+        holder.ratingView.setRating(collectGuideBean.stars);
         if (isShowStatusLayout) {
             holder.appointmentTV.setVisibility(View.GONE);
             holder.describeTV.setText(context.getString(R.string.collect_guide_describe, collectGuideBean.carModel, collectGuideBean.numOfPerson, collectGuideBean.numOfLuggage));
@@ -188,7 +188,7 @@ public class CollectGuideAdapter extends BaseAdapter<CollectGuideBean> {
         @ViewInject(R.id.collect_name_tv)
         TextView nameTV;
         @ViewInject(R.id.collect_ratingView)
-        RatingView ratingView;
+        SimpleRatingBar ratingView;
         @ViewInject(R.id.collect_describe_tv)
         TextView describeTV;
         @ViewInject(R.id.collect_appointment_tv)

@@ -53,15 +53,21 @@
                 android:layout_toRightOf="@id/evaluate_list_item_avatar_iv"
                 android:textColor="#808080"
                 android:textSize="12sp" />
-            <com.hugboga.custom.widget.RatingView
+            <com.hugboga.custom.widget.SimpleRatingBar
                 android:id="@+id/evaluate_list_item_ratingview"
                 android:layout_width="wrap_content"
-                android:layout_height="12dip"
+                android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                app:gap="2dip"
-                app:rating_bg="@drawable/btn_yellow_ratingbar"
-                app:touchable="false" />
+                app:srb_starSize="13dp"
+                app:srb_starsSeparation="2dp"
+                app:srb_numberOfStars="5"
+                app:srb_stepSize="0.01"
+                app:srb_borderColor="#00000000"
+                app:srb_fillColor="#fed631"
+                app:srb_starBackgroundColor="#eeeeee"
+                app:srb_isIndicator="true"
+                />
         </RelativeLayout>
     <com.hugboga.custom.widget.EvaluateTagGroup
         android:id="@+id/evaluate_list_item_taggroup"

@@ -32,7 +32,7 @@ import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.EvaluateListItemView;
-import com.hugboga.custom.widget.RatingView;
+import com.hugboga.custom.widget.SimpleRatingBar;
 
 import net.grobas.view.PolygonImageView;
 
@@ -64,7 +64,7 @@ public class GuideDetailActivity extends BaseActivity implements GuideCarPhotosA
     @Bind(R.id.guide_detail_platenumber_tv)
     TextView platenumberTV;
     @Bind(R.id.guide_detail_ratingView)
-    RatingView ratingView;
+    SimpleRatingBar ratingView;
     @Bind(R.id.guide_detail_score_tv)
     TextView scoreTV;
     @Bind(R.id.guide_detail_right_line)
@@ -164,7 +164,7 @@ public class GuideDetailActivity extends BaseActivity implements GuideCarPhotosA
             if (!TextUtils.isEmpty(data.getCarLicenceNo())) {
                 platenumberTV.setText(getString(R.string.platenumber) + data.getCarLicenceNo());
             }
-            ratingView.setLevel(data.getServiceStar());
+            ratingView.setRating(data.getServiceStar());
             scoreTV.setText(String.valueOf(data.getServiceStar()));
             collectIV.setSelected(data.isCollected());
 

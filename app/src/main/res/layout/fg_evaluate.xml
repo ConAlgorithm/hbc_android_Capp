@@ -65,16 +65,20 @@
                             android:textColor="#333333"
                             android:textSize="16sp" />
 
-                        <com.hugboga.custom.widget.RatingView
+                        <com.hugboga.custom.widget.SimpleRatingBar
                             android:id="@+id/evaluate_score_ratingview"
                             android:layout_width="wrap_content"
-                            android:layout_height="15dip"
+                            android:layout_height="wrap_content"
                             android:layout_marginLeft="16dp"
-                            android:layout_marginTop="1dip"
-                            app:gap="4dip"
-                            app:half_bg="@mipmap/collection_icon_star_half"
-                            app:rating_bg="@drawable/btn_yellow_ratingbar"
-                            app:touchable="false" />
+                            app:srb_starSize="16dp"
+                            app:srb_starsSeparation="2dp"
+                            app:srb_numberOfStars="5"
+                            app:srb_stepSize="0.01"
+                            app:srb_borderColor="#00000000"
+                            app:srb_fillColor="#fed631"
+                            app:srb_starBackgroundColor="#eeeeee"
+                            app:srb_isIndicator="true"
+                            />
                     </LinearLayout>
 
 

@@ -132,17 +132,20 @@
                     android:textSize="15sp" />
             </FrameLayout>
 
-            <com.hugboga.custom.widget.RatingView
+            <com.hugboga.custom.widget.SimpleRatingBar
                 android:id="@+id/guide_detail_ratingView"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                app:item_width="32dip"
-                app:touchable="false"
-                app:gap="22dip"
-                app:half_bg="@mipmap/sddate_star_half"
-                app:rating_bg="@drawable/btn_guides_detail_ratingbar" />
-
+                android:layout_gravity="center"
+                app:srb_starSize="38dp"
+                app:srb_starsSeparation="5dp"
+                app:srb_numberOfStars="5"
+                app:srb_stepSize="0.01"
+                app:srb_borderColor="#00000000"
+                app:srb_fillColor="#fed631"
+                app:srb_starBackgroundColor="#eeeeee"
+                app:srb_isIndicator="true"
+                />
             <TextView
                 android:id="@+id/guide_detail_score_tv"
                 android:layout_width="wrap_content"

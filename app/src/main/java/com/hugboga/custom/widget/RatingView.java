@@ -15,7 +15,7 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.utils.UIUtils;
 
 /**
- * Created by qingcha on 16/5/24.
+ * Created by on 16/5/24.
  */
 public class RatingView extends LinearLayout {
 

@@ -35,6 +35,7 @@ import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.EvaluateShareView;
 import com.hugboga.custom.widget.EvaluateTagGroup;
 import com.hugboga.custom.widget.RatingView;
+import com.hugboga.custom.widget.SimpleRatingBar;
 
 import net.grobas.view.PolygonImageView;
 
@@ -57,7 +58,7 @@ public class EvaluateActivity extends BaseActivity implements RatingView.OnLevel
     @Bind(R.id.evaluate_name_tv)
     TextView nameTV;
     @Bind(R.id.evaluate_score_ratingview)
-    RatingView scoreRatingview;
+    SimpleRatingBar scoreRatingview;
     @Bind(R.id.evaluate_describe_tv)
     TextView describeTV;
     @Bind(R.id.evaluate_plate_number_tv)
@@ -156,7 +157,7 @@ public class EvaluateActivity extends BaseActivity implements RatingView.OnLevel
             Tools.showImage(avatarIV, guideInfo.guideAvatar);
         }
         nameTV.setText(guideInfo.guideName);
-        scoreRatingview.setLevel((float)guideInfo.guideStarLevel);
+        scoreRatingview.setRating((float)guideInfo.guideStarLevel);
         describeTV.setText(guideInfo.guideCar);
         if (!TextUtils.isEmpty(guideInfo.carNumber)) {
             plateNumberTV.setText(getString(R.string.platenumber) + guideInfo.carNumber);
