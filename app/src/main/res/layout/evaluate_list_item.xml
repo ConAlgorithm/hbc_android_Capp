@@ -60,7 +60,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 app:srb_starSize="13dp"
-                app:srb_starsSeparation="2dp"
+                app:srb_starsSeparation="0.5dp"
                 app:srb_numberOfStars="5"
                 app:srb_stepSize="0.01"
                 app:srb_borderColor="#00000000"
