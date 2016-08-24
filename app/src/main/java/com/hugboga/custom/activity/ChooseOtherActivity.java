@@ -129,6 +129,7 @@ public class ChooseOtherActivity extends BaseActivity {
         headerLeftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                hideInputMethod(name1Text);
                 finish();
             }
         });
@@ -400,21 +401,11 @@ public class ChooseOtherActivity extends BaseActivity {
             case R.id.user1_phone_text_code_click:
             case R.id.user2_phone_text_code_click:
             case R.id.passenger_phone_text_code_click:
-//                FgChooseCountry chooseCountry = new FgChooseCountry();
-//                Bundle bundleCode = new Bundle();
-//                bundleCode.putInt("airportCode", view.getId());
-//                startFragment(chooseCountry, bundleCode);
-
-
                 Bundle bundleCode = new Bundle();
                 bundleCode.putInt("viewId", view.getId());
-//                startFragment(chooseCountry, bundleCode);
-
                 intent = new Intent(activity,ChooseCountryActivity.class);
                 intent.putExtras(bundleCode);
                 startActivity(intent);
-
-
                 break;
         }
     }

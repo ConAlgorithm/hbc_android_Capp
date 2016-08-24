@@ -243,6 +243,7 @@ public class OrderNewActivity extends BaseActivity {
         headerLeftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                hideInputMethod(pickName);
                 finish();
             }
         });

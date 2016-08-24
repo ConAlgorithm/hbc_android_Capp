@@ -212,10 +212,7 @@ public class PoiSearchActivity extends BaseActivity implements AdapterView.OnIte
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.header_left_btn:
-                HashMap<String, String> map = new HashMap<String, String>();
-                map.put("source", source);
-                map.put("searchinput", editSearch.getText().toString().trim());
-                MobclickAgent.onEvent(activity, "search_close", map);
+                hideInputMethod(editSearch);
                 finish();
                 break;
             case R.id.head_search_clean:
