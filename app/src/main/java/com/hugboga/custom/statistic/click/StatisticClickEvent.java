@@ -22,6 +22,9 @@ public class StatisticClickEvent {
 
 
     private static String getGuestCount(ManLuggageBean guestcount){
+        if(null == guestcount){
+            return "0";
+        }
         return (guestcount.mans + guestcount.childs)+"";
     }
 
