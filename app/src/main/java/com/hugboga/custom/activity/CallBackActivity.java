@@ -44,6 +44,11 @@ public class CallBackActivity extends BaseActivity {
         }
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        hideInputMethod(contentEditText);
+    }
 
     @OnClick({R.id.call_back_submit})
     public void onClick(View view) {

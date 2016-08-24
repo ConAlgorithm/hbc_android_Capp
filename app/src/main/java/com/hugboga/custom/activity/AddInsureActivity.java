@@ -116,6 +116,12 @@ public class AddInsureActivity extends BaseActivity implements HttpRequestListen
     }
 
     @Override
+    protected void onStop() {
+        super.onStop();
+        hideInputMethod(name);
+    }
+
+    @Override
     public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         setContentView(R.layout.add_new_insure);

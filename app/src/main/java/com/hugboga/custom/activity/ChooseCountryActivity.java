@@ -88,6 +88,12 @@ public class ChooseCountryActivity extends BaseActivity {
         requestDate(null);
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        hideInputMethod(searchEditText);
+    }
+
     /**
      * 获取区号列表
      *

@@ -70,6 +70,12 @@ public class BindMobileActivity extends BaseActivity{
     }
 
     @Override
+    protected void onStop() {
+        super.onStop();
+        hideInputMethod(mobileEditText);
+    }
+
+    @Override
     public String getEventSource() {
         return "";
     }

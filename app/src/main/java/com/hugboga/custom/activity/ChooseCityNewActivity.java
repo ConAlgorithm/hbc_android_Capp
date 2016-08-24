@@ -133,6 +133,8 @@ public class ChooseCityNewActivity extends BaseActivity {
 
     }
 
+
+
     @Override
     public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
@@ -487,6 +489,7 @@ public class ChooseCityNewActivity extends BaseActivity {
     @Override
     protected void onStop() {
         super.onStop();
+        hideInputMethod(headSearch);
     }
 
     @Override

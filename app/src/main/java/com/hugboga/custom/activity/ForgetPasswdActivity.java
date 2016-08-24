@@ -126,6 +126,12 @@ public class ForgetPasswdActivity extends BaseActivity implements TextWatcher {
     }
 
     @Override
+    protected void onStop() {
+        super.onStop();
+        hideInputMethod(areaCodeTextView);
+    }
+
+    @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
     }

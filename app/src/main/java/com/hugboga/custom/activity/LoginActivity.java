@@ -190,6 +190,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
     @Override
     public void onStop() {
         super.onStop();
+        hideInputMethod(phoneEditText);
         this.activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
     }
 

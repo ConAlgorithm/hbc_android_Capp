@@ -139,6 +139,7 @@ public class RegisterActivity extends BaseActivity implements TextWatcher {
     @Override
     public void onStop() {
         super.onStop();
+        hideInputMethod(areaCodeTextView);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
     }
 

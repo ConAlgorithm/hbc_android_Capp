@@ -62,6 +62,12 @@ public class ChangeMobileActivtiy extends BaseActivity{
         EventBus.getDefault().unregister(this);
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        hideInputMethod(mobileEditText);
+    }
+
     private void initView() {
         initDefaultTitleBar();
         fgTitle.setText("修改手机号");
