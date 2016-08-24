@@ -193,6 +193,7 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
             headerLeftBtnNew.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    hideInputMethod(searchTV);
                     finish();
                     overridePendingTransition(R.anim.push_buttom_out,0);
                 }
@@ -203,6 +204,7 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
             headerLeftBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    hideInputMethod(searchTV);
                     finish();
                 }
             });
@@ -401,6 +403,7 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
                 editSearch.setText("");
                 break;
             case R.id.header_left_btn:
+                hideInputMethod(editSearch);
                 finish();
                 break;
             case R.id.head_text_right:

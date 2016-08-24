@@ -62,9 +62,20 @@ public class BaseActivity extends BaseFragmentActivity implements HttpRequestLis
                     MobClickUtils.onEvent(getEventId(), getEventMap());
                 }
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    //获取输入法打开的状态
+    private boolean isInputIsShow() {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        return imm.isActive();
+    }
+
+    protected void hideInputMethod(View view) {
+        InputMethodManager m=(InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        m.hideSoftInputFromWindow(view.getWindowToken(),0);
     }
 
     //获取上个界面的来源
