@@ -138,6 +138,11 @@ public class ChooseAirPortActivity extends BaseActivity implements SideBar.OnTou
         initSideBar(sideBar);
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        hideInputMethod(headSearch);
+    }
 
     private void getGPSAirport() {
         if (null != GPSBean.lat && null != GPSBean.lng) {
