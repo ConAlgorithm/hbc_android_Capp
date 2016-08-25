@@ -725,7 +725,7 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
                     }
                 } else {
                     intent = new Intent(activity, LoginActivity.class);
-                    intent.putExtra("source",getEventSource());
+                    intent.putExtra("source",getIntentSource());
                     startActivity(intent);
                 }
                 break;

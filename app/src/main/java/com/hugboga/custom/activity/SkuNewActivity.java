@@ -392,7 +392,7 @@ public class SkuNewActivity extends BaseActivity {
 
     public void goLogin(){
         Intent intent = new Intent(activity,LoginActivity.class);
-        intent.putExtra("source",getEventSource());
+        intent.putExtra("source",getIntentSource());
         startActivity(intent);
     }
 
@@ -419,7 +419,7 @@ public class SkuNewActivity extends BaseActivity {
         Bundle bundle = new Bundle();
         bundle.putString("guideCollectId", "");
         bundle.putSerializable("collectGuideBean", null);
-        bundle.putString("source", getEventSource());
+        bundle.putString("source", getIntentSource());
         bundle.putSerializable("carListBean", carListBean);
 
         bundle.putString("startCityId", cityBean.cityId + "");

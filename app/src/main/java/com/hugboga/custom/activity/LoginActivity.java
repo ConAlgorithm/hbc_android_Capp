@@ -198,10 +198,6 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
     public void onStart() {
         super.onStart();
         this.activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-
-        HashMap<String, String> map = new HashMap<String, String>();
-        map.put("source", source);
-        MobclickAgent.onEvent(activity, "login_launch", map);
     }
 
     @Override
@@ -225,7 +221,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
             connectIM();
             EventBus.getDefault().post(new EventAction(EventType.CLICK_USER_LOGIN));
             HashMap<String, String> map = new HashMap<String, String>();
-            map.put("source", getEventSource());
+            map.put("source", getIntentSource());
             map.put("loginstyle", "手机号");
             map.put("head", !TextUtils.isEmpty(user.avatar) ? "是" : "否");
             map.put("nickname", !TextUtils.isEmpty(user.nickname) ? "是" : "否");
@@ -335,7 +331,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
                     bundle2.putString("source", source);
                 }
                 intent = new Intent(LoginActivity.this, RegisterActivity.class);
-                intent.putExtra("source",getEventSource());
+                intent.putExtra("source",getIntentSource());
                 intent.putExtras(bundle2);
                 startActivity(intent);
                 break;

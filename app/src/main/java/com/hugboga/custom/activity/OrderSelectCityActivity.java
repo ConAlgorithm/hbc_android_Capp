@@ -263,7 +263,7 @@ public class OrderSelectCityActivity extends BaseActivity {
                     goCollectGuid(2);
                 } else {
                     Intent intent = new Intent(activity, LoginActivity.class);
-                    intent.putExtra("source", getEventSource());
+                    intent.putExtra("source", getIntentSource());
                     startActivity(intent);
                 }
             }
@@ -774,7 +774,7 @@ public class OrderSelectCityActivity extends BaseActivity {
                     startActivity(intent);
                 } else {
                     Intent intent = new Intent(activity, LoginActivity.class);
-                    intent.putExtra("source", getEventSource());
+                    intent.putExtra("source", getIntentSource());
                     startActivity(intent);
                 }
             }

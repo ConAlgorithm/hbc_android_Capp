@@ -183,7 +183,7 @@ public class WebAgent implements HttpRequestListener {
             @Override
             public void run() {
                 Intent intent = new Intent(mActivity, LoginActivity.class);
-                intent.putExtra("source",((BaseActivity)mActivity).getEventSource());
+                intent.putExtra("source",((BaseActivity)mActivity).getIntentSource());
                 mActivity.startActivity(intent);
             }
         });
