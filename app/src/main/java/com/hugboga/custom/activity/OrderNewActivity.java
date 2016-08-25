@@ -252,11 +252,6 @@ public class OrderNewActivity extends BaseActivity {
         headerRightTxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Bundle bundle = new Bundle();
-//                bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_PROBLEM);
-//                bundle.putBoolean(FgWebInfo.CONTACT_SERVICE, true);
-//                startFragment(new FgWebInfo(), bundle);
-
                 Intent intent = new Intent(activity, WebInfoActivity.class);
                 intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_PROBLEM);
                 intent.putExtra(WebInfoActivity.CONTACT_SERVICE, true);
@@ -417,17 +412,6 @@ public class OrderNewActivity extends BaseActivity {
         });
     }
 
-    //        "serviceCityId": serviceCityId,
-//        "goodsType": goodsType,
-//        "carSeatNum": carSeatNum,       // 几座车（5，7，9，12）
-//        "carTypeId": carTypeId,         // 车型（经济-1，舒适-2，豪华-3，奢华-4）
-//        "servceTime": servceTime,       // 2015-02-10 12:00:00
-//        "halfDaily": halfDaily,         // 半日包1，其它0
-//        "orderType": orderType
-//    http://api.test.hbc.tech/trade/v1.0/c/order/cancelTips?
-//    carSeatNum=5&carTypeId=1&channelId=18&goodsType=4&halfDaily=0&
-//    orderType=4&servceTime=2016-08-17%2015%3A40%3A25&serviceCityId=217&userId=120342571527,
-
     String cancleTips = "";
 
     private void getCancleTips() {
@@ -503,10 +487,6 @@ public class OrderNewActivity extends BaseActivity {
     private void genCarInfoText() {
         StringBuffer carInfo = new StringBuffer();
         carInfo.append("(" + "乘坐" + (Integer.valueOf(adultNum) + Integer.valueOf(childrenNum)) + "人");
-//        if (!"0".equalsIgnoreCase(luggageNum)) {
-//            carInfo.append(",行李箱" + luggageNum + "件");
-//        }
-
         if (!"0".equalsIgnoreCase(childseatNum)) {
             carInfo.append(",儿童座椅" + childseatNum + "个");
         }
@@ -1005,7 +985,6 @@ public class OrderNewActivity extends BaseActivity {
                 couponRight.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-//                        FgCoupon fgCoupon = new FgCoupon();
                         Bundle bundle = new Bundle();
                         MostFitAvailableBean mostFitAvailableBean = new MostFitAvailableBean();
 
@@ -1036,8 +1015,6 @@ public class OrderNewActivity extends BaseActivity {
                         } else {
                             bundle.putString("idStr", "");
                         }
-//                        fgCoupon.setArguments(bundle);
-//                        startFragment(fgCoupon);
                         Intent intent = new Intent(activity,CouponActivity.class);
                         intent.putExtras(bundle);
                         startActivity(intent);
@@ -1097,7 +1074,6 @@ public class OrderNewActivity extends BaseActivity {
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
         if (request instanceof RequestSubmitBase) {
-//            bringToFront(FgTravel.class, new Bundle());
             orderInfoBean = ((RequestSubmitBase) request).getData();
             String couponId = null;
             if (couponLeft.isChecked()) {
@@ -1146,14 +1122,14 @@ public class OrderNewActivity extends BaseActivity {
 
     private EventPayBean getChoosePaymentStatisticParams() {
         EventPayBean eventPayBean = new EventPayBean();
-        eventPayBean.carType = carBean.carType;
+        eventPayBean.carType = carBean.carDesc;
         eventPayBean.seatCategory = carBean.seatCategory;
         eventPayBean.guestcount = carBean.capOfPerson+"";
         eventPayBean.isFlightSign = orderBean.isFlightSign;
         eventPayBean.isCheckin = orderBean.isCheckin;
         eventPayBean.guideCollectId = null != collectGuideBean ? collectGuideBean.guideId + "" : "";
         eventPayBean.orderStatus = orderBean.orderStatus;
-        eventPayBean.orderType = orderBean.orderType;
+        eventPayBean.orderType = type;
         eventPayBean.forother = contactUsersBean.isForOther;
         eventPayBean.paysource = "下单过程中";
         return eventPayBean;
@@ -1279,7 +1255,7 @@ public class OrderNewActivity extends BaseActivity {
 
     //SKU参数
     private OrderBean getSKUOrderByInput() {
-        StatisticClickEvent.commitClick(StatisticConstant.SUBMITORDER_RG,"固定线路提交订单",carBean.models+"",manLuggageBean,contactUsersBean.isForOther);
+        StatisticClickEvent.commitClick(StatisticConstant.SUBMITORDER_RG,"固定线路提交订单",carBean.carDesc+"",manLuggageBean,contactUsersBean.isForOther);
 
         return new OrderUtils().getSKUOrderByInput(guideCollectId, skuBean,
                 startDate, serverTime, distance,
@@ -1292,7 +1268,7 @@ public class OrderNewActivity extends BaseActivity {
 
     //推荐线路
     private OrderBean getLineOrderByInput() {
-        StatisticClickEvent.commitClick(StatisticConstant.SUBMITORDER_RT,"推荐线路提交订单",carBean.models+"",manLuggageBean,contactUsersBean.isForOther);
+        StatisticClickEvent.commitClick(StatisticConstant.SUBMITORDER_RT,"推荐线路提交订单",carBean.carDesc+"",manLuggageBean,contactUsersBean.isForOther);
 
         return new OrderUtils().getSKUOrderByInput(guideCollectId, skuBean,
                 startDate, serverTime, distance,
@@ -1323,7 +1299,7 @@ public class OrderNewActivity extends BaseActivity {
 
     //包车参数
     private OrderBean getDayOrderByInput() {
-        StatisticClickEvent.commitClick(StatisticConstant.SUBMITORDER_R,"包车提交订单",getIntentSource(),collectGuideBean,carBean.models+"",manLuggageBean,contactUsersBean.isForOther);
+        StatisticClickEvent.commitClick(StatisticConstant.SUBMITORDER_R,"包车提交订单",getIntentSource(),collectGuideBean,carBean.carDesc+"",manLuggageBean,contactUsersBean.isForOther);
 
         return new OrderUtils().getDayOrderByInput(adultNum, carBean,
                 childrenNum, endCityId,
@@ -1342,7 +1318,7 @@ public class OrderNewActivity extends BaseActivity {
     }
 
     private OrderBean getPickOrderByInput() {
-        StatisticClickEvent.commitClick(StatisticConstant.SUBMITORDER_J,"接机提交订单",carBean.models+"",manLuggageBean,contactUsersBean.isForOther);
+        StatisticClickEvent.commitClick(StatisticConstant.SUBMITORDER_J,"接机提交订单",carBean.carDesc+"",manLuggageBean,contactUsersBean.isForOther);
 
         return new OrderUtils().getPickOrderByInput(flightBean, poiBean,
                 carBean, pickName.getText().toString(),
@@ -1358,7 +1334,7 @@ public class OrderNewActivity extends BaseActivity {
 
 
     private OrderBean getSingleOrderByInput() {
-        StatisticClickEvent.commitClick(StatisticConstant.SUBMITORDER_C,"单次提交订单",carBean.models+"",manLuggageBean,contactUsersBean.isForOther);
+        StatisticClickEvent.commitClick(StatisticConstant.SUBMITORDER_C,"单次提交订单",carBean.carDesc+"",manLuggageBean,contactUsersBean.isForOther);
 
         return new OrderUtils().getSingleOrderByInput(adultNum, carBean,
                 childrenNum, endCityId,
@@ -1378,7 +1354,7 @@ public class OrderNewActivity extends BaseActivity {
     }
 
     private OrderBean getSendOrderByInput() {
-        StatisticClickEvent.commitClick(StatisticConstant.SUBMITORDER_S,"送机提交订单",carBean.models+"",manLuggageBean,contactUsersBean.isForOther);
+        StatisticClickEvent.commitClick(StatisticConstant.SUBMITORDER_S,"送机提交订单",carBean.carDesc+"",manLuggageBean,contactUsersBean.isForOther);
 
         return new OrderUtils().getSendOrderByInput(poiBean,
                 carBean, manName.getText().toString(),
@@ -1439,11 +1415,8 @@ public class OrderNewActivity extends BaseActivity {
             case R.id.other_phone_layout:
             case R.id.man_name:
             case R.id.man_phone:
-//                FgChooseOther fgChooseOther = new FgChooseOther();
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("contactUsersBean", contactUsersBean);
-//                fgChooseOther.setArguments(bundle);
-//                startFragment(fgChooseOther);
                 intent = new Intent(activity,ChooseOtherActivity.class);
                 intent.putExtras(bundle);
                 startActivity(intent);
@@ -1455,11 +1428,8 @@ public class OrderNewActivity extends BaseActivity {
                 startArrivalSearch(Integer.valueOf((null == startCityId) ? poiBean.id + "" : startCityId), (null == startBean) ? poiBean.location : startBean.location);
                 break;
             case R.id.hotel_phone_text_code_click:
-//                FgChooseCountry chooseCountry = new FgChooseCountry();
                 Bundle bundleCode = new Bundle();
                 bundleCode.putInt("airportCode", view.getId());
-//                startFragment(chooseCountry, bundleCode);
-
                 intent = new Intent(activity,ChooseCountryActivity.class);
                 intent.putExtras(bundleCode);
                 startActivity(intent);
