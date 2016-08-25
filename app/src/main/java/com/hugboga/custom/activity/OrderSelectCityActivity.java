@@ -744,7 +744,9 @@ public class OrderSelectCityActivity extends BaseActivity {
     //type 1 司导列表   2, 预约司导列表
     private void goCollectGuid(int type) {
         if (type == 1) {
-            startActivity(new Intent(this, CollectGuideListActivity.class));
+            Intent intent = new Intent(this, CollectGuideListActivity.class);
+            intent.putExtra(Constants.PARAMS_SOURCE,"包车下单选择司导");
+            startActivity(intent);
         } else {
             if (checkParams()) {
                 if (UserEntity.getUser().isLogin(activity)) {
@@ -767,6 +769,7 @@ public class OrderSelectCityActivity extends BaseActivity {
                     params.passCityId = startBean.cityId + "";//isHalfTravel ? startBean.cityId + "" : getPassCitiesId();
                     bundle.putSerializable(Constants.PARAMS_DATA, params);
                     Intent intent = new Intent(this, CollectGuideListActivity.class);
+                    intent.putExtra(Constants.PARAMS_SOURCE,"包车下单选择司导");
                     intent.putExtras(bundle);
                     startActivity(intent);
                 } else {
