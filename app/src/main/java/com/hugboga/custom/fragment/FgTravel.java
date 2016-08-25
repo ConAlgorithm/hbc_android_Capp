@@ -348,7 +348,7 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, OnIt
                 break;
             case R.id.travel_login_btn:
                 Intent intent = new Intent(view.getContext(), LoginActivity.class);
-                intent.putExtra("source",getIntentSource());
+                intent.putExtra("source",getEventSource());
                 startActivity(intent);
                 break;
             default:
