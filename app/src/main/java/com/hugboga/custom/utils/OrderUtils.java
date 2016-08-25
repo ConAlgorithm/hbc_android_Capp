@@ -159,8 +159,8 @@ public class OrderUtils {
         orderBean.seatCategory = carBean.seatCategory;
         orderBean.carType = carBean.carType;
         orderBean.child = Integer.valueOf(childrenNum);
-        orderBean.destAddress = startBean.name;
-        orderBean.destAddressDetail = startBean.placeName;
+        orderBean.destAddress = "";
+        orderBean.destAddressDetail = "";
         orderBean.priceMark = carBean.pricemark;
         orderBean.contact = contact;
         orderBean.serviceStartTime = serverTime + ":00";
@@ -183,9 +183,9 @@ public class OrderUtils {
         orderBean.capOfPerson = carBean.capOfPerson;
         orderBean.special = carBean.special;
 
-        if(null != poiBean) {
-            orderBean.startAddress = poiBean.placeName;//upRight.getText().toString();
-            orderBean.startAddressDetail = poiBean.placeDetail;//upSiteText.getText().toString();
+        if(null != startBean) {
+            orderBean.startAddress = startBean.name;//upRight.getText().toString();
+            orderBean.startAddressDetail = startBean.placeName;//upSiteText.getText().toString();
         }else{
             orderBean.startAddress = "";
             orderBean.startAddressDetail = "";
