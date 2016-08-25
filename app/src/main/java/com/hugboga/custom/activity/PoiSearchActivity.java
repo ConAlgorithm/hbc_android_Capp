@@ -16,6 +16,8 @@ import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestPoiSearch;
+import com.hugboga.custom.statistic.MobClickUtils;
+import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.widget.ZListView;
 import com.umeng.analytics.MobclickAgent;
@@ -25,6 +27,7 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -174,6 +177,11 @@ public class PoiSearchActivity extends BaseActivity implements AdapterView.OnIte
     }
 
     private void requestKeyword(int offset) {
+        Map map = new HashMap();
+        map.put(Constants.PARAMS_SOURCE,getIntentSource());
+        map.put("searchinput",searchWord);
+        MobClickUtils.onEvent(StatisticConstant.SEARCH,map);
+
         RequestPoiSearch requestPoiSearch = new RequestPoiSearch(activity, cityId, location, searchWord, offset, PAGESIZE,mBusinessType);
         requestData(requestPoiSearch);
     }
