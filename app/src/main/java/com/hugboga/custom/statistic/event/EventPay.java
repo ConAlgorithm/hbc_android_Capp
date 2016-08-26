@@ -62,7 +62,7 @@ public class EventPay extends EventBase{
         }
         EventUtil eventUtil = EventUtil.getInstance();
         map.put("source", eventUtil.source);//触发来源 首页、搜索、城市页、收藏司导列表、司导个人页
-        map.put("carstyle", eventPayBean.carType + eventPayBean.seatCategory + "座");//车型  经济5座，舒适5座，经济7座……
+        map.put("carstyle", eventPayBean.carType);//车型  经济5座，舒适5座，经济7座……
         map.put("guestcount", eventPayBean.guestcount);//乘客人数 1，2，3，4......11
         map.put("forother", eventPayBean.forother);//为他人订车 是、否
         map.put("paystyle", eventPayBean.paystyle);//支付方式 支付宝、微信支付、无

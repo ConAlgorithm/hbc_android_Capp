@@ -599,7 +599,7 @@ public class SingleNewActivity extends BaseActivity {
 //
 //        fgOrderNew.setArguments(bundle);
 //        startFragment(fgOrderNew);
-        StatisticClickEvent.singleSkuClick(StatisticConstant.CONFIRM_C,"单次确认行程",carBean.carType+"",manLuggageBean);
+        StatisticClickEvent.singleSkuClick(StatisticConstant.CONFIRM_C,"单次确认行程",carBean.desc+"",manLuggageBean);
         Intent intent = new Intent(activity,OrderNewActivity.class);
         intent.putExtras(bundle);
         startActivity(intent);

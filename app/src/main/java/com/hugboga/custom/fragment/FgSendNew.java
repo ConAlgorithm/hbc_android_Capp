@@ -469,7 +469,7 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
         bundle.putString("orderType", "2");
         bundle.putBoolean("needCheckin", checkInChecked);
         bundle.putSerializable("manLuggageBean", manLuggageBean);
-        StatisticClickEvent.sendClick(StatisticConstant.CONFIRM_S,"送机确认行程",carBean.carType+"",checkInChecked,manLuggageBean);
+        StatisticClickEvent.sendClick(StatisticConstant.CONFIRM_S,"送机确认行程",carBean.desc+"",checkInChecked,manLuggageBean);
         Intent intent = new Intent(getActivity(),OrderNewActivity.class);
         intent.putExtras(bundle);
         startActivity(intent);
