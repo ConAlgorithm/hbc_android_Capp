@@ -246,3 +246,7 @@
 -keepclassmembers class * extends org.greenrobot.eventbus.util.ThrowableFailureEvent {
     <init>(java.lang.Throwable);
 }
+
+# 七鱼
+-dontwarn com.qiyukf.**
+-keep class com.qiyukf.** {*;}
