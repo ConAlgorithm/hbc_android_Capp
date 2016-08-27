@@ -184,8 +184,8 @@ public class OrderUtils {
         orderBean.special = carBean.special;
 
         if(null != startBean) {
-            orderBean.startAddress = startBean.name;//upRight.getText().toString();
-            orderBean.startAddressDetail = startBean.placeName;//upSiteText.getText().toString();
+            orderBean.startAddress = poiBean.placeName;//upRight.getText().toString();
+            orderBean.startAddressDetail = poiBean.placeDetail;//upSiteText.getText().toString();
         }else{
             orderBean.startAddress = "";
             orderBean.startAddressDetail = "";

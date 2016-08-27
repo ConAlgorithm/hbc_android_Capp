@@ -1401,7 +1401,7 @@ public class OrderNewActivity extends BaseActivity {
             bundle.putString(PoiSearchActivity.KEY_LOCATION, location);
             Intent intent = new Intent(activity,PoiSearchActivity.class);
             intent.putExtras(bundle);
-            intent.putExtra("mBusinessType",Integer.valueOf(orderType));
+            intent.putExtra("mBusinessType",type);
             startActivity(intent);
         }
     }

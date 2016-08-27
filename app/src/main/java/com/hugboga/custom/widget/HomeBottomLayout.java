@@ -148,6 +148,7 @@ public class HomeBottomLayout extends LinearLayout implements View.OnClickListen
     private void goPickSend(){
         Intent intent = new Intent(getContext(), PickSendActivity.class);
         intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_DAIRY);
+        intent.putExtra("source","首页");
         getContext().startActivity(intent);
     }
 
