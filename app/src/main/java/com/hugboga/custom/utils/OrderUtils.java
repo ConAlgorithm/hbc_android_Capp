@@ -183,7 +183,7 @@ public class OrderUtils {
         orderBean.capOfPerson = carBean.capOfPerson;
         orderBean.special = carBean.special;
 
-        if(null != startBean) {
+        if(null != poiBean) {
             orderBean.startAddress = poiBean.placeName;//upRight.getText().toString();
             orderBean.startAddressDetail = poiBean.placeDetail;//upSiteText.getText().toString();
         }else{
