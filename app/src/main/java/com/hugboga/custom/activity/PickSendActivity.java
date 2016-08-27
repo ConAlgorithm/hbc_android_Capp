@@ -21,11 +21,8 @@ import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.fragment.FgPickNew;
 import com.hugboga.custom.fragment.FgSendNew;
 import com.hugboga.custom.utils.AlertDialogUtils;
-import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.Subscribe;
-
-import java.util.HashMap;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -129,6 +126,7 @@ public class PickSendActivity extends BaseActivity {
 
         Bundle bundle = new Bundle();
         bundle.putSerializable("collectGuideBean", collectGuideBean);
+        bundle.putString("source",getIntentSource());
         fgPick.setArguments(bundle);
         fgSend.setArguments(bundle);
 
