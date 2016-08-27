@@ -497,7 +497,7 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
         EventBus.getDefault().register(this);
         Map map = new HashMap();
         map.put("source",source);
-        MobClickUtils.onEvent(StatisticConstant.SEARCH,map);
+        MobClickUtils.onEvent(StatisticConstant.LAUNCH_J,map);
         return rootView;
     }
 
