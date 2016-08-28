@@ -13,6 +13,7 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
+import com.hugboga.custom.statistic.event.EventUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.xutils.view.annotation.Event;
@@ -102,6 +103,7 @@ public class PayResultActivity extends BaseActivity{
         Intent intent = null;
         switch (view.getId()){
             case R.id.par_result_left_tv:
+                setStatisticIsRePay(false);
                 if (params.payResult) {//回首页
                     intent = new Intent(this, MainActivity.class);
                     startActivity(intent);
@@ -121,6 +123,7 @@ public class PayResultActivity extends BaseActivity{
                 break;
             case R.id.par_result_right_tv:
                 if (params.payResult) {//订单详情
+                    setStatisticIsRePay(false);
                     intent = new Intent(this, MainActivity.class);
                     startActivity(intent);
                     EventBus.getDefault().post(new EventAction(EventType.SET_MAIN_PAGE_INDEX, 0));
@@ -132,6 +135,7 @@ public class PayResultActivity extends BaseActivity{
                     intent.putExtra(Constants.PARAMS_DATA, orderParams);
                     startActivity(intent);
                 } else {//重新支付
+                    setStatisticIsRePay(true);
                     finish();
                 }
                 break;
@@ -147,8 +151,15 @@ public class PayResultActivity extends BaseActivity{
                 EventBus.getDefault().post(new EventAction(EventType.FGTRAVEL_UPDATE));
                 EventBus.getDefault().post(new EventAction(EventType.SET_MAIN_PAGE_INDEX, 0));
                 return true;
+            } else {
+                setStatisticIsRePay(true);
             }
         }
         return super.onKeyUp(keyCode, event);
+    }
+
+    private void setStatisticIsRePay(boolean isRePay) {
+        EventUtil eventUtil = EventUtil.getInstance();
+        eventUtil.isRePay = isRePay;
     }
 }
