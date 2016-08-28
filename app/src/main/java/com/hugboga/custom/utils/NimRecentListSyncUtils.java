@@ -42,9 +42,9 @@ public class NimRecentListSyncUtils {
                     exist = true;
                 }
             }
-            if(!exist){
-                iter.remove();
-            }
+//            if(!exist){
+//                iter.remove();
+//            }
         }
         sortRecentContacts(chatBeanList);
     }

@@ -39,6 +39,7 @@ import com.hugboga.custom.data.request.RequestNIMRemoveChat;
 import com.hugboga.custom.data.request.RequestRemoveChat;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.utils.AlertDialogUtils;
+import com.hugboga.custom.utils.UnicornUtils;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
 import com.netease.nimlib.sdk.RequestCallbackWrapper;
@@ -61,8 +62,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import io.rong.imkit.RongIM;
-import io.rong.imlib.model.Conversation;
 
 /**
  * Created by Administrator on 2016/8/24.
@@ -300,7 +299,9 @@ public class FgImChat extends BaseFragment implements View.OnClickListener, ZBas
         if ("3".equals(chatBean.targetType)) {
             //String titleJson = getChatInfo(chatBean.targetId, chatBean.targetAvatar, chatBean.targetName, chatBean.targetType,chatBean.inBlack);
             //RongIM.getInstance().startConversation(getActivity(), Conversation.ConversationType.APP_PUBLIC_SERVICE, chatBean.targetId, titleJson);
-            Toast.makeText(getActivity(),"启动7鱼客服",Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getActivity(),"启动7鱼客服",Toast.LENGTH_SHORT).show();
+            UnicornUtils.openServiceActivity();
+
         } else if ("1".equals(chatBean.targetType)) {
             String titleJson = getChatInfo(chatBean.userId, chatBean.targetAvatar, chatBean.targetName, chatBean.targetType,chatBean.inBlack,chatBean.nTargetId);
             //RongIM.getInstance().startPrivateChat(getActivity(), chatBean.targetId, titleJson);
@@ -328,6 +329,9 @@ public class FgImChat extends BaseFragment implements View.OnClickListener, ZBas
         computeTotalUnreadCount(chatBeans);
         emptyTV.setVisibility(View.GONE);
         emptyLayout.setVisibility(View.GONE);
+        if(UserEntity.getUser().isLogin(MyApplication.getAppContext())){
+
+        }
         queryLocalRecentList();
     }
 
@@ -366,10 +370,10 @@ public class FgImChat extends BaseFragment implements View.OnClickListener, ZBas
                         if (code != ResponseCode.RES_SUCCESS || recents == null) {
                             return;
                         }
-                        if(recents.size()>0){
-                            RecentContact recentContact = recents.get(0);
-                            test(recentContact);
-                        }
+//                        if(recents.size()>0){
+//                            RecentContact recentContact = recents.get(0);
+//                            test(recentContact);
+//                        }
                         if(adapter!=null){
                             adapter.syncUpdate(recents);
                             if(recyclerView!=null){
@@ -518,17 +522,17 @@ public class FgImChat extends BaseFragment implements View.OnClickListener, ZBas
     };
 
 
-    private void test(final RecentContact recentContact){
-        fgTitle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String orderJson = "{\"isChat\":true,\"userId\":\"221450316914\",\"userAv" +
-                        "atar\":\"http:\\/\\/fr.test.hbc.tech\\/guide\\/20160721\\/f_201607" +
-                        "211450254772.jpg\",\"title\":\"宋朋旺\",\"targetType\":\"1\",\"inB" +
-                        "lack\":0,\"isHideMoreBtn\":0}";
-                NIMChatActivity.start(getContext(),recentContact.getContactId(),null,orderJson);
-            }
-        });
-    }
+//    private void test(final RecentContact recentContact){
+//        fgTitle.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                String orderJson = "{\"isChat\":true,\"userId\":\"221450316914\",\"userAv" +
+//                        "atar\":\"http:\\/\\/fr.test.hbc.tech\\/guide\\/20160721\\/f_201607" +
+//                        "211450254772.jpg\",\"title\":\"宋朋旺\",\"targetType\":\"1\",\"inB" +
+//                        "lack\":0,\"isHideMoreBtn\":0}";
+//                NIMChatActivity.start(getContext(),recentContact.getContactId(),null,orderJson);
+//            }
+//        });
+//    }
 
 }

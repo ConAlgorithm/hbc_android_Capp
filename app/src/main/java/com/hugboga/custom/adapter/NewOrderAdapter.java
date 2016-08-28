@@ -409,7 +409,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
             vh.mHeadTitle.setOnClickListener(new TravelOnClickListener(orderBean));
             vh.mHeadImg.setOnClickListener(new TravelOnClickListener(orderBean));
 
-            if(orderBean.isIm && (orderBean.imToken!=null && !orderBean.imToken.isEmpty())){
+            if(orderBean.isIm /*&& (orderBean.imToken!=null && !orderBean.imToken.isEmpty())*/){
                 vh.mBtnChat.setVisibility(View.VISIBLE);
                 vh.mBtnChat.setOnClickListener(new TravelOnClickListener(orderBean));
                 showMessageNum(vh.mBtnChatNum, orderBean.imcount);//显示未读小红点个数

@@ -54,7 +54,6 @@ android {
         targetSdkVersion 23
         versionCode 100760
         versionName "2.9.0"
-        multiDexEnabled true
         signingConfig signingConfigs.hbcSign
         multiDexEnabled true
         ndk {
