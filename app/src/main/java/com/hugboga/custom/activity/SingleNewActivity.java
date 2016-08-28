@@ -37,6 +37,7 @@ import com.hugboga.custom.data.request.RequestGuideConflict;
 import com.hugboga.custom.fragment.FgCarNew;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
+import com.hugboga.custom.statistic.event.EventUtil;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.CarUtils;
 import com.hugboga.custom.utils.CommonUtils;
@@ -170,6 +171,8 @@ public class SingleNewActivity extends BaseActivity {
         EventBus.getDefault().register(this);
         initView();
         initHeader();
+        EventUtil eventUtil = EventUtil.getInstance();
+        eventUtil.source = getIntentSource();
     }
 
 

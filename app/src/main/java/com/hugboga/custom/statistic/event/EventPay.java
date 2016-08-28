@@ -67,7 +67,6 @@ public class EventPay extends EventBase{
         map.put("forother", eventPayBean.forother);//为他人订车 是、否
         map.put("paystyle", eventPayBean.paystyle);//支付方式 支付宝、微信支付、无
         map.put("paysource", eventPayBean.paysource);//支付来源 下单过程中、失败重新支付、未支付订单详情页
-        map.put("orderstatus", eventPayBean.orderStatus != null ? eventPayBean.orderStatus.name : "");//订单状态 未支付、已支付、已接单……
 
         switch (eventPayBean.orderType) {
             case 1:
