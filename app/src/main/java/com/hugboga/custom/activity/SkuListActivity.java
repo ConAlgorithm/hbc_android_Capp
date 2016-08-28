@@ -256,7 +256,7 @@ public class SkuListActivity extends BaseActivity implements HbcRecyclerBaseAdap
                         }
                     }
                     Intent intent = new Intent(SkuListActivity.this, DailyWebInfoActivity.class);
-                    intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+                    intent.putExtra(Constants.PARAMS_SOURCE, getIntentSource());
                     intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_DAIRY+params);
                     intent.putExtra("cityBean", cityBean);
                     intent.putExtra("source", cityBean.name);

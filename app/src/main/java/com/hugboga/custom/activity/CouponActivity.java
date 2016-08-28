@@ -109,6 +109,12 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
     }
 
     @Override
+    protected void onStop() {
+        super.onStop();
+        hideInputMethod(carNumberEditText);
+    }
+
+    @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         if (paramsData != null) {

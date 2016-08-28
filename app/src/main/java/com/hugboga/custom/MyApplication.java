@@ -8,9 +8,17 @@ import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Environment;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
 import com.anupcowkur.reservoir.Reservoir;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.ImageViewTarget;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.target.Target;
 import com.huangbaoche.hbcframe.HbcApplication;
 import com.huangbaoche.hbcframe.HbcConfig;
 import com.huangbaoche.hbcframe.util.MLog;
@@ -20,6 +28,12 @@ import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestAccessKey;
 import com.hugboga.custom.utils.LogUtils;
 import com.hugboga.custom.widget.DialogUtil;
+import com.qiyukf.unicorn.api.ImageLoaderListener;
+import com.qiyukf.unicorn.api.SavePowerConfig;
+import com.qiyukf.unicorn.api.StatusBarNotificationConfig;
+import com.qiyukf.unicorn.api.Unicorn;
+import com.qiyukf.unicorn.api.UnicornImageLoader;
+import com.qiyukf.unicorn.api.YSFOptions;
 import com.netease.nim.uikit.ImageLoaderKit;
 import com.netease.nim.uikit.NimUIKit;
 import com.netease.nim.uikit.cache.NimUserInfoCache;
@@ -34,6 +48,9 @@ import com.umeng.analytics.MobclickAgent;
 
 import org.xutils.x;
 
+import java.util.Locale;
+import java.util.concurrent.ExecutionException;
+
 import cn.jpush.android.api.JPushInterface;
 import io.rong.imkit.RongIM;
 
@@ -43,11 +60,6 @@ import io.rong.imkit.RongIM;
 public class MyApplication extends HbcApplication {
 
     private static Context mAppContext;
-
-    // static final int IMTYPE_RONGIM = 1;
-    //public static final int IMTYPE_NIM = 0;
-    //public static int imType = IMTYPE_NIM;
-    //public static int defalutImType = IMTYPE_NIM;
 
     @Override
     public void onCreate() {
@@ -66,6 +78,9 @@ public class MyApplication extends HbcApplication {
             Reservoir.init(this, 4096);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+        if (inMainProcess(mAppContext)) {
+            UnicornUtils.initUnicorn();
         }
 
         //initRongIm(this); // 初始化融云IM
@@ -154,6 +169,37 @@ public class MyApplication extends HbcApplication {
             }
         }
         return null;
+    }
+
+    public static final String getProcessName(Context context) {
+        String processName = null;
+
+        ActivityManager am = ((ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE));
+
+        while (true) {
+            for (ActivityManager.RunningAppProcessInfo info : am.getRunningAppProcesses()) {
+                if (info.pid == android.os.Process.myPid()) {
+                    processName = info.processName;
+                    break;
+                }
+            }
+
+            if (!TextUtils.isEmpty(processName)) {
+                return processName;
+            }
+
+            try {
+                Thread.sleep(100L);
+            } catch (InterruptedException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
+    public static boolean inMainProcess(Context context) {
+        String packageName = context.getPackageName();
+        String processName = getProcessName(context);
+        return packageName.equals(processName);
     }
 
 

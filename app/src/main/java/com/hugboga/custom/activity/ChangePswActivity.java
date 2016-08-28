@@ -61,6 +61,12 @@ public class ChangePswActivity extends BaseActivity {
     }
 
     @Override
+    protected void onStop() {
+        super.onStop();
+        hideInputMethod(oldPwdEditText);
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
         ButterKnife.unbind(this);

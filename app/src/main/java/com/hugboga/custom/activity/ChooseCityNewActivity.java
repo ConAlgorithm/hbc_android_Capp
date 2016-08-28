@@ -115,6 +115,10 @@ public class ChooseCityNewActivity extends BaseActivity {
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
 //                ToastUtils.showShort(groupPosition+"======");
                 goCityList(list.get(groupPosition));
+                Map map = new HashMap();
+                map.put("source",getIntentSource());
+                map.put("searchinput","输入内容后联想");
+                MobClickUtils.onEvent(StatisticConstant.SEARCH,map);
                 return true;
             }
         });
@@ -126,12 +130,18 @@ public class ChooseCityNewActivity extends BaseActivity {
                         && searchNewAdapter.getChildList().get(groupPosition).get(childPosition).group_id != -200) {
 //                    ToastUtils.showShort(groupPosition + "======" + childPosition);
                     goCityList(searchNewAdapter.getChildList().get(groupPosition).get(childPosition));
+                    Map map = new HashMap();
+                    map.put("source",getIntentSource());
+                    map.put("searchinput","输入内容后联想");
+                    MobClickUtils.onEvent(StatisticConstant.SEARCH,map);
                 }
                 return true;
             }
         });
 
     }
+
+
 
     @Override
     public void onCreate(Bundle arg0) {
@@ -262,13 +272,13 @@ public class ChooseCityNewActivity extends BaseActivity {
                 if (groupList2.get(position).spot_id == -1) {
                     finish();
                     Intent intent = new Intent(activity, PickSendActivity.class);
-                    intent.putExtra("source",getEventSource());
+                    intent.putExtra("source",getIntentSource());
                     startActivity(intent);
 
                 } else if (groupList2.get(position).spot_id == -2) {
                     finish();
                     Intent intent = new Intent(activity, SingleNewActivity.class);
-                    intent.putExtra("source",getEventSource());
+                    intent.putExtra("source",getIntentSource());
                     startActivity(intent);
 
                 } else if (groupList2.get(position).spot_id == -3) {
@@ -291,6 +301,10 @@ public class ChooseCityNewActivity extends BaseActivity {
                 } else {
                     if (CityUtils.canGoCityList(groupList2.get(position))) {
                         goCityList(groupList2.get(position));
+                        Map map = new HashMap();
+                        map.put("source",getIntentSource());
+                        map.put("searchinput","筛选");
+                        MobClickUtils.onEvent(StatisticConstant.SEARCH,map);
                     } else {
                         showRightData(position);
                     }
@@ -307,6 +321,10 @@ public class ChooseCityNewActivity extends BaseActivity {
                 groupList3.get(position).isSelected = true;
                 levelCityAdapterRight.notifyDataSetChanged();
                 goCityList(groupList3.get(position));
+                Map map = new HashMap();
+                map.put("source",getIntentSource());
+                map.put("searchinput","筛选");
+                MobClickUtils.onEvent(StatisticConstant.SEARCH,map);
             }
         });
 
@@ -335,6 +353,10 @@ public class ChooseCityNewActivity extends BaseActivity {
         List<SearchGroupBean> list3 = CityUtils.getLevel3City(activity, groupList2.get(position).sub_place_id);
         if (null == list3 || list3.size() == 0) {
             goCityList(groupList2.get(position));
+            Map map = new HashMap();
+            map.put("source",getIntentSource());
+            map.put("searchinput","筛选");
+            MobClickUtils.onEvent(StatisticConstant.SEARCH,map);
         } else {
 
             SearchGroupBean lineGroupBean;
@@ -444,21 +466,12 @@ public class ChooseCityNewActivity extends BaseActivity {
                 params.titleName = searchGroupBean.spot_name;
             }
         }
-//        startFragment(FgSkuList.newInstance(params));
-//        Bundle bundle = new Bundle();
-//        bundle.putSerializable(Constants.PARAMS_DATA, params);
-//        bundle.putString(KEY_FRAGMENT_NAME, this.getClass().getSimpleName());
-//        bringToFront(FgSkuList.class, bundle);
-
         Intent intent = new Intent(this, SkuListActivity.class);
         intent.putExtra(Constants.PARAMS_DATA, params);
         intent.putExtra("source","搜索");
         startActivity(intent);
 
-        Map map = new HashMap();
-        map.put("source",getIntentSource());
-        map.put("searchinput","输入内容后联想");
-        MobClickUtils.onEvent(StatisticConstant.SEARCH,map);
+
     }
 
 
@@ -487,6 +500,7 @@ public class ChooseCityNewActivity extends BaseActivity {
     @Override
     protected void onStop() {
         super.onStop();
+        hideInputMethod(headSearch);
     }
 
     @Override

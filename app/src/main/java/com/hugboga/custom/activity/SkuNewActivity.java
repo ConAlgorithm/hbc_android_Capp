@@ -392,7 +392,7 @@ public class SkuNewActivity extends BaseActivity {
 
     public void goLogin(){
         Intent intent = new Intent(activity,LoginActivity.class);
-        intent.putExtra("source",getEventSource());
+        intent.putExtra("source",getIntentSource());
         startActivity(intent);
     }
 
@@ -419,7 +419,7 @@ public class SkuNewActivity extends BaseActivity {
         Bundle bundle = new Bundle();
         bundle.putString("guideCollectId", "");
         bundle.putSerializable("collectGuideBean", null);
-        bundle.putString("source", getEventSource());
+        bundle.putString("source", getIntentSource());
         bundle.putSerializable("carListBean", carListBean);
 
         bundle.putString("startCityId", cityBean.cityId + "");
@@ -450,11 +450,11 @@ public class SkuNewActivity extends BaseActivity {
         if(skuBean.goodsClass == 1){
             bundle.putInt("type", 5);
             bundle.putString("ordeType", "5");
-            StatisticClickEvent.singleSkuClick(StatisticConstant.CONFIRM_RG,"固定线路确认行程",carBean.carType+"",manLuggageBean);
+            StatisticClickEvent.singleSkuClick(StatisticConstant.CONFIRM_RG,"固定线路确认行程",carBean.desc+"",manLuggageBean);
          }else{
             bundle.putInt("type", 6);
             bundle.putString("orderType", "6");
-            StatisticClickEvent.singleSkuClick(StatisticConstant.CONFIRM_RT,"推荐线路确认行程",carBean.carType+"",manLuggageBean);
+            StatisticClickEvent.singleSkuClick(StatisticConstant.CONFIRM_RT,"推荐线路确认行程",carBean.desc+"",manLuggageBean);
         }
 
         bundle.putSerializable("web_sku", skuBean);

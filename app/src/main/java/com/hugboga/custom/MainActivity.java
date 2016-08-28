@@ -75,6 +75,7 @@ import com.hugboga.custom.fragment.FgImChat;
 import com.hugboga.custom.fragment.FgTravel;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.ChannelUtils;
 import com.hugboga.custom.utils.CommonUtils;
@@ -110,6 +111,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import cn.jpush.android.api.JPushInterface;
+
+import static u.aly.au.S;
 
 
 @ContentView(R.layout.activity_main)
@@ -159,8 +162,9 @@ public class MainActivity extends BaseActivity
             Bundle bundle = getIntent().getExtras();
             if (bundle != null) {
                 actionBean = (ActionBean) bundle.getSerializable(Constants.PARAMS_ACTION);
-            }
+           }
         }
+        MobClickUtils.onEvent(StatisticConstant.LAUNCH_DISCOVERY);
 //        setSupportActionBar(toolbar);
         sharedPre = new SharedPre(this);
         initBottomView();
@@ -742,7 +746,7 @@ public class MainActivity extends BaseActivity
 
     @Override
     public String getEventSource() {
-        return "个人中心首页";
+        return "个人中心-用户信息";
     }
 
     @Override

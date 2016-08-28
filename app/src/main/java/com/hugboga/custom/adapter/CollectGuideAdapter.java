@@ -111,7 +111,7 @@ public class CollectGuideAdapter extends BaseAdapter<CollectGuideBean> {
                         intent.putExtra("collectGuideBean", collectGuideBean);
                         intent.putExtra("source","收藏司导列表");
                         if (context instanceof GuideDetailActivity) {
-                            intent.putExtra(Constants.PARAMS_SOURCE, ((GuideDetailActivity) context).getEventSource());
+                            intent.putExtra(Constants.PARAMS_SOURCE, ((GuideDetailActivity) context).getIntentSource());
                         }
                         context.startActivity(intent);
                     }
@@ -123,7 +123,7 @@ public class CollectGuideAdapter extends BaseAdapter<CollectGuideBean> {
                         intent.putExtra("collectGuideBean", collectGuideBean);
                         intent.putExtra("source","收藏司导列表");
                         if (context instanceof GuideDetailActivity) {
-                            intent.putExtra(Constants.PARAMS_SOURCE, ((GuideDetailActivity) context).getEventSource());
+                            intent.putExtra(Constants.PARAMS_SOURCE, ((GuideDetailActivity) context).getIntentSource());
                         }
                         context.startActivity(intent);
                     }
@@ -135,7 +135,7 @@ public class CollectGuideAdapter extends BaseAdapter<CollectGuideBean> {
                         intent.putExtra("collectGuideBean", collectGuideBean);
                         intent.putExtra("source","收藏司导列表");
                         if (context instanceof GuideDetailActivity) {
-                            intent.putExtra(Constants.PARAMS_SOURCE, ((GuideDetailActivity) context).getEventSource());
+                            intent.putExtra(Constants.PARAMS_SOURCE, ((GuideDetailActivity) context).getIntentSource());
                         }
                         context.startActivity(intent);
                     }
@@ -174,7 +174,7 @@ public class CollectGuideAdapter extends BaseAdapter<CollectGuideBean> {
                 Intent intent = new Intent(context, GuideDetailActivity.class);
                 intent.putExtra(Constants.PARAMS_DATA, collectGuideBean.guideId);
                 if (context instanceof CollectGuideListActivity) {
-                    intent.putExtra(Constants.PARAMS_SOURCE, ((CollectGuideListActivity)context).getEventSource());
+                    intent.putExtra(Constants.PARAMS_SOURCE, ((CollectGuideListActivity)context).getIntentSource());
                 }
                 context.startActivity(intent);
             }

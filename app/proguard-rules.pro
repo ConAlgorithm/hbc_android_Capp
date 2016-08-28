@@ -247,6 +247,9 @@
     <init>(java.lang.Throwable);
 }
 
+# 七鱼
+-dontwarn com.qiyukf.**
+-keep class com.qiyukf.** {*;}
 # 云信相关
 -optimizations !code/simplification/cast,!field/*,!class/merging/*
 -optimizationpasses 5

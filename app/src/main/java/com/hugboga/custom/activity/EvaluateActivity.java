@@ -107,6 +107,12 @@ public class EvaluateActivity extends BaseActivity implements RatingView.OnLevel
     }
 
     @Override
+    protected void onStop() {
+        super.onStop();
+        hideInputMethod(commentET);
+    }
+
+    @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         if (orderBean != null) {

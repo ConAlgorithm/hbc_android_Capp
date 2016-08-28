@@ -123,56 +123,7 @@ public class ChooseAirActivity extends BaseActivity {
         transaction = fm.beginTransaction();
         transaction.add(R.id.choose_content, fgChooseAirNumber);
         transaction.commit();
-//        address = (RadioButton) rootView.findViewById(R.id.address_radio);
-//        number = (RadioButton) rootView.findViewById(R.id.number_radio);
-//        address.setChecked(true);
-//        address.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                if (isChecked && buttonView.getId() == R.id.address_radio) {
-//                    if (!fgChooseAirAddress.isAdded()) {
-//                        transaction = fm.beginTransaction();
-//                        transaction.add(R.id.choose_content, fgChooseAirAddress);
-//                        transaction.commit();
-//                    } else {
-//                        transaction = fm.beginTransaction();
-//                        transaction.hide(fgChooseAirNumber);
-//                        transaction.show(fgChooseAirAddress);
-//                        transaction.commit();
-//                    }
-//                }
-//            }
-//        });
-//
-//        number.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                if (isChecked && buttonView.getId() == R.id.number_radio) {
-//                    if (!fgChooseAirNumber.isAdded()) {
-//                        transaction = fm.beginTransaction();
-//                        transaction.add(R.id.choose_content, fgChooseAirNumber);
-//                        transaction.commit();
-//                    } else {
-//                        transaction = fm.beginTransaction();
-//                        transaction.hide(fgChooseAirAddress);
-//                        transaction.show(fgChooseAirNumber);
-//                        transaction.commit();
-//                    }
-//                }
-//            }
-//        });
-
     }
-
-//        @Override
-//        public void onFragmentResult(Bundle bundle) {
-//            MLog.w(this + " onFragmentResult " + bundle);
-//            String from = bundle.getString(KEY_FROM);
-//            if ("FlightList".equals(from)) {
-//                finishForResult(bundle);
-//            }
-//        }
-
     private void selectTap(int index) {
         if (index == 1) {
             dailyTapLine1.setVisibility(View.GONE);

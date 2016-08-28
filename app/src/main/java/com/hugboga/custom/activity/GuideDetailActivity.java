@@ -239,14 +239,14 @@ public class GuideDetailActivity extends BaseActivity implements GuideCarPhotosA
             case R.id.guide_detail_plane_layout:
                 intent = new Intent(this, PickSendActivity.class);
                 intent.putExtra("collectGuideBean", beanConversion());
-                intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+                intent.putExtra(Constants.PARAMS_SOURCE, getIntentSource());
                 startActivity(intent);
                 finish();
                 break;
             case R.id.guide_detail_car_layout:
                 intent = new Intent(this, OrderSelectCityActivity.class);
                 intent.putExtra("collectGuideBean", beanConversion());
-                intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+                intent.putExtra(Constants.PARAMS_SOURCE, getIntentSource());
                 intent.putExtra(Constants.PARAMS_SOURCE_DETAIL, getIntentSource());
                 startActivity(intent);
                 finish();
@@ -254,7 +254,7 @@ public class GuideDetailActivity extends BaseActivity implements GuideCarPhotosA
             case R.id.guide_detail_single_layout:
                 intent = new Intent(this, SingleNewActivity.class);
                 intent.putExtra("collectGuideBean", beanConversion());
-                intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+                intent.putExtra(Constants.PARAMS_SOURCE, getIntentSource());
                 startActivity(intent);
                 finish();
                 break;
@@ -265,7 +265,7 @@ public class GuideDetailActivity extends BaseActivity implements GuideCarPhotosA
                 if (data == null) {
                     return;
                 }
-                EventUtil.onDefaultEvent(StatisticConstant.COLLECTG, getEventSource());
+                EventUtil.onDefaultEvent(StatisticConstant.COLLECTG, getIntentSource());
                 mDialogUtil.showLoadingDialog();
                 BaseRequest baseRequest = null;
                 if (data.isCollected()) {

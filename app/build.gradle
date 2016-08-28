@@ -54,6 +54,7 @@ android {
         targetSdkVersion 23
         versionCode 100760
         versionName "2.9.0"
+        multiDexEnabled true
         signingConfig signingConfigs.hbcSign
         multiDexEnabled true
         ndk {
@@ -204,4 +205,5 @@ dependencies {
     compile project(path: ':datepicker')
     compile 'org.greenrobot:eventbus:3.0.0'
     compile 'se.emilsjolander:stickylistheaders:2.7.0'
+    compile 'com.qiyukf.unicorn:unicorn:2.7.0'
 }

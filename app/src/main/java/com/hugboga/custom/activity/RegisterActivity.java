@@ -139,6 +139,7 @@ public class RegisterActivity extends BaseActivity implements TextWatcher {
     @Override
     public void onStop() {
         super.onStop();
+        hideInputMethod(areaCodeTextView);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
     }
 
@@ -171,7 +172,7 @@ public class RegisterActivity extends BaseActivity implements TextWatcher {
             RequestRegister register = (RequestRegister) request;
             UserBean userBean = register.getData();
             if (userBean != null) {
-                StatisticClickEvent.click(StatisticConstant.REGIST_SUCCEED,getEventSource());
+                StatisticClickEvent.click(StatisticConstant.REGIST_SUCCEED,getIntentSource());
                 //注册成功，进行登录操作
                 //登录成功
                 UserEntity.getUser().setUserId(this, userBean.userID);
@@ -334,7 +335,7 @@ public class RegisterActivity extends BaseActivity implements TextWatcher {
                 RequestRegister requestRegister = new RequestRegister(this, areaCode, phone, password, verity, null, channelInt);
                 requestData(requestRegister);
 
-                StatisticClickEvent.click(StatisticConstant.CLICK_VERIFTXT,getEventSource());
+                StatisticClickEvent.click(StatisticConstant.CLICK_VERIFTXT,getIntentSource());
 
                 break;
             case R.id.register_login:

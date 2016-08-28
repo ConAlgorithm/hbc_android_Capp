@@ -9,7 +9,7 @@ import java.io.Serializable;
  * Created by qingcha on 16/8/19.
  */
 public class EventPayBean implements Serializable{
-    public int carType;
+    public String carType;
     public int seatCategory;
     public String guestcount;//乘客人数
     public String isFlightSign;//接机举牌等待
@@ -25,7 +25,7 @@ public class EventPayBean implements Serializable{
         if (orderBean == null) {
             return;
         }
-        this.carType = orderBean.carType;
+        this.carType = orderBean.carDesc;
         this.seatCategory = orderBean.seatCategory;
         this.guestcount = "" + orderBean.adult + orderBean.child;
         this.isFlightSign = orderBean.isFlightSign;

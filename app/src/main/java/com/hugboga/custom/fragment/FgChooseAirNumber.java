@@ -310,7 +310,9 @@ public class FgChooseAirNumber extends BaseFragment {
 
     }
 
-
-
-
+    @Override
+    public void onStop() {
+        super.onStop();
+        hideInputMethod(numberTips);
+    }
 }

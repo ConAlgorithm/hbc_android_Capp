@@ -34,6 +34,7 @@ import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestCheckPrice;
 import com.hugboga.custom.data.request.RequestCheckPriceForTransfer;
 import com.hugboga.custom.data.request.RequestGuideConflict;
+import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.utils.AlertDialogUtils;
@@ -52,6 +53,7 @@ import org.xutils.view.annotation.ContentView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -469,7 +471,7 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
         bundle.putString("orderType", "2");
         bundle.putBoolean("needCheckin", checkInChecked);
         bundle.putSerializable("manLuggageBean", manLuggageBean);
-        StatisticClickEvent.sendClick(StatisticConstant.CONFIRM_S,"送机确认行程",carBean.carType+"",checkInChecked,manLuggageBean);
+        StatisticClickEvent.sendClick(StatisticConstant.CONFIRM_S,"送机确认行程",carBean.desc+"",checkInChecked,manLuggageBean);
         Intent intent = new Intent(getActivity(),OrderNewActivity.class);
         intent.putExtras(bundle);
         startActivity(intent);
@@ -493,6 +495,9 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
         ButterKnife.bind(this, rootView);
         EventBus.getDefault().register(this);
+        Map map = new HashMap();
+        map.put("source",source);
+        MobClickUtils.onEvent(StatisticConstant.LAUNCH_J,map);
         return rootView;
     }
 

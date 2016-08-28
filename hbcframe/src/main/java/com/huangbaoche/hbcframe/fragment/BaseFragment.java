@@ -84,6 +84,11 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
         }
     }
 
+    protected void hideInputMethod(View view) {
+        InputMethodManager m=(InputMethodManager) this.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        m.hideSoftInputFromWindow(view.getWindowToken(),0);
+    }
+
     @Override
     public void onResume() {
         super.onResume();
