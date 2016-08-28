@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.netease.nim.uikit.NimUIKit;
 import com.netease.nim.uikit.R;
 import com.netease.nim.uikit.common.fragment.TFragment;
 import com.netease.nim.uikit.session.SessionCustomization;
@@ -23,6 +24,7 @@ import com.netease.nim.uikit.session.module.list.MessageListPanel;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
 import com.netease.nimlib.sdk.RequestCallbackWrapper;
+import com.netease.nimlib.sdk.msg.MessageBuilder;
 import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.MsgServiceObserve;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
@@ -183,7 +185,7 @@ public class MessageFragment extends TFragment implements ModuleProxy {
      * ********************** implements ModuleProxy *********************
      */
     @Override
-    public boolean sendMessage(IMMessage message) {
+    public boolean sendMessage(final IMMessage message) {
         if (!isAllowSendMessage(message)) {
             return false;
         }
@@ -193,6 +195,16 @@ public class MessageFragment extends TFragment implements ModuleProxy {
             @Override
             public void onResult(int code, Object object, Throwable throwable) {
                 Log.i("test","发送失败 code:" + code);
+                if(code==7101){
+//                    IMMessage msg = MessageBuilder.createTextMessage(message.getSessionId(), message.getSessionType(),"test");
+//                    //msg.setContent("由于对方的权限设置，你的信息发送失败。");
+//                    NIMClient.getService(MsgService.class).saveMessageToLocal(msg,false).setCallback(new RequestCallbackWrapper() {
+//                        @Override
+//                        public void onResult(int i, Object aVoid, Throwable throwable) {
+//                            Log.i("test","tip:" + i);
+//                        }
+//                    });
+                }
             }
         });
 
@@ -229,8 +241,8 @@ public class MessageFragment extends TFragment implements ModuleProxy {
     protected List<BaseAction> getActionList() {
         List<BaseAction> actions = new ArrayList<>();
         actions.add(new ImageAction());
-        actions.add(new VideoAction());
-        actions.add(new LocationAction());
+        //actions.add(new VideoAction());
+        //actions.add(new LocationAction());
 
         if (customization != null && customization.actions != null) {
             actions.addAll(customization.actions);

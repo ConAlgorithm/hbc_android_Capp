@@ -284,6 +284,7 @@ public class IMUtil {
         if (!UserEntity.getUser().isLogin(context)) {
             return;
         }
+
         if(TextUtils.isEmpty(account) || TextUtils.isEmpty(token)){
             requestNIMTokenUpdate();
             return;
@@ -363,9 +364,6 @@ public class IMUtil {
                 HttpRequestUtils.request(context, requestResetToken, new HttpRequestListener() {
                     @Override
                     public void onDataRequestSucceed(BaseRequest request) {
-                      //request.getData().toString();
-                        //Toast.makeText()
-                        Log.e("test",request.getData().toString());
                         Object[] object = (Object[]) request.getData();
                         if(object.length==2){
                             String nimUserId = object[0].toString();
@@ -378,12 +376,10 @@ public class IMUtil {
 
                     @Override
                     public void onDataRequestCancel(BaseRequest request) {
-
                     }
 
                     @Override
                     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-
                     }
                 });
             } else if (msg.what == 2) {

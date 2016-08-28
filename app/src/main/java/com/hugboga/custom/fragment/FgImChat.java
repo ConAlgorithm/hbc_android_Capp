@@ -84,8 +84,11 @@ public class FgImChat extends BaseFragment implements View.OnClickListener, ZBas
     @ViewInject(R.id.chat_list_empty_tv)
     TextView emptyTV;
 
-    @ViewInject(R.id.im_emptyview)
+    @ViewInject(R.id.im_statusview)
     TextView imStatusView;
+
+    @ViewInject(R.id.login_btn)
+    TextView loginBtn;
 
 
     private ChatAdapter adapter;
@@ -95,7 +98,6 @@ public class FgImChat extends BaseFragment implements View.OnClickListener, ZBas
         super.onResume();
         if (UserEntity.getUser().isLogin(getActivity()) && recyclerView != null && !recyclerView.isLoading() && adapter != null && adapter.getItemCount() <= 0) {
             loadData();
-            //IMUtil.getInstance().reconnect();
         }
     }
 
@@ -116,6 +118,7 @@ public class FgImChat extends BaseFragment implements View.OnClickListener, ZBas
         registerObservers(true);
     }
 
+
     private void initListView() {
         MLog.e(this + " initListView");
         adapter = new ChatAdapter(getActivity());
@@ -134,7 +137,7 @@ public class FgImChat extends BaseFragment implements View.OnClickListener, ZBas
                     AlertDialogUtils.showAlertDialog(getActivity(), getString(R.string.del_chat), "确定", "取消", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            RequestNIMRemoveChat requestRemoveChat = new RequestNIMRemoveChat(getActivity(),chatBean.userId);
+                            RequestNIMRemoveChat requestRemoveChat = new RequestNIMRemoveChat(getActivity(),chatBean.targetId);
                             HttpRequestUtils.request(getContext(), requestRemoveChat, new HttpRequestListener() {
                                 @Override
                                 public void onDataRequestSucceed(BaseRequest request) {
@@ -296,14 +299,14 @@ public class FgImChat extends BaseFragment implements View.OnClickListener, ZBas
     @Override
     public void onItemClick(View view, int position) {
         ChatBean chatBean = adapter.getDatas().get(position);
-        if ("3".equals(chatBean.targetType)) {
+        if (chatBean.targetType==3) {
             //String titleJson = getChatInfo(chatBean.targetId, chatBean.targetAvatar, chatBean.targetName, chatBean.targetType,chatBean.inBlack);
             //RongIM.getInstance().startConversation(getActivity(), Conversation.ConversationType.APP_PUBLIC_SERVICE, chatBean.targetId, titleJson);
             //Toast.makeText(getActivity(),"启动7鱼客服",Toast.LENGTH_SHORT).show();
             UnicornUtils.openServiceActivity();
 
-        } else if ("1".equals(chatBean.targetType)) {
-            String titleJson = getChatInfo(chatBean.userId, chatBean.targetAvatar, chatBean.targetName, chatBean.targetType,chatBean.inBlack,chatBean.nTargetId);
+        } else if (chatBean.targetType==1) {
+            String titleJson = getChatInfo(chatBean.targetId, chatBean.targetAvatar, chatBean.targetName, chatBean.targetType+"",chatBean.inBlack,chatBean.nTargetId);
             //RongIM.getInstance().startPrivateChat(getActivity(), chatBean.targetId, titleJson);
             NIMChatActivity.start(getContext(),chatBean.nTargetId,null,titleJson);
         } else {
@@ -330,7 +333,11 @@ public class FgImChat extends BaseFragment implements View.OnClickListener, ZBas
         emptyTV.setVisibility(View.GONE);
         emptyLayout.setVisibility(View.GONE);
         if(UserEntity.getUser().isLogin(MyApplication.getAppContext())){
-
+            if(loginBtn!=null)
+            loginBtn.setVisibility(View.GONE);
+        }else{
+            if(loginBtn!=null)
+                loginBtn.setVisibility(View.VISIBLE);
         }
         queryLocalRecentList();
     }
@@ -370,10 +377,6 @@ public class FgImChat extends BaseFragment implements View.OnClickListener, ZBas
                         if (code != ResponseCode.RES_SUCCESS || recents == null) {
                             return;
                         }
-//                        if(recents.size()>0){
-//                            RecentContact recentContact = recents.get(0);
-//                            test(recentContact);
-//                        }
                         if(adapter!=null){
                             adapter.syncUpdate(recents);
                             if(recyclerView!=null){
@@ -389,6 +392,13 @@ public class FgImChat extends BaseFragment implements View.OnClickListener, ZBas
 
 
     private void deleteNimRecent(final ChatBean chatBean,final int position){
+        if(adapter!=null){
+            adapter.removeDatas(position);
+            if(recyclerView!=null&& recyclerView.getAdapter()!=null){
+                recyclerView.getAdapter().notifyItemRemoved(position);
+                computeTotalUnreadCount(adapter.getDatas());
+            }
+        }
         NIMClient.getService(MsgService.class).queryRecentContacts().setCallback(new RequestCallbackWrapper<List<RecentContact>>() {
             @Override
             public void onResult(int code, List<RecentContact> recents, Throwable exception) {
@@ -396,16 +406,8 @@ public class FgImChat extends BaseFragment implements View.OnClickListener, ZBas
                     return;
                 }
                 for (RecentContact recentContact:recents){
-                    if(recentContact.getContactId().toLowerCase().equals(chatBean.targetId.toLowerCase())){
+                    if(recentContact.getContactId().toLowerCase().equals(chatBean.nTargetId.toLowerCase())){
                         NIMClient.getService(MsgService.class).deleteRecentContact(recentContact);
-                        if(adapter!=null){
-                            adapter.removeDatas(position);
-                            if(recyclerView!=null&& recyclerView.getAdapter()!=null){
-                                recyclerView.getAdapter().notifyItemRemoved(position);
-                                computeTotalUnreadCount(adapter.getDatas());
-                            }
-                            break;
-                        }
                     }
                 }
             }

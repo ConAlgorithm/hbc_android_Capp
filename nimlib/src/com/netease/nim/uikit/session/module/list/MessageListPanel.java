@@ -722,14 +722,14 @@ public class MessageListPanel implements TAdapterDelegate {
             // 3 delete
             longClickItemDelete(selectedItem, alertDialog);
             // 4 trans
-            longClickItemVoidToText(selectedItem, alertDialog, msgType);
-
-            if (!NimUIKit.getMsgForwardFilter().shouldIgnore(selectedItem) && !recordOnly) {
-                // 5 forward to person
-                longClickItemForwardToPerson(selectedItem, alertDialog);
-                // 6 forward to team
-                longClickItemForwardToTeam(selectedItem, alertDialog);
-            }
+//            longClickItemVoidToText(selectedItem, alertDialog, msgType);
+//
+//            if (!NimUIKit.getMsgForwardFilter().shouldIgnore(selectedItem) && !recordOnly) {
+//                // 5 forward to person
+//                longClickItemForwardToPerson(selectedItem, alertDialog);
+//                // 6 forward to team
+//                longClickItemForwardToTeam(selectedItem, alertDialog);
+//            }
         }
 
         // 长按菜单项--重发

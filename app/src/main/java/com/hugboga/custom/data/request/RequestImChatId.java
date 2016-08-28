@@ -15,6 +15,7 @@ import org.xutils.http.HttpMethod;
 import org.xutils.http.annotation.HttpRequest;
 
 import java.util.HashMap;
+import java.util.TreeMap;
 
 /**
  * Created by Administrator on 2016/8/27.
@@ -24,7 +25,7 @@ public class RequestImChatId extends BaseRequest {
 
     public RequestImChatId(Context context, String userId,String userType,String targetId,String targetType) {
         super(context);
-        map = new HashMap<String, Object>();
+        map = new TreeMap<String, Object>();
         map.put("userId",userId);
         map.put("userType",userType);
         map.put("targetId",targetId);
@@ -36,10 +37,10 @@ public class RequestImChatId extends BaseRequest {
         return new IMInfoParser();
     }
 
-    @Override
-    public HttpMethod getHttpMethod() {
-        return HttpMethod.POST;
-    }
+//    @Override
+//    public HttpMethod getHttpMethod() {
+//        return HttpMethod.POST;
+//    }
 
     @Override
     public String getUrlErrorCode() {
@@ -58,7 +59,7 @@ public class RequestImChatId extends BaseRequest {
             imChatInfo.targetId = obj.optString("targetId");
             imChatInfo.targetType = obj.optString("targetType");
             imChatInfo.targetName = obj.optString("targetName");
-            imChatInfo.neUserId = obj.optString("neUserid");
+            imChatInfo.neUserId = obj.optString("neUserId");
             imChatInfo.userType = obj.optString("userType");
             imChatInfo.inBlack = obj.optInt("inBlack");
             return imChatInfo;

@@ -487,8 +487,8 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
     }
 
     private void requestImChatId(final String chatId,final String targetAvatar,final String targetName){
-        RequestImChatId requestImChatId = new RequestImChatId(context, UserEntity.getUser().getUserId(context),"2","chatId","1");
-       HttpRequestUtils.request(context,requestImChatId,new HttpRequestListener(){
+        RequestImChatId requestImChatId = new RequestImChatId(context, UserEntity.getUser().getUserId(context),"2",chatId,"1");
+        HttpRequestUtils.request(context,requestImChatId,new HttpRequestListener(){
             @Override
             public void onDataRequestSucceed(BaseRequest request) {
                 Object object = request.getData();

@@ -14,7 +14,7 @@ public class ChatBean {
     public String targetAvatar; //头像地址
     public String targetName; //用户名
     public String targetId; //目标ID
-    public String targetType; //目标类型
+    public int targetType; //目标类型
     public String message; //消息
     public String timeStr; //时间
     public int imCount; //未读消息数

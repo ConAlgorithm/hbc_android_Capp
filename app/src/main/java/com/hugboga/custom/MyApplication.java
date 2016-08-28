@@ -21,6 +21,7 @@ import com.hugboga.custom.data.request.RequestAccessKey;
 import com.hugboga.custom.utils.LogUtils;
 import com.hugboga.custom.utils.UnicornUtils;
 import com.hugboga.custom.widget.DialogUtil;
+import com.netease.nim.uikit.session.module.MsgForwardFilter;
 import com.netease.nimlib.sdk.StatusBarNotificationConfig;
 import com.netease.nim.uikit.ImageLoaderKit;
 import com.netease.nim.uikit.NimUIKit;
@@ -29,7 +30,11 @@ import com.netease.nim.uikit.cache.TeamDataCache;
 import com.netease.nim.uikit.session.viewholder.MsgViewHolderThumbBase;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.SDKOptions;
+import com.netease.nimlib.sdk.msg.constant.AttachStatusEnum;
+import com.netease.nimlib.sdk.msg.constant.MsgDirectionEnum;
+import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
+import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.netease.nimlib.sdk.uinfo.UserInfoProvider;
 import com.umeng.analytics.MobclickAgent;
 
@@ -292,6 +297,18 @@ public class MyApplication extends HbcApplication {
         //NimUIKit.setLocationProvider(new NimDemoLocationProvider());
         // 会话窗口的定制初始化。
         //SessionHelper.init();
+        NimUIKit.setMsgForwardFilter(new MsgForwardFilter() {
+            @Override
+            public boolean shouldIgnore(IMMessage message) {
+                if (message.getDirect() == MsgDirectionEnum.In
+                        && (message.getAttachStatus() == AttachStatusEnum.transferring
+                        || message.getAttachStatus() == AttachStatusEnum.fail)) {
+                    // 接收到的消息，附件没有下载成功，不允许转发
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
     /**

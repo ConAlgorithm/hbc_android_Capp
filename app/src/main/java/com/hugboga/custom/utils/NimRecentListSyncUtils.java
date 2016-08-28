@@ -30,7 +30,7 @@ public class NimRecentListSyncUtils {
         for(Iterator<ChatBean> iter = chatBeanList.iterator();iter.hasNext();){
             //客服数据排除不同步
             ChatBean chatBean = iter.next();
-            if(chatBean.targetType.equals("3")){
+            if(chatBean.targetType==3){
                 continue;
             }
             boolean exist = false;
@@ -118,7 +118,7 @@ public class NimRecentListSyncUtils {
         @Override
         public int compare(ChatBean o1, ChatBean o2) {
             //先判断是不是客服
-            long sticky = o1.userType- o2.userType;
+            long sticky = o1.targetType- o2.targetType;
             if (sticky != 0) {
                 return sticky > 0 ? -1 : 1;
             } else {

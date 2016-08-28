@@ -55,6 +55,8 @@ import com.hugboga.custom.utils.UIUtils;
 import com.netease.nim.uikit.session.SessionCustomization;
 import com.netease.nim.uikit.session.constant.Extras;
 import com.netease.nim.uikit.session.fragment.MessageFragment;
+import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.StatusCode;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.zhy.m.permission.MPermissions;
@@ -169,6 +171,18 @@ public class NIMChatActivity extends BaseActivity implements IMUtil.OnImSuccessL
     @Override
     public void onResume() {
         super.onResume();
+        connectNim();
+    }
+
+
+    /**
+     * 是否连接云信
+     */
+    private void connectNim() {
+        StatusCode status = NIMClient.getStatus();
+        if(status != StatusCode.LOGINED && status!=StatusCode.CONNECTING){
+            IMUtil.getInstance().connect();
+        }
     }
 
     @Override

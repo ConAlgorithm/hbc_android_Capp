@@ -24,7 +24,7 @@ public class ParserChatList extends ImplParser {
             chatBean.targetAvatar = jsonObject.optString("targetAvatar");
             chatBean.targetName = jsonObject.optString("targetName");
             chatBean.targetId = jsonObject.optString("targetId");
-            chatBean.targetType = jsonObject.optString("targetType");
+            chatBean.targetType = jsonObject.optInt("targetType");
             chatBean.imCount = jsonObject.optInt("imCount");
             chatBean.message = jsonObject.optString("lastMsg");
             chatBean.timeStr = jsonObject.optString("lastTime");
@@ -33,8 +33,8 @@ public class ParserChatList extends ImplParser {
             chatBean.inBlack = jsonObject.optInt("inBlack");
             //chatBean.rTargetId = jsonObject.optString("rcUserId");
             //chatBean.rTargetToken = jsonObject.optString("rcToken");
-            chatBean.nTargetId = jsonObject.optString("neUserId");
-            chatBean.nTargetToken = jsonObject.optString("neToken");
+            chatBean.nTargetId = jsonObject.optString("neTargetId");
+            chatBean.nTargetToken = jsonObject.optString("neTargetToken");
             //解析IM订单
             JSONArray orderArray = jsonObject.optJSONArray("orderInfo");
             chatBean.orders = new ArrayList<>();

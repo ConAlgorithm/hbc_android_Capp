@@ -264,10 +264,10 @@ public class FgChat extends BaseFragment implements View.OnClickListener, ZBaseA
     @Override
     public void onItemClick(View view, int position) {
         ChatBean chatBean = adapter.getDatas().get(position);
-        if ("3".equals(chatBean.targetType)) {
+        if (chatBean.targetType==3) {
            // String titleJson = getChatInfo(chatBean.targetId, chatBean.targetAvatar, chatBean.targetName, chatBean.targetType,chatBean.inBlack,chatBean.rTargetId);
             //RongIM.getInstance().startConversation(getActivity(), Conversation.ConversationType.APP_PUBLIC_SERVICE, chatBean.targetId, titleJson);
-        } else if ("1".equals(chatBean.targetType)) {
+        } else if (chatBean.targetType==1) {
             //String titleJson = getChatInfo(chatBean.userId, chatBean.targetAvatar, chatBean.targetName, chatBean.targetType,chatBean.inBlack,chatBean.rTargetId);
            // RongIM.getInstance().startPrivateChat(getActivity(), chatBean.rTargetId, titleJson);
         } else {
