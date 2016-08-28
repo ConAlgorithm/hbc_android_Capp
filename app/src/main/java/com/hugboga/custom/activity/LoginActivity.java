@@ -215,11 +215,13 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
             UserEntity.getUser().setLoginPhone(activity, mRequest.mobile);
             UserSession.getUser().setUserToken(activity, user.userToken);
             UserEntity.getUser().setUserName(activity, user.name);
+            UserEntity.getUser().setNimUserId(activity,user.nimUserId);
+            UserEntity.getUser().setNimUserToken(activity,user.nimToken);
 
-            if (TextUtils.isEmpty(user.imToken)) {
-                ApiFeedbackUtils.requestIMFeedback(1, "49001", "获取到的imToken为空，不能连接IM服务器");
-                CommonUtils.showToast("服务器忙翻了，请稍后再试");
-            }
+//            if (TextUtils.isEmpty(user.imToken)) {
+//                ApiFeedbackUtils.requestIMFeedback(1, "49001", "获取到的imToken为空，不能连接IM服务器");
+//                CommonUtils.showToast("服务器忙翻了，请稍后再试");
+//            }
 
             connectIM();
             EventBus.getDefault().post(new EventAction(EventType.CLICK_USER_LOGIN));

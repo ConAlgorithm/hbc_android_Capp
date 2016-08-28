@@ -3,9 +3,13 @@ package com.hugboga.custom;
 
 import android.app.ActivityManager;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.os.Environment;
 import android.text.TextUtils;
 import android.util.Log;
-
 import com.anupcowkur.reservoir.Reservoir;
 import com.huangbaoche.hbcframe.HbcApplication;
 import com.huangbaoche.hbcframe.HbcConfig;
@@ -16,6 +20,16 @@ import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestAccessKey;
 import com.hugboga.custom.utils.LogUtils;
 import com.hugboga.custom.widget.DialogUtil;
+import com.netease.nim.uikit.ImageLoaderKit;
+import com.netease.nim.uikit.NimUIKit;
+import com.netease.nim.uikit.cache.NimUserInfoCache;
+import com.netease.nim.uikit.cache.TeamDataCache;
+import com.netease.nim.uikit.session.viewholder.MsgViewHolderThumbBase;
+import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.SDKOptions;
+import com.netease.nimlib.sdk.StatusBarNotificationConfig;
+import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
+import com.netease.nimlib.sdk.uinfo.UserInfoProvider;
 import com.umeng.analytics.MobclickAgent;
 
 import org.xutils.x;
@@ -30,6 +44,11 @@ public class MyApplication extends HbcApplication {
 
     private static Context mAppContext;
 
+    // static final int IMTYPE_RONGIM = 1;
+    //public static final int IMTYPE_NIM = 0;
+    //public static int imType = IMTYPE_NIM;
+    //public static int defalutImType = IMTYPE_NIM;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -38,7 +57,7 @@ public class MyApplication extends HbcApplication {
         initUrlHost();
         JPushInterface.setDebugMode(false);    // 设置开启日志,发布时请关闭日志
         JPushInterface.init(this);            // 初始化 JPush
-        initRongIm(); // 初始化融云IM
+
         initConfig();
         mAppContext = this.getApplicationContext();
         Log.e("hbcApplication", "debug " + BuildConfig.DEBUG);
@@ -48,6 +67,9 @@ public class MyApplication extends HbcApplication {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        //initRongIm(this); // 初始化融云IM
+        initNim(this);
     }
 
     public static Context getAppContext() {
@@ -107,10 +129,10 @@ public class MyApplication extends HbcApplication {
     /**
      * 初始化融云IM
      */
-    private void initRongIm() {
+    public static void initRongIm(Context context) {
         try {
-            if (getApplicationInfo().packageName.equals(getCurProcessName(getApplicationContext())) || "io.rong.push".equals(getCurProcessName(getApplicationContext()))) {
-                RongIM.init(this);
+            if (context.getApplicationInfo().packageName.equals(getCurProcessName(context.getApplicationContext())) || "io.rong.push".equals(getCurProcessName(context.getApplicationContext()))) {
+                RongIM.init(context);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -133,4 +155,130 @@ public class MyApplication extends HbcApplication {
         }
         return null;
     }
+
+
+    public static void initNim(Context context){
+        NIMClient.init(context, null, getOptions(context));
+        if (inMainProcess(context)) {
+            initUIKit(context);
+            // 注册通知消息过滤器,暂时不需要
+            //registerIMMessageFilter();
+            // 初始化消息提醒
+            NIMClient.toggleNotification(false);
+        }
+    }
+
+
+    public static boolean inMainProcess(Context context) {
+        String packageName = context.getPackageName();
+        String processName = getCurProcessName(context);
+        return packageName.equals(processName);
+    }
+
+
+    private static  SDKOptions getOptions(Context context) {
+        SDKOptions options = new SDKOptions();
+        StatusBarNotificationConfig config = new StatusBarNotificationConfig();;
+        config.ledARGB = Color.GREEN;
+        config.ledOnMs = 1000;
+        config.ledOffMs = 1500;
+        options.statusBarNotificationConfig = config;
+        String sdkPath = Environment.getExternalStorageDirectory() + "/" + context.getPackageName() + "/nim";
+        options.sdkStorageRootPath = sdkPath;
+        options.databaseEncryptKey = "NETEASE";
+        options.preloadAttach = true;
+        options.thumbnailSize = MsgViewHolderThumbBase.getImageMaxEdge();
+        options.userInfoProvider = infoProvider;
+
+        return options;
+    }
+
+    private static UserInfoProvider infoProvider = new UserInfoProvider() {
+        @Override
+        public UserInfo getUserInfo(String account) {
+            UserInfo user = NimUserInfoCache.getInstance().getUserInfo(account);
+            if (user == null) {
+                NimUserInfoCache.getInstance().getUserInfoFromRemote(account, null);
+            }
+
+            return user;
+        }
+
+        @Override
+        public int getDefaultIconResId() {
+            return R.mipmap.chat_head;
+        }
+
+        @Override
+        public Bitmap getTeamIcon(String teamId) {
+            Drawable drawable = mAppContext.getResources().getDrawable(R.drawable.nim_avatar_group);
+            if (drawable instanceof BitmapDrawable) {
+                return ((BitmapDrawable) drawable).getBitmap();
+            }
+
+            return null;
+        }
+
+        @Override
+        public Bitmap getAvatarForMessageNotifier(String account) {
+            /**
+             * 注意：这里最好从缓存里拿，如果读取本地头像可能导致UI进程阻塞，导致通知栏提醒延时弹出。
+             */
+            UserInfo user = getUserInfo(account);
+            return (user != null) ? ImageLoaderKit.getNotificationBitmapFromCache(user) : null;
+        }
+
+        @Override
+        public String getDisplayNameForMessageNotifier(String account, String sessionId, SessionTypeEnum sessionType) {
+            String nick = null;
+            if (sessionType == SessionTypeEnum.P2P) {
+                nick = NimUserInfoCache.getInstance().getAlias(account);
+            } else if (sessionType == SessionTypeEnum.Team) {
+                nick = TeamDataCache.getInstance().getTeamNick(sessionId, account);
+                if (TextUtils.isEmpty(nick)) {
+                    nick = NimUserInfoCache.getInstance().getAlias(account);
+                }
+            }
+            // 返回null，交给sdk处理。如果对方有设置nick，sdk会显示nick
+            if (TextUtils.isEmpty(nick)) {
+                return null;
+            }
+
+            return nick;
+        }
+    };
+
+//    private MessageNotifierCustomization messageNotifierCustomization = new MessageNotifierCustomization() {
+//        @Override
+//        public String makeNotifyContent(String nick, IMMessage message) {
+//            return null; // 采用SDK默认文案
+//        }
+//
+//        @Override
+//        public String makeTicker(String nick, IMMessage message) {
+//            return null; // 采用SDK默认文案
+//        }
+//    };
+
+    private static void initUIKit(Context context) {
+        // 初始化，需要传入用户信息提供者
+        NimUIKit.init(context, infoProvider, null);
+        // 设置地理位置提供者。如果需要发送地理位置消息，该参数必须提供。如果不需要，可以忽略。
+        //NimUIKit.setLocationProvider(new NimDemoLocationProvider());
+        // 会话窗口的定制初始化。
+        //SessionHelper.init();
+    }
+
+    /**
+     * 根据类型初始化IM服务
+     */
+    public static void initIM(){
+//        if(imType==IMTYPE_RONGIM){
+//            initRongIm(mAppContext);
+//        }else{
+//            initNim(mAppContext);
+//        }
+        initNim(mAppContext);
+    }
+
 }

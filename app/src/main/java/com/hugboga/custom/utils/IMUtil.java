@@ -16,9 +16,16 @@ import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.data.bean.UserEntity;
-import com.hugboga.custom.data.net.UrlLibs;
-import com.hugboga.custom.data.request.RequestApiFeedback;
+import com.hugboga.custom.data.request.RequestNIMResetIMToken;
 import com.hugboga.custom.data.request.RequestResetIMToken;
+import com.netease.nim.uikit.NimUIKit;
+import com.netease.nim.uikit.cache.DataCacheManager;
+import com.netease.nimlib.sdk.AbortableFuture;
+import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.Observer;
+import com.netease.nimlib.sdk.RequestCallback;
+import com.netease.nimlib.sdk.auth.AuthService;
+import com.netease.nimlib.sdk.auth.LoginInfo;
 
 import io.rong.imkit.RongContext;
 import io.rong.imkit.RongIM;
@@ -56,7 +63,12 @@ public class IMUtil {
     }
 
     public void connect() {
-        connect(UserEntity.getUser().getImToken(context));
+//        if(MyApplication.imType==MyApplication.IMTYPE_RONGIM){
+//            connect(UserEntity.getUser().getImToken(context));
+//        }else{
+            connectNim(UserEntity.getUser().getNimUserId(context),UserEntity.getUser().getNimUserToken(context));
+//        }
+
     }
 
     public void connect(String imToken) {
@@ -207,8 +219,16 @@ public class IMUtil {
     HttpRequestListener httpRequestListener = new HttpRequestListener() {
         @Override
         public void onDataRequestSucceed(BaseRequest request) {
-            connect(request.getData().toString());
-            UserEntity.getUser().setImToken(context, request.getData().toString());
+            Object[] object = (Object[]) request.getData();
+//            if(object.length==4){
+//                String rimUserId = object[2].toString();
+//                String rimToken = object[3].toString();
+//                UserEntity.getUser().setRimUserId(context,rimUserId);
+//                UserEntity.getUser().setImToken(context,rimToken);
+//                connect(rimToken);
+//            }
+            //connect(request.getData().toString());
+           // UserEntity.getUser().setImToken(context, request.getData().toString());
         }
 
         @Override
@@ -257,5 +277,118 @@ public class IMUtil {
         userInfo = new UserInfo("Y" + userid, username, uri);
         MLog.e("guideAvatarUrl =  "+guideAvatarUrl);
         return userInfo;
+    }
+
+
+    private void connectNim(String account,String token){
+        if (!UserEntity.getUser().isLogin(context)) {
+            return;
+        }
+        if(TextUtils.isEmpty(account) || TextUtils.isEmpty(token)){
+            requestNIMTokenUpdate();
+            return;
+        }
+        loginNim(account,token);
+    }
+
+    private void loginNim(final String account,final String  token){
+        // 登录
+        AbortableFuture<LoginInfo> loginRequest = NIMClient.getService(AuthService.class).login(new LoginInfo(account, token));
+        loginRequest.setCallback(new RequestCallback<LoginInfo>() {
+            @Override
+            public void onSuccess(LoginInfo param) {
+                NimUIKit.setAccount(account);
+                // 构建缓存
+                DataCacheManager.buildDataCacheAsync(MyApplication.getAppContext(), new Observer<Void>() {
+                    @Override
+                    public void onEvent(Void aVoid) {
+                        if(listener!=null){
+                            listener.onSuccess();
+                        }
+                    }
+                });
+                reconnectTimes = 0;
+                if(nimReconnectHandler!=null){
+                    nimReconnectHandler.removeCallbacksAndMessages(null);
+                }
+            }
+            @Override
+            public void onFailed(int code) {
+                nimConnectError();
+                ApiFeedbackUtils.requestIMFeedback(10, "云信登录失败：code:" + code);
+            }
+            @Override
+            public void onException(Throwable exception) {
+                nimConnectError();
+                if(exception!=null && !TextUtils.isEmpty(exception.getMessage())){
+                    ApiFeedbackUtils.requestIMFeedback(11, "云信登录异常");
+                }
+            }
+        });
+    }
+
+
+    /**
+     * update token
+     */
+    private void requestNIMTokenUpdate() {
+        if (nimReconnectHandler == null) {
+            nimReconnectHandler = new NIMReconnectHandler();
+        }
+        if (reconnectTimes < 3) {
+            reconnectTimes++;
+            nimReconnectHandler.sendEmptyMessageDelayed(1, 5000);
+        }
+    }
+
+
+    private void nimConnectError(){
+        if(nimReconnectHandler==null){
+            nimReconnectHandler = new NIMReconnectHandler();
+        }
+        if (reconnectTimes < 3) {
+            reconnectTimes++;
+            nimReconnectHandler.sendEmptyMessageDelayed(2, 5000);
+        }
+    }
+
+    private static int reconnectTimes = 0;
+    private NIMReconnectHandler nimReconnectHandler;
+
+    private class NIMReconnectHandler extends Handler {
+        @Override
+        public void handleMessage(Message msg) {
+            if (msg.what == 1) {
+                RequestNIMResetIMToken requestResetToken = new RequestNIMResetIMToken(context);
+                HttpRequestUtils.request(context, requestResetToken, new HttpRequestListener() {
+                    @Override
+                    public void onDataRequestSucceed(BaseRequest request) {
+                      //request.getData().toString();
+                        //Toast.makeText()
+                        Log.e("test",request.getData().toString());
+                        Object[] object = (Object[]) request.getData();
+                        if(object.length==2){
+                            String nimUserId = object[0].toString();
+                            String nimToken = object[1].toString();
+                            UserEntity.getUser().setNimUserId(context,nimUserId);
+                            UserEntity.getUser().setNimUserToken(context,nimToken);
+                            connectNim(nimUserId,nimToken);
+                        }
+                    }
+
+                    @Override
+                    public void onDataRequestCancel(BaseRequest request) {
+
+                    }
+
+                    @Override
+                    public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+
+                    }
+                });
+            } else if (msg.what == 2) {
+                connect();
+            }
+        }
     }
 }

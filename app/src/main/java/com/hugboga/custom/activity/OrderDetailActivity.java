@@ -299,7 +299,10 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                 chatInfo.userAvatar = guideInfo.guideAvatar;
                 chatInfo.title = guideInfo.guideName;
                 chatInfo.targetType = "1";
-                RongIM.getInstance().startPrivateChat(OrderDetailActivity.this, "G" + guideInfo.guideID, new ParserChatInfo().toJsonString(chatInfo));
+                chatInfo.inBlack = guideInfo.inBlack;
+                chatInfo.imUserId = guideInfo.guideImId;
+                NIMChatActivity.start(OrderDetailActivity.this,chatInfo.imUserId,null,new ParserChatInfo().toJsonString(chatInfo));
+                //RongIM.getInstance().startPrivateChat(OrderDetailActivity.this, guideInfo.guideImId, new ParserChatInfo().toJsonString(chatInfo));
                 break;
             case ORDER_DETAIL_GUIDE_INFO://司导详情
                 if (!eventVerification(action)) {

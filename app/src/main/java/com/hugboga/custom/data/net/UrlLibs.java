@@ -319,15 +319,15 @@ public class UrlLibs {
     public static final String SERVER_IP_PIC_UPLOAD = "file/v1.0/upload?";
 
     //聊天
-    public static final String SERVER_IP_CHAT_LIST = "communication/v2.0/c/im/list?";
+    public static final String SERVER_IP_CHAT_LIST = "communication/v2.0/c/im/list";
     /**
      * IM 通知更新为已读
      **/
-    public static final String SERVER_IP_IM_UPDATE = "communication/v2.0/c/im/clear?";
+    public static final String SERVER_IP_IM_UPDATE = "communication/v2.0/c/im/clear";
     /**
      * IM 通知更新
      **/
-    public static final String SERVER_IP_IM_TOKEN_UPDATE = "communication/v2.0/c/im/token?";
+    public static final String SERVER_IP_IM_TOKEN_UPDATE = "communication/v2.0/c/im/token";
 
     /**
      * IM聊天界面的订单数据
@@ -529,4 +529,47 @@ public class UrlLibs {
      * 反馈app业务异常信息
      */
     public static final String API_ERROR_FEEDBACK = "communication/v2.0/c/biz/error";
+
+
+
+    /**
+     * 获取云信token
+     **/
+    public static final String SERVER_IP_NIM_TOKEN_UPDATE = "communication/v3.0/c/im/token";
+
+
+    /**
+     * 云信通知更新为已读
+     **/
+    public static final String SERVER_IP_NIM_UPDATE = "communication/v3.0/c/im/clear";
+
+
+    //云信最新聊天列表
+    public static final String SERVER_IP_NIMCHAT_LIST = "communication/v3.0/c/im/list";
+
+
+    /**
+     *6 云信私聊列表删除对话接口
+     */
+    public static final String REMOVE_NIM_CHAT = "communication/v3.0/c/im/chat/remove";
+
+
+    /**
+     * 7、云信私聊对象加入黑名单
+     URL：http://api.test.hbc.tech/communication/v3.0/e/im/black/add
+     */
+    public static final String ADD_NIM_BLACK  = "communication/v3.0/c/im/black/add";
+
+
+    /**
+     * 8、云信私聊对象移出黑名单
+     URL：http://api.test.hbc.tech/communication/v3.0/e/im/black/remove
+     */
+    public static final String REMOVE_NIM_BLACK = "communication/v3.0/c/im/black/remove";
+
+
+    /**
+     * 获取私信对象id
+     */
+    public static final String GET_CHAT_ID = "communication/v3.0/c/im/chat/info";
 }

@@ -13,25 +13,34 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.adapter.ZBaseAdapter;
+import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
+import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
+import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
+import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.huangbaoche.hbcframe.viewholder.ZBaseViewHolder;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.EvaluateActivity;
 import com.hugboga.custom.activity.GuideDetailActivity;
 import com.hugboga.custom.activity.InsureActivity;
+import com.hugboga.custom.activity.NIMChatActivity;
 import com.hugboga.custom.activity.OrderDetailActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.adapter.viewholder.NewOrderVH;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.ChatInfo;
+import com.hugboga.custom.data.bean.ImChatInfo;
 import com.hugboga.custom.data.bean.OrderBean;
+import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.parser.ParserChatInfo;
+import com.hugboga.custom.data.request.RequestImChatId;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.DialogUtil;
 
+import org.xutils.http.annotation.HttpRequest;
 import org.xutils.image.ImageOptions;
 
 import io.rong.imkit.RongIM;
@@ -461,7 +470,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                 case R.id.travel_item_btn_chat:
                     MLog.e("进入聊天" + mOrderBean.orderNo);
                     if(mOrderBean.orderGuideInfo!=null&&mOrderBean.orderGuideInfo.guideID!=null){
-                        gotoChatView(mOrderBean.orderGuideInfo.guideID,mOrderBean.orderGuideInfo.guideAvatar,mOrderBean.orderGuideInfo.guideName);
+                        requestImChatId(mOrderBean.orderGuideInfo.guideID,mOrderBean.orderGuideInfo.guideAvatar,mOrderBean.orderGuideInfo.guideName);
                     }
                     break;
                 case R.id.travel_item_head_img:
@@ -476,17 +485,43 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
             }
         }
     }
-    private void gotoChatView( final String chatId,String targetAvatar,String targetName) {
-        String titleJson = getChatInfo(chatId,  targetAvatar, targetName, "1");
-        RongIM.getInstance().startPrivateChat(context, "G"+chatId, titleJson);
+
+    private void requestImChatId(final String chatId,final String targetAvatar,final String targetName){
+        RequestImChatId requestImChatId = new RequestImChatId(context, UserEntity.getUser().getUserId(context),"2","chatId","1");
+       HttpRequestUtils.request(context,requestImChatId,new HttpRequestListener(){
+            @Override
+            public void onDataRequestSucceed(BaseRequest request) {
+                Object object = request.getData();
+                if(object instanceof ImChatInfo){
+                    ImChatInfo imChatInfo = (ImChatInfo)object;
+                    gotoChatView(chatId,targetAvatar,targetName,imChatInfo.neTargetId,imChatInfo.inBlack);
+                }
+            }
+
+            @Override
+            public void onDataRequestCancel(BaseRequest request) {
+            }
+
+            @Override
+            public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+            }
+        });
     }
-    private String getChatInfo(String userId, String userAvatar, String title, String targetType) {
+
+    private void gotoChatView( final String chatId,String targetAvatar,String targetName,String imChatId,int inblack) {
+        String titleJson = getChatInfo(chatId,  targetAvatar, targetName, "1",imChatId,inblack);
+        NIMChatActivity.start(context,imChatId,null,titleJson);
+        //RongIM.getInstance().startPrivateChat(context, imChatId, titleJson);
+    }
+    private String getChatInfo(String userId, String userAvatar, String title, String targetType,String imChatId,int inblack) {
         ChatInfo chatInfo = new ChatInfo();
         chatInfo.isChat = true;
         chatInfo.userId = userId;
+        chatInfo.imUserId =imChatId;
         chatInfo.userAvatar = userAvatar;
         chatInfo.title = title;
         chatInfo.targetType = targetType;
+        chatInfo.inBlack = inblack;
         return new ParserChatInfo().toJsonString(chatInfo);
     }
 

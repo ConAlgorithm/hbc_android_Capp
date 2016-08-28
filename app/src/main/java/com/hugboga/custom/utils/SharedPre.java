@@ -44,6 +44,11 @@ public class SharedPre {
 	public static String COUPONS = "coupons";
 	public static String TRAVEL_FUND_HINT = "travelFundHint";
 
+	public static String RIM_USERID ="rim_userId";//融云userid
+
+	public static String NIM_TOKEN ="nim_Token"; //云信token
+	public static String NIM_USERID ="nim_userId";//云信用户名
+
 	public SharedPre(Context ctx) {
 		this.ctx = ctx;
 	}
@@ -269,5 +274,8 @@ public class SharedPre {
 		removeKey(IS_WEAK_PSW);
 		removeKey(WEAK_PSW_MESSAGE);
 		removeKey(USERNAME);
+		removeKey(RIM_USERID);
+		removeKey(NIM_TOKEN);
+		removeKey(NIM_USERID);
 	}
 }

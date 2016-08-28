@@ -31,6 +31,12 @@ public class UserEntity {
     private int travelFund;//旅游基金
     private int coupons;//优惠卷
 
+
+
+    private String rimUserId;
+    private String nimUserId;
+    private String nimUserToken;
+
     public String getUserName(Context activity) {
 //        if (userName == null) {
             SharedPre shared = new SharedPre(activity);
@@ -312,11 +318,53 @@ public class UserEntity {
         return imToken;
     }
 
-    public void setImToken(Context activity, String imToken) {
-        if (!TextUtils.isEmpty(imToken)) {
+//    public void setImToken(Context activity, String imToken) {
+//        if (!TextUtils.isEmpty(imToken)) {
+//            SharedPre shared = new SharedPre(activity);
+//            shared.saveStringValue(SharedPre.IM_TOKEN, imToken);
+//            this.imToken = imToken;
+//        }
+//    }
+
+    public String getRimUserId(Context activity) {
+        SharedPre shared = new SharedPre(activity);
+        rimUserId = shared.getStringValue(SharedPre.RIM_USERID);
+        return rimUserId;
+    }
+
+    public void setRimUserId(Context activity,String rimUserId) {
+        if (!TextUtils.isEmpty(rimUserId)) {
             SharedPre shared = new SharedPre(activity);
-            shared.saveStringValue(SharedPre.IM_TOKEN, imToken);
-            this.imToken = imToken;
+            shared.saveStringValue(SharedPre.RIM_USERID, rimUserId);
+            this.rimUserId = rimUserId;
+        }
+    }
+
+    public String getNimUserId(Context activity) {
+        SharedPre shared = new SharedPre(activity);
+        nimUserId = shared.getStringValue(SharedPre.NIM_USERID);
+        return nimUserId;
+    }
+
+    public void setNimUserId(Context context,String nimUserId) {
+        if (!TextUtils.isEmpty(nimUserId)) {
+            SharedPre shared = new SharedPre(context);
+            shared.saveStringValue(SharedPre.NIM_USERID, nimUserId);
+            this.nimUserId = nimUserId;
+        }
+    }
+
+    public String getNimUserToken(Context context) {
+        SharedPre shared = new SharedPre(context);
+        nimUserToken = shared.getStringValue(SharedPre.NIM_TOKEN);
+        return nimUserToken;
+    }
+
+    public void setNimUserToken(Context context,String nimUserToken) {
+        if (!TextUtils.isEmpty(nimUserToken)) {
+            SharedPre shared = new SharedPre(context);
+            shared.saveStringValue(SharedPre.NIM_TOKEN, nimUserToken);
+            this.nimUserToken = nimUserToken;
         }
     }
 
