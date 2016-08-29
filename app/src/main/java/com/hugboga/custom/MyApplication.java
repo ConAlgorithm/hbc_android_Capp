@@ -71,7 +71,7 @@ public class MyApplication extends HbcApplication {
             e.printStackTrace();
         }
         if (inMainProcess(mAppContext)) {
-           // UnicornUtils.initUnicorn();
+           UnicornUtils.initUnicorn();
         }
 
         //initRongIm(this); // 初始化融云IM
