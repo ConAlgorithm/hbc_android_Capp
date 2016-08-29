@@ -10,6 +10,7 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 
+import com.hugboga.custom.statistic.event.EventUtil;
 import com.tencent.mm.sdk.constants.ConstantsAPI;
 import com.tencent.mm.sdk.modelbase.BaseReq;
 import com.tencent.mm.sdk.modelbase.BaseResp;
@@ -109,6 +110,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler, 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.par_result_left_tv:
+                setStatisticIsRePay(false);
                 if (isPaySucceed) {//回首页
                     EventBus.getDefault().post(new EventAction(EventType.BACK_HOME));
                     EventBus.getDefault().post(new EventAction(EventType.FGTRAVEL_UPDATE));
@@ -122,8 +124,10 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler, 
                 if (isPaySucceed) {//订单详情
                     EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL, 1));
                     EventBus.getDefault().post(new EventAction(EventType.FGTRAVEL_UPDATE));
+                    setStatisticIsRePay(false);
                     finish();
                 } else {//重新支付
+                    setStatisticIsRePay(true);
                     finish();
                 }
                 break;
@@ -138,9 +142,16 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler, 
                 startActivity(intent);
                 EventBus.getDefault().post(new EventAction(EventType.SET_MAIN_PAGE_INDEX, 0));
                 return true;
+            } else {
+                setStatisticIsRePay(true);
             }
         }
         return super.onKeyUp(keyCode, event);
+    }
+
+    private void setStatisticIsRePay(boolean isRePay) {
+        EventUtil eventUtil = EventUtil.getInstance();
+        eventUtil.isRePay = isRePay;
     }
 
 }

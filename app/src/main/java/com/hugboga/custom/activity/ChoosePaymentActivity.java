@@ -31,6 +31,7 @@ import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.bean.EventPayBean;
 import com.hugboga.custom.statistic.event.EventPay;
 import com.hugboga.custom.statistic.event.EventPayResult;
+import com.hugboga.custom.statistic.event.EventUtil;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.wxapi.WXPay;
@@ -336,6 +337,8 @@ public class ChoosePaymentActivity extends BaseActivity {
         dialogUtil.showCustomDialog(getString(R.string.app_name), getString(R.string.order_cancel_pay, requestParams.payDeadTime), "确定离开", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                EventUtil eventUtil = EventUtil.getInstance();
+                eventUtil.isRePay = false;
 
                 Intent intent = new Intent(ChoosePaymentActivity.this, MainActivity.class);
                 startActivity(intent);

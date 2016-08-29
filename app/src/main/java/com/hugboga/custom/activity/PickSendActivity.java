@@ -20,6 +20,7 @@ import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.fragment.FgPickNew;
 import com.hugboga.custom.fragment.FgSendNew;
+import com.hugboga.custom.statistic.event.EventUtil;
 import com.hugboga.custom.utils.AlertDialogUtils;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -90,6 +91,8 @@ public class PickSendActivity extends BaseActivity {
         ButterKnife.bind(this);
         initView();
         initHeader();
+        EventUtil eventUtil = EventUtil.getInstance();
+        eventUtil.source = getIntentSource();
     }
 
     public void initHeader() {

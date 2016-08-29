@@ -1101,6 +1101,7 @@ public class OrderNewActivity extends BaseActivity {
 
                 Intent intent = new Intent(activity,ChoosePaymentActivity.class);
                 intent.putExtra(Constants.PARAMS_DATA, requestParams);
+                intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                 startActivity(intent);
             }
         }  else if (request instanceof RequestPayNo) {

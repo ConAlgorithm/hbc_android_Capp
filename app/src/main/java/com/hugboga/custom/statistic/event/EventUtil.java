@@ -13,6 +13,7 @@ public class EventUtil {
 
     public String source;//该source记录工具下单的前一页
     public String sourceDetail;//记录包车详情前一页
+    public boolean isRePay = false;//是否重新支付
 
     private EventUtil() {
 
