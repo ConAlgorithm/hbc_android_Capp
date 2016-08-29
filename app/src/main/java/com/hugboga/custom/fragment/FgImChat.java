@@ -303,7 +303,7 @@ public class FgImChat extends BaseFragment implements View.OnClickListener, ZBas
             //String titleJson = getChatInfo(chatBean.targetId, chatBean.targetAvatar, chatBean.targetName, chatBean.targetType,chatBean.inBlack);
             //RongIM.getInstance().startConversation(getActivity(), Conversation.ConversationType.APP_PUBLIC_SERVICE, chatBean.targetId, titleJson);
             //Toast.makeText(getActivity(),"启动7鱼客服",Toast.LENGTH_SHORT).show();
-            UnicornUtils.openServiceActivity();
+           // UnicornUtils.openServiceActivity();
 
         } else if (chatBean.targetType==1) {
             String titleJson = getChatInfo(chatBean.targetId, chatBean.targetAvatar, chatBean.targetName, chatBean.targetType+"",chatBean.inBlack,chatBean.nTargetId);

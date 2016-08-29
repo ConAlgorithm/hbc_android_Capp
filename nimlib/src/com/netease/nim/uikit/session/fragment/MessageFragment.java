@@ -196,14 +196,14 @@ public class MessageFragment extends TFragment implements ModuleProxy {
             public void onResult(int code, Object object, Throwable throwable) {
                 Log.i("test","发送失败 code:" + code);
                 if(code==7101){
-//                    IMMessage msg = MessageBuilder.createTextMessage(message.getSessionId(), message.getSessionType(),"test");
-//                    //msg.setContent("由于对方的权限设置，你的信息发送失败。");
-//                    NIMClient.getService(MsgService.class).saveMessageToLocal(msg,false).setCallback(new RequestCallbackWrapper() {
-//                        @Override
-//                        public void onResult(int i, Object aVoid, Throwable throwable) {
-//                            Log.i("test","tip:" + i);
-//                        }
-//                    });
+                    IMMessage msg = MessageBuilder.createTipMessage(message.getSessionId(), message.getSessionType());
+                    msg.setContent("由于对方的权限设置，你的信息发送失败。");
+                    NIMClient.getService(MsgService.class).saveMessageToLocal(msg,true).setCallback(new RequestCallbackWrapper() {
+                        @Override
+                        public void onResult(int i, Object aVoid, Throwable throwable) {
+                            Log.i("test","tip:" + i);
+                        }
+                    });
                 }
             }
         });
