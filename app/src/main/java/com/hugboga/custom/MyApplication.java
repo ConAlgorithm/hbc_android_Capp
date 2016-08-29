@@ -14,6 +14,7 @@ import com.anupcowkur.reservoir.Reservoir;
 import com.huangbaoche.hbcframe.HbcApplication;
 import com.huangbaoche.hbcframe.HbcConfig;
 import com.huangbaoche.hbcframe.util.MLog;
+import com.hugboga.custom.adapter.viewholder.MsgViewHolderTip;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.net.ServerCodeHandler;
 import com.hugboga.custom.data.net.UrlLibs;
@@ -70,7 +71,7 @@ public class MyApplication extends HbcApplication {
             e.printStackTrace();
         }
         if (inMainProcess(mAppContext)) {
-            UnicornUtils.initUnicorn();
+           // UnicornUtils.initUnicorn();
         }
 
         //initRongIm(this); // 初始化融云IM
@@ -309,6 +310,8 @@ public class MyApplication extends HbcApplication {
                 return false;
             }
         });
+
+        NimUIKit.registerTipMsgViewHolder(MsgViewHolderTip.class);
     }
 
     /**
