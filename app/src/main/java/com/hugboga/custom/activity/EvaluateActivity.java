@@ -3,6 +3,7 @@ package com.hugboga.custom.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -210,11 +211,11 @@ public class EvaluateActivity extends BaseActivity implements RatingView.OnLevel
         if (isActive()) {//活动
             String activeText = null;
             if (isEvaluated() && orderBean.appraisement.totalScore >= 5) {
-                activeText = getString(R.string.evaluate_active_evaluated_get, orderBean.priceCommentReward);
+                activeText = getString(R.string.evaluate_active_evaluated_get, "" + orderBean.priceCommentReward);
             } else if (isEvaluated()) {
                 activeText = getString(R.string.evaluate_active_evaluated);
             } else {//未评价
-                activeText = getString(R.string.evaluate_active, orderBean.priceCommentReward);
+                activeText = getString(R.string.evaluate_active, "" + orderBean.priceCommentReward);
             }
             activeTV.setText(activeText);
             activeTV.setVisibility(View.VISIBLE);
