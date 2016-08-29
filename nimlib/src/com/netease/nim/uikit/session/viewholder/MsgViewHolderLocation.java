@@ -19,7 +19,7 @@ public class MsgViewHolderLocation extends MsgViewHolderBase {
 
     @Override
     protected int getContentResId() {
-        return R.layout.nim_message_item_location;
+        return R.layout.x_nim_message_item_location;
     }
 
     @Override

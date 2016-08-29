@@ -57,7 +57,7 @@ public class PickerImageFragment extends TFragment implements OnItemClickListene
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.nim_picker_images_fragment, container, false);
+		return inflater.inflate(R.layout.x_nim_picker_images_fragment, container, false);
 	}
 	
 	@Override

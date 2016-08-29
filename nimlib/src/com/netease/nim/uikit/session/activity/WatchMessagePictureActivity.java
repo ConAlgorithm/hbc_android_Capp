@@ -80,7 +80,7 @@ public class WatchMessagePictureActivity extends UI {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.nim_watch_picture_activity);
+        setContentView(R.layout.x_nim_watch_picture_activity);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 

@@ -83,7 +83,7 @@ public class NIMPopupMenu {
     private void initListView() {
         if (rootView == null) {
             if (typeBg == TYPE_BG_BLACK) {
-                rootView = LayoutInflater.from(context).inflate(R.layout.nim_popup_menu_black_layout, null);
+                rootView = LayoutInflater.from(context).inflate(R.layout.x_nim_popup_menu_black_layout, null);
             } else {
                 rootView = LayoutInflater.from(context).inflate(R.layout.nim_popup_menu_layout, null);
             }

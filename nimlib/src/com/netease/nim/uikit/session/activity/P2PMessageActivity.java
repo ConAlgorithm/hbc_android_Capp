@@ -179,7 +179,7 @@ public class P2PMessageActivity extends BaseMessageActivity {
 
     @Override
     protected int getContentViewId() {
-        return R.layout.nim_message_activity;
+        return R.layout.x_nim_message_activity;
     }
 
     @Override

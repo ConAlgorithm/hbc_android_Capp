@@ -37,7 +37,7 @@ public class MsgViewHolderAudio extends MsgViewHolderBase {
 
     @Override
     protected int getContentResId() {
-        return R.layout.nim_message_item_audio;
+        return R.layout.x_nim_message_item_audio;
     }
 
     @Override

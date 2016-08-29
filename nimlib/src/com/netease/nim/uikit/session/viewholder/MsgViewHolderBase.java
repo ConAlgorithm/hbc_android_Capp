@@ -137,7 +137,7 @@ public abstract class MsgViewHolderBase extends TViewHolder {
     /// -- 以下是基类实现代码
     @Override
     protected final int getResId() {
-        return R.layout.nim_message_item;
+        return R.layout.x_nim_message_item;
     }
 
     @Override

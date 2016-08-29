@@ -46,7 +46,7 @@ public class PreviewImageFromCameraActivity extends UI {
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.nim_preview_image_from_camera_activity);
+		setContentView(R.layout.x_nim_preview_image_from_camera_activity);
 
 		ToolBarOptions options = new ToolBarOptions();
 		setToolBar(R.id.toolbar, options);

@@ -76,7 +76,7 @@ public class EmoticonPickerView extends LinearLayout implements IEmoticonCategor
         this.uiHandler = new Handler(context.getMainLooper());
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(R.layout.nim_emoji_layout, this);
+        inflater.inflate(R.layout.x_nim_emoji_layout, this);
     }
 
     @Override

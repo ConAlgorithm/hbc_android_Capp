@@ -10,7 +10,7 @@ public class MsgViewHolderPicture extends MsgViewHolderThumbBase {
 
     @Override
     protected int getContentResId() {
-        return R.layout.nim_message_item_picture;
+        return R.layout.x_nim_message_item_picture;
     }
 
     @Override

@@ -58,11 +58,11 @@ public class ImagePagerAdapterInImageSwitch extends PagerAdapter{
 //		if( Build.VERSION.SDK_INT >=  17 )
 		if( Build.VERSION.SDK_INT >=  Build.VERSION_CODES.FROYO )
 		{
-			layout = mInflater.inflate(R.layout.nim_preview_image_layout_multi_touch, null);
+			layout = mInflater.inflate(R.layout.x_nim_preview_image_layout_multi_touch, null);
 		}
 		else 
 		{
-			layout = mInflater.inflate(R.layout.nim_preview_image_layout_zoom_control, null);
+			layout = mInflater.inflate(R.layout.x_nim_preview_image_layout_zoom_control, null);
 		}
 				
 		container.addView(layout);
