@@ -1,27 +1,27 @@
 package com.hugboga.custom.utils;
 
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
-import android.support.annotation.Nullable;
-
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.hugboga.custom.MyApplication;
-import com.hugboga.custom.data.bean.UserEntity;
-import com.qiyukf.unicorn.api.ConsultSource;
-import com.qiyukf.unicorn.api.ImageLoaderListener;
-import com.qiyukf.unicorn.api.SavePowerConfig;
-import com.qiyukf.unicorn.api.StatusBarNotificationConfig;
-import com.qiyukf.unicorn.api.UICustomization;
-import com.qiyukf.unicorn.api.Unicorn;
-import com.qiyukf.unicorn.api.UnicornImageLoader;
-import com.qiyukf.unicorn.api.YSFOptions;
-import com.qiyukf.unicorn.api.YSFUserInfo;
-
-import java.io.Serializable;
-import java.util.ArrayList;
+//import android.content.Context;
+//import android.graphics.Bitmap;
+//import android.graphics.drawable.Drawable;
+//import android.support.annotation.Nullable;
+//
+//import com.bumptech.glide.Glide;
+//import com.bumptech.glide.request.animation.GlideAnimation;
+//import com.bumptech.glide.request.target.SimpleTarget;
+//import com.hugboga.custom.MyApplication;
+//import com.hugboga.custom.data.bean.UserEntity;
+//import com.qiyukf.unicorn.api.ConsultSource;
+//import com.qiyukf.unicorn.api.ImageLoaderListener;
+//import com.qiyukf.unicorn.api.SavePowerConfig;
+//import com.qiyukf.unicorn.api.StatusBarNotificationConfig;
+//import com.qiyukf.unicorn.api.UICustomization;
+//import com.qiyukf.unicorn.api.Unicorn;
+//import com.qiyukf.unicorn.api.UnicornImageLoader;
+//import com.qiyukf.unicorn.api.YSFOptions;
+//import com.qiyukf.unicorn.api.YSFUserInfo;
+//
+//import java.io.Serializable;
+//import java.util.ArrayList;
 
 /**
  * Created by on 16/8/26.
