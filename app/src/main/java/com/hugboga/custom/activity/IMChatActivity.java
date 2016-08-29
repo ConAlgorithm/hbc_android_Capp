@@ -180,7 +180,7 @@ public class IMChatActivity extends BaseActivity implements IMUtil.OnImSuccessLi
             if (imInfo == null) return;
             isChat = imInfo.isChat;
             userId = imInfo.userId;
-            imUserId = USER_IM_ADD + userId;
+            imUserId =imInfo.imUserId;
             userAvatar = imInfo.userAvatar;
             fgTitle.setText(imInfo.title); //设置标题
             targetType = imInfo.targetType;

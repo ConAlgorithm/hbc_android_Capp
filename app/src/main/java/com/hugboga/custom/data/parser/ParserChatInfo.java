@@ -28,6 +28,7 @@ public class ParserChatInfo extends ImplParser {
         try {
             obj.put("isChat", chatInfo.isChat);
             obj.put("userId", chatInfo.userId);
+            obj.put("imUserId",chatInfo.imUserId);
             obj.put("userAvatar", chatInfo.userAvatar);
             obj.put("title", chatInfo.title);
             obj.put("targetType", chatInfo.targetType);

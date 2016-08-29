@@ -174,6 +174,15 @@ public class ParserOrder extends ImplParser {
         if (jsonObj.has("guideInfo")) {
             orderbean.orderGuideInfo = new ParserGuideInfo().parseObject(jsonObj.optJSONObject("guideInfo"));
         }
+        if(jsonObj.has("imInfo")){
+            JSONObject jsonObject = jsonObj.optJSONObject("imInfo");
+            if(jsonObject!=null){
+                if(orderbean.orderGuideInfo!=null){
+                    orderbean.orderGuideInfo.guideImId = jsonObject.optString("neTargetId");
+                }
+            }
+        }
+
         //contact
         orderbean.contact = new ArrayList<OrderContact>();
         OrderContact oc = new OrderContact();

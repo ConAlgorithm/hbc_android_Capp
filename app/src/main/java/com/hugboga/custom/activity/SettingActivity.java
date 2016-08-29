@@ -21,6 +21,7 @@ import com.hugboga.custom.data.parser.ParserLogout;
 import com.hugboga.custom.data.request.RequestLogout;
 import com.hugboga.custom.developer.DeveloperOptionsActivity;
 import com.hugboga.custom.utils.SharedPre;
+import com.qiyukf.unicorn.api.Unicorn;
 
 import org.greenrobot.eventbus.EventBus;
 import org.xutils.x;
@@ -102,6 +103,7 @@ public class SettingActivity extends BaseActivity {
 //            activity.sendBroadcast(new Intent(FgHome.FILTER_FLUSH));
             UserEntity.getUser().clean(activity);
             EventBus.getDefault().post(new EventAction(EventType.CLICK_USER_LOOUT));
+            Unicorn.setUserInfo(null);
             finish();
         } else {
             super.onDataRequestError(errorInfo, request);

@@ -179,10 +179,8 @@ public class ZListPageView extends ZListRecyclerView implements IPageList {
         zListHttpUtils.exec(String.valueOf(page.getPageSize()), String.valueOf(pageIndex));
     }
 
+    AnimationAdapter myAdapter ;
     HttpRequestListener pageLoadListener = new HttpRequestListener() {
-
-        AnimationAdapter myAdapter ;
-
         @Override
         public void onDataRequestSucceed(BaseRequest request) {
             isLoading = false;

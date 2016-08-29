@@ -19,6 +19,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
@@ -67,8 +68,10 @@ import com.hugboga.custom.data.request.RequestPushClick;
 import com.hugboga.custom.data.request.RequestPushToken;
 import com.hugboga.custom.data.request.RequestUploadLocation;
 import com.hugboga.custom.data.request.RequestUserInfo;
+import com.hugboga.custom.fragment.BaseFragment;
 import com.hugboga.custom.fragment.FgChat;
 import com.hugboga.custom.fragment.FgHome;
+import com.hugboga.custom.fragment.FgImChat;
 import com.hugboga.custom.fragment.FgTravel;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
@@ -143,7 +146,8 @@ public class MainActivity extends BaseActivity
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private FgHome fgHome;
-    private FgChat fgChat;
+    private FgImChat fgChat;
+    //private BaseFragment fgChat;
     private FgTravel fgTravel;
     private SharedPre sharedPre;
 
@@ -308,8 +312,12 @@ public class MainActivity extends BaseActivity
 
     private void initAdapterContent() {
         fgHome = new FgHome();
-        fgChat = new FgChat();
         fgTravel = new FgTravel();
+        //if(MyApplication.imType==MyApplication.IMTYPE_NIM){
+            fgChat = new FgImChat();
+        //}else{
+        //    fgChat = new FgChat();
+       // }
         addFragment(fgHome);
         addFragment(fgChat);
         addFragment(fgTravel);

@@ -7,8 +7,8 @@
         android:name="com.hugboga.custom.permission.JPUSH_MESSAGE"
         android:protectionLevel="signature" />
 
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -16,19 +16,38 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="com.hugboga.custom.permission.JPUSH_MESSAGE" />
     <!-- 读取联系人权限 -->
-    <uses-permission android:name="android.permission.READ_CONTACTS"/>
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
     <!-- 拨打电话权限 -->
-    <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <uses-permission android:name="android.permission.CALL_PHONE" />
 
+    <!-- 云信相关权限 -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <!-- 控制呼吸灯，振动器等，用于新消息提醒 -->
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <!-- 多媒体相关 -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
+    <!-- SDK 权限申明, 第三方 APP 接入时，请将 com.netease.nim.demo 替换为自己的包名 -->
+    <!-- 和下面的 uses-permission 一起加入到你的 AndroidManifest 文件中。 -->
+    <permission
+        android:name="com.hugboga.custom.permission.RECEIVE_MSG"
+        android:protectionLevel="signature" />
+    <!-- 接收 SDK 消息广播权限， 第三方 APP 接入时，请将 com.netease.nim.demo 替换为自己的包名 -->
+    <uses-permission android:name="com.hugboga.custom.permission.RECEIVE_MSG" />
+
+    <!-- 云信相关权限 end -->
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
+        android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:hardwareAccelerated="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-
         <meta-data
             android:name="JPUSH_APPKEY"
             android:value="${JPUSH_KEY}" />
@@ -39,10 +58,12 @@
         <meta-data
             android:name="RONG_CLOUD_APP_KEY"
             android:value="${RONG_CLOUD_APP_KEY}" />
-        <!--<meta-data-->
-            <!--android:name="UMENG_APPKEY"-->
-            <!--android:value="55ccb4cfe0f55ab500004a9d" />-->
-
+        <!-- <meta-data -->
+        <!-- android:name="UMENG_APPKEY" -->
+        <!-- android:value="55ccb4cfe0f55ab500004a9d" /> -->
+        <meta-data
+            android:name="com.netease.nim.appKey"
+            android:value="38b0c58adaff3f261e648147a0b8a7d0" />
 
         <activity
             android:name=".LoadingActivity"
@@ -55,349 +76,313 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             <intent-filter android:autoVerify="true">
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
-                <data android:scheme="@string/hbc_scheme" android:host="hbcc_a" android:path="/"/>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="hbcc_a"
+                    android:path="/"
+                    android:scheme="@string/hbc_scheme" />
             </intent-filter>
             <intent-filter android:autoVerify="true">
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
-                <data android:scheme="@string/hbc_scheme"/>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="@string/hbc_scheme" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait"
             android:launchMode="singleTask"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".SplashActivity"
+            android:label="@string/title_activity_splash"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".activity.DatePickerActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".activity.LuggageInfoActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".activity.ChooseCityNewActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".activity.OrderSelectCityActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".activity.WebInfoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.DailyWebInfoActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".activity.OrderDetailActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".activity.SkuListActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".activity.ChooseCityActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".activity.SkuDetailActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".activity.SingleNewActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".activity.PickSendActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".activity.SkuNewActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".activity.ChooseAirActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".activity.PickFlightListActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".activity.ManLuggageActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".activity.OrderNewActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".activity.CollectGuideListActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".activity.GuideDetailActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".activity.EvaluateActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".activity.LargerImageActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".activity.EvaluateListActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".activity.InsureInfoActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".activity.InsureActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".activity.AddInsureActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".activity.PayResultActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".activity.ChoosePaymentActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".activity.CouponActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".activity.OrderCancelActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".activity.OrderEditActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".activity.ShareGuidesActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".activity.SelectCarActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".activity.OrderInfoActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".activity.PoiSearchActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".activity.ChooseOtherActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".activity.ChooseCountryActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".activity.LoginActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".activity.TravelFundActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".activity.ChooseAirPortActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".activity.SetPasswordActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".activity.BindMobileActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".activity.ChangeMobileActivtiy"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".activity.PersonInfoActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".activity.ForgetPasswdActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".activity.RegisterActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".activity.ServicerCenterActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".activity.SettingActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".activity.ChangePswActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".activity.AboutActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".activity.CallBackActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".activity.TravelFundRecordActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".developer.DeveloperOptionsActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".developer.DeveloperActionTestActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".activity.IMChatActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
 
+                <category android:name="android.intent.category.DEFAULT" />
 
-
+                <data
+                    android:host="com.hugboga.custom"
+                    android:pathPrefix="/conversation/"
+                    android:scheme="rong" />
             </intent-filter>
         </activity>
 
         <activity
-            android:name=".SplashActivity"
-            android:label="@string/title_activity_splash"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
-            android:screenOrientation="portrait"/>
-
-        <activity
-            android:name=".activity.DatePickerActivity"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
-            android:screenOrientation="portrait"/>
-
-        <activity
-            android:name=".activity.LuggageInfoActivity"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
-            android:screenOrientation="portrait"/>
-
-        <activity
-            android:name=".activity.ChooseCityNewActivity"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
-            android:screenOrientation="portrait"/>
-
-        <activity
-            android:name=".activity.OrderSelectCityActivity"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".activity.WebInfoActivity"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".activity.DailyWebInfoActivity"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
-            android:screenOrientation="portrait" />
-
-
-        <activity
-            android:name=".activity.OrderDetailActivity"
-            android:launchMode="singleTask"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".activity.SkuListActivity"
-            android:launchMode="singleTask"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".activity.ChooseCityActivity"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".activity.SkuDetailActivity"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".activity.SingleNewActivity"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".activity.PickSendActivity"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".activity.SkuNewActivity"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".activity.ChooseAirActivity"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
-            android:screenOrientation="portrait" />
-
-
-        <activity
-            android:name=".activity.PickFlightListActivity"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".activity.ManLuggageActivity"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".activity.OrderNewActivity"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".activity.CollectGuideListActivity"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
-            android:screenOrientation="portrait"/>
-
-        <activity
-            android:name=".activity.GuideDetailActivity"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
-            android:screenOrientation="portrait"/>
-
-        <activity
-            android:name=".activity.EvaluateActivity"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
-            android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="portrait"/>
-
-        <activity
-            android:name=".activity.LargerImageActivity"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
-            android:screenOrientation="portrait"/>
-
-        <activity
-            android:name=".activity.EvaluateListActivity"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
-            android:screenOrientation="portrait"/>
-
-        <activity
-            android:name=".activity.InsureInfoActivity"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
-            android:screenOrientation="portrait"/>
-
-        <activity
-            android:name=".activity.InsureActivity"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
-            android:screenOrientation="portrait"/>
-
-        <activity
-            android:name=".activity.AddInsureActivity"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
-            android:screenOrientation="portrait"/>
-
-        <activity
-            android:name=".activity.PayResultActivity"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
-            android:screenOrientation="portrait"/>
-
-        <activity
-            android:name=".activity.ChoosePaymentActivity"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
-            android:screenOrientation="portrait"/>
-
-        <activity
-            android:name=".activity.CouponActivity"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
-            android:screenOrientation="portrait"/>
-
-        <activity
-            android:name=".activity.OrderCancelActivity"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
-            android:screenOrientation="portrait"/>
-
-        <activity
-            android:name=".activity.OrderEditActivity"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
-            android:screenOrientation="portrait"/>
-
-        <activity
-            android:name=".activity.ShareGuidesActivity"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
-            android:screenOrientation="portrait"/>
-
-        <activity
-            android:name=".activity.SelectCarActivity"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".activity.OrderInfoActivity"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".activity.PoiSearchActivity"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".activity.ChooseOtherActivity"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".activity.ChooseCountryActivity"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".activity.LoginActivity"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".activity.TravelFundActivity"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".activity.ChooseAirPortActivity"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".activity.SetPasswordActivity"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".activity.BindMobileActivity"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".activity.ChangeMobileActivtiy"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".activity.PersonInfoActivity"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".activity.ForgetPasswdActivity"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".activity.RegisterActivity"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".activity.ServicerCenterActivity"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".activity.SettingActivity"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".activity.ChangePswActivity"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".activity.AboutActivity"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".activity.CallBackActivity"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".activity.TravelFundRecordActivity"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name="com.hugboga.custom.developer.DeveloperOptionsActivity"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name="com.hugboga.custom.developer.DeveloperActionTestActivity"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".activity.IMChatActivity"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
-            android:screenOrientation="portrait">
-            <intent-filter>
+            android:name=".activity.NIMChatActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden">
+           <!-- <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <data
                     android:host="com.hugboga.custom"
                     android:pathPrefix="/conversation/"
                     android:scheme="rong" />
-            </intent-filter>
-            </activity>
+            </intent-filter>-->
+        </activity>
 
         <activity
             android:name=".activity.NewOrderActivity"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
 
         <service
             android:name=".service.LogService"
             android:process="com.hugboga.custom.hbclog" />
 
-        <!--<activity-->
-        <!--android:name=".activity.IMChatActivity"-->
-        <!--android:label="@string/title_activity_imchat"-->
-        <!--android:screenOrientation="portrait">-->
-        <!--<intent-filter>-->
-        <!--<action android:name="android.intent.action.VIEW" />-->
+        <!-- <activity -->
+        <!-- android:name=".activity.IMChatActivity" -->
+        <!-- android:label="@string/title_activity_imchat" -->
+        <!-- android:screenOrientation="portrait"> -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="android.intent.action.VIEW" /> -->
 
-        <!--<category android:name="android.intent.category.DEFAULT" />-->
 
-        <!--<data-->
-        <!--android:host="com.hugboga.custom"-->
-        <!--android:pathPrefix="/conversation/"-->
-        <!--android:scheme="rong" />-->
-        <!--</intent-filter>-->
-        <!--</activity>-->
+        <!-- <category android:name="android.intent.category.DEFAULT" /> -->
+
+
+        <!-- <data -->
+        <!-- android:host="com.hugboga.custom" -->
+        <!-- android:pathPrefix="/conversation/" -->
+        <!-- android:scheme="rong" /> -->
+        <!-- </intent-filter> -->
+        <!-- </activity> -->
 
         <activity
             android:name=".wxapi.WXEntryActivity"
@@ -421,6 +406,7 @@
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <!-- alipay sdk end -->
 
+
         <!-- JPush sdk begin -->
         <!-- Required SDK核心功能 -->
         <activity
@@ -438,7 +424,7 @@
         <service
             android:name="cn.jpush.android.service.DownloadService"
             android:enabled="true"
-            android:exported="false"/>
+            android:exported="false" />
 
         <!-- Required SDK 核心功能 -->
         <service
@@ -498,6 +484,47 @@
             </intent-filter>
         </receiver>
 
+        <!-- 声明云信后台服务，如需保持后台推送，使用独立进程效果会更好。 -->
+        <service
+            android:name="com.netease.nimlib.service.NimService"
+            android:process=":core" />
+        <service
+            android:name="com.netease.nimlib.service.NimService$Aux"
+            android:process=":core" />
+
+        <!--
+             云信SDK的监视系统启动和网络变化的广播接收器，用户开机自启动以及网络变化时候重新登录，
+            保持和 NimService 同一进程
+        -->
+        <receiver
+            android:name="com.netease.nimlib.service.NimReceiver"
+            android:exported="false"
+            android:process=":core">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
+
+        <!-- 云信进程间通信 Receiver -->
+        <receiver android:name="com.netease.nimlib.service.ResponseReceiver" />
+
+        <!-- 安卓保活配置 -->
+        <service
+            android:name="com.netease.cosine.core.CosineService"
+            android:process=":cosine"></service>
+
+        <receiver
+            android:name="com.netease.cosine.target.CosineReceiver"
+            android:exported="true"
+            android:process=":cosine"></receiver>
+
+        <meta-data
+            android:name="com.netease.cosine.target"
+            android:value="" />
+        <meta-data
+            android:name="com.netease.cosine.target.receiver"
+            android:value="com.netease.nimlib.service.NimReceiver" />
 
     </application>
 
