@@ -416,7 +416,7 @@ public class InputPanel implements IEmoticonSelectedListener, IAudioRecordCallba
     // 初始化更多布局
     private void addActionPanelLayout() {
         if (actionPanelBottomLayout == null) {
-            View.inflate(container.activity, R.layout.nim_message_activity_actions_layout, messageActivityBottomLayout);
+            View.inflate(container.activity, R.layout.x_nim_message_activity_actions_layout, messageActivityBottomLayout);
             actionPanelBottomLayout = view.findViewById(R.id.actionsLayout);
             actionPanelBottomLayoutHasSetup = false;
         }

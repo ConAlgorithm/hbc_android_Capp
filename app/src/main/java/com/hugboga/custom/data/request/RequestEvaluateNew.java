@@ -1,6 +1,7 @@
 package com.hugboga.custom.data.request;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.google.gson.Gson;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
@@ -32,8 +33,12 @@ public class RequestEvaluateNew extends BaseRequest<EvaluateData> {
         map.put("orderNo", params.orderNo);//关联订单号：S123
         map.put("orderType", params.orderType);//关联订单类型
         map.put("totalScore", params.totalScore);//总分：5
-        map.put("labels", params.labels);//可选 选定标签id拼接：1,2,3,4
-        map.put("content", params.content);//可选 评价内容：123
+        if (!TextUtils.isEmpty(params.labels)) {
+            map.put("labels", params.labels);//可选 选定标签id拼接：1,2,3,4
+        }
+        if (!TextUtils.isEmpty(params.content)) {
+            map.put("content", params.content);//可选 评价内容：123
+        }
     }
 
     @Override
@@ -48,7 +53,7 @@ public class RequestEvaluateNew extends BaseRequest<EvaluateData> {
 
     @Override
     public String getUrlErrorCode() {
-        return "40031";
+        return "40046";
     }
 
     public static class RequestParams {

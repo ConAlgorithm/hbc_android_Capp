@@ -85,7 +85,7 @@ public class PickerPhotoAdapter extends BaseAdapter {
 		ViewHolder viewHolder;
 		if (convertView == null) {			
 			viewHolder = new ViewHolder();
-			convertView = mInflater.inflate(R.layout.nim_picker_photo_grid_item, null);
+			convertView = mInflater.inflate(R.layout.x_nim_picker_photo_grid_item, null);
 			viewHolder.image = (ImageView) convertView.findViewById(R.id.picker_photo_grid_item_img);
 			viewHolder.select = (ImageView) convertView.findViewById(R.id.picker_photo_grid_item_select);
 			viewHolder.selectHotPot = (RelativeLayout) convertView.findViewById(R.id.picker_photo_grid_item_select_hotpot); 

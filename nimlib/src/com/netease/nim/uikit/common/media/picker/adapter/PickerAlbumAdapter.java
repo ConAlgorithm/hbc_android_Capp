@@ -49,7 +49,7 @@ public class PickerAlbumAdapter extends BaseAdapter {
 		ViewHolder viewHolder;
 		if (convertView == null) {
 			viewHolder = new ViewHolder();
-			convertView = mInflater.inflate(R.layout.nim_picker_photofolder_item, null);
+			convertView = mInflater.inflate(R.layout.x_nim_picker_photofolder_item, null);
 			viewHolder.folderCover = (ImageView)convertView.findViewById(R.id.picker_photofolder_cover);
 			viewHolder.folderName = (TextView)convertView.findViewById(R.id.picker_photofolder_info);
 			viewHolder.folderFileNum = (TextView)convertView.findViewById(R.id.picker_photofolder_num);

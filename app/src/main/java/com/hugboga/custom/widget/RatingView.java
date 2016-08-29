@@ -99,6 +99,10 @@ public class RatingView extends LinearLayout {
             distances = new int[maxLevels];
             for (int i = 0; i < maxLevels; i++) {
                 distances[i] = start + (i + 1) * s;
+                if (i == maxLevels - 1) {
+                    distances[i] += start;
+                }
+
             }
         }
     }
@@ -155,7 +159,7 @@ public class RatingView extends LinearLayout {
                 return i + 1;
             }
         }
-        return -1;
+        return 1;
     }
 
     public void setAllItemBg(int id) {

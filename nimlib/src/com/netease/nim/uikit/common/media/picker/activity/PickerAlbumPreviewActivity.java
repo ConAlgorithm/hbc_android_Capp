@@ -95,7 +95,7 @@ public class PickerAlbumPreviewActivity extends UI implements OnClickListener, O
 	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.nim_picker_image_preview_activity);
+		setContentView(R.layout.x_nim_picker_image_preview_activity);
 
 		ToolBarOptions options = new ToolBarOptions();
 		setToolBar(R.id.toolbar, options);

@@ -14,7 +14,7 @@ public class MsgViewHolderNotification extends MsgViewHolderBase {
 
     @Override
     protected int getContentResId() {
-        return R.layout.nim_message_item_notification;
+        return R.layout.x_nim_message_item_notification;
     }
 
     @Override
