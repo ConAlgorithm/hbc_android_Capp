@@ -26,6 +26,18 @@
         </com.huangbaoche.hbcframe.widget.recycler.ZSwipeRefreshLayout>
     </RelativeLayout>
 
+    <TextView
+        android:id="@+id/im_statusview"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:layout_below="@id/toolbar"
+        android:gravity="center"
+        android:visibility="gone"
+        android:background="#FF0000"
+        android:text="连接IM服务器出错，请重新登录账号"
+        android:textColor="#ffFFFF"
+        android:textSize="16sp" />
+
     <include
         android:id="@+id/chat_logout"
         layout="@layout/include_chat_logout" />
