@@ -127,6 +127,7 @@ public class NIMChatActivity extends BaseActivity implements IMUtil.OnImSuccessL
         setContentView(R.layout.activity_nimchat);
         ButterKnife.bind(this);
         initView();
+        grantAudio();
     }
 
     private void initView() {
@@ -245,10 +246,6 @@ public class NIMChatActivity extends BaseActivity implements IMUtil.OnImSuccessL
         //resetChatting(); //设置是否可以聊天
         loadImOrder(); //显示聊天订单信息
         initEmpty(); //构建空提示
-    }
-
-    private void requestData() {
-        grantAudio(); //进行授权
     }
 
     /**

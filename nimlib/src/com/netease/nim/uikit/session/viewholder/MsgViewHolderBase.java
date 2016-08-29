@@ -22,6 +22,7 @@ import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.attachment.FileAttachment;
 import com.netease.nimlib.sdk.msg.constant.MsgDirectionEnum;
 import com.netease.nimlib.sdk.msg.constant.MsgStatusEnum;
+import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 
@@ -199,6 +200,10 @@ public abstract class MsgViewHolderBase extends TViewHolder {
     private void setStatus() {
 
         MsgStatusEnum status = message.getStatus();
+        if(message.getMsgType()== MsgTypeEnum.tip){
+            progressBar.setVisibility(View.GONE);
+            return;
+        }
         switch (status) {
         case fail:
             progressBar.setVisibility(View.GONE);
