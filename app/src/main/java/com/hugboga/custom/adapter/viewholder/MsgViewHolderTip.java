@@ -21,7 +21,7 @@ public class MsgViewHolderTip extends MsgViewHolderBase {
 
     @Override
     protected int getContentResId() {
-        return com.netease.nim.uikit.R.layout.nim_message_item_notification;
+        return com.netease.nim.uikit.R.layout.x_nim_message_item_notification;
     }
 
     @Override
