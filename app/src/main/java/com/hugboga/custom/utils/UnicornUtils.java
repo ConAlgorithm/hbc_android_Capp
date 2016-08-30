@@ -56,6 +56,8 @@ public class UnicornUtils {
         options.uiCustomization = uiCustomization;
         Unicorn.updateOptions(options);
 
+        Unicorn.toggleNotification(false);
+
         // 设置访客来源，标识访客是从哪个页面发起咨询的，用于客服了解用户是从什么页面进入三个参数分别为来源页面的url，来源页面标题，来源页面额外信息（可自由定义）
         // 设置来源后，在客服会话界面的"用户资料"栏的页面项，可以看到这里设置的值。
         ConsultSource source = new ConsultSource("", "", "");
@@ -96,7 +98,7 @@ public class UnicornUtils {
 
     private static YSFOptions getDefaultOptions() {
         YSFOptions options = new YSFOptions();
-        options.statusBarNotificationConfig = new StatusBarNotificationConfig();
+//        options.statusBarNotificationConfig = new StatusBarNotificationConfig();
         options.savePowerConfig = new SavePowerConfig();
         return options;
     }
