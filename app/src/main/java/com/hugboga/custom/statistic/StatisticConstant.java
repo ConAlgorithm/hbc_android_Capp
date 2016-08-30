@@ -71,8 +71,8 @@ public class StatisticConstant {
     // MARK: 03_支付
     public static final String LAUNCH_PAYJ = "03_launch_payJ";           // 展示接机收银台
     public static final String LAUNCH_PAYS = "03_launch_payS";           // 展示送机收银台
-    public static final String LAUNCH_PAYC = "03_launch_payC";           // 展示单次接送收银台
     public static final String LAUNCH_PAYR = "03_launch_payR";           // 展示自定义包车收银台
+    public static final String LAUNCH_PAYC = "03_launch_payC";           // 展示单次接送收银台
     public static final String LAUNCH_PAYRG = "03_launch_payRG";         // 展示超省心收银台
     public static final String LAUNCH_PAYRT = "03_launch_payRT";         // 展示超自由收银台
 
