@@ -31,6 +31,7 @@ import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.bean.EventPayBean;
 import com.hugboga.custom.statistic.event.EventPay;
 import com.hugboga.custom.statistic.event.EventPayResult;
+import com.hugboga.custom.statistic.event.EventPayShow;
 import com.hugboga.custom.statistic.event.EventUtil;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.widget.DialogUtil;
@@ -48,7 +49,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * Created by qingcha on 16/8/4.
+ * Created by on 16/8/4.
  */
 public class ChoosePaymentActivity extends BaseActivity {
 
@@ -111,6 +112,7 @@ public class ChoosePaymentActivity extends BaseActivity {
         initDefaultTitleBar();
 
         initView();
+        MobClickUtils.onEvent(new EventPayShow(requestParams.eventPayBean));
     }
 
     @Override
