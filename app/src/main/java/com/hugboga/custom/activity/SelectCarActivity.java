@@ -32,6 +32,7 @@ import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestGetCarInfo;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
+import com.hugboga.custom.statistic.event.EventUtil;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.CarUtils;
 import com.hugboga.custom.utils.PhoneInfo;
@@ -207,6 +208,10 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
         ButterKnife.bind(this);
         initView();
         initHeader();
+        StatisticClickEvent.showOrderNewPage(3,StatisticConstant.LAUNCH_CARNEXTR,getIntentSource(),
+                carBean.carDesc,
+                EventUtil.getInstance().sourceDetail,false,(adultNum+childrenNum)+"",
+                false);
     }
 
     @Override

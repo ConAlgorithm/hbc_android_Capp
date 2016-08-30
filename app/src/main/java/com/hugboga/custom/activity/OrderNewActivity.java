@@ -60,6 +60,7 @@ import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.bean.EventPayBean;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.statistic.event.EventPay;
+import com.hugboga.custom.statistic.event.EventUtil;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.LogUtils;
@@ -450,21 +451,45 @@ public class OrderNewActivity extends BaseActivity {
         switch (type) {
             case 1:
                 genPick();
+                StatisticClickEvent.showOrderNewPage(1,StatisticConstant.LAUNCH_J2,getIntentSource(),
+                        carBean.carDesc,
+                        EventUtil.getInstance().sourceDetail,isCheckIn,(adultNum+childrenNum)+"",
+                        null ==collectGuideBean?false:true);
                 break;
             case 2:
                 genSend();
+                StatisticClickEvent.showOrderNewPage(2,StatisticConstant.LAUNCH_S2,getIntentSource(),
+                        carBean.carDesc,
+                        EventUtil.getInstance().sourceDetail,isCheckIn,(adultNum+childrenNum)+"",
+                        null ==collectGuideBean?false:true);
                 break;
             case 3:
                 genDairy();
+                StatisticClickEvent.showOrderNewPage(3,StatisticConstant.LAUNCH_R2,getIntentSource(),
+                        carBean.carDesc,
+                        EventUtil.getInstance().sourceDetail,isCheckIn,(adultNum+childrenNum)+"",
+                        null ==collectGuideBean?false:true);
                 break;
             case 4:
                 genSingle();
+                StatisticClickEvent.showOrderNewPage(4,StatisticConstant.LAUNCH_C2,getIntentSource(),
+                        carBean.carDesc,
+                        EventUtil.getInstance().sourceDetail,isCheckIn,(adultNum+childrenNum)+"",
+                        null ==collectGuideBean?false:true);
                 break;
             case 5:
                 genSKU();
+                StatisticClickEvent.showOrderNewPage(5,StatisticConstant.LAUNCH_RG2,getIntentSource(),
+                        carBean.carDesc,
+                        EventUtil.getInstance().sourceDetail,isCheckIn,(adultNum+childrenNum)+"",
+                        null ==collectGuideBean?false:true);
                 break;
             case 6:
                 genSKU();
+                StatisticClickEvent.showOrderNewPage(6,StatisticConstant.LAUNCH_RT2,getIntentSource(),
+                        carBean.carDesc,
+                        EventUtil.getInstance().sourceDetail,isCheckIn,(adultNum+childrenNum)+"",
+                        null ==collectGuideBean?false:true);
                 break;
         }
     }
