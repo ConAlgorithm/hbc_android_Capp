@@ -53,7 +53,7 @@ android {
         minSdkVersion 15
         targetSdkVersion 23
         versionCode 100760
-        versionName "2.9.0"
+        versionName "2.9.1"
         signingConfig signingConfigs.hbcSign
         multiDexEnabled true
         ndk {
