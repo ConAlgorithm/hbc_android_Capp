@@ -40,7 +40,7 @@ public abstract class MsgViewHolderBase extends TViewHolder {
     protected TextView nameTextView;
     protected FrameLayout contentContainer;
     protected LinearLayout nameContainer;
-    protected TextView readReceiptTextView;
+    //protected TextView readReceiptTextView;
 
     private HeadImageView avatarLeft;
     private HeadImageView avatarRight;
@@ -152,7 +152,7 @@ public abstract class MsgViewHolderBase extends TViewHolder {
         contentContainer = findViewById(R.id.message_item_content);
         nameIconView = findViewById(R.id.message_item_name_icon);
         nameContainer = findViewById(R.id.message_item_name_layout);
-        readReceiptTextView = findView(R.id.textViewAlreadyRead);
+        //readReceiptTextView = findView(R.id.textViewAlreadyRead);
 
         View.inflate(view.getContext(), getContentResId(), contentContainer);
         inflateContentView();
@@ -342,10 +342,10 @@ public abstract class MsgViewHolderBase extends TViewHolder {
     }
 
     private void setReadReceipt() {
-        if (!TextUtils.isEmpty(getAdapter().getUuid()) && message.getUuid().equals(getAdapter().getUuid())) {
-            readReceiptTextView.setVisibility(View.VISIBLE);
-        } else {
-            readReceiptTextView.setVisibility(View.GONE);
-        }
+//        if (!TextUtils.isEmpty(getAdapter().getUuid()) && message.getUuid().equals(getAdapter().getUuid())) {
+//            readReceiptTextView.setVisibility(View.VISIBLE);
+//        } else {
+//            readReceiptTextView.setVisibility(View.GONE);
+//        }
     }
 }

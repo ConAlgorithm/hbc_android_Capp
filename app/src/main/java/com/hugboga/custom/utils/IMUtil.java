@@ -24,6 +24,7 @@ import com.netease.nimlib.sdk.AbortableFuture;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
 import com.netease.nimlib.sdk.RequestCallback;
+import com.netease.nimlib.sdk.StatusCode;
 import com.netease.nimlib.sdk.auth.AuthService;
 import com.netease.nimlib.sdk.auth.LoginInfo;
 
@@ -216,6 +217,13 @@ public class IMUtil {
         }
     }
 
+    public void logoutNim(){
+        StatusCode status = NIMClient.getStatus();
+        if(status == StatusCode.LOGINED){
+            NIMClient.getService(AuthService.class).logout();
+        }
+    }
+
     HttpRequestListener httpRequestListener = new HttpRequestListener() {
         @Override
         public void onDataRequestSucceed(BaseRequest request) {
@@ -315,6 +323,10 @@ public class IMUtil {
             }
             @Override
             public void onFailed(int code) {
+                if(code==302 || code==404 || code == 405){
+                    requestNIMTokenUpdate();
+                    return;
+                }
                 nimConnectError();
                 ApiFeedbackUtils.requestIMFeedback(10, "云信登录失败：code:" + code);
             }

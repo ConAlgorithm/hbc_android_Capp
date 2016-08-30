@@ -526,6 +526,27 @@
             android:name="com.netease.cosine.target.receiver"
             android:value="com.netease.nimlib.service.NimReceiver" />
 
+
+
+        <!-- map -->
+
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="8f73e2a99de5a15e25c0e95626971a92" />
+
+        <activity
+            android:name="com.hugboga.custom.map.LocationAmapActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:label="@string/location_map"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.hugboga.custom.map.NavigationAmapActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:label="@string/location_navigate"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+
     </application>
 
 </manifest>

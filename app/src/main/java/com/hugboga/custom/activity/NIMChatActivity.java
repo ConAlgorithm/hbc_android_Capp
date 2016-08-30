@@ -32,6 +32,7 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.ChatInfo;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.OrderStatus;
@@ -52,7 +53,9 @@ import com.hugboga.custom.utils.ApiFeedbackUtils;
 import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.PermissionRes;
 import com.hugboga.custom.utils.UIUtils;
+import com.netease.nim.uikit.NimUIKit;
 import com.netease.nim.uikit.session.SessionCustomization;
+import com.netease.nim.uikit.session.SessionEventListener;
 import com.netease.nim.uikit.session.constant.Extras;
 import com.netease.nim.uikit.session.fragment.MessageFragment;
 import com.netease.nimlib.sdk.NIMClient;
@@ -148,11 +151,14 @@ public class NIMChatActivity extends BaseActivity implements IMUtil.OnImSuccessL
             }
         }
 
+
         Bundle bundle = getIntent().getExtras();
+        String orderJson = bundle.getString(ORDER_INFO_KEY);
+        getUserInfoToOrder(orderJson);
+
          addConversationFragment();
         //刷新订单信息
-         String orderJson = bundle.getString(ORDER_INFO_KEY);
-         getUserInfoToOrder(orderJson);
+
          IMUtil.getInstance().setOnImSuccessListener(this);
     }
 
@@ -166,6 +172,20 @@ public class NIMChatActivity extends BaseActivity implements IMUtil.OnImSuccessL
         FragmentTransaction transaction =  fm.beginTransaction();
         transaction.add(R.id.conversation_container,messageFragment);
         transaction.commitAllowingStateLoss();
+
+        NimUIKit.setSessionListener(new SessionEventListener() {
+            @Override
+            public void onAvatarClicked(Context context, IMMessage message) {
+                Intent intent = new Intent(NIMChatActivity.this, GuideDetailActivity.class);
+                intent.putExtra(Constants.PARAMS_DATA, userId);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onAvatarLongClicked(Context context, IMMessage message) {
+
+            }
+        });
 
     }
 
@@ -719,19 +739,6 @@ public class NIMChatActivity extends BaseActivity implements IMUtil.OnImSuccessL
         }
     }
 
-    protected void showKeyboard(boolean isShow) {
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        if (isShow) {
-            if (getCurrentFocus() == null) {
-                imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
-            } else {
-                imm.showSoftInput(getCurrentFocus(), 0);
-            }
-        } else {
-            if (getCurrentFocus() != null) {
-                imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-            }
-        }
-    }
+
 
 }
