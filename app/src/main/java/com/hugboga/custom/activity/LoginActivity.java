@@ -37,6 +37,7 @@ import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.widget.DrawableCenterButton;
+import com.qiyukf.unicorn.api.Unicorn;
 import com.tencent.mm.sdk.modelmsg.SendAuth;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
@@ -232,6 +233,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
             MobClickUtils.onEvent(StatisticConstant.LOGIN_SUCCEED,map);
 //            finishForResult(new Bundle());
             CommonUtils.showToast("登录成功");
+            Unicorn.setUserInfo(null);
             finish();
 
         } else if (request instanceof RequestLoginCheckOpenId) {

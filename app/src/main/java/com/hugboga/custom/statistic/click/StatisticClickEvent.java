@@ -105,6 +105,30 @@ public class StatisticClickEvent {
 
 
 
+    public  static void showOrderNewPage(int type,String eventId,String source, String  source_detail,
+                                         String carstyle,boolean pickwait, String guestcount,
+                                         boolean selectG){
+        Map map = new HashMap();
+        map.put("source",source);
+        map.put("carstyle",carstyle);
+        map.put("guestcount",guestcount);
+
+        switch(type){
+            case 1:
+                map.put("pickwait",pickwait?"是":"否");
+                break;
+            case 2:
+                map.put("assist",pickwait?"是":"否");
+                break;
+            case 3:
+                map.put("source_detail",source_detail);
+                map.put("selectG",selectG?"是":"否");
+                break;
+        }
+
+        MobClickUtils.onEvent(eventId,map);
+    }
+
 
 
 }

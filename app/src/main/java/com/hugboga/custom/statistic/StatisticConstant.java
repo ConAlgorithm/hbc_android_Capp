@@ -60,7 +60,22 @@ public class StatisticConstant {
     public static final String SUBMITORDER_RG = "02_submitorder_RG";         // 1固定线路包车提交订单
     public static final String SUBMITORDER_RT = "02_submitorder_RT";         // 1推荐线路包车提交订单
 
+    public static final String LAUNCH_J2 = "02_launch_J2";                   // 接机确认订单页面展示
+    public static final String LAUNCH_S2 = "02_launch_S2";                   // 送机确认订单页面展示
+    public static final String LAUNCH_C2 = "02_launch_C2";                   // 单次接送确认订单页面展示
+    public static final String LAUNCH_CARNEXTR = "02_launch_carnextR";       // 自定义包车选车页面展示
+    public static final String LAUNCH_R2 = "02_launch_R2";                   // 自定义包车确认订单页面展示
+    public static final String LAUNCH_RG2 = "02_launch_RG2";                 // 固定线路包车确认订单页面展示
+    public static final String LAUNCH_RT2 = "02_launch_RT2";                 // 推荐线路包车确认订单页面展示
+
     // MARK: 03_支付
+    public static final String LAUNCH_PAYJ = "03_launch_payJ";           // 展示接机收银台
+    public static final String LAUNCH_PAYS = "03_launch_payS";           // 展示送机收银台
+    public static final String LAUNCH_PAYR = "03_launch_payR";           // 展示自定义包车收银台
+    public static final String LAUNCH_PAYC = "03_launch_payC";           // 展示单次接送收银台
+    public static final String LAUNCH_PAYRG = "03_launch_payRG";         // 展示超省心收银台
+    public static final String LAUNCH_PAYRT = "03_launch_payRT";         // 展示超自由收银台
+
     public static final String PAY_J = "03_pay_J";           // 0接机支付
     public static final String PAY_S = "03_pay_S";           // 0送机支付
     public static final String PAY_R = "03_pay_R";           // 0自定义包车支付

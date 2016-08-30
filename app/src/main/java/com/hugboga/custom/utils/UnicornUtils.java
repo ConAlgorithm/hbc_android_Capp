@@ -50,6 +50,8 @@ public class UnicornUtils {
         UICustomization uiCustomization = new UICustomization();
         uiCustomization.leftAvatar = CUSTOMER_AVATAR;
         uiCustomization.rightAvatar = UserEntity.getUser().getAvatar(context);
+        uiCustomization.titleBackgroundColor = 0xFF2D2B24;
+        uiCustomization.titleBarStyle = 1;
         YSFOptions options = getDefaultOptions();
         options.uiCustomization = uiCustomization;
         Unicorn.updateOptions(options);
