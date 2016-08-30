@@ -208,10 +208,7 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
         ButterKnife.bind(this);
         initView();
         initHeader();
-        StatisticClickEvent.showOrderNewPage(3,StatisticConstant.LAUNCH_CARNEXTR,getIntentSource(),
-                carBean.carDesc,
-                EventUtil.getInstance().sourceDetail,false,(adultNum+childrenNum)+"",
-                false);
+
     }
 
     @Override
@@ -349,6 +346,10 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
                     initListData();
                     getMatchCarIndex();
                     showContent();
+                    StatisticClickEvent.showOrderNewPage(3,StatisticConstant.LAUNCH_CARNEXTR,getIntentSource(),
+                            carBean.carDesc,
+                            EventUtil.getInstance().sourceDetail,false,(adultNum+childrenNum)+"",
+                            false);
                 }
             }
         }
