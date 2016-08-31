@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -33,6 +34,7 @@ import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.bean.EventPayBean;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
+import com.hugboga.custom.statistic.event.EventBase;
 import com.hugboga.custom.statistic.event.EventCancelOrder;
 import com.hugboga.custom.statistic.event.EventPay;
 import com.hugboga.custom.statistic.event.EventUtil;
@@ -356,9 +358,9 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                 intent.putExtra(Constants.PARAMS_SOURCE,getEventSource());
                 startActivity(intent);
                 if(orderBean.orderGoodsType == 1) {
-                    StatisticClickEvent.click(StatisticConstant.CLICK_RG, "订单详情页");
+                    StatisticClickEvent.click(StatisticConstant.CLICK_RG, getEventSource());
                 }else {
-                    StatisticClickEvent.click(StatisticConstant.CLICK_RT, "订单详情页");
+                    StatisticClickEvent.click(StatisticConstant.CLICK_RT, getEventSource());
                 }
                 break;
 
@@ -464,7 +466,8 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                     mDialogUtil.showCustomDialog(getString(R.string.app_name), tip, "确定", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            MobClickUtils.onEvent(new EventCancelOrder(orderBean));
+                            EventBase eventBase = new EventCancelOrder(orderBean);
+                            MobClickUtils.onEvent(eventBase);
                             if (orderBean.orderStatus == OrderStatus.INITSTATE) {
                                 cancelOrder(orderBean.orderNo, 0);
                             } else {

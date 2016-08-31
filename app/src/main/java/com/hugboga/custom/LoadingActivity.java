@@ -309,7 +309,8 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
                 @Override
                 public void onClick(View v) {
                     if(!TextUtils.isEmpty(adPictureBean.urlAddress)) {
-                        EventUtil.onShareDefaultEvent(StatisticConstant.CLICK_ACTIVITY, "启动页推广图");
+                        EventUtil.onDefaultEvent(StatisticConstant.CLICK_ACTIVITY, "启动页推广图");
+                        EventUtil.onDefaultEvent(StatisticConstant.LAUNCH_ACTIVITY, "启动页推广图");
                         adClick = true;
                         handler.removeMessages(200);
                         Intent intent = new Intent(LoadingActivity.this, MainActivity.class);

@@ -57,8 +57,8 @@ public class EventCancelOrder extends EventBase{
         map.put("source", eventUtil.source);//触发来源 首页、搜索、城市页、收藏司导列表、司导个人页
         map.put("carstyle", orderBean.getCarType());//车型  经济5座，舒适5座，经济7座……
         map.put("guestcount", orderBean.adult + orderBean.child);//乘客人数 1，2，3，4......11
-//        map.put("forother", forother);//为他人订车 是、否
-//        map.put("paystyle", paystyle);//支付方式 支付宝、微信支付、无
+        map.put("forother", "2".equals(orderBean.isRealUser));//为他人订车 是、否
+        map.put("paystyle", orderBean.orderPriceInfo != null ? orderBean.orderPriceInfo.payGatewayName: "");//支付方式 支付宝、微信支付、无
 //        map.put("paysource", orderstatus);//支付来源 下单过程中、失败重新支付、未支付订单详情页
         map.put("orderstatus", orderBean.orderStatus.name);//订单状态 未支付、已支付、已接单……
 

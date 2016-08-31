@@ -256,11 +256,11 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
                 , new ShareDialog.OnShareListener() {
                     @Override
                     public void onShare(int type) {
-                        if (skuItemBean != null && cityBean != null) {
+                        if (skuItemBean != null) {
                             if (skuItemBean.goodsClass == 1) {
-                                EventUtil.onShareSkuEvent(StatisticConstant.SHARERG, "" + type, cityBean.enName);
+                                EventUtil.onShareSkuEvent(StatisticConstant.SHARERG, "" + type, getCityName());
                             } else if (skuItemBean.goodsClass == 2) {
-                                EventUtil.onShareSkuEvent(StatisticConstant.SHARERT, "" + type, cityBean.enName);
+                                EventUtil.onShareSkuEvent(StatisticConstant.SHARERT, "" + type, getCityName());
                             }
                         }
                     }
@@ -270,6 +270,10 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
     @Override
     public void onResume() {
         super.onResume();
+    }
+
+    private String getCityName() {
+        return cityBean != null ? cityBean.enName : "";
     }
 
 
@@ -425,11 +429,11 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
             case WECHAT_SHARE_SUCCEED:
                 WXShareUtils wxShareUtils = WXShareUtils.getInstance(this);
                 if (getClass().getSimpleName().equals(wxShareUtils.source)) {//分享成功
-                    if (skuItemBean != null && cityBean != null) {
+                    if (skuItemBean != null) {
                         if (skuItemBean.goodsClass == 1) {
-                            EventUtil.onShareSkuEvent(StatisticConstant.SHARERG_BACK, "" + wxShareUtils.type, cityBean.enName);
+                            EventUtil.onShareSkuEvent(StatisticConstant.SHARERG_BACK, "" + wxShareUtils.type, getCityName());
                         } else if (skuItemBean.goodsClass == 2) {
-                            EventUtil.onShareSkuEvent(StatisticConstant.SHARERT_BACK, "" + wxShareUtils.type, cityBean.enName);
+                            EventUtil.onShareSkuEvent(StatisticConstant.SHARERT_BACK, "" + wxShareUtils.type, getCityName());
                         }
                     }
                 }
