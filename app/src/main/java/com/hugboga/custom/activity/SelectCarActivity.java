@@ -782,7 +782,7 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
 //        fgOrderNew.setArguments(bundleCar);
 //        startFragment(fgOrderNew);
 
-        StatisticClickEvent.selectCarClick(StatisticConstant.CARNEXT_R,"自定义包车选车",getIntentSource(),carBean.carDesc+"",(adultNum+childrenNum)+"");
+        StatisticClickEvent.selectCarClick(StatisticConstant.CARNEXT_R,source,getIntentSource(),carBean.carDesc+"",(adultNum+childrenNum)+"");
         Intent intent = new Intent(activity, OrderNewActivity.class);
         intent.putExtras(bundleCar);
         startActivity(intent);
