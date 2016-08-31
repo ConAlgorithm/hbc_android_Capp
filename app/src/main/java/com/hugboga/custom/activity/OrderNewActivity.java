@@ -522,6 +522,7 @@ public class OrderNewActivity extends BaseActivity {
 
     int checkInOrPickupPrice = 0;//协助登机 接机举牌
 
+    //送机
     private void genSend() {
         airPort = (AirPort) this.getIntent().getSerializableExtra("airPortBean");
         poiBean = (PoiBean) this.getIntent().getSerializableExtra("poiBean");
@@ -600,7 +601,7 @@ public class OrderNewActivity extends BaseActivity {
     public static final String KEY_NEED_CHILDREN_SEAT = "KEY_NEED_CHILDREN_SEAT";
     public static final String KEY_NEED_BANNER = "KEY_NEED_BANNER";
 
-
+    //接机
     private void genPick() {
         flightBean = (FlightBean) this.getIntent().getSerializableExtra(KEY_FLIGHT);
         poiBean = (PoiBean) this.getIntent().getSerializableExtra(KEY_ARRIVAL);
@@ -658,7 +659,7 @@ public class OrderNewActivity extends BaseActivity {
 
     PoiBean endPoi;
     PoiBean startPoi;
-
+    //单次接送
     private void genSingle() {
         endPoi = (PoiBean) this.getIntent().getSerializableExtra("KEY_ARRIVAL");
         startPoi = (PoiBean) this.getIntent().getSerializableExtra("KEY_START");
@@ -701,6 +702,7 @@ public class OrderNewActivity extends BaseActivity {
     int hotelPrice = 0;
     int hourseNum = 1;
 
+    //线路包车
     private void genSKU() {
         skuTitle.setText(skuBean.goodsName);
         skuDay.setText(getString(R.string.sku_days, skuBean.daysCount));
