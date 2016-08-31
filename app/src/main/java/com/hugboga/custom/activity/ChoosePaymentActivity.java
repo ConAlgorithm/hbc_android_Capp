@@ -1,5 +1,6 @@
 package com.hugboga.custom.activity;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -34,6 +35,7 @@ import com.hugboga.custom.statistic.event.EventPayResult;
 import com.hugboga.custom.statistic.event.EventPayShow;
 import com.hugboga.custom.statistic.event.EventUtil;
 import com.hugboga.custom.utils.CommonUtils;
+import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.wxapi.WXPay;
 import com.tencent.mm.sdk.openapi.IWXAPI;
@@ -245,6 +247,8 @@ public class ChoosePaymentActivity extends BaseActivity {
                         mDialogUtil.showLoadingDialog();
                         mHandler.sendEmptyMessage(1);
                     } else {
+                        SharedPre sharedPre = new SharedPre(ChoosePaymentActivity.this);
+                        sharedPre.saveStringValue(SharedPre.PAY_WECHAT_DATA, requestParams.orderId);
                         WXPay.pay(this, bean);
                     }
                 }

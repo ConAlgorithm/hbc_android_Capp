@@ -6,11 +6,14 @@ import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.BaseActivity;
+import com.hugboga.custom.activity.ChoosePaymentActivity;
+import com.hugboga.custom.activity.OrderDetailActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 
 import com.hugboga.custom.statistic.event.EventUtil;
+import com.hugboga.custom.utils.SharedPre;
 import com.tencent.mm.sdk.constants.ConstantsAPI;
 import com.tencent.mm.sdk.modelbase.BaseReq;
 import com.tencent.mm.sdk.modelbase.BaseResp;
@@ -26,6 +29,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -52,6 +56,8 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler, 
     private IWXAPI api;
     private boolean isPaySucceed = false;
 
+    private String orderId;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,6 +74,9 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler, 
 
         api = WXAPIFactory.createWXAPI(this, Constants.WX_APP_ID);
         api.handleIntent(getIntent(), this);
+
+        SharedPre sharedPre = new SharedPre(WXPayEntryActivity.this);
+        orderId = sharedPre.getStringValue(SharedPre.PAY_WECHAT_DATA);
     }
 
     @Override
@@ -108,27 +117,66 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler, 
 
     @Override
     public void onClick(View v) {
+        Intent intent = null;
         switch (v.getId()) {
             case R.id.par_result_left_tv:
                 setStatisticIsRePay(false);
-                if (isPaySucceed) {//回首页
-                    EventBus.getDefault().post(new EventAction(EventType.BACK_HOME));
-                    EventBus.getDefault().post(new EventAction(EventType.FGTRAVEL_UPDATE));
-                    finish();
-                } else {//订单详情ORDER_DETAIL
-                    EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL));
-                    finish();
+                if (TextUtils.isEmpty(orderId)) {
+                    if (isPaySucceed) {//回首页
+                        EventBus.getDefault().post(new EventAction(EventType.BACK_HOME));
+                        EventBus.getDefault().post(new EventAction(EventType.FGTRAVEL_UPDATE));
+                        finish();
+                    } else {//订单详情ORDER_DETAIL
+                        EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL));
+                        finish();
+                    }
+                } else {
+                    if (isPaySucceed) {//回首页
+                        intent = new Intent(this, MainActivity.class);
+                        startActivity(intent);
+                        EventBus.getDefault().post(new EventAction(EventType.FGTRAVEL_UPDATE));
+                        EventBus.getDefault().post(new EventAction(EventType.SET_MAIN_PAGE_INDEX, 0));
+                    } else {//订单详情
+                        intent = new Intent(this, MainActivity.class);
+                        startActivity(intent);
+                        EventBus.getDefault().post(new EventAction(EventType.SET_MAIN_PAGE_INDEX, 0));
+
+                        OrderDetailActivity.Params orderParams = new OrderDetailActivity.Params();
+                        orderParams.orderId = orderId;
+                        intent = new Intent(this, OrderDetailActivity.class);
+                        intent.putExtra(Constants.PARAMS_DATA, orderParams);
+                        startActivity(intent);
+                    }
                 }
                 break;
             case R.id.par_result_right_tv:
-                if (isPaySucceed) {//订单详情
-                    EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL, 1));
-                    EventBus.getDefault().post(new EventAction(EventType.FGTRAVEL_UPDATE));
-                    setStatisticIsRePay(false);
-                    finish();
-                } else {//重新支付
-                    setStatisticIsRePay(true);
-                    finish();
+                if (TextUtils.isEmpty(orderId)) {
+                    if (isPaySucceed) {//订单详情
+                        EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL, 1));
+                        EventBus.getDefault().post(new EventAction(EventType.FGTRAVEL_UPDATE));
+                        setStatisticIsRePay(false);
+                        finish();
+                    } else {//重新支付
+                        setStatisticIsRePay(true);
+                        finish();
+                    }
+                } else {
+                    if (isPaySucceed) {//订单详情
+                        setStatisticIsRePay(false);
+                        intent = new Intent(this, MainActivity.class);
+                        startActivity(intent);
+                        EventBus.getDefault().post(new EventAction(EventType.SET_MAIN_PAGE_INDEX, 0));
+                        EventBus.getDefault().post(new EventAction(EventType.FGTRAVEL_UPDATE));
+
+                        OrderDetailActivity.Params orderParams = new OrderDetailActivity.Params();
+                        orderParams.orderId = orderId;
+                        intent = new Intent(this, OrderDetailActivity.class);
+                        intent.putExtra(Constants.PARAMS_DATA, orderParams);
+                        startActivity(intent);
+                    } else {//重新支付
+                        setStatisticIsRePay(true);
+                        finish();
+                    }
                 }
                 break;
         }
@@ -140,6 +188,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler, 
             if (isPaySucceed) {
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
+                EventBus.getDefault().post(new EventAction(EventType.FGTRAVEL_UPDATE));
                 EventBus.getDefault().post(new EventAction(EventType.SET_MAIN_PAGE_INDEX, 0));
                 return true;
             } else {
