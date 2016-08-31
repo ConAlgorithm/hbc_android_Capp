@@ -775,7 +775,7 @@ public class MainActivity extends BaseActivity
             case R.id.head_view:
             case R.id.my_icon_head:
             case R.id.tv_nickname:
-                if (isLogin("个人中心首页")) {
+                if (isLogin("个人中心-用户信息")) {
                     intent = new Intent(this, PersonInfoActivity.class);
                     startActivity(intent);
                 }

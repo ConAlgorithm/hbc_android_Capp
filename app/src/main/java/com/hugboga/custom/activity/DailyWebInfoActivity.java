@@ -117,11 +117,6 @@ public class DailyWebInfoActivity extends BaseActivity implements View.OnKeyList
         return StatisticConstant.LAUNCH_DETAIL_R;
     }
 
-    @Override
-    public String getEventSource() {
-        return EVENT_SOURCE;
-    }
-
     WebChromeClient webChromeClient = new WebChromeClient() {
 
 

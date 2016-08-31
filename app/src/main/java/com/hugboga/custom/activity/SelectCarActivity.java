@@ -784,6 +784,7 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
 
         StatisticClickEvent.selectCarClick(StatisticConstant.CARNEXT_R,source,getIntentSource(),carBean.carDesc+"",(adultNum+childrenNum)+"");
         Intent intent = new Intent(activity, OrderNewActivity.class);
+        intent.putExtra(Constants.PARAMS_SOURCE,getIntentSource());
         intent.putExtras(bundleCar);
         startActivity(intent);
     }

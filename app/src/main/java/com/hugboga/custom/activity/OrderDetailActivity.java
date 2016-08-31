@@ -4,7 +4,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -56,7 +55,6 @@ import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import io.rong.imkit.RongIM;
 
 /**
  * Created by qingcha on 16/8/2.
@@ -355,12 +353,12 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                 intent = new Intent(this, SkuDetailActivity.class);
                 intent.putExtra(WebInfoActivity.WEB_URL, orderBean.skuDetailUrl);
                 intent.putExtra(Constants.PARAMS_ID, orderBean.goodsNo);
-                intent.putExtra(Constants.PARAMS_SOURCE,getEventSource());
+                intent.putExtra(Constants.PARAMS_SOURCE,getIntentSource());
                 startActivity(intent);
                 if(orderBean.orderGoodsType == 1) {
-                    StatisticClickEvent.click(StatisticConstant.CLICK_RG, getEventSource());
+                    StatisticClickEvent.click(StatisticConstant.CLICK_RG, getIntentSource());
                 }else {
-                    StatisticClickEvent.click(StatisticConstant.CLICK_RT, getEventSource());
+                    StatisticClickEvent.click(StatisticConstant.CLICK_RT, getIntentSource());
                 }
                 break;
 
