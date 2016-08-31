@@ -20,6 +20,7 @@ import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.parser.ParserLogout;
 import com.hugboga.custom.data.request.RequestLogout;
 import com.hugboga.custom.developer.DeveloperOptionsActivity;
+import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.SharedPre;
 import com.qiyukf.unicorn.api.Unicorn;
 
@@ -104,6 +105,7 @@ public class SettingActivity extends BaseActivity {
             UserEntity.getUser().clean(activity);
             EventBus.getDefault().post(new EventAction(EventType.CLICK_USER_LOOUT));
             Unicorn.setUserInfo(null);
+            IMUtil.getInstance().logoutNim();
             finish();
         } else {
             super.onDataRequestError(errorInfo, request);
