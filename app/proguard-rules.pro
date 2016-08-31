@@ -276,6 +276,14 @@
 -dontwarn io.netty.**
 -dontwarn com.autonavi.amap.**
 
+
+#如果你使用全文检索插件，需要加入
+-dontwarn java.nio.channels.SeekableByteChannel
+-dontwarn org.apache.lucene.**
+-keep class org.apache.lucene.** {*;}
+-keep class org.lukhnos.** {*;}
+-keep class org.tartarus.** {*;}
+
 ### keep options
 #system default, from android example
 -keep public class * extends android.app.Activity

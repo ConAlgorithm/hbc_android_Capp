@@ -84,8 +84,8 @@ public class FgImChat extends BaseFragment implements View.OnClickListener, ZBas
     @ViewInject(R.id.chat_list_empty_tv)
     TextView emptyTV;
 
-    @ViewInject(R.id.im_statusview)
-    TextView imStatusView;
+//    @ViewInject(R.id.im_statusview)
+//    TextView imStatusView;
 
     @ViewInject(R.id.login_btn)
     TextView loginBtn;
@@ -289,6 +289,8 @@ public class FgImChat extends BaseFragment implements View.OnClickListener, ZBas
                     adapter.getDatas().clear();
                 adapter.notifyDataSetChanged();
                 emptyLayout.setVisibility(View.VISIBLE);
+                if(loginBtn!=null)
+                    loginBtn.setVisibility(View.VISIBLE);
                 ((MainActivity) getActivity()).setIMCount(0);
                 break;
             default:
@@ -420,7 +422,7 @@ public class FgImChat extends BaseFragment implements View.OnClickListener, ZBas
      */
     private void registerObservers(boolean register) {
 
-        NIMClient.getService(AuthServiceObserver.class).observeOnlineStatus(userStatusObserver, register);
+        //NIMClient.getService(AuthServiceObserver.class).observeOnlineStatus(userStatusObserver, register);
         MsgServiceObserve service = NIMClient.getService(MsgServiceObserve.class);
         service.observeRecentContact(messageObserver, register);
 //        service.observeMsgStatus(statusObserver, register);
@@ -489,39 +491,39 @@ public class FgImChat extends BaseFragment implements View.OnClickListener, ZBas
     /**
      * 用户状态变化
      */
-    Observer<StatusCode> userStatusObserver = new Observer<StatusCode>() {
-        @Override
-        public void onEvent(StatusCode code) {
-            if(!UserEntity.getUser().isLogin(MyApplication.getAppContext())){
-                return;
-            }
-            if (code.wontAutoLogin()) {
-                return;
-            } else {
-                if(imStatusView==null){
-                    return;
-                }
-                if (code == StatusCode.NET_BROKEN) {
-                    imStatusView.setVisibility(View.VISIBLE);
-                    imStatusView.setText(R.string.net_broken);
-                } else if (code == StatusCode.UNLOGIN) {
-                    imStatusView.setVisibility(View.VISIBLE);
-                    imStatusView.setText(R.string.nim_status_unlogin);
-                } else if (code == StatusCode.CONNECTING) {
-                    imStatusView.setVisibility(View.VISIBLE);
-                    imStatusView.setText(R.string.nim_status_connecting);
-                } else if (code == StatusCode.LOGINING) {
-                    imStatusView.setVisibility(View.VISIBLE);
-                    imStatusView.setText(R.string.nim_status_logining);
-                } else if(code == StatusCode.LOGINED) {
-                    imStatusView.setVisibility(View.GONE);
-                    if(adapter!=null && adapter.getDatas()!=null){
-                        queryLocalRecentList();
-                    }
-                }
-            }
-        }
-    };
+//    Observer<StatusCode> userStatusObserver = new Observer<StatusCode>() {
+//        @Override
+//        public void onEvent(StatusCode code) {
+//            if(!UserEntity.getUser().isLogin(MyApplication.getAppContext())){
+//                return;
+//            }
+//            if (code.wontAutoLogin()) {
+//                return;
+//            } else {
+//                if(imStatusView==null){
+//                    return;
+//                }
+//                if (code == StatusCode.NET_BROKEN) {
+//                    imStatusView.setVisibility(View.VISIBLE);
+//                    imStatusView.setText(R.string.net_broken);
+//                } else if (code == StatusCode.UNLOGIN) {
+//                    imStatusView.setVisibility(View.VISIBLE);
+//                    imStatusView.setText(R.string.nim_status_unlogin);
+//                } else if (code == StatusCode.CONNECTING) {
+//                    imStatusView.setVisibility(View.VISIBLE);
+//                    imStatusView.setText(R.string.nim_status_connecting);
+//                } else if (code == StatusCode.LOGINING) {
+//                    imStatusView.setVisibility(View.VISIBLE);
+//                    imStatusView.setText(R.string.nim_status_logining);
+//                } else if(code == StatusCode.LOGINED) {
+//                    imStatusView.setVisibility(View.GONE);
+//                    if(adapter!=null && adapter.getDatas()!=null){
+//                        queryLocalRecentList();
+//                    }
+//                }
+//            }
+//        }
+//    };
 
 
 //    private void test(final RecentContact recentContact){

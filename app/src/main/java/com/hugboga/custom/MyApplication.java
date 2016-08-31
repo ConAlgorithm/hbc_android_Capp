@@ -19,6 +19,7 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.net.ServerCodeHandler;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestAccessKey;
+import com.hugboga.custom.map.GdMapProvider;
 import com.hugboga.custom.utils.LogUtils;
 import com.hugboga.custom.utils.UnicornUtils;
 import com.hugboga.custom.widget.DialogUtil;
@@ -295,7 +296,7 @@ public class MyApplication extends HbcApplication {
         // 初始化，需要传入用户信息提供者
         NimUIKit.init(context, infoProvider, null);
         // 设置地理位置提供者。如果需要发送地理位置消息，该参数必须提供。如果不需要，可以忽略。
-        //NimUIKit.setLocationProvider(new NimDemoLocationProvider());
+        NimUIKit.setLocationProvider(new GdMapProvider());
         // 会话窗口的定制初始化。
         //SessionHelper.init();
         NimUIKit.setMsgForwardFilter(new MsgForwardFilter() {
