@@ -532,7 +532,7 @@
 
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="8f73e2a99de5a15e25c0e95626971a92" />
+            android:value="6852d22dca51b4f64a52d050ca6ef663" />
 
         <activity
             android:name="com.hugboga.custom.map.LocationAmapActivity"
