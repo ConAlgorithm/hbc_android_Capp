@@ -81,7 +81,7 @@ public class MsgViewHolderAudio extends MsgViewHolderBase {
             setGravity(animationView, Gravity.LEFT | Gravity.CENTER_VERTICAL);
             setGravity(durationLabel, Gravity.RIGHT | Gravity.CENTER_VERTICAL);
 
-            containerView.setBackgroundResource(R.drawable.nim_message_item_left_selector);
+            containerView.setBackgroundResource(R.drawable.x_nim_message_item_left_selector);
             containerView.setPadding(ScreenUtil.dip2px(15),ScreenUtil.dip2px(8), ScreenUtil.dip2px(10), ScreenUtil.dip2px(8));
             animationView.setBackgroundResource(R.drawable.nim_audio_animation_list_left);
             durationLabel.setTextColor(Color.BLACK);
@@ -91,7 +91,7 @@ public class MsgViewHolderAudio extends MsgViewHolderBase {
             setGravity(durationLabel, Gravity.LEFT | Gravity.CENTER_VERTICAL);
             unreadIndicator.setVisibility(View.GONE);
 
-            containerView.setBackgroundResource(R.drawable.nim_message_item_right_selector);
+            containerView.setBackgroundResource(R.drawable.x_nim_message_item_right_selector);
             containerView.setPadding(ScreenUtil.dip2px(10),ScreenUtil.dip2px(8), ScreenUtil.dip2px(15), ScreenUtil.dip2px(8));
             animationView.setBackgroundResource(R.drawable.nim_audio_animation_list_right);
             durationLabel.setTextColor(Color.WHITE);

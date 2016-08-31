@@ -315,16 +315,5 @@ public class MyApplication extends HbcApplication {
         NimUIKit.registerTipMsgViewHolder(MsgViewHolderTip.class);
     }
 
-    /**
-     * 根据类型初始化IM服务
-     */
-    public static void initIM(){
-//        if(imType==IMTYPE_RONGIM){
-//            initRongIm(mAppContext);
-//        }else{
-//            initNim(mAppContext);
-//        }
-        initNim(mAppContext);
-    }
 
 }

@@ -103,9 +103,6 @@ public class ChatAdapter extends ZBaseAdapter<ChatBean, ChatVH> {
      * @param recentContacts
      */
      public void syncUpdate(List<RecentContact> recentContacts){
-         if(datas==null){
-             datas = new ArrayList<>();
-         }
          NimRecentListSyncUtils.recentListSync(datas,recentContacts);
          this.notifyDataSetChanged();
      }

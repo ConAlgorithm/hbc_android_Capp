@@ -86,6 +86,7 @@ public class MessageFragment extends TFragment implements ModuleProxy {
     public void onResume() {
         super.onResume();
         messageListPanel.onResume();
+        String account = NimUIKit.getAccount();
         NIMClient.getService(MsgService.class).setChattingAccount(sessionId, sessionType);
         getActivity().setVolumeControlStream(AudioManager.STREAM_VOICE_CALL); // 默认使用听筒播放
     }

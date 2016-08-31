@@ -179,6 +179,8 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
     protected void onStop() {
         super.onStop();
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        hideInputMethod(editSearch);
+        editSearch.clearFocus();
     }
 
     boolean fromDaily = false;//包车选城市

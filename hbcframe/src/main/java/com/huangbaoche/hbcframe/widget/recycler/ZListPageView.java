@@ -173,7 +173,7 @@ public class ZListPageView extends ZListRecyclerView implements IPageList {
         int pageIndex = 0;
         if (pageType == Page.pageType.FIRST) {
             page.initFirstPage();
-            adapter.removeAll(); //清除现有数据
+            //adapter.removeAll(); //清除现有数据
         }
         pageIndex = page.getNextPage();
         zListHttpUtils.exec(String.valueOf(page.getPageSize()), String.valueOf(pageIndex));
