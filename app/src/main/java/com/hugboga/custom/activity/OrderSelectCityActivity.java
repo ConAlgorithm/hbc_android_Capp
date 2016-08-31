@@ -282,16 +282,20 @@ public class OrderSelectCityActivity extends BaseActivity {
             }
         });
 
-        EventUtil eventUtil = EventUtil.getInstance();
-        eventUtil.source = getIntentSource();
-        if (null == source || !DailyWebInfoActivity.EVENT_SOURCE.equals(eventUtil.source)) {
-            eventUtil.sourceDetail = "";
-        }
+        try {
+            EventUtil eventUtil = EventUtil.getInstance();
+            eventUtil.source = getIntentSource();
+            if (null == source || !DailyWebInfoActivity.EVENT_SOURCE.equals(eventUtil.source)) {
+                eventUtil.sourceDetail = "";
+            }
 
-        Map map = new HashMap();
-        map.put(Constants.PARAMS_SOURCE, getEventSource());
-        map.put(Constants.PARAMS_SOURCE_DETAIL, eventUtil.sourceDetail);
-        MobClickUtils.onEvent(getEventId(), map);
+            Map map = new HashMap();
+            map.put(Constants.PARAMS_SOURCE, getEventSource());
+            map.put(Constants.PARAMS_SOURCE_DETAIL, eventUtil.sourceDetail);
+            MobClickUtils.onEvent(getEventId(), map);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void showSaveDialog() {
