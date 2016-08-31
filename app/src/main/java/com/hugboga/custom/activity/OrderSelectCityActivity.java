@@ -284,7 +284,7 @@ public class OrderSelectCityActivity extends BaseActivity {
 
         EventUtil eventUtil = EventUtil.getInstance();
         eventUtil.source = getIntentSource();
-        if (!DailyWebInfoActivity.EVENT_SOURCE.equals(eventUtil.source)) {
+        if (null == source || !DailyWebInfoActivity.EVENT_SOURCE.equals(eventUtil.source)) {
             eventUtil.sourceDetail = "";
         }
 
