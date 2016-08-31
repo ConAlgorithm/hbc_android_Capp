@@ -450,11 +450,11 @@ public class SkuNewActivity extends BaseActivity {
         if(skuBean.goodsClass == 1){
             bundle.putInt("type", 5);
             bundle.putString("ordeType", "5");
-            StatisticClickEvent.singleSkuClick(StatisticConstant.CONFIRM_RG,getIntentSource(),carBean.desc+"",manLuggageBean);
+            StatisticClickEvent.singleSkuClick(StatisticConstant.CONFIRM_RG,getIntentSource(),carBean.desc+"",(manLuggageBean.mans + manLuggageBean.childs));
          }else{
             bundle.putInt("type", 6);
             bundle.putString("orderType", "6");
-            StatisticClickEvent.singleSkuClick(StatisticConstant.CONFIRM_RT,getIntentSource(),carBean.desc+"",manLuggageBean);
+            StatisticClickEvent.singleSkuClick(StatisticConstant.CONFIRM_RT,getIntentSource(),carBean.desc+"",(manLuggageBean.mans + manLuggageBean.childs));
         }
 
         bundle.putSerializable("web_sku", skuBean);
