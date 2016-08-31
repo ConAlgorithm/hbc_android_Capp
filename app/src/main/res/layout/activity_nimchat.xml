@@ -23,7 +23,7 @@
         android:layout_height="105dp"
         android:layout_below="@id/im_emptyview"
         android:background="@color/basic_white"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <View
             android:id="@+id/imchat_viewpage_line"

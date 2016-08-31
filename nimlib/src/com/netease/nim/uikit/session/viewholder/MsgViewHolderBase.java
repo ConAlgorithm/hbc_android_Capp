@@ -72,12 +72,12 @@ public abstract class MsgViewHolderBase extends TViewHolder {
 
     // 当是接收到的消息时，内容区域背景的drawable id
     protected int leftBackground() {
-        return R.drawable.nim_message_item_left_selector;
+        return R.drawable.x_nim_message_item_left_selector;
     }
 
     // 当是发送出去的消息时，内容区域背景的drawable id
     protected int rightBackground() {
-        return R.drawable.nim_message_item_right_selector;
+        return R.drawable.x_nim_message_item_right_selector;
     }
 
     // 返回该消息是不是居中显示

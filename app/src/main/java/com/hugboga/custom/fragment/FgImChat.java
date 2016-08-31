@@ -96,7 +96,7 @@ public class FgImChat extends BaseFragment implements View.OnClickListener, ZBas
     @Override
     public void onResume() {
         super.onResume();
-        if (UserEntity.getUser().isLogin(getActivity()) && recyclerView != null && !recyclerView.isLoading() && adapter != null && adapter.getItemCount() <= 0) {
+        if (UserEntity.getUser().isLogin(getActivity()) && recyclerView != null && !recyclerView.isLoading() && adapter != null) {
             loadData();
         }
     }
@@ -178,6 +178,9 @@ public class FgImChat extends BaseFragment implements View.OnClickListener, ZBas
         if (recyclerView != null) {
             emptyTV.setVisibility(View.GONE);
             recyclerView.showPageFirst();
+            if(adapter.getDatas()!=null){
+                adapter.removeAll();
+            }
             adapter.notifyDataSetChanged();
         }
     }
