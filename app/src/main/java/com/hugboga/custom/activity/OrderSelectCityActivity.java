@@ -835,6 +835,7 @@ public class OrderSelectCityActivity extends BaseActivity {
                     StatisticClickEvent.dailyClick(StatisticConstant.CONFIRM_R, "自定义包车确认行程", getIntentSource(), collectGuideBean, collectGuideBean.numOfPerson + "");
 
                     Intent intent = new Intent(activity, OrderNewActivity.class);
+                    intent.putExtra(Constants.PARAMS_SOURCE,getIntentSource());
                     intent.putExtras(bundle);
                     startActivity(intent);
                 } else {

@@ -22,6 +22,7 @@ import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.activity.OrderNewActivity;
 import com.hugboga.custom.activity.PoiSearchActivity;
 import com.hugboga.custom.adapter.CarViewpagerAdapter;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.AirPort;
 import com.hugboga.custom.data.bean.CarBean;
 import com.hugboga.custom.data.bean.CarListBean;
@@ -473,6 +474,7 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
         bundle.putSerializable("manLuggageBean", manLuggageBean);
         StatisticClickEvent.sendClick(StatisticConstant.CONFIRM_S,source,carBean.desc+"",checkInChecked,(manLuggageBean.mans + manLuggageBean.childs));
         Intent intent = new Intent(getActivity(),OrderNewActivity.class);
+        intent.putExtra(Constants.PARAMS_SOURCE,source);
         intent.putExtras(bundle);
         startActivity(intent);
     }
