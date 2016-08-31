@@ -325,7 +325,7 @@ public class OrderSelectCityActivity extends BaseActivity {
 
     @Override
     public String getEventSource() {
-        return "包车填写行程";
+        return "包车下单选择司导";
     }
 
     private void showFull() {
