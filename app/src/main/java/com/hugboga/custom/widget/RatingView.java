@@ -33,6 +33,7 @@ public class RatingView extends LinearLayout {
     private int levelBg;
     private int itemWidth;
     private int[] distances;
+    private int itemStartX = 0;
 
     private OnLevelChangedListener listener;
 
@@ -90,19 +91,17 @@ public class RatingView extends LinearLayout {
         height = getMeasuredHeight();
         width = getMeasuredWidth();
         int s = width / maxLevels;
-        int start = 0;
         if (itemWidth > 0) {
-            start = (UIUtils.getScreenWidth() - (itemWidth + gap) * maxLevels) / 2;
-            s = (width - start * 2) / maxLevels;
+            itemStartX = (UIUtils.getScreenWidth() - (itemWidth + gap) * maxLevels) / 2;
+            s = (width - itemStartX * 2) / maxLevels;
         }
         if (distances == null) {
             distances = new int[maxLevels];
             for (int i = 0; i < maxLevels; i++) {
-                distances[i] = start + (i + 1) * s;
+                distances[i] = itemStartX + (i + 1) * s;
                 if (i == maxLevels - 1) {
-                    distances[i] += start;
+                    distances[i] += itemStartX;
                 }
-
             }
         }
     }
@@ -125,13 +124,23 @@ public class RatingView extends LinearLayout {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 startX = (int) event.getX();
+                if (itemStartX > 0 && itemWidth > 0) {
+                    if (startX < itemStartX || startX > UIUtils.getScreenWidth() - itemStartX) {
+                        break;
+                    }
+                }
                 setLevelChanged(startX);
                 break;
             case MotionEvent.ACTION_MOVE:
                 int moveX = (int) event.getX();
                 int moveY = (int) event.getY();
                 if (moveX < 0 || moveX > width || moveY < 0 || moveY > height) {
-                    return super.onTouchEvent(event);
+                    break;
+                }
+                if (itemStartX > 0 && itemWidth > 0) {
+                    if (moveX < itemStartX || moveX > UIUtils.getScreenWidth() - itemStartX) {
+                        break;
+                    }
                 }
                 setLevelChanged(moveX);
                 return super.onTouchEvent(event);

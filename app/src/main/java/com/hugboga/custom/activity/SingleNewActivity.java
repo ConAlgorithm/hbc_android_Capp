@@ -604,6 +604,7 @@ public class SingleNewActivity extends BaseActivity {
 //        startFragment(fgOrderNew);
         StatisticClickEvent.singleSkuClick(StatisticConstant.CONFIRM_C,source,carBean.desc+"",(manLuggageBean.mans + manLuggageBean.childs));
         Intent intent = new Intent(activity,OrderNewActivity.class);
+        intent.putExtra(Constants.PARAMS_SOURCE,getIntentSource());
         intent.putExtras(bundle);
         startActivity(intent);
     }

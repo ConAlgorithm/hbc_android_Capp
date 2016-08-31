@@ -284,7 +284,7 @@ public class OrderSelectCityActivity extends BaseActivity {
 
         EventUtil eventUtil = EventUtil.getInstance();
         eventUtil.source = getIntentSource();
-        if (!eventUtil.source.equals(DailyWebInfoActivity.EVENT_SOURCE)) {
+        if (null == source || !DailyWebInfoActivity.EVENT_SOURCE.equals(eventUtil.source)) {
             eventUtil.sourceDetail = "";
         }
 
@@ -325,7 +325,7 @@ public class OrderSelectCityActivity extends BaseActivity {
 
     @Override
     public String getEventSource() {
-        return "包车填写行程";
+        return "包车下单选择司导";
     }
 
     private void showFull() {
@@ -835,6 +835,7 @@ public class OrderSelectCityActivity extends BaseActivity {
                     StatisticClickEvent.dailyClick(StatisticConstant.CONFIRM_R, "自定义包车确认行程", getIntentSource(), collectGuideBean, collectGuideBean.numOfPerson + "");
 
                     Intent intent = new Intent(activity, OrderNewActivity.class);
+                    intent.putExtra(Constants.PARAMS_SOURCE,getIntentSource());
                     intent.putExtras(bundle);
                     startActivity(intent);
                 } else {

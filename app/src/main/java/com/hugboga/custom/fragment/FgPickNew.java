@@ -491,6 +491,7 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
 
         StatisticClickEvent.pickClick(StatisticConstant.CONFIRM_J,source,carBean.desc+"",checkInChecked,(manLuggageBean.mans + manLuggageBean.childs));
         Intent intent = new Intent(getActivity(),OrderNewActivity.class);
+        intent.putExtra(Constants.PARAMS_SOURCE,source);
         intent.putExtras(bundle);
         startActivity(intent);
     }
