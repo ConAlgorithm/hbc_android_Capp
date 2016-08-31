@@ -1,5 +1,7 @@
 package com.hugboga.custom.statistic.event;
 
+import android.text.TextUtils;
+
 import com.hugboga.custom.statistic.MobClickUtils;
 
 import java.util.HashMap;
@@ -55,7 +57,9 @@ public class EventUtil {
     public static void onShareSkuEvent(String eventId, String shareType, String routecity) {
         HashMap<String, Object> map = new HashMap<String, Object>(2);
         map.put("sharetype", getShareTypeText(shareType));
-        map.put("routecity", routecity);
+        if (!TextUtils.isEmpty(routecity)) {
+            map.put("routecity", routecity);
+        }
         MobClickUtils.onEvent(eventId, map);
     }
 

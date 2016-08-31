@@ -32,7 +32,6 @@ import com.hugboga.custom.data.request.RequestLoginCheckOpenId;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
-import com.hugboga.custom.utils.ApiFeedbackUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.SharedPre;
@@ -289,7 +288,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
         HashMap<String, String> map = new HashMap<String, String>();
         switch (view.getId()) {
             case R.id.header_left_btn:
-                StatisticClickEvent.click(StatisticConstant.LOGIN_CLOSE,"放弃登录");
+                StatisticClickEvent.click(StatisticConstant.LOGIN_CLOSE,getIntentSource());
                 finish();
                 break;
             case R.id.login_weixin:
@@ -297,7 +296,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
                     CommonUtils.showToast("手机未安装微信或版本太低");
                     return;
                }
-                StatisticClickEvent.click(StatisticConstant.LOGIN_WEIXIN,"点击微信登录");
+                StatisticClickEvent.click(StatisticConstant.LOGIN_WEIXIN,getIntentSource());
                 wxapi = WXAPIFactory.createWXAPI(this.activity, Constants.WX_APP_ID);
                 wxapi.registerApp(Constants.WX_APP_ID);
                 SendAuth.Req req = new SendAuth.Req();
@@ -399,7 +398,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
         RequestLogin request = new RequestLogin(activity, areaCode, phone, password);
         requestData(request);
 
-        StatisticClickEvent.click(StatisticConstant.LOGIN_PHONE,"点击手机登录");
+        StatisticClickEvent.click(StatisticConstant.LOGIN_PHONE,getIntentSource());
     }
 
     @Override

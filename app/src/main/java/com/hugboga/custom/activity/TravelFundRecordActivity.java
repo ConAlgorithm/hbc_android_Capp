@@ -42,7 +42,6 @@ public class TravelFundRecordActivity extends BaseActivity{
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
             type = savedInstanceState.getInt(Constants.PARAMS_TYPE);
         } else {
@@ -51,6 +50,7 @@ public class TravelFundRecordActivity extends BaseActivity{
                 type = bundle.getInt(Constants.PARAMS_TYPE);
             }
         }
+        super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_travelfund_record);
         ButterKnife.bind(this);

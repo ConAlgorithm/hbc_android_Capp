@@ -62,7 +62,7 @@ public class EventPayResult extends EventBase{
         map.put("guestcount", eventPayBean.guestcount);//乘客人数 1，2，3，4......11
         map.put("forother", eventPayBean.forother);//为他人订车 是、否
         map.put("paystyle", eventPayBean.paystyle);//支付方式 支付宝、微信支付、无
-        map.put("paysource", eventPayBean.paysource);//支付来源 下单过程中、失败重新支付、未支付订单详情页
+        map.put("paysource", eventUtil.isRePay ? "失败重新支付" : eventPayBean.paysource);//支付来源 下单过程中、失败重新支付、未支付订单详情页
         map.put("orderstatus", eventPayBean.orderStatus != null ? eventPayBean.orderStatus.name : "");//订单状态 未支付、已支付、已接单……
 
         switch (eventPayBean.orderType) {

@@ -37,6 +37,7 @@ import com.hugboga.custom.utils.FileUtil;
 import com.hugboga.custom.utils.ImageUtils;
 import com.hugboga.custom.utils.PermissionRes;
 import com.hugboga.custom.utils.Tools;
+import com.qiyukf.unicorn.api.Unicorn;
 import com.yalantis.ucrop.UCrop;
 import com.zhy.m.permission.MPermissions;
 import com.zhy.m.permission.PermissionDenied;
@@ -520,6 +521,7 @@ public class PersonInfoActivity extends BaseActivity{
                 break;
         }
         if (request != null) {
+            Unicorn.setUserInfo(null);
             requestData(request);
         }
     }

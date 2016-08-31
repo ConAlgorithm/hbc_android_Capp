@@ -29,54 +29,54 @@ public class StatisticClickEvent {
     }
 
     //提交订单按钮点击
-    public static void commitClick(String eventId,String source,String carstyle,ManLuggageBean guestcount,boolean forother){
+    public static void commitClick(String eventId,String source,String carstyle,int guestcount,boolean forother){
         Map map = new HashMap();
         map.put("source",source);
         map.put("carstyle",carstyle);
-        map.put("guestcount",getGuestCount(guestcount));
+        map.put("guestcount",guestcount);
         map.put("forother",forother?"是":"否");
         MobClickUtils.onEvent(eventId,map);
     }
 
     //包车提交订单按钮点击
     public static void commitClick(String eventId, String source, String  source_detail,
-                                   CollectGuideBean selectG, String carstyle, ManLuggageBean guestcount, boolean forother){
+                                   CollectGuideBean selectG, String carstyle, int guestcount, boolean forother){
         Map map = new HashMap();
         map.put("source",source);
         map.put("source_detail",source_detail);
         map.put("selectG",null != selectG?"是":"否");
         map.put("carstyle",carstyle);
-        map.put("guestcount",getGuestCount(guestcount));
+        map.put("guestcount",guestcount);
         map.put("forother",forother?"是":"否");
         MobClickUtils.onEvent(eventId,map);
     }
 
     //接机确认行程按钮点击
-    public static void pickClick(String eventId, String source,String carstyle,boolean pickwait, ManLuggageBean guestcount){
+    public static void pickClick(String eventId, String source,String carstyle,boolean pickwait, int guestcount){
         Map map = new HashMap();
         map.put("source",source);
         map.put("carstyle",carstyle);
         map.put("pickwait",pickwait?"是":"否");
-        map.put("guestcount",getGuestCount(guestcount));
+        map.put("guestcount",guestcount);
         MobClickUtils.onEvent(eventId,map);
     }
 
     //送机确认行程按钮点击
-    public static void sendClick(String eventId, String source,String carstyle,boolean assist, ManLuggageBean guestcount){
+    public static void sendClick(String eventId, String source,String carstyle,boolean assist, int guestcount){
         Map map = new HashMap();
         map.put("source",source);
         map.put("carstyle",carstyle);
         map.put("assist",assist?"是":"否");
-        map.put("guestcount",getGuestCount(guestcount));
+        map.put("guestcount",guestcount);
         MobClickUtils.onEvent(eventId,map);
     }
 
     //单次 sku确认行程按钮点击
-    public static void singleSkuClick(String eventId, String source,String carstyle, ManLuggageBean guestcount){
+    public static void singleSkuClick(String eventId, String source,String carstyle, int guestcount){
         Map map = new HashMap();
         map.put("source",source);
         map.put("carstyle",carstyle);
-        map.put("guestcount",getGuestCount(guestcount));
+        map.put("guestcount",guestcount);
         MobClickUtils.onEvent(eventId,map);
     }
 

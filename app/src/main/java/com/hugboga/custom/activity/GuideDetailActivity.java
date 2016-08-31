@@ -265,7 +265,7 @@ public class GuideDetailActivity extends BaseActivity implements GuideCarPhotosA
                 if (data == null) {
                     return;
                 }
-                EventUtil.onDefaultEvent(StatisticConstant.COLLECTG, getIntentSource());
+                EventUtil.onDefaultEvent(StatisticConstant.COLLECTG, getEventSource());
                 mDialogUtil.showLoadingDialog();
                 BaseRequest baseRequest = null;
                 if (data.isCollected()) {
