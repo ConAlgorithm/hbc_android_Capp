@@ -936,10 +936,6 @@ public class OrderSelectCityActivity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.header_right_txt:
-                HashMap<String, String> map = new HashMap<String, String>();
-                map.put("source", "填写行程页面");
-                MobclickAgent.onEvent(activity, "callcenter_oneday", map);
-                view.setTag("填写行程页面,calldomestic_oneday,calloverseas_oneday");
                 break;
             case R.id.time_text_click:
                 showYearMonthDayTimePicker();
