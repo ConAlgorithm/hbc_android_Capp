@@ -1283,7 +1283,7 @@ public class OrderNewActivity extends BaseActivity {
 
     //SKU参数
     private OrderBean getSKUOrderByInput() {
-        StatisticClickEvent.commitClick(StatisticConstant.SUBMITORDER_RG,"固定线路提交订单",carBean.carDesc+"",manLuggageBean,contactUsersBean.isForOther);
+        StatisticClickEvent.commitClick(StatisticConstant.SUBMITORDER_RG,getIntentSource(),carBean.carDesc+"",manLuggageBean,contactUsersBean.isForOther);
 
         return new OrderUtils().getSKUOrderByInput(guideCollectId, skuBean,
                 startDate, serverTime, distance,
@@ -1296,7 +1296,7 @@ public class OrderNewActivity extends BaseActivity {
 
     //推荐线路
     private OrderBean getLineOrderByInput() {
-        StatisticClickEvent.commitClick(StatisticConstant.SUBMITORDER_RT,"推荐线路提交订单",carBean.carDesc+"",manLuggageBean,contactUsersBean.isForOther);
+        StatisticClickEvent.commitClick(StatisticConstant.SUBMITORDER_RT,getIntentSource(),carBean.carDesc+"",manLuggageBean,contactUsersBean.isForOther);
 
         return new OrderUtils().getSKUOrderByInput(guideCollectId, skuBean,
                 startDate, serverTime, distance,
@@ -1327,7 +1327,7 @@ public class OrderNewActivity extends BaseActivity {
 
     //包车参数
     private OrderBean getDayOrderByInput() {
-        StatisticClickEvent.commitClick(StatisticConstant.SUBMITORDER_R,"包车提交订单",getIntentSource(),collectGuideBean,carBean.carDesc+"",manLuggageBean,contactUsersBean.isForOther);
+        StatisticClickEvent.commitClick(StatisticConstant.SUBMITORDER_R,getIntentSource(),getIntentSource(),collectGuideBean,carBean.carDesc+"",manLuggageBean,contactUsersBean.isForOther);
 
         return new OrderUtils().getDayOrderByInput(adultNum, carBean,
                 childrenNum, endCityId,
@@ -1346,7 +1346,7 @@ public class OrderNewActivity extends BaseActivity {
     }
 
     private OrderBean getPickOrderByInput() {
-        StatisticClickEvent.commitClick(StatisticConstant.SUBMITORDER_J,"接机提交订单",carBean.carDesc+"",manLuggageBean,contactUsersBean.isForOther);
+        StatisticClickEvent.commitClick(StatisticConstant.SUBMITORDER_J,getIntentSource(),carBean.carDesc+"",manLuggageBean,contactUsersBean.isForOther);
 
         return new OrderUtils().getPickOrderByInput(flightBean, poiBean,
                 carBean, pickName.getText().toString(),
@@ -1362,7 +1362,7 @@ public class OrderNewActivity extends BaseActivity {
 
 
     private OrderBean getSingleOrderByInput() {
-        StatisticClickEvent.commitClick(StatisticConstant.SUBMITORDER_C,"单次提交订单",carBean.carDesc+"",manLuggageBean,contactUsersBean.isForOther);
+        StatisticClickEvent.commitClick(StatisticConstant.SUBMITORDER_C,getIntentSource(),carBean.carDesc+"",manLuggageBean,contactUsersBean.isForOther);
 
         return new OrderUtils().getSingleOrderByInput(adultNum, carBean,
                 childrenNum, endCityId,
@@ -1382,7 +1382,7 @@ public class OrderNewActivity extends BaseActivity {
     }
 
     private OrderBean getSendOrderByInput() {
-        StatisticClickEvent.commitClick(StatisticConstant.SUBMITORDER_S,"送机提交订单",carBean.carDesc+"",manLuggageBean,contactUsersBean.isForOther);
+        StatisticClickEvent.commitClick(StatisticConstant.SUBMITORDER_S,getIntentSource(),carBean.carDesc+"",manLuggageBean,contactUsersBean.isForOther);
 
         return new OrderUtils().getSendOrderByInput(poiBean,
                 carBean, manName.getText().toString(),
