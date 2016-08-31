@@ -176,9 +176,14 @@ public class NIMChatActivity extends BaseActivity implements IMUtil.OnImSuccessL
         NimUIKit.setSessionListener(new SessionEventListener() {
             @Override
             public void onAvatarClicked(Context context, IMMessage message) {
-                Intent intent = new Intent(NIMChatActivity.this, GuideDetailActivity.class);
-                intent.putExtra(Constants.PARAMS_DATA, userId);
-                startActivity(intent);
+                String fromAccount = message.getFromAccount();
+                String sessionId = message.getSessionId();
+                if(TextUtils.equals(fromAccount,sessionId)){
+                    Intent intent = new Intent(NIMChatActivity.this, GuideDetailActivity.class);
+                    intent.putExtra(Constants.PARAMS_DATA, userId);
+                    startActivity(intent);
+                }
+
             }
 
             @Override

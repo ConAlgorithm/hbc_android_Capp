@@ -20,6 +20,7 @@ import com.hugboga.custom.data.request.RequestNIMResetIMToken;
 import com.hugboga.custom.data.request.RequestResetIMToken;
 import com.netease.nim.uikit.NimUIKit;
 import com.netease.nim.uikit.cache.DataCacheManager;
+import com.netease.nim.uikit.session.audio.MessageAudioControl;
 import com.netease.nimlib.sdk.AbortableFuture;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
@@ -307,6 +308,8 @@ public class IMUtil {
             @Override
             public void onSuccess(LoginInfo param) {
                 NimUIKit.setAccount(account);
+                com.netease.nim.uikit.UserPreferences.setEarPhoneModeEnable(false);
+                MessageAudioControl.getInstance(context).setEarPhoneModeEnable(false);
                 // 构建缓存
                 DataCacheManager.buildDataCacheAsync(MyApplication.getAppContext(), new Observer<Void>() {
                     @Override

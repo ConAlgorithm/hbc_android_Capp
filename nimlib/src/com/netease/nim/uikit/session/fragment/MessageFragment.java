@@ -27,6 +27,7 @@ import com.netease.nimlib.sdk.RequestCallbackWrapper;
 import com.netease.nimlib.sdk.msg.MessageBuilder;
 import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.MsgServiceObserve;
+import com.netease.nimlib.sdk.msg.constant.MsgStatusEnum;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.netease.nimlib.sdk.msg.model.MessageReceipt;
@@ -197,12 +198,13 @@ public class MessageFragment extends TFragment implements ModuleProxy {
             public void onResult(int code, Object object, Throwable throwable) {
                 Log.i("test","发送失败 code:" + code);
                 if(code==7101){
-                    IMMessage msg = MessageBuilder.createTipMessage(message.getSessionId(), message.getSessionType());
+                    final IMMessage msg = MessageBuilder.createTipMessage(message.getSessionId(), message.getSessionType());
                     msg.setContent("由于对方的权限设置，你的信息发送失败。");
                     NIMClient.getService(MsgService.class).saveMessageToLocal(msg,true).setCallback(new RequestCallbackWrapper() {
                         @Override
                         public void onResult(int i, Object aVoid, Throwable throwable) {
-                            Log.i("test","tip:" + i);
+                            //Log.i("test","tip:" + i);
+                            msg.setStatus(MsgStatusEnum.read);
                         }
                     });
                 }
