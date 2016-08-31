@@ -741,7 +741,7 @@ public class OrderSelectCityActivity extends BaseActivity {
     }
 
 
-    //type 1 司导列表   2, 预约司导列表
+    //type 1 司导列表   2, 可以预约的司导列表
     private void goCollectGuid(int type) {
         if (type == 1) {
             Intent intent = new Intent(this, CollectGuideListActivity.class);
