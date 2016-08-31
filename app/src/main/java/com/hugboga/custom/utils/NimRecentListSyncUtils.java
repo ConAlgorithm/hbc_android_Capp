@@ -3,6 +3,7 @@ package com.hugboga.custom.utils;
 import android.text.TextUtils;
 
 import com.hugboga.custom.data.bean.ChatBean;
+import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum;
 import com.netease.nimlib.sdk.msg.model.RecentContact;
 
 import java.util.Collections;
@@ -37,7 +38,11 @@ public class NimRecentListSyncUtils {
             for (RecentContact recentContact:recentContacts){
                 if(chatBean.nTargetId.toLowerCase().equals(recentContact.getContactId().toLowerCase())){
                     chatBean.message = recentContact.getContent();
-                    chatBean.imCount = recentContact.getUnreadCount();
+                    if(recentContact.getMsgType()== MsgTypeEnum.tip){
+                        chatBean.imCount = 0;
+                    }else{
+                        chatBean.imCount = recentContact.getUnreadCount();
+                    }
                     chatBean.timeStamp = recentContact.getTime();
                     exist = true;
                 }
@@ -82,7 +87,12 @@ public class NimRecentListSyncUtils {
             for (ChatBean chatBean:chatBeens){
                 if(TextUtils.equals(recentContact.getContactId().toLowerCase(),chatBean.nTargetId)){
                     chatBean.message = recentContact.getContent();
-                    chatBean.imCount = recentContact.getUnreadCount();
+                    if(recentContact.getMsgType()==MsgTypeEnum.tip){
+                        chatBean.imCount = 0;
+                    }else {
+                        chatBean.imCount = recentContact.getUnreadCount();
+                    }
+
                     chatBean.timeStamp = recentContact.getTime();
                     break;
                 }
