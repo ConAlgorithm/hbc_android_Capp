@@ -80,11 +80,12 @@ public class BaseActivity extends BaseFragmentActivity implements HttpRequestLis
 
     //获取上个界面的来源
     public String getIntentSource(){
-        if (TextUtils.isEmpty(intentSource)) {
-            Intent intent = this.getIntent();
-            if (null != intent) {
-                intentSource = intent.getStringExtra(Constants.PARAMS_SOURCE);
-            }
+        Intent intent = this.getIntent();
+        if (null != intent) {
+            intentSource = intent.getStringExtra(Constants.PARAMS_SOURCE);
+        }
+        if(TextUtils.isEmpty(intentSource)){
+            return getEventSource();
         }
         return intentSource;
     }
