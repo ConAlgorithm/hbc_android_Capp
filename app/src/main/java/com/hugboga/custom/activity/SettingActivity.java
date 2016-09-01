@@ -22,6 +22,7 @@ import com.hugboga.custom.data.request.RequestLogout;
 import com.hugboga.custom.developer.DeveloperOptionsActivity;
 import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.SharedPre;
+import com.hugboga.custom.widget.DialogUtil;
 import com.qiyukf.unicorn.api.Unicorn;
 
 import org.greenrobot.eventbus.EventBus;
@@ -88,7 +89,7 @@ public class SettingActivity extends BaseActivity {
         ButterKnife.unbind(this);
     }
 
-
+    private DialogUtil mDialogUtil;
     Intent intent;
     @OnClick({R.id.setting_menu_layout2, R.id.setting_menu_layout3, R.id.setting_menu_layout5, R.id.setting_exit, R.id.setting_menu_layout7, R.id.setting_menu_developer_layout})
     public void onClick(View view) {
@@ -119,10 +120,13 @@ public class SettingActivity extends BaseActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
+                        mDialogUtil = DialogUtil.getInstance(activity);
+                        mDialogUtil.showLoadingDialog();
                         RequestLogout requestLogout = new RequestLogout(activity);
                         HttpRequestUtils.request(activity, requestLogout, new HttpRequestListener() {
                             @Override
                             public void onDataRequestSucceed(BaseRequest request) {
+                                mDialogUtil.dismissLoadingDialog();
                                 UserEntity.getUser().clean(activity);
                                 IMUtil.getInstance().logoutNim();
                                 EventBus.getDefault().post(new EventAction(EventType.CLICK_USER_LOOUT));
@@ -136,13 +140,14 @@ public class SettingActivity extends BaseActivity {
 
                             @Override
                             public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+                                mDialogUtil.dismissLoadingDialog();
                                 UserEntity.getUser().clean(activity);
                                 EventBus.getDefault().post(new EventAction(EventType.CLICK_USER_LOOUT));
                                 Unicorn.setUserInfo(null);
                                 IMUtil.getInstance().logoutNim();
                                 finish();
                             }
-                        },true);
+                        },false);
                     }
                 }).show();
                 break;
