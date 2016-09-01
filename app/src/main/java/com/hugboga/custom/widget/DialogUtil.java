@@ -110,17 +110,12 @@ public class DialogUtil implements DialogUtilInterface {
             return mLoadingDialog;
         }
         if (mLoadingDialog != null && mLoadingDialog.isShowing()) {
-//            TextView text = (TextView) mLoadingDialog.getWindow().findViewById(R.id.loading_message);
-//            text.setText(message);
             mLoadingDialog.setCancelable(cancelAble);
 //			mLoadingDialog.cancel();
         } else {
             View loadingView = (View) mContext.getLayoutInflater().inflate(R.layout.dailog_loading, null);
-//            TextView text = (TextView) loadingView.findViewById(R.id.loading_message);
-//            if (!TextUtils.isEmpty(message))
-//                text.setText(message);
-//            text.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 17);
-            mLoadingDialog = new Dialog(getRootActivity(mContext), R.style.loading_dialog_style);
+
+            mLoadingDialog = new Dialog(mContext, R.style.loading_dialog_style);
             mLoadingDialog.setCanceledOnTouchOutside(false);
             mLoadingDialog.setCancelable(cancelAble);
             mLoadingDialog.show();

@@ -165,14 +165,16 @@ public class SingleNewActivity extends BaseActivity {
 
     @Override
     public void onCreate(Bundle arg0) {
+        EventUtil eventUtil = EventUtil.getInstance();
+        eventUtil.source = getIntentSource();
+        source = getIntentSource();
         super.onCreate(arg0);
         setContentView(R.layout.fg_single_new);
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
         initView();
         initHeader();
-        EventUtil eventUtil = EventUtil.getInstance();
-        eventUtil.source = getIntentSource();
+
     }
 
 

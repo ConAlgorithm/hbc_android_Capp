@@ -497,6 +497,7 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
         ButterKnife.bind(this, rootView);
         EventBus.getDefault().register(this);
+        source = getArguments().getString("source");
         Map map = new HashMap();
         map.put("source",source);
         MobClickUtils.onEvent(StatisticConstant.LAUNCH_J,map);
