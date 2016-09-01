@@ -436,6 +436,7 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, OnIt
             params.source = bean.orderType == 5 ? bean.serviceCityName : "首页";
             Intent intent = new Intent(getActivity(), OrderDetailActivity.class);
             intent.putExtra(Constants.PARAMS_DATA, params);
+            intent.putExtra(Constants.PARAMS_SOURCE,params.source);
             getActivity().startActivity(intent);
 
 //            if (view == fgTravelRunning) {
