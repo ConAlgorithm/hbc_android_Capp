@@ -75,7 +75,9 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -1329,7 +1331,7 @@ public class OrderNewActivity extends BaseActivity {
 
     //包车参数
     private OrderBean getDayOrderByInput() {
-        StatisticClickEvent.commitClick(StatisticConstant.SUBMITORDER_R,getIntentSource(),getIntentSource(),collectGuideBean,carBean.carDesc+"",allMansNum,contactUsersBean.isForOther);
+        StatisticClickEvent.commitClick(StatisticConstant.SUBMITORDER_R,getIntentSource(),EventUtil.getInstance().sourceDetail,collectGuideBean,carBean.carDesc+"",allMansNum,contactUsersBean.isForOther);
 
         return new OrderUtils().getDayOrderByInput(adultNum, carBean,
                 childrenNum, endCityId,
@@ -1348,7 +1350,7 @@ public class OrderNewActivity extends BaseActivity {
     }
 
     private OrderBean getPickOrderByInput() {
-        StatisticClickEvent.commitClick(StatisticConstant.SUBMITORDER_J,getIntentSource(),carBean.carDesc+"",allMansNum,contactUsersBean.isForOther);
+        StatisticClickEvent.pickClick(StatisticConstant.SUBMITORDER_J,getIntentSource(),carBean.carDesc+"",isCheckIn,allMansNum);
 
         return new OrderUtils().getPickOrderByInput(flightBean, poiBean,
                 carBean, pickName.getText().toString(),
@@ -1384,7 +1386,7 @@ public class OrderNewActivity extends BaseActivity {
     }
 
     private OrderBean getSendOrderByInput() {
-        StatisticClickEvent.commitClick(StatisticConstant.SUBMITORDER_S,getIntentSource(),carBean.carDesc+"",allMansNum,contactUsersBean.isForOther);
+        StatisticClickEvent.sendClick(StatisticConstant.SUBMITORDER_S,getIntentSource(),carBean.carDesc+"",isCheckIn,allMansNum);
 
         return new OrderUtils().getSendOrderByInput(poiBean,
                 carBean, manName.getText().toString(),

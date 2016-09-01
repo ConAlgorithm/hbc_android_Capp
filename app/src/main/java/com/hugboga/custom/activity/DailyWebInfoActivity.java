@@ -356,7 +356,7 @@ public class DailyWebInfoActivity extends BaseActivity implements View.OnKeyList
                     bundle.putSerializable("cityBean",cityBean);
                 }
                 bundle.putString("source",source);
-
+                EventUtil.getInstance().sourceDetail = getIntentSource();
                 Intent intent = new Intent(activity,OrderSelectCityActivity.class);
                 intent.putExtra(Constants.PARAMS_SOURCE, getIntentSource());
                 intent.putExtras(bundle);

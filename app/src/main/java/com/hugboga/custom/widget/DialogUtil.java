@@ -11,9 +11,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.provider.Settings;
 import android.text.TextUtils;
-import android.util.TypedValue;
 import android.view.View;
-import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
@@ -26,8 +24,6 @@ import com.hugboga.custom.fragment.BaseFragment;
 import com.hugboga.custom.utils.Common;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.umeng.analytics.MobclickAgent;
-
-import org.xutils.common.util.LogUtil;
 
 import java.util.HashMap;
 
@@ -114,20 +110,16 @@ public class DialogUtil implements DialogUtilInterface {
             return mLoadingDialog;
         }
         if (mLoadingDialog != null && mLoadingDialog.isShowing()) {
-            TextView text = (TextView) mLoadingDialog.getWindow().findViewById(R.id.loading_message);
-            text.setText(message);
+//            TextView text = (TextView) mLoadingDialog.getWindow().findViewById(R.id.loading_message);
+//            text.setText(message);
             mLoadingDialog.setCancelable(cancelAble);
 //			mLoadingDialog.cancel();
         } else {
             View loadingView = (View) mContext.getLayoutInflater().inflate(R.layout.dailog_loading, null);
-            TextView text = (TextView) loadingView.findViewById(R.id.loading_message);
-            if (!TextUtils.isEmpty(message))
-                text.setText(message);
-            text.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 17);
-            if (mLoadingDialog != null) {
-                mLoadingDialog.dismiss();
-                mLoadingDialog = null;
-            }
+//            TextView text = (TextView) loadingView.findViewById(R.id.loading_message);
+//            if (!TextUtils.isEmpty(message))
+//                text.setText(message);
+//            text.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 17);
             mLoadingDialog = new Dialog(getRootActivity(mContext), R.style.loading_dialog_style);
             mLoadingDialog.setCanceledOnTouchOutside(false);
             mLoadingDialog.setCancelable(cancelAble);
