@@ -113,13 +113,14 @@ public class DialogUtil implements DialogUtilInterface {
             mLoadingDialog.setCancelable(cancelAble);
 //			mLoadingDialog.cancel();
         } else {
-            View loadingView = (View) mContext.getLayoutInflater().inflate(R.layout.dailog_loading, null);
+            View loadingView = mContext.getLayoutInflater().inflate(R.layout.dailog_loading, null);
 
             mLoadingDialog = new Dialog(mContext, R.style.loading_dialog_style);
             mLoadingDialog.setCanceledOnTouchOutside(false);
             mLoadingDialog.setCancelable(cancelAble);
-            mLoadingDialog.show();
             mLoadingDialog.getWindow().setContentView(loadingView);
+            mLoadingDialog.show();
+
         }
         return mLoadingDialog;
     }

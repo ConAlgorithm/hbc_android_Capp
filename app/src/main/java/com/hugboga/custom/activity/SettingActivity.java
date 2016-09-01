@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.huangbaoche.hbcframe.HbcConfig;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.BuildConfig;
@@ -17,7 +16,6 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
-import com.hugboga.custom.data.parser.ParserLogout;
 import com.hugboga.custom.data.request.RequestLogout;
 import com.hugboga.custom.developer.DeveloperOptionsActivity;
 import com.hugboga.custom.utils.IMUtil;
@@ -141,7 +139,7 @@ public class SettingActivity extends BaseActivity {
                 new AlertDialog.Builder(activity).setTitle("退出登录").setMessage("退出后不会删除任何历史数据，下次登录依然可以使用本账号").setNegativeButton("取消", null).setPositiveButton("退出", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        ParserLogout parser = new ParserLogout();
+                        dialog.dismiss();
                         RequestLogout requestLogout = new RequestLogout(activity);
                         requestData(requestLogout);
                     }
