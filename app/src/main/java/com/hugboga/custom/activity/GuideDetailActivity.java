@@ -241,7 +241,6 @@ public class GuideDetailActivity extends BaseActivity implements GuideCarPhotosA
                 intent.putExtra("collectGuideBean", beanConversion());
                 intent.putExtra(Constants.PARAMS_SOURCE, getIntentSource());
                 startActivity(intent);
-                finish();
                 break;
             case R.id.guide_detail_car_layout:
                 intent = new Intent(this, OrderSelectCityActivity.class);
@@ -249,14 +248,12 @@ public class GuideDetailActivity extends BaseActivity implements GuideCarPhotosA
                 intent.putExtra(Constants.PARAMS_SOURCE, getIntentSource());
                 intent.putExtra(Constants.PARAMS_SOURCE_DETAIL, getIntentSource());
                 startActivity(intent);
-                finish();
                 break;
             case R.id.guide_detail_single_layout:
                 intent = new Intent(this, SingleNewActivity.class);
                 intent.putExtra("collectGuideBean", beanConversion());
                 intent.putExtra(Constants.PARAMS_SOURCE, getIntentSource());
                 startActivity(intent);
-                finish();
                 break;
             case R.id.header_detail_back_btn:
                 finish();
