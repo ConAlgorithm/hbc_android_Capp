@@ -344,10 +344,6 @@ public class PickerAlbumPreviewActivity extends UI implements OnClickListener, O
             }
             updateOriImageSizeTip(isSendOriginalImage);
         } else if (v.getId() == R.id.picker_image_preview_send) {
-			if(selectPhotoList != null || selectPhotoList.size() == 0){
-				Toast.makeText(PickerAlbumPreviewActivity.this,"没有选中图片，不能发送",Toast.LENGTH_SHORT).show();
-				return;
-			}
             if (selectPhotoList != null && selectPhotoList.size() == 0) { // 没有选择，点击发送则发送当前图片
                 PhotoInfo current = photoLists.get(currentPosition);
                 current.setChoose(true);
