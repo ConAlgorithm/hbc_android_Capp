@@ -201,6 +201,8 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
     @Bind(R.id.call_phone)
     LinearLayout callPhone;
 
+    private String source = "";
+
     @Override
     public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
@@ -208,7 +210,7 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
         ButterKnife.bind(this);
         initView();
         initHeader();
-
+        source = getIntentSource();
     }
 
     @Override
@@ -782,9 +784,9 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
 //        fgOrderNew.setArguments(bundleCar);
 //        startFragment(fgOrderNew);
 
-        StatisticClickEvent.selectCarClick(StatisticConstant.CARNEXT_R,source,getIntentSource(),carBean.carDesc+"",(adultNum+childrenNum)+"");
+        StatisticClickEvent.selectCarClick(StatisticConstant.CARNEXT_R,source,source,carBean.carDesc+"",(adultNum+childrenNum)+"");
         Intent intent = new Intent(activity, OrderNewActivity.class);
-        intent.putExtra(Constants.PARAMS_SOURCE,getIntentSource());
+        intent.putExtra(Constants.PARAMS_SOURCE,source);
         intent.putExtras(bundleCar);
         startActivity(intent);
     }
