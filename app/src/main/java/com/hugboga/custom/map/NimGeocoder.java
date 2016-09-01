@@ -5,6 +5,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.util.Log;
 
 
 import com.amap.api.services.core.AMapException;
@@ -120,6 +121,9 @@ public class NimGeocoder {
         }
 
         final NimLocation location = queryList.remove(0);
+        if(location.getLongitude()==0 || location.getLatitude()==0){
+            return;
+        }
         querying.add(location);
 
         taskManager.schedule(new ManagedTask() {
@@ -193,6 +197,7 @@ public class NimGeocoder {
 
         @Override
         public boolean queryAddress(NimLocation location) {
+            Log.e("test","lat:" + location.getLatitude()+ " longi:" + location.getLongitude());
             boolean ret = false;
             LatLonPoint point = new LatLonPoint(location.getLatitude(), location.getLongitude());
             RegeocodeQuery query = new RegeocodeQuery(point, 100, GeocodeSearch.AMAP);

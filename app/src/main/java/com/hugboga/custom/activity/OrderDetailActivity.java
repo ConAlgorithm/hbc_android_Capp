@@ -355,7 +355,7 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                 intent.putExtra(Constants.PARAMS_ID, orderBean.goodsNo);
                 intent.putExtra(Constants.PARAMS_SOURCE,getIntentSource());
                 startActivity(intent);
-                if(orderBean.orderGoodsType == 1) {
+                if(orderBean.orderGoodsType == 3) {//固定线路
                     StatisticClickEvent.click(StatisticConstant.CLICK_RG, getIntentSource());
                 }else {
                     StatisticClickEvent.click(StatisticConstant.CLICK_RT, getIntentSource());
