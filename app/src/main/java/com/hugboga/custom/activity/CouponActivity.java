@@ -282,6 +282,7 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
         //内容赋值
         ((TextView) popView.findViewById(R.id.coupon_info_price)).setText(bean.price);
         ((TextView) popView.findViewById(R.id.coupon_info_rule)).setText(bean.batchName);
+        ((TextView) popView.findViewById(R.id.coupon_info_content)).setText(bean.applyRule);
         if (bean.endDate.equals("0")) {
             ((TextView) popView.findViewById(R.id.coupon_info_limit_time)).setText("有效期：长期有效");
         } else {
