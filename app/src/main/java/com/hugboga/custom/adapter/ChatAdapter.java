@@ -84,6 +84,7 @@ public class ChatAdapter extends ZBaseAdapter<ChatBean, ChatVH> {
             } else {
                 vh.mUnReadCount.setVisibility(View.GONE);
             }
+        //vh.mUnReadCount.setText("99+");
     }
 
     /**

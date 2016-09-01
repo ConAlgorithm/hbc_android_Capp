@@ -274,6 +274,12 @@ public class LocationAmapActivity extends BaseActivity implements OnCameraChange
 
 	@Override
 	public void onCameraChangeFinish(CameraPosition cameraPosition) {
+		if(cameraPosition.target.latitude==0 || cameraPosition.target.longitude==0){
+			LatLng latlng = new LatLng(39.90923, 116.397428);
+			CameraUpdate camera = CameraUpdateFactory.newCameraPosition(new CameraPosition(latlng, 10, 0, 0));
+			amap.moveCamera(camera);
+			return;
+		}
         if (!locating) {
         	queryLatLngAddress(cameraPosition.target);
         } else {
@@ -300,7 +306,6 @@ public class LocationAmapActivity extends BaseActivity implements OnCameraChange
 		if(!TextUtils.isEmpty(addressInfo) && latlng.latitude == latitude && latlng.longitude == longitude) {
 			return;
 		}
-
 
 		handler.removeCallbacks(runable);
 		handler.postDelayed(runable, 20 * 1000);// 20s超时
