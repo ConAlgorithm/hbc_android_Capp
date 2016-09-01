@@ -178,8 +178,12 @@ public class MainActivity extends BaseActivity
 //        navigationView.setNavigationItemSelectedListener(this);
         //为服务器授权
         grantPhone();
-        initLocation();
-        grantLocation();
+        try {
+            initLocation();
+            grantLocation();
+        } catch (Exception e) {
+
+        }
 //        addErrorProcess();
 //        UpdateResources.checkLocalDB(this);
 //        UpdateResources.checkLocalResource(this);
