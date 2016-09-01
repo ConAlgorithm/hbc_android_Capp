@@ -356,12 +356,9 @@ public class DailyWebInfoActivity extends BaseActivity implements View.OnKeyList
                     bundle.putSerializable("cityBean",cityBean);
                 }
                 bundle.putString("source",source);
-//                bundle.putSerializable("collectGuideBean",collectGuideBean);
-//                startFragment(new FgSkuSubmit(), source);
-//                startFragment(new FgSkuNew(), bundle);
 
                 Intent intent = new Intent(activity,OrderSelectCityActivity.class);
-                intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+                intent.putExtra(Constants.PARAMS_SOURCE, getIntentSource());
                 intent.putExtras(bundle);
                 startActivity(intent);
                 break;
