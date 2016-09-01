@@ -50,6 +50,11 @@ public class ChatAdapter extends ZBaseAdapter<ChatBean, ChatVH> {
         final ChatBean chatBean = datas.get(position);
         if (chatBean != null) {
             vh.mUsername.setText(chatBean.targetName);
+            if(!TextUtils.isEmpty(chatBean.message)){
+                vh.mMessage.setText(chatBean.message.trim());
+            }else{
+                vh.mMessage.setText("");
+            }
             vh.mMessage.setText(chatBean.message);
             try {
                 vh.mTime.setText(DateUtils.resetLetterTime(chatBean.timeStr));
