@@ -12,6 +12,7 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.net.ServerCodeHandlerInterface;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
+import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
@@ -72,21 +73,25 @@ public class ServerCodeHandler implements ServerCodeHandlerInterface {
     private static void gotoLogin(Activity mContext,boolean finish){
         if (mContext instanceof BaseFragmentActivity) {
             BaseFragmentActivity activity = (BaseFragmentActivity) mContext;
-            BaseFragment fragment = null;
-            ArrayList<com.huangbaoche.hbcframe.fragment.BaseFragment> fragmentList = activity.getFragmentList();
-            for(int i =fragmentList.size()-1;i>=0;i--){
-                Fragment fg  = fragmentList.get(i);
-                if (fg != null && fg instanceof BaseFragment&&fg.isAdded()) {
-                    fragment = (BaseFragment) fg;
-                    break;
-                }
+            if (finish) {
+                mContext.startActivity(new Intent(mContext, MainActivity.class));
             }
-            if (fragment != null) {
-                if(finish)
-                fragment.bringToFront(FgHome.class, new Bundle());
-//                fragment.startFragment(new FgLogin());
-                mContext.startActivity(new Intent(mContext, LoginActivity.class));
-            }
+            mContext.startActivity(new Intent(mContext, LoginActivity.class));
+//            BaseFragment fragment = null;
+//            ArrayList<com.huangbaoche.hbcframe.fragment.BaseFragment> fragmentList = activity.getFragmentList();
+//            for(int i =fragmentList.size()-1;i>=0;i--){
+//                Fragment fg  = fragmentList.get(i);
+//                if (fg != null && fg instanceof BaseFragment&&fg.isAdded()) {
+//                    fragment = (BaseFragment) fg;
+//                    break;
+//                }
+//            }
+//            if (fragment != null) {
+//                if(finish)
+//                fragment.bringToFront(FgHome.class, new Bundle());
+////                fragment.startFragment(new FgLogin());
+//                mContext.startActivity(new Intent(mContext, LoginActivity.class));
+//            }
         }
     }
 

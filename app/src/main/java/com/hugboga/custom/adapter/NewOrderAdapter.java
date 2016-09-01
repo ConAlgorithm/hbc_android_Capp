@@ -36,6 +36,7 @@ import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.parser.ParserChatInfo;
 import com.hugboga.custom.data.request.RequestImChatId;
 import com.hugboga.custom.utils.DateUtils;
+import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.DialogUtil;
@@ -424,12 +425,13 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
      * @param chatNumTextView
      */
     private void showMessageNum(final TextView chatNumTextView, Integer imcount){
-        if(imcount>0){
-            chatNumTextView.setVisibility(View.VISIBLE);
-            chatNumTextView.setText(String.valueOf(imcount));
-        }else{
-            chatNumTextView.setVisibility(View.GONE);
-        }
+//        if(imcount>0){
+//            chatNumTextView.setVisibility(View.VISIBLE);
+//            chatNumTextView.setText(String.valueOf(imcount));
+//        }else{
+//            chatNumTextView.setVisibility(View.GONE);
+//        }
+        chatNumTextView.setVisibility(View.GONE);
     }
 
     private String splitDateStr(String dateStr) {
@@ -509,6 +511,9 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
     }
 
     private void gotoChatView( final String chatId,String targetAvatar,String targetName,String imChatId,int inblack) {
+        if(!IMUtil.getInstance().isLogined()){
+            return;
+        }
         String titleJson = getChatInfo(chatId,  targetAvatar, targetName, "1",imChatId,inblack);
         NIMChatActivity.start(context,imChatId,null,titleJson);
         //RongIM.getInstance().startPrivateChat(context, imChatId, titleJson);

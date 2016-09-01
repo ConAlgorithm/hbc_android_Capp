@@ -124,8 +124,11 @@ public class DialogUtil implements DialogUtilInterface {
             if (!TextUtils.isEmpty(message))
                 text.setText(message);
             text.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 17);
+            if (mLoadingDialog != null) {
+                mLoadingDialog.dismiss();
+                mLoadingDialog = null;
+            }
             mLoadingDialog = new Dialog(getRootActivity(mContext), R.style.loading_dialog_style);
-//		mLoadingDialog=	new Dialog(mContext);
             mLoadingDialog.setCanceledOnTouchOutside(false);
             mLoadingDialog.setCancelable(cancelAble);
             mLoadingDialog.show();
@@ -600,12 +603,13 @@ public class DialogUtil implements DialogUtilInterface {
      * @date 2012-6-6 上午10:41:07
      */
     public Activity getRootActivity(Activity activtiy) {
-        Activity context = activtiy.getParent();
-        if (context == null) {
-            return activtiy;
-        } else {
-            return getRootActivity(context);
-        }
+//        Activity context = activtiy.getParent();
+//        if (context == null) {
+//            return activtiy;
+//        } else {
+//            return getRootActivity(context);
+//        }
+        return activtiy;
     }
 
     public void showCallDialog(final String... source) {

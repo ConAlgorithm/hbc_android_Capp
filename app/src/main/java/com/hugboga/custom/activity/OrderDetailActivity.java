@@ -38,6 +38,7 @@ import com.hugboga.custom.statistic.event.EventCancelOrder;
 import com.hugboga.custom.statistic.event.EventPay;
 import com.hugboga.custom.statistic.event.EventUtil;
 import com.hugboga.custom.utils.CommonUtils;
+import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.HbcViewBehavior;
@@ -302,6 +303,10 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                 chatInfo.targetType = "1";
                 chatInfo.inBlack = guideInfo.inBlack;
                 chatInfo.imUserId = guideInfo.guideImId;
+
+                if(!IMUtil.getInstance().isLogined()){
+                    return;
+                }
                 NIMChatActivity.start(OrderDetailActivity.this,chatInfo.imUserId,null,new ParserChatInfo().toJsonString(chatInfo));
                 //RongIM.getInstance().startPrivateChat(OrderDetailActivity.this, guideInfo.guideImId, new ParserChatInfo().toJsonString(chatInfo));
                 break;
