@@ -82,4 +82,6 @@ public enum EventType {
     COUPON_BACK,//选country返回
     PICK_FLIGHT_BACK,//选航班号返回
     AIR_PORT_BACK,//选airport返回
+
+    NIM_LOGIN_SUCCESS,//云信登录成功回调
 }
