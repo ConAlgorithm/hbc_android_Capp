@@ -32,6 +32,7 @@ import com.hugboga.custom.data.bean.ChatBean;
 import com.hugboga.custom.data.bean.ChatInfo;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.parser.ParserChatInfo;
 import com.hugboga.custom.data.request.RequestChatList;
 import com.hugboga.custom.data.request.RequestNIMChatList;
@@ -39,6 +40,7 @@ import com.hugboga.custom.data.request.RequestNIMRemoveChat;
 import com.hugboga.custom.data.request.RequestRemoveChat;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.utils.AlertDialogUtils;
+import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.UnicornUtils;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
@@ -181,6 +183,9 @@ public class FgImChat extends BaseFragment implements View.OnClickListener, ZBas
             if(adapter.getDatas()!=null){
                 adapter.removeAll();
             }
+            if(recyclerView.getAdapter()!=null){
+                recyclerView.getAdapter().notifyDataSetChanged();
+            }
             adapter.notifyDataSetChanged();
         }
     }
@@ -296,6 +301,9 @@ public class FgImChat extends BaseFragment implements View.OnClickListener, ZBas
                     loginBtn.setVisibility(View.VISIBLE);
                 ((MainActivity) getActivity()).setIMCount(0);
                 break;
+            case NIM_LOGIN_SUCCESS:
+                requestData();
+                break;
             default:
                 break;
         }
@@ -311,6 +319,9 @@ public class FgImChat extends BaseFragment implements View.OnClickListener, ZBas
            UnicornUtils.openServiceActivity();
 
         } else if (chatBean.targetType==1) {
+            if(!IMUtil.getInstance().isLogined()){
+                return;
+            }
             String titleJson = getChatInfo(chatBean.targetId, chatBean.targetAvatar, chatBean.targetName, chatBean.targetType+"",chatBean.inBlack,chatBean.nTargetId);
             //RongIM.getInstance().startPrivateChat(getActivity(), chatBean.targetId, titleJson);
             NIMChatActivity.start(getContext(),chatBean.nTargetId,null,titleJson);
@@ -451,95 +462,5 @@ public class FgImChat extends BaseFragment implements View.OnClickListener, ZBas
         }
     };
 
-//    Observer<IMMessage> statusObserver = new Observer<IMMessage>() {
-//        @Override
-//        public void onEvent(IMMessage message) {
-//            Log.i("test","onEvent message status:" + message.getStatus().toString());
-//        }
-//    };
-
-//    Observer<RecentContact> deleteObserver = new Observer<RecentContact>() {
-//        @Override
-//        public void onEvent(RecentContact recentContact) {
-//            if(adapter!=null){
-//                adapter.syncDeleteItemUpdate(recentContact);
-//                if(recyclerView!=null){
-//                    recentContact.
-//                }
-//            }
-//        }
-//    };
-
-
-//    private UserInfoObservable.UserInfoObserver userInfoObserver;
-//    private void registerUserInfoObserver() {
-//        if (userInfoObserver == null) {
-//            userInfoObserver = new UserInfoObservable.UserInfoObserver() {
-//                @Override
-//                public void onUserInfoChanged(List<String> accounts) {
-//                    Log.i("test","accounts size:" + accounts);
-//                }
-//            };
-//        }
-//        UserInfoHelper.registerObserver(userInfoObserver);
-//    }
-
-//    private void unregisterUserInfoObserver() {
-//        if (userInfoObserver != null) {
-//            UserInfoHelper.unregisterObserver(userInfoObserver);
-//        }
-//    }
-
-
-    /**
-     * 用户状态变化
-     */
-//    Observer<StatusCode> userStatusObserver = new Observer<StatusCode>() {
-//        @Override
-//        public void onEvent(StatusCode code) {
-//            if(!UserEntity.getUser().isLogin(MyApplication.getAppContext())){
-//                return;
-//            }
-//            if (code.wontAutoLogin()) {
-//                return;
-//            } else {
-//                if(imStatusView==null){
-//                    return;
-//                }
-//                if (code == StatusCode.NET_BROKEN) {
-//                    imStatusView.setVisibility(View.VISIBLE);
-//                    imStatusView.setText(R.string.net_broken);
-//                } else if (code == StatusCode.UNLOGIN) {
-//                    imStatusView.setVisibility(View.VISIBLE);
-//                    imStatusView.setText(R.string.nim_status_unlogin);
-//                } else if (code == StatusCode.CONNECTING) {
-//                    imStatusView.setVisibility(View.VISIBLE);
-//                    imStatusView.setText(R.string.nim_status_connecting);
-//                } else if (code == StatusCode.LOGINING) {
-//                    imStatusView.setVisibility(View.VISIBLE);
-//                    imStatusView.setText(R.string.nim_status_logining);
-//                } else if(code == StatusCode.LOGINED) {
-//                    imStatusView.setVisibility(View.GONE);
-//                    if(adapter!=null && adapter.getDatas()!=null){
-//                        queryLocalRecentList();
-//                    }
-//                }
-//            }
-//        }
-//    };
-
-
-//    private void test(final RecentContact recentContact){
-//        fgTitle.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                String orderJson = "{\"isChat\":true,\"userId\":\"221450316914\",\"userAv" +
-//                        "atar\":\"http:\\/\\/fr.test.hbc.tech\\/guide\\/20160721\\/f_201607" +
-//                        "211450254772.jpg\",\"title\":\"宋朋旺\",\"targetType\":\"1\",\"inB" +
-//                        "lack\":0,\"isHideMoreBtn\":0}";
-//                NIMChatActivity.start(getContext(),recentContact.getContactId(),null,orderJson);
-//            }
-//        });
-//    }
 
 }

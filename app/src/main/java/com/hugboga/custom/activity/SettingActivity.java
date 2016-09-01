@@ -73,6 +73,7 @@ public class SettingActivity extends BaseActivity {
         if (request instanceof RequestLogout) {
 //            activity.sendBroadcast(new Intent(FgHome.FILTER_FLUSH));
             UserEntity.getUser().clean(activity);
+            IMUtil.getInstance().logoutNim();
             EventBus.getDefault().post(new EventAction(EventType.CLICK_USER_LOOUT));
             finish();
         }

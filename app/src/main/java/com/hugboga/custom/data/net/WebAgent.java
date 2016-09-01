@@ -32,11 +32,11 @@ import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.CurrentServerInfoData;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.parser.ParserChatInfo;
-import com.hugboga.custom.data.request.RequestCurrentServerInfo;
 import com.hugboga.custom.data.request.RequestWebInfo;
 import com.hugboga.custom.statistic.event.EventUtil;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.PhoneInfo;
+import com.hugboga.custom.utils.UnicornUtils;
 import com.hugboga.custom.widget.DialogUtil;
 
 import org.json.JSONObject;
@@ -302,8 +302,7 @@ public class WebAgent implements HttpRequestListener {
         mActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                RequestCurrentServerInfo request = new RequestCurrentServerInfo(mActivity);
-                HttpRequestUtils.request(mActivity, request, WebAgent.this);
+                UnicornUtils.openServiceActivity();
             }
         });
     }
@@ -418,13 +417,6 @@ public class WebAgent implements HttpRequestListener {
         if (_request instanceof RequestWebInfo) {
             RequestWebInfo webInfoRequest = (RequestWebInfo) _request;
             callBack(webInfoRequest.successCallBack, webInfoRequest.getData());
-        } else if (_request instanceof RequestCurrentServerInfo) {
-            RequestCurrentServerInfo request = (RequestCurrentServerInfo) _request;
-            CurrentServerInfoData data = (CurrentServerInfoData) request.getData();
-            if (data != null) {
-                String titleJson = getChatInfo(data.userId, data.avatar, data.name, "0");
-                RongIM.getInstance().startConversation(mActivity, Conversation.ConversationType.APP_PUBLIC_SERVICE, data.userId, titleJson);
-            }
         }
     }
 

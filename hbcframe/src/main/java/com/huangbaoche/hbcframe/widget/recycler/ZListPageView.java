@@ -147,7 +147,7 @@ public class ZListPageView extends ZListRecyclerView implements IPageList {
             return;
         }
         if (adapter.getDatas().size() < adapter.getItemCount()) {
-            if (getAdapter().getItemCount() > 2) {
+            if (getAdapter().getItemCount() > 1) {
                 emptyLayout.setVisibility(View.GONE);
             } else {
                 emptyLayout.setVisibility(View.VISIBLE);

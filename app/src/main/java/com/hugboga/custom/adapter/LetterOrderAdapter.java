@@ -40,10 +40,26 @@ public class LetterOrderAdapter extends BaseAdapter<ChatOrderBean> {
             viewHolder.mOrderState.setText(chatOrderBean.status);
             resetStatusColor(viewHolder.mOrderState, chatOrderBean.status);
             viewHolder.mOrderType.setText(chatOrderBean.orderTypeStr);
-            viewHolder.mOrderTime.setText(chatOrderBean.serviceTime);
+            //viewHolder.mOrderTime.setText(chatOrderBean.serviceTime);
+            setFormatTime(viewHolder.mOrderTime,chatOrderBean);
         }
         return convertView;
     }
+
+    private void setFormatTime(TextView textView,ChatOrderBean chatOrderBean){
+      if(chatOrderBean.status.equals("进行中")){
+            String orderTime = chatOrderBean.serviceTime.length() > 9 ? chatOrderBean.serviceEndTime.substring(0, 10):
+                    chatOrderBean.serviceTime;
+            String orderEndTime = chatOrderBean.serviceEndTime.length() > 9 ? chatOrderBean.serviceEndTime.substring(0, 10):
+                    chatOrderBean.serviceEndTime;
+            textView.setText(orderTime+"~"+orderEndTime);
+        }else {
+            String orderTime = chatOrderBean.serviceTime.length() > 15 ? chatOrderBean.serviceTime.substring(0, 16)
+                    : chatOrderBean.serviceTime;
+            textView.setText(orderTime+"(当地时间)");
+        }
+    }
+
 
     /**
      * 根据私信订单状态改变颜色
