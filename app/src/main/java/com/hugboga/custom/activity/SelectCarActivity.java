@@ -60,6 +60,7 @@ import static com.hugboga.custom.R.id.days_right;
 import static com.hugboga.custom.R.id.man_have;
 import static com.hugboga.custom.R.id.man_right;
 import static com.hugboga.custom.R.id.max_luggage_content;
+import static u.aly.au.E;
 
 /**
  * Created on 16/8/4.
@@ -784,7 +785,7 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
 //        fgOrderNew.setArguments(bundleCar);
 //        startFragment(fgOrderNew);
 
-        StatisticClickEvent.selectCarClick(StatisticConstant.CARNEXT_R,source,source,carBean.carDesc+"",(adultNum+childrenNum)+"");
+        StatisticClickEvent.selectCarClick(StatisticConstant.CARNEXT_R,source,EventUtil.getInstance().sourceDetail,carBean.carDesc+"",(adultNum+childrenNum)+"");
         Intent intent = new Intent(activity, OrderNewActivity.class);
         intent.putExtra(Constants.PARAMS_SOURCE,source);
         intent.putExtras(bundleCar);
