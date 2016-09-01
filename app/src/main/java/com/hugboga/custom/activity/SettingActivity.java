@@ -69,17 +69,6 @@ public class SettingActivity extends BaseActivity {
     RelativeLayout developerLayout;
 
     @Override
-    public void onDataRequestSucceed(BaseRequest request) {
-        if (request instanceof RequestLogout) {
-//            activity.sendBroadcast(new Intent(FgHome.FILTER_FLUSH));
-            UserEntity.getUser().clean(activity);
-            IMUtil.getInstance().logoutNim();
-            EventBus.getDefault().post(new EventAction(EventType.CLICK_USER_LOOUT));
-            finish();
-        }
-    }
-
-    @Override
     public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         setContentView(R.layout.fg_setting);
@@ -99,19 +88,6 @@ public class SettingActivity extends BaseActivity {
         ButterKnife.unbind(this);
     }
 
-    @Override
-    public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-        if (request instanceof RequestLogout) {
-//            activity.sendBroadcast(new Intent(FgHome.FILTER_FLUSH));
-            UserEntity.getUser().clean(activity);
-            EventBus.getDefault().post(new EventAction(EventType.CLICK_USER_LOOUT));
-            Unicorn.setUserInfo(null);
-            IMUtil.getInstance().logoutNim();
-            finish();
-        } else {
-            super.onDataRequestError(errorInfo, request);
-        }
-    }
 
     Intent intent;
     @OnClick({R.id.setting_menu_layout2, R.id.setting_menu_layout3, R.id.setting_menu_layout5, R.id.setting_exit, R.id.setting_menu_layout7, R.id.setting_menu_developer_layout})
