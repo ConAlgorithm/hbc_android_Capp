@@ -290,7 +290,7 @@ public class OrderSelectCityActivity extends BaseActivity {
 //            }
 
             Map map = new HashMap();
-            map.put(Constants.PARAMS_SOURCE, getEventSource());
+            map.put(Constants.PARAMS_SOURCE, getIntentSource());
             map.put(Constants.PARAMS_SOURCE_DETAIL, eventUtil.sourceDetail);
             MobClickUtils.onEvent(getEventId(), map);
         } catch (Exception e) {
@@ -1068,6 +1068,7 @@ public class OrderSelectCityActivity extends BaseActivity {
 
                         StatisticClickEvent.dailyClick(StatisticConstant.CONFIRM_R, "自定义包车确认行程", getIntentSource(), collectGuideBean, (childNum + manNum) + "");
                         Intent intent = new Intent(activity, SelectCarActivity.class);
+                        intent.putExtra(Constants.PARAMS_SOURCE,getIntentSource());
                         intent.putExtras(bundleCar);
                         startActivity(intent);
                     }
