@@ -10,6 +10,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
+import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
+import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.BuildConfig;
 import com.hugboga.custom.R;
@@ -20,6 +22,7 @@ import com.hugboga.custom.data.request.RequestLogout;
 import com.hugboga.custom.developer.DeveloperOptionsActivity;
 import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.SharedPre;
+import com.hugboga.custom.widget.DialogUtil;
 import com.qiyukf.unicorn.api.Unicorn;
 
 import org.greenrobot.eventbus.EventBus;
@@ -67,17 +70,6 @@ public class SettingActivity extends BaseActivity {
     RelativeLayout developerLayout;
 
     @Override
-    public void onDataRequestSucceed(BaseRequest request) {
-        if (request instanceof RequestLogout) {
-//            activity.sendBroadcast(new Intent(FgHome.FILTER_FLUSH));
-            UserEntity.getUser().clean(activity);
-            IMUtil.getInstance().logoutNim();
-            EventBus.getDefault().post(new EventAction(EventType.CLICK_USER_LOOUT));
-            finish();
-        }
-    }
-
-    @Override
     public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         setContentView(R.layout.fg_setting);
@@ -97,20 +89,7 @@ public class SettingActivity extends BaseActivity {
         ButterKnife.unbind(this);
     }
 
-    @Override
-    public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-        if (request instanceof RequestLogout) {
-//            activity.sendBroadcast(new Intent(FgHome.FILTER_FLUSH));
-            UserEntity.getUser().clean(activity);
-            EventBus.getDefault().post(new EventAction(EventType.CLICK_USER_LOOUT));
-            Unicorn.setUserInfo(null);
-            IMUtil.getInstance().logoutNim();
-            finish();
-        } else {
-            super.onDataRequestError(errorInfo, request);
-        }
-    }
-
+    private DialogUtil mDialogUtil;
     Intent intent;
     @OnClick({R.id.setting_menu_layout2, R.id.setting_menu_layout3, R.id.setting_menu_layout5, R.id.setting_exit, R.id.setting_menu_layout7, R.id.setting_menu_developer_layout})
     public void onClick(View view) {
@@ -136,12 +115,39 @@ public class SettingActivity extends BaseActivity {
                 break;
             case R.id.setting_exit:
                 //退出登录
-                new AlertDialog.Builder(activity).setTitle("退出登录").setMessage("退出后不会删除任何历史数据，下次登录依然可以使用本账号").setNegativeButton("取消", null).setPositiveButton("退出", new DialogInterface.OnClickListener() {
+                new AlertDialog.Builder(activity).setTitle("退出登录").setMessage("退出后不会删除任何历史数据，下次登录依然可以使用本账号")
+                        .setNegativeButton("取消", null).setPositiveButton("退出", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
+                        mDialogUtil = DialogUtil.getInstance(activity);
+                        mDialogUtil.showLoadingDialog();
                         RequestLogout requestLogout = new RequestLogout(activity);
-                        requestData(requestLogout);
+                        HttpRequestUtils.request(activity, requestLogout, new HttpRequestListener() {
+                            @Override
+                            public void onDataRequestSucceed(BaseRequest request) {
+                                mDialogUtil.dismissLoadingDialog();
+                                UserEntity.getUser().clean(activity);
+                                IMUtil.getInstance().logoutNim();
+                                EventBus.getDefault().post(new EventAction(EventType.CLICK_USER_LOOUT));
+                                finish();
+                            }
+
+                            @Override
+                            public void onDataRequestCancel(BaseRequest request) {
+
+                            }
+
+                            @Override
+                            public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+                                mDialogUtil.dismissLoadingDialog();
+                                UserEntity.getUser().clean(activity);
+                                EventBus.getDefault().post(new EventAction(EventType.CLICK_USER_LOOUT));
+                                Unicorn.setUserInfo(null);
+                                IMUtil.getInstance().logoutNim();
+                                finish();
+                            }
+                        },false);
                     }
                 }).show();
                 break;

@@ -106,22 +106,24 @@ public class DialogUtil implements DialogUtilInterface {
      * @date 2012-6-13 上午09:35:20
      */
     public Dialog showLoadingDialog(String message, boolean cancelAble) {
-        if (mContext.isFinishing()) {
-            return mLoadingDialog;
-        }
-        if (mLoadingDialog != null && mLoadingDialog.isShowing()) {
-            mLoadingDialog.setCancelable(cancelAble);
+        try {
+            if (mContext.isFinishing()) {
+                return mLoadingDialog;
+            }
+            if (mLoadingDialog != null && mLoadingDialog.isShowing()) {
+                mLoadingDialog.setCancelable(cancelAble);
 //			mLoadingDialog.cancel();
-        } else {
-            View loadingView = mContext.getLayoutInflater().inflate(R.layout.dailog_loading, null);
+            } else {
+                View loadingView = mContext.getLayoutInflater().inflate(R.layout.dailog_loading, null);
 
-            mLoadingDialog = new Dialog(mContext, R.style.loading_dialog_style);
-            mLoadingDialog.setCanceledOnTouchOutside(false);
-            mLoadingDialog.setCancelable(cancelAble);
-            mLoadingDialog.getWindow().setContentView(loadingView);
-            mLoadingDialog.show();
+                mLoadingDialog = new Dialog(mContext, R.style.loading_dialog_style);
+                mLoadingDialog.setCanceledOnTouchOutside(false);
+                mLoadingDialog.setCancelable(cancelAble);
+                mLoadingDialog.getWindow().setContentView(loadingView);
+                mLoadingDialog.show();
 
-        }
+            }
+        }catch (Exception e){}
         return mLoadingDialog;
     }
 
