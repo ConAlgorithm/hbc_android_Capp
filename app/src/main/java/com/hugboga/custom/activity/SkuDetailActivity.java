@@ -326,7 +326,9 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
 //            fgTitle.setText(view.getTitle());
-            gotoOrder.setVisibility(View.VISIBLE);
+            if (!SkuDetailActivity.this.isFinishing()) {
+                gotoOrder.setVisibility(View.VISIBLE);
+            }
         }
 
         @Override

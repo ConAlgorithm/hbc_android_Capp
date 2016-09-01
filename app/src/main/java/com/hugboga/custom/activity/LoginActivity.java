@@ -238,7 +238,6 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
         } else if (request instanceof RequestLoginCheckOpenId) {
             RequestLoginCheckOpenId request1 = (RequestLoginCheckOpenId) request;
             UserBean userBean = request1.getData();
-            Log.i("aa", "RequestLoginCheckOpenId " +userBean.isNotRegister);
             if (userBean.isNotRegister == 1) {//未注册，走注册流程
                 Bundle bundle = new Bundle();
                 bundle.putString("unionid", userBean.unionid);
