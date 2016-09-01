@@ -1,17 +1,22 @@
 package com.hugboga.custom.wxapi;
 
 
-import com.huangbaoche.hbcframe.fragment.BaseFragment;
+import android.content.Intent;
+import android.os.Bundle;
+import android.text.TextUtils;
+import android.view.KeyEvent;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.BaseActivity;
-import com.hugboga.custom.activity.ChoosePaymentActivity;
 import com.hugboga.custom.activity.OrderDetailActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
-
 import com.hugboga.custom.statistic.event.EventUtil;
 import com.hugboga.custom.utils.SharedPre;
 import com.tencent.mm.sdk.constants.ConstantsAPI;
@@ -21,29 +26,9 @@ import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.support.v4.app.Fragment;
-import android.text.TextUtils;
-import android.util.Log;
-import android.view.KeyEvent;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import org.xutils.view.annotation.ViewInject;
-
-import java.util.ArrayList;
-
 import org.greenrobot.eventbus.EventBus;
 
-public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler, View.OnClickListener {
+public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandler, View.OnClickListener {
 
     private static final String TAG = "MicroMsg.SDKSample.WXPayEntryActivity";
 
@@ -145,6 +130,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler, 
                         orderParams.orderId = orderId;
                         intent = new Intent(this, OrderDetailActivity.class);
                         intent.putExtra(Constants.PARAMS_DATA, orderParams);
+                        intent.putExtra(Constants.PARAMS_SOURCE,getIntentSource());
                         startActivity(intent);
                     }
                 }

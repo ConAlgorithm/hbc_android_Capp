@@ -41,10 +41,7 @@ import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.DialogUtil;
 
-import org.xutils.http.annotation.HttpRequest;
 import org.xutils.image.ImageOptions;
-
-import io.rong.imkit.RongIM;
 
 /**
  * 聊天历史订单
@@ -467,6 +464,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                     params.source = mOrderBean.orderType == 5 ? mOrderBean.serviceCityName : "首页";
                     intent = new Intent(v.getContext(), OrderDetailActivity.class);
                     intent.putExtra(Constants.PARAMS_DATA, params);
+                    intent.putExtra(Constants.PARAMS_SOURCE,params.source);
                     v.getContext().startActivity(intent);
                     break;
                 case R.id.travel_item_btn_chat:

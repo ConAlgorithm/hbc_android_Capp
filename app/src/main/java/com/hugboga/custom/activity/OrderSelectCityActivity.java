@@ -1066,7 +1066,7 @@ public class OrderSelectCityActivity extends BaseActivity {
                         bundleCar.putSerializable("passCityList", passBeanList);
                         bundleCar.putString("orderType", "3");
 
-                        StatisticClickEvent.dailyClick(StatisticConstant.CONFIRM_R, "自定义包车确认行程", getIntentSource(), collectGuideBean, (childNum + manNum) + "");
+                        StatisticClickEvent.dailyClick(StatisticConstant.CONFIRM_R, getIntentSource(), EventUtil.getInstance().sourceDetail, collectGuideBean, (childNum + manNum) + "");
                         Intent intent = new Intent(activity, SelectCarActivity.class);
                         intent.putExtra(Constants.PARAMS_SOURCE,getIntentSource());
                         intent.putExtras(bundleCar);

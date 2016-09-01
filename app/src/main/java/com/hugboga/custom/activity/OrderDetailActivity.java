@@ -106,6 +106,7 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                 params = (Params) bundle.getSerializable(Constants.PARAMS_DATA);
             }
         }
+        source = getIntentSource();
         setContentView(R.layout.fg_order_detail);
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
@@ -116,7 +117,7 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
         requestData();
 
         Map map = new HashMap();
-        map.put(Constants.PARAMS_SOURCE,getIntentSource());
+        map.put(Constants.PARAMS_SOURCE,source);
         MobClickUtils.onEvent(getEventId(),map);
     }
 
@@ -358,12 +359,12 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                 intent = new Intent(this, SkuDetailActivity.class);
                 intent.putExtra(WebInfoActivity.WEB_URL, orderBean.skuDetailUrl);
                 intent.putExtra(Constants.PARAMS_ID, orderBean.goodsNo);
-                intent.putExtra(Constants.PARAMS_SOURCE,getIntentSource());
+                intent.putExtra(Constants.PARAMS_SOURCE,source);
                 startActivity(intent);
                 if(orderBean.orderGoodsType == 3) {//固定线路
-                    StatisticClickEvent.click(StatisticConstant.CLICK_RG, getIntentSource());
+                    StatisticClickEvent.click(StatisticConstant.CLICK_RG, source);
                 }else {
-                    StatisticClickEvent.click(StatisticConstant.CLICK_RT, getIntentSource());
+                    StatisticClickEvent.click(StatisticConstant.CLICK_RT, source);
                 }
                 break;
 

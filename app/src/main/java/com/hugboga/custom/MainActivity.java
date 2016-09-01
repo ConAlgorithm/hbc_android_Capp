@@ -457,6 +457,7 @@ public class MainActivity extends BaseActivity
 
         Intent intent = new Intent(this, OrderDetailActivity.class);
         intent.putExtra(Constants.PARAMS_DATA, params);
+        intent.putExtra(Constants.PARAMS_SOURCE,params.source);
         startActivity(intent);
     }
 
