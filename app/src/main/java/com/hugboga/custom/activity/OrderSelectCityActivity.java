@@ -285,9 +285,9 @@ public class OrderSelectCityActivity extends BaseActivity {
         try {
             EventUtil eventUtil = EventUtil.getInstance();
             eventUtil.source = getIntentSource();
-            if (null == source || !DailyWebInfoActivity.EVENT_SOURCE.equals(eventUtil.source)) {
-                eventUtil.sourceDetail = "";
-            }
+//            if (null == source || !DailyWebInfoActivity.EVENT_SOURCE.equals(eventUtil.source)) {
+//                eventUtil.sourceDetail = "";
+//            }
 
             Map map = new HashMap();
             map.put(Constants.PARAMS_SOURCE, getEventSource());
