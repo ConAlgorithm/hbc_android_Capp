@@ -121,9 +121,9 @@ public class NimGeocoder {
         }
 
         final NimLocation location = queryList.remove(0);
-        if(location.getLongitude()==0 || location.getLatitude()==0){
-            return;
-        }
+//        if(location.getLongitude()==0 || location.getLatitude()==0){
+//            return;
+//        }
         querying.add(location);
 
         taskManager.schedule(new ManagedTask() {
