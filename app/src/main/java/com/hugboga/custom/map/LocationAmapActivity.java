@@ -300,7 +300,7 @@ public class LocationAmapActivity extends BaseActivity implements OnCameraChange
 		if(!TextUtils.isEmpty(addressInfo) && latlng.latitude == latitude && latlng.longitude == longitude) {
 			return;
 		}
-		
+
 
 		handler.removeCallbacks(runable);
 		handler.postDelayed(runable, 20 * 1000);// 20s超时
