@@ -126,7 +126,6 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
             //新版本清空Accesskey，使请求重新获取
             UserEntity.getUser().setAccessKey(LoadingActivity.this, null);
         }
-        checkVersion();
         getAD();
         timeSecond = (TextView) findViewById(R.id.time_second);
         timeSecond.setOnClickListener(new View.OnClickListener() {
@@ -200,12 +199,7 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
         dialog.show();
     }
 
-    private void checkVersion() {
-//        DialogUtil.getInstance(this).showLoadingDialog();
-        int resourcesVersion = new SharedPre(this).getIntValue(SharedPre.RESOURCES_H5_VERSION);
-        RequestCheckVersion requestCheckVersion = new RequestCheckVersion(this, resourcesVersion);
-        HttpRequestUtils.request(this, requestCheckVersion, this, false);
-    }
+
 
     Handler handler = new Handler() {
         @Override
@@ -252,37 +246,7 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
 
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
-        if (request instanceof RequestCheckVersion) {
-            adClick = true;
-            RequestCheckVersion requestCheckVersion = (RequestCheckVersion) request;
-            final CheckVersionBean cvBean = requestCheckVersion.getData();
-            UserEntity.getUser().setIsNewVersion(this, cvBean.hasAppUpdate);//是否有新版本
-
-            DialogUtil.getInstance(this).showUpdateDialog(cvBean.hasAppUpdate, cvBean.force, cvBean.content, cvBean.url, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    PushUtils.startDownloadApk(LoadingActivity.this, cvBean.url);
-                }
-            },  new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    //在版本检测后 检测DB
-                    UpdateResources.checkRemoteDB(LoadingActivity.this, cvBean.dbDownloadLink, cvBean.dbVersion, new CheckVersionCallBack() {
-                        @Override
-                        public void onFinished() {
-                            //在检测DB后检测资源
-                            UpdateResources.checkRemoteResources(LoadingActivity.this, cvBean, new CheckVersionCallBack() {
-                                @Override
-                                public void onFinished() {
-//                                    checkToNew();
-                                }
-                            });
-                        }
-                    });
-                }
-            });
-            checkUploadLog(cvBean);
-        } else if (request instanceof RequestADPicture) {
+        if (request instanceof RequestADPicture) {
             RequestADPicture requestADPicture = (RequestADPicture) request;
             ADPictureBean adPictureBean = requestADPicture.getData();
             if (adPictureBean.displayFlag.equalsIgnoreCase("1")) {
@@ -329,18 +293,6 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
         }
     }
 
-    /**
-     * 是否开启debug模式
-     */
-    private void checkUploadLog(CheckVersionBean cvBean) {
-        MLog.e("context=" + this + ",resource=" + cvBean + " ,isDebugMod=" + cvBean.debugMod);
-        if (cvBean != null && cvBean.debugMod) {
-            Intent intent = new Intent(this, LogService.class);
-            intent.putExtra(LogService.KEY_IS_RUNNING, true);
-            startService(intent);
-        }
-    }
-
     private void checkToNew() {
 //        DialogUtil.getInstance(this).dismissLoadingDialog();
         handler.sendEmptyMessageDelayed(200, 3000);
@@ -368,38 +320,4 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
-
-
-    abstract class CheckVersionCallBack implements Callback.ProgressCallback<File> {
-        @Override
-        public void onWaiting() {
-
-        }
-
-        @Override
-        public void onStarted() {
-
-        }
-
-        @Override
-        public void onLoading(long total, long current, boolean isDownloading) {
-
-        }
-
-        @Override
-        public void onSuccess(File result) {
-
-        }
-
-        @Override
-        public void onError(Throwable ex, boolean isOnCallback) {
-
-        }
-
-        @Override
-        public void onCancelled(CancelledException cex) {
-
-        }
-
-    }
 }

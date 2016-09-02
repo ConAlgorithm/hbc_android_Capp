@@ -58,6 +58,7 @@ import com.hugboga.custom.activity.TravelFundActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.adapter.MenuItemAdapter;
 import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.bean.CheckVersionBean;
 import com.hugboga.custom.data.bean.LvMenuItem;
 import com.hugboga.custom.data.bean.PushMessage;
 import com.hugboga.custom.data.bean.UserBean;
@@ -65,6 +66,7 @@ import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.net.UrlLibs;
+import com.hugboga.custom.data.request.RequestCheckVersion;
 import com.hugboga.custom.data.request.RequestPushClick;
 import com.hugboga.custom.data.request.RequestPushToken;
 import com.hugboga.custom.data.request.RequestUploadLocation;
@@ -74,6 +76,7 @@ import com.hugboga.custom.fragment.FgChat;
 import com.hugboga.custom.fragment.FgHome;
 import com.hugboga.custom.fragment.FgImChat;
 import com.hugboga.custom.fragment.FgTravel;
+import com.hugboga.custom.service.LogService;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
@@ -88,6 +91,8 @@ import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.utils.PushUtils;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.Tools;
+import com.hugboga.custom.utils.UpdateResources;
+import com.hugboga.custom.widget.DialogUtil;
 import com.zhy.m.permission.MPermissions;
 import com.zhy.m.permission.PermissionDenied;
 import com.zhy.m.permission.PermissionGrant;
@@ -96,6 +101,7 @@ import net.grobas.view.PolygonImageView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.xutils.common.Callback;
 import org.xutils.common.util.FileUtil;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
@@ -166,6 +172,7 @@ public class MainActivity extends BaseActivity
            }
         }
         MobClickUtils.onEvent(StatisticConstant.LAUNCH_DISCOVERY);
+        checkVersion();
 //        setSupportActionBar(toolbar);
         sharedPre = new SharedPre(this);
         initBottomView();
@@ -215,6 +222,57 @@ public class MainActivity extends BaseActivity
             ActionController actionFactory = ActionController.getInstance(this);
             actionFactory.doAction(actionBean);
         }
+    }
+
+    private void checkVersion() {
+        int resourcesVersion = new SharedPre(this).getIntValue(SharedPre.RESOURCES_H5_VERSION);
+        RequestCheckVersion requestCheckVersion = new RequestCheckVersion(this, resourcesVersion);
+        HttpRequestUtils.request(this, requestCheckVersion, this, false);
+    }
+
+    /**
+     * 是否开启debug模式
+     */
+    private void checkUploadLog(CheckVersionBean cvBean) {
+        MLog.e("context=" + this + ",resource=" + cvBean + " ,isDebugMod=" + cvBean.debugMod);
+        if (cvBean != null && cvBean.debugMod) {
+            Intent intent = new Intent(this, LogService.class);
+            intent.putExtra(LogService.KEY_IS_RUNNING, true);
+            startService(intent);
+        }
+    }
+
+    abstract class CheckVersionCallBack implements Callback.ProgressCallback<File> {
+        @Override
+        public void onWaiting() {
+
+        }
+
+        @Override
+        public void onStarted() {
+
+        }
+
+        @Override
+        public void onLoading(long total, long current, boolean isDownloading) {
+
+        }
+
+        @Override
+        public void onSuccess(File result) {
+
+        }
+
+        @Override
+        public void onError(Throwable ex, boolean isOnCallback) {
+
+        }
+
+        @Override
+        public void onCancelled(CancelledException cex) {
+
+        }
+
     }
 
     private void testPush() {
@@ -373,6 +431,27 @@ public class MainActivity extends BaseActivity
             travelFundTV.setText("" + user.travelFund);
             couponUnitTV.setText("张");
             travelFundUnitTV.setText("元");
+        } else if (request instanceof RequestCheckVersion) {
+            RequestCheckVersion requestCheckVersion = (RequestCheckVersion) request;
+            final CheckVersionBean cvBean = requestCheckVersion.getData();
+            UserEntity.getUser().setIsNewVersion(this, cvBean.hasAppUpdate);//是否有新版本
+
+            DialogUtil.getInstance(this).showUpdateDialog(cvBean.hasAppUpdate, cvBean.force, cvBean.content, cvBean.url, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    PushUtils.startDownloadApk(MainActivity.this, cvBean.url);
+                }
+            },  new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    //在版本检测后 检测DB
+                    UpdateResources.checkRemoteDB(MainActivity.this, cvBean.dbDownloadLink, cvBean.dbVersion, new CheckVersionCallBack() {
+                        @Override
+                        public void onFinished() {}
+                    });
+                }
+            });
+            checkUploadLog(cvBean);
         }
     }
 
