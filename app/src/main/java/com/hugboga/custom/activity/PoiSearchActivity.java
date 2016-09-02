@@ -247,6 +247,7 @@ public class PoiSearchActivity extends BaseActivity implements AdapterView.OnIte
         if (bean != null) {
             if (bean.isHistory) {
                 editSearch.setText(bean.placeName);
+                searchWord = editSearch.getText().toString().trim();
                 search();
             } else {
 
