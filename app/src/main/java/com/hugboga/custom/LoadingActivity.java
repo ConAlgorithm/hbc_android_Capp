@@ -253,6 +253,7 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
         if (request instanceof RequestCheckVersion) {
+            adClick = true;
             RequestCheckVersion requestCheckVersion = (RequestCheckVersion) request;
             final CheckVersionBean cvBean = requestCheckVersion.getData();
             UserEntity.getUser().setIsNewVersion(this, cvBean.hasAppUpdate);//是否有新版本
