@@ -374,7 +374,7 @@ public class DateTimePicker extends WheelPicker {
         selectedYearIndex = findItemIndex(years, year);
         selectedMonthIndex = findItemIndex(months, month);
         selectedDayIndex = findItemIndex(days, day);
-        selectedHour = String.valueOf(hour);
+        selectedHour = DateUtils.fillZero(hour);
         selectedMinute = DateUtils.getFirstMinute(minute);
     }
 
@@ -389,8 +389,8 @@ public class DateTimePicker extends WheelPicker {
             selectedYearIndex = findItemIndex(years, yearOrMonth);
             selectedMonthIndex = findItemIndex(months, monthOrDay);
         }
-        selectedHour = String.valueOf(hour);
-        selectedMinute = String.valueOf(minute);
+        selectedHour = DateUtils.fillZero(hour);
+        selectedMinute = DateUtils.getFirstMinute(minute);
     }
 
     protected interface OnDateTimePickListener {
