@@ -48,9 +48,10 @@ public class ChatAdapter extends ZBaseAdapter<ChatBean, ChatVH> {
     @Override
     protected void getView(int position, ChatVH vh) {
         final ChatBean chatBean = datas.get(position);
+
         if (chatBean != null) {
             vh.mUsername.setText(chatBean.targetName);
-            if(!TextUtils.isEmpty(chatBean.message)){
+            if(!TextUtils.isEmpty(chatBean.message) && chatBean.targetType!=3){
                 vh.mMessage.setText(chatBean.message.trim());
             }else{
                 vh.mMessage.setText("");
