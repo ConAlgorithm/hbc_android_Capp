@@ -65,6 +65,7 @@ import com.hugboga.custom.data.bean.UserBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
+import com.hugboga.custom.data.net.ServerCodeHandler;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestCheckVersion;
 import com.hugboga.custom.data.request.RequestPushClick;
