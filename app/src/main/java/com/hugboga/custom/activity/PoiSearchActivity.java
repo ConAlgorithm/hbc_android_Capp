@@ -317,6 +317,7 @@ public class PoiSearchActivity extends BaseActivity implements AdapterView.OnIte
     @Override
     public void onRefresh() {
         sortListView.state = ZListView.RELEASE_To_REFRESH;
+        pageToken = null;
         requestKeyword(0);
     }
 
