@@ -176,13 +176,16 @@ public class PoiSearchActivity extends BaseActivity implements AdapterView.OnIte
         arrivalTip.setText(R.string.arrival_tip_hotel);
     }
 
+    String pageToken = null;
     private void requestKeyword(int offset) {
         Map map = new HashMap();
         map.put(Constants.PARAMS_SOURCE,getIntentSource());
         map.put("searchinput",searchWord);
         MobClickUtils.onEvent(StatisticConstant.SEARCH,map);
 
-        RequestPoiSearch requestPoiSearch = new RequestPoiSearch(activity, cityId, location, searchWord, offset, PAGESIZE,mBusinessType);
+        RequestPoiSearch requestPoiSearch = new RequestPoiSearch(activity,
+                cityId, location, searchWord,
+                offset, PAGESIZE,mBusinessType,pageToken);
         requestData(requestPoiSearch);
     }
 

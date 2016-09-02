@@ -20,7 +20,8 @@ import java.util.HashMap;
  */
 @HttpRequest(path = UrlLibs.SERVER_IP_POI, builder = NewParamsBuilder.class)
 public class RequestPoiSearch extends BaseRequest<ArrayList<PoiBean>> {
-    public RequestPoiSearch(Context context, int cityId, String location, String keyword, int offset, int limit,int mBusinessType) {
+    public RequestPoiSearch(Context context, int cityId, String location, String keyword,
+                            int offset, int limit,int mBusinessType,String pageToken) {
         super(context);
         map = new HashMap();
         try {
@@ -28,8 +29,11 @@ public class RequestPoiSearch extends BaseRequest<ArrayList<PoiBean>> {
             if (cityId != -1)
                 map.put("cityId", cityId);
             map.put("input", keyword);
-            map.put("offset", offset);
-            map.put("limit", limit);
+//            map.put("offset", offset);
+//            map.put("limit", limit);
+            if(null != pageToken) {
+                map.put("pageToken", pageToken);
+            }
             map.put("serviceType",mBusinessType);
         } catch (Exception e) {
             MLog.e(e.toString());

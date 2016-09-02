@@ -194,7 +194,7 @@ public class UrlLibs {
     /**
      * poi 地理搜索
      **/
-    public static final String SERVER_IP_POI = "poi/v1.0/c/places?";
+    public static final String SERVER_IP_POI = "poi/v1.1/c/places?";
     /**
      * 航班查询 通过航班号
      **/
