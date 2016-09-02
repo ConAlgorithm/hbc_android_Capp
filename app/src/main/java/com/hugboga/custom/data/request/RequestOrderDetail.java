@@ -33,6 +33,6 @@ public class RequestOrderDetail extends BaseRequest<OrderBean> {
 
     @Override
     public String getUrlErrorCode() {
-        return "40052";
+        return "40066";
     }
 }

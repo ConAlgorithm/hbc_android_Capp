@@ -41,7 +41,7 @@ public class RequestDeduction extends BaseRequest<DeductionBean> {
 
     @Override
     public String getUrlErrorCode() {
-        return "40027";
+        return "40031";
     }
 
 }

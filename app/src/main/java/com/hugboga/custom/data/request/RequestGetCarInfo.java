@@ -66,7 +66,7 @@ public class RequestGetCarInfo extends BaseRequest<CarInfoBean> {
 
     @Override
     public String getUrlErrorCode() {
-        return "40036";
+        return "40042";
     }
 
 }

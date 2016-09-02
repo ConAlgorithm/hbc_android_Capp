@@ -45,6 +45,6 @@ public class RequestPriceSku extends BaseRequest<CarListBean> {
 
     @Override
     public String getUrlErrorCode() {
-        return "40057";
+        return "40070";
     }
 }

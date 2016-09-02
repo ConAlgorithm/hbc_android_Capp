@@ -40,7 +40,7 @@ public class RequestApiFeedback extends BaseRequest<String> {
 
     @Override
     public String getUrlErrorCode() {
-        return "401000";
+        return "40007";
     }
 
     private static class DataParser extends ImplParser {

@@ -41,6 +41,6 @@ public class RequestChangePwd extends BaseRequest {
 
     @Override
     public String getUrlErrorCode() {
-        return "40011";
+        return "40014";
     }
 }

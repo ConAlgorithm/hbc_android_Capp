@@ -47,6 +47,6 @@ public class RequestUnBlackMan extends BaseRequest {
 
     @Override
     public String getUrlErrorCode() {
-        return "40046";
+        return "40091";
     }
 }

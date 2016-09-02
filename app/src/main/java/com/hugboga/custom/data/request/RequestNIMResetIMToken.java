@@ -33,6 +33,6 @@ public class RequestNIMResetIMToken extends BaseRequest {
 
     @Override
     public String getUrlErrorCode() {
-        return "40462";
+        return "40062";
     }
 }

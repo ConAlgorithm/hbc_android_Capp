@@ -18,6 +18,6 @@ public class RequestCheckPriceForTransfer extends RequestCheckPrice {
 
     @Override
     public String getUrlErrorCode() {
-        return "40019";
+        return "40020";
     }
 }

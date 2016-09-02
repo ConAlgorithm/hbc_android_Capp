@@ -43,6 +43,6 @@ public class RequestPoiSearch extends BaseRequest<ArrayList<PoiBean>> {
 
     @Override
     public String getUrlErrorCode() {
-        return "40056";
+        return "40069";
     }
 }

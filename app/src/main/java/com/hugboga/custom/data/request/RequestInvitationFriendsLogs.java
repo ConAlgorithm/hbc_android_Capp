@@ -44,7 +44,7 @@ public class RequestInvitationFriendsLogs extends BaseRequest<TravelFundData> {
 
     @Override
     public String getUrlErrorCode() {
-        return "40076";
+        return "40053";
     }
 
     private static class DataParser extends ImplParser {

@@ -36,6 +36,6 @@ public class RequestUpLoadFile extends BaseRequest {
 
     @Override
     public String getUrlErrorCode() {
-        return "40079";
+        return "40093";
     }
 }

@@ -39,7 +39,7 @@ public class RequestCurrentServerInfo extends BaseRequest<CurrentServerInfoData>
 
     @Override
     public String getUrlErrorCode() {
-        return "";
+        return "40030";
     }
 
     private static class DataParser extends ImplParser {

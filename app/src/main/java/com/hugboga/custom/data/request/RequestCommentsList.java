@@ -44,7 +44,7 @@ public class RequestCommentsList extends BaseRequest<CommentsListData> {
 
     @Override
     public String getUrlErrorCode() {
-        return null;
+        return "40026";
     }
 
     private static class DataParser extends ImplParser {

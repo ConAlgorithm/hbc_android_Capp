@@ -53,7 +53,7 @@ public class RequestEvaluateNew extends BaseRequest<EvaluateData> {
 
     @Override
     public String getUrlErrorCode() {
-        return "40046";
+        return "40037";
     }
 
     public static class RequestParams {

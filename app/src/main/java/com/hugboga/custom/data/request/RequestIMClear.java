@@ -38,6 +38,6 @@ public class RequestIMClear extends BaseRequest {
 
     @Override
     public String getUrlErrorCode() {
-        return "40042";
+        return "40050";
     }
 }

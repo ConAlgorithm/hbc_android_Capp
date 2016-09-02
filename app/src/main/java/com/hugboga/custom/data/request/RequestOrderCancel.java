@@ -37,6 +37,6 @@ public class RequestOrderCancel extends BaseRequest {
 
     @Override
     public String getUrlErrorCode() {
-        return "40051";
+        return "40065";
     }
 }

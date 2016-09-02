@@ -44,6 +44,6 @@ public class RequestForgetPwd extends BaseRequest {
 
     @Override
     public String getUrlErrorCode() {
-        return "40035";
+        return "40041";
     }
 }

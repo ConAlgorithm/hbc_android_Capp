@@ -48,6 +48,6 @@ public class RequestRegister extends BaseRequest<UserBean> {
 
     @Override
     public String getUrlErrorCode() {
-        return "40061";
+        return "40074";
     }
 }

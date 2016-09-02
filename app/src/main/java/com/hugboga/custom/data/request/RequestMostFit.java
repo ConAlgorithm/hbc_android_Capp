@@ -91,7 +91,7 @@ public class RequestMostFit extends BaseRequest<MostFitBean> {
 
     @Override
     public String getUrlErrorCode() {
-        return "40049";
+        return "40057";
     }
 
 }

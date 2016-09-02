@@ -44,7 +44,7 @@ public class RequestTravelFundLogs extends BaseRequest<TravelFundData> {
 
     @Override
     public String getUrlErrorCode() {
-        return "40086";
+        return "40090";
     }
 
     private static class DataParser extends ImplParser {
