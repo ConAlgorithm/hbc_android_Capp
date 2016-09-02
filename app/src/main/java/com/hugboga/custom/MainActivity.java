@@ -434,10 +434,6 @@ public class MainActivity extends BaseActivity
             couponUnitTV.setText("张");
             travelFundUnitTV.setText("元");
         } else if (request instanceof RequestCheckVersion) {
-            if (ServerCodeHandler.isCheckedVersion) {
-                return;
-            }
-            ServerCodeHandler.isCheckedVersion = true;
             RequestCheckVersion requestCheckVersion = (RequestCheckVersion) request;
             final CheckVersionBean cvBean = requestCheckVersion.getData();
             UserEntity.getUser().setIsNewVersion(this, cvBean.hasAppUpdate);//是否有新版本
