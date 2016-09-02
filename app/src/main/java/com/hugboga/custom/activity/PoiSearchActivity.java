@@ -12,6 +12,7 @@ import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.PoiSearchAdapter;
 import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.bean.NewPoiBean;
 import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
@@ -193,7 +194,9 @@ public class PoiSearchActivity extends BaseActivity implements AdapterView.OnIte
     public void onDataRequestSucceed(BaseRequest request) {
         if (request instanceof RequestPoiSearch) {
             RequestPoiSearch requestPoiSearch = (RequestPoiSearch) request;
-            ArrayList<PoiBean> dateList = requestPoiSearch.getData();//listDate;
+            NewPoiBean newPoiBean = (requestPoiSearch.getData());//listDate;
+            pageToken = newPoiBean.pageToken;
+            ArrayList<PoiBean> dateList = newPoiBean.listDate;
             sortListView.setEmptyView(emptyView);
             if (TextUtils.isEmpty(editSearch.getText())) {
                 dateList = null;

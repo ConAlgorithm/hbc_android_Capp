@@ -1,6 +1,7 @@
 package com.hugboga.custom.data.parser;
 
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
+import com.hugboga.custom.data.bean.NewPoiBean;
 import com.hugboga.custom.data.bean.PoiBean;
 
 import org.json.JSONArray;
@@ -12,23 +13,24 @@ import java.util.ArrayList;
  * Created by Administrator on 2016/3/21.
  */
 public class ParserPoiSearch extends ImplParser {
-    public ArrayList<PoiBean> listDate;
-
+    public NewPoiBean newPoiBean = null;
     @Override
     public Object parseObject(JSONObject obj) throws Throwable {
         JSONArray contentArray = obj.optJSONArray("places");
+        newPoiBean = new NewPoiBean();
+        newPoiBean.pageToken = obj.optString("pageToken");
         if (contentArray != null) {
-            listDate = new ArrayList<PoiBean>();
+            newPoiBean.listDate = new ArrayList<PoiBean>();
             JSONObject segObj;
             for (int i = 0; i < contentArray.length(); i++) {
                 segObj = contentArray.optJSONObject(i);
                 ParserPoiBean parserPoiBean = new ParserPoiBean();
                 PoiBean poiBean = parserPoiBean.parseObject(segObj);
                 if (poiBean != null) {
-                    listDate.add(poiBean);
+                    newPoiBean.listDate.add(poiBean);
                 }
             }
         }
-        return listDate;
+        return newPoiBean;
     }
 }
