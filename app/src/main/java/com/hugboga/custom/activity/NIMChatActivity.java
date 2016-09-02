@@ -206,7 +206,7 @@ public class NIMChatActivity extends BaseActivity implements IMUtil.OnImSuccessL
      */
     private void connectNim() {
         StatusCode status = NIMClient.getStatus();
-        if(status != StatusCode.LOGINED || status!=StatusCode.CONNECTING){
+        if(status != StatusCode.LOGINED && status!=StatusCode.CONNECTING){
             IMUtil.getInstance().connect();
         }
     }
