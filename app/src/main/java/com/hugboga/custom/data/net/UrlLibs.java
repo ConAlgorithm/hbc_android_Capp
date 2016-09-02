@@ -176,7 +176,7 @@ public class UrlLibs {
     public static final String SERVER_IP_FLIGHTS_BY_NO      = "flight/v1.0/c/flights?";                                 // 航班查询 通过航班号
     public static final String SERVER_IP_FLIGHTS_BY_CITY    = "flight/v1.0/c/city/flights?";                            // 航班查询 通过城市
 
-    public static final String SERVER_IP_POI                = "poi/v1.0/c/places?";                                     // poi 地理搜索
+    public static final String SERVER_IP_POI                = "poi/v1.1/c/places?";                                     // poi 地理搜索
     public static final String UPLOAD_LOCATION              = "poi/v1.0/c/city?";                                       // 上传经纬度
     public static final String UPLOAD_LOCATION_V11          = "poi/v1.1/c/city?";                                       // 获取定位城市机场列表
 

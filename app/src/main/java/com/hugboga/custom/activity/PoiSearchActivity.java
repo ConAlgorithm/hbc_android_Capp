@@ -12,6 +12,7 @@ import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.PoiSearchAdapter;
 import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.bean.NewPoiBean;
 import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
@@ -176,13 +177,16 @@ public class PoiSearchActivity extends BaseActivity implements AdapterView.OnIte
         arrivalTip.setText(R.string.arrival_tip_hotel);
     }
 
+    String pageToken = null;
     private void requestKeyword(int offset) {
         Map map = new HashMap();
         map.put(Constants.PARAMS_SOURCE,getIntentSource());
         map.put("searchinput",searchWord);
         MobClickUtils.onEvent(StatisticConstant.SEARCH,map);
 
-        RequestPoiSearch requestPoiSearch = new RequestPoiSearch(activity, cityId, location, searchWord, offset, PAGESIZE,mBusinessType);
+        RequestPoiSearch requestPoiSearch = new RequestPoiSearch(activity,
+                cityId, location, searchWord,
+                offset, PAGESIZE,mBusinessType,pageToken);
         requestData(requestPoiSearch);
     }
 
@@ -190,7 +194,9 @@ public class PoiSearchActivity extends BaseActivity implements AdapterView.OnIte
     public void onDataRequestSucceed(BaseRequest request) {
         if (request instanceof RequestPoiSearch) {
             RequestPoiSearch requestPoiSearch = (RequestPoiSearch) request;
-            ArrayList<PoiBean> dateList = requestPoiSearch.getData();//listDate;
+            NewPoiBean newPoiBean = (requestPoiSearch.getData());//listDate;
+            pageToken = newPoiBean.pageToken;
+            ArrayList<PoiBean> dateList = newPoiBean.listDate;
             sortListView.setEmptyView(emptyView);
             if (TextUtils.isEmpty(editSearch.getText())) {
                 dateList = null;
@@ -311,6 +317,7 @@ public class PoiSearchActivity extends BaseActivity implements AdapterView.OnIte
     @Override
     public void onRefresh() {
         sortListView.state = ZListView.RELEASE_To_REFRESH;
+        pageToken = null;
         requestKeyword(0);
     }
 
