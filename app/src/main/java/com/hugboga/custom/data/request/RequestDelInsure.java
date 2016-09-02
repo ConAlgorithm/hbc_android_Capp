@@ -38,6 +38,6 @@ public class RequestDelInsure extends BaseRequest<ArrayList<CouponBean>> {
 
     @Override
     public String getUrlErrorCode() {
-        return "40028";
+        return "40032";
     }
 }

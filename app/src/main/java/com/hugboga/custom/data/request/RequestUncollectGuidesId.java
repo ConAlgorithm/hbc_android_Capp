@@ -40,6 +40,6 @@ public class RequestUncollectGuidesId extends BaseRequest {
 
     @Override
     public String getUrlErrorCode() {
-        return "40077";
+        return "40092";
     }
 }

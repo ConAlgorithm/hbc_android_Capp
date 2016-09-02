@@ -38,6 +38,6 @@ public class RequestSubmitInsure extends BaseRequest {
 
     @Override
     public String getUrlErrorCode() {
-        return "40067";
+        return "40081";
     }
 }

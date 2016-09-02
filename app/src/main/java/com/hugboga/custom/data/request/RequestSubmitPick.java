@@ -50,6 +50,6 @@ public class RequestSubmitPick extends RequestSubmitBase {
 
     @Override
     public String getUrlErrorCode() {
-        return "40068";
+        return "40083";
     }
 }

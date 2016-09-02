@@ -44,7 +44,7 @@ public class RequestImChatId extends BaseRequest {
 
     @Override
     public String getUrlErrorCode() {
-        return "";
+        return "40049";
     }
 
 

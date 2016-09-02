@@ -38,6 +38,6 @@ public class RequestNIMClear extends BaseRequest {
 
     @Override
     public String getUrlErrorCode() {
-        return "";
+        return "40060";
     }
 }

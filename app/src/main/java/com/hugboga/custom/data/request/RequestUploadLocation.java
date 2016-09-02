@@ -54,6 +54,6 @@ public class RequestUploadLocation extends BaseRequest<LocationCity> {
 
     @Override
     public String getUrlErrorCode() {
-        return "40080";
+        return "40094";
     }
 }

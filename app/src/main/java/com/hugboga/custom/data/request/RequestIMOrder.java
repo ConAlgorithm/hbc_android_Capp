@@ -38,6 +38,6 @@ public class RequestIMOrder extends BaseRequest<Object[]> {
 
     @Override
     public String getUrlErrorCode() {
-        return "40043";
+        return "40051";
     }
 }

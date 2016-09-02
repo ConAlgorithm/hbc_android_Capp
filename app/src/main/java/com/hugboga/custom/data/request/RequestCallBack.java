@@ -39,6 +39,6 @@ public class RequestCallBack extends BaseRequest {
 
     @Override
     public String getUrlErrorCode() {
-        return "40009";
+        return "40011";
     }
 }

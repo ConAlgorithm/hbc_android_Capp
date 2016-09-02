@@ -117,7 +117,7 @@ public class RequestSubmitBase extends BaseRequest<OrderInfoBean> {
 
     @Override
     public String getUrlErrorCode() {
-        return "40065";
+        return "40079";
     }
 
 

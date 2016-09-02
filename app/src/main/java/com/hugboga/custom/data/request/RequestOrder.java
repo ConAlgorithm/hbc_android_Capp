@@ -33,6 +33,6 @@ public class RequestOrder extends BaseRequest<Object[]> {
 
     @Override
     public String getUrlErrorCode() {
-        return "40050";
+        return "40064";
     }
 }

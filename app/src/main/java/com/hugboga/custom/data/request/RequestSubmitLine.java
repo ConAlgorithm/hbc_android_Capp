@@ -71,6 +71,6 @@ public class RequestSubmitLine extends RequestSubmitBase {
 
     @Override
     public String getUrlErrorCode() {
-        return "40066";
+        return "40082";
     }
 }

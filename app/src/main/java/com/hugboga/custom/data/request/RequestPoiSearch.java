@@ -44,6 +44,6 @@ public class RequestPoiSearch extends BaseRequest<NewPoiBean> {
 
     @Override
     public String getUrlErrorCode() {
-        return "40056";
+        return "40069";
     }
 }

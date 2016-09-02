@@ -42,7 +42,7 @@ public class RequestVerity extends BaseRequest {
 
     @Override
     public String getUrlErrorCode() {
-        return "40084";
+        return "40098";
     }
 
 }

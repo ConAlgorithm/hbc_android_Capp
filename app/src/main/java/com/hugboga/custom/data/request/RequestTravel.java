@@ -35,6 +35,6 @@ public class RequestTravel extends BaseRequest {
 
     @Override
     public String getUrlErrorCode() {
-        return "40074";
+        return "40089";
     }
 }

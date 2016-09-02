@@ -40,7 +40,7 @@ public class RequestGetInvitationCode extends BaseRequest<String> {
 
     @Override
     public String getUrlErrorCode() {
-        return "40038";
+        return "40044";
     }
 
     private static class DataParser extends ImplParser {

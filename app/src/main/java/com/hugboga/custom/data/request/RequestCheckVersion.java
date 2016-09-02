@@ -42,6 +42,6 @@ public class RequestCheckVersion extends BaseRequest<CheckVersionBean> {
 
     @Override
     public String getUrlErrorCode() {
-        return "40020";
+        return "40021";
     }
 }

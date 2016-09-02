@@ -34,6 +34,6 @@ public class RequestGetCoupon extends BaseRequest<UserCouponBean> {
 
     @Override
     public String getUrlErrorCode() {
-        return "40037";
+        return "40043";
     }
 }

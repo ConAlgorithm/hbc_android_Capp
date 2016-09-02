@@ -41,7 +41,7 @@ public class RequestGoodsById extends BaseRequest<SkuItemBean> {
 
     @Override
     public String getUrlErrorCode() {
-        return "";
+        return "40045";
     }
 
     private static class DataParser extends ImplParser {

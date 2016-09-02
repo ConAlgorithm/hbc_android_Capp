@@ -37,6 +37,6 @@ public class RequestCouponExchange extends BaseRequest<String> {
 
     @Override
     public String getUrlErrorCode() {
-        return "40026";
+        return "40029";
     }
 }

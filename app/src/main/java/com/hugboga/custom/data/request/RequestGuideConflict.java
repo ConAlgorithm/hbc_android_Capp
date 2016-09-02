@@ -55,6 +55,6 @@ public class RequestGuideConflict extends BaseRequest<List<String>> {
 
     @Override
     public String getUrlErrorCode() {
-        return "40039";
+        return "40046";
     }
 }

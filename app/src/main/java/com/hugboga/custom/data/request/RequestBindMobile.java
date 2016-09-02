@@ -73,6 +73,6 @@ public class RequestBindMobile extends BaseRequest<UserBean> {
 
     @Override
     public String getUrlErrorCode() {
-        return "40008";
+        return "40009";
     }
 }
