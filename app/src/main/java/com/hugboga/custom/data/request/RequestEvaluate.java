@@ -41,6 +41,6 @@ public class RequestEvaluate extends BaseRequest {
 
     @Override
     public String getUrlErrorCode() {
-        return "40030";
+        return "40036";
     }
 }

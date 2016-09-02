@@ -42,7 +42,7 @@ public class RequestCollectGuideList extends BaseRequest<ArrayList<CollectGuideB
 
     @Override
     public String getUrlErrorCode() {
-        return "40021";
+        return "40023";
     }
 
 }

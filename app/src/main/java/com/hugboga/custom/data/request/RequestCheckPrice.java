@@ -43,6 +43,6 @@ public class RequestCheckPrice extends BaseRequest {
 
     @Override
     public String getUrlErrorCode() {
-        return "40015";
+        return "40017";
     }
 }

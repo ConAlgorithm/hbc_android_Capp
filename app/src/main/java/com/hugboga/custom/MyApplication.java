@@ -10,6 +10,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Environment;
 import android.text.TextUtils;
 import android.util.Log;
+
 import com.anupcowkur.reservoir.Reservoir;
 import com.huangbaoche.hbcframe.HbcApplication;
 import com.huangbaoche.hbcframe.HbcConfig;
@@ -23,25 +24,24 @@ import com.hugboga.custom.map.GdMapProvider;
 import com.hugboga.custom.utils.LogUtils;
 import com.hugboga.custom.utils.UnicornUtils;
 import com.hugboga.custom.widget.DialogUtil;
-import com.netease.nim.uikit.session.module.MsgForwardFilter;
-import com.netease.nimlib.sdk.StatusBarNotificationConfig;
 import com.netease.nim.uikit.ImageLoaderKit;
 import com.netease.nim.uikit.NimUIKit;
 import com.netease.nim.uikit.cache.NimUserInfoCache;
 import com.netease.nim.uikit.cache.TeamDataCache;
+import com.netease.nim.uikit.session.module.MsgForwardFilter;
 import com.netease.nim.uikit.session.viewholder.MsgViewHolderThumbBase;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.SDKOptions;
+import com.netease.nimlib.sdk.StatusBarNotificationConfig;
 import com.netease.nimlib.sdk.msg.constant.AttachStatusEnum;
 import com.netease.nimlib.sdk.msg.constant.MsgDirectionEnum;
-import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.netease.nimlib.sdk.uinfo.UserInfoProvider;
+import com.tencent.bugly.crashreport.CrashReport;
 import com.umeng.analytics.MobclickAgent;
 
 import org.xutils.x;
-
 
 import cn.jpush.android.api.JPushInterface;
 import io.rong.imkit.RongIM;
@@ -66,7 +66,7 @@ public class MyApplication extends HbcApplication {
         mAppContext = this.getApplicationContext();
         Log.e("hbcApplication", "debug " + BuildConfig.DEBUG);
         try {
-//            CrashReport.initCrashReport(this, "900024779", false);
+            CrashReport.initCrashReport(this, "900024779", false);
             Reservoir.init(this, 4096);
         } catch (Exception e) {
             e.printStackTrace();

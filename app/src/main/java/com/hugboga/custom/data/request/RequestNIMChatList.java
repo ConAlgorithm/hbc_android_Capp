@@ -31,6 +31,6 @@ public class RequestNIMChatList extends BaseRequest {
 
     @Override
     public String getUrlErrorCode() {
-        return "40314";
+        return "40059";
     }
 }

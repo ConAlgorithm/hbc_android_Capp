@@ -44,6 +44,6 @@ public class RequestLoginCheckOpenId extends BaseRequest<UserBean> {
 
     @Override
     public String getUrlErrorCode() {
-        return "40047";
+        return "40055";
     }
 }

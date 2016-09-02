@@ -34,6 +34,6 @@ public class RequestFlightByCity extends BaseRequest<ArrayList<FlightBean>> {
 
     @Override
     public String getUrlErrorCode() {
-        return "40033";
+        return "40039";
     }
 }

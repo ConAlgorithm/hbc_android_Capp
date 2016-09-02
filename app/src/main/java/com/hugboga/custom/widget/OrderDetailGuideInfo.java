@@ -14,6 +14,7 @@ import com.hugboga.custom.data.bean.OrderStatus;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.utils.Tools;
+import com.hugboga.custom.utils.UIUtils;
 
 import net.grobas.view.PolygonImageView;
 
@@ -25,7 +26,7 @@ import org.greenrobot.eventbus.EventBus;
 public class OrderDetailGuideInfo extends LinearLayout implements HbcViewBehavior, View.OnClickListener {
 
     private PolygonImageView avatarIV;
-    private TextView collectTV, promptTV, evaluateTV, imTV, phoneTV;
+    private TextView collectTV, promptTV, evaluateTV, imTV, phoneTV, describeTV;
     private View lineView;
     private LinearLayout navLayout;
 
@@ -46,6 +47,7 @@ public class OrderDetailGuideInfo extends LinearLayout implements HbcViewBehavio
         phoneTV = (TextView) findViewById(R.id.ogi_phone_tv);
         lineView = findViewById(R.id.ogi_horizontal_line);
         navLayout = (LinearLayout) findViewById(R.id.ogi_nav_layout);
+        describeTV = (TextView)findViewById(R.id.ogi_describe_tv);
 
         collectTV.setOnClickListener(this);
         evaluateTV.setOnClickListener(this);
@@ -91,6 +93,14 @@ public class OrderDetailGuideInfo extends LinearLayout implements HbcViewBehavio
 
             imTV.setVisibility(orderBean.isIm ? View.VISIBLE : View.GONE);
             phoneTV.setVisibility(orderBean.isPhone ? View.VISIBLE : View.GONE);
+
+            if (orderBean.isIm && orderBean.isPhone) {
+                describeTV.setPadding(0, 0, UIUtils.dip2px(90), 0);
+            } else if(orderBean.isIm | orderBean.isPhone) {
+                describeTV.setPadding(0, 0, UIUtils.dip2px(40), 0);
+            } else {
+                describeTV.setPadding(0, 0, 0, 0);
+            }
         }
     }
 

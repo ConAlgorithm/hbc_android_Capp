@@ -39,7 +39,7 @@ public class RequestRouteSkuList extends BaseRequest<SkuCityBean> {
 
     @Override
     public String getUrlErrorCode() {
-        return "";
+        return "40077";
     }
 
     private static class DataParser extends ImplParser {

@@ -57,7 +57,7 @@ public class RequestCollectGuidesFilter extends BaseRequest<ArrayList<CollectGui
 
     @Override
     public String getUrlErrorCode() {
-        return "40022";
+        return "40024";
     }
 
     public static class CollectGuidesFilterParams implements Serializable {

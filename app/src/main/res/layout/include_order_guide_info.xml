@@ -32,7 +32,6 @@
                 android:id="@+id/ogi_phone_tv"
                 android:layout_width="40dip"
                 android:layout_height="40dip"
-                android:layout_marginLeft="10dp"
                 android:background="@drawable/selector_order_cell"/>
             <TextView
                 android:id="@+id/ogi_im_tv"
@@ -44,8 +43,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="12dp"
-            android:layout_toLeftOf="@id/ogi_phone_layout"
+            android:layout_marginLeft="10dp"
             android:layout_toRightOf="@id/ogi_avatar_iv"
             android:gravity="center_vertical"
             android:orientation="vertical">
@@ -67,8 +65,8 @@
                     android:id="@+id/ogi_ratingview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="13dp"
-                    app:srb_starSize="15dp"
+                    android:layout_marginLeft="10dp"
+                    app:srb_starSize="14dp"
                     app:srb_starsSeparation="1dp"
                     app:srb_numberOfStars="5"
                     app:srb_stepSize="0.01"
@@ -86,6 +84,7 @@
                 android:layout_height="wrap_content"
                 android:maxLines="2"
                 android:ellipsize="end"
+                android:layout_marginRight="10dp"
                 android:layout_marginTop="1dip"
                 android:textColor="@color/basic_gray_light"
                 android:textSize="14sp" />

@@ -42,7 +42,7 @@ public class RequestWebInfo extends BaseRequest<String> {
 
     @Override
     public String getUrlErrorCode() {
-        return "40085";
+        return "40099";
     }
 
     @Override

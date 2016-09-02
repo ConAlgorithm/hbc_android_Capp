@@ -55,6 +55,6 @@ public class RequestNIMBlackMan extends BaseRequest {
 
     @Override
     public String getUrlErrorCode() {
-        return "400346";
+        return "40058";
     }
 }

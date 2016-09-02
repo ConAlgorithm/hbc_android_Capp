@@ -47,7 +47,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * Created by qingcha on 16/8/4.
+ * Created by on 16/8/4.
  */
 public class CouponActivity extends BaseActivity implements AdapterView.OnItemClickListener {
 
@@ -243,16 +243,13 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         CouponBean bean = (CouponBean) adapter.getItem(position - 1);
         if (paramsData != null) {
-            //TODO
             EventBus.getDefault().post(new EventAction(EventType.SELECT_COUPON_BACK, bean));
             finish();
         } else if (!TextUtils.isEmpty(orderId)) {
             //点击回传优惠券
             if (bean != null) {
-                //// FIXME: qingcha
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(KEY_COUPON, bean);
-//                finishForResult(bundle);
                 EventBus.getDefault().post(new EventAction(EventType.SELECT_COUPON_BACK, bean));
             }
         } else {
@@ -282,6 +279,7 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
         //内容赋值
         ((TextView) popView.findViewById(R.id.coupon_info_price)).setText(bean.price);
         ((TextView) popView.findViewById(R.id.coupon_info_rule)).setText(bean.batchName);
+        ((TextView) popView.findViewById(R.id.coupon_info_content)).setText(bean.applyRule);
         if (bean.endDate.equals("0")) {
             ((TextView) popView.findViewById(R.id.coupon_info_limit_time)).setText("有效期：长期有效");
         } else {

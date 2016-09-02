@@ -40,7 +40,7 @@ public class RequestHome extends BaseRequest<HomeData> {
 
     @Override
     public String getUrlErrorCode() {
-        return "40041";
+        return "40048";
     }
 
 }

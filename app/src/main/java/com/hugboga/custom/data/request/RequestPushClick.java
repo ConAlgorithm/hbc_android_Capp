@@ -35,6 +35,6 @@ public class RequestPushClick extends BaseRequest {
 
     @Override
     public String getUrlErrorCode() {
-        return "40058";
+        return "40071";
     }
 }

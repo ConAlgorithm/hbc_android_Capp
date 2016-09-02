@@ -45,6 +45,6 @@ public class RequestUploadLogs extends BaseRequest<Boolean> {
 
     @Override
     public String getUrlErrorCode() {
-        return "40082";
+        return "40096";
     }
 }

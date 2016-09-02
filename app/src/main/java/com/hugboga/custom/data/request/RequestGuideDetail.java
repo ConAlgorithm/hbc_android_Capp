@@ -40,7 +40,7 @@ public class RequestGuideDetail extends BaseRequest<GuidesDetailData> {
 
     @Override
     public String getUrlErrorCode() {
-        return "40040";
+        return "40047";
     }
 
     private static class DataParser extends ImplParser {

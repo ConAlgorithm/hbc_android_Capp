@@ -69,7 +69,7 @@ public class RequestCancleTips extends BaseRequest<List<String>> {
 
     @Override
     public String getUrlErrorCode() {
-        return "40009";
+        return "40012";
     }
 
     private static class DataParser extends ImplParser {

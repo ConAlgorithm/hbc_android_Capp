@@ -54,6 +54,6 @@ public class RequestSubmitRent extends RequestSubmitBase {
 
     @Override
     public String getUrlErrorCode() {
-        return "40069";
+        return "40084";
     }
 }

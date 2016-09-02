@@ -51,7 +51,7 @@ public class RequestPayNo extends BaseRequest<Object> {
 
     @Override
     public String getUrlErrorCode() {
-        return "40055";
+        return "40068";
     }
 
     @Override

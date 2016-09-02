@@ -53,6 +53,6 @@ public class RequestUploadLocationV11 extends BaseRequest<LocationData> {
 
     @Override
     public String getUrlErrorCode() {
-        return "40081";
+        return "40095";
     }
 }
