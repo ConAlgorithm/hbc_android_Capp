@@ -108,6 +108,7 @@ import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
 import java.io.File;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -435,10 +436,19 @@ public class MainActivity extends BaseActivity
             RequestCheckVersion requestCheckVersion = (RequestCheckVersion) request;
             final CheckVersionBean cvBean = requestCheckVersion.getData();
             UserEntity.getUser().setIsNewVersion(this, cvBean.hasAppUpdate);//是否有新版本
-
-            DialogUtil.getInstance(this).showUpdateDialog(cvBean.hasAppUpdate, cvBean.force, cvBean.content, cvBean.url, new DialogInterface.OnClickListener() {
+            final DialogUtil dialogUtil = DialogUtil.getInstance(this);
+            dialogUtil.showUpdateDialog(cvBean.hasAppUpdate, cvBean.force, cvBean.content, cvBean.url, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
+                    if (cvBean.force && dialogUtil.getVersionDialog()!= null) {
+                        try {
+                            Field field = dialogUtil.getVersionDialog().getClass().getSuperclass().getDeclaredField("mShowing");
+                            field.setAccessible(true);
+                            field.set(dialogUtil.getVersionDialog(), false);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
                     PushUtils.startDownloadApk(MainActivity.this, cvBean.url);
                 }
             },  new DialogInterface.OnClickListener() {

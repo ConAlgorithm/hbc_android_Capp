@@ -45,6 +45,7 @@ public class DialogUtil implements DialogUtilInterface {
     private AlertDialog mUpdateVersionDialog;
 
     private static DialogUtil dialogUtil;
+
     private AlertDialog versionDialog;
 
     private DialogUtil(Activity context) {
@@ -523,6 +524,10 @@ public class DialogUtil implements DialogUtilInterface {
         if (!versionDialog.isShowing()) {
             versionDialog.show();
         }
+    }
+
+    public AlertDialog getVersionDialog() {
+        return versionDialog;
     }
 
     /* public Dialog showVersionCheck(String title, String content,final String downloadUrl,final boolean forceUpdate,View.OnClickListener closeClickListener){
