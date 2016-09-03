@@ -302,17 +302,11 @@ public class PoiSearchActivity extends BaseActivity implements AdapterView.OnIte
      * @param keyword
      */
     private void saveHistoryDate(String keyword) {
-//        placeHistoryArray.remove(keyword);//排重
-
-        for(int i = 0;i< placeHistoryArray.size();i++){
-            if(placeHistoryArray.get(i).equalsIgnoreCase(keyword)){
-                placeHistoryArray.remove(i);
-            }
-        }
+        placeHistoryArray.remove(keyword);//排重
         placeHistoryArray.add(0, keyword);
-//        for (int i = placeHistoryArray.size() - 1; i > 2; i--) {
-//            placeHistoryArray.remove(i);
-//        }
+        for (int i = placeHistoryArray.size() - 1; i > 2; i--) {
+            placeHistoryArray.remove(i);
+        }
         sharedPre.saveStringValue(mBusinessType + SharedPre.RESOURCES_PLACE_HISTORY, TextUtils.join(",", placeHistoryArray));
     }
 
