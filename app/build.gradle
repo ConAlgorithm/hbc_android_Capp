@@ -114,7 +114,7 @@ android {
                 flavor.buildConfigField('String', 'SHARE_BASE_URL_3','"http://act.dev.huangbaoche.com"')
                 flavor.buildConfigField('String', 'SHARE_BASE_URL_4','"http://m.dev.huangbaoche.com"')
                 flavor.buildConfigField('String', 'SHARE_APPID','"wx1354271c597184ee"')
-                flavor.manifestPlaceholders(JPUSH_KEY: "a351a47a9106354c59188e16", APP_CHANNEL: "developer", RONG_CLOUD_APP_KEY: "3argexb6r2kve")
+                flavor.manifestPlaceholders(JPUSH_KEY: "580ff852cd505c00c4be92d6", APP_CHANNEL: "developer", RONG_CLOUD_APP_KEY: "3argexb6r2kve")
                 break;
 //            case 'stage':
 //                flavor.buildConfigField('String', 'API_SERVER_URL', '"https://api.stage.hbc.tech/"')
@@ -128,7 +128,7 @@ android {
                 flavor.buildConfigField('String', 'SHARE_BASE_URL_3','"http://act.test.huangbaoche.com"')
                 flavor.buildConfigField('String', 'SHARE_BASE_URL_4','"http://m.test.huangbaoche.com"')
                 flavor.buildConfigField('String', 'SHARE_APPID','"wx1354271c597184ee"')
-                flavor.manifestPlaceholders(JPUSH_KEY: "a351a47a9106354c59188e16", APP_CHANNEL: "examination", RONG_CLOUD_APP_KEY: "3argexb6r2kve")
+                flavor.manifestPlaceholders(JPUSH_KEY: "580ff852cd505c00c4be92d6", APP_CHANNEL: "examination", RONG_CLOUD_APP_KEY: "3argexb6r2kve")
                 break;
             case '10000':
             case '10001':
