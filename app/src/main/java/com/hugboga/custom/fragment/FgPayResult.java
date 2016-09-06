@@ -1,6 +1,7 @@
 package com.hugboga.custom.fragment;
 
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,8 @@ public class FgPayResult extends BaseFragment{
     @Bind(R.id.fg_result_view)
     PayResultView payResultView;
 
+    private boolean isPaySucceed;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
@@ -41,7 +44,19 @@ public class FgPayResult extends BaseFragment{
     }
 
     public void initView(boolean _isPaySucceed, String _orderId) {
+        this.isPaySucceed = _isPaySucceed;
         payResultView.initView(_isPaySucceed, _orderId);
     }
 
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+            if (isPaySucceed) {
+                payResultView.intentHome();
+                return true;
+            } else {
+                payResultView.setStatisticIsRePay(true);
+            }
+        }
+        return false;
+    }
 }

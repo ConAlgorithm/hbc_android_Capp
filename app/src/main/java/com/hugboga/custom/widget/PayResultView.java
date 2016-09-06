@@ -37,7 +37,6 @@ import butterknife.OnClick;
 /**
  * Created by qingcha on 16/9/5.
  */
-
 public class PayResultView extends RelativeLayout implements HttpRequestListener {
 
     @Bind(R.id.view_pay_result_succeed_prompt_layout)
@@ -47,7 +46,7 @@ public class PayResultView extends RelativeLayout implements HttpRequestListener
     @Bind(R.id.view_pay_result_line_tv)
     TextView lineTV;
 
-    private boolean isPaySucceed; // 支付结果
+    private boolean isPaySucceed; //支付结果
     private String orderId;
     private PaySucceedBean paySucceedBean;
 
