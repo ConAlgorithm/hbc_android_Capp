@@ -795,4 +795,12 @@
     <string name="nim_status_logining">登录中...</string>
     <string name="nim_kick_out">您的账号在其它客户端登录.</string>
 
+    <string name="countdown">倒计时</string>
+    <string name="bargain">已砍</string>
+    <string name="bargain_tips">邀好友帮你砍价，48小时内砍价金额服务后直接返现！\n帮你砍价的好友也可获得100元优惠券</string>
+
+    <string name="bargain_rule">活动规则 ></string>
+    <string name="cut_list">好友砍价排行榜</string>
+    <string name="cut_list_empty">还没有人砍过，他们的砍价记录会展示在这里</string>
+
 </resources>

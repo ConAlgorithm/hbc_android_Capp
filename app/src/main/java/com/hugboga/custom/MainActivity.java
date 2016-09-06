@@ -44,6 +44,7 @@ import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.action.data.ActionBean;
 import com.hugboga.custom.action.ActionController;
+import com.hugboga.custom.activity.BargainActivity;
 import com.hugboga.custom.activity.BaseActivity;
 import com.hugboga.custom.activity.CollectGuideListActivity;
 import com.hugboga.custom.activity.CouponActivity;
@@ -121,6 +122,7 @@ import java.util.TimerTask;
 
 import cn.jpush.android.api.JPushInterface;
 
+import static com.tencent.bugly.crashreport.inner.InnerAPI.context;
 import static u.aly.au.S;
 
 
@@ -748,6 +750,7 @@ public class MainActivity extends BaseActivity
                 break;
             case R.id.tab_text_2:
                 mViewPager.setCurrentItem(1);
+                startActivity(new Intent(this, BargainActivity.class));
                 break;
             case R.id.tab_text_3:
                 mViewPager.setCurrentItem(2);
