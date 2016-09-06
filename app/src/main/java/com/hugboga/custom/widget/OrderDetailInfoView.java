@@ -23,6 +23,7 @@ public class OrderDetailInfoView extends LinearLayout implements HbcViewBehavior
     private RelativeLayout insuranceInfoLayout;
     private RelativeLayout insuranceGetLayout;
     private TextView nameTV;
+    private TextView editTV;
     private TextView insurerTV;
     private TextView insurerStateTV;
 
@@ -38,6 +39,7 @@ public class OrderDetailInfoView extends LinearLayout implements HbcViewBehavior
 
         findViewById(R.id.order_detail_info_layout).setOnClickListener(this);
         nameTV = (TextView) findViewById(R.id.order_detail_info_name_tv);
+        editTV = (TextView) findViewById(R.id.order_detail_info_edit_tv);
 
         insuranceInfoLayout = (RelativeLayout) findViewById(R.id.order_detail_insurance_info_layout);
         insurerTV = (TextView) findViewById(R.id.order_detail_insurer_tv);
@@ -53,15 +55,24 @@ public class OrderDetailInfoView extends LinearLayout implements HbcViewBehavior
         }
         orderBean = (OrderBean) _data;
         nameTV.setText(orderBean.contactName);
+        if (orderBean.orderStatus.code > 5) {//1-5显示修改,其它显示详情
+            editTV.setText(getContext().getString(R.string.order_detail));
+            editTV.setTextColor(0xFF999999);
+        } else {
+            editTV.setText(getContext().getString(R.string.order_detail_edit));
+            editTV.setTextColor(0xFFFF6633);
+        }
+
+        final int insuranceListSize = orderBean.insuranceList != null ? orderBean.insuranceList.size() : 0;
         if (orderBean.orderStatus == OrderStatus.INITSTATE) {
             insuranceInfoLayout.setVisibility(View.GONE);
             insuranceGetLayout.setVisibility(View.VISIBLE);
             insuranceGetLayout.setOnClickListener(this);
-        } else if (orderBean.insuranceList != null && orderBean.insuranceList.size() > 0) {
+        } else if (insuranceListSize > 0) {
             insuranceInfoLayout.setVisibility(View.VISIBLE);
             insuranceInfoLayout.setOnClickListener(this);
             insuranceGetLayout.setVisibility(View.GONE);
-            insurerTV.setText(getContext().getString(R.string.order_detail_info, orderBean.insuranceList.size()));
+            insurerTV.setText(getContext().getString(R.string.order_detail_info, "" + insuranceListSize));
             insurerStateTV.setText(orderBean.getInsuranceStatus());
         } else {
             insuranceInfoLayout.setVisibility(View.GONE);

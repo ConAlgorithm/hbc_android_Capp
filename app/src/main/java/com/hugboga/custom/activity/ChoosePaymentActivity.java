@@ -55,15 +55,6 @@ public class ChoosePaymentActivity extends BaseActivity {
 
     @Bind(R.id.choose_payment_price_tv)
     TextView priceTV;
-
-    @Bind(R.id.header_left_btn)
-    ImageView headerLeftBtn;
-    @Bind(R.id.header_right_btn)
-    ImageView headerRightBtn;
-    @Bind(R.id.header_title)
-    TextView headerTitle;
-    @Bind(R.id.header_right_txt)
-    TextView headerRightTxt;
     @Bind(R.id.choose_payment_sign_tv)
     TextView choosePaymentSignTv;
     @Bind(R.id.choose_payment_alipay_iv)
@@ -123,18 +114,29 @@ public class ChoosePaymentActivity extends BaseActivity {
     }
 
     private void initView() {
-        headerTitle.setText(getString(R.string.choose_payment_title));
-        priceTV.setText(requestParams.getShouldPay());
-        // 将该app注册到微信
-        IWXAPI msgApi = WXAPIFactory.createWXAPI(this, Constants.WX_APP_ID);
-        msgApi.registerApp(Constants.WX_APP_ID);
-        mDialogUtil = DialogUtil.getInstance(this);
-        headerLeftBtn.setOnClickListener(new View.OnClickListener() {
+        initDefaultTitleBar();
+        fgTitle.setText(getString(R.string.choose_payment_title));
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.MATCH_PARENT);
+        params.addRule(RelativeLayout.CENTER_IN_PARENT);
+        fgTitle.setLayoutParams(params);
+        fgLeftBtn.setVisibility(View.GONE);
+        fgRightBtn.setVisibility(View.GONE);
+        TextView rightTV = (TextView) findViewById(R.id.header_right_txt);
+        rightTV.setText("查看行程");
+        rightTV.setVisibility(View.VISIBLE);
+        rightTV.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.MATCH_PARENT));
+        rightTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 backWarn();
             }
         });
+
+        priceTV.setText(requestParams.getShouldPay());
+        // 将该app注册到微信
+        IWXAPI msgApi = WXAPIFactory.createWXAPI(this, Constants.WX_APP_ID);
+        msgApi.registerApp(Constants.WX_APP_ID);
+        mDialogUtil = DialogUtil.getInstance(this);
     }
 
     @Override
