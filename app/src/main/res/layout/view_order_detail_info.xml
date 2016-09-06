@@ -39,6 +39,7 @@
             android:layout_centerVertical="true"
             android:src="@mipmap/personalcenter_right" />
         <TextView
+            android:id="@+id/order_detail_info_edit_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@id/order_detail_info_arrow_iv"
