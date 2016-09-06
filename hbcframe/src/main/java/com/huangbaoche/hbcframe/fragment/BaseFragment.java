@@ -179,7 +179,9 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
     /**
      * 初始化Header
      */
-    protected abstract void initHeader();
+    protected void initHeader() {
+
+    }
 
     /**
      * 初始化Header
@@ -189,17 +191,23 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
     /**
      * 初始化界面
      */
-    protected abstract void initView();
+    protected void initView() {
+
+    }
 
     /**
      * 请求方法 会在加载时调用
      */
-    protected abstract Callback.Cancelable requestData();
+    protected Callback.Cancelable requestData() {
+        return null;
+    }
 
     /**
      * 填充内容，在执行onRestart的时候调用
      */
-    protected abstract void inflateContent();
+    protected void inflateContent() {
+
+    }
 
     /**
      * 请求方法 会在加载完成是调用

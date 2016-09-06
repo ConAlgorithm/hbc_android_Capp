@@ -1,6 +1,7 @@
 package com.hugboga.custom.action.data;
 
 import com.google.gson.annotations.SerializedName;
+import com.hugboga.custom.action.constants.ActionType;
 
 import java.io.Serializable;
 
@@ -40,5 +41,10 @@ public class ActionBean implements Serializable {
      * */
     @SerializedName("d")
     public String data;
+
+    public ActionBean(int vcid) {
+        this.type = "" + ActionType.NATIVE_PAGE;
+        this.vcid = "" + vcid;
+    }
 
 }

@@ -191,7 +191,6 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                     PayResultActivity.Params params = new PayResultActivity.Params();
                     params.payResult = true;
                     params.orderId = orderBean.orderNo;
-                    params.paymentAmount = "" + orderBean.orderPriceInfo.actualPay;
                     Intent intent = new Intent(OrderDetailActivity.this, PayResultActivity.class);
                     intent.putExtra(Constants.PARAMS_DATA, params);
                     startActivity(intent);

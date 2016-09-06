@@ -1,13 +1,11 @@
 package com.hugboga.custom.activity;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -78,7 +76,6 @@ public class ChoosePaymentActivity extends BaseActivity {
     RelativeLayout choosePaymentWechatLayout;
 
     private DialogUtil mDialogUtil;
-    private int wxResultCode = 0;
     private int payType;
     public RequestParams requestParams;
 
@@ -141,35 +138,6 @@ public class ChoosePaymentActivity extends BaseActivity {
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        Intent intent = null;
-        if (wxResultCode == EventType.BACK_HOME.ordinal()) {
-            intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-            EventBus.getDefault().post(new EventAction(EventType.FGTRAVEL_UPDATE));
-            EventBus.getDefault().post(new EventAction(EventType.SET_MAIN_PAGE_INDEX, 0));
-        } else if (wxResultCode == EventType.ORDER_DETAIL.ordinal()) {
-            intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-            EventBus.getDefault().post(new EventAction(EventType.SET_MAIN_PAGE_INDEX, 0));
-            EventBus.getDefault().post(new EventAction(EventType.FGTRAVEL_UPDATE));
-
-            OrderDetailActivity.Params orderParams = new OrderDetailActivity.Params();
-            orderParams.orderId = requestParams.orderId;
-            intent = new Intent(this, OrderDetailActivity.class);
-            intent.putExtra(Constants.PARAMS_DATA, orderParams);
-            startActivity(intent);
-        }
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        wxResultCode = 0;
-    }
-
-    @Override
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
@@ -178,16 +146,6 @@ public class ChoosePaymentActivity extends BaseActivity {
     @Subscribe
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
-            case BACK_HOME:
-                EventBus.getDefault().post(new EventAction(EventType.FGTRAVEL_UPDATE));
-                wxResultCode = EventType.BACK_HOME.ordinal();
-                break;
-            case ORDER_DETAIL:
-                if (action.getData() instanceof Integer && (int)action.getData() == 1) {
-                    EventBus.getDefault().post(new EventAction(EventType.FGTRAVEL_UPDATE));
-                }
-                wxResultCode = EventType.ORDER_DETAIL.ordinal();
-                break;
             case PAY_RESULT:
                 if (requestParams.eventPayBean != null) {
                     requestParams.eventPayBean.paystyle = this.payType == Constants.PAY_STATE_ALIPAY ? "支付宝" : "微信支付";
@@ -303,7 +261,6 @@ public class ChoosePaymentActivity extends BaseActivity {
             PayResultActivity.Params params = new PayResultActivity.Params();
             params.payResult = msg.what == 1;//1.支付成功，2.支付失败
             params.orderId = requestParams.orderId;
-            params.paymentAmount = requestParams.getShouldPay();
             Intent intent = new Intent(ChoosePaymentActivity.this, PayResultActivity.class);
             intent.putExtra(Constants.PARAMS_DATA, params);
             ChoosePaymentActivity.this.startActivity(intent);
