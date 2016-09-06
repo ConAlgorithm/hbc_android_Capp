@@ -51,8 +51,8 @@ public final class Constants {
     /*
         客服电话
          */
-    public static final String CALL_NUMBER_IN = "400-6100-066";
-    public static final String CALL_NUMBER_OUT = "+861059715436";
+    public static final String CALL_NUMBER_IN = "400-6100-066";//R.string.domestic_phone
+    public static final String CALL_NUMBER_OUT = "+861059715436";//R.string.overseas_phone
     /**
      * 微信
      **/

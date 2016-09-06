@@ -28,6 +28,10 @@
     <string name="collect_succeed">收藏成功</string>
     <string name="collect_cancel">已取消收藏</string>
     <string name="platenumber">车牌：</string>
+    <string name="domestic_call">境内拨打:</string>
+    <string name="overseas_call">境外拨打:</string>
+    <string name="domestic_phone">4006100066</string>
+    <string name="overseas_phone">+86&#160;1059715436</string>
 
     <!-- Basic name -->
     <string name="call_info_tip">如有问题，请拨打客服电话 4006 1000 66</string>用户协议
@@ -577,12 +581,13 @@
     <string name="choose_payment_alipay">支付宝</string>
 
     <string name="par_result_title">支付结果</string>
-    <string name="par_result_succeed">支付成功！</string>
-    <string name="par_result_failure">支付失败！</string>
-    <string name="par_result_sum">支付金额:</string>
-    <string name="par_result_succeed_prompt">请耐心等待司导接单</string>
+    <string name="par_result_succeed">支付成功</string>
+    <string name="par_result_failure">支付失败</string>
+    <string name="par_result_succeed_prompt">您的服务已预订成功!\n接下来由皇包车为您安排本次出行</string>
+    <string name="par_result_failure_prompt">支付遇到了问题...</string>
+    <string name="par_result_contact_service">需要联系客服</string>
     <string name="par_result_back">返回首页</string>
-    <string name="par_result_detail">查看订单详情</string>
+    <string name="par_result_detail">查看订单</string>
     <string name="par_result_repay">重新支付</string>
 
     <string name="insure_info_title">投保信息</string>

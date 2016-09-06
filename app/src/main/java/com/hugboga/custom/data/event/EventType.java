@@ -42,9 +42,6 @@ public enum EventType {
     WAIT_SWITCH,//接机等待
     FGTRAVEL_UPDATE,//登录
 
-    BACK_HOME,//回首页
-    ORDER_DETAIL,//回详情
-
     ORDER_DETAIL_PAY,//去支付
     ORDER_DETAIL_INSURANCE_H5,//皇包车免费赠送保险说
     ORDER_DETAIL_ADD_INSURER,//添加投保人
