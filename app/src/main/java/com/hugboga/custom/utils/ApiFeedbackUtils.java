@@ -11,7 +11,6 @@ import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.request.RequestApiFeedback;
 
-import io.rong.imlib.RongIMClient;
 
 /**
  * Created by qingcha on 16/7/9.

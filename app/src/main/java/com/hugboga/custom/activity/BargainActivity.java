@@ -1,16 +1,19 @@
 package com.hugboga.custom.activity;
 
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
-
-import org.greenrobot.eventbus.EventBus;
+import com.hugboga.custom.widget.CountDownLayout;
+import com.netease.nim.uikit.common.util.log.LogUtil;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created on 16/9/6.
@@ -27,6 +30,12 @@ public class BargainActivity extends BaseActivity {
     TextView headerTitle;
     @Bind(R.id.header_right_txt)
     TextView headerRightTxt;
+    @Bind(R.id.countdown)
+    CountDownLayout countdown;
+    @Bind(R.id.cut_money)
+    ImageView cutMoney;
+    @Bind(R.id.list_layout)
+    LinearLayout listLayout;
 
     @Override
     public void onCreate(Bundle arg0) {
@@ -36,6 +45,8 @@ public class BargainActivity extends BaseActivity {
         initView();
     }
 
+    int second = 5;
+    CountDownTimer countDownTimer;
     private void initView() {
         initDefaultTitleBar();
         fgTitle.setText("邀请好友来砍价");
@@ -45,13 +56,29 @@ public class BargainActivity extends BaseActivity {
                 finish();
             }
         });
+        countDownTimer = new CountDownTimer(second *1000 + 100,1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                countdown.changeTime((int)millisUntilFinished/1000);
+                LogUtil.e("===",""+(int)millisUntilFinished/1000);
+            }
+
+            @Override
+            public void onFinish() {
+                LogUtil.e("===","done");
+                countdown.changeTime(0);
+                cutMoney.setImageResource(R.mipmap.cut_end);
+            }
+        };
+        countDownTimer.start();
+
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         ButterKnife.unbind(this);
-        EventBus.getDefault().unregister(this);
+        countDownTimer.cancel();
     }
 
     @Override
@@ -84,4 +111,7 @@ public class BargainActivity extends BaseActivity {
         return super.getEventSource();
     }
 
+    @OnClick(R.id.cut_money)
+    public void onClick() {
+    }
 }

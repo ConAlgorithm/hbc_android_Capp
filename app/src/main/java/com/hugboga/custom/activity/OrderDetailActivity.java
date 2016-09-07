@@ -404,10 +404,7 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
     }
 
     private boolean eventVerification(EventAction action) {
-        if (orderBean != null && orderBean.orderNo.equals(action.getData())) {
-            return true;
-        }
-        return false;
+        return orderBean != null && orderBean.orderNo.equals(action.getData());
     }
 
     /**

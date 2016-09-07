@@ -38,13 +38,11 @@ import com.netease.nimlib.sdk.msg.constant.MsgDirectionEnum;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.netease.nimlib.sdk.uinfo.UserInfoProvider;
-import com.tencent.bugly.crashreport.CrashReport;
 import com.umeng.analytics.MobclickAgent;
 
 import org.xutils.x;
 
 import cn.jpush.android.api.JPushInterface;
-import io.rong.imkit.RongIM;
 
 /**
  * Created by admin on 2016/2/25.
@@ -66,7 +64,7 @@ public class MyApplication extends HbcApplication {
         mAppContext = this.getApplicationContext();
         Log.e("hbcApplication", "debug " + BuildConfig.DEBUG);
         try {
-            CrashReport.initCrashReport(this, "900024779", false);
+//            CrashReport.initCrashReport(this, "900024779", false);
             Reservoir.init(this, 4096);
         } catch (Exception e) {
             e.printStackTrace();
@@ -134,19 +132,6 @@ public class MyApplication extends HbcApplication {
     }
 
     /**
-     * 初始化融云IM
-     */
-    public static void initRongIm(Context context) {
-        try {
-            if (context.getApplicationInfo().packageName.equals(getCurProcessName(context.getApplicationContext())) || "io.rong.push".equals(getCurProcessName(context.getApplicationContext()))) {
-                RongIM.init(context);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
      * 获得当前进程的名字
      *
      * @param context
@@ -210,7 +195,7 @@ public class MyApplication extends HbcApplication {
 
     private static  SDKOptions getOptions(Context context) {
         SDKOptions options = new SDKOptions();
-        StatusBarNotificationConfig config = new StatusBarNotificationConfig();;
+        StatusBarNotificationConfig config = new StatusBarNotificationConfig();
         config.ledARGB = Color.GREEN;
         config.ledOnMs = 1000;
         config.ledOffMs = 1500;
@@ -302,13 +287,9 @@ public class MyApplication extends HbcApplication {
         NimUIKit.setMsgForwardFilter(new MsgForwardFilter() {
             @Override
             public boolean shouldIgnore(IMMessage message) {
-                if (message.getDirect() == MsgDirectionEnum.In
+                return message.getDirect() == MsgDirectionEnum.In
                         && (message.getAttachStatus() == AttachStatusEnum.transferring
-                        || message.getAttachStatus() == AttachStatusEnum.fail)) {
-                    // 接收到的消息，附件没有下载成功，不允许转发
-                    return true;
-                }
-                return false;
+                        || message.getAttachStatus() == AttachStatusEnum.fail);
             }
         });
 

@@ -11,6 +11,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.widget.HackyViewPager;
+import com.netease.nim.uikit.common.ui.imageview.MultiTouchZoomableImageView;
 import com.viewpagerindicator.CirclePageIndicator;
 
 
@@ -19,7 +20,7 @@ import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import io.rong.photoview.PhotoView;
+import uk.co.senab.photoview.PhotoView;
 
 /**
  * Created by qingcha on 16/8/4.
