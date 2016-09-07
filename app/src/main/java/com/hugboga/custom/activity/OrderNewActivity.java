@@ -1142,7 +1142,6 @@ public class OrderNewActivity extends BaseActivity {
                     PayResultActivity.Params params = new PayResultActivity.Params();
                     params.payResult = true;
                     params.orderId =  orderInfoBean.getOrderno();
-                    params.paymentAmount = "" + orderInfoBean.getPriceActual();
                     Intent intent = new Intent(OrderNewActivity.this, PayResultActivity.class);
                     intent.putExtra(Constants.PARAMS_DATA, params);
                     startActivity(intent);

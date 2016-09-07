@@ -35,7 +35,7 @@ import butterknife.OnClick;
 import cn.qqtheme.framework.picker.TimePicker;
 
 /**
- * Created by qingcha on 16/8/4.
+ * Created by on 16/8/4.
  *
  * 代码来自 FGOrderNew... View命名乱套。。。
  */
@@ -222,7 +222,7 @@ public class OrderEditActivity extends BaseActivity {
             if (orderBean.orderType == 5 || orderBean.orderType == 6) {
                 upAddressLeft.setText(getString(R.string.up_site));
             } else {
-                upAddressLeft.setText("上车地点");
+                upAddressLeft.setText(" 上车地点");
             }
         }
         contactUsersBean = new ContactUsersBean();

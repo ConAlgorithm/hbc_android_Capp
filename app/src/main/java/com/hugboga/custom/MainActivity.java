@@ -42,6 +42,7 @@ import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.action.data.ActionBean;
 import com.hugboga.custom.action.ActionController;
+import com.hugboga.custom.activity.BargainActivity;
 import com.hugboga.custom.activity.BaseActivity;
 import com.hugboga.custom.activity.CollectGuideListActivity;
 import com.hugboga.custom.activity.CouponActivity;
@@ -114,6 +115,9 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import cn.jpush.android.api.JPushInterface;
+
+import static com.tencent.bugly.crashreport.inner.InnerAPI.context;
+import static u.aly.au.S;
 
 
 @ContentView(R.layout.activity_main)
@@ -426,10 +430,6 @@ public class MainActivity extends BaseActivity
             couponUnitTV.setText("张");
             travelFundUnitTV.setText("元");
         } else if (request instanceof RequestCheckVersion) {
-            if (ServerCodeHandler.isCheckedVersion) {
-                return;
-            }
-            ServerCodeHandler.isCheckedVersion = true;
             RequestCheckVersion requestCheckVersion = (RequestCheckVersion) request;
             final CheckVersionBean cvBean = requestCheckVersion.getData();
             UserEntity.getUser().setIsNewVersion(this, cvBean.hasAppUpdate);//是否有新版本
@@ -744,6 +744,7 @@ public class MainActivity extends BaseActivity
                 break;
             case R.id.tab_text_2:
                 mViewPager.setCurrentItem(1);
+                startActivity(new Intent(this, BargainActivity.class));
                 break;
             case R.id.tab_text_3:
                 mViewPager.setCurrentItem(2);

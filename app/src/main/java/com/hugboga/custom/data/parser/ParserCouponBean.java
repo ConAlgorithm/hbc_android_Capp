@@ -35,7 +35,7 @@ public class ParserCouponBean extends ImplParser {
 
         List<CouponTitleContent> dataList = new ArrayList<>();
         CouponTitleContent titleContent = null;
-        JSONArray array = jsonObj.getJSONArray("dataList");
+        JSONArray array = jsonObj.optJSONArray("dataList");
         if(null != array) {
             for (int i = 0; i < array.length(); i++) {
                 titleContent = new CouponTitleContent();

@@ -854,7 +854,7 @@ public class OrderSelectCityActivity extends BaseActivity {
 
             @Override
             public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-                System.out.print("2");
+                CommonUtils.showToast(errorInfo.exception.getMessage());
             }
         });
     }

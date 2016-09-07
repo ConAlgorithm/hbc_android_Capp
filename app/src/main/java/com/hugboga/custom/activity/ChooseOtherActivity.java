@@ -55,8 +55,6 @@ public class ChooseOtherActivity extends BaseActivity {
     TextView nameLeft;
     @Bind(R.id.name_right)
     TextView nameRight;
-    @Bind(R.id.name_line)
-    TextView nameLine;
     @Bind(R.id.name_text)
     EditText nameText;
     @Bind(R.id.user_phone_text_code_click)
@@ -69,8 +67,6 @@ public class ChooseOtherActivity extends BaseActivity {
     TextView name1Del;
     @Bind(R.id.name1_right)
     TextView name1Right;
-    @Bind(R.id.name1_line)
-    TextView name1Line;
     @Bind(R.id.name1_text)
     EditText name1Text;
     @Bind(R.id.user1_phone_text_code_click)
@@ -85,8 +81,6 @@ public class ChooseOtherActivity extends BaseActivity {
     TextView name2Del;
     @Bind(R.id.name2_right)
     TextView name2Right;
-    @Bind(R.id.name2_line)
-    TextView name2Line;
     @Bind(R.id.name2_text)
     EditText name2Text;
     @Bind(R.id.user2_phone_text_code_click)
@@ -105,8 +99,6 @@ public class ChooseOtherActivity extends BaseActivity {
     TextView passengerLeft;
     @Bind(R.id.passenger_right)
     TextView passengerRight;
-    @Bind(R.id.passenger_line)
-    TextView passengerLine;
     @Bind(R.id.passenger_text)
     EditText passengerText;
     @Bind(R.id.passenger_phone_text_code_click)
@@ -272,7 +264,7 @@ public class ChooseOtherActivity extends BaseActivity {
 
             if(!TextUtils.isEmpty(contactUsersBean.user2Name)){
                 user2Layout.setVisibility(View.VISIBLE);
-                addOtherPhoneClick.setTextColor(Color.parseColor("#929394"));
+                addOtherPhoneClick.setVisibility(View.GONE);
             }
 
             if(!TextUtils.isEmpty(contactUsersBean.user2Name)) {
@@ -369,13 +361,13 @@ public class ChooseOtherActivity extends BaseActivity {
         switch (view.getId()) {
             case R.id.name1_del:
                 user1Layout.setVisibility(View.GONE);
-                addOtherPhoneClick.setTextColor(Color.parseColor("#2e82f7"));
+                addOtherPhoneClick.setVisibility(View.VISIBLE);
                 name1Text.setText("");
                 user1PhoneText.setText("");
                 break;
             case R.id.name2_del:
                 user2Layout.setVisibility(View.GONE);
-                addOtherPhoneClick.setTextColor(Color.parseColor("#2e82f7"));
+                addOtherPhoneClick.setVisibility(View.VISIBLE);
                 name2Text.setText("");
                 user2PhoneText.setText("");
                 break;
@@ -392,7 +384,7 @@ public class ChooseOtherActivity extends BaseActivity {
             case R.id.add_other_phone_click:
                 if(user1Layout.isShown()) {
                     user2Layout.setVisibility(View.VISIBLE);
-                    addOtherPhoneClick.setTextColor(Color.parseColor("#929394"));
+                    addOtherPhoneClick.setVisibility(View.GONE);
                 }else{
                     user1Layout.setVisibility(View.VISIBLE);
                 }

@@ -1,13 +1,11 @@
 package com.hugboga.custom.activity;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -57,15 +55,6 @@ public class ChoosePaymentActivity extends BaseActivity {
 
     @Bind(R.id.choose_payment_price_tv)
     TextView priceTV;
-
-    @Bind(R.id.header_left_btn)
-    ImageView headerLeftBtn;
-    @Bind(R.id.header_right_btn)
-    ImageView headerRightBtn;
-    @Bind(R.id.header_title)
-    TextView headerTitle;
-    @Bind(R.id.header_right_txt)
-    TextView headerRightTxt;
     @Bind(R.id.choose_payment_sign_tv)
     TextView choosePaymentSignTv;
     @Bind(R.id.choose_payment_alipay_iv)
@@ -78,7 +67,6 @@ public class ChoosePaymentActivity extends BaseActivity {
     RelativeLayout choosePaymentWechatLayout;
 
     private DialogUtil mDialogUtil;
-    private int wxResultCode = 0;
     private int payType;
     public RequestParams requestParams;
 
@@ -126,47 +114,29 @@ public class ChoosePaymentActivity extends BaseActivity {
     }
 
     private void initView() {
-        headerTitle.setText(getString(R.string.choose_payment_title));
-        priceTV.setText(requestParams.getShouldPay());
-        // 将该app注册到微信
-        IWXAPI msgApi = WXAPIFactory.createWXAPI(this, Constants.WX_APP_ID);
-        msgApi.registerApp(Constants.WX_APP_ID);
-        mDialogUtil = DialogUtil.getInstance(this);
-        headerLeftBtn.setOnClickListener(new View.OnClickListener() {
+        initDefaultTitleBar();
+        fgTitle.setText(getString(R.string.choose_payment_title));
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.MATCH_PARENT);
+        params.addRule(RelativeLayout.CENTER_IN_PARENT);
+        fgTitle.setLayoutParams(params);
+        fgLeftBtn.setVisibility(View.GONE);
+        fgRightBtn.setVisibility(View.GONE);
+        TextView rightTV = (TextView) findViewById(R.id.header_right_txt);
+        rightTV.setText("查看行程");
+        rightTV.setVisibility(View.VISIBLE);
+        rightTV.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.MATCH_PARENT));
+        rightTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 backWarn();
             }
         });
-    }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        Intent intent = null;
-        if (wxResultCode == EventType.BACK_HOME.ordinal()) {
-            intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-            EventBus.getDefault().post(new EventAction(EventType.FGTRAVEL_UPDATE));
-            EventBus.getDefault().post(new EventAction(EventType.SET_MAIN_PAGE_INDEX, 0));
-        } else if (wxResultCode == EventType.ORDER_DETAIL.ordinal()) {
-            intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-            EventBus.getDefault().post(new EventAction(EventType.SET_MAIN_PAGE_INDEX, 0));
-            EventBus.getDefault().post(new EventAction(EventType.FGTRAVEL_UPDATE));
-
-            OrderDetailActivity.Params orderParams = new OrderDetailActivity.Params();
-            orderParams.orderId = requestParams.orderId;
-            intent = new Intent(this, OrderDetailActivity.class);
-            intent.putExtra(Constants.PARAMS_DATA, orderParams);
-            startActivity(intent);
-        }
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        wxResultCode = 0;
+        priceTV.setText(requestParams.getShouldPay());
+        // 将该app注册到微信
+        IWXAPI msgApi = WXAPIFactory.createWXAPI(this, Constants.WX_APP_ID);
+        msgApi.registerApp(Constants.WX_APP_ID);
+        mDialogUtil = DialogUtil.getInstance(this);
     }
 
     @Override
@@ -178,16 +148,6 @@ public class ChoosePaymentActivity extends BaseActivity {
     @Subscribe
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
-            case BACK_HOME:
-                EventBus.getDefault().post(new EventAction(EventType.FGTRAVEL_UPDATE));
-                wxResultCode = EventType.BACK_HOME.ordinal();
-                break;
-            case ORDER_DETAIL:
-                if (action.getData() instanceof Integer && (int)action.getData() == 1) {
-                    EventBus.getDefault().post(new EventAction(EventType.FGTRAVEL_UPDATE));
-                }
-                wxResultCode = EventType.ORDER_DETAIL.ordinal();
-                break;
             case PAY_RESULT:
                 if (requestParams.eventPayBean != null) {
                     requestParams.eventPayBean.paystyle = this.payType == Constants.PAY_STATE_ALIPAY ? "支付宝" : "微信支付";
@@ -303,7 +263,6 @@ public class ChoosePaymentActivity extends BaseActivity {
             PayResultActivity.Params params = new PayResultActivity.Params();
             params.payResult = msg.what == 1;//1.支付成功，2.支付失败
             params.orderId = requestParams.orderId;
-            params.paymentAmount = requestParams.getShouldPay();
             Intent intent = new Intent(ChoosePaymentActivity.this, PayResultActivity.class);
             intent.putExtra(Constants.PARAMS_DATA, params);
             ChoosePaymentActivity.this.startActivity(intent);
