@@ -68,7 +68,7 @@ public class BargainActivity extends BaseActivity {
 
     private String orderId = "J190706533863";
     private String sign = "C9B525F3D472BD7094CEF8EA5028500F";
-    private int limit = 1;
+    private int limit = 3;
     private int offset = 0;
     private int bargainTotal = 0;
     private void getData() {
@@ -106,10 +106,16 @@ public class BargainActivity extends BaseActivity {
                 cutMoney.setImageResource(R.mipmap.cut_end);
                 cutMoney.setOnClickListener(null);
             }
+
+            offset += limit;
             if(loadMore){
                 addMoreListView(barginBean);
             }else {
                 genListView(barginBean);
+            }
+            if(offset >=  bargainTotal){
+                bottom.setText(R.string.no_more);
+                bottom.setOnClickListener(null);
             }
         }
 
@@ -127,9 +133,8 @@ public class BargainActivity extends BaseActivity {
         bottom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(offset * limit < bargainTotal) {
+                if(offset < bargainTotal) {
                     loadMore = true;
-                    offset += 1;
                     getData();
                 }
             }

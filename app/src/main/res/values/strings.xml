@@ -796,5 +796,6 @@
     <string name="cut_list">好友砍价排行榜</string>
     <string name="cut_list_empty">还没有人砍过，他们的砍价记录会展示在这里</string>
     <string name="show_more">显示更多</string>
+    <string name="no_more">没有更多了</string>
 
 </resources>
