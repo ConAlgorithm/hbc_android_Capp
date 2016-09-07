@@ -71,6 +71,7 @@
                     android:textSize="11sp" />
 
                 <TextView
+                    android:id="@+id/cute_money_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="00.00"
@@ -120,7 +121,6 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_marginTop="30dp"
-
                 android:background="@mipmap/juxing"
                 android:layout_height="wrap_content">
 
@@ -150,6 +150,7 @@
                     android:layout_width="match_parent"
                     android:orientation="vertical"
                     android:layout_below="@id/line"
+                    android:gravity="center_horizontal"
                     android:layout_height="wrap_content">
 
                     <TextView

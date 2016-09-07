@@ -38,6 +38,7 @@ public class UrlLibs {
 
     public static String H5_HOST = BuildConfig.H5_HOST;
 
+
     public static  String SHARE_BASE_URL_1 = "http://op.huangbaoche.com/app/auth.html";
     public static  String SHARE_BASE_URL_2 = "http://act.huangbaoche.com";
     public static  String SHARE_BASE_URL_3 = "http://act.test.huangbaoche.com";
@@ -51,6 +52,7 @@ public class UrlLibs {
 
     public static String H5_ACTIVITY= BuildConfig.SHARE_BASE_URL_3 + "/h5/cactivity/index.html?userId=";//国行
     public static String H5_ABOUT = H5_HOST+"/cinfos/about.html";//  关于我们
+    public static String H5_RULES = H5_HOST+"/cinfos/rules.html ";//  砍价活动规则
     public static String H5_ADDFEE_C = H5_HOST+"/cinfos/addfee_c.html";//  单次接送—后付费用说明
     public static String H5_ADDFEE_J = H5_HOST+"/cinfos/addfee_j.html";//  接机—后付费用说明
     public static String H5_ADDFEE_R = H5_HOST+"/cinfos/addfee_r.html";//  日租—后付费用说明
@@ -102,7 +104,7 @@ public class UrlLibs {
         }
     }
 
-    //current urlErrorCode 100
+    //current urlErrorCode 101
 
     //-------个人信息--------
     public static final String SERVER_IP_PUBLIC_UER_CENTER = "ucenter/v1.0/c/user/";
@@ -151,6 +153,7 @@ public class UrlLibs {
     public static final String CANCLE_TIPS                  = "trade/v1.0/c/order/cancelTips";                          // 退改规则
     public static final String GUIDE_CONFLIC                = "trade/v1.0/c/order/guides/conflict";                     // 导游是否可服务
     public static final String PAY_SUCCESS                  = "trade/v1.0/c/order/paysuccess";                          // 支付成功页
+    public static final String QUERYBARGAIN                 = "trade/v1.0/c/queryBargain?";                             // 砍价详情查询
 
     public static final String SERVER_IP_PRICE_PICKUP       = "price/v1.1/c/airportPickupPrice?";                       // 查询价格 接机
     public static final String SERVER_IP_PRICE_TRANSFER     = "price/v1.1/c/airportTransferPrice?";                     // 查询价格 送机
@@ -214,5 +217,8 @@ public class UrlLibs {
     public static final String ADD_BLACK                    = "communication/v2.0/c/im/black/add";                      // 私聊对象加入黑名单
     public static final String REMOVE_BLACK                 = "communication/v2.0/c/im/black/remove";                   // 私聊对象移出黑名单
     public static final String API_IM_SERVER_INFO           = "communication/v2.0/c/im/info/kf";                        // 获取当前环境下的客服信息
+
+
+
 
 }
