@@ -8,7 +8,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
-import com.hugboga.custom.widget.CountDownView;
+import com.hugboga.custom.widget.CountDownLayout;
 import com.netease.nim.uikit.common.util.log.LogUtil;
 
 import butterknife.Bind;
@@ -31,7 +31,7 @@ public class BargainActivity extends BaseActivity {
     @Bind(R.id.header_right_txt)
     TextView headerRightTxt;
     @Bind(R.id.countdown)
-    CountDownView countdown;
+    CountDownLayout countdown;
     @Bind(R.id.cut_money)
     ImageView cutMoney;
     @Bind(R.id.list_layout)

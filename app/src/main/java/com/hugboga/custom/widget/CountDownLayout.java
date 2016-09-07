@@ -11,10 +11,10 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
- * Created on 16/9/6.
+ * Created on 16/9/7.
  */
 
-public class CountDownView extends LinearLayout {
+public class CountDownLayout extends LinearLayout {
 
     @Bind(R.id.hour_l)
     CountDownItem hourL;
@@ -29,13 +29,13 @@ public class CountDownView extends LinearLayout {
     @Bind(R.id.second_r)
     CountDownItem secondR;
 
-    public CountDownView(Context context) {
+    public CountDownLayout(Context context) {
         this(context, null);
     }
 
     View view;
 
-    public CountDownView(Context context, AttributeSet attrs) {
+    public CountDownLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
         view = inflate(context, R.layout.countdown_layout, this);
         ButterKnife.bind(this, view);
@@ -71,3 +71,4 @@ public class CountDownView extends LinearLayout {
         getHour(secondAll);
     }
 }
+

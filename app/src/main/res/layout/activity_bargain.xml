@@ -40,7 +40,7 @@
                         android:textColor="@color/basic_black"
                         android:textSize="13sp" />
 
-                    <com.hugboga.custom.widget.CountDownView
+                    <com.hugboga.custom.widget.CountDownLayout
                         android:id="@+id/countdown"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
