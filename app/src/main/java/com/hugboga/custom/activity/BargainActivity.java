@@ -254,7 +254,7 @@ public class BargainActivity extends BaseActivity {
                 popupWindow.dismiss();
             }
         });
-        nameEdit = (EditText)popupView.findViewById(R.id.name);
+        nameEdit = (EditText)popupView.findViewById(R.id.real_name);
         popupView.findViewById(R.id.ok).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
