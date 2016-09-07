@@ -75,8 +75,6 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import io.rong.imkit.RongIM;
-import io.rong.imlib.model.UserInfo;
 
 import static android.view.View.GONE;
 
@@ -303,27 +301,6 @@ public class NIMChatActivity extends BaseActivity implements IMUtil.OnImSuccessL
         dialog.show();
     }
 
-    /**
-     * 设置是否可以聊天
-     */
-    private void resetChatting() {
-//        if (!isChat) {
-//            View view1 = view.getChildAt(0);
-//            view1.setVisibility(GONE);
-//            fgTitle.setText(getString(R.string.chat_log));
-//        }
-    }
-
-    /**
-     * 设置对方头像
-     */
-    private void setUserInfo() {
-        if (userAvatar != null && !userAvatar.equals("")) {
-            UserInfo peerUser = new UserInfo(imUserId, getString(R.string.title_activity_imchat), Uri.parse(userAvatar));
-//            RongContext.getInstance().getUserInfoCache().put(imUserId, peerUser);
-            RongIM.getInstance().refreshUserInfoCache(peerUser);
-        }
-    }
 
     /**
      * 根据数据刷新界面

@@ -18,7 +18,7 @@ public class ToolBarOptions {
     /**
      * toolbar的logo资源id
      */
-    public int logoId = R.drawable.nim_actionbar_nest_dark_logo;
+    public int logoId = 0;
     /**
      * toolbar的返回按钮资源id，默认开启的资源nim_actionbar_dark_back_icon
      */

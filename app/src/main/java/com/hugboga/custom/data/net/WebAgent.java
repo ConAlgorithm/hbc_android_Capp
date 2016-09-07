@@ -41,8 +41,6 @@ import com.hugboga.custom.widget.DialogUtil;
 
 import org.json.JSONObject;
 
-import io.rong.imkit.RongIM;
-import io.rong.imlib.model.Conversation;
 
 /**
  * 请求代理模式

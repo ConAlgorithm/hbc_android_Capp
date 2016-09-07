@@ -44,7 +44,6 @@ import com.umeng.analytics.MobclickAgent;
 import org.xutils.x;
 
 import cn.jpush.android.api.JPushInterface;
-import io.rong.imkit.RongIM;
 
 /**
  * Created by admin on 2016/2/25.
@@ -131,19 +130,6 @@ public class MyApplication extends HbcApplication {
         HbcConfig.APP_NAME = getString(R.string.app_name);
         x.Ext.setDebug(HbcConfig.IS_DEBUG);
         HbcConfig.WX_APP_ID = Constants.WX_APP_ID;
-    }
-
-    /**
-     * 初始化融云IM
-     */
-    public static void initRongIm(Context context) {
-        try {
-            if (context.getApplicationInfo().packageName.equals(getCurProcessName(context.getApplicationContext())) || "io.rong.push".equals(getCurProcessName(context.getApplicationContext()))) {
-                RongIM.init(context);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     /**
