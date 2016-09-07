@@ -42,7 +42,7 @@ public class CountDownLayout extends LinearLayout {
     }
 
     private void getSecond(int secondAll){
-        int second = (int)((secondAll % 60));
+        int second = (secondAll % 60);
         int l = second/10;
         int r = second%10;
         secondL.changeTime(l);
@@ -50,7 +50,7 @@ public class CountDownLayout extends LinearLayout {
     }
 
     private void getMinute(int secondAll){
-        int minute = (int)((secondAll % (60 * 60)) / 60);
+        int minute = (secondAll % (60 * 60)) / 60;
         int l = minute/10;
         int r = minute%10;
         minuteL.changeTime(l);
@@ -58,7 +58,7 @@ public class CountDownLayout extends LinearLayout {
     }
 
     private void getHour(int secondAll){
-        int hour = (int)((secondAll % (60 * 60 * 24)) / (60 * 60));
+        int hour = (secondAll % (60 * 60 * 24)) / (60 * 60);
         int l = hour/10;
         int r = hour%10;
         hourL.changeTime(l);

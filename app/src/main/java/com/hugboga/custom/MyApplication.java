@@ -195,7 +195,7 @@ public class MyApplication extends HbcApplication {
 
     private static  SDKOptions getOptions(Context context) {
         SDKOptions options = new SDKOptions();
-        StatusBarNotificationConfig config = new StatusBarNotificationConfig();;
+        StatusBarNotificationConfig config = new StatusBarNotificationConfig();
         config.ledARGB = Color.GREEN;
         config.ledOnMs = 1000;
         config.ledOffMs = 1500;
@@ -287,13 +287,9 @@ public class MyApplication extends HbcApplication {
         NimUIKit.setMsgForwardFilter(new MsgForwardFilter() {
             @Override
             public boolean shouldIgnore(IMMessage message) {
-                if (message.getDirect() == MsgDirectionEnum.In
+                return message.getDirect() == MsgDirectionEnum.In
                         && (message.getAttachStatus() == AttachStatusEnum.transferring
-                        || message.getAttachStatus() == AttachStatusEnum.fail)) {
-                    // 接收到的消息，附件没有下载成功，不允许转发
-                    return true;
-                }
-                return false;
+                        || message.getAttachStatus() == AttachStatusEnum.fail);
             }
         });
 

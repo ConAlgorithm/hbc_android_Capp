@@ -1060,7 +1060,7 @@ public class MainActivity extends BaseActivity
                 }
             });
         }
-        locationManager = (LocationManager) this.getSystemService(this.LOCATION_SERVICE);
+        locationManager = (LocationManager) this.getSystemService(LOCATION_SERVICE);
         locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
