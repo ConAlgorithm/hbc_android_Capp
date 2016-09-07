@@ -719,14 +719,11 @@ public class OrderSelectCityActivity extends BaseActivity {
     }
 
     private boolean isAddinfo() {
-        if (null != startBean || !TextUtils.isEmpty(peopleTextClick.getText())
+        return null != startBean || !TextUtils.isEmpty(peopleTextClick.getText())
                 || !TextUtils.isEmpty(baggageTextClick.getText())
                 || !TextUtils.isEmpty(halfDate)
                 || !TextUtils.isEmpty(start_date_str)
-                || !TextUtils.isEmpty(end_date_str)) {
-            return true;
-        }
-        return false;
+                || !TextUtils.isEmpty(end_date_str);
     }
 
 
@@ -1256,11 +1253,7 @@ public class OrderSelectCityActivity extends BaseActivity {
                 List<CityBean> list = CityUtils.requestDataByKeyword(activity,
                         preCityBean.groupId, preCityBean.cityId, "", true);
 
-                if (null == list || list.size() == 0) {
-                    showOtherLayout = false;
-                } else {
-                    showOtherLayout = true;
-                }
+                showOtherLayout = !(null == list || list.size() == 0);
 
 
                 hotCitys = CityUtils.requestHotDate(activity, startBean.groupId, startBean.cityId, "lastCity");

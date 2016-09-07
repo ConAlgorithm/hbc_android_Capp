@@ -8,7 +8,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -20,7 +19,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
@@ -48,7 +46,6 @@ import com.hugboga.custom.activity.BargainActivity;
 import com.hugboga.custom.activity.BaseActivity;
 import com.hugboga.custom.activity.CollectGuideListActivity;
 import com.hugboga.custom.activity.CouponActivity;
-import com.hugboga.custom.activity.IMChatActivity;
 import com.hugboga.custom.activity.InsureActivity;
 import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.activity.OrderDetailActivity;
@@ -73,15 +70,12 @@ import com.hugboga.custom.data.request.RequestPushClick;
 import com.hugboga.custom.data.request.RequestPushToken;
 import com.hugboga.custom.data.request.RequestUploadLocation;
 import com.hugboga.custom.data.request.RequestUserInfo;
-import com.hugboga.custom.fragment.BaseFragment;
-import com.hugboga.custom.fragment.FgChat;
 import com.hugboga.custom.fragment.FgHome;
 import com.hugboga.custom.fragment.FgImChat;
 import com.hugboga.custom.fragment.FgTravel;
 import com.hugboga.custom.service.LogService;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
-import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.ChannelUtils;
 import com.hugboga.custom.utils.CommonUtils;
@@ -497,9 +491,9 @@ public class MainActivity extends BaseActivity
     private void receivePushMessage(Intent intent) {
         if (intent != null) {
             if (intent.getData() != null && "rong".equals(intent.getData().getScheme())) {
-                Intent intentIm = new Intent(this, IMChatActivity.class);
-                intentIm.putExtra(IMChatActivity.KEY_TITLE, intent.getData().toString());
-                startActivity(intentIm);
+//                Intent intentIm = new Intent(this, IMChatActivity.class);
+//                intentIm.putExtra(IMChatActivity.KEY_TITLE, intent.getData().toString());
+//                startActivity(intentIm);
             } else {
                 PushMessage message = (PushMessage) intent.getSerializableExtra(MainActivity.PUSH_BUNDLE_MSG);
                 if (message != null) {
@@ -1066,7 +1060,7 @@ public class MainActivity extends BaseActivity
                 }
             });
         }
-        locationManager = (LocationManager) this.getSystemService(this.LOCATION_SERVICE);
+        locationManager = (LocationManager) this.getSystemService(LOCATION_SERVICE);
         locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {

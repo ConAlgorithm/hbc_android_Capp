@@ -24,7 +24,10 @@ import com.hugboga.custom.activity.BaseActivity;
 import com.hugboga.custom.activity.DailyWebInfoActivity;
 import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.activity.OrderSelectCityActivity;
+import com.hugboga.custom.activity.PickSendActivity;
+import com.hugboga.custom.activity.SingleNewActivity;
 import com.hugboga.custom.activity.SkuDetailActivity;
+import com.hugboga.custom.activity.SkuListActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.ChatInfo;
@@ -41,8 +44,6 @@ import com.hugboga.custom.widget.DialogUtil;
 
 import org.json.JSONObject;
 
-import io.rong.imkit.RongIM;
-import io.rong.imlib.model.Conversation;
 
 /**
  * 请求代理模式
@@ -231,6 +232,9 @@ public class WebAgent implements HttpRequestListener {
         });
     }
 
+    /**
+     * 自定义包车下单
+     * */
     @JavascriptInterface
     public void pushToDailyOrder(){
         mActivity.runOnUiThread(new Runnable() {
@@ -247,6 +251,53 @@ public class WebAgent implements HttpRequestListener {
             }
         });
 
+    }
+
+    /**
+     * 接送机下单
+     * */
+    @JavascriptInterface
+    public void pushToAirportOrder() {
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = new Intent(mActivity, PickSendActivity.class);
+                intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_DAIRY);
+                mActivity.startActivity(intent);
+            }
+        });
+    }
+
+    /**
+     * 单次接送下单
+     * */
+    @JavascriptInterface
+    public void pushToSingleOrder() {
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = new Intent(mActivity, SingleNewActivity.class);
+                mActivity.startActivity(intent);
+            }
+        });
+    }
+
+    /**
+     * 城市列表
+     * */
+    @JavascriptInterface
+    public void pushToGoodsOrder(final String cityId) {
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                SkuListActivity.Params params = new SkuListActivity.Params();
+                params.id = CommonUtils.getCountInteger(cityId);
+                params.skuType = SkuListActivity.SkuType.CITY;
+                Intent intent = new Intent(mActivity, SkuListActivity.class);
+                intent.putExtra(Constants.PARAMS_DATA, params);
+                mActivity.startActivity(intent);
+            }
+        });
     }
 
     @JavascriptInterface

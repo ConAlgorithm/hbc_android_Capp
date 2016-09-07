@@ -90,7 +90,7 @@ public class UrlLibs {
     /**
      * url host 的 enum
      */
-    public static enum UrlHost {
+    public enum UrlHost {
         DEVELOPER(SERVER_IP_HOST_PUBLIC_DEV),
         EXAMINATION(SERVER_IP_HOST_PUBLIC_EXAMINATION),
         STAGE(SERVER_IP_HOST_PUBLIC_STAGE),
@@ -99,7 +99,7 @@ public class UrlLibs {
 
         public String url;
 
-        private UrlHost(String url) {
+        UrlHost(String url) {
             this.url = url;
         }
     }

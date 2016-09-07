@@ -273,7 +273,7 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
         getFragmentManager().popBackStack();
         Fragment fragment = this.geSourceFragment();
         if (fragment != null && fragment instanceof BaseFragment) {
-            ((BaseFragment) fragment).onResume();
+            fragment.onResume();
         }
         ((BaseFragmentActivity) getActivity()).removeFragment(this);
     }
@@ -322,7 +322,7 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
             }
             if (targetFg != null) {
                 for (int i = fragmentList.size() - 1; i >= 0; i--) {
-                    BaseFragment fg = (BaseFragment) fragmentList.get(i);
+                    BaseFragment fg = fragmentList.get(i);
                     if (fg != targetFg) {
                         if (fg != null)
                             fg.finish();
@@ -348,7 +348,7 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
         if (getActivity() instanceof BaseFragmentActivity) {
             ArrayList<BaseFragment> fragmentList = ((BaseFragmentActivity) getActivity()).getFragmentList();
             for (int i = fragmentList.size() - 1; i >= 1; i--) {
-                BaseFragment fg = (BaseFragment) fragmentList.get(i);
+                BaseFragment fg = fragmentList.get(i);
                 if (fg != null) {
                     String simpleName = fg.getClass().getSimpleName();
                     if ("FgHome".equals(simpleName) || "FgChat".equals(simpleName) || "FgTravel".equals(simpleName)) {
@@ -365,7 +365,7 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
         if (getActivity() instanceof BaseFragmentActivity) {
             ArrayList<BaseFragment> fragmentList = ((BaseFragmentActivity) getActivity()).getFragmentList();
             for (int i = fragmentList.size() - 1; i >= 1; i--) {
-                BaseFragment fg = (BaseFragment) fragmentList.get(i);
+                BaseFragment fg = fragmentList.get(i);
                 if (fg != null) {
                     String simpleName = fg.getClass().getSimpleName();
                     if ("FgHome".equals(simpleName) || "FgChat".equals(simpleName) || "FgTravel".equals(simpleName)) {
@@ -458,7 +458,7 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
     public void notifyFragment(Class fragment, Bundle bundle) {
         ArrayList<BaseFragment> fragmentList = ((BaseFragmentActivity) getActivity()).getFragmentList();
         for (int i = fragmentList.size() - 1; i >= 0; i--) {
-            BaseFragment fg = (BaseFragment) fragmentList.get(i);
+            BaseFragment fg = fragmentList.get(i);
             if (fragment.isInstance(fg)) {
                 if (bundle != null) {
                     bundle.putString(KEY_FROM, this.getClass().getSimpleName());

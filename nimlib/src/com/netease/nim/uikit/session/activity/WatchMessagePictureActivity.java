@@ -404,7 +404,7 @@ public class WatchMessagePictureActivity extends UI {
             return;
         }
         alertDialog.clearData();
-        String path = ((ImageAttachment) message.getAttachment()).getThumbPath();
+        String path = ((ImageAttachment) message.getAttachment()).getPath();
         if (TextUtils.isEmpty(path)) {
             return;
         }
