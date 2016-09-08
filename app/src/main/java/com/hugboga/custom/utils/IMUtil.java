@@ -42,7 +42,6 @@ public class IMUtil {
 
     private static IMUtil instance;
 
-    private OnImSuccessListener listener;
 
     private IMUtil() {
         this.context = MyApplication.getAppContext();
@@ -60,14 +59,6 @@ public class IMUtil {
     }
 
 
-
-    public interface OnImSuccessListener {
-        public void onSuccess();
-    }
-
-    public void setOnImSuccessListener(OnImSuccessListener listener) {
-        this.listener = listener;
-    }
 
     public void logoutNim(){
         StatusCode status = NIMClient.getStatus();
@@ -96,18 +87,13 @@ public class IMUtil {
         loginRequest.setCallback(new RequestCallback<LoginInfo>() {
             @Override
             public void onSuccess(LoginInfo param) {
-
                 // 构建缓存
                 DataCacheManager.buildDataCacheAsync(MyApplication.getAppContext(), new Observer<Void>() {
                     @Override
                     public void onEvent(Void aVoid) {
-                        if(listener!=null){
-                            listener.onSuccess();
-                        }
                         NimUIKit.setAccount(account);
                         com.netease.nim.uikit.UserPreferences.setEarPhoneModeEnable(false);
                         MessageAudioControl.getInstance(context).setEarPhoneModeEnable(false);
-
                         EventBus.getDefault().post(new EventAction(EventType.NIM_LOGIN_SUCCESS));
                     }
                 });

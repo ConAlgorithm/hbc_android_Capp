@@ -59,7 +59,9 @@ import com.netease.nim.uikit.session.SessionEventListener;
 import com.netease.nim.uikit.session.constant.Extras;
 import com.netease.nim.uikit.session.fragment.MessageFragment;
 import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.Observer;
 import com.netease.nimlib.sdk.StatusCode;
+import com.netease.nimlib.sdk.auth.AuthServiceObserver;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.zhy.m.permission.MPermissions;
@@ -81,7 +83,7 @@ import static android.view.View.GONE;
 /**
  * Created by on 16/8/9.
  */
-public class NIMChatActivity extends BaseActivity implements IMUtil.OnImSuccessListener{
+public class NIMChatActivity extends BaseActivity {
 
     public static final String ORDER_INFO_KEY = "order_info_key";
 
@@ -129,6 +131,8 @@ public class NIMChatActivity extends BaseActivity implements IMUtil.OnImSuccessL
         ButterKnife.bind(this);
         initView();
         grantAudio();
+
+        registerObservers(true);
     }
 
     private void initView() {
@@ -156,8 +160,6 @@ public class NIMChatActivity extends BaseActivity implements IMUtil.OnImSuccessL
 
          addConversationFragment();
         //刷新订单信息
-
-         IMUtil.getInstance().setOnImSuccessListener(this);
     }
 
     private void addConversationFragment(){
@@ -216,10 +218,6 @@ public class NIMChatActivity extends BaseActivity implements IMUtil.OnImSuccessL
         super.onPause();
     }
 
-    @Override
-    public void onSuccess() {
-        emptyView.setVisibility(View.GONE);
-    }
 
     /**
      * 解析用户ID信息
@@ -721,6 +719,57 @@ public class NIMChatActivity extends BaseActivity implements IMUtil.OnImSuccessL
         }
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        registerObservers(false);
+    }
 
+    private void registerObservers(boolean register) {
+        NIMClient.getService(AuthServiceObserver.class).observeOnlineStatus(userStatusObserver, register);
+    }
+
+    /**
+     * 用户状态变化
+     */
+    Observer<StatusCode> userStatusObserver = new Observer<StatusCode>() {
+        @Override
+        public void onEvent(StatusCode code) {
+            if (code.wontAutoLogin()) {
+                IMUtil.getInstance().connect();
+                if(emptyView!=null){
+                    emptyView.setVisibility(View.VISIBLE);
+                    emptyView.setText("聊天账号被踢出登录，正在重新登录...");
+                }
+            } else {
+                if (code == StatusCode.NET_BROKEN) {
+                    if(emptyView!=null){
+                        emptyView.setVisibility(View.VISIBLE);
+                        emptyView.setText(R.string.no_network);
+                    }
+                } else if (code == StatusCode.UNLOGIN) {
+                    IMUtil.getInstance().connect();
+                    if(emptyView!=null){
+                        emptyView.setVisibility(View.VISIBLE);
+                        emptyView.setText("正在登录聊天，请稍候...");
+                    }
+                } else if (code == StatusCode.CONNECTING) {
+                    if(emptyView!=null){
+                        emptyView.setVisibility(View.VISIBLE);
+                        emptyView.setText("正在重连聊天服务器，请稍候...");
+                    }
+                } else if (code == StatusCode.LOGINING) {
+                    if(emptyView!=null){
+                        emptyView.setVisibility(View.VISIBLE);
+                        emptyView.setText("正在登录聊天，请稍候...");
+                    }
+                } else {
+                    if(emptyView!=null){
+                        emptyView.setVisibility(View.GONE);
+                    }
+                }
+            }
+        }
+    };
 
 }
