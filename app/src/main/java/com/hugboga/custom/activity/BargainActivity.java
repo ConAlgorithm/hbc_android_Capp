@@ -71,17 +71,22 @@ public class BargainActivity extends BaseActivity {
         setContentView(R.layout.activity_bargain);
         ButterKnife.bind(this);
         initView();
+        getIntentValue();
         getData();
+    }
+
+    private void getIntentValue(){
+        orderNo = getIntent().getStringExtra("orderNo");
     }
 
     private String orderNo = "J190706533863";
     private String sign = "C9B525F3D472BD7094CEF8EA5028500F";
-    private int limit = 3;
+    private int limit = 5;
     private int offset = 0;
     private int bargainTotal = 0;
     private String userName = null;
     private void getData() {
-        final RequestBargin requestBargin = new RequestBargin(activity, orderNo, sign, limit, offset);
+        final RequestBargin requestBargin = new RequestBargin(activity, orderNo, limit, offset);
         HttpRequestUtils.request(activity, requestBargin, new HttpRequestListener() {
             @Override
             public void onDataRequestSucceed(BaseRequest request) {
@@ -118,7 +123,7 @@ public class BargainActivity extends BaseActivity {
             } else {
                 countdown.changeTime(0);
                 cutMoney.setImageResource(R.mipmap.cut_end);
-//                cutMoney.setOnClickListener(null);
+                cutMoney.setOnClickListener(null);
             }
 
             offset += limit;
@@ -222,7 +227,7 @@ public class BargainActivity extends BaseActivity {
                 LogUtil.e("===", "done");
                 countdown.changeTime(0);
                 cutMoney.setImageResource(R.mipmap.cut_end);
-//                cutMoney.setOnClickListener(null);
+                cutMoney.setOnClickListener(null);
             }
         };
 

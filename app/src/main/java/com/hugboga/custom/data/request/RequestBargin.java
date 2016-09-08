@@ -23,13 +23,11 @@ import java.util.TreeMap;
 public class RequestBargin extends BaseRequest<BarginBean> {
 
     String orderNo;
-    String sign;
     int limit;
     int offset;
-    public RequestBargin(Context context,String orderNo,String sign,int limit,int offset) {
+    public RequestBargin(Context context,String orderNo,int limit,int offset) {
         super(context);
         this.orderNo = orderNo;
-        this.sign = sign;
         this.limit = limit;
         this.offset = offset;
     }
@@ -43,7 +41,6 @@ public class RequestBargin extends BaseRequest<BarginBean> {
     public Map<String, Object> getDataMap() {
         TreeMap map = new TreeMap<String, Object>();
         map.put("orderNo", orderNo);
-        map.put("sign", sign);
         map.put("limit", limit);
         map.put("offset", offset);
         return map;
