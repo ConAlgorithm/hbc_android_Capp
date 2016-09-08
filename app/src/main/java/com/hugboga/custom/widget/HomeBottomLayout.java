@@ -173,6 +173,7 @@ public class HomeBottomLayout extends LinearLayout implements View.OnClickListen
 
     private void goSingle(){
         Intent intent = new Intent(getContext(),SingleNewActivity.class);
+        intent.putExtra("source","首页");
         getContext().startActivity(intent);
     }
 }

@@ -10,6 +10,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.FutureTarget;
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
+import com.hugboga.custom.widget.GlideCircleTransform;
 import com.hugboga.custom.widget.GlideRoundTransform;
 
 import java.io.File;
@@ -75,9 +76,9 @@ public class Tools {
 //    }
 
 
-//    public static void showCircleImage(Context context,ImageView imageView,String url){
-//        Glide.with(context).load(url).transform(new GlideCircleTransform(context)).into(imageView);
-//    }
+    public static void showCircleImage(Context context,ImageView imageView,String url){
+        Glide.with(context).load(url).transform(new GlideCircleTransform(context)).into(imageView);
+    }
 
     public static Bitmap getBitmap(Context context,String url){
         try {
