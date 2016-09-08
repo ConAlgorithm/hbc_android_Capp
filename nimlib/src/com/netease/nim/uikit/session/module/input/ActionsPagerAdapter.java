@@ -52,7 +52,7 @@ public class ActionsPagerAdapter extends PagerAdapter{
                 public void run() {
                     ViewGroup.LayoutParams layoutParams = viewPager.getLayoutParams();
                     layoutParams.height = context.getResources().getDimensionPixelOffset(
-                            R.dimen.message_bottom_function_viewpager_height);
+                            R.dimen.message_bottom_function_viewpager_height) *2;
                     viewPager.setLayoutParams(layoutParams);
                 }
             });
@@ -64,7 +64,7 @@ public class ActionsPagerAdapter extends PagerAdapter{
                 public void run() {
                     ViewGroup.LayoutParams layoutParams = viewPager.getLayoutParams();
                     layoutParams.height = context.getResources().getDimensionPixelOffset(
-                            R.dimen.message_bottom_function_viewpager_height) / 2;
+                            R.dimen.message_bottom_function_viewpager_height) ;
                     viewPager.setLayoutParams(layoutParams);
                 }
             });
