@@ -22,8 +22,8 @@ import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.BarginBean;
 import com.hugboga.custom.data.bean.BarginWebchatList;
-import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.net.UrlLibs;
+import com.hugboga.custom.data.request.RequestBargainShare;
 import com.hugboga.custom.data.request.RequestBargin;
 import com.hugboga.custom.data.request.RequestChangeUserInfo;
 import com.hugboga.custom.utils.CommonUtils;
@@ -203,7 +203,7 @@ public class BargainActivity extends BaseActivity {
         addBottom();
     }
 
-    int second = 5;
+    int second = 900;
     CountDownTimer countDownTimer;
 
     private void initView() {
@@ -344,13 +344,34 @@ public class BargainActivity extends BaseActivity {
                 isShowAddNamePopup = true;
                 showAddName();
             }else{
-                barginShare(R.mipmap.bargain_share,shareTitle,getString(R.string.share_bargin_100),
-                        UrlLibs.H5_SHAREGUI+"orderNo="+orderNo+"&userId="+ UserEntity.getUser().getUserId(activity));
+                getShareUrl();
             }
         }else{
-            barginShare(R.mipmap.bargain_share,shareTitle,getString(R.string.share_bargin_100),
-                    UrlLibs.H5_SHAREGUI+"orderNo="+orderNo+"&userId="+ UserEntity.getUser().getUserId(activity));
+            getShareUrl();
         }
+    }
+
+
+    private void getShareUrl(){
+        RequestBargainShare requestBargainShare = new RequestBargainShare(activity,orderNo);
+        HttpRequestUtils.request(activity, requestBargainShare, new HttpRequestListener() {
+            @Override
+            public void onDataRequestSucceed(BaseRequest request) {
+                String h5Url = ((RequestBargainShare)request).getData();
+                barginShare(R.mipmap.bargain_share,shareTitle,getString(R.string.share_bargin_100),
+                        h5Url);
+            }
+
+            @Override
+            public void onDataRequestCancel(BaseRequest request) {
+
+            }
+
+            @Override
+            public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+
+            }
+        });
     }
 
 

@@ -798,7 +798,7 @@
     <string name="show_more">显示更多</string>
     <string name="no_more">没有更多了</string>
     <string name="share_bargin_100">你来砍价，还能领100元优惠券！境外出行就选皇包车~</string>
-    <string name="share_bargin_title">我在皇包车预订了中文{%1$s}，快来帮我砍价！</string>
+    <string name="share_bargin_title">我在皇包车预订了中文%1$s，快来帮我砍价！</string>
 
     <string name="add_name_tips">完善您的个人信息\n让好友更容易帮助你</string>
     <string name="real_name">请输入你的真实姓名</string>
