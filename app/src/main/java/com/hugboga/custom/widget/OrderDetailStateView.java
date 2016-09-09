@@ -19,8 +19,6 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.utils.UIUtils;
 
-import java.util.Objects;
-
 /**
  * Created by qingcha on 16/6/1.
  */
@@ -59,7 +57,7 @@ public class OrderDetailStateView extends LinearLayout implements HbcViewBehavio
                 setTypePayment(orderBean.getPayDeadTime());
                 break;
             case PAYSUCCESS://2:已付款
-                setStyleOther(0xFFF1FFE8, 0xFF7ABE57, R.string.order_detail_predetermined, R.string.order_detail_prompt_wait_guide, R.mipmap.order_booking);
+                setStyleSingle(0xFFF1FFE8, 0xFF7ABE57, R.string.order_detail_predetermined, R.mipmap.order_booking);
                 break;
             case AGREE:
             case ARRIVED://已接单(3:已接单,4:已到达)
@@ -78,7 +76,7 @@ public class OrderDetailStateView extends LinearLayout implements HbcViewBehavio
                 break;
             case CANCELLED:
             case REFUNDED://已取消(8:已取消,9:已退款)
-                setStyleCancelled();
+                setStyleSingle(0xFFDEDCDD, 0xFF333333, R.string.order_detail_cancel, R.mipmap.order_cancel);
                 break;
             case COMPLAINT://订单已冻结(10:客诉处理中)
                 setStyleOther(0xFFE1E9FE, 0xFF3172CE, R.string.order_detail_thaw, R.string.order_detail_disputes, R.mipmap.order_frozen);
@@ -101,19 +99,19 @@ public class OrderDetailStateView extends LinearLayout implements HbcViewBehavio
         stateIV.setBackgroundResource(stateImgId);
     }
 
-    private void setStyleCancelled() {
-        setBackgroundColor(0xFFDEDCDD);
+    private void setStyleSingle(int bgColor, int textColor, int strId, int stateImgId) {
+        setBackgroundColor(bgColor);
 
         bottomTV.setText("");
         bottomTV.setVisibility(View.GONE);
         bottomTV.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 
         topTV.setTypeface(Typeface.DEFAULT_BOLD);
-        topTV.setTextColor(0xFF333333);
-        topTV.setText(getContext().getString(R.string.order_detail_cancel));
+        topTV.setTextColor(textColor);
+        topTV.setText(getContext().getString(strId));
         topTV.setTextSize(15);
 
-        stateIV.setBackgroundResource(R.mipmap.order_cancel);
+        stateIV.setBackgroundResource(stateImgId);
     }
 
     private void setTypePayment(String payDeadTime) {

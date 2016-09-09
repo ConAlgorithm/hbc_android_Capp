@@ -38,12 +38,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <com.hugboga.custom.widget.OrderDetailGuideInfo
-                android:id="@+id/order_detail_guideinfo_view"
+            <com.hugboga.custom.widget.OrderDetailDeliverView
+                android:id="@+id/order_detail_deliver_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:visibility="gone" />
+                android:layout_marginTop="5dp"/>
 
             <com.hugboga.custom.widget.OrderDetailItineraryView
                 android:id="@+id/order_detail_itinerary_view"

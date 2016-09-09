@@ -14,7 +14,6 @@ import com.hugboga.custom.data.bean.OrderStatus;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.utils.Tools;
-import com.hugboga.custom.utils.UIUtils;
 
 import net.grobas.view.PolygonImageView;
 
@@ -26,7 +25,7 @@ import org.greenrobot.eventbus.EventBus;
 public class OrderDetailGuideInfo extends LinearLayout implements HbcViewBehavior, View.OnClickListener {
 
     private PolygonImageView avatarIV;
-    private TextView collectTV, promptTV, evaluateTV, imTV, phoneTV, describeTV;
+    private TextView collectTV, promptTV, evaluateTV, chatTV, phoneTV, describeTV;
     private View lineView;
     private LinearLayout navLayout;
 
@@ -38,22 +37,25 @@ public class OrderDetailGuideInfo extends LinearLayout implements HbcViewBehavio
 
     public OrderDetailGuideInfo(Context context, AttributeSet attrs) {
         super(context, attrs);
+        setOrientation(LinearLayout.VERTICAL);
+        setBackgroundColor(0xFFFFFFFF);
+
         inflate(context, R.layout.include_order_guide_info, this);
         avatarIV = (PolygonImageView) findViewById(R.id.ogi_avatar_iv);
         collectTV = (TextView) findViewById(R.id.ogi_collect_tv);
         evaluateTV = (TextView) findViewById(R.id.ogi_evaluate_tv);
         promptTV = (TextView) findViewById(R.id.ogi_prompt_tv);
-        imTV = (TextView) findViewById(R.id.ogi_im_tv);
-        phoneTV = (TextView) findViewById(R.id.ogi_phone_tv);
+        chatTV = (TextView) findViewById(R.id.ogi_chat_tv);
+        phoneTV = (TextView) findViewById(R.id.ogi_call_tv);
         lineView = findViewById(R.id.ogi_horizontal_line);
         navLayout = (LinearLayout) findViewById(R.id.ogi_nav_layout);
         describeTV = (TextView)findViewById(R.id.ogi_describe_tv);
 
         collectTV.setOnClickListener(this);
         evaluateTV.setOnClickListener(this);
-        imTV.setOnClickListener(this);
+        chatTV.setOnClickListener(this);
         phoneTV.setOnClickListener(this);
-        avatarIV.setOnClickListener(this);
+        findViewById(R.id.ogi_info_layout).setOnClickListener(this);
     }
 
     @Override
@@ -68,15 +70,34 @@ public class OrderDetailGuideInfo extends LinearLayout implements HbcViewBehavio
             setVisibility(View.GONE);
         } else {
             setVisibility(View.VISIBLE);
-            if (orderBean.orderStatus == OrderStatus.NOT_EVALUATED || orderBean.orderStatus == OrderStatus.COMPLETE) {//6:服务完成
-                lineView.setVisibility(View.VISIBLE);
-                navLayout.setVisibility(View.VISIBLE);
-                collectTV.setText(getContext().getString(guideInfo.isCollected() ? R.string.uncollect : R.string.collect));
-                promptTV.setVisibility(orderBean.isEvaluated() ? View.GONE : View.VISIBLE);
-            } else {
-                lineView.setVisibility(View.GONE);
-                navLayout.setVisibility(View.GONE);
-                promptTV.setVisibility(View.GONE);
+            promptTV.setVisibility(View.GONE);
+            lineView.setVisibility(View.GONE);
+            navLayout.setVisibility(View.GONE);
+
+            switch (orderBean.orderStatus) {
+                case AGREE://3:已接单
+                case ARRIVED://4:已到达
+                case SERVICING://5:服务中
+                    if(orderBean.isIm || orderBean.isPhone) {
+                        lineView.setVisibility(View.VISIBLE);
+                        navLayout.setVisibility(View.VISIBLE);
+                        evaluateTV.setVisibility(View.GONE);
+                        collectTV.setVisibility(View.GONE);
+                        chatTV.setVisibility(orderBean.isIm ? View.VISIBLE : View.GONE);
+                        phoneTV.setVisibility(orderBean.isPhone ? View.VISIBLE : View.GONE);
+                    }
+                    break;
+                case NOT_EVALUATED://6:服务完成
+                case COMPLETE://7:已完成
+                    lineView.setVisibility(View.VISIBLE);
+                    navLayout.setVisibility(View.VISIBLE);
+                    phoneTV.setVisibility(View.GONE);
+                    collectTV.setVisibility(View.VISIBLE);
+                    evaluateTV.setVisibility(View.VISIBLE);
+                    chatTV.setVisibility(orderBean.isIm ? View.VISIBLE : View.GONE);
+                    collectTV.setText(getContext().getString(guideInfo.isCollected() ? R.string.uncollect : R.string.collect));
+                    promptTV.setVisibility(orderBean.isEvaluated() ? View.GONE : View.VISIBLE);
+                    break;
             }
 
             if (TextUtils.isEmpty(guideInfo.guideAvatar)) {
@@ -85,21 +106,10 @@ public class OrderDetailGuideInfo extends LinearLayout implements HbcViewBehavio
                 Tools.showImage(avatarIV, guideInfo.guideAvatar);
             }
             ((TextView)findViewById(R.id.ogi_name_tv)).setText(guideInfo.guideName);
-            ((TextView)findViewById(R.id.ogi_describe_tv)).setText(guideInfo.guideCar);
             ((SimpleRatingBar)findViewById(R.id.ogi_ratingview)).setRating((float)guideInfo.guideStarLevel);
+            ((TextView)findViewById(R.id.ogi_describe_tv)).setText(guideInfo.guideCar);
             if (!TextUtils.isEmpty(guideInfo.carNumber)) {
                 ((TextView)findViewById(R.id.ogi_plate_number_tv)).setText(getContext().getString(R.string.platenumber) + guideInfo.carNumber);
-            }
-
-            imTV.setVisibility(orderBean.isIm ? View.VISIBLE : View.GONE);
-            phoneTV.setVisibility(orderBean.isPhone ? View.VISIBLE : View.GONE);
-
-            if (orderBean.isIm && orderBean.isPhone) {
-                describeTV.setPadding(0, 0, UIUtils.dip2px(90), 0);
-            } else if(orderBean.isIm | orderBean.isPhone) {
-                describeTV.setPadding(0, 0, UIUtils.dip2px(40), 0);
-            } else {
-                describeTV.setPadding(0, 0, 0, 0);
             }
         }
     }
@@ -113,13 +123,13 @@ public class OrderDetailGuideInfo extends LinearLayout implements HbcViewBehavio
             case R.id.ogi_evaluate_tv:
                 EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_GUIDE_EVALUATION, orderNo));
                 break;
-            case R.id.ogi_im_tv:
+            case R.id.ogi_chat_tv:
                 EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_GUIDE_CHAT, orderNo));
                 break;
-            case R.id.ogi_phone_tv:
+            case R.id.ogi_call_tv:
                 EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_GUIDE_CALL, orderNo));
                 break;
-            case R.id.ogi_avatar_iv:
+            case R.id.ogi_info_layout:
                 EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_GUIDE_INFO, orderNo));
                 break;
         }
