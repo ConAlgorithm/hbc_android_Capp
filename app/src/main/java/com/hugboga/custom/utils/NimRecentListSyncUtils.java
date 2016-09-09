@@ -51,7 +51,7 @@ public class NimRecentListSyncUtils {
 //                iter.remove();
 //            }
         }
-        sortRecentContacts(chatBeanList);
+        //sortRecentContacts(chatBeanList);
     }
 
 
@@ -70,7 +70,7 @@ public class NimRecentListSyncUtils {
                 }
             }
         }
-        sortRecentContacts(chatBeans);
+       // sortRecentContacts(chatBeans);
         return -1;
     }
 
@@ -98,7 +98,7 @@ public class NimRecentListSyncUtils {
                 }
             }
         }
-        sortRecentContacts(chatBeens);
+        //sortRecentContacts(chatBeens);
     }
 
 

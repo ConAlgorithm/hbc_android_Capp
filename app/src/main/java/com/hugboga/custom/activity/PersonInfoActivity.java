@@ -272,10 +272,11 @@ public class PersonInfoActivity extends BaseActivity{
                             CommonUtils.showToast("没输入真实姓名，请重新填写");
                             return;
                         }else{
-                            for(int i = 0;i< nickStr.length();i++)
-                            if(!Tools.isEmojiCharacter(nickStr.charAt(i))){
-                                CommonUtils.showToast("真实姓名不能包含表情符号");
-                                return;
+                            for(int i = 0;i< nickStr.length();i++) {
+                                if (!Tools.isEmojiCharacter(nickStr.charAt(i))) {
+                                    CommonUtils.showToast("真实姓名不能包含表情符号");
+                                    return;
+                                }
                             }
                         }
                         realNameTextView.setText(editText.getText().toString());

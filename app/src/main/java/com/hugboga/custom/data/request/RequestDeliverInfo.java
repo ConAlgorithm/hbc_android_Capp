@@ -38,7 +38,7 @@ public class RequestDeliverInfo extends BaseRequest<DeliverInfoBean> {
 
     @Override
     public String getUrlErrorCode() {
-        return "40102";
+        return "40103";
     }
 
 }

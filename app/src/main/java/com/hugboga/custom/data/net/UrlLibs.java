@@ -75,6 +75,9 @@ public class UrlLibs {
     public static String H5_TAI_SUMEIDAO = H5_HOST + "/cinfos/tai/VSM.html";//苏梅岛
     public static String H5_TAI_AGREEMENT = H5_HOST + "/cinfos/agreement.html";//用户协议和条款
 
+    public static String H5_SHAREGUI = H5_HOST + "/cactivity/shareGui/index.html?";//分享砍价
+
+
 
     public static HashMap<Integer, String> OverPriceMap = new HashMap<Integer, String>();
 
@@ -104,7 +107,7 @@ public class UrlLibs {
         }
     }
 
-    //current urlErrorCode 102
+    //current urlErrorCode 104
 
     //-------个人信息--------
     public static final String SERVER_IP_PUBLIC_UER_CENTER = "ucenter/v1.0/c/user/";
@@ -156,6 +159,7 @@ public class UrlLibs {
     public static final String QUERYBARGAIN                 = "trade/v1.0/c/queryBargain?";                             // 砍价详情查询
     public static final String DELIVER_INFO                 = "trade/v1.0/c/order/deliverInfo";                         // 订单详情页发单情况
     public static final String ACCEPT_GUIDE_LIST            = "trade/v1.0/c/order/acceptGuide";                         // 表态愿意接单的导游列表
+    public static final String CREATEBARGAIN                = "trade/v1.0/c/createBargain?";                            // 砍价分享
 
     public static final String SERVER_IP_PRICE_PICKUP       = "price/v1.1/c/airportPickupPrice?";                       // 查询价格 接机
     public static final String SERVER_IP_PRICE_TRANSFER     = "price/v1.1/c/airportTransferPrice?";                     // 查询价格 送机
