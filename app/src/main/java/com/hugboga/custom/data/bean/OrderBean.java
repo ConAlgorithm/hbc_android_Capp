@@ -10,6 +10,7 @@ import java.util.List;
 
 /**
  * Created by ZHZEPHI on 2015/7/20.
+ * http://wiki.hbc.tech/pages/viewpage.action?pageId=4915608
  */
 public class OrderBean implements IBaseBean{
     /**
@@ -169,6 +170,11 @@ public class OrderBean implements IBaseBean{
     public OrderPriceInfo orderPriceInfo;   // priceInfo
     public OrderGuideInfo orderGuideInfo;   // guideInfo
     public CouponBean orderCoupon;          // coupon
+
+    public int isShowBargain;       //  砍价复层是否显示
+    public long bargainSeconds;     //  距离砍价结束时间 秒
+    public int bargainStatus;       //  砍价状态 （0- "初始态", 1- "激活 "，2-"活动结束"）
+    public double bargainAmount;    //  砍价金额
 
     public List<OrderContact> contact;
 

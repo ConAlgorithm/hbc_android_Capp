@@ -42,6 +42,7 @@ import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.HbcViewBehavior;
+import com.hugboga.custom.widget.OrderDetailBargainEntr;
 import com.hugboga.custom.widget.OrderDetailDeliverView;
 import com.hugboga.custom.widget.OrderDetailFloatView;
 import com.hugboga.custom.widget.OrderDetailGuideInfo;
@@ -83,6 +84,9 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
 
     @Bind(R.id.order_detail_explain_tv)
     TextView explainTV;
+
+    @Bind(R.id.order_detail_bargain_entr_view)
+    OrderDetailBargainEntr bargainEntrView;
 
     private PopupWindow popup;
     private View menuLayout;
@@ -160,6 +164,7 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
             orderBean = mParser.getData();
             titleBar.update(orderBean);
             floatView.update(orderBean);
+            bargainEntrView.update(orderBean);
             final int count = groupLayout.getChildCount();
             for (int i = 0; i < count; i++) {
                 View item = groupLayout.getChildAt(i);
