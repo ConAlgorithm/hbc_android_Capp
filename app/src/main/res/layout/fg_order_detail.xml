@@ -42,7 +42,7 @@
                 android:id="@+id/order_detail_deliver_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"/>
+                android:layout_marginTop="5dp" />
 
             <com.hugboga.custom.widget.OrderDetailItineraryView
                 android:id="@+id/order_detail_itinerary_view"
@@ -65,6 +65,15 @@
             <include layout="@layout/view_order_detail_explain" />
         </LinearLayout>
     </ScrollView>
+
+    <com.hugboga.custom.widget.OrderDetailBargainEntr
+        android:id="@+id/order_detail_bargain_entr_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="100dp" />
 
     <TextView
         android:id="@+id/order_detail_empty_tv"

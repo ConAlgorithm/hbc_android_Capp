@@ -157,6 +157,11 @@ public class ParserOrder extends ImplParser {
         orderbean.hotelRoom = jsonObj.optInt("hotelRoom");
         orderbean.hotelDays = jsonObj.optInt("hotelDays");
 
+        orderbean.isShowBargain = jsonObj.optInt("isShowBargain");
+        orderbean.bargainSeconds = jsonObj.optLong("bargainSeconds");
+        orderbean.bargainStatus = jsonObj.optInt("bargainStatus");
+        orderbean.bargainAmount = jsonObj.optDouble("bargainAmount");
+
         orderbean.guideCollectId = jsonObj.optString("guideCollectId");
         orderbean.userCommentStatus = jsonObj.optInt("userCommentStatus");
         orderbean.priceCommentReward = jsonObj.optInt("priceCommentReward");
