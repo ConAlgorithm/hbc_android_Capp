@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/head"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="20dp"
+        android:src="@mipmap/car_bg"
+        android:layout_width="50dp"
+        android:layout_height="50dp" />
+
+    <TextView
+        android:id="@+id/name"
+        android:textColor="@color/basic_black"
+        android:textSize="14sp"
+        android:layout_alignTop="@id/head"
+        android:layout_toRightOf="@id/head"
+        android:drawablePadding="10dp"
+        android:drawableRight="@mipmap/man_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <ImageView
+        android:id="@+id/auth"
+        android:src="@mipmap/auth_icon"
+        android:layout_alignTop="@id/name"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+
+    <TextView
+        android:id="@+id/city"
+        android:textColor="@color/basic_black"
+        android:textSize="14sp"
+        android:layout_below="@id/name"
+        android:layout_toRightOf="@id/head"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/cartype"
+        android:textColor="@color/basic_black"
+        android:textSize="14sp"
+        android:layout_marginLeft="10dp"
+        android:layout_below="@id/name"
+        android:layout_toRightOf="@id/city"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <com.hugboga.custom.widget.SimpleRatingBar
+        android:id="@+id/ratingview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/head"
+        android:layout_below="@id/city"
+        android:layout_marginTop="5dp"
+        app:srb_starSize="14dp"
+        app:srb_starsSeparation="1dp"
+        app:srb_numberOfStars="5"
+        app:srb_stepSize="0.01"
+        app:srb_borderColor="#00000000"
+        app:srb_fillColor="#fed631"
+        app:srb_starBackgroundColor="#eeeeee"
+        app:srb_isIndicator="true"
+        />
+
+    <TextView
+        android:id="@+id/score"
+        android:textColor="@color/basic_black"
+        android:textSize="14sp"
+        android:layout_marginTop="5dp"
+        android:layout_below="@id/city"
+        android:layout_toRightOf="@id/ratingview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/no_score"
+        android:textColor="@color/basic_black"
+        android:textSize="14sp"
+        android:layout_marginTop="5dp"
+        android:layout_below="@id/city"
+        android:layout_toRightOf="@id/head"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/tips"
+        android:textColor="@color/all_bg_yellow"
+        android:textSize="14sp"
+        android:layout_marginTop="5dp"
+        android:layout_below="@id/ratingview"
+        android:layout_toRightOf="@id/ratingview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/choose"
+        android:textColor="@color/basic_white"
+        android:textSize="14sp"
+        android:gravity="center"
+        android:layout_marginRight="20dp"
+        android:layout_alignParentRight="true"
+        android:text="@string/choose_guide"
+        android:background="@drawable/choose_guide_bg"
+        android:layout_centerVertical="true"
+        android:layout_width="80dp"
+        android:layout_height="30dp" />
+
+</RelativeLayout>

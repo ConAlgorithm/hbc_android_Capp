@@ -804,4 +804,7 @@
     <string name="add_name_tips">完善您的个人信息\n让好友更容易帮助你</string>
     <string name="real_name">请输入你的真实姓名</string>
 
+    <string name="choose_guide">选他服务</string>
+    <string name="choose_guide_title">%1$d个已接单司导</string>
+
 </resources>
