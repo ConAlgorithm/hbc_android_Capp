@@ -61,7 +61,6 @@ public class CanServiceGuideListActivity extends BaseActivity {
         HttpRequestUtils.request(activity, requestAcceptGuide, new HttpRequestListener() {
             @Override
             public void onDataRequestSucceed(BaseRequest request) {
-                LogUtil.e("===","====");
                 CanServiceGuideBean canServiceGuideBean = ((RequestAcceptGuide)request).getData();
                 list.addAll(canServiceGuideBean.getGuides());
                 total = canServiceGuideBean.getTotalSize();
