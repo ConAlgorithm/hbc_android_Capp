@@ -1,16 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/travel_bg"
-    android:gravity="center"
-    android:padding="@dimen/basic_margin_xlarge">
-
+    android:orientation="vertical"
+    android:gravity="center_horizontal">
+    <ImageView
+        android:layout_marginTop="60dp"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:src="@mipmap/travel_list_empty_icon"
+        />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/travel_listview_empty_margin"
-        android:text="您还没有已完成的行程"
-        android:textSize="@dimen/text_size_largex" />
+        android:textColor="#666666"
+        android:text="您还没有相关订单"
+        android:textSize="16sp" />
 
-</RelativeLayout>
+</LinearLayout>

@@ -7,6 +7,8 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +20,8 @@ import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.adapter.ZBaseAdapter;
 import com.huangbaoche.hbcframe.adapter.ZBaseAdapter.OnItemClickListener;
+import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
+import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.huangbaoche.hbcframe.widget.recycler.ZDefaultDivider;
 import com.huangbaoche.hbcframe.widget.recycler.ZListPageView;
@@ -33,7 +37,9 @@ import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
+import com.hugboga.custom.data.parser.ParserTravel;
 import com.hugboga.custom.data.request.RequestTravel;
+import com.hugboga.custom.utils.CommonUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -48,16 +54,18 @@ import java.util.List;
 import java.util.Map;
 
 @ContentView(R.layout.fg_travel)
-public class FgTravel extends BaseFragment implements View.OnClickListener, OnItemClickListener {
+public class FgTravel extends BaseFragment implements View.OnClickListener, OnItemClickListener, ZListPageView.NoticeViewTask {
 
     public static final String FILTER_FLUSH = "com.hugboga.custom.travel.flush";
     public static final String JUMP_TYPE = "JUMP_TYPE";
     public static final String REFRESH_RUNNING = "REFRESH_RUNNING";
     public static final String REFRESH_FINISH = "REFRESH_FINISH";
     public static final String REFRESH_CANCEL = "REFRESH_CANCEL";
+    public static final String REFRESH_EVALUATE = "REFRESH_EVALUATE";
     public static final int TYPE_ORDER_RUNNING = 0;
     public static final int TYPE_ORDER_FINISH = 1;
     public static final int TYPE_ORDER_CANCEL = 2;
+    public static final int TYPE_ORDER_EVALUATE = 3;
 
     @ViewInject(R.id.travel_logout_layout)
     private View logoutLayout;
@@ -71,8 +79,6 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, OnIt
     RelativeLayout tab1Layout;
     @ViewInject(R.id.travel_tab1_title)
     TextView tab1TextView;
-    @ViewInject(R.id.travel_tab1_number)
-    TextView tab1NumberTextView;
     @ViewInject(R.id.travel_tab1_line)
     View tab1LineView;
     //Tab2
@@ -93,6 +99,16 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, OnIt
     TextView tab3NumberTextView;
     @ViewInject(R.id.travel_tab3_line)
     View tab3LineView;
+    //Tab4
+    @ViewInject(R.id.travel_tab4_layout)
+    RelativeLayout tab4Layout;
+    @ViewInject(R.id.travel_tab4_title)
+    TextView tab4TextView;
+    @ViewInject(R.id.travel_tab4_number)
+    TextView tab4NumberTextView;
+    @ViewInject(R.id.travel_tab4_line)
+    View tab4LineView;
+
     @ViewInject(R.id.travel_viewpager)
     ViewPager viewPager; //滑动页面
 
@@ -114,6 +130,12 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, OnIt
     ZSwipeRefreshLayout cancelSwipeRefresh;
     RelativeLayout cancelEmptyLayout;
     NewOrderAdapter cancelAdapter;
+
+    RelativeLayout evaluateLayout;
+    ZListPageView fgTravelEvaluate;
+    ZSwipeRefreshLayout evaluateSwipeRefresh;
+    RelativeLayout evaluateEmptyLayout;
+    NewOrderAdapter evaluateAdapter;
 
     HashMap<Integer, Boolean> needRefreshMap = new HashMap<>();
 
@@ -148,11 +170,7 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, OnIt
         IntentFilter filter = new IntentFilter(FILTER_FLUSH);
         getActivity().registerReceiver(flushReceiver, filter);
 
-        //进行中
         runninLayout = (RelativeLayout) inflater.inflate(R.layout.travel_list_layout_running, null);
-//        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-//        layoutParams.setMargins(0, 15, 0, 15);//4个参数按顺序分别是左上右下
-//        runninLayout.setLayoutParams(layoutParams);
         fgTravelRunning = (ZListPageView) runninLayout.findViewById(R.id.listview);
         fgTravelRunning.removeItemDecoration(fgTravelRunning.divider);
         runningSwipeRefresh = (ZSwipeRefreshLayout) runninLayout.findViewById(R.id.swipe);
@@ -161,16 +179,15 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, OnIt
         fgTravelRunning.setAdapter(runningAdapter);
         fgTravelRunning.setzSwipeRefreshLayout(runningSwipeRefresh);
         fgTravelRunning.setEmptyLayout(runningEmptyLayout);
-        fgTravelRunning.setRequestData(new RequestTravel(getActivity(), 1));
+        fgTravelRunning.setNoticeViewTask(this);
+        fgTravelRunning.setRequestData(new RequestTravel(getActivity(), 0));
         fgTravelRunning.setOnItemClickListener(new TravelOnItemClickListener(fgTravelRunning));
         addFooterView(inflater, runningAdapter);
-
-        //设置间距
         ZDefaultDivider zDefaultDivider = fgTravelRunning.getItemDecoration();
         zDefaultDivider.setItemOffsets(0, 15, 0, 15);
         //设置开启我的行程事件
         setBtnClick(runninLayout.findViewById(R.id.travel_empty_btn));
-        //已完成
+
         finishLayout = (RelativeLayout) inflater.inflate(R.layout.travel_list_layout_finish, null);
         fgTravelFinish = (ZListPageView) finishLayout.findViewById(R.id.listview);
         fgTravelFinish.removeItemDecoration(fgTravelFinish.divider);
@@ -180,13 +197,13 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, OnIt
         fgTravelFinish.setAdapter(finishAdapter);
         fgTravelFinish.setzSwipeRefreshLayout(finishSwipeRefresh);
         fgTravelFinish.setEmptyLayout(finishEmptyLayout);
-        fgTravelFinish.setRequestData(new RequestTravel(getActivity(), 2));
+        fgTravelFinish.setNoticeViewTask(this);
+        fgTravelFinish.setRequestData(new RequestTravel(getActivity(), 4));
         fgTravelFinish.setOnItemClickListener(new TravelOnItemClickListener(fgTravelFinish));
         ZDefaultDivider zDefaultDivider2 = fgTravelFinish.getItemDecoration();
         zDefaultDivider2.setItemOffsets(0, 15, 0, 15);
         addFooterView(inflater, finishAdapter);
 
-        //已取消
         cancelLayout = (RelativeLayout) inflater.inflate(R.layout.travel_list_layout_cancel, null);
         fgTravelCancel = (ZListPageView) cancelLayout.findViewById(R.id.listview);
         fgTravelCancel.removeItemDecoration(fgTravelCancel.divider);
@@ -196,27 +213,46 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, OnIt
         fgTravelCancel.setAdapter(cancelAdapter);
         fgTravelCancel.setzSwipeRefreshLayout(cancelSwipeRefresh);
         fgTravelCancel.setEmptyLayout(cancelEmptyLayout);
-        fgTravelCancel.setRequestData(new RequestTravel(getActivity(), 3));
+        fgTravelCancel.setNoticeViewTask(this);
+        fgTravelCancel.setRequestData(new RequestTravel(getActivity(), 5));
         fgTravelCancel.setOnItemClickListener(new TravelOnItemClickListener(fgTravelCancel));
         ZDefaultDivider zDefaultDivider3 = fgTravelCancel.getItemDecoration();
         zDefaultDivider3.setItemOffsets(0, 15, 0, 15);
         addFooterView(inflater, cancelAdapter);
 
+        evaluateLayout = (RelativeLayout) inflater.inflate(R.layout.travel_list_layout_cancel, null);
+        fgTravelEvaluate = (ZListPageView) evaluateLayout.findViewById(R.id.listview);
+        fgTravelEvaluate.removeItemDecoration(fgTravelEvaluate.divider);
+        evaluateSwipeRefresh = (ZSwipeRefreshLayout) evaluateLayout.findViewById(R.id.swipe);
+        evaluateEmptyLayout = (RelativeLayout) evaluateLayout.findViewById(R.id.list_empty);
+        evaluateAdapter = new NewOrderAdapter(getContext());
+        fgTravelEvaluate.setAdapter(evaluateAdapter);
+        fgTravelEvaluate.setzSwipeRefreshLayout(evaluateSwipeRefresh);
+        fgTravelEvaluate.setEmptyLayout(evaluateEmptyLayout);
+        fgTravelEvaluate.setNoticeViewTask(this);
+        fgTravelEvaluate.setRequestData(new RequestTravel(getActivity(), 6));
+        fgTravelEvaluate.setOnItemClickListener(new TravelOnItemClickListener(fgTravelEvaluate));
+        ZDefaultDivider zDefaultDivider4 = fgTravelEvaluate.getItemDecoration();
+        zDefaultDivider4.setItemOffsets(0, 15, 0, 15);
+        addFooterView(inflater, evaluateAdapter);
+
+
         //Tab相关
         tab1TextView.setSelected(true);
-        tab1NumberTextView.setSelected(true);
         tab1LineView.setVisibility(View.VISIBLE);
         needRefreshMap.put(TYPE_ORDER_RUNNING, true);
         needRefreshMap.put(TYPE_ORDER_FINISH, true);
         needRefreshMap.put(TYPE_ORDER_CANCEL, true);
+        needRefreshMap.put(TYPE_ORDER_EVALUATE, true);
 
         //加载数据片段页面
         List<RelativeLayout> listViews = new ArrayList<>();
         listViews.add(runninLayout);
         listViews.add(finishLayout);
         listViews.add(cancelLayout);
+        listViews.add(evaluateLayout);
         OrderPageAdapter orderAdapter = new OrderPageAdapter(listViews);
-        viewPager.setOffscreenPageLimit(3);
+        viewPager.setOffscreenPageLimit(4);
         viewPager.setAdapter(orderAdapter);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -234,7 +270,6 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, OnIt
             }
         });
         reSetTabView(0); //刷新第一个标签页
-
     }
 
     private void addFooterView(LayoutInflater inflater, NewOrderAdapter adapter) {
@@ -256,7 +291,7 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, OnIt
         if (UserEntity.getUser().isLogin(getActivity())) {
             contentLayout.setVisibility(View.VISIBLE);
             logoutLayout.setVisibility(View.GONE);
-            reSetTabView(0); //刷新第一个标签页
+            reSetTabView(0);
         } else {
             contentLayout.setVisibility(View.GONE);
             logoutLayout.setVisibility(View.VISIBLE);
@@ -282,6 +317,13 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, OnIt
         if (fgTravelCancel != null) {
             fgTravelCancel.showPageFirst();
             cancelAdapter.notifyDataSetChanged();
+        }
+    }
+
+    public void loadDataEvaluate() {
+        if (fgTravelEvaluate != null) {
+            fgTravelEvaluate.showPageFirst();
+            evaluateAdapter.notifyDataSetChanged();
         }
     }
 
@@ -331,7 +373,7 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, OnIt
         }
     }
 
-    @Event({R.id.travel_tab1_layout, R.id.travel_tab2_layout, R.id.travel_tab3_layout, R.id.travel_login_btn})
+    @Event({R.id.travel_tab1_layout, R.id.travel_tab2_layout, R.id.travel_tab3_layout,  R.id.travel_tab4_layout, R.id.travel_login_btn})
     private void onClickView(View view) {
         switch (view.getId()) {
             case R.id.travel_tab1_layout:
@@ -345,6 +387,9 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, OnIt
             case R.id.travel_tab3_layout:
                 //已取消
                 reSetTabView(2);
+                break;
+            case R.id.travel_tab4_layout:
+                reSetTabView(3);
                 break;
             case R.id.travel_login_btn:
                 Intent intent = new Intent(view.getContext(), LoginActivity.class);
@@ -376,33 +421,67 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, OnIt
             return;
         }
         tab1TextView.setSelected(false);
-        tab1NumberTextView.setSelected(false);
         tab1LineView.setVisibility(View.GONE);
         tab2TextView.setSelected(false);
-        tab2NumberTextView.setSelected(false);
         tab2LineView.setVisibility(View.GONE);
         tab3TextView.setSelected(false);
-        tab3NumberTextView.setSelected(false);
         tab3LineView.setVisibility(View.GONE);
+        tab4TextView.setSelected(false);
+        tab4LineView.setVisibility(View.GONE);
         if (position == 0) {
             tab1TextView.setSelected(true);
-            tab1NumberTextView.setSelected(true);
             tab1LineView.setVisibility(View.VISIBLE);
             viewPager.setCurrentItem(0);
             loadDataRunning();
         } else if (position == 1) {
             tab2TextView.setSelected(true);
-            tab2NumberTextView.setSelected(true);
             tab2LineView.setVisibility(View.VISIBLE);
             viewPager.setCurrentItem(1);
             loadDataFinish();
         } else if (position == 2) {
             tab3TextView.setSelected(true);
-            tab3NumberTextView.setSelected(true);
             tab3LineView.setVisibility(View.VISIBLE);
             viewPager.setCurrentItem(2);
             loadDataCancel();
+        } else if (position == 3) {
+            tab4TextView.setSelected(true);
+            tab4LineView.setVisibility(View.VISIBLE);
+            viewPager.setCurrentItem(3);
+            loadDataEvaluate();
         }
+    }
+
+    @Override
+    public void notice(Object object) {
+        if (object != null) {
+            Object[] obj = (Object[]) object;
+            int tab2Count = CommonUtils.getCountInteger("" + obj[2]);
+            if (tab2Count > 0) {
+                tab2NumberTextView.setVisibility(View.VISIBLE);
+                tab2NumberTextView.setText(tab2Count > 100 ? "99+" : "" + tab2Count);
+            } else {
+                tab2NumberTextView.setVisibility(View.GONE);
+            }
+            int tab3Count = CommonUtils.getCountInteger("" + obj[3]);
+            if (tab3Count > 0) {
+                tab3NumberTextView.setVisibility(View.VISIBLE);
+                tab3NumberTextView.setText(tab3Count > 100 ? "99+" : "" + tab3Count);
+            } else {
+                tab3NumberTextView.setVisibility(View.GONE);
+            }
+            int tab4Count = CommonUtils.getCountInteger("" + obj[4]);
+            if (tab2Count > 0) {
+                tab4NumberTextView.setVisibility(View.VISIBLE);
+                tab4NumberTextView.setText(tab4Count > 100 ? "99+" : "" + tab4Count);
+            } else {
+                tab4NumberTextView.setVisibility(View.GONE);
+            }
+        }
+    }
+
+    @Override
+    public void error(ExceptionInfo errorInfo, BaseRequest request) {
+
     }
 
     class TravelOnItemClickListener implements ZBaseAdapter.OnItemClickListener {
@@ -423,13 +502,9 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, OnIt
                 bean = finishAdapter.getDatas().get(position);
             } else if (view == fgTravelCancel) {
                 bean = cancelAdapter.getDatas().get(position);
+            } else if (view == fgTravelEvaluate) {
+                bean = evaluateAdapter.getDatas().get(position);
             }
-//            FgOrderDetail.Params params = new FgOrderDetail.Params();
-//            params.orderType = bean.orderType;
-//            params.orderId = bean.orderNo;
-//            params.source = bean.orderType == 5 ? bean.serviceCityName : "首页";
-//            startFragment(FgOrderDetail.newInstance(params));
-
             OrderDetailActivity.Params params = new OrderDetailActivity.Params();
             params.orderType = bean.orderType;
             params.orderId = bean.orderNo;
@@ -438,32 +513,6 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, OnIt
             intent.putExtra(Constants.PARAMS_DATA, params);
             intent.putExtra(Constants.PARAMS_SOURCE,params.source);
             getActivity().startActivity(intent);
-
-//            if (view == fgTravelRunning) {
-//                OrderBean bean = runningAdapter.getDatas().get(position);
-//                Bundle bundle = new Bundle();
-//                bundle.putInt(KEY_BUSINESS_TYPE, bean.orderType);
-//                bundle.putInt(KEY_GOODS_TYPE, bean.orderGoodsType);
-//                bundle.putString(FgOrder.KEY_ORDER_ID, bean.orderNo);
-//                bundle.putString("source", bean.orderType == 5 ? bean.serviceCityName : "首页");
-//                startFragment(new FgOrder(), bundle);
-//            } else if (view == fgTravelFinish) {
-//                OrderBean bean = finishAdapter.getDatas().get(position);
-//                Bundle bundle = new Bundle();
-//                bundle.putInt(KEY_BUSINESS_TYPE, bean.orderType);
-//                bundle.putInt(KEY_GOODS_TYPE, bean.orderGoodsType);
-//                bundle.putString(FgOrder.KEY_ORDER_ID, bean.orderNo);
-//                bundle.putString("source", bean.orderType == 5 ? bean.serviceCityName : "首页");
-//                startFragment(new FgOrder(), bundle);
-//            } else if (view == fgTravelCancel) {
-//                OrderBean bean = cancelAdapter.getDatas().get(position);
-//                Bundle bundle = new Bundle();
-//                bundle.putInt(KEY_BUSINESS_TYPE, bean.orderType);
-//                bundle.putInt(KEY_GOODS_TYPE, bean.orderGoodsType);
-//                bundle.putString(FgOrder.KEY_ORDER_ID, bean.orderNo);
-//                bundle.putString("source", bean.orderType == 5 ? bean.serviceCityName : "首页");
-//                startFragment(new FgOrder(), bundle);
-//            }
         }
     }
 
@@ -513,6 +562,7 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, OnIt
             needRefreshMap.put(TYPE_ORDER_RUNNING, needRefreshMap.get(TYPE_ORDER_RUNNING) || intent.getBooleanExtra(REFRESH_RUNNING, false));
             needRefreshMap.put(TYPE_ORDER_FINISH, needRefreshMap.get(TYPE_ORDER_FINISH) || intent.getBooleanExtra(REFRESH_FINISH, false));
             needRefreshMap.put(TYPE_ORDER_CANCEL, needRefreshMap.get(TYPE_ORDER_CANCEL) || intent.getBooleanExtra(REFRESH_CANCEL, false));
+            needRefreshMap.put(TYPE_ORDER_EVALUATE, needRefreshMap.get(TYPE_ORDER_EVALUATE) || intent.getBooleanExtra(REFRESH_EVALUATE, false));
             MLog.e("onReceive jumpType=" + jumpType + " " + needRefreshMap.get(TYPE_ORDER_RUNNING) + " " + needRefreshMap.get(TYPE_ORDER_FINISH) + " " + TYPE_ORDER_CANCEL);
             reSetTabView(jumpType);
         }
@@ -533,6 +583,12 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, OnIt
                 logoutLayout.setVisibility(View.VISIBLE);
                 cleanListData();
                 break;
+            case TRAVEL_LIST_TYPE:
+                int index = Integer.valueOf(action.data.toString());
+                if (viewPager != null && index >= 0 && index < 4){
+                    reSetTabView(index);
+                }
+                break;
             default:
                 break;
         }
@@ -546,6 +602,8 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, OnIt
             finishAdapter.notifyDataSetChanged();
             cancelAdapter.getDatas().clear();
             cancelAdapter.notifyDataSetChanged();
+            evaluateAdapter.getDatas().clear();
+            evaluateAdapter.notifyDataSetChanged();
         }catch (Exception e) {
 
         }
