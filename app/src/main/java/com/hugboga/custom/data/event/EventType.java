@@ -26,6 +26,7 @@ public enum EventType {
     CONTACT_BACK, //通讯录选取联系人返回显示
     WECHAT_SHARE_SUCCEED,//微信分享成功
     PAY_RESULT,//支付回调
+    TRAVEL_LIST_TYPE,//行程列表分类
 
     CHANGE_MOBILE,//修改手机号
     BIND_MOBILE,//绑定手机号

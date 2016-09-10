@@ -42,6 +42,7 @@ public class OrderDetailBargainEntr extends RelativeLayout implements HbcViewBeh
         final View view = inflate(context, R.layout.view_order_detail_bargain_entr, this);
         ButterKnife.bind(view);
         setOnClickListener(this);
+        priceTV.setText(getContext().getString(R.string.order_detail_bargain_entr_price, "0"));
     }
 
     @Override

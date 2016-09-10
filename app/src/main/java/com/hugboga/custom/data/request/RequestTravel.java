@@ -21,10 +21,8 @@ public class RequestTravel extends BaseRequest {
     public RequestTravel(Context context, int orderShowType) {
         super(context);
         map = new HashMap<String, Object>();
-        try {
+        if (orderShowType != 0) {
             map.put("searchType", orderShowType);
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 
