@@ -89,8 +89,19 @@ public class GuideDetailActivity extends BaseActivity implements GuideCarPhotosA
     ImageView shareIV;
     @Bind(R.id.header_detail_right_1_btn)
     ImageView collectIV;
+    @Bind(R.id.guide_detail_subtitle_appointment_layout)
+    FrameLayout appointmentSubtitleLayout;
+    @Bind(R.id.guide_detail_appointment_layout)
+    LinearLayout appointmentLayout;
+    @Bind(R.id.guide_detail_select_tv)
+    TextView selectGuideTV;
+    @Bind(R.id.guide_detail_photo_empty_tv)
+    TextView photoEmptyTV;
+
+    public static final String PARAMS_IS_SELET_SERVICE = "isSeletService";
 
     private String guideId;
+    private boolean isSeletService = false;
     private GuidesDetailData data;
     private DialogUtil mDialogUtil;
     private CollectGuideBean collectBean;
@@ -101,10 +112,12 @@ public class GuideDetailActivity extends BaseActivity implements GuideCarPhotosA
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
             guideId = savedInstanceState.getString(Constants.PARAMS_DATA);
+            isSeletService = savedInstanceState.getBoolean(GuideDetailActivity.PARAMS_IS_SELET_SERVICE);
         } else {
             Bundle bundle = getIntent().getExtras();
             if (bundle != null) {
                 guideId = bundle.getString(Constants.PARAMS_DATA);
+                isSeletService = bundle.getBoolean(GuideDetailActivity.PARAMS_IS_SELET_SERVICE);
             }
         }
 
@@ -113,8 +126,16 @@ public class GuideDetailActivity extends BaseActivity implements GuideCarPhotosA
 
         mDialogUtil = DialogUtil.getInstance(this);
         titleTV.setText(getString(R.string.guide_detail_subtitle_title));
-        shareIV.setImageResource(R.mipmap.sddate_share);
-        collectIV.setImageResource(R.drawable.selector_guide_detail_collect);
+        if (isSeletService) {
+            shareIV.setVisibility(View.GONE);
+            collectIV.setVisibility(View.GONE);
+            appointmentSubtitleLayout.setVisibility(View.INVISIBLE);
+            appointmentLayout.setVisibility(View.GONE);
+            selectGuideTV.setVisibility(View.VISIBLE);
+        } else {
+            shareIV.setImageResource(R.mipmap.sddate_share);
+            collectIV.setImageResource(R.drawable.selector_guide_detail_collect);
+        }
 
         requestData();
     }
@@ -124,6 +145,7 @@ public class GuideDetailActivity extends BaseActivity implements GuideCarPhotosA
         super.onSaveInstanceState(outState);
         if (guideId != null) {
             outState.putSerializable(Constants.PARAMS_DATA, guideId);
+            outState.putBoolean(GuideDetailActivity.PARAMS_IS_SELET_SERVICE, isSeletService);
         }
     }
 
@@ -200,7 +222,8 @@ public class GuideDetailActivity extends BaseActivity implements GuideCarPhotosA
 
             if (data.getCarPhotosS() != null && data.getCarPhotosS().size() > 0) {
                 carRecyclerView.setVisibility(View.VISIBLE);
-                carPhotosLayout.setVisibility(View.VISIBLE);
+                photoEmptyTV.setVisibility(View.GONE);
+//                carPhotosLayout.setVisibility(View.VISIBLE);
                 if (carPhotosAdapter == null) {
                     LinearLayoutManager layoutManager = new LinearLayoutManager(this);
                     layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -216,7 +239,8 @@ public class GuideDetailActivity extends BaseActivity implements GuideCarPhotosA
                 carPhotosAdapter.setData(data.getCarPhotosS());
             } else {
                 carRecyclerView.setVisibility(View.GONE);
-                carPhotosLayout.setVisibility(View.GONE);
+                photoEmptyTV.setVisibility(View.VISIBLE);
+//                carPhotosLayout.setVisibility(View.GONE);
             }
         } else if (_request instanceof RequestUncollectGuidesId) {//取消收藏
             data.setIsFavored(0);

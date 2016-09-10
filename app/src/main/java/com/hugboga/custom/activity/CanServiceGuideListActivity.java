@@ -96,6 +96,7 @@ public class CanServiceGuideListActivity extends BaseActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(activity,GuideDetailActivity.class);
                 intent.putExtra(Constants.PARAMS_DATA,list.get(position-1).getGuideId());
+                intent.putExtra(GuideDetailActivity.PARAMS_IS_SELET_SERVICE, true);
                 startActivity(intent);
             }
         });

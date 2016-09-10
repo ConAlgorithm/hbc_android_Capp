@@ -129,7 +129,7 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
         titleBar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(activity,CanServiceGuideListActivity.class);
+                Intent intent = new Intent(activity, CanServiceGuideListActivity.class);
                 intent.putExtra("orderNo",params.orderId);
                 startActivity(intent);
             }
