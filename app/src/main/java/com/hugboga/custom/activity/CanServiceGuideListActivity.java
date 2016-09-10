@@ -4,8 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
@@ -16,7 +18,6 @@ import com.hugboga.custom.adapter.ChooseGuideAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CanServiceGuideBean;
 import com.hugboga.custom.data.request.RequestAcceptGuide;
-import com.hugboga.custom.widget.ZListView;
 import com.netease.nim.uikit.common.util.log.LogUtil;
 
 import java.util.ArrayList;
@@ -25,8 +26,6 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-import static android.view.View.GONE;
-
 /**
  * Created on 16/9/9.
  */
@@ -34,7 +33,7 @@ import static android.view.View.GONE;
 public class CanServiceGuideListActivity extends BaseActivity {
 
     @Bind(R.id.zlistview)
-    ZListView zlistview;
+    ListView zlistview;
 
     @Override
     public void onCreate(Bundle arg0) {
@@ -72,10 +71,7 @@ public class CanServiceGuideListActivity extends BaseActivity {
                 }
 
                 if(offset >= total){
-                    zlistview.setHasMore(false);
-                    zlistview.getMoreView().setVisibility(GONE);
-                    zlistview.onLoadComplete();
-                    zlistview.onRefreshComplete();
+
                 }
                 adapter.notifyDataSetChanged();
             }
@@ -94,7 +90,8 @@ public class CanServiceGuideListActivity extends BaseActivity {
 
     LinearLayout headView;
     private void initView() {
-
+        headView = (LinearLayout)LayoutInflater.from(activity).inflate(R.layout.choose_guide_head,null);
+        zlistview.addHeaderView(headView);
         adapter = new ChooseGuideAdapter(activity);
         zlistview.setAdapter(adapter);
         zlistview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -105,30 +102,26 @@ public class CanServiceGuideListActivity extends BaseActivity {
                 startActivity(intent);
             }
         });
-        zlistview.setonRefreshListener(new ZListView.OnRefreshListener() {
+
+
+        zlistview.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
-            public void onRefresh() {
-                offset = 0;
-                getData();
-            }
-        });
-        headView = (LinearLayout)LayoutInflater.from(activity).inflate(R.layout.choose_guide_head,null);
-        zlistview.setHeadView(headView);
-        zlistview.setHasMore(true);
-        zlistview.setonLoadListener(new ZListView.OnLoadListener() {
-            @Override
-            public void onLoad() {
-                if((offset + limit) < total){
-                    offset += limit;
-                    getData();
-                }else{
-                    zlistview.onLoadComplete();
-                    zlistview.onRefreshComplete();
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
+                    if (view.getLastVisiblePosition() == (view.getCount() - 1)) {
+                        if (offset < total) {
+                            offset += limit;
+                            getData();
+                        }
+                    }
                 }
             }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+            }
         });
-        zlistview.getHeadView().setVisibility(View.VISIBLE);
-        zlistview.setVisibility(View.VISIBLE);
     }
 
     @Override
