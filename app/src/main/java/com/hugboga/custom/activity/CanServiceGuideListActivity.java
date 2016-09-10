@@ -52,7 +52,7 @@ public class CanServiceGuideListActivity extends BaseActivity {
 
     ChooseGuideAdapter adapter;
     String orderNo = "Z190347971527";
-    int limit = 6;
+    int limit = 20;
     int offset = 0;
     List<CanServiceGuideBean.GuidesBean> list = new ArrayList<>();
     int total = 0;
@@ -69,10 +69,7 @@ public class CanServiceGuideListActivity extends BaseActivity {
                 if(offset == 0) {
                     adapter.setList(list);
                 }
-
-                if(offset >= total){
-
-                }
+                offset += limit;
                 adapter.notifyDataSetChanged();
             }
 
@@ -110,7 +107,6 @@ public class CanServiceGuideListActivity extends BaseActivity {
                 if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
                     if (view.getLastVisiblePosition() == (view.getCount() - 1)) {
                         if (offset < total) {
-                            offset += limit;
                             getData();
                         }
                     }
