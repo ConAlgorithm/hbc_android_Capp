@@ -41,6 +41,7 @@ public class ChooseGuideAdapter extends BaseAdapter {
             viewHolder.auth = (ImageView) view.findViewById(R.id.auth);
             viewHolder.carType = (TextView) view.findViewById(R.id.cartype);
             viewHolder.ratingBar = (SimpleRatingBar)view.findViewById(R.id.ratingview);
+            viewHolder.choose = (TextView)view.findViewById(R.id.choose);
             view.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) view.getTag();
@@ -48,12 +49,19 @@ public class ChooseGuideAdapter extends BaseAdapter {
         CanServiceGuideBean.GuidesBean model = (CanServiceGuideBean.GuidesBean) getItem(position);
         viewHolder.name.setText(model.getGuideName());
         viewHolder.city.setText(model.getCityName());
-        viewHolder.carType.setText(model.getCarName());
+        viewHolder.carType.setText(model.getCarBrandName()+ model.getCarName());
         viewHolder.ratingBar.setRating((float)model.getServiceStar());
-        if(model.getGenderName().equalsIgnoreCase("男")){
+        if(model.getOrderCounts() == 0) {
+            viewHolder.score.setText(model.getServiceStar() + "分");
+        }else{
+            viewHolder.score.setText(model.getServiceStar() + "分/"+model.getOrderCounts()+"单");
+        }
+        if(model.getGender() == 1){
             viewHolder.name.setCompoundDrawablesWithIntrinsicBounds(0,0,R.mipmap.man_icon,0);
+            viewHolder.choose.setText("选他服务");
         }else{
             viewHolder.name.setCompoundDrawablesWithIntrinsicBounds(0,0,R.mipmap.woman_icon,0);
+            viewHolder.choose.setText("选她服务");
         }
 
         Tools.showCircleImage(context,viewHolder.head,model.getAvatarS());
@@ -71,6 +79,7 @@ public class ChooseGuideAdapter extends BaseAdapter {
         TextView tips;
         ImageView auth;
         TextView carType;
+        TextView choose;
         ImageView head;
         SimpleRatingBar ratingBar;
     }

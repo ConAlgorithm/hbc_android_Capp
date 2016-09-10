@@ -118,12 +118,14 @@ public class BargainActivity extends BaseActivity {
             bargainTotal = barginBean.bargainTotal;
             cuteMoneyTv.setText(barginBean.bargainAmount);
             second = barginBean.seconds;
-            if (0 != second) {
-                countDownTimer.start();
-            } else {
-                countdown.changeTime(0);
-                cutMoney.setImageResource(R.mipmap.cut_end);
-                cutMoney.setOnClickListener(null);
+            if(barginBean.bargainWechatRspList.size() > 0) {
+                if (0 != second) {
+                    countDownTimer.start();
+                } else {
+                    countdown.changeTime(0);
+                    cutMoney.setImageResource(R.mipmap.cut_end);
+                    cutMoney.setOnClickListener(null);
+                }
             }
 
             offset += limit;
@@ -146,6 +148,7 @@ public class BargainActivity extends BaseActivity {
                 , new ShareDialog.OnShareListener() {
                     @Override
                     public void onShare(int type) {
+                        countDownTimer.start();
                     }
                 });
     }
@@ -203,7 +206,7 @@ public class BargainActivity extends BaseActivity {
         addBottom();
     }
 
-    int second = 900;
+    int second = 48* 60 * 60;
     CountDownTimer countDownTimer;
 
     private void initView() {
