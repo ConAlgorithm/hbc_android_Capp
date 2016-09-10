@@ -75,6 +75,7 @@ public class CanServiceGuideListActivity extends BaseActivity {
                     zlistview.setHasMore(false);
                     zlistview.getMoreView().setVisibility(GONE);
                     zlistview.onLoadComplete();
+                    zlistview.onRefreshComplete();
                 }
                 adapter.notifyDataSetChanged();
             }
@@ -122,6 +123,7 @@ public class CanServiceGuideListActivity extends BaseActivity {
                     getData();
                 }else{
                     zlistview.onLoadComplete();
+                    zlistview.onRefreshComplete();
                 }
             }
         });
