@@ -117,25 +117,27 @@ public class BargainActivity extends BaseActivity {
             shareTitle = String.format(getString(R.string.share_bargin_title),barginBean.cnstr);
             bargainTotal = barginBean.bargainTotal;
             cuteMoneyTv.setText(barginBean.bargainAmount);
-            second = barginBean.seconds;
-            if (0 != second) {
-                countDownTimer.start();
-            } else {
-                countdown.changeTime(0);
-                cutMoney.setImageResource(R.mipmap.cut_end);
-                cutMoney.setOnClickListener(null);
+            if(null != barginBean.bargainWechatRspList && barginBean.bargainWechatRspList.size() > 0) {
+                second = barginBean.seconds;
+                if (0 != second) {
+                    countDownTimer.start();
+                } else {
+                    countdown.changeTime(0);
+                    cutMoney.setImageResource(R.mipmap.cut_end);
+                    cutMoney.setOnClickListener(null);
+                }
+                offset += limit;
+                if(offset >=  bargainTotal){
+                    bottom.setText(R.string.no_more);
+                    bottom.setOnClickListener(null);
+                }
+                if(loadMore){
+                    addMoreListView(barginBean);
+                }else {
+                    genListView(barginBean);
+                }
             }
 
-            offset += limit;
-            if(loadMore){
-                addMoreListView(barginBean);
-            }else {
-                genListView(barginBean);
-            }
-            if(offset >=  bargainTotal){
-                bottom.setText(R.string.no_more);
-                bottom.setOnClickListener(null);
-            }
         }
 
     }
@@ -146,6 +148,7 @@ public class BargainActivity extends BaseActivity {
                 , new ShareDialog.OnShareListener() {
                     @Override
                     public void onShare(int type) {
+                        countDownTimer.start();
                     }
                 });
     }
@@ -176,17 +179,19 @@ public class BargainActivity extends BaseActivity {
         TextView name, time, money;
         ImageView head;
         List<BarginWebchatList> bargainWechatRspList = barginBean.bargainWechatRspList;
-        for (BarginWebchatList barginWebchat : bargainWechatRspList) {
-            view = inflater.inflate(R.layout.bargin_list_item, null);
-            head = (ImageView) view.findViewById(R.id.head);
-            name = (TextView) view.findViewById(R.id.name);
-            time = (TextView) view.findViewById(R.id.time);
-            money = (TextView) view.findViewById(R.id.money);
-            Tools.showCircleImage(activity, head, barginWebchat.wechatPic);
-            name.setText(barginWebchat.wechatNickname);
-            time.setText(barginWebchat.bargTime);
-            money.setText("-" + barginWebchat.bargAmount + "元");
-            listLayout.addView(view);
+        if(null != barginBean.bargainWechatRspList) {
+            for (BarginWebchatList barginWebchat : bargainWechatRspList) {
+                view = inflater.inflate(R.layout.bargin_list_item, null);
+                head = (ImageView) view.findViewById(R.id.head);
+                name = (TextView) view.findViewById(R.id.name);
+                time = (TextView) view.findViewById(R.id.time);
+                money = (TextView) view.findViewById(R.id.money);
+                Tools.showCircleImage(activity, head, barginWebchat.wechatPic);
+                name.setText(barginWebchat.wechatNickname);
+                time.setText(barginWebchat.bargTime);
+                money.setText("-" + barginWebchat.bargAmount + "元");
+                listLayout.addView(view);
+            }
         }
     }
 
@@ -203,7 +208,7 @@ public class BargainActivity extends BaseActivity {
         addBottom();
     }
 
-    int second = 900;
+    int second = 48 * 60 * 60;
     CountDownTimer countDownTimer;
 
     private void initView() {
@@ -215,6 +220,7 @@ public class BargainActivity extends BaseActivity {
                 finish();
             }
         });
+        countdown.changeTime(second);
         countDownTimer = new CountDownTimer(second * 1000 + 100, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {

@@ -2,6 +2,7 @@ package com.hugboga.custom;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -40,10 +41,10 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
-import com.hugboga.custom.action.data.ActionBean;
 import com.hugboga.custom.action.ActionController;
-import com.hugboga.custom.activity.BargainActivity;
+import com.hugboga.custom.action.data.ActionBean;
 import com.hugboga.custom.activity.BaseActivity;
+import com.hugboga.custom.activity.CanServiceGuideListActivity;
 import com.hugboga.custom.activity.CollectGuideListActivity;
 import com.hugboga.custom.activity.CouponActivity;
 import com.hugboga.custom.activity.InsureActivity;
@@ -63,7 +64,6 @@ import com.hugboga.custom.data.bean.UserBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
-import com.hugboga.custom.data.net.ServerCodeHandler;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestCheckVersion;
 import com.hugboga.custom.data.request.RequestPushClick;
@@ -115,9 +115,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import cn.jpush.android.api.JPushInterface;
-
-import static com.tencent.bugly.crashreport.inner.InnerAPI.context;
-import static u.aly.au.S;
 
 
 @ContentView(R.layout.activity_main)
@@ -744,7 +741,6 @@ public class MainActivity extends BaseActivity
                 break;
             case R.id.tab_text_2:
                 mViewPager.setCurrentItem(1);
-                startActivity(new Intent(this, BargainActivity.class));
                 break;
             case R.id.tab_text_3:
                 mViewPager.setCurrentItem(2);

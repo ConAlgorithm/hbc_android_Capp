@@ -41,24 +41,36 @@ public class CountDownLayout extends LinearLayout {
         ButterKnife.bind(this, view);
     }
 
-    private void getSecond(int secondAll){
-        int second = (secondAll % 60);
+
+    int ss = 1;
+    int mi = ss * 60;
+    int hh = mi * 60;
+
+    int hour;
+    int minute;
+    int second;
+
+    private void genTime(int secondAll){
+        hour = secondAll / hh;
+        minute = (secondAll - hour * hh) / mi;
+        second = (secondAll - hour * hh - minute * mi) / ss;
+    }
+
+    private void getSecond(){
         int l = second/10;
         int r = second%10;
         secondL.changeTime(l);
         secondR.changeTime(r);
     }
 
-    private void getMinute(int secondAll){
-        int minute = (secondAll % (60 * 60)) / 60;
+    private void getMinute(){
         int l = minute/10;
         int r = minute%10;
         minuteL.changeTime(l);
         minuteR.changeTime(r);
     }
 
-    private void getHour(int secondAll){
-        int hour = (secondAll % (60 * 60 * 24)) / (60 * 60);
+    private void getHour(){
         int l = hour/10;
         int r = hour%10;
         hourL.changeTime(l);
@@ -66,9 +78,10 @@ public class CountDownLayout extends LinearLayout {
     }
 
     public void changeTime(int secondAll){
-        getSecond(secondAll);
-        getMinute(secondAll);
-        getHour(secondAll);
+        genTime(secondAll);
+        getSecond();
+        getMinute();
+        getHour();
     }
 }
 
