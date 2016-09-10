@@ -25,6 +25,8 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
+import static android.view.View.GONE;
+
 /**
  * Created on 16/9/9.
  */
@@ -71,6 +73,8 @@ public class CanServiceGuideListActivity extends BaseActivity {
 
                 if(offset >= total){
                     zlistview.setHasMore(false);
+                    zlistview.getMoreView().setVisibility(GONE);
+                    zlistview.onLoadComplete();
                 }
                 adapter.notifyDataSetChanged();
             }
@@ -116,6 +120,8 @@ public class CanServiceGuideListActivity extends BaseActivity {
                 if((offset + limit) < total){
                     offset += limit;
                     getData();
+                }else{
+                    zlistview.onLoadComplete();
                 }
             }
         });

@@ -13,6 +13,7 @@
             android:id="@+id/zlistview"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
+            android:cacheColorHint="@color/basic_white"
             android:divider="@drawable/choose_guide_line"
             android:dividerHeight="1px"
             android:layout_gravity="center"
