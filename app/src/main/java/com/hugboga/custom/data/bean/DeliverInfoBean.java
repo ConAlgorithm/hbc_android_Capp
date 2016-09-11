@@ -21,6 +21,10 @@ public class DeliverInfoBean implements Serializable{
      * 发单间隔
      * */
     public int deliverTimeSpan;
+    /**
+     * 倒计时总时间 毫秒
+     * */
+    public int stayTime;
 
     public static class DeliverStatus {
         public static final int UNBILLED = 1;           // 未发单

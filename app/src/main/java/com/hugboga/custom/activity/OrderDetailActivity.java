@@ -125,15 +125,6 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
         map.put(Constants.PARAMS_SOURCE,source);
         MobClickUtils.onEvent(getEventId(),map);
 
-        //TODO; 测试用
-        titleBar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(activity, CanServiceGuideListActivity.class);
-                intent.putExtra("orderNo",params.orderId);
-                startActivity(intent);
-            }
-        });
     }
 
     @Override

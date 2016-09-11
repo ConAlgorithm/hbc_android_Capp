@@ -43,7 +43,7 @@ public class OrderDetailDeliverUnbilledView extends LinearLayout implements HbcV
             return;
         }
         titleTV.setText(deliverInfoBean.deliverMessage);
-        countdownView.start(deliverInfoBean.span);
+        countdownView.start(deliverInfoBean.deliverTimeSpan);
     }
 
     public void setOnCountdownEndListener(CountdownView.OnCountdownEndListener onCountdownEndListener) {

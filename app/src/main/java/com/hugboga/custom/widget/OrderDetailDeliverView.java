@@ -59,7 +59,7 @@ public class OrderDetailDeliverView extends LinearLayout implements HbcViewBehav
         }
         orderBean = (OrderBean) _data;
         if (orderBean.orderStatus == OrderStatus.PAYSUCCESS) {//2:预订成功
-            sendRequest();
+            sendRequest(true);
         } else if (orderBean.orderStatus != OrderStatus.INITSTATE && orderBean.orderGuideInfo != null) {
             removeAllViews();
             if (guideInfoView == null) {
@@ -72,11 +72,13 @@ public class OrderDetailDeliverView extends LinearLayout implements HbcViewBehav
         }
     }
 
-    private void sendRequest() {
+    private void sendRequest(boolean isShowLoadingView) {
         if (orderBean == null) {
             return;
         }
-        loadingView.setVisibility(View.VISIBLE);
+        if (isShowLoadingView) {
+            loadingView.setVisibility(View.VISIBLE);
+        }
         RequestDeliverInfo request = new RequestDeliverInfo(getContext(), orderBean.orderNo);
         HttpRequestUtils.request(getContext(), request, this);
     }
@@ -98,19 +100,20 @@ public class OrderDetailDeliverView extends LinearLayout implements HbcViewBehav
             unbilledView.setOnCountdownEndListener(new CountdownView.OnCountdownEndListener() {
                 @Override
                 public void onEnd(CountdownView cv) {
-                    sendRequest();
+                    sendRequest(true);
                 }
             });
         } else if (_deliverInfoBean.deliverStatus == DeliverInfoBean.DeliverStatus.IDENTIFIED) { // 已确定导游
             EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_UPDATE, orderBean.orderNo));
         } else {
             OrderDetailDeliverItemView itemView = new OrderDetailDeliverItemView(getContext());
+            itemView.setOrderNo(orderBean.orderNo);
             itemView.update(_deliverInfoBean);
             groupLayout.addView(itemView);
-            itemView.setOnCountdownEndListener(new CountdownView.OnCountdownEndListener() {
+            itemView.setOnCountdownEndListener(new OrderDetailDeliverCountDownView.OnUpdateListener() {
                 @Override
-                public void onEnd(CountdownView cv) {
-                    sendRequest();
+                public void onUpdate(boolean isEnd) {
+                    sendRequest(isEnd);
                 }
             });
         }

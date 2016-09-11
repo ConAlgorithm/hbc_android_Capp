@@ -39,13 +39,14 @@
             android:id="@+id/deliver_item_subtitle_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="正在查询司导接单状态asdhawdlawdjldh底部阿里的看见爱的阿萨德"
             android:textColor="#898989"
             android:textSize="14sp" />
         <LinearLayout
             android:id="@+id/deliver_item_guide_avatar_layout"
+            android:layout_marginTop="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_vertical"
             android:orientation="horizontal" />
     </LinearLayout>
 </LinearLayout>
