@@ -22,6 +22,7 @@ import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.BarginBean;
 import com.hugboga.custom.data.bean.BarginWebchatList;
+import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestBargainShare;
 import com.hugboga.custom.data.request.RequestBargin;
@@ -32,6 +33,9 @@ import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.CountDownLayout;
 import com.hugboga.custom.widget.ShareDialog;
 import com.netease.nim.uikit.common.util.log.LogUtil;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.List;
 
@@ -73,6 +77,7 @@ public class BargainActivity extends BaseActivity {
         initView();
         getIntentValue();
         getData();
+        EventBus.getDefault().register(this);
     }
 
     private void getIntentValue(){
@@ -142,13 +147,21 @@ public class BargainActivity extends BaseActivity {
 
     }
 
+    @Subscribe
+    public void onEventMainThread(EventAction action) {
+        switch (action.getType()) {
+            case WECHAT_SHARE_SUCCEED:
+                getData();
+                break;
+        }
+    }
+
     //显示分享界面
     private void barginShare(int picture, final String title, final String content, final String shareUrl) {
         CommonUtils.shareDialog(activity, picture, title, content, shareUrl, getClass().getSimpleName()
                 , new ShareDialog.OnShareListener() {
                     @Override
                     public void onShare(int type) {
-                        countDownTimer.start();
                     }
                 });
     }
