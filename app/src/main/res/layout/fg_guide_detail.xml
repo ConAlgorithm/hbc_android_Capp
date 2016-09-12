@@ -1,14 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
-    android:orientation="vertical">
+    android:background="@android:color/white">
 
-    <include layout="@layout/include_header_detail" />
-
+    <include
+        android:id="@+id/guide_detail_titlebar"
+        layout="@layout/include_header_detail" />
+    <TextView
+        android:id="@+id/guide_detail_select_tv"
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:layout_alignParentBottom="true"
+        android:text="选择该司导"
+        android:textSize="16sp"
+        android:textColor="#ffffff"
+        android:gravity="center"
+        android:visibility="gone"
+        android:background="#dfdfdf" />
     <ScrollView
+        android:layout_below="@id/guide_detail_titlebar"
+        android:layout_above="@id/guide_detail_select_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -189,7 +202,17 @@
                     android:textColor="#343434"
                     android:textSize="15sp" />
             </FrameLayout>
-
+            <TextView
+                android:id="@+id/guide_detail_photo_empty_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:textSize="14sp"
+                android:visibility="gone"
+                android:layout_gravity="center"
+                android:text="还未提供车辆图片"
+                android:textColor="#999999"
+                />
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/guide_detail_photo_recyclerview"
                 android:paddingLeft="9dp"
@@ -198,6 +221,7 @@
                 android:layout_height="100dp"/>
 
             <FrameLayout
+                android:id="@+id/guide_detail_subtitle_appointment_layout"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_marginLeft="40dp"
@@ -223,6 +247,7 @@
             </FrameLayout>
 
             <LinearLayout
+                android:id="@+id/guide_detail_appointment_layout"
                 android:layout_width="match_parent"
                 android:layout_height="72dp"
                 android:layout_marginBottom="60dp"
@@ -312,4 +337,5 @@
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
-</LinearLayout>
+
+</RelativeLayout>

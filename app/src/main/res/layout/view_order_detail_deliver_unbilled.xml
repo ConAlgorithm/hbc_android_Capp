@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/order_detail_deliver_unbilled_title_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:lineSpacingExtra="2dp"
+        android:textColor="#000000"
+        android:textSize="15sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:text="还需等待"
+            android:textColor="#666666"
+            android:textSize="14sp" />
+
+        <cn.iwgang.countdownview.CountdownView
+            android:id="@+id/order_detail_deliver_unbilled_countdown_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:isHideTimeBackground="false"
+            app:isShowHour="true"
+            app:isShowMinute="true"
+            app:isShowSecond="true"
+            app:isShowTimeBgBorder="true"
+            app:isShowTimeBgDivisionLine="false"
+            app:isTimeTextBold="false"
+            app:suffixGravity="center"
+            app:suffixHour="时"
+            app:suffixLRMargin="10dp"
+            app:suffixMinute="分"
+            app:suffixSecond="秒"
+            app:suffixTextColor="#000000"
+            app:suffixTextSize="14sp"
+            app:timeBgBorderColor="#000000"
+            app:timeBgBorderSize="1dp"
+            app:timeBgColor="#ffffff"
+            app:timeBgSize="32dp"
+            app:timeTextColor="#000000"
+            app:timeTextSize="15sp" />
+    </LinearLayout>
+</merge>

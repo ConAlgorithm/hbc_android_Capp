@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <com.hugboga.custom.widget.DeliverLoadingView
+        android:id="@+id/oeder_detail_deliver_loading_view"
+        android:layout_width="82dp"
+        android:layout_height="82dp"/>
+
+    <TextView
+        android:id="@+id/oeder_detail_deliver_loading_title_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:text="正在查询司导接单状态..."
+        android:textColor="#000000"
+        android:textSize="15sp" />
+</merge>

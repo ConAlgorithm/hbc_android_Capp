@@ -42,6 +42,8 @@ import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.HbcViewBehavior;
+import com.hugboga.custom.widget.OrderDetailBargainEntr;
+import com.hugboga.custom.widget.OrderDetailDeliverView;
 import com.hugboga.custom.widget.OrderDetailFloatView;
 import com.hugboga.custom.widget.OrderDetailGuideInfo;
 import com.hugboga.custom.widget.OrderDetailItineraryView;
@@ -65,8 +67,8 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
     @Bind(R.id.order_detail_title_layout)
     OrderDetailTitleBar titleBar;
 
-    @Bind(R.id.order_detail_guideinfo_view)
-    OrderDetailGuideInfo guideInfoView;
+    @Bind(R.id.order_detail_deliver_view)
+    OrderDetailDeliverView deliverView;
 
     @Bind(R.id.order_detail_itinerary_view)
     OrderDetailItineraryView itineraryView;
@@ -82,6 +84,9 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
 
     @Bind(R.id.order_detail_explain_tv)
     TextView explainTV;
+
+    @Bind(R.id.order_detail_bargain_entr_view)
+    OrderDetailBargainEntr bargainEntrView;
 
     private PopupWindow popup;
     private View menuLayout;
@@ -119,6 +124,7 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
         Map map = new HashMap();
         map.put(Constants.PARAMS_SOURCE,source);
         MobClickUtils.onEvent(getEventId(),map);
+
     }
 
     @Override
@@ -159,6 +165,7 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
             orderBean = mParser.getData();
             titleBar.update(orderBean);
             floatView.update(orderBean);
+            bargainEntrView.update(orderBean);
             final int count = groupLayout.getChildCount();
             for (int i = 0; i < count; i++) {
                 View item = groupLayout.getChildAt(i);
@@ -398,9 +405,13 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
         }
     }
 
+    //TODO 收藏应该挪到OrderDetailGuideInfo内处理
     private void updateCollectViewText() {
-        TextView collectTV = (TextView) guideInfoView.findViewById(R.id.ogi_collect_tv);
-        collectTV.setText(getString(orderBean.orderGuideInfo.isCollected() ? R.string.uncollect : R.string.collect));
+        OrderDetailGuideInfo guideInfoView = deliverView.getGuideInfoView();
+        if (guideInfoView != null) {
+            TextView collectTV = (TextView) guideInfoView.findViewById(R.id.ogi_collect_tv);
+            collectTV.setText(getString(orderBean.orderGuideInfo.isCollected() ? R.string.uncollect : R.string.collect));
+        }
     }
 
     private boolean eventVerification(EventAction action) {

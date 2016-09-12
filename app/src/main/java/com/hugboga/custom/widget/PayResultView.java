@@ -17,6 +17,7 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.BargainActivity;
 import com.hugboga.custom.activity.OrderDetailActivity;
 import com.hugboga.custom.activity.SkuListActivity;
 import com.hugboga.custom.constants.Constants;
@@ -107,7 +108,9 @@ public class PayResultView extends RelativeLayout implements HttpRequestListener
                 PhoneInfo.CallDial(getContext(), Constants.CALL_NUMBER_OUT);
                 break;
             case R.id.view_pay_result_ad_iv: //砍价
-
+                Intent intentBargain = new Intent(getContext(), BargainActivity.class);
+                intentBargain.putExtra("orderNo", orderId);
+                getContext().startActivity(intentBargain);
                 break;
             case R.id.view_pay_result_line_tv: //城市列表
                 if (paySucceedBean != null && paySucceedBean.getCityId() != 0) {

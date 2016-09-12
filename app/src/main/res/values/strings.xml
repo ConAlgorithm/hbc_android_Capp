@@ -32,6 +32,11 @@
     <string name="overseas_call">境外拨打:</string>
     <string name="domestic_phone">4006100066</string>
     <string name="overseas_phone">+86&#160;1059715436</string>
+    <string name="call">打电话</string>
+    <string name="private_chat">发私聊</string>
+    <string name="wechat">微信</string>
+    <string name="moments">朋友圈</string>
+    <string name="cancel">取消</string>
 
     <!-- Basic name -->
     <string name="call_info_tip">如有问题，请拨打客服电话 4006 1000 66</string>用户协议
@@ -624,7 +629,6 @@
     <string name="order_detail_inservice">司导正在为您服务</string>
     <string name="order_detail_prompt_new_travel">您即将迎来新的旅程</string>
     <string name="order_detail_predetermined">预订成功！</string>
-    <string name="order_detail_prompt_wait_guide">敬请耐心等待司导接单</string>
     <string name="order_detail_timeleft">剩余时间：</string>
     <string name="order_detail_add_insurance">免费添加投保人</string>
     <string name="order_detail_carpooling">拼车</string>
@@ -656,6 +660,7 @@
     <string name="order_detail_cancel_oeder">取消订单成功</string>
     <string name="order_detail_hotle_subscribe">酒店预订&#160;-&#160;%1$s晚，%2$s间</string>
     <string name="order_detail_evaluate">评价有礼</string>
+    <string name="order_detail_evaluated">已评价</string>
     <string name="order_detail_refund_title">退款详情</string>
     <string name="order_detail_refund_description">退款将退回到您支付订单的账户中，到账时间以该账户通知为准。\n</string>
     <string name="order_detail_refund_pattern_payment">您的支付方式：%1$s</string>
@@ -663,6 +668,7 @@
     <string name="order_detail_tips">订单款项由平台保管，服务完成才会支付给司导。24小时客服，帮您解决服务过程中纠纷。请您不要线下交易。</string>
     <string name="order_detail_top2_tips">司导接单后，您可以在app内通过私聊与Ta联系；请不要线下交易，否则将无法获得平台保障。</string>
     <string name="order_detail_top1_tips">下单后一般在24小时内有司导接单。如果下单时间距离实际出行时间较远，最晚在出行前为您安排司导接单。</string>
+    <string name="order_detail_bargain_entr_price">共砍掉\n%1$s元</string>
 
     <string name="alert_del_after_edit">请在删除指定司导后，再修改出行信息</string>
 
@@ -724,9 +730,6 @@
     <string name="share_guides_description_2">还为您的朋友准备了%1$s大礼包，\n邀请他们一起体验吧</string>
     <string name="share_guides_unwilling">不愿分享</string>
     <string name="share_guides_share">把Ta推荐给好友</string>
-
-    <string name="share_dialog_title">分享到</string>
-    <string name="share_dialog_cancel">取消分享</string>
 
     <string name="choose_city_tab_inland">国内</string>
     <string name="choose_city_tab_abroad">国际港澳台</string>
@@ -798,12 +801,14 @@
     <string name="show_more">显示更多</string>
     <string name="no_more">没有更多了</string>
     <string name="share_bargin_100">你来砍价，还能领100元优惠券！境外出行就选皇包车~</string>
-    <string name="share_bargin_title">我在皇包车预订了中文{%1$s}，快来帮我砍价！</string>
+    <string name="share_bargin_title">我在皇包车预订了%1$s，快来帮我砍价！</string>
 
     <string name="add_name_tips">完善您的个人信息\n让好友更容易帮助你</string>
     <string name="real_name">请输入你的真实姓名</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="choose_guide">选他服务</string>
+    <string name="choose_guide_title">%1$d个已接单司导</string>
+
+    <string name="choose_guide_head">系统将按最优算法为您选择司导\n您可在后续版本中自行选择，敬请期待</string>
 
 </resources>

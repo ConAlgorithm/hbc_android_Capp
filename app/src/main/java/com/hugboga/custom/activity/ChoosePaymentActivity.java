@@ -307,13 +307,8 @@ public class ChoosePaymentActivity extends BaseActivity {
 
                 Intent intent = new Intent(ChoosePaymentActivity.this, MainActivity.class);
                 startActivity(intent);
-                EventBus.getDefault().post(new EventAction(EventType.SET_MAIN_PAGE_INDEX, 0));
-
-                OrderDetailActivity.Params orderParams = new OrderDetailActivity.Params();
-                orderParams.orderId = requestParams.orderId;
-                intent = new Intent(ChoosePaymentActivity.this, OrderDetailActivity.class);
-                intent.putExtra(Constants.PARAMS_DATA, orderParams);
-                startActivity(intent);
+                EventBus.getDefault().post(new EventAction(EventType.SET_MAIN_PAGE_INDEX, 2));
+                EventBus.getDefault().post(new EventAction(EventType.TRAVEL_LIST_TYPE, 1));
             }
         }, "继续支付", new DialogInterface.OnClickListener() {
             @Override

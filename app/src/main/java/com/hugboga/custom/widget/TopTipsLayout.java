@@ -60,9 +60,8 @@ public class TopTipsLayout extends RelativeLayout implements HbcViewBehavior{
         }
         OrderBean orderBean = (OrderBean) _data;
         if (null != orderBean) {
-            if (orderBean.orderStatus.code == 2) {//未付款
-                setText(R.string.order_detail_top2_tips);
-            } else if (orderBean.orderStatus.code == 1) {//已付款
+            if (orderBean.orderStatus.code == 1) {
+                setVisibility(VISIBLE);
                 setText(R.string.order_detail_top1_tips);
             } else {
                 setVisibility(GONE);

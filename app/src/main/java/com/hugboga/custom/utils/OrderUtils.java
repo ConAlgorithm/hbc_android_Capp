@@ -536,7 +536,7 @@ public class OrderUtils {
         orderBean.flightNo = flightNo;//airportName.getText().toString();
         orderBean.expectedCompTime = carBean.expectedCompTime;
         orderBean.destAddressPoi = airPort.location;
-        orderBean.destAddressDetail = poiBean.placeDetail;
+        orderBean.destAddressDetail = null;//poiBean.placeDetail;
         orderBean.startAddress = poiBean.placeName;
         orderBean.startAddressDetail = poiBean.placeDetail;
         //出发地，到达地经纬度
