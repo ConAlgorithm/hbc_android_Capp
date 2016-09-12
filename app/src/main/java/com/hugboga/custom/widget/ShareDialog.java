@@ -38,8 +38,8 @@ public class ShareDialog extends Dialog implements View.OnClickListener{
         setCanceledOnTouchOutside(true);
         setCancelable(true);
 
-        findViewById(R.id.dialog_share_wechat_tv).setOnClickListener(this);
-        findViewById(R.id.dialog_share_moments_tv).setOnClickListener(this);
+        findViewById(R.id.dialog_share_wechat_layout).setOnClickListener(this);
+        findViewById(R.id.dialog_share_moments_layout).setOnClickListener(this);
         findViewById(R.id.dialog_share_cancel_tv).setOnClickListener(this);
         findViewById(R.id.dialog_share_shadow_view).setOnClickListener(this);
     }
@@ -71,10 +71,10 @@ public class ShareDialog extends Dialog implements View.OnClickListener{
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.dialog_share_wechat_tv://微信好友
+            case R.id.dialog_share_wechat_layout://微信好友
                 setShare(1);
                 break;
-            case R.id.dialog_share_moments_tv://朋友圈
+            case R.id.dialog_share_moments_layout://朋友圈
                 setShare(2);
                 break;
             case R.id.dialog_share_shadow_view:

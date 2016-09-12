@@ -34,6 +34,9 @@
     <string name="overseas_phone">+86&#160;1059715436</string>
     <string name="call">打电话</string>
     <string name="private_chat">发私聊</string>
+    <string name="wechat">微信</string>
+    <string name="moments">朋友圈</string>
+    <string name="cancel">取消</string>
 
     <!-- Basic name -->
     <string name="call_info_tip">如有问题，请拨打客服电话 4006 1000 66</string>用户协议
@@ -727,9 +730,6 @@
     <string name="share_guides_description_2">还为您的朋友准备了%1$s大礼包，\n邀请他们一起体验吧</string>
     <string name="share_guides_unwilling">不愿分享</string>
     <string name="share_guides_share">把Ta推荐给好友</string>
-
-    <string name="share_dialog_title">分享到</string>
-    <string name="share_dialog_cancel">取消分享</string>
 
     <string name="choose_city_tab_inland">国内</string>
     <string name="choose_city_tab_abroad">国际港澳台</string>
