@@ -77,7 +77,7 @@
                     android:background="@drawable/msg_round_bg"
                     android:visibility="gone"
                     android:textColor="#ffffff"
-                    android:textSize="12sp" />
+                    android:textSize="10sp" />
             </LinearLayout>
 
             <View
@@ -125,7 +125,7 @@
                     android:visibility="gone"
                     android:background="@drawable/msg_round_bg"
                     android:textColor="#ffffff"
-                    android:textSize="12sp" />
+                    android:textSize="10sp" />
 
             </LinearLayout>
 
@@ -174,7 +174,7 @@
                     android:visibility="gone"
                     android:background="@drawable/msg_round_bg"
                     android:textColor="#ffffff"
-                    android:textSize="12sp" />
+                    android:textSize="10sp" />
             </LinearLayout>
 
             <View
