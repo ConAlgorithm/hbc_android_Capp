@@ -80,7 +80,7 @@ public class OrderDetailDeliverView extends LinearLayout implements HbcViewBehav
             loadingView.setVisibility(View.VISIBLE);
         }
         RequestDeliverInfo request = new RequestDeliverInfo(getContext(), orderBean.orderNo);
-        HttpRequestUtils.request(getContext(), request, this);
+        HttpRequestUtils.request(getContext(), request, this, isShowLoadingView);
     }
 
     private void resetItemView(DeliverInfoBean _deliverInfoBean) {

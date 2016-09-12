@@ -657,6 +657,7 @@
     <string name="order_detail_cancel_oeder">取消订单成功</string>
     <string name="order_detail_hotle_subscribe">酒店预订&#160;-&#160;%1$s晚，%2$s间</string>
     <string name="order_detail_evaluate">评价有礼</string>
+    <string name="order_detail_evaluated">已评价</string>
     <string name="order_detail_refund_title">退款详情</string>
     <string name="order_detail_refund_description">退款将退回到您支付订单的账户中，到账时间以该账户通知为准。\n</string>
     <string name="order_detail_refund_pattern_payment">您的支付方式：%1$s</string>

@@ -26,6 +26,7 @@ public class OrderDetailDeliverCountDownView extends LinearLayout implements Hbc
     private final int oneMinute = 60 * 1000;
     private final int tenMinute = oneMinute * 10;
 
+    private long lastRemainTime = 0;
     private OnUpdateListener onUpdateListener;
 
     public OrderDetailDeliverCountDownView(Context context) {
@@ -45,16 +46,12 @@ public class OrderDetailDeliverCountDownView extends LinearLayout implements Hbc
             return;
         }
 
-        countdownView.start(deliverInfoBean.span);
+        countdownView.start(deliverInfoBean.deliverTimeSpan);
         countdownView.setOnCountdownEndListener(this);
-        int progress = (int)(360 * (deliverInfoBean.span /(float) deliverInfoBean.stayTime));
+        int progress =  360 - (int)(360 * (deliverInfoBean.deliverTimeSpan /(float) deliverInfoBean.stayTime));
         progressView.setProgress(progress);
 
-        if (deliverInfoBean.span > tenMinute) {//10分钟刷新一次
-            setOnCountdownIntervalListener(tenMinute, deliverInfoBean);
-        } else {//1分钟刷新一次
-            setOnCountdownIntervalListener(oneMinute, deliverInfoBean);
-        }
+        setOnCountdownIntervalListener(1000, deliverInfoBean);
     }
 
     private void setOnCountdownIntervalListener(long interval, final DeliverInfoBean deliverInfoBean) {
@@ -66,8 +63,14 @@ public class OrderDetailDeliverCountDownView extends LinearLayout implements Hbc
                     if (progress > 0) {
                         progressView.setProgress(progress);
                     }
-                    if (onUpdateListener != null) {
-                        onUpdateListener.onUpdate(false);
+
+                    final long mInterval = remainTime > tenMinute ? tenMinute : oneMinute;//控制刷新间隔时间,10分钟以上,10分刷新一次
+
+                    if (lastRemainTime == 0 || lastRemainTime - remainTime > mInterval) {
+                        lastRemainTime = remainTime;
+                        if (onUpdateListener != null) {
+                            onUpdateListener.onUpdate(false);
+                        }
                     }
                 }
             }

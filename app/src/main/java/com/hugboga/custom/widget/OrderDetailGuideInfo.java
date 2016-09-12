@@ -96,6 +96,7 @@ public class OrderDetailGuideInfo extends LinearLayout implements HbcViewBehavio
                     evaluateTV.setVisibility(View.VISIBLE);
                     chatTV.setVisibility(orderBean.isIm ? View.VISIBLE : View.GONE);
                     collectTV.setText(getContext().getString(guideInfo.isCollected() ? R.string.uncollect : R.string.collect));
+                    evaluateTV.setText(getContext().getString(orderBean.isEvaluated() ? R.string.order_detail_evaluated : R.string.order_detail_evaluate));
                     promptTV.setVisibility(orderBean.isEvaluated() ? View.GONE : View.VISIBLE);
                     break;
             }
