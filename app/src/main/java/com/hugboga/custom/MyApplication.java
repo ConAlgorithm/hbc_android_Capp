@@ -26,8 +26,10 @@ import com.hugboga.custom.utils.UnicornUtils;
 import com.hugboga.custom.widget.DialogUtil;
 import com.netease.nim.uikit.ImageLoaderKit;
 import com.netease.nim.uikit.NimUIKit;
+import com.netease.nim.uikit.cache.FriendDataCache;
 import com.netease.nim.uikit.cache.NimUserInfoCache;
 import com.netease.nim.uikit.cache.TeamDataCache;
+import com.netease.nim.uikit.contact.ContactProvider;
 import com.netease.nim.uikit.session.module.MsgForwardFilter;
 import com.netease.nim.uikit.session.viewholder.MsgViewHolderThumbBase;
 import com.netease.nimlib.sdk.NIMClient;
@@ -38,9 +40,13 @@ import com.netease.nimlib.sdk.msg.constant.MsgDirectionEnum;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.netease.nimlib.sdk.uinfo.UserInfoProvider;
+import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 import com.umeng.analytics.MobclickAgent;
 
 import org.xutils.x;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import cn.jpush.android.api.JPushInterface;
 
@@ -265,6 +271,27 @@ public class MyApplication extends HbcApplication {
         }
     };
 
+
+    private static ContactProvider contactProvider = new ContactProvider() {
+        @Override
+        public List<UserInfoProvider.UserInfo> getUserInfoOfMyFriends() {
+            List<NimUserInfo> nimUsers = NimUserInfoCache.getInstance().getAllUsersOfMyFriend();
+            List<UserInfoProvider.UserInfo> users = new ArrayList<>(nimUsers.size());
+            if (!nimUsers.isEmpty()) {
+                users.addAll(nimUsers);
+            }
+            return users;
+        }
+
+        @Override
+        public int getMyFriendsCount() {
+            return FriendDataCache.getInstance().getMyFriendCounts();
+        }
+        @Override
+        public String getUserDisplayName(String account) {
+            return NimUserInfoCache.getInstance().getUserDisplayName(account);
+        }
+    };
 //    private MessageNotifierCustomization messageNotifierCustomization = new MessageNotifierCustomization() {
 //        @Override
 //        public String makeNotifyContent(String nick, IMMessage message) {
@@ -279,7 +306,7 @@ public class MyApplication extends HbcApplication {
 
     private static void initUIKit(Context context) {
         // 初始化，需要传入用户信息提供者
-        NimUIKit.init(context, infoProvider, null);
+        NimUIKit.init(context, infoProvider, contactProvider);
         // 设置地理位置提供者。如果需要发送地理位置消息，该参数必须提供。如果不需要，可以忽略。
         NimUIKit.setLocationProvider(new GdMapProvider());
         // 会话窗口的定制初始化。

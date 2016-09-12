@@ -24,6 +24,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.huangbaoche.hbcframe.data.net.ErrorHandler;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
@@ -31,6 +32,7 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
+import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.ChatInfo;
@@ -83,7 +85,7 @@ import static android.view.View.GONE;
 /**
  * Created by on 16/8/9.
  */
-public class NIMChatActivity extends BaseActivity {
+public class NIMChatActivity extends BaseActivity implements MessageFragment.OnFragmentInteractionListener{
 
     public static final String ORDER_INFO_KEY = "order_info_key";
 
@@ -719,6 +721,8 @@ public class NIMChatActivity extends BaseActivity {
         }
     }
 
+
+
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -771,5 +775,19 @@ public class NIMChatActivity extends BaseActivity {
             }
         }
     };
+
+    @Override
+    public void onSendMessageFailed(int code, String message) {
+        if(code!=7101){
+            Toast.makeText(MyApplication.getAppContext(),"发送消息失败请稍候重试",Toast.LENGTH_SHORT).show();
+            ApiFeedbackUtils.requestIMFeedback(12, "云信发送消息失败 code:" + code);
+        }
+
+    }
+
+    @Override
+    public void onSendMessageSuccess() {
+        MLog.i("nim send message success!");
+    }
 
 }

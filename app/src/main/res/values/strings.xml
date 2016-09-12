@@ -803,4 +803,7 @@
     <string name="add_name_tips">完善您的个人信息\n让好友更容易帮助你</string>
     <string name="real_name">请输入你的真实姓名</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>
