@@ -167,4 +167,11 @@ public class StatisticConstant {
     public static final String COLLECTG = "07_collectG";                     // 0点击收藏司导
     public static final String LAUNCH_COLLCTGLIST = "07_launch_collctGlist"; // 0我收藏的司导展示
     public static final String LAUNCH_GPROFILE = "07_launch_Gprofile";       // 0司导个人页展开
+
+    public static final String LAUNCH_KANJIA = "06_launch_kanjia";                 // 展示砍价活动
+    public static final String CLICK_KANJIA = "06_click_kanjia";                  // 点击砍价
+    public static final String SHARE_KANJIA = "06_share_kanjia";                  // 点击砍价分享浮层
+    public static final String SHAREKJ_BACK = "06_shareKj_back";                  // 砍价分享后回到应用
+
+    public static final String LAUNCH_WAITG = "07_launch_waitG";                  // 展示已表态的司导列表
 }
