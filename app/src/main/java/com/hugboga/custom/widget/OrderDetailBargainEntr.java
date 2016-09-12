@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.BargainActivity;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
@@ -93,6 +94,7 @@ public class OrderDetailBargainEntr extends RelativeLayout implements HbcViewBeh
     @Override
     public void onClick(View v) {
         Intent intent = new Intent(getContext(), BargainActivity.class);
+        intent.putExtra(Constants.PARAMS_SOURCE, getContext().getString(R.string.order_detail_title_default));
         intent.putExtra("orderNo", orderNo);
         getContext().startActivity(intent);
     }
