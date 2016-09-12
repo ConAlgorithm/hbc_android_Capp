@@ -49,7 +49,7 @@ public class ChooseGuideAdapter extends BaseAdapter {
         CanServiceGuideBean.GuidesBean model = (CanServiceGuideBean.GuidesBean) getItem(position);
         viewHolder.name.setText(model.getGuideName());
         viewHolder.city.setText(model.getCityName());
-        viewHolder.carType.setText(model.getCarBrandName()+ model.getCarName());
+        viewHolder.carType.setText(model.getCarBrandName());//+ model.getCarName());
         viewHolder.ratingBar.setRating((float)model.getServiceStar());
         if(model.getOrderCounts() == 0) {
             viewHolder.score.setText(model.getServiceStar() + "分");
