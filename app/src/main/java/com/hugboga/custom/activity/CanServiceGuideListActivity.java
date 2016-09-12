@@ -47,7 +47,7 @@ public class CanServiceGuideListActivity extends BaseActivity {
     }
 
     private void getIntentData() {
-        orderNo = this.getIntent().getStringExtra("orderNo");
+//        orderNo = this.getIntent().getStringExtra("orderNo");
     }
 
     ChooseGuideAdapter adapter;

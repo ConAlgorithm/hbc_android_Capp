@@ -741,6 +741,7 @@ public class MainActivity extends BaseActivity
                 break;
             case R.id.tab_text_2:
                 mViewPager.setCurrentItem(1);
+                startActivity(new Intent(activity,CanServiceGuideListActivity.class));
                 break;
             case R.id.tab_text_3:
                 mViewPager.setCurrentItem(2);
