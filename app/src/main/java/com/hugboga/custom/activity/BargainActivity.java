@@ -320,6 +320,7 @@ public class BargainActivity extends BaseActivity {
     public void onDestroy() {
         super.onDestroy();
         ButterKnife.unbind(this);
+        EventBus.getDefault().unregister(this);
         countDownTimer.cancel();
     }
 
