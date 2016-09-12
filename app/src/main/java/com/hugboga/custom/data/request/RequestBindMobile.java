@@ -58,6 +58,7 @@ public class RequestBindMobile extends BaseRequest<UserBean> {
         map.put("unionid", unionid);
         map.put("skip", skip);
         map.put("source", 1);
+        map.put("fromChannel", 1);
         return map;
     }
 
