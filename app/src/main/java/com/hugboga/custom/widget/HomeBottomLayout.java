@@ -113,27 +113,25 @@ public class HomeBottomLayout extends LinearLayout implements View.OnClickListen
                     fragment.getActivity().startActivity(new Intent(fragment.getActivity(), LoginActivity.class));
                     break;
                 }
-                if (activeData == null || TextUtils.isEmpty(activeData.getUrlAddress())) {
+                if (activeData == null) {
                     return;
                 }
                 EventUtil.onDefaultEvent(StatisticConstant.CLICK_ACTIVITY, "首页精选活动");
                 EventUtil.onDefaultEvent(StatisticConstant.LAUNCH_ACTIVITY, "首页精选活动");
-//                  // FIXME: 16/9/13
-//                if (activeData.getActionBean() != null) {
-//                    ActionController actionFactory = ActionController.getInstance(getContext());
-//                    actionFactory.doAction(activeData.getActionBean());
-//                }
+                if (TextUtils.isEmpty(activeData.getUrlAddress()) && activeData.getActionBean() != null) {
+                    ActionController actionFactory = ActionController.getInstance(getContext());
+                    actionFactory.doAction(activeData.getActionBean());
+                } else if (!TextUtils.isEmpty(activeData.getUrlAddress())) {
+                    String urlAddress = activeData.getUrlAddress();
+                    if (urlAddress.lastIndexOf("?") != urlAddress.length() - 1) {
+                        urlAddress = urlAddress + "?";
+                    }
 
-                String urlAddress = activeData.getUrlAddress();
-                if (urlAddress.lastIndexOf("?") != urlAddress.length() - 1) {
-                    urlAddress = urlAddress + "?";
+                    urlAddress = urlAddress + "userId="+ UserEntity.getUser().getUserId(fragment.getContext())+"&t=" + new Random().nextInt(100000);
+                    Intent intent = new Intent(v.getContext(), WebInfoActivity.class);
+                    intent.putExtra(WebInfoActivity.WEB_URL, urlAddress);
+                    v.getContext().startActivity(intent);
                 }
-
-                urlAddress = urlAddress + "userId="+ UserEntity.getUser().getUserId(fragment.getContext())+"&t=" + new Random().nextInt(100000);
-                Intent intent = new Intent(v.getContext(), WebInfoActivity.class);
-                intent.putExtra(WebInfoActivity.WEB_URL, urlAddress);
-                v.getContext().startActivity(intent);
-
                 break;
         }
     }
