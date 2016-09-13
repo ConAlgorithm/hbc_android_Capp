@@ -953,6 +953,7 @@ public class OrderNewActivity extends BaseActivity {
     String areaCode4MostFit = null;
     String idStr = "";
 
+    int totalPrice = 0;
     //优惠券
     private void requestMostFit() {
         switch (type) {
@@ -989,7 +990,9 @@ public class OrderNewActivity extends BaseActivity {
 
         }
 
-        RequestMostFit requestMostFit = new RequestMostFit(activity, carBean.price + "", carBean.price + "",
+        totalPrice = checkInOrPickupPrice + hotelPrice + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean);
+
+        RequestMostFit requestMostFit = new RequestMostFit(activity, carBean.price + totalPrice +"", carBean.price  +"",
                 date4MostFit,
                 carBean.carType + "",
                 carBean.seatCategory + "",
@@ -1004,14 +1007,14 @@ public class OrderNewActivity extends BaseActivity {
                 mostFitBean = requestMostFit1.getData();
                 if (null == mostFitBean.priceInfo) {
                     couponRight.setText("还没有优惠券");
-                    allMoneyLeftText.setText(Tools.getRMB(activity) + (carBean.price + checkInOrPickupPrice + hotelPrice + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean)));
+                    allMoneyLeftText.setText(Tools.getRMB(activity) + (carBean.price + totalPrice));
                 } else {
                     couponRight.setText((mostFitBean.priceInfo) + "优惠券");
                     int price = 0;
                     if(null != mostFitBean && null != mostFitBean.actualPrice){
                         price = mostFitBean.actualPrice.intValue();
                     }
-                    allMoneyLeftText.setText(Tools.getRMB(activity) + (price + checkInOrPickupPrice + hotelPrice + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean)));
+                    allMoneyLeftText.setText(Tools.getRMB(activity) + price);
                 }
                 couponRight.setOnClickListener(new View.OnClickListener() {
                     @Override
