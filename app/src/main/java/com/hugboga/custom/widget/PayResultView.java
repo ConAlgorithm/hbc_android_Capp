@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.huangbaoche.hbcframe.data.net.DefaultSSLSocketFactory;
 import com.huangbaoche.hbcframe.data.net.ErrorHandler;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
@@ -92,6 +93,7 @@ public class PayResultView extends RelativeLayout implements HttpRequestListener
                 if (isPaySucceed) {
                     intentHome();
                 } else {
+                    DefaultSSLSocketFactory.resetSSLSocketFactory(getContext());
                     intentOrderDetail();
                 }
                 break;
