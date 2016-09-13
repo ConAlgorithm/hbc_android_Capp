@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.huangbaoche.hbcframe.data.net.ErrorHandler;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
@@ -50,6 +51,7 @@ public class PayResultView extends RelativeLayout implements HttpRequestListener
     private boolean isPaySucceed; //支付结果
     private String orderId;
     private PaySucceedBean paySucceedBean;
+    private ErrorHandler errorHandler;
 
     public PayResultView(Context context) {
         this(context, null);
@@ -215,7 +217,10 @@ public class PayResultView extends RelativeLayout implements HttpRequestListener
 
     @Override
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-
+        if (errorHandler == null) {
+            errorHandler = new ErrorHandler((Activity)getContext(), this);
+        }
+        errorHandler.onDataRequestError(errorInfo, request);
     }
 
     /**

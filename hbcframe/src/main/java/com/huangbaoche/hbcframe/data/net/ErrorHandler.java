@@ -45,7 +45,6 @@ public  class ErrorHandler implements HttpRequestListener{
         String errState = "";
         // String 的 用于用户提示
 //        int errStrint = R.string.error_other;
-        String serverExceptionStr = "";
         switch (errorInfo.state) {
             case ExceptionErrorCode.ERROR_CODE_NET_UNAVAILABLE:
                 // errState = "网络不可用";
@@ -64,7 +63,6 @@ public  class ErrorHandler implements HttpRequestListener{
                 ServerCodeHandlerInterface serverCodeHandler = getServerCodeHandler(mActivity);
                 if(!serverCodeHandler.handleServerCode(mActivity,serverException.getMessage(),serverException.getCode(),request,mListener))
                 Toast.makeText(mActivity, serverException.getMessage(), Toast.LENGTH_LONG).show();
-                serverExceptionStr = serverException.getMessage();
                 return;
             case ExceptionErrorCode.ERROR_CODE_PARSE:
                 errState = "数据解析错误";
@@ -90,7 +88,7 @@ public  class ErrorHandler implements HttpRequestListener{
 //            +request.getUrlErrorCode()+ serverException.getCode()
             if(errorInfo.state == ExceptionErrorCode.ERROR_CODE_NET){
                 Toast.makeText(mActivity, "请检查您的网络连接是否正常", Toast.LENGTH_LONG).show();
-            }else if(TextUtils.isEmpty(serverExceptionStr)) {
+            }else {
                 Toast.makeText(mActivity, mActivity.getString(R.string.request_error, request.getUrlErrorCode()), Toast.LENGTH_LONG).show();
             }
         }

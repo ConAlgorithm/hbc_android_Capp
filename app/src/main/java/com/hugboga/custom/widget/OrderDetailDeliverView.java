@@ -1,11 +1,13 @@
 package com.hugboga.custom.widget;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
+import com.huangbaoche.hbcframe.data.net.ErrorHandler;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
@@ -37,6 +39,7 @@ public class OrderDetailDeliverView extends LinearLayout implements HbcViewBehav
 
     private OrderBean orderBean;
     private int deliverStatus;
+    private ErrorHandler errorHandler;
 
     public OrderDetailDeliverView(Context context) {
         this(context, null);
@@ -136,6 +139,9 @@ public class OrderDetailDeliverView extends LinearLayout implements HbcViewBehav
 
     @Override
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-
+        if (errorHandler == null) {
+            errorHandler = new ErrorHandler((Activity)getContext(), this);
+        }
+        errorHandler.onDataRequestError(errorInfo, request);
     }
 }

@@ -118,7 +118,7 @@ public class HomeBottomLayout extends LinearLayout implements View.OnClickListen
                 }
                 EventUtil.onDefaultEvent(StatisticConstant.CLICK_ACTIVITY, "首页精选活动");
                 EventUtil.onDefaultEvent(StatisticConstant.LAUNCH_ACTIVITY, "首页精选活动");
-//                  // FIXME: 16/9/13 
+//                  // FIXME: 16/9/13
 //                if (activeData.getActionBean() != null) {
 //                    ActionController actionFactory = ActionController.getInstance(getContext());
 //                    actionFactory.doAction(activeData.getActionBean());
