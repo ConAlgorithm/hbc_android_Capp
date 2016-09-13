@@ -81,12 +81,16 @@ public class OrderDetailDeliverView extends LinearLayout implements HbcViewBehav
         }
         if (isShowLoadingView) {
             loadingView.setVisibility(View.VISIBLE);
+            groupLayout.setVisibility(View.GONE);
         }
         RequestDeliverInfo request = new RequestDeliverInfo(getContext(), orderBean.orderNo);
         HttpRequestUtils.request(getContext(), request, this, isShowLoadingView);
     }
 
     private void resetItemView(DeliverInfoBean _deliverInfoBean) {
+        loadingView.setVisibility(View.GONE);
+        groupLayout.setVisibility(View.VISIBLE);
+
         if (deliverStatus != _deliverInfoBean.deliverStatus) {
             deliverStatus = _deliverInfoBean.deliverStatus;
             groupLayout.removeAllViews();
@@ -125,7 +129,6 @@ public class OrderDetailDeliverView extends LinearLayout implements HbcViewBehav
     @Override
     public void onDataRequestSucceed(BaseRequest _request) {
         if (_request instanceof RequestDeliverInfo) {
-            loadingView.setVisibility(View.GONE);
             RequestDeliverInfo request = (RequestDeliverInfo) _request;
             DeliverInfoBean deliverInfoBean = request.getData();
             resetItemView(deliverInfoBean);

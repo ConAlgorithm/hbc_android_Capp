@@ -158,18 +158,23 @@ public class OrderDetailDeliverItemView extends LinearLayout implements HbcViewB
         List<CanServiceGuideBean.GuidesBean> guidesList = canServiceGuideBean.getGuides();
         avatarLayout.removeAllViews();
 
+        //TODO 每次刷新都重新new,当前刷新频率低,后续优化。
         int size = guidesList.size();
         int viewWidth = UIUtils.dip2px(114) + UIUtils.dip2px(70);
+        boolean isShowMoreIV = true;
         j:for (int i = 0; i < size; i++) {
             viewWidth +=  UIUtils.dip2px(10) + UIUtils.dip2px(40);
             if (viewWidth > UIUtils.getScreenWidth()) {
+                isShowMoreIV = true;
                 break j;
             }
             CircleImageView circleImageView = getCircleImageView();
             Tools.showImage(circleImageView, guidesList.get(i).getAvatarS());
+            isShowMoreIV = false;
         }
         CircleImageView circleImageView = getCircleImageView();
         circleImageView.setBackgroundResource(R.mipmap.guide_avater_more);
+        circleImageView.setVisibility(isShowMoreIV ? View.VISIBLE : View.GONE);
 
         ImageView iconIV = new ImageView(getContext());
         iconIV.setImageResource(R.mipmap.personalcenter_right);
