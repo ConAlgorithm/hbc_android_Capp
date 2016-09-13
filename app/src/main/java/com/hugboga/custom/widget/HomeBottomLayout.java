@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.action.ActionController;
 import com.hugboga.custom.activity.DailyWebInfoActivity;
 import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.activity.PickSendActivity;
@@ -117,6 +118,12 @@ public class HomeBottomLayout extends LinearLayout implements View.OnClickListen
                 }
                 EventUtil.onDefaultEvent(StatisticConstant.CLICK_ACTIVITY, "首页精选活动");
                 EventUtil.onDefaultEvent(StatisticConstant.LAUNCH_ACTIVITY, "首页精选活动");
+//                  // FIXME: 16/9/13 
+//                if (activeData.getActionBean() != null) {
+//                    ActionController actionFactory = ActionController.getInstance(getContext());
+//                    actionFactory.doAction(activeData.getActionBean());
+//                }
+
                 String urlAddress = activeData.getUrlAddress();
                 if (urlAddress.lastIndexOf("?") != urlAddress.length() - 1) {
                     urlAddress = urlAddress + "?";

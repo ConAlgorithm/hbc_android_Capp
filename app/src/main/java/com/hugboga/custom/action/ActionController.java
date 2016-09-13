@@ -1,5 +1,6 @@
 package com.hugboga.custom.action;
 
+import android.content.Context;
 import android.support.v4.util.ArrayMap;
 import android.text.TextUtils;
 
@@ -16,19 +17,19 @@ import java.lang.reflect.Constructor;
  */
 public class ActionController implements ActionControllerBehavior {
 
-    private BaseActivity activity;
+    private Context context;
     private volatile static ActionController actionController;
     private ArrayMap<Integer, Class> pageMap;
 
-    private ActionController(BaseActivity activity) {
-        this.activity = activity;
+    private ActionController(Context context) {
+        this.context = context;
     }
 
-    public static ActionController getInstance(BaseActivity _activity) {
+    public static ActionController getInstance(Context _context) {
         if (actionController == null) {
             synchronized(ActionController.class) {
                 if (actionController == null) {
-                    actionController = new ActionController(_activity);
+                    actionController = new ActionController(_context);
                 }
             }
         }
@@ -69,7 +70,7 @@ public class ActionController implements ActionControllerBehavior {
                     nonsupportToast();
                     break;
                 } else {
-                    actionPageBase.intentPage(activity, _actionBean);
+                    actionPageBase.intentPage(context, _actionBean);
                 }
                 break;
             case ActionType.FUNCTION:

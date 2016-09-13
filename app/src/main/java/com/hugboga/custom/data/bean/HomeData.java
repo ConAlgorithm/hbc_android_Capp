@@ -1,6 +1,7 @@
 package com.hugboga.custom.data.bean;
 
 import com.google.gson.annotations.SerializedName;
+import com.hugboga.custom.action.data.ActionBean;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -100,6 +101,12 @@ public class HomeData implements Serializable {
         private String activityName;
         private String picture;
         private String urlAddress;
+        @SerializedName("pushScheme")
+        private ActionBean actionBean;
+
+        public ActionBean getActionBean() {
+            return actionBean;
+        }
 
         public int getStartSettingId() {
             return startSettingId;
