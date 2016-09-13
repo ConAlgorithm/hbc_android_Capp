@@ -15,9 +15,9 @@
         android:layout_marginBottom="@dimen/basic_margin_small"
         android:gravity="center_horizontal"
         android:lineSpacingExtra="3dp"
-        android:text="下单后可以在这里管理你的行程\n查看司导的相关信息"
+        android:text="下单后可以在这里\n管理你的行程"
         android:textColor="#666666"
-        android:textSize="15sp" />
+        android:textSize="20sp" />
 
     <ImageView
         android:layout_below="@id/travel_login_hint_tv"

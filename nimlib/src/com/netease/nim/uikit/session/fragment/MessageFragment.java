@@ -1,7 +1,9 @@
 package com.netease.nim.uikit.session.fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -41,6 +43,8 @@ import java.util.List;
  * Created by huangjun on 2015/2/1.
  */
 public class MessageFragment extends TFragment implements ModuleProxy {
+
+    private OnFragmentInteractionListener mListener;
 
     private View rootView;
 
@@ -192,18 +196,29 @@ public class MessageFragment extends TFragment implements ModuleProxy {
         NIMClient.getService(MsgService.class).sendMessage(message, false).setCallback(new RequestCallbackWrapper() {
             @Override
             public void onResult(int code, Object object, Throwable throwable) {
-                Log.i("test","发送失败 code:" + code);
-                if(code==7101){
-                    final IMMessage msg = MessageBuilder.createTipMessage(message.getSessionId(), message.getSessionType());
-                    msg.setContent("由于对方的权限设置，你的信息发送失败。");
-                    NIMClient.getService(MsgService.class).saveMessageToLocal(msg,true).setCallback(new RequestCallbackWrapper() {
-                        @Override
-                        public void onResult(int i, Object aVoid, Throwable throwable) {
-                            //Log.i("test","tip:" + i);
-                            msg.setStatus(MsgStatusEnum.read);
-                        }
-                    });
+                if(code==200){
+                    if(mListener!=null){
+                        mListener.onSendMessageSuccess();
+                    }
+                }else{
+                    if(code==7101){
+                        final IMMessage msg = MessageBuilder.createTipMessage(message.getSessionId(), message.getSessionType());
+                        msg.setContent("由于对方的权限设置，你的信息发送失败。");
+                        NIMClient.getService(MsgService.class).saveMessageToLocal(msg,true).setCallback(new RequestCallbackWrapper() {
+                            @Override
+                            public void onResult(int i, Object aVoid, Throwable throwable) {
+                                //Log.i("test","tip:" + i);
+                                msg.setStatus(MsgStatusEnum.read);
+                            }
+                        });
+                        return;
+                    }
+                    if(mListener!=null){
+                        String msg = throwable==null ? "":throwable.getMessage();
+                        mListener.onSendMessageFailed(code,msg);
+                    }
                 }
+
             }
         });
 
@@ -261,5 +276,27 @@ public class MessageFragment extends TFragment implements ModuleProxy {
      */
     public void receiveReceipt() {
         messageListPanel.receiveReceipt();
+    }
+
+    public interface OnFragmentInteractionListener {
+        void onSendMessageSuccess();
+        void onSendMessageFailed(int code,String message);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnFragmentInteractionListener) {
+            mListener = (OnFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
     }
 }

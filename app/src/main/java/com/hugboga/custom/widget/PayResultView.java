@@ -109,6 +109,7 @@ public class PayResultView extends RelativeLayout implements HttpRequestListener
                 break;
             case R.id.view_pay_result_ad_iv: //砍价
                 Intent intentBargain = new Intent(getContext(), BargainActivity.class);
+                intentBargain.putExtra(Constants.PARAMS_SOURCE, getContext().getString(R.string.par_result_title));
                 intentBargain.putExtra("orderNo", orderId);
                 getContext().startActivity(intentBargain);
                 break;
@@ -118,6 +119,7 @@ public class PayResultView extends RelativeLayout implements HttpRequestListener
                     params.id = paySucceedBean.getCityId();
                     params.skuType = SkuListActivity.SkuType.CITY;
                     Intent intent = new Intent(getContext(), SkuListActivity.class);
+                    intent.putExtra(Constants.PARAMS_SOURCE, getContext().getString(R.string.par_result_title));
                     intent.putExtra(Constants.PARAMS_DATA, params);
                     getContext().startActivity(intent);
                 }

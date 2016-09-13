@@ -14,7 +14,7 @@
     <TextView
         android:id="@+id/luggage_num"
         android:layout_width="wrap_content"
-        android:textColor="@color/basic_red"
+        android:textColor="#FF6633"
         android:layout_marginLeft="20dp"
         android:text="1件"
         android:textSize="13sp"

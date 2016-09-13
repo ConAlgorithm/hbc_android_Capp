@@ -15,6 +15,7 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.CanServiceGuideListActivity;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CanServiceGuideBean;
 import com.hugboga.custom.data.bean.DeliverInfoBean;
 import com.hugboga.custom.data.request.RequestAcceptGuide;
@@ -125,6 +126,7 @@ public class OrderDetailDeliverItemView extends LinearLayout implements HbcViewB
             public void onClick(View v) {
                 if (!TextUtils.isEmpty(orderNo)) {
                     Intent intent = new Intent(getContext(), CanServiceGuideListActivity.class);
+                    intent.putExtra(Constants.PARAMS_SOURCE, getContext().getString(R.string.order_detail_title_default));
                     intent.putExtra("orderNo", orderNo);
                     getContext().startActivity(intent);
                 }

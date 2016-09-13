@@ -79,11 +79,13 @@ public class NimRecentListSyncUtils {
      * @param chatBeens
      * @param messages
      */
-    public static void updateRecentSync(List<ChatBean> chatBeens,List<RecentContact> messages){
+    public static boolean updateRecentSync(List<ChatBean> chatBeens,List<RecentContact> messages){
         if(messages==null || messages.size()==0){
-            return;
+            return false;
         }
+        boolean hasNewContact = false;
         for (RecentContact recentContact:messages){
+            boolean flag = false;
             for (ChatBean chatBean:chatBeens){
                 if(TextUtils.equals(recentContact.getContactId().toLowerCase(),chatBean.nTargetId)){
                     chatBean.message = recentContact.getContent();
@@ -92,12 +94,16 @@ public class NimRecentListSyncUtils {
                     }else {
                         chatBean.imCount = recentContact.getUnreadCount();
                     }
-
                     chatBean.timeStamp = recentContact.getTime();
+                    flag = true;
                     break;
                 }
             }
+            if(!flag){
+                hasNewContact = true;
+            }
         }
+        return hasNewContact;
         //sortRecentContacts(chatBeens);
     }
 

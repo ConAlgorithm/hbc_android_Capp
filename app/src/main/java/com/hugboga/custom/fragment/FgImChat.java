@@ -20,6 +20,7 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
+import com.huangbaoche.hbcframe.util.NetWork;
 import com.huangbaoche.hbcframe.widget.recycler.ZListPageView;
 import com.huangbaoche.hbcframe.widget.recycler.ZSwipeRefreshLayout;
 import com.hugboga.custom.MainActivity;
@@ -356,6 +357,8 @@ public class FgImChat extends BaseFragment implements View.OnClickListener, ZBas
                 loginBtn.setVisibility(View.VISIBLE);
         }
         queryLocalRecentList();
+
+        reRequestTimes = 0;
     }
 
 
@@ -373,8 +376,17 @@ public class FgImChat extends BaseFragment implements View.OnClickListener, ZBas
     }
 
 
+    private int reRequestTimes = 0;
     @Override
     public void error(ExceptionInfo errorInfo, BaseRequest request) {
+       if(!NetWork.isNetworkAvailable(MyApplication.getAppContext())){
+           return;
+       }
+        reRequestTimes ++;
+        if(reRequestTimes<3){
+            loadData();
+            return;
+        }
         if (UserEntity.getUser().isLogin(getActivity())) {
             emptyTV.setVisibility(View.VISIBLE);
         }
@@ -435,17 +447,8 @@ public class FgImChat extends BaseFragment implements View.OnClickListener, ZBas
      * ********************** 收消息，处理状态变化 ************************
      */
     private void registerObservers(boolean register) {
-
-        //NIMClient.getService(AuthServiceObserver.class).observeOnlineStatus(userStatusObserver, register);
         MsgServiceObserve service = NIMClient.getService(MsgServiceObserve.class);
         service.observeRecentContact(messageObserver, register);
-//        service.observeMsgStatus(statusObserver, register);
-//        service.observeRecentContactDeleted(deleteObserver, register);
-//        if (register) {
-//            registerUserInfoObserver();
-//        } else {
-//            unregisterUserInfoObserver();
-//        }
     }
 
 
@@ -453,12 +456,16 @@ public class FgImChat extends BaseFragment implements View.OnClickListener, ZBas
         @Override
         public void onEvent(List<RecentContact> messages) {
             if(messages!=null && adapter!= null){
-                adapter.syncNewMsgUpdate(messages);
+               boolean hasNewContacts =  adapter.syncNewMsgUpdate(messages);
                 if(recyclerView!=null && recyclerView.getAdapter()!=null){
                     recyclerView.getAdapter().notifyDataSetChanged();
                     computeTotalUnreadCount(adapter.getDatas());
                 }
+                if(hasNewContacts){
+                    loadData();
+                }
             }
+
         }
     };
 
