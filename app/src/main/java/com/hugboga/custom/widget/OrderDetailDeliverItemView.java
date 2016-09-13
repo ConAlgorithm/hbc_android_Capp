@@ -1,5 +1,6 @@
 package com.hugboga.custom.widget;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
@@ -9,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.huangbaoche.hbcframe.data.net.ErrorHandler;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
@@ -48,6 +50,7 @@ public class OrderDetailDeliverItemView extends LinearLayout implements HbcViewB
 
 
     private String orderNo;
+    private ErrorHandler errorHandler;
 
     public OrderDetailDeliverItemView(Context context) {
         this(context, null);
@@ -155,18 +158,23 @@ public class OrderDetailDeliverItemView extends LinearLayout implements HbcViewB
         List<CanServiceGuideBean.GuidesBean> guidesList = canServiceGuideBean.getGuides();
         avatarLayout.removeAllViews();
 
+        //TODO 每次刷新都重新new,当前刷新频率低,后续优化。
         int size = guidesList.size();
         int viewWidth = UIUtils.dip2px(114) + UIUtils.dip2px(70);
+        boolean isShowMoreIV = true;
         j:for (int i = 0; i < size; i++) {
             viewWidth +=  UIUtils.dip2px(10) + UIUtils.dip2px(40);
             if (viewWidth > UIUtils.getScreenWidth()) {
+                isShowMoreIV = true;
                 break j;
             }
             CircleImageView circleImageView = getCircleImageView();
             Tools.showImage(circleImageView, guidesList.get(i).getAvatarS());
+            isShowMoreIV = false;
         }
         CircleImageView circleImageView = getCircleImageView();
         circleImageView.setBackgroundResource(R.mipmap.guide_avater_more);
+        circleImageView.setVisibility(isShowMoreIV ? View.VISIBLE : View.GONE);
 
         ImageView iconIV = new ImageView(getContext());
         iconIV.setImageResource(R.mipmap.personalcenter_right);
@@ -182,7 +190,10 @@ public class OrderDetailDeliverItemView extends LinearLayout implements HbcViewB
 
     @Override
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-
+        if (errorHandler == null) {
+            errorHandler = new ErrorHandler((Activity)getContext(), this);
+        }
+        errorHandler.onDataRequestError(errorInfo, request);
     }
 
     private CircleImageView getCircleImageView() {

@@ -283,6 +283,9 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
         @Override
         public void onReceivedTitle(WebView view, String title) {
             super.onReceivedTitle(view, title);
+            if (headerTitle == null) {
+                return;
+            }
             if (!view.getTitle().startsWith("http:")) {
                 headerTitle.setText(view.getTitle());
             } else {
