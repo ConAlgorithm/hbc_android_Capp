@@ -31,7 +31,7 @@ public class ShareDialog extends Dialog implements View.OnClickListener{
             WindowManager windowManager = ((Activity) context).getWindowManager();
             Display display = windowManager.getDefaultDisplay();
             WindowManager.LayoutParams lp = this.getWindow().getAttributes();
-            lp.width = (int)(display.getWidth());
+            lp.width = display.getWidth();
             getWindow().setAttributes(lp);
         }
 
@@ -85,7 +85,7 @@ public class ShareDialog extends Dialog implements View.OnClickListener{
     }
 
     public interface OnShareListener {
-        public void onShare(int type);
+        void onShare(int type);
     }
 
     public void setOnShareListener(OnShareListener listener) {
