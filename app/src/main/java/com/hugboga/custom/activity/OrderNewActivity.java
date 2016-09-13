@@ -893,7 +893,9 @@ public class OrderNewActivity extends BaseActivity {
     DeductionBean deductionBean;
 
     private void requestTravelFund() {
-        RequestDeduction requestDeduction = new RequestDeduction(activity, (carBean.price + hotelPrice) + "");
+        final int totalPrice =  OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean)
+                + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean) + hotelPrice;
+        RequestDeduction requestDeduction = new RequestDeduction(activity, (carBean.price + totalPrice) + "");
         HttpRequestUtils.request(activity, requestDeduction, new HttpRequestListener() {
             @Override
             public void onDataRequestSucceed(BaseRequest request) {
@@ -913,8 +915,7 @@ public class OrderNewActivity extends BaseActivity {
                 } else {
                     dreamRight.setText(Tools.getRMB(activity) + (Integer.valueOf(deductionBean.deduction) + Integer.valueOf(deductionBean.leftAmount)));
                     if (dreamLeft.isChecked()) {
-                        allMoneyLeftText.setText(Tools.getRMB(activity) + (Integer.valueOf(deductionBean.priceToPay) + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean)
-                                + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean) + hotelPrice));
+                        allMoneyLeftText.setText(Tools.getRMB(activity) + (Integer.valueOf(deductionBean.priceToPay) + totalPrice));
                     }
                     dream_right_tips.setVisibility(GONE);
                 }
