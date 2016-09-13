@@ -27,6 +27,8 @@ import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestBargainShare;
 import com.hugboga.custom.data.request.RequestBargin;
 import com.hugboga.custom.data.request.RequestChangeUserInfo;
+import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
@@ -78,6 +80,7 @@ public class BargainActivity extends BaseActivity {
         getIntentValue();
         getData();
         EventBus.getDefault().register(this);
+        StatisticClickEvent.click(StatisticConstant.LAUNCH_KANJIA,"订单详情");
     }
 
     private void getIntentValue(){
@@ -152,9 +155,12 @@ public class BargainActivity extends BaseActivity {
         switch (action.getType()) {
             case WECHAT_SHARE_SUCCEED:
                 getData();
+                StatisticClickEvent.clickShare(StatisticConstant.SHAREKJ_BACK,shareType == 1?"微信好友":"朋友圈");
                 break;
         }
     }
+
+    int shareType = 1;
 
     //显示分享界面
     private void barginShare(int picture, final String title, final String content, final String shareUrl) {
@@ -162,6 +168,8 @@ public class BargainActivity extends BaseActivity {
                 , new ShareDialog.OnShareListener() {
                     @Override
                     public void onShare(int type) {
+                        shareType = type;
+                        StatisticClickEvent.clickShare(StatisticConstant.SHARE_KANJIA,shareType == 1?"微信好友":"朋友圈");
                     }
                 });
     }
@@ -359,6 +367,7 @@ public class BargainActivity extends BaseActivity {
 
     @OnClick(R.id.cut_money)
     public void onClick() {
+        StatisticClickEvent.click(StatisticConstant.CLICK_KANJIA,"订单详情");
         if(TextUtils.isEmpty(userName)) {
             if(!isShowAddNamePopup){
                 isShowAddNamePopup = true;
