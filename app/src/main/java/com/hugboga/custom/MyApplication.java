@@ -22,6 +22,7 @@ import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestAccessKey;
 import com.hugboga.custom.map.GdMapProvider;
 import com.hugboga.custom.utils.LogUtils;
+import com.hugboga.custom.utils.UmengADPlus;
 import com.hugboga.custom.utils.UnicornUtils;
 import com.hugboga.custom.widget.DialogUtil;
 import com.netease.nim.uikit.ImageLoaderKit;
@@ -79,6 +80,8 @@ public class MyApplication extends HbcApplication {
            UnicornUtils.initUnicorn();
         }
 
+        UmengADPlus umengADPlus = new UmengADPlus();
+        umengADPlus.sendMessage(this,"55ccb4cfe0f55ab500004a9d");
         //initRongIm(this); // 初始化融云IM
         initNim(this);
     }

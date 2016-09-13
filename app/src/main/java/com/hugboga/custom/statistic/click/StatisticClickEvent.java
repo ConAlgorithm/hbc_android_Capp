@@ -20,6 +20,13 @@ public class StatisticClickEvent {
         MobClickUtils.onEvent(eventId,map);
     }
 
+    //砍价分享触发来源
+    public static void clickShare(String eventId,String source){
+        Map map = new HashMap();
+        map.put("sharetype",source);
+        MobClickUtils.onEvent(eventId,map);
+    }
+
 
     private static String getGuestCount(ManLuggageBean guestcount){
         if(null == guestcount){

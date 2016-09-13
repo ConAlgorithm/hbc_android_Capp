@@ -7,7 +7,7 @@ import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.data.bean.CarListBean;
 import com.hugboga.custom.data.net.NewParamsBuilder;
 import com.hugboga.custom.data.net.UrlLibs;
-import com.hugboga.custom.data.parser.ParserCarList;
+import com.hugboga.custom.data.parser.ParserCheckPrice;
 import com.hugboga.custom.utils.Config;
 
 import org.xutils.http.annotation.HttpRequest;
@@ -39,7 +39,7 @@ public class RequestPriceSku extends BaseRequest<CarListBean> {
 
     @Override
     public ImplParser getParser() {
-        return new ParserCarList();
+        return new ParserCheckPrice();
     }
 
 

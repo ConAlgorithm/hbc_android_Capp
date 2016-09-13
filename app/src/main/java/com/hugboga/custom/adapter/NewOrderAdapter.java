@@ -249,7 +249,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                 vh.br_layout.setVisibility(View.GONE);//添加投保人
                 vh.mPrice.setVisibility(View.VISIBLE);//支付TV
                 if(orderBean.orderPriceInfo != null){
-                    vh.mPrice.setText("支付金额：" + orderBean.orderPriceInfo.shouldPay + "元");
+                    vh.mPrice.setText("支付金额：" + orderBean.orderPriceInfo.actualPay + "元");
                 }
                 vh.mHeadLayout.setVisibility(View.GONE);//司导信息
                 vh.mBtnPay.setVisibility(View.VISIBLE);//立即支付btn

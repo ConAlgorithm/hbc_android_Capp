@@ -11,6 +11,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.huangbaoche.hbcframe.data.net.DefaultSSLSocketFactory;
+import com.huangbaoche.hbcframe.data.net.ErrorHandler;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
@@ -50,6 +52,7 @@ public class PayResultView extends RelativeLayout implements HttpRequestListener
     private boolean isPaySucceed; //支付结果
     private String orderId;
     private PaySucceedBean paySucceedBean;
+    private ErrorHandler errorHandler;
 
     public PayResultView(Context context) {
         this(context, null);
@@ -90,6 +93,7 @@ public class PayResultView extends RelativeLayout implements HttpRequestListener
                 if (isPaySucceed) {
                     intentHome();
                 } else {
+                    DefaultSSLSocketFactory.resetSSLSocketFactory(getContext());
                     intentOrderDetail();
                 }
                 break;
@@ -109,6 +113,7 @@ public class PayResultView extends RelativeLayout implements HttpRequestListener
                 break;
             case R.id.view_pay_result_ad_iv: //砍价
                 Intent intentBargain = new Intent(getContext(), BargainActivity.class);
+                intentBargain.putExtra(Constants.PARAMS_SOURCE, getContext().getString(R.string.par_result_title));
                 intentBargain.putExtra("orderNo", orderId);
                 getContext().startActivity(intentBargain);
                 break;
@@ -118,6 +123,7 @@ public class PayResultView extends RelativeLayout implements HttpRequestListener
                     params.id = paySucceedBean.getCityId();
                     params.skuType = SkuListActivity.SkuType.CITY;
                     Intent intent = new Intent(getContext(), SkuListActivity.class);
+                    intent.putExtra(Constants.PARAMS_SOURCE, getContext().getString(R.string.par_result_title));
                     intent.putExtra(Constants.PARAMS_DATA, params);
                     getContext().startActivity(intent);
                 }
@@ -213,7 +219,10 @@ public class PayResultView extends RelativeLayout implements HttpRequestListener
 
     @Override
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-
+        if (errorHandler == null) {
+            errorHandler = new ErrorHandler((Activity)getContext(), this);
+        }
+        errorHandler.onDataRequestError(errorInfo, request);
     }
 
     /**

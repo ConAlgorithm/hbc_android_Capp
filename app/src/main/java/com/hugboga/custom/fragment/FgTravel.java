@@ -470,7 +470,7 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, OnIt
                 tab3NumberTextView.setVisibility(View.GONE);
             }
             int tab4Count = CommonUtils.getCountInteger("" + obj[4]);
-            if (tab2Count > 0) {
+            if (tab4Count > 0) {
                 tab4NumberTextView.setVisibility(View.VISIBLE);
                 tab4NumberTextView.setText(tab4Count > 100 ? "99+" : "" + tab4Count);
             } else {

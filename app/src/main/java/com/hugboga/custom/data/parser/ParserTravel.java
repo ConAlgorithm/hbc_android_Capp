@@ -28,9 +28,9 @@ public class ParserTravel extends ImplParser {
             }
         }
         objs[1] = listData;
-        objs[2] = obj.optInt("evaluationTotalSize");
+        objs[2] = obj.optInt("unpayTotalSize");
         objs[3] = obj.optInt("ingTotalSize");
-        objs[4] = obj.optInt("unpayTotalSize");
+        objs[4] = obj.optInt("evaluationTotalSize");
         return objs;
     }
 }
