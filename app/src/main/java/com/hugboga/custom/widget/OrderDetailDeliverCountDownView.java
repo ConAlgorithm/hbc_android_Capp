@@ -85,7 +85,7 @@ public class OrderDetailDeliverCountDownView extends LinearLayout implements Hbc
     }
 
     public interface OnUpdateListener {
-        public void onUpdate(boolean isEnd);
+        void onUpdate(boolean isEnd);
     }
 
     public void setOnUpdateListener(OnUpdateListener onUpdateListener) {

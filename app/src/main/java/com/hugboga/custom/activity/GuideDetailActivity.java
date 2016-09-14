@@ -319,7 +319,7 @@ public class GuideDetailActivity extends BaseActivity implements GuideCarPhotosA
             collectBean.numOfPerson = data.getCarPersonNum();
             collectBean.avatar = data.getAvatar();
             collectBean.carDesc = data.getCarDesc();
-            collectBean.carModel = data.getCarDesc();;
+            collectBean.carModel = data.getCarDesc();
 //          status;//可预约状态 1.可预约、0.不可预约
         }
         return collectBean;
