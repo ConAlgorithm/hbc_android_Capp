@@ -1,5 +1,6 @@
 package com.hugboga.custom.fragment;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -61,6 +62,12 @@ import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -356,6 +363,9 @@ public class FgImChat extends BaseFragment implements View.OnClickListener, ZBas
             if(loginBtn!=null)
                 loginBtn.setVisibility(View.VISIBLE);
         }
+
+        saveLettersToLocal(chatBeans);
+
         queryLocalRecentList();
 
         reRequestTimes = 0;
@@ -388,7 +398,19 @@ public class FgImChat extends BaseFragment implements View.OnClickListener, ZBas
             return;
         }
         if (UserEntity.getUser().isLogin(getActivity())) {
-            emptyTV.setVisibility(View.VISIBLE);
+            List<ChatBean> list = getLocalLetters();
+            if(list==null || list.size()==0){
+                emptyTV.setVisibility(View.VISIBLE);
+                return;
+            }
+            if(adapter!=null){
+                adapter.removeAll();
+                adapter.addDatas(list);
+                adapter.notifyDataSetChanged();
+                if(recyclerView!=null){
+                    recyclerView.getAdapter().notifyDataSetChanged();
+                }
+            }
         }
     }
 
@@ -469,5 +491,60 @@ public class FgImChat extends BaseFragment implements View.OnClickListener, ZBas
         }
     };
 
+    private void saveLettersToLocal(List<ChatBean> list){
+        if(adapter!=null && adapter.getDatas()!=null && adapter.getDatas().size()>10){
+            return;
+        }
+        if(list==null || list.size()==0){
+            return;
+        }
+        FileOutputStream fos = null;
+        ObjectOutputStream oos = null;
+        try {
+            fos = MyApplication.getAppContext().openFileOutput(
+                    UserEntity.getUser().getUserId(MyApplication.getAppContext()), Context.MODE_PRIVATE);
+            oos = new ObjectOutputStream(fos);
+            oos.writeObject(list);
+        }catch (FileNotFoundException e){
+            e.printStackTrace();
+        }catch (IOException e){
+            e.printStackTrace();
+        }finally {
+            try{
+                if(fos!=null){
+                    fos.close();
+                }
+                if(oos!=null){
+                    oos.close();
+                }
+            }catch (Exception e){
+            }
+        }
+    }
 
+    private List<ChatBean> getLocalLetters(){
+        List<ChatBean> list = null;
+        FileInputStream fis = null;
+        ObjectInputStream ois = null;
+        try{
+            fis =  MyApplication.getAppContext().openFileInput(UserEntity.getUser().getUserId(MyApplication.getAppContext()));
+            ois = new ObjectInputStream(fis);
+            list = (List<ChatBean>)ois.readObject();
+            return list;
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            try {
+                if(fis!=null){
+                    fis.close();
+                }
+                if(ois!=null){
+                    ois.close();
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+        return list;
+    }
 }

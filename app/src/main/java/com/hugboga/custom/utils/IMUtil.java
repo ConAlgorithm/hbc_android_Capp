@@ -15,7 +15,9 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
+import com.huangbaoche.hbcframe.util.NetWork;
 import com.hugboga.custom.MyApplication;
+import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
@@ -188,6 +190,10 @@ public class IMUtil {
      * @return
      */
     public boolean isLogined(){
+        if(!NetWork.isNetworkAvailable(MyApplication.getAppContext())){
+            Toast.makeText(MyApplication.getAppContext(), R.string.net_broken,Toast.LENGTH_SHORT).show();
+            return false;
+        }
         StatusCode statusCode = NIMClient.getStatus();
         if(statusCode==StatusCode.LOGINING){
             Toast.makeText(MyApplication.getAppContext(),"正在登录聊天服务器",Toast.LENGTH_SHORT).show();

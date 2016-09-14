@@ -3,13 +3,14 @@ package com.hugboga.custom.data.bean;
 import com.netease.nimlib.sdk.msg.constant.MsgStatusEnum;
 import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * 私信
  * Created by ZHZEPHI on 2016/3/4.
  */
-public class ChatBean {
+public class ChatBean implements Serializable{
 
     public String targetAvatar; //头像地址
     public String targetName; //用户名
