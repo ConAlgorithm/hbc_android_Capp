@@ -87,7 +87,7 @@ public class BargainActivity extends BaseActivity {
         orderNo = getIntent().getStringExtra("orderNo");
     }
 
-    private String orderNo = "J190706533863";
+    private String orderNo = "R122621569604";
     private String sign = "C9B525F3D472BD7094CEF8EA5028500F";
     private int limit = 5;
     private int offset = 0;
@@ -135,14 +135,16 @@ public class BargainActivity extends BaseActivity {
                     cutMoney.setOnClickListener(null);
                 }
                 offset += limit;
-                if(offset >=  bargainTotal){
-                    bottom.setText(R.string.no_more);
-                    bottom.setOnClickListener(null);
-                }
                 if(loadMore){
                     addMoreListView(barginBean);
                 }else {
                     genListView(barginBean);
+                }
+                if(offset >=  bargainTotal){
+                    if(null != bottom) {
+                        bottom.setText(R.string.no_more);
+                        bottom.setOnClickListener(null);
+                    }
                 }
             }
 
