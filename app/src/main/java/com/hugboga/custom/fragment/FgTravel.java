@@ -458,21 +458,21 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, OnIt
             int tab2Count = CommonUtils.getCountInteger("" + obj[2]);
             if (tab2Count > 0) {
                 tab2NumberTextView.setVisibility(View.VISIBLE);
-                tab2NumberTextView.setText(tab2Count > 100 ? "99+" : "" + tab2Count);
+                tab2NumberTextView.setText(tab2Count > 100 ? "..." : "" + tab2Count);
             } else {
                 tab2NumberTextView.setVisibility(View.GONE);
             }
             int tab3Count = CommonUtils.getCountInteger("" + obj[3]);
             if (tab3Count > 0) {
                 tab3NumberTextView.setVisibility(View.VISIBLE);
-                tab3NumberTextView.setText(tab3Count > 100 ? "99+" : "" + tab3Count);
+                tab3NumberTextView.setText(tab3Count > 100 ? "..." : "" + tab3Count);
             } else {
                 tab3NumberTextView.setVisibility(View.GONE);
             }
             int tab4Count = CommonUtils.getCountInteger("" + obj[4]);
             if (tab4Count > 0) {
                 tab4NumberTextView.setVisibility(View.VISIBLE);
-                tab4NumberTextView.setText(tab4Count > 100 ? "99+" : "" + tab4Count);
+                tab4NumberTextView.setText(tab4Count > 100 ? "..." : "" + tab4Count);
             } else {
                 tab4NumberTextView.setVisibility(View.GONE);
             }

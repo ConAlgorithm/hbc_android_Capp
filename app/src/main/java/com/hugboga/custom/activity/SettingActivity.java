@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.huangbaoche.hbcframe.HbcConfig;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
@@ -76,11 +77,11 @@ public class SettingActivity extends BaseActivity {
         ButterKnife.bind(this);
         initHeader();
 
-//        if (HbcConfig.IS_DEBUG) {
-//            developerLayout.setVisibility(View.VISIBLE);
-//        } else {
+        if (HbcConfig.IS_DEBUG) {
+            developerLayout.setVisibility(View.VISIBLE);
+        } else {
             developerLayout.setVisibility(View.GONE);
-//        }
+        }
     }
 
     @Override

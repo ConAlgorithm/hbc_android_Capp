@@ -1059,10 +1059,12 @@ public class OrderNewActivity extends BaseActivity {
 
             @Override
             public void onDataRequestCancel(BaseRequest request) {
+                LogUtils.e("========");
             }
 
             @Override
             public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+                LogUtils.e("====onDataRequestError====");
             }
         });
 

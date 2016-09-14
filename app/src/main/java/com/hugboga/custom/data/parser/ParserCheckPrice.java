@@ -26,6 +26,7 @@ public class ParserCheckPrice extends ImplParser {
         CarListBean carListBean = new CarListBean();
         carListBean.distance = obj.optDouble("distance", 0);
         carListBean.interval = obj.optInt("estTime", 0);
+        carListBean.hotelPrice = obj.optInt("hotelPrice",0);
         carListBean.timeNotReachFlag = obj.optInt("timeNotReachFlag", 0);
         carListBean.supportChildseat = obj.optBoolean("supportChildseat");
         carListBean.guideFloatSwitch = obj.optInt("guideFloatSwitch", 0);

@@ -122,7 +122,7 @@ android {
 //                break;
             case 'examination':
                 flavor.buildConfigField('String', 'API_SERVER_URL', '"https://api.test.hbc.tech/"')
-                flavor.buildConfigField('String', 'H5_HOST','"https://info.test.hbc.tech"')
+                flavor.buildConfigField('String', 'H5_HOST','"http://info.test.hbc.tech"')
                 flavor.buildConfigField('String', 'SHARE_BASE_URL_1','"http://test.op.huangbaoche.com/test/app/auth.html"')
                 flavor.buildConfigField('String', 'SHARE_BASE_URL_2','"http://act.test.huangbaoche.com"')
                 flavor.buildConfigField('String', 'SHARE_BASE_URL_3','"http://act.test.huangbaoche.com"')

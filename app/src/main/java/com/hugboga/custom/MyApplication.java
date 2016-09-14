@@ -20,8 +20,10 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.net.ServerCodeHandler;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestAccessKey;
+import com.hugboga.custom.developer.DeveloperOptionsActivity;
 import com.hugboga.custom.map.GdMapProvider;
 import com.hugboga.custom.utils.LogUtils;
+import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.UmengADPlus;
 import com.hugboga.custom.utils.UnicornUtils;
 import com.hugboga.custom.widget.DialogUtil;
@@ -61,6 +63,7 @@ public class MyApplication extends HbcApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+        mAppContext = this.getApplicationContext();
         MobclickAgent.setDebugMode(HbcConfig.IS_DEBUG);
         x.Ext.setDebug(true);
         initUrlHost();
@@ -68,7 +71,6 @@ public class MyApplication extends HbcApplication {
         JPushInterface.init(this);            // 初始化 JPush
 
         initConfig();
-        mAppContext = this.getApplicationContext();
         Log.e("hbcApplication", "debug " + BuildConfig.DEBUG);
         try {
 //            CrashReport.initCrashReport(this, "900024779", false);
@@ -91,6 +93,9 @@ public class MyApplication extends HbcApplication {
     }
 
     private void initUrlHost() {
+        if (setDebugUrlHost()) {
+            return;
+        }
         MLog.e("urlHost=" + BuildConfig.API_SERVER_URL);
         MLog.e("UrlLibs.H5_HOST=" + UrlLibs.H5_HOST);
         if(TextUtils.isEmpty(BuildConfig.API_SERVER_URL)) {
@@ -138,6 +143,56 @@ public class MyApplication extends HbcApplication {
         HbcConfig.APP_NAME = getString(R.string.app_name);
         x.Ext.setDebug(HbcConfig.IS_DEBUG);
         HbcConfig.WX_APP_ID = Constants.WX_APP_ID;
+    }
+
+    public static boolean setDebugUrlHost() {
+        if (!HbcConfig.IS_DEBUG) {
+            return false;
+        }
+        int environmentType = SharedPre.getInteger(DeveloperOptionsActivity.CURRENT_ENVIRONMENT, -1);
+        switch (environmentType) {
+            case 1:
+                UrlLibs.SERVER_IP_HOST_PUBLIC = UrlLibs.SERVER_HTTP_SCHEME_HTTP + UrlLibs.SERVER_IP_HOST_PUBLIC_DEV;
+                UrlLibs.H5_HOST = UrlLibs.DEV_H5_HOST;
+                UrlLibs.SHARE_BASE_URL_1 = UrlLibs.DEV_SHARE_BASE_URL_1;
+                UrlLibs.SHARE_BASE_URL_2 = UrlLibs.DEV_SHARE_BASE_URL_2;
+                UrlLibs.SHARE_BASE_URL_3 = UrlLibs.DEV_SHARE_BASE_URL_3;
+                UrlLibs.SHARE_BASE_URL_4 = UrlLibs.DEV_SHARE_BASE_URL_4;
+                UrlLibs.SHARE_APPID = UrlLibs.DEV_SHARE_APPID;
+                return true;
+            case 2:
+                UrlLibs.SERVER_IP_HOST_PUBLIC = UrlLibs.SERVER_HTTP_SCHEME_HTTPS + UrlLibs.SERVER_IP_HOST_PUBLIC_EXAMINATION;
+                UrlLibs.H5_HOST = UrlLibs.TEST_H5_HOST;
+                UrlLibs.SHARE_BASE_URL_1 = UrlLibs.TEST_SHARE_BASE_URL_1;
+                UrlLibs.SHARE_BASE_URL_2 = UrlLibs.TEST_SHARE_BASE_URL_2;
+                UrlLibs.SHARE_BASE_URL_3 = UrlLibs.TEST_SHARE_BASE_URL_3;
+                UrlLibs.SHARE_BASE_URL_4 = UrlLibs.TEST_SHARE_BASE_URL_4;
+                UrlLibs.SHARE_APPID = UrlLibs.TEST_SHARE_APPID;
+                return true;
+            case 3:
+                UrlLibs.SERVER_IP_HOST_PUBLIC = UrlLibs.SERVER_HTTP_SCHEME_HTTPS + UrlLibs.SERVER_IP_HOST_PUBLIC_STAGE;
+                UrlLibs.H5_HOST = UrlLibs.FORMAL_H5_HOST;
+                UrlLibs.SHARE_BASE_URL_1 = UrlLibs.FORMAL_SHARE_BASE_URL_1;
+                UrlLibs.SHARE_BASE_URL_2 = UrlLibs.FORMAL_SHARE_BASE_URL_2;
+                UrlLibs.SHARE_BASE_URL_3 = UrlLibs.FORMAL_SHARE_BASE_URL_3;
+                UrlLibs.SHARE_BASE_URL_4 = UrlLibs.FORMAL_SHARE_BASE_URL_4;
+                UrlLibs.SHARE_APPID = UrlLibs.FORMAL_SHARE_APPID;
+                return true;
+            default:
+                int currentEnvironmentType = 0;
+                if (UrlLibs.DEV_H5_HOST.equals(BuildConfig.H5_HOST)) {
+                    currentEnvironmentType = 1;
+                } else if(UrlLibs.TEST_H5_HOST.equals(BuildConfig.H5_HOST)) {
+                    currentEnvironmentType = 2;
+                } else {
+                    currentEnvironmentType = 3;
+                }
+                SharedPre.setInteger(DeveloperOptionsActivity.CURRENT_ENVIRONMENT, currentEnvironmentType);
+                SharedPre.setInteger(DeveloperOptionsActivity.DEFULT_ENVIRONMENT, currentEnvironmentType);
+                break;
+        }
+        HbcConfig.serverHost = UrlLibs.SERVER_IP_HOST_PUBLIC;
+        return false;
     }
 
     /**

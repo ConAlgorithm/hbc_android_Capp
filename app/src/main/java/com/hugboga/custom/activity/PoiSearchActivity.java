@@ -212,9 +212,9 @@ public class PoiSearchActivity extends BaseActivity implements AdapterView.OnIte
                     adapter.addList(dateList);
                 }
             } else {
-                adapter = new PoiSearchAdapter(activity);
+//                adapter = new PoiSearchAdapter(activity);
                 adapter.setList(dateList);
-                sortListView.setAdapter(adapter);
+//                sortListView.setAdapter(adapter);
                 sortListView.onRefreshComplete();
             }
 //            emptyViewText.setText(getString(R.string.arrival_empty_text,searchWord));

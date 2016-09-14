@@ -38,12 +38,29 @@ public class UrlLibs {
 
     public static String H5_HOST = BuildConfig.H5_HOST;
 
+    public static  String DEV_SHARE_BASE_URL_1 = "http://test.op.huangbaoche.com/dev/app/auth.html";
+    public static  String DEV_SHARE_BASE_URL_2 = "http://act.dev.huangbaoche.com";
+    public static  String DEV_SHARE_BASE_URL_3 = "http://act.dev.huangbaoche.com";
+    public static  String DEV_SHARE_BASE_URL_4 = "http://m.dev.huangbaoche.com";
+    public static  String DEV_SHARE_APPID = "wx1354271c597184ee";
 
-    public static  String SHARE_BASE_URL_1 = "http://op.huangbaoche.com/app/auth.html";
-    public static  String SHARE_BASE_URL_2 = "http://act.huangbaoche.com";
-    public static  String SHARE_BASE_URL_3 = "http://act.test.huangbaoche.com";
-    public static  String SHARE_BASE_URL_4 = "http://m.test.huangbaoche.com";
-    public static  String SHARE_APPID = "wx62ad814ba9bf0b68";//测试wx1354271c597184ee 线上wx62ad814ba9bf0b68
+    public static  String TEST_SHARE_BASE_URL_1 = "http://test.op.huangbaoche.com/test/app/auth.html";
+    public static  String TEST_SHARE_BASE_URL_2 = "http://act.test.huangbaoche.com";
+    public static  String TEST_SHARE_BASE_URL_3 = "http://act.test.huangbaoche.com";
+    public static  String TEST_SHARE_BASE_URL_4 = "http://m.test.huangbaoche.com";
+    public static  String TEST_SHARE_APPID = "wx1354271c597184ee";
+
+    public static  String FORMAL_SHARE_BASE_URL_1 = "http://op.huangbaoche.com/app/auth.html";
+    public static  String FORMAL_SHARE_BASE_URL_2 = "http://act.huangbaoche.com";
+    public static  String FORMAL_SHARE_BASE_URL_3 = "http://act.huangbaoche.com";
+    public static  String FORMAL_SHARE_BASE_URL_4 = "http://m.huangbaoche.com";
+    public static  String FORMAL_SHARE_APPID = "wx62ad814ba9bf0b68";
+
+    public static  String SHARE_BASE_URL_1 = FORMAL_SHARE_BASE_URL_1;
+    public static  String SHARE_BASE_URL_2 = FORMAL_SHARE_BASE_URL_2;
+    public static  String SHARE_BASE_URL_3 = FORMAL_SHARE_BASE_URL_3;
+    public static  String SHARE_BASE_URL_4 = FORMAL_SHARE_BASE_URL_4;
+    public static  String SHARE_APPID = FORMAL_SHARE_APPID;//测试wx1354271c597184ee 线上wx62ad814ba9bf0b68
 
 //    http://m.test.huangbaoche.com/app/dailyDetail.html?userId=100000001023&cityId=217
 //    http://m.huangbaoche.com/app/dailyDetail.html?userId=100000001023&cityId=217
