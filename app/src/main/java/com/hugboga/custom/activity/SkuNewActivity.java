@@ -449,7 +449,7 @@ public class SkuNewActivity extends BaseActivity {
 
         if(skuBean.goodsClass == 1){
             bundle.putInt("type", 5);
-            bundle.putString("ordeType", "5");
+            bundle.putString("orderType", "5");
             StatisticClickEvent.singleSkuClick(StatisticConstant.CONFIRM_RG,getIntentSource(),carBean.desc+"",(manLuggageBean.mans + manLuggageBean.childs));
          }else{
             bundle.putInt("type", 6);

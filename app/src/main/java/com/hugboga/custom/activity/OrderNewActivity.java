@@ -959,6 +959,7 @@ public class OrderNewActivity extends BaseActivity {
     private void requestMostFit() {
         switch (type) {
             case 1:
+                orderType = "1";
                 startCityId4MostFit = flightBean.arrivalAirport.cityId + "";
                 date4MostFit = flightBean.arrDate + " " + flightBean.arrivalTime + ":00";
                 areaCode4MostFit = flightBean.arrivalAirport.areaCode;
@@ -1059,10 +1060,12 @@ public class OrderNewActivity extends BaseActivity {
 
             @Override
             public void onDataRequestCancel(BaseRequest request) {
+                LogUtils.e("========");
             }
 
             @Override
             public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+                LogUtils.e("====onDataRequestError====");
             }
         });
 
