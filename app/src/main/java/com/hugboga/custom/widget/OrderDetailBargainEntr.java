@@ -58,14 +58,14 @@ public class OrderDetailBargainEntr extends RelativeLayout implements HbcViewBeh
         } else {
             setVisibility(View.VISIBLE);
             switch (orderBean.bargainStatus) {
-                case 1://初始状态
+                case 0://初始状态
                     parentLayout.setBackgroundResource(R.mipmap.bargain_challenge);
                     priceTV.setVisibility(View.GONE);
                     countdownView.setVisibility(View.GONE);
                     countdownView.setOnCountdownEndListener(null);
                     countdownView.stop();
                     break;
-                case 2://激活
+                case 1://激活
                     parentLayout.setBackgroundResource(R.mipmap.bargain_entr_bg);
                     priceTV.setVisibility(View.VISIBLE);
                     priceTV.setText(getContext().getString(R.string.order_detail_bargain_entr_price, "" + orderBean.bargainAmount));
@@ -73,7 +73,7 @@ public class OrderDetailBargainEntr extends RelativeLayout implements HbcViewBeh
                     countdownView.start(orderBean.bargainSeconds * 1000);
                     countdownView.setOnCountdownEndListener(this);
                     break;
-                case 3://活动结束
+                case 2://活动结束
                     parentLayout.setBackgroundResource(R.mipmap.bargain_succeed);
                     priceTV.setVisibility(View.VISIBLE);
                     priceTV.setText(getContext().getString(R.string.order_detail_bargain_entr_price, "" + orderBean.bargainAmount));
