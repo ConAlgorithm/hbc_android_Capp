@@ -10,7 +10,7 @@ public class DeliverInfoBean implements Serializable{
     public String deliverMessage;
     public String deliverDetail;
     /**
-     * 1:未发单；2:已发单；3-已通知司导；4-有司导表态；5-正在安排司导；6-已通知该司导；7-为您协调司导；8-已确定导游
+     * 1:未发单；2:已发单；3-已通知司导；4-有司导表态；5-正在安排司导；6-已通知该司导；7-为您协调司导；8-已确定导游；9-发单中
      * */
     public int deliverStatus;
     /**
@@ -35,5 +35,6 @@ public class DeliverInfoBean implements Serializable{
         public static final int INFORMED_GUIDE = 6;     // 已通知该司导
         public static final int COORDINATION = 7;       // 为您协调司导
         public static final int IDENTIFIED = 8;         // 已确定导游
+        public static final int DELIVERING = 9;         // 发单中
     }
 }

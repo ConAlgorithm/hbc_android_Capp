@@ -75,16 +75,17 @@ public class OrderDetailDeliverItemView extends LinearLayout implements HbcViewB
         }
         //3种UI样式
         switch (deliverInfoBean.deliverStatus) {
-            case DeliverInfoBean.DeliverStatus.BILLED:          // 已发单
-            case DeliverInfoBean.DeliverStatus.INFORMED:        // 已通知司导
-            case DeliverInfoBean.DeliverStatus.INFORMED_GUIDE:  // 已通知该司导
+            case DeliverInfoBean.DeliverStatus.BILLED:          // 2.已发单
+            case DeliverInfoBean.DeliverStatus.INFORMED:        // 3.已通知司导
+            case DeliverInfoBean.DeliverStatus.INFORMED_GUIDE:  // 6.已通知该司导
                 countdownLayout(deliverInfoBean);
                 break;
-            case DeliverInfoBean.DeliverStatus.BEING_ARRANGED:  // 正在安排司导
-            case DeliverInfoBean.DeliverStatus.COORDINATION:    // 为您协调司导
+            case DeliverInfoBean.DeliverStatus.BEING_ARRANGED:  // 5.正在安排司导
+            case DeliverInfoBean.DeliverStatus.COORDINATION:    // 7.为您协调司导
+            case DeliverInfoBean.DeliverStatus.DELIVERING:      // 9.发单中
                 loadingLayout(deliverInfoBean);
                 break;
-            case DeliverInfoBean.DeliverStatus.COMMITTED:       // 有司导表态  司导
+            case DeliverInfoBean.DeliverStatus.COMMITTED:       // 4.有司导表态  司导
                 guideAvatarListLayout(deliverInfoBean);
                 break;
         }
