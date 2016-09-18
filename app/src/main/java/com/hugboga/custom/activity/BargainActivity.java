@@ -341,7 +341,9 @@ public class BargainActivity extends BaseActivity {
         super.onDestroy();
         ButterKnife.unbind(this);
         EventBus.getDefault().unregister(this);
-        countDownTimer.cancel();
+        if(null != countDownTimer) {
+            countDownTimer.cancel();
+        }
     }
 
     @Override
