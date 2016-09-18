@@ -88,6 +88,8 @@
                         android:background="@color/basic_white"
                         android:hint="请添加联系人"
                         android:minEms="4"
+                        android:maxEms="50"
+                        android:lines="1"
                         android:textColorHint="#c3c5c5"
                         android:textSize="14sp" />
                 </RelativeLayout>
@@ -194,6 +196,8 @@
                         android:background="@color/basic_white"
                         android:hint="请添加联系人"
                         android:minEms="4"
+                        android:maxEms="50"
+                        android:lines="1"
                         android:textColorHint="#c3c5c5"
                         android:textSize="14sp" />
                 </RelativeLayout>
@@ -322,6 +326,8 @@
                         android:background="@color/basic_white"
                         android:hint="请添加联系人"
                         android:minEms="4"
+                        android:maxEms="50"
+                        android:lines="1"
                         android:textColorHint="#c3c5c5"
                         android:textSize="14sp" />
                 </RelativeLayout>
@@ -497,6 +503,8 @@
                         android:background="@color/basic_white"
                         android:hint="请添加联系人"
                         android:minEms="4"
+                        android:maxEms="50"
+                        android:lines="1"
                         android:textColorHint="#c3c5c5"
                         android:textSize="14sp" />
                 </RelativeLayout>

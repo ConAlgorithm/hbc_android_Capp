@@ -7,6 +7,6 @@
         android:id="@+id/person_info_nick_text"
         android:layout_width="match_parent"
         android:layout_height="64dp"
-        android:maxLength="15" />
+        android:maxLength="50" />
 
 </RelativeLayout>
