@@ -47,11 +47,11 @@ android {
         }
     }
     compileSdkVersion 24
-    buildToolsVersion '24.0.0'
+    buildToolsVersion '24.0.2'
     defaultConfig {
         applicationId "com.hugboga.custom"
         minSdkVersion 15
-        targetSdkVersion 23
+        targetSdkVersion 24
         versionCode 100280
         versionName "2.8.0"
         signingConfig signingConfigs.hbcSign
