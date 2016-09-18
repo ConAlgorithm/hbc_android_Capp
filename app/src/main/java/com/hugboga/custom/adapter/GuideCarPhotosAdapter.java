@@ -5,10 +5,12 @@ import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.hugboga.custom.R;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
 
@@ -35,6 +37,7 @@ public class GuideCarPhotosAdapter extends RecyclerView.Adapter<GuideCarPhotosAd
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         ImageView imageView = new ImageView(mContext);
+        imageView.setBackgroundResource(R.mipmap.guide_car_default);
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         imageView.setLayoutParams(params);
         return new MyViewHolder(imageView);
@@ -42,14 +45,6 @@ public class GuideCarPhotosAdapter extends RecyclerView.Adapter<GuideCarPhotosAd
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
-        if (TextUtils.isEmpty(urlList.get(position))) {
-            return;
-        }
-//        Glide.with(mContext)
-//                .load(urlList.get(position))
-//                .centerCrop()
-//                .diskCacheStrategy(DiskCacheStrategy.ALL)
-//                .into((ImageView) holder.itemView);
         Tools.showImage((ImageView) holder.itemView, urlList.get(position));
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

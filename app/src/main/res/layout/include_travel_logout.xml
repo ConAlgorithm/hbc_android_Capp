@@ -3,48 +3,41 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_below="@id/toolbar"
-    android:background="@color/travel_bg"
-    android:padding="@dimen/basic_margin_xlarge"
-    android:visibility="gone">
+    android:visibility="gone"
+    android:background="@color/travel_bg">
 
+    <TextView
+        android:id="@+id/travel_login_hint_tv"
+        android:layout_marginTop="50dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/basic_margin_small"
+        android:gravity="center_horizontal"
+        android:lineSpacingExtra="3dp"
+        android:text="下单后可以在这里\n管理你的行程"
+        android:textColor="#666666"
+        android:textSize="20sp" />
+
+    <ImageView
+        android:layout_below="@id/travel_login_hint_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:src="@mipmap/travel_list_example_icon" />
     <Button
         android:id="@+id/travel_login_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="190dp"
+        android:layout_height="40dp"
+        android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="100dp"
-        android:layout_marginLeft="70dp"
-        android:layout_marginRight="70dp"
+        android:layout_marginBottom="40dp"
         android:background="@drawable/btn_orange"
         android:text="登录"
-        android:textColor="@color/basic_white"
-        android:textSize="@dimen/text_size_largex" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/basic_margin_large"
-        android:layout_marginTop="100dp"
-        android:gravity="center_horizontal"
-        android:orientation="vertical">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/img_empty_journey" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/basic_margin_small"
-            android:text="如果您预订了司导服务"
-            android:textSize="@dimen/text_size_largex" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="您将在这里看到行程单"
-            android:textSize="@dimen/text_size_largex" />
-    </LinearLayout>
+        android:textColor="#000000"
+        android:textSize="15sp" />
 
 </RelativeLayout>

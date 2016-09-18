@@ -2,16 +2,14 @@ package com.hugboga.custom.utils;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.text.TextUtils;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.FutureTarget;
-import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.hugboga.custom.MyApplication;
+import com.hugboga.custom.R;
 import com.hugboga.custom.widget.GlideCircleTransform;
 import com.hugboga.custom.widget.GlideRoundTransform;
 
@@ -32,6 +30,19 @@ public class Tools {
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(imageView);
     }
+
+    public static void showImage(ImageView imageView, String url,int resId) {
+        if (TextUtils.isEmpty(url)) {
+            return;
+        }
+        Glide.with(MyApplication.getAppContext())
+                .load(url)
+                .placeholder(resId)
+                .centerCrop()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(imageView);
+    }
+
 
     public static void showRoundImage(ImageView imageView, String url, float radius) {
         Glide.with(MyApplication.getAppContext())
@@ -65,9 +76,9 @@ public class Tools {
 //    }
 
 
-//    public static void showCircleImage(Context context,ImageView imageView,String url){
-//        Glide.with(context).load(url).transform(new GlideCircleTransform(context)).into(imageView);
-//    }
+    public static void showCircleImage(Context context,ImageView imageView,String url){
+        Glide.with(context).load(url).transform(new GlideCircleTransform(context)).into(imageView);
+    }
 
     public static Bitmap getBitmap(Context context,String url){
         try {
@@ -83,6 +94,13 @@ public class Tools {
         }
     }
 
+    //人民币符号
+    public static String getRMB(Context context){
+//        char symbol = 165;
+//        return String.valueOf(symbol);
+        return context.getString(R.string.sign_rmb);
+    }
+
     public static File downLoadImage(Context context,String url){
         FutureTarget<File> future = Glide.with(context)
                 .load(url)
@@ -95,4 +113,11 @@ public class Tools {
             return null;
         }
     }
+
+    public static boolean isEmojiCharacter(char codePoint) {
+                return ((codePoint == 0x0) || (codePoint == 0x9) || (codePoint == 0xA)
+                        || (codePoint == 0xD) || ((codePoint >= 0x20) && codePoint <= 0xD7FF))
+                        || ((codePoint >= 0xE000) && (codePoint <= 0xFFFD))
+                        || ((codePoint >= 0x10000) && (codePoint <= 0x10FFFF));
+     }
 }

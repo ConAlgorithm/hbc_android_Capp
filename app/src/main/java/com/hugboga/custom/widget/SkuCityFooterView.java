@@ -1,6 +1,7 @@
 package com.hugboga.custom.widget;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.AttributeSet;
 import android.view.Gravity;
@@ -11,21 +12,20 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.PickSendActivity;
+import com.hugboga.custom.activity.SingleNewActivity;
+import com.hugboga.custom.activity.SkuListActivity;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.SkuCityBean;
-import com.hugboga.custom.fragment.FgDaily;
-import com.hugboga.custom.fragment.FgPickSend;
-import com.hugboga.custom.fragment.FgSingleNew;
-import com.hugboga.custom.fragment.FgSkuList;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
+
+import static com.hugboga.custom.activity.SkuListActivity.KEY_CITY_BEAN;
 
 /**
  * Created by qingcha on 16/6/27.
  */
 public class SkuCityFooterView extends LinearLayout implements HbcViewBehavior, View.OnClickListener{
-
-    private FgSkuList fragment;
 
     private TextView pickupTV, singleTV;
     private ImageView emptyIV;
@@ -56,10 +56,6 @@ public class SkuCityFooterView extends LinearLayout implements HbcViewBehavior, 
         int guidesLayoutHeight = (int)((367 / 750.0) * UIUtils.getScreenWidth());
         LinearLayout.LayoutParams guidesParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, guidesLayoutHeight);
         guidesLayout.setLayoutParams(guidesParams);
-    }
-
-    public void setFragment(FgSkuList _fragment) {
-        this.fragment = _fragment;
     }
 
     @Override
@@ -130,36 +126,36 @@ public class SkuCityFooterView extends LinearLayout implements HbcViewBehavior, 
 
     @Override
     public void onClick(View v) {
-        if (fragment == null) {
-            return;
+        SkuListActivity activity = null;
+        if (getContext() instanceof SkuListActivity) {
+            activity = (SkuListActivity) getContext();
         }
-        CityBean cityBean = fragment.getCityBean();
+        CityBean cityBean = activity.getCityBean();
+        Intent intent = null;
         switch (v.getId()) {
             case R.id.sku_city_footer_pickup_tv:
+                intent = new Intent(getContext(), PickSendActivity.class);
                 if (cityBean != null) {
-                    FgPickSend fgPickSend = new FgPickSend();
                     Bundle bundle = new Bundle();
-                    bundle.putSerializable(FgDaily.KEY_CITY_BEAN, cityBean);
-                    bundle.putParcelable("cityBean", cityBean);
-                    bundle.putString("source", cityBean.name);
-                    fgPickSend.setArguments(bundle);
-                    fragment.startFragment(fgPickSend, bundle);
-                } else {
-                    fragment.startFragment(new FgPickSend());
+                    bundle.putSerializable(KEY_CITY_BEAN, cityBean);
+                    bundle.putSerializable("cityBean", cityBean);
+                    bundle.putString("source", "城市页");
+                    intent.putExtras(bundle);
                 }
+                getContext().startActivity(intent);
                 break;
             case R.id.sku_city_footer_single_tv:
+                intent = new Intent(getContext(),SingleNewActivity.class);
                 if (cityBean != null) {
-                    FgSingleNew fgSingleNew = new FgSingleNew();
                     Bundle bundle = new Bundle();
-                    bundle.putSerializable(FgDaily.KEY_CITY_BEAN, cityBean);
-                    bundle.putParcelable("cityBean", cityBean);
-                    bundle.putString("source", cityBean.name);
-                    fgSingleNew.setArguments(bundle);
-                    fragment.startFragment(fgSingleNew);
-                } else {
-                    fragment.startFragment(new FgSingleNew());
+                    bundle.putSerializable(KEY_CITY_BEAN, cityBean);
+                    bundle.putSerializable("cityBean", cityBean);
+                    bundle.putString("source", "城市页");
+                    intent.putExtras(bundle);
                 }
+                getContext().startActivity(intent);
+                break;
+            default:
                 break;
         }
     }

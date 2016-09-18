@@ -1,5 +1,6 @@
 package com.hugboga.custom.fragment;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -16,6 +17,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.CollectGuideListActivity;
+import com.hugboga.custom.activity.LuggageInfoActivity;
+import com.hugboga.custom.activity.ManLuggageActivity;
+import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.adapter.CarViewpagerAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CarBean;
@@ -29,7 +34,9 @@ import com.hugboga.custom.data.request.RequestCollectGuidesFilter;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.CarUtils;
 import com.hugboga.custom.utils.CommonUtils;
+import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.widget.JazzyViewPager;
+import com.hugboga.custom.widget.MoneyTextView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -98,25 +105,25 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
     @Bind(R.id.free_c_seat_left)
     TextView freeCSeatLeft;
     @Bind(R.id.free_c_seat_right)
-    TextView freeCSeatRight;
+    MoneyTextView freeCSeatRight;
     @Bind(R.id.free_c_seat_num)
     TextView freeCSeatNum;
     @Bind(R.id.child_left)
     TextView childLeft;
     @Bind(child_count_cost)
-    TextView childCountCost;
+    MoneyTextView childCountCost;
     @Bind(R.id.child_count_text)
     TextView childCountText;
     @Bind(R.id.checkin_left)
     TextView checkinLeft;
     @Bind(R.id.checkin_money)
-    TextView checkinMoney;
+    MoneyTextView checkinMoney;
     @Bind(R.id.check_switch)
     CheckBox checkSwitch;
     @Bind(R.id.wait_left)
     TextView waitLeft;
     @Bind(R.id.wait_money)
-    TextView waitMoney;
+    MoneyTextView waitMoney;
     @Bind(R.id.wait_switch)
     CheckBox waitSwitch;
     @Bind(R.id.car_empty_layout)
@@ -157,17 +164,20 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
     TextView lPlus;
     @Bind(R.id.hotel_layout)
     RelativeLayout hotelLayout;
+    @Bind(R.id.max_luggage_content)
+    TextView maxLuggageContent;
+    @Bind(R.id.max_luggage_img)
+    ImageView maxLuggageImg;
+    @Bind(R.id.luggage_tips_layout)
+    LinearLayout luggageTipsLayout;
 
     @Override
     protected void initHeader() {
-
     }
-
 
     private void showChildSeatLayout(int seatNums) {
         if (null == carListBean.additionalServicePrice.childSeatPrice1
                 && null == carListBean.additionalServicePrice.childSeatPrice2) {
-
         } else {
             String seat1 = carListBean.additionalServicePrice.childSeatPrice1;
             String seat2 = carListBean.additionalServicePrice.childSeatPrice2;
@@ -176,19 +186,19 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
             } else if (seatNums == 1) {
                 freeCSeatLeft.setText("收费儿童座椅");
                 freeSeatLayout.setVisibility(View.VISIBLE);
-                freeCSeatRight.setText("￥" + seat1 + "/次");
+                freeCSeatRight.setText(Tools.getRMB(getActivity()) + seat1 + "/次");
             }
             if (seatNums > 1) {
                 if (null != seat1) {
                     freeCSeatLeft.setText("收费儿童座椅");
                     freeSeatLayout.setVisibility(View.VISIBLE);
-                    freeCSeatRight.setText("￥" + seat1 + "/次");
+                    freeCSeatRight.setText(Tools.getRMB(getActivity()) + seat1 + "/次");
                 } else {
                     freeSeatLayout.setVisibility(View.VISIBLE);
                 }
 
                 chargeSeatLayout.setVisibility(View.VISIBLE);
-                childCountCost.setText("￥" + seat2 + "/次");
+                childCountCost.setText(Tools.getRMB(getActivity()) + seat2 + "/次");
                 childCountText.setText("x" + (seatNums - 1) + "");
             }
         }
@@ -215,7 +225,7 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
     }
 
     ManLuggageBean manLuggageBean;
-
+    int maxLuuages = 0;
     @Subscribe
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
@@ -245,11 +255,22 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
                 }
 
                 manText.setText("乘客 x " + (manLuggageBean.mans + manLuggageBean.childs));
-                luggageText.setText("行李箱 x " + manLuggageBean.luggages);
+//                luggageText.setText("行李箱 x " + manLuggageBean.luggages);
                 childseatText.setText("儿童座椅 x " + (manLuggageBean.childSeats));
+                luggageTipsLayout.setVisibility(View.VISIBLE);
+                genMaxLuggage();
                 break;
             default:
                 break;
+        }
+    }
+
+    //计算最大行李数
+    private void genMaxLuggage(){
+        if(null != manLuggageBean) {
+            maxLuuages = (carBean.capOfLuggage + carBean.capOfPerson) - manLuggageBean.mans - Math.round(manLuggageBean.childSeats * 1.5f) - (manLuggageBean.childs - manLuggageBean.childSeats);
+            maxLuggageContent.setText(maxLuuages + "件");
+            EventBus.getDefault().post(new EventAction(EventType.MAX_LUGGAGE_NUM, maxLuuages));
         }
     }
 
@@ -267,6 +288,7 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
         currentIndex = position;
         carBean = carList.get(position);
         changeText();
+        genMaxLuggage();
         EventBus.getDefault().post(new EventAction(EventType.CHANGE_CAR, carBean));
     }
 
@@ -288,7 +310,7 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
             carList = oldCarList;
         }
         carList = CarUtils.initCarListData(carList);
-        if(null != carList) {
+        if (null != carList) {
             mAdapter.setList(carList);
             mJazzy.setState(null);
             mJazzy.setOffscreenPageLimit(3);
@@ -299,24 +321,23 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
 
     private void genData() {
         genCar();
-        if(canService) {
+        if (canService) {
             this.distance = carListBean.distance;
             this.interval = carListBean.interval;
             if (carList == null || carList.size() == 0) {
-//                carEmptyLayout.setVisibility(View.VISIBLE);
-                CommonUtils.showToast(R.string.no_have_car);
+                carEmptyLayout.setVisibility(View.VISIBLE);
                 have_data_layout.setVisibility(View.GONE);
             } else {
-//                carEmptyLayout.setVisibility(View.GONE);
+                carEmptyLayout.setVisibility(View.GONE);
                 have_data_layout.setVisibility(View.VISIBLE);
                 changeText();
                 if (null != carListBean.additionalServicePrice && null != carListBean.additionalServicePrice.checkInPrice) {
                     checkinLayout.setVisibility(View.VISIBLE);
-                    checkinMoney.setText("(服务费 ￥" + carListBean.additionalServicePrice.checkInPrice + ")");
+                    checkinMoney.setText(Tools.getRMB(getActivity()) + carListBean.additionalServicePrice.checkInPrice );
                 }
                 if (null != carListBean.additionalServicePrice && null != carListBean.additionalServicePrice.pickupSignPrice) {
                     waitLayout.setVisibility(View.VISIBLE);
-                    waitMoney.setText("(服务费 ￥" + carListBean.additionalServicePrice.pickupSignPrice + ")");
+                    waitMoney.setText(Tools.getRMB(getActivity())+ carListBean.additionalServicePrice.pickupSignPrice);
                 }
             }
         }
@@ -325,7 +346,7 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
 
     private void changeText() {
         carBean = carList.get(currentIndex);
-        fgCarIntro.setText("此车型包括：" + carBean.models);
+        fgCarIntro.setText(carBean.models);
         mansNum.setText("x " + carBean.capOfPerson);
         luggageNum.setText("x " + carBean.capOfLuggage);
 
@@ -338,12 +359,14 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
         }
 
         if (null != manLuggageBean
-                && selectMansNUm >= carBean.capOfPerson
-                && (selectMansNUm + manLuggageBean.luggages) >= (carBean.capOfPerson + carBean.capOfLuggage)) {
+                && selectMansNUm > carBean.capOfPerson){
+//                && (selectMansNUm + manLuggageBean.luggages) >= (carBean.capOfPerson + carBean.capOfLuggage)) {
             manTips.setVisibility(View.VISIBLE);
             manText.setVisibility(View.GONE);
             luggageText.setVisibility(View.GONE);
             childseatText.setVisibility(View.GONE);
+            luggageTipsLayout.setVisibility(View.GONE);
+
             hideChildSeatLayout(0);
             manLuggageBean = null;
             EventBus.getDefault().post(new EventAction(EventType.CAR_CHANGE_SMALL));
@@ -354,14 +377,15 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
     CollectGuideBean collectGuideBean;
 
     int hotelNum = 1;
+    //网络错误
+    boolean isNetError = false;
+
     @Override
     protected void initView() {
         initView(getView());
-
         cityId = this.getArguments().getInt("cityId");
         startTime = this.getArguments().getString("startTime");
         endTime = this.getArguments().getString("endTime");
-
         checkSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -372,7 +396,6 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
                 }
             }
         });
-
         waitSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -385,22 +408,30 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
         });
         waitSwitch.setChecked(true);
         checkSwitch.setChecked(true);
-        carListBean = this.getArguments().getParcelable("carListBean");
-        if (null != carListBean) {
-            oldCarList = carListBean.carList;
+        carListBean = (CarListBean)this.getArguments().getSerializable("carListBean");
 
-            boolean showHotel = carListBean.showHotel;
-            if (showHotel) {
-                lRight.setText("共"+carListBean.hotelNum+"晚");
-                hotelLayout.setVisibility(View.VISIBLE);
+        isNetError = this.getArguments().getBoolean("isNetError", false);
+        if (isNetError) {
+            have_data_layout.setVisibility(View.GONE);
+        } else {
+            carEmptyLayout.setVisibility(View.GONE);
+            if (null != carListBean) {
+                oldCarList = carListBean.carList;
+
+                boolean showHotel = carListBean.showHotel;
+                if (showHotel) {
+                    lRight.setText("共" + carListBean.hotelNum + "晚");
+                    hotelLayout.setVisibility(View.VISIBLE);
+                }
             }
+            collectGuideBean = (CollectGuideBean) this.getArguments().getSerializable("collectGuideBean");
+            initGuideLayout();
         }
-        collectGuideBean = (CollectGuideBean) this.getArguments().getSerializable("collectGuideBean");
-        initGuideLayout();
     }
 
     //是否可以服务
     boolean canService = true;
+
     private void initGuideLayout() {
         if (null != collectGuideBean) {
 
@@ -409,18 +440,16 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
             } else {
                 carBean = CarUtils.getNewCarBean(collectGuideBean);
             }
-            if(null == carBean){
+            if (null == carBean) {
                 canService = false;
                 carBean = CarUtils.getNewCarBean(collectGuideBean);
                 CommonUtils.showToast(R.string.no_have_car);
-            }else{
+            } else {
                 canService = true;
             }
-
             driver_layout.setVisibility(View.VISIBLE);
             driverName.setText(collectGuideBean.name);
             man_luggage_layout.setVisibility(View.GONE);
-
             final ArrayList<CarBean> newCarList = new ArrayList<>();
             newCarList.add(carBean);
             guideCarList = newCarList;
@@ -442,7 +471,7 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
                         mJazzy.setAdapter(mAdapter);
                         if (null != carList) {
                             carBean = carList.get(currentIndex);
-                            fgCarIntro.setText("此车型包括：" + carBean.models);
+                            fgCarIntro.setText(carBean.models);
                             mansNum.setText("x " + carBean.capOfPerson);
                             luggageNum.setText("x " + carBean.capOfLuggage);
                             manTips.setVisibility(View.VISIBLE);
@@ -456,7 +485,7 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
             });
 
             if (null != carBean) {
-                fgCarIntro.setText("此车型包括：" + carBean.models);
+                fgCarIntro.setText(carBean.models);
                 mansNum.setText("x " + carBean.capOfPerson);
                 luggageNum.setText("x " + carBean.capOfLuggage);
             }
@@ -468,7 +497,6 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
                     if (TextUtils.isEmpty(startTime)) {
                         AlertDialogUtils.showAlertDialogOneBtn(getActivity(), getString(R.string.dairy_choose_guide), "好的");
                     } else {
-                        FgCollectGuideList fgCollectGuideList = new FgCollectGuideList();
                         Bundle bundle = new Bundle();
                         RequestCollectGuidesFilter.CollectGuidesFilterParams params = new RequestCollectGuidesFilter.CollectGuidesFilterParams();
                         params.startCityId = cityId;
@@ -482,8 +510,9 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
                         params.totalDays = 0;
                         params.passCityId = cityId + "";
                         bundle.putSerializable(Constants.PARAMS_DATA, params);
-                        fgCollectGuideList.setArguments(bundle);
-                        startFragment(fgCollectGuideList);
+                        Intent intent = new Intent(v.getContext(), CollectGuideListActivity.class);
+                        intent.putExtras(bundle);
+                        startActivity(intent);
                     }
                 }
             });
@@ -517,7 +546,6 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
         mJazzy = (JazzyViewPager) view.findViewById(R.id.jazzy_pager);
         mJazzy.setTransitionEffect(JazzyViewPager.TransitionEffect.ZoomIn);
         mAdapter = new CarViewpagerAdapter(getActivity(), mJazzy);
-//        initListData();
         mAdapter.setList(carList);
         mJazzy.setAdapter(mAdapter);
         mJazzy.setOffscreenPageLimit(1);
@@ -526,10 +554,9 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
         carPriceInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FgWebInfo fgWebInfo = new FgWebInfo();
-                Bundle bundle = new Bundle();
-                bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_PRICE);
-                startFragment(fgWebInfo, bundle);
+                Intent intent = new Intent(v.getContext(), WebInfoActivity.class);
+                intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_PRICE);
+                v.getContext().startActivity(intent);
             }
         });
     }
@@ -560,24 +587,28 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
     }
 
     int hotelHourseNum = 1;
-    @OnClick({l_sub,R.id.l_plus, R.id.man_tips, R.id.man_text, R.id.luggage_text, R.id.childseat_text, R.id.rl_man})
+
+    @OnClick({R.id.max_luggage_img, R.id.l_sub, R.id.l_plus, R.id.man_tips, R.id.man_text, R.id.luggage_text, R.id.childseat_text, R.id.rl_man})
     public void onClick(View view) {
         switch (view.getId()) {
-            case l_sub:
-                if(hotelHourseNum >1) {
+            case R.id.max_luggage_img:
+                startActivity(new Intent(getActivity(), LuggageInfoActivity.class));
+                break;
+            case R.id.l_sub:
+                if (hotelHourseNum > 1) {
                     --hotelHourseNum;
-                    EventBus.getDefault().post(new EventAction(EventType.SKU_HOTEL_NUM_CHANGE,hotelHourseNum));
+                    EventBus.getDefault().post(new EventAction(EventType.SKU_HOTEL_NUM_CHANGE, hotelHourseNum));
                 }
-                lNum.setText(hotelHourseNum+"");
-                if(hotelHourseNum == 1){
+                lNum.setText(hotelHourseNum + "");
+                if (hotelHourseNum == 1) {
                     lSub.setBackgroundColor(Color.parseColor("#d5dadb"));
                 }
                 break;
             case R.id.l_plus:
                 ++hotelHourseNum;
-                lNum.setText(hotelHourseNum+"");
-                EventBus.getDefault().post(new EventAction(EventType.SKU_HOTEL_NUM_CHANGE,hotelHourseNum));
-                if(hotelHourseNum > 1){
+                lNum.setText(hotelHourseNum + "");
+                EventBus.getDefault().post(new EventAction(EventType.SKU_HOTEL_NUM_CHANGE, hotelHourseNum));
+                if (hotelHourseNum > 1) {
                     lSub.setBackgroundColor(Color.parseColor("#fad027"));
                 }
                 break;
@@ -590,19 +621,20 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
                     CommonUtils.showToast(R.string.no_price_error);
                     return;
                 }
-                FgManLuggage fgManLuggage = new FgManLuggage();
                 Bundle bundle = new Bundle();
                 if (null != collectGuideBean) {
                     carListBean.carList = guideCarList;
                 } else {
                     carListBean.carList = oldCarList;
                 }
-                bundle.putParcelable("carListBean", carListBean);
+                bundle.putSerializable("carListBean", carListBean);
                 bundle.putInt("currentIndex", currentIndex);
-                bundle.putParcelable("manLuggageBean", manLuggageBean);
-                fgManLuggage.setArguments(bundle);
-                startFragment(fgManLuggage);
+                bundle.putSerializable("manLuggageBean", manLuggageBean);
+                Intent intent = new Intent(getActivity(), ManLuggageActivity.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
                 break;
         }
     }
+
 }

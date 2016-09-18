@@ -23,13 +23,15 @@ public class ParserLogin extends ImplParser {
         bean.userToken = jsonObj.optString("userToken");
         bean.weakPassword = jsonObj.optBoolean("weakPassword");
         bean.weakPasswordMsg = jsonObj.optString("weakPasswordMsg");
-        bean.imToken = jsonObj.optString("IMtoken");
+        //bean.imToken = jsonObj.optString("IMtoken");
         bean.unionid = jsonObj.optString("unionid");
         bean.isNotRegister = jsonObj.optInt("isNotRegister", -1);
         bean.name = jsonObj.optString("name");
         bean.isNotRegister = jsonObj.optInt("isNotRegister", -1);
         bean.travelFund = jsonObj.optInt("travelFund", 0);
         bean.coupons = jsonObj.optInt("coupons", 0);
+        bean.nimUserId = jsonObj.optString("neUserId");
+        bean.nimToken = jsonObj.optString("neToken");
         return bean;
     }
 }

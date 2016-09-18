@@ -7,7 +7,7 @@ import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.data.bean.CarListBean;
 import com.hugboga.custom.data.net.NewParamsBuilder;
 import com.hugboga.custom.data.net.UrlLibs;
-import com.hugboga.custom.data.parser.ParserCarList;
+import com.hugboga.custom.data.parser.ParserCheckPrice;
 import com.hugboga.custom.utils.Config;
 
 import org.xutils.http.annotation.HttpRequest;
@@ -34,17 +34,17 @@ public class RequestPriceSku extends BaseRequest<CarListBean> {
         map.put("serviceDate", serviceDate);
         map.put("channelId", Config.channelId);
         map.put("cityId", cityId);
-
+        map.put("specialCarsIncluded","1");
     }
 
     @Override
     public ImplParser getParser() {
-        return new ParserCarList();
+        return new ParserCheckPrice();
     }
 
 
     @Override
     public String getUrlErrorCode() {
-        return "40057";
+        return "40070";
     }
 }

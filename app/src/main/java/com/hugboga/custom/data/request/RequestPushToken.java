@@ -42,6 +42,6 @@ public class RequestPushToken extends BaseRequest {
 
     @Override
     public String getUrlErrorCode() {
-        return "40060";
+        return "40073";
     }
 }

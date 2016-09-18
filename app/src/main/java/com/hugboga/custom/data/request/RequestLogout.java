@@ -35,6 +35,6 @@ public class RequestLogout extends BaseRequest {
 
     @Override
     public String getUrlErrorCode() {
-        return "40048";
+        return "40056";
     }
 }

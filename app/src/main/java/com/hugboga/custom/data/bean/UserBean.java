@@ -3,6 +3,8 @@ package com.hugboga.custom.data.bean;
 import android.content.Context;
 import android.text.TextUtils;
 
+import com.huangbaoche.hbcframe.data.bean.UserSession;
+
 /**
  * 用户信息bean
  * Created by ZHZEPHI on 2015/7/22.
@@ -21,12 +23,15 @@ public class UserBean implements IBaseBean {
     public String userToken;//用户身份凭证
     public boolean weakPassword;  //布尔值 是否弱密码
     public String weakPasswordMsg; //弱密码提示文案
-    public String imToken;//聊天token
+    //public String imToken;//聊天token
     public int isNotRegister;
     public String unionid;
     public String name;//真实姓名
     public int travelFund;//旅游基金
     public int coupons;//优惠券
+    public String nimToken;//云信token
+    //public String rimUserId;//融云用户id
+    public String nimUserId; //云信账号id
 
     public String getGenderStr() {
         switch (gender) {
@@ -73,7 +78,7 @@ public class UserBean implements IBaseBean {
         UserEntity.getUser().setAvatar(context, this.avatar);
         UserEntity.getUser().setNickname(context, this.nickname);
         UserEntity.getUser().setAreaCode(context, this.areaCode);
-        UserEntity.getUser().setImToken(context, imToken);
+        //UserEntity.getUser().setImToken(context, imToken);
         UserEntity.getUser().setUserName(context, name);
         UserEntity.getUser().setPhone(context, mobile);
         if(!TextUtils.isEmpty(unionid)) {
@@ -81,5 +86,8 @@ public class UserBean implements IBaseBean {
         }
         UserEntity.getUser().setTravelFund(context, travelFund);
         UserEntity.getUser().setCoupons(context, coupons);
+        //UserEntity.getUser().setRimUserId(context,rimUserId);
+        UserEntity.getUser().setNimUserId(context,nimUserId);
+        UserEntity.getUser().setNimUserToken(context,nimToken);
     }
 }

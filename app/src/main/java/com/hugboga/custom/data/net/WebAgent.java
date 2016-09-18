@@ -2,6 +2,7 @@ package com.hugboga.custom.data.net;
 
 import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -16,31 +17,33 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.parser.ServerParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
-import com.huangbaoche.hbcframe.fragment.BaseFragment;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.huangbaoche.hbcframe.util.WXShareUtils;
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.BaseActivity;
+import com.hugboga.custom.activity.DailyWebInfoActivity;
+import com.hugboga.custom.activity.LoginActivity;
+import com.hugboga.custom.activity.OrderSelectCityActivity;
+import com.hugboga.custom.activity.PickSendActivity;
+import com.hugboga.custom.activity.SingleNewActivity;
+import com.hugboga.custom.activity.SkuDetailActivity;
+import com.hugboga.custom.activity.SkuListActivity;
+import com.hugboga.custom.activity.WebInfoActivity;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.ChatInfo;
+import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.CurrentServerInfoData;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.parser.ParserChatInfo;
-import com.hugboga.custom.data.request.RequestCurrentServerInfo;
 import com.hugboga.custom.data.request.RequestWebInfo;
-import com.hugboga.custom.fragment.FgActivity;
-import com.hugboga.custom.fragment.FgLogin;
-import com.hugboga.custom.fragment.FgOrderSelectCity;
-import com.hugboga.custom.fragment.FgSkuDetail;
-import com.hugboga.custom.fragment.FgWebInfo;
+import com.hugboga.custom.statistic.event.EventUtil;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.PhoneInfo;
+import com.hugboga.custom.utils.UnicornUtils;
 import com.hugboga.custom.widget.DialogUtil;
 
 import org.json.JSONObject;
 
-import java.util.Random;
-
-import io.rong.imkit.RongIM;
-import io.rong.imlib.model.Conversation;
 
 /**
  * 请求代理模式
@@ -49,23 +52,18 @@ import io.rong.imlib.model.Conversation;
 public class WebAgent implements HttpRequestListener {
 
     private Activity mActivity;
-    private BaseFragment mFragment;
     private WebView mWebView;
     private DialogUtil dialog;
+    private CityBean cityBean;
+    private View leftBtn;
 
-    public WebAgent(Activity activity, WebView webView) {
+    public WebAgent(Activity activity, WebView webView, CityBean cityBean, View leftBtn) {
         this.mActivity = activity;
         this.mWebView = webView;
         dialog = DialogUtil.getInstance(mActivity);
+        this.cityBean = cityBean;
+        this.leftBtn = leftBtn;
     }
-
-    public WebAgent(BaseFragment fragment, WebView webView) {
-        this.mFragment = fragment;
-        this.mWebView = webView;
-        mActivity = fragment.getActivity();
-        dialog = DialogUtil.getInstance(mActivity);
-    }
-
 
     @JavascriptInterface
     public void redirect(final String url) {
@@ -104,13 +102,9 @@ public class WebAgent implements HttpRequestListener {
         mActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (mFragment != null && mFragment.getView() != null) {
+                if (leftBtn != null) {
                     boolean isVisible = Boolean.valueOf(isBack);
-                    mFragment.getView().findViewById(R.id.header_left_btn).setVisibility(isVisible ? View.VISIBLE : View.GONE);
-                    View backBtn = mFragment.getView().findViewById(R.id.header_left_btn);
-                    if (backBtn != null) {
-                        backBtn.setVisibility(isVisible ? View.VISIBLE : View.GONE);
-                    }
+                    leftBtn.setVisibility(isVisible ? View.VISIBLE : View.GONE);
                 }
             }
         });
@@ -176,14 +170,34 @@ public class WebAgent implements HttpRequestListener {
             @Override
             public void run() {
                 if (mWebView != null) {
-                    if (mFragment != null) {
-                        mFragment.finish();
-                    } else if (mActivity != null) {
+                    if (mActivity != null) {
                         mActivity.finish();
                     }
                 }
             }
         });
+    }
+
+    @JavascriptInterface
+    public void showLogin() {
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = new Intent(mActivity, LoginActivity.class);
+                intent.putExtra("source",((BaseActivity)mActivity).getIntentSource());
+                mActivity.startActivity(intent);
+            }
+        });
+    }
+
+    @JavascriptInterface
+    public void getUserId(String callBack){
+        //获取getUserInfo，并回调
+        try {
+            callBack(callBack, UserEntity.getUser().getUserId(mActivity));
+        } catch (Exception e) {
+            MLog.e("getUserInfo ", e);
+        }
     }
 
     @JavascriptInterface
@@ -201,19 +215,87 @@ public class WebAgent implements HttpRequestListener {
                     String countryCode = json.optString("countryCode");
                     String phone = json.optString("phone");
                     message = json.optString("message");
-                    bundle.putString(FgLogin.KEY_AREA_CODE, countryCode);
-                    bundle.putString(FgLogin.KEY_PHONE, phone);
+                    bundle.putString(LoginActivity.KEY_AREA_CODE, countryCode);
+                    bundle.putString(LoginActivity.KEY_PHONE, phone);
                 } catch (Exception e) {
                     MLog.e("gotoLogin", e);
                 }
                 dialog.showCustomDialog(message, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if (mFragment != null) {
-                            mFragment.startFragment(new FgLogin(), bundle);
-                        }
+                        Intent intent = new Intent(mActivity, LoginActivity.class);
+                        intent.putExtras(bundle);
+                        mActivity.startActivity(intent);
                     }
                 });
+            }
+        });
+    }
+
+    /**
+     * 自定义包车下单
+     * */
+    @JavascriptInterface
+    public void pushToDailyOrder(){
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("cityBean", cityBean);
+                    Intent intent = new Intent(mActivity,OrderSelectCityActivity.class);
+                    intent.putExtra(Constants.PARAMS_SOURCE, DailyWebInfoActivity.EVENT_SOURCE);
+                    intent.putExtra(Constants.PARAMS_SOURCE_DETAIL, EventUtil.getInstance().sourceDetail);
+                    intent.putExtras(bundle);
+                    mActivity.startActivity(intent);
+//                    mFragment.startFragment(fgOrderSelectCity,bundle);
+            }
+        });
+
+    }
+
+    /**
+     * 接送机下单
+     * */
+    @JavascriptInterface
+    public void pushToAirportOrder() {
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = new Intent(mActivity, PickSendActivity.class);
+                intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_DAIRY);
+                mActivity.startActivity(intent);
+            }
+        });
+    }
+
+    /**
+     * 单次接送下单
+     * */
+    @JavascriptInterface
+    public void pushToSingleOrder() {
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = new Intent(mActivity, SingleNewActivity.class);
+                mActivity.startActivity(intent);
+            }
+        });
+    }
+
+    /**
+     * 城市列表
+     * */
+    @JavascriptInterface
+    public void pushToGoodsOrder(final String cityId) {
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                SkuListActivity.Params params = new SkuListActivity.Params();
+                params.id = CommonUtils.getCountInteger(cityId);
+                params.skuType = SkuListActivity.SkuType.CITY;
+                Intent intent = new Intent(mActivity, SkuListActivity.class);
+                intent.putExtra(Constants.PARAMS_DATA, params);
+                mActivity.startActivity(intent);
             }
         });
     }
@@ -255,87 +337,118 @@ public class WebAgent implements HttpRequestListener {
         chatInfo.isHideMoreBtn = 1;
         return new ParserChatInfo().toJsonString(chatInfo);
     }
+
     /**
      * 在线咨询客服
-     * */
+     */
     @JavascriptInterface
     public void pushToServiceChatVC() {
-        if (mActivity != null && !UserEntity.getUser().isLogin(mActivity) && mFragment != null) {
+        if (mActivity != null && !UserEntity.getUser().isLogin(mActivity)) {
             CommonUtils.showToast(R.string.login_hint);
-            Bundle bundle = new Bundle();;
-            mFragment.startFragment(new FgLogin(), bundle);
+            Intent intent= new Intent(mActivity, LoginActivity.class);
+            intent.putExtra("source","商品详情咨询客服");
+            mActivity.startActivity(intent);
             return;
         }
         mActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                RequestCurrentServerInfo request = new RequestCurrentServerInfo(mActivity);
-                HttpRequestUtils.request(mActivity, request, WebAgent.this);
+                UnicornUtils.openServiceActivity();
             }
         });
     }
 
     /**
      * 拨打客服热线
-     * */
+     */
     @JavascriptInterface
     public void callServicePhone() {
         if (mActivity != null) {
-            DialogUtil mDialogUtil = DialogUtil.getInstance(mActivity);
-            mDialogUtil.showCallDialog();
+            mActivity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    DialogUtil mDialogUtil = DialogUtil.getInstance(mActivity);
+                    mDialogUtil.showCallDialog();
+                }
+            });
         }
     }
 
     /**
      * 立即定制（定制线路下单）
-     * */
+     */
     @JavascriptInterface
     public void customLineOrder() {
-        if (mFragment != null) {
-            mFragment.startFragment(new FgOrderSelectCity());
-        }
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = new Intent(mActivity,OrderSelectCityActivity.class);
+                intent.putExtra(Constants.PARAMS_SOURCE, DailyWebInfoActivity.EVENT_SOURCE);
+                mActivity.startActivity(intent);
+//                    mFragment.startFragment(new FgOrderSelectCity());
+            }
+        });
     }
 
     /**
      * 现在预订（固定线路下单）
-     * */
+     */
     @JavascriptInterface
     public void fixedLineOrder() {
-        if (mFragment != null) {
-            mFragment.startFragment(new FgOrderSelectCity());
-        }
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = new Intent(mActivity,OrderSelectCityActivity.class);
+                intent.putExtra(Constants.PARAMS_SOURCE, DailyWebInfoActivity.EVENT_SOURCE);
+                mActivity.startActivity(intent);
+//                    mFragment.startFragment(new FgOrderSelectCity());
+            }
+        });
     }
 
     /**
      * URL重定向
-     * */
+     */
     @JavascriptInterface
-    public void pushToNextPageWithUrl(String url) {
-        if (mFragment != null) {
-            Bundle bundle = new Bundle();
-            bundle.putString(FgWebInfo.WEB_URL, url);
-            mFragment.startFragment(new FgActivity(), bundle);
-        }
+    public void pushToNextPageWithUrl(final String url) {
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+//                    Bundle bundle = new Bundle();
+//                    bundle.putString(FgWebInfo.WEB_URL, url);
+//                    mFragment.startFragment(new FgActivity(), bundle);
+
+                Intent intent = new Intent(mActivity, WebInfoActivity.class);
+                intent.putExtra(WebInfoActivity.WEB_URL, url);
+                mActivity.startActivity(intent);
+            }
+        });
     }
 
     /**
      * 设置title
-     * */
+     */
     @JavascriptInterface
-    public void setWebTitle(String title) {
-        if (!TextUtils.isEmpty(title) && mFragment instanceof FgWebInfo) {
-            FgWebInfo fgWebInfo = ((FgWebInfo) mFragment);
-            fgWebInfo.setTitle(title);
-        }
+    public void setWebTitle(final String title) {
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (!TextUtils.isEmpty(title) && mActivity instanceof WebInfoActivity) {
+                    WebInfoActivity fgWebInfo = ((WebInfoActivity) mActivity);
+                    fgWebInfo.setTitle(title);
+                }
+            }
+        });
     }
 
     /**
      * 商品下架（不能分享）
-     * */
+     */
     @JavascriptInterface
     public void goodsHadOutOfStock() {
-        if (mFragment instanceof FgSkuDetail) {
-            FgSkuDetail fgSkuDetail = ((FgSkuDetail) mFragment);
+
+        if (mActivity instanceof SkuDetailActivity) {
+            SkuDetailActivity fgSkuDetail = ((SkuDetailActivity) mActivity);
             fgSkuDetail.isGoodsOut = true;
         }
     }
@@ -355,13 +468,6 @@ public class WebAgent implements HttpRequestListener {
         if (_request instanceof RequestWebInfo) {
             RequestWebInfo webInfoRequest = (RequestWebInfo) _request;
             callBack(webInfoRequest.successCallBack, webInfoRequest.getData());
-        } else if (_request instanceof RequestCurrentServerInfo) {
-            RequestCurrentServerInfo request = (RequestCurrentServerInfo) _request;
-            CurrentServerInfoData data = (CurrentServerInfoData) request.getData();
-            if (data != null) {
-                String titleJson = getChatInfo(data.userId, data.avatar, data.name, "0");
-                RongIM.getInstance().startConversation(mActivity, Conversation.ConversationType.APP_PUBLIC_SERVICE, data.userId, titleJson);
-            }
         }
     }
 

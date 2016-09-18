@@ -73,6 +73,6 @@ public class RequestSubmitDaily extends RequestSubmitBase {
 
     @Override
     public String getUrlErrorCode() {
-        return "40066";
+        return "40080";
     }
 }

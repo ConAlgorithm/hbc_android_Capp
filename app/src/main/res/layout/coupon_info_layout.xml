@@ -15,10 +15,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:layout_margin="@dimen/coupon_item_margin"
+        android:padding="30dp"
         android:gravity="center_horizontal"
-        android:orientation="vertical"
-        android:padding="@dimen/basic_margin_large">
+        android:orientation="vertical">
 
 
         <LinearLayout
@@ -99,215 +98,13 @@
                 android:text="满1000元可用/满1000公里可用/满10个小时可用"
                 android:textSize="@dimen/text_size_mediumx" />
 
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#e5e6e7" />
-
             <LinearLayout
+                android:id="@+id/data_list_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingBottom="30dp"
                 android:orientation="vertical">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/basic_margin_medium">
-
-                    <TextView
-                        android:id="@+id/coupon_info_limit1_label_left"
-                        android:layout_width="3dp"
-                        android:layout_height="15dp"
-                        android:layout_marginTop="3dp"
-                        android:background="#face05"
-                        android:textSize="@dimen/text_size_large" />
-
-                    <TextView
-                        android:id="@+id/coupon_info_limit1_label"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_toRightOf="@id/coupon_info_limit1_label_left"
-                        android:text="有效区域"
-                        android:textColor="#face05"
-                        android:textSize="@dimen/text_size_large" />
-
-                    <TextView
-                        android:id="@+id/coupon_info_limit1_content"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/coupon_info_limit1_label"
-                        android:layout_marginTop="5dp"
-                        android:ellipsize="end"
-                        android:text="全球"
-                        android:textSize="@dimen/text_size_large" />
-
-
-                </RelativeLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#e5e6e7" />
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/basic_margin_medium">
-
-                    <TextView
-                        android:id="@+id/coupon_info_limit2_label_left"
-                        android:layout_width="3dp"
-                        android:layout_height="15dp"
-                        android:layout_marginTop="3dp"
-                        android:background="#face05"
-                        android:textSize="@dimen/text_size_large" />
-
-                    <TextView
-                        android:id="@+id/coupon_info_limit2_label"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_toRightOf="@id/coupon_info_limit2_label_left"
-                        android:text="服务类型"
-                        android:textColor="#face05"
-                        android:textSize="@dimen/text_size_large" />
-
-                    <TextView
-                        android:id="@+id/coupon_info_limit2_content"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/coupon_info_limit2_label_left"
-                        android:layout_marginTop="10dp"
-                        android:text="接机接机接机接机接机接机接机接机接机"
-                        android:textSize="@dimen/text_size_large" />
-
-
-                </RelativeLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#e5e6e7" />
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/basic_margin_medium">
-
-                    <TextView
-                        android:id="@+id/coupon_info_limit3_label_left"
-                        android:layout_width="3dp"
-                        android:layout_height="15dp"
-                        android:background="#face05"
-                        android:layout_marginTop="3dp"
-                        android:textSize="@dimen/text_size_large" />
-
-                    <TextView
-                        android:id="@+id/coupon_info_limit3_label"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_toRightOf="@id/coupon_info_limit3_label_left"
-                        android:text="适用车型"
-                        android:textColor="#face05"
-                        android:textSize="@dimen/text_size_large" />
-
-                    <TextView
-                        android:id="@+id/coupon_info_limit3_content"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/coupon_info_limit3_label"
-                        android:layout_marginTop="5dp"
-                        android:text="奢华、豪华"
-                        android:textSize="@dimen/text_size_large" />
-
-
-                </RelativeLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#e5e6e7" />
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/basic_margin_medium">
-
-                    <TextView
-                        android:id="@+id/appcarclass_left"
-                        android:layout_width="3dp"
-                        android:layout_height="15dp"
-                        android:background="#face05"
-                        android:layout_marginTop="3dp"
-                        android:textSize="@dimen/text_size_large" />
-
-                    <TextView
-                        android:id="@+id/appcarclass_label"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_toRightOf="@id/appcarclass_left"
-                        android:text="座椅限制"
-                        android:textColor="#face05"
-                        android:textSize="@dimen/text_size_large" />
-
-                    <TextView
-                        android:id="@+id/appcarclass_label_content"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/appcarclass_label"
-                        android:layout_marginTop="5dp"
-                        android:textSize="@dimen/text_size_large" />
-
-
-                </RelativeLayout>
             </LinearLayout>
-
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#e5e6e7" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="120dp"
-                android:layout_marginBottom="@dimen/basic_margin_large"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginTop="@dimen/basic_margin_large">
-
-                <TextView
-                    android:id="@+id/coupon_info_memo_left"
-                    android:layout_width="3dp"
-                    android:layout_height="15dp"
-                    android:background="#face05"
-                    android:layout_marginTop="3dp"
-                    android:textSize="@dimen/text_size_large" />
-
-                <TextView
-                    android:id="@+id/coupon_info_memo_right"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_toRightOf="@id/coupon_info_memo_left"
-                    android:text="详细说明："
-                    android:textColor="#face05"
-                    android:textSize="@dimen/text_size_large" />
-
-                <TextView
-                    android:id="@+id/coupon_info_memo"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/coupon_info_memo_right"
-                    android:layout_marginTop="5dp"
-                    android:textSize="@dimen/text_size_large" />
-            </RelativeLayout>
-
-
         </LinearLayout>
 
 

@@ -1,6 +1,7 @@
 package com.hugboga.custom.widget;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -10,10 +11,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.EvaluateListActivity;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.EvaluateItemData;
 import com.hugboga.custom.data.bean.GuidesDetailData;
-import com.hugboga.custom.fragment.FgEvaluateList;
-import com.hugboga.custom.fragment.FgGuideDetail;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
 
@@ -28,12 +29,10 @@ public class EvaluateListItemView extends LinearLayout{
 
     private PolygonImageView avatarIV;
     private TextView nameTV, stateTV, timeTV, contentTV;
-    private RatingView ratingview;
+    private SimpleRatingBar ratingview;
     private EvaluateTagGroup tagGroup;
     private View bottomLineView, topLineView;
     private TextView moreComments;
-
-    private FgGuideDetail guideDetailFragment;
 
     public EvaluateListItemView(Context context) {
         this(context, null);
@@ -47,7 +46,7 @@ public class EvaluateListItemView extends LinearLayout{
         nameTV = (TextView) findViewById(R.id.evaluate_list_item_name_tv);
         stateTV = (TextView) findViewById(R.id.evaluate_list_item_state_tv);
         timeTV = (TextView) findViewById(R.id.evaluate_list_item_time_tv);
-        ratingview = (RatingView) findViewById(R.id.evaluate_list_item_ratingview);
+        ratingview = (SimpleRatingBar) findViewById(R.id.evaluate_list_item_ratingview);
         tagGroup = (EvaluateTagGroup) findViewById(R.id.evaluate_list_item_taggroup);
         contentTV = (TextView) findViewById(R.id.evaluate_list_item_content_tv);
         bottomLineView = findViewById(R.id.evaluate_list_item_line_bottom);
@@ -57,9 +56,8 @@ public class EvaluateListItemView extends LinearLayout{
     /**
      * 司导详情
      * */
-    public void setGuideDetailData(FgGuideDetail fragment, final GuidesDetailData _data) {
+    public void setGuideDetailData(final GuidesDetailData _data) {
         if (_data.getCommentNum() > 0 && _data.getComments() != null && _data.getComments().size() > 0) {
-            this.guideDetailFragment = fragment;
             setVisibility(View.VISIBLE);
             topLineView.setVisibility(View.VISIBLE);
             bottomLineView.setVisibility(View.GONE);
@@ -80,9 +78,10 @@ public class EvaluateListItemView extends LinearLayout{
                 moreComments.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (guideDetailFragment != null) {
-                            guideDetailFragment.startFragment(FgEvaluateList.newInstance(_data.getGuideId(), ""+_data.getCommentNum()));
-                        }
+                        Intent intent = new Intent(v.getContext(), EvaluateListActivity.class);
+                        intent.putExtra(Constants.PARAMS_ID, _data.getGuideId());
+                        intent.putExtra(Constants.PARAMS_DATA, ""+_data.getCommentNum());
+                        v.getContext().startActivity(intent);
                     }
                 });
             }
@@ -107,7 +106,7 @@ public class EvaluateListItemView extends LinearLayout{
         nameTV.setText(data.getName());
         stateTV.setText(data.getOrderTypeStr());
         timeTV.setText(data.getCreateTimeYMD());
-        ratingview.setLevel(data.getTotalScore());
+        ratingview.setRating(data.getTotalScore());
         contentTV.setText(data.getContent());
 
         if (data.getLabelNamesArr() != null && data.getLabelNamesArr().size() > 0) {

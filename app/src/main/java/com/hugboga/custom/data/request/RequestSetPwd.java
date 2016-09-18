@@ -45,6 +45,6 @@ public class RequestSetPwd extends BaseRequest<UserBean> {
 
     @Override
     public String getUrlErrorCode() {
-        return "40063";
+        return "40078";
     }
 }

@@ -5,17 +5,15 @@ import android.content.Context;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.data.bean.MostFitBean;
-import com.hugboga.custom.data.bean.UserBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.net.NewParamsBuilder;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.parser.ParseMostFit;
 
-import java.util.Map;
-import java.util.TreeMap;
 import org.xutils.http.annotation.HttpRequest;
 
-import static u.aly.au.U;
+import java.util.Map;
+import java.util.TreeMap;
 
 
 @HttpRequest(path = UrlLibs.MOSTFIT, builder = NewParamsBuilder.class)
@@ -35,6 +33,7 @@ public class RequestMostFit extends BaseRequest<MostFitBean> {
     String serviceNonlocalDays;// 日租市外天数 [日租必填]
     String expectedCompTime; // 接送机预计完成时间[非日租必填]
     String orderType;
+    String carModelId;
 
 
     public RequestMostFit(Context context, String useOrderPrice,
@@ -42,7 +41,7 @@ public class RequestMostFit extends BaseRequest<MostFitBean> {
                           String carTypeId,String carSeatNum,
                           String serviceCityId,String serviceCountryId,
                           String totalDays,String distance,String serviceLocalDays,
-                          String serviceNonlocalDays,String expectedCompTime,String orderType) {
+                          String serviceNonlocalDays,String expectedCompTime,String orderType,String carModelId) {
         super(context);
         this.useOrderPrice = useOrderPrice;
         this.priceChannel = priceChannel;
@@ -58,6 +57,7 @@ public class RequestMostFit extends BaseRequest<MostFitBean> {
         this.serviceNonlocalDays = serviceNonlocalDays;
         this.expectedCompTime = expectedCompTime;
         this.orderType = orderType;
+        this.carModelId = carModelId;
 
     }
 
@@ -79,6 +79,7 @@ public class RequestMostFit extends BaseRequest<MostFitBean> {
         map.put("serviceNonlocalDays", serviceNonlocalDays);
         map.put("expectedCompTime", expectedCompTime);
         map.put("orderType",orderType);
+        map.put("carModelId",carModelId);
 
         return map;
     }
@@ -90,7 +91,7 @@ public class RequestMostFit extends BaseRequest<MostFitBean> {
 
     @Override
     public String getUrlErrorCode() {
-        return "40049";
+        return "40057";
     }
 
 }

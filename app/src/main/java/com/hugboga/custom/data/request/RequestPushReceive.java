@@ -36,6 +36,6 @@ public class RequestPushReceive extends BaseRequest {
 
     @Override
     public String getUrlErrorCode() {
-        return "40059";
+        return "40072";
     }
 }

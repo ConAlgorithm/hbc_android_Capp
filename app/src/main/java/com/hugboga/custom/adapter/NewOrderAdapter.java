@@ -1,5 +1,8 @@
 package com.hugboga.custom.adapter;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Spannable;
@@ -10,31 +13,35 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.adapter.ZBaseAdapter;
+import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
+import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
+import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
+import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.huangbaoche.hbcframe.viewholder.ZBaseViewHolder;
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.EvaluateActivity;
+import com.hugboga.custom.activity.GuideDetailActivity;
+import com.hugboga.custom.activity.InsureActivity;
+import com.hugboga.custom.activity.NIMChatActivity;
+import com.hugboga.custom.activity.OrderDetailActivity;
+import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.adapter.viewholder.NewOrderVH;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.ChatInfo;
+import com.hugboga.custom.data.bean.ImChatInfo;
 import com.hugboga.custom.data.bean.OrderBean;
+import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.parser.ParserChatInfo;
-import com.hugboga.custom.fragment.BaseFragment;
-import com.hugboga.custom.fragment.FgActivity;
-import com.hugboga.custom.fragment.FgEvaluate;
-import com.hugboga.custom.fragment.FgGuideDetail;
-import com.hugboga.custom.fragment.FgInsure;
-import com.hugboga.custom.fragment.FgOrderDetail;
-import com.hugboga.custom.fragment.FgWebInfo;
+import com.hugboga.custom.data.request.RequestImChatId;
 import com.hugboga.custom.utils.DateUtils;
+import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.DialogUtil;
 
 import org.xutils.image.ImageOptions;
-
-
-import io.rong.imkit.RongIM;
 
 /**
  * 聊天历史订单
@@ -44,12 +51,12 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
 
     private final ImageOptions options;
     DialogUtil dialog;
-    BaseFragment fragment;
+    private Context context;
 
-    public NewOrderAdapter(BaseFragment fragment) {
-        super(fragment.getActivity());
-        this.fragment = fragment;
-        dialog = DialogUtil.getInstance(fragment.getActivity());
+    public NewOrderAdapter(Context _context) {
+        super(_context);
+        this.context = _context;
+        dialog = DialogUtil.getInstance((Activity) context);
         options = new ImageOptions.Builder()
                 .setFailureDrawableId(R.mipmap.chat_head)
                 .setLoadingDrawableId(R.mipmap.chat_head)
@@ -78,7 +85,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
             vh.mCarType.setVisibility(View.GONE);
 
             if (orderBean.carPool) {//是否拼车
-                Drawable drawable = fragment.getResources().getDrawable(R.mipmap.carpooling);
+                Drawable drawable = context.getResources().getDrawable(R.mipmap.carpooling);
                 drawable.setBounds(0, 0, UIUtils.dip2px(36), UIUtils.dip2px(18));
                 SpannableString spannable = new SpannableString("[icon]" + orderBean.lineSubject);
                 ImageSpan span = new ImageSpan(drawable, ImageSpan.ALIGN_BASELINE);
@@ -242,7 +249,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                 vh.br_layout.setVisibility(View.GONE);//添加投保人
                 vh.mPrice.setVisibility(View.VISIBLE);//支付TV
                 if(orderBean.orderPriceInfo != null){
-                    vh.mPrice.setText("支付金额：" + orderBean.orderPriceInfo.shouldPay + "元");
+                    vh.mPrice.setText("支付金额：" + orderBean.orderPriceInfo.actualPay + "元");
                 }
                 vh.mHeadLayout.setVisibility(View.GONE);//司导信息
                 vh.mBtnPay.setVisibility(View.VISIBLE);//立即支付btn
@@ -264,20 +271,27 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                     vh.travel_item_btn_br.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            FgInsure fgAddInsure = new FgInsure();
                             Bundle bundle = new Bundle();
-                            bundle.putParcelable("orderBean",orderBean);
+                            bundle.putSerializable("orderBean",orderBean);
                             bundle.putString("from","orderList");
-                            fgAddInsure.setArguments(bundle);
-                            fragment.startFragment(fgAddInsure);
+                            Intent intent = new Intent(context, InsureActivity.class);
+                            intent.putExtras(bundle);
+                            context.startActivity(intent);
                         }
                     });
                     vh.travel_item_btn_br_tips.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Bundle bundleUrlAll = new Bundle();
-                            bundleUrlAll.putString(FgWebInfo.WEB_URL, UrlLibs.H5_INSURANCE);
-                            fragment.startFragment(new FgActivity(), bundleUrlAll);
+
+//                            Bundle bundleUrlAll = new Bundle();
+//                            bundleUrlAll.putString(FgWebInfo.WEB_URL, UrlLibs.H5_INSURANCE);
+//                            fragment.startFragment(new FgActivity(), bundleUrlAll);
+
+                            Intent intent = new Intent(v.getContext(), WebInfoActivity.class);
+                            intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_INSURANCE);
+                            v.getContext().startActivity(intent);
+
+
                         }
                     });
                 } else {
@@ -393,7 +407,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
             vh.mHeadTitle.setOnClickListener(new TravelOnClickListener(orderBean));
             vh.mHeadImg.setOnClickListener(new TravelOnClickListener(orderBean));
 
-            if(orderBean.isIm && (orderBean.imToken!=null && !orderBean.imToken.isEmpty())){
+            if(orderBean.isIm /*&& (orderBean.imToken!=null && !orderBean.imToken.isEmpty())*/){
                 vh.mBtnChat.setVisibility(View.VISIBLE);
                 vh.mBtnChat.setOnClickListener(new TravelOnClickListener(orderBean));
                 showMessageNum(vh.mBtnChatNum, orderBean.imcount);//显示未读小红点个数
@@ -408,12 +422,13 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
      * @param chatNumTextView
      */
     private void showMessageNum(final TextView chatNumTextView, Integer imcount){
-        if(imcount>0){
-            chatNumTextView.setVisibility(View.VISIBLE);
-            chatNumTextView.setText(String.valueOf(imcount));
-        }else{
-            chatNumTextView.setVisibility(View.GONE);
-        }
+//        if(imcount>0){
+//            chatNumTextView.setVisibility(View.VISIBLE);
+//            chatNumTextView.setText(String.valueOf(imcount));
+//        }else{
+//            chatNumTextView.setVisibility(View.GONE);
+//        }
+        chatNumTextView.setVisibility(View.GONE);
     }
 
     private String splitDateStr(String dateStr) {
@@ -433,63 +448,83 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
 
         @Override
         public void onClick(View v) {
+            Intent intent = null;
             switch (v.getId()) {
                 case R.id.travel_item_btn_assessment:
-//                    MLog.e("评价车导2 " + mOrderBean.orderNo + " orderType = " + mOrderBean.orderType);
-//                    Bundle bundle = new Bundle();
-//                    bundle.putString(FgAssessment.GUIDE_ID, mOrderBean.orderGuideInfo.guideID);
-//                    bundle.putString(FgAssessment.ORDER_ID, mOrderBean.orderNo);
-//                    bundle.putInt(FgAssessment.ORDER_TYPE, mOrderBean.orderType);
-//                    bundle.putInt(BaseFragment.KEY_BUSINESS_TYPE, mOrderBean.orderType);
-//                    bundle.putString(FgAssessment.GUIDE_NAME, mOrderBean.orderGuideInfo.guideName);
-//                    fragment.startFragment(new FgAssessment(), bundle);
-
-                    fragment.startFragment(FgEvaluate.newInstance(mOrderBean));
+                    intent = new Intent(v.getContext(), EvaluateActivity.class);
+                    intent.putExtra(Constants.PARAMS_DATA, mOrderBean);
+                    v.getContext().startActivity(intent);
                     break;
                 case R.id.travel_item_btn_pay:
                     MLog.e("立即支付 " + mOrderBean.orderNo);
                     //立即支付，进入订单详情
-//                    bundle = new Bundle();
-//                    bundle.putInt(FgOrder.KEY_BUSINESS_TYPE, mOrderBean.orderType);
-//                    bundle.putInt(FgOrder.KEY_GOODS_TYPE, mOrderBean.orderGoodsType);
-//                    bundle.putString(FgOrder.KEY_ORDER_ID, mOrderBean.orderNo);
-//                    bundle.putString("source", mOrderBean.orderType == 5 ? mOrderBean.serviceCityName : "首页");
-//                    fragment.startFragment(new FgOrder(), bundle);
-                    FgOrderDetail.Params params = new FgOrderDetail.Params();
-                    params.orderType = mOrderBean.orderGoodsType;
+                    OrderDetailActivity.Params params = new OrderDetailActivity.Params();
+                    params.orderType = mOrderBean.orderType;
                     params.orderId = mOrderBean.orderNo;
-                    params.source =  mOrderBean.orderType == 5 ? mOrderBean.serviceCityName : "首页";
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable(Constants.PARAMS_DATA, params);
-                    fragment.startFragment(new FgOrderDetail(), bundle);
+                    params.source = mOrderBean.orderType == 5 ? mOrderBean.serviceCityName : "首页";
+                    intent = new Intent(v.getContext(), OrderDetailActivity.class);
+                    intent.putExtra(Constants.PARAMS_DATA, params);
+                    intent.putExtra(Constants.PARAMS_SOURCE,params.source);
+                    v.getContext().startActivity(intent);
                     break;
                 case R.id.travel_item_btn_chat:
                     MLog.e("进入聊天" + mOrderBean.orderNo);
                     if(mOrderBean.orderGuideInfo!=null&&mOrderBean.orderGuideInfo.guideID!=null){
-                        gotoChatView(mOrderBean.orderGuideInfo.guideID,mOrderBean.orderGuideInfo.guideAvatar,mOrderBean.orderGuideInfo.guideName);
+                        requestImChatId(mOrderBean.orderGuideInfo.guideID,mOrderBean.orderGuideInfo.guideAvatar,mOrderBean.orderGuideInfo.guideName);
                     }
                     break;
                 case R.id.travel_item_head_img:
                 case R.id.travel_item_head_title:
-                    if(fragment == null || mOrderBean.orderGuideInfo == null || mOrderBean.orderGuideInfo.guideID == null) {
+                    if(mOrderBean.orderGuideInfo == null || mOrderBean.orderGuideInfo.guideID == null) {
                         return;
                     }
-                    fragment.startFragment(FgGuideDetail.newInstance(mOrderBean.orderGuideInfo.guideID));
+                    intent = new Intent(v.getContext(), GuideDetailActivity.class);
+                    intent.putExtra(Constants.PARAMS_DATA, mOrderBean.orderGuideInfo.guideID);
+                    v.getContext().startActivity(intent);
                     break;
             }
         }
     }
-    private void gotoChatView( final String chatId,String targetAvatar,String targetName) {
-        String titleJson = getChatInfo(chatId,  targetAvatar, targetName, "1");
-        RongIM.getInstance().startPrivateChat(fragment.getActivity(), "G"+chatId, titleJson);
+
+    private void requestImChatId(final String chatId,final String targetAvatar,final String targetName){
+        RequestImChatId requestImChatId = new RequestImChatId(context, UserEntity.getUser().getUserId(context),"2",chatId,"1");
+        HttpRequestUtils.request(context,requestImChatId,new HttpRequestListener(){
+            @Override
+            public void onDataRequestSucceed(BaseRequest request) {
+                Object object = request.getData();
+                if(object instanceof ImChatInfo){
+                    ImChatInfo imChatInfo = (ImChatInfo)object;
+                    gotoChatView(chatId,targetAvatar,targetName,imChatInfo.neTargetId,imChatInfo.inBlack);
+                }
+            }
+
+            @Override
+            public void onDataRequestCancel(BaseRequest request) {
+            }
+
+            @Override
+            public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+            }
+        });
     }
-    private String getChatInfo(String userId, String userAvatar, String title, String targetType) {
+
+    private void gotoChatView( final String chatId,String targetAvatar,String targetName,String imChatId,int inblack) {
+        if(!IMUtil.getInstance().isLogined()){
+            return;
+        }
+        String titleJson = getChatInfo(chatId,  targetAvatar, targetName, "1",imChatId,inblack);
+        NIMChatActivity.start(context,imChatId,null,titleJson);
+        //RongIM.getInstance().startPrivateChat(context, imChatId, titleJson);
+    }
+    private String getChatInfo(String userId, String userAvatar, String title, String targetType,String imChatId,int inblack) {
         ChatInfo chatInfo = new ChatInfo();
         chatInfo.isChat = true;
         chatInfo.userId = userId;
+        chatInfo.imUserId =imChatId;
         chatInfo.userAvatar = userAvatar;
         chatInfo.title = title;
         chatInfo.targetType = targetType;
+        chatInfo.inBlack = inblack;
         return new ParserChatInfo().toJsonString(chatInfo);
     }
 

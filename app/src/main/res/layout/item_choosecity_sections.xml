@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/item_choosecity_sections_tv"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingLeft="25dp"
+    android:paddingRight="25dp"
+    android:paddingTop="6dp"
+    android:paddingBottom="6dp"
+    android:gravity="center_vertical"
+    android:background="#ebebeb"
+    android:layout_marginLeft="10dp"
+    android:text="aaa"
+    android:textColor="#333333"
+    android:textSize="15sp" />

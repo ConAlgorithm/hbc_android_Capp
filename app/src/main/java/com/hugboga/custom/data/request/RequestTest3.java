@@ -42,6 +42,6 @@ public class RequestTest3 extends BaseRequest {
 
     @Override
     public String getUrlErrorCode() {
-        return "40073";
+        return "40088";
     }
 }

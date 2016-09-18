@@ -19,6 +19,6 @@ public class RequestCheckPriceForPickup extends RequestCheckPrice {
 
     @Override
     public String getUrlErrorCode() {
-        return "40017";
+        return "40018";
     }
 }

@@ -14,6 +14,7 @@ import android.text.style.ImageSpan;
 
 import com.anupcowkur.reservoir.Reservoir;
 import com.google.gson.reflect.TypeToken;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.LineGroupBean;
 import com.hugboga.custom.data.bean.LineGroupItem;
@@ -54,7 +55,7 @@ public class CityUtils {
      * @param orderType
      * @param groupId
      */
-    public static List<CityBean> requestHotDate(Activity activity, int groupId) {
+    public static List<CityBean> requestHotDate(Activity activity, int groupId,int cityId, String from) {
         List<CityBean> sourceDateList = new ArrayList<CityBean>();//全部城市数据
         DbManager mDbManager = new DBHelper(activity).getDbManager();
         Selector selector = null;
@@ -69,9 +70,9 @@ public class CityUtils {
         } else {
             selector.and("group_id", "=", groupId);
         }
-//        if ("lastCity".equals(from) && cityId != -1){
-//            selector.and("city_id", "<>", cityId);
-//        }
+        if ("lastCity".equals(from) && cityId != -1){
+            selector.and("city_id", "<>", cityId);
+        }
         // 修改热门城市排序
         selector.orderBy("hot_weight", true);
 //        selector.orderBy("hot_weight");
@@ -185,6 +186,8 @@ public class CityUtils {
 
                             searchGroupBean.type = model.getInt("type");
 
+                            searchGroupBean.has_sub = model.getInt("has_sub");
+
                             searchGroupBean.hot_weight = model.getInt("hot_weight");
                             list.add(searchGroupBean);
                         }
@@ -227,6 +230,8 @@ public class CityUtils {
                             searchGroupBean.group_name = model.getString("group_name");
 
                             searchGroupBean.type = 1;// model.getInt("type");
+
+                            searchGroupBean.has_sub = model.getInt("has_sub");
 
                             searchGroupBean.hot_weight = model.getInt("hot_weight");
                             list.add(searchGroupBean);
@@ -289,6 +294,8 @@ public class CityUtils {
                             searchGroupBean.group_name = model.getString("group_name");
 
                             searchGroupBean.type = 1;//model.getInt("type");
+
+                            searchGroupBean.has_sub = model.getInt("has_sub");
 
                             searchGroupBean.hot_weight = model.getInt("hot_weight");
                             list.add(searchGroupBean);
@@ -445,6 +452,7 @@ public class CityUtils {
 
             searchGroupBean.parent_name = bean.parent_name;
             searchGroupBean.parent_id = bean.parent_id;
+            searchGroupBean.has_sub = bean.has_sub;
 
             searchGroupBean.level = bean.level;
             searchGroupBean.type = 1;
@@ -470,6 +478,8 @@ public class CityUtils {
 
             searchGroupBean.sub_city_id = bean.sub_city_id;
             searchGroupBean.sub_city_name = bean.sub_city_name;
+
+            searchGroupBean.has_sub = bean.has_sub;
 
             searchGroupBean.type = bean.type;
             searchGroupBean.flag = flag;
@@ -522,6 +532,8 @@ public class CityUtils {
                             searchGroupBean.parent_name = model.getString("parent_name");
                             searchGroupBean.parent_id = model.getInt("parent_id");
 
+                            searchGroupBean.has_sub = model.getInt("has_sub");
+
                             searchGroupBean.hot_weight = model.getInt("hot_weight");
 
                             list.add(searchGroupBean);
@@ -567,6 +579,8 @@ public class CityUtils {
 
                             searchGroupBean.parent_name = model.getString("parent_name");
                             searchGroupBean.parent_id = model.getInt("parent_id");
+
+                            searchGroupBean.has_sub = model.getInt("has_sub");
 
                             searchGroupBean.hot_weight = model.getInt("hot_weight");
 
@@ -620,6 +634,8 @@ public class CityUtils {
 
                             searchGroupBean.type = model.getInt("type");
 
+                            searchGroupBean.has_sub = model.getInt("has_sub");
+
                             searchGroupBean.hot_weight = model.getInt("hot_weight");
 
                             list.add(searchGroupBean);
@@ -667,6 +683,8 @@ public class CityUtils {
                             searchGroupBean.sub_place_id = model.getInt("sub_place_id");
 
                             searchGroupBean.type = model.getInt("type");
+
+                            searchGroupBean.has_sub = model.getInt("has_sub");
 
                             searchGroupBean.hot_weight = model.getInt("hot_weight");
 
@@ -721,6 +739,8 @@ public class CityUtils {
                             searchGroupBean.sub_place_id = model.getInt("sub_place_id");
 
                             searchGroupBean.type = model.getInt("type");
+
+                            searchGroupBean.has_sub = model.getInt("has_sub");
 
                             searchGroupBean.hot_weight = model.getInt("hot_weight");
 
@@ -1092,6 +1112,8 @@ public class CityUtils {
                             searchGroupBean.parent_id = model.getInt("parent_id");
                             searchGroupBean.parent_name = model.getString("parent_name");
 
+                            searchGroupBean.has_sub = model.getInt("has_sub");
+
                             searchGroupBean.type = 1;
 
                             searchGroupBean.level = model.getInt("level");
@@ -1147,6 +1169,8 @@ public class CityUtils {
                             searchGroupBean.sub_place_name = model.getString("sub_place_name");
 
                             searchGroupBean.type = model.getInt("type");
+
+                            searchGroupBean.has_sub = model.getInt("has_sub");
 
                             searchGroupBean.hot_weight = model.getInt("hot_weight");
                             list.add(searchGroupBean);

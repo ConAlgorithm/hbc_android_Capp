@@ -35,6 +35,6 @@ public class RequestChatList extends BaseRequest<ArrayList<ChatBean>> {
 
     @Override
     public String getUrlErrorCode() {
-        return "40014";
+        return "40016";
     }
 }

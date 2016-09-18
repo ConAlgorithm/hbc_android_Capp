@@ -45,6 +45,9 @@ public class LineGroupItem implements IBaseBean,Parcelable{
 
     public int group_type;//1, 国家 2,城市
 
+    public int has_sub;
+
+
     @Override
     public int describeContents() {
         return 0;
@@ -64,6 +67,7 @@ public class LineGroupItem implements IBaseBean,Parcelable{
         dest.writeInt(this.hot_weight);
         dest.writeByte(this.isSelected ? (byte) 1 : (byte) 0);
         dest.writeInt(this.group_type);
+        dest.writeInt(this.has_sub);
     }
 
     public LineGroupItem() {
@@ -82,6 +86,7 @@ public class LineGroupItem implements IBaseBean,Parcelable{
         this.hot_weight = in.readInt();
         this.isSelected = in.readByte() != 0;
         this.group_type = in.readInt();
+        this.has_sub = in.readInt();
     }
 
     public static final Creator<LineGroupItem> CREATOR = new Creator<LineGroupItem>() {

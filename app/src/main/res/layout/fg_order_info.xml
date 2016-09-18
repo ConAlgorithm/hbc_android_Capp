@@ -238,7 +238,6 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:textColor="@color/basic_black"
-                    android:text=" 元"
                     android:layout_alignBaseline="@id/all_left"
                     android:includeFontPadding="false"
                     android:textSize="12sp" />
@@ -273,7 +272,6 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_alignBaseline="@id/per_left"
-                    android:text=" 元"
                     android:textColor="@color/basic_black"
                     android:textSize="12sp" />
 
@@ -295,6 +293,7 @@
                     android:layout_height="wrap_content"
                     android:drawableRight="@mipmap/question"
                     android:drawablePadding="5dp"
+                    android:paddingBottom="20dp"
                     android:layout_marginBottom="20dp"
                     android:layout_centerHorizontal="true"
                     android:text="@string/befer48_hour"

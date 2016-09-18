@@ -191,6 +191,11 @@ public class CalendarCellView extends FrameLayout {
         day_view_round_left.setVisibility(INVISIBLE);
         day_view_round_right.setVisibility(INVISIBLE);
         bottomTextView.setText("开始+结束");
+    }else if(rangeState == RangeState.SELECT_NO_TEXT){
+        day_view_round.setBackgroundResource(R.drawable.day_view_selector);
+        day_view_round_left.setVisibility(INVISIBLE);
+        day_view_round_right.setVisibility(INVISIBLE);
+        bottomTextView.setText("");
     }else if(rangeState == RangeState.START_END){
         day_view_round.setBackgroundResource(R.drawable.day_view_selector);
         day_view_round_left.setVisibility(INVISIBLE);

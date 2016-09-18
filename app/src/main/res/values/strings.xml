@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">皇包车</string>
+    <string name="hbc_scheme">hbcc</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -22,10 +23,24 @@
     <string name="pick_up">收起</string>
     <string name="sign_rmb">¥</string>
     <string name="separator">%1$s-%2$s</string>
+    <string name="piece">件</string>
+    <string name="people">人</string>
+    <string name="collect_succeed">收藏成功</string>
+    <string name="collect_cancel">已取消收藏</string>
+    <string name="platenumber">车牌：</string>
+    <string name="domestic_call">境内拨打:</string>
+    <string name="overseas_call">境外拨打:</string>
+    <string name="domestic_phone">4006100066</string>
+    <string name="overseas_phone">+86&#160;1059715436</string>
+    <string name="call">打电话</string>
+    <string name="private_chat">发私聊</string>
+    <string name="wechat">微信</string>
+    <string name="moments">朋友圈</string>
+    <string name="cancel">取消</string>
 
     <!-- Basic name -->
     <string name="call_info_tip">如有问题，请拨打客服电话 4006 1000 66</string>用户协议
-    <string name="register_info_tip">注册即表示我同意"皇包车"的 </string>
+    <string name="register_info_tip">注册即表示我同意"皇包车"的用户协议</string>
     <string name="register_info_tip_protocol">用户协议</string>
     <string name="login_country_search_hint">搜索国家名或国别名代码</string>
 
@@ -134,7 +149,7 @@
     <string name="tap_city_tip">如有中转请写末趟航班</string>
 
     <!-- 页面 pick_flight_list -->
-    <string name="title_pick_flight_list">选择航班列表</string>
+    <string name="title_pick_flight_list">选择航班</string>
     <string name="flight_empty_no">未搜索到航班号 %1$s</string>
     <string name="flight_empty_no_city">未搜索到符合条件的航班</string>
     <string name="flight_empty_tip">如有中转请搜索末趟航班</string>
@@ -185,10 +200,10 @@
     <string name="pay_tip_thailand"><u>泰国接机说明</u></string>
     <string name="order_cancel_tip">确定要取消行程吗？</string>
     <string name="order_cancel_succeed">取消订单成功</string>
-    <string name="order_cancel_tip2" formatted="false">距离服务开始时间24小时前取消及更改，免收退改费,可全额退款;\n服务开始时间24小时内取消及更改，将收取订单金额的100%作为退改费;</string>
+    <string name="order_cancel_tip2" formatted="false">距离服务开始时间24小时前取消及更改，免收退改费,可全额退款;\n服务开始时间24小时内取消及更改，将收取订单金额的100%作为退改费。</string>
     <string name="order_cancel_tip3">\n跨城市长途包车距离服务开始时间48小时内取消及更改，将产生司导住宿费用，收取订单金额20%用于补偿司导损失。</string>
     <string name="pay_time_tip">请在%1$s内付款,以免订单取消</string>
-    <string name="order_cancel_pay">下单后24小时订单将被取消，请尽快完成支付</string>
+    <string name="order_cancel_pay">下单后%1$s订单将被取消，请尽快完成支付</string>
     <!-- 承诺promise -->
     <string name="promise_title_all">一价全包</string>
     <string name="promise_title_wait">免费等待</string>
@@ -226,10 +241,10 @@
     <string name="order_daily_city_name" formatted="false">%1$s - %2$s</string>
     <string name="order_daily_days_out_tower" formatted="false">%1$s天(市内%2$s天，市外%3$s天)</string>
     <string name="call_service">呼叫客服</string>
-    <string name="empty_text">没有结果</string>
-    <string name="empty_city_text">该地区暂未开通服务</string>
+    <string name="empty_text">没有找到相关结果</string>
+    <string name="empty_city_text">抱歉，没有找到您要的地点</string>
     <string name="can_not_choose_start_city_text">跨城市包车不能选择出发城市哦</string>
-    <string name="out_of_range_city_text">您搜索的城市超出了包车游玩范围</string>
+    <string name="out_of_range_city_text">该地区暂未开通服务</string>
 
     <!-- sku-->
     <string name="sku_car_tip">注意:不同车型会影响总价上下浮动</string>
@@ -340,10 +355,9 @@
     <string name="aboard_where">请选择上车地点</string>
     <string name="hotel_phone">酒店电话</string>
     <string name="order_tips">选填,行前可以随时联系司导更改</string>
-    <string name="add_other_phone">+ 增加备用电话</string>
     <string name="for_other_people">为他人订车</string>
     <string name="total_order">还需支付:</string>
-    <string name="order_info">明细 ></string>
+    <string name="order_info">明细</string>
     <string name="submit_order">立即支付</string>
 
     <string name="passenger_no_star">&#160;乘车人</string>
@@ -361,6 +375,11 @@
     <string name="select_end_city">选择结束城市</string>
     <string name="select_stay_city">选择住宿城市</string>
     <string name="no_cars_info">没有相关车辆信息</string>
+
+    <string name="your_service">请联系客服帮您下单</string>
+
+
+    <string name="no_cars_error_show">很抱歉,您的出行人数过多,\n没有找到合适的车型</string>
 
     <string name="complete_start_city">请选择开始城市</string>
     <string name="complete_mans">请选择出发人数</string>
@@ -404,10 +423,10 @@
 
     <string name="can_sit_man">可乘坐</string>
 
-    <string name="man_luggage_num_left">人数行李数</string>
+    <string name="man_luggage_num_left">出行人数</string>
     <string name="choose_man_luggage">请选择</string>
     <string name="child_seat_money">收费儿童座椅</string>
-    <string name="checkin">协助办理登机check in</string>
+    <string name="checkin">协助登机check in</string>
     <string name="pick_wait">接机举牌等待</string>
     <string name="cost_0">(服务费 ￥0)</string>
     <string name="all_cost">费用总计:</string>
@@ -417,7 +436,7 @@
     <string name="del_driver">删除</string>
     <string name="driver_left">指定司导</string>
 
-    <string name="man_luggage_title">乘客及行李数</string>
+    <string name="man_luggage_title">出行人数</string>
     <string name="man_luggage_man">成人</string>
     <string name="man_luggage_child">儿童</string>
     <string name="man_luggage_12">(12岁及以下)</string>
@@ -428,10 +447,11 @@
     <string name="man_luggage_charge">收费儿童座椅</string>
     <string name="man_luggage_0">￥ 0/次</string>
     <string name="man_luggage_30">￥ 30/次</string>
-    <string name="man_luggage_tips1">请填写可能的最多人数和行李数，供司导参考</string>
-    <string name="man_luggage_tips2">每减少1位乘客，可增加1个24寸行李</string>
-    <string name="man_luggage_tips3">1个28寸行李等于2个24寸行李的位置大小，携带的行李不要超出车的容量以免影响服务</string>
-    <string name="man_luggage_tips4">如需儿童座椅，出行前请与司导联系，确认需要何种年龄段的的儿童安全座椅</string>
+    <string name="man_luggage_tips1">根据每种车型的座位数、后备箱容量，和实际出行人数，为您计算可携带行李数</string>
+    <string name="man_luggage_tips2">行李大小计算标准为24寸行李箱</string>
+    <string name="man_luggage_tips3">每减少1位乘客，可增加1个24寸行李</string>
+    <string name="man_luggage_tips4">随身行李请酌情携带，大小参考行李箱</string>
+    <string name="man_luggage_tips5">携带行李不要超过容量限制，以免造成车辆空间不足无法服务。此类情况司导可拒绝服务，请客人自行承担后果。</string>
 
 
     <string name="man_luggage_not_have">很抱歉，该城市暂不提供儿童座椅</string>
@@ -493,13 +513,24 @@
     <string name="invite_friends_source_3">订单消费</string>
     <string name="invite_friends_source_4">过期</string>
     <string name="invite_friends_copy_succeed">复制成功</string>
-    <string name="invite_friends_share_title">送你30元优惠券，来皇包车一起中文包车游</string>
-    <string name="invite_friends_share_content">邀你体验皇包车的中文包车，让你每一次出境游都自在如乡。</string>
 
     <string name="travel_fund_title">旅游基金</string>
-    <string name="travel_fund_price">旅游基金&#160;%1$s元</string>
+    <string name="travel_fund_rule">规则说明</string>
     <string name="travel_fund_validity">有效期至：%1$s</string>
-    <string name="travel_fund_details">使用明细</string>
+    <string name="travel_fund_invite_record">邀请记录&#160;></string>
+    <string name="travel_fund_use_record">使用明细&#160;></string>
+    <string name="travel_fund_invite_record_title">邀请记录</string>
+    <string name="travel_fund_use_record_title">使用明细</string>
+    <string name="travel_fund_subtitle">邀请更多好友加入皇包车\n免费赚取更多旅游基金</string>
+    <string name="travel_fund_subtitle_2">送Ta大礼包</string>
+    <string name="travel_fund_description">好友通过客户端完成首单，\n24小时内返您\n%1$s元&#160;+&#160;%2$s&#160;×&#160;好友首单总金额</string>
+    <string name="travel_fund_invite">立即邀请</string>
+    <string name="invite_friends_share_title">想出境玩吗？送你%1$s元大礼包</string>
+    <string name="invite_friends_share_content">皇包车邀您一起中文包车游世界。每一次出境游都自在如乡。领券下手要快哦！</string>
+    <string name="travel_fund_record_empty_hint">还没有任何明细\n邀请好友，免费赚旅游基金</string>
+    <string name="travel_fund_invitation_friends_record_empty_hint">还没有好友贡献旅游基金\n快去邀请他们</string>
+    <string name="travel_fund_record_invited">已成功邀请</string>
+    <string name="travel_fund_record_obtain">已获得奖励</string>
 
     <string name="evaluate_subtitle_grade">为司导打分</string>
     <string name="evaluate_submit">确认提交</string>
@@ -517,6 +548,11 @@
     <string name="evaluate_star_very_unsatisfactory">非常不满</string>
     <string name="evaluate_evaluated_satisfied">您的鼓励是我们最大的动力</string>
     <string name="evaluate_evaluated_ordinary">希望有机会为您提供更好的服务</string>
+    <string name="evaluate_share_description_1">分享靠谱司导给好友，再发%1$s大礼包</string>
+    <string name="evaluate_share_description_2">\nTa领取后在app完成首单，你也可赚旅游基金！</string>
+    <string name="evaluate_share_rules_price">%1$s&#160;+&#160;%2$s×好友首单总金额</string>
+    <string name="evaluate_share_pack_up">收起</string>
+    <string name="evaluate_share_detail">详情</string>
 
     <string name="dairy_inout_check">请先输入您的城市/出行时间</string>
 
@@ -549,12 +585,13 @@
     <string name="choose_payment_alipay">支付宝</string>
 
     <string name="par_result_title">支付结果</string>
-    <string name="par_result_succeed">支付成功！</string>
-    <string name="par_result_failure">支付失败！</string>
-    <string name="par_result_sum">支付金额:</string>
-    <string name="par_result_succeed_prompt">请耐心等待司导接单</string>
+    <string name="par_result_succeed">支付成功</string>
+    <string name="par_result_failure">支付失败</string>
+    <string name="par_result_succeed_prompt">您的服务已预订成功!\n接下来由皇包车为您安排本次出行</string>
+    <string name="par_result_failure_prompt">支付遇到了问题...</string>
+    <string name="par_result_contact_service">需要联系客服</string>
     <string name="par_result_back">返回首页</string>
-    <string name="par_result_detail">查看订单详情</string>
+    <string name="par_result_detail">查看订单</string>
     <string name="par_result_repay">重新支付</string>
 
     <string name="insure_info_title">投保信息</string>
@@ -582,6 +619,7 @@
     <string name="order_detail_insurance_info">投保信息</string>
     <string name="order_detail_info">已为%1$s人购买保险</string>
     <string name="order_detail">详情</string>
+    <string name="order_detail_edit">修改</string>
     <string name="order_detail_cancel">您的订单已取消！</string>
     <string name="order_detail_finish">服务已结束！</string>
     <string name="order_detail_prompt_evaluation_1">你给好评，皇包车替你给小费！</string>
@@ -591,7 +629,6 @@
     <string name="order_detail_inservice">司导正在为您服务</string>
     <string name="order_detail_prompt_new_travel">您即将迎来新的旅程</string>
     <string name="order_detail_predetermined">预订成功！</string>
-    <string name="order_detail_prompt_wait_guide">敬请耐心等待司导接单</string>
     <string name="order_detail_timeleft">剩余时间：</string>
     <string name="order_detail_add_insurance">免费添加投保人</string>
     <string name="order_detail_carpooling">拼车</string>
@@ -600,6 +637,8 @@
     <string name="order_detail_airport_card">接机举牌等待</string>
     <string name="order_detail_checkin">协助办理登机check in</string>
     <string name="order_detail_seat_info">（%1$s）</string>
+    <string name="order_detail_adult_seat_info">乘坐%1$s人</string>
+    <string name="order_detail_child_seat_info">、儿童座椅%1$s个</string>
     <string name="order_detail_flight">航班%1$s&#160;</string>
     <string name="order_detail_insurance_describe">皇包车帮您购买出境平安险，保额高达8万元</string>
     <string name="order_detail_get_insurance">赠价值8万的平安保险</string>
@@ -614,10 +653,22 @@
     <string name="order_detail_cost_coupon">优惠金额</string>
     <string name="order_detail_cost_travelfund">旅游基金</string>
     <string name="order_detail_cost_realpay">支付金额</string>
+    <string name="order_detail_cost_refund">退款金额</string>
+    <string name="order_detail_cost_withhold">订单退改扣款</string>
     <string name="order_detail_local_chartered">%1$s-%2$s天包车</string>
     <string name="order_detail_half_day">0.5</string>
     <string name="order_detail_cancel_oeder">取消订单成功</string>
     <string name="order_detail_hotle_subscribe">酒店预订&#160;-&#160;%1$s晚，%2$s间</string>
+    <string name="order_detail_evaluate">评价有礼</string>
+    <string name="order_detail_evaluated">已评价</string>
+    <string name="order_detail_refund_title">退款详情</string>
+    <string name="order_detail_refund_description">退款将退回到您支付订单的账户中，到账时间以该账户通知为准。\n</string>
+    <string name="order_detail_refund_pattern_payment">您的支付方式：%1$s</string>
+    <string name="order_detail_tips_title">平台保障：</string>
+    <string name="order_detail_tips">订单款项由平台保管，服务完成才会支付给司导。24小时客服，帮您解决服务过程中纠纷。请您不要线下交易。</string>
+    <string name="order_detail_top2_tips">司导接单后，您可以在app内通过私聊与Ta联系；请不要线下交易，否则将无法获得平台保障。</string>
+    <string name="order_detail_top1_tips">下单后一般在24小时内有司导接单。如果下单时间距离实际出行时间较远，最晚在出行前为您安排司导接单。</string>
+    <string name="order_detail_bargain_entr_price">共砍掉\n%1$s元</string>
 
     <string name="alert_del_after_edit">请在删除指定司导后，再修改出行信息</string>
 
@@ -631,7 +682,7 @@
     <string name="home_featured_active">精选活动</string>
     <string name="home_more_featured_route">更多包车游线路</string>
     <string name="home_custom_chartered">自定义包车游</string>
-    <string name="home_custom_chartered_description">定制行程，中文司导兼导游全程陪同</string>
+    <string name="home_custom_chartered_description">定制行程，中文司导全程陪同</string>
     <string name="home_picksend">中文接送机</string>
     <string name="home_single">单次接送</string>
     <string name="alert_car_full">特别提示：此车型空间较小，目前已达人数极限，部分成员会很不舒服，且只能携带极少行李，是否继续？</string>
@@ -673,5 +724,91 @@
     <string name="no_have_car">该日期暂时无法提供服务</string>
 
     <string name="now_enter">即刻启程</string>
+
+    <string name="share_guides_title">分享靠谱司导</string>
+    <string name="share_guides_description_1">已为您收藏Ta，这么靠谱的司导，不如现在就推荐给更多好友</string>
+    <string name="share_guides_description_2">还为您的朋友准备了%1$s大礼包，\n邀请他们一起体验吧</string>
+    <string name="share_guides_unwilling">不愿分享</string>
+    <string name="share_guides_share">把Ta推荐给好友</string>
+
+    <string name="choose_city_tab_inland">国内</string>
+    <string name="choose_city_tab_abroad">国际港澳台</string>
+    <string name="choose_city_subtitle_location">当前定位</string>
+    <string name="choose_city_subtitle_history">历史记录</string>
+    <string name="choose_city_subtitle_hot">热门城市</string>
+    <string name="choose_city_location_failure">定位失败</string>
+
+    <string name="net_error_show">请检查您的网络连接是否正常</string>
+    <string name="loading_time">%1$s 跳过</string>
+
+    <string name="max_luggage">当前最多可携带行李数(24寸)</string>
+    <string name="max_luggage_tips">实际行李数如果超出限制,请更换最大车型</string>
+
+    <string name="share_title">境外1,100+城市包车游等你来！在线预订，一键下单</string>
+    <string name="share_content">中文包车游世界，万名当地华人司导，让您的旅行自在如乡。</string>
+
+    <string name="add_man_toast">请选择出行人数</string>
+
+    <string name="time_out_180">时间不能超过半年</string>
+
+    <string name="commit_agree">点击“提交订单”表示您已阅读并同意皇包车协议和条款</string>
+    <string name="commit_agree_click">皇包车协议和条款</string>
+
+    <string name="choose_other_tips">温馨提示: 如果填写境内手机号,请记得在出发前开通运营商的国际漫游业务。避免到了境外司导打电话联系不上您。</string>
+
+    <!-- 云信location -->
+    <string name="location_init_map_error">初始化地图服务失败</string>
+    <string name="location_navigate">导航</string>
+    <string name="self_location">我在这个位置</string>
+    <string name="location_unable_to_get_you">暂时无法获取您的位置</string>
+    <string name="location_loading">正在定位</string>
+    <string name="location_map">地图定位</string>
+    <string name="my_location">我的位置</string>
+    <string name="location_address_unkown">该位置信息暂无</string>
+    <string name="format_mylocation">我的位置：%s</string>
+    <string name="location_address_fail">获取位置信息失败</string>
+    <string name="tools_selected">选择工具</string>
+    <string name="friends_map_navigation_web">在网页中打开</string>
+    <string name="location_open_map_error">打开地图出错</string>
+
+
+    <!-- 云信SDK所需文案 -->
+    <string name="nim_status_bar_multi_messages_incoming">%1$d位联系人有新消息</string>
+    <string name="nim_status_bar_ticker_text">%1$s有新消息</string>
+    <string name="nim_status_bar_image_message">%1$s发来一条图片消息</string>
+    <string name="nim_status_bar_audio_message">%1$s发来一条语音消息</string>
+    <string name="nim_status_bar_video_message">%1$s发来一条视频消息</string>
+    <string name="nim_status_bar_file_message">%1$s发来一条文件消息</string>
+    <string name="nim_status_bar_location_message">%1$s分享了一个地理位置</string>
+    <string name="nim_status_bar_notification_message">%1$s: 通知消息</string>
+    <string name="nim_status_bar_custom_message">%1$s: 自定义消息</string>
+    <string name="nim_status_bar_unsupported_message">%1$s: 无法显示该内容</string>
+    <string name="nim_status_bar_hidden_msg_content">你收到一条新消息</string>
+
+    <string name="net_broken">当前网络不可用</string>
+    <string name="nim_status_unlogin">未登录</string>
+    <string name="nim_status_connecting">连接中...</string>
+    <string name="nim_status_logining">登录中...</string>
+    <string name="nim_kick_out">您的账号在其它客户端登录.</string>
+
+    <string name="countdown">倒计时</string>
+    <string name="bargain">已砍</string>
+    <string name="bargain_tips">邀好友帮你砍价，48小时内砍价金额服务后直接返现！\n帮你砍价的好友也可获得100元优惠券</string>
+
+    <string name="bargain_rule">活动规则 ></string>
+    <string name="cut_list">好友砍价排行榜</string>
+    <string name="cut_list_empty">还没有人砍过，他们的砍价记录会展示在这里</string>
+    <string name="show_more">显示更多</string>
+    <string name="no_more">没有更多了</string>
+    <string name="share_bargin_100">你来砍价，还能领100元优惠券！境外出行就选皇包车~</string>
+    <string name="share_bargin_title">我在皇包车预订了%1$s，快来帮我砍价！</string>
+
+    <string name="add_name_tips">完善您的个人信息\n让好友更容易帮助你</string>
+    <string name="real_name">请输入你的真实姓名</string>
+
+    <string name="choose_guide">选他服务</string>
+    <string name="choose_guide_title">%1$d个已接单司导</string>
+
+    <string name="choose_guide_head">系统将按最优算法为您选择司导\n您可在后续版本中自行选择，敬请期待</string>
 
 </resources>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/detail_bargain_entr_layout"
+    android:layout_width="65dp"
+    android:layout_height="89dp"
+    android:background="@mipmap/bargain_entr_bg">
+    <TextView
+        android:id="@+id/detail_bargain_entr_price_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="4dp"
+        android:lineSpacingExtra="-1dp"
+        android:gravity="center"
+        android:textSize="10sp"
+        android:textColor="#340004"
+        />
+    <cn.iwgang.countdownview.CountdownView
+        android:id="@+id/detail_bargain_entr_countdown_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="7dp"
+        app:isHideTimeBackground="true"
+        app:isShowTimeBgDivisionLine="false"
+        app:isShowHour="true"
+        app:isShowMinute="true"
+        app:isShowSecond="true"
+        app:timeTextColor="#340004"
+        app:timeTextSize="10sp"
+        app:suffixLRMargin="2dp"
+        app:suffixGravity="bottom"
+        app:suffixTextColor="#340004"
+        app:suffixTextSize="11sp" />
+</RelativeLayout>

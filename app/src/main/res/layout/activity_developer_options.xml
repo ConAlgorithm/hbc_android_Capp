@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#e9e9e9"
+    android:orientation="vertical">
+
+    <include layout="@layout/include_header" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:paddingTop="10dp"
+        android:background="#ffffff"
+        android:gravity="center_vertical"
+        android:paddingLeft="20dp"
+        android:text="环境切换:"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        />
+    <RadioGroup
+        android:id="@+id/developer_options_environment_rg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffffff"
+        android:paddingLeft="20dp"
+        android:layout_gravity="center_horizontal"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/developer_options_dev_rb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:textSize="14sp"
+            android:checked="true"
+            android:text="开发(dev)"/>
+
+        <RadioButton
+            android:id="@+id/developer_options_test_rb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:textSize="14sp"
+            android:layout_marginLeft="15dp"
+            android:text="测试(test)"/>
+
+        <RadioButton
+            android:id="@+id/developer_options_release_rb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:textSize="14sp"
+            android:layout_marginLeft="15dp"
+            android:text="线上(release)"/>
+    </RadioGroup>
+    <TextView
+        android:id="@+id/developer_options_hint_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffffff"
+        android:gravity="center_vertical"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="10dp"
+        android:text="注: 1.切换完环境后一定要杀死应用,重新进入才会生效!!!\n      2.push的环境不会做切换\n      3.打包时环境: "
+        android:textColor="#ff9999"
+        android:textSize="12sp"
+        />
+    <TextView
+        android:id="@+id/developer_options_close_tv"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="#fcce00"
+        android:gravity="center"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:text="保存"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        />
+    <RelativeLayout
+        android:id="@+id/developer_options_action_layout"
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:visibility="gone"
+        android:background="#ffffff">
+
+        <TextView
+            android:id="@+id/about_update_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:text="Action"
+            android:textColor="#000000"
+            android:textSize="16sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_alignParentBottom="true"
+            android:background="@color/default_dividing_line" />
+    </RelativeLayout>
+
+</LinearLayout>

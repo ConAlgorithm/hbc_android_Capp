@@ -1,6 +1,7 @@
 package com.hugboga.custom.adapter;
 
 import android.content.Context;
+import android.os.Looper;
 import android.text.TextUtils;
 import android.view.View;
 
@@ -11,12 +12,15 @@ import com.hugboga.custom.adapter.viewholder.ChatVH;
 import com.hugboga.custom.data.bean.ChatBean;
 import com.hugboga.custom.data.bean.ChatOrderBean;
 import com.hugboga.custom.utils.DateUtils;
+import com.hugboga.custom.utils.NimRecentListSyncUtils;
 import com.hugboga.custom.utils.Tools;
+import com.netease.nimlib.sdk.msg.model.RecentContact;
 
 import org.xutils.image.ImageOptions;
 import org.xutils.x;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -44,8 +48,14 @@ public class ChatAdapter extends ZBaseAdapter<ChatBean, ChatVH> {
     @Override
     protected void getView(int position, ChatVH vh) {
         final ChatBean chatBean = datas.get(position);
+
         if (chatBean != null) {
             vh.mUsername.setText(chatBean.targetName);
+            if(!TextUtils.isEmpty(chatBean.message) && chatBean.targetType!=3){
+                vh.mMessage.setText(chatBean.message.trim());
+            }else{
+                vh.mMessage.setText("");
+            }
             vh.mMessage.setText(chatBean.message);
             try {
                 vh.mTime.setText(DateUtils.resetLetterTime(chatBean.timeStr));
@@ -75,6 +85,7 @@ public class ChatAdapter extends ZBaseAdapter<ChatBean, ChatVH> {
             } else {
                 vh.mUnReadCount.setVisibility(View.GONE);
             }
+        //vh.mUnReadCount.setText("99+");
     }
 
     /**
@@ -92,6 +103,41 @@ public class ChatAdapter extends ZBaseAdapter<ChatBean, ChatVH> {
         } else {
             vh.mOrdersLayout.setVisibility(View.GONE);
         }
+    }
+
+    /**
+     * 同步云信数据并更新页面显示
+     * @param recentContacts
+     */
+     public void syncUpdate(List<RecentContact> recentContacts){
+         NimRecentListSyncUtils.recentListSync(datas,recentContacts);
+         this.notifyDataSetChanged();
+     }
+
+    /**
+     * 删除会话同步云信
+     * @param recentContact
+     */
+    public void syncDeleteItemUpdate(RecentContact recentContact){
+        if(datas!=null){
+            int index = NimRecentListSyncUtils.deleteSync(datas,recentContact);
+            if(index!=-1){
+                notifyItemRemoved(index);
+            }
+        }
+    }
+
+    /**
+     * 新的会话消息同步更新
+     * @param list
+     */
+    public boolean syncNewMsgUpdate(List<RecentContact> list){
+        boolean refresh = false;
+        if(datas!=null){
+            refresh = NimRecentListSyncUtils.updateRecentSync(datas,list);
+            notifyDataSetChanged();
+        }
+        return  refresh;
     }
 
 }

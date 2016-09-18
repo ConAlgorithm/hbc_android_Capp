@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+    <FrameLayout
+        android:layout_width="82dp"
+        android:layout_height="82dp"
+        android:layout_gravity="center_vertical">
+        <com.hugboga.custom.widget.DeliverLoadingView
+            android:id="@+id/eliver_item_loading_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        <com.hugboga.custom.widget.OrderDetailDeliverCountDownView
+            android:id="@+id/eliver_item_countdown_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="15dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/deliver_item_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="6dp"
+            android:text="正在查询司导接单状态..."
+            android:textColor="#000000"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/deliver_item_subtitle_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#898989"
+            android:textSize="14sp" />
+        <LinearLayout
+            android:id="@+id/deliver_item_guide_avatar_layout"
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" />
+    </LinearLayout>
+</LinearLayout>

@@ -65,6 +65,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginLeft="20dp"
+                    android:paddingRight="10dp"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
                     FlowLayout:fhorizontalSpacing="20dp"></com.hugboga.custom.widget.FlowLayout>

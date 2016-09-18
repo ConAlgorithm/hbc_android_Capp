@@ -2,6 +2,7 @@ package com.huangbaoche.hbcframe;
 
 import android.app.Application;
 import android.content.Context;
+import android.support.multidex.MultiDex;
 import android.util.Log;
 
 import com.huangbaoche.hbcframe.util.Common;
@@ -23,6 +24,9 @@ public class HbcApplication extends Application {
         Log.e("hbcApplication", "debug " + BuildConfig.DEBUG);
     }
 
-
-
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
+    }
 }

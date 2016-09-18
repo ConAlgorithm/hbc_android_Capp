@@ -19,7 +19,7 @@
             android:layout_width="46dp"
             android:layout_height="46dp"
             android:layout_marginTop="15dp"
-            android:src="@mipmap/collection_icon_pic"/>
+            android:src="@mipmap/journey_head_portrait"/>
         <TextView
             android:id="@+id/collect_appointment_tv"
             android:layout_width="80dip"
@@ -46,17 +46,20 @@
                 android:layout_height="wrap_content"
                 android:textColor="#343434"
                 android:textSize="16sp" />
-
-            <com.hugboga.custom.widget.RatingView
+            <com.hugboga.custom.widget.SimpleRatingBar
                 android:id="@+id/collect_ratingView"
                 android:layout_width="wrap_content"
-                android:layout_height="15dip"
-                android:layout_marginTop="5dip"
-                app:gap="4dip"
-                app:half_bg="@mipmap/collection_icon_star_half"
-                app:rating_bg="@drawable/btn_yellow_ratingbar"
-                app:touchable="false" />
-
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4.5dip"
+                app:srb_starSize="14dp"
+                app:srb_starsSeparation="1dp"
+                app:srb_numberOfStars="5"
+                app:srb_stepSize="0.01"
+                app:srb_borderColor="#00000000"
+                app:srb_fillColor="#fed631"
+                app:srb_starBackgroundColor="#eeeeee"
+                app:srb_isIndicator="true"
+                />
             <TextView
                 android:id="@+id/collect_describe_tv"
                 android:layout_width="wrap_content"

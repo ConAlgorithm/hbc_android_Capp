@@ -2,31 +2,44 @@ package com.hugboga.custom.data.net;
 
 import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
 import com.huangbaoche.hbcframe.activity.BaseFragmentActivity;
 import com.huangbaoche.hbcframe.data.bean.UserSession;
+import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.net.ServerCodeHandlerInterface;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
+import com.hugboga.custom.MainActivity;
+import com.hugboga.custom.activity.LoginActivity;
+import com.hugboga.custom.data.bean.CheckVersionBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
+import com.hugboga.custom.data.request.RequestCheckVersion;
 import com.hugboga.custom.fragment.BaseFragment;
 import com.hugboga.custom.fragment.FgHome;
-import com.hugboga.custom.fragment.FgLogin;
+import com.hugboga.custom.utils.PushUtils;
+import com.hugboga.custom.utils.SharedPre;
+import com.hugboga.custom.utils.UpdateResources;
 import com.hugboga.custom.widget.DialogUtil;
 
+import java.io.File;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 import org.greenrobot.eventbus.EventBus;
+import org.xutils.common.Callback;
 
 /**
  * Created by admin on 2016/3/26.
  */
 public class ServerCodeHandler implements ServerCodeHandlerInterface {
+
+    public static boolean isCheckedVersion = false;
 
     public  boolean handleServerCode(final Activity mContext,String content, final int state, final BaseRequest request,final HttpRequestListener listener) {
         DialogUtil dialogUtil = DialogUtil.getInstance(mContext);
@@ -59,11 +72,57 @@ public class ServerCodeHandler implements ServerCodeHandlerInterface {
                 });
                 EventBus.getDefault().post(new EventAction(EventType.CLICK_USER_LOOUT));
                 return true;
-//TODO;强制升级待处理
-            case 10015:
+            case 10015://强制升级待处理
+                if (isCheckedVersion) {
+                    return true;
+                }
+                isCheckedVersion = true;
+                int resourcesVersion = new SharedPre(mContext).getIntValue(SharedPre.RESOURCES_H5_VERSION);
+                RequestCheckVersion requestCheckVersion = new RequestCheckVersion(mContext, resourcesVersion);
+                HttpRequestUtils.request(mContext, requestCheckVersion, new HttpRequestListener() {
+                    @Override
+                    public void onDataRequestSucceed(BaseRequest request) {
+                        RequestCheckVersion requestCheckVersion = (RequestCheckVersion) request;
+                        final CheckVersionBean cvBean = requestCheckVersion.getData();
+                        UserEntity.getUser().setIsNewVersion(mContext, cvBean.hasAppUpdate);//是否有新版本
+                        final DialogUtil dialogUtil = DialogUtil.getInstance(mContext);
+                        dialogUtil.showUpdateDialog(cvBean.hasAppUpdate, cvBean.force, cvBean.content, cvBean.url, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                if (cvBean.force && dialogUtil.getVersionDialog()!= null) {
+                                    try {
+                                        Field field = dialogUtil.getVersionDialog().getClass().getSuperclass().getDeclaredField("mShowing");
+                                        field.setAccessible(true);
+                                        field.set(dialogUtil.getVersionDialog(), false);
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                                PushUtils.startDownloadApk(mContext, cvBean.url);
+                            }
+                        },  new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //在版本检测后 检测DB
+                                UpdateResources.checkRemoteDB(mContext, cvBean.dbDownloadLink, cvBean.dbVersion, new ServerCodeHandler.CheckVersionCallBack() {
+                                    @Override
+                                    public void onFinished() {}
+                                });
+                            }
+                        });
+                    }
 
+                    @Override
+                    public void onDataRequestCancel(BaseRequest request) {
+
+                    }
+
+                    @Override
+                    public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+
+                    }
+                }, false);
                 return true;
-
         }
         return false;
     }
@@ -71,21 +130,47 @@ public class ServerCodeHandler implements ServerCodeHandlerInterface {
     private static void gotoLogin(Activity mContext,boolean finish){
         if (mContext instanceof BaseFragmentActivity) {
             BaseFragmentActivity activity = (BaseFragmentActivity) mContext;
-            BaseFragment fragment = null;
-            ArrayList<com.huangbaoche.hbcframe.fragment.BaseFragment> fragmentList = activity.getFragmentList();
-            for(int i =fragmentList.size()-1;i>=0;i--){
-                Fragment fg  = fragmentList.get(i);
-                if (fg != null && fg instanceof BaseFragment&&fg.isAdded()) {
-                    fragment = (BaseFragment) fg;
-                    break;
-                }
+            if (finish) {
+                mContext.startActivity(new Intent(mContext, MainActivity.class));
             }
-            if (fragment != null) {
-                if(finish)
-                fragment.bringToFront(FgHome.class, new Bundle());
-                fragment.startFragment(new FgLogin());
-            }
+            mContext.startActivity(new Intent(mContext, LoginActivity.class));
         }
     }
+
+
+    abstract class CheckVersionCallBack implements Callback.ProgressCallback<File> {
+        @Override
+        public void onWaiting() {
+
+        }
+
+        @Override
+        public void onStarted() {
+
+        }
+
+        @Override
+        public void onLoading(long total, long current, boolean isDownloading) {
+
+        }
+
+        @Override
+        public void onSuccess(File result) {
+
+        }
+
+        @Override
+        public void onError(Throwable ex, boolean isOnCallback) {
+
+        }
+
+        @Override
+        public void onCancelled(CancelledException cex) {
+
+        }
+
+    }
+
+
 
 }

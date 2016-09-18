@@ -73,7 +73,7 @@ public class RequestOrderEdit extends BaseRequest<GuidesDetailData> {
 
     @Override
     public String getUrlErrorCode() {
-        return "40053";
+        return "40067";
     }
 
     private static class DataParser extends ImplParser {

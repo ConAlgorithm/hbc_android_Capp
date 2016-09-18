@@ -60,6 +60,6 @@ public class RequestChangeUserInfo extends BaseRequest<UserBean> {
 
     @Override
     public String getUrlErrorCode() {
-        return "40013";
+        return "40015";
     }
 }

@@ -2,13 +2,10 @@ package com.hugboga.custom.widget;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
-import android.text.style.ImageSpan;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -17,23 +14,19 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
-import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.OrderBean;
-import com.hugboga.custom.data.bean.OrderPriceInfo;
-import com.hugboga.custom.fragment.FgActivity;
-import com.hugboga.custom.fragment.FgOrderDetail;
-import com.hugboga.custom.fragment.FgSkuDetail;
-import com.hugboga.custom.fragment.FgSkuList;
-import com.hugboga.custom.fragment.FgWebInfo;
+import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.event.EventType;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
+
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * Created by qingcha on 16/6/2.
  */
 public class OrderDetailItineraryView extends LinearLayout implements HbcViewBehavior, View.OnClickListener{
-
-    private FgOrderDetail mFragment;
 
     private LinearLayout itineraryLayout;
     private TextView orderNumberTV;
@@ -59,10 +52,6 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
         routeTV = (TextView) findViewById(R.id.order_itinerary_route_tv);
         routeIV = (ImageView) findViewById(R.id.order_itinerary_route_iv);
         routeLayout = (RelativeLayout) findViewById(R.id.order_itinerary_route_layout);
-    }
-
-    public void setFragment(FgOrderDetail _fragment) {
-        this.mFragment = _fragment;
     }
 
     @Override
@@ -124,11 +113,19 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
         }
 
         if (!TextUtils.isEmpty(orderBean.carDesc)) {//车型描述
-            String passengerInfos = null;
-            if (!TextUtils.isEmpty(orderBean.passengerInfos)) {
-                passengerInfos = getContext().getString(R.string.order_detail_seat_info, orderBean.passengerInfos);
+            String passengerInfos = getContext().getString(R.string.order_detail_adult_seat_info, orderBean.adult + orderBean.child);//座位总数
+            if (orderBean.child > 0) {//儿童座椅数
+                passengerInfos += getContext().getString(R.string.order_detail_child_seat_info, orderBean.child);
             }
-            addItemView(R.mipmap.order_car, orderBean.carDesc, passengerInfos, null);
+            passengerInfos = getContext().getString(R.string.order_detail_seat_info, passengerInfos);
+            LinearLayout itemView = addItemView(R.mipmap.order_car, orderBean.carDesc, passengerInfos, null);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+            params.leftMargin = UIUtils.dip2px(25);
+            params.topMargin = UIUtils.dip2px(2);
+            params.bottomMargin = UIUtils.dip2px(2);
+            LuggageItemLayout luggageItemLayout = new LuggageItemLayout(getContext());
+            itemView.addView(luggageItemLayout, params);
+            luggageItemLayout.setText(CommonUtils.getCountString(orderBean.luggageNum) + getContext().getString(R.string.piece));//可携带行李数
         }
 
         if (orderBean.orderGoodsType == 1  && "1".equalsIgnoreCase(orderBean.isFlightSign)) {//接机
@@ -146,8 +143,8 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
         addItemView(iconId, title, null, null);
     }
 
-    private void addItemView(int iconId, String title, String subtitle, String describe) {
-        View itemView = LayoutInflater.from(getContext()).inflate(R.layout.item_order_detail_itinerary, null, false);
+    private LinearLayout addItemView(int iconId, String title, String subtitle, String describe) {
+        LinearLayout itemView = (LinearLayout) LayoutInflater.from(getContext()).inflate(R.layout.item_order_detail_itinerary, null, false);
 
         ImageView iconIV = (ImageView) itemView.findViewById(R.id.item_itinerary_iv);
         iconIV.setBackgroundResource(iconId);
@@ -171,6 +168,7 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
         }
 
         itineraryLayout.addView(itemView);
+        return itemView;
     }
 
     public void setRouteLayoutVisible(int resId) {
@@ -193,17 +191,9 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
 
     @Override
     public void onClick(View v) {
-        if (mFragment == null) {
-            return;
-        }
         switch (v.getId()) {
-            case R.id.order_itinerary_route_layout:
-                FgSkuDetail fgSkuDetail = new FgSkuDetail();
-                Bundle bundle = new Bundle();
-                bundle.putString(FgWebInfo.WEB_URL, orderBean.skuDetailUrl);
-                bundle.putString(Constants.PARAMS_ID, orderBean.goodsNo);
-                fgSkuDetail.setArguments(bundle);
-                mFragment.startFragment(fgSkuDetail, bundle);
+            case R.id.order_itinerary_route_layout://路线详情
+                EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_ROUTE, orderBean.orderNo));
                 break;
         }
     }

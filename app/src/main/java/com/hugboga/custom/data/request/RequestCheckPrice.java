@@ -21,6 +21,7 @@ public class RequestCheckPrice extends BaseRequest {
         map = new HashMap<String, Object>();
         this.orderType = orderType;
         try {
+            map.put("specialCarsIncluded","1");
             map.put("airportCode", airportCode);
             map.put("cityId", cityId);
             if (date != null)
@@ -29,6 +30,7 @@ public class RequestCheckPrice extends BaseRequest {
             map.put("endLocation", endLocation);
             map.put("channelId", Config.channelId);
             map.put("assitCheckIn", 1);
+
         } catch (Exception e) {
             MLog.e(e.toString());
         }
@@ -41,6 +43,6 @@ public class RequestCheckPrice extends BaseRequest {
 
     @Override
     public String getUrlErrorCode() {
-        return "40015";
+        return "40017";
     }
 }

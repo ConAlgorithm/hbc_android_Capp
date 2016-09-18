@@ -1,11 +1,22 @@
 package com.hugboga.custom.utils;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextPaint;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
+import android.view.View;
+import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.util.MLog;
+import com.hugboga.custom.R;
+import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.data.bean.AirPort;
 import com.hugboga.custom.data.bean.CarListBean;
 import com.hugboga.custom.data.bean.CityBean;
@@ -20,6 +31,7 @@ import com.hugboga.custom.data.bean.OrderPriceInfo;
 import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.bean.SelectCarBean;
 import com.hugboga.custom.data.bean.SkuItemBean;
+import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestGuideConflict;
 
 import java.util.ArrayList;
@@ -147,8 +159,8 @@ public class OrderUtils {
         orderBean.seatCategory = carBean.seatCategory;
         orderBean.carType = carBean.carType;
         orderBean.child = Integer.valueOf(childrenNum);
-        orderBean.destAddress = startBean.name;
-        orderBean.destAddressDetail = startBean.placeName;
+        orderBean.destAddress = "";
+        orderBean.destAddressDetail = "";
         orderBean.priceMark = carBean.pricemark;
         orderBean.contact = contact;
         orderBean.serviceStartTime = serverTime + ":00";
@@ -167,8 +179,17 @@ public class OrderUtils {
         orderBean.totalDays = (inNum + outNum);
         orderBean.isHalfDaily = isHalfTravel ? 1 : 0;
 
-        orderBean.startAddress = poiBean.placeName;//upRight.getText().toString();
-        orderBean.startAddressDetail = poiBean.placeDetail;//upSiteText.getText().toString();
+        orderBean.carId = carBean.carId;
+        orderBean.capOfPerson = carBean.capOfPerson;
+        orderBean.special = carBean.special;
+
+        if(null != poiBean) {
+            orderBean.startAddress = poiBean.placeName;//upRight.getText().toString();
+            orderBean.startAddressDetail = poiBean.placeDetail;//upSiteText.getText().toString();
+        }else{
+            orderBean.startAddress = "";
+            orderBean.startAddressDetail = "";
+        }
 
 
         orderBean.userName = userName;//manName.getText().toString();
@@ -197,8 +218,10 @@ public class OrderUtils {
                 orderBean.coupId = mostFitBean.couponId;
                 orderBean.coupPriceInfo = mostFitBean.couponPrice + "";
                 orderBean.orderPrice = carBean.price;
-                if(mostFitBean.actualPrice != 0) {
+                if(null != mostFitBean && null != mostFitBean.actualPrice  && mostFitBean.actualPrice != 0) {
                     orderBean.priceActual = mostFitBean.actualPrice + "";
+                }else{
+                    orderBean.priceActual = "0";
                 }
             } else if (null != couponBean && null == mostFitBean) {
                 orderBean.coupId = couponBean.couponID;
@@ -206,6 +229,8 @@ public class OrderUtils {
                 orderBean.orderPrice = carBean.price;
                 if(couponBean.actualPrice != 0) {
                     orderBean.priceActual = couponBean.actualPrice + "";
+                }else{
+                    orderBean.priceActual = "0";
                 }
             }
         }
@@ -295,7 +320,9 @@ public class OrderUtils {
         orderBean.realMobile = contactUsersBean.otherPhone;
         orderBean.isCheckin = isCheckIn ? "1" : "0";
 
-
+        orderBean.carId = carBean.carId;
+        orderBean.capOfPerson = carBean.capOfPerson;
+        orderBean.special = carBean.special;
 
 
         if (contactUsersBean.isForOther) {
@@ -312,8 +339,10 @@ public class OrderUtils {
                 orderBean.coupId = mostFitBean.couponId;
                 orderBean.coupPriceInfo = mostFitBean.couponPrice + "";
                 orderBean.orderPrice = carBean.price;
-                if(mostFitBean.actualPrice != 0) {
+                if(null != mostFitBean && null != mostFitBean.actualPrice  && mostFitBean.actualPrice != 0) {
                     orderBean.priceActual = mostFitBean.actualPrice + "";
+                }else{
+                    orderBean.priceActual = "0";
                 }
             } else if (null != couponBean && null == mostFitBean) {
                 orderBean.coupId = couponBean.couponID;
@@ -321,6 +350,8 @@ public class OrderUtils {
                 orderBean.orderPrice = carBean.price;
                 if(couponBean.actualPrice != 0) {
                     orderBean.priceActual = couponBean.actualPrice + "";
+                }else{
+                    orderBean.priceActual = "0";
                 }
             }
         }
@@ -388,6 +419,10 @@ public class OrderUtils {
         orderBean.serviceStartTime = serverTime + ":00";
         orderBean.serviceTime = serverDate + " " + serverTime + ":00";
 
+        orderBean.carId = carBean.carId;
+        orderBean.capOfPerson = carBean.capOfPerson;
+        orderBean.special = carBean.special;
+
         orderBean.startAddress = startPoi.placeName;
         orderBean.startAddressDetail = startPoi.placeDetail;
         orderBean.startLocation = startPoi.location;
@@ -428,14 +463,18 @@ public class OrderUtils {
             if (null == couponBean && null != mostFitBean) {
                 orderBean.coupId = mostFitBean.couponId;
                 orderBean.coupPriceInfo = mostFitBean.couponPrice + "";
-                if(mostFitBean.actualPrice != 0) {
+                if(null != mostFitBean && null != mostFitBean.actualPrice  && mostFitBean.actualPrice != 0) {
                     orderBean.priceActual = mostFitBean.actualPrice + "";
+                }else{
+                    orderBean.priceActual = "0";
                 }
             } else if (null != couponBean && null == mostFitBean) {
                 orderBean.coupId = couponBean.couponID;
                 orderBean.coupPriceInfo = couponBean.price;
                 if(couponBean.actualPrice != 0) {
                     orderBean.priceActual = couponBean.actualPrice + "";
+                }else{
+                    orderBean.priceActual = "0";
                 }
             }
         }
@@ -497,7 +536,7 @@ public class OrderUtils {
         orderBean.flightNo = flightNo;//airportName.getText().toString();
         orderBean.expectedCompTime = carBean.expectedCompTime;
         orderBean.destAddressPoi = airPort.location;
-        orderBean.destAddressDetail = poiBean.placeDetail;
+        orderBean.destAddressDetail = null;//poiBean.placeDetail;
         orderBean.startAddress = poiBean.placeName;
         orderBean.startAddressDetail = poiBean.placeDetail;
         //出发地，到达地经纬度
@@ -517,6 +556,10 @@ public class OrderUtils {
         orderBean.realUserName = contactUsersBean.otherName;
         orderBean.realAreaCode = contactUsersBean.otherphoneCode;
         orderBean.realMobile = contactUsersBean.otherPhone;
+
+        orderBean.carId = carBean.carId;
+        orderBean.capOfPerson = carBean.capOfPerson;
+        orderBean.special = carBean.special;
 
         int checkInPrice = 0;
         if(null != carListBean.additionalServicePrice && null != carListBean.additionalServicePrice.checkInPrice){
@@ -543,8 +586,10 @@ public class OrderUtils {
                 orderBean.coupId = mostFitBean.couponId;
                 orderBean.coupPriceInfo = mostFitBean.couponPrice + "";
                 orderBean.orderPrice = carBean.price;
-                if(mostFitBean.actualPrice != 0) {
+                if(null != mostFitBean && null != mostFitBean.actualPrice  && mostFitBean.actualPrice != 0) {
                     orderBean.priceActual = mostFitBean.actualPrice + "";
+                }else{
+                    orderBean.priceActual = "0";
                 }
             } else if (null != couponBean && null == mostFitBean) {
                 orderBean.coupId = couponBean.couponID;
@@ -552,6 +597,8 @@ public class OrderUtils {
                 orderBean.orderPrice = carBean.price;
                 if(couponBean.actualPrice != 0) {
                     orderBean.priceActual = couponBean.actualPrice + "";
+                }else{
+                    orderBean.priceActual = "0";
                 }
             }
         }
@@ -594,7 +641,7 @@ public class OrderUtils {
                                         String userRemark,String userName,PoiBean poiBean,
                                         boolean dreamLeftischeck,
                                         String travelFund,CouponBean couponBean,MostFitBean mostFitBean,
-                                        CarListBean carListBean,ManLuggageBean manLuggageBean,int hotelRoom ,double priceHotel,int orderType){
+                                        CarListBean carListBean,ManLuggageBean manLuggageBean,int hotelRoom ,double priceHotel,int orderType,String luggageNum){
         OrderBean orderBean = new OrderBean();//订单
 
         if (!TextUtils.isEmpty(guideCollectId)) {
@@ -619,6 +666,7 @@ public class OrderUtils {
         orderBean.adult = Integer.valueOf(adultNum);//成人数
         orderBean.child = Integer.valueOf(childrenNum);//儿童数
         orderBean.contactName = "";
+        orderBean.luggageNum = luggageNum;
         orderBean.contact = new ArrayList<OrderContact>();
         OrderContact orderContact = new OrderContact();
         orderContact.areaCode = "+86";
@@ -631,6 +679,10 @@ public class OrderUtils {
             orderBean.startLocation = startBean.location;
         }
         orderBean.realSendSms = contactUsersBean.isSendMessage ? "1" : "0";
+
+        orderBean.carId = carBean.carId;
+        orderBean.capOfPerson = carBean.capOfPerson;
+        orderBean.special = carBean.special;
 
         if (contactUsersBean.isForOther) {
             orderBean.isRealUser = "2";
@@ -646,8 +698,10 @@ public class OrderUtils {
                 orderBean.coupId = mostFitBean.couponId;
                 orderBean.coupPriceInfo = mostFitBean.couponPrice + "";
                 orderBean.orderPrice = carBean.price;
-                if(mostFitBean.actualPrice != 0) {
+                if(null != mostFitBean && null != mostFitBean.actualPrice  && mostFitBean.actualPrice != 0) {
                     orderBean.priceActual = mostFitBean.actualPrice + "";
+                }else{
+                    orderBean.priceActual = "0";
                 }
             } else if (null != couponBean && null == mostFitBean) {
                 orderBean.coupId = couponBean.couponID;
@@ -655,6 +709,8 @@ public class OrderUtils {
                 orderBean.orderPrice = carBean.price;
                 if(couponBean.actualPrice != 0) {
                     orderBean.priceActual = couponBean.actualPrice + "";
+                }else{
+                    orderBean.priceActual = "0";
                 }
             }
         }
@@ -718,4 +774,49 @@ public class OrderUtils {
                 carType,carClass);
         HttpRequestUtils.request(context, requestGuideConflict,listener,false);
     }
+
+    //确认订单协议
+    public static void genAgreeMent(final Activity activity, TextView textView) {
+        genCLickSpan(activity,textView,activity.getString(R.string.commit_agree),activity.getString(R.string.commit_agree_click),UrlLibs.H5_TAI_AGREEMENT);
+    }
+
+    //注册协议
+    public static void genRegisterAgreeMent(final Activity activity, TextView textView) {
+        genCLickSpan(activity,textView,activity.getString(R.string.register_info_tip),activity.getString(R.string.register_info_tip_protocol),UrlLibs.H5_PROTOCOL);
+    }
+
+    public static void genCLickSpan(final Activity activity, TextView textView,String agree_text,String agree_text_click,String url) {
+        int start = agree_text.indexOf(agree_text_click);
+        int end = agree_text.length();
+        SpannableString clickSpan = new SpannableString(agree_text);
+        clickSpan.setSpan(new MyCLickSpan(activity,url), start,end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        textView.setMovementMethod(LinkMovementMethod.getInstance());
+        textView.setText(clickSpan);
+    }
+
+    static class MyCLickSpan extends ClickableSpan{
+        Activity activity;
+        String url;
+        public MyCLickSpan(Activity activity,String url) {
+            super();
+            this.activity = activity;
+            this.url = url;
+        }
+
+        @Override
+        public void updateDrawState(TextPaint ds) {
+            super.updateDrawState(ds);
+            ds.setColor(0xff008cef);
+            ds.setUnderlineText(false);
+        }
+
+        @Override
+        public void onClick(View widget) {
+            Intent intent = new Intent(activity,WebInfoActivity.class);
+            intent.putExtra("web_url", url);
+            activity.startActivity(intent);
+        }
+    }
+
+
 }

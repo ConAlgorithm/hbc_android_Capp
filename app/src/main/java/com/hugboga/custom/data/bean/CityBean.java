@@ -12,7 +12,7 @@ import org.xutils.db.annotation.Table;
  */
 
 @Table(name = "city")
-public class CityBean implements IBaseBean ,Parcelable,Cloneable {
+public class CityBean implements IBaseBean ,Cloneable {
 
 
     @Column(name = "city_id", isId = true)
@@ -60,7 +60,7 @@ public class CityBean implements IBaseBean ,Parcelable,Cloneable {
 
     public int stayDay = 0;//呆几天
 
-    public int dataType = -1;// 数据类型 1.历史搜索记录 2.热门城市 3.全部城市
+    public int dataType = -1;// 数据类型 1.历史搜索记录 2.热门城市 3.全部城市 4.当前定位
 
     public String keyWord = "";
 
@@ -94,39 +94,7 @@ public class CityBean implements IBaseBean ,Parcelable,Cloneable {
         return super.toString() + "{" + "cityId=" + cityId + ",name=" + name + ",groupId=" + groupId+",hasAirport="+hasAirport+" isCityCode="+isCityCode + ",isDaily=" + isDaily + ",isSingle=" + isSingle + "}";
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.cityId);
-        dest.writeString(this.name);
-        dest.writeString(this.firstLetter);
-        dest.writeString(this.enName);
-        dest.writeString(this.location);
-        dest.writeString(this.placeName);
-        dest.writeString(this.areaCode);
-        dest.writeInt(this.groupId);
-        dest.writeByte(childSeatSwitch ? (byte) 1 : (byte) 0);
-        dest.writeByte(isDaily ? (byte) 1 : (byte) 0);
-        dest.writeByte(isSingle ? (byte) 1 : (byte) 0);
-        dest.writeByte(isCityCode ? (byte) 1 : (byte) 0);
-        dest.writeByte(isHot ? (byte) 1 : (byte) 0);
-        dest.writeInt(this.hotWeight);
-        dest.writeString(this.dailyTip);
-        dest.writeString(this.neighbourTip);
-        dest.writeByte(hasAirport ? (byte) 1 : (byte) 0);
-        dest.writeByte(isSelected ? (byte) 1 : (byte) 0);
-        dest.writeByte(isFirst ? (byte) 1 : (byte) 0);
-        dest.writeInt(this.stayDay);
-        dest.writeInt(this.dataType);
-        dest.writeString(this.keyWord);
-        dest.writeByte(isNationality ? (byte) 1 : (byte) 0);
-        dest.writeInt(cityType);
-        dest.writeString(description);
-    }
 
     public CityBean() {
     }
@@ -159,17 +127,7 @@ public class CityBean implements IBaseBean ,Parcelable,Cloneable {
         this.description = in.readString();
     }
 
-    public static final Creator<CityBean> CREATOR = new Creator<CityBean>() {
-        @Override
-        public CityBean createFromParcel(Parcel source) {
-            return new CityBean(source);
-        }
 
-        @Override
-        public CityBean[] newArray(int size) {
-            return new CityBean[size];
-        }
-    };
 
     @Override
     public Object clone() {

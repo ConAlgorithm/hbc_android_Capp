@@ -9,6 +9,7 @@ import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.HomeData;
 import com.hugboga.custom.data.request.RequestHome;
+import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.widget.HomeBannerView;
 import com.hugboga.custom.widget.HomeBottomLayout;
 import com.hugboga.custom.widget.HomeChoicenessRouteView;
@@ -51,6 +52,12 @@ public class FgHome extends BaseFragment {
         ButterKnife.bind(this, rootView);
         return rootView;
     }
+
+    @Override
+    public String getEventId() {
+        return StatisticConstant.LAUNCH_DISCOVERY;
+    }
+
 
     @Override
     public void onResume() {

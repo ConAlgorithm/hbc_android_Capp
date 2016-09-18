@@ -38,7 +38,7 @@ public class DefaultSSLSocketFactory extends SSLCertificateSocketFactory {
     public static void resetSSLSocketFactory(Context context) {
         try {
             try {
-                instance = null;
+                instance = new DefaultSSLSocketFactory();;
                 keystorepw = Common.getKeyStorePsw(context);
                 keypw = Common.getClientP12Key(context);
                 long time = System.currentTimeMillis();
@@ -49,8 +49,6 @@ public class DefaultSSLSocketFactory extends SSLCertificateSocketFactory {
             } catch (Throwable var1) {
                 MLog.e(var1.getMessage(), var1);
             }
-
-            instance = new DefaultSSLSocketFactory();
         } catch (Throwable var1) {
             MLog.e(var1.getMessage(), var1);
         }

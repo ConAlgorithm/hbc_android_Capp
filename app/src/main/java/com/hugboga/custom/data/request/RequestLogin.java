@@ -53,6 +53,6 @@ public class RequestLogin extends BaseRequest<UserBean> {
 
     @Override
     public String getUrlErrorCode() {
-        return "40046";
+        return "40054";
     }
 }

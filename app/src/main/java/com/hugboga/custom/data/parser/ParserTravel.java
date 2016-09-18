@@ -1,5 +1,7 @@
 package com.hugboga.custom.data.parser;
 
+import android.util.Log;
+
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.hugboga.custom.data.bean.OrderBean;
 
@@ -14,7 +16,7 @@ import java.util.ArrayList;
 public class ParserTravel extends ImplParser {
     @Override
     public Object[] parseObject(JSONObject obj) throws Throwable {
-        Object[] objs = new Object[2];
+        Object[] objs = new Object[5];
         objs[0] = obj.optInt("totalSize");
         JSONArray jsonArray = obj.optJSONArray("resultBean");
         ArrayList<OrderBean> listData = new ArrayList<OrderBean>();
@@ -26,6 +28,9 @@ public class ParserTravel extends ImplParser {
             }
         }
         objs[1] = listData;
+        objs[2] = obj.optInt("unpayTotalSize");
+        objs[3] = obj.optInt("ingTotalSize");
+        objs[4] = obj.optInt("evaluationTotalSize");
         return objs;
     }
 }

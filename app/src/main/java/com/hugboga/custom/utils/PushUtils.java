@@ -13,7 +13,9 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.hugboga.custom.MainActivity;
@@ -88,7 +90,7 @@ public class PushUtils {
      * @return
      */
     public static String pushTitle(Context context, String title){
-        if(title.isEmpty()){
+        if(TextUtils.isEmpty(title)){
             return context.getString(R.string.app_name);
         }
         return title;
@@ -100,7 +102,7 @@ public class PushUtils {
      * @return
      */
     public static String pushContent(String content){
-        if(content.isEmpty()){
+        if(TextUtils.isEmpty(content)){
             return "";
         }
         return content;
@@ -113,13 +115,13 @@ public class PushUtils {
      */
 //    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     public static void showNotification(PushMessage pushMessage) {
-
+        Log.i("qingcha_push", "showNotification");
         Context context = MyApplication.getAppContext();
         //设置通知消息属性
         NotificationManager notificationManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
         Notification.Builder mBuilder = new Notification.Builder(context);
         mBuilder.setContentTitle(PushUtils.pushTitle(context, pushMessage.title)); //设置标题
-        String content = PushUtils.pushContent(pushMessage.content);
+        String content = PushUtils.pushContent(pushMessage.message);
         mBuilder.setContentText(content); //设置内容
         mBuilder.setTicker(content); //设置通知栏上升显示
         mBuilder.setWhen(System.currentTimeMillis()); //设置通知事件
@@ -137,6 +139,7 @@ public class PushUtils {
         Notification notification = new Notification.BigTextStyle(mBuilder).bigText(content).build();
         notification.flags = Notification.FLAG_AUTO_CANCEL;
         notificationManager.notify((int) System.currentTimeMillis(), notification);
+        Log.i("qingcha_push", "showNotification 2222");
     }
 
     /**
@@ -159,6 +162,7 @@ public class PushUtils {
         Bundle bundle = new Bundle();
         bundle.putSerializable(MainActivity.PUSH_BUNDLE_MSG, pushMessage);
         intent.putExtras(bundle);
+        Log.i("qingcha_push", "getIntent");
         return intent;
     }
 

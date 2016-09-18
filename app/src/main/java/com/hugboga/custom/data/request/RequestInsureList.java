@@ -45,6 +45,6 @@ public class RequestInsureList extends BaseRequest<ArrayList<CouponBean>> {
 
     @Override
     public String getUrlErrorCode() {
-        return "40044";
+        return "40052";
     }
 }

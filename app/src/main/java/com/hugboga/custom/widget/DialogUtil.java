@@ -11,9 +11,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.provider.Settings;
 import android.text.TextUtils;
-import android.util.TypedValue;
 import android.view.View;
-import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
@@ -26,8 +24,6 @@ import com.hugboga.custom.fragment.BaseFragment;
 import com.hugboga.custom.utils.Common;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.umeng.analytics.MobclickAgent;
-
-import org.xutils.common.util.LogUtil;
 
 import java.util.HashMap;
 
@@ -49,6 +45,7 @@ public class DialogUtil implements DialogUtilInterface {
     private AlertDialog mUpdateVersionDialog;
 
     private static DialogUtil dialogUtil;
+
     private AlertDialog versionDialog;
 
     private DialogUtil(Activity context) {
@@ -110,27 +107,24 @@ public class DialogUtil implements DialogUtilInterface {
      * @date 2012-6-13 上午09:35:20
      */
     public Dialog showLoadingDialog(String message, boolean cancelAble) {
-        if (mContext.isFinishing()) {
-            return mLoadingDialog;
-        }
-        if (mLoadingDialog != null && mLoadingDialog.isShowing()) {
-            TextView text = (TextView) mLoadingDialog.getWindow().findViewById(R.id.loading_message);
-            text.setText(message);
-            mLoadingDialog.setCancelable(cancelAble);
+        try {
+            if (mContext.isFinishing()) {
+                return mLoadingDialog;
+            }
+            if (mLoadingDialog != null && mLoadingDialog.isShowing()) {
+                mLoadingDialog.setCancelable(cancelAble);
 //			mLoadingDialog.cancel();
-        } else {
-            View loadingView = (View) mContext.getLayoutInflater().inflate(R.layout.dailog_loading, null);
-            TextView text = (TextView) loadingView.findViewById(R.id.loading_message);
-            if (!TextUtils.isEmpty(message))
-                text.setText(message);
-            text.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 17);
-            mLoadingDialog = new Dialog(getRootActivity(mContext), R.style.loading_dialog_style);
-//		mLoadingDialog=	new Dialog(mContext);
-            mLoadingDialog.setCanceledOnTouchOutside(false);
-            mLoadingDialog.setCancelable(cancelAble);
-            mLoadingDialog.show();
-            mLoadingDialog.getWindow().setContentView(loadingView);
-        }
+            } else {
+                View loadingView = mContext.getLayoutInflater().inflate(R.layout.dailog_loading, null);
+
+                mLoadingDialog = new Dialog(mContext, R.style.loading_dialog_style);
+                mLoadingDialog.setCanceledOnTouchOutside(false);
+                mLoadingDialog.setCancelable(cancelAble);
+                mLoadingDialog.getWindow().setContentView(loadingView);
+                mLoadingDialog.show();
+
+            }
+        }catch (Exception e){}
         return mLoadingDialog;
     }
 
@@ -532,6 +526,10 @@ public class DialogUtil implements DialogUtilInterface {
         }
     }
 
+    public AlertDialog getVersionDialog() {
+        return versionDialog;
+    }
+
     /* public Dialog showVersionCheck(String title, String content,final String downloadUrl,final boolean forceUpdate,View.OnClickListener closeClickListener){
             Builder builder = new Builder(mContext,R.style.ContentOverlay);
             View  view = LayoutInflater.from(mContext).inflate(R.layout.dialog_layout, null);
@@ -600,12 +598,13 @@ public class DialogUtil implements DialogUtilInterface {
      * @date 2012-6-6 上午10:41:07
      */
     public Activity getRootActivity(Activity activtiy) {
-        Activity context = activtiy.getParent();
-        if (context == null) {
-            return activtiy;
-        } else {
-            return getRootActivity(context);
-        }
+//        Activity context = activtiy.getParent();
+//        if (context == null) {
+//            return activtiy;
+//        } else {
+//            return getRootActivity(context);
+//        }
+        return activtiy;
     }
 
     public void showCallDialog(final String... source) {

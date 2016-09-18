@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="#e9e9e9"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/include_header" />
+
+    <RelativeLayout
+        android:id="@+id/developer_options_action_layout"
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:background="#ffffff">
+
+        <TextView
+            android:id="@+id/about_update_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:layout_centerVertical="true"
+            android:text="Action"
+            android:textColor="#000000"
+            android:textSize="16sp" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/default_dividing_line"
+            android:layout_alignParentBottom="true"
+            />
+    </RelativeLayout>
+
+
+</LinearLayout>

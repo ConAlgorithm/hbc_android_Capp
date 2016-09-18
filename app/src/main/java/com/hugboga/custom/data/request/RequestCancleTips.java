@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
+import com.hugboga.custom.data.bean.SelectCarBean;
 import com.hugboga.custom.data.net.NewParamsBuilder;
 import com.hugboga.custom.data.net.UrlLibs;
 
@@ -28,8 +29,8 @@ import java.util.List;
 
 @HttpRequest(path = UrlLibs.CANCLE_TIPS, builder = NewParamsBuilder.class)
 public class RequestCancleTips extends BaseRequest<List<String>> {
-    public RequestCancleTips(Context context,String serviceCityId,String goodsType,String carSeatNum,
-                             String carTypeId,String servceTime,String halfDaily,String goodsVersion,String goodsNo,String orderType) {
+    public RequestCancleTips(Context context, SelectCarBean carBean,String serviceCityId, String goodsType, String carTypeId,
+                             String carSeatNum, String servceTime, String halfDaily, String goodsVersion, String goodsNo, String orderType) {
         super(context);
         map = new HashMap<String, Object>();
         try {
@@ -47,6 +48,10 @@ public class RequestCancleTips extends BaseRequest<List<String>> {
             map.put("halfDaily",halfDaily);
             map.put("goodsVersion", goodsVersion);
             map.put("goodsNo", goodsNo);
+            if(null != carBean) {
+                map.put("carId", carBean.carId);
+                map.put("isSpecialCar", carBean.special);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -64,7 +69,7 @@ public class RequestCancleTips extends BaseRequest<List<String>> {
 
     @Override
     public String getUrlErrorCode() {
-        return "40009";
+        return "40012";
     }
 
     private static class DataParser extends ImplParser {

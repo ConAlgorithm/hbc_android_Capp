@@ -28,7 +28,7 @@ public class RequestGetCarInfo extends BaseRequest<CarInfoBean> {
     // &halfDay=0&adultNum=4&childrenNum=1&childseatNum=0
     // &luggageNum=0&passCities=1_1_204,1_1_2042
  **/
-    public RequestGetCarInfo(Context context,String startCityId,String endCityId,String startDate,String endDate,String halfDay,String adultNum,String childrenNum,String childseatNum,String luggageNum,String passCities,String channelId) {
+    public RequestGetCarInfo(Context context,String startCityId,String endCityId,String startDate,String endDate,String halfDay,String adultNum,String childrenNum,String childseatNum,String luggageNum,String passCities,String channelId,String carIds) {
         super(context);
         map = new HashMap<String,Object>();
         try {
@@ -43,6 +43,10 @@ public class RequestGetCarInfo extends BaseRequest<CarInfoBean> {
             map.put("luggageNum", luggageNum);
             map.put("passCities", passCities);
             map.put("channelId",channelId);
+            map.put("specialCarsIncluded","1");
+            if(null != carIds){
+                map.put("carIds",carIds);
+            }
         }catch (Exception e){
             MLog.e(e.toString());
         }
@@ -62,7 +66,7 @@ public class RequestGetCarInfo extends BaseRequest<CarInfoBean> {
 
     @Override
     public String getUrlErrorCode() {
-        return "40036";
+        return "40042";
     }
 
 }

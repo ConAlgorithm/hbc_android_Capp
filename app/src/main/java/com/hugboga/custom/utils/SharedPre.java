@@ -3,6 +3,8 @@ package com.hugboga.custom.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.hugboga.custom.MyApplication;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Map;
@@ -16,7 +18,8 @@ import java.util.Set;
  */
 public class SharedPre {
 	private Context ctx;
-	private String FileName = "hugboga";
+	private static final int MODE = Context.MODE_PRIVATE;
+	public static final String FILENAME = "hugboga";
 	public static String ACCESSKEY ="accesskey";
 	public static String USERID ="userId";
 	public static String USERTOKEN ="userToken";
@@ -42,9 +45,28 @@ public class SharedPre {
 	public static String CACHE_SIZE ="cache_size";
 	public static String TRAVELFUND ="travelFund";
 	public static String COUPONS = "coupons";
+	public static String TRAVEL_FUND_HINT = "travelFundHint";
+	public static String PAY_WECHAT_DATA = "pay_wechat_data";
+
+	public static String RIM_USERID ="rim_userId";//融云userid
+
+	public static String NIM_TOKEN ="nim_Token"; //云信token
+	public static String NIM_USERID ="nim_userId";//云信用户名
 
 	public SharedPre(Context ctx) {
 		this.ctx = ctx;
+	}
+
+	public void setTravelFundHintIsShow(boolean isShow) {
+		SharedPreferences sharePre = ctx.getSharedPreferences(FILENAME, Context.MODE_PRIVATE);
+		SharedPreferences.Editor editor = sharePre.edit();
+		editor.putBoolean(TRAVEL_FUND_HINT, isShow);
+		editor.commit();
+	}
+
+	public boolean isShowTravelFundHint() {
+		SharedPreferences sharePre = ctx.getSharedPreferences(FILENAME, Context.MODE_PRIVATE);
+		return sharePre.getBoolean(TRAVEL_FUND_HINT, false);
 	}
 
 	/**
@@ -55,7 +77,7 @@ public class SharedPre {
 	 */
 	//通过SharedPreferences来存储键值对
 	public void saveIntValue(String key, int value) {
-		SharedPreferences sharePre = ctx.getSharedPreferences(FileName,
+		SharedPreferences sharePre = ctx.getSharedPreferences(FILENAME,
 				Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = sharePre.edit();
 		editor.putInt(key, value);
@@ -63,7 +85,7 @@ public class SharedPre {
 	}
 
 	public void writeDownStartApplicationTime() {
-		SharedPreferences sp = ctx.getSharedPreferences(FileName, Context.MODE_PRIVATE);
+		SharedPreferences sp = ctx.getSharedPreferences(FILENAME, Context.MODE_PRIVATE);
 		long now = System.currentTimeMillis();
 		Calendar calendar = Calendar.getInstance();
 		//Date now = calendar.getTime();
@@ -82,7 +104,7 @@ public class SharedPre {
 	 * @param value
 	 */
 	public void saveStringValue(String key, String value) {
-		SharedPreferences sharePre = ctx.getSharedPreferences(FileName,
+		SharedPreferences sharePre = ctx.getSharedPreferences(FILENAME,
 				Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = sharePre.edit();
 		editor.putString(key, value);
@@ -96,7 +118,7 @@ public class SharedPre {
 	 * @param value
 	 */
 	public void saveLongValue(String key, long value) {
-		SharedPreferences sharePre = ctx.getSharedPreferences(FileName,
+		SharedPreferences sharePre = ctx.getSharedPreferences(FILENAME,
 				Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = sharePre.edit();
 		editor.putLong(key, value);
@@ -111,7 +133,7 @@ public class SharedPre {
 	 * @param value
 	 */
 	public void saveBooleanValue(String key, boolean value) {
-		SharedPreferences sharePre = ctx.getSharedPreferences(FileName,
+		SharedPreferences sharePre = ctx.getSharedPreferences(FILENAME,
 				Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = sharePre.edit();
 		editor.putBoolean(key, value);
@@ -126,7 +148,7 @@ public class SharedPre {
 	 * @param value
 	 */
 	public void saveStringSetValue(String key, Set<String> value) {
-		SharedPreferences sharePre = ctx.getSharedPreferences(FileName,
+		SharedPreferences sharePre = ctx.getSharedPreferences(FILENAME,
 				Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = sharePre.edit();
 		editor.putStringSet(key, value);
@@ -139,7 +161,7 @@ public class SharedPre {
 	 * @param key
 	 */
 	public void removeKey(String key) {
-		SharedPreferences sharePre = ctx.getSharedPreferences(FileName,
+		SharedPreferences sharePre = ctx.getSharedPreferences(FILENAME,
 				Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = sharePre.edit();
 		editor.remove(key);
@@ -153,7 +175,7 @@ public class SharedPre {
 	 * @return
 	 */
 	public boolean contains(String key) {
-		SharedPreferences sharePre = ctx.getSharedPreferences(FileName,
+		SharedPreferences sharePre = ctx.getSharedPreferences(FILENAME,
 				Context.MODE_PRIVATE);
 		return sharePre.contains(key);
 	}
@@ -165,7 +187,7 @@ public class SharedPre {
 	 */
 	@SuppressWarnings("unchecked")
 	public Map<String, Object> getAllMap() {
-		SharedPreferences sharePre = ctx.getSharedPreferences(FileName,
+		SharedPreferences sharePre = ctx.getSharedPreferences(FILENAME,
 				Context.MODE_PRIVATE);
 		return (Map<String, Object>) sharePre.getAll();
 	}
@@ -176,7 +198,7 @@ public class SharedPre {
 	 * @return
 	 */
 	public Integer getIntValue(String key,int defValue) {
-		SharedPreferences sharePre = ctx.getSharedPreferences(FileName,
+		SharedPreferences sharePre = ctx.getSharedPreferences(FILENAME,
 				Context.MODE_PRIVATE);
 		return sharePre.getInt(key, defValue);
 	}
@@ -187,7 +209,7 @@ public class SharedPre {
 	 * @return
 	 */
 	public Integer getIntValue(String key) {
-		SharedPreferences sharePre = ctx.getSharedPreferences(FileName,
+		SharedPreferences sharePre = ctx.getSharedPreferences(FILENAME,
 				Context.MODE_PRIVATE);
 		return sharePre.getInt(key, -1);
 	}
@@ -199,7 +221,7 @@ public class SharedPre {
 	 * @return
 	 */
 	public String getStringValue(String key) {
-		SharedPreferences sharePre = ctx.getSharedPreferences(FileName,
+		SharedPreferences sharePre = ctx.getSharedPreferences(FILENAME,
 				Context.MODE_PRIVATE);
 		return sharePre.getString(key, null);
 	}
@@ -211,24 +233,24 @@ public class SharedPre {
 	 * @return
 	 */
 	public String getStringValue(String key,String defaultstr) {
-		SharedPreferences sharePre = ctx.getSharedPreferences(FileName,
+		SharedPreferences sharePre = ctx.getSharedPreferences(FILENAME,
 				Context.MODE_PRIVATE);
 		return sharePre.getString(key, defaultstr);
 	}
 
 	public Boolean getBooleanValue(String key) {
-		SharedPreferences sharePre = ctx.getSharedPreferences(FileName,
+		SharedPreferences sharePre = ctx.getSharedPreferences(FILENAME,
 				Context.MODE_PRIVATE);
 		return sharePre.getBoolean(key, false);
 	}
 	public long getLongValue(String key) {
-		SharedPreferences sharePre = ctx.getSharedPreferences(FileName,
+		SharedPreferences sharePre = ctx.getSharedPreferences(FILENAME,
 				Context.MODE_PRIVATE);
 		return sharePre.getLong(key, 0);
 	}
 
 	public Set<String> getStringSetValue(String key){
-		SharedPreferences sharePre = ctx.getSharedPreferences(FileName,
+		SharedPreferences sharePre = ctx.getSharedPreferences(FILENAME,
 				Context.MODE_PRIVATE);
 		return sharePre.getStringSet(key, null);
 	}
@@ -256,5 +278,75 @@ public class SharedPre {
 		removeKey(IS_WEAK_PSW);
 		removeKey(WEAK_PSW_MESSAGE);
 		removeKey(USERNAME);
+		removeKey(RIM_USERID);
+		removeKey(NIM_TOKEN);
+		removeKey(NIM_USERID);
+	}
+
+
+	public static String getString(String name, String key) {
+		Context context = MyApplication.getAppContext();
+		SharedPreferences mSharedPreferences = context.getSharedPreferences(name, MODE);
+		return mSharedPreferences.getString(key, "");
+	}
+
+	public static boolean setString(String name, String key, String value) {
+		Context context = MyApplication.getAppContext();
+		SharedPreferences mSharedPreferences = context.getSharedPreferences(name, MODE);
+		SharedPreferences.Editor mEditor = mSharedPreferences.edit();
+		mEditor.putString(key, value);
+		return mEditor.commit();
+	}
+
+	public static boolean setInteger(String key, int value) {
+		return setInteger(FILENAME, key, value);
+	}
+
+	public static int getInteger(String key, int defaultValue) {
+		return getInteger(FILENAME, key, defaultValue);
+	}
+
+	public static boolean setInteger(String name, String key, int value) {
+		Context context = MyApplication.getAppContext();
+		SharedPreferences mSharedPreferences = context.getSharedPreferences(name, MODE);
+		SharedPreferences.Editor mEditor = mSharedPreferences.edit();
+		mEditor.putInt(key, value);
+		return mEditor.commit();
+	}
+
+	public static int getInteger(String name, String key, int defaultValue) {
+		Context context = MyApplication.getAppContext();
+		SharedPreferences mSharedPreferences = context.getSharedPreferences(name, MODE);
+		return mSharedPreferences.getInt(key, defaultValue);
+	}
+
+	public static boolean getBoolean(String name, String key) {
+		Context context = MyApplication.getAppContext();
+		SharedPreferences mSharedPreferences = context.getSharedPreferences(name, MODE);
+		return mSharedPreferences.getBoolean(key, false);
+	}
+
+	public static boolean setBoolean(String name, String key, boolean value) {
+		Context context = MyApplication.getAppContext();
+		SharedPreferences mSharedPreferences = context.getSharedPreferences(name, MODE);
+		SharedPreferences.Editor mEditor = mSharedPreferences.edit();
+		mEditor.putBoolean(key, value);
+		return mEditor.commit();
+	}
+
+	public static boolean delete(String name, String key) {
+		Context context = MyApplication.getAppContext();
+		SharedPreferences mSharedPreferences = context.getSharedPreferences(name, MODE);
+		SharedPreferences.Editor mEditor = mSharedPreferences.edit();
+		mEditor.remove(key);
+		return mEditor.commit();
+	}
+
+	public static boolean clear(String name) {
+		Context context = MyApplication.getAppContext();
+		SharedPreferences mSharedPreferences = context.getSharedPreferences(name, MODE);
+		SharedPreferences.Editor mEditor = mSharedPreferences.edit();
+		mEditor.clear();
+		return mEditor.commit();
 	}
 }

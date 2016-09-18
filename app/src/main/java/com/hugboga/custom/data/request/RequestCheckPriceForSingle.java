@@ -18,6 +18,6 @@ public class RequestCheckPriceForSingle extends RequestCheckPrice {
 
     @Override
     public String getUrlErrorCode() {
-        return "40018";
+        return "40019";
     }
 }

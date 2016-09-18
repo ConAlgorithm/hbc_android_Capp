@@ -35,6 +35,9 @@ public class WXShareUtils {
     private static WXShareUtils wxShareUtils;
     private static IWXAPI iwxapi; //微信分享
 
+    public String source;//评价来源
+    public int type;
+
     private WXShareUtils(Context mContext) {
         this.mContext = mContext;
         /*
@@ -130,7 +133,8 @@ public class WXShareUtils {
 
                         @Override
                         public void onDownloadFailed(int id, int errorCode, String errorMessage) {
-
+                            Bitmap bitmap = null;
+                            share(type, bitmap, title, content, goUrl);
                         }
 
                         @Override
@@ -186,21 +190,24 @@ public class WXShareUtils {
 
 
     public void share(final int type, final Bitmap bitmap, final String title, final String content, final String goUrl) {
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inSampleSize = 2;
-        WXWebpageObject webpage = new WXWebpageObject();
-        webpage.webpageUrl = goUrl;
-        WXMediaMessage msg = new WXMediaMessage(webpage);
-        msg.title = title;
-        msg.description = content;
-        if (bitmap != null) {
-            msg.setThumbImage(bitmap);
+        if (isInstall(true)) {
+            this.type = type;
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inSampleSize = 2;
+            WXWebpageObject webpage = new WXWebpageObject();
+            webpage.webpageUrl = goUrl;
+            WXMediaMessage msg = new WXMediaMessage(webpage);
+            msg.title = title;
+            msg.description = content;
+            if (bitmap != null) {
+                msg.setThumbImage(bitmap);
+            }
+            SendMessageToWX.Req req = new SendMessageToWX.Req();
+            req.transaction = String.valueOf(System.currentTimeMillis());
+            req.message = msg;
+            req.scene = type == TYPE_SESSION ? SendMessageToWX.Req.WXSceneSession : SendMessageToWX.Req.WXSceneTimeline;
+            iwxapi.sendReq(req);
         }
-        SendMessageToWX.Req req = new SendMessageToWX.Req();
-        req.transaction = String.valueOf(System.currentTimeMillis());
-        req.message = msg;
-        req.scene = type == TYPE_SESSION ? SendMessageToWX.Req.WXSceneSession : SendMessageToWX.Req.WXSceneTimeline;
-        iwxapi.sendReq(req);
     }
 
     public void share(final int type, final int resID, final String title, final String content, final String goUrl) {

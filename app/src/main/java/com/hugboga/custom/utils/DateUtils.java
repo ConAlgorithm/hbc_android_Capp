@@ -491,9 +491,14 @@ public class DateUtils {
      * @return
      * @throws ParseException
      */
-    public static Date getDateByStr(String dateStr) throws ParseException {
-        Date date = getDateByStr(dateStr, dateDateFormat);
-        return date;
+    public static Date getDateByStr(String dateStr)  {
+        try {
+            Date date = getDateByStr(dateStr, dateDateFormat);
+            return date;
+        }catch (Exception e){
+            e.printStackTrace();
+            return new Date();
+        }
     }
 
 
@@ -602,14 +607,12 @@ public class DateUtils {
 
     public static String getToTime(String time,int toTime){
         try {
-            Calendar calendar = Calendar.getInstance();
-            calendar.add(Calendar.MINUTE, toTime);
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             Date tmpDate = format.parse(time);
             Calendar cal = new GregorianCalendar();
-            cal.set(tmpDate.getYear(), tmpDate.getMonth(), tmpDate.getDay());
-            calendar.add(Calendar.MINUTE, toTime);
-            return format.format(calendar.getTime());
+            cal.setTime(tmpDate);
+            cal.add(Calendar.MINUTE, toTime);
+            return format.format(cal.getTime());
         }catch (Exception e){
             return "";
         }

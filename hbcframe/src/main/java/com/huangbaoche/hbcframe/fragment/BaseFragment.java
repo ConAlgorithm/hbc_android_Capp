@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
+import android.support.v4.util.ArrayMap;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -27,6 +27,7 @@ import org.xutils.common.Callback;
 import org.xutils.x;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 
 public abstract class BaseFragment extends Fragment implements HttpRequestListener, View.OnTouchListener {
@@ -81,6 +82,11 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
         } else {
             inflateContent();
         }
+    }
+
+    protected void hideInputMethod(View view) {
+        InputMethodManager m=(InputMethodManager) this.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        m.hideSoftInputFromWindow(view.getWindowToken(),0);
     }
 
     @Override
@@ -173,7 +179,9 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
     /**
      * 初始化Header
      */
-    protected abstract void initHeader();
+    protected void initHeader() {
+
+    }
 
     /**
      * 初始化Header
@@ -183,17 +191,23 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
     /**
      * 初始化界面
      */
-    protected abstract void initView();
+    protected void initView() {
+
+    }
 
     /**
      * 请求方法 会在加载时调用
      */
-    protected abstract Callback.Cancelable requestData();
+    protected Callback.Cancelable requestData() {
+        return null;
+    }
 
     /**
      * 填充内容，在执行onRestart的时候调用
      */
-    protected abstract void inflateContent();
+    protected void inflateContent() {
+
+    }
 
     /**
      * 请求方法 会在加载完成是调用
@@ -259,7 +273,7 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
         getFragmentManager().popBackStack();
         Fragment fragment = this.geSourceFragment();
         if (fragment != null && fragment instanceof BaseFragment) {
-            ((BaseFragment) fragment).onResume();
+            fragment.onResume();
         }
         ((BaseFragmentActivity) getActivity()).removeFragment(this);
     }
@@ -308,7 +322,7 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
             }
             if (targetFg != null) {
                 for (int i = fragmentList.size() - 1; i >= 0; i--) {
-                    BaseFragment fg = (BaseFragment) fragmentList.get(i);
+                    BaseFragment fg = fragmentList.get(i);
                     if (fg != targetFg) {
                         if (fg != null)
                             fg.finish();
@@ -334,7 +348,7 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
         if (getActivity() instanceof BaseFragmentActivity) {
             ArrayList<BaseFragment> fragmentList = ((BaseFragmentActivity) getActivity()).getFragmentList();
             for (int i = fragmentList.size() - 1; i >= 1; i--) {
-                BaseFragment fg = (BaseFragment) fragmentList.get(i);
+                BaseFragment fg = fragmentList.get(i);
                 if (fg != null) {
                     String simpleName = fg.getClass().getSimpleName();
                     if ("FgHome".equals(simpleName) || "FgChat".equals(simpleName) || "FgTravel".equals(simpleName)) {
@@ -351,7 +365,7 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
         if (getActivity() instanceof BaseFragmentActivity) {
             ArrayList<BaseFragment> fragmentList = ((BaseFragmentActivity) getActivity()).getFragmentList();
             for (int i = fragmentList.size() - 1; i >= 1; i--) {
-                BaseFragment fg = (BaseFragment) fragmentList.get(i);
+                BaseFragment fg = fragmentList.get(i);
                 if (fg != null) {
                     String simpleName = fg.getClass().getSimpleName();
                     if ("FgHome".equals(simpleName) || "FgChat".equals(simpleName) || "FgTravel".equals(simpleName)) {
@@ -444,7 +458,7 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
     public void notifyFragment(Class fragment, Bundle bundle) {
         ArrayList<BaseFragment> fragmentList = ((BaseFragmentActivity) getActivity()).getFragmentList();
         for (int i = fragmentList.size() - 1; i >= 0; i--) {
-            BaseFragment fg = (BaseFragment) fragmentList.get(i);
+            BaseFragment fg = fragmentList.get(i);
             if (fragment.isInstance(fg)) {
                 if (bundle != null) {
                     bundle.putString(KEY_FROM, this.getClass().getSimpleName());
@@ -453,5 +467,28 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
                 break;
             }
         }
+    }
+
+    /**
+     * 获取点击事件ID
+     */
+    public String getEventId(){
+        return "";
+    }
+
+    /**
+     * 获取来源
+     */
+    public String getEventSource(){
+        return "";
+    }
+
+    /**
+     * 获取来源map
+     */
+    public Map getEventMap(){
+        ArrayMap map = new ArrayMap();
+        map.put("source", getEventSource());
+        return map;
     }
 }

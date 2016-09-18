@@ -48,7 +48,7 @@ public class RequestTest2 extends BaseRequest<TestBean> {
 
     @Override
     public String getUrlErrorCode() {
-        return "40072";
+        return "40087";
     }
 
 

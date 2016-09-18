@@ -1,6 +1,7 @@
 package com.hugboga.custom.widget;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
@@ -9,16 +10,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
-import com.hugboga.custom.fragment.FgOrderSelectCity;
-import com.hugboga.custom.fragment.FgSkuList;
+import com.hugboga.custom.activity.OrderSelectCityActivity;
+import com.hugboga.custom.activity.SkuListActivity;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.utils.UIUtils;
 
 /**
  * Created by qingcha on 16/6/28.
  */
 public class SkuListEmptyView extends LinearLayout implements View.OnClickListener{
-
-    private FgSkuList fragment;
 
     private ImageView customIV;
     private TextView customTV, emptyTV;
@@ -43,10 +43,6 @@ public class SkuListEmptyView extends LinearLayout implements View.OnClickListen
         params.bottomMargin = UIUtils.dip2px(20);
         params.gravity = Gravity.CENTER_HORIZONTAL;
         customIV.setLayoutParams(params);
-    }
-
-    public void setFragment(FgSkuList _fragment) {
-        this.fragment = _fragment;
     }
 
     public void showEmptyView(boolean isCity) {
@@ -74,17 +70,22 @@ public class SkuListEmptyView extends LinearLayout implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
-        if (fragment == null) {
-            return;
-        }
         switch (v.getId()) {
             case R.id.sku_list_empty_custom_tv:
-                fragment.startFragment(new FgOrderSelectCity());
+                Intent intent = new Intent(getContext(), OrderSelectCityActivity.class);
+                if(v.getContext() instanceof SkuListActivity) {
+                    intent.putExtra(Constants.PARAMS_SOURCE, ((SkuListActivity)v.getContext()).getEventSource());
+                    intent.putExtra(Constants.PARAMS_SOURCE_DETAIL, ((SkuListActivity)v.getContext()).getIntentSource());
+                }
+                getContext().startActivity(intent);
                 break;
             case R.id.sku_list_empty_tv:
                 emptyTV.setOnClickListener(null);
                 emptyTV.setText("");
-                fragment.sendRequest(0, true);
+                if (getContext() instanceof SkuListActivity) {
+                    SkuListActivity activity = (SkuListActivity) getContext();
+                    activity.sendRequest(0, true);
+                }
                 break;
         }
     }

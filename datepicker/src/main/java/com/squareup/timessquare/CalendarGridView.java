@@ -135,7 +135,7 @@ public class CalendarGridView extends ViewGroup {
                 totalHeight += child.getMeasuredHeight();
             }
         }
-        final int measuredWidth = widthMeasureSize + 2; // Fudge factor to make the borders show up.
+        final int measuredWidth = widthMeasureSize;// + 2; // Fudge factor to make the borders show up.
         setMeasuredDimension(measuredWidth, totalHeight);
         Logr.d("Grid.onMeasure %d ms", System.currentTimeMillis() - start);
     }

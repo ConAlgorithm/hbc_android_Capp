@@ -16,11 +16,14 @@ public class TravelFundData implements Serializable {
     private int listCount;//个数
     private String effectiveDate;//有效期
     private ArrayList<TravelFundBean> listData;
+    private RewardFields rewardFields;
 
     private int invitedUserCount;//邀请用户个数
     private int invitationAmount;//通过邀请获取的金额
     private int logsCount;//个数
     private ArrayList<TravelFundBean> logs;
+
+
 
     public ArrayList<TravelFundBean> getListData() {
         return listData;
@@ -56,6 +59,10 @@ public class TravelFundData implements Serializable {
 
     public String getInvitationAmount() {
         return String.valueOf(invitationAmount);
+    }
+
+    public RewardFields getRewardFields() {
+        return rewardFields;
     }
 
     public static class TravelFundBean implements Serializable {
@@ -112,6 +119,24 @@ public class TravelFundData implements Serializable {
                     break;
             }
             return result;
+        }
+    }
+
+    public static class RewardFields implements Serializable {
+        private String couponAmount;
+        private String rewardAmountPerOrder;
+        private String rewardRatePerOrder;
+
+        public String getRewardRatePerOrder() {
+            return rewardRatePerOrder;
+        }
+
+        public String getRewardAmountPerOrder() {
+            return rewardAmountPerOrder;
+        }
+
+        public String getCouponAmount() {
+            return couponAmount;
         }
     }
 }

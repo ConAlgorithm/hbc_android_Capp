@@ -45,6 +45,6 @@ public class RequestCollectGuidesId extends BaseRequest {
 
     @Override
     public String getUrlErrorCode() {
-        return "40023";
+        return "40025";
     }
 }

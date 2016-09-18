@@ -39,7 +39,7 @@ public class RequestEvaluateTag extends BaseRequest<EvaluateTagBean> {
 
     @Override
     public String getUrlErrorCode() {
-        return "40032";
+        return "40038";
     }
 
     private static class DataParser extends ImplParser {

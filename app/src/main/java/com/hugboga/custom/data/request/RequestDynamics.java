@@ -45,7 +45,7 @@ public class RequestDynamics extends BaseRequest<DynamicsData> {
 
     @Override
     public String getUrlErrorCode() {
-        return null;
+        return "40034";
     }
 
     private static class DataParser extends ImplParser {

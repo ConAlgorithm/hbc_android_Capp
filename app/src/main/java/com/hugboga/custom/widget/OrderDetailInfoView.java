@@ -1,6 +1,7 @@
 package com.hugboga.custom.widget;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -8,12 +9,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.InsureInfoActivity;
+import com.hugboga.custom.activity.OrderEditActivity;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.OrderStatus;
-import com.hugboga.custom.data.event.EventAction;
-import com.hugboga.custom.data.event.EventType;
-
-import org.greenrobot.eventbus.EventBus;
 
 /**
  * Created by qingcha on 16/6/2.
@@ -23,8 +23,11 @@ public class OrderDetailInfoView extends LinearLayout implements HbcViewBehavior
     private RelativeLayout insuranceInfoLayout;
     private RelativeLayout insuranceGetLayout;
     private TextView nameTV;
+    private TextView editTV;
     private TextView insurerTV;
     private TextView insurerStateTV;
+
+    private OrderBean orderBean;
 
     public OrderDetailInfoView(Context context) {
         this(context, null);
@@ -36,6 +39,7 @@ public class OrderDetailInfoView extends LinearLayout implements HbcViewBehavior
 
         findViewById(R.id.order_detail_info_layout).setOnClickListener(this);
         nameTV = (TextView) findViewById(R.id.order_detail_info_name_tv);
+        editTV = (TextView) findViewById(R.id.order_detail_info_edit_tv);
 
         insuranceInfoLayout = (RelativeLayout) findViewById(R.id.order_detail_insurance_info_layout);
         insurerTV = (TextView) findViewById(R.id.order_detail_insurer_tv);
@@ -49,17 +53,26 @@ public class OrderDetailInfoView extends LinearLayout implements HbcViewBehavior
         if (_data == null) {
             return;
         }
-        final OrderBean orderBean = (OrderBean) _data;
+        orderBean = (OrderBean) _data;
         nameTV.setText(orderBean.contactName);
+        if (orderBean.orderStatus.code > 5) {//1-5显示修改,其它显示详情
+            editTV.setText(getContext().getString(R.string.order_detail));
+            editTV.setTextColor(0xFF999999);
+        } else {
+            editTV.setText(getContext().getString(R.string.order_detail_edit));
+            editTV.setTextColor(0xFFFF6633);
+        }
+
+        final int insuranceListSize = orderBean.insuranceList != null ? orderBean.insuranceList.size() : 0;
         if (orderBean.orderStatus == OrderStatus.INITSTATE) {
             insuranceInfoLayout.setVisibility(View.GONE);
             insuranceGetLayout.setVisibility(View.VISIBLE);
             insuranceGetLayout.setOnClickListener(this);
-        } else if (orderBean.insuranceList != null && orderBean.insuranceList.size() > 0) {
+        } else if (insuranceListSize > 0) {
             insuranceInfoLayout.setVisibility(View.VISIBLE);
             insuranceInfoLayout.setOnClickListener(this);
             insuranceGetLayout.setVisibility(View.GONE);
-            insurerTV.setText(getContext().getString(R.string.order_detail_info, orderBean.insuranceList.size()));
+            insurerTV.setText(getContext().getString(R.string.order_detail_info, "" + insuranceListSize));
             insurerStateTV.setText(orderBean.getInsuranceStatus());
         } else {
             insuranceInfoLayout.setVisibility(View.GONE);
@@ -70,12 +83,17 @@ public class OrderDetailInfoView extends LinearLayout implements HbcViewBehavior
 
     @Override
     public void onClick(View v) {
+        Intent intent = null;
         switch (v.getId()) {
             case R.id.order_detail_info_layout://出行人信息
-                EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_TOURIST_INFO));
+                intent = new Intent(getContext(), OrderEditActivity.class);
+                intent.putExtra(Constants.PARAMS_DATA, orderBean);
+                getContext().startActivity(intent);
                 break;
             case R.id.order_detail_insurance_info_layout://投保人list
-                EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_LIST_INSURER));
+                intent = new Intent(getContext(), InsureInfoActivity.class);
+                intent.putExtra(Constants.PARAMS_DATA, orderBean);
+                getContext().startActivity(intent);
                 break;
         }
     }

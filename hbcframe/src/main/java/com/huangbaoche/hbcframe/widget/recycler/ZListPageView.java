@@ -147,7 +147,7 @@ public class ZListPageView extends ZListRecyclerView implements IPageList {
             return;
         }
         if (adapter.getDatas().size() < adapter.getItemCount()) {
-            if (getAdapter().getItemCount() > 2) {
+            if (getAdapter().getItemCount() > 1) {
                 emptyLayout.setVisibility(View.GONE);
             } else {
                 emptyLayout.setVisibility(View.VISIBLE);
@@ -167,20 +167,20 @@ public class ZListPageView extends ZListRecyclerView implements IPageList {
             zListHttpUtils = new ZListHttpUtils(getContext(), this, requestData, pageLoadListener, adapter, zSwipeRefreshLayout);
 //            zListHttpUtils.setNetworkLayout(networkErrorLayout);
 //            zListHttpUtils.setIsShowLoading(); //RecyclerView缺陷
+        } else {
+            zListHttpUtils.setRequest(requestData);
         }
         int pageIndex = 0;
         if (pageType == Page.pageType.FIRST) {
             page.initFirstPage();
-            adapter.removeAll(); //清除现有数据
+            //adapter.removeAll(); //清除现有数据
         }
         pageIndex = page.getNextPage();
         zListHttpUtils.exec(String.valueOf(page.getPageSize()), String.valueOf(pageIndex));
     }
 
+    AnimationAdapter myAdapter ;
     HttpRequestListener pageLoadListener = new HttpRequestListener() {
-
-        AnimationAdapter myAdapter ;
-
         @Override
         public void onDataRequestSucceed(BaseRequest request) {
             isLoading = false;

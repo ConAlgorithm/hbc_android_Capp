@@ -14,6 +14,7 @@ public class ADPictureBean {
         public int status;
         public String updateTime;
         public String displayFlag;
+        public String urlAddress;
         /**
          * activityStartId : 89
          * osType : 1
