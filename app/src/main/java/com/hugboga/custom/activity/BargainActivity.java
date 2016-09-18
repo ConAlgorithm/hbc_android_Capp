@@ -126,7 +126,7 @@ public class BargainActivity extends BaseActivity {
             bargainTotal = barginBean.bargainTotal;
             cuteMoneyTv.setText(barginBean.bargainAmount);
             if(null != barginBean.bargainWechatRspList && barginBean.bargainWechatRspList.size() > 0) {
-                setTimerData(barginBean);
+                setTimerData(barginBean,true);
                 offset += limit;
                 if(loadMore){
                     addMoreListView(barginBean);
@@ -139,21 +139,24 @@ public class BargainActivity extends BaseActivity {
                         bottom.setOnClickListener(null);
                     }
                 }
-            }else if(null != barginBean.bargainWechatRspList){
-                setTimerData(barginBean);
+            }else{
+                setTimerData(barginBean,false);
             }
 
         }
 
     }
 
-
-    private void setTimerData(BarginBean barginBean){
+    //是否开始倒计时
+    boolean isStart = false;
+    private void setTimerData(BarginBean barginBean,boolean isStart){
         second = barginBean.seconds;
         if (0 != second) {
             countdown.changeTime(second);
             initimer();
-            countDownTimer.start();
+            if(isStart) {
+                countDownTimer.start();
+            }
         } else {
             countdown.changeTime(0);
             cutMoney.setImageResource(R.mipmap.cut_end);
