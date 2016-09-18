@@ -126,20 +126,7 @@ public class BargainActivity extends BaseActivity {
             bargainTotal = barginBean.bargainTotal;
             cuteMoneyTv.setText(barginBean.bargainAmount);
             if(null != barginBean.bargainWechatRspList && barginBean.bargainWechatRspList.size() > 0) {
-                second = barginBean.seconds;
-                if (0 != second) {
-                    countdown.changeTime(second);
-                    initimer();
-                    countDownTimer.start();
-                } else {
-                    if (null != barginBean.bargainWechatRspList && barginBean.bargainWechatRspList.size() != 0) {
-                        countdown.changeTime(0);
-                     }else{
-                        countdown.changeTime(hour48);
-                    }
-                    cutMoney.setImageResource(R.mipmap.cut_end);
-                    cutMoney.setOnClickListener(null);
-                }
+                setTimerData(barginBean);
                 offset += limit;
                 if(loadMore){
                     addMoreListView(barginBean);
@@ -152,10 +139,26 @@ public class BargainActivity extends BaseActivity {
                         bottom.setOnClickListener(null);
                     }
                 }
+            }else if(null != barginBean.bargainWechatRspList){
+                setTimerData(barginBean);
             }
 
         }
 
+    }
+
+
+    private void setTimerData(BarginBean barginBean){
+        second = barginBean.seconds;
+        if (0 != second) {
+            countdown.changeTime(second);
+            initimer();
+            countDownTimer.start();
+        } else {
+            countdown.changeTime(0);
+            cutMoney.setImageResource(R.mipmap.cut_end);
+            cutMoney.setOnClickListener(null);
+        }
     }
 
 
