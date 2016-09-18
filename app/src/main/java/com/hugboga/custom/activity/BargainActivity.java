@@ -128,9 +128,15 @@ public class BargainActivity extends BaseActivity {
             if(null != barginBean.bargainWechatRspList && barginBean.bargainWechatRspList.size() > 0) {
                 second = barginBean.seconds;
                 if (0 != second) {
+                    countdown.changeTime(second);
+                    initimer();
                     countDownTimer.start();
                 } else {
-                    countdown.changeTime(0);
+                    if (null != barginBean.bargainWechatRspList && barginBean.bargainWechatRspList.size() != 0) {
+                        countdown.changeTime(0);
+                     }else{
+                        countdown.changeTime(hour48);
+                    }
                     cutMoney.setImageResource(R.mipmap.cut_end);
                     cutMoney.setOnClickListener(null);
                 }
@@ -150,6 +156,25 @@ public class BargainActivity extends BaseActivity {
 
         }
 
+    }
+
+
+    private void initimer(){
+        countDownTimer = new CountDownTimer(second * 1000 + 100, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                countdown.changeTime((int) millisUntilFinished / 1000);
+                LogUtil.e("===", "" + (int) millisUntilFinished / 1000);
+            }
+
+            @Override
+            public void onFinish() {
+                LogUtil.e("===", "done");
+                countdown.changeTime(0);
+                cutMoney.setImageResource(R.mipmap.cut_end);
+                cutMoney.setOnClickListener(null);
+            }
+        };
     }
 
     @Subscribe
@@ -231,7 +256,8 @@ public class BargainActivity extends BaseActivity {
         addBottom();
     }
 
-    int second = 48 * 60 * 60;
+    int second = 0;
+    int hour48 = 48 * 60 * 60;
     CountDownTimer countDownTimer;
 
     private void initView() {
@@ -244,22 +270,6 @@ public class BargainActivity extends BaseActivity {
             }
         });
         countdown.changeTime(second);
-        countDownTimer = new CountDownTimer(second * 1000 + 100, 1000) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                countdown.changeTime((int) millisUntilFinished / 1000);
-                LogUtil.e("===", "" + (int) millisUntilFinished / 1000);
-            }
-
-            @Override
-            public void onFinish() {
-                LogUtil.e("===", "done");
-                countdown.changeTime(0);
-                cutMoney.setImageResource(R.mipmap.cut_end);
-                cutMoney.setOnClickListener(null);
-            }
-        };
-
         rule.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
