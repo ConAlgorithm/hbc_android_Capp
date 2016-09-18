@@ -160,6 +160,7 @@ public class PoiSearchActivity extends BaseActivity implements AdapterView.OnIte
         ArrayList<PoiBean> historyList = new ArrayList<PoiBean>();
         PoiBean bean;
         if (placeHistoryStr != null) {
+            placeHistoryArray.clear();
             for (String place : placeHistoryStr.split(",")) {
                 bean = new PoiBean();
                 bean.placeName = place;
