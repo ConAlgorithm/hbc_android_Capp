@@ -263,7 +263,6 @@ public class BargainActivity extends BaseActivity {
     }
 
     int second = 0;
-    int hour48 = 48 * 60 * 60;
     CountDownTimer countDownTimer;
 
     private void initView() {
