@@ -35,6 +35,7 @@ public class ParserChatList extends ImplParser {
             //chatBean.rTargetToken = jsonObject.optString("rcToken");
             chatBean.nTargetId = jsonObject.optString("neTargetId");
             chatBean.nTargetToken = jsonObject.optString("neTargetToken");
+            chatBean.isCancel = jsonObject.optInt("isCancel");
             //解析IM订单
             JSONArray orderArray = jsonObject.optJSONArray("orderInfo");
             chatBean.orders = new ArrayList<>();

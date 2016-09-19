@@ -45,6 +45,17 @@
                 android:textColor="@color/basic_white"
                 android:textSize="10sp"
                 android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/bottom_point_3"
+                android:layout_width="5dp"
+                android:layout_height="5dp"
+                android:layout_marginLeft="-5dp"
+                android:layout_toRightOf="@id/tab_text_2"
+                android:background="@mipmap/tabbar_number"
+                android:gravity="center"
+                android:textColor="@color/basic_white"
+                android:visibility="gone" />
         </RelativeLayout>
 
         <RelativeLayout style="@style/TabBottomLayoutStyle">

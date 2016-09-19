@@ -29,6 +29,6 @@ public class ChatBean implements Serializable{
     //public String rTargetToken; //融云用户token
     public String nTargetId; //云信用户名
     public String nTargetToken; //云信token
-
+    public int isCancel;
 
 }

@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -312,6 +313,9 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                 chatInfo.imUserId = guideInfo.guideImId;
 
                 if(!IMUtil.getInstance().isLogined()){
+                    return;
+                }
+                if(TextUtils.isEmpty(chatInfo.imUserId)){
                     return;
                 }
                 NIMChatActivity.start(OrderDetailActivity.this,chatInfo.imUserId,null,new ParserChatInfo().toJsonString(chatInfo));
