@@ -78,18 +78,18 @@
 
                     <EditText
                         android:id="@+id/name_text"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
                         android:layout_marginLeft="5dp"
                         android:layout_marginRight="5dp"
+                        android:layout_centerVertical="true"
                         android:layout_toLeftOf="@id/name_right"
                         android:layout_toRightOf="@id/name_left"
                         android:background="@color/basic_white"
                         android:hint="请添加联系人"
-                        android:minEms="4"
                         android:maxLength="50"
-                        android:lines="1"
+                        android:singleLine="true"
+                        android:ellipsize="end"
                         android:textColorHint="#c3c5c5"
                         android:textSize="14sp" />
                 </RelativeLayout>
@@ -186,7 +186,7 @@
 
                     <EditText
                         android:id="@+id/name1_text"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="5dp"
@@ -195,9 +195,9 @@
                         android:layout_toRightOf="@id/name1_left"
                         android:background="@color/basic_white"
                         android:hint="请添加联系人"
-                        android:minEms="4"
                         android:maxLength="50"
-                        android:lines="1"
+                        android:ellipsize="end"
+                        android:singleLine="true"
                         android:textColorHint="#c3c5c5"
                         android:textSize="14sp" />
                 </RelativeLayout>
@@ -316,7 +316,7 @@
 
                     <EditText
                         android:id="@+id/name2_text"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="5dp"
@@ -325,9 +325,9 @@
                         android:layout_toRightOf="@id/name2_left"
                         android:background="@color/basic_white"
                         android:hint="请添加联系人"
-                        android:minEms="4"
                         android:maxLength="50"
-                        android:lines="1"
+                        android:singleLine="true"
+                        android:ellipsize="end"
                         android:textColorHint="#c3c5c5"
                         android:textSize="14sp" />
                 </RelativeLayout>
@@ -502,9 +502,9 @@
                         android:layout_toRightOf="@id/passenger_left"
                         android:background="@color/basic_white"
                         android:hint="请添加联系人"
-                        android:minEms="4"
                         android:maxLength="50"
-                        android:lines="1"
+                        android:singleLine="true"
+                        android:ellipsize="end"
                         android:textColorHint="#c3c5c5"
                         android:textSize="14sp" />
                 </RelativeLayout>
