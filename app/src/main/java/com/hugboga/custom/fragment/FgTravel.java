@@ -291,7 +291,7 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, OnIt
         if (UserEntity.getUser().isLogin(getActivity())) {
             contentLayout.setVisibility(View.VISIBLE);
             logoutLayout.setVisibility(View.GONE);
-            reSetTabView(0);
+            viewPager.setCurrentItem(0);
         } else {
             contentLayout.setVisibility(View.GONE);
             logoutLayout.setVisibility(View.VISIBLE);
@@ -378,18 +378,18 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, OnIt
         switch (view.getId()) {
             case R.id.travel_tab1_layout:
                 //进行中
-                reSetTabView(0);
+                viewPager.setCurrentItem(0);
                 break;
             case R.id.travel_tab2_layout:
                 //已完成
-                reSetTabView(1);
+                viewPager.setCurrentItem(1);
                 break;
             case R.id.travel_tab3_layout:
                 //已取消
-                reSetTabView(2);
+                viewPager.setCurrentItem(2);
                 break;
             case R.id.travel_tab4_layout:
-                reSetTabView(3);
+                viewPager.setCurrentItem(3);
                 break;
             case R.id.travel_login_btn:
                 Intent intent = new Intent(view.getContext(), LoginActivity.class);
@@ -431,22 +431,22 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, OnIt
         if (position == 0) {
             tab1TextView.setSelected(true);
             tab1LineView.setVisibility(View.VISIBLE);
-            viewPager.setCurrentItem(0);
+//            viewPager.setCurrentItem(0);
             loadDataRunning();
         } else if (position == 1) {
             tab2TextView.setSelected(true);
             tab2LineView.setVisibility(View.VISIBLE);
-            viewPager.setCurrentItem(1);
+//            viewPager.setCurrentItem(1);
             loadDataFinish();
         } else if (position == 2) {
             tab3TextView.setSelected(true);
             tab3LineView.setVisibility(View.VISIBLE);
-            viewPager.setCurrentItem(2);
+//            viewPager.setCurrentItem(2);
             loadDataCancel();
         } else if (position == 3) {
             tab4TextView.setSelected(true);
             tab4LineView.setVisibility(View.VISIBLE);
-            viewPager.setCurrentItem(3);
+//            viewPager.setCurrentItem(3);
             loadDataEvaluate();
         }
     }
@@ -564,7 +564,7 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, OnIt
             needRefreshMap.put(TYPE_ORDER_CANCEL, needRefreshMap.get(TYPE_ORDER_CANCEL) || intent.getBooleanExtra(REFRESH_CANCEL, false));
             needRefreshMap.put(TYPE_ORDER_EVALUATE, needRefreshMap.get(TYPE_ORDER_EVALUATE) || intent.getBooleanExtra(REFRESH_EVALUATE, false));
             MLog.e("onReceive jumpType=" + jumpType + " " + needRefreshMap.get(TYPE_ORDER_RUNNING) + " " + needRefreshMap.get(TYPE_ORDER_FINISH) + " " + TYPE_ORDER_CANCEL);
-            reSetTabView(jumpType);
+            viewPager.setCurrentItem(jumpType);
         }
     };
 
@@ -586,7 +586,7 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, OnIt
             case TRAVEL_LIST_TYPE:
                 int index = Integer.valueOf(action.data.toString());
                 if (viewPager != null && index >= 0 && index < 4){
-                    reSetTabView(index);
+                    viewPager.setCurrentItem(index);
                 }
                 break;
             default:

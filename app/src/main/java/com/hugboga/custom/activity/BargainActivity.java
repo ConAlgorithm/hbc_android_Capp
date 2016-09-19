@@ -126,14 +126,7 @@ public class BargainActivity extends BaseActivity {
             bargainTotal = barginBean.bargainTotal;
             cuteMoneyTv.setText(barginBean.bargainAmount);
             if(null != barginBean.bargainWechatRspList && barginBean.bargainWechatRspList.size() > 0) {
-                second = barginBean.seconds;
-                if (0 != second) {
-                    countDownTimer.start();
-                } else {
-                    countdown.changeTime(0);
-                    cutMoney.setImageResource(R.mipmap.cut_end);
-                    cutMoney.setOnClickListener(null);
-                }
+                setTimerData(barginBean,true);
                 offset += limit;
                 if(loadMore){
                     addMoreListView(barginBean);
@@ -146,10 +139,48 @@ public class BargainActivity extends BaseActivity {
                         bottom.setOnClickListener(null);
                     }
                 }
+            }else{
+                setTimerData(barginBean,false);
             }
 
         }
 
+    }
+
+    //是否开始倒计时
+    boolean isStart = false;
+    private void setTimerData(BarginBean barginBean,boolean isStart){
+        second = barginBean.seconds;
+        if (0 != second) {
+            countdown.changeTime(second);
+            initimer();
+            if(isStart) {
+                countDownTimer.start();
+            }
+        } else {
+            countdown.changeTime(0);
+            cutMoney.setImageResource(R.mipmap.cut_end);
+            cutMoney.setOnClickListener(null);
+        }
+    }
+
+
+    private void initimer(){
+        countDownTimer = new CountDownTimer(second * 1000 + 100, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                countdown.changeTime((int) millisUntilFinished / 1000);
+                LogUtil.e("===", "" + (int) millisUntilFinished / 1000);
+            }
+
+            @Override
+            public void onFinish() {
+                LogUtil.e("===", "done");
+                countdown.changeTime(0);
+                cutMoney.setImageResource(R.mipmap.cut_end);
+                cutMoney.setOnClickListener(null);
+            }
+        };
     }
 
     @Subscribe
@@ -231,7 +262,7 @@ public class BargainActivity extends BaseActivity {
         addBottom();
     }
 
-    int second = 48 * 60 * 60;
+    int second = 0;
     CountDownTimer countDownTimer;
 
     private void initView() {
@@ -244,22 +275,6 @@ public class BargainActivity extends BaseActivity {
             }
         });
         countdown.changeTime(second);
-        countDownTimer = new CountDownTimer(second * 1000 + 100, 1000) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                countdown.changeTime((int) millisUntilFinished / 1000);
-                LogUtil.e("===", "" + (int) millisUntilFinished / 1000);
-            }
-
-            @Override
-            public void onFinish() {
-                LogUtil.e("===", "done");
-                countdown.changeTime(0);
-                cutMoney.setImageResource(R.mipmap.cut_end);
-                cutMoney.setOnClickListener(null);
-            }
-        };
-
         rule.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -331,7 +346,9 @@ public class BargainActivity extends BaseActivity {
         super.onDestroy();
         ButterKnife.unbind(this);
         EventBus.getDefault().unregister(this);
-        countDownTimer.cancel();
+        if(null != countDownTimer) {
+            countDownTimer.cancel();
+        }
     }
 
     @Override

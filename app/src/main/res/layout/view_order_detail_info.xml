@@ -22,15 +22,6 @@
             android:textColor="#333333"
             android:textSize="15sp" />
 
-        <TextView
-            android:id="@+id/order_detail_info_name_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/order_detail_info_hint_tv"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="13dp"
-            android:textColor="#333333"
-            android:textSize="14sp" />
         <ImageView
             android:id="@+id/order_detail_info_arrow_iv"
             android:layout_width="wrap_content"
@@ -48,6 +39,20 @@
             android:text="@string/order_detail"
             android:textColor="#999999"
             android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/order_detail_info_name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/order_detail_info_hint_tv"
+            android:layout_toLeftOf="@id/order_detail_info_edit_tv"
+            android:lines="1"
+            android:ellipsize="end"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="13dp"
+            android:layout_marginRight="13dp"
+            android:textColor="#333333"
+            android:textSize="14sp" />
 
     </RelativeLayout>
     <RelativeLayout

@@ -61,7 +61,7 @@ public class OrderDetailDeliverView extends LinearLayout implements HbcViewBehav
             return;
         }
         orderBean = (OrderBean) _data;
-        if (orderBean.orderStatus == OrderStatus.PAYSUCCESS) {//2:预订成功
+        if (orderBean.orderStatus == OrderStatus.PAYSUCCESS) { // 2.预订成功
             sendRequest(true);
         } else if (orderBean.orderStatus != OrderStatus.INITSTATE && orderBean.orderGuideInfo != null) {
             removeAllViews();
@@ -100,7 +100,7 @@ public class OrderDetailDeliverView extends LinearLayout implements HbcViewBehav
             return;
         }
 
-        if (_deliverInfoBean.deliverStatus == DeliverInfoBean.DeliverStatus.UNBILLED) { // 未发单
+        if (_deliverInfoBean.deliverStatus == DeliverInfoBean.DeliverStatus.UNBILLED) { // 1.未发单
             OrderDetailDeliverUnbilledView unbilledView = new OrderDetailDeliverUnbilledView(getContext());
             unbilledView.update(_deliverInfoBean);
             groupLayout.addView(unbilledView);
@@ -110,7 +110,7 @@ public class OrderDetailDeliverView extends LinearLayout implements HbcViewBehav
                     sendRequest(true);
                 }
             });
-        } else if (_deliverInfoBean.deliverStatus == DeliverInfoBean.DeliverStatus.IDENTIFIED) { // 已确定导游
+        } else if (_deliverInfoBean.deliverStatus == DeliverInfoBean.DeliverStatus.IDENTIFIED) { // 8.已确定导游
             EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_UPDATE, orderBean.orderNo));
         } else {
             OrderDetailDeliverItemView itemView = new OrderDetailDeliverItemView(getContext());
