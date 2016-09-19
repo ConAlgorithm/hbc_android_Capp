@@ -291,7 +291,7 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, OnIt
         if (UserEntity.getUser().isLogin(getActivity())) {
             contentLayout.setVisibility(View.VISIBLE);
             logoutLayout.setVisibility(View.GONE);
-            viewPager.setCurrentItem(0);
+            reSetTabView(0, true);
         } else {
             contentLayout.setVisibility(View.GONE);
             logoutLayout.setVisibility(View.VISIBLE);
@@ -411,12 +411,16 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, OnIt
     }
 
 
+    private void reSetTabView(Integer position) {
+        reSetTabView(position, false);
+    }
+
     /**
      * 设置Tab切换效果
      *
      * @param position
      */
-    private void reSetTabView(Integer position) {
+    private void reSetTabView(Integer position, boolean isSetCurrentItem) {
         if (!UserEntity.getUser().isLogin(getActivity())) {
             return;
         }
@@ -431,22 +435,30 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, OnIt
         if (position == 0) {
             tab1TextView.setSelected(true);
             tab1LineView.setVisibility(View.VISIBLE);
-//            viewPager.setCurrentItem(0);
+            if (isSetCurrentItem) {
+                viewPager.setCurrentItem(0);
+            }
             loadDataRunning();
         } else if (position == 1) {
             tab2TextView.setSelected(true);
             tab2LineView.setVisibility(View.VISIBLE);
-//            viewPager.setCurrentItem(1);
+            if (isSetCurrentItem) {
+                viewPager.setCurrentItem(1);
+            }
             loadDataFinish();
         } else if (position == 2) {
             tab3TextView.setSelected(true);
             tab3LineView.setVisibility(View.VISIBLE);
-//            viewPager.setCurrentItem(2);
+            if (isSetCurrentItem) {
+                viewPager.setCurrentItem(2);
+            }
             loadDataCancel();
         } else if (position == 3) {
             tab4TextView.setSelected(true);
             tab4LineView.setVisibility(View.VISIBLE);
-//            viewPager.setCurrentItem(3);
+            if (isSetCurrentItem) {
+                viewPager.setCurrentItem(3);
+          }
             loadDataEvaluate();
         }
     }
@@ -564,7 +576,7 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, OnIt
             needRefreshMap.put(TYPE_ORDER_CANCEL, needRefreshMap.get(TYPE_ORDER_CANCEL) || intent.getBooleanExtra(REFRESH_CANCEL, false));
             needRefreshMap.put(TYPE_ORDER_EVALUATE, needRefreshMap.get(TYPE_ORDER_EVALUATE) || intent.getBooleanExtra(REFRESH_EVALUATE, false));
             MLog.e("onReceive jumpType=" + jumpType + " " + needRefreshMap.get(TYPE_ORDER_RUNNING) + " " + needRefreshMap.get(TYPE_ORDER_FINISH) + " " + TYPE_ORDER_CANCEL);
-            viewPager.setCurrentItem(jumpType);
+            reSetTabView(jumpType, true);
         }
     };
 
@@ -587,6 +599,7 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, OnIt
                 int index = Integer.valueOf(action.data.toString());
                 if (viewPager != null && index >= 0 && index < 4){
                     viewPager.setCurrentItem(index);
+                    reSetTabView(index, true);
                 }
                 break;
             default:
