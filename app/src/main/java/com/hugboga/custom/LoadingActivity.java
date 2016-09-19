@@ -86,6 +86,10 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
         MobclickAgent.UMAnalyticsConfig config = new MobclickAgent.UMAnalyticsConfig(this, "55ccb4cfe0f55ab500004a9d", ChannelUtils.getChannel(this));
         MobclickAgent.startWithConfigure(config);
 
+        schemeIntent();
+    }
+
+    private void schemeIntent() {
         Intent intent = getIntent();
         String scheme = intent.getScheme();
         if (getString(R.string.hbc_scheme).equals(scheme)) {
@@ -117,7 +121,8 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
         }
     }
 
-    public void initView() {
+
+   public void initView() {
         show_ad = (ImageView) findViewById(R.id.show_ad);
         bottom_txt = (TextView) findViewById(R.id.bottom_txt);
         UpdateResources.checkLocalDB(this);

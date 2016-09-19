@@ -20,6 +20,8 @@ import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.huangbaoche.hbcframe.util.WXShareUtils;
 import com.hugboga.custom.R;
+import com.hugboga.custom.action.ActionController;
+import com.hugboga.custom.action.data.ActionBean;
 import com.hugboga.custom.activity.BaseActivity;
 import com.hugboga.custom.activity.DailyWebInfoActivity;
 import com.hugboga.custom.activity.LoginActivity;
@@ -38,6 +40,7 @@ import com.hugboga.custom.data.parser.ParserChatInfo;
 import com.hugboga.custom.data.request.RequestWebInfo;
 import com.hugboga.custom.statistic.event.EventUtil;
 import com.hugboga.custom.utils.CommonUtils;
+import com.hugboga.custom.utils.JsonUtils;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.utils.UnicornUtils;
 import com.hugboga.custom.widget.DialogUtil;
@@ -145,6 +148,24 @@ public class WebAgent implements HttpRequestListener {
                 if (mWebView != null && mWebView.canGoBack()) {
                     mWebView.goBack();
                 }
+            }
+        });
+
+    }
+
+    @JavascriptInterface
+    public void doAction(final String action) {
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (!TextUtils.isEmpty(action)) {
+                    ActionBean actionBean = (ActionBean) JsonUtils.fromJson(action, ActionBean.class);
+                    if (actionBean != null) {
+                        ActionController actionFactory = ActionController.getInstance(mActivity);
+                        actionFactory.doAction(actionBean);
+                    }
+                }
+
             }
         });
 

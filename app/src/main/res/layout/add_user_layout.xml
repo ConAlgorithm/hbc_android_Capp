@@ -58,7 +58,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:minWidth="70dp"
-                        android:text="联系联系人"
+                        android:text="联系人"
                         android:textColor="@color/basic_black"
                         android:textSize="14sp" />
 
