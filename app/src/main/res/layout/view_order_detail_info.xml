@@ -46,7 +46,7 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/order_detail_info_hint_tv"
             android:layout_toLeftOf="@id/order_detail_info_edit_tv"
-            android:lines="1"
+            android:singleLine="true"
             android:ellipsize="end"
             android:layout_centerVertical="true"
             android:layout_marginLeft="13dp"
