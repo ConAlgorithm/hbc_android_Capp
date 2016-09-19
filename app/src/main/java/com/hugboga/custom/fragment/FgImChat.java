@@ -555,6 +555,7 @@ public class FgImChat extends BaseFragment implements View.OnClickListener, ZBas
                 if(adapter!=null){
                     if(recyclerView!=null&& recyclerView.getAdapter()!=null){
                         recyclerView.getAdapter().notifyDataSetChanged();
+                        computeTotalUnreadCount(adapter.getDatas());
                     }
                 }
             }
