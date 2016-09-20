@@ -356,7 +356,11 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, OnIt
     @Override
     public void onDestroy() {
         EventBus.getDefault().unregister(this);
-        getActivity().unregisterReceiver(flushReceiver);
+        try {
+            getActivity().unregisterReceiver(flushReceiver);
+        } catch (Exception e) {
+            //Receiver not registered
+        }
         super.onDestroy();
     }
 
