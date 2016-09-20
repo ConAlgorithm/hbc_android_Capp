@@ -149,12 +149,13 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
         @Override
         public void onReceivedTitle(WebView view, String title) {
             super.onReceivedTitle(view, title);
-            if (!view.getTitle().startsWith("http:")) {
-                headerTitle.setText(view.getTitle());
-            } else {
-                headerTitle.setText("");
+            if (headerTitle != null) {
+                if (!view.getTitle().startsWith("http:")) {
+                    headerTitle.setText(view.getTitle());
+                } else {
+                    headerTitle.setText("");
+                }
             }
-
         }
 
         @Override

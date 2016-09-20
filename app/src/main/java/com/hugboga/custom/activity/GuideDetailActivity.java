@@ -175,12 +175,14 @@ public class GuideDetailActivity extends BaseActivity implements GuideCarPhotosA
 
             String carName = data.getCarBrandName() + data.getCarName();
             String carType = data.getCarTypeName() + data.getCarClassName();
-            String describe  = getString(R.string.solidus, carName, carType);
-            int describeWidth = UIUtils.getStringWidth(describeTV, describe);
-            if (describeWidth > UIUtils.getScreenWidth() - UIUtils.dip2px(160)) {
-                describeTV.setText(carName + "\n" + carType);
-            } else {
-                describeTV.setText(describe);
+            if (!TextUtils.isEmpty(carName) && !TextUtils.isEmpty(carType)) {
+                String describe  = getString(R.string.solidus, carName, carType);
+                int describeWidth = UIUtils.getStringWidth(describeTV, describe);
+                if (describeWidth > UIUtils.getScreenWidth() - UIUtils.dip2px(160)) {
+                    describeTV.setText(carName + "\n" + carType);
+                } else {
+                    describeTV.setText(describe);
+                }
             }
 
             if (!TextUtils.isEmpty(data.getCarLicenceNo())) {
