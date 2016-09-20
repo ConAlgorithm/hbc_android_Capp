@@ -144,7 +144,7 @@ public class HomeBottomLayout extends LinearLayout implements View.OnClickListen
             this.activeData = data;
             activeTV.setVisibility(View.VISIBLE);
             activeIV.setVisibility(View.VISIBLE);
-            Tools.showImage(activeIV, data.getPicture());
+            Tools.showRoundImage(activeIV, data.getPicture(), UIUtils.dip2px(3));
         }
     }
 
