@@ -135,7 +135,7 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
         }
 
         if (orderBean.hotelStatus == 1) {//酒店预订
-            addItemView(R.mipmap.order_jp, getContext().getString(R.string.order_detail_hotle_subscribe, orderBean.hotelDays, orderBean.hotelRoom));
+            addItemView(R.mipmap.order_jd, getContext().getString(R.string.order_detail_hotle_subscribe, orderBean.hotelDays, orderBean.hotelRoom));
         }
     }
 
