@@ -337,14 +337,18 @@ public class ChooseCityNewActivity extends BaseActivity {
         lineGroupBean.sub_city_name = "";
         lineGroupBean.group_name = "热门";
         lineGroupBean.isSelected = true;
-        groupList = new ArrayList<>();
-        groupList.add(0, lineGroupBean);
-        groupList.addAll(CityUtils.getLevel1City(activity));
-        levelCityAdapterLeft.setList(groupList);
-        leftList.setAdapter(levelCityAdapterLeft);
-        levelCityAdapterLeft.notifyDataSetChanged();
+        try {
+            groupList = new ArrayList<>();
+            groupList.add(0, lineGroupBean);
+            groupList.addAll(CityUtils.getLevel1City(activity));
+            levelCityAdapterLeft.setList(groupList);
+            leftList.setAdapter(levelCityAdapterLeft);
+            levelCityAdapterLeft.notifyDataSetChanged();
 
-        showMiddleData(0);
+            showMiddleData(0);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
 
