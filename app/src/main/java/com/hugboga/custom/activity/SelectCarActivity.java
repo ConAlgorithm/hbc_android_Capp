@@ -714,6 +714,9 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
                 break;
             case R.id.next_btn_click:
                 if (UserEntity.getUser().isLogin(activity)) {
+                    if(null == carBean){
+                        return;
+                    }
                     if ((carBean.carType == 1 && carBean.capOfPerson == 4 && (Integer.valueOf(adultNum) + Integer.valueOf(childrenNum)) == 4)
                             || (carBean.carType == 1 && carBean.capOfPerson == 6 && (Integer.valueOf(adultNum) + Integer.valueOf(childrenNum)) == 6)) {
                         AlertDialogUtils.showAlertDialog(activity, getString(R.string.alert_car_full),
