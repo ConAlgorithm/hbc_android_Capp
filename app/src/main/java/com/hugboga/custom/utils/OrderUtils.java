@@ -674,9 +674,9 @@ public class OrderUtils {
         orderBean.contact.add(orderContact);
         orderBean.memo = userRemark;//mark.getText().toString().trim();
         if (startBean != null) {
-            orderBean.startAddress = startBean.placeName;
-            orderBean.startAddressDetail = "";
-            orderBean.startLocation = startBean.location;
+            orderBean.startAddress = poiBean.placeName;//startBean.placeName;
+            orderBean.startAddressDetail = poiBean.placeDetail;
+            orderBean.startLocation = poiBean.location;
         }
         orderBean.realSendSms = contactUsersBean.isSendMessage ? "1" : "0";
 
@@ -719,8 +719,8 @@ public class OrderUtils {
         orderBean.serviceCityName = skuBean.depCityName;
         //出发地，到达地经纬度
         orderBean.terminalLocation = null;
-        orderBean.destAddress = poiBean.placeName;
-        orderBean.destAddressDetail = poiBean.placeDetail;
+//        orderBean.destAddress = poiBean.placeName;
+//        orderBean.destAddressDetail = poiBean.placeDetail;
         orderBean.serviceEndCityid = skuBean.arrCityId;
         orderBean.serviceEndCityName = skuBean.arrCityName;
         orderBean.totalDays = skuBean.daysCount;
