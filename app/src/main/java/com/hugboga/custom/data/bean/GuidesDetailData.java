@@ -11,16 +11,16 @@ public class GuidesDetailData implements Serializable {
     private String areaCode; //导游手机区号
     private String mobile;//导游手机号
     private int carBrandId;
-    private String carBrandName; //车品牌名
+    private String carBrandName = ""; //车品牌名
     private int carClass;
-    private String carClassName;//车座系
+    private String carClassName = "";//车座系
     private int carId;
     private String carLicenceNo;//车牌号
     private int carLuggageNum;
-    private String carName;//车型名称
+    private String carName = "";//车型名称
     private int carSeatNum;
     private int carType;
-    private String carTypeName;//车型级别名称
+    private String carTypeName = "";//车型级别名称
     private int cityId;
     private String cityName;//导游所在城市名
     private int continentId;
