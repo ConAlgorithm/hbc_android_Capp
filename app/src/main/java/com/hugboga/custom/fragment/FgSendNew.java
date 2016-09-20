@@ -488,7 +488,12 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
         termLocation = airPortBean.location;
         needChildrenSeat = airPortBean.childSeatSwitch;
         needBanner = airPortBean.bannerSwitch;
-        RequestCheckPriceForTransfer requestCheckPriceForTransfer = new RequestCheckPriceForTransfer(getActivity(), mBusinessType, airportCode, cityId, startLocation, termLocation, serverDate + " " + serverTime);
+        String carIds = null;
+        if(null != collectGuideBean){
+            carIds = collectGuideBean.carModelId+"";
+        }
+        RequestCheckPriceForTransfer requestCheckPriceForTransfer = new RequestCheckPriceForTransfer(getActivity(), mBusinessType,
+                airportCode, cityId, startLocation, termLocation, serverDate + " " + serverTime,carIds);
         requestData(requestCheckPriceForTransfer);
     }
 

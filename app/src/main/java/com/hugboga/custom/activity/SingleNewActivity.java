@@ -275,7 +275,12 @@ public class SingleNewActivity extends BaseActivity {
         needChildrenSeat = cityBean.childSeatSwitch;
         startLocation = startBean.location;
         termLocation = arrivalBean.location;
-        RequestCheckPriceForSingle requestCheckPriceForSingle = new RequestCheckPriceForSingle(activity, 4, airportCode, cityId, startLocation, termLocation, serverDate + " " + serverTime);
+        String carIds = null;
+        if(null != collectGuideBean){
+            carIds = collectGuideBean.carModelId+"";
+        }
+        RequestCheckPriceForSingle requestCheckPriceForSingle = new RequestCheckPriceForSingle(activity, 4, airportCode, cityId,
+                startLocation, termLocation, serverDate + " " + serverTime,carIds);
         requestData(requestCheckPriceForSingle);
     }
 
