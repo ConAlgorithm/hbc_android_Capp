@@ -395,7 +395,7 @@ public class OrderNewActivity extends BaseActivity {
                         if(null != mostFitBean && null != mostFitBean.actualPrice){
                             price = mostFitBean.actualPrice.intValue();
                         }
-                        allMoneyLeftText.setText(Tools.getRMB(activity) + (price + hotelPrice + checkInOrPickupPrice + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean)));
+                        allMoneyLeftText.setText(Tools.getRMB(activity) +price);
                     }
                 }
             }
