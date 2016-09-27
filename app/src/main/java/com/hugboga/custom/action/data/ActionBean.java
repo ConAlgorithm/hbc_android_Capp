@@ -42,6 +42,11 @@ public class ActionBean implements Serializable {
     @SerializedName("d")
     public String data;
 
+    /**
+     * 记录来源(本地定义)
+     * */
+    public String source;
+
     public ActionBean(int vcid) {
         this.type = "" + ActionType.NATIVE_PAGE;
         this.vcid = "" + vcid;

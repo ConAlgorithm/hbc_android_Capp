@@ -15,6 +15,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CollectGuideBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.net.UrlLibs;
@@ -34,6 +35,7 @@ import butterknife.OnClick;
  */
 
 public class PickSendActivity extends BaseActivity {
+
     @Bind(R.id.header_left_btn)
     ImageView headerLeftBtn;
     @Bind(R.id.daily_tap_1)
@@ -87,12 +89,18 @@ public class PickSendActivity extends BaseActivity {
     @Override
     public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
+        Bundle bundle = getIntent().getExtras();
+
         setContentView(R.layout.fg_picksend);
         ButterKnife.bind(this);
         initView();
         initHeader();
         EventUtil eventUtil = EventUtil.getInstance();
         eventUtil.source = getIntentSource();
+
+        if (bundle != null && bundle.getInt(Constants.PARAMS_TYPE) == 1) {
+            findViewById(R.id.daily_layout_2).performClick();
+        }
     }
 
     public void initHeader() {

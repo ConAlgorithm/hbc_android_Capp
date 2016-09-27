@@ -413,7 +413,6 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
         if (cityBean == null && skuItemBean != null && skuItemBean.arrCityId != 0) {
             cityBean = findCityById("" + skuItemBean.arrCityId);
         }
-        this.cityBean = (CityBean) getIntent().getSerializableExtra("cityBean");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fg_sku_detail);
         ButterKnife.bind(this);

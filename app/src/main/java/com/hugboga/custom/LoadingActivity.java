@@ -125,6 +125,7 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
             if (!TextUtils.isEmpty(data)) {
                 try {
                     actionBean = (ActionBean) JsonUtils.fromJson(data, ActionBean.class);
+                    actionBean.source = "外部调起";
                 } catch (Exception e) {
                     //为空就直接进首页,没毛病
                 }
