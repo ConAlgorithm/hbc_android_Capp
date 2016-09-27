@@ -146,8 +146,8 @@ public class UrlLibs {
     public static final String WECHAT_AFTER_SET_PASSWORD    = SERVER_IP_PUBLIC_UER_CENTER + "wechat/update/password?";       // 微信跳过后再绑定手机设置密码
 
     public static final String API_GUIDES_DETAIL            = "ucenter/v1.0/c/favorite/guide/detail";                   // 导游详情
-    public static final String COLLECT_GUIDES_LIST          = "ucenter/v1.0/c/favorite/guides";                         // 收藏的司导列表
-    public static final String COLLECT_GUIDES_FILTER        = "ucenter/v1.0/c/favorite/guides/filter";                  // 过滤用户收藏的司导
+    public static final String COLLECT_GUIDES_LIST          = "ucenter/v1.1/c/favorite/guides";                         // 收藏的司导列表
+    public static final String COLLECT_GUIDES_FILTER        = "ucenter/v1.1/c/favorite/guides/filter";                  // 过滤用户收藏的司导
     public static final String COLLECT_GUIDES_ID            = "ucenter/v1.0/c/userid/favorite/guide";                   // 收藏司导（司导ID）
     public static final String UNCOLLECT_GUIDES_ID          = "ucenter/v1.0/c/userid/unfavor/guide";                    // 取消收藏司导（司导ID）
     public static final String GET_INVITATION_CODE          = "ucenter/v1.0/c/invitation/code";                         // 获取邀请码

@@ -2,6 +2,7 @@ package com.hugboga.custom.data.bean;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by qingcha on 16/5/23.
@@ -29,6 +30,8 @@ public class CollectGuideBean implements Serializable {
     public String cityName;                     //司导所在城市名
     public int countryId;                       //司导所在国家ID
     public String countryName;                  //司导所在国家名称
+
+    public List<GuideCars> guideCars;           //司导的车
 
     /**
      * 判断可预约状态 1.可预约(true)、0.不可预约
