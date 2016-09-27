@@ -431,22 +431,23 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
 
     //是否可以服务
     boolean canService = true;
-
+    //显示司导车辆信息
     private void initGuideLayout() {
         if (null != collectGuideBean) {
 
+            //查询报价后显示
             if (null != carListBean) {
-                carBean = CarUtils.isMatchLocal(CarUtils.getNewCarBean(collectGuideBean), carListBean.carList);
-            } else {
+                if(null == carListBean.carList || carListBean.carList.size() == 0){
+                    canService = false;
+                    carBean = CarUtils.getNewCarBean(collectGuideBean);
+                    CommonUtils.showToast(R.string.no_have_car);
+                }else{
+                    canService = true;
+                }
+            } else {//选完司导后显示
                 carBean = CarUtils.getNewCarBean(collectGuideBean);
             }
-            if (null == carBean) {
-                canService = false;
-                carBean = CarUtils.getNewCarBean(collectGuideBean);
-                CommonUtils.showToast(R.string.no_have_car);
-            } else {
-                canService = true;
-            }
+
             driver_layout.setVisibility(View.VISIBLE);
             driverName.setText(collectGuideBean.name);
             man_luggage_layout.setVisibility(View.GONE);

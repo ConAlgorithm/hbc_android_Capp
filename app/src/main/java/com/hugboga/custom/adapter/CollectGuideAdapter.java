@@ -74,6 +74,16 @@ public class CollectGuideAdapter extends BaseAdapter<CollectGuideBean> {
         }
         holder.nameTV.setText(collectGuideBean.name);
         holder.ratingView.setRating(collectGuideBean.stars);
+
+        holder.score.setText(collectGuideBean.stars + "分");
+        holder.city.setText(collectGuideBean.countryName+"-"+collectGuideBean.cityName);
+
+        if(collectGuideBean.gender == 1){
+            holder.nameTV.setCompoundDrawablesWithIntrinsicBounds(0,0,R.mipmap.man_icon,0);
+        }else{
+            holder.nameTV.setCompoundDrawablesWithIntrinsicBounds(0,0,R.mipmap.woman_icon,0);
+        }
+
         if (isShowStatusLayout) {
             holder.appointmentTV.setVisibility(View.GONE);
             holder.describeTV.setText(context.getString(R.string.collect_guide_describe, collectGuideBean.carModel, collectGuideBean.numOfPerson, collectGuideBean.numOfLuggage));
@@ -209,6 +219,10 @@ public class CollectGuideAdapter extends BaseAdapter<CollectGuideBean> {
         View rightLine;
         @ViewInject(R.id.collect_guide_item_top_layout)
         RelativeLayout topLayout;
+        @ViewInject(R.id.city)
+        TextView city;
+        @ViewInject(R.id.score)
+        TextView score;
 
     }
 }
