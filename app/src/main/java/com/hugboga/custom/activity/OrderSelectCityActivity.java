@@ -788,47 +788,48 @@ public class OrderSelectCityActivity extends BaseActivity {
                 carBean = requestGetCarInfo.getData();
 
                 if (null != carBean && null != carBean.cars && carBean.cars.size() != 0) {
-                    Bundle bundle = new Bundle();
-                    bundle.putString("guideCollectId", null != collectGuideBean ? collectGuideBean.guideId : "");
-                    bundle.putSerializable("collectGuideBean", collectGuideBean);
-                    bundle.putString("source", source);
-                    bundle.putString("startCityId", startBean.cityId + "");
-                    bundle.putString("endCityId", isHalfTravel ? (startBean.cityId + "") : passBeanList.get(passBeanList.size() - 1).cityId + "");//endCityId);
-                    bundle.putString("startDate", isHalfTravel ? (halfDate) : (start_date_str));
-                    bundle.putString("endDate", isHalfTravel ? (halfDate) : (end_date_str));
-                    bundle.putString("halfDay", isHalfTravel ? "1" : "0");
-                    bundle.putString("adultNum", manNum + "");
-                    bundle.putString("childrenNum", childNum + "");
-                    bundle.putString("childseatNum", childSeatNums + "");
-                    if (null != collectGuideBean) {
-                        int maxLuuages = (collectGuideBean.numOfLuggage + collectGuideBean.numOfPerson)
-                                - Integer.valueOf(manNum) - Math.round(Integer.valueOf(childSeatNums) * 1.5f)
-                                - (Integer.valueOf(childNum) - Integer.valueOf(childSeatNums));
-                        baggageNum = maxLuuages;
-                    }
-                    bundle.putString("luggageNum", baggageNum + "");
-                    bundle.putString("passCities", isHalfTravel ? "" : getPassCities());
-                    bundle.putString("carTypeName", null != getMatchCarBean() ? getMatchCarBean().carDesc : "");
-                    bundle.putString("startCityName", startBean.name);
-                    bundle.putString("dayNums", nums + "");
-                    bundle.putSerializable("startBean", startBean);
-                    bundle.putSerializable("endBean", endBean);
-                    bundle.putInt("outnum", getOutNum());
-                    bundle.putInt("innum", getInNum());
-                    bundle.putString("source", source);
-                    bundle.putBoolean("isHalfTravel", isHalfTravel);
-                    bundle.putSerializable("passCityList", passBeanList);
-                    bundle.putString("orderType", "3");
-                    bundle.putSerializable("carBean", getMatchCarBean());
-                    bundle.putBoolean("isHalfTravel", isHalfTravel);
-                    bundle.putInt("type", 3);
-                    bundle.putString("orderType", "3");
-                    StatisticClickEvent.dailyClick(StatisticConstant.CONFIRM_R, "自定义包车确认行程", getIntentSource(), collectGuideBean, collectGuideBean.numOfPerson + "");
-
-                    Intent intent = new Intent(activity, OrderNewActivity.class);
-                    intent.putExtra(Constants.PARAMS_SOURCE,getIntentSource());
-                    intent.putExtras(bundle);
-                    startActivity(intent);
+                    goToSelectCar();
+//                    Bundle bundle = new Bundle();
+//                    bundle.putString("guideCollectId", null != collectGuideBean ? collectGuideBean.guideId : "");
+//                    bundle.putSerializable("collectGuideBean", collectGuideBean);
+//                    bundle.putString("source", source);
+//                    bundle.putString("startCityId", startBean.cityId + "");
+//                    bundle.putString("endCityId", isHalfTravel ? (startBean.cityId + "") : passBeanList.get(passBeanList.size() - 1).cityId + "");//endCityId);
+//                    bundle.putString("startDate", isHalfTravel ? (halfDate) : (start_date_str));
+//                    bundle.putString("endDate", isHalfTravel ? (halfDate) : (end_date_str));
+//                    bundle.putString("halfDay", isHalfTravel ? "1" : "0");
+//                    bundle.putString("adultNum", manNum + "");
+//                    bundle.putString("childrenNum", childNum + "");
+//                    bundle.putString("childseatNum", childSeatNums + "");
+//                    if (null != collectGuideBean) {
+//                        int maxLuuages = (collectGuideBean.numOfLuggage + collectGuideBean.numOfPerson)
+//                                - Integer.valueOf(manNum) - Math.round(Integer.valueOf(childSeatNums) * 1.5f)
+//                                - (Integer.valueOf(childNum) - Integer.valueOf(childSeatNums));
+//                        baggageNum = maxLuuages;
+//                    }
+//                    bundle.putString("luggageNum", baggageNum + "");
+//                    bundle.putString("passCities", isHalfTravel ? "" : getPassCities());
+//                    bundle.putString("carTypeName", null != getMatchCarBean() ? getMatchCarBean().carDesc : "");
+//                    bundle.putString("startCityName", startBean.name);
+//                    bundle.putString("dayNums", nums + "");
+//                    bundle.putSerializable("startBean", startBean);
+//                    bundle.putSerializable("endBean", endBean);
+//                    bundle.putInt("outnum", getOutNum());
+//                    bundle.putInt("innum", getInNum());
+//                    bundle.putString("source", source);
+//                    bundle.putBoolean("isHalfTravel", isHalfTravel);
+//                    bundle.putSerializable("passCityList", passBeanList);
+//                    bundle.putString("orderType", "3");
+//                    bundle.putSerializable("carBean", getMatchCarBean());
+//                    bundle.putBoolean("isHalfTravel", isHalfTravel);
+//                    bundle.putInt("type", 3);
+//                    bundle.putString("orderType", "3");
+//                    StatisticClickEvent.dailyClick(StatisticConstant.CONFIRM_R, "自定义包车确认行程", getIntentSource(), collectGuideBean, collectGuideBean.numOfPerson + "");
+//
+//                    Intent intent = new Intent(activity, OrderNewActivity.class);
+//                    intent.putExtra(Constants.PARAMS_SOURCE,getIntentSource());
+//                    intent.putExtras(bundle);
+//                    startActivity(intent);
                 } else {
                     CommonUtils.showToast(R.string.no_price_error);
                 }
@@ -864,9 +865,10 @@ public class OrderSelectCityActivity extends BaseActivity {
     String guideCollectId = "";
 
     private void checkGuideCoflict() {
-        if (((manNum + Math.round(childSeatNums * 1.5) + (childNum - childSeatNums)) <= collectGuideBean.numOfPerson)
-                && ((manNum + Math.round((childSeatNums) * 1.5) + (childNum - childSeatNums)) + baggageNum)
-                <= (collectGuideBean.numOfPerson + collectGuideBean.numOfLuggage)) {
+
+//        if (((manNum + Math.round(childSeatNums * 1.5) + (childNum - childSeatNums)) <= collectGuideBean.numOfPerson)
+//                && ((manNum + Math.round((childSeatNums) * 1.5) + (childNum - childSeatNums)) + baggageNum)
+//                <= (collectGuideBean.numOfPerson + collectGuideBean.numOfLuggage)) {
             String end_time = (isHalfTravel ? halfDate : end_date_str) + " " + serverTime + ":00";
             if ("00:00".equalsIgnoreCase(serverTime)) {
                 end_time = (isHalfTravel ? halfDate : end_date_str) + " " + "23:59:59";
@@ -883,7 +885,8 @@ public class OrderSelectCityActivity extends BaseActivity {
                             if (guideList.size() == 0) {
                                 driver_tips.setVisibility(View.VISIBLE);
                             } else {
-                                getCarInfo();
+//                                getCarInfo();
+                                goToSelectCar();
                             }
                         }
 
@@ -897,10 +900,11 @@ public class OrderSelectCityActivity extends BaseActivity {
                             System.out.print(request);
                         }
                     });
-        } else {
-            driver_tips.setVisibility(View.VISIBLE);
         }
-    }
+//    else {
+//            driver_tips.setVisibility(View.VISIBLE);
+//        }
+//    }
 
     String serverTime = "00:00";
 
@@ -1029,40 +1033,47 @@ public class OrderSelectCityActivity extends BaseActivity {
                             checkGuideCoflict();
                         }
                     } else {
-                        Bundle bundleCar = new Bundle();
-                        bundleCar.putString("startCityId", startBean.cityId + "");
-                        bundleCar.putString("endCityId", isHalfTravel ? (startBean.cityId + "") : passBeanList.get(passBeanList.size() - 1).cityId + "");//endCityId);
-                        bundleCar.putString("startDate", isHalfTravel ? (halfDate) : (start_date_str));
-                        bundleCar.putString("endDate", isHalfTravel ? (halfDate) : (end_date_str));
-                        bundleCar.putString("serverTime", serverTime);
-                        bundleCar.putString("halfDay", isHalfTravel ? "1" : "0");
-                        bundleCar.putString("adultNum", manNum + "");
-                        bundleCar.putString("childrenNum", childNum + "");
-                        bundleCar.putString("childseatNum", childSeatNums + "");
-                        bundleCar.putString("luggageNum", baggageNum + "");
-                        bundleCar.putString("passCities", isHalfTravel ? "" : getPassCities());
-
-                        bundleCar.putString("startCityName", startBean.name);
-                        bundleCar.putString("dayNums", nums + "");
-                        bundleCar.putSerializable("startBean", startBean);
-                        bundleCar.putSerializable("endBean", endBean);
-                        bundleCar.putInt("outnum", getOutNum());
-                        bundleCar.putInt("innum", getInNum());
-                        bundleCar.putString("source", source);
-                        bundleCar.putBoolean("isHalfTravel", isHalfTravel);
-                        bundleCar.putSerializable("passCityList", passBeanList);
-                        bundleCar.putString("orderType", "3");
-
-                        StatisticClickEvent.dailyClick(StatisticConstant.CONFIRM_R, getIntentSource(), EventUtil.getInstance().sourceDetail, collectGuideBean, (childNum + manNum) + "");
-                        Intent intent = new Intent(activity, SelectCarActivity.class);
-                        intent.putExtra(Constants.PARAMS_SOURCE,getIntentSource());
-                        intent.putExtras(bundleCar);
-                        startActivity(intent);
+                        goToSelectCar();
                     }
 
                 }
                 break;
         }
+    }
+
+
+    private void goToSelectCar(){
+        Bundle bundleCar = new Bundle();
+        bundleCar.putString("startCityId", startBean.cityId + "");
+        bundleCar.putString("endCityId", isHalfTravel ? (startBean.cityId + "") : passBeanList.get(passBeanList.size() - 1).cityId + "");//endCityId);
+        bundleCar.putString("startDate", isHalfTravel ? (halfDate) : (start_date_str));
+        bundleCar.putString("endDate", isHalfTravel ? (halfDate) : (end_date_str));
+        bundleCar.putString("serverTime", serverTime);
+        bundleCar.putString("halfDay", isHalfTravel ? "1" : "0");
+        bundleCar.putString("adultNum", manNum + "");
+        bundleCar.putString("childrenNum", childNum + "");
+        bundleCar.putString("childseatNum", childSeatNums + "");
+        bundleCar.putString("luggageNum", baggageNum + "");
+        bundleCar.putString("passCities", isHalfTravel ? "" : getPassCities());
+
+        bundleCar.putString("startCityName", startBean.name);
+        bundleCar.putString("dayNums", nums + "");
+        bundleCar.putSerializable("startBean", startBean);
+        bundleCar.putSerializable("endBean", endBean);
+        bundleCar.putInt("outnum", getOutNum());
+        bundleCar.putInt("innum", getInNum());
+        bundleCar.putString("source", source);
+        bundleCar.putBoolean("isHalfTravel", isHalfTravel);
+        bundleCar.putSerializable("passCityList", passBeanList);
+        bundleCar.putString("orderType", "3");
+
+        bundleCar.putSerializable("collectGuideBean",collectGuideBean);
+
+        StatisticClickEvent.dailyClick(StatisticConstant.CONFIRM_R, getIntentSource(), EventUtil.getInstance().sourceDetail, collectGuideBean, (childNum + manNum) + "");
+        Intent intent = new Intent(activity, SelectCarActivity.class);
+        intent.putExtra(Constants.PARAMS_SOURCE,getIntentSource());
+        intent.putExtras(bundleCar);
+        startActivity(intent);
     }
 
     TimePicker picker;
