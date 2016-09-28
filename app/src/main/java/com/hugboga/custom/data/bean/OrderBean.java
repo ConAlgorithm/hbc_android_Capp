@@ -111,8 +111,8 @@ public class OrderBean implements IBaseBean{
     public Integer carType;              // carTypeId 车辆类型：1-经济型、2-舒适型、3-豪华型、4-奢华型；
     public String carDesc;               // 车辆描述（现代圣达菲,起亚K5,雪佛兰迈锐宝）
     public Integer seatCategory;         // carSeatNum 车座数
-    public Integer adult;                // adultNum 成人座位数
-    public Integer child;                // childNum 小孩座位数
+    public Integer adult;                // adultNum 成人数
+    public Integer child;                // childNum 小孩数
     public String passengerInfos;        // 座位信息 乘坐%1$s人、行李箱%2$s件、儿童座椅%3$s个
     public ArrayList<String> childSeat;  // 儿童座椅价格及个数
 

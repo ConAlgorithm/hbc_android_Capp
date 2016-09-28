@@ -489,36 +489,32 @@ public class MainActivity extends BaseActivity
     }
 
     private void receivePushMessage(Intent intent) {
-        if (intent != null) {
-            if (intent.getData() != null && "rong".equals(intent.getData().getScheme())) {
-//                Intent intentIm = new Intent(this, IMChatActivity.class);
-//                intentIm.putExtra(IMChatActivity.KEY_TITLE, intent.getData().toString());
-//                startActivity(intentIm);
+        if (intent == null) {
+            return;
+        }
+        PushMessage message = (PushMessage) intent.getSerializableExtra(MainActivity.PUSH_BUNDLE_MSG);
+        if (message != null) {
+            uploadPushClick(message.messageID);
+            ActionBean actionBean = message.getActionBean();
+            actionBean.source = "push调起";
+            if (actionBean != null) {
+                ActionController actionFactory = ActionController.getInstance(this);
+                actionFactory.doAction(actionBean);
+                this.actionBean = actionBean;
             } else {
-                PushMessage message = (PushMessage) intent.getSerializableExtra(MainActivity.PUSH_BUNDLE_MSG);
-                if (message != null) {
-                    uploadPushClick(message.messageID);
-                    ActionBean actionBean = message.getActionBean();
-                    if (actionBean != null) {
-                        ActionController actionFactory = ActionController.getInstance(this);
-                        actionFactory.doAction(actionBean);
-                        this.actionBean = actionBean;
-                    } else {
-                        if ("IM".equals(message.type)) {
-                            gotoChatList();
-                        } else if ("888".equals(message.orderType)) {
-                            if (getFragmentList().size() > 3) {
-                                for (int i = getFragmentList().size() - 1; i >= 3; i--) {
-                                    getFragmentList().get(i).finish();
-                                }
-                            }
-                            if (mViewPager != null) {
-                                mViewPager.setCurrentItem(2);
-                            }
-                        } else {
-                            gotoOrder(message);
+                if ("IM".equals(message.type)) {
+                    gotoChatList();
+                } else if ("888".equals(message.orderType)) {
+                    if (getFragmentList().size() > 3) {
+                        for (int i = getFragmentList().size() - 1; i >= 3; i--) {
+                            getFragmentList().get(i).finish();
                         }
                     }
+                    if (mViewPager != null) {
+                        mViewPager.setCurrentItem(2);
+                    }
+                } else {
+                    gotoOrder(message);
                 }
             }
         }
