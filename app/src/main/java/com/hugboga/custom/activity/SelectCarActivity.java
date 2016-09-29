@@ -393,9 +393,9 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
             luggageNumTv.setText(carBean.capOfLuggage+"");
             String carDesc = "";
             if(null != carBean.carLicenceNo){
-                carDesc = null == carBean.carBrandName?"":carBean.carBrandName + null != carBean.carName?"":carBean.carName +"     车牌:"+carBean.carLicenceNo;
+                carDesc = (null == carBean.carBrandName?"":carBean.carBrandName) + (null == carBean.carName?"":carBean.carName) +"     车牌:"+carBean.carLicenceNo;
             }else{
-                carDesc = null == carBean.carBrandName?"":carBean.carBrandName + null != carBean.carName?"":carBean.carName ;
+                carDesc = (null == carBean.carBrandName?"":carBean.carBrandName) + (null == carBean.carName?"":carBean.carName);
             }
             if(TextUtils.isEmpty(carDesc)){
                 fgCarIntro.setVisibility(GONE);

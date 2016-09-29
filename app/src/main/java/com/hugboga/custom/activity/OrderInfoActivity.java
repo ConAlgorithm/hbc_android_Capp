@@ -11,8 +11,8 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.data.bean.CarBean;
 import com.hugboga.custom.data.bean.DayQuoteBean;
-import com.hugboga.custom.data.bean.SelectCarBean;
 import com.hugboga.custom.data.bean.ServiceQuoteSumBean;
 import com.hugboga.custom.data.net.UrlLibs;
 
@@ -89,12 +89,12 @@ public class OrderInfoActivity extends BaseActivity {
 
     String halfDay = "0";
     protected void initView() {
-        carBean = (SelectCarBean) this.getIntent().getSerializableExtra("carBean");
+        carBean = (CarBean) this.getIntent().getSerializableExtra("carBean");
         halfDay = this.getIntent().getStringExtra("halfDay");
         showContent();
     }
 
-    SelectCarBean carBean;
+    CarBean carBean;
     public void showContent(){
         try {
             genServiceInfo(false);

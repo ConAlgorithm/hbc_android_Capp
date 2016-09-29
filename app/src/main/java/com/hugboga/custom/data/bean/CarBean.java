@@ -6,7 +6,7 @@ import java.util.List;
  * 车型
  * Created by admin on 2015/7/22.
  */
-public class CarBean implements IBaseBean {
+public class CarBean implements IBaseBean ,Cloneable{
 
     public int id;
     public int carType;//类型
@@ -60,5 +60,14 @@ public class CarBean implements IBaseBean {
     public String carBrandName;
     public String carName;
 
+    @Override
+    public Object clone() {
+        try {
+            return super.clone();
+        }catch (Exception e) {
+            return null;
+        }
+
+    }
 
 }

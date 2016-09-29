@@ -1,12 +1,8 @@
 package com.hugboga.custom.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.SpannableString;
-import android.text.Spanned;
 import android.text.TextUtils;
-import android.text.style.ClickableSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CompoundButton;
@@ -25,6 +21,7 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.AirPort;
 import com.hugboga.custom.data.bean.AreaCodeBean;
+import com.hugboga.custom.data.bean.CarBean;
 import com.hugboga.custom.data.bean.CarListBean;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.CollectGuideBean;
@@ -75,9 +72,7 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -86,7 +81,6 @@ import cn.qqtheme.framework.picker.TimePicker;
 
 import static android.view.View.GONE;
 import static com.hugboga.custom.R.id.man_name;
-import static com.hugboga.custom.R.id.text;
 import static com.hugboga.custom.R.id.up_address_right;
 import static com.hugboga.custom.R.id.up_right;
 
@@ -287,7 +281,7 @@ public class OrderNewActivity extends BaseActivity {
     String passCities;
     String startCityName;
     String dayNums = "0";
-    SelectCarBean carBean;
+    CarBean carBean;
 
     CityBean startBean;
     CityBean endBean;
@@ -328,7 +322,7 @@ public class OrderNewActivity extends BaseActivity {
 
         collectGuideBean = (CollectGuideBean) this.getIntent().getSerializableExtra("collectGuideBean");
 
-        carBean = (SelectCarBean)this.getIntent().getSerializableExtra("carBean");
+        carBean = (CarBean)this.getIntent().getSerializableExtra("carBean");
         if(null != collectGuideBean) {
             guideCollectId = collectGuideBean.guideId;
         }
@@ -547,7 +541,7 @@ public class OrderNewActivity extends BaseActivity {
 
         serverDate = this.getIntent().getStringExtra("serverDate");
         serverTime = this.getIntent().getStringExtra("serverTime");
-        carBean = (SelectCarBean) this.getIntent().getSerializableExtra("carBean");
+        carBean = (CarBean) this.getIntent().getSerializableExtra("carBean");
 
         citysLineTitle.setText("当地时间" + serverDate + "(" + DateUtils.getWeekOfDate(serverDate) + ")" + "  " + serverTime);
         citys_line_title_tips.setVisibility(GONE);
@@ -615,7 +609,7 @@ public class OrderNewActivity extends BaseActivity {
         cancleTipsId = flightBean.arrivalAirport.cityId + "";
 
 
-        carBean = (SelectCarBean) this.getIntent().getSerializableExtra("carBean");
+        carBean = (CarBean) this.getIntent().getSerializableExtra("carBean");
 
         adultNum = this.getIntent().getStringExtra("adultNum");
         childrenNum = this.getIntent().getStringExtra("childrenNum");

@@ -168,12 +168,11 @@ public class CarUtils {
     //根据司导车辆和 报价返回车辆 生成新的车辆信息
     public static ArrayList<CarBean> getCarBeanList(List<CarBean> carBeans,List<GuideCars> guideCars){
         ArrayList<CarBean> list = new ArrayList<>();
-        CarBean carBean = null;
         for(int n = 0;n < carBeans.size();n++) {
             for (int i = 0; i < guideCars.size(); i++) {
                 if (carBeans.get(n).carType == guideCars.get(i).carType &&
-                        carBeans.get(n).carSeat == guideCars.get(i).carClass) {
-                    carBean = carBeans.get(n);
+                        carBeans.get(n).seatType == guideCars.get(i).carClass) {
+                    CarBean carBean = (CarBean)(carBeans.get(n).clone());
                     carBean.carLicenceNo = guideCars.get(i).carLicenceNo;
                     carBean.carBrandName = guideCars.get(i).carBrandName;
                     carBean.carName = guideCars.get(i).carName;

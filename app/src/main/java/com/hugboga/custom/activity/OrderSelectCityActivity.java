@@ -790,47 +790,6 @@ public class OrderSelectCityActivity extends BaseActivity {
 
                 if (null != carBean && null != carBean.cars && carBean.cars.size() != 0) {
                     goToSelectCar();
-//                    Bundle bundle = new Bundle();
-//                    bundle.putString("guideCollectId", null != collectGuideBean ? collectGuideBean.guideId : "");
-//                    bundle.putSerializable("collectGuideBean", collectGuideBean);
-//                    bundle.putString("source", source);
-//                    bundle.putString("startCityId", startBean.cityId + "");
-//                    bundle.putString("endCityId", isHalfTravel ? (startBean.cityId + "") : passBeanList.get(passBeanList.size() - 1).cityId + "");//endCityId);
-//                    bundle.putString("startDate", isHalfTravel ? (halfDate) : (start_date_str));
-//                    bundle.putString("endDate", isHalfTravel ? (halfDate) : (end_date_str));
-//                    bundle.putString("halfDay", isHalfTravel ? "1" : "0");
-//                    bundle.putString("adultNum", manNum + "");
-//                    bundle.putString("childrenNum", childNum + "");
-//                    bundle.putString("childseatNum", childSeatNums + "");
-//                    if (null != collectGuideBean) {
-//                        int maxLuuages = (collectGuideBean.numOfLuggage + collectGuideBean.numOfPerson)
-//                                - Integer.valueOf(manNum) - Math.round(Integer.valueOf(childSeatNums) * 1.5f)
-//                                - (Integer.valueOf(childNum) - Integer.valueOf(childSeatNums));
-//                        baggageNum = maxLuuages;
-//                    }
-//                    bundle.putString("luggageNum", baggageNum + "");
-//                    bundle.putString("passCities", isHalfTravel ? "" : getPassCities());
-//                    bundle.putString("carTypeName", null != getMatchCarBean() ? getMatchCarBean().carDesc : "");
-//                    bundle.putString("startCityName", startBean.name);
-//                    bundle.putString("dayNums", nums + "");
-//                    bundle.putSerializable("startBean", startBean);
-//                    bundle.putSerializable("endBean", endBean);
-//                    bundle.putInt("outnum", getOutNum());
-//                    bundle.putInt("innum", getInNum());
-//                    bundle.putString("source", source);
-//                    bundle.putBoolean("isHalfTravel", isHalfTravel);
-//                    bundle.putSerializable("passCityList", passBeanList);
-//                    bundle.putString("orderType", "3");
-//                    bundle.putSerializable("carBean", getMatchCarBean());
-//                    bundle.putBoolean("isHalfTravel", isHalfTravel);
-//                    bundle.putInt("type", 3);
-//                    bundle.putString("orderType", "3");
-//                    StatisticClickEvent.dailyClick(StatisticConstant.CONFIRM_R, "自定义包车确认行程", getIntentSource(), collectGuideBean, collectGuideBean.numOfPerson + "");
-//
-//                    Intent intent = new Intent(activity, OrderNewActivity.class);
-//                    intent.putExtra(Constants.PARAMS_SOURCE,getIntentSource());
-//                    intent.putExtras(bundle);
-//                    startActivity(intent);
                 } else {
                     CommonUtils.showToast(R.string.no_price_error);
                 }
@@ -852,10 +811,6 @@ public class OrderSelectCityActivity extends BaseActivity {
     String guideCollectId = "";
 
     private void checkGuideCoflict() {
-
-//        if (((manNum + Math.round(childSeatNums * 1.5) + (childNum - childSeatNums)) <= collectGuideBean.numOfPerson)
-//                && ((manNum + Math.round((childSeatNums) * 1.5) + (childNum - childSeatNums)) + baggageNum)
-//                <= (collectGuideBean.numOfPerson + collectGuideBean.numOfLuggage)) {
             String end_time = (isHalfTravel ? halfDate : end_date_str) + " " + serverTime + ":00";
             if ("00:00".equalsIgnoreCase(serverTime)) {
                 end_time = (isHalfTravel ? halfDate : end_date_str) + " " + "23:59:59";
@@ -872,7 +827,6 @@ public class OrderSelectCityActivity extends BaseActivity {
                             if (guideList.size() == 0) {
                                 driver_tips.setVisibility(View.VISIBLE);
                             } else {
-//                                getCarInfo();
                                 goToSelectCar();
                             }
                         }
@@ -888,10 +842,6 @@ public class OrderSelectCityActivity extends BaseActivity {
                         }
                     });
         }
-//    else {
-//            driver_tips.setVisibility(View.VISIBLE);
-//        }
-//    }
 
     String serverTime = "00:00";
 
@@ -1302,8 +1252,4 @@ public class OrderSelectCityActivity extends BaseActivity {
                 break;
         }
     }
-
-
-
-
 }
