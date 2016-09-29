@@ -7,7 +7,6 @@ import com.hugboga.custom.constants.ChooseCarTypeEnum;
 import com.hugboga.custom.data.bean.CarBean;
 import com.hugboga.custom.data.bean.CollectGuideBean;
 import com.hugboga.custom.data.bean.GuideCars;
-import com.hugboga.custom.data.bean.SelectCarBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,46 +14,6 @@ import java.util.List;
 
 public class CarUtils {
 
-    public static  SelectCarBean carBeanAdapter(CarBean carBean){
-        SelectCarBean selectCarBean = new SelectCarBean();
-        selectCarBean.seatCategory = carBean.carSeat;
-        selectCarBean.carType = carBean.carType;
-        selectCarBean.price = carBean.price;
-        selectCarBean.carDesc = carBean.desc;
-        selectCarBean.capOfLuggage = carBean.capOfLuggage;
-        selectCarBean.capOfPerson = carBean.capOfPerson;
-        selectCarBean.localPrice = carBean.localPrice;
-        selectCarBean.models = carBean.models;
-        selectCarBean.pricemark = carBean.pricemark;
-        selectCarBean.expectedCompTime = carBean.expectedCompTime;
-        selectCarBean.originalPrice = carBean.originalPrice;
-
-        selectCarBean.special = carBean.special;
-        selectCarBean.carIntroduction = carBean.carIntroduction;
-        selectCarBean.carPictures = carBean.carPictures;
-        selectCarBean.carId = carBean.carId;
-        return selectCarBean;
-    }
-
-    public static  CarBean selectCarBeanAdapter(SelectCarBean selectCarBean){
-        CarBean carBean = new CarBean();
-        carBean.carSeat = selectCarBean.seatCategory;
-        carBean.carType = selectCarBean.carType;
-        carBean.price = selectCarBean.price;
-        carBean.desc = selectCarBean.carDesc;
-        carBean.capOfLuggage = selectCarBean.capOfLuggage;
-        carBean.capOfPerson = selectCarBean.capOfPerson;
-        carBean.localPrice = selectCarBean.localPrice;
-        carBean.models = selectCarBean.models;
-        carBean.pricemark = selectCarBean.pricemark;
-        carBean.expectedCompTime = selectCarBean.expectedCompTime;
-        carBean.originalPrice = selectCarBean.originalPrice;
-        carBean.special = selectCarBean.special;
-        carBean.carIntroduction = selectCarBean.carIntroduction;
-        carBean.carPictures = selectCarBean.carPictures;
-        carBean.carId = selectCarBean.carId;
-        return carBean;
-    }
 
     public static int getCarImgs(int carType,int carSeat){
         ChooseCarTypeEnum carTypeEnum = ChooseCarTypeEnum.getCarType(carType, carSeat);

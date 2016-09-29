@@ -445,7 +445,7 @@ public class SkuNewActivity extends BaseActivity {
         bundle.putString("source", source);
         bundle.putBoolean("isHalfTravel", false);
         bundle.putSerializable("passCityList", null);
-        bundle.putSerializable("carBean", CarUtils.carBeanAdapter(carBean));
+        bundle.putSerializable("carBean", carBean);
 
         if(skuBean.goodsClass == 1){
             bundle.putInt("type", 5);

@@ -36,7 +36,6 @@ import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.OrderContact;
 import com.hugboga.custom.data.bean.OrderInfoBean;
 import com.hugboga.custom.data.bean.PoiBean;
-import com.hugboga.custom.data.bean.SelectCarBean;
 import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
@@ -382,7 +381,10 @@ public class OrderNewActivity extends BaseActivity {
                         } else {
                             showPrice = carBean.price;
                         }
-                        allMoneyLeftText.setText(Tools.getRMB(activity) + (showPrice + checkInOrPickupPrice + hotelPrice + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean)));
+                        //其他费用总和
+                        int otherPriceTotal = checkInOrPickupPrice + hotelPrice + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean)
+                                + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean);
+                         allMoneyLeftText.setText(Tools.getRMB(activity) + (showPrice + otherPriceTotal));
 
                     } else {
                         int price = 0;
@@ -399,10 +401,12 @@ public class OrderNewActivity extends BaseActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     couponLeft.setChecked(false);
+                    int otherPriceTotal =  hotelPrice + checkInOrPickupPrice
+                            + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean);
                     if (null == deductionBean || null == deductionBean.priceToPay) {
-                        allMoneyLeftText.setText(Tools.getRMB(activity) + (carBean.price + hotelPrice + checkInOrPickupPrice + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean)));
+                        allMoneyLeftText.setText(Tools.getRMB(activity) + (carBean.price + otherPriceTotal));
                     } else {
-                        allMoneyLeftText.setText(Tools.getRMB(activity) + (carBean.price - money + hotelPrice + checkInOrPickupPrice + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean)));
+                        allMoneyLeftText.setText(Tools.getRMB(activity) + (carBean.price - money + otherPriceTotal));
                     }
                 }
             }
@@ -535,7 +539,6 @@ public class OrderNewActivity extends BaseActivity {
         luggageNum = this.getIntent().getStringExtra("luggageNum");
         manLuggageBean = (ManLuggageBean) this.getIntent().getSerializableExtra("manLuggageBean");
         type = this.getIntent().getIntExtra("type",0);
-        orderType = this.getIntent().getStringExtra("orderType");
 
         isCheckIn = this.getIntent().getBooleanExtra("needCheckin",true);
 

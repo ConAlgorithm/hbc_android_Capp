@@ -36,7 +36,6 @@ import com.hugboga.custom.data.bean.CarInfoBean;
 import com.hugboga.custom.data.bean.ChooseDateBean;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.CollectGuideBean;
-import com.hugboga.custom.data.bean.SelectCarBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.net.UrlLibs;

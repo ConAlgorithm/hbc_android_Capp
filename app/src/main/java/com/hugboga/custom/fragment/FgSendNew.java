@@ -457,7 +457,7 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
         bundle.putSerializable("collectGuideBean", collectGuideBean == null ? null : collectGuideBean);
         bundle.putString("source", source);
         carBean.expectedCompTime = carListBean.estTime;
-        bundle.putSerializable("carBean", CarUtils.carBeanAdapter(carBean));
+        bundle.putSerializable("carBean", carBean);
         bundle.putSerializable("carListBean", carListBean);
         bundle.putSerializable("airPortBean", airPortBean);
         bundle.putSerializable("poiBean", poiBean);
