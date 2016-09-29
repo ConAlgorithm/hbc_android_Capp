@@ -25,17 +25,40 @@ public class CarBean implements IBaseBean {
     public int capOfPerson;//人数
     public int price; // 钱
 
-    public int localPrice;
+    public String carLicenceNo;//车牌号
 
     public int priceChannel;
     public int orderChannel;
 
+
+    public int match;//是否有匹配的车
+
+    public int avgSpend;
+    public String carDesc;
+    public int localPrice;
+    public int numOfPerson;
+    public int overChargePerHour;
+    public String payDeadline;
+    public int seatCategory;
+    public int servicePrice;
+    public int totalDays;
+    public int vehiclePrice;
+    public ServiceQuoteSumBean serviceQuoteSum;
+    public ServiceQuoteSumBean vehicleQuoteSum;
+    public String serviceCityNote;
     public String expectedCompTime;
+
+    public int seatType;
+
+    public String carName2;
 
     public int carId;
     public int special;
     public String carIntroduction;
     public List<String> carPictures;
+
+    public String carBrandName;
+    public String carName;
 
 
 }

@@ -16,5 +16,6 @@ public class GuideCars {
     public String carClassName;
     public String carTypeName;
     public int carBrandId;
+    public String carLicenceNo;
 
 }

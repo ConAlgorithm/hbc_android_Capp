@@ -49,7 +49,6 @@ public class CarUtils {
         carBean.pricemark = selectCarBean.pricemark;
         carBean.expectedCompTime = selectCarBean.expectedCompTime;
         carBean.originalPrice = selectCarBean.originalPrice;
-
         carBean.special = selectCarBean.special;
         carBean.carIntroduction = selectCarBean.carIntroduction;
         carBean.carPictures = selectCarBean.carPictures;
@@ -161,6 +160,28 @@ public class CarUtils {
             }
         }
         return ids;
+    }
+
+    //司导bean
+    public static CollectGuideBean collectGuideBean = null;
+
+    //根据司导车辆和 报价返回车辆 生成新的车辆信息
+    public static ArrayList<CarBean> getCarBeanList(List<CarBean> carBeans,List<GuideCars> guideCars){
+        ArrayList<CarBean> list = new ArrayList<>();
+        CarBean carBean = null;
+        for(int n = 0;n < carBeans.size();n++) {
+            for (int i = 0; i < guideCars.size(); i++) {
+                if (carBeans.get(n).carType == guideCars.get(i).carType &&
+                        carBeans.get(n).carSeat == guideCars.get(i).carClass) {
+                    carBean = carBeans.get(n);
+                    carBean.carLicenceNo = guideCars.get(i).carLicenceNo;
+                    carBean.carBrandName = guideCars.get(i).carBrandName;
+                    carBean.carName = guideCars.get(i).carName;
+                    list.add(carBean);
+                }
+            }
+        }
+        return list;
     }
 
 

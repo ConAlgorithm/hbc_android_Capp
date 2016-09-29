@@ -7,7 +7,7 @@ import java.util.List;
  */
 public class CarInfoBean implements IBaseBean{
 
-    public List<SelectCarBean> cars;
+    public List<CarBean> cars;
     public int enableLocal;
     public int guideFloatSwitch;
 //    public int guideFloats: [ ],

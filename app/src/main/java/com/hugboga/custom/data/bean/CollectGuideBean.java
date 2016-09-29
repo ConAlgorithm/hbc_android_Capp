@@ -32,6 +32,7 @@ public class CollectGuideBean implements Serializable {
     public String countryName;                  //司导所在国家名称
 
     public List<GuideCars> guideCars;           //司导的车
+    public String carLicenceNo;                 //车牌号
 
     /**
      * 判断可预约状态 1.可预约(true)、0.不可预约

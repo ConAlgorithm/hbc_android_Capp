@@ -49,6 +49,7 @@ import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.statistic.event.EventUtil;
 import com.hugboga.custom.utils.AlertDialogUtils;
+import com.hugboga.custom.utils.CarUtils;
 import com.hugboga.custom.utils.CityUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DBCityUtils;
@@ -847,20 +848,6 @@ public class OrderSelectCityActivity extends BaseActivity {
         });
     }
 
-    //获取满足条件的car
-    private SelectCarBean getMatchCarBean() {
-        SelectCarBean selectCarBean = null;
-        if (null != carBean && null != carBean.cars) {
-            for (int i = 0; i < carBean.cars.size(); i++) {
-                selectCarBean = carBean.cars.get(i);
-                if (selectCarBean.carType == collectGuideBean.carType
-                        && selectCarBean.seatCategory == collectGuideBean.carClass) {
-                    return selectCarBean;
-                }
-            }
-        }
-        return selectCarBean;
-    }
 
     String guideCollectId = "";
 
@@ -1067,13 +1054,17 @@ public class OrderSelectCityActivity extends BaseActivity {
         bundleCar.putSerializable("passCityList", passBeanList);
         bundleCar.putString("orderType", "3");
 
-        bundleCar.putSerializable("collectGuideBean",collectGuideBean);
+        if(null != collectGuideBean) {
+            CarUtils.collectGuideBean = collectGuideBean;
+        }
 
-        StatisticClickEvent.dailyClick(StatisticConstant.CONFIRM_R, getIntentSource(), EventUtil.getInstance().sourceDetail, collectGuideBean, (childNum + manNum) + "");
+
         Intent intent = new Intent(activity, SelectCarActivity.class);
         intent.putExtra(Constants.PARAMS_SOURCE,getIntentSource());
         intent.putExtras(bundleCar);
         startActivity(intent);
+        StatisticClickEvent.dailyClick(StatisticConstant.CONFIRM_R, getIntentSource(), EventUtil.getInstance().sourceDetail, collectGuideBean, (childNum + manNum) + "");
+
     }
 
     TimePicker picker;
