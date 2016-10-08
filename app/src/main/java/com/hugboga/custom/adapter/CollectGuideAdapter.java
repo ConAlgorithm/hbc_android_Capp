@@ -86,7 +86,7 @@ public class CollectGuideAdapter extends BaseAdapter<CollectGuideBean> {
 
         if (isShowStatusLayout) {
             holder.appointmentTV.setVisibility(View.GONE);
-            holder.describeTV.setText(context.getString(R.string.collect_guide_describe, collectGuideBean.carModel, collectGuideBean.numOfPerson, collectGuideBean.numOfLuggage));
+            holder.describeTV.setText(context.getString(R.string.collect_guide_describe, collectGuideBean.carModel, "" + collectGuideBean.numOfPerson, "" + collectGuideBean.numOfLuggage));
             ArrayList<Integer> serviceTypes = collectGuideBean.serviceTypes;
             if (serviceTypes != null) {
                 boolean isShowPlane = false;
@@ -181,8 +181,10 @@ public class CollectGuideAdapter extends BaseAdapter<CollectGuideBean> {
         holder.topLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                GuideDetailActivity.Params params = new GuideDetailActivity.Params();
+                params.guideId = collectGuideBean.guideId;
                 Intent intent = new Intent(context, GuideDetailActivity.class);
-                intent.putExtra(Constants.PARAMS_DATA, collectGuideBean.guideId);
+                intent.putExtra(Constants.PARAMS_DATA, params);
                 if (context instanceof CollectGuideListActivity) {
                     intent.putExtra(Constants.PARAMS_SOURCE, ((CollectGuideListActivity)context).getIntentSource());
                 }

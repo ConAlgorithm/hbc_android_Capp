@@ -42,7 +42,7 @@ public final class ShareUrls {
      */
     public static String getShareGuideUrl(GuidesDetailData data, String userId) {
         ArrayMap<String, String> params = new ArrayMap<String, String>();
-        params.put("gid", CommonUtils.getEncodedString(data.getGuideId()));//司导ID
+//        params.put("gid", CommonUtils.getEncodedString(data.getGuideId()));//司导ID
         params.put("uid", CommonUtils.getEncodedString(userId));
         params.put("reurl", SHARE_GUIDE);
         return SHARE_BASE_WECHAT_URL + getUri(UrlLibs.SHARE_BASE_URL_1, params) + getScope("snsapi_base");
