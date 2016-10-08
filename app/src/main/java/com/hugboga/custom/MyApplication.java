@@ -161,7 +161,7 @@ public class MyApplication extends HbcApplication {
                 UrlLibs.SHARE_APPID = UrlLibs.DEV_SHARE_APPID;
                 return true;
             case 2:
-                UrlLibs.SERVER_IP_HOST_PUBLIC = UrlLibs.SERVER_HTTP_SCHEME_HTTPS + UrlLibs.SERVER_IP_HOST_PUBLIC_EXAMINATION;
+                UrlLibs.SERVER_IP_HOST_PUBLIC = UrlLibs.SERVER_HTTP_SCHEME_HTTP + UrlLibs.SERVER_IP_HOST_PUBLIC_EXAMINATION;
                 UrlLibs.H5_HOST = UrlLibs.TEST_H5_HOST;
                 UrlLibs.SHARE_BASE_URL_1 = UrlLibs.TEST_SHARE_BASE_URL_1;
                 UrlLibs.SHARE_BASE_URL_2 = UrlLibs.TEST_SHARE_BASE_URL_2;

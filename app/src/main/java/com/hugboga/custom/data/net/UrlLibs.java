@@ -145,7 +145,6 @@ public class UrlLibs {
     public static final String WECHAT_BIND_MOBILE           = SERVER_IP_PUBLIC_UER_CENTER + "wechat/bind/mobile?";           // 微信绑定手机号
     public static final String WECHAT_AFTER_SET_PASSWORD    = SERVER_IP_PUBLIC_UER_CENTER + "wechat/update/password?";       // 微信跳过后再绑定手机设置密码
 
-    public static final String API_GUIDES_DETAIL            = "ucenter/v1.0/c/favorite/guide/detail";                   // 导游详情
     public static final String COLLECT_GUIDES_LIST          = "ucenter/v1.1/c/favorite/guides";                         // 收藏的司导列表
     public static final String COLLECT_GUIDES_FILTER        = "ucenter/v1.1/c/favorite/guides/filter";                  // 过滤用户收藏的司导
     public static final String COLLECT_GUIDES_ID            = "ucenter/v1.0/c/userid/favorite/guide";                   // 收藏司导（司导ID）
@@ -212,6 +211,7 @@ public class UrlLibs {
     public static final String API_EVALUATE_NEW             = "supplier/v1.1/c/guide/comments/create";                  // 评价司导
     public static final String API_EVALUATE_TAG             = "supplier/v1.0/c/guides/comments/labels/OrderType";       // 获取各个星级的标签列表
     public static final String API_COMMENTS_LIST            = "supplier/v1.0/c/guide/commentsForGuideDetail";           // 司导个人页的导游评价列表
+    public static final String API_GUIDES_DETAIL            = "supplier/v1.0/c/guidecenter/detail";                     // 导游详情
 
     public static final String SERVER_IP_ACCESSKEY          = "passport/v1.0/getAccessKey?";                            // 获取accessKey
     public static final String SERVER_IP_CHECK_APP_VERSION  = "passport/v1.0/checkAppVersion?";                         // 版本检测

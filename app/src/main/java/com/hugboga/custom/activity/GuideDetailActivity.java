@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
@@ -32,12 +34,16 @@ import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.EvaluateListItemView;
+import com.hugboga.custom.widget.EvaluateTagGroup;
+import com.hugboga.custom.widget.GuideDetailScrollView;
 import com.hugboga.custom.widget.SimpleRatingBar;
+import com.hugboga.custom.widget.TagGroup;
 
 import net.grobas.view.PolygonImageView;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import butterknife.Bind;
@@ -47,110 +53,115 @@ import butterknife.OnClick;
 /**
  * Created by on 16/8/4.
  */
-public class GuideDetailActivity extends BaseActivity implements GuideCarPhotosAdapter.OnItemClickListener {
+public class GuideDetailActivity extends BaseActivity{
 
+    public static final String PARAMS_IS_SELET_SERVICE = "isSeletService";
+
+    @Bind(R.id.guide_detail_titlebar)
+    RelativeLayout titlebar;
+    @Bind(R.id.header_detail_right_2_btn)
+    ImageView collectIV;
+    @Bind(R.id.header_detail_right_1_btn)
+    ImageView shareIV;
+
+    @Bind(R.id.guide_detail_scrollview)
+    GuideDetailScrollView scrollView;
+    @Bind(R.id.guide_detail_city_bg_layout)
+    RelativeLayout cityBgLayout;
+    @Bind(R.id.guide_detail_city_bg_iv)
+    ImageView cityBgIV;
     @Bind(R.id.guide_detail_avatar_iv)
     PolygonImageView avatarIV;
-    @Bind(R.id.guide_detail_name_tv)
-    TextView nameTV;
-    @Bind(R.id.guide_detail_attestation_iv)
-    ImageView attestationIV;
-    @Bind(R.id.guide_detail_location_iv)
-    ImageView locationIV;
-    @Bind(R.id.guide_detail_location_tv)
-    TextView locationTV;
-    @Bind(R.id.guide_detail_describe_tv)
-    TextView describeTV;
-    @Bind(R.id.guide_detail_platenumber_tv)
-    TextView platenumberTV;
+    @Bind(R.id.guide_detail_city_name_tv)
+    TextView cityNameTV;
+    @Bind(R.id.guide_detail_evaluate_item)
+    EvaluateListItemView evaluateItemView;
+    @Bind(R.id.guide_detail_taggroup)
+    TagGroup tagGroup;
     @Bind(R.id.guide_detail_ratingView)
     SimpleRatingBar ratingView;
     @Bind(R.id.guide_detail_score_tv)
     TextView scoreTV;
-    @Bind(R.id.guide_detail_right_line)
-    View rightLineView;
-    @Bind(R.id.guide_detail_left_line)
-    View leftLineView;
+
+    @Bind(R.id.guide_detail_name_tv)
+    TextView nameTV;
+    @Bind(R.id.guide_detail_gender_iv)
+    ImageView genderIV;
+    @Bind(R.id.guide_detail_driver_layout)
+    LinearLayout driverLayout;
+    @Bind(R.id.guide_detail_driver_avatar_iv)
+    PolygonImageView driverAvatarIV;
+    @Bind(R.id.guide_detail_driver_name_tv)
+    TextView driverNameTV;
+    @Bind(R.id.guide_detail_driver_gender_iv)
+    ImageView driverGenderIV;
+
+    @Bind(R.id.guide_detail_subtitle_appointment_line)
+    View appointmentLine;
+    @Bind(R.id.guide_detail_subtitle_appointment_tv)
+    TextView appointmentTV;
     @Bind(R.id.guide_detail_plane_layout)
-    LinearLayout planeLayout;
+    RelativeLayout planeLayout;
     @Bind(R.id.guide_detail_car_layout)
-    LinearLayout charteredCarLayout;
+    RelativeLayout charteredCarLayout;
     @Bind(R.id.guide_detail_single_layout)
-    LinearLayout singleLayout;
-    @Bind(R.id.guide_detail_evaluate_item)
-    EvaluateListItemView evaluateItemView;
-    @Bind(R.id.guide_detail_photo_recyclerview)
-    RecyclerView carRecyclerView;
-    @Bind(R.id.guide_detail_subtitle_photo_layout)
-    FrameLayout carPhotosLayout;
-    @Bind(R.id.header_detail_title_tv)
-    TextView titleTV;
-    @Bind(R.id.header_detail_right_2_btn)
-    ImageView shareIV;
-    @Bind(R.id.header_detail_right_1_btn)
-    ImageView collectIV;
-    @Bind(R.id.guide_detail_subtitle_appointment_layout)
-    FrameLayout appointmentSubtitleLayout;
-    @Bind(R.id.guide_detail_appointment_layout)
-    LinearLayout appointmentLayout;
-    @Bind(R.id.guide_detail_select_tv)
-    TextView selectGuideTV;
-    @Bind(R.id.guide_detail_photo_empty_tv)
-    TextView photoEmptyTV;
+    RelativeLayout singleLayout;
 
-    public static final String PARAMS_IS_SELET_SERVICE = "isSeletService";
 
-    private String guideId;
-    private boolean isSeletService = false;
+    private Params params;
     private GuidesDetailData data;
+
     private DialogUtil mDialogUtil;
     private CollectGuideBean collectBean;
-    private GuideCarPhotosAdapter carPhotosAdapter;
+
+    public static class Params implements Serializable {
+        public String guideId;
+        public String guideCarId;
+        public String guideAgencyDriverId;
+        public boolean isSeletService = false;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
-            guideId = savedInstanceState.getString(Constants.PARAMS_DATA);
-            isSeletService = savedInstanceState.getBoolean(GuideDetailActivity.PARAMS_IS_SELET_SERVICE);
+            params = (Params) savedInstanceState.getSerializable(Constants.PARAMS_DATA);
         } else {
             Bundle bundle = getIntent().getExtras();
             if (bundle != null) {
-                guideId = bundle.getString(Constants.PARAMS_DATA);
-                isSeletService = bundle.getBoolean(GuideDetailActivity.PARAMS_IS_SELET_SERVICE);
+                params = (Params) bundle.getSerializable(Constants.PARAMS_DATA);
             }
         }
-
-        setContentView(R.layout.fg_guide_detail);
+        setContentView(R.layout.activity_guide_detail);
         ButterKnife.bind(this);
 
-        mDialogUtil = DialogUtil.getInstance(this);
-        titleTV.setText(getString(R.string.guide_detail_subtitle_title));
-        if (isSeletService) {
-            shareIV.setVisibility(View.GONE);
-            collectIV.setVisibility(View.GONE);
-            appointmentSubtitleLayout.setVisibility(View.INVISIBLE);
-            appointmentLayout.setVisibility(View.GONE);
-            selectGuideTV.setVisibility(View.VISIBLE);
-        } else {
-            shareIV.setImageResource(R.mipmap.sddate_share);
-            collectIV.setImageResource(R.drawable.selector_guide_detail_collect);
-        }
-
+        initUI();
         requestData();
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        if (guideId != null) {
-            outState.putSerializable(Constants.PARAMS_DATA, guideId);
-            outState.putBoolean(GuideDetailActivity.PARAMS_IS_SELET_SERVICE, isSeletService);
+        if (params != null) {
+            outState.putSerializable(Constants.PARAMS_DATA, params);
         }
     }
 
+    private void initUI() {
+        mDialogUtil = DialogUtil.getInstance(this);
+        collectIV.setImageResource(R.drawable.selector_guide_detail_collect);
+        shareIV.setImageResource(R.mipmap.sddate_share);
+
+        int cityBgHeight = (int)(UIUtils.getScreenWidth() * (400 / 750.0f));
+        cityBgLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, cityBgHeight + UIUtils.dip2px(40)));
+        cityBgIV.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, cityBgHeight));
+        scrollView.setTitlebar(titlebar, cityBgHeight);
+    }
+
     private void requestData() {
-        requestData(new RequestGuideDetail(this, guideId));
+        if (params != null) {
+            requestData(new RequestGuideDetail(this, params.guideId, params.guideCarId, params.guideAgencyDriverId));
+        }
     }
 
     @Override
@@ -161,100 +172,130 @@ public class GuideDetailActivity extends BaseActivity implements GuideCarPhotosA
             if (data == null) {
                 return;
             }
-            beanConversion();
 
-            attestationIV.setVisibility(View.VISIBLE);
-            locationIV.setVisibility(View.VISIBLE);
-            if (TextUtils.isEmpty(data.getAvatar())) {
-                avatarIV.setImageResource(R.mipmap.journey_head_portrait);
-            } else {
-                Tools.showImage(this, avatarIV, data.getAvatar());
-            }
-            nameTV.setText(data.getGuideName());
-            locationTV.setText(data.getCityName());
-
-            String carName = data.getCarBrandName() + data.getCarName();
-            String carType = data.getCarTypeName() + data.getCarClassName();
-            if (!TextUtils.isEmpty(carName) && !TextUtils.isEmpty(carType)) {
-                String describe  = getString(R.string.solidus, carName, carType);
-                int describeWidth = UIUtils.getStringWidth(describeTV, describe);
-                if (describeWidth > UIUtils.getScreenWidth() - UIUtils.dip2px(160)) {
-                    describeTV.setText(carName + "\n" + carType);
-                } else {
-                    describeTV.setText(describe);
-                }
-            }
-
-            if (!TextUtils.isEmpty(data.getCarLicenceNo())) {
-                platenumberTV.setText(getString(R.string.platenumber) + data.getCarLicenceNo());
-            }
-            ratingView.setRating(data.getServiceStar());
-            scoreTV.setText(String.valueOf(data.getServiceStar()));
+            //收藏状态
             collectIV.setSelected(data.isCollected());
 
-            ArrayList<Integer> serviceTypes = data.getServiceTypes();
-            if (serviceTypes != null) {
-                boolean isShowPlane = false;
-                boolean isShowCar = false;
-                boolean isShowSingle = false;
-                final int arraySize = serviceTypes.size();
-                for (int i = 0; i < arraySize; i++) {
-                    switch (serviceTypes.get(i)) {
-                        case 1://可以预约接送机
-                            isShowPlane = true;
-                            break;
-                        case 3://可以预约包车
-                            isShowCar = true;
-                            break;
-                        case 4://可以预约单次接送
-                            isShowSingle = true;
-                            break;
-                    }
-                }
-                planeLayout.setVisibility(isShowPlane ? View.VISIBLE : View.GONE);
-                charteredCarLayout.setVisibility(isShowCar ? View.VISIBLE : View.GONE);
-                singleLayout.setVisibility(isShowSingle ? View.VISIBLE : View.GONE);
-
-                //控制分割线的隐藏
-                leftLineView.setVisibility(isShowPlane && isShowCar ? View.VISIBLE : View.GONE);
-                boolean isShowRightLine = (isShowSingle && isShowCar) || (isShowSingle && isShowPlane);
-                rightLineView.setVisibility(isShowRightLine ? View.VISIBLE : View.GONE);
+            //城市背景图
+            if (TextUtils.isEmpty(data.cityBackGroundPicSrc)) {
+                cityBgIV.setImageResource(R.drawable.guides_detail_city_bg);
+            } else {
+                Tools.showImage(avatarIV, data.cityBackGroundPicSrc);
             }
+
+            //城市-国家
+            cityNameTV.setText(data.cityName + "-" + data.countryName);
+
+            //地接社或司导头像
+            if (TextUtils.isEmpty(data.avatar)) {
+                avatarIV.setImageResource(R.mipmap.journey_head_portrait);
+            } else {
+                Tools.showImage(avatarIV, data.avatar);
+            }
+
+            //地接社或司导名称
+            nameTV.setText(data.guideName);
+            if (data.agencyType == 0) { //个人司导(显示性别)
+                driverLayout.setVisibility(View.GONE);
+                if (data.gender == 1 || data.gender == 2) {
+                    genderIV.setVisibility(View.VISIBLE);
+                    genderIV.setBackgroundResource(data.gender == 1 ? R.mipmap.man_icon : R.mipmap.woman_icon);
+                } else {
+                    genderIV.setVisibility(View.GONE);
+                }
+            } else { //显示服务司导
+                genderIV.setVisibility(View.GONE);
+                driverLayout.setVisibility(View.VISIBLE);
+                if (TextUtils.isEmpty(data.agencyDriverAvatar)) {
+                    driverAvatarIV.setImageResource(R.mipmap.journey_head_portrait);
+                } else {
+                    Tools.showImage(driverAvatarIV, data.agencyDriverAvatar);
+                }
+                driverNameTV.setText("服务司导:" + data.agencyDriverName);
+                if (data.agencyDriverGender == 1 || data.agencyDriverGender == 2) {
+                    driverGenderIV.setVisibility(View.VISIBLE);
+                    driverGenderIV.setBackgroundResource(data.agencyDriverGender == 1 ? R.mipmap.man_icon : R.mipmap.woman_icon);
+                } else {
+                    driverGenderIV.setVisibility(View.GONE);
+                }
+            }
+
+            //服务星级
+            ratingView.setRating(data.serviceStar);
+            scoreTV.setText(String.valueOf(data.serviceStar));
+
+            //是否可服务包车，0否，1是
+            charteredCarLayout.setVisibility(data.serviceDaily == 1 ? View.VISIBLE : View.GONE);
+            //是否可服务接送机、单次接送，0否，1是
+            planeLayout.setVisibility(data.serviceJsc == 1 ? View.VISIBLE : View.GONE);
+            singleLayout.setVisibility(data.serviceJsc == 1 ? View.VISIBLE : View.GONE);
+            if (data.serviceDaily != 1 && data.serviceJsc != 1) {
+                appointmentLine.setVisibility(View.GONE);
+                appointmentTV.setVisibility(View.GONE);
+            } else {
+                appointmentLine.setVisibility(View.VISIBLE);
+                appointmentTV.setVisibility(View.VISIBLE);
+            }
+
+            //评价
             evaluateItemView.setGuideDetailData(data);
 
-            if (data.getCarPhotosS() != null && data.getCarPhotosS().size() > 0) {
-                carRecyclerView.setVisibility(View.VISIBLE);
-                photoEmptyTV.setVisibility(View.GONE);
-//                carPhotosLayout.setVisibility(View.VISIBLE);
-                if (carPhotosAdapter == null) {
-                    LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-                    layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-                    carRecyclerView.setLayoutManager(layoutManager);
-                    carRecyclerView.setHorizontalScrollBarEnabled(false);
-                    ZDefaultDivider zDefaultDivider = new ZDefaultDivider();
-                    zDefaultDivider.setItemOffsets(UIUtils.dip2px(3), 0, UIUtils.dip2px(3), 0);
-                    carRecyclerView.addItemDecoration(zDefaultDivider);
-                    carPhotosAdapter = new GuideCarPhotosAdapter(this);
-                    carRecyclerView.setAdapter(carPhotosAdapter);
-                    carPhotosAdapter.setItemClickListener(this);
+            //评价标签
+            if (data.commentLabels != null && data.commentLabels.size() > 0) {
+                tagGroup.setVisibility(View.VISIBLE);
+                final int labelsSize = data.commentLabels.size();
+                ArrayList<View> viewList = new ArrayList<View>(labelsSize);
+                for (int i = 0; i < labelsSize; i++) {
+                    GuidesDetailData.CommentLabel label = data.commentLabels.get(i);
+                    if (label == null || TextUtils.isEmpty(label.labelName)) {
+                        continue;
+                    }
+                    if (i < tagGroup.getChildCount()) {
+                        TextView tagTV = (TextView)tagGroup.getChildAt(i);
+                        tagTV.setVisibility(View.VISIBLE);
+                        tagTV.setText(label.labelName + "  " + label.labelCount);
+                    } else {
+                        viewList.add(getNewTagView(label.labelName + "  " + label.labelCount));
+                    }
                 }
-                carPhotosAdapter.setData(data.getCarPhotosS());
+                for (int j = labelsSize; j < tagGroup.getChildCount(); j++) {
+                    tagGroup.getChildAt(j).setVisibility(View.GONE);
+                }
+                tagGroup.setTags(viewList, tagGroup.getChildCount() <= 0);
             } else {
-                carRecyclerView.setVisibility(View.GONE);
-                photoEmptyTV.setVisibility(View.VISIBLE);
-//                carPhotosLayout.setVisibility(View.GONE);
+                tagGroup.setVisibility(View.GONE);
             }
-        } else if (_request instanceof RequestUncollectGuidesId) {//取消收藏
-            data.setIsFavored(0);
+        }else if (_request instanceof RequestUncollectGuidesId) {//取消收藏
+            data.isFavored = 0;
             collectIV.setSelected(false);
             EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_UPDATE_COLLECT, 0));
             CommonUtils.showToast(getString(R.string.collect_cancel));
         } else if (_request instanceof RequestCollectGuidesId) {//收藏
-            data.setIsFavored(1);
+            data.isFavored = 1;
             collectIV.setSelected(true);
             EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_UPDATE_COLLECT, 1));
             CommonUtils.showToast(getString(R.string.collect_succeed));
         }
+    }
+
+    private CollectGuideBean getCollectBean() {
+        if (collectBean == null) {
+            collectBean = new CollectGuideBean();
+            collectBean.guideId = data.guideId;
+            collectBean.name = data.guideName;
+        }
+        return collectBean;
+    }
+
+    public TextView getNewTagView(String label) {
+        TextView tagTV = new TextView(this);
+        tagTV.setPadding(UIUtils.dip2px(22), UIUtils.dip2px(4), UIUtils.dip2px(22), UIUtils.dip2px(4));
+        tagTV.setTextSize(14);
+        tagTV.setBackgroundResource(R.drawable.shape_evaluate_tag);
+        tagTV.setTextColor(0xFF000000);
+        tagTV.setEnabled(false);
+        tagTV.setText(label);
+        return tagTV;
     }
 
     @OnClick({R.id.guide_detail_plane_layout, R.id.guide_detail_car_layout,
@@ -264,26 +305,26 @@ public class GuideDetailActivity extends BaseActivity implements GuideCarPhotosA
         switch (view.getId()) {
             case R.id.guide_detail_plane_layout:
                 intent = new Intent(this, PickSendActivity.class);
-                intent.putExtra("collectGuideBean", beanConversion());
+                intent.putExtra("collectGuideBean", getCollectBean());
                 intent.putExtra(Constants.PARAMS_SOURCE, getIntentSource());
                 startActivity(intent);
                 break;
             case R.id.guide_detail_car_layout:
                 intent = new Intent(this, OrderSelectCityActivity.class);
-                intent.putExtra("collectGuideBean", beanConversion());
+                intent.putExtra("collectGuideBean", getCollectBean());
                 intent.putExtra(Constants.PARAMS_SOURCE, getIntentSource());
                 startActivity(intent);
                 break;
             case R.id.guide_detail_single_layout:
                 intent = new Intent(this, SingleNewActivity.class);
-                intent.putExtra("collectGuideBean", beanConversion());
+                intent.putExtra("collectGuideBean", getCollectBean());
                 intent.putExtra(Constants.PARAMS_SOURCE, getIntentSource());
                 startActivity(intent);
                 break;
             case R.id.header_detail_back_btn:
                 finish();
                 break;
-            case R.id.header_detail_right_1_btn://收藏
+            case R.id.header_detail_right_2_btn://收藏
                 if (data == null) {
                     return;
                 }
@@ -291,51 +332,21 @@ public class GuideDetailActivity extends BaseActivity implements GuideCarPhotosA
                 mDialogUtil.showLoadingDialog();
                 BaseRequest baseRequest = null;
                 if (data.isCollected()) {
-                    baseRequest = new RequestUncollectGuidesId(this, data.getGuideId());
+                    baseRequest = new RequestUncollectGuidesId(this, data.guideId);
                 } else {
-                    baseRequest = new RequestCollectGuidesId(this, data.getGuideId());
+                    baseRequest = new RequestCollectGuidesId(this, data.guideId);
                 }
                 requestData(baseRequest);
                 break;
-            case R.id.header_detail_right_2_btn://分享
+            case R.id.header_detail_right_1_btn://分享
                 if (data == null) {
                     break;
                 }
-                CommonUtils.shareDialog(this, data.getAvatar(),
+                CommonUtils.shareDialog(this, data.avatar,
                         getString(R.string.guide_detail_share_title),
                         getString(R.string.guide_detail_share_content),
                         ShareUrls.getShareGuideUrl(data, UserEntity.getUser().getUserId(this)));
                 break;
-        }
-    }
-
-    private CollectGuideBean beanConversion() {
-        if (collectBean == null) {
-            collectBean = new CollectGuideBean();
-            collectBean.guideId = data.getGuideId();
-            collectBean.name = data.getGuideName();
-            collectBean.stars = data.getServiceStar();
-            collectBean.carClass = data.getCarClass();
-            collectBean.carType = data.getCarType();
-            collectBean.numOfLuggage = data.getCarLuggageNum();
-            collectBean.numOfPerson = data.getCarPersonNum();
-            collectBean.avatar = data.getAvatar();
-            collectBean.carDesc = data.getCarDesc();
-            collectBean.carModel = data.getCarDesc();
-//          status;//可预约状态 1.可预约、0.不可预约
-        }
-        return collectBean;
-    }
-
-    @Override
-    public void onItemClick(View view, int postion) {
-        if (data.getCarPhotosL() != null && data.getCarPhotosL().size() > 0) {
-            Intent intent = new Intent(GuideDetailActivity.this, LargerImageActivity.class);
-            LargerImageActivity.Params params = new LargerImageActivity.Params();
-            params.position = postion;
-            params.imageUrlList = data.getCarPhotosL();
-            intent.putExtra(Constants.PARAMS_DATA, params);
-            startActivity(intent);
         }
     }
 

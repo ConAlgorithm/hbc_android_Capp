@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.hugboga.custom.widget.GuideDetailScrollView
+        android:id="@+id/guide_detail_scrollview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="50dp">
+
+            <RelativeLayout
+                android:id="@+id/guide_detail_city_bg_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/guide_detail_city_bg_iv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/guides_detail_city_bg" />
+
+                <net.grobas.view.PolygonImageView
+                    android:id="@+id/guide_detail_avatar_iv"
+                    android:layout_width="76dp"
+                    android:layout_height="76dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:scaleType="centerInside"
+                    android:src="@mipmap/journey_head_portrait"
+                    app:poly_border="true"
+                    app:poly_border_color="@android:color/white"
+                    app:poly_border_width="5dp"
+                    app:poly_corner_radius="5"
+                    app:poly_rotation_angle="25"
+                    app:poly_shadow="false"
+                    app:poly_shadow_color="@android:color/black"
+                    app:poly_vertices="0" />
+
+                <TextView
+                    android:id="@+id/guide_detail_city_name_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:ellipsize="end"
+                    android:paddingBottom="46dp"
+                    android:paddingLeft="18dp"
+                    android:paddingRight="18dp"
+                    android:shadowColor="#000000"
+                    android:shadowDx="1"
+                    android:shadowDy="1"
+                    android:shadowRadius="1"
+                    android:singleLine="true"
+                    android:text="东京-日本"
+                    android:textColor="#ffffff"
+                    android:textSize="20sp" />
+
+                <ImageView
+                    android:id="@+id/guide_detail_attestation_iv"
+                    android:layout_width="49dp"
+                    android:layout_height="16dp"
+                    android:layout_alignTop="@id/guide_detail_avatar_iv"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_toRightOf="@id/guide_detail_avatar_iv"
+                    android:background="@mipmap/sddate_qualification" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:paddingLeft="18dp"
+                android:paddingRight="18dp">
+
+                <TextView
+                    android:id="@+id/guide_detail_name_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="12dp"
+                    android:singleLine="true"
+                    android:text="大黄蜂车队"
+                    android:textColor="#000000"
+                    android:textSize="18sp" />
+
+                <ImageView
+                    android:id="@+id/guide_detail_gender_iv"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_marginTop="3.5dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="5dp"
+                    android:background="@mipmap/woman_icon" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/guide_detail_driver_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/shape_guide_detail_driver_avatar_bg"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingBottom="2dp"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                android:paddingTop="2dp">
+
+                <net.grobas.view.PolygonImageView
+                    android:id="@+id/guide_detail_driver_avatar_iv"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:src="@drawable/home_toppic1"
+                    app:poly_border="false"
+                    app:poly_corner_radius="5"
+                    app:poly_rotation_angle="25"
+                    app:poly_shadow="false"
+                    app:poly_vertices="0" />
+
+                <TextView
+                    android:id="@+id/guide_detail_driver_name_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="4dp"
+                    android:text="服务司导:孟小雷"
+                    android:textColor="#000000"
+                    android:textSize="12sp" />
+
+                <ImageView
+                    android:id="@+id/guide_detail_driver_gender_iv"
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_marginRight="8dp"
+                    android:background="@mipmap/woman_icon" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <com.hugboga.custom.widget.SimpleRatingBar
+                    android:id="@+id/guide_detail_ratingView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    app:srb_borderColor="#00000000"
+                    app:srb_fillColor="#fed631"
+                    app:srb_isIndicator="true"
+                    app:srb_numberOfStars="5"
+                    app:srb_starBackgroundColor="#eeeeee"
+                    app:srb_starSize="19dp"
+                    app:srb_starsSeparation="0dp"
+                    app:srb_stepSize="0.01" />
+
+                <TextView
+                    android:id="@+id/guide_detail_score_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:paddingTop="1.5dp"
+                    android:text="4.5"
+                    android:textColor="#000000"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <com.hugboga.custom.widget.TagGroup
+                android:id="@+id/guide_detail_taggroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:layout_marginTop="12dp"
+                android:background="#55ff0000"
+                app:horizontalSpacing="15dp"
+                app:isCenter="true"
+                app:verticalSpacing="7dp" />
+
+            <com.hugboga.custom.widget.EvaluateListItemView
+                android:id="@+id/guide_detail_evaluate_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:visibility="gone"></com.hugboga.custom.widget.EvaluateListItemView>
+
+            <View
+                android:id="@+id/guide_detail_subtitle_appointment_line"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginLeft="18dp"
+                android:layout_marginRight="18dp"
+                android:layout_marginTop="30dp"
+                android:background="@color/default_dividing_line" />
+
+            <TextView
+                android:id="@+id/guide_detail_subtitle_appointment_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:gravity="center"
+                android:text="预约司导服务"
+                android:textColor="#000000"
+                android:textSize="18sp" />
+
+            <RelativeLayout
+                android:id="@+id/guide_detail_plane_layout"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginLeft="18dp"
+                android:layout_marginRight="18dp">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/default_dividing_line" />
+
+                <ImageView
+                    android:id="@+id/guide_detail_plane_iv"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_centerVertical="true"
+                    android:scaleType="centerInside"
+                    android:src="@mipmap/guide_detail_icon_plane" />
+
+                <TextView
+                    android:id="@+id/guide_detail_plane_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="8dp"
+                    android:layout_toRightOf="@id/guide_detail_plane_iv"
+                    android:text="接送机"
+                    android:textColor="#000000"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="5dp"
+                    android:scaleType="centerInside"
+                    android:src="@mipmap/personalcenter_right" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/guide_detail_car_layout"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginLeft="18dp"
+                android:layout_marginRight="18dp">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/default_dividing_line" />
+
+                <ImageView
+                    android:id="@+id/guide_detail_car_iv"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_centerVertical="true"
+                    android:scaleType="centerInside"
+                    android:src="@mipmap/guide_detail_icon_car" />
+
+                <TextView
+                    android:id="@+id/guide_detail_car_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="8dp"
+                    android:layout_toRightOf="@id/guide_detail_car_iv"
+                    android:text="包车游"
+                    android:textColor="#000000"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="5dp"
+                    android:scaleType="centerInside"
+                    android:src="@mipmap/personalcenter_right" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/guide_detail_single_layout"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginLeft="18dp"
+                android:layout_marginRight="18dp">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/default_dividing_line" />
+
+                <ImageView
+                    android:id="@+id/guide_detail_single_iv"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_centerVertical="true"
+                    android:scaleType="centerInside"
+                    android:src="@mipmap/guide_detail_icon_single" />
+
+                <TextView
+                    android:id="@+id/guide_detail_single_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="8dp"
+                    android:layout_toRightOf="@id/guide_detail_single_iv"
+                    android:text="单次接送"
+                    android:textColor="#000000"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="5dp"
+                    android:scaleType="centerInside"
+                    android:src="@mipmap/personalcenter_right" />
+            </RelativeLayout>
+        </LinearLayout>
+    </com.hugboga.custom.widget.GuideDetailScrollView>
+
+    <include
+        android:id="@+id/guide_detail_titlebar"
+        layout="@layout/include_header_detail" />
+</RelativeLayout>
