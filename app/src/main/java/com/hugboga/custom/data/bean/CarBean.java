@@ -26,6 +26,7 @@ public class CarBean implements IBaseBean ,Cloneable{
     public int price; // 钱
 
     public String carLicenceNo;//车牌号
+    public String carLicenceNoCovered;//车牌号遮盖
 
     public int priceChannel;
     public int orderChannel;

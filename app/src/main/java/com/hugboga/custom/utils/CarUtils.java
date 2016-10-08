@@ -133,6 +133,7 @@ public class CarUtils {
                         carBeans.get(n).seatType == guideCars.get(i).carClass) {
                     CarBean carBean = (CarBean)(carBeans.get(n).clone());
                     carBean.carLicenceNo = guideCars.get(i).carLicenceNo;
+                    carBean.carLicenceNoCovered = guideCars.get(i).carLicenceNoCovered;
                     carBean.carBrandName = guideCars.get(i).carBrandName;
                     carBean.carName = guideCars.get(i).carName;
                     list.add(carBean);

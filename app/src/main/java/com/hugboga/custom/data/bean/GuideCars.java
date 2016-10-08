@@ -16,6 +16,7 @@ public class GuideCars {
     public String carClassName;
     public String carTypeName;
     public int carBrandId;
-    public String carLicenceNo;
+    public String carLicenceNo;             //车牌号
+    public String carLicenceNoCovered;      //车牌号遮盖
 
 }
