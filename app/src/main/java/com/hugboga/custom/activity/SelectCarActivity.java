@@ -15,6 +15,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
+import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
@@ -26,9 +27,11 @@ import com.hugboga.custom.data.bean.CarInfoBean;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.CollectGuideBean;
 import com.hugboga.custom.data.bean.DayQuoteBean;
+import com.hugboga.custom.data.bean.GuideCarBean;
 import com.hugboga.custom.data.bean.ServiceQuoteSumBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.net.UrlLibs;
+import com.hugboga.custom.data.request.RequestCars;
 import com.hugboga.custom.data.request.RequestGetCarInfo;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
@@ -50,7 +53,9 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static android.R.attr.id;
 import static android.view.View.GONE;
+import static com.tencent.bugly.crashreport.inner.InnerAPI.context;
 
 /**
  * Created on 16/8/4.
@@ -271,19 +276,6 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
 
     protected void initView() {
         getArgs();
-        RequestGetCarInfo requestGetCarInfo = new RequestGetCarInfo(this.activity,
-                startCityId, endCityId, startDate + " " + serverTime + ":00", endDate + " " + serverTime + ":00", halfDay, adultNum,
-                childrenNum, childseatNum, luggageNum, passCities, channelId, carIds);
-        HttpRequestUtils.request(this.activity, requestGetCarInfo, this);
-        jazzyPager.setState(null);
-        jazzyPager.setOffscreenPageLimit(3);
-        jazzyPager.setTransitionEffect(JazzyViewPager.TransitionEffect.Tablet);
-        mAdapter = new CarViewpagerAdapter(activity, jazzyPager);
-//        initListData();
-//        mAdapter.setList(carList);
-//        jazzyPager.setAdapter(mAdapter);
-//        jazzyPager.setOffscreenPageLimit(5);
-//        jazzyPager.addOnPageChangeListener(this);
     }
 
     CityBean startBean;
@@ -324,12 +316,55 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
 
         orderType = this.getIntent().getStringExtra("orderType");
 
-        if (null != CarUtils.collectGuideBean) {
-            collectGuideBean = CarUtils.collectGuideBean;
-            carIds = CarUtils.getCarIds(collectGuideBean.guideCars);
-            guideId = collectGuideBean.guideId;
+//        if (null != CarUtils.collectGuideBean) {
+//            collectGuideBean = CarUtils.collectGuideBean;
+//            carIds = CarUtils.getCarIds(collectGuideBean.guideCars);
+//            guideId = collectGuideBean.guideId;
+//        }
+
+        guideId = this.getIntent().getStringExtra("guideId");
+
+        if(null != guideId){
+            getGuideCars();
+        }else{
+            getData();
         }
     }
+
+    private void getGuideCars(){
+        RequestCars requestCars = new RequestCars(activity,guideId,null,10,0);
+        HttpRequestUtils.request(activity, requestCars, new HttpRequestListener() {
+            @Override
+            public void onDataRequestSucceed(BaseRequest request) {
+                ArrayList<GuideCarBean> carBeanList = ((RequestCars)request).getData();
+//                carIds = CarUtils.getCarIds(carBeanList);
+                getData();
+            }
+
+            @Override
+            public void onDataRequestCancel(BaseRequest request) {
+
+            }
+
+            @Override
+            public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+
+            }
+        },true);
+    }
+
+
+    private void getData(){
+        RequestGetCarInfo requestGetCarInfo = new RequestGetCarInfo(this.activity,
+                startCityId, endCityId, startDate + " " + serverTime + ":00", endDate + " " + serverTime + ":00", halfDay, adultNum,
+                childrenNum, childseatNum, luggageNum, passCities, channelId, carIds);
+        HttpRequestUtils.request(this.activity, requestGetCarInfo, this);
+        jazzyPager.setState(null);
+        jazzyPager.setOffscreenPageLimit(3);
+        jazzyPager.setTransitionEffect(JazzyViewPager.TransitionEffect.Tablet);
+        mAdapter = new CarViewpagerAdapter(activity, jazzyPager);
+    }
+
 
 
     int selctIndex = 0;
@@ -392,7 +427,7 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
             mansNum.setText(carBean.capOfPerson+"");
             luggageNumTv.setText(carBean.capOfLuggage+"");
             String carDesc = "";
-            if(null != carBean.carLicenceNo){
+            if(null != carBean.carLicenceNoCovered){
                 carDesc = (null == carBean.carBrandName?"":carBean.carBrandName) + (null == carBean.carName?"":carBean.carName) +"     车牌:"+carBean.carLicenceNoCovered;
             }else{
                 carDesc = (null == carBean.carBrandName?"":carBean.carBrandName) + (null == carBean.carName?"":carBean.carName);

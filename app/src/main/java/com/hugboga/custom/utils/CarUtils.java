@@ -6,6 +6,7 @@ import com.hugboga.custom.constants.CarTypeEnum;
 import com.hugboga.custom.constants.ChooseCarTypeEnum;
 import com.hugboga.custom.data.bean.CarBean;
 import com.hugboga.custom.data.bean.CollectGuideBean;
+import com.hugboga.custom.data.bean.GuideCarBean;
 import com.hugboga.custom.data.bean.GuideCars;
 
 import java.util.ArrayList;
@@ -105,8 +106,24 @@ public class CarUtils {
         return carBean;
     }
 
+//    //司导车辆信息ids
+//    public static String getCarIds(List<GuideCars> guideCars){
+//        String ids = "";
+//        if(null != guideCars) {
+//            int size = guideCars.size();
+//            for (int i = 0; i < size; i++) {
+//                if (i == size - 1) {
+//                    ids += guideCars.get(i).carModelId;
+//                }else{
+//                    ids += guideCars.get(i).carModelId+",";
+//                }
+//            }
+//        }
+//        return ids;
+//    }
+
     //司导车辆信息ids
-    public static String getCarIds(List<GuideCars> guideCars){
+    public static String getCarIds(ArrayList<GuideCarBean> guideCars){
         String ids = "";
         if(null != guideCars) {
             int size = guideCars.size();
