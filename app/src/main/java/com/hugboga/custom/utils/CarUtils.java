@@ -6,7 +6,8 @@ import com.hugboga.custom.constants.CarTypeEnum;
 import com.hugboga.custom.constants.ChooseCarTypeEnum;
 import com.hugboga.custom.data.bean.CarBean;
 import com.hugboga.custom.data.bean.CollectGuideBean;
-import com.hugboga.custom.data.bean.SelectCarBean;
+import com.hugboga.custom.data.bean.GuideCarBean;
+import com.hugboga.custom.data.bean.GuideCars;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,47 +15,6 @@ import java.util.List;
 
 public class CarUtils {
 
-    public static  SelectCarBean carBeanAdapter(CarBean carBean){
-        SelectCarBean selectCarBean = new SelectCarBean();
-        selectCarBean.seatCategory = carBean.carSeat;
-        selectCarBean.carType = carBean.carType;
-        selectCarBean.price = carBean.price;
-        selectCarBean.carDesc = carBean.desc;
-        selectCarBean.capOfLuggage = carBean.capOfLuggage;
-        selectCarBean.capOfPerson = carBean.capOfPerson;
-        selectCarBean.localPrice = carBean.localPrice;
-        selectCarBean.models = carBean.models;
-        selectCarBean.pricemark = carBean.pricemark;
-        selectCarBean.expectedCompTime = carBean.expectedCompTime;
-        selectCarBean.originalPrice = carBean.originalPrice;
-
-        selectCarBean.special = carBean.special;
-        selectCarBean.carIntroduction = carBean.carIntroduction;
-        selectCarBean.carPictures = carBean.carPictures;
-        selectCarBean.carId = carBean.carId;
-        return selectCarBean;
-    }
-
-    public static  CarBean selectCarBeanAdapter(SelectCarBean selectCarBean){
-        CarBean carBean = new CarBean();
-        carBean.carSeat = selectCarBean.seatCategory;
-        carBean.carType = selectCarBean.carType;
-        carBean.price = selectCarBean.price;
-        carBean.desc = selectCarBean.carDesc;
-        carBean.capOfLuggage = selectCarBean.capOfLuggage;
-        carBean.capOfPerson = selectCarBean.capOfPerson;
-        carBean.localPrice = selectCarBean.localPrice;
-        carBean.models = selectCarBean.models;
-        carBean.pricemark = selectCarBean.pricemark;
-        carBean.expectedCompTime = selectCarBean.expectedCompTime;
-        carBean.originalPrice = selectCarBean.originalPrice;
-
-        carBean.special = selectCarBean.special;
-        carBean.carIntroduction = selectCarBean.carIntroduction;
-        carBean.carPictures = selectCarBean.carPictures;
-        carBean.carId = selectCarBean.carId;
-        return carBean;
-    }
 
     public static int getCarImgs(int carType,int carSeat){
         ChooseCarTypeEnum carTypeEnum = ChooseCarTypeEnum.getCarType(carType, carSeat);
@@ -144,6 +104,60 @@ public class CarUtils {
         carBean.carSeat = collectGuideBean.carClass;
         carBean.imgRes = CarUtils.getCarImgs(collectGuideBean.carType,collectGuideBean.carClass);
         return carBean;
+    }
+
+//    //司导车辆信息ids
+//    public static String getCarIds(List<GuideCars> guideCars){
+//        String ids = "";
+//        if(null != guideCars) {
+//            int size = guideCars.size();
+//            for (int i = 0; i < size; i++) {
+//                if (i == size - 1) {
+//                    ids += guideCars.get(i).carModelId;
+//                }else{
+//                    ids += guideCars.get(i).carModelId+",";
+//                }
+//            }
+//        }
+//        return ids;
+//    }
+
+    //司导车辆信息ids
+    public static String getCarIds(ArrayList<GuideCarBean> guideCars){
+        String ids = "";
+        if(null != guideCars) {
+            int size = guideCars.size();
+            for (int i = 0; i < size; i++) {
+                if (i == size - 1) {
+                    ids += guideCars.get(i).carModelId;
+                }else{
+                    ids += guideCars.get(i).carModelId+",";
+                }
+            }
+        }
+        return ids;
+    }
+
+    //司导bean
+    public static CollectGuideBean collectGuideBean = null;
+
+    //根据司导车辆和 报价返回车辆 生成新的车辆信息
+    public static ArrayList<CarBean> getCarBeanList(List<CarBean> carBeans,List<GuideCars> guideCars){
+        ArrayList<CarBean> list = new ArrayList<>();
+        for(int n = 0;n < carBeans.size();n++) {
+            for (int i = 0; i < guideCars.size(); i++) {
+                if (carBeans.get(n).carType == guideCars.get(i).carType &&
+                        carBeans.get(n).seatType == guideCars.get(i).carClass) {
+                    CarBean carBean = (CarBean)(carBeans.get(n).clone());
+                    carBean.carLicenceNo = guideCars.get(i).carLicenceNo;
+                    carBean.carLicenceNoCovered = guideCars.get(i).carLicenceNoCovered;
+                    carBean.carBrandName = guideCars.get(i).carBrandName;
+                    carBean.carName = guideCars.get(i).carName;
+                    list.add(carBean);
+                }
+            }
+        }
+        return list;
     }
 
 

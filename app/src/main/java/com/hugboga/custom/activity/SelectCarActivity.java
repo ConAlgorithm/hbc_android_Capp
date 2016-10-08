@@ -15,6 +15,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
+import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
@@ -24,11 +25,13 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CarBean;
 import com.hugboga.custom.data.bean.CarInfoBean;
 import com.hugboga.custom.data.bean.CityBean;
+import com.hugboga.custom.data.bean.CollectGuideBean;
 import com.hugboga.custom.data.bean.DayQuoteBean;
-import com.hugboga.custom.data.bean.SelectCarBean;
+import com.hugboga.custom.data.bean.GuideCarBean;
 import com.hugboga.custom.data.bean.ServiceQuoteSumBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.net.UrlLibs;
+import com.hugboga.custom.data.request.RequestCars;
 import com.hugboga.custom.data.request.RequestGetCarInfo;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
@@ -50,17 +53,9 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static android.R.attr.id;
 import static android.view.View.GONE;
-import static com.hugboga.custom.R.id.all_money_left_text;
-import static com.hugboga.custom.R.id.all_money_right;
-import static com.hugboga.custom.R.id.average_money;
-import static com.hugboga.custom.R.id.child_right;
-import static com.hugboga.custom.R.id.days_left;
-import static com.hugboga.custom.R.id.days_right;
-import static com.hugboga.custom.R.id.man_have;
-import static com.hugboga.custom.R.id.man_right;
-import static com.hugboga.custom.R.id.max_luggage_content;
-import static u.aly.au.E;
+import static com.tencent.bugly.crashreport.inner.InnerAPI.context;
 
 /**
  * Created on 16/8/4.
@@ -201,6 +196,16 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
     RelativeLayout bottom;
     @Bind(R.id.call_phone)
     LinearLayout callPhone;
+    @Bind(R.id.fg_car_name)
+    TextView fgCarName;
+    @Bind(R.id.mans_num)
+    TextView mansNum;
+    @Bind(R.id.luggage_num_text)
+    TextView luggageNumTv;
+    @Bind(R.id.fg_car_intro)
+    TextView fgCarIntro;
+
+
 
     private String source = "";
 
@@ -218,6 +223,7 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
     public void onDestroy() {
         super.onDestroy();
         ButterKnife.unbind(this);
+        CarUtils.collectGuideBean = null;
     }
 
     protected void initHeader() {
@@ -270,19 +276,6 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
 
     protected void initView() {
         getArgs();
-        RequestGetCarInfo requestGetCarInfo = new RequestGetCarInfo(this.activity,
-                startCityId, endCityId, startDate + " " + serverTime + ":00", endDate + " " + serverTime + ":00", halfDay, adultNum,
-                childrenNum, childseatNum, luggageNum, passCities, channelId, null);
-        HttpRequestUtils.request(this.activity, requestGetCarInfo, this);
-        jazzyPager.setState(null);
-        jazzyPager.setOffscreenPageLimit(3);
-        jazzyPager.setTransitionEffect(JazzyViewPager.TransitionEffect.Tablet);
-        mAdapter = new CarViewpagerAdapter(activity, jazzyPager);
-//        initListData();
-//        mAdapter.setList(carList);
-//        jazzyPager.setAdapter(mAdapter);
-//        jazzyPager.setOffscreenPageLimit(5);
-//        jazzyPager.addOnPageChangeListener(this);
     }
 
     CityBean startBean;
@@ -291,6 +284,10 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
     boolean isHalfTravel = false;
 
     String orderType = "";
+
+    String carIds = null;
+    String guideId = null;
+    CollectGuideBean collectGuideBean;
 
     private void getArgs() {
         passCityList = (ArrayList<CityBean>) getIntent().getSerializableExtra("passCityList");
@@ -318,18 +315,66 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
         isHalfTravel = this.getIntent().getBooleanExtra("isHalfTravel", false);
 
         orderType = this.getIntent().getStringExtra("orderType");
+
+//        if (null != CarUtils.collectGuideBean) {
+//            collectGuideBean = CarUtils.collectGuideBean;
+//            carIds = CarUtils.getCarIds(collectGuideBean.guideCars);
+//            guideId = collectGuideBean.guideId;
+//        }
+
+        guideId = this.getIntent().getStringExtra("guideId");
+
+        if(null != guideId){
+            getGuideCars();
+        }else{
+            getData();
+        }
     }
 
-    int selctIndex = 0;
-    List<SelectCarBean> cars;
+    private void getGuideCars(){
+        RequestCars requestCars = new RequestCars(activity,guideId,null,10,0);
+        HttpRequestUtils.request(activity, requestCars, new HttpRequestListener() {
+            @Override
+            public void onDataRequestSucceed(BaseRequest request) {
+                ArrayList<GuideCarBean> carBeanList = ((RequestCars)request).getData();
+//                carIds = CarUtils.getCarIds(carBeanList);
+                getData();
+            }
 
+            @Override
+            public void onDataRequestCancel(BaseRequest request) {
+
+            }
+
+            @Override
+            public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+
+            }
+        },true);
+    }
+
+
+    private void getData(){
+        RequestGetCarInfo requestGetCarInfo = new RequestGetCarInfo(this.activity,
+                startCityId, endCityId, startDate + " " + serverTime + ":00", endDate + " " + serverTime + ":00", halfDay, adultNum,
+                childrenNum, childseatNum, luggageNum, passCities, channelId, carIds);
+        HttpRequestUtils.request(this.activity, requestGetCarInfo, this);
+        jazzyPager.setState(null);
+        jazzyPager.setOffscreenPageLimit(3);
+        jazzyPager.setTransitionEffect(JazzyViewPager.TransitionEffect.Tablet);
+        mAdapter = new CarViewpagerAdapter(activity, jazzyPager);
+    }
+
+
+
+    int selctIndex = 0;
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
         super.onDataRequestSucceed(request);
         if (request instanceof RequestGetCarInfo) {
             CarInfoBean bean = (CarInfoBean) request.getData();
             if (null != bean) {
-                cars = bean.cars;
+                List<CarBean> cars = bean.cars;
                 halfDay = bean.halfDay == 1 ? "1" : "0";
                 if (bean.noneCarsState == 1) {
                     coupon_listview_empty.setVisibility(View.VISIBLE);
@@ -346,12 +391,12 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
                     callPhone.setVisibility(View.VISIBLE);
                     bottom.setVisibility(GONE);
                 } else {
-                    initListData();
+                    initListData(cars);
                     getMatchCarIndex();
                     showContent();
-                    StatisticClickEvent.showOrderNewPage(3,StatisticConstant.LAUNCH_CARNEXTR,getIntentSource(),
+                    StatisticClickEvent.showOrderNewPage(3, StatisticConstant.LAUNCH_CARNEXTR, getIntentSource(),
                             carBean.carDesc,
-                            EventUtil.getInstance().sourceDetail,false,(adultNum+childrenNum)+"",
+                            EventUtil.getInstance().sourceDetail, false, (adultNum + childrenNum) + "",
                             false);
                 }
             }
@@ -360,8 +405,8 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
     }
 
     private void getMatchCarIndex() {
-        for (int i = 0; i < cars.size(); i++) {
-            if (cars.get(i).match == 1) {
+        for (int i = 0; i < carList.size(); i++) {
+            if (carList.get(i).match == 1) {
                 selctIndex = i;
                 break;
             }
@@ -369,15 +414,31 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
         jazzyPager.setCurrentItem(selctIndex);
     }
 
-    SelectCarBean carBean;
+    CarBean carBean;
 
     public void showContent() {
 //        changeLeftRightStatus();
         try {
             jazzyPager.setCurrentItem(selctIndex);
-            carBean = cars.get(selctIndex);
+            carBean = carList.get(selctIndex);
             carType.setText(carBean.carDesc);
             carContent.setText(carBean.models);
+
+            mansNum.setText(carBean.capOfPerson+"");
+            luggageNumTv.setText(carBean.capOfLuggage+"");
+            String carDesc = "";
+            if(null != carBean.carLicenceNoCovered){
+                carDesc = (null == carBean.carBrandName?"":carBean.carBrandName) + (null == carBean.carName?"":carBean.carName) +"     车牌:"+carBean.carLicenceNoCovered;
+            }else{
+                carDesc = (null == carBean.carBrandName?"":carBean.carBrandName) + (null == carBean.carName?"":carBean.carName);
+            }
+            if(TextUtils.isEmpty(carDesc)){
+                fgCarIntro.setVisibility(GONE);
+            }else {
+                fgCarIntro.setVisibility(View.VISIBLE);
+                fgCarIntro.setText(carDesc);
+            }
+
             if (carBean.match == 0) {
                 nextBtnClick.setBackgroundColor(Color.parseColor("#d5dadb"));
 //                nextBtnClick.setText("人数已超限，请更换车型");
@@ -418,14 +479,14 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
             daysLeft.setText(dayNums + "天包车+司导");
         }
 
-        daysRight.setText("用车费用"+ Tools.getRMB(activity) + carBean.vehiclePrice + "\n+司导费用"+Tools.getRMB(activity) + carBean.servicePrice);
+        daysRight.setText("用车费用" + Tools.getRMB(activity) + carBean.vehiclePrice + "\n+司导费用" + Tools.getRMB(activity) + carBean.servicePrice);
         allMoneyRight.setText(Tools.getRMB(activity) + (carBean.vehiclePrice + carBean.servicePrice));
         averageMoney.setText(Tools.getRMB(activity) + (carBean.vehiclePrice + carBean.servicePrice) / mans);
         allMoneyLeftText.setText(Tools.getRMB(activity) + (carBean.vehiclePrice + carBean.servicePrice));
     }
 
     public void genTotal() {
-        carBean = cars.get(selctIndex);
+        carBean = carList.get(selctIndex);
         mans.setText(String.format(getString(R.string.have_mas), carBean.capOfPerson));
         baggages.setText(String.format(getString(R.string.have_baggages), carBean.capOfLuggage));
         carType.setText(carBean.carDesc);
@@ -475,7 +536,7 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
                     carsMoneyShowInfo.setText("收起详情");
                 }
             }
-            carBean = cars.get(selctIndex);
+            carBean = carList.get(selctIndex);
             carsCharge.setText(carBean.vehiclePrice + "元");
             carsDayNum.setText(halfDay.equalsIgnoreCase("1") ? "x 0.5天" : "x" + carBean.totalDays + "天");
             ServiceQuoteSumBean serviceQuoteSumBean = carBean.vehicleQuoteSum;
@@ -567,7 +628,7 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
                     mansMoneyShowInfo.setText("收起详情");
                 }
             }
-            carBean = cars.get(selctIndex);
+            carBean = carList.get(selctIndex);
             mansCharge.setText(carBean.servicePrice + "元");
             mansDayNum.setText(halfDay.equalsIgnoreCase("1") ? "x 0.5天" : "x" + carBean.totalDays + "天");
             ServiceQuoteSumBean serviceQuoteSumBean = carBean.serviceQuoteSum;
@@ -638,20 +699,6 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
     }
 
 
-    private void changeLeftRightStatus() {
-        if (selctIndex == 0) {
-            left.setVisibility(GONE);
-            right.setVisibility(View.VISIBLE);
-        } else if (selctIndex < (cars.size() - 1)) {
-            right.setVisibility(View.VISIBLE);
-            left.setVisibility(View.VISIBLE);
-        } else if (selctIndex == (cars.size() - 1)) {
-            right.setVisibility(GONE);
-            left.setVisibility(View.VISIBLE);
-        }
-
-    }
-
     @OnClick({R.id.header_left_btn, R.id.all_money_info, R.id.max_luggage_img, R.id.in_phone, R.id.out_phone, R.id.befer48_tips, R.id.left, R.id.right, R.id.mans_money_show_info, R.id.cars_money_show_info, R.id.next_btn_click})
     public void onClick(View view) {
         HashMap<String, String> map = new HashMap<String, String>();
@@ -701,7 +748,7 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
                 }
                 break;
             case R.id.right:
-                if (selctIndex < cars.size() - 1) {
+                if (selctIndex < carList.size() - 1) {
                     ++selctIndex;
                     jazzyPager.setCurrentItem(selctIndex);
                 }
@@ -714,7 +761,7 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
                 break;
             case R.id.next_btn_click:
                 if (UserEntity.getUser().isLogin(activity)) {
-                    if(null == carBean){
+                    if (null == carBean) {
                         return;
                     }
                     if ((carBean.carType == 1 && carBean.capOfPerson == 4 && (Integer.valueOf(adultNum) + Integer.valueOf(childrenNum)) == 4)
@@ -737,7 +784,7 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
                     }
                 } else {
                     intent = new Intent(activity, LoginActivity.class);
-                    intent.putExtra("source",getIntentSource());
+                    intent.putExtra("source", getIntentSource());
                     startActivity(intent);
                 }
                 break;
@@ -788,24 +835,27 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
 //        fgOrderNew.setArguments(bundleCar);
 //        startFragment(fgOrderNew);
 
-        StatisticClickEvent.selectCarClick(StatisticConstant.CARNEXT_R,source,EventUtil.getInstance().sourceDetail,carBean.carDesc+"",(adultNum+childrenNum)+"");
+        StatisticClickEvent.selectCarClick(StatisticConstant.CARNEXT_R, source, EventUtil.getInstance().sourceDetail, carBean.carDesc + "", (adultNum + childrenNum) + "");
         Intent intent = new Intent(activity, OrderNewActivity.class);
-        intent.putExtra(Constants.PARAMS_SOURCE,source);
+        intent.putExtra(Constants.PARAMS_SOURCE, source);
         intent.putExtras(bundleCar);
         startActivity(intent);
     }
 
-    private void initListData() {
+    private void initListData(List<CarBean> cars) {
         carList = new ArrayList<>();
-        for(SelectCarBean selectCarBean:cars){
-            CarBean carBean = CarUtils.selectCarBeanAdapter(selectCarBean);
-            ChooseCarTypeEnum carTypeEnum = ChooseCarTypeEnum.getCarType(carBean.carType, carBean.carSeat);
+        for (CarBean carBean : cars) {
+//            CarBean carBean = CarUtils.selectCarBeanAdapter(selectCarBean);
+            ChooseCarTypeEnum carTypeEnum = ChooseCarTypeEnum.getCarType(carBean.carType, carBean.seatType);
             if (carTypeEnum != null) {
                 carBean.imgRes = carTypeEnum.imgRes;
             }
-            if (isMatchLocal(carBean)) {
-                carList.add(carBean);
-            }
+//            if (isMatchLocal(carBean)) {
+            carList.add(carBean);
+//            }
+        }
+        if (null != collectGuideBean) {
+            carList = CarUtils.getCarBeanList(carList, collectGuideBean.guideCars);
         }
         mAdapter.setList(carList);
         jazzyPager.setAdapter(mAdapter);
@@ -813,17 +863,6 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
         jazzyPager.addOnPageChangeListener(this);
 //        mAdapter.notifyDataSetChanged();
     }
-
-    private boolean isMatchLocal(CarBean bean) {
-        for (int i = 0; i < cars.size(); i++) {
-            if (cars.get(i).carType == bean.carType && cars.get(i).seatCategory == bean.carSeat) {
-                bean.desc = cars.get(i).carDesc;
-                return true;
-            }
-        }
-        return false;
-    }
-
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {

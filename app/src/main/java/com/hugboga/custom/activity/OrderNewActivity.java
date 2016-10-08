@@ -1,12 +1,8 @@
 package com.hugboga.custom.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.SpannableString;
-import android.text.Spanned;
 import android.text.TextUtils;
-import android.text.style.ClickableSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CompoundButton;
@@ -25,6 +21,7 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.AirPort;
 import com.hugboga.custom.data.bean.AreaCodeBean;
+import com.hugboga.custom.data.bean.CarBean;
 import com.hugboga.custom.data.bean.CarListBean;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.CollectGuideBean;
@@ -39,7 +36,6 @@ import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.OrderContact;
 import com.hugboga.custom.data.bean.OrderInfoBean;
 import com.hugboga.custom.data.bean.PoiBean;
-import com.hugboga.custom.data.bean.SelectCarBean;
 import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
@@ -75,9 +71,7 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -86,7 +80,6 @@ import cn.qqtheme.framework.picker.TimePicker;
 
 import static android.view.View.GONE;
 import static com.hugboga.custom.R.id.man_name;
-import static com.hugboga.custom.R.id.text;
 import static com.hugboga.custom.R.id.up_address_right;
 import static com.hugboga.custom.R.id.up_right;
 
@@ -287,7 +280,7 @@ public class OrderNewActivity extends BaseActivity {
     String passCities;
     String startCityName;
     String dayNums = "0";
-    SelectCarBean carBean;
+    CarBean carBean;
 
     CityBean startBean;
     CityBean endBean;
@@ -328,7 +321,7 @@ public class OrderNewActivity extends BaseActivity {
 
         collectGuideBean = (CollectGuideBean) this.getIntent().getSerializableExtra("collectGuideBean");
 
-        carBean = (SelectCarBean)this.getIntent().getSerializableExtra("carBean");
+        carBean = (CarBean)this.getIntent().getSerializableExtra("carBean");
         if(null != collectGuideBean) {
             guideCollectId = collectGuideBean.guideId;
         }
@@ -388,7 +381,10 @@ public class OrderNewActivity extends BaseActivity {
                         } else {
                             showPrice = carBean.price;
                         }
-                        allMoneyLeftText.setText(Tools.getRMB(activity) + (showPrice + checkInOrPickupPrice + hotelPrice + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean)));
+                        //其他费用总和
+                        int otherPriceTotal = checkInOrPickupPrice + hotelPrice + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean)
+                                + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean);
+                         allMoneyLeftText.setText(Tools.getRMB(activity) + (showPrice + otherPriceTotal));
 
                     } else {
                         int price = 0;
@@ -405,10 +401,12 @@ public class OrderNewActivity extends BaseActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     couponLeft.setChecked(false);
+                    int otherPriceTotal =  hotelPrice + checkInOrPickupPrice
+                            + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean);
                     if (null == deductionBean || null == deductionBean.priceToPay) {
-                        allMoneyLeftText.setText(Tools.getRMB(activity) + (carBean.price + hotelPrice + checkInOrPickupPrice + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean)));
+                        allMoneyLeftText.setText(Tools.getRMB(activity) + (carBean.price + otherPriceTotal));
                     } else {
-                        allMoneyLeftText.setText(Tools.getRMB(activity) + (carBean.price - money + hotelPrice + checkInOrPickupPrice + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean)));
+                        allMoneyLeftText.setText(Tools.getRMB(activity) + (carBean.price - money + otherPriceTotal));
                     }
                 }
             }
@@ -541,13 +539,12 @@ public class OrderNewActivity extends BaseActivity {
         luggageNum = this.getIntent().getStringExtra("luggageNum");
         manLuggageBean = (ManLuggageBean) this.getIntent().getSerializableExtra("manLuggageBean");
         type = this.getIntent().getIntExtra("type",0);
-        orderType = this.getIntent().getStringExtra("orderType");
 
         isCheckIn = this.getIntent().getBooleanExtra("needCheckin",true);
 
         serverDate = this.getIntent().getStringExtra("serverDate");
         serverTime = this.getIntent().getStringExtra("serverTime");
-        carBean = (SelectCarBean) this.getIntent().getSerializableExtra("carBean");
+        carBean = (CarBean) this.getIntent().getSerializableExtra("carBean");
 
         citysLineTitle.setText("当地时间" + serverDate + "(" + DateUtils.getWeekOfDate(serverDate) + ")" + "  " + serverTime);
         citys_line_title_tips.setVisibility(GONE);
@@ -615,7 +612,7 @@ public class OrderNewActivity extends BaseActivity {
         cancleTipsId = flightBean.arrivalAirport.cityId + "";
 
 
-        carBean = (SelectCarBean) this.getIntent().getSerializableExtra("carBean");
+        carBean = (CarBean) this.getIntent().getSerializableExtra("carBean");
 
         adultNum = this.getIntent().getStringExtra("adultNum");
         childrenNum = this.getIntent().getStringExtra("childrenNum");

@@ -57,7 +57,7 @@ public class CarViewpagerAdapter extends PagerAdapter {
         }
         //416  143
         TextView tv = (TextView) view.findViewById(R.id.item_car_title);
-        tv.setText(bean.desc);
+        tv.setText(bean.carDesc);
         container.addView(view);
         mJazzy.setObjectForPosition(view, position);
         return view;

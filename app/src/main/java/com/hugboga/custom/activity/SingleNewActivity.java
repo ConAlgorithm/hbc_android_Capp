@@ -207,11 +207,6 @@ public class SingleNewActivity extends BaseActivity {
         headerRightTxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Bundle bundle = new Bundle();
-//                bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_PROBLEM);
-//                bundle.putBoolean(FgWebInfo.CONTACT_SERVICE, true);
-//                startFragment(new FgWebInfo(), bundle);
-
                 Intent intent = new Intent(activity, WebInfoActivity.class);
                 intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_PROBLEM);
                 intent.putExtra(WebInfoActivity.CONTACT_SERVICE, true);
@@ -313,8 +308,6 @@ public class SingleNewActivity extends BaseActivity {
         bottom.setVisibility(View.GONE);
         carListBean = null;
         isNetError = true;
-//        confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
-//        confirmJourney.setOnClickListener(null);
         if (null != collectGuideBean) {
             initCarFragment(false);
         } else {
@@ -332,8 +325,6 @@ public class SingleNewActivity extends BaseActivity {
         if (request instanceof RequestCheckPrice) {
             manLuggageBean = null;
             bottom.setVisibility(View.GONE);
-//            confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
-//            confirmJourney.setOnClickListener(null);
             isNetError = false;
             RequestCheckPrice requestCheckPrice = (RequestCheckPrice) request;
             carListBean = (CarListBean) requestCheckPrice.getData();
@@ -412,20 +403,15 @@ public class SingleNewActivity extends BaseActivity {
                 maxLuuages = (int) action.getData();
                 break;
             case CAR_CHANGE_SMALL:
-//                confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
-//                confirmJourney.setOnClickListener(null);
                 manLuggageBean = null;
                 break;
             case ONBACKPRESS:
-//                    backPress();
                 break;
             case CHANGE_GUIDE:
                 collectGuideBean = (CollectGuideBean) action.getData();
                 break;
             case GUIDE_DEL:
                 collectGuideBean = null;
-//                confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
-//                confirmJourney.setOnClickListener(null);
                 if (null == carListBean) {
                     showCarsLayoutSingle.setVisibility(GONE);
                 } else {
@@ -434,8 +420,6 @@ public class SingleNewActivity extends BaseActivity {
                         genBottomData(carListBean.carList.get(0));
                     }
                     initCarFragment(true);
-//                confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
-//                confirmJourney.setOnClickListener(null);
                 }
                 carBean = (CarBean) action.getData();
                 if (null != carBean) {
@@ -561,7 +545,6 @@ public class SingleNewActivity extends BaseActivity {
     }
 
     private void goOrder() {
-//        FGOrderNew fgOrderNew = new FGOrderNew();
         Bundle bundle = new Bundle();
         bundle.putString("guideCollectId", collectGuideBean == null ? "" : collectGuideBean.guideId);
         bundle.putSerializable("collectGuideBean", collectGuideBean == null ? null : collectGuideBean);
@@ -576,7 +559,7 @@ public class SingleNewActivity extends BaseActivity {
         bundle.putString("distance", carListBean.distance + "");
 
         carBean.expectedCompTime = carListBean.estTime;
-        bundle.putSerializable("carBean", CarUtils.carBeanAdapter(carBean));
+        bundle.putSerializable("carBean", carBean);
 
         bundle.putString("startCityId", cityBean.cityId + "");
         bundle.putString("endCityId", cityBean.cityId + "");//endCityId);
@@ -586,7 +569,6 @@ public class SingleNewActivity extends BaseActivity {
         bundle.putString("serverTime", serverTime);
         bundle.putString("serverDate", serverDate);
 
-//                        bundle.putString("serverDayTime",serverDayTime+":00");
         bundle.putString("halfDay", "0");
         bundle.putString("adultNum", manLuggageBean.mans + "");
         bundle.putString("childrenNum", manLuggageBean.childs + "");
@@ -601,14 +583,11 @@ public class SingleNewActivity extends BaseActivity {
         bundle.putInt("innum", 0);
         bundle.putString("dayNums", "0");
 
-//                        bundle.putParcelable("carBean",carBeanAdapter(carBean));
         bundle.putInt("type", 4);
         bundle.putString("orderType", "4");
 
         bundle.putSerializable("manLuggageBean", manLuggageBean);
-//
-//        fgOrderNew.setArguments(bundle);
-//        startFragment(fgOrderNew);
+
         StatisticClickEvent.singleSkuClick(StatisticConstant.CONFIRM_C,source,carBean.desc+"",(manLuggageBean.mans + manLuggageBean.childs));
         Intent intent = new Intent(activity,OrderNewActivity.class);
         intent.putExtra(Constants.PARAMS_SOURCE,getIntentSource());
@@ -633,11 +612,6 @@ public class SingleNewActivity extends BaseActivity {
         bundle.putSerializable("carListBean", carListBean);
         bundle.putBoolean("isDataBack", isDataBack);
         bundle.putBoolean("isNetError", isNetError);
-//        if(null != carListBean && carListBean.carList.size() == 0 && null != collectGuideBean){
-//            CommonUtils.showToast(R.string.no_price_error);
-//            return;
-//        }
-
         if (isDataBack && null != carListBean) {
             String sTime = serverDate + " " + serverTime + ":00";
             bundle.putInt("cityId", cityId);
@@ -663,9 +637,6 @@ public class SingleNewActivity extends BaseActivity {
         Bundle bundle = new Bundle();
         switch (view.getId()) {
             case R.id.city_layout:
-//                bundle.putString("source", "下单过程中");
-//                bundle.putInt(KEY_BUSINESS_TYPE, Constants.BUSINESS_TYPE_RENT);
-//                startFragment(new FgChooseCity(), bundle);
                 intent = new Intent(this, ChooseCityActivity.class);
                 intent.putExtra("source", "下单过程中");
                 intent.putExtra(KEY_BUSINESS_TYPE, Constants.BUSINESS_TYPE_RENT);
@@ -695,15 +666,6 @@ public class SingleNewActivity extends BaseActivity {
             case R.id.end_detail:
             case R.id.end_layout:
                 if (cityBean != null) {
-//                    FgPoiSearch fg = new FgPoiSearch();
-//                    bundle.putString("source", "下单过程中");
-//                    bundle.putString(KEY_FROM, "to");
-//                    bundle.putInt(FgPoiSearch.KEY_CITY_ID, cityBean.cityId);
-//                    bundle.putString(FgPoiSearch.KEY_LOCATION, cityBean.location);
-//                    startFragment(fg, bundle);
-//                    map.put("source", "下单过程中");
-//                    MobclickAgent.onEvent(activity, "search_trigger", map);
-
                     bundle.putString("source", "下单过程中");
                     bundle.putString(KEY_FROM, "to");
                     bundle.putInt(PoiSearchActivity.KEY_CITY_ID, cityBean.cityId);

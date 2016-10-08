@@ -480,7 +480,7 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
         bundle.putString("price", carBean.price + "");
         bundle.putString("distance", carListBean.distance + "");
         carBean.expectedCompTime = carListBean.estTime;
-        bundle.putSerializable("carBean", CarUtils.carBeanAdapter(carBean));
+        bundle.putSerializable("carBean", carBean);
         bundle.putInt("type", 1);
         bundle.putString("orderType", "1");
         bundle.putSerializable("manLuggageBean", manLuggageBean);
