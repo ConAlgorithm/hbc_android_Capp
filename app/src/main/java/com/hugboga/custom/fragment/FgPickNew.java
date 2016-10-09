@@ -29,6 +29,8 @@ import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.CollectGuideBean;
 import com.hugboga.custom.data.bean.DailyBean;
 import com.hugboga.custom.data.bean.FlightBean;
+import com.hugboga.custom.data.bean.GuideCarBean;
+import com.hugboga.custom.data.bean.GuideCarEventData;
 import com.hugboga.custom.data.bean.ManLuggageBean;
 import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.bean.UserEntity;
@@ -54,6 +56,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -214,10 +217,7 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
         serverDate = flightBean.arrDate + " " + flightBean.arrivalTime;
         needChildrenSeat = flightBean.arrivalAirport.childSeatSwitch;
         needBanner = flightBean.arrivalAirport.bannerSwitch;
-        String carIds = null;
-        if(null != collectGuideBean){
-            carIds = collectGuideBean.carModelId+"";
-        }
+
         RequestCheckPriceForPickup requestCheckPriceForPickup = new RequestCheckPriceForPickup(getActivity(), 1, airportCode, cityId, startLocation, termLocation, serverDate,carIds);
         requestData(requestCheckPriceForPickup);
     }
@@ -267,9 +267,17 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
 
     ManLuggageBean manLuggageBean;
     int maxLuuages = 0;
+    GuideCarEventData eventData;
+    ArrayList<GuideCarBean> guideCars;
+    String carIds = null;
     @Subscribe
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
+            case CARIDS:
+                eventData = (GuideCarEventData)action.getData();
+                carIds = eventData.carIds;
+                guideCars = eventData.guideCars;
+                break;
             case CHOOSE_POI_BACK:
                 poiBean = (PoiBean) action.getData();
                 addressTips.setVisibility(GONE);
@@ -530,21 +538,18 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
         if (request instanceof RequestCheckPrice) {
             bottom.setVisibility(GONE);
             isNetError = false;
-//            confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
-//            confirmJourney.setOnClickListener(null);
             manLuggageBean = null;
             RequestCheckPrice requestCheckPrice = (RequestCheckPrice) request;
             carListBean = (CarListBean) requestCheckPrice.getData();
             if (carListBean.carList.size() > 0) {
-                if(null == collectGuideBean) {
-                    carBean = CarUtils.initCarListData(carListBean.carList).get(0);//carListBean.carList.get(0);
-                }else {
-                    carBean = CarUtils.isMatchLocal(CarUtils.getNewCarBean(collectGuideBean), carListBean.carList);
+                carListBean.carList = CarUtils.getSingleCarBeanList(carListBean.carList,eventData.guideCars);
+                if (null == collectGuideBean) {
+                    carBean = CarUtils.initCarListData(carListBean.carList).get(0);
+                } else {
+                    carBean = carListBean.carList.get(0);
                 }
                 if(null != carBean) {
                     bottom.setVisibility(View.VISIBLE);
-//                    confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
-//                    confirmJourney.setOnClickListener(null);
                     genBottomData(carBean);
                 }else{
                     bottom.setVisibility(GONE);
@@ -556,26 +561,6 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
 
         }
     }
-
-
-
-
-
-//    @Override
-//    public void onFragmentResult(Bundle bundle) {
-//        String from = bundle.getString(KEY_FRAGMENT_NAME);
-//        if (FgPoiSearch.class.getSimpleName().equals(from)) {
-//            poiBean = (PoiBean) bundle.getSerializable("arrival");
-//            addressTips.setVisibility(GONE);
-//            addressTitle.setVisibility(View.VISIBLE);
-//            addressDetail.setVisibility(View.VISIBLE);
-//            addressTitle.setText(poiBean.placeName);
-//            addressDetail.setText(poiBean.placeDetail);
-//            collapseSoftInputMethod();
-//            getData();
-//
-//        }
-//    }
 
 
     @Override

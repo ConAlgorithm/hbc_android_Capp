@@ -27,6 +27,8 @@ import com.hugboga.custom.data.bean.AirPort;
 import com.hugboga.custom.data.bean.CarBean;
 import com.hugboga.custom.data.bean.CarListBean;
 import com.hugboga.custom.data.bean.CollectGuideBean;
+import com.hugboga.custom.data.bean.GuideCarBean;
+import com.hugboga.custom.data.bean.GuideCarEventData;
 import com.hugboga.custom.data.bean.ManLuggageBean;
 import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.bean.UserEntity;
@@ -263,10 +265,18 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
     boolean checkInChecked = true;
     boolean waitChecked = true;
     int maxLuuages = 0;
+    GuideCarEventData eventData;
+    ArrayList<GuideCarBean> guideCars;
+    String carIds = null;
 
     @Subscribe
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
+            case CARIDS:
+                eventData = (GuideCarEventData)action.getData();
+                carIds = eventData.carIds;
+                guideCars = eventData.guideCars;
+                break;
             case AIR_PORT_BACK:
                 airPortBean = (AirPort) action.getData();
                 addressTips.setText(airPortBean.cityName + " " + airPortBean.airportName);
@@ -488,10 +498,7 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
         termLocation = airPortBean.location;
         needChildrenSeat = airPortBean.childSeatSwitch;
         needBanner = airPortBean.bannerSwitch;
-        String carIds = null;
-        if(null != collectGuideBean){
-            carIds = collectGuideBean.carModelId+"";
-        }
+
         RequestCheckPriceForTransfer requestCheckPriceForTransfer = new RequestCheckPriceForTransfer(getActivity(), mBusinessType,
                 airportCode, cityId, startLocation, termLocation, serverDate + " " + serverTime,carIds);
         requestData(requestCheckPriceForTransfer);
@@ -625,11 +632,13 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
             RequestCheckPrice requestCheckPrice = (RequestCheckPrice) request;
             carListBean = (CarListBean) requestCheckPrice.getData();
             if (carListBean.carList.size() > 0) {
-                if(null == collectGuideBean) {
+                carListBean.carList = CarUtils.getSingleCarBeanList(carListBean.carList,eventData.guideCars);
+                if (null == collectGuideBean) {
                     carBean = CarUtils.initCarListData(carListBean.carList).get(0);
-                }else {
-                    carBean = CarUtils.isMatchLocal(CarUtils.getNewCarBean(collectGuideBean), carListBean.carList);
+                } else {
+                    carBean = carListBean.carList.get(0);
                 }
+
                 if(null != carBean) {
                     genBottomData(carBean);
                     bottom.setVisibility(View.VISIBLE);

@@ -622,7 +622,6 @@ public class SingleNewActivity extends BaseActivity {
         Bundle bundle = new Bundle();
         bundle.putSerializable("collectGuideBean", collectGuideBean);
         bundle.putSerializable("carListBean", carListBean);
-        bundle.putSerializable("guideCars",guideCars);
         bundle.putBoolean("isDataBack", isDataBack);
         bundle.putBoolean("isNetError", isNetError);
         if (isDataBack && null != carListBean) {
