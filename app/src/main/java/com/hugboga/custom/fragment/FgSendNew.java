@@ -287,7 +287,6 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
                 airTitle.setVisibility(View.GONE);
                 airDetail.setVisibility(View.GONE);
                 timeText.setText("");
-//            showCarsLayoutSend.setVisibility(View.GONE);
                 bottom.setVisibility(View.GONE);
                 checkInput();
                 break;
@@ -305,8 +304,6 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
                 maxLuuages = (int)action.getData();
                 break;
             case CAR_CHANGE_SMALL:
-//                confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
-//                confirmJourney.setOnClickListener(null);
                 manLuggageBean = null;
                 break;
             case CHANGE_GUIDE:
@@ -314,14 +311,10 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
                 break;
             case GUIDE_DEL:
                 collectGuideBean = null;
-//                confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
-//                confirmJourney.setOnClickListener(null);
                 carBean = (CarBean) action.getData();
                 if(null != carBean) {
                     genBottomData(carBean);
                 }
-//                confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
-//                confirmJourney.setOnClickListener(null);
                 if(null == carListBean){
                     showCarsLayoutSend.setVisibility(GONE);
                 }else {
@@ -532,13 +525,9 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
             case R.id.air_detail:
             case R.id.air_send_layout://从哪里出发
                 if (airPortBean != null) {
-//                    FgPoiSearch fg = new FgPoiSearch();
                     Bundle bundle = new Bundle();
                     bundle.putInt(PoiSearchActivity.KEY_CITY_ID, airPortBean.cityId);
                     bundle.putString(PoiSearchActivity.KEY_LOCATION, airPortBean.location);
-//                    fg.setArguments(bundle);
-//                    startFragment(fg);
-//
                     intent = new Intent(getActivity(), PoiSearchActivity.class);
                     intent.putExtras(bundle);
                     intent.putExtra("mBusinessType",2);
@@ -550,22 +539,16 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
                 break;
             case R.id.address_layout:
             case R.id.address_tips://选择机场
-//                startFragment(new FgChooseAirport());
                 Intent intent = new Intent(getActivity(),ChooseAirPortActivity.class);
                 getActivity().startActivity(intent);
 
                 break;
-//            case R.id.air_send_layout:
-//                FgChooseAir fgChooseAir = new FgChooseAir();
-//                startFragment(fgChooseAir);
-//                break;
             case R.id.time_layout:
             case R.id.time_text://出发时间
                 if (airPortBean == null) {
                     showToast("先选择机场");
                     return;
                 }
-//                showDaySelect();
                 showYearMonthDayTimePicker();
                 break;
             case R.id.rl_starttime:
@@ -612,8 +595,6 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
         bottom.setVisibility(View.GONE);
         carListBean = null;
         isNetError = true;
-//        confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
-//        confirmJourney.setOnClickListener(null);
         if (null != collectGuideBean) {
             initCarFragment(false);
         }else{
@@ -625,8 +606,6 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
     public void onDataRequestSucceed(BaseRequest request) {
         if (request instanceof RequestCheckPrice) {
             bottom.setVisibility(View.GONE);
-//            confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
-//            confirmJourney.setOnClickListener(null);
             isNetError = false;
             manLuggageBean = null;
             RequestCheckPrice requestCheckPrice = (RequestCheckPrice) request;
