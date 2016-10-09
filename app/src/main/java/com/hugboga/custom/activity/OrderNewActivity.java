@@ -496,11 +496,11 @@ public class OrderNewActivity extends BaseActivity {
 
 
     private String getCarDesc() {
-        if (null != collectGuideBean) {
-            return collectGuideBean.carDesc;
-        } else {
+//        if (null != collectGuideBean) {
+//            return collectGuideBean.carDesc;
+//        } else {
             return carBean.carDesc;
-        }
+//        }
     }
 
 

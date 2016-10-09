@@ -223,7 +223,6 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
     public void onDestroy() {
         super.onDestroy();
         ButterKnife.unbind(this);
-        CarUtils.collectGuideBean = null;
     }
 
     protected void initHeader() {
