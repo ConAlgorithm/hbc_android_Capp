@@ -244,9 +244,6 @@ public class SingleNewActivity extends BaseActivity {
                 checkParams();
             }
         });
-        if(null == collectGuideBean){
-            getData();
-        }
     }
 
     private boolean checkParams() {
