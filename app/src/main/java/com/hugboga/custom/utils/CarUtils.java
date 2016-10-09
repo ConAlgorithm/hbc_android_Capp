@@ -7,7 +7,6 @@ import com.hugboga.custom.constants.ChooseCarTypeEnum;
 import com.hugboga.custom.data.bean.CarBean;
 import com.hugboga.custom.data.bean.CollectGuideBean;
 import com.hugboga.custom.data.bean.GuideCarBean;
-import com.hugboga.custom.data.bean.GuideCars;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -142,7 +141,7 @@ public class CarUtils {
     public static CollectGuideBean collectGuideBean = null;
 
     //根据司导车辆和 报价返回车辆 生成新的车辆信息
-    public static ArrayList<CarBean> getCarBeanList(List<CarBean> carBeans,List<GuideCars> guideCars){
+    public static ArrayList<CarBean> getCarBeanList(List<CarBean> carBeans,List<GuideCarBean> guideCars){
         ArrayList<CarBean> list = new ArrayList<>();
         for(int n = 0;n < carBeans.size();n++) {
             for (int i = 0; i < guideCars.size(); i++) {

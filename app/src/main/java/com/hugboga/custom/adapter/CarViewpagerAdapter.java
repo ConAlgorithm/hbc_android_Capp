@@ -50,7 +50,7 @@ public class CarViewpagerAdapter extends PagerAdapter {
         ImageView image = (ImageView) view.findViewById(R.id.item_car_img);
         int resId = bean.imgRes;
         if (resId != 0)
-            image.setImageResource(resId);
+//            image.setImageResource(resId);
 
         if(bean.special == 1 && null != bean.carPictures){
             Tools.showImage(image,bean.carPictures.get(0),R.mipmap.car_default);

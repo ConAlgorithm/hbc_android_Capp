@@ -331,12 +331,13 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
         }
     }
 
+    ArrayList<GuideCarBean> guideCarBeanList;
     private void getGuideCars(){
         RequestCars requestCars = new RequestCars(activity,guideId,null,10,0);
         HttpRequestUtils.request(activity, requestCars, new HttpRequestListener() {
             @Override
             public void onDataRequestSucceed(BaseRequest request) {
-                ArrayList<GuideCarBean> guideCarBeanList = ((RequestCars)request).getData();
+                guideCarBeanList = ((RequestCars)request).getData();
                 carIds = CarUtils.getCarIds(guideCarBeanList);
                 getData();
             }
@@ -358,7 +359,7 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
         RequestGetCarInfo requestGetCarInfo = new RequestGetCarInfo(this.activity,
                 startCityId, endCityId, startDate + " " + serverTime + ":00", endDate + " " + serverTime + ":00", halfDay, adultNum,
                 childrenNum, childseatNum, luggageNum, passCities, channelId, carIds);
-        HttpRequestUtils.request(this.activity, requestGetCarInfo, this);
+        HttpRequestUtils.request(this.activity, requestGetCarInfo, this,true);
         jazzyPager.setState(null);
         jazzyPager.setOffscreenPageLimit(3);
         jazzyPager.setTransitionEffect(JazzyViewPager.TransitionEffect.Tablet);
@@ -854,8 +855,9 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
             carList.add(carBean);
 //            }
         }
-        if (null != collectGuideBean) {
-            carList = CarUtils.getCarBeanList(carList, collectGuideBean.guideCars);
+        if (null != guideCarBeanList) {
+            //TODO;   guideCarBeanList
+            carList = CarUtils.getCarBeanList(carList, guideCarBeanList);
         }
         mAdapter.setList(carList);
         jazzyPager.setAdapter(mAdapter);
