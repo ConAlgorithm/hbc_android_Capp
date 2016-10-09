@@ -25,6 +25,8 @@ import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.CollectGuideBean;
 import com.hugboga.custom.data.bean.DailyBean;
 import com.hugboga.custom.data.bean.FlightBean;
+import com.hugboga.custom.data.bean.GuideCarBean;
+import com.hugboga.custom.data.bean.GuideCarEventData;
 import com.hugboga.custom.data.bean.ManLuggageBean;
 import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.bean.UserEntity;
@@ -242,6 +244,9 @@ public class SingleNewActivity extends BaseActivity {
                 checkParams();
             }
         });
+        if(null == collectGuideBean){
+            getData();
+        }
     }
 
     private boolean checkParams() {
@@ -270,15 +275,13 @@ public class SingleNewActivity extends BaseActivity {
         needChildrenSeat = cityBean.childSeatSwitch;
         startLocation = startBean.location;
         termLocation = arrivalBean.location;
-        String carIds = null;
-        if(null != collectGuideBean){
-            carIds = collectGuideBean.carModelId+"";
-        }
+
         RequestCheckPriceForSingle requestCheckPriceForSingle = new RequestCheckPriceForSingle(activity, 4, airportCode, cityId,
-                startLocation, termLocation, serverDate + " " + serverTime,carIds);
+                startLocation, termLocation, serverDate + " " + serverTime, carIds);
         requestData(requestCheckPriceForSingle);
     }
 
+    String carIds = null;
     CarListBean carListBean;
 
 
@@ -329,10 +332,13 @@ public class SingleNewActivity extends BaseActivity {
             RequestCheckPrice requestCheckPrice = (RequestCheckPrice) request;
             carListBean = (CarListBean) requestCheckPrice.getData();
             if (carListBean.carList.size() > 0) {
+
+                carListBean.carList = CarUtils.getSingleCarBeanList(carListBean.carList,eventData.guideCars);
+
                 if (null == collectGuideBean) {
                     carBean = CarUtils.initCarListData(carListBean.carList).get(0);//carListBean.carList.get(0);
                 } else {
-                    carBean = CarUtils.isMatchLocal(CarUtils.getNewCarBean(collectGuideBean), carListBean.carList);
+                    carBean = carListBean.carList.get(0);// CarUtils.getNewCarBeanList(eventData.guideCars).get(0);//CarUtils.isMatchLocal(CarUtils.getNewCarBean(collectGuideBean), carListBean.carList);
                 }
                 if (null != carBean) {
                     genBottomData(carBean);
@@ -352,10 +358,16 @@ public class SingleNewActivity extends BaseActivity {
 
     ManLuggageBean manLuggageBean;
     int maxLuuages = 0;
-
+    GuideCarEventData eventData;
+    ArrayList<GuideCarBean> guideCars;
     @Subscribe
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
+            case CARIDS:
+                eventData = (GuideCarEventData)action.getData();
+                carIds = eventData.carIds;
+                guideCars = eventData.guideCars;
+                break;
             case CHOOSE_POI_BACK:
                 PoiBean poiBean  = (PoiBean)action.getData();
                 if ("from".equals(poiBean.type)) {

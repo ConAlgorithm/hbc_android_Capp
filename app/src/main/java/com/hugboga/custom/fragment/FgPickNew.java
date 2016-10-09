@@ -29,6 +29,8 @@ import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.CollectGuideBean;
 import com.hugboga.custom.data.bean.DailyBean;
 import com.hugboga.custom.data.bean.FlightBean;
+import com.hugboga.custom.data.bean.GuideCarBean;
+import com.hugboga.custom.data.bean.GuideCarEventData;
 import com.hugboga.custom.data.bean.ManLuggageBean;
 import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.bean.UserEntity;
@@ -54,6 +56,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -214,10 +217,7 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
         serverDate = flightBean.arrDate + " " + flightBean.arrivalTime;
         needChildrenSeat = flightBean.arrivalAirport.childSeatSwitch;
         needBanner = flightBean.arrivalAirport.bannerSwitch;
-        String carIds = null;
-        if(null != collectGuideBean){
-            carIds = collectGuideBean.carModelId+"";
-        }
+
         RequestCheckPriceForPickup requestCheckPriceForPickup = new RequestCheckPriceForPickup(getActivity(), 1, airportCode, cityId, startLocation, termLocation, serverDate,carIds);
         requestData(requestCheckPriceForPickup);
     }
@@ -267,9 +267,17 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
 
     ManLuggageBean manLuggageBean;
     int maxLuuages = 0;
+    GuideCarEventData eventData;
+    ArrayList<GuideCarBean> guideCars;
+    String carIds = null;
     @Subscribe
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
+            case CARIDS:
+                eventData = (GuideCarEventData)action.getData();
+                carIds = eventData.carIds;
+                guideCars = eventData.guideCars;
+                break;
             case CHOOSE_POI_BACK:
                 poiBean = (PoiBean) action.getData();
                 addressTips.setVisibility(GONE);
@@ -284,8 +292,6 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
                 maxLuuages = (int)action.getData();
                 break;
             case CAR_CHANGE_SMALL:
-//                confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
-//                confirmJourney.setOnClickListener(null);
                 manLuggageBean = null;
                 break;
             case CHANGE_GUIDE:
@@ -293,14 +299,10 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
                 break;
             case GUIDE_DEL:
                 collectGuideBean = null;
-//                confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
-//                confirmJourney.setOnClickListener(null);
                 carBean = (CarBean) action.getData();
                 if(null != carBean) {
                     genBottomData(carBean);
                 }
-//                confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
-//                confirmJourney.setOnClickListener(null);
                 if(null == carListBean){
                     show_cars_layout_pick.setVisibility(GONE);
                 }else {
@@ -468,7 +470,6 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
 
 
     private void goOrder(){
-//        FGOrderNew fgOrderNew = new FGOrderNew();
         Bundle bundle = new Bundle();
         bundle.putString("guideCollectId", collectGuideBean == null ? "" : collectGuideBean.guideId);
         bundle.putSerializable("collectGuideBean", collectGuideBean == null ? null : collectGuideBean);
@@ -514,8 +515,6 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
         bottom.setVisibility(GONE);
         carListBean = null;
         isNetError = true;
-//        confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
-//        confirmJourney.setOnClickListener(null);
         if (null != collectGuideBean) {
             initCarFragment(false);
         }else{
@@ -530,21 +529,18 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
         if (request instanceof RequestCheckPrice) {
             bottom.setVisibility(GONE);
             isNetError = false;
-//            confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
-//            confirmJourney.setOnClickListener(null);
             manLuggageBean = null;
             RequestCheckPrice requestCheckPrice = (RequestCheckPrice) request;
             carListBean = (CarListBean) requestCheckPrice.getData();
             if (carListBean.carList.size() > 0) {
-                if(null == collectGuideBean) {
-                    carBean = CarUtils.initCarListData(carListBean.carList).get(0);//carListBean.carList.get(0);
-                }else {
-                    carBean = CarUtils.isMatchLocal(CarUtils.getNewCarBean(collectGuideBean), carListBean.carList);
+                carListBean.carList = CarUtils.getSingleCarBeanList(carListBean.carList,eventData.guideCars);
+                if (null == collectGuideBean) {
+                    carBean = CarUtils.initCarListData(carListBean.carList).get(0);
+                } else {
+                    carBean = carListBean.carList.get(0);
                 }
                 if(null != carBean) {
                     bottom.setVisibility(View.VISIBLE);
-//                    confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
-//                    confirmJourney.setOnClickListener(null);
                     genBottomData(carBean);
                 }else{
                     bottom.setVisibility(GONE);
@@ -556,26 +552,6 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
 
         }
     }
-
-
-
-
-
-//    @Override
-//    public void onFragmentResult(Bundle bundle) {
-//        String from = bundle.getString(KEY_FRAGMENT_NAME);
-//        if (FgPoiSearch.class.getSimpleName().equals(from)) {
-//            poiBean = (PoiBean) bundle.getSerializable("arrival");
-//            addressTips.setVisibility(GONE);
-//            addressTitle.setVisibility(View.VISIBLE);
-//            addressDetail.setVisibility(View.VISIBLE);
-//            addressTitle.setText(poiBean.placeName);
-//            addressDetail.setText(poiBean.placeDetail);
-//            collapseSoftInputMethod();
-//            getData();
-//
-//        }
-//    }
 
 
     @Override
@@ -605,8 +581,6 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
             case R.id.air_title:
             case R.id.air_detail:
             case R.id.rl_info:
-//                FgChooseAir fgChooseAir = new FgChooseAir();
-//                startFragment(fgChooseAir);
                 intent = new Intent(getActivity(),ChooseAirActivity.class);
                 getActivity().startActivity(intent);
                 break;
@@ -616,13 +590,10 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
             case R.id.rl_address:
                 if (airDetail.isShown()) {
 
-//                    FgPoiSearch fg = new FgPoiSearch();
                     Bundle bundle = new Bundle();
                     bundle.putString("source", "下单过程中");
                     bundle.putInt(PoiSearchActivity.KEY_CITY_ID, flightBean.arrCityId);//.arrivalAirport.cityId);
                     bundle.putString(PoiSearchActivity.KEY_LOCATION, flightBean.arrLocation);//.arrivalAirport.location);
-//                    startFragment(fg, bundle);
-
                     intent = new Intent(getActivity(),PoiSearchActivity.class);
                     intent.putExtras(bundle);
                     intent.putExtra("mBusinessType",1);

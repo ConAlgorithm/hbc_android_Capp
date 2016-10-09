@@ -1,5 +1,6 @@
 package com.hugboga.custom.utils;
 
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.hugboga.custom.constants.CarTypeEnum;
@@ -44,38 +45,6 @@ public class CarUtils {
                 Log.e("==============",carBean.imgRes+"");
             }
         }
-//        int id = 1;
-//        CarBean bean;
-//        ArrayList<CarBean> carList = new ArrayList<CarBean>(16);
-//        for (int i = 1; i <= 4; i++) {
-//            for (int j = 1; j <= 4; j++) {
-//                bean = new CarBean();
-//                bean.id = id;
-//                bean.carType = i;
-//                bean.carSeat = Constants.CarSeatMap.get(j);
-//                bean.originalPrice = 0;
-////                bean.models = Constants.CarDescInfoMap.get(i).get(j);
-//                ChooseCarTypeEnum carTypeEnum = ChooseCarTypeEnum.getCarType(bean.carType, bean.carSeat);
-//                if (carTypeEnum != null) {
-//                    bean.imgRes = carTypeEnum.imgRes;
-//                    Log.e("==============",bean.imgRes+"");
-//                }
-//
-//                CarBean newCarBean = isMatchLocal(bean,checkCarList);
-//                if (null != newCarBean) {
-//                    bean.models = newCarBean.models;
-//                    bean.capOfLuggage = newCarBean.capOfLuggage;
-//                    bean.desc = newCarBean.desc;
-//                    bean.capOfPerson = newCarBean.capOfPerson;
-//                    bean.price = newCarBean.price;
-//                    bean.pricemark = newCarBean.pricemark;
-//                    bean.priceChannel = newCarBean.priceChannel;
-//                    bean.orderChannel = new CarBean().orderChannel;
-//                    carList.add(bean);
-//                }
-//                id++;
-//            }
-//        }
         return checkCarList;
     }
 
@@ -105,21 +74,6 @@ public class CarUtils {
         return carBean;
     }
 
-//    //司导车辆信息ids
-//    public static String getCarIds(List<GuideCars> guideCars){
-//        String ids = "";
-//        if(null != guideCars) {
-//            int size = guideCars.size();
-//            for (int i = 0; i < size; i++) {
-//                if (i == size - 1) {
-//                    ids += guideCars.get(i).carModelId;
-//                }else{
-//                    ids += guideCars.get(i).carModelId+",";
-//                }
-//            }
-//        }
-//        return ids;
-//    }
 
     //司导车辆信息ids
     public static String getCarIds(ArrayList<GuideCarBean> guideCars){
@@ -137,10 +91,7 @@ public class CarUtils {
         return ids;
     }
 
-    //司导bean
-    public static CollectGuideBean collectGuideBean = null;
-
-    //根据司导车辆和 报价返回车辆 生成新的车辆信息
+    //根据司导车辆和 报价返回车辆 生成新的车辆信息  包车游使用
     public static ArrayList<CarBean> getCarBeanList(List<CarBean> carBeans,List<GuideCarBean> guideCars){
         ArrayList<CarBean> list = new ArrayList<>();
         for(int n = 0;n < carBeans.size();n++) {
@@ -156,6 +107,45 @@ public class CarUtils {
                 }
             }
         }
+        return list;
+    }
+
+    //根据司导车辆和 报价返回车辆 生成新的车辆信息  单次 接送用
+    public static ArrayList<CarBean> getSingleCarBeanList(List<CarBean> carBeans,List<GuideCarBean> guideCars){
+        ArrayList<CarBean> list = new ArrayList<>();
+        for(int n = 0;n < carBeans.size();n++) {
+            for (int i = 0; i < guideCars.size(); i++) {
+                if (carBeans.get(n).carType == guideCars.get(i).carType &&
+                        carBeans.get(n).carSeat == guideCars.get(i).carClass) {
+                    CarBean carBean = (CarBean)(carBeans.get(n).clone());
+                    carBean.carLicenceNo = guideCars.get(i).carLicenceNo;
+                    carBean.carLicenceNoCovered = guideCars.get(i).carLicenceNoCovered;
+                    carBean.carBrandName = guideCars.get(i).carBrandName;
+                    carBean.carName = guideCars.get(i).carName;
+                    list.add(carBean);
+                }
+            }
+        }
+        return list;
+    }
+
+
+    //根据司导车辆生成新的车辆信息
+    public static ArrayList<CarBean> getNewCarBeanList(List<GuideCarBean> guideCars){
+        ArrayList<CarBean> list = new ArrayList<>();
+            for (int i = 0; i < guideCars.size(); i++) {
+                CarBean carBean = new CarBean();
+                carBean.carLicenceNo = guideCars.get(i).carLicenceNo;
+                carBean.carLicenceNoCovered = guideCars.get(i).carLicenceNoCovered;
+                carBean.carBrandName = guideCars.get(i).carBrandName;
+                carBean.carName = guideCars.get(i).carName;
+                if(!TextUtils.isEmpty(guideCars.get(i).carInfo1)) {
+                    carBean.carDesc = guideCars.get(i).carInfo1;
+                }
+                carBean.capOfLuggage = guideCars.get(i).modelLuggageNum;
+                carBean.capOfPerson = guideCars.get(i).modelGuestNum;
+                list.add(carBean);
+            }
         return list;
     }
 
