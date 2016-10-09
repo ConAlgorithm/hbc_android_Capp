@@ -34,7 +34,6 @@ import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.EvaluateListItemView;
-import com.hugboga.custom.widget.EvaluateTagGroup;
 import com.hugboga.custom.widget.GuideDetailCarInfoView;
 import com.hugboga.custom.widget.GuideDetailScrollView;
 import com.hugboga.custom.widget.SimpleRatingBar;
@@ -56,14 +55,14 @@ import butterknife.OnClick;
  */
 public class GuideDetailActivity extends BaseActivity{
 
-    public static final String PARAMS_IS_SELET_SERVICE = "isSeletService";
-
     @Bind(R.id.guide_detail_titlebar)
     RelativeLayout titlebar;
     @Bind(R.id.header_detail_right_2_btn)
     ImageView collectIV;
     @Bind(R.id.header_detail_right_1_btn)
     ImageView shareIV;
+    @Bind(R.id.header_detail_title_tv)
+    TextView titleTV;
 
     @Bind(R.id.guide_detail_scrollview)
     GuideDetailScrollView scrollView;
@@ -122,7 +121,8 @@ public class GuideDetailActivity extends BaseActivity{
         public String guideId;
         public String guideCarId;
         public String guideAgencyDriverId;
-        public boolean isSeletService = false;
+        public int orderSource = 1;
+        public boolean isSelectedService = false;
     }
 
     @Override
@@ -152,14 +152,30 @@ public class GuideDetailActivity extends BaseActivity{
     }
 
     private void initUI() {
+
         mDialogUtil = DialogUtil.getInstance(this);
         collectIV.setImageResource(R.drawable.selector_guide_detail_collect);
-        shareIV.setImageResource(R.mipmap.sddate_share);
+        shareIV.setImageResource(R.mipmap.guide_detail_share);
 
         int cityBgHeight = (int)(UIUtils.getScreenWidth() * (400 / 750.0f));
         cityBgLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, cityBgHeight + UIUtils.dip2px(40)));
         cityBgIV.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, cityBgHeight));
         scrollView.setTitlebar(titlebar, cityBgHeight);
+
+        carinfoView.setGuideCarId(params.guideCarId);
+
+        if (isOnlyShow()) {
+            collectIV.setVisibility(View.GONE);
+            shareIV.setVisibility(View.GONE);
+        }
+    }
+
+    private boolean isOnlyShow() {
+        if (params.orderSource != 1 || params.isSelectedService) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     private void requestData() {
@@ -199,6 +215,7 @@ public class GuideDetailActivity extends BaseActivity{
 
             //地接社或司导名称
             nameTV.setText(data.guideName);
+            titleTV.setText(data.guideName);
             if (data.agencyType == 0) { //个人司导(显示性别)
                 driverLayout.setVisibility(View.GONE);
                 if (data.gender == 1 || data.gender == 2) {
@@ -207,7 +224,7 @@ public class GuideDetailActivity extends BaseActivity{
                 } else {
                     genderIV.setVisibility(View.GONE);
                 }
-            } else { //显示服务司导
+            } else if (!TextUtils.isEmpty(data.agencyDriverName)) { //显示服务司导
                 genderIV.setVisibility(View.GONE);
                 driverLayout.setVisibility(View.VISIBLE);
                 if (TextUtils.isEmpty(data.agencyDriverAvatar)) {
@@ -233,7 +250,7 @@ public class GuideDetailActivity extends BaseActivity{
             //是否可服务接送机、单次接送，0否，1是
             planeLayout.setVisibility(data.serviceJsc == 1 ? View.VISIBLE : View.GONE);
             singleLayout.setVisibility(data.serviceJsc == 1 ? View.VISIBLE : View.GONE);
-            if (data.serviceDaily != 1 && data.serviceJsc != 1) {
+            if (isOnlyShow() || (data.serviceDaily != 1 && data.serviceJsc != 1)) {
                 appointmentLine.setVisibility(View.GONE);
                 appointmentTV.setVisibility(View.GONE);
             } else {

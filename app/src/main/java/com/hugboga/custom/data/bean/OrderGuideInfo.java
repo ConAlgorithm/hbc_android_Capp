@@ -18,6 +18,7 @@ public class OrderGuideInfo implements IBaseBean ,Parcelable {
     public int storeStatus;//导游是否被收藏 0没有 1已收藏
     public String guideImId; //导游的im 账号
     public int inBlack; //是否拉黑
+    public String guideCarId;
 
     @Override
     public int describeContents() {
@@ -35,6 +36,7 @@ public class OrderGuideInfo implements IBaseBean ,Parcelable {
         dest.writeString(this.carNumber);
         dest.writeInt(this.storeStatus);
         dest.writeString(this.guideImId);
+        dest.writeString(this.guideCarId);
     }
 
     public OrderGuideInfo() {
@@ -50,6 +52,7 @@ public class OrderGuideInfo implements IBaseBean ,Parcelable {
         this.carNumber = in.readString();
         this.storeStatus = in.readInt();
         this.guideImId = in.readString();
+        this.guideCarId = in.readString();
     }
 
     public boolean isCollected() {

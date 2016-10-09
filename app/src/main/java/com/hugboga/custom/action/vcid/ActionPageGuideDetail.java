@@ -28,8 +28,10 @@ public class ActionPageGuideDetail extends ActionPageBase {
         if (bean == null) {
             return;
         }
+        GuideDetailActivity.Params params = new GuideDetailActivity.Params();
+        params.guideId = bean.guideId;
         Intent intent = new Intent(context, GuideDetailActivity.class);
-        intent.putExtra(Constants.PARAMS_DATA, bean.guideId);
+        intent.putExtra(Constants.PARAMS_DATA, params);
         context.startActivity(intent);
     }
 }

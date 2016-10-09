@@ -166,6 +166,7 @@ public class OrderBean implements IBaseBean{
     public int priceCommentReward;          // 好评奖励金额
     public AppraisementBean appraisement;   // 评价信息
     public AssessmentBean assessmentBean;   // TODO appraisement 评价信息
+    public String guideAgencyDriverId;      // 地接社老板ID
 
     public OrderPriceInfo orderPriceInfo;   // priceInfo
     public OrderGuideInfo orderGuideInfo;   // guideInfo

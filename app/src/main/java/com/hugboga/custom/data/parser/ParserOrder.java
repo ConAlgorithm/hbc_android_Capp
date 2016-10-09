@@ -169,6 +169,7 @@ public class ParserOrder extends ImplParser {
             orderbean.assessmentBean = new ParserAssessment().parseObject(jsonObj.optJSONObject("appraisement"));
         }
         orderbean.appraisement = gson.fromJson(jsonObj.optString("appraisement"), AppraisementBean.class);
+        orderbean.guideAgencyDriverId = jsonObj.optString("guideAgencyDriverId");
 
         //priceInfo
         orderbean.orderPriceInfo = new OrderPriceInfo();
