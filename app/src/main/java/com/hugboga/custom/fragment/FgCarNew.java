@@ -3,6 +3,7 @@ package com.hugboga.custom.fragment;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -386,9 +387,11 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
     private  void setCarInfo(){
         String carDesc = "";
         if(null != carBean.carLicenceNoCovered){
+            fgCarIntro.setTextColor(ContextCompat.getColor(this.getActivity(),R.color.basic_red));
             carDesc = (null == carBean.carBrandName?"":carBean.carBrandName) + (null == carBean.carName?"":carBean.carName) +"     车牌:"+carBean.carLicenceNoCovered;
         }else{
-            carDesc = carBean.models;// (null == carBean.carBrandName?"":carBean.carBrandName) + (null == carBean.carName?"":carBean.carName);
+            fgCarIntro.setTextColor(Color.parseColor("#b2b2b2"));
+            carDesc = carBean.models;
         }
         fgCarIntro.setText(carDesc);
     }
@@ -570,9 +573,7 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
                     }
                 }
             });
-            if (null == carListBean) {
-//                genCar();
-            } else {
+            if (null != carListBean) {
                 genData();
             }
         } else {
