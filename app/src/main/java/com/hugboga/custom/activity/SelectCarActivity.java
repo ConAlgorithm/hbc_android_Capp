@@ -336,8 +336,8 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
         HttpRequestUtils.request(activity, requestCars, new HttpRequestListener() {
             @Override
             public void onDataRequestSucceed(BaseRequest request) {
-                ArrayList<GuideCarBean> carBeanList = ((RequestCars)request).getData();
-//                carIds = CarUtils.getCarIds(carBeanList);
+                ArrayList<GuideCarBean> guideCarBeanList = ((RequestCars)request).getData();
+                carIds = CarUtils.getCarIds(guideCarBeanList);
                 getData();
             }
 
