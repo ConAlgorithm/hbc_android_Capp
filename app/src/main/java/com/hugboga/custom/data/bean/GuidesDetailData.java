@@ -37,6 +37,8 @@ public class GuidesDetailData implements Serializable {
     public ArrayList<EvaluateItemData> comments;
     public ArrayList<CommentLabel> commentLabels;   // 评价标签排序
 
+    public ArrayList<GuideCarBean> guideCars;       // 车辆信息
+
     public static class CommentLabel implements Serializable {
         public int labelCount;      // 评价次数
         public int labelId;         // 标签id

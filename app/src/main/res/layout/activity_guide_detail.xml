@@ -199,8 +199,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:visibility="gone"></com.hugboga.custom.widget.EvaluateListItemView>
-
+                android:visibility="gone"/>
+            <com.hugboga.custom.widget.GuideDetailCarInfoView
+                android:id="@+id/guide_detail_carinfo_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:visibility="gone"
+                />
             <View
                 android:id="@+id/guide_detail_subtitle_appointment_line"
                 android:layout_width="match_parent"

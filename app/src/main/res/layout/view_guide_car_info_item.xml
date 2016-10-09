@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="120dp"
+    android:paddingBottom="10dp"
+    android:paddingTop="10dp"
+    android:orientation="horizontal">
+
+    <RelativeLayout
+        android:layout_width="145dp"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/guide_carinfo_car_iv"
+            android:layout_width="140dp"
+            android:layout_height="100dp"
+            android:layout_marginLeft="18dp"
+            android:layout_centerVertical="true"
+            android:background="#ff0000" />
+        <TextView
+            android:id="@+id/guide_carinfo_current_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="14dp"
+            android:background="#fed631"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"
+            android:textColor="#000000"
+            android:textSize="12sp"
+            android:text="本次服务"
+            />
+
+        <TextView
+            android:id="@+id/guide_carinfo_pic_count_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:background="#66000000"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"
+            android:textColor="#ffffff"
+            android:textSize="12sp"
+            android:text="3张"
+            />
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginLeft="22dp"
+        android:layout_marginRight="18dp"
+        >
+        <TextView
+            android:id="@+id/guide_carinfo_name_tv"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="1dp"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:textColor="#000000"
+            android:textSize="15sp"
+            android:text="奔驰 asdajsdlka beaasdasdasdasdn sad"
+            />
+        <TextView
+            android:id="@+id/guide_carinfo_seat_num_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:textColor="#333333"
+            android:textSize="13sp"
+            android:text="奔驰 asdajsdldn sad"
+            />
+        <TextView
+            android:id="@+id/guide_carinfo_luggage_num_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-2dp"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:textColor="#333333"
+            android:textSize="13sp"
+            android:text="奔驰 asdan sad"
+            />
+        <TextView
+            android:id="@+id/guide_carinfo_plate_num_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-2dp"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:textColor="#333333"
+            android:textSize="13sp"
+            android:text="奔驰 asdajsdlkd"
+            />
+    </LinearLayout>
+
+</LinearLayout>

@@ -199,6 +199,10 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
+            android:name=".activity.GuideCarListActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
             android:name=".activity.EvaluateActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"

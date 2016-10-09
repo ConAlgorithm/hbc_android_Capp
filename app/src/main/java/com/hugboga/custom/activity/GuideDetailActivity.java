@@ -35,6 +35,7 @@ import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.EvaluateListItemView;
 import com.hugboga.custom.widget.EvaluateTagGroup;
+import com.hugboga.custom.widget.GuideDetailCarInfoView;
 import com.hugboga.custom.widget.GuideDetailScrollView;
 import com.hugboga.custom.widget.SimpleRatingBar;
 import com.hugboga.custom.widget.TagGroup;
@@ -76,6 +77,9 @@ public class GuideDetailActivity extends BaseActivity{
     TextView cityNameTV;
     @Bind(R.id.guide_detail_evaluate_item)
     EvaluateListItemView evaluateItemView;
+    @Bind(R.id.guide_detail_carinfo_view)
+    GuideDetailCarInfoView carinfoView;
+
     @Bind(R.id.guide_detail_taggroup)
     TagGroup tagGroup;
     @Bind(R.id.guide_detail_ratingView)
@@ -239,6 +243,7 @@ public class GuideDetailActivity extends BaseActivity{
 
             //评价
             evaluateItemView.setGuideDetailData(data);
+            carinfoView.update(data);
 
             //评价标签
             if (data.commentLabels != null && data.commentLabels.size() > 0) {

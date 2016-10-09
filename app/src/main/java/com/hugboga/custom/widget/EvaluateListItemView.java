@@ -59,12 +59,12 @@ public class EvaluateListItemView extends LinearLayout{
             setData(_data.comments.get(0));
             if (moreComments == null) {
                 moreComments = new TextView(getContext());
-                moreComments.setTextColor(0xFF3A372E);
+                moreComments.setTextColor(0xFF000000);
                 moreComments.setTextSize(14);
                 moreComments.setGravity(Gravity.CENTER);
                 moreComments.setPadding(UIUtils.dip2px(40), 0, UIUtils.dip2px(40), 0);
                 moreComments.setBackgroundResource(R.drawable.selector_evaluate_more_comments);
-                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, UIUtils.dip2px(36));
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, UIUtils.dip2px(34));
                 params.gravity = Gravity.CENTER_HORIZONTAL;
                 params.topMargin = UIUtils.dip2px(5);
                 addView(moreComments, params);
@@ -98,7 +98,7 @@ public class EvaluateListItemView extends LinearLayout{
         }
         nameTV.setText(data.getName());
         stateTV.setText(data.getOrderTypeStr());
-        timeTV.setText(data.getCreateTimeYMD());
+        timeTV.setText(data.getCreateTime());
         ratingview.setRating(data.getTotalScore());
         contentTV.setText(data.getContent());
     }

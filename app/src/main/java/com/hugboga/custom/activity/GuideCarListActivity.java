@@ -1,51 +1,50 @@
 package com.hugboga.custom.activity;
 
 import android.os.Bundle;
-import android.widget.RelativeLayout;
 
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
-import com.hugboga.custom.adapter.EvaluateListAdapter;
+import com.hugboga.custom.adapter.GuideCarListAdapter;
 import com.hugboga.custom.constants.Constants;
-import com.hugboga.custom.data.bean.CommentsListData;
-import com.hugboga.custom.data.bean.EvaluateItemData;
-import com.hugboga.custom.data.request.RequestCommentsList;
+import com.hugboga.custom.data.bean.GuideCarBean;
+import com.hugboga.custom.data.request.RequestCars;
 import com.hugboga.custom.widget.ZListView;
 
 import org.xutils.common.Callback;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
- * Created by qingcha on 16/8/4.
+ * Created by qingcha on 16/10/8.
  */
-public class EvaluateListActivity extends BaseActivity{
+public class GuideCarListActivity extends BaseActivity{
+    public static final String PARAMS_GUIDE_CAR_ID = "guideCarId";
 
-    @Bind(R.id.evaluate_list_listview)
+    @Bind(R.id.guide_car_list_listview)
     ZListView listView;
 
     private String guideId;
-    private String listCount;
-    private EvaluateListAdapter adapter;
+    private String guideCarId;
+    private GuideCarListAdapter adapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
             guideId = savedInstanceState.getString(Constants.PARAMS_ID);
-            listCount = savedInstanceState.getString(Constants.PARAMS_DATA);
+            guideCarId = savedInstanceState.getString(PARAMS_GUIDE_CAR_ID);
         } else {
             Bundle bundle = getIntent().getExtras();
             if (bundle != null) {
                 guideId = bundle.getString(Constants.PARAMS_ID);
-                listCount = bundle.getString(Constants.PARAMS_DATA);
+                guideCarId = bundle.getString(PARAMS_GUIDE_CAR_ID);
             }
         }
 
-        setContentView(R.layout.fg_evaluate_list);
+        setContentView(R.layout.activity_guide_car_list);
         ButterKnife.bind(this);
         initDefaultTitleBar();
 
@@ -58,12 +57,12 @@ public class EvaluateListActivity extends BaseActivity{
         super.onSaveInstanceState(outState);
         if (guideId != null) {
             outState.putString(Constants.PARAMS_ID, guideId);
-            outState.putString(Constants.PARAMS_DATA, listCount);
+            outState.putString(PARAMS_GUIDE_CAR_ID, guideCarId);
         }
     }
 
     private Callback.Cancelable loadData(int pageIndex) {
-        return requestData(new RequestCommentsList(this, guideId, pageIndex));
+        return requestData(new RequestCars(this, guideId, guideCarId, Constants.DEFAULT_PAGESIZE, pageIndex));
     }
 
     private void requestData() {
@@ -74,10 +73,7 @@ public class EvaluateListActivity extends BaseActivity{
     }
 
     private void initView() {
-//        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-//        params.addRule(RelativeLayout.CENTER_IN_PARENT);
-//        fgTitle.setLayoutParams(params);
-        fgTitle.setText(getString(R.string.evaluate_list_title, listCount));
+        fgTitle.setText("车辆信息");
         listView.setonRefreshListener(onRefreshListener);
         listView.setonLoadListener(onLoadListener);
     }
@@ -104,14 +100,12 @@ public class EvaluateListActivity extends BaseActivity{
     @Override
     public void onDataRequestSucceed(BaseRequest _request) {
 
-        if (_request instanceof RequestCommentsList) {
-            RequestCommentsList request = (RequestCommentsList) _request;
-            CommentsListData data = request.getData();
-            fgTitle.setText(getString(R.string.evaluate_list_title, data.getListCount()));
-            List<EvaluateItemData> list = data.getListData();
+        if (_request instanceof RequestCars) {
+            RequestCars request = (RequestCars) _request;
+            ArrayList<GuideCarBean> list = request.getData();
             if (list != null) {
                 if (adapter == null) {
-                    adapter = new EvaluateListAdapter(this);
+                    adapter = new GuideCarListAdapter(this);
                     listView.setAdapter(adapter);
                     adapter.setList(list);
                 } else {
