@@ -4,7 +4,9 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
+import android.widget.TextView;
 
+import com.hugboga.custom.R;
 import com.hugboga.custom.utils.UIUtils;
 
 /**
@@ -15,6 +17,7 @@ public class GuideDetailScrollView extends ScrollView {
     private int cityBgHeight;
 
     private RelativeLayout titlebar;
+    private TextView titleTV;
 
     public GuideDetailScrollView(Context context) {
         this(context, null);
@@ -28,6 +31,8 @@ public class GuideDetailScrollView extends ScrollView {
         this.titlebar = titlebar;
         this.cityBgHeight = cityBgHeight;
         titlebar.setBackgroundColor(0x00000000);
+        titleTV = (TextView) titlebar.findViewById(R.id.header_detail_title_tv);
+        titleTV.setTextColor(0x00000000);
     }
 
     @Override
@@ -47,8 +52,10 @@ public class GuideDetailScrollView extends ScrollView {
                 alpha = Math.min(1, (float) scrollY / cityBgHeight);
             }
             titlebar.setBackgroundColor(UIUtils.getColorWithAlpha(alpha, 0xFF2D2B28));
+            titleTV.setTextColor(UIUtils.getColorWithAlpha(alpha, 0xFFFFFFFF));
         } else {
             titlebar.setBackgroundColor(0xFF2D2B28);
+            titleTV.setTextColor(0xFFFFFFFF);
         }
     }
 }

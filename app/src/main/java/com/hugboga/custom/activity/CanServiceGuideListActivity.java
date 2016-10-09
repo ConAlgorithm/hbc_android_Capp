@@ -93,9 +93,11 @@ public class CanServiceGuideListActivity extends BaseActivity {
         zlistview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(activity,GuideDetailActivity.class);
-                intent.putExtra(Constants.PARAMS_DATA,list.get(position-1).getGuideId());
-                intent.putExtra(GuideDetailActivity.PARAMS_IS_SELET_SERVICE, true);
+                GuideDetailActivity.Params params = new GuideDetailActivity.Params();
+                params.guideId = list.get(position-1).getGuideId();
+                params.isSelectedService = true;
+                Intent intent = new Intent(activity, GuideDetailActivity.class);
+                intent.putExtra(Constants.PARAMS_DATA, params);
                 startActivity(intent);
             }
         });

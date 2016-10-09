@@ -22,12 +22,12 @@ import butterknife.OnClick;
 /**
  * Created by qingcha on 16/10/8.
  */
-public class GuideCarInfoItemView extends LinearLayout {
+public class GuideCarInfoItemView extends LinearLayout implements HbcViewBehavior{
 
     @Bind(R.id.guide_carinfo_car_iv)
     ImageView carIV;
-    @Bind(R.id.guide_carinfo_current_tv)
-    TextView currentTV;
+    @Bind(R.id.guide_carinfo_current_iv)
+    ImageView currentTV;
     @Bind(R.id.guide_carinfo_pic_count_tv)
     TextView picCountTV;
 
@@ -67,13 +67,15 @@ public class GuideCarInfoItemView extends LinearLayout {
         }
     }
 
-    public void update(GuideCarBean _data) {
-        if (_data == null) {
+    @Override
+    public void update(Object _data) {
+        if (!(_data instanceof GuideCarBean) || _data == null) {
             return;
         }
-        guideCarBean = _data;
+        guideCarBean = (GuideCarBean)_data;
+
         if (TextUtils.isEmpty(guideCarBean.carPhoto)) {
-//            carIV.setImageResource(R.mipmap.journey_head_portrait);
+            carIV.setImageResource(R.mipmap.guide_detail_car_default_bg);
         } else {
             Tools.showImage(carIV, guideCarBean.carPhoto);
         }
@@ -81,7 +83,12 @@ public class GuideCarInfoItemView extends LinearLayout {
         currentTV.setVisibility(guideCarBean.isInOrder == 1 ? View.VISIBLE : View.GONE);
 
         final int picCount = guideCarBean.carPhotosL != null ? guideCarBean.carPhotosL.size() : 0;
-        picCountTV.setText(picCount + "张");
+        if (picCount <= 0) {
+            picCountTV.setVisibility(View.GONE);
+        } else {
+            picCountTV.setVisibility(View.VISIBLE);
+            picCountTV.setText(picCount + "张");
+        }
 
         nameTV.setText(guideCarBean.carInfo2);
         seatNumTV.setText(guideCarBean.carInfo1);
