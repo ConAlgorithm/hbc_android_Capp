@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -314,13 +315,6 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
         isHalfTravel = this.getIntent().getBooleanExtra("isHalfTravel", false);
 
         orderType = this.getIntent().getStringExtra("orderType");
-
-//        if (null != CarUtils.collectGuideBean) {
-//            collectGuideBean = CarUtils.collectGuideBean;
-//            carIds = CarUtils.getCarIds(collectGuideBean.guideCars);
-//            guideId = collectGuideBean.guideId;
-//        }
-
         guideId = this.getIntent().getStringExtra("guideId");
 
         if(null != guideId){
@@ -428,9 +422,11 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
             luggageNumTv.setText(carBean.capOfLuggage+"");
             String carDesc = "";
             if(null != carBean.carLicenceNoCovered){
+                fgCarIntro.setTextColor(ContextCompat.getColor(activity,R.color.basic_red));
                 carDesc = (null == carBean.carBrandName?"":carBean.carBrandName) + (null == carBean.carName?"":carBean.carName) +"     车牌:"+carBean.carLicenceNoCovered;
             }else{
-                carDesc = (null == carBean.carBrandName?"":carBean.carBrandName) + (null == carBean.carName?"":carBean.carName);
+                fgCarIntro.setTextColor(Color.parseColor("#b2b2b2"));
+                carDesc = carBean.models;
             }
             if(TextUtils.isEmpty(carDesc)){
                 fgCarIntro.setVisibility(GONE);

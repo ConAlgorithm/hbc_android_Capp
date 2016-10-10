@@ -244,9 +244,6 @@ public class SingleNewActivity extends BaseActivity {
                 checkParams();
             }
         });
-        if(null == collectGuideBean){
-            getData();
-        }
     }
 
     private boolean checkParams() {
@@ -332,13 +329,14 @@ public class SingleNewActivity extends BaseActivity {
             RequestCheckPrice requestCheckPrice = (RequestCheckPrice) request;
             carListBean = (CarListBean) requestCheckPrice.getData();
             if (carListBean.carList.size() > 0) {
-
-                carListBean.carList = CarUtils.getSingleCarBeanList(carListBean.carList,eventData.guideCars);
+                if(null != collectGuideBean){
+                    carListBean.carList = CarUtils.getSingleCarBeanList(carListBean.carList,eventData.guideCars);
+                }
 
                 if (null == collectGuideBean) {
                     carBean = CarUtils.initCarListData(carListBean.carList).get(0);//carListBean.carList.get(0);
                 } else {
-                    carBean = carListBean.carList.get(0);// CarUtils.getNewCarBeanList(eventData.guideCars).get(0);//CarUtils.isMatchLocal(CarUtils.getNewCarBean(collectGuideBean), carListBean.carList);
+                    carBean = carListBean.carList.get(0);
                 }
                 if (null != carBean) {
                     genBottomData(carBean);
