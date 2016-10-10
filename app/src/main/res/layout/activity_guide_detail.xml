@@ -185,7 +185,6 @@
                 android:layout_marginLeft="25dp"
                 android:layout_marginRight="25dp"
                 android:layout_marginTop="12dp"
-                android:background="#55ff0000"
                 app:horizontalSpacing="15dp"
                 app:isCenter="true"
                 app:verticalSpacing="7dp" />
