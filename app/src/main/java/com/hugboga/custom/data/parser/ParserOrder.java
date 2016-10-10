@@ -105,6 +105,7 @@ public class ParserOrder extends ImplParser {
                 orderbean.childSeat.add(seat);
             }
         }
+        orderbean.childSeats = gson.fromJson(jsonObj.optString("childSeats"), OrderBean.ChildSeats.class);
 
         orderbean.totalDays = jsonObj.optInt("totalDays");
         orderbean.inTownDays = jsonObj.optInt("serviceLocalDays");

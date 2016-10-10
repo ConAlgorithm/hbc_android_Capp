@@ -91,11 +91,7 @@ public class EvaluateListItemView extends LinearLayout{
         if (data == null) {
             return;
         }
-        if (TextUtils.isEmpty(data.getAvatar())) {
-            avatarIV.setImageResource(R.mipmap.collection_icon_pic);
-        } else {
-            Tools.showImage(getContext(), avatarIV, data.getAvatar());
-        }
+        Tools.showImage(avatarIV, data.getAvatar(), R.mipmap.collection_icon_pic);
         nameTV.setText(data.getName());
         stateTV.setText(data.getOrderTypeStr());
         timeTV.setText(data.getCreateTime());

@@ -158,11 +158,7 @@ public class EvaluateActivity extends BaseActivity implements RatingView.OnLevel
                 finish();
             }
         });
-        if (TextUtils.isEmpty(guideInfo.guideAvatar)) {
-            avatarIV.setImageResource(R.mipmap.journey_head_portrait);
-        } else {
-            Tools.showImage(avatarIV, guideInfo.guideAvatar);
-        }
+        Tools.showImage(avatarIV, guideInfo.guideAvatar, R.mipmap.journey_head_portrait);
         nameTV.setText(guideInfo.guideName);
         scoreRatingview.setRating((float)guideInfo.guideStarLevel);
         describeTV.setText(guideInfo.guideCar);

@@ -5,6 +5,7 @@ import android.text.TextUtils;
 
 import com.hugboga.custom.R;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -114,7 +115,8 @@ public class OrderBean implements IBaseBean{
     public Integer adult;                // adultNum 成人数
     public Integer child;                // childNum 小孩数
     public String passengerInfos;        // 座位信息 乘坐%1$s人、行李箱%2$s件、儿童座椅%3$s个
-    public ArrayList<String> childSeat;  // 儿童座椅价格及个数
+    public ArrayList<String> childSeat;
+    public ChildSeats childSeats;        // 儿童座椅价格及个数
 
     public Integer totalDays;       // 包车天数
     public Integer inTownDays;      // serviceLocalDays 市内天数
@@ -256,6 +258,18 @@ public class OrderBean implements IBaseBean{
                 break;
         }
         return resultStr;
+    }
+
+    public static class ChildSeats implements Serializable {
+        public int childSeatPrice1;
+        public int childSeatPrice1Count;
+        public int childSeatPrice2;
+        public int childSeatPrice2Count;
+
+        //儿童座椅数
+        public int getChildSeatCount() {
+            return childSeatPrice1Count + childSeatPrice2Count;
+        }
     }
 
 }
