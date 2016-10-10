@@ -481,6 +481,11 @@ public class SkuNewActivity extends BaseActivity {
         Bundle bundle = new Bundle();
         bundle.putSerializable("carListBean", carListBean);
         bundle.putBoolean("isNetError", isNetError);
+        if(skuBean.goodsClass == 1){
+            bundle.putInt("orderType", 5);
+        }else{
+            bundle.putInt("orderType", 6);
+        }
         fgCarNew.setArguments(bundle);
         transaction.add(R.id.show_cars_layout_sku, fgCarNew);
         transaction.commit();

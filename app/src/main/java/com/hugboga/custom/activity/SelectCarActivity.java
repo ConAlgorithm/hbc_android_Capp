@@ -385,13 +385,22 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
                     callPhone.setVisibility(View.VISIBLE);
                     bottom.setVisibility(GONE);
                 } else {
-                    initListData(cars);
-                    getMatchCarIndex();
-                    showContent();
-                    StatisticClickEvent.showOrderNewPage(3, StatisticConstant.LAUNCH_CARNEXTR, getIntentSource(),
-                            carBean.carDesc,
-                            EventUtil.getInstance().sourceDetail, false, (adultNum + childrenNum) + "",
-                            false);
+                    if(cars.size() == 0){
+                        coupon_listview_empty.setVisibility(View.VISIBLE);
+                        scrollView.setVisibility(GONE);
+                        nextBtnClick.setVisibility(GONE);
+                        empty_text.setText("很抱歉,暂时无法提供服务");
+                        callPhone.setVisibility(GONE);
+                        bottom.setVisibility(GONE);
+                    }else {
+                        initListData(cars);
+                        getMatchCarIndex();
+                        showContent();
+                        StatisticClickEvent.showOrderNewPage(3, StatisticConstant.LAUNCH_CARNEXTR, getIntentSource(),
+                                carBean.carDesc,
+                                EventUtil.getInstance().sourceDetail, false, (adultNum + childrenNum) + "",
+                                false);
+                    }
                 }
             }
         }
