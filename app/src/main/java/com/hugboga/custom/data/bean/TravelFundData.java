@@ -74,7 +74,10 @@ public class TravelFundData implements Serializable {
         private String username;
         private int gender;
         private int source;
+
         private String type;//记录类型 未注册/注册/首次使用返现
+        private String userName;
+        private String updateTime;
 
         public double getAmount() {
             return amount;
@@ -100,8 +103,16 @@ public class TravelFundData implements Serializable {
             return orderNo;
         }
 
+        public String getUserName() {
+            return userName;
+        }
+
         public String getUsername() {
             return username;
+        }
+
+        public String getUpdateTime() {
+            return updateTime;
         }
 
         /**

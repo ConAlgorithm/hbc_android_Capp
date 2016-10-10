@@ -1,11 +1,16 @@
 package com.hugboga.custom.activity;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.huangbaoche.hbcframe.util.WXShareUtils;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.EvaluateData;
@@ -32,10 +37,12 @@ import butterknife.OnClick;
  */
 public class ShareGuidesActivity extends BaseActivity{
 
-    @Bind(R.id.share_guides_avatar_iv)
-    PolygonImageView avatarIV;
-    @Bind(R.id.share_guides_description_tv)
-    TextView descriptionTV;
+    @Bind(R.id.share_evaluate_description_tv1)
+    TextView descriptionTV1;
+    @Bind(R.id.share_evaluate_description_tv2)
+    TextView descriptionTV2;
+    @Bind(R.id.share_evaluate_collected_tv)
+    TextView collectedTV;
 
     private Params params;
     private boolean shareSucceed = false;
@@ -43,7 +50,7 @@ public class ShareGuidesActivity extends BaseActivity{
     public static class Params implements Serializable {
         public EvaluateData evaluateData;
         public String orderNo;
-        public String guideAvatar;
+        public int totalScore;
     }
 
     @Override
@@ -58,7 +65,7 @@ public class ShareGuidesActivity extends BaseActivity{
             }
         }
 
-        setContentView(R.layout.fg_share_guides);
+        setContentView(R.layout.activity_share_evaluate);
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
 
@@ -90,50 +97,28 @@ public class ShareGuidesActivity extends BaseActivity{
     private void initView() {
         initDefaultTitleBar();
         shareSucceed = false;
-        fgTitle.setText(getString(R.string.share_guides_title));
-        if (fgLeftBtn != null) {
-            int padding = UIUtils.dip2px(20);
-            ImageView _fgLeftBtn = (ImageView) fgLeftBtn;
-            _fgLeftBtn.setImageResource(R.mipmap.top_white_close);
-            _fgLeftBtn.setPadding(padding, padding, padding, padding);
-            _fgLeftBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    finish();
-                }
-            });
-        }
+        fgTitle.setText(getString(R.string.share_evaluate_title));
 
         if (params == null || params.evaluateData == null) {
             finish();
         }
-        if (TextUtils.isEmpty(params.guideAvatar)) {
-            avatarIV.setImageResource(R.mipmap.journey_head_portrait);
+        if (params.totalScore > 3) {
+            collectedTV.setVisibility(View.VISIBLE);
+            descriptionTV1.setText(getString(R.string.share_evaluate_description_1) + getString(R.string.share_evaluate_description_2));
         } else {
-            Tools.showImage(avatarIV, params.guideAvatar);
+            collectedTV.setVisibility(View.INVISIBLE);
+            descriptionTV1.setText(getString(R.string.share_evaluate_description_1));
         }
-        descriptionTV.setText(getString(R.string.share_guides_description_2, params.evaluateData.commentTipParam1));
-    }
 
-    @OnClick({R.id.share_guides_unwilling_tv, R.id.share_guides_share_tv})
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.share_guides_unwilling_tv:
-                finish();
-                break;
-            case R.id.share_guides_share_tv:
-                EvaluateData evaluateData = params.evaluateData;
-                if (evaluateData == null) {
-                    break;
-                }
-                String shareUrl = CommonUtils.getBaseUrl(evaluateData.wechatShareUrl) + "orderNo=" +  params.orderNo + "&userId=" + UserEntity.getUser().getUserId(this);
-                CommonUtils.shareDialog(this
-                        , evaluateData.wechatShareHeadSrc
-                        , evaluateData.wechatShareTitle
-                        , evaluateData.wechatShareContent
-                        , shareUrl);
-                break;
+        String commentTipParam = params.evaluateData.commentTipParam1;
+        if (TextUtils.isEmpty(commentTipParam)) {
+            descriptionTV2.setVisibility(View.GONE);
         }
+        String description = getString(R.string.share_evaluate_description_3, commentTipParam);
+        SpannableString msp = new SpannableString(description);
+        msp.setSpan(new ForegroundColorSpan(0xFFFF6633), 4, 4 + commentTipParam.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        msp.setSpan(new ForegroundColorSpan(0xFFFF6633), description.length() - 4, description.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        descriptionTV2.setText(msp);
     }
 
     @Subscribe
@@ -141,5 +126,34 @@ public class ShareGuidesActivity extends BaseActivity{
         if (action.type == EventType.WECHAT_SHARE_SUCCEED) {
             shareSucceed = true;
         }
+    }
+
+    @OnClick({R.id.share_evaluate_wechat_layout, R.id.share_evaluate_moments_layout})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.share_evaluate_wechat_layout:
+                    setShare(1);
+                    break;
+            case R.id.share_evaluate_moments_layout:
+                    setShare(2);
+                    break;
+        }
+    }
+
+    /**
+     * 1:好友,2:朋友圈；
+     * */
+    private void setShare(int type) {
+        final EvaluateData evaluateData = params.evaluateData;
+        if (evaluateData == null || TextUtils.isEmpty(evaluateData.wechatShareUrl)) {
+            return;
+        }
+        String shareUrl = CommonUtils.getBaseUrl(params.evaluateData.wechatShareUrl) + "orderNo=" +  params.orderNo + "&userId=" + UserEntity.getUser().getUserId(this);
+        WXShareUtils wxShareUtils = WXShareUtils.getInstance(this);
+        wxShareUtils.share(type
+                , evaluateData.wechatShareHeadSrc
+                , evaluateData.wechatShareTitle
+                , evaluateData.wechatShareContent
+                , shareUrl);
     }
 }
