@@ -50,17 +50,15 @@ public class TravelFundAdapter extends BaseAdapter<TravelFundData.TravelFundBean
         }
         TravelFundData.TravelFundBean bean = getItem(position);
 
-        holder.dateTV.setText(bean.getCreateDate());
-
         if (type == TravelFundRecordActivity.TYPE_INVITE_FRIENDS) {
             if (TextUtils.isEmpty(bean.getAvatar())) {
                 holder.avatarIV.setImageResource(R.mipmap.collection_icon_pic);
             } else {
                 Tools.showImage(holder.avatarIV, bean.getAvatar());
             }
-            holder.nameTV.setText(bean.getUsername());
+            holder.nameTV.setText(bean.getUserName());
             holder.sourceTV.setText("");
-
+            holder.dateTV.setText(bean.getUpdateTime());
 
             if (bean.getAmount() == -1) {//未注册/注册两种情况都是-1， 首次使用返现是大于0值
                 holder.desTV.setVisibility(View.GONE);
@@ -87,6 +85,7 @@ public class TravelFundAdapter extends BaseAdapter<TravelFundData.TravelFundBean
         } else {
             holder.avatarIV.setLayoutParams(new RelativeLayout.LayoutParams(0, UIUtils.dip2px(60)));
             holder.nameTV.setVisibility(View.GONE);
+            holder.dateTV.setText(bean.getCreateDate());
             String sourceStr = bean.getDesc();
             if (!TextUtils.equals(UserEntity.getUser().getUserName(mContext), bean.getUsername())) {
                 sourceStr = bean.getUsername() + sourceStr;

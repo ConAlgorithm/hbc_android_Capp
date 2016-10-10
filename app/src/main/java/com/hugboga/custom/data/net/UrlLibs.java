@@ -152,7 +152,7 @@ public class UrlLibs {
     public static final String GET_INVITATION_CODE          = "ucenter/v1.0/c/invitation/code";                         // 获取邀请码
     public static final String DEDUCTION                    = "ucenter/v1.0/c/travelFund/deduction";                    // 获取可用优惠券
     public static final String TRAVELFUND_LOGS              = "ucenter/v1.0/c/travelFund/logs";                         // 旅游基金流水
-    public static final String TRAVELFUND_INVITATION_LOGS   = "ucenter/v1.0/c/travelFund/logs/invitation";              // 查询通过邀请用户获得的基金流水
+    public static final String TRAVELFUND_INVITATION_LOGS   = "ucenter/v1.1/c/travelFund/logs/invitation";              // 查询通过邀请用户获得的基金流水
 
     public static final String SERVER_IP_SUBMIT_PICKUP      = "trade/v1.3/c/order/pickup?";                             // 提交订单 接机
     public static final String SERVER_IP_SUBMIT_TRANSFER    = "trade/v1.3/c/order/transfer?";                           // 提交订单 送机下单
