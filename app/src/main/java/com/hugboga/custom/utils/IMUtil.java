@@ -169,6 +169,7 @@ public class IMUtil {
                             UserEntity.getUser().setNimUserToken(context,nimToken);
                             connectNim(nimUserId,nimToken);
                         }
+                        reconnectTimes = 0;
                     }
 
                     @Override
