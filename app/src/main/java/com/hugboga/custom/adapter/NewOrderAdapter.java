@@ -314,11 +314,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                     vh.mStatusLayout.setVisibility(View.VISIBLE);
                     vh.lineView.setVisibility(View.VISIBLE);
                     vh.mHeadTitle.setText(orderBean.orderGuideInfo.guideName);
-                    if (TextUtils.isEmpty(orderBean.orderGuideInfo.guideAvatar)) {
-                        vh.mHeadImg.setImageResource(R.mipmap.journey_head_portrait);
-                    } else {
-                        Tools.showImage(context, vh.mHeadImg, orderBean.orderGuideInfo.guideAvatar);
-                    }
+                    Tools.showImage(vh.mHeadImg, orderBean.orderGuideInfo.guideAvatar, R.mipmap.journey_head_portrait);
                     vh.mHeadTitle.setOnClickListener(new TravelOnClickListener(orderBean));
                     vh.mHeadImg.setOnClickListener(new TravelOnClickListener(orderBean));
 
@@ -349,11 +345,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                     vh.lineView.setVisibility(View.VISIBLE);
 
                     vh.mHeadTitle.setText(orderBean.orderGuideInfo.guideName);
-                    if (TextUtils.isEmpty(orderBean.orderGuideInfo.guideAvatar)) {
-                        vh.mHeadImg.setImageResource(R.mipmap.journey_head_portrait);
-                    } else {
-                        Tools.showImage(context, vh.mHeadImg, orderBean.orderGuideInfo.guideAvatar);
-                    }
+                    Tools.showImage(vh.mHeadImg, orderBean.orderGuideInfo.guideAvatar, R.mipmap.journey_head_portrait);
                     vh.mHeadTitle.setOnClickListener(new TravelOnClickListener(orderBean));
                     vh.mHeadImg.setOnClickListener(new TravelOnClickListener(orderBean));
 
@@ -399,11 +391,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
             vh.lineView.setVisibility(View.VISIBLE);
 
             vh.mHeadTitle.setText(orderBean.orderGuideInfo.guideName);
-            if (TextUtils.isEmpty(orderBean.orderGuideInfo.guideAvatar)) {
-                vh.mHeadImg.setImageResource(R.mipmap.journey_head_portrait);
-            } else {
-                Tools.showImage(context, vh.mHeadImg, orderBean.orderGuideInfo.guideAvatar);
-            }
+            Tools.showImage(vh.mHeadImg, orderBean.orderGuideInfo.guideAvatar, R.mipmap.journey_head_portrait);
             vh.mHeadTitle.setOnClickListener(new TravelOnClickListener(orderBean));
             vh.mHeadImg.setOnClickListener(new TravelOnClickListener(orderBean));
 
@@ -478,8 +466,15 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                     if(mOrderBean.orderGuideInfo == null || mOrderBean.orderGuideInfo.guideID == null) {
                         return;
                     }
+                    GuideDetailActivity.Params guideDetailParams = new GuideDetailActivity.Params();
+                    guideDetailParams.guideId = mOrderBean.orderGuideInfo.guideID;
+                    guideDetailParams.guideCarId = mOrderBean.orderGuideInfo.guideCarId;
+                    guideDetailParams.guideAgencyDriverId = mOrderBean.guideAgencyDriverId;
+                    guideDetailParams.orderSource = mOrderBean.orderSource;
+
                     intent = new Intent(v.getContext(), GuideDetailActivity.class);
-                    intent.putExtra(Constants.PARAMS_DATA, mOrderBean.orderGuideInfo.guideID);
+                    intent.putExtra(Constants.PARAMS_DATA, guideDetailParams);
+                    intent.putExtra(Constants.PARAMS_SOURCE, "订单列表");
                     v.getContext().startActivity(intent);
                     break;
             }

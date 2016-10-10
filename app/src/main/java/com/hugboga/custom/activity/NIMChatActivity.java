@@ -201,8 +201,11 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
                 String fromAccount = message.getFromAccount();
                 String sessionId = message.getSessionId();
                 if(TextUtils.equals(fromAccount,sessionId)){
+                    GuideDetailActivity.Params params = new GuideDetailActivity.Params();
+                    params.guideId = userId;
                     Intent intent = new Intent(NIMChatActivity.this, GuideDetailActivity.class);
-                    intent.putExtra(Constants.PARAMS_DATA, userId);
+                    intent.putExtra(Constants.PARAMS_DATA, params);
+                    intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                     startActivity(intent);
                 }
 

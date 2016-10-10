@@ -92,20 +92,21 @@ public class OrderDetailGuideInfo extends LinearLayout implements HbcViewBehavio
                     lineView.setVisibility(View.VISIBLE);
                     navLayout.setVisibility(View.VISIBLE);
                     phoneTV.setVisibility(View.GONE);
-                    collectTV.setVisibility(View.VISIBLE);
                     evaluateTV.setVisibility(View.VISIBLE);
                     chatTV.setVisibility(orderBean.isIm ? View.VISIBLE : View.GONE);
-                    collectTV.setText(getContext().getString(guideInfo.isCollected() ? R.string.uncollect : R.string.collect));
                     evaluateTV.setText(getContext().getString(orderBean.isEvaluated() ? R.string.order_detail_evaluated : R.string.order_detail_evaluate));
                     promptTV.setVisibility(orderBean.isEvaluated() ? View.GONE : View.VISIBLE);
+
+                    if (orderBean.orderSource == 1) {//地接社不显示收藏按钮
+                        collectTV.setVisibility(View.VISIBLE);
+                        collectTV.setText(getContext().getString(guideInfo.isCollected() ? R.string.uncollect : R.string.collect));
+                    } else {
+                        collectTV.setVisibility(View.GONE);
+                    }
                     break;
             }
 
-            if (TextUtils.isEmpty(guideInfo.guideAvatar)) {
-                avatarIV.setImageResource(R.mipmap.journey_head_portrait);
-            } else {
-                Tools.showImage(avatarIV, guideInfo.guideAvatar);
-            }
+            Tools.showImage(avatarIV, guideInfo.guideAvatar, R.mipmap.journey_head_portrait);
             ((TextView)findViewById(R.id.ogi_name_tv)).setText(guideInfo.guideName);
             ((SimpleRatingBar)findViewById(R.id.ogi_ratingview)).setRating((float)guideInfo.guideStarLevel);
             ((TextView)findViewById(R.id.ogi_describe_tv)).setText(guideInfo.guideCar);

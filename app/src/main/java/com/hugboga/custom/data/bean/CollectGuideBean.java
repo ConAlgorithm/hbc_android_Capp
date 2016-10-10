@@ -1,10 +1,5 @@
 package com.hugboga.custom.data.bean;
 
-import android.content.Intent;
-import android.os.Parcel;
-import android.os.Parcelable;
-import android.widget.ListView;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +23,17 @@ public class CollectGuideBean implements Serializable {
     public int carModelId;                      // 车型ID
     public int special;                         // 0.普通车型 1.特殊车型
     public ArrayList<Integer> serviceTypes;     // 服务类型列表 1.接送机，2.包车，3.单次接送
+
+    public int gender;                          //性别 1:男 2:女 0:未知
+
+    public int cityId;                          //司导所在城市ID
+    public String cityName;                     //司导所在城市名
+    public int countryId;                       //司导所在国家ID
+    public String countryName;                  //司导所在国家名称
+
+    public List<GuideCars> guideCars;           //司导的车
+    public String carLicenceNo;                 //车牌号
+    public String carLicenceNoCovered;          //车牌号遮盖
 
     /**
      * 判断可预约状态 1.可预约(true)、0.不可预约

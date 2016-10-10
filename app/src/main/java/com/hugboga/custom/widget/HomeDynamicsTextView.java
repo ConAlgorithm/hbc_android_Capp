@@ -146,7 +146,7 @@ public class HomeDynamicsTextView extends View implements HttpRequestListener {
     }
 
     private void setRequest(long reqTime) {
-        HttpRequestUtils.request(getContext(), new RequestDynamics(getContext(), reqTime), this, false);
+//        HttpRequestUtils.request(getContext(), new RequestDynamics(getContext(), reqTime), this, false);
     }
 
     @Override

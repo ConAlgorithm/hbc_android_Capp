@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff">
+
+    <include
+        android:id="@+id/share_evaluate_titlebar"
+        layout="@layout/include_header" />
+    <ImageView
+        android:id="@+id/share_evaluate_icon_iv"
+        android:layout_below="@id/share_evaluate_titlebar"
+        android:layout_width="118dp"
+        android:layout_height="90dp"
+        android:layout_marginTop="40dp"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"
+        android:background="@mipmap/share_evaluated_icon" />
+    <TextView
+        android:id="@+id/share_evaluate_description_tv1"
+        android:layout_below="@id/share_evaluate_icon_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:lineSpacingExtra="2dp"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:text="感谢您的评价!分享您的评价到微信\n把靠谱司导推荐给好友"
+        android:textColor="#333333"
+        android:textSize="15sp"/>
+
+    <TextView
+        android:id="@+id/share_evaluate_description_tv2"
+        android:layout_below="@id/share_evaluate_description_tv1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:layout_marginTop="18dp"
+        android:lineSpacingExtra="2dp"
+        android:text="好友可得600元皇包车体验大礼包\n当Ta完成首单,你也能赚旅游基金"
+        android:textColor="#666666"
+        android:textSize="13sp"/>
+
+    <TextView
+        android:id="@+id/share_evaluate_collected_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:text="@string/share_evaluate_collected_tv"
+        android:textColor="#666666"
+        android:textSize="13sp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/share_evaluate_collected_tv"
+        android:layout_marginBottom="30dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/share_evaluate_wechat_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="66dp"
+                android:layout_height="66dp"
+                android:background="@mipmap/wechat_icon" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:text="@string/wechat"
+                android:textColor="#373737"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/share_evaluate_moments_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="80dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="66dp"
+                android:layout_height="66dp"
+                android:background="@mipmap/moments_icon" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:text="@string/moments"
+                android:textColor="#373737"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

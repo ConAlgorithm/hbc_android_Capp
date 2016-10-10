@@ -33,15 +33,7 @@
             android:layout_marginTop="11dp"
             android:background="#333333" />
 
-        <TextView
-            android:id="@+id/travel_item_cartype"
-            android:layout_toRightOf="@id/order_list_vertical_line"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:text="经济5坐"
-            android:textSize="16sp"
-            android:textColor="#333333" />
+
         <TextView
             android:id="@+id/travel_item_status"
             android:layout_alignParentRight="true"
@@ -51,6 +43,19 @@
             android:text="等待支付"
             android:textSize="13sp"
             android:textColor="#fce274" />
+        <TextView
+            android:id="@+id/travel_item_cartype"
+            android:layout_toRightOf="@id/order_list_vertical_line"
+            android:layout_toLeftOf="@id/travel_item_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:layout_marginRight="10dp"
+            android:layout_centerVertical="true"
+            android:text="经济5坐"
+            android:textSize="16sp"
+            android:textColor="#333333" />
         <TextView
             android:id="@+id/travel_item_citys"
             android:layout_width="wrap_content"

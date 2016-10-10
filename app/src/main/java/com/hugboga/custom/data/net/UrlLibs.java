@@ -124,7 +124,7 @@ public class UrlLibs {
         }
     }
 
-    //current urlErrorCode 104
+    //current urlErrorCode 105
 
     //-------个人信息--------
     public static final String SERVER_IP_PUBLIC_UER_CENTER = "ucenter/v1.0/c/user/";
@@ -145,15 +145,14 @@ public class UrlLibs {
     public static final String WECHAT_BIND_MOBILE           = SERVER_IP_PUBLIC_UER_CENTER + "wechat/bind/mobile?";           // 微信绑定手机号
     public static final String WECHAT_AFTER_SET_PASSWORD    = SERVER_IP_PUBLIC_UER_CENTER + "wechat/update/password?";       // 微信跳过后再绑定手机设置密码
 
-    public static final String API_GUIDES_DETAIL            = "ucenter/v1.0/c/favorite/guide/detail";                   // 导游详情
-    public static final String COLLECT_GUIDES_LIST          = "ucenter/v1.0/c/favorite/guides";                         // 收藏的司导列表
-    public static final String COLLECT_GUIDES_FILTER        = "ucenter/v1.0/c/favorite/guides/filter";                  // 过滤用户收藏的司导
+    public static final String COLLECT_GUIDES_LIST          = "ucenter/v1.1/c/favorite/guides";                         // 收藏的司导列表
+    public static final String COLLECT_GUIDES_FILTER        = "ucenter/v1.1/c/favorite/guides/filter";                  // 过滤用户收藏的司导
     public static final String COLLECT_GUIDES_ID            = "ucenter/v1.0/c/userid/favorite/guide";                   // 收藏司导（司导ID）
     public static final String UNCOLLECT_GUIDES_ID          = "ucenter/v1.0/c/userid/unfavor/guide";                    // 取消收藏司导（司导ID）
     public static final String GET_INVITATION_CODE          = "ucenter/v1.0/c/invitation/code";                         // 获取邀请码
     public static final String DEDUCTION                    = "ucenter/v1.0/c/travelFund/deduction";                    // 获取可用优惠券
     public static final String TRAVELFUND_LOGS              = "ucenter/v1.0/c/travelFund/logs";                         // 旅游基金流水
-    public static final String TRAVELFUND_INVITATION_LOGS   = "ucenter/v1.0/c/travelFund/logs/invitation";              // 查询通过邀请用户获得的基金流水
+    public static final String TRAVELFUND_INVITATION_LOGS   = "ucenter/v1.1/c/travelFund/logs/invitation";              // 查询通过邀请用户获得的基金流水
 
     public static final String SERVER_IP_SUBMIT_PICKUP      = "trade/v1.3/c/order/pickup?";                             // 提交订单 接机
     public static final String SERVER_IP_SUBMIT_TRANSFER    = "trade/v1.3/c/order/transfer?";                           // 提交订单 送机下单
@@ -212,6 +211,8 @@ public class UrlLibs {
     public static final String API_EVALUATE_NEW             = "supplier/v1.1/c/guide/comments/create";                  // 评价司导
     public static final String API_EVALUATE_TAG             = "supplier/v1.0/c/guides/comments/labels/OrderType";       // 获取各个星级的标签列表
     public static final String API_COMMENTS_LIST            = "supplier/v1.0/c/guide/commentsForGuideDetail";           // 司导个人页的导游评价列表
+    public static final String API_GUIDES_DETAIL            = "supplier/v1.0/c/guidecenter/detail";                     // 导游详情
+    public static final String CARS                         = "supplier/v1.0/c/guidecenter/detail/cars";                // 司导个人车辆信息
 
     public static final String SERVER_IP_ACCESSKEY          = "passport/v1.0/getAccessKey?";                            // 获取accessKey
     public static final String SERVER_IP_CHECK_APP_VERSION  = "passport/v1.0/checkAppVersion?";                         // 版本检测

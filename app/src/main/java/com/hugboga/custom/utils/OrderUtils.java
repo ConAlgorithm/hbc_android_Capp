@@ -18,6 +18,7 @@ import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.data.bean.AirPort;
+import com.hugboga.custom.data.bean.CarBean;
 import com.hugboga.custom.data.bean.CarListBean;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.ContactUsersBean;
@@ -29,7 +30,6 @@ import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.OrderContact;
 import com.hugboga.custom.data.bean.OrderPriceInfo;
 import com.hugboga.custom.data.bean.PoiBean;
-import com.hugboga.custom.data.bean.SelectCarBean;
 import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestGuideConflict;
@@ -139,7 +139,7 @@ public class OrderUtils {
 
 
     //包车参数
-    public OrderBean getDayOrderByInput(String adultNum, SelectCarBean carBean,
+    public OrderBean getDayOrderByInput(String adultNum, CarBean carBean,
                                          String childrenNum, String endCityId,
                                          CityBean endBean, List<OrderContact>  contact,
                                          String serverTime, String startDate,
@@ -259,16 +259,16 @@ public class OrderUtils {
         return orderBean;
     }
 
-    public OrderBean getPickOrderByInput(FlightBean flightBean,PoiBean poiBean,
-                                          SelectCarBean carBean,String brandSign,
-                                          CarListBean carListBean,String pickName,
-                                          String adultNum,String childrenNum,String distance,
-                                          String serviceAddressTel,String serviceAreaCode,
-                                          String userName,String passCities,String userRemark,
-                                          String serverTime,String childseatNum,String luggageNum,
-                                          ContactUsersBean contactUsersBean, boolean dreamLeftIscheck,
-                                          String travelFund,CouponBean couponBean,MostFitBean mostFitBean,
-                                          String guideCollectId,ManLuggageBean manLuggageBean,boolean isCheckIn) {
+    public OrderBean getPickOrderByInput(FlightBean flightBean, PoiBean poiBean,
+                                         CarBean carBean, String brandSign,
+                                         CarListBean carListBean, String pickName,
+                                         String adultNum, String childrenNum, String distance,
+                                         String serviceAddressTel, String serviceAreaCode,
+                                         String userName, String passCities, String userRemark,
+                                         String serverTime, String childseatNum, String luggageNum,
+                                         ContactUsersBean contactUsersBean, boolean dreamLeftIscheck,
+                                         String travelFund, CouponBean couponBean, MostFitBean mostFitBean,
+                                         String guideCollectId, ManLuggageBean manLuggageBean, boolean isCheckIn) {
         OrderBean orderBean = new OrderBean();//订单
         orderBean.flight = flightBean.flightNo;
         orderBean.flightBean = flightBean;
@@ -390,7 +390,7 @@ public class OrderUtils {
     }
 
 
-    public OrderBean getSingleOrderByInput(String adultNum, SelectCarBean carBean,
+    public OrderBean getSingleOrderByInput(String adultNum, CarBean carBean,
                                            String childrenNum, String endCityId,
                                            String startCityId, List<OrderContact>  contact,
                                            String serverTime, String startCityName,
@@ -507,7 +507,7 @@ public class OrderUtils {
     }
 
     public OrderBean getSendOrderByInput(PoiBean poiBean,
-                                         SelectCarBean carBean,String contactName,
+                                         CarBean carBean,String contactName,
                                          boolean isCheckIn,String flightNo,AirPort airPort,
                                          CarListBean carListBean,String serverDate,
                                          boolean dreamLeftischeck,
@@ -635,13 +635,13 @@ public class OrderUtils {
 
     public OrderBean getSKUOrderByInput(String guideCollectId, SkuItemBean skuBean,
                                         String startDate, String serverTime, String distance,
-                                        SelectCarBean carBean,String adultNum,String childrenNum,
+                                        CarBean carBean, String adultNum, String childrenNum,
                                         CityBean startBean, String getPassCityStr,
                                         ContactUsersBean contactUsersBean,
-                                        String userRemark,String userName,PoiBean poiBean,
+                                        String userRemark, String userName, PoiBean poiBean,
                                         boolean dreamLeftischeck,
-                                        String travelFund,CouponBean couponBean,MostFitBean mostFitBean,
-                                        CarListBean carListBean,ManLuggageBean manLuggageBean,int hotelRoom ,double priceHotel,int orderType,String luggageNum){
+                                        String travelFund, CouponBean couponBean, MostFitBean mostFitBean,
+                                        CarListBean carListBean, ManLuggageBean manLuggageBean, int hotelRoom , double priceHotel, int orderType, String luggageNum){
         OrderBean orderBean = new OrderBean();//订单
 
         if (!TextUtils.isEmpty(guideCollectId)) {
@@ -674,9 +674,9 @@ public class OrderUtils {
         orderBean.contact.add(orderContact);
         orderBean.memo = userRemark;//mark.getText().toString().trim();
         if (startBean != null) {
-            orderBean.startAddress = startBean.placeName;
-            orderBean.startAddressDetail = "";
-            orderBean.startLocation = startBean.location;
+            orderBean.startAddress = poiBean.placeName;//startBean.placeName;
+            orderBean.startAddressDetail = poiBean.placeDetail;
+            orderBean.startLocation = poiBean.location;
         }
         orderBean.realSendSms = contactUsersBean.isSendMessage ? "1" : "0";
 
@@ -719,8 +719,8 @@ public class OrderUtils {
         orderBean.serviceCityName = skuBean.depCityName;
         //出发地，到达地经纬度
         orderBean.terminalLocation = null;
-        orderBean.destAddress = poiBean.placeName;
-        orderBean.destAddressDetail = poiBean.placeDetail;
+//        orderBean.destAddress = poiBean.placeName;
+//        orderBean.destAddressDetail = poiBean.placeDetail;
         orderBean.serviceEndCityid = skuBean.arrCityId;
         orderBean.serviceEndCityName = skuBean.arrCityName;
         orderBean.totalDays = skuBean.daysCount;
@@ -772,7 +772,7 @@ public class OrderUtils {
                 guideIds,startTime,
                 endTime,passCityId,totalDay,
                 carType,carClass);
-        HttpRequestUtils.request(context, requestGuideConflict,listener,false);
+        HttpRequestUtils.request(context, requestGuideConflict,listener,true);
     }
 
     //确认订单协议

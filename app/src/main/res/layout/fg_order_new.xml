@@ -268,7 +268,7 @@
 
 
                 <RelativeLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:background="@color/basic_white"
@@ -292,7 +292,6 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="5dp"
                         android:drawablePadding="10dp"
                         android:drawableRight="@mipmap/personalcenter_right"
                         android:gravity="center"
@@ -307,6 +306,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:clickable="true"
+                        android:layout_marginRight="110dp"
+                        android:layout_toLeftOf="@id/for_other_man"
                         android:gravity="center_vertical"
                         android:orientation="vertical"
                         android:paddingBottom="15dp"
@@ -318,7 +319,7 @@
 
                         <TextView
                             android:id="@+id/man_name"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:layout_marginLeft="15dp"
@@ -332,7 +333,7 @@
 
                         <TextView
                             android:id="@+id/man_phone"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:layout_marginLeft="15dp"

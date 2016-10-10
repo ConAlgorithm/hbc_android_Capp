@@ -74,9 +74,9 @@ public class EvaluateListActivity extends BaseActivity{
     }
 
     private void initView() {
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-        params.addRule(RelativeLayout.CENTER_IN_PARENT);
-        fgTitle.setLayoutParams(params);
+//        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+//        params.addRule(RelativeLayout.CENTER_IN_PARENT);
+//        fgTitle.setLayoutParams(params);
         fgTitle.setText(getString(R.string.evaluate_list_title, listCount));
         listView.setonRefreshListener(onRefreshListener);
         listView.setonLoadListener(onLoadListener);

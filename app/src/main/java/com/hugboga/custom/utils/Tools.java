@@ -31,7 +31,7 @@ public class Tools {
                 .into(imageView);
     }
 
-    public static void showImage(ImageView imageView, String url,int resId) {
+    public static void showImage(ImageView imageView, String url, int resId) {
         if (TextUtils.isEmpty(url)) {
             return;
         }

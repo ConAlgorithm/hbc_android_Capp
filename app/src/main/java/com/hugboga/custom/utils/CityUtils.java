@@ -908,7 +908,6 @@ public class CityUtils {
             }.getType();
             return Reservoir.get("savedHistoryCity", resultType);
         } catch (Exception e) {
-            e.printStackTrace();
             return null;
         }
     }

@@ -86,11 +86,18 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
         MobclickAgent.UMAnalyticsConfig config = new MobclickAgent.UMAnalyticsConfig(this, "55ccb4cfe0f55ab500004a9d", ChannelUtils.getChannel(this));
         MobclickAgent.startWithConfigure(config);
 
-        schemeIntent();
+        schemeIntent(getIntent());
     }
 
-    private void schemeIntent() {
-        Intent intent = getIntent();
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        schemeIntent(intent);
+    }
+
+    private void schemeIntent(Intent _intent) {
+        Intent intent = _intent;
         String scheme = intent.getScheme();
         if (getString(R.string.hbc_scheme).equals(scheme)) {
 
@@ -116,7 +123,12 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
                 }
             }
             if (!TextUtils.isEmpty(data)) {
-                actionBean = (ActionBean) JsonUtils.fromJson(data, ActionBean.class);
+                try {
+                    actionBean = (ActionBean) JsonUtils.fromJson(data, ActionBean.class);
+                    actionBean.source = "外部调起";
+                } catch (Exception e) {
+                    //为空就直接进首页,没毛病
+                }
             }
         }
     }

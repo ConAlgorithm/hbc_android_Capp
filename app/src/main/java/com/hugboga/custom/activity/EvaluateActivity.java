@@ -158,11 +158,7 @@ public class EvaluateActivity extends BaseActivity implements RatingView.OnLevel
                 finish();
             }
         });
-        if (TextUtils.isEmpty(guideInfo.guideAvatar)) {
-            avatarIV.setImageResource(R.mipmap.journey_head_portrait);
-        } else {
-            Tools.showImage(avatarIV, guideInfo.guideAvatar);
-        }
+        Tools.showImage(avatarIV, guideInfo.guideAvatar, R.mipmap.journey_head_portrait);
         nameTV.setText(guideInfo.guideName);
         scoreRatingview.setRating((float)guideInfo.guideStarLevel);
         describeTV.setText(guideInfo.guideCar);
@@ -293,19 +289,20 @@ public class EvaluateActivity extends BaseActivity implements RatingView.OnLevel
             CommonUtils.showToast(R.string.evaluate_succeed);
             isSubmitEvaluated = true;
             EventBus.getDefault().post(new EventAction(EventType.FGTRAVEL_UPDATE));
+            EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_UPDATE, orderBean.orderNo));
             MobClickUtils.onEvent(new EventEvaluateSubmit(("" + orderBean.orderType), "" + Math.round(ratingview.getLevel()), !TextUtils.isEmpty(commentET.getText()), false));
 
             RequestEvaluateNew request = (RequestEvaluateNew) _request;
             EvaluateData evaluateData = request.getData();
-            if (orderBean.appraisement.totalScore > 3 && evaluateData != null && orderBean.orderGuideInfo != null) {
-                if (!orderBean.orderGuideInfo.isCollected()) {
+            if (evaluateData != null && orderBean.orderGuideInfo != null) {
+                if (orderBean.appraisement.totalScore > 3 && !orderBean.orderGuideInfo.isCollected()) {
                     requestData(new RequestCollectGuidesId(this, orderBean.orderGuideInfo.guideID));
                 }
                 MobClickUtils.onEvent(new EventEvaluateShareFloat("" + orderBean.orderType, getEventSource()));
                 ShareGuidesActivity.Params params = new ShareGuidesActivity.Params();
                 params.evaluateData = evaluateData;
                 params.orderNo = orderBean.orderNo;
-                params.guideAvatar = orderBean.orderGuideInfo.guideAvatar;
+                params.totalScore = (int) orderBean.appraisement.totalScore;
                 Intent intent = new Intent(EvaluateActivity.this, ShareGuidesActivity.class);
                 intent.putExtra(Constants.PARAMS_DATA, params);
                 EvaluateActivity.this.startActivity(intent);

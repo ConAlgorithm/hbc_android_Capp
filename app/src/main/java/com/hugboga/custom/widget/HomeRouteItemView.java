@@ -171,16 +171,12 @@ public class HomeRouteItemView extends RelativeLayout implements HbcViewBehavior
                 break;
             case R.id.home_route_item_display_iv:
             case R.id.home_route_item_more_layout:
-//                FgSkuList.Params params = new FgSkuList.Params();
-//                params.id = data.getCityId();
-//                params.skuType = FgSkuList.SkuType.CITY;
-//                fgHome.startFragment(FgSkuList.newInstance(params));
                 SkuListActivity.Params params = new SkuListActivity.Params();
                 params.id = data.getCityId();
                 params.skuType = SkuListActivity.SkuType.CITY;
                 Intent intent = new Intent(getContext(), SkuListActivity.class);
                 intent.putExtra(Constants.PARAMS_DATA, params);
-                intent.putExtra("source","首页");
+                intent.putExtra(Constants.PARAMS_SOURCE, "首页");
                 getContext().startActivity(intent);
                 break;
         }
@@ -191,21 +187,16 @@ public class HomeRouteItemView extends RelativeLayout implements HbcViewBehavior
             return;
         }
         skuItemBean.cityId = "" + data.getCityId();
-//        Bundle bundle = new Bundle();
-//        bundle.putString(FgWebInfo.WEB_URL, skuItemBean.skuDetailUrl);
-//        bundle.putSerializable(FgSkuDetail.WEB_SKU, skuItemBean);
-//        bundle.putString("source" , "首页");
-//        fgHome.startFragment(new FgSkuDetail(),bundle);
 
-        Intent intent = new Intent(getContext(),SkuDetailActivity.class);
+        Intent intent = new Intent(getContext(), SkuDetailActivity.class);
         intent.putExtra(WebInfoActivity.WEB_URL, skuItemBean.skuDetailUrl);
         intent.putExtra(WebInfoActivity.CONTACT_SERVICE, true);
         intent.putExtra(SkuDetailActivity.WEB_SKU, skuItemBean);
         getContext().startActivity(intent);
 
-        if(skuItemBean.goodsClass == 1) {
+        if (skuItemBean.goodsClass == 1) {
             StatisticClickEvent.click(StatisticConstant.CLICK_RG, "首页");
-        }else {
+        } else {
             StatisticClickEvent.click(StatisticConstant.CLICK_RT, "首页");
         }
     }

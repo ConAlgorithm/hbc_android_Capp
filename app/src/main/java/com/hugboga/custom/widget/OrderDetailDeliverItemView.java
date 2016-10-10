@@ -170,7 +170,7 @@ public class OrderDetailDeliverItemView extends LinearLayout implements HbcViewB
                 break j;
             }
             CircleImageView circleImageView = getCircleImageView();
-            Tools.showImage(circleImageView, guidesList.get(i).getAvatarS());
+            Tools.showImage(circleImageView, guidesList.get(i).getAvatarS(), R.mipmap.journey_head_portrait);
             isShowMoreIV = false;
         }
         CircleImageView circleImageView = getCircleImageView();

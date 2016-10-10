@@ -1,6 +1,7 @@
 package com.hugboga.custom.data.request;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.google.gson.Gson;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
@@ -16,16 +17,27 @@ import org.xutils.http.annotation.HttpRequest;
 import java.util.HashMap;
 
 /**
+ * 司导详情页接口
  * Created by qingcha on 16/5/28.
  */
 @HttpRequest(path = UrlLibs.API_GUIDES_DETAIL, builder = NewParamsBuilder.class)
 public class RequestGuideDetail extends BaseRequest<GuidesDetailData> {
 
-    public RequestGuideDetail(Context context, String guideId) {
+    /**
+     * @param guideId               司导id  test:291442416917
+     * @param guideCarId            司导的车id，如果有，会对这个司导的车优先排序(订单详情页需要传)
+     * @param guideAgencyDriverId   司机的id（如果是地接社）(订单详情页需要传)
+     * */
+    public RequestGuideDetail(Context context, String guideId, String guideCarId, String guideAgencyDriverId) {
         super(context);
         map = new HashMap<String, Object>();
         map.put("guideId", guideId);
-//        map.put("guideId", "291442416917");//test
+        if (!TextUtils.isEmpty(guideCarId)) {
+            map.put("guideCarId", guideId);
+        }
+        if (!TextUtils.isEmpty(guideAgencyDriverId)) {
+            map.put("guideAgencyDriverId", guideAgencyDriverId);
+        }
     }
 
     @Override

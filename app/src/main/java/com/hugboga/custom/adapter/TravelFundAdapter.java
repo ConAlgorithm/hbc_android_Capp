@@ -12,6 +12,7 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.activity.TravelFundRecordActivity;
 import com.hugboga.custom.data.bean.TravelFundData;
 import com.hugboga.custom.data.bean.UserEntity;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
 
@@ -48,34 +49,60 @@ public class TravelFundAdapter extends BaseAdapter<TravelFundData.TravelFundBean
             holder = (ViewHolder) convertView.getTag();
         }
         TravelFundData.TravelFundBean bean = getItem(position);
+
         if (type == TravelFundRecordActivity.TYPE_INVITE_FRIENDS) {
             if (TextUtils.isEmpty(bean.getAvatar())) {
                 holder.avatarIV.setImageResource(R.mipmap.collection_icon_pic);
             } else {
-                Tools.showImage(mContext, holder.avatarIV, bean.getAvatar());
+                Tools.showImage(holder.avatarIV, bean.getAvatar());
             }
-            holder.nameTV.setText(bean.getUsername());
-            holder.sourceTV.setText(bean.getDesc());
+            holder.nameTV.setText(bean.getUserName());
+            holder.sourceTV.setText("");
+            holder.dateTV.setText(bean.getUpdateTime());
+
+            if (bean.getAmount() == -1) {//未注册/注册两种情况都是-1， 首次使用返现是大于0值
+                holder.desTV.setVisibility(View.GONE);
+                holder.signTV.setVisibility(View.GONE);
+                holder.unitTV.setVisibility(View.GONE);
+                holder.amountTV.setText(bean.getType());
+                holder.amountTV.setTextColor(0xFF999999);
+                holder.amountTV.setTextSize(15);
+            } else {
+                holder.amountTV.setTextSize(14);
+                holder.desTV.setVisibility(View.VISIBLE);
+                holder.desTV.setText(bean.getType());
+                holder.amountTV.setText("" + bean.getAmount());
+                if (bean.getAmount() >= 0) {
+                    holder.signTV.setVisibility(View.VISIBLE);
+                    holder.amountTV.setTextColor(mContext.getResources().getColor(R.color.travel_fund_basic));
+                    holder.unitTV.setTextColor(mContext.getResources().getColor(R.color.travel_fund_basic));
+                } else {
+                    holder.signTV.setVisibility(View.GONE);
+                    holder.amountTV.setTextColor(0xFFCECECE);
+                    holder.unitTV.setTextColor(0xFFCECECE);
+                }
+            }
         } else {
             holder.avatarIV.setLayoutParams(new RelativeLayout.LayoutParams(0, UIUtils.dip2px(60)));
             holder.nameTV.setVisibility(View.GONE);
+            holder.dateTV.setText(bean.getCreateDate());
             String sourceStr = bean.getDesc();
             if (!TextUtils.equals(UserEntity.getUser().getUserName(mContext), bean.getUsername())) {
                 sourceStr = bean.getUsername() + sourceStr;
             }
             holder.sourceTV.setText(sourceStr);
-        }
 
-        holder.dateTV.setText(bean.getCreateDate());
-        holder.amountTV.setText("" + bean.getAmount());
-        if (bean.getAmount() >= 0) {
-            holder.signTV.setVisibility(View.VISIBLE);
-            holder.amountTV.setTextColor(mContext.getResources().getColor(R.color.travel_fund_basic));
-            holder.unitTV.setTextColor(mContext.getResources().getColor(R.color.travel_fund_basic));
-        } else {
-            holder.signTV.setVisibility(View.GONE);
-            holder.amountTV.setTextColor(0xFFCECECE);
-            holder.unitTV.setTextColor(0xFFCECECE);
+            holder.desTV.setVisibility(View.GONE);
+            holder.amountTV.setText("" + bean.getAmount());
+            if (bean.getAmount() >= 0) {
+                holder.signTV.setVisibility(View.VISIBLE);
+                holder.amountTV.setTextColor(mContext.getResources().getColor(R.color.travel_fund_basic));
+                holder.unitTV.setTextColor(mContext.getResources().getColor(R.color.travel_fund_basic));
+            } else {
+                holder.signTV.setVisibility(View.GONE);
+                holder.amountTV.setTextColor(0xFFCECECE);
+                holder.unitTV.setTextColor(0xFFCECECE);
+            }
         }
         return convertView;
     }
@@ -95,5 +122,7 @@ public class TravelFundAdapter extends BaseAdapter<TravelFundData.TravelFundBean
         TextView sourceTV;
         @ViewInject(R.id.travelfund_date_tv)
         TextView dateTV;
+        @ViewInject(R.id.travelfund_des_tv)
+        TextView desTV;
     }
 }

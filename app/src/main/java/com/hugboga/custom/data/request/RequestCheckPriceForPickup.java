@@ -13,8 +13,9 @@ import org.xutils.http.annotation.HttpRequest;
 
 @HttpRequest(path = UrlLibs.SERVER_IP_PRICE_PICKUP, builder = NewParamsBuilder.class)
 public class RequestCheckPriceForPickup extends RequestCheckPrice {
-    public RequestCheckPriceForPickup(Context context, int orderType, String airportCode, Integer cityId, String startLocation, String endLocation, String date) {
-        super(context, orderType, airportCode, cityId, startLocation, endLocation, date);
+    public RequestCheckPriceForPickup(Context context, int orderType, String airportCode, Integer cityId,
+                                      String startLocation, String endLocation, String date,String carIds) {
+        super(context, orderType, airportCode, cityId, startLocation, endLocation, date,carIds);
     }
 
     @Override

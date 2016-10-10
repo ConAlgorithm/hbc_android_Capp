@@ -27,6 +27,8 @@ import com.hugboga.custom.data.bean.AirPort;
 import com.hugboga.custom.data.bean.CarBean;
 import com.hugboga.custom.data.bean.CarListBean;
 import com.hugboga.custom.data.bean.CollectGuideBean;
+import com.hugboga.custom.data.bean.GuideCarBean;
+import com.hugboga.custom.data.bean.GuideCarEventData;
 import com.hugboga.custom.data.bean.ManLuggageBean;
 import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.bean.UserEntity;
@@ -171,6 +173,7 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
         bundle.putSerializable("collectGuideBean",collectGuideBean);
         bundle.putSerializable("carListBean", carListBean);
         bundle.putBoolean("isNetError", isNetError);
+        bundle.putInt("orderType",2);
         if(isDataBack && null !=carListBean) {
             String sTime = serverDate +" " + serverTime +":00";
             bundle.putInt("cityId", cityId);
@@ -251,6 +254,9 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
     private DialogUtil mDialogUtil;
     String startLocation, termLocation;
 
+    //报价返回carlist 删除司导后显示使用
+    public ArrayList<CarBean> carListBak;
+
     private void checkInput() {
         if (!TextUtils.isEmpty(timeText.getText())
                 && !TextUtils.isEmpty(addressTips.getText())
@@ -263,10 +269,18 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
     boolean checkInChecked = true;
     boolean waitChecked = true;
     int maxLuuages = 0;
+    GuideCarEventData eventData;
+    ArrayList<GuideCarBean> guideCars;
+    String carIds = null;
 
     @Subscribe
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
+            case CARIDS:
+                eventData = (GuideCarEventData)action.getData();
+                carIds = eventData.carIds;
+                guideCars = eventData.guideCars;
+                break;
             case AIR_PORT_BACK:
                 airPortBean = (AirPort) action.getData();
                 addressTips.setText(airPortBean.cityName + " " + airPortBean.airportName);
@@ -277,7 +291,6 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
                 airTitle.setVisibility(View.GONE);
                 airDetail.setVisibility(View.GONE);
                 timeText.setText("");
-//            showCarsLayoutSend.setVisibility(View.GONE);
                 bottom.setVisibility(View.GONE);
                 checkInput();
                 break;
@@ -295,8 +308,6 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
                 maxLuuages = (int)action.getData();
                 break;
             case CAR_CHANGE_SMALL:
-//                confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
-//                confirmJourney.setOnClickListener(null);
                 manLuggageBean = null;
                 break;
             case CHANGE_GUIDE:
@@ -304,20 +315,15 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
                 break;
             case GUIDE_DEL:
                 collectGuideBean = null;
-//                confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
-//                confirmJourney.setOnClickListener(null);
-                carBean = (CarBean) action.getData();
-                if(null != carBean) {
-                    genBottomData(carBean);
-                }
-//                confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
-//                confirmJourney.setOnClickListener(null);
+                manLuggageBean = null;
+                carListBean.carList = carListBak;
                 if(null == carListBean){
                     showCarsLayoutSend.setVisibility(GONE);
                 }else {
                     if(null != carListBean.carList && carListBean.carList.size() > 0) {
                         bottom.setVisibility(View.VISIBLE);
-                        genBottomData(carListBean.carList.get(0));
+                        carBean = carListBean.carList.get(0);
+                        genBottomData(carBean);
                     }
                     initCarFragment(true);
                 }
@@ -457,7 +463,7 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
         bundle.putSerializable("collectGuideBean", collectGuideBean == null ? null : collectGuideBean);
         bundle.putString("source", source);
         carBean.expectedCompTime = carListBean.estTime;
-        bundle.putSerializable("carBean", CarUtils.carBeanAdapter(carBean));
+        bundle.putSerializable("carBean", carBean);
         bundle.putSerializable("carListBean", carListBean);
         bundle.putSerializable("airPortBean", airPortBean);
         bundle.putSerializable("poiBean", poiBean);
@@ -488,7 +494,9 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
         termLocation = airPortBean.location;
         needChildrenSeat = airPortBean.childSeatSwitch;
         needBanner = airPortBean.bannerSwitch;
-        RequestCheckPriceForTransfer requestCheckPriceForTransfer = new RequestCheckPriceForTransfer(getActivity(), mBusinessType, airportCode, cityId, startLocation, termLocation, serverDate + " " + serverTime);
+
+        RequestCheckPriceForTransfer requestCheckPriceForTransfer = new RequestCheckPriceForTransfer(getActivity(), mBusinessType,
+                airportCode, cityId, startLocation, termLocation, serverDate + " " + serverTime,carIds);
         requestData(requestCheckPriceForTransfer);
     }
 
@@ -520,13 +528,9 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
             case R.id.air_detail:
             case R.id.air_send_layout://从哪里出发
                 if (airPortBean != null) {
-//                    FgPoiSearch fg = new FgPoiSearch();
                     Bundle bundle = new Bundle();
                     bundle.putInt(PoiSearchActivity.KEY_CITY_ID, airPortBean.cityId);
                     bundle.putString(PoiSearchActivity.KEY_LOCATION, airPortBean.location);
-//                    fg.setArguments(bundle);
-//                    startFragment(fg);
-//
                     intent = new Intent(getActivity(), PoiSearchActivity.class);
                     intent.putExtras(bundle);
                     intent.putExtra("mBusinessType",2);
@@ -538,22 +542,16 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
                 break;
             case R.id.address_layout:
             case R.id.address_tips://选择机场
-//                startFragment(new FgChooseAirport());
                 Intent intent = new Intent(getActivity(),ChooseAirPortActivity.class);
                 getActivity().startActivity(intent);
 
                 break;
-//            case R.id.air_send_layout:
-//                FgChooseAir fgChooseAir = new FgChooseAir();
-//                startFragment(fgChooseAir);
-//                break;
             case R.id.time_layout:
             case R.id.time_text://出发时间
                 if (airPortBean == null) {
                     showToast("先选择机场");
                     return;
                 }
-//                showDaySelect();
                 showYearMonthDayTimePicker();
                 break;
             case R.id.rl_starttime:
@@ -600,8 +598,6 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
         bottom.setVisibility(View.GONE);
         carListBean = null;
         isNetError = true;
-//        confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
-//        confirmJourney.setOnClickListener(null);
         if (null != collectGuideBean) {
             initCarFragment(false);
         }else{
@@ -613,18 +609,21 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
     public void onDataRequestSucceed(BaseRequest request) {
         if (request instanceof RequestCheckPrice) {
             bottom.setVisibility(View.GONE);
-//            confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
-//            confirmJourney.setOnClickListener(null);
             isNetError = false;
             manLuggageBean = null;
             RequestCheckPrice requestCheckPrice = (RequestCheckPrice) request;
             carListBean = (CarListBean) requestCheckPrice.getData();
             if (carListBean.carList.size() > 0) {
-                if(null == collectGuideBean) {
-                    carBean = CarUtils.initCarListData(carListBean.carList).get(0);
-                }else {
-                    carBean = CarUtils.isMatchLocal(CarUtils.getNewCarBean(collectGuideBean), carListBean.carList);
+                if(null != collectGuideBean) {
+                    carListBak = (ArrayList<CarBean>)carListBean.carList.clone();
+                    carListBean.carList = CarUtils.getSingleCarBeanList(carListBean.carList, eventData.guideCars);
                 }
+                if (null == collectGuideBean) {
+                    carBean = CarUtils.initCarListData(carListBean.carList).get(0);
+                } else {
+                    carBean = carListBean.carList.get(0);
+                }
+
                 if(null != carBean) {
                     genBottomData(carBean);
                     bottom.setVisibility(View.VISIBLE);
