@@ -330,6 +330,7 @@ public class SingleNewActivity extends BaseActivity {
             carListBean = (CarListBean) requestCheckPrice.getData();
             if (carListBean.carList.size() > 0) {
                 if(null != collectGuideBean){
+                    carListBak = (ArrayList<CarBean>)carListBean.carList.clone();
                     carListBean.carList = CarUtils.getSingleCarBeanList(carListBean.carList,eventData.guideCars);
                 }
 
@@ -358,6 +359,10 @@ public class SingleNewActivity extends BaseActivity {
     int maxLuuages = 0;
     GuideCarEventData eventData;
     ArrayList<GuideCarBean> guideCars;
+
+    //报价返回carlist 删除司导后显示使用
+    public ArrayList<CarBean> carListBak;
+
     @Subscribe
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
@@ -385,7 +390,7 @@ public class SingleNewActivity extends BaseActivity {
                 }
                 break;
 
-            case CHOOSE_START_CITY_BACK:
+            case CHOOSE_START_CITY_BACK://选择城市返回
                 cityBean =  (CityBean)action.getData();
                 useCityTips.setText(cityBean.name);
                 startBean = null;
@@ -409,41 +414,39 @@ public class SingleNewActivity extends BaseActivity {
                 timeText.setText("");
 
                 break;
-            case MAX_LUGGAGE_NUM:
+            case MAX_LUGGAGE_NUM://最大行李数
                 maxLuuages = (int) action.getData();
                 break;
-            case CAR_CHANGE_SMALL:
+            case CAR_CHANGE_SMALL://车的人数变少
                 manLuggageBean = null;
                 break;
             case ONBACKPRESS:
                 break;
-            case CHANGE_GUIDE:
+            case CHANGE_GUIDE://更换司导
                 collectGuideBean = (CollectGuideBean) action.getData();
                 break;
-            case GUIDE_DEL:
+            case GUIDE_DEL://删除司导
                 collectGuideBean = null;
+                manLuggageBean = null;
+                carListBean.carList = carListBak;
                 if (null == carListBean) {
                     showCarsLayoutSingle.setVisibility(GONE);
                 } else {
                     if (null != carListBean.carList && carListBean.carList.size() > 0) {
                         bottom.setVisibility(View.VISIBLE);
-                        genBottomData(carListBean.carList.get(0));
+                        carBean = carListBean.carList.get(0);
+                        genBottomData(carBean);
                     }
                     initCarFragment(true);
                 }
-                carBean = (CarBean) action.getData();
-                if (null != carBean) {
-                    genBottomData(carBean);
-                }
-
                 break;
-            case CHANGE_CAR:
+            case CHANGE_CAR://换车
                 carBean = (CarBean) action.getData();
                 if (null != carBean) {
                     genBottomData(carBean);
                 }
                 break;
-            case MAN_CHILD_LUUAGE:
+            case MAN_CHILD_LUUAGE://选择出行人
                 confirmJourney.setBackgroundColor(activity.getResources().getColor(R.color.all_bg_yellow));
                 manLuggageBean = (ManLuggageBean) action.getData();
                 if (null != carBean) {
@@ -622,6 +625,7 @@ public class SingleNewActivity extends BaseActivity {
         bundle.putSerializable("carListBean", carListBean);
         bundle.putBoolean("isDataBack", isDataBack);
         bundle.putBoolean("isNetError", isNetError);
+        bundle.putInt("orderType",4);
         if (isDataBack && null != carListBean) {
             String sTime = serverDate + " " + serverTime + ":00";
             bundle.putInt("cityId", cityId);

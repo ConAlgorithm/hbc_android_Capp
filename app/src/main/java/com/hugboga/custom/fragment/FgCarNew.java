@@ -58,7 +58,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static android.R.attr.type;
 import static com.hugboga.custom.R.id.child_count_cost;
 import static com.hugboga.custom.R.id.driver_name;
 import static com.hugboga.custom.R.id.l_sub;
@@ -431,12 +430,14 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
     //网络错误
     boolean isNetError = false;
 
+    private int orderType = 0;
     @Override
     protected void initView() {
         initView(getView());
         cityId = this.getArguments().getInt("cityId");
         startTime = this.getArguments().getString("startTime");
         endTime = this.getArguments().getString("endTime");
+        orderType = this.getArguments().getInt("orderType");
         checkSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -462,7 +463,7 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
         carListBean = (CarListBean)this.getArguments().getSerializable("carListBean");
 
         if(null != carListBean) {
-            guideCarList = carListBean.carList;
+            guideCarList = (ArrayList<CarBean>) carListBean.carList.clone();
         }
 
         isNetError = this.getArguments().getBoolean("isNetError", false);
@@ -507,12 +508,10 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
             driver_layout.setVisibility(View.VISIBLE);
             driverName.setText(collectGuideBean.name);
             man_luggage_layout.setVisibility(View.GONE);
-//            final ArrayList<CarBean> newCarList = new ArrayList<>();
-//            newCarList.add(carBean);
-//            guideCarList = newCarList;
             delText.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    currentIndex = 0;
                     if (null != oldCarList) {
                         driver_layout.setVisibility(View.GONE);
                         genData();
@@ -559,12 +558,12 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
                         params.startCityId = cityId;
                         params.startTime = startTime;
                         params.endTime = endTime;
-                        params.adultNum = collectGuideBean.numOfPerson;
-                        params.childrenNum = collectGuideBean.numOfPerson;
-                        params.childSeatNum = collectGuideBean.carClass;
-                        params.luggageNum = collectGuideBean.numOfLuggage;
-                        params.orderType = type;
-                        params.totalDays = 0;
+                        params.adultNum = guideCarList.get(currentIndex).capOfPerson;
+                        params.childrenNum = 0;
+                        params.childSeatNum = guideCarList.get(currentIndex).carSeat;
+                        params.luggageNum = guideCarList.get(currentIndex).capOfLuggage;
+                        params.orderType = orderType;
+                        params.totalDays = 1;
                         params.passCityId = cityId + "";
                         bundle.putSerializable(Constants.PARAMS_DATA, params);
                         Intent intent = new Intent(v.getContext(), CollectGuideListActivity.class);
@@ -679,11 +678,6 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
                     return;
                 }
                 Bundle bundle = new Bundle();
-                if (null != collectGuideBean) {
-                    carListBean.carList = guideCarList;
-                } else {
-                    carListBean.carList = oldCarList;
-                }
                 bundle.putSerializable("carListBean", carListBean);
                 bundle.putInt("currentIndex", currentIndex);
                 bundle.putSerializable("manLuggageBean", manLuggageBean);

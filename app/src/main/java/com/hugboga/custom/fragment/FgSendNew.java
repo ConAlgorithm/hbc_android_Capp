@@ -173,6 +173,7 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
         bundle.putSerializable("collectGuideBean",collectGuideBean);
         bundle.putSerializable("carListBean", carListBean);
         bundle.putBoolean("isNetError", isNetError);
+        bundle.putInt("orderType",2);
         if(isDataBack && null !=carListBean) {
             String sTime = serverDate +" " + serverTime +":00";
             bundle.putInt("cityId", cityId);
@@ -253,6 +254,9 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
     private DialogUtil mDialogUtil;
     String startLocation, termLocation;
 
+    //报价返回carlist 删除司导后显示使用
+    public ArrayList<CarBean> carListBak;
+
     private void checkInput() {
         if (!TextUtils.isEmpty(timeText.getText())
                 && !TextUtils.isEmpty(addressTips.getText())
@@ -311,16 +315,15 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
                 break;
             case GUIDE_DEL:
                 collectGuideBean = null;
-                carBean = (CarBean) action.getData();
-                if(null != carBean) {
-                    genBottomData(carBean);
-                }
+                manLuggageBean = null;
+                carListBean.carList = carListBak;
                 if(null == carListBean){
                     showCarsLayoutSend.setVisibility(GONE);
                 }else {
                     if(null != carListBean.carList && carListBean.carList.size() > 0) {
                         bottom.setVisibility(View.VISIBLE);
-                        genBottomData(carListBean.carList.get(0));
+                        carBean = carListBean.carList.get(0);
+                        genBottomData(carBean);
                     }
                     initCarFragment(true);
                 }
@@ -612,6 +615,7 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
             carListBean = (CarListBean) requestCheckPrice.getData();
             if (carListBean.carList.size() > 0) {
                 if(null != collectGuideBean) {
+                    carListBak = (ArrayList<CarBean>)carListBean.carList.clone();
                     carListBean.carList = CarUtils.getSingleCarBeanList(carListBean.carList, eventData.guideCars);
                 }
                 if (null == collectGuideBean) {
