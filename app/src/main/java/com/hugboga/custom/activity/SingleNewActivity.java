@@ -381,6 +381,7 @@ public class SingleNewActivity extends BaseActivity {
                     startDetail.setVisibility(View.VISIBLE);
                     startTitle.setText(startBean.placeName);
                     startDetail.setText(startBean.placeDetail);
+                    checkInput();
                 } else if ("to".equals(poiBean.type)) {
                     arrivalBean =(PoiBean)action.getData();
                     endTips.setVisibility(GONE);
@@ -388,6 +389,7 @@ public class SingleNewActivity extends BaseActivity {
                     endDetail.setVisibility(View.VISIBLE);
                     endTitle.setText(arrivalBean.placeName);
                     endDetail.setText(arrivalBean.placeDetail);
+                    checkInput();
                 }
                 break;
 
