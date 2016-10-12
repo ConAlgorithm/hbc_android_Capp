@@ -256,7 +256,8 @@ public class SingleNewActivity extends BaseActivity {
 
 
     private void checkInput() {
-        if (!TextUtils.isEmpty(timeText.getText()) && !TextUtils.isEmpty(useCityTips.getText())
+        if (!TextUtils.isEmpty(timeText.getText())
+                && !TextUtils.isEmpty(useCityTips.getText())
                 && !TextUtils.isEmpty(startTitle.getText())
                 && !TextUtils.isEmpty(endTitle.getText())) {
             getData();
@@ -380,6 +381,7 @@ public class SingleNewActivity extends BaseActivity {
                     startDetail.setVisibility(View.VISIBLE);
                     startTitle.setText(startBean.placeName);
                     startDetail.setText(startBean.placeDetail);
+                    checkInput();
                 } else if ("to".equals(poiBean.type)) {
                     arrivalBean =(PoiBean)action.getData();
                     endTips.setVisibility(GONE);
@@ -387,6 +389,7 @@ public class SingleNewActivity extends BaseActivity {
                     endDetail.setVisibility(View.VISIBLE);
                     endTitle.setText(arrivalBean.placeName);
                     endDetail.setText(arrivalBean.placeDetail);
+                    checkInput();
                 }
                 break;
 
@@ -679,7 +682,11 @@ public class SingleNewActivity extends BaseActivity {
             case R.id.end_title:
             case R.id.end_detail:
             case R.id.end_layout:
-                if (cityBean != null) {
+                if(null == cityBean){
+                    CommonUtils.showToast("先选择城市");
+                    return;
+                }
+                if (!TextUtils.isEmpty(startTitle.getText())) {
                     bundle.putString("source", "下单过程中");
                     bundle.putString(KEY_FROM, "to");
                     bundle.putInt(PoiSearchActivity.KEY_CITY_ID, cityBean.cityId);
@@ -690,20 +697,34 @@ public class SingleNewActivity extends BaseActivity {
                     startActivity(intent);
 
                 } else {
-                    CommonUtils.showToast("先选择城市");
+                    CommonUtils.showToast("先选择出发地");
                 }
                 break;
             case R.id.time_layout:
-                if (startBean == null) {
-                    CommonUtils.showToast("请先选择城市");
-                    return;
+                if(checkTextIsEmpty()) {
+                    showYearMonthDayTimePicker();
                 }
-//                showDaySelect();
-                showYearMonthDayTimePicker();
                 break;
             case R.id.confirm_journey:
                 break;
         }
+    }
+
+    //检查参数是否已填
+    private boolean checkTextIsEmpty(){
+        if(null == cityBean){
+            CommonUtils.showToast("先选择城市");
+            return false;
+        }
+        if(TextUtils.isEmpty(startTitle.getText())){
+            CommonUtils.showToast("先选择出发地");
+            return false;
+        }
+        if(TextUtils.isEmpty(endTitle.getText())){
+            CommonUtils.showToast("先选择目的地");
+            return false;
+        }
+        return true;
     }
 
     DateTimePicker picker;

@@ -265,6 +265,17 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
         return true;
     }
 
+    //当前fragment 是否显示
+    private boolean fragmentShow = true;
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if(hidden){
+            fragmentShow = false;
+        } else {
+            fragmentShow = true;
+        }
+    }
 
     ManLuggageBean manLuggageBean;
     int maxLuuages = 0;
@@ -276,153 +287,155 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
 
     @Subscribe
     public void onEventMainThread(EventAction action) {
-        switch (action.getType()) {
-            case CARIDS:
-                eventData = (GuideCarEventData)action.getData();
-                carIds = eventData.carIds;
-                guideCars = eventData.guideCars;
-                break;
-            case CHOOSE_POI_BACK:
-                poiBean = (PoiBean) action.getData();
-                addressTips.setVisibility(GONE);
-                addressTitle.setVisibility(View.VISIBLE);
-                addressDetail.setVisibility(View.VISIBLE);
-                addressTitle.setText(poiBean.placeName);
-                addressDetail.setText(poiBean.placeDetail);
-                collapseSoftInputMethod();
-                getData();
-            break;
-            case MAX_LUGGAGE_NUM:
-                maxLuuages = (int)action.getData();
-                break;
-            case CAR_CHANGE_SMALL:
-                manLuggageBean = null;
-                break;
-            case CHANGE_GUIDE:
-                collectGuideBean = (CollectGuideBean)action.getData();
-                break;
-            case GUIDE_DEL:
-                collectGuideBean = null;
-                manLuggageBean = null;
-                carListBean.carList = carListBak;
-                if(null == carListBean){
-                    show_cars_layout_pick.setVisibility(GONE);
-                }else {
-                    if(null != carListBean.carList && carListBean.carList.size() > 0) {
-                        bottom.setVisibility(View.VISIBLE);
-                        carBean = carListBean.carList.get(0);
+        if(fragmentShow) {
+            switch (action.getType()) {
+                case CARIDS:
+                    eventData = (GuideCarEventData) action.getData();
+                    carIds = eventData.carIds;
+                    guideCars = eventData.guideCars;
+                    break;
+                case CHOOSE_POI_BACK:
+                    poiBean = (PoiBean) action.getData();
+                    addressTips.setVisibility(GONE);
+                    addressTitle.setVisibility(View.VISIBLE);
+                    addressDetail.setVisibility(View.VISIBLE);
+                    addressTitle.setText(poiBean.placeName);
+                    addressDetail.setText(poiBean.placeDetail);
+                    collapseSoftInputMethod();
+                    getData();
+                    break;
+                case MAX_LUGGAGE_NUM:
+                    maxLuuages = (int) action.getData();
+                    break;
+                case CAR_CHANGE_SMALL:
+                    manLuggageBean = null;
+                    break;
+                case CHANGE_GUIDE:
+                    collectGuideBean = (CollectGuideBean) action.getData();
+                    break;
+                case GUIDE_DEL:
+                    collectGuideBean = null;
+                    manLuggageBean = null;
+                    carListBean.carList = carListBak;
+                    if (null == carListBean) {
+                        show_cars_layout_pick.setVisibility(GONE);
+                    } else {
+                        if (null != carListBean.carList && carListBean.carList.size() > 0) {
+                            bottom.setVisibility(View.VISIBLE);
+                            carBean = carListBean.carList.get(0);
+                            genBottomData(carBean);
+                        }
+                        initCarFragment(true);
+                    }
+                    break;
+                case CHECK_SWITCH:
+                    checkInChecked = (boolean) action.getData();
+                    if (null != carBean) {
                         genBottomData(carBean);
                     }
-                    initCarFragment(true);
-                }
-                break;
-            case CHECK_SWITCH:
-                checkInChecked = (boolean)action.getData();
-                if(null != carBean) {
-                    genBottomData(carBean);
-                }
-                break;
+                    break;
 
-            case WAIT_SWITCH:
-                checkInChecked = (boolean)action.getData();
-                if(null != carBean) {
-                    genBottomData(carBean);
-                }
-                break;
+                case WAIT_SWITCH:
+                    checkInChecked = (boolean) action.getData();
+                    if (null != carBean) {
+                        genBottomData(carBean);
+                    }
+                    break;
 
-            case AIR_NO:
-                flightBean = (FlightBean) action.getData();
-                if (mBusinessType == Constants.BUSINESS_TYPE_SEND && flightBean != null) {
-                } else {
-                    String flightInfoStr = flightBean.flightNo + " ";
-                    flightInfoStr += flightBean.depCityName + "-" + flightBean.arrCityName;
-                    flightInfoStr += "\n当地时间" + flightBean.arrDate + " " + flightBean.depTime + " 降落";
-                    infoTips.setVisibility(GONE);
-                    airTitle.setVisibility(View.VISIBLE);
-                    airDetail.setVisibility(View.VISIBLE);
-                    airTitle.setText(flightBean.arrAirportName);
-                    airDetail.setText(flightInfoStr);
+                case AIR_NO:
+                    flightBean = (FlightBean) action.getData();
+                    if (mBusinessType == Constants.BUSINESS_TYPE_SEND && flightBean != null) {
+                    } else {
+                        String flightInfoStr = flightBean.flightNo + " ";
+                        flightInfoStr += flightBean.depCityName + "-" + flightBean.arrCityName;
+                        flightInfoStr += "\n当地时间" + flightBean.arrDate + " " + flightBean.depTime + " 降落";
+                        infoTips.setVisibility(GONE);
+                        airTitle.setVisibility(View.VISIBLE);
+                        airDetail.setVisibility(View.VISIBLE);
+                        airTitle.setText(flightBean.arrAirportName);
+                        airDetail.setText(flightInfoStr);
 
-                    poiBean = null;
-                    addressTips.setVisibility(View.VISIBLE);
-                    addressTitle.setVisibility(GONE);
-                    addressDetail.setVisibility(GONE);
+                        poiBean = null;
+                        addressTips.setVisibility(View.VISIBLE);
+                        addressTitle.setVisibility(GONE);
+                        addressDetail.setVisibility(GONE);
 
-                    bottom.setVisibility(GONE);
+                        bottom.setVisibility(GONE);
 //                    show_cars_layout_pick.setVisibility(View.GONE);
 
-                }
-                break;
-            case CHANGE_CAR:
-                carBean = (CarBean) action.getData();
-                if(null != carBean) {
-                    genBottomData(carBean);
-                }
-                break;
-            case MAN_CHILD_LUUAGE:
-                confirmJourney.setBackgroundColor(getContext().getResources().getColor(R.color.all_bg_yellow));
-                manLuggageBean = (ManLuggageBean)action.getData();
-                if(null != carBean) {
-                    genBottomData(carBean);
-                }
+                    }
+                    break;
+                case CHANGE_CAR:
+                    carBean = (CarBean) action.getData();
+                    if (null != carBean) {
+                        genBottomData(carBean);
+                    }
+                    break;
+                case MAN_CHILD_LUUAGE:
+                    confirmJourney.setBackgroundColor(getContext().getResources().getColor(R.color.all_bg_yellow));
+                    manLuggageBean = (ManLuggageBean) action.getData();
+                    if (null != carBean) {
+                        genBottomData(carBean);
+                    }
 //                genBottomData(carBean);
-                confirmJourney.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (checkParams()) {
-                            if (UserEntity.getUser().isLogin(getActivity())) {
-                                if (null != collectGuideBean) {
-                                    if ((carBean.carType == 1 && carBean.capOfPerson == 4
-                                            && (Integer.valueOf(manLuggageBean.mans) + Integer.valueOf(manLuggageBean.childs)) == 4)
-                                            || (carBean.carType == 1 && carBean.capOfPerson == 6 && (Integer.valueOf(manLuggageBean.mans) + Integer.valueOf(manLuggageBean.childs)) == 6)) {
-                                        AlertDialogUtils.showAlertDialog(getActivity(), getString(R.string.alert_car_full),
-                                                "继续下单", "更换车型", new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialog, int which) {
-                                                        checkGuide();
-                                                        dialog.dismiss();
-                                                    }
-                                                }, new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialog, int which) {
-                                                        dialog.dismiss();
-                                                    }
-                                                });
-                                    } else {
-                                        checkGuide();
-                                    }
+                    confirmJourney.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (checkParams()) {
+                                if (UserEntity.getUser().isLogin(getActivity())) {
+                                    if (null != collectGuideBean) {
+                                        if ((carBean.carType == 1 && carBean.capOfPerson == 4
+                                                && (Integer.valueOf(manLuggageBean.mans) + Integer.valueOf(manLuggageBean.childs)) == 4)
+                                                || (carBean.carType == 1 && carBean.capOfPerson == 6 && (Integer.valueOf(manLuggageBean.mans) + Integer.valueOf(manLuggageBean.childs)) == 6)) {
+                                            AlertDialogUtils.showAlertDialog(getActivity(), getString(R.string.alert_car_full),
+                                                    "继续下单", "更换车型", new DialogInterface.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialog, int which) {
+                                                            checkGuide();
+                                                            dialog.dismiss();
+                                                        }
+                                                    }, new DialogInterface.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialog, int which) {
+                                                            dialog.dismiss();
+                                                        }
+                                                    });
+                                        } else {
+                                            checkGuide();
+                                        }
 
-                                } else {
-                                    if (carBean.carType == 1 && carBean.capOfPerson == 4 && (Integer.valueOf(manLuggageBean.mans) + Integer.valueOf(manLuggageBean.childs)) == 4
-                                            || carBean.capOfPerson == 6 && (Integer.valueOf(manLuggageBean.mans) + Integer.valueOf(manLuggageBean.childs)) == 6) {
-                                        AlertDialogUtils.showAlertDialog(getActivity(), getString(R.string.alert_car_full),
-                                                "继续下单", "更换车型", new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialog, int which) {
-                                                        goOrder();
-                                                        dialog.dismiss();
-                                                    }
-                                                }, new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialog, int which) {
-                                                        dialog.dismiss();
-                                                    }
-                                                });
                                     } else {
-                                        goOrder();
+                                        if (carBean.carType == 1 && carBean.capOfPerson == 4 && (Integer.valueOf(manLuggageBean.mans) + Integer.valueOf(manLuggageBean.childs)) == 4
+                                                || carBean.capOfPerson == 6 && (Integer.valueOf(manLuggageBean.mans) + Integer.valueOf(manLuggageBean.childs)) == 6) {
+                                            AlertDialogUtils.showAlertDialog(getActivity(), getString(R.string.alert_car_full),
+                                                    "继续下单", "更换车型", new DialogInterface.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialog, int which) {
+                                                            goOrder();
+                                                            dialog.dismiss();
+                                                        }
+                                                    }, new DialogInterface.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialog, int which) {
+                                                            dialog.dismiss();
+                                                        }
+                                                    });
+                                        } else {
+                                            goOrder();
+                                        }
                                     }
+                                } else {
+                                    Intent intent = new Intent(getActivity(), LoginActivity.class);
+                                    intent.putExtra("source", getEventSource());
+                                    startActivity(intent);
                                 }
-                            } else {
-                                Intent intent = new Intent(getActivity(), LoginActivity.class);
-                                intent.putExtra("source",getEventSource());
-                                startActivity(intent);
                             }
                         }
-                    }
-                });
-                break;
-            default:
-                break;
+                    });
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
