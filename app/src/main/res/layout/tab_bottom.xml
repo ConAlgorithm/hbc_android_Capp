@@ -66,5 +66,14 @@
                 android:drawableTop="@drawable/tab_menu_3_selector"
                 android:text="@string/tab_journey" />
         </RelativeLayout>
+
+        <RelativeLayout style="@style/TabBottomLayoutStyle">
+
+            <TextView
+                android:id="@+id/tab_text_4"
+                style="@style/TabBottomTextStyle"
+                android:drawableTop="@drawable/tab_menu_4_selector"
+                android:text="@string/tab_space" />
+        </RelativeLayout>
     </LinearLayout>
 </LinearLayout>

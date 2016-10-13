@@ -2,7 +2,6 @@ package com.hugboga.custom;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -21,19 +20,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
@@ -44,40 +36,27 @@ import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.action.ActionController;
 import com.hugboga.custom.action.data.ActionBean;
 import com.hugboga.custom.activity.BaseActivity;
-import com.hugboga.custom.activity.CanServiceGuideListActivity;
-import com.hugboga.custom.activity.CollectGuideListActivity;
-import com.hugboga.custom.activity.CouponActivity;
-import com.hugboga.custom.activity.InsureActivity;
 import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.activity.OrderDetailActivity;
-import com.hugboga.custom.activity.PersonInfoActivity;
-import com.hugboga.custom.activity.ServicerCenterActivity;
-import com.hugboga.custom.activity.SettingActivity;
-import com.hugboga.custom.activity.TravelFundActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
-import com.hugboga.custom.adapter.MenuItemAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CheckVersionBean;
-import com.hugboga.custom.data.bean.LvMenuItem;
 import com.hugboga.custom.data.bean.PushMessage;
-import com.hugboga.custom.data.bean.UserBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
-import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestCheckVersion;
 import com.hugboga.custom.data.request.RequestPushClick;
 import com.hugboga.custom.data.request.RequestPushToken;
 import com.hugboga.custom.data.request.RequestUploadLocation;
-import com.hugboga.custom.data.request.RequestUserInfo;
 import com.hugboga.custom.fragment.FgHome;
 import com.hugboga.custom.fragment.FgImChat;
+import com.hugboga.custom.fragment.FgMySpace;
 import com.hugboga.custom.fragment.FgTravel;
 import com.hugboga.custom.service.LogService;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.utils.AlertDialogUtils;
-import com.hugboga.custom.utils.ChannelUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.JsonUtils;
@@ -86,14 +65,11 @@ import com.hugboga.custom.utils.PermissionRes;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.utils.PushUtils;
 import com.hugboga.custom.utils.SharedPre;
-import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UpdateResources;
 import com.hugboga.custom.widget.DialogUtil;
 import com.zhy.m.permission.MPermissions;
 import com.zhy.m.permission.PermissionDenied;
 import com.zhy.m.permission.PermissionGrant;
-
-import net.grobas.view.PolygonImageView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -105,12 +81,7 @@ import org.xutils.view.annotation.ViewInject;
 
 import java.io.File;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -118,8 +89,7 @@ import cn.jpush.android.api.JPushInterface;
 
 
 @ContentView(R.layout.activity_main)
-public class MainActivity extends BaseActivity
-        implements ViewPager.OnPageChangeListener, AdapterView.OnItemClickListener, View.OnClickListener, HttpRequestListener {
+public class MainActivity extends BaseActivity implements ViewPager.OnPageChangeListener, HttpRequestListener {
 
     public static final String PUSH_BUNDLE_MSG = "pushMessage";
     public static final String FILTER_PUSH_DO = "com.hugboga.custom.pushdo";
@@ -127,36 +97,23 @@ public class MainActivity extends BaseActivity
     private static final int PERMISSION_ACCESS_COARSE_LOCATION = 11;
     private static final int PERMISSION_ACCESS_FINE_LOCATION = 12;
 
-    @ViewInject(R.id.drawer_layout)
-    private DrawerLayout drawer;
-
     @ViewInject(R.id.container)
     private ViewPager mViewPager;
 
-    private PolygonImageView my_icon_head;//header的头像
-    private TextView tv_nickname;//header的昵称
-    private TextView couponTV, couponUnitTV;
-    private TextView travelFundTV, travelFundUnitTV;
-    private ImageView travelFundHintIV;
-
-    private TextView tabMenu[] = new TextView[3];
-
     @ViewInject(R.id.bottom_point_2)
     private TextView bottomPoint2;
-
     @ViewInject(R.id.bottom_point_3)
     private TextView qyServiceUnreadMsgCount;
-    @ViewInject(R.id.lv_slide_menu)
-    private ListView mLvLeftMenu;
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
+    private TextView tabMenu[] = new TextView[4];
+    private ActionBean actionBean;
+
     private FgHome fgHome;
     private FgImChat fgChat;
-    //private BaseFragment fgChat;
     private FgTravel fgTravel;
+    private FgMySpace fgMySpace;
     private SharedPre sharedPre;
-
-    private ActionBean actionBean;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -171,16 +128,13 @@ public class MainActivity extends BaseActivity
         }
         MobClickUtils.onEvent(StatisticConstant.LAUNCH_DISCOVERY);
         checkVersion();
-//        setSupportActionBar(toolbar);
         sharedPre = new SharedPre(this);
         initBottomView();
-        contentId = R.id.drawer_layout;
         initAdapterContent();
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.addOnPageChangeListener(this);
 
-//        navigationView.setNavigationItemSelectedListener(this);
         //为服务器授权
         grantPhone();
         try {
@@ -189,10 +143,6 @@ public class MainActivity extends BaseActivity
         } catch (Exception e) {
 
         }
-//        addErrorProcess();
-//        UpdateResources.checkLocalDB(this);
-//        UpdateResources.checkLocalResource(this);
-        setUpDrawer();
         connectIM();
         receivePushMessage(getIntent());
         new Thread(new CalaCacheThread()).start();//计算缓存图片大小
@@ -201,19 +151,7 @@ public class MainActivity extends BaseActivity
         } catch (Exception e) {
             e.printStackTrace();
         }
-//        LocationUtils.openGPSSeting(MainActivity.this);
         MLog.e("umengLog" + getDeviceInfo(this));
-        ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(this, drawer, 0, 0) {
-            @Override
-            public void onDrawerOpened(View drawerView) {
-                super.onDrawerOpened(drawerView);
-                if (UserEntity.getUser().isLogin(MainActivity.this)) {
-                    HttpRequestUtils.request(MainActivity.this, new RequestUserInfo(MainActivity.this), MainActivity.this);
-                }
-            }
-        };
-        drawer.addDrawerListener(mDrawerToggle);
-
         showAdWebView(getIntent().getStringExtra("url"));
 
         if (actionBean != null) {
@@ -374,14 +312,12 @@ public class MainActivity extends BaseActivity
     private void initAdapterContent() {
         fgHome = new FgHome();
         fgTravel = new FgTravel();
-        //if(MyApplication.imType==MyApplication.IMTYPE_NIM){
-            fgChat = new FgImChat();
-        //}else{
-        //    fgChat = new FgChat();
-       // }
+        fgChat = new FgImChat();
+        fgMySpace = new FgMySpace();
         addFragment(fgHome);
         addFragment(fgChat);
         addFragment(fgTravel);
+        addFragment(fgMySpace);
     }
 
     @Override
@@ -414,21 +350,6 @@ public class MainActivity extends BaseActivity
             String countryName = ((RequestUploadLocation) request).getData().countryName;
             LocationUtils.saveLocationCity(MainActivity.this, cityId, cityName, countryId, countryName);
 //            MLog.e("Location: cityId:"+cityId + ",  cityName:"+cityName);
-        } else if (request instanceof RequestUserInfo) {
-            if (couponTV == null || travelFundTV == null) {
-                return;
-            }
-            RequestUserInfo mRequest = (RequestUserInfo) request;
-            UserBean user = mRequest.getData();
-            UserEntity.getUser().setNickname(this, user.nickname);
-            UserEntity.getUser().setAvatar(this, user.avatar);
-            UserEntity.getUser().setUserName(this, user.name);
-            UserEntity.getUser().setTravelFund(this, user.travelFund);
-            UserEntity.getUser().setCoupons(this, user.coupons);
-            couponTV.setText("" + user.coupons);
-            travelFundTV.setText("" + user.travelFund);
-            couponUnitTV.setText("张");
-            travelFundUnitTV.setText("元");
         } else if (request instanceof RequestCheckVersion) {
             RequestCheckVersion requestCheckVersion = (RequestCheckVersion) request;
             final CheckVersionBean cvBean = requestCheckVersion.getData();
@@ -522,8 +443,8 @@ public class MainActivity extends BaseActivity
 
     private void gotoChatList() {
         //如果是收到消息推送 关了上层的页面
-        if (getFragmentList().size() > 3) {
-            for (int i = getFragmentList().size() - 1; i >= 3; i--) {
+        if (getFragmentList().size() > 4) {
+            for (int i = getFragmentList().size() - 1; i >= 4; i--) {
                 getFragmentList().get(i).finish();
             }
         }
@@ -532,11 +453,6 @@ public class MainActivity extends BaseActivity
     }
 
     private void gotoOrder(PushMessage message) {
-//        Bundle bundle = new Bundle();
-//        bundle.putInt(BaseFragment.KEY_BUSINESS_TYPE, message.orderType);
-//        bundle.putInt(BaseFragment.KEY_GOODS_TYPE, message.goodsType);
-//        bundle.putString(FgOrder.KEY_ORDER_ID, message.orderID);
-//        startFragment(new FgOrder(), bundle);
         OrderDetailActivity.Params params = new OrderDetailActivity.Params();
         params.orderType = CommonUtils.getCountInteger(message.orderType);
         params.orderId = message.orderNo;
@@ -551,30 +467,16 @@ public class MainActivity extends BaseActivity
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
             case CLICK_USER_LOGIN:
-//                getUserCoupon();
                 if (actionBean != null) {
                     ActionController actionFactory = ActionController.getInstance(this);
                     actionFactory.doAction(actionBean);
                     actionBean = null;
                 }
-            case CLICK_USER_LOOUT:
-                refreshContent();
                 break;
             case SET_MAIN_PAGE_INDEX:
                 int index = Integer.valueOf(action.data.toString());
-                if (index >= 0 && index < 3)
+                if (index >= 0 && index < 4)
                     mViewPager.setCurrentItem(index);
-                break;
-            case ONBACKPRESS:
-            case CLICK_HEADER_LEFT_BTN_BACK:
-                if (getFragmentsSize() == mSectionsPagerAdapter.getCount()) {
-                    drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED); //打开
-                }
-                break;
-            case START_NEW_FRAGMENT:
-                if (getFragmentsSize() > mSectionsPagerAdapter.getCount()) {
-                    drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED); //关闭手势滑动
-                }
                 break;
             default:
                 break;
@@ -590,116 +492,8 @@ public class MainActivity extends BaseActivity
         tabMenu[0] = (TextView) findViewById(R.id.tab_text_1);
         tabMenu[1] = (TextView) findViewById(R.id.tab_text_2);
         tabMenu[2] = (TextView) findViewById(R.id.tab_text_3);
+        tabMenu[3] = (TextView) findViewById(R.id.tab_text_4);
         tabMenu[0].setSelected(true);
-    }
-
-
-//    private List<LvMenuItem> mItems = new ArrayList<LvMenuItem>(
-//            Arrays.asList(
-//                    new LvMenuItem(R.mipmap.personal_center_coupon, "优惠券", ""),
-//                    new LvMenuItem(R.mipmap.personal_icon_br, "常用投保人", ""),
-//                    new LvMenuItem(R.mipmap.personal_icon_hd, "活动", ""),
-//                    new LvMenuItem(R.mipmap.personal_center_setting, "设置", ""),
-//                    new LvMenuItem(R.mipmap.personal_center_customer_service, "客服中心", "我们的服务介绍和保障"),
-//                    new LvMenuItem(R.mipmap.personal_center_internal, "境内客服", "仅限国内使用"),
-//                    new LvMenuItem(R.mipmap.personal_center_overseas, "境外客服", "仅限国外使用")
-//            ));
-
-    private List<LvMenuItem> mItems = new ArrayList<LvMenuItem>(
-            Arrays.asList(
-                    new LvMenuItem(R.mipmap.personal_icon_safe, "常用投保人"),
-                    new LvMenuItem(R.mipmap.personal_icon_collection, "我收藏的司导"),
-                    new LvMenuItem(MenuItemAdapter.ItemType.SPACE),
-                    new LvMenuItem(R.mipmap.personal_icon_activity, "活动"),
-                    new LvMenuItem(MenuItemAdapter.ItemType.SPACE),
-                    new LvMenuItem(R.mipmap.personal_icon_service, "服务规则"),
-                    new LvMenuItem(R.mipmap.personal_icon_call, "联系境内客服", MenuItemAdapter.ItemType.SERVICE),
-                    new LvMenuItem(R.mipmap.personal_icon_call, "联系境外客服", MenuItemAdapter.ItemType.SERVICE),
-                    new LvMenuItem(MenuItemAdapter.ItemType.SPACE),
-                    new LvMenuItem(R.mipmap.personal_icon_install, "设置")
-            ));
-
-    MenuItemAdapter menuItemAdapter;
-
-    private void setUpDrawer() {
-        LayoutInflater inflater = LayoutInflater.from(this);
-        View header = inflater.inflate(R.layout.nav_header_main, null);
-        RelativeLayout head_view = (RelativeLayout) header.findViewById(R.id.head_view);
-        head_view.setOnClickListener(this);
-        my_icon_head = (PolygonImageView) header.findViewById(R.id.my_icon_head);//头像
-        my_icon_head.setOnClickListener(this);
-        tv_nickname = (TextView) header.findViewById(R.id.tv_nickname);//昵称
-        tv_nickname.setOnClickListener(this);
-        couponTV = (TextView) header.findViewById(R.id.slidemenu_header_coupon_tv);//优惠券
-        travelFundTV = (TextView) header.findViewById(R.id.slidemenu_header_travelfund_tv);//旅游基金
-        couponUnitTV = (TextView) header.findViewById(R.id.slidemenu_header_coupon_unit_tv);
-        travelFundUnitTV = (TextView) header.findViewById(R.id.slidemenu_header_travelfund_unit_tv);
-        travelFundHintIV = (ImageView) header.findViewById(R.id.travel_fund_hint_iv);
-        if (new SharedPre(this).isShowTravelFundHint()) {
-            travelFundHintIV.setVisibility(View.VISIBLE);
-        } else {
-            travelFundHintIV.setVisibility(View.GONE);
-        }
-
-        header.findViewById(R.id.slidemenu_header_coupon_layout).setOnClickListener(this);
-        header.findViewById(R.id.slidemenu_header_travelfund_layout).setOnClickListener(this);
-        tv_nickname.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                CommonUtils.showToast("version=" + ChannelUtils.getVersion() + " versioncode=" + ChannelUtils.getVersionCode() + " channel =" + ChannelUtils.getChannel(MainActivity.this) + "");
-                return false;
-            }
-        });
-
-        mLvLeftMenu.addHeaderView(header);
-        menuItemAdapter = new MenuItemAdapter(this, mItems);
-        mLvLeftMenu.setAdapter(menuItemAdapter);
-        mLvLeftMenu.setOnItemClickListener(this);
-        refreshContent();
-    }
-
-    /**
-     * 刷新左边侧滑栏
-     */
-    private void refreshContent() {
-        if (!UserEntity.getUser().isLogin(this)) {
-            my_icon_head.setImageResource(R.mipmap.chat_head);
-            tv_nickname.setText(this.getResources().getString(R.string.person_center_nickname));
-            menuItemAdapter.notifyDataSetChanged();
-            couponTV.setText("");
-            travelFundTV.setText("");
-            couponUnitTV.setText("--");
-            travelFundUnitTV.setText("--");
-            tv_nickname.setTextColor(0xFF999999);
-        } else {
-            if (!TextUtils.isEmpty(UserEntity.getUser().getAvatar(this))) {
-                Tools.showImage(this, my_icon_head, UserEntity.getUser().getAvatar(this));
-//                x.image().bind(my_icon_head, UserEntity.getUser().getAvatar(this));
-            } else {
-                my_icon_head.setImageResource(R.mipmap.chat_head);
-            }
-            tv_nickname.setTextColor(0xFF3c3731);
-            if (!TextUtils.isEmpty(UserEntity.getUser().getNickname(this))) {
-                tv_nickname.setText(UserEntity.getUser().getNickname(this));
-            } else {
-                tv_nickname.setText(this.getResources().getString(R.string.person_center_no_nickname));
-            }
-            couponTV.setText("" + UserEntity.getUser().getCoupons(this));
-            travelFundTV.setText("" + UserEntity.getUser().getTravelFund(this));
-            couponUnitTV.setText("张");
-            travelFundUnitTV.setText("元");
-
-        }
-    }
-
-    /**
-     * 打开左侧菜单
-     */
-    public void openDrawer() {
-        if (!drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.openDrawer(GravityCompat.START);
-        }
-        MLog.e(" openDrawer ");
     }
 
     private long exitTime;
@@ -711,16 +505,12 @@ public class MainActivity extends BaseActivity
         } else if (mViewPager.getCurrentItem() != 0) {
             mViewPager.setCurrentItem(0);
         } else {
-            if (drawer.isDrawerOpen(GravityCompat.START)) {
-                drawer.closeDrawer(GravityCompat.START);
+            long times = System.currentTimeMillis();
+            if ((times - exitTime) > 2000) {
+                CommonUtils.showToast("再次点击退出");
+                exitTime = System.currentTimeMillis();
             } else {
-                long times = System.currentTimeMillis();
-                if ((times - exitTime) > 2000) {
-                    CommonUtils.showToast("再次点击退出");
-                    exitTime = System.currentTimeMillis();
-                } else {
-                    finish();
-                }
+                finish();
             }
         }
     }
@@ -728,11 +518,12 @@ public class MainActivity extends BaseActivity
 
     @Override
     public int getContentId() {
+        contentId = R.id.main_layout;
         return contentId;
     }
 
 
-    @Event({R.id.tab_text_1, R.id.tab_text_2, R.id.tab_text_3})
+    @Event({R.id.tab_text_1, R.id.tab_text_2, R.id.tab_text_3, R.id.tab_text_4})
     private void onClickView(View view) {
         switch (view.getId()) {
             case R.id.tab_text_1:
@@ -743,6 +534,9 @@ public class MainActivity extends BaseActivity
                 break;
             case R.id.tab_text_3:
                 mViewPager.setCurrentItem(2);
+                break;
+            case R.id.tab_text_4:
+                mViewPager.setCurrentItem(3);
                 break;
         }
     }
@@ -757,55 +551,13 @@ public class MainActivity extends BaseActivity
         for (int i = 0; i < tabMenu.length; i++) {
             tabMenu[i].setSelected(position == i);
         }
+        if (position == tabMenu.length - 1 && fgMySpace != null) {
+            fgMySpace.refreshUserInfo();
+        }
     }
 
     @Override
     public void onPageScrollStateChanged(int state) {
-
-    }
-
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        HashMap<String, String> map = new HashMap<String, String>();
-        switch (position) {
-            case Constants.PERSONAL_CENTER_BR://常用投保人
-                if (isLogin("个人中心-常用投保人")) {
-                    Intent intent = new Intent(activity, InsureActivity.class);
-                    startActivity(intent);
-                }
-                break;
-            case Constants.PERSONAL_CENTER_COLLECT://收藏司导
-                if (isLogin("个人中心-收藏司导")) {
-                    startActivity(new Intent(MainActivity.this, CollectGuideListActivity.class));
-                }
-                break;
-            case Constants.PERSONAL_CENTER_HD://活动
-                    MobClickUtils.onEvent(StatisticConstant.LAUNCH_ACTLIST);
-                    Intent intent = new Intent(MainActivity.this, WebInfoActivity.class);
-                    intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_ACTIVITY + UserEntity.getUser().getUserId(this.getApplicationContext()) + "&t=" + new Random().nextInt(100000));
-                    startActivity(intent);
-                break;
-            case Constants.PERSONAL_CENTER_CUSTOMER_SERVICE://服务规则
-                intent = new Intent(activity, ServicerCenterActivity.class);
-                startActivity(intent);
-                break;
-            case Constants.PERSONAL_CENTER_INTERNAL_SERVICE://境内客服
-                PhoneInfo.CallDial(MainActivity.this, Constants.CALL_NUMBER_IN);
-                break;
-            case Constants.PERSONAL_CENTER_OVERSEAS_SERVICE://境外客服
-                PhoneInfo.CallDial(MainActivity.this, Constants.CALL_NUMBER_OUT);
-                break;
-            case Constants.PERSONAL_CENTER_SETTING://设置
-                if (isLogin("个人中心-设置")) {
-                    intent = new Intent(activity,SettingActivity.class);
-                    startActivity(intent);
-                }
-                break;
-            default:
-                break;
-        }
-        drawer.closeDrawer(GravityCompat.START);
-
 
     }
 
@@ -855,40 +607,6 @@ public class MainActivity extends BaseActivity
             return false;
         }
     }
-    Intent intent;
-    @Override
-    public void onClick(View v) {
-        Intent intent = null;
-        switch (v.getId()) {
-            case R.id.head_view:
-            case R.id.my_icon_head:
-            case R.id.tv_nickname:
-                if (isLogin("个人中心-用户信息")) {
-                    intent = new Intent(this, PersonInfoActivity.class);
-                    startActivity(intent);
-                }
-                break;
-            case R.id.slidemenu_header_coupon_layout://我的优惠券
-                if (isLogin("个人中心-优惠券")) {
-                    intent = new Intent(activity, CouponActivity.class);
-                    startActivity(intent);
-                    UserEntity.getUser().setHasNewCoupon(false);
-                }
-                break;
-            case R.id.slidemenu_header_travelfund_layout://旅游基金
-                if (isLogin("个人中心-旅游基金")) {
-                    SharedPre sharedPre= new SharedPre(this);
-                    if (sharedPre.isShowTravelFundHint()) {
-                        sharedPre.setTravelFundHintIsShow(false);
-                        travelFundHintIV.setVisibility(View.GONE);
-                    }
-                    intent = new Intent(activity, TravelFundActivity.class);
-                    startActivity(intent);
-                }
-                break;
-        }
-        drawer.closeDrawer(GravityCompat.START);
-    }
 
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
@@ -912,13 +630,16 @@ public class MainActivity extends BaseActivity
                 case 2: {
                     return fgTravel;
                 }
+                case 3: {
+                    return fgMySpace;
+                }
             }
             return null;
         }
 
         @Override
         public int getCount() {
-            return 3;
+            return 4;
         }
 
         @Override
@@ -930,6 +651,8 @@ public class MainActivity extends BaseActivity
                     return "私聊";
                 case 2:
                     return "行程";
+                case 3:
+                    return "我的";
             }
             return null;
         }

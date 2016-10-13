@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,6 +47,7 @@ import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.SharedPre;
+import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.utils.UnicornUtils;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
@@ -81,7 +83,7 @@ import java.util.Map;
  * Created by Administrator on 2016/8/24.
  */
 @ContentView(R.layout.fg_chat)
-public class FgImChat extends BaseFragment implements View.OnClickListener, ZBaseAdapter.OnItemClickListener, ZListPageView.NoticeViewTask {
+public class FgImChat extends BaseFragment implements ZBaseAdapter.OnItemClickListener, ZListPageView.NoticeViewTask {
 
     @ViewInject(R.id.header_left_btn)
     private ImageView leftBtn;
@@ -113,9 +115,11 @@ public class FgImChat extends BaseFragment implements View.OnClickListener, ZBas
 
     @Override
     protected void initHeader() {
+        RelativeLayout.LayoutParams titleParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.MATCH_PARENT);
+        titleParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
+        fgTitle.setLayoutParams(titleParams);
         fgTitle.setText("私聊");
-        leftBtn.setImageResource(R.mipmap.header_menu);
-        leftBtn.setOnClickListener(this);
+        leftBtn.setVisibility(View.GONE);
     }
 
     @Override
@@ -239,17 +243,13 @@ public class FgImChat extends BaseFragment implements View.OnClickListener, ZBas
         return super.getEventMap();
     }
 
-    @Event({R.id.login_btn, R.id.header_left_btn, R.id.chat_list_empty_tv})
+    @Event({R.id.login_btn, R.id.chat_list_empty_tv})
     private void onClickView(View view) {
         switch (view.getId()) {
             case R.id.login_btn:
                 Intent intent = new Intent(view.getContext(), LoginActivity.class);
                 intent.putExtra("source",getEventSource());
                 startActivity(intent);
-                break;
-            case R.id.header_left_btn:
-                MLog.e("left  " + view);
-                ((MainActivity) getActivity()).openDrawer();
                 break;
             case R.id.chat_list_empty_tv:
                 loadData();
@@ -262,18 +262,6 @@ public class FgImChat extends BaseFragment implements View.OnClickListener, ZBas
     public void onFragmentResult(Bundle bundle) {
         MLog.e("onFragmentResult " + bundle);
         requestData();
-    }
-
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.header_left_btn:
-                ((MainActivity) getActivity()).openDrawer();
-                break;
-            default:
-                super.onClick(view);
-                break;
-        }
     }
 
     @Override

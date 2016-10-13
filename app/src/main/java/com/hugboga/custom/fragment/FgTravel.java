@@ -9,6 +9,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +41,7 @@ import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.parser.ParserTravel;
 import com.hugboga.custom.data.request.RequestTravel;
 import com.hugboga.custom.utils.CommonUtils;
+import com.hugboga.custom.utils.UIUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -54,7 +56,7 @@ import java.util.List;
 import java.util.Map;
 
 @ContentView(R.layout.fg_travel)
-public class FgTravel extends BaseFragment implements View.OnClickListener, OnItemClickListener, ZListPageView.NoticeViewTask {
+public class FgTravel extends BaseFragment implements OnItemClickListener, ZListPageView.NoticeViewTask {
 
     public static final String FILTER_FLUSH = "com.hugboga.custom.travel.flush";
     public static final String JUMP_TYPE = "JUMP_TYPE";
@@ -342,9 +344,11 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, OnIt
     @Override
     protected void initHeader() {
         //设置标题颜色，返回按钮图片
-        leftBtn.setImageResource(R.mipmap.header_menu);
-        leftBtn.setOnClickListener(this);
+        RelativeLayout.LayoutParams titleParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.MATCH_PARENT);
+        titleParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
+        fgTitle.setLayoutParams(titleParams);
         fgTitle.setText("行程");
+        leftBtn.setVisibility(View.GONE);
 
     }
 
@@ -362,19 +366,6 @@ public class FgTravel extends BaseFragment implements View.OnClickListener, OnIt
             //Receiver not registered
         }
         super.onDestroy();
-    }
-
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.header_left_btn:
-                ((MainActivity) getActivity()).openDrawer();
-                break;
-            default:
-                super.onClick(v);
-                break;
-        }
     }
 
     @Event({R.id.travel_tab1_layout, R.id.travel_tab2_layout, R.id.travel_tab3_layout,  R.id.travel_tab4_layout, R.id.travel_login_btn})

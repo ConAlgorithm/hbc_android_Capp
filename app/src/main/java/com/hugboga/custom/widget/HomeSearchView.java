@@ -83,7 +83,7 @@ public class HomeSearchView extends RelativeLayout implements View.OnClickListen
         }
         switch (myView.getId()) {
             case R.id.home_side_menu_iv:
-                ((MainActivity) fragment.getActivity()).openDrawer();
+//                ((MainActivity) fragment.getActivity()).openDrawer();
                 break;
             case R.id.home_search_iv:
                 goChooseCity("小搜索按钮");
