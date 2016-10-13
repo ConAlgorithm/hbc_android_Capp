@@ -18,7 +18,6 @@ import android.widget.TextView;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
-import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.CarBean;
 import com.hugboga.custom.data.bean.CarListBean;
@@ -35,7 +34,6 @@ import com.hugboga.custom.fragment.FgCarNew;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.utils.AlertDialogUtils;
-import com.hugboga.custom.utils.CarUtils;
 import com.hugboga.custom.utils.CityUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DateUtils;
@@ -54,15 +52,12 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static android.R.attr.order;
 import static com.hugboga.custom.R.id.all_journey_text;
 import static com.hugboga.custom.R.id.all_money_left;
 import static com.hugboga.custom.R.id.all_money_text_sku;
-import static com.hugboga.custom.R.id.mans;
-import static com.hugboga.custom.R.id.mans_num;
+
 import static com.hugboga.custom.R.id.time_layout;
-import static com.tencent.bugly.crashreport.inner.InnerAPI.context;
-import static u.aly.au.S;
+
 
 /**
  * Created on 16/8/3.
