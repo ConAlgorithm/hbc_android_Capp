@@ -4,5 +4,6 @@
     <stroke
         android:width="1dip"
         android:color="@color/basic_daily_color" />
+    <solid android:color="@color/default_bg"/>
 </shape>
 
