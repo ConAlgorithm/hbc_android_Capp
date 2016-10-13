@@ -27,6 +27,7 @@ android {
   }
 
   lintOptions {
+    abortOnError false
     warning 'MissingTranslation'
     textReport true
     textOutput 'stdout'
