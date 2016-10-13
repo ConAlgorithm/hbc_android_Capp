@@ -44,6 +44,7 @@
                 android:id="@+id/collect_name_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:maxEms="8"
                 android:singleLine="true"
                 android:ellipsize="end"
                 android:drawablePadding="10dp"
