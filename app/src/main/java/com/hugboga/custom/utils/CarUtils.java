@@ -70,7 +70,6 @@ public class CarUtils {
         carBean.desc = collectGuideBean.carDesc;
         carBean.models = collectGuideBean.carModel;
         carBean.carSeat = collectGuideBean.carClass;
-        carBean.seatCategory = collectGuideBean.carClass;
         carBean.imgRes = CarUtils.getCarImgs(collectGuideBean.carType,collectGuideBean.carClass);
         return carBean;
     }
