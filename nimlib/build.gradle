@@ -3,8 +3,8 @@ apply plugin: 'com.android.library'
 android {
     useLibrary 'org.apache.http.legacy'
 
-    compileSdkVersion 23
-    buildToolsVersion '24'
+    compileSdkVersion 24
+    buildToolsVersion '24.0.2'
 
     sourceSets {
         main {
@@ -21,7 +21,7 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:23.3.0'
-    compile 'com.android.support:design:23.3.0'
+    compile 'com.android.support:appcompat-v7:24.0.0'
+    compile 'com.android.support:design:24.0.0'
     compile fileTree(include: '*.jar', dir: 'libs')
 }
