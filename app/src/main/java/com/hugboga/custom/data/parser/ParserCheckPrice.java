@@ -45,6 +45,7 @@ public class ParserCheckPrice extends ImplParser {
                 bean = new CarBean();
                 bean.carType = jsonObj.optInt("carType");
                 bean.carSeat = jsonObj.optInt("seatCategory");
+                bean.seatCategory = jsonObj.optInt("seatCategory");
                 bean.desc = jsonObj.optString("carDesc");
                 bean.carDesc = jsonObj.optString("carDesc");
                 bean.models = jsonObj.optString("models");
