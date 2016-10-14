@@ -32,10 +32,6 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-import static android.R.attr.key;
-import static android.R.attr.order;
-import static u.aly.au.S;
-import static u.aly.cv.l;
 
 public class CityUtils {
 

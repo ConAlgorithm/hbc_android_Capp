@@ -1,21 +1,21 @@
 apply plugin: 'com.android.library'
 apply plugin: 'checkstyle'
 
-task checkstyle(type: Checkstyle) {
-  configFile rootProject.file('checkstyle.xml')
-  source 'src/main/java'
-  ignoreFailures false
-  showViolations true
-  include '**/*.java'
+//task checkstyle(type: Checkstyle) {
+//  configFile rootProject.file('checkstyle.xml')
+//  source 'src/main/java'
+//  ignoreFailures false
+//  showViolations true
+//  include '**/*.java'
+//
+//  classpath = files()
+//}
 
-  classpath = files()
-}
-
-afterEvaluate {
-  if (project.tasks.findByName('check')) {
-    check.dependsOn('checkstyle')
-  }
-}
+//afterEvaluate {
+//  if (project.tasks.findByName('check')) {
+//    check.dependsOn('checkstyle')
+//  }
+//}
 
 android {
 
@@ -27,6 +27,7 @@ android {
   }
 
   lintOptions {
+    abortOnError false
     warning 'MissingTranslation'
     textReport true
     textOutput 'stdout'
