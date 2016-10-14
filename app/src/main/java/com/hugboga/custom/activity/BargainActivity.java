@@ -126,20 +126,7 @@ public class BargainActivity extends BaseActivity {
             bargainTotal = barginBean.bargainTotal;
             cuteMoneyTv.setText(barginBean.bargainAmount);
             if(null != barginBean.bargainWechatRspList && barginBean.bargainWechatRspList.size() > 0) {
-                second = barginBean.seconds;
-                if (0 != second) {
-                    countdown.changeTime(second);
-                    initimer();
-                    countDownTimer.start();
-                } else {
-                    if (null != barginBean.bargainWechatRspList && barginBean.bargainWechatRspList.size() != 0) {
-                        countdown.changeTime(0);
-                     }else{
-                        countdown.changeTime(hour48);
-                    }
-                    cutMoney.setImageResource(R.mipmap.cut_end);
-                    cutMoney.setOnClickListener(null);
-                }
+                setTimerData(barginBean,true);
                 offset += limit;
                 if(loadMore){
                     addMoreListView(barginBean);
@@ -152,10 +139,29 @@ public class BargainActivity extends BaseActivity {
                         bottom.setOnClickListener(null);
                     }
                 }
+            }else{
+                setTimerData(barginBean,false);
             }
 
         }
 
+    }
+
+    //是否开始倒计时
+    boolean isStart = false;
+    private void setTimerData(BarginBean barginBean,boolean isStart){
+        second = barginBean.seconds;
+        if (0 != second) {
+            countdown.changeTime(second);
+            initimer();
+            if(isStart) {
+                countDownTimer.start();
+            }
+        } else {
+            countdown.changeTime(0);
+            cutMoney.setImageResource(R.mipmap.cut_end);
+            cutMoney.setOnClickListener(null);
+        }
     }
 
 
@@ -257,7 +263,6 @@ public class BargainActivity extends BaseActivity {
     }
 
     int second = 0;
-    int hour48 = 48 * 60 * 60;
     CountDownTimer countDownTimer;
 
     private void initView() {

@@ -1,14 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <View
-        android:id="@+id/evaluate_list_item_line_top"
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:layout_marginLeft="18dp"
-        android:layout_marginRight="18dp"
-        android:visibility="gone"
-        android:background="@color/default_dividing_line"/>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="70dip"
@@ -30,9 +22,12 @@
                 android:id="@+id/evaluate_list_item_name_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:maxWidth="100dp"
                 android:layout_marginTop="15dp"
                 android:layout_toRightOf="@id/evaluate_list_item_avatar_iv"
-                android:textColor="#333333"
+                android:textColor="#000000"
                 android:textSize="16sp" />
 
             <TextView
@@ -42,7 +37,7 @@
                 android:layout_marginTop="17.5dp"
                 android:layout_toRightOf="@id/evaluate_list_item_name_tv"
                 android:layout_marginLeft="6dp"
-                android:textColor="#808080"
+                android:textColor="#000000"
                 android:textSize="12sp" />
 
             <TextView
@@ -69,16 +64,6 @@
                 app:srb_isIndicator="true"
                 />
         </RelativeLayout>
-    <com.hugboga.custom.widget.EvaluateTagGroup
-        android:id="@+id/evaluate_list_item_taggroup"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp"
-        app:horizontalSpacing="15dp"
-        app:verticalSpacing="7dp"
-        />
     <TextView
         android:id="@+id/evaluate_list_item_content_tv"
         android:layout_width="match_parent"
@@ -86,7 +71,7 @@
         android:layout_marginBottom="20dp"
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
-        android:textColor="#808080"
+        android:textColor="#333333"
         android:textSize="14sp" />
     <View
         android:id="@+id/evaluate_list_item_line_bottom"

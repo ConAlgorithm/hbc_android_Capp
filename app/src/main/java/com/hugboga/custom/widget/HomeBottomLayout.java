@@ -144,7 +144,7 @@ public class HomeBottomLayout extends LinearLayout implements View.OnClickListen
             this.activeData = data;
             activeTV.setVisibility(View.VISIBLE);
             activeIV.setVisibility(View.VISIBLE);
-            Tools.showImage(activeIV, data.getPicture());
+            Tools.showRoundImage(activeIV, data.getPicture(), UIUtils.dip2px(3));
         }
     }
 
@@ -153,7 +153,6 @@ public class HomeBottomLayout extends LinearLayout implements View.OnClickListen
      * */
     private void goPickSend(){
         Intent intent = new Intent(getContext(), PickSendActivity.class);
-        intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_DAIRY);
         intent.putExtra("source","首页");
         getContext().startActivity(intent);
     }

@@ -321,7 +321,11 @@ public class ChoosePaymentActivity extends BaseActivity {
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
-            backWarn();
+            try {
+                backWarn();
+            } catch (Exception e) {
+
+            }
             return true;
         }
         return super.onKeyUp(keyCode, event);

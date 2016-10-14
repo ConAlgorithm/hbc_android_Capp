@@ -5,6 +5,7 @@ import android.text.TextUtils;
 
 import com.hugboga.custom.R;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -111,10 +112,11 @@ public class OrderBean implements IBaseBean{
     public Integer carType;              // carTypeId 车辆类型：1-经济型、2-舒适型、3-豪华型、4-奢华型；
     public String carDesc;               // 车辆描述（现代圣达菲,起亚K5,雪佛兰迈锐宝）
     public Integer seatCategory;         // carSeatNum 车座数
-    public Integer adult;                // adultNum 成人座位数
-    public Integer child;                // childNum 小孩座位数
+    public Integer adult;                // adultNum 成人数
+    public Integer child;                // childNum 小孩数
     public String passengerInfos;        // 座位信息 乘坐%1$s人、行李箱%2$s件、儿童座椅%3$s个
-    public ArrayList<String> childSeat;  // 儿童座椅价格及个数
+    public ArrayList<String> childSeat;
+    public ChildSeats childSeats;        // 儿童座椅价格及个数
 
     public Integer totalDays;       // 包车天数
     public Integer inTownDays;      // serviceLocalDays 市内天数
@@ -166,6 +168,7 @@ public class OrderBean implements IBaseBean{
     public int priceCommentReward;          // 好评奖励金额
     public AppraisementBean appraisement;   // 评价信息
     public AssessmentBean assessmentBean;   // TODO appraisement 评价信息
+    public String guideAgencyDriverId;      // 地接社老板ID
 
     public OrderPriceInfo orderPriceInfo;   // priceInfo
     public OrderGuideInfo orderGuideInfo;   // guideInfo
@@ -255,6 +258,18 @@ public class OrderBean implements IBaseBean{
                 break;
         }
         return resultStr;
+    }
+
+    public static class ChildSeats implements Serializable {
+        public int childSeatPrice1;
+        public int childSeatPrice1Count;
+        public int childSeatPrice2;
+        public int childSeatPrice2Count;
+
+        //儿童座椅数
+        public int getChildSeatCount() {
+            return childSeatPrice1Count + childSeatPrice2Count;
+        }
     }
 
 }

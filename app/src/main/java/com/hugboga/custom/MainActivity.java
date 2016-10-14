@@ -143,6 +143,9 @@ public class MainActivity extends BaseActivity
 
     @ViewInject(R.id.bottom_point_2)
     private TextView bottomPoint2;
+
+    @ViewInject(R.id.bottom_point_3)
+    private TextView qyServiceUnreadMsgCount;
     @ViewInject(R.id.lv_slide_menu)
     private ListView mLvLeftMenu;
 
@@ -486,36 +489,32 @@ public class MainActivity extends BaseActivity
     }
 
     private void receivePushMessage(Intent intent) {
-        if (intent != null) {
-            if (intent.getData() != null && "rong".equals(intent.getData().getScheme())) {
-//                Intent intentIm = new Intent(this, IMChatActivity.class);
-//                intentIm.putExtra(IMChatActivity.KEY_TITLE, intent.getData().toString());
-//                startActivity(intentIm);
+        if (intent == null) {
+            return;
+        }
+        PushMessage message = (PushMessage) intent.getSerializableExtra(MainActivity.PUSH_BUNDLE_MSG);
+        if (message != null) {
+            uploadPushClick(message.messageID);
+            ActionBean actionBean = message.getActionBean();
+            actionBean.source = "push调起";
+            if (actionBean != null) {
+                ActionController actionFactory = ActionController.getInstance(this);
+                actionFactory.doAction(actionBean);
+                this.actionBean = actionBean;
             } else {
-                PushMessage message = (PushMessage) intent.getSerializableExtra(MainActivity.PUSH_BUNDLE_MSG);
-                if (message != null) {
-                    uploadPushClick(message.messageID);
-                    ActionBean actionBean = message.getActionBean();
-                    if (actionBean != null) {
-                        ActionController actionFactory = ActionController.getInstance(this);
-                        actionFactory.doAction(actionBean);
-                        this.actionBean = actionBean;
-                    } else {
-                        if ("IM".equals(message.type)) {
-                            gotoChatList();
-                        } else if ("888".equals(message.orderType)) {
-                            if (getFragmentList().size() > 3) {
-                                for (int i = getFragmentList().size() - 1; i >= 3; i--) {
-                                    getFragmentList().get(i).finish();
-                                }
-                            }
-                            if (mViewPager != null) {
-                                mViewPager.setCurrentItem(2);
-                            }
-                        } else {
-                            gotoOrder(message);
+                if ("IM".equals(message.type)) {
+                    gotoChatList();
+                } else if ("888".equals(message.orderType)) {
+                    if (getFragmentList().size() > 3) {
+                        for (int i = getFragmentList().size() - 1; i >= 3; i--) {
+                            getFragmentList().get(i).finish();
                         }
                     }
+                    if (mViewPager != null) {
+                        mViewPager.setCurrentItem(2);
+                    }
+                } else {
+                    gotoOrder(message);
                 }
             }
         }
@@ -936,7 +935,7 @@ public class MainActivity extends BaseActivity
         }
     }
 
-    public void setIMCount(int count) {
+    public void setIMCount(int count,int serviceMsgCount) {
         if (count > 0) {
             if (count > 99) {
                 bottomPoint2.setText("99+");
@@ -944,10 +943,14 @@ public class MainActivity extends BaseActivity
                 bottomPoint2.setText("" + count);
             }
             bottomPoint2.setVisibility(View.VISIBLE);
-
-        } else {
+            qyServiceUnreadMsgCount.setVisibility(View.GONE);
+        } else if(serviceMsgCount>0){
+            bottomPoint2.setVisibility(View.GONE);
+            qyServiceUnreadMsgCount.setVisibility(View.VISIBLE);
+        }else {
             bottomPoint2.setVisibility(View.GONE);
             bottomPoint2.setText("");
+            qyServiceUnreadMsgCount.setVisibility(View.GONE);
         }
 
     }

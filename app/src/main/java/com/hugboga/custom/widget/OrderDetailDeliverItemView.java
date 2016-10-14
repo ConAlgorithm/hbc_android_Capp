@@ -121,10 +121,10 @@ public class OrderDetailDeliverItemView extends LinearLayout implements HbcViewB
         avatarLayout.setVisibility(View.VISIBLE);
         subtitleIV.setVisibility(View.GONE);
 
+        countdownLayout.update(deliverInfoBean);
         titleTV.setText(deliverInfoBean.deliverMessage);
         RequestAcceptGuide requestAcceptGuide = new RequestAcceptGuide(getContext(), orderNo, 10, 0);
-        HttpRequestUtils.request(getContext(), requestAcceptGuide, this);
-
+        HttpRequestUtils.request(getContext(), requestAcceptGuide, this, false);
         avatarLayout.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -170,7 +170,7 @@ public class OrderDetailDeliverItemView extends LinearLayout implements HbcViewB
                 break j;
             }
             CircleImageView circleImageView = getCircleImageView();
-            Tools.showImage(circleImageView, guidesList.get(i).getAvatarS());
+            Tools.showImage(circleImageView, guidesList.get(i).getAvatarS(), R.mipmap.journey_head_portrait);
             isShowMoreIV = false;
         }
         CircleImageView circleImageView = getCircleImageView();

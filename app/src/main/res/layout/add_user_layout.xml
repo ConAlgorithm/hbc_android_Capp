@@ -58,7 +58,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:minWidth="70dp"
-                        android:text="联系联系人"
+                        android:text="联系人"
                         android:textColor="@color/basic_black"
                         android:textSize="14sp" />
 
@@ -78,18 +78,18 @@
 
                     <EditText
                         android:id="@+id/name_text"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
                         android:layout_marginLeft="5dp"
                         android:layout_marginRight="5dp"
+                        android:layout_centerVertical="true"
                         android:layout_toLeftOf="@id/name_right"
                         android:layout_toRightOf="@id/name_left"
                         android:background="@color/basic_white"
                         android:hint="请添加联系人"
-                        android:minEms="4"
                         android:maxLength="50"
-                        android:lines="1"
+                        android:singleLine="true"
+                        android:ellipsize="end"
                         android:textColorHint="#c3c5c5"
                         android:textSize="14sp" />
                 </RelativeLayout>
@@ -134,7 +134,7 @@
                         android:gravity="center_vertical"
                         android:hint="请输入联系方式"
                         android:inputType="phone"
-                        android:lines="1"
+                        android:singleLine="true"
                         android:maxLength="30"
                         android:textColor="@color/basic_black"
                         android:textColorHint="#c3c5c5"
@@ -186,7 +186,7 @@
 
                     <EditText
                         android:id="@+id/name1_text"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="5dp"
@@ -195,9 +195,9 @@
                         android:layout_toRightOf="@id/name1_left"
                         android:background="@color/basic_white"
                         android:hint="请添加联系人"
-                        android:minEms="4"
                         android:maxLength="50"
-                        android:lines="1"
+                        android:ellipsize="end"
+                        android:singleLine="true"
                         android:textColorHint="#c3c5c5"
                         android:textSize="14sp" />
                 </RelativeLayout>
@@ -244,7 +244,7 @@
                         android:gravity="center_vertical"
                         android:hint="请输入联系方式"
                         android:inputType="phone"
-                        android:lines="1"
+                        android:singleLine="true"
                         android:maxLength="30"
                         android:textColor="@color/basic_black"
                         android:textColorHint="#c3c5c5"
@@ -316,7 +316,7 @@
 
                     <EditText
                         android:id="@+id/name2_text"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="5dp"
@@ -325,9 +325,9 @@
                         android:layout_toRightOf="@id/name2_left"
                         android:background="@color/basic_white"
                         android:hint="请添加联系人"
-                        android:minEms="4"
                         android:maxLength="50"
-                        android:lines="1"
+                        android:singleLine="true"
+                        android:ellipsize="end"
                         android:textColorHint="#c3c5c5"
                         android:textSize="14sp" />
                 </RelativeLayout>
@@ -374,7 +374,7 @@
                         android:gravity="center_vertical"
                         android:hint="请输入联系方式"
                         android:inputType="phone"
-                        android:lines="1"
+                        android:singleLine="true"
                         android:maxLength="30"
                         android:textColor="@color/basic_black"
                         android:textColorHint="#c3c5c5"
@@ -502,9 +502,9 @@
                         android:layout_toRightOf="@id/passenger_left"
                         android:background="@color/basic_white"
                         android:hint="请添加联系人"
-                        android:minEms="4"
                         android:maxLength="50"
-                        android:lines="1"
+                        android:singleLine="true"
+                        android:ellipsize="end"
                         android:textColorHint="#c3c5c5"
                         android:textSize="14sp" />
                 </RelativeLayout>
@@ -551,7 +551,7 @@
                         android:gravity="center_vertical"
                         android:hint="请输入联系方式"
                         android:inputType="phone"
-                        android:lines="1"
+                        android:singleLine="true"
                         android:maxLength="30"
                         android:textColor="@color/basic_black"
                         android:textColorHint="#c3c5c5"

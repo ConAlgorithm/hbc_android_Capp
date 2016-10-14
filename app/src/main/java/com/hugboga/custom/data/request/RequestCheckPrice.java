@@ -16,7 +16,8 @@ import java.util.HashMap;
 public class RequestCheckPrice extends BaseRequest {
     private int orderType;
 
-    public RequestCheckPrice(Context context, int orderType, String airportCode, Integer cityId, String startLocation, String endLocation, String date) {
+    public RequestCheckPrice(Context context, int orderType, String airportCode, Integer cityId,
+                             String startLocation, String endLocation, String date,String carIds) {
         super(context);
         map = new HashMap<String, Object>();
         this.orderType = orderType;
@@ -30,6 +31,9 @@ public class RequestCheckPrice extends BaseRequest {
             map.put("endLocation", endLocation);
             map.put("channelId", Config.channelId);
             map.put("assitCheckIn", 1);
+            if(null != carIds) {
+                map.put("carIds", carIds);
+            }
 
         } catch (Exception e) {
             MLog.e(e.toString());

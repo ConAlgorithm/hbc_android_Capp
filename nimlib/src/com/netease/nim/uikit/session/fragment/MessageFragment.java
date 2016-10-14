@@ -17,7 +17,6 @@ import com.netease.nim.uikit.session.SessionCustomization;
 import com.netease.nim.uikit.session.actions.BaseAction;
 import com.netease.nim.uikit.session.actions.ImageAction;
 import com.netease.nim.uikit.session.actions.LocationAction;
-import com.netease.nim.uikit.session.actions.VideoAction;
 import com.netease.nim.uikit.session.constant.Extras;
 import com.netease.nim.uikit.session.module.Container;
 import com.netease.nim.uikit.session.module.ModuleProxy;
@@ -44,6 +43,9 @@ import java.util.List;
  */
 public class MessageFragment extends TFragment implements ModuleProxy {
 
+    public static final String ALLOW_SEND_MSG_KEY = "allow_send_msg";
+    public static final int ALLOW = 0;
+
     private OnFragmentInteractionListener mListener;
 
     private View rootView;
@@ -56,6 +58,8 @@ public class MessageFragment extends TFragment implements ModuleProxy {
     protected String sessionId; // p2p对方Account或者群id
 
     protected SessionTypeEnum sessionType;
+
+    private int allowSendMsg = 0;
 
     // modules
     protected InputPanel inputPanel;
@@ -117,6 +121,7 @@ public class MessageFragment extends TFragment implements ModuleProxy {
     private void parseIntent() {
         sessionId = getArguments().getString(Extras.EXTRA_ACCOUNT);
         sessionType = (SessionTypeEnum) getArguments().getSerializable(Extras.EXTRA_TYPE);
+        allowSendMsg = getArguments().getInt(ALLOW_SEND_MSG_KEY);
         IMMessage anchor = (IMMessage) getArguments().getSerializable(Extras.EXTRA_ANCHOR);
 
         customization = (SessionCustomization) getArguments().getSerializable(Extras.EXTRA_CUSTOMIZATION);
@@ -189,6 +194,18 @@ public class MessageFragment extends TFragment implements ModuleProxy {
     @Override
     public boolean sendMessage(final IMMessage message) {
         if (!isAllowSendMessage(message)) {
+            return false;
+        }
+
+        if(allowSendMsg!=ALLOW){
+            final IMMessage msg = MessageBuilder.createTipMessage(message.getSessionId(), message.getSessionType());
+            msg.setContent(" 订单已取消，您暂时无法和对方进行私聊。");
+            NIMClient.getService(MsgService.class).saveMessageToLocal(msg,true).setCallback(new RequestCallbackWrapper() {
+                @Override
+                public void onResult(int i, Object aVoid, Throwable throwable) {
+                    msg.setStatus(MsgStatusEnum.read);
+                }
+            });
             return false;
         }
 

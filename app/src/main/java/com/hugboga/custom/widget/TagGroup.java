@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import com.hugboga.custom.R;
 import com.hugboga.custom.utils.UIUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,6 +19,9 @@ public class TagGroup extends ViewGroup {
 
     private int mHorizontalSpacing;
     private int mVerticalSpacing;
+    private boolean isCenter = false;
+
+    private ArrayList<Integer> rowWithList = new ArrayList<Integer>();
 
     public TagGroup(Context context) {
         this(context, null);
@@ -32,6 +36,7 @@ public class TagGroup extends ViewGroup {
         final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.TagGroup);
         mHorizontalSpacing = (int) a.getDimension(R.styleable.TagGroup_horizontalSpacing, UIUtils.dip2px(8.0f));
         mVerticalSpacing = (int) a.getDimension(R.styleable.TagGroup_verticalSpacing, UIUtils.dip2px(4.0f));
+        isCenter = a.getBoolean(R.styleable.TagGroup_isCenter, false);
         a.recycle();
     }
 
@@ -69,6 +74,8 @@ public class TagGroup extends ViewGroup {
         int rowWidth = 0;
         int rowMaxHeight = 0;
 
+        rowWithList.clear();
+
         final int count = getChildCount();
         for (int i = 0; i < count; i++) {
             final View child = getChildAt(i);
@@ -78,6 +85,7 @@ public class TagGroup extends ViewGroup {
             if (child.getVisibility() != GONE) {
                 rowWidth += childWidth;
                 if (rowWidth > widthSize) {
+                    rowWithList.add(rowWidth - childWidth);
                     rowWidth = childWidth;
                     height += rowMaxHeight + mVerticalSpacing;
                     rowMaxHeight = childHeight;
@@ -88,6 +96,7 @@ public class TagGroup extends ViewGroup {
                 rowWidth += mHorizontalSpacing;
             }
         }
+        rowWithList.add(rowWidth);
         height += rowMaxHeight;
         height += getPaddingTop() + getPaddingBottom();
         if (row == 0) {
@@ -107,9 +116,13 @@ public class TagGroup extends ViewGroup {
         final int parentBottom = b - t - getPaddingBottom();
 
         int childLeft = parentLeft;
+        if (isCenter && rowWithList.size() > 0) {
+            childLeft = parentLeft + (r - l - rowWithList.get(0)) / 2 + mHorizontalSpacing / 2;
+        }
         int childTop = parentTop;
 
         int rowMaxHeight = 0;
+        int row = 0;
 
         final int count = getChildCount();
         for (int i = 0; i < count; i++) {
@@ -119,7 +132,12 @@ public class TagGroup extends ViewGroup {
 
             if (child.getVisibility() != GONE) {
                 if (childLeft + width > parentRight) { // Next line
-                    childLeft = parentLeft;
+                    row++;
+                    if (isCenter && row < rowWithList.size()) {
+                        childLeft = parentLeft + (r - l - rowWithList.get(row)) / 2 + mHorizontalSpacing / 2;
+                    } else {
+                        childLeft = parentLeft;
+                    }
                     childTop += rowMaxHeight + mVerticalSpacing;
                     rowMaxHeight = height;
                 } else {

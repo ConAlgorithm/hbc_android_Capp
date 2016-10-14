@@ -209,7 +209,7 @@ public class ZListPageView extends ZListRecyclerView implements IPageList {
             if (obj != null && obj[1] != null) {
                 datas = (List) obj[1];
             }
-            if (datas != null && datas.size() > 0) {
+            if (datas != null && datas.size() > 0 && adapter.getListCount() < adapter.getDataCount()) {
                 page.setPageIndex();
                 adapter.addDatas(datas);
             }

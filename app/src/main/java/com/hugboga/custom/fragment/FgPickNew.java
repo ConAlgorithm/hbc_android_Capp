@@ -29,6 +29,8 @@ import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.CollectGuideBean;
 import com.hugboga.custom.data.bean.DailyBean;
 import com.hugboga.custom.data.bean.FlightBean;
+import com.hugboga.custom.data.bean.GuideCarBean;
+import com.hugboga.custom.data.bean.GuideCarEventData;
 import com.hugboga.custom.data.bean.ManLuggageBean;
 import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.bean.UserEntity;
@@ -54,6 +56,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -181,6 +184,7 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
         bundle.putSerializable("collectGuideBean",collectGuideBean);
         bundle.putSerializable("carListBean", carListBean);
         bundle.putBoolean("isNetError", isNetError);
+        bundle.putInt("orderType",1);
         if(isDataBack && null !=carListBean) {
             String sTime = serverDate +":00";
             bundle.putInt("cityId", cityId);
@@ -214,7 +218,8 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
         serverDate = flightBean.arrDate + " " + flightBean.arrivalTime;
         needChildrenSeat = flightBean.arrivalAirport.childSeatSwitch;
         needBanner = flightBean.arrivalAirport.bannerSwitch;
-        RequestCheckPriceForPickup requestCheckPriceForPickup = new RequestCheckPriceForPickup(getActivity(), 1, airportCode, cityId, startLocation, termLocation, serverDate);
+
+        RequestCheckPriceForPickup requestCheckPriceForPickup = new RequestCheckPriceForPickup(getActivity(), 1, airportCode, cityId, startLocation, termLocation, serverDate,carIds);
         requestData(requestCheckPriceForPickup);
     }
 
@@ -260,160 +265,177 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
         return true;
     }
 
+    //当前fragment 是否显示
+    private boolean fragmentShow = true;
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if(hidden){
+            fragmentShow = false;
+        } else {
+            fragmentShow = true;
+        }
+    }
 
     ManLuggageBean manLuggageBean;
     int maxLuuages = 0;
+    GuideCarEventData eventData;
+    ArrayList<GuideCarBean> guideCars;
+    String carIds = null;
+    //报价返回carlist 删除司导后显示使用
+    public ArrayList<CarBean> carListBak;
+
     @Subscribe
     public void onEventMainThread(EventAction action) {
-        switch (action.getType()) {
-            case CHOOSE_POI_BACK:
-                poiBean = (PoiBean) action.getData();
-                addressTips.setVisibility(GONE);
-                addressTitle.setVisibility(View.VISIBLE);
-                addressDetail.setVisibility(View.VISIBLE);
-                addressTitle.setText(poiBean.placeName);
-                addressDetail.setText(poiBean.placeDetail);
-                collapseSoftInputMethod();
-                getData();
-            break;
-            case MAX_LUGGAGE_NUM:
-                maxLuuages = (int)action.getData();
-                break;
-            case CAR_CHANGE_SMALL:
-//                confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
-//                confirmJourney.setOnClickListener(null);
-                manLuggageBean = null;
-                break;
-            case CHANGE_GUIDE:
-                collectGuideBean = (CollectGuideBean)action.getData();
-                break;
-            case GUIDE_DEL:
-                collectGuideBean = null;
-//                confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
-//                confirmJourney.setOnClickListener(null);
-                carBean = (CarBean) action.getData();
-                if(null != carBean) {
-                    genBottomData(carBean);
-                }
-//                confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
-//                confirmJourney.setOnClickListener(null);
-                if(null == carListBean){
-                    show_cars_layout_pick.setVisibility(GONE);
-                }else {
-                    if(null != carListBean.carList && carListBean.carList.size() > 0) {
-                        bottom.setVisibility(View.VISIBLE);
-                        genBottomData(carListBean.carList.get(0));
+        if(fragmentShow) {
+            switch (action.getType()) {
+                case CARIDS:
+                    eventData = (GuideCarEventData) action.getData();
+                    carIds = eventData.carIds;
+                    guideCars = eventData.guideCars;
+                    break;
+                case CHOOSE_POI_BACK:
+                    poiBean = (PoiBean) action.getData();
+                    addressTips.setVisibility(GONE);
+                    addressTitle.setVisibility(View.VISIBLE);
+                    addressDetail.setVisibility(View.VISIBLE);
+                    addressTitle.setText(poiBean.placeName);
+                    addressDetail.setText(poiBean.placeDetail);
+                    collapseSoftInputMethod();
+                    getData();
+                    break;
+                case MAX_LUGGAGE_NUM:
+                    maxLuuages = (int) action.getData();
+                    break;
+                case CAR_CHANGE_SMALL:
+                    manLuggageBean = null;
+                    break;
+                case CHANGE_GUIDE:
+                    collectGuideBean = (CollectGuideBean) action.getData();
+                    break;
+                case GUIDE_DEL:
+                    collectGuideBean = null;
+                    manLuggageBean = null;
+                    carListBean.carList = carListBak;
+                    if (null == carListBean) {
+                        show_cars_layout_pick.setVisibility(GONE);
+                    } else {
+                        if (null != carListBean.carList && carListBean.carList.size() > 0) {
+                            bottom.setVisibility(View.VISIBLE);
+                            carBean = carListBean.carList.get(0);
+                            genBottomData(carBean);
+                        }
+                        initCarFragment(true);
                     }
-                    initCarFragment(true);
-                }
-                break;
-            case CHECK_SWITCH:
-                checkInChecked = (boolean)action.getData();
-                if(null != carBean) {
-                    genBottomData(carBean);
-                }
-                break;
+                    break;
+                case CHECK_SWITCH:
+                    checkInChecked = (boolean) action.getData();
+                    if (null != carBean) {
+                        genBottomData(carBean);
+                    }
+                    break;
 
-            case WAIT_SWITCH:
-                checkInChecked = (boolean)action.getData();
-                if(null != carBean) {
-                    genBottomData(carBean);
-                }
-                break;
+                case WAIT_SWITCH:
+                    checkInChecked = (boolean) action.getData();
+                    if (null != carBean) {
+                        genBottomData(carBean);
+                    }
+                    break;
 
-            case AIR_NO:
-                flightBean = (FlightBean) action.getData();
-                if (mBusinessType == Constants.BUSINESS_TYPE_SEND && flightBean != null) {
-                } else {
-                    String flightInfoStr = flightBean.flightNo + " ";
-                    flightInfoStr += flightBean.depCityName + "-" + flightBean.arrCityName;
-                    flightInfoStr += "\n当地时间" + flightBean.arrDate + " " + flightBean.depTime + " 降落";
-                    infoTips.setVisibility(GONE);
-                    airTitle.setVisibility(View.VISIBLE);
-                    airDetail.setVisibility(View.VISIBLE);
-                    airTitle.setText(flightBean.arrAirportName);
-                    airDetail.setText(flightInfoStr);
+                case AIR_NO:
+                    flightBean = (FlightBean) action.getData();
+                    if (mBusinessType == Constants.BUSINESS_TYPE_SEND && flightBean != null) {
+                    } else {
+                        String flightInfoStr = flightBean.flightNo + " ";
+                        flightInfoStr += flightBean.depCityName + "-" + flightBean.arrCityName;
+                        flightInfoStr += "\n当地时间" + flightBean.arrDate + " " + flightBean.depTime + " 降落";
+                        infoTips.setVisibility(GONE);
+                        airTitle.setVisibility(View.VISIBLE);
+                        airDetail.setVisibility(View.VISIBLE);
+                        airTitle.setText(flightBean.arrAirportName);
+                        airDetail.setText(flightInfoStr);
 
-                    poiBean = null;
-                    addressTips.setVisibility(View.VISIBLE);
-                    addressTitle.setVisibility(GONE);
-                    addressDetail.setVisibility(GONE);
+                        poiBean = null;
+                        addressTips.setVisibility(View.VISIBLE);
+                        addressTitle.setVisibility(GONE);
+                        addressDetail.setVisibility(GONE);
 
-                    bottom.setVisibility(GONE);
+                        bottom.setVisibility(GONE);
 //                    show_cars_layout_pick.setVisibility(View.GONE);
 
-                }
-                break;
-            case CHANGE_CAR:
-                carBean = (CarBean) action.getData();
-                if(null != carBean) {
-                    genBottomData(carBean);
-                }
-                break;
-            case MAN_CHILD_LUUAGE:
-                confirmJourney.setBackgroundColor(getContext().getResources().getColor(R.color.all_bg_yellow));
-                manLuggageBean = (ManLuggageBean)action.getData();
-                if(null != carBean) {
-                    genBottomData(carBean);
-                }
+                    }
+                    break;
+                case CHANGE_CAR:
+                    carBean = (CarBean) action.getData();
+                    if (null != carBean) {
+                        genBottomData(carBean);
+                    }
+                    break;
+                case MAN_CHILD_LUUAGE:
+                    confirmJourney.setBackgroundColor(getContext().getResources().getColor(R.color.all_bg_yellow));
+                    manLuggageBean = (ManLuggageBean) action.getData();
+                    if (null != carBean) {
+                        genBottomData(carBean);
+                    }
 //                genBottomData(carBean);
-                confirmJourney.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (checkParams()) {
-                            if (UserEntity.getUser().isLogin(getActivity())) {
-                                if (null != collectGuideBean) {
-                                    if ((carBean.carType == 1 && carBean.capOfPerson == 4
-                                            && (Integer.valueOf(manLuggageBean.mans) + Integer.valueOf(manLuggageBean.childs)) == 4)
-                                            || (carBean.carType == 1 && carBean.capOfPerson == 6 && (Integer.valueOf(manLuggageBean.mans) + Integer.valueOf(manLuggageBean.childs)) == 6)) {
-                                        AlertDialogUtils.showAlertDialog(getActivity(), getString(R.string.alert_car_full),
-                                                "继续下单", "更换车型", new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialog, int which) {
-                                                        checkGuide();
-                                                        dialog.dismiss();
-                                                    }
-                                                }, new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialog, int which) {
-                                                        dialog.dismiss();
-                                                    }
-                                                });
-                                    } else {
-                                        checkGuide();
-                                    }
+                    confirmJourney.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (checkParams()) {
+                                if (UserEntity.getUser().isLogin(getActivity())) {
+                                    if (null != collectGuideBean) {
+                                        if ((carBean.carType == 1 && carBean.capOfPerson == 4
+                                                && (Integer.valueOf(manLuggageBean.mans) + Integer.valueOf(manLuggageBean.childs)) == 4)
+                                                || (carBean.carType == 1 && carBean.capOfPerson == 6 && (Integer.valueOf(manLuggageBean.mans) + Integer.valueOf(manLuggageBean.childs)) == 6)) {
+                                            AlertDialogUtils.showAlertDialog(getActivity(), getString(R.string.alert_car_full),
+                                                    "继续下单", "更换车型", new DialogInterface.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialog, int which) {
+                                                            checkGuide();
+                                                            dialog.dismiss();
+                                                        }
+                                                    }, new DialogInterface.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialog, int which) {
+                                                            dialog.dismiss();
+                                                        }
+                                                    });
+                                        } else {
+                                            checkGuide();
+                                        }
 
-                                } else {
-                                    if (carBean.carType == 1 && carBean.capOfPerson == 4 && (Integer.valueOf(manLuggageBean.mans) + Integer.valueOf(manLuggageBean.childs)) == 4
-                                            || carBean.capOfPerson == 6 && (Integer.valueOf(manLuggageBean.mans) + Integer.valueOf(manLuggageBean.childs)) == 6) {
-                                        AlertDialogUtils.showAlertDialog(getActivity(), getString(R.string.alert_car_full),
-                                                "继续下单", "更换车型", new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialog, int which) {
-                                                        goOrder();
-                                                        dialog.dismiss();
-                                                    }
-                                                }, new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialog, int which) {
-                                                        dialog.dismiss();
-                                                    }
-                                                });
                                     } else {
-                                        goOrder();
+                                        if (carBean.carType == 1 && carBean.capOfPerson == 4 && (Integer.valueOf(manLuggageBean.mans) + Integer.valueOf(manLuggageBean.childs)) == 4
+                                                || carBean.capOfPerson == 6 && (Integer.valueOf(manLuggageBean.mans) + Integer.valueOf(manLuggageBean.childs)) == 6) {
+                                            AlertDialogUtils.showAlertDialog(getActivity(), getString(R.string.alert_car_full),
+                                                    "继续下单", "更换车型", new DialogInterface.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialog, int which) {
+                                                            goOrder();
+                                                            dialog.dismiss();
+                                                        }
+                                                    }, new DialogInterface.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialog, int which) {
+                                                            dialog.dismiss();
+                                                        }
+                                                    });
+                                        } else {
+                                            goOrder();
+                                        }
                                     }
+                                } else {
+                                    Intent intent = new Intent(getActivity(), LoginActivity.class);
+                                    intent.putExtra("source", getEventSource());
+                                    startActivity(intent);
                                 }
-                            } else {
-                                Intent intent = new Intent(getActivity(), LoginActivity.class);
-                                intent.putExtra("source",getEventSource());
-                                startActivity(intent);
                             }
                         }
-                    }
-                });
-                break;
-            default:
-                break;
+                    });
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
@@ -464,7 +486,6 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
 
 
     private void goOrder(){
-//        FGOrderNew fgOrderNew = new FGOrderNew();
         Bundle bundle = new Bundle();
         bundle.putString("guideCollectId", collectGuideBean == null ? "" : collectGuideBean.guideId);
         bundle.putSerializable("collectGuideBean", collectGuideBean == null ? null : collectGuideBean);
@@ -476,7 +497,7 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
         bundle.putString("price", carBean.price + "");
         bundle.putString("distance", carListBean.distance + "");
         carBean.expectedCompTime = carListBean.estTime;
-        bundle.putSerializable("carBean", CarUtils.carBeanAdapter(carBean));
+        bundle.putSerializable("carBean", carBean);
         bundle.putInt("type", 1);
         bundle.putString("orderType", "1");
         bundle.putSerializable("manLuggageBean", manLuggageBean);
@@ -510,8 +531,6 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
         bottom.setVisibility(GONE);
         carListBean = null;
         isNetError = true;
-//        confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
-//        confirmJourney.setOnClickListener(null);
         if (null != collectGuideBean) {
             initCarFragment(false);
         }else{
@@ -526,21 +545,21 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
         if (request instanceof RequestCheckPrice) {
             bottom.setVisibility(GONE);
             isNetError = false;
-//            confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
-//            confirmJourney.setOnClickListener(null);
             manLuggageBean = null;
             RequestCheckPrice requestCheckPrice = (RequestCheckPrice) request;
             carListBean = (CarListBean) requestCheckPrice.getData();
             if (carListBean.carList.size() > 0) {
-                if(null == collectGuideBean) {
-                    carBean = CarUtils.initCarListData(carListBean.carList).get(0);//carListBean.carList.get(0);
-                }else {
-                    carBean = CarUtils.isMatchLocal(CarUtils.getNewCarBean(collectGuideBean), carListBean.carList);
+                if(null != collectGuideBean) {
+                    carListBak = (ArrayList<CarBean>)carListBean.carList.clone();
+                    carListBean.carList = CarUtils.getSingleCarBeanList(carListBean.carList, eventData.guideCars);
+                }
+                if (null == collectGuideBean) {
+                    carBean = CarUtils.initCarListData(carListBean.carList).get(0);
+                } else {
+                    carBean = carListBean.carList.get(0);
                 }
                 if(null != carBean) {
                     bottom.setVisibility(View.VISIBLE);
-//                    confirmJourney.setBackgroundColor(Color.parseColor("#d5dadb"));
-//                    confirmJourney.setOnClickListener(null);
                     genBottomData(carBean);
                 }else{
                     bottom.setVisibility(GONE);
@@ -552,26 +571,6 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
 
         }
     }
-
-
-
-
-
-//    @Override
-//    public void onFragmentResult(Bundle bundle) {
-//        String from = bundle.getString(KEY_FRAGMENT_NAME);
-//        if (FgPoiSearch.class.getSimpleName().equals(from)) {
-//            poiBean = (PoiBean) bundle.getSerializable("arrival");
-//            addressTips.setVisibility(GONE);
-//            addressTitle.setVisibility(View.VISIBLE);
-//            addressDetail.setVisibility(View.VISIBLE);
-//            addressTitle.setText(poiBean.placeName);
-//            addressDetail.setText(poiBean.placeDetail);
-//            collapseSoftInputMethod();
-//            getData();
-//
-//        }
-//    }
 
 
     @Override
@@ -601,8 +600,6 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
             case R.id.air_title:
             case R.id.air_detail:
             case R.id.rl_info:
-//                FgChooseAir fgChooseAir = new FgChooseAir();
-//                startFragment(fgChooseAir);
                 intent = new Intent(getActivity(),ChooseAirActivity.class);
                 getActivity().startActivity(intent);
                 break;
@@ -612,13 +609,10 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
             case R.id.rl_address:
                 if (airDetail.isShown()) {
 
-//                    FgPoiSearch fg = new FgPoiSearch();
                     Bundle bundle = new Bundle();
                     bundle.putString("source", "下单过程中");
                     bundle.putInt(PoiSearchActivity.KEY_CITY_ID, flightBean.arrCityId);//.arrivalAirport.cityId);
                     bundle.putString(PoiSearchActivity.KEY_LOCATION, flightBean.arrLocation);//.arrivalAirport.location);
-//                    startFragment(fg, bundle);
-
                     intent = new Intent(getActivity(),PoiSearchActivity.class);
                     intent.putExtras(bundle);
                     intent.putExtra("mBusinessType",1);

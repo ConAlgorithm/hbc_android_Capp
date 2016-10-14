@@ -82,4 +82,5 @@ public enum EventType {
     AIR_PORT_BACK,//选airport返回
 
     NIM_LOGIN_SUCCESS,//云信登录成功回调
+    CARIDS,//司导车辆id
 }

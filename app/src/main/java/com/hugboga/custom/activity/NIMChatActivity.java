@@ -62,8 +62,11 @@ import com.netease.nim.uikit.session.constant.Extras;
 import com.netease.nim.uikit.session.fragment.MessageFragment;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
+import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.StatusCode;
 import com.netease.nimlib.sdk.auth.AuthServiceObserver;
+import com.netease.nimlib.sdk.msg.MessageBuilder;
+import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.zhy.m.permission.MPermissions;
@@ -91,17 +94,33 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
 
     private MessageFragment messageFragment;
 
+    private String sessionId;
 
     public static void start(Context context, String contactId, SessionCustomization customization, String orderJson) {
+      start(context,contactId,null,orderJson,0);
+    }
+
+
+    /**
+     *
+     * @param context
+     * @param contactId
+     * @param customization
+     * @param orderJson
+     * @param allowSendMsg 是否能给对方发送消息，如果订单已取消不能发送消息，0可以发送，1不能发送
+     */
+    public static void start(Context context, String contactId, SessionCustomization customization, String orderJson,int allowSendMsg) {
         Intent intent = new Intent();
         intent.putExtra(Extras.EXTRA_ACCOUNT, contactId);
         intent.putExtra(Extras.EXTRA_CUSTOMIZATION, customization);
+        intent.putExtra(MessageFragment.ALLOW_SEND_MSG_KEY,allowSendMsg);
         intent.putExtra(ORDER_INFO_KEY,orderJson);
         intent.setClass(context, NIMChatActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
         context.startActivity(intent);
     }
+
 
 
     @Bind(R.id.imchat_viewpage_layout)
@@ -167,6 +186,7 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
     private void addConversationFragment(){
         Bundle arguments = getIntent().getExtras();
         arguments.putSerializable(Extras.EXTRA_TYPE, SessionTypeEnum.P2P);
+        sessionId = arguments.getString(Extras.EXTRA_ACCOUNT);
         messageFragment = new MessageFragment();
         messageFragment.setArguments(arguments);
 
@@ -181,8 +201,11 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
                 String fromAccount = message.getFromAccount();
                 String sessionId = message.getSessionId();
                 if(TextUtils.equals(fromAccount,sessionId)){
+                    GuideDetailActivity.Params params = new GuideDetailActivity.Params();
+                    params.guideId = userId;
                     Intent intent = new Intent(NIMChatActivity.this, GuideDetailActivity.class);
-                    intent.putExtra(Constants.PARAMS_DATA, userId);
+                    intent.putExtra(Constants.PARAMS_DATA, params);
+                    intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                     startActivity(intent);
                 }
 
@@ -193,7 +216,7 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
 
             }
         });
-
+        loadRemoteMsg();
     }
 
     @Override
@@ -216,7 +239,6 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
     @Override
     public void onPause() {
         notifyChatList();
-        clearImChat(); //清空未读消息记录
         super.onPause();
     }
 
@@ -264,11 +286,10 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
      * 展示司导和用户之间的订单
      */
     private void initRunningOrder() {
-        clearImChat(); //进入后清空消息提示
+
         //setUserInfo(); //设置聊天对象头像
         //resetChatting(); //设置是否可以聊天
         loadImOrder(); //显示聊天订单信息
-        initEmpty(); //构建空提示
     }
 
     /**
@@ -589,37 +610,6 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
         EventBus.getDefault().post(new EventAction(EventType.REFRESH_CHAT_LIST));
     }
 
-    /**
-     * 构建聊天为空界面
-     */
-    private void initEmpty() {
-        //消息为空提示
-//        if (view == null) {
-//            return;
-//        }
-    }
-
-//    private void requestApiFeedback(int errorMessage, String errorCode) {
-//        RequestApiFeedback requestApiFeedback = new RequestApiFeedback(NIMChatActivity.this,
-//                UserEntity.getUser().getUserId(NIMChatActivity.this),
-//                ApiFeedbackUtils.getImErrorFeedback(errorMessage, errorCode));
-//        HttpRequestUtils.request(NIMChatActivity.this, requestApiFeedback, new HttpRequestListener() {
-//            @Override
-//            public void onDataRequestSucceed(BaseRequest request) {
-//
-//            }
-//
-//            @Override
-//            public void onDataRequestCancel(BaseRequest request) {
-//
-//            }
-//
-//            @Override
-//            public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-//
-//            }
-//        }, false);
-//    }
 
     /**
      * 清空融云消息数
@@ -721,12 +711,11 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
         }
     }
 
-
-
     @Override
     public void onDestroy() {
-        super.onDestroy();
+        clearImChat(); //进入后清空消息提示
         registerObservers(false);
+        super.onDestroy();
     }
 
     private void registerObservers(boolean register) {
@@ -739,6 +728,9 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
     Observer<StatusCode> userStatusObserver = new Observer<StatusCode>() {
         @Override
         public void onEvent(StatusCode code) {
+            if(code!=StatusCode.LOGINED && code!=StatusCode.CONNECTING){
+                ApiFeedbackUtils.requestIMFeedback(3,String .valueOf(code.getValue()));
+            }
             if (code.wontAutoLogin()) {
                 IMUtil.getInstance().connect();
                 if(emptyView!=null){
@@ -780,7 +772,7 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
     public void onSendMessageFailed(int code, String message) {
         if(code!=7101){
             Toast.makeText(MyApplication.getAppContext(),"发送消息失败请稍候重试",Toast.LENGTH_SHORT).show();
-            ApiFeedbackUtils.requestIMFeedback(12, "云信发送消息失败 code:" + code);
+            ApiFeedbackUtils.requestIMFeedback(2, String.valueOf(code));
         }
 
     }
@@ -788,6 +780,33 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
     @Override
     public void onSendMessageSuccess() {
         MLog.i("nim send message success!");
+    }
+
+    private void loadRemoteMsg(){
+        StatusCode statusCode = NIMClient.getStatus();
+        if(statusCode!=StatusCode.LOGINED){
+            return;
+        }
+       NIMClient.getService(MsgService.class).pullMessageHistory(anchor(), 100, true).setCallback(new RequestCallback<List<IMMessage>>() {
+           @Override
+           public void onSuccess(List<IMMessage> imMessages) {
+               MLog.i("nim history messags size:" +imMessages.size());
+           }
+
+           @Override
+           public void onFailed(int i) {
+               MLog.i("pull nim history messags failed! code:" + i);
+           }
+
+           @Override
+           public void onException(Throwable throwable) {
+               MLog.i("pull nim history messags excption");
+           }
+       });
+    }
+
+    private IMMessage anchor(){
+       return MessageBuilder.createEmptyMessage(sessionId, SessionTypeEnum.P2P, 0);
     }
 
 }

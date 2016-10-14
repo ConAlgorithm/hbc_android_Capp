@@ -721,15 +721,15 @@
     <string name="show_tips_end">请选择结束日期</string>
     <string name="show_tips_half">请选择日期</string>
 
-    <string name="no_have_car">该日期暂时无法提供服务</string>
+    <string name="no_have_car">该司导车辆信息有变化，暂时无法提供服务</string>
 
     <string name="now_enter">即刻启程</string>
 
-    <string name="share_guides_title">分享靠谱司导</string>
-    <string name="share_guides_description_1">已为您收藏Ta，这么靠谱的司导，不如现在就推荐给更多好友</string>
-    <string name="share_guides_description_2">还为您的朋友准备了%1$s大礼包，\n邀请他们一起体验吧</string>
-    <string name="share_guides_unwilling">不愿分享</string>
-    <string name="share_guides_share">把Ta推荐给好友</string>
+    <string name="share_evaluate_title">评价成功</string>
+    <string name="share_evaluate_description_1">感谢您的评价!分享您的评价到微信</string>
+    <string name="share_evaluate_description_2">\n把靠谱司导推荐给好友</string>
+    <string name="share_evaluate_description_3">好友可得%1$s皇包车体验大礼包\n当Ta完成首单,你也能赚旅游基金</string>
+    <string name="share_evaluate_collected_tv">根据您的好评已为您收藏该司导</string>
 
     <string name="choose_city_tab_inland">国内</string>
     <string name="choose_city_tab_abroad">国际港澳台</string>

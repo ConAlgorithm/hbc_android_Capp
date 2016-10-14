@@ -34,7 +34,7 @@
         android:layout_marginRight="-10dp"
         android:layout_toLeftOf="@id/header_detail_right_1_btn"
         android:padding="@dimen/fab_margin"
-        android:src="@mipmap/sddate_share" />
+        android:src="@mipmap/guide_detail_share" />
 
 
 </RelativeLayout>

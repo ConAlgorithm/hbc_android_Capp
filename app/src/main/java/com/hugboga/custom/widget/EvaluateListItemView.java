@@ -2,7 +2,6 @@ package com.hugboga.custom.widget;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Canvas;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.Gravity;
@@ -20,8 +19,6 @@ import com.hugboga.custom.utils.UIUtils;
 
 import net.grobas.view.PolygonImageView;
 
-import java.util.ArrayList;
-
 /**
  * Created by qingcha on 16/6/18.
  */
@@ -30,8 +27,7 @@ public class EvaluateListItemView extends LinearLayout{
     private PolygonImageView avatarIV;
     private TextView nameTV, stateTV, timeTV, contentTV;
     private SimpleRatingBar ratingview;
-    private EvaluateTagGroup tagGroup;
-    private View bottomLineView, topLineView;
+    private View bottomLineView;
     private TextView moreComments;
 
     public EvaluateListItemView(Context context) {
@@ -47,31 +43,28 @@ public class EvaluateListItemView extends LinearLayout{
         stateTV = (TextView) findViewById(R.id.evaluate_list_item_state_tv);
         timeTV = (TextView) findViewById(R.id.evaluate_list_item_time_tv);
         ratingview = (SimpleRatingBar) findViewById(R.id.evaluate_list_item_ratingview);
-        tagGroup = (EvaluateTagGroup) findViewById(R.id.evaluate_list_item_taggroup);
         contentTV = (TextView) findViewById(R.id.evaluate_list_item_content_tv);
         bottomLineView = findViewById(R.id.evaluate_list_item_line_bottom);
-        topLineView = findViewById(R.id.evaluate_list_item_line_top);
     }
 
     /**
      * 司导详情
      * */
     public void setGuideDetailData(final GuidesDetailData _data) {
-        if (_data.getCommentNum() > 0 && _data.getComments() != null && _data.getComments().size() > 0) {
+        if (_data.commentNum > 0 && _data.comments != null && _data.comments.size() > 0) {
             setVisibility(View.VISIBLE);
-            topLineView.setVisibility(View.VISIBLE);
             bottomLineView.setVisibility(View.GONE);
             contentTV.setMaxLines(5);
             contentTV.setEllipsize(TextUtils.TruncateAt.END);
-            setData(_data.getComments().get(0));
+            setData(_data.comments.get(0));
             if (moreComments == null) {
                 moreComments = new TextView(getContext());
-                moreComments.setTextColor(0xFF3A372E);
+                moreComments.setTextColor(0xFF000000);
                 moreComments.setTextSize(14);
                 moreComments.setGravity(Gravity.CENTER);
-                moreComments.setPadding(UIUtils.dip2px(50), 0, UIUtils.dip2px(50), 0);
-                moreComments.setBackgroundResource(R.drawable.shape_evaluate_more_comments);
-                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, UIUtils.dip2px(36));
+                moreComments.setPadding(UIUtils.dip2px(40), 0, UIUtils.dip2px(40), 0);
+                moreComments.setBackgroundResource(R.drawable.selector_evaluate_more_comments);
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, UIUtils.dip2px(34));
                 params.gravity = Gravity.CENTER_HORIZONTAL;
                 params.topMargin = UIUtils.dip2px(5);
                 addView(moreComments, params);
@@ -79,13 +72,13 @@ public class EvaluateListItemView extends LinearLayout{
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(v.getContext(), EvaluateListActivity.class);
-                        intent.putExtra(Constants.PARAMS_ID, _data.getGuideId());
-                        intent.putExtra(Constants.PARAMS_DATA, ""+_data.getCommentNum());
+                        intent.putExtra(Constants.PARAMS_ID, _data.guideId);
+                        intent.putExtra(Constants.PARAMS_DATA, "" + _data.commentNum);
                         v.getContext().startActivity(intent);
                     }
                 });
             }
-            moreComments.setText(getContext().getString(R.string.guide_detail_evaluate_all, _data.getCommentNum()));
+            moreComments.setText(getContext().getString(R.string.guide_detail_evaluate_all, "" + _data.commentNum));
         } else {
             setVisibility(View.GONE);
         }
@@ -98,58 +91,11 @@ public class EvaluateListItemView extends LinearLayout{
         if (data == null) {
             return;
         }
-        if (TextUtils.isEmpty(data.getAvatar())) {
-            avatarIV.setImageResource(R.mipmap.collection_icon_pic);
-        } else {
-            Tools.showImage(getContext(), avatarIV, data.getAvatar());
-        }
+        Tools.showImage(avatarIV, data.getAvatar(), R.mipmap.collection_icon_pic);
         nameTV.setText(data.getName());
         stateTV.setText(data.getOrderTypeStr());
-        timeTV.setText(data.getCreateTimeYMD());
+        timeTV.setText(data.getCreateTime());
         ratingview.setRating(data.getTotalScore());
         contentTV.setText(data.getContent());
-
-        if (data.getLabelNamesArr() != null && data.getLabelNamesArr().size() > 0) {
-            tagGroup.setVisibility(View.VISIBLE);
-            final int labelsSize = data.getLabelNamesArr().size();
-            ArrayList<View> viewList = new ArrayList<View>(labelsSize);
-            for (int i = 0; i < labelsSize; i++) {
-                String label = data.getLabelNamesArr().get(i);
-                if (TextUtils.isEmpty(label)) {
-                    continue;
-                }
-                if (i < tagGroup.getChildCount()) {
-                    TextView tagTV = (TextView)tagGroup.getChildAt(i);
-                    tagTV.setVisibility(View.VISIBLE);
-                    tagTV.setText(label);
-                } else {
-                    viewList.add(getNewTagView(label));
-                }
-            }
-            for (int j = labelsSize; j < tagGroup.getChildCount(); j++) {
-                tagGroup.getChildAt(j).setVisibility(View.GONE);
-            }
-            tagGroup.setTags(viewList, tagGroup.getChildCount() <= 0);
-        } else {
-            tagGroup.setVisibility(View.GONE);
-        }
     }
-
-    public TextView getNewTagView(String label) {
-        TextView tagTV = new TextView(getContext());
-        tagTV.setPadding(UIUtils.dip2px(24), UIUtils.dip2px(5), UIUtils.dip2px(24), UIUtils.dip2px(6));
-        tagTV.setTextSize(14);
-        tagTV.setBackgroundResource(R.drawable.shape_evaluate_tag);
-        tagTV.setTextColor(0xFF3A3A32);
-        tagTV.setSelected(true);
-        tagTV.setEnabled(false);
-        tagTV.setText(label);
-        return tagTV;
-    }
-
-    @Override
-    protected void dispatchDraw(Canvas canvas) {
-        super.dispatchDraw(canvas);
-    }
-
 }

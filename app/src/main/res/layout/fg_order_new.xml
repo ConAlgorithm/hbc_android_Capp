@@ -98,7 +98,7 @@
                         android:background="@color/basic_white"
                         android:text="@string/my_travel_title"
                         android:textColor="@color/basic_black"
-                        android:textSize="15sp" />
+                        android:textSize="14sp" />
 
                     <TextView
                         android:id="@+id/citys_line_title"
@@ -111,7 +111,7 @@
                         android:drawablePadding="10dp"
                         android:text="@string/my_travel_title"
                         android:textColor="@color/basic_black"
-                        android:textSize="15sp" />
+                        android:textSize="14sp" />
 
                     <TextView
                         android:id="@+id/citys_line_title_tips"
@@ -155,7 +155,7 @@
                             android:gravity="center"
                             android:text="@string/show_all_info"
                             android:textColor="@color/basic_black"
-                            android:textSize="15sp" />
+                            android:textSize="14sp" />
                     </LinearLayout>
 
 
@@ -171,7 +171,7 @@
                         android:drawablePadding="10dp"
                         android:text="@string/my_travel_title"
                         android:textColor="@color/basic_black"
-                        android:textSize="15sp" />
+                        android:textSize="14sp" />
 
                     <TextView
                         android:id="@+id/start_hospital_title_tips"
@@ -197,7 +197,7 @@
                         android:drawablePadding="10dp"
                         android:text="@string/my_travel_title"
                         android:textColor="@color/basic_black"
-                        android:textSize="15sp" />
+                        android:textSize="14sp" />
 
                     <TextView
                         android:id="@+id/end_hospital_title_tips"
@@ -209,7 +209,7 @@
                         android:background="@color/basic_white"
                         android:text="@string/my_travel_title"
                         android:textColor="#c3c5c5"
-                        android:textSize="13sp" />
+                        android:textSize="14sp" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -227,7 +227,7 @@
                             android:drawablePadding="10dp"
                             android:text="@string/my_travel_title"
                             android:textColor="@color/basic_black"
-                            android:textSize="15sp" />
+                            android:textSize="14sp" />
 
                         <TextView
                             android:id="@+id/car_seat_tips"
@@ -261,14 +261,14 @@
                         android:drawablePadding="10dp"
                         android:text="接机举牌等待"
                         android:textColor="@color/basic_black"
-                        android:textSize="15sp" />
+                        android:textSize="14sp" />
 
 
                 </LinearLayout>
 
 
                 <RelativeLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:background="@color/basic_white"
@@ -284,7 +284,7 @@
                         android:minEms="4"
                         android:text="@string/add_user_name_left"
                         android:textColor="@color/basic_black"
-                        android:textSize="15sp" />
+                        android:textSize="14sp" />
 
                     <TextView
                         android:id="@+id/for_other_man"
@@ -292,7 +292,6 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="15dp"
                         android:drawablePadding="10dp"
                         android:drawableRight="@mipmap/personalcenter_right"
                         android:gravity="center"
@@ -300,20 +299,22 @@
                         android:paddingRight="15dp"
                         android:text="@string/for_other_people"
                         android:textColor="#c3c5c5"
-                        android:textSize="15sp" />
+                        android:textSize="14sp" />
 
                     <LinearLayout
                         android:id="@+id/man_phone_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_toLeftOf="@id/for_other_man"
-                        android:layout_toRightOf="@id/man_phone_name"
                         android:clickable="true"
+                        android:layout_marginRight="110dp"
+                        android:layout_toLeftOf="@id/for_other_man"
                         android:gravity="center_vertical"
                         android:orientation="vertical"
                         android:paddingBottom="15dp"
-                        android:paddingTop="15dp">
+                        android:paddingTop="15dp"
+                        android:layout_alignParentTop="true"
+                        android:layout_toRightOf="@+id/man_phone_name"
+                        android:layout_toEndOf="@+id/man_phone_name">
 
 
                         <TextView
@@ -324,9 +325,11 @@
                             android:layout_marginLeft="15dp"
                             android:layout_marginRight="15dp"
                             android:minEms="4"
+                            android:lines="1"
+                            android:ellipsize="end"
                             android:text="@string/air_info"
                             android:textColor="@color/basic_black"
-                            android:textSize="15sp" />
+                            android:textSize="14sp" />
 
                         <TextView
                             android:id="@+id/man_phone"
@@ -334,11 +337,12 @@
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:layout_marginLeft="15dp"
-                            android:layout_marginRight="15dp"
+                            android:layout_marginRight="5dp"
                             android:minEms="4"
+                            android:ellipsize="end"
                             android:text="@string/air_info"
                             android:textColor="#9d9e9f"
-                            android:textSize="15sp" />
+                            android:textSize="14sp" />
 
 
                     </LinearLayout>
@@ -364,7 +368,7 @@
                         android:minEms="4"
                         android:text="@string/passenger_no_star"
                         android:textColor="@color/basic_black"
-                        android:textSize="15sp" />
+                        android:textSize="14sp" />
 
 
                     <LinearLayout
@@ -390,7 +394,7 @@
                             android:minEms="4"
                             android:text="@string/air_info"
                             android:textColor="@color/basic_black"
-                            android:textSize="15sp" />
+                            android:textSize="14sp" />
 
                         <TextView
                             android:id="@+id/other_phone"
@@ -402,7 +406,7 @@
                             android:minEms="4"
                             android:text="@string/air_info"
                             android:textColor="#9d9e9f"
-                            android:textSize="15sp" />
+                            android:textSize="14sp" />
 
 
                     </LinearLayout>
@@ -428,7 +432,7 @@
                         android:minEms="4"
                         android:text="@string/pick_name_star"
                         android:textColor="@color/basic_black"
-                        android:textSize="15sp" />
+                        android:textSize="14sp" />
 
                     <EditText
                         android:id="@+id/pick_name"
@@ -441,7 +445,7 @@
                         android:hint="请填写接机牌姓名"
                         android:minEms="4"
                         android:textColor="@color/basic_black"
-                        android:textSize="15sp" />
+                        android:textSize="14sp" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -463,7 +467,7 @@
                         android:minEms="4"
                         android:text="起飞航班"
                         android:textColor="@color/basic_black"
-                        android:textSize="15sp" />
+                        android:textSize="14sp" />
 
                     <EditText
                         android:id="@+id/airport_name"
@@ -476,7 +480,7 @@
                         android:hint="请输入起飞航班号,方便司导协助"
                         android:minEms="4"
                         android:textColor="@color/basic_black"
-                        android:textSize="15sp" />
+                        android:textSize="14sp" />
                 </RelativeLayout>
 
 
@@ -498,7 +502,7 @@
                         android:minEms="4"
                         android:text="@string/up_time"
                         android:textColor="@color/basic_black"
-                        android:textSize="15sp" />
+                        android:textSize="14sp" />
 
                     <TextView
                         android:id="@+id/up_right"
@@ -515,7 +519,7 @@
                         android:minEms="4"
                         android:paddingRight="15dp"
                         android:textColor="@color/basic_black"
-                        android:textSize="15sp" />
+                        android:textSize="14sp" />
 
                 </RelativeLayout>
 
@@ -538,7 +542,7 @@
                         android:minEms="4"
                         android:text="@string/up_site"
                         android:textColor="@color/basic_black"
-                        android:textSize="15sp" />
+                        android:textSize="14sp" />
 
                     <TextView
                         android:id="@+id/up_address_right"
@@ -555,7 +559,7 @@
                         android:minEms="4"
                         android:paddingRight="15dp"
                         android:textColor="@color/basic_black"
-                        android:textSize="15sp" />
+                        android:textSize="14sp" />
 
                 </RelativeLayout>
 
@@ -575,7 +579,7 @@
                         android:gravity="center_vertical"
                         android:text="@string/hotel_phone"
                         android:textColor="@color/basic_black"
-                        android:textSize="15sp" />
+                        android:textSize="14sp" />
 
                     <TextView
                         android:id="@+id/hotel_phone_text_code_click"
@@ -588,7 +592,7 @@
                         android:lines="1"
                         android:textColor="@color/basic_black"
                         android:textColorHint="#c3c5c5"
-                        android:textSize="15sp" />
+                        android:textSize="14sp" />
 
                     <TextView
                         android:layout_width="1dp"
@@ -611,7 +615,7 @@
                         android:maxEms="30"
                         android:textColor="@color/basic_black"
                         android:textColorHint="#c3c5c5"
-                        android:textSize="15sp" />
+                        android:textSize="14sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -631,7 +635,7 @@
                         android:minEms="4"
                         android:text="@string/edit_mark_left"
                         android:textColor="@color/basic_black"
-                        android:textSize="15sp" />
+                        android:textSize="14sp" />
 
                     <EditText
                         android:id="@+id/mark"
@@ -647,7 +651,7 @@
                         android:maxLength="200"
                         android:textColor="@color/basic_black"
                         android:textColorHint="#c3c5c5"
-                        android:textSize="15sp" />
+                        android:textSize="14sp" />
                 </LinearLayout>
 
                 <RelativeLayout
@@ -669,7 +673,7 @@
                         android:minEms="4"
                         android:text="@string/my_coupon"
                         android:textColor="@color/basic_black"
-                        android:textSize="15sp" />
+                        android:textSize="14sp" />
 
                     <TextView
                         android:id="@+id/coupon_right"
@@ -707,7 +711,7 @@
                         android:minEms="4"
                         android:text="@string/dream_money"
                         android:textColor="@color/basic_black"
-                        android:textSize="15sp" />
+                        android:textSize="14sp" />
 
 
                     <LinearLayout
@@ -724,7 +728,7 @@
                             android:layout_marginRight="15dp"
                             android:gravity="center"
                             android:textColor="#ec866d"
-                            android:textSize="15sp" />
+                            android:textSize="14sp" />
 
                         <TextView
                             android:id="@+id/dream_right_tips"
@@ -763,7 +767,7 @@
                         android:minEms="4"
                         android:text="@string/insure_8wan"
                         android:textColor="@color/basic_black"
-                        android:textSize="15sp" />
+                        android:textSize="14sp" />
 
                     <TextView
                         android:id="@+id/insure_right"
@@ -793,7 +797,7 @@
                     android:gravity="left"
                     android:text="@string/commit_agree"
                     android:textColor="#8e8e8e"
-                    android:textSize="13sp" />
+                    android:textSize="14sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -808,7 +812,7 @@
                     android:minEms="4"
                     android:text="@string/order_detail_tips_title"
                     android:textColor="#8e8e8e"
-                    android:textSize="15sp" />
+                    android:textSize="14sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -824,7 +828,7 @@
                     android:minEms="4"
                     android:text="@string/order_detail_tips"
                     android:textColor="#b2b2b2"
-                    android:textSize="13sp" />
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/change_title"
@@ -840,7 +844,7 @@
                     android:minEms="4"
                     android:text="@string/change_title_txt"
                     android:textColor="#8e8e8e"
-                    android:textSize="15sp" />
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/change_detail"
@@ -857,7 +861,7 @@
                     android:minEms="4"
                     android:text="@string/change_detail_txt"
                     android:textColor="#b2b2b2"
-                    android:textSize="13sp" />
+                    android:textSize="14sp" />
 
             </LinearLayout>
 
@@ -881,7 +885,7 @@
             android:layout_marginLeft="20sp"
             android:text="@string/total_order"
             android:textColor="@color/basic_white"
-            android:textSize="15sp" />
+            android:textSize="14sp" />
 
         <com.hugboga.custom.widget.MoneyTextView
             android:id="@+id/all_money_left_text"
@@ -915,7 +919,7 @@
             android:layout_toLeftOf="@id/all_money_submit_click"
             android:text="@string/order_info"
             android:textColor="@color/basic_white"
-            android:textSize="15sp"
+            android:textSize="14sp"
             android:visibility="gone" />
     </RelativeLayout>
 

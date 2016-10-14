@@ -113,13 +113,13 @@ public class IMUtil {
                     return;
                 }
                 nimConnectError();
-                ApiFeedbackUtils.requestIMFeedback(10, "云信登录失败：code:" + code);
+                ApiFeedbackUtils.requestIMFeedback(1, String.valueOf(code));
             }
             @Override
             public void onException(Throwable exception) {
                 nimConnectError();
                 if(exception!=null && !TextUtils.isEmpty(exception.getMessage())){
-                    ApiFeedbackUtils.requestIMFeedback(11, "云信登录异常");
+                    ApiFeedbackUtils.requestIMFeedback(1, "0","云信登录异常");
                 }
             }
         });
@@ -169,6 +169,7 @@ public class IMUtil {
                             UserEntity.getUser().setNimUserToken(context,nimToken);
                             connectNim(nimUserId,nimToken);
                         }
+                        reconnectTimes = 0;
                     }
 
                     @Override

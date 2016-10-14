@@ -53,6 +53,8 @@ public class SharedPre {
 	public static String NIM_TOKEN ="nim_Token"; //云信token
 	public static String NIM_USERID ="nim_userId";//云信用户名
 
+	public static String QY_SERVICE_UNREADCOUNT = "qy_unreadmsg_count";
+
 	public SharedPre(Context ctx) {
 		this.ctx = ctx;
 	}

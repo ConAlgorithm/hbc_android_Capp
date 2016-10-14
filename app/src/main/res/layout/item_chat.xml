@@ -37,7 +37,19 @@
                 android:gravity="center"
                 android:textColor="@color/basic_white"
                 android:textSize="10sp"
-                android:visibility="visible" />
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/footer_service_unread"
+                android:layout_width="5dp"
+                android:layout_height="5dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:background="@mipmap/tabbar_number"
+                android:textColor="@color/basic_white"
+                android:textSize="10sp"
+                android:visibility="gone" />
         </RelativeLayout>
 
         <LinearLayout

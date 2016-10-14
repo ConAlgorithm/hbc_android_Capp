@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.huangbaoche.hbcframe.adapter.ZBaseAdapter;
+import com.huangbaoche.hbcframe.data.bean.UserSession;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
@@ -30,6 +31,7 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.activity.NIMChatActivity;
 import com.hugboga.custom.adapter.ChatAdapter;
+import com.hugboga.custom.adapter.LetterOrderAdapter;
 import com.hugboga.custom.data.bean.ChatBean;
 import com.hugboga.custom.data.bean.ChatInfo;
 import com.hugboga.custom.data.bean.UserEntity;
@@ -43,6 +45,7 @@ import com.hugboga.custom.data.request.RequestRemoveChat;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.IMUtil;
+import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.UnicornUtils;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
@@ -54,6 +57,8 @@ import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.MsgServiceObserve;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.netease.nimlib.sdk.msg.model.RecentContact;
+import com.qiyukf.unicorn.api.Unicorn;
+import com.qiyukf.unicorn.api.UnreadCountChangeListener;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -68,7 +73,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -94,12 +98,8 @@ public class FgImChat extends BaseFragment implements View.OnClickListener, ZBas
     @ViewInject(R.id.chat_list_empty_tv)
     TextView emptyTV;
 
-//    @ViewInject(R.id.im_statusview)
-//    TextView imStatusView;
-
     @ViewInject(R.id.login_btn)
     TextView loginBtn;
-
 
     private ChatAdapter adapter;
 
@@ -126,6 +126,7 @@ public class FgImChat extends BaseFragment implements View.OnClickListener, ZBas
             EventBus.getDefault().register(this);
 
         registerObservers(true);
+        Unicorn.addUnreadCountChangeListener(listener, true);
     }
 
 
@@ -278,6 +279,7 @@ public class FgImChat extends BaseFragment implements View.OnClickListener, ZBas
     @Override
     public void onDestroyView() {
         registerObservers(false);
+        Unicorn.addUnreadCountChangeListener(null, false);
         super.onDestroyView();
     }
 
@@ -307,7 +309,7 @@ public class FgImChat extends BaseFragment implements View.OnClickListener, ZBas
                 emptyLayout.setVisibility(View.VISIBLE);
                 if(loginBtn!=null)
                     loginBtn.setVisibility(View.VISIBLE);
-                ((MainActivity) getActivity()).setIMCount(0);
+                ((MainActivity) getActivity()).setIMCount(0,0);
                 break;
             case NIM_LOGIN_SUCCESS:
                 requestData();
@@ -321,18 +323,14 @@ public class FgImChat extends BaseFragment implements View.OnClickListener, ZBas
     public void onItemClick(View view, int position) {
         ChatBean chatBean = adapter.getDatas().get(position);
         if (chatBean.targetType==3) {
-            //String titleJson = getChatInfo(chatBean.targetId, chatBean.targetAvatar, chatBean.targetName, chatBean.targetType,chatBean.inBlack);
-            //RongIM.getInstance().startConversation(getActivity(), Conversation.ConversationType.APP_PUBLIC_SERVICE, chatBean.targetId, titleJson);
-            //Toast.makeText(getActivity(),"启动7鱼客服",Toast.LENGTH_SHORT).show();
-           UnicornUtils.openServiceActivity();
-
+            SharedPre.setInteger(UserEntity.getUser().getUserId(MyApplication.getAppContext()), SharedPre.QY_SERVICE_UNREADCOUNT,0);
+            UnicornUtils.openServiceActivity();
         } else if (chatBean.targetType==1) {
             if(!IMUtil.getInstance().isLogined()){
                 return;
             }
             String titleJson = getChatInfo(chatBean.targetId, chatBean.targetAvatar, chatBean.targetName, chatBean.targetType+"",chatBean.inBlack,chatBean.nTargetId);
-            //RongIM.getInstance().startPrivateChat(getActivity(), chatBean.targetId, titleJson);
-            NIMChatActivity.start(getContext(),chatBean.nTargetId,null,titleJson);
+            NIMChatActivity.start(getContext(),chatBean.nTargetId,null,titleJson,chatBean.isCancel);
         } else {
             MLog.e("目标用户不是客服，也不是司导");
         }
@@ -363,9 +361,7 @@ public class FgImChat extends BaseFragment implements View.OnClickListener, ZBas
             if(loginBtn!=null)
                 loginBtn.setVisibility(View.VISIBLE);
         }
-
         saveLettersToLocal(chatBeans);
-
         queryLocalRecentList();
 
         reRequestTimes = 0;
@@ -379,7 +375,8 @@ public class FgImChat extends BaseFragment implements View.OnClickListener, ZBas
                 totalCount += bean.imCount;
             }
             if(getActivity()!=null){
-                ((MainActivity) getActivity()).setIMCount(totalCount);
+                ((MainActivity) getActivity()).setIMCount(totalCount, SharedPre.getInteger(UserEntity.getUser().getUserId(MyApplication.getAppContext()),
+                        SharedPre.QY_SERVICE_UNREADCOUNT,0));
                 MLog.e("totalCount = " + totalCount);
             }
         }
@@ -407,7 +404,7 @@ public class FgImChat extends BaseFragment implements View.OnClickListener, ZBas
                 adapter.removeAll();
                 adapter.addDatas(list);
                 adapter.notifyDataSetChanged();
-                if(recyclerView!=null){
+                if(recyclerView!=null && recyclerView.getAdapter()!=null){
                     recyclerView.getAdapter().notifyDataSetChanged();
                 }
             }
@@ -547,4 +544,21 @@ public class FgImChat extends BaseFragment implements View.OnClickListener, ZBas
         }
         return list;
     }
+
+
+    // 添加未读数变化监听，add 为 true 是添加，为 false 是撤销监听。退出界面时，必须撤销，以免造成资源泄露
+    private UnreadCountChangeListener listener = new UnreadCountChangeListener() { // 声明一个成员变量
+        @Override
+        public void onUnreadCountChange(int count) {
+            if(count>0){
+                SharedPre.setInteger(UserEntity.getUser().getUserId(MyApplication.getAppContext()), SharedPre.QY_SERVICE_UNREADCOUNT,count);
+                if(adapter!=null){
+                    if(recyclerView!=null&& recyclerView.getAdapter()!=null){
+                        recyclerView.getAdapter().notifyDataSetChanged();
+                        computeTotalUnreadCount(adapter.getDatas());
+                    }
+                }
+            }
+        }
+    };
 }

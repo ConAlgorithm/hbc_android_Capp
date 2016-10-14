@@ -77,10 +77,14 @@
 
         <TextView
             android:id="@+id/my_info_nickname"
+            android:layout_toLeftOf="@id/my_info_menu_arrow2"
+            android:layout_marginRight="15dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="100dp"
+            android:singleLine="true"
+            android:ellipsize="end"
             android:hint="请填写"
             android:textColorHint="#999999"
             android:textColor="#333333"
@@ -107,6 +111,7 @@
             android:textSize="17sp"/>
 
         <ImageView
+            android:id="@+id/my_info_realname_arrow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -115,10 +120,14 @@
 
         <TextView
             android:id="@+id/my_info_realname"
+            android:layout_toLeftOf="@id/my_info_realname_arrow"
+            android:layout_marginRight="15dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="100dp"
+            android:ellipsize="end"
+            android:singleLine="true"
             android:hint="请填写"
             android:textColorHint="#999999"
             android:textColor="#333333"

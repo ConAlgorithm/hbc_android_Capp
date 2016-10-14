@@ -105,6 +105,7 @@ public class ParserOrder extends ImplParser {
                 orderbean.childSeat.add(seat);
             }
         }
+        orderbean.childSeats = gson.fromJson(jsonObj.optString("childSeats"), OrderBean.ChildSeats.class);
 
         orderbean.totalDays = jsonObj.optInt("totalDays");
         orderbean.inTownDays = jsonObj.optInt("serviceLocalDays");
@@ -169,6 +170,7 @@ public class ParserOrder extends ImplParser {
             orderbean.assessmentBean = new ParserAssessment().parseObject(jsonObj.optJSONObject("appraisement"));
         }
         orderbean.appraisement = gson.fromJson(jsonObj.optString("appraisement"), AppraisementBean.class);
+        orderbean.guideAgencyDriverId = jsonObj.optString("guideAgencyDriverId");
 
         //priceInfo
         orderbean.orderPriceInfo = new OrderPriceInfo();

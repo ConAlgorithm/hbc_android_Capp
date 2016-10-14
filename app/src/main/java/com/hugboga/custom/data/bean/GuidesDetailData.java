@@ -8,184 +8,47 @@ import java.util.ArrayList;
  */
 public class GuidesDetailData implements Serializable {
 
-    private String areaCode; //导游手机区号
-    private String mobile;//导游手机号
-    private int carBrandId;
-    private String carBrandName; //车品牌名
-    private int carClass;
-    private String carClassName;//车座系
-    private int carId;
-    private String carLicenceNo;//车牌号
-    private int carLuggageNum;
-    private String carName;//车型名称
-    private int carSeatNum;
-    private int carType;
-    private String carTypeName;//车型级别名称
-    private int cityId;
-    private String cityName;//导游所在城市名
-    private int continentId;
-    private String continentName;//司导所在大洲
-    private int countryId;
-    private String countryName;//司导所在国家
-    private String guideId;//导游id
-    private int guideLevel;//5不显示包车
-    private String guideName;//导游姓名
-    private String guideNo;//导游编号
-    private float serviceStar;//导游服务星级
-    private String avatar;
-    private int isFavored;//是否被该用户收藏，0否，1是
-    private ArrayList<Integer> serviceTypes;//服务类型列表 1.接送机，2.包车，3.单次接送
-    private ArrayList<String> carPhotosL;//全图
-    private ArrayList<String> carPhotosS;//缩略图
-    private int commentNum;//评价数
-    private ArrayList<EvaluateItemData> comments;
+    public String guideId;                          // 导游id
+    public String guideNo;                          // 导游编号
+    public String guideName;                        // 导游姓名
+    public String avatar;                           // 司导或地接社头像
+    public float serviceStar;                       // 导游服务星级
+    public int guideLevel;                          // 司导等级
+    public int gender;                              // 司导性别: 1男，2女
+    public String cityBackGroundPicSrc;             // 城市背景图
 
-    public ArrayList<EvaluateItemData> getComments() {
-        return comments;
+    public int agencyType;                          // 地接社类型: 0个人司导，1老版地接社员工，2老版地接社老板，3新版地接社
+    public String agencyDriverAvatar;               // 司机头像（如果是地接社）
+    public String agencyDriverName;                 // 司机姓名（如果是地接社）
+    public int agencyDriverGender;                  // 司机性别: 1男，2女
+
+    public int isFavored;                           // 是否被该用户收藏，0否，1是
+    public int serviceDaily;                        // 是否可服务包车，0否，1是
+    public int serviceJsc;                          // 是否可服务接送机、单次接送，0否，1是
+
+    public int cityId;                              // 城市id
+    public String cityName;                         // 导游所在城市名
+    public int continentId;                         // 大洲id
+    public String continentName;                    // 司导所在大洲
+    public int countryId;                           // 国家id
+    public String countryName;                      // 司导所在国家
+
+    public int commentNum;                          // 评价数
+    public ArrayList<EvaluateItemData> comments;
+    public ArrayList<CommentLabel> commentLabels;   // 评价标签排序
+
+    public ArrayList<GuideCarBean> guideCars;       // 车辆信息
+    public int guideCarCount;                       // 车辆数
+
+    public static class CommentLabel implements Serializable {
+        public int labelCount;      // 评价次数
+        public int labelId;         // 标签id
+        public String labelName;    // 标签名
     }
-
-    public int getCommentNum() {
-        return commentNum;
-    }
-
-    public ArrayList<String> getCarPhotosS() {
-        return carPhotosS;
-    }
-
-    public ArrayList<String> getCarPhotosL() {
-        return carPhotosL;
-    }
-
-    public int getCarPersonNum() {
-        return carPersonNum;
-    }
-
-    public void setCarPersonNum(int carPersonNum) {
-        this.carPersonNum = carPersonNum;
-    }
-
-    private int carPersonNum;// 乘坐人数上限
-
-    public String getCarDesc() {
-        return carDesc;
-    }
-
-    public void setCarDesc(String carDesc) {
-        this.carDesc = carDesc;
-    }
-
-    private String carDesc;// 车型描述
-
 
     public boolean isCollected() {
         return isFavored == 1;
     }
 
-    public void setIsFavored(int isFavored) {
-        this.isFavored = isFavored;
-    }
 
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public String getAreaCode() {
-        return areaCode;
-    }
-
-    public String getMobile() {
-        return mobile;
-    }
-
-    public int getCarBrandId() {
-        return carBrandId;
-    }
-
-    public String getCarBrandName() {
-        return carBrandName;
-    }
-
-    public int getCarClass() {
-        return carClass;
-    }
-
-    public String getCarClassName() {
-        return carClassName;
-    }
-
-    public int getCarId() {
-        return carId;
-    }
-
-    public String getCarLicenceNo() {
-        return carLicenceNo;
-    }
-
-    public int getCarLuggageNum() {
-        return carLuggageNum;
-    }
-
-    public String getCarName() {
-        return carName;
-    }
-
-    public int getCarSeatNum() {
-        return carSeatNum;
-    }
-
-    public int getCarType() {
-        return carType;
-    }
-
-    public String getCarTypeName() {
-        return carTypeName;
-    }
-
-    public int getCityId() {
-        return cityId;
-    }
-
-    public String getCityName() {
-        return cityName;
-    }
-
-    public int getContinentId() {
-        return continentId;
-    }
-
-    public String getContinentName() {
-        return continentName;
-    }
-
-    public int getCountryId() {
-        return countryId;
-    }
-
-    public String getCountryName() {
-        return countryName;
-    }
-
-    public String getGuideId() {
-        return guideId;
-    }
-
-    public int getGuideLevel() {
-        return guideLevel;
-    }
-
-    public String getGuideName() {
-        return guideName;
-    }
-
-    public String getGuideNo() {
-        return guideNo;
-    }
-
-    public float getServiceStar() {
-        return serviceStar;
-    }
-
-    public ArrayList<Integer> getServiceTypes() {
-        return serviceTypes;
-    }
 }

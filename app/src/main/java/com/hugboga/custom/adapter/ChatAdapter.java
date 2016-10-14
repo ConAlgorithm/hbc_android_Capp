@@ -7,12 +7,15 @@ import android.view.View;
 
 import com.huangbaoche.hbcframe.adapter.ZBaseAdapter;
 import com.huangbaoche.hbcframe.viewholder.ZBaseViewHolder;
+import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.viewholder.ChatVH;
 import com.hugboga.custom.data.bean.ChatBean;
 import com.hugboga.custom.data.bean.ChatOrderBean;
+import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.NimRecentListSyncUtils;
+import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.Tools;
 import com.netease.nimlib.sdk.msg.model.RecentContact;
 
@@ -74,17 +77,29 @@ public class ChatAdapter extends ZBaseAdapter<ChatBean, ChatVH> {
      * @param vh
      */
     private void flushPoint(ChatVH vh, ChatBean chatBean) {
-            Integer ints = chatBean.imCount;
-            if (ints > 0) {
-                vh.mUnReadCount.setVisibility(View.VISIBLE);
-                if (ints > 99) {
-                    vh.mUnReadCount.setText("99+");
-                }else{
-                    vh.mUnReadCount.setText(""+ints);
-                }
-            } else {
+            if(chatBean.targetType==3){
                 vh.mUnReadCount.setVisibility(View.GONE);
+                int unreadCount = SharedPre.getInteger(UserEntity.getUser().getUserId(MyApplication.getAppContext()), SharedPre.QY_SERVICE_UNREADCOUNT,0);
+                if(unreadCount>0){
+                    vh.serviceUnread.setVisibility(View.VISIBLE);
+                }else{
+                    vh.serviceUnread.setVisibility(View.GONE);
+                }
+            }else{
+                vh.serviceUnread.setVisibility(View.GONE);
+                Integer ints = chatBean.imCount;
+                if (ints > 0) {
+                    vh.mUnReadCount.setVisibility(View.VISIBLE);
+                    if (ints > 99) {
+                        vh.mUnReadCount.setText("99+");
+                    }else{
+                        vh.mUnReadCount.setText(""+ints);
+                    }
+                } else {
+                    vh.mUnReadCount.setVisibility(View.GONE);
+                }
             }
+
         //vh.mUnReadCount.setText("99+");
     }
 

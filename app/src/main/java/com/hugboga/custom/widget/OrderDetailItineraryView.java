@@ -113,9 +113,9 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
         }
 
         if (!TextUtils.isEmpty(orderBean.carDesc)) {//车型描述
-            String passengerInfos = getContext().getString(R.string.order_detail_adult_seat_info, orderBean.adult + orderBean.child);//座位总数
-            if (orderBean.child > 0) {//儿童座椅数
-                passengerInfos += getContext().getString(R.string.order_detail_child_seat_info, orderBean.child);
+            String passengerInfos = getContext().getString(R.string.order_detail_adult_seat_info, "" + (orderBean.adult + orderBean.child));//座位总数
+            if (orderBean.childSeats != null && orderBean.childSeats.getChildSeatCount() > 0) {//儿童座椅数
+                passengerInfos += getContext().getString(R.string.order_detail_child_seat_info, "" + orderBean.childSeats.getChildSeatCount());
             }
             passengerInfos = getContext().getString(R.string.order_detail_seat_info, passengerInfos);
             LinearLayout itemView = addItemView(R.mipmap.order_car, orderBean.carDesc, passengerInfos, null);
@@ -135,7 +135,7 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
         }
 
         if (orderBean.hotelStatus == 1) {//酒店预订
-            addItemView(R.mipmap.order_jp, getContext().getString(R.string.order_detail_hotle_subscribe, orderBean.hotelDays, orderBean.hotelRoom));
+            addItemView(R.mipmap.order_jd, getContext().getString(R.string.order_detail_hotle_subscribe, "" + orderBean.hotelDays, "" + orderBean.hotelRoom));
         }
     }
 

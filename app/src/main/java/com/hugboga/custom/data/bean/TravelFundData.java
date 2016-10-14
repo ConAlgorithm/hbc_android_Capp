@@ -66,7 +66,7 @@ public class TravelFundData implements Serializable {
     }
 
     public static class TravelFundBean implements Serializable {
-        private double amount;//金额
+        private double amount;//金额 未注册/注册两种情况都是-1， 首次使用返现是大于0值
         private String avatar;
         private String createDate;//时间
         private String desc;//描述
@@ -75,8 +75,16 @@ public class TravelFundData implements Serializable {
         private int gender;
         private int source;
 
+        private String type;//记录类型 未注册/注册/首次使用返现
+        private String userName;
+        private String updateTime;
+
         public double getAmount() {
             return amount;
+        }
+
+        public String getType() {
+            return type;
         }
 
         public String getAvatar() {
@@ -95,8 +103,16 @@ public class TravelFundData implements Serializable {
             return orderNo;
         }
 
+        public String getUserName() {
+            return userName;
+        }
+
         public String getUsername() {
             return username;
+        }
+
+        public String getUpdateTime() {
+            return updateTime;
         }
 
         /**

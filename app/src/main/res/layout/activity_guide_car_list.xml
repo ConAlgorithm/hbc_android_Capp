@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/coupon_empty_color"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/guide_car_list_header"
+        layout="@layout/include_header" />
+
+    <com.hugboga.custom.widget.ZListView
+        android:id="@+id/guide_car_list_listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/guide_car_list_header"
+        android:background="@android:color/white"
+        android:divider="@null" />
+</LinearLayout>

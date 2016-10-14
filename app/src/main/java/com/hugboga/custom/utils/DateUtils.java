@@ -12,9 +12,6 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
-import static android.R.attr.format;
-import static com.hugboga.custom.R.array.date;
-import static u.aly.au.S;
 
 /**
  * @author Zongfi

@@ -13,7 +13,7 @@ import java.util.List;
 public class ChatBean implements Serializable{
 
     public String targetAvatar; //头像地址
-    public String targetName; //用户名
+    public String targetName; //用户名  页面上展示的用户名字
     public String targetId; //目标ID
     public int targetType; //目标类型
     public String message; //消息
@@ -22,13 +22,13 @@ public class ChatBean implements Serializable{
     public String userId; //用户ID
     public int userType; //用户类型
     public List<ChatOrderBean> orders; //私信显示订单
-    public int inBlack;
+    public int inBlack;//判断是否加入黑名单
     public long timeStamp;
 
     //public String rTargetId;//融云用户id;
     //public String rTargetToken; //融云用户token
-    public String nTargetId; //云信用户名
+    public String nTargetId; //云信用户名  登录云信时的用户名
     public String nTargetToken; //云信token
-
+    public int isCancel;//判断和当前司导是否有正在进行的订单
 
 }
