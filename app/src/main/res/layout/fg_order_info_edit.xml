@@ -9,7 +9,7 @@
     <include layout="@layout/include_header" />
 
     <RelativeLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/basic_white"
         android:clickable="true"
@@ -91,7 +91,7 @@
 
     <RelativeLayout
         android:id="@+id/other_layout"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="1dp"
         android:background="@color/basic_white"
@@ -169,7 +169,7 @@
 
     <RelativeLayout
         android:id="@+id/single_no_show_time"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="1dp"
         android:background="@color/basic_white"
@@ -206,7 +206,7 @@
 
     <RelativeLayout
         android:id="@+id/single_no_show_address"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="1dp"
         android:background="@color/basic_white"

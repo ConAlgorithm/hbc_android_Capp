@@ -39,7 +39,7 @@ public abstract class BaseFragment extends com.huangbaoche.hbcframe.fragment.Bas
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        contentId = R.id.drawer_layout;
+        contentId = R.id.main_layout;
         getFrom();
         getBusinessType();
     }
@@ -124,13 +124,11 @@ public abstract class BaseFragment extends com.huangbaoche.hbcframe.fragment.Bas
     public void onStop() {
         super.onStop();
         collapseSoftInputMethod();
-        EventBus.getDefault().post(new EventAction(EventType.CLICK_HEADER_LEFT_BTN_BACK));
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        EventBus.getDefault().post(new EventAction(EventType.START_NEW_FRAGMENT));
     }
 
     @Override
