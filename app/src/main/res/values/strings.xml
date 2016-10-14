@@ -629,7 +629,7 @@
     <string name="order_detail_inservice">司导正在为您服务</string>
     <string name="order_detail_prompt_new_travel">您即将迎来新的旅程</string>
     <string name="order_detail_predetermined">预订成功！</string>
-    <string name="order_detail_timeleft">剩余时间：</string>
+    <string name="order_detail_timeleft">请在有效期</string>
     <string name="order_detail_add_insurance">免费添加投保人</string>
     <string name="order_detail_carpooling">拼车</string>
     <string name="order_detail_hbc_pay">由皇包车支付</string>
@@ -640,7 +640,7 @@
     <string name="order_detail_adult_seat_info">乘坐%1$s人</string>
     <string name="order_detail_child_seat_info">、儿童座椅%1$s个</string>
     <string name="order_detail_flight">航班%1$s&#160;</string>
-    <string name="order_detail_insurance_describe">皇包车帮您购买出境平安险，保额高达8万元</string>
+    <string name="order_detail_insurance_describe">不要错过皇包车送您的境外旅游保险哦~</string>
     <string name="order_detail_get_insurance">赠价值8万的平安保险</string>
     <string name="order_detail_opean">展开详情</string>
     <string name="order_detail_close">关闭详情</string>
@@ -666,7 +666,7 @@
     <string name="order_detail_refund_pattern_payment">您的支付方式：%1$s</string>
     <string name="order_detail_tips_title">平台保障：</string>
     <string name="order_detail_tips">订单款项由平台保管，服务完成才会支付给司导。24小时客服，帮您解决服务过程中纠纷。请您不要线下交易。</string>
-    <string name="order_detail_top2_tips">司导接单后，您可以在app内通过私聊与Ta联系；请不要线下交易，否则将无法获得平台保障。</string>
+    <string name="order_detail_top2_tips">司导接单后，您可以在app内通过私聊与Ta联系；聊天信息可作为纠纷凭证，获得平台保障。</string>
     <string name="order_detail_top1_tips">下单后一般在24小时内有司导接单。如果下单时间距离实际出行时间较远，最晚在出行前为您安排司导接单。</string>
     <string name="order_detail_bargain_entr_price">共砍掉\n%1$s元</string>
 
@@ -810,5 +810,6 @@
     <string name="choose_guide_title">%1$d个已接单司导</string>
 
     <string name="choose_guide_head">系统将按最优算法为您选择司导\n您可在后续版本中自行选择，敬请期待</string>
-
+    <string name="order_detail_add_policy_holder">添加投保人</string>
+    <string name="order_detail_timeright">内，添加投保人信息</string>
 </resources>
