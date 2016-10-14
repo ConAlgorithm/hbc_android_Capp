@@ -332,7 +332,7 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                 params.guideId = orderBean.orderGuideInfo.guideID;
                 params.guideCarId = orderBean.orderGuideInfo.guideCarId;
                 params.guideAgencyDriverId = orderBean.guideAgencyDriverId;
-                params.orderSource = orderBean.orderSource;
+                params.isSelectedService = orderBean.guideAgencyType == 3;
                 intent = new Intent(this, GuideDetailActivity.class);
                 intent.putExtra(Constants.PARAMS_DATA, params);
                 intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());

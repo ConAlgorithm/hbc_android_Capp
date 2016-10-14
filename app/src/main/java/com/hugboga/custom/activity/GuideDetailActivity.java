@@ -121,7 +121,6 @@ public class GuideDetailActivity extends BaseActivity{
         public String guideId;
         public String guideCarId;
         public String guideAgencyDriverId;
-        public int orderSource = 1;
         public boolean isSelectedService = false;
     }
 
@@ -171,7 +170,7 @@ public class GuideDetailActivity extends BaseActivity{
     }
 
     private boolean isOnlyShow() {
-        if (params.orderSource != 1 || params.isSelectedService) {
+        if (params.isSelectedService) {
             return true;
         } else {
             return false;
@@ -197,7 +196,7 @@ public class GuideDetailActivity extends BaseActivity{
             collectIV.setSelected(data.isCollected());
 
             //城市背景图
-            Tools.showImage(avatarIV, data.cityBackGroundPicSrc, R.drawable.guides_detail_city_bg);
+            Tools.showImage(cityBgIV, data.cityBackGroundPicSrc, R.drawable.guides_detail_city_bg);
 
             //城市-国家
             cityNameTV.setText(data.cityName + "-" + data.countryName);
@@ -227,6 +226,9 @@ public class GuideDetailActivity extends BaseActivity{
                 } else {
                     driverGenderIV.setVisibility(View.GONE);
                 }
+            } else {
+                genderIV.setVisibility(View.GONE);
+                driverLayout.setVisibility(View.GONE);
             }
 
             //服务星级
