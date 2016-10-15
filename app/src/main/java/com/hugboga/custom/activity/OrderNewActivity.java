@@ -62,6 +62,7 @@ import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.LogUtils;
 import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.utils.Tools;
+import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.LuggageItemLayout;
 import com.hugboga.custom.widget.MoneyTextView;
 import com.hugboga.custom.widget.TopTipsLayout;
@@ -102,6 +103,8 @@ public class OrderNewActivity extends BaseActivity {
     LinearLayout day_layout;
     @Bind(R.id.show_day_layout)
     LinearLayout show_day_layout;
+    @Bind(R.id.header_right_image)
+    ImageView headerRightImage;
 
     @Bind(R.id.day_show_all)
     TextView day_show_all;
@@ -232,7 +235,7 @@ public class OrderNewActivity extends BaseActivity {
      * 基于原来代码修改,有时间了优化
      */
     protected void initHeader() {
-        headerRightTxt.setVisibility(View.VISIBLE);
+        headerRightTxt.setVisibility(View.GONE);
         headerTitle.setText("确认订单");
         source = getIntent().getStringExtra("source");
 
@@ -244,14 +247,21 @@ public class OrderNewActivity extends BaseActivity {
             }
         });
 
-        headerRightTxt.setText(R.string.noraml_question);
-        headerRightTxt.setOnClickListener(new View.OnClickListener() {
+//        headerRightTxt.setText(R.string.noraml_question);
+//        headerRightTxt.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(activity, WebInfoActivity.class);
+//                intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_PROBLEM);
+//                intent.putExtra(WebInfoActivity.CONTACT_SERVICE, true);
+//                startActivity(intent);
+//            }
+//        });
+        headerRightImage.setVisibility(View.VISIBLE);
+        headerRightImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(activity, WebInfoActivity.class);
-                intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_PROBLEM);
-                intent.putExtra(WebInfoActivity.CONTACT_SERVICE, true);
-                startActivity(intent);
+                DialogUtil.getInstance(activity).showCallDialog();
             }
         });
 
@@ -901,7 +911,7 @@ public class OrderNewActivity extends BaseActivity {
                 travelFund = deductionBean.deduction;
                 money = Integer.valueOf(travelFund);
                 if (0 == money) {
-                    dream_right_tips.setVisibility(View.VISIBLE);
+                    dream_right_tips.setVisibility(View.GONE);
                     dream_right_tips.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -914,7 +924,13 @@ public class OrderNewActivity extends BaseActivity {
                     if (dreamLeft.isChecked()) {
                         allMoneyLeftText.setText(Tools.getRMB(activity) + (Integer.valueOf(deductionBean.priceToPay) + totalPrice));
                     }
-                    dream_right_tips.setVisibility(GONE);
+                    dream_right_tips.setVisibility(View.VISIBLE);
+                    dream_right_tips.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            startActivity(new Intent(activity, TravelFundActivity.class));
+                        }
+                    });
                 }
             }
 

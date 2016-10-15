@@ -14,29 +14,11 @@
         android:layout_height="48dp"
         android:background="@android:color/white">
 
-        <TextView
-            android:id="@+id/order_detail_insurance_hint_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
-            android:text="@string/order_detail_insurance_describe"
-            android:textColor="#333333"
-            android:textSize="12sp" />
-
-        <ImageView
-            android:id="@+id/order_detail_insurance_explain_iv"
-            android:layout_width="13dp"
-            android:layout_height="13dp"
-            android:layout_marginLeft="1dip"
-            android:layout_marginTop="11.5dp"
-            android:layout_toRightOf="@id/order_detail_insurance_hint_tv"
-            android:background="@mipmap/question" />
-
         <LinearLayout
+            android:id="@+id/order_detail_insurance_hint_line"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/order_detail_insurance_hint_tv"
+            android:layout_marginTop="10dp"
             android:layout_centerHorizontal="true"
             android:orientation="horizontal">
 
@@ -55,6 +37,34 @@
                 android:text="4天2小时30分"
                 android:textColor="#fe6732"
                 android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/order_detail_insurance_time_tv_hint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/order_detail_timeright"
+                android:textColor="#333333"
+                android:textSize="12sp" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_below="@+id/order_detail_insurance_hint_line"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/order_detail_insurance_describe"
+                android:textColor="#333333"
+                android:textSize="12sp" />
+            <TextView
+                android:id="@+id/order_detail_insurance_explain_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/order_detail_insurance"
+                android:textColor="#333333"
+                android:textSize="12sp"/>
         </LinearLayout>
 
     </RelativeLayout>
@@ -65,7 +75,7 @@
         android:layout_height="48dp"
         android:background="@drawable/selector_order_detail_pay"
         android:gravity="center"
-        android:text="@string/order_detail_add_insurance"
+        android:text="@string/order_detail_add_policy_holder"
         android:textColor="#3c382f"
         android:textSize="16sp"
         android:textStyle="bold" />
