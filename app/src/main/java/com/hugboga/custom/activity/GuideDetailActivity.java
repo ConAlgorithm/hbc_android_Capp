@@ -235,17 +235,24 @@ public class GuideDetailActivity extends BaseActivity{
             ratingView.setRating(data.serviceStar);
             scoreTV.setText(String.valueOf(data.serviceStar));
 
-            //是否可服务包车，0否，1是
-            charteredCarLayout.setVisibility(data.serviceDaily == 1 ? View.VISIBLE : View.GONE);
-            //是否可服务接送机、单次接送，0否，1是
-            planeLayout.setVisibility(data.serviceJsc == 1 ? View.VISIBLE : View.GONE);
-            singleLayout.setVisibility(data.serviceJsc == 1 ? View.VISIBLE : View.GONE);
-            if (isOnlyShow() || (data.serviceDaily != 1 && data.serviceJsc != 1)) {
+            if (isOnlyShow() || data.agencyType == 3 || (data.serviceDaily != 1 && data.serviceJsc != 1)) {
                 appointmentLine.setVisibility(View.GONE);
                 appointmentTV.setVisibility(View.GONE);
+
+                collectIV.setVisibility(View.GONE);
+                shareIV.setVisibility(View.GONE);
+
+                charteredCarLayout.setVisibility(View.GONE);
+                planeLayout.setVisibility(View.GONE);
+                singleLayout.setVisibility(View.GONE);
             } else {
                 appointmentLine.setVisibility(View.VISIBLE);
                 appointmentTV.setVisibility(View.VISIBLE);
+                //是否可服务包车，0否，1是
+                charteredCarLayout.setVisibility(data.serviceDaily == 1 ? View.VISIBLE : View.GONE);
+                //是否可服务接送机、单次接送，0否，1是
+                planeLayout.setVisibility(data.serviceJsc == 1 ? View.VISIBLE : View.GONE);
+                singleLayout.setVisibility(data.serviceJsc == 1 ? View.VISIBLE : View.GONE);
             }
 
             //评价

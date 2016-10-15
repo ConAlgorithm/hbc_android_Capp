@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
@@ -161,6 +162,7 @@ public class WebAgent implements HttpRequestListener {
                 if (!TextUtils.isEmpty(action)) {
                     ActionBean actionBean = (ActionBean) JsonUtils.fromJson(action, ActionBean.class);
                     if (actionBean != null) {
+                        Log.i("aa", "doAction");
                         ActionController actionFactory = ActionController.getInstance(mActivity);
                         actionFactory.doAction(actionBean);
                     }
@@ -345,6 +347,14 @@ public class WebAgent implements HttpRequestListener {
             callBack(callBack, jsonObject.toString());
         } catch (Exception e) {
             MLog.e("getUserInfo ", e);
+        }
+    }
+
+    @JavascriptInterface
+    public void getUserLoginStatus(final String callBack) {
+        try {
+            callBack(callBack, UserEntity.getUser().isLogin(mActivity) ? "1" : "0");
+        } catch (Exception e) {
         }
     }
 
