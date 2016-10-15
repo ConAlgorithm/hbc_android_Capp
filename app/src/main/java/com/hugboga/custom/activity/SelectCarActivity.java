@@ -41,6 +41,7 @@ import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.CarUtils;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.utils.Tools;
+import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.JazzyViewPager;
 import com.hugboga.custom.widget.MoneyTextView;
 import com.umeng.analytics.MobclickAgent;
@@ -205,6 +206,8 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
     TextView luggageNumTv;
     @Bind(R.id.fg_car_intro)
     TextView fgCarIntro;
+    @Bind(R.id.header_right_image)
+    ImageView headerRightImage;
 
 
 
@@ -229,15 +232,22 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
     protected void initHeader() {
         headerTitle.setText(R.string.select_city_title);
         source = getIntent().getStringExtra("source");
-        headerRightTxt.setVisibility(View.VISIBLE);
-        headerRightTxt.setText("常见问题");
-        headerRightTxt.setOnClickListener(new View.OnClickListener() {
+        headerRightTxt.setVisibility(View.GONE);
+//        headerRightTxt.setText("常见问题");
+//        headerRightTxt.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(activity, WebInfoActivity.class);
+//                intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_PROBLEM);
+//                intent.putExtra(WebInfoActivity.CONTACT_SERVICE, true);
+//                startActivity(intent);
+//            }
+//        });
+        headerRightImage.setVisibility(View.VISIBLE);
+        headerRightImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(activity, WebInfoActivity.class);
-                intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_PROBLEM);
-                intent.putExtra(WebInfoActivity.CONTACT_SERVICE, true);
-                startActivity(intent);
+                DialogUtil.getInstance(activity).showCallDialog();
             }
         });
     }

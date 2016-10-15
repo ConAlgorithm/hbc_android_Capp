@@ -132,7 +132,7 @@ public class OrderDetailDeliverItemView extends LinearLayout implements HbcViewB
                     Intent intent = new Intent(getContext(), CanServiceGuideListActivity.class);
                     intent.putExtra(Constants.PARAMS_SOURCE, getContext().getString(R.string.order_detail_title_default));
                     intent.putExtra("orderNo", orderNo);
-                    getContext().startActivity(intent);
+//                    getContext().startActivity(intent);
                 }
             }
         });

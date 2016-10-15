@@ -285,7 +285,7 @@
     <string name="login_or">或者</string>
     <string name="un_install_wx">没有安装微信</string>
     <string name="location_city_text">定位城市</string>
-    <string name="select_city_title">包车游</string>
+    <string name="select_city_title">定制包车行程</string>
     <string name="select_city_start">开始城市</string>
     <string name="baggage_nums">行李数</string>
     <string name="go_citys">游玩日期</string>
@@ -589,7 +589,7 @@
     <string name="par_result_title">支付结果</string>
     <string name="par_result_succeed">支付成功</string>
     <string name="par_result_failure">支付失败</string>
-    <string name="par_result_succeed_prompt">您的服务已预订成功!\n接下来由皇包车为您安排本次出行</string>
+    <string name="par_result_succeed_prompt">您的服务已预订成功!</string>
     <string name="par_result_failure_prompt">支付遇到了问题...</string>
     <string name="par_result_contact_service">需要联系客服</string>
     <string name="par_result_back">返回首页</string>
@@ -642,7 +642,7 @@
     <string name="order_detail_adult_seat_info">乘坐%1$s人</string>
     <string name="order_detail_child_seat_info">、儿童座椅%1$s个</string>
     <string name="order_detail_flight">航班%1$s&#160;</string>
-    <string name="order_detail_insurance_describe">不要错过皇包车送您的境外旅游保险哦~</string>
+    <string name="order_detail_insurance_describe">不要错过皇包车送您的境外旅游保险哦</string>
     <string name="order_detail_get_insurance">赠价值8万的平安保险</string>
     <string name="order_detail_opean">展开详情</string>
     <string name="order_detail_close">关闭详情</string>
@@ -667,7 +667,7 @@
     <string name="order_detail_refund_description">退款将退回到您支付订单的账户中，到账时间以该账户通知为准。\n</string>
     <string name="order_detail_refund_pattern_payment">您的支付方式：%1$s</string>
     <string name="order_detail_tips_title">平台保障：</string>
-    <string name="order_detail_tips">订单款项由平台保管，服务完成才会支付给司导。24小时客服，帮您解决服务过程中纠纷。请您不要线下交易。</string>
+    <string name="order_detail_tips">订单款项由平台保管，服务完成才会支付给司导。24小时客服帮您解决服务过程中的纠纷。平台认定为司导问题，您可获得相应补偿。</string>
     <string name="order_detail_top2_tips">司导接单后，您可以在app内通过私聊与Ta联系；聊天信息可作为纠纷凭证，获得平台保障。</string>
     <string name="order_detail_top1_tips">下单后一般在24小时内有司导接单。如果下单时间距离实际出行时间较远，最晚在出行前为您安排司导接单。</string>
     <string name="order_detail_bargain_entr_price">共砍掉\n%1$s元</string>
@@ -811,7 +811,10 @@
     <string name="choose_guide">选他服务</string>
     <string name="choose_guide_title">%1$d个已接单司导</string>
 
-    <string name="choose_guide_head">系统将按最优算法为您选择司导\n您可在后续版本中自行选择，敬请期待</string>
+    <string name="choose_guide_head">未来将开放选司导功能，敬请期待~\n本次由皇包车为您挑选</string>
+
     <string name="order_detail_add_policy_holder">添加投保人</string>
     <string name="order_detail_timeright">内，添加投保人信息</string>
+    <string name="pay_result_succeed">您的服务已预订成功！</string>
+    <string name="order_detail_insurance">~</string>
 </resources>
