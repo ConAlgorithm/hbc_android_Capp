@@ -74,7 +74,11 @@ public class GuideCarInfoItemView extends LinearLayout implements HbcViewBehavio
         }
         guideCarBean = (GuideCarBean)_data;
 
-        Tools.showImage(carIV, guideCarBean.carPhoto, R.mipmap.guide_detail_car_default_bg);
+        if (TextUtils.isEmpty(guideCarBean.carPhoto)) {
+            carIV.setImageResource(R.mipmap.guide_detail_car_default_bg);
+        } else {
+            Tools.showImage(carIV, guideCarBean.carPhoto, R.mipmap.guide_detail_car_default_bg);
+        }
 
         currentTV.setVisibility(guideCarBean.isInOrder == 1 ? View.VISIBLE : View.GONE);
 

@@ -169,6 +169,7 @@ public class OrderBean implements IBaseBean{
     public AppraisementBean appraisement;   // 评价信息
     public AssessmentBean assessmentBean;   // TODO appraisement 评价信息
     public String guideAgencyDriverId;      // 地接社老板ID
+    public int guideAgencyType;             // 地接社类型,0个人地接社，1老版地接社员工，2老版地接社老板，3个人地接社（关注）
 
     public OrderPriceInfo orderPriceInfo;   // priceInfo
     public OrderGuideInfo orderGuideInfo;   // guideInfo

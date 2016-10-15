@@ -33,7 +33,7 @@ public class RequestGuideDetail extends BaseRequest<GuidesDetailData> {
         map = new HashMap<String, Object>();
         map.put("guideId", guideId);
         if (!TextUtils.isEmpty(guideCarId)) {
-            map.put("guideCarId", guideId);
+            map.put("guideCarId", guideCarId);
         }
         if (!TextUtils.isEmpty(guideAgencyDriverId)) {
             map.put("guideAgencyDriverId", guideAgencyDriverId);

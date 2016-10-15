@@ -496,8 +496,8 @@ public class MainActivity extends BaseActivity
         if (message != null) {
             uploadPushClick(message.messageID);
             ActionBean actionBean = message.getActionBean();
-            actionBean.source = "push调起";
             if (actionBean != null) {
+                actionBean.source = "push调起";
                 ActionController actionFactory = ActionController.getInstance(this);
                 actionFactory.doAction(actionBean);
                 this.actionBean = actionBean;
