@@ -16,6 +16,7 @@ import com.huangbaoche.hbcframe.widget.DialogUtilInterface;
 import org.apache.http.conn.ConnectTimeoutException;
 import org.json.JSONObject;
 import org.xutils.common.Callback;
+import org.xutils.ex.HttpException;
 import org.xutils.x;
 
 import java.lang.reflect.Constructor;
@@ -175,7 +176,11 @@ public class HttpRequestUtils {
             ServerException serverException = (ServerException)error;
             result = new ExceptionInfo(ExceptionErrorCode.ERROR_CODE_SERVER, serverException);
         }else{
-             result = new ExceptionInfo(ExceptionErrorCode.ERROR_CODE_OTHER, null);
+            result = new ExceptionInfo(ExceptionErrorCode.ERROR_CODE_OTHER, null);
+            if (error instanceof HttpException) {
+                result.setErrorCode(((HttpException)error).getErrorCode());
+
+            }
         }
         return result;
     }

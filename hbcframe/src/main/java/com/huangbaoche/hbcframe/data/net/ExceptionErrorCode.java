@@ -4,8 +4,6 @@ public class ExceptionErrorCode {
 	/** 正常 */
 	public static final int REQUEST_OK = 0;
 
-	/** 解析错误 */
-	public static final int ERROR_CODE_PARSE = -2;
 	/** 网络不可用 */
 	public static final int ERROR_CODE_NET_UNAVAILABLE = -3;
 	/** 联网超时 */

@@ -64,9 +64,6 @@ public  class ErrorHandler implements HttpRequestListener{
                 if(!serverCodeHandler.handleServerCode(mActivity,serverException.getMessage(),serverException.getCode(),request,mListener))
                 Toast.makeText(mActivity, serverException.getMessage(), Toast.LENGTH_LONG).show();
                 return;
-            case ExceptionErrorCode.ERROR_CODE_PARSE:
-                errState = "数据解析错误";
-                break;
             case ExceptionErrorCode.ERROR_CODE_NET_NOTFOUND:
                 errState = "404";
                 break;
@@ -85,14 +82,16 @@ public  class ErrorHandler implements HttpRequestListener{
         }
         MLog.e("mActivity = "+mActivity);
         if(mActivity!=null){
-//            +request.getUrlErrorCode()+ serverException.getCode()
             if(errorInfo.state == ExceptionErrorCode.ERROR_CODE_NET){
                 Toast.makeText(mActivity, "请检查您的网络连接是否正常", Toast.LENGTH_LONG).show();
             }else {
-                Toast.makeText(mActivity, mActivity.getString(R.string.request_error, request.getUrlErrorCode()), Toast.LENGTH_LONG).show();
+                String errorStr = request.getUrlErrorCode();
+                if (!TextUtils.isEmpty(errorInfo.errorCode)) {
+                    errorStr += " - " + errorInfo.errorCode;
+                }
+                Toast.makeText(mActivity, mActivity.getString(R.string.request_error, errorStr), Toast.LENGTH_LONG).show();
             }
         }
-//            Toast.makeText(mActivity, mActivity.getString(R.string.request_error,errorInfo.state), Toast.LENGTH_LONG).show();
     }
 
     @Override
