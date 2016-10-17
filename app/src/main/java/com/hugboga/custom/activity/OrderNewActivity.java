@@ -24,7 +24,6 @@ import com.hugboga.custom.data.bean.AreaCodeBean;
 import com.hugboga.custom.data.bean.CarBean;
 import com.hugboga.custom.data.bean.CarListBean;
 import com.hugboga.custom.data.bean.CityBean;
-import com.hugboga.custom.data.bean.CollectGuideBean;
 import com.hugboga.custom.data.bean.ContactUsersBean;
 import com.hugboga.custom.data.bean.CouponBean;
 import com.hugboga.custom.data.bean.DeductionBean;
@@ -313,7 +312,6 @@ public class OrderNewActivity extends BaseActivity {
     private FlightBean flightBean;//航班信息 接机
     private PoiBean poiBean;//达到目的地
 
-    CollectGuideBean collectGuideBean;
     private OrderInfoBean orderInfoBean;
 
     String goodsVersion = "";
@@ -329,12 +327,7 @@ public class OrderNewActivity extends BaseActivity {
         carListBean = (CarListBean)this.getIntent().getSerializableExtra("carListBean");
         guideCollectId = this.getIntent().getStringExtra("guideCollectId");
 
-        collectGuideBean = (CollectGuideBean) this.getIntent().getSerializableExtra("collectGuideBean");
-
         carBean = (CarBean)this.getIntent().getSerializableExtra("carBean");
-        if(null != collectGuideBean) {
-            guideCollectId = collectGuideBean.guideId;
-        }
 
         startCityId = this.getIntent().getStringExtra("startCityId");
         endCityId = this.getIntent().getStringExtra("endCityId");
@@ -464,53 +457,49 @@ public class OrderNewActivity extends BaseActivity {
                 StatisticClickEvent.showOrderNewPage(1,StatisticConstant.LAUNCH_J2,getIntentSource(),
                         carBean.carDesc,
                         EventUtil.getInstance().sourceDetail,isCheckIn,(adultNum+childrenNum)+"",
-                        null ==collectGuideBean?false:true);
+                        null == guideCollectId?false:true);
                 break;
             case 2:
                 genSend();
                 StatisticClickEvent.showOrderNewPage(2,StatisticConstant.LAUNCH_S2,getIntentSource(),
                         carBean.carDesc,
                         EventUtil.getInstance().sourceDetail,isCheckIn,(adultNum+childrenNum)+"",
-                        null ==collectGuideBean?false:true);
+                        null ==guideCollectId?false:true);
                 break;
             case 3:
                 genDairy();
                 StatisticClickEvent.showOrderNewPage(3,StatisticConstant.LAUNCH_R2,getIntentSource(),
                         carBean.carDesc,
                         EventUtil.getInstance().sourceDetail,isCheckIn,(adultNum+childrenNum)+"",
-                        null ==collectGuideBean?false:true);
+                        null ==guideCollectId?false:true);
                 break;
             case 4:
                 genSingle();
                 StatisticClickEvent.showOrderNewPage(4,StatisticConstant.LAUNCH_C2,getIntentSource(),
                         carBean.carDesc,
                         EventUtil.getInstance().sourceDetail,isCheckIn,(adultNum+childrenNum)+"",
-                        null ==collectGuideBean?false:true);
+                        null ==guideCollectId?false:true);
                 break;
             case 5:
                 genSKU();
                 StatisticClickEvent.showOrderNewPage(5,StatisticConstant.LAUNCH_RG2,getIntentSource(),
                         carBean.carDesc,
                         EventUtil.getInstance().sourceDetail,isCheckIn,(adultNum+childrenNum)+"",
-                        null ==collectGuideBean?false:true);
+                        null ==guideCollectId?false:true);
                 break;
             case 6:
                 genSKU();
                 StatisticClickEvent.showOrderNewPage(6,StatisticConstant.LAUNCH_RT2,getIntentSource(),
                         carBean.carDesc,
                         EventUtil.getInstance().sourceDetail,isCheckIn,(adultNum+childrenNum)+"",
-                        null ==collectGuideBean?false:true);
+                        null ==guideCollectId?false:true);
                 break;
         }
     }
 
 
     private String getCarDesc() {
-//        if (null != collectGuideBean) {
-//            return collectGuideBean.carDesc;
-//        } else {
-            return carBean.carDesc;
-//        }
+        return carBean.carDesc;
     }
 
 
@@ -1177,7 +1166,7 @@ public class OrderNewActivity extends BaseActivity {
         eventPayBean.guestcount = carBean.capOfPerson+"";
         eventPayBean.isFlightSign = orderBean.isFlightSign;
         eventPayBean.isCheckin = orderBean.isCheckin;
-        eventPayBean.guideCollectId = null != collectGuideBean ? collectGuideBean.guideId + "" : "";
+        eventPayBean.guideCollectId = guideCollectId;
         eventPayBean.orderStatus = orderBean.orderStatus;
         eventPayBean.orderType = type;
         eventPayBean.forother = contactUsersBean.isForOther;
@@ -1349,7 +1338,7 @@ public class OrderNewActivity extends BaseActivity {
 
     //包车参数
     private OrderBean getDayOrderByInput() {
-        StatisticClickEvent.commitClick(StatisticConstant.SUBMITORDER_R,getIntentSource(),EventUtil.getInstance().sourceDetail,collectGuideBean,carBean.carDesc+"",allMansNum,contactUsersBean.isForOther);
+        StatisticClickEvent.commitClick(StatisticConstant.SUBMITORDER_R,getIntentSource(),EventUtil.getInstance().sourceDetail,guideCollectId,carBean.carDesc+"",allMansNum,contactUsersBean.isForOther);
 
         return new OrderUtils().getDayOrderByInput(adultNum, carBean,
                 childrenNum, endCityId,

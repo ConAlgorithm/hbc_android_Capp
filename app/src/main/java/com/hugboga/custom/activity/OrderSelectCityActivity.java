@@ -1026,7 +1026,6 @@ public class OrderSelectCityActivity extends BaseActivity {
         bundleCar.putString("orderType", "3");
 
         if(null != collectGuideBean) {
-//            CarUtils.collectGuideBean = collectGuideBean;
             bundleCar.putString("guideId", collectGuideBean.guideId);
         }
 

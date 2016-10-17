@@ -14,6 +14,7 @@ import com.huangbaoche.hbcframe.util.WXShareUtils;
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.widget.ShareDialog;
+import com.ta.utdid2.android.utils.StringUtils;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -165,5 +166,12 @@ public final class CommonUtils {
             result += "&";
         }
         return result;
+    }
+
+    public static String replaceUrlValue(String url, String key, String value) {
+        if (!StringUtils.isEmpty(url) && !StringUtils.isEmpty(key)) {
+            url = url.replaceAll("(" + key +"=[^&]*)", key + "=" + value);
+        }
+        return url;
     }
 }

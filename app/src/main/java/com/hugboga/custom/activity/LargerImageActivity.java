@@ -2,9 +2,11 @@ package com.hugboga.custom.activity;
 
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -21,6 +23,7 @@ import java.util.ArrayList;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import uk.co.senab.photoview.PhotoView;
+import uk.co.senab.photoview.PhotoViewAttacher;
 
 /**
  * Created by qingcha on 16/8/4.
@@ -98,6 +101,17 @@ public class LargerImageActivity extends BaseActivity{
                     .placeholder(R.mipmap.guide_car_default)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(photoView);
+            photoView.setOnPhotoTapListener(new PhotoViewAttacher.OnPhotoTapListener() {
+                @Override
+                public void onPhotoTap(View view, float x, float y) {
+
+                }
+
+                @Override
+                public void onOutsidePhotoTap() {
+                    LargerImageActivity.this.finish();
+                }
+            });
             container.addView(photoView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             return photoView;
         }

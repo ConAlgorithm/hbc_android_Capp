@@ -24,8 +24,10 @@ import com.huangbaoche.hbcframe.data.net.DefaultSSLSocketFactory;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.CityBean;
+import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.net.WebAgent;
 import com.hugboga.custom.utils.ChannelUtils;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.widget.DialogUtil;
 
 import java.io.InputStream;
@@ -56,6 +58,8 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
     private DialogUtil mDialogUtil;
 
     private CityBean cityBean;
+    private boolean isLogin = false;
+    private String url;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -208,6 +212,17 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (!TextUtils.isEmpty(url) && url.contains("userId=") && isLogin != UserEntity.getUser().isLogin(this)) {
+            isLogin = UserEntity.getUser().isLogin(this);
+            url = CommonUtils.replaceUrlValue(url, "userId", UserEntity.getUser().getUserId(this));
+            webView.loadUrl(url);
+            Log.i("aa", "onResume + url " + url);
+        }
+    }
+
     public void initHeader() {
 //        fgTitle.setTextColor(getResources().getColor(R.color.my_content_title_color));
 //        fgTitle.setText("客服中心");
@@ -248,11 +263,13 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
         }
         mDialogUtil = DialogUtil.getInstance(activity);
         initHeader();
-        String url = getIntent().getStringExtra(WEB_URL);
+        isLogin = UserEntity.getUser().isLogin(this);
+        url = getIntent().getStringExtra(WEB_URL);
         if (!TextUtils.isEmpty(url)) {
             webView.loadUrl(url);
         }
         MLog.e("url=" + url);
+        Log.i("aa", "initView + url " + url);
     }
 
 }
