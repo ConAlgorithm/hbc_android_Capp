@@ -287,11 +287,11 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
 
     String carIds = null;
     String guideId = null;
-    CollectGuideBean collectGuideBean;
+//    CollectGuideBean collectGuideBean;
 
     private void getArgs() {
         passCityList = (ArrayList<CityBean>) getIntent().getSerializableExtra("passCityList");
-        collectGuideBean = (CollectGuideBean) this.getIntent().getSerializableExtra("collectGuideBean");
+//        collectGuideBean = (CollectGuideBean) this.getIntent().getSerializableExtra("collectGuideBean");
         startCityId = this.getIntent().getStringExtra("startCityId");
         endCityId = this.getIntent().getStringExtra("endCityId");
         startDate = this.getIntent().getStringExtra("startDate");
@@ -815,8 +815,8 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
 //        FGOrderNew fgOrderNew = new FGOrderNew();
         Bundle bundleCar = new Bundle();
         bundleCar.putString("source", source);
-        bundleCar.putString("guideCollectId", collectGuideBean == null ? "" : collectGuideBean.guideId);
-        bundleCar.putSerializable("collectGuideBean", collectGuideBean == null ? null : collectGuideBean);
+        bundleCar.putString("guideCollectId", guideId);
+//        bundleCar.putSerializable("collectGuideBean", collectGuideBean == null ? null : collectGuideBean);
         bundleCar.putString("startCityId", startCityId);
         bundleCar.putString("endCityId", endCityId);
         bundleCar.putString("startDate", startDate);
