@@ -47,7 +47,7 @@ public class StatisticClickEvent {
 
     //包车提交订单按钮点击
     public static void commitClick(String eventId, String source, String  source_detail,
-                                   CollectGuideBean selectG, String carstyle, int guestcount, boolean forother){
+                                  String selectG, String carstyle, int guestcount, boolean forother){
         Map map = new HashMap();
         map.put("source",source);
         map.put("source_detail",source_detail);
