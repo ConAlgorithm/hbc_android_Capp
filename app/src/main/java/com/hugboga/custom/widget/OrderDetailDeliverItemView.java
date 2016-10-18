@@ -132,7 +132,7 @@ public class OrderDetailDeliverItemView extends LinearLayout implements HbcViewB
                     Intent intent = new Intent(getContext(), CanServiceGuideListActivity.class);
                     intent.putExtra(Constants.PARAMS_SOURCE, getContext().getString(R.string.order_detail_title_default));
                     intent.putExtra("orderNo", orderNo);
-//                    getContext().startActivity(intent);
+                    getContext().startActivity(intent);
                 }
             }
         });
@@ -179,6 +179,7 @@ public class OrderDetailDeliverItemView extends LinearLayout implements HbcViewB
 
         ImageView iconIV = new ImageView(getContext());
         iconIV.setImageResource(R.mipmap.personalcenter_right);
+        iconIV.setVisibility(GONE);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(UIUtils.dip2px(20), LayoutParams.WRAP_CONTENT);
         params.rightMargin = UIUtils.dip2px(10);
         avatarLayout.addView(iconIV, params);
