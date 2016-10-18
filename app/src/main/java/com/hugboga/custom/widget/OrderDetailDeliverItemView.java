@@ -125,17 +125,17 @@ public class OrderDetailDeliverItemView extends LinearLayout implements HbcViewB
         titleTV.setText(deliverInfoBean.deliverMessage);
         RequestAcceptGuide requestAcceptGuide = new RequestAcceptGuide(getContext(), orderNo, 10, 0);
         HttpRequestUtils.request(getContext(), requestAcceptGuide, this, false);
-        avatarLayout.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!TextUtils.isEmpty(orderNo)) {
-                    Intent intent = new Intent(getContext(), CanServiceGuideListActivity.class);
-                    intent.putExtra(Constants.PARAMS_SOURCE, getContext().getString(R.string.order_detail_title_default));
-                    intent.putExtra("orderNo", orderNo);
-                    getContext().startActivity(intent);
-                }
-            }
-        });
+//        avatarLayout.setOnClickListener(new OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (!TextUtils.isEmpty(orderNo)) {
+//                    Intent intent = new Intent(getContext(), CanServiceGuideListActivity.class);
+//                    intent.putExtra(Constants.PARAMS_SOURCE, getContext().getString(R.string.order_detail_title_default));
+//                    intent.putExtra("orderNo", orderNo);
+//                    getContext().startActivity(intent);
+//                }
+//            }
+//        });
     }
 
     @Override
@@ -161,7 +161,7 @@ public class OrderDetailDeliverItemView extends LinearLayout implements HbcViewB
 
         //TODO 每次刷新都重新new,当前刷新频率低,后续优化。
         int size = guidesList.size();
-        int viewWidth = UIUtils.dip2px(114) + UIUtils.dip2px(70);
+        int viewWidth = UIUtils.dip2px(114) + UIUtils.dip2px(50);
         boolean isShowMoreIV = true;
         j:for (int i = 0; i < size; i++) {
             viewWidth +=  UIUtils.dip2px(10) + UIUtils.dip2px(40);
@@ -177,12 +177,11 @@ public class OrderDetailDeliverItemView extends LinearLayout implements HbcViewB
         circleImageView.setBackgroundResource(R.mipmap.guide_avater_more);
         circleImageView.setVisibility(isShowMoreIV ? View.VISIBLE : View.GONE);
 
-        ImageView iconIV = new ImageView(getContext());
-        iconIV.setImageResource(R.mipmap.personalcenter_right);
-        iconIV.setVisibility(GONE);
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(UIUtils.dip2px(20), LayoutParams.WRAP_CONTENT);
-        params.rightMargin = UIUtils.dip2px(10);
-        avatarLayout.addView(iconIV, params);
+//        ImageView iconIV = new ImageView(getContext());
+//        iconIV.setImageResource(R.mipmap.personalcenter_right);
+//        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(UIUtils.dip2px(20), LayoutParams.WRAP_CONTENT);
+//        params.rightMargin = UIUtils.dip2px(10);
+//        avatarLayout.addView(iconIV, params);
     }
 
     @Override

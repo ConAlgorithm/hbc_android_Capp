@@ -304,6 +304,7 @@ public class EvaluateActivity extends BaseActivity implements RatingView.OnLevel
                 params.evaluateData = evaluateData;
                 params.orderNo = orderBean.orderNo;
                 params.totalScore = (int) orderBean.appraisement.totalScore;
+                params.guideAgencyType = orderBean.guideAgencyType;
                 Intent intent = new Intent(EvaluateActivity.this, ShareGuidesActivity.class);
                 intent.putExtra(Constants.PARAMS_DATA, params);
                 EvaluateActivity.this.startActivity(intent);
