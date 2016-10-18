@@ -14,6 +14,8 @@ import org.xutils.http.annotation.HttpRequest;
 import org.xutils.http.app.ParamsBuilder;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Map;
 
 import javax.net.ssl.SSLSocketFactory;
@@ -88,6 +90,13 @@ public class HbcParamsBuilder implements ParamsBuilder {
                             sb.append(entity.getKey() + "=" + entity.getValue() + "&");
                         }
                     }
+                }
+            }
+            if (!TextUtils.isEmpty(request.bodyEntity)) {
+                try {
+                    params.setBodyContent(URLEncoder.encode(request.bodyEntity, "utf-8"));
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
                 }
             }
             MLog.e("URL = " + params.getUri());

@@ -160,6 +160,7 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     public void onDataRequestSucceed(BaseRequest _request) {
+        super.onDataRequestSucceed(_request);
         if (_request instanceof RequestOrderDetail) {
             emptyTV.setVisibility(View.GONE);
             RequestOrderDetail mParser = (RequestOrderDetail) _request;

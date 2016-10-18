@@ -71,6 +71,7 @@ public class AboutActivity extends BaseActivity {
 
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
+        super.onDataRequestSucceed(request);
         if (request instanceof RequestCheckVersion) {
             RequestCheckVersion requestCV = (RequestCheckVersion) request;
             final CheckVersionBean checkVersionBean = requestCV.getData();

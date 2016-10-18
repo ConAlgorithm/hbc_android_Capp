@@ -185,6 +185,7 @@ public class GuideDetailActivity extends BaseActivity{
 
     @Override
     public void onDataRequestSucceed(BaseRequest _request) {
+        super.onDataRequestSucceed(_request);
         if (_request instanceof RequestGuideDetail) {
             RequestGuideDetail request = (RequestGuideDetail) _request;
             data = request.getData();

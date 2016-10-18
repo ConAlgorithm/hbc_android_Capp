@@ -193,6 +193,7 @@ public class PoiSearchActivity extends BaseActivity implements AdapterView.OnIte
 
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
+        super.onDataRequestSucceed(request);
         if (request instanceof RequestPoiSearch) {
             RequestPoiSearch requestPoiSearch = (RequestPoiSearch) request;
             NewPoiBean newPoiBean = (requestPoiSearch.getData());//listDate;

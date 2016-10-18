@@ -188,6 +188,7 @@ public class ChoosePaymentActivity extends BaseActivity {
 
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
+        super.onDataRequestSucceed(request);
         if (request instanceof RequestPayNo) {
             RequestPayNo mParser = (RequestPayNo) request;
             if (mParser.payType == Constants.PAY_STATE_ALIPAY) {

@@ -181,6 +181,7 @@ public class OrderCancelActivity extends BaseActivity{
 
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
+        super.onDataRequestSucceed(request);
         DialogUtil dialogUtil = DialogUtil.getInstance(this);
         dialogUtil.showCustomDialog("取消订单成功", new DialogInterface.OnClickListener() {
             @Override

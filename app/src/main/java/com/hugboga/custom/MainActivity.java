@@ -25,7 +25,6 @@ import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
@@ -57,6 +56,7 @@ import com.hugboga.custom.service.LogService;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.utils.AlertDialogUtils;
+import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.JsonUtils;
@@ -333,6 +333,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                 timerTask = null;
             }
             EventBus.getDefault().unregister(this);
+            ApiReportHelper.getInstance().commitAllReport();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -340,6 +341,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
+        super.onDataRequestSucceed(request);
         if (request instanceof RequestPushToken) {
             MLog.e(request.getData().toString());
         } else if (request instanceof RequestUploadLocation) {

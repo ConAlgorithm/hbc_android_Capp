@@ -103,7 +103,7 @@ public class EvaluateListActivity extends BaseActivity{
 
     @Override
     public void onDataRequestSucceed(BaseRequest _request) {
-
+        super.onDataRequestSucceed(_request);
         if (_request instanceof RequestCommentsList) {
             RequestCommentsList request = (RequestCommentsList) _request;
             CommentsListData data = request.getData();

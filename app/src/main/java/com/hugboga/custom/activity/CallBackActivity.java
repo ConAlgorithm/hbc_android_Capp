@@ -37,6 +37,7 @@ public class CallBackActivity extends BaseActivity {
 
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
+        super.onDataRequestSucceed(request);
         if (request instanceof RequestCallBack) {
             RequestCallBack mParser = (RequestCallBack) request;
             CommonUtils.showToast("意见反馈提交成功");

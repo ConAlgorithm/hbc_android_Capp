@@ -542,6 +542,7 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
 
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
+        super.onDataRequestSucceed(request);
         if (request instanceof RequestCheckPrice) {
             bottom.setVisibility(GONE);
             isNetError = false;

@@ -205,6 +205,7 @@ public class BindMobileActivity extends BaseActivity{
 
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
+        super.onDataRequestSucceed(request);
         if (request instanceof RequestVerity) {
             RequestVerity requestVerity = (RequestVerity) request;
             showTip("验证码已发送");

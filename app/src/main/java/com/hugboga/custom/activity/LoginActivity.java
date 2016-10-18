@@ -202,6 +202,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
 
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
+        super.onDataRequestSucceed(request);
         if (request instanceof RequestLogin) {
             RequestLogin mRequest = (RequestLogin) request;
             UserBean user = mRequest.getData();

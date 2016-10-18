@@ -295,6 +295,7 @@ public class SkuListActivity extends BaseActivity implements HbcRecyclerBaseAdap
 
     @Override
     public void onDataRequestSucceed(BaseRequest _request) {
+        super.onDataRequestSucceed(_request);
         if (_request instanceof RequestCitySkuList) {
             skuCityBean = ((RequestCitySkuList) _request).getData();
             cityHeaderView.update(skuCityBean);

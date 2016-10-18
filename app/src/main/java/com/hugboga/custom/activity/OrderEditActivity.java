@@ -447,6 +447,7 @@ public class OrderEditActivity extends BaseActivity {
 
     @Override
     public void onDataRequestSucceed(BaseRequest _request) {
+        super.onDataRequestSucceed(_request);
         if (_request instanceof RequestOrderEdit) {
             CommonUtils.showToast("信息修改成功");
             EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_UPDATE_INFO, orderBean.orderNo));

@@ -253,7 +253,7 @@ public class ChooseCountryActivity extends BaseActivity {
 
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
-
+        super.onDataRequestSucceed(request);
     }
 
     @OnClick({R.id.head_btn_left})

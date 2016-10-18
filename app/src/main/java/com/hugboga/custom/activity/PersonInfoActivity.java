@@ -147,6 +147,7 @@ public class PersonInfoActivity extends BaseActivity{
 
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
+        super.onDataRequestSucceed(request);
         if (request instanceof RequestUserInfo) {
             RequestUserInfo requestUserInfo = (RequestUserInfo) request;
             userBean = requestUserInfo.getData();

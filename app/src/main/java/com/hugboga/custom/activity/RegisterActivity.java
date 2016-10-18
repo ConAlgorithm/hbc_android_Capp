@@ -168,6 +168,7 @@ public class RegisterActivity extends BaseActivity implements TextWatcher {
 
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
+        super.onDataRequestSucceed(request);
         if (request instanceof RequestRegister) {
             RequestRegister register = (RequestRegister) request;
             UserBean userBean = register.getData();

@@ -99,7 +99,7 @@ public class GuideCarListActivity extends BaseActivity{
 
     @Override
     public void onDataRequestSucceed(BaseRequest _request) {
-
+        super.onDataRequestSucceed(_request);
         if (_request instanceof RequestCars) {
             RequestCars request = (RequestCars) _request;
             ArrayList<GuideCarBean> list = request.getData();
