@@ -60,6 +60,8 @@ import com.netease.nim.uikit.session.SessionCustomization;
 import com.netease.nim.uikit.session.SessionEventListener;
 import com.netease.nim.uikit.session.constant.Extras;
 import com.netease.nim.uikit.session.fragment.MessageFragment;
+import com.netease.nim.uikit.uinfo.UserInfoHelper;
+import com.netease.nim.uikit.uinfo.UserInfoObservable;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
 import com.netease.nimlib.sdk.RequestCallback;
@@ -145,6 +147,8 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
     private int inBlack;//标识对方是否被自己拉黑，1是 0否
     private int isHideMoreBtn;
 
+    private UserInfoObservable.UserInfoObserver uinfoObserver;
+
     @Override
     public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
@@ -154,6 +158,7 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
         grantAudio();
 
         registerObservers(true);
+        registerUserInfoObserver();
     }
 
     private void initView() {
@@ -418,24 +423,6 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
             sb.append(orderBean.serviceTime + "至" + orderBean.serviceEndTime);
         }
         return sb.toString();
-    }
-
-    /**
-     * 根据私信订单状态改变颜色
-     *
-     * @param tv
-     * @param status
-     */
-    private void resetStatusColor(TextView tv, String status) {
-        if (!TextUtils.isEmpty(status)) {
-            if (getString(R.string.letter_order_state1).equals(status)) {
-                tv.setTextColor(ContextCompat.getColor(NIMChatActivity.this, R.color.letter_item_order1));
-            } else if (getString(R.string.letter_order_state2).equals(status)) {
-                tv.setTextColor(ContextCompat.getColor(NIMChatActivity.this, R.color.letter_item_order2));
-            } else if (getString(R.string.letter_order_state3).equals(status)) {
-                tv.setTextColor(ContextCompat.getColor(NIMChatActivity.this, R.color.letter_item_order3));
-            }
-        }
     }
 
     ViewPager.OnPageChangeListener onPageChangeListener = new ViewPager.OnPageChangeListener() {
@@ -715,6 +702,7 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
     public void onDestroy() {
         clearImChat(); //进入后清空消息提示
         registerObservers(false);
+        unregisterUserInfoObserver();
         super.onDestroy();
     }
 
@@ -809,4 +797,34 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
        return MessageBuilder.createEmptyMessage(sessionId, SessionTypeEnum.P2P, 0);
     }
 
+    private void registerUserInfoObserver() {
+        if (uinfoObserver == null) {
+            uinfoObserver = new UserInfoObservable.UserInfoObserver() {
+                @Override
+                public void onUserInfoChanged(List<String> accounts) {
+                    if (accounts.contains(sessionId)) {
+                        requestBuddyInfo();
+                    }
+                }
+            };
+        }
+
+        UserInfoHelper.registerObserver(uinfoObserver);
+    }
+
+    private void unregisterUserInfoObserver() {
+        if (uinfoObserver != null) {
+            UserInfoHelper.unregisterObserver(uinfoObserver);
+        }
+    }
+
+    private void requestBuddyInfo() {
+        if (TextUtils.isEmpty(sessionId)) {
+            return;
+        }
+        if (TextUtils.isEmpty(NimUIKit.getAccount())) {
+            return;
+        }
+        setTitle(UserInfoHelper.getUserTitleName(sessionId, SessionTypeEnum.P2P));
+    }
 }
