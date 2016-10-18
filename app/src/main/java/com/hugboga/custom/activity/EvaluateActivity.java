@@ -278,6 +278,7 @@ public class EvaluateActivity extends BaseActivity implements RatingView.OnLevel
 
     @Override
     public void onDataRequestSucceed(BaseRequest _request) {
+        super.onDataRequestSucceed(_request);
         if (_request instanceof RequestEvaluateNew) {
             orderBean.userCommentStatus = 1;
             if (orderBean.appraisement == null) {

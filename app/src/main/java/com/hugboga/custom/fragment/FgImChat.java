@@ -225,7 +225,7 @@ public class FgImChat extends BaseFragment implements ZBaseAdapter.OnItemClickLi
 
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
-
+        super.onDataRequestSucceed(request);
     }
 
     @Override

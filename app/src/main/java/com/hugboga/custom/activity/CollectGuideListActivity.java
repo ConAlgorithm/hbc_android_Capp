@@ -103,6 +103,7 @@ public class CollectGuideListActivity extends BaseActivity{
 
     @Override
     public void onDataRequestSucceed(BaseRequest _request) {
+        super.onDataRequestSucceed(_request);
         List<CollectGuideBean> list = null;
         if (_request instanceof RequestCollectGuideList) {
             RequestCollectGuideList request = (RequestCollectGuideList) _request;

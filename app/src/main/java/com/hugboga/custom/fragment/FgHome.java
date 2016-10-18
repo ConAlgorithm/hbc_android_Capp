@@ -105,6 +105,7 @@ public class FgHome extends BaseFragment {
 
     @Override
     public void onDataRequestSucceed(BaseRequest _request) {
+        super.onDataRequestSucceed(_request);
         if (_request instanceof RequestHome) {
             RequestHome request = (RequestHome) _request;
             HomeData data = request.getData();

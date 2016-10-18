@@ -44,6 +44,7 @@ public class ChangePswActivity extends BaseActivity {
 
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
+        super.onDataRequestSucceed(request);
         if (request instanceof RequestChangePwd) {
             RequestChangePwd mParser = (RequestChangePwd) request;
             CommonUtils.showToast("修改密码成功");

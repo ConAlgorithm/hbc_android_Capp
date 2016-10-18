@@ -124,7 +124,7 @@ public class UrlLibs {
         }
     }
 
-    //current urlErrorCode 105
+    //current urlErrorCode 106
 
     //-------个人信息--------
     public static final String SERVER_IP_PUBLIC_UER_CENTER = "ucenter/v1.0/c/user/";
@@ -216,6 +216,7 @@ public class UrlLibs {
 
     public static final String SERVER_IP_ACCESSKEY          = "passport/v1.0/getAccessKey?";                            // 获取accessKey
     public static final String SERVER_IP_CHECK_APP_VERSION  = "passport/v1.0/checkAppVersion?";                         // 版本检测
+    public static final String API_REPORT                   = "passport/v1.0/report";                                   // App信息采集上报接口
 
     public static final String API_HOME                     = "basicdata/v1.2/c/home/citys/contents?";                  // 首页城市卡片列表
     public static final String SERVER_IP_UPLOAD_LOGS        = "pt/v1.0/log/stream?";                                    // 发送log日志

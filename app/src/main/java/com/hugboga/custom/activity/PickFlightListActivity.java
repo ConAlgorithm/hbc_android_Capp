@@ -149,6 +149,7 @@ public class PickFlightListActivity extends BaseActivity implements AdapterView.
 
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
+        super.onDataRequestSucceed(request);
         if (request instanceof RequestFlightByNo) {
             RequestFlightByNo mParser = (RequestFlightByNo) request;
             mListDate = mParser.getData();

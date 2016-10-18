@@ -287,6 +287,7 @@ public class ChooseAirPortActivity extends BaseActivity implements SideBar.OnTou
 
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
+        super.onDataRequestSucceed(request);
         if (request instanceof RequestAirPort) {
             RequestAirPort mParser = (RequestAirPort) request;
             sourceDateList = mParser.getData();

@@ -297,6 +297,7 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
 
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
+        super.onDataRequestSucceed(request);
         if (request instanceof RequestUserInfo) {
             if (couponTV == null || travelFundTV == null) {
                 return;

@@ -116,6 +116,7 @@ public class TravelFundActivity extends BaseActivity {
 
     @Override
     public void onDataRequestSucceed(final BaseRequest _request) {
+        super.onDataRequestSucceed(_request);
         if (_request instanceof RequestTravelFundLogs) {
             RequestTravelFundLogs request = (RequestTravelFundLogs) _request;
             travelFundData = request.getData();
