@@ -44,7 +44,6 @@ import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.action.ActionController;
 import com.hugboga.custom.action.data.ActionBean;
 import com.hugboga.custom.activity.BaseActivity;
-import com.hugboga.custom.activity.CanServiceGuideListActivity;
 import com.hugboga.custom.activity.CollectGuideListActivity;
 import com.hugboga.custom.activity.CouponActivity;
 import com.hugboga.custom.activity.InsureActivity;
