@@ -898,15 +898,14 @@ public class OrderNewActivity extends BaseActivity {
                 deductionBean = ((RequestDeduction) request).getData();
 
                 travelFund = deductionBean.deduction;
-                money = Integer.valueOf(travelFund);
+               try{
+                   money = Integer.valueOf(travelFund);
+               }catch (Exception e){
+                   money=0;
+               }
+
                 if (0 == money) {
                     dream_right_tips.setVisibility(View.GONE);
-                    dream_right_tips.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            startActivity(new Intent(activity, TravelFundActivity.class));
-                        }
-                    });
                     dreamRight.setText(Tools.getRMB(activity)+"0");
                 } else {
                     dreamRight.setText(Tools.getRMB(activity) + (Integer.valueOf(deductionBean.deduction) + Integer.valueOf(deductionBean.leftAmount)));
