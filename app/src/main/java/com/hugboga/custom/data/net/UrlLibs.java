@@ -242,7 +242,8 @@ public class UrlLibs {
     public static final String REMOVE_BLACK                 = "communication/v2.0/c/im/black/remove";                   // 私聊对象移出黑名单
     public static final String API_IM_SERVER_INFO           = "communication/v2.0/c/im/info/kf";                        // 获取当前环境下的客服信息
 
-
+    /**========v1.4城市首页接口============**/
+    public static final String API_CITY_HOME_LIST            = "goods/v1.4/c/home/cityGoods?";                           // 城市商品列表
 
 
 }

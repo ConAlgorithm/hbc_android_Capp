@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <RelativeLayout
+            android:id="@+id/cityHome_header_cityname_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/city_home_header_bg_iv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/default_btn_selected_gray_bg"
+                android:scaleType="centerCrop" />
+
+           <RelativeLayout
+               android:id="@+id/layout_one"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:orientation="vertical"
+               android:layout_centerInParent="true"
+               >
+               <TextView
+                   android:id="@+id/city_home_header_city_name_tv"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_centerHorizontal="true"
+                   android:textColor="#ffffff"
+                   android:textSize="28sp"
+                   android:gravity="center"
+                   android:text="城市名称"
+                   android:hint="城市名称"
+                   android:textStyle="bold" />
+
+               <TextView
+                   android:id="@+id/city_home_header_guides_count_tv"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_centerHorizontal="true"
+                   android:textColor="#ffffff"
+                   android:textSize="20sp"
+                   android:layout_below="@+id/city_home_header_city_name_tv"
+                   android:layout_marginTop="5dp"
+                   />
+           </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/cityHome_header_guides_avatar_layout"
+                android:layout_below="@+id/layout_one"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:orientation="horizontal"
+                />
+            <ImageView
+                android:id="@+id/cityHome_header_search_image"
+                android:src="@mipmap/home_search_icon"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp" />
+        </RelativeLayout>
+
+        <include
+            android:id="@+id/cityHome_header_choose_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            layout="@layout/city_home_toolbar_rent_layout"
+            />
+
+        <LinearLayout
+            android:id="@+id/cityHome_header_play_count_layout"
+            android:layout_width="match_parent"
+            android:layout_height="120px"
+            android:orientation="horizontal"
+            android:background="@color/default_img_bg"
+            android:layout_above="@+id/cityHome_filter_lay"
+            android:layout_below="@+id/cityHome_header_choose_layout">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/icon_trip"
+                android:paddingLeft="36px"
+                android:layout_gravity="center_vertical"
+                android:id="@+id/imageView2" />
+
+            <TextView
+                android:id="@+id/cityHome_header_play_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:hint="17种包车游线路或玩法"
+                android:layout_gravity="center_vertical" />
+        </LinearLayout>
+        <include
+            android:id="@+id/cityHome_filter_lay"
+            layout="@layout/city_home_filter_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+</merge>

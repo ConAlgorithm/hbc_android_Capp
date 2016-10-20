@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout
+        android:id="@+id/city_home_list_super_freedom"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/allbg_white"
+        android:paddingLeft="36px"
+        android:paddingRight="36px"
+        android:paddingTop="40px">
+        <TextView
+            android:id="@+id/city_home2_list_item_goods_lable"
+            android:text="商品名称"
+            android:textSize="@dimen/text_size_35"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"/>
+        <View
+            android:id="@+id/city_home_list_item_free_view"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_below="@+id/city_home2_list_item_goods_lable"
+            android:background="@color/allbg_gray"
+            android:layout_margin="10dp"
+            />
+
+        <LinearLayout
+            android:id="@+id/city_home_list_item_free_image_lay"
+            android:layout_width="match_parent"
+            android:layout_height="345px"
+            android:orientation="horizontal"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            android:layout_below="@+id/city_home_item_free_guides_count"
+            >
+
+            <ImageView
+                android:id="@+id/city_home_list_item_free_image_first"
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_centerHorizontal="true"
+                />
+
+            <ImageView
+                android:id="@+id/city_home_list_item_free_image_sec"
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_centerHorizontal="true"
+                />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/city_home_list_item_route_name_TV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/city_home_list_item_free_image_lay"
+            android:layout_marginTop="46px"
+            android:textSize="@dimen/text_size_35"
+            android:hint="sdsfdsa"
+            android:textColor="#111111"
+            />
+
+
+        <TextView
+            android:id="@+id/city_home_item_free_guides_count"
+            android:layout_width="326px"
+            android:layout_height="56px"
+            android:drawableRight="@mipmap/sidao"
+            android:textColor="#999999"
+            android:background="@drawable/bg_city_home_guides_count"
+            android:padding="6dp"
+            android:layout_below="@+id/city_home_list_item_free_view"
+            android:layout_alignLeft="@+id/city_home_list_item_free_view"
+            android:layout_alignStart="@+id/city_home_list_item_free_view" />
+
+        <TextView
+            android:id="@+id/city_home_item_free_head_lable"
+            android:layout_width="120px"
+            android:layout_height="44px"
+            android:layout_marginTop="15dp"
+            android:gravity="center"
+            android:textColor="#ffffff"
+            android:background="@drawable/bg_city_home_lable_blue"
+            android:layout_alignTop="@+id/city_home_list_item_free_image_lay"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+    </RelativeLayout>
+
+</merge>

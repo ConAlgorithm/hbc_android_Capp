@@ -84,4 +84,11 @@
     <!-- map -->
     <dimen name="friend_map_btn_height">42dp</dimen>
     <dimen name="friend_map_bound_padding">80dp</dimen>
+    
+    <!-- CityHome size -->
+    <dimen name="city_home_height_side_size">120px</dimen>
+    <dimen name="city_home_height_toolbar_size">180px</dimen>
+    <dimen name="city_home_line_height">180px</dimen>
+
+
 </resources>
