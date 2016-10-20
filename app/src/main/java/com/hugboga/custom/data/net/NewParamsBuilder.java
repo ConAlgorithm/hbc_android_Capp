@@ -24,6 +24,7 @@ public class NewParamsBuilder extends HbcParamsBuilder {
         params.setHeader("os","android");
         params.setHeader("appVersion",ChannelUtils.getVersion());
         params.setHeader("idfa", PhoneInfo.getIMEI(((BaseRequest)params).getContext()));
+        params.setHeader("ts", "" + System.currentTimeMillis());
         MLog.e("URL = " + params.getUri());
         for (int i=0;i<params.getHeaders().size();i++) {
             MLog.e("new header = " +params.getHeaders().get(i).key+":"+params.getHeaders().get(i).value);

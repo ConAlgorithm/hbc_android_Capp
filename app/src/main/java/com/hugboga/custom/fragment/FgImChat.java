@@ -49,6 +49,8 @@ import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.utils.UnicornUtils;
+import com.netease.nim.uikit.uinfo.UserInfoHelper;
+import com.netease.nim.uikit.uinfo.UserInfoObservable;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
 import com.netease.nimlib.sdk.RequestCallbackWrapper;
@@ -59,6 +61,7 @@ import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.MsgServiceObserve;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.netease.nimlib.sdk.msg.model.RecentContact;
+import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 import com.qiyukf.unicorn.api.Unicorn;
 import com.qiyukf.unicorn.api.UnreadCountChangeListener;
 
@@ -131,6 +134,7 @@ public class FgImChat extends BaseFragment implements ZBaseAdapter.OnItemClickLi
 
         registerObservers(true);
         Unicorn.addUnreadCountChangeListener(listener, true);
+        registerUserInfoObserver();
     }
 
 
@@ -225,7 +229,7 @@ public class FgImChat extends BaseFragment implements ZBaseAdapter.OnItemClickLi
 
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
-
+        super.onDataRequestSucceed(request);
     }
 
     @Override
@@ -268,6 +272,7 @@ public class FgImChat extends BaseFragment implements ZBaseAdapter.OnItemClickLi
     public void onDestroyView() {
         registerObservers(false);
         Unicorn.addUnreadCountChangeListener(null, false);
+        unregisterUserInfoObserver();
         super.onDestroyView();
     }
 
@@ -318,6 +323,7 @@ public class FgImChat extends BaseFragment implements ZBaseAdapter.OnItemClickLi
                 return;
             }
             String titleJson = getChatInfo(chatBean.targetId, chatBean.targetAvatar, chatBean.targetName, chatBean.targetType+"",chatBean.inBlack,chatBean.nTargetId);
+            MyApplication.requestRemoteNimUserInfo(chatBean.nTargetId);
             NIMChatActivity.start(getContext(),chatBean.nTargetId,null,titleJson,chatBean.isCancel);
         } else {
             MLog.e("目标用户不是客服，也不是司导");
@@ -549,4 +555,22 @@ public class FgImChat extends BaseFragment implements ZBaseAdapter.OnItemClickLi
             }
         }
     };
+
+    private UserInfoObservable.UserInfoObserver userInfoObserver;
+    private void registerUserInfoObserver() {
+        if (userInfoObserver == null) {
+            userInfoObserver = new UserInfoObservable.UserInfoObserver() {
+                @Override
+                public void onUserInfoChanged(List<String> accounts) {
+                }
+            };
+        }
+        UserInfoHelper.registerObserver(userInfoObserver);
+    }
+
+    private void unregisterUserInfoObserver() {
+        if (userInfoObserver != null) {
+            UserInfoHelper.unregisterObserver(userInfoObserver);
+        }
+    }
 }

@@ -247,6 +247,7 @@ public class SkuNewActivity extends BaseActivity {
 
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
+        super.onDataRequestSucceed(request);
         if (request instanceof RequestPriceSku) {
             bottom.setVisibility(View.GONE);
             isNetError = false;

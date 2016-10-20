@@ -263,6 +263,7 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
 
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
+        super.onDataRequestSucceed(request);
         if (request instanceof RequestADPicture) {
             RequestADPicture requestADPicture = (RequestADPicture) request;
             ADPictureBean adPictureBean = requestADPicture.getData();

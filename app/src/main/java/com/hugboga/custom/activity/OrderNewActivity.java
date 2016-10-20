@@ -1111,6 +1111,7 @@ public class OrderNewActivity extends BaseActivity {
 
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
+        super.onDataRequestSucceed(request);
         if (request instanceof RequestSubmitBase) {
             orderInfoBean = ((RequestSubmitBase) request).getData();
             String couponId = null;
