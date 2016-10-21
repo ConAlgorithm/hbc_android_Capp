@@ -42,10 +42,6 @@ public class CityHomeListItemWorry extends RelativeLayout implements HbcViewBeha
         goodImagefirst=(ImageView)findViewById(R.id.city_home_list_item_image_first);
         cityHomeLay=(RelativeLayout)findViewById(R.id.city_home_list_item_worry_lay);
 
-
-
-//        int displayImgHeight = (int)((339 / 690.0) * (UIUtils.getScreenWidth() - UIUtils.dip2px(30)));
-//        displayIV.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, displayImgHeight));
     }
 
 
@@ -60,25 +56,17 @@ public class CityHomeListItemWorry extends RelativeLayout implements HbcViewBeha
             Tools.showImage(goodImagefirst,goodsSec.goodsPicture);
         }
 
+        guideAmount.setText("" + goodsSec.guideAmount+"位当地中文司导");
+        guideAmount.setVisibility(View.VISIBLE);
 
-        if (goodsSec.guideAmount <= 0) {
-            guideAmount.setVisibility(View.GONE);
-        } else {
-            guideAmount.setText("" + goodsSec.guideAmount+"位当地中文司导");
-            guideAmount.setVisibility(View.VISIBLE);
-            guideAmount.setBackgroundResource(R.drawable.bg_city_home_guides_count);
-        }
 
-        goodsPrice.setText(  goodsSec.goodsLable);
+        goodsPrice.setText(goodsSec.goodsLable);
 
         priceHint.setVisibility(View.VISIBLE);
         headlable.setText(goodsSec.headLable);
-//        if (goodsSec.goodsClass == 1) {//1固定线路 超省心 绿色
-//            headlable.setBackgroundResource(R.drawable.shape_sku_list_lable_green);
-//       }
 
         if (!TextUtils.isEmpty(goodsSec.goodsName)){
-            places.setText(goodsSec.goodsName);
+            places.setText(goodsSec.places);
         }
 
     }

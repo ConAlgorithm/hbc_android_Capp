@@ -15,8 +15,10 @@ import java.util.List;
  */
 
 public class CityHomeAdapter extends  HbcRecyclerBaseAdapter<GoodsSec> {
-    public static final String HEADLABLEFREE="超自由";
-    public static final String HEADLABLEWORRY="超省心";
+    public static final String HEAD_LABLE_FREE="超自由";
+    public static final String HEAD_LABLE_WORRY="超省心";
+    public static final int HEAD_LABLE_WORRY_TYPE=1;
+    public static final int HEAD_LABLE_FREE_TYPE=2;
 
     public CityHomeAdapter(Context context) {
         super(context);
@@ -25,11 +27,19 @@ public class CityHomeAdapter extends  HbcRecyclerBaseAdapter<GoodsSec> {
     @Override
     protected View getItemView(int position) {
         View view=null;
-        switch (datas.get(position).headLable){
-            case HEADLABLEWORRY:
-               view=new CityHomeListItemWorry(getContext());
+//        switch (datas.get(position).headLable){
+//            case HEADLABLEWORRY:
+//               view=new CityHomeListItemWorry(getContext());
+//                break;
+//            case HEADLABLEFREE:
+//                view=new CityHomeListItemFree(getContext());
+//                break;
+//        }
+        switch (datas.get(position).goodsClass){
+            case HEAD_LABLE_WORRY_TYPE:
+                view=new CityHomeListItemWorry(getContext());
                 break;
-            case HEADLABLEFREE:
+            case HEAD_LABLE_FREE_TYPE:
                 view=new CityHomeListItemFree(getContext());
                 break;
         }

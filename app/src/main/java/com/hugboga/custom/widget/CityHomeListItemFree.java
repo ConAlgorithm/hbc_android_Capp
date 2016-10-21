@@ -16,7 +16,7 @@ import com.hugboga.custom.utils.Tools;
  */
 
 public class CityHomeListItemFree extends RelativeLayout implements HbcViewBehavior {
-    private TextView goodsLable,guidesAmount,headLable,routeName;
+    private TextView goodsName,guidesAmount,headLable,routeName;
     private ImageView goodsImagefirst,goodsImageSec;
 
     public CityHomeListItemFree(Context context) {
@@ -27,7 +27,7 @@ public class CityHomeListItemFree extends RelativeLayout implements HbcViewBehav
         super(context, attrs);
 
         inflate(context,R.layout.city_home_list_item_super_free,this);
-        goodsLable=(TextView)findViewById(R.id.city_home2_list_item_goods_lable);
+        goodsName=(TextView)findViewById(R.id.city_home2_list_item_goods_name);
         guidesAmount=(TextView)findViewById(R.id.city_home_item_free_guides_count);
         headLable=(TextView)findViewById(R.id.city_home_item_free_head_lable);
         routeName=(TextView)findViewById(R.id.city_home_list_item_route_name_TV);
@@ -50,7 +50,7 @@ public class CityHomeListItemFree extends RelativeLayout implements HbcViewBehav
             Tools.showImage(goodsImageSec,goodsSec.goodsPics.get(0));
         }
 
-        goodsLable.setText(goodsSec.goodsLable);
+        goodsName.setText(goodsSec.goodsLable);
         guidesAmount.setText(goodsSec.guideAmount+"位当地中文司导");
         headLable.setText(goodsSec.headLable);
         routeName.setText(goodsSec.goodsName);

@@ -38,10 +38,11 @@
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
                    android:layout_centerHorizontal="true"
+                   android:layout_marginTop="-3dp"
                    android:textColor="#ffffff"
-                   android:textSize="20sp"
+                   android:textSize="16sp"
+                   android:textStyle="bold"
                    android:layout_below="@+id/city_home_header_city_name_tv"
-                   android:layout_marginTop="5dp"
                    />
            </RelativeLayout>
 

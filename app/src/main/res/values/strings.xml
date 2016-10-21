@@ -817,4 +817,7 @@
     <string name="order_detail_timeright">内，添加投保人信息</string>
     <string name="pay_result_succeed">您的服务已预订成功！</string>
     <string name="order_detail_insurance">~</string>
+
+    <string name="city_home_head_lable_worry">超省心</string>
+    <string name="city_home_head_lable_free">超自由</string>
 </resources>

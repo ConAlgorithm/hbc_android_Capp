@@ -2,6 +2,8 @@ package com.hugboga.custom.widget;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
@@ -11,10 +13,19 @@ import android.widget.TextView;
 
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.ChooseCityNewActivity;
+import com.hugboga.custom.activity.DailyWebInfoActivity;
+import com.hugboga.custom.activity.PickSendActivity;
+import com.hugboga.custom.activity.SingleNewActivity;
+import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityHomeBean;
+import com.hugboga.custom.data.bean.UserEntity;
+import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
+import com.umeng.analytics.MobclickAgent;
+
+import java.util.HashMap;
 
 import butterknife.Bind;
 
@@ -74,7 +85,7 @@ public class CityHomeHeader extends LinearLayout implements HbcViewBehavior,View
         unlimitDays.setOnClickListener(this);
         unlimitTheme.setOnClickListener(this);
 
-        displayLayoutHeight=(int)((360 / 750.0) * UIUtils.getScreenWidth());
+        displayLayoutHeight=(int)((385 / 750.0) * UIUtils.getScreenWidth());
         findViewById(R.id.cityHome_header_cityname_layout).setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, displayLayoutHeight));
     }
 
@@ -87,10 +98,6 @@ public class CityHomeHeader extends LinearLayout implements HbcViewBehavior,View
         Tools.showImage(bgIV,cityHomeBean.cityContent.cityPicture);
         cityNameTV.setText(cityHomeBean.cityContent.cityName);
         guideAmountTV.setText(cityHomeBean.cityGuides.cityGuideAmount+"位当地中文司导");
-
-        if(cityHomeBean.cityGuides.cityGuideAmount<=0){
-//            guideAmountTV.setVisibility(View.GONE);
-        }
 
         //司导头像,引用
         if (cityHomeBean.cityGuides.guideAvatars != null && cityHomeBean.cityGuides.guideAvatars .size() > 0) {
@@ -118,10 +125,13 @@ public class CityHomeHeader extends LinearLayout implements HbcViewBehavior,View
     public void onClick(View v) {
         switch (v.getId()){
              case R.id.cityHome_toolbar_custom_car:
+                 goDairy();
                  break;
             case R.id.cityHome_toolbar_home_pick_send_airport:
+                goPickSend();
                 break;
             case  R.id.cityHome_toolbar_single_send:
+                goSingle();
                 break;
             case R.id.cityHome_header_search_image:
                 Intent intent = new Intent(this.getContext(), ChooseCityNewActivity.class);
@@ -167,6 +177,39 @@ public class CityHomeHeader extends LinearLayout implements HbcViewBehavior,View
         }else {
             goodsCount.setText(cityHomeBean.goodsCount+"种包车游线路或玩法");
         }
+    }
+
+    private void goDairy(){
+        Bundle bundle = new Bundle();
+        HashMap<String,String> map = new HashMap<String,String>();
+        bundle.putString("source","首页");
+        String userId = UserEntity.getUser().getUserId(this.getContext());
+        String params = "";
+        if(!TextUtils.isEmpty(userId)){
+            params += "?userId=" + userId;
+        }
+        Intent intent = new Intent(this.getContext(), DailyWebInfoActivity.class);
+        intent.putExtra(Constants.PARAMS_SOURCE, "首页");
+        intent.putExtras(bundle);
+        intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_DAIRY + params);
+        this.getContext().startActivity(intent);
+        map.put("source", "首页");
+        MobclickAgent.onEvent(getContext(), "chose_oneday", map);
+    }
+
+    /**
+     * 以下代码copy自旧版本首页
+     * */
+    private void goPickSend(){
+        Intent intent = new Intent(getContext(), PickSendActivity.class);
+        intent.putExtra("source","首页");
+        getContext().startActivity(intent);
+    }
+
+    private void goSingle(){
+        Intent intent = new Intent(getContext(),SingleNewActivity.class);
+        intent.putExtra("source","首页");
+        getContext().startActivity(intent);
     }
 
     public int getDisplayLayoutHeight() {

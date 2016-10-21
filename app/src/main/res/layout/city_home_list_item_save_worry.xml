@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge    xmlns:android="http://schemas.android.com/apk/res/android"   >
+<LinearLayout    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
     <RelativeLayout
         android:id="@+id/city_home_list_item_worry_lay"
@@ -23,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/city_home_list_item_image_first"
             android:layout_marginTop="46px"
-            android:textSize="25sp"
+            android:textSize="@dimen/text_size_mediumx"
             android:hint="sdsfdsa"
             android:textColor="#111111"
             />
@@ -33,7 +36,7 @@
             android:orientation="horizontal"
             android:layout_below="@+id/city_home_list_item_route_name_TV"
             android:layout_marginTop="36px"
-            android:layout_marginBottom="60px"
+            android:paddingBottom="60px"
             >
             <TextView
                 android:id="@+id/city_home_list_item_price"
@@ -41,7 +44,7 @@
                 android:layout_height="wrap_content"
                 android:text="1000000"
                 android:textColor="@color/basic_red"
-                android:textSize="15sp"
+                android:textSize="@dimen/text_size_medium"
                 />
             <TextView
                 android:id="@+id/city_home_list_item_unit"
@@ -57,6 +60,7 @@
             android:layout_height="56px"
             android:drawableRight="@mipmap/sidao"
             android:layout_alignBottom="@+id/city_home_list_item_image_first"
+            android:background="@drawable/bg_city_home_guides_count"
             android:layout_marginBottom="36px"
             android:textColor="#999999"
             android:padding="3dp"
@@ -69,8 +73,16 @@
             android:layout_alignTop="@+id/city_home_list_item_image_first"
             android:layout_marginTop="30px"
             android:gravity="center"
+            android:text="@string/city_home_head_lable_worry"
             android:textColor="#ffffff"
             android:background="@drawable/bg_city_home_lable_green"
             />
+
     </RelativeLayout>
-</merge>
+    <View
+        android:layout_below="@+id/city_home_list_item_worry_lay"
+        android:layout_width="match_parent"
+        android:layout_height="44px"
+        android:background="@color/allbg_gray"
+        android:layout_alignParentBottom="true" />
+</LinearLayout>

@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+   >
 
     <RelativeLayout
         android:id="@+id/city_home_list_super_freedom"
@@ -11,18 +16,20 @@
         android:paddingRight="36px"
         android:paddingTop="40px">
         <TextView
-            android:id="@+id/city_home2_list_item_goods_lable"
+            android:id="@+id/city_home2_list_item_goods_name"
             android:text="商品名称"
-            android:textSize="@dimen/text_size_35"
+            android:textSize="@dimen/text_size_mediumx"
+            android:hint="cscsacs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"/>
         <View
             android:id="@+id/city_home_list_item_free_view"
             android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_below="@+id/city_home2_list_item_goods_lable"
-            android:background="@color/allbg_gray"
+            android:layout_height="1dp"
+            android:layout_marginBottom="0.5dp"
+            android:background="#e5e8ed"
+            android:layout_below="@+id/city_home2_list_item_goods_name"
             android:layout_margin="10dp"
             />
 
@@ -59,9 +66,10 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/city_home_list_item_free_image_lay"
             android:layout_marginTop="46px"
-            android:textSize="@dimen/text_size_35"
+            android:textSize="@dimen/text_size_mediumx"
             android:hint="sdsfdsa"
             android:textColor="#111111"
+            android:paddingBottom="60px"
             />
 
 
@@ -71,7 +79,6 @@
             android:layout_height="56px"
             android:drawableRight="@mipmap/sidao"
             android:textColor="#999999"
-            android:background="@drawable/bg_city_home_guides_count"
             android:padding="6dp"
             android:layout_below="@+id/city_home_list_item_free_view"
             android:layout_alignLeft="@+id/city_home_list_item_free_view"
@@ -83,11 +90,16 @@
             android:layout_height="44px"
             android:layout_marginTop="15dp"
             android:gravity="center"
+            android:text="@string/city_home_head_lable_free"
             android:textColor="#ffffff"
             android:background="@drawable/bg_city_home_lable_blue"
             android:layout_alignTop="@+id/city_home_list_item_free_image_lay"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
     </RelativeLayout>
-
-</merge>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="44px"
+        android:background="@color/allbg_gray"
+        android:layout_alignParentBottom="true"/>
+</LinearLayout>

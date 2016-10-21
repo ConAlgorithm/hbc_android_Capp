@@ -136,7 +136,8 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerBas
         fgRightBtn.setBackgroundResource(R.mipmap.home_search_icon);
 
         ZDefaultDivider divider = recyclerView.getItemDecoration();
-        divider.setItemOffsets(0, 0, 0, 0);
+        divider.setItemOffsets(0, 0 , 0, 0);
+
 
         adapter = new CityHomeAdapter(this);
         recyclerView.setAdapter(adapter);
