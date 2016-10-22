@@ -34,7 +34,7 @@ public class CityHomeBean implements Serializable {
 
 
     public  class CityGuides implements Serializable{
-        public int cityGuideAmount;//城市导游数量
+        public int guideAmount;//城市导游数量
         public ArrayList<String> guideAvatars;//司导头像列表
 
     }

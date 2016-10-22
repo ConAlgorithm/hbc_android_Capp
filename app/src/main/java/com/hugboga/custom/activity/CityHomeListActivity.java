@@ -1,5 +1,6 @@
 package com.hugboga.custom.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -28,6 +30,7 @@ import com.hugboga.custom.data.request.RequestCityHomeList;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.utils.DBHelper;
 import com.hugboga.custom.utils.UIUtils;
+import com.hugboga.custom.widget.CityHomeFilter;
 import com.hugboga.custom.widget.CityHomeHeader;
 import com.hugboga.custom.widget.SkuListEmptyView;
 
@@ -40,6 +43,9 @@ import java.io.Serializable;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+
+import static android.R.attr.alpha;
+import static android.R.attr.foregroundGravity;
 
 /**
  * Created by Administrator on 2016/10/18.
@@ -57,9 +63,11 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerBas
     ZSwipeRefreshLayout swipeRefreshLayout;
     @Bind(R.id.cityHome_list_empty_view)
     SkuListEmptyView emptyView;//和sku一样
+    @Bind(R.id.city_home_filter)
+    LinearLayout cityHomeFilter;
 
-//    @Bind(R.id.header_right_image)
-//    TextView headerRightIV;
+    @Bind(R.id.header_right_image)
+    ImageView headerRightIV;
 
     private CityHomeHeader cityHomeHeader;
 
@@ -212,11 +220,28 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerBas
                         }
                         titlebar.setBackgroundColor(UIUtils.getColorWithAlpha(alpha, 0xFF2D2B28));
                         fgTitle.setTextColor(UIUtils.getColorWithAlpha(alpha, 0xFFFFFFFF));
+                        headerRightIV.setBackgroundColor(UIUtils.getColorWithAlpha(alpha, 0xFF2D2B28));
+                        headerRightIV.setVisibility(View.GONE);
                     } else {
                         titlebar.setBackgroundColor(0xFF2D2B24);
                         fgTitle.setTextColor(0xFFFFFFFF);
+                        headerRightIV.setImageResource(R.mipmap.search_box_white);
+                        headerRightIV.setVisibility(View.VISIBLE);
+                        headerRightIV.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(getBaseContext(), ChooseCityNewActivity.class);
+                                intent.putExtra("com.hugboga.custom.home.flush", Constants.BUSINESS_TYPE_RECOMMEND);
+                                intent.putExtra("isHomeIn",false);
+                                intent.putExtra("source","小搜索框");
+                                getBaseContext().startActivity(intent);
+                                ((Activity)(getBaseContext())).overridePendingTransition(R.anim.push_bottom_in,0);
+                            }
+                        });
                     }
                 }
+
+                isShowCityFilter(layoutManager);
             }
         });
 
@@ -332,5 +357,27 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerBas
     @Override
     public String getEventSource() {
         return "城市列表";
+    }
+
+    public void isShowCityFilter( RecyclerView.LayoutManager layoutManager){
+        if (paramsData.cityHomeType == CityHomeType.CITY && cityHomeHeader != null) {
+            int scrollY = Math.abs(recyclerView.getChildAt(0).getTop());
+            if (scrollY == recyclerView.getChildAt(0).getHeight()-50) {
+                cityHomeFilter.setVisibility(View.GONE);
+            } else {
+                cityHomeFilter.setVisibility(View.VISIBLE);
+                headerRightIV.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getBaseContext(), ChooseCityNewActivity.class);
+                        intent.putExtra("com.hugboga.custom.home.flush", Constants.BUSINESS_TYPE_RECOMMEND);
+                        intent.putExtra("isHomeIn",false);
+                        intent.putExtra("source","小搜索框");
+                        getBaseContext().startActivity(intent);
+                        ((Activity)(getBaseContext())).overridePendingTransition(R.anim.push_bottom_in,0);
+                    }
+                });
+            }
+        }
     }
 }

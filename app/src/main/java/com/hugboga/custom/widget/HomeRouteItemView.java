@@ -9,6 +9,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.CityHomeListActivity;
 import com.hugboga.custom.activity.SkuDetailActivity;
 import com.hugboga.custom.activity.SkuListActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
@@ -171,10 +172,17 @@ public class HomeRouteItemView extends RelativeLayout implements HbcViewBehavior
                 break;
             case R.id.home_route_item_display_iv:
             case R.id.home_route_item_more_layout:
-                SkuListActivity.Params params = new SkuListActivity.Params();
+//                SkuListActivity.Params params = new SkuListActivity.Params();
+//                params.id = data.getCityId();
+//                params.skuType = SkuListActivity.SkuType.CITY;
+//                Intent intent = new Intent(getContext(), SkuListActivity.class);
+//                intent.putExtra(Constants.PARAMS_DATA, params);
+//                intent.putExtra(Constants.PARAMS_SOURCE, "首页");
+//                getContext().startActivity(intent);
+                CityHomeListActivity.Params params = new CityHomeListActivity.Params();
                 params.id = data.getCityId();
-                params.skuType = SkuListActivity.SkuType.CITY;
-                Intent intent = new Intent(getContext(), SkuListActivity.class);
+                params.cityHomeType = CityHomeListActivity.CityHomeType.CITY;
+                Intent intent = new Intent(getContext(), CityHomeListActivity.class);
                 intent.putExtra(Constants.PARAMS_DATA, params);
                 intent.putExtra(Constants.PARAMS_SOURCE, "首页");
                 getContext().startActivity(intent);

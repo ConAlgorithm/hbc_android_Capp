@@ -27,4 +27,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/default_bg" />
+    <include
+        android:id="@+id/city_home_filter"
+        layout="@layout/city_home_filter_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/cityHome_list_titlebar"
+        android:visibility="gone"/>
 </RelativeLayout>
