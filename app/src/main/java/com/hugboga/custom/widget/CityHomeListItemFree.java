@@ -3,13 +3,16 @@ package com.hugboga.custom.widget;
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.GoodsSec;
 import com.hugboga.custom.utils.Tools;
+import com.hugboga.custom.utils.UIUtils;
 
 /**
  * Created by Administrator on 2016/10/20.
@@ -18,6 +21,7 @@ import com.hugboga.custom.utils.Tools;
 public class CityHomeListItemFree extends RelativeLayout implements HbcViewBehavior {
     private TextView goodsName,guidesAmount,headLable,routeName;
     private ImageView goodsImagefirst,goodsImageSec;
+    private LinearLayout linearLayout;
 
     public CityHomeListItemFree(Context context) {
        this(context,null);
@@ -34,6 +38,8 @@ public class CityHomeListItemFree extends RelativeLayout implements HbcViewBehav
 
         goodsImagefirst=(ImageView)findViewById(R.id.city_home_list_item_free_image_first);
         goodsImageSec=(ImageView)findViewById(R.id.city_home_list_item_free_image_sec);
+
+        linearLayout=(LinearLayout)findViewById(R.id.city_home_list_item_free_image_lay);
     }
 
     @Override
@@ -45,10 +51,13 @@ public class CityHomeListItemFree extends RelativeLayout implements HbcViewBehav
 
         if (!TextUtils.isEmpty(goodsSec.goodsPicture)) {
             Tools.showImage(goodsImagefirst,goodsSec.goodsPicture);
+            if (goodsSec.goodsPics!= null &&goodsSec.goodsPics.size()>0){
+                Tools.showImage(goodsImageSec,goodsSec.goodsPics.get(0));
+            }
+        }else {
+            linearLayout.setBackgroundResource(R.color.default_img_bg);
         }
-        if (goodsSec.goodsPics!= null &&goodsSec.goodsPics.size()>0){
-            Tools.showImage(goodsImageSec,goodsSec.goodsPics.get(0));
-        }
+
 
         goodsName.setText(goodsSec.goodsLable);
         guidesAmount.setText(goodsSec.guideAmount+"位当地中文司导");

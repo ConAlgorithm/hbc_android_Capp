@@ -9,7 +9,7 @@
     <LinearLayout
         android:id="@+id/cityHome_toolbar_custom_car"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/city_home_height_toolbar_size"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
         android:orientation="vertical">
@@ -20,21 +20,21 @@
             android:text="@string/select_city_title"
             android:drawableTop="@mipmap/zidingyi"
             android:textSize="@dimen/text_size_mediumx"
-
+            android:layout_margin="@dimen/text_size_12"
             />
 
     </LinearLayout>
 
     <View
         android:layout_width="1dp"
-        android:layout_height="@dimen/city_home_line_height"
+        android:layout_height="match_parent"
         android:layout_gravity="center_vertical"
         android:background="#e6e9ee" />
 
     <LinearLayout
         android:id="@+id/cityHome_toolbar_home_pick_send_airport"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/city_home_height_toolbar_size"
+        android:layout_height="match_parent"
         android:layout_weight="1"
         android:gravity="center"
         android:orientation="vertical">
@@ -44,19 +44,20 @@
             android:layout_height="wrap_content"
             android:text="@string/home_picksend"
             android:drawableTop="@mipmap/jiesongji"
-            android:textSize="@dimen/text_size_mediumx" />
+            android:textSize="@dimen/text_size_mediumx"
+            android:layout_margin="@dimen/text_size_12"/>
     </LinearLayout>
 
     <View
         android:layout_width="1dp"
-        android:layout_height="@dimen/city_home_line_height"
+        android:layout_height="match_parent"
         android:layout_gravity="center_vertical"
         android:background="#e6e9ee" />
 
     <LinearLayout
         android:id="@+id/cityHome_toolbar_single_send"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/city_home_height_toolbar_size"
+        android:layout_height="match_parent"
         android:layout_weight="1"
         android:gravity="center"
         android:orientation="vertical">
@@ -66,7 +67,8 @@
             android:layout_height="wrap_content"
             android:text="@string/title_rent"
             android:drawableTop="@mipmap/danci"
-            android:textSize="@dimen/text_size_mediumx" />
+            android:textSize="@dimen/text_size_mediumx"
+            android:layout_margin="@dimen/text_size_12"/>
     </LinearLayout>
 
 </LinearLayout>

@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -23,8 +24,8 @@ public class CityHomeListItemWorry extends RelativeLayout implements HbcViewBeha
 
     private TextView headlable,guideAmount,places,goodsPrice,priceHint;
     private ImageView goodImagefirst;
-    private RelativeLayout cityHomeLay;
 
+    private int displayLayoutHeight;
 
     public CityHomeListItemWorry(Context context) {
         this(context,null);
@@ -40,8 +41,10 @@ public class CityHomeListItemWorry extends RelativeLayout implements HbcViewBeha
         goodsPrice=(TextView)findViewById(R.id.city_home_list_item_price);
         priceHint=(TextView)findViewById(R.id.city_home_list_item_unit);
         goodImagefirst=(ImageView)findViewById(R.id.city_home_list_item_image_first);
-        cityHomeLay=(RelativeLayout)findViewById(R.id.city_home_list_item_worry_lay);
 
+
+        displayLayoutHeight=(int)((345 / 648.0) * UIUtils.getScreenWidth());
+        goodImagefirst.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, displayLayoutHeight));
     }
 
 
@@ -54,6 +57,8 @@ public class CityHomeListItemWorry extends RelativeLayout implements HbcViewBeha
 
         if (!TextUtils.isEmpty(goodsSec.goodsPicture)) {
             Tools.showImage(goodImagefirst,goodsSec.goodsPicture);
+        }else {
+            goodImagefirst.setImageResource(R.color.default_img_bg);
         }
 
         guideAmount.setText("" + goodsSec.guideAmount+"位当地中文司导");

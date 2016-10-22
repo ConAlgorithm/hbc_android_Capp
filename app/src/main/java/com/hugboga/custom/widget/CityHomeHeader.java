@@ -33,12 +33,15 @@ import butterknife.Bind;
 import static com.hugboga.custom.R.id.cityHome_toolbar_custom_car;
 import static com.hugboga.custom.R.id.cityHome_toolbar_home_pick_send_airport;
 import static com.hugboga.custom.R.id.cityHome_toolbar_single_send;
+import static com.hugboga.custom.R.id.swipe;
 
 /**
  * Created by wbj on 2016/10/17.
  */
 
 public class CityHomeHeader extends LinearLayout implements HbcViewBehavior,View.OnClickListener{
+
+    private static final int AMOUNT=5;
 
     private TextView cityNameTV,guideAmountTV,goodsCount;     //城市名称，司导数量,货物数量
     private LinearLayout customCar,pickSendAir,singleSend,guideAvatarsLay,gooodsCountLay;      //定制包车，接送机，单次接送,司导头像,线路玩法数量
@@ -114,9 +117,18 @@ public class CityHomeHeader extends LinearLayout implements HbcViewBehavior,View
                 circleImageView.setBackgroundResource(R.mipmap.journey_head_portrait);
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(UIUtils.dip2px(45), UIUtils.dip2px(45));
                 params.rightMargin = UIUtils.dip2px(15);
+                if (i+1==AMOUNT&&size>AMOUNT){
+                    circleImageView.setImageResource(R.mipmap.home_morelist);
+                    guideAvatarsLay.addView(circleImageView, params);
+                    break;
+                }
                 Tools.showImage(circleImageView, cityHomeBean.cityGuides.guideAvatars.get(i));
-                guideAvatarsLay.addView(circleImageView, params);
+                if (circleImageView.getDrawable()!=null){
+                    guideAvatarsLay.addView(circleImageView, params);
+                }
             }
+        }else {
+            guideAvatarsLay.setVisibility(View.GONE);
         }
 
         judgeServiceType(cityHomeBean);         //判断有没有三种服务类型，包车游，接送机，单次接送,线路有无
@@ -204,13 +216,13 @@ public class CityHomeHeader extends LinearLayout implements HbcViewBehavior,View
      * */
     private void goPickSend(){
         Intent intent = new Intent(getContext(), PickSendActivity.class);
-        intent.putExtra("source","城市页");
+        intent.putExtra("source","首页");
         getContext().startActivity(intent);
     }
 
     private void goSingle(){
         Intent intent = new Intent(getContext(),SingleNewActivity.class);
-        intent.putExtra("source","城市页");
+        intent.putExtra("source","首页");
         getContext().startActivity(intent);
     }
 
