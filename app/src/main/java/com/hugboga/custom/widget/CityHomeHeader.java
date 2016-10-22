@@ -1,5 +1,6 @@
 package com.hugboga.custom.widget;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -97,7 +98,7 @@ public class CityHomeHeader extends LinearLayout implements HbcViewBehavior,View
         cityHomeBean=(CityHomeBean)_data;
         Tools.showImage(bgIV,cityHomeBean.cityContent.cityPicture);
         cityNameTV.setText(cityHomeBean.cityContent.cityName);
-        guideAmountTV.setText(cityHomeBean.cityGuides.cityGuideAmount+"位当地中文司导");
+        guideAmountTV.setText(cityHomeBean.cityGuides.guideAmount+"位当地中文司导");
 
         //司导头像,引用
         if (cityHomeBean.cityGuides.guideAvatars != null && cityHomeBean.cityGuides.guideAvatars .size() > 0) {
@@ -136,9 +137,10 @@ public class CityHomeHeader extends LinearLayout implements HbcViewBehavior,View
             case R.id.cityHome_header_search_image:
                 Intent intent = new Intent(this.getContext(), ChooseCityNewActivity.class);
                 intent.putExtra("com.hugboga.custom.home.flush", Constants.BUSINESS_TYPE_RECOMMEND);
-                intent.putExtra("isHomeIn",true);
+                intent.putExtra("isHomeIn",false);
                 intent.putExtra("source","小搜索框");
                 this.getContext().startActivity(intent);
+                ((Activity)(this.getContext())).overridePendingTransition(R.anim.push_bottom_in,0);
                 break;
             case R.id.cityHome_unlimited_type_lay:
                 ImageView type=(ImageView)findViewById(R.id.city_home_unlimited_type);
@@ -182,18 +184,18 @@ public class CityHomeHeader extends LinearLayout implements HbcViewBehavior,View
     private void goDairy(){
         Bundle bundle = new Bundle();
         HashMap<String,String> map = new HashMap<String,String>();
-        bundle.putString("source","首页");
+        bundle.putString("source","城市页");
         String userId = UserEntity.getUser().getUserId(this.getContext());
         String params = "";
         if(!TextUtils.isEmpty(userId)){
             params += "?userId=" + userId;
         }
         Intent intent = new Intent(this.getContext(), DailyWebInfoActivity.class);
-        intent.putExtra(Constants.PARAMS_SOURCE, "首页");
+        intent.putExtra(Constants.PARAMS_SOURCE, "城市页");
         intent.putExtras(bundle);
         intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_DAIRY + params);
         this.getContext().startActivity(intent);
-        map.put("source", "首页");
+        map.put("source", "城市页");
         MobclickAgent.onEvent(getContext(), "chose_oneday", map);
     }
 
@@ -202,13 +204,13 @@ public class CityHomeHeader extends LinearLayout implements HbcViewBehavior,View
      * */
     private void goPickSend(){
         Intent intent = new Intent(getContext(), PickSendActivity.class);
-        intent.putExtra("source","首页");
+        intent.putExtra("source","城市页");
         getContext().startActivity(intent);
     }
 
     private void goSingle(){
         Intent intent = new Intent(getContext(),SingleNewActivity.class);
-        intent.putExtra("source","首页");
+        intent.putExtra("source","城市页");
         getContext().startActivity(intent);
     }
 

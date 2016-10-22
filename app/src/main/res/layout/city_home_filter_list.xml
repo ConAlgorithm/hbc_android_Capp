@@ -151,7 +151,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:visibility="gone"
         >
         <com.huangbaoche.hbcframe.widget.recycler.ZListRecyclerView
             android:id="@+id/cityHome_list_recycleview"
