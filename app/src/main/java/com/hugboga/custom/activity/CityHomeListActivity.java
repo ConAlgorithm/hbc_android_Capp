@@ -361,8 +361,10 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerBas
 
     public void isShowCityFilter( RecyclerView.LayoutManager layoutManager){
         if (paramsData.cityHomeType == CityHomeType.CITY && cityHomeHeader != null) {
+            int firstVisibleItemPosition = ((LinearLayoutManager) layoutManager).findFirstVisibleItemPosition();
             int scrollY = Math.abs(recyclerView.getChildAt(0).getTop());
-            if (scrollY == recyclerView.getChildAt(0).getHeight()-50) {
+            float showRegionHight = cityHomeHeader.getDisplayLayoutHeight()+20;
+            if (firstVisibleItemPosition == 0 && scrollY <= showRegionHight){
                 cityHomeFilter.setVisibility(View.GONE);
             } else {
                 cityHomeFilter.setVisibility(View.VISIBLE);
