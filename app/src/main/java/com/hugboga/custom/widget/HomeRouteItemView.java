@@ -11,7 +11,6 @@ import android.widget.TextView;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.SkuDetailActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
-import com.hugboga.custom.data.bean.HomeBean;
 import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
