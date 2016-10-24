@@ -333,11 +333,11 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerBas
             showEmptyView(true);
         }else if (_request instanceof RequestRouteCityHomeList) {
             cityHomeBean = ((RequestCityHomeList) _request).getData();
-            fgTitle.setText(cityHomeBean.lineGroupName);
+            fgTitle.setText(cityHomeBean.lineGroupContent.lineGroupName);
             showEmptyView(false);
         } else if (_request instanceof RequestCountryCityHomeList) {
             cityHomeBean = ((RequestCityHomeList) _request).getData();
-            fgTitle.setText(cityHomeBean.countryName);
+            fgTitle.setText(cityHomeBean.countryContent.countryName);
             showEmptyView(false);
         }
 
