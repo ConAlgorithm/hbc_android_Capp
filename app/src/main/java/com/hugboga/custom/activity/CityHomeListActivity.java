@@ -7,12 +7,10 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
@@ -22,7 +20,7 @@ import com.huangbaoche.hbcframe.widget.recycler.ZListRecyclerView;
 import com.huangbaoche.hbcframe.widget.recycler.ZSwipeRefreshLayout;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.CityHomeAdapter;
-import com.hugboga.custom.adapter.HbcRecyclerBaseAdapter;;
+import com.hugboga.custom.adapter.HbcRecyclerBaseAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.CityHomeBean;
@@ -30,6 +28,7 @@ import com.hugboga.custom.data.request.RequestCityHomeList;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.utils.DBHelper;
 import com.hugboga.custom.utils.UIUtils;
+import com.hugboga.custom.widget.CityFilterLayout;
 import com.hugboga.custom.widget.CityHomeFilter;
 import com.hugboga.custom.widget.CityHomeHeader;
 import com.hugboga.custom.widget.SkuListEmptyView;
@@ -63,11 +62,13 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerBas
     ZSwipeRefreshLayout swipeRefreshLayout;
     @Bind(R.id.cityHome_list_empty_view)
     SkuListEmptyView emptyView;//和sku一样
-    @Bind(R.id.city_home_filter)
+    @Bind(R.id.city_home_filter_tab_layout)
     LinearLayout cityHomeFilter;
 
     @Bind(R.id.header_right_image)
     ImageView headerRightIV;
+    @Bind(R.id.city_home_filter_layout)
+    CityFilterLayout cityFilterLayout;
 
     private CityHomeHeader cityHomeHeader;
 
@@ -79,7 +80,7 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerBas
     private CityBean cityBean = null;
 
     public enum CityHomeType {
-        CITY, ROUTE, COUNTRY;
+        CITY, ROUTE, COUNTRY
     }
 
     public Params getParamsData() {
@@ -102,7 +103,7 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerBas
         if (savedInstanceState != null) {
             paramsData = (CityHomeListActivity.Params) savedInstanceState.getSerializable(Constants.PARAMS_DATA);
         } else {
-            Bundle bundle = getIntent().getExtras();
+            Bundle bundle = this.getIntent().getExtras();
             if (bundle != null) {
                 paramsData = (CityHomeListActivity.Params) bundle.getSerializable(Constants.PARAMS_DATA);
             }
@@ -268,7 +269,19 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerBas
 
     @Override
     public void onItemClick(View view, int position, Object itemData) {
-
+          //HomeCityFilterHelper.showViewPager(this,findViewById(R.id.city_home_filter));
+        if(position==0){
+            cityFilterLayout.onlyShowTab();
+        }
+        if(position==1){
+            cityFilterLayout.hideTab();
+        }
+        if(position==2){
+            cityFilterLayout.hideFilterView();
+        }
+        if(position==3){
+            cityFilterLayout.showFilterView(1);
+        }
     }
 
     @Override

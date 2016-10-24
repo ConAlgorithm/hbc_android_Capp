@@ -27,11 +27,22 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/default_bg" />
-    <include
+
+    <com.hugboga.custom.widget.CityFilterLayout
+        android:id="@+id/city_home_filter_layout"
+        android:layout_below="@+id/cityHome_list_titlebar"
+        android:orientation="vertical"
+        android:background="@android:color/transparent"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </com.hugboga.custom.widget.CityFilterLayout>
+
+    <!--<include
         android:id="@+id/city_home_filter"
         layout="@layout/city_home_filter_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/cityHome_list_titlebar"
-        android:visibility="gone"/>
+        android:visibility="gone"/>-->
 </RelativeLayout>

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android">
-
         <RelativeLayout
             android:id="@+id/cityHome_header_cityname_layout"
             android:layout_width="match_parent"
@@ -97,10 +96,17 @@
                 android:hint="17种包车游线路或玩法"
                 android:layout_gravity="center_vertical" />
         </LinearLayout>
-        <include
+      <!--  <include
             android:id="@+id/cityHome_filter_lay"
             layout="@layout/city_home_filter_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             />
+-->
+        <include
+            android:id="@+id/city_home_header_filter_tab_layout"
+            layout="@layout/city_home_filter_tab_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            ></include>
 </merge>

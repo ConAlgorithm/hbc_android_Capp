@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -44,7 +45,7 @@ public class CityHomeHeader extends LinearLayout implements HbcViewBehavior,View
     private LinearLayout customCar,pickSendAir,singleSend,guideAvatarsLay,gooodsCountLay;      //定制包车，接送机，单次接送,司导头像,线路玩法数量
     private LinearLayout cityHomeFilterLay;
     private ImageView bgIV,searchIV;                                     //背景图片
-    private RelativeLayout unlimitType,unlimitDays,unlimitTheme;
+    private FrameLayout unlimitType,unlimitDays,unlimitTheme;
 
     @Bind(R.id.cityHome_filter_lay)
     CityHomeFilter cityHomeFilter;
@@ -71,9 +72,9 @@ public class CityHomeHeader extends LinearLayout implements HbcViewBehavior,View
         gooodsCountLay=(LinearLayout)findViewById(R.id.cityHome_header_play_count_layout) ;
         cityHomeFilterLay=(LinearLayout)findViewById(R.id.cityHome_filter_lay);
 
-        unlimitType=(RelativeLayout)findViewById(R.id.cityHome_unlimited_type_lay) ;
-        unlimitDays=(RelativeLayout)findViewById(R.id.cityHome_unlimited_days_lay);
-        unlimitTheme=(RelativeLayout)findViewById(R.id.cityHome_unlimited_theme_lay);
+        unlimitType=(FrameLayout)findViewById(R.id.cityHome_unlimited_type_lay) ;
+        unlimitDays=(FrameLayout)findViewById(R.id.cityHome_unlimited_days_lay);
+        unlimitTheme=(FrameLayout)findViewById(R.id.cityHome_unlimited_theme_lay);
 
         bgIV=(ImageView)findViewById(R.id.city_home_header_bg_iv);
         searchIV=(ImageView)findViewById(R.id.cityHome_header_search_image);

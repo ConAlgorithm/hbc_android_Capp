@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+    <include
+        android:id="@+id/city_home_filter_tab_layout"
+        layout="@layout/city_home_filter_tab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></include>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/city_filter_viewpager"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent">
+    </android.support.v4.view.ViewPager>
+</merge>
