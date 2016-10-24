@@ -45,7 +45,7 @@ public class CityHomeHeader extends LinearLayout implements HbcViewBehavior,View
 
     private TextView cityNameTV,guideAmountTV,goodsCount;     //城市名称，司导数量,货物数量
     private LinearLayout customCar,pickSendAir,singleSend,guideAvatarsLay,gooodsCountLay;      //定制包车，接送机，单次接送,司导头像,线路玩法数量
-    private LinearLayout cityHomeFilterLay;
+    private LinearLayout cityHomeFilterLay,cityHomeGoodsEmpty;
     private ImageView bgIV,searchIV;                                     //背景图片
     private RelativeLayout unlimitType,unlimitDays,unlimitTheme;
 
@@ -73,6 +73,7 @@ public class CityHomeHeader extends LinearLayout implements HbcViewBehavior,View
         guideAvatarsLay=(LinearLayout)findViewById(R.id.cityHome_header_guides_avatar_layout);
         gooodsCountLay=(LinearLayout)findViewById(R.id.cityHome_header_play_count_layout) ;
         cityHomeFilterLay=(LinearLayout)findViewById(R.id.cityHome_filter_lay);
+        cityHomeGoodsEmpty=(LinearLayout)findViewById(R.id.cityHome_route_empty);
 
         unlimitType=(RelativeLayout)findViewById(R.id.cityHome_unlimited_type_lay) ;
         unlimitDays=(RelativeLayout)findViewById(R.id.cityHome_unlimited_days_lay);
@@ -114,18 +115,16 @@ public class CityHomeHeader extends LinearLayout implements HbcViewBehavior,View
                     break j;
                 }
                 CircleImageView circleImageView = new CircleImageView(getContext());
-                circleImageView.setBackgroundResource(R.mipmap.journey_head_portrait);
+//                circleImageView.setBackgroundResource(R.mipmap.journey_head_portrait);
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(UIUtils.dip2px(45), UIUtils.dip2px(45));
                 params.rightMargin = UIUtils.dip2px(15);
-                if (i+1==AMOUNT&&size>AMOUNT){
+                if (size>AMOUNT&&i+1==AMOUNT){
                     circleImageView.setImageResource(R.mipmap.home_morelist);
                     guideAvatarsLay.addView(circleImageView, params);
-                    break;
+                    break j;
                 }
                 Tools.showImage(circleImageView, cityHomeBean.cityGuides.guideAvatars.get(i));
-                if (circleImageView.getDrawable()!=null){
-                    guideAvatarsLay.addView(circleImageView, params);
-                }
+                guideAvatarsLay.addView(circleImageView, params);
             }
         }else {
             guideAvatarsLay.setVisibility(View.GONE);
@@ -188,6 +187,13 @@ public class CityHomeHeader extends LinearLayout implements HbcViewBehavior,View
         }
         if (cityHomeBean.goodsCount<=0){
             gooodsCountLay.setVisibility(View.GONE);
+            cityHomeFilterLay.setVisibility(View.GONE);
+            if (!cityHomeBean.cityService.hasDailyservice()){
+                cityHomeGoodsEmpty.setVisibility(View.VISIBLE);
+            }else if (!cityHomeBean.cityService.hasAirporService()&&!cityHomeBean.cityService.hasSingleService()){
+                cityHomeGoodsEmpty.setVisibility(View.VISIBLE);
+                findViewById(R.id.city_home_list_item_empty_tip).setVisibility(View.VISIBLE);
+            }
         }else {
             goodsCount.setText(cityHomeBean.goodsCount+"种包车游线路或玩法");
         }
