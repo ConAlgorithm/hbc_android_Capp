@@ -1,6 +1,7 @@
 package com.hugboga.custom.widget;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
@@ -11,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.CityHomeListActivity;
 import com.hugboga.custom.data.bean.HomeBean;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
@@ -47,16 +49,25 @@ public class HomeHotCityItemView extends LinearLayout implements HbcViewBehavior
 
     @Override
     public void update(Object _data) {
-        HomeBean.HotCity data = (HomeBean.HotCity) _data;
+        final HomeBean.HotCity data = (HomeBean.HotCity) _data;
         if (data == null) {
             return;
         }
         Tools.showImage(cityIV, data.cityHeadPicture);
-        citynameTV.setText(data.countryName);
+        citynameTV.setText(data.cityName);
 
         String guideCountStr = String.format("%1$s位司导", "" + data.cityGuideAmount);
         SpannableString msp = new SpannableString(guideCountStr);
         msp.setSpan(new ForegroundColorSpan(0xFFFF6633), 0, String.valueOf(data.cityGuideAmount).length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         guideCountTV.setText(msp);
+
+        this.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                data
+                CityHomeListActivity.Params params = new CityHomeListActivity.Params();
+                Intent intent = new Intent(getContext(), CityHomeListActivity.class);
+            }
+        });
     }
 }

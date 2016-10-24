@@ -108,8 +108,8 @@ public class FgHome extends BaseFragment {
         if (_request instanceof RequestHome) {
             RequestHome request = (RequestHome) _request;
             HomeBean data = request.getData();
-            routeView.setData(data.fixGoods);
-            routeFreeView.setData(data.recommendGoods);
+            routeView.update(data.fixGoods);
+            routeFreeView.update(data.recommendGoods);
             hotCityView.update(data.getHotCityList());
             travelStoriesView.update(data.travelStories);
             activitiesView.update(data.activities);

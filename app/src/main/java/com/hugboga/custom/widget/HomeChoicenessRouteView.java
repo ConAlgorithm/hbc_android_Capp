@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.HomeChoicenessRouteAdapter;
-import com.hugboga.custom.data.bean.HomeBean;
+import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.utils.UIUtils;
 
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ import butterknife.ButterKnife;
 /**
  * Created by qingcha on 16/6/19.
  */
-public class HomeChoicenessRouteView extends LinearLayout {
+public class HomeChoicenessRouteView extends LinearLayout implements HbcViewBehavior{
 
     @Bind(R.id.home_choiceness_route_title_tv)
     TextView titleTV;
@@ -81,7 +81,9 @@ public class HomeChoicenessRouteView extends LinearLayout {
         recyclerView.setAdapter(adapter);
     }
 
-    public void setData(ArrayList<HomeBean.TraveLineItem> _itemList) {
+    @Override
+    public void update(Object _data) {
+        ArrayList<SkuItemBean> _itemList = (ArrayList<SkuItemBean>) _data;
         if (_itemList == null) {
             return;
         }

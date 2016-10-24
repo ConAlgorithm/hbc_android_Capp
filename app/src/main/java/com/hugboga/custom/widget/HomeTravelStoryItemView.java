@@ -1,6 +1,8 @@
 package com.hugboga.custom.widget;
 
 import android.content.Context;
+import android.content.Intent;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
@@ -8,9 +10,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.data.bean.HomeBean;
+import com.hugboga.custom.data.bean.UserEntity;
+import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
+
+import java.util.Random;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -40,11 +47,22 @@ public class HomeTravelStoryItemView extends RelativeLayout implements HbcViewBe
 
     @Override
     public void update(Object _data) {
-        HomeBean.TravelStory data = (HomeBean.TravelStory) _data;
+        final HomeBean.TravelStory data = (HomeBean.TravelStory) _data;
         if (data == null) {
             return;
         }
         Tools.showImage(displayIV, data.storyPicture);
         guideCountTV.setText(data.storyName);
+        this.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (TextUtils.isEmpty(data.storyUrl)) {
+                    return;
+                }
+                Intent intent = new Intent(getContext(), WebInfoActivity.class);
+                intent.putExtra(WebInfoActivity.WEB_URL, data.storyUrl);
+                getContext().startActivity(intent);
+            }
+        });
     }
 }
