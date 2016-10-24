@@ -1,18 +1,16 @@
 package com.hugboga.custom.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
@@ -26,26 +24,29 @@ import com.hugboga.custom.adapter.HbcRecyclerBaseAdapter;;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.CityHomeBean;
+import com.hugboga.custom.data.bean.GoodsSec;
+import com.hugboga.custom.data.bean.SkuItemBean;
+import com.hugboga.custom.data.bean.UserEntity;
+import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestCityHomeList;
+import com.hugboga.custom.data.request.RequestCountryCityHomeList;
+import com.hugboga.custom.data.request.RequestRouteCityHomeList;
 import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.utils.DBHelper;
 import com.hugboga.custom.utils.UIUtils;
-import com.hugboga.custom.widget.CityHomeFilter;
 import com.hugboga.custom.widget.CityHomeHeader;
+import com.hugboga.custom.widget.CityHomeListItemFree;
 import com.hugboga.custom.widget.SkuListEmptyView;
 
 import org.xutils.DbManager;
 import org.xutils.common.Callback;
 import org.xutils.ex.DbException;
-import org.xutils.view.annotation.ViewInject;
 
 import java.io.Serializable;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-
-import static android.R.attr.alpha;
-import static android.R.attr.foregroundGravity;
 
 /**
  * Created by Administrator on 2016/10/18.
@@ -256,10 +257,10 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerBas
                 request = new RequestCityHomeList(this, "" + paramsData.id, pageIndex,paramsData.daysCountMin,paramsData.daysCountMax,paramsData.goodsClass,paramsData.themeId);
                 break;
             case ROUTE:
-                request = new RequestCityHomeList(this, "" + paramsData.id, pageIndex,paramsData.daysCountMin,paramsData.daysCountMax,paramsData.goodsClass,paramsData.themeId);
+                request = new RequestRouteCityHomeList(this, "" + paramsData.id, pageIndex,paramsData.daysCountMin,paramsData.daysCountMax,paramsData.goodsClass,paramsData.themeId);
                 break;
             case COUNTRY:
-                request = new RequestCityHomeList(this, "" + paramsData.id, pageIndex,paramsData.daysCountMin,paramsData.daysCountMax,paramsData.goodsClass,paramsData.themeId);
+                request = new RequestCountryCityHomeList(this, "" + paramsData.id, pageIndex,paramsData.daysCountMin,paramsData.daysCountMax,paramsData.goodsClass,paramsData.themeId);
                 break;
         }
         return HttpRequestUtils.request(this, request, this, needShowLoading);
@@ -267,7 +268,59 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerBas
 
     @Override
     public void onItemClick(View view, int position, Object itemData) {
+        if (itemData != null && itemData instanceof GoodsSec) {
+            GoodsSec goodsSec = (GoodsSec) itemData;
+            if (goodsSec.goodsClass == -1) {//超省心（固定线路）
+                if (cityBean != null) {
+                    String userId = UserEntity.getUser().getUserId(this);
+                    String params = "";
+                    if(!TextUtils.isEmpty(userId)){
+                        params += "?userId="+userId;
+                    }
+                    String cityId = cityBean.cityId + "";
+                    if(!TextUtils.isEmpty(cityId)){
+                        if(params.contains("?")) {
+                            params += "&cityId=" + cityId;
+                        }else{
+                            params += "?cityId=" + cityId;
+                        }
+                    }
+                    Intent intent = new Intent(CityHomeListActivity.this, DailyWebInfoActivity.class);
+                    intent.putExtra(Constants.PARAMS_SOURCE, getIntentSource());
+                    intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_DAIRY+params);
+                    intent.putExtra("cityBean", cityBean);
+                    intent.putExtra("source", cityBean.name);
+                    intent.putExtra(KEY_CITY_BEAN, cityBean);
+                    startActivity(intent);
 
+                } else {
+                    String userId = UserEntity.getUser().getUserId(this);
+                    String params = "";
+                    if(!TextUtils.isEmpty(userId)){
+                        params += "?userId=" + userId;
+                    }
+                    Intent intent = new Intent(CityHomeListActivity.this, WebInfoActivity.class);
+                    intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_DAIRY + params);
+                    startActivity(intent);
+
+                }
+            } else {
+                String userId = UserEntity.getUser().getUserId(this);
+                String cityHomeDetailUrl = goodsSec.skuDetailUrl;
+                if(!TextUtils.isEmpty(userId)){
+                    cityHomeDetailUrl += "&userId="+userId;
+                }
+                Intent intent = new Intent(CityHomeListActivity.this, SkuDetailActivity.class);
+                intent.putExtra(WebInfoActivity.WEB_URL, cityHomeDetailUrl);
+                intent.putExtra(SkuDetailActivity.WEB_SKU, cityHomeDetailUrl);
+                startActivity(intent);
+                if(goodsSec.goodsClass == 1) {
+                    StatisticClickEvent.click(StatisticConstant.CLICK_RG, "城市页");
+                }else {
+                    StatisticClickEvent.click(StatisticConstant.CLICK_RT, "城市页");
+                }
+            }
+        }
     }
 
     @Override
@@ -278,10 +331,17 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerBas
             fgTitle.setText(cityHomeBean.cityContent.cityName);
             titlebar.setVisibility(View.VISIBLE);
             showEmptyView(true);
+        }else if (_request instanceof RequestRouteCityHomeList) {
+            cityHomeBean = ((RequestCityHomeList) _request).getData();
+            fgTitle.setText(cityHomeBean.lineGroupName);
+            showEmptyView(false);
+        } else if (_request instanceof RequestCountryCityHomeList) {
+            cityHomeBean = ((RequestCityHomeList) _request).getData();
+            fgTitle.setText(cityHomeBean.countryName);
+            showEmptyView(false);
         }
 
-            adapter.addDatas(cityHomeBean.goodsSecList, !isFirstRequest);
-
+        adapter.addDatas(cityHomeBean.goodsSecList, !isFirstRequest);
         swipeRefreshLayout.setRefreshing(false);
         isLoading = false;
     }

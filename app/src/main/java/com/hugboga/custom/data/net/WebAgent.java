@@ -24,6 +24,7 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.action.ActionController;
 import com.hugboga.custom.action.data.ActionBean;
 import com.hugboga.custom.activity.BaseActivity;
+import com.hugboga.custom.activity.CityHomeListActivity;
 import com.hugboga.custom.activity.DailyWebInfoActivity;
 import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.activity.OrderSelectCityActivity;
@@ -313,10 +314,10 @@ public class WebAgent implements HttpRequestListener {
         mActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                SkuListActivity.Params params = new SkuListActivity.Params();
+                CityHomeListActivity.Params params = new CityHomeListActivity.Params();
                 params.id = CommonUtils.getCountInteger(cityId);
-                params.skuType = SkuListActivity.SkuType.CITY;
-                Intent intent = new Intent(mActivity, SkuListActivity.class);
+                params.cityHomeType = CityHomeListActivity.CityHomeType.CITY;
+                Intent intent = new Intent(mActivity, CityHomeListActivity.class);
                 intent.putExtra(Constants.PARAMS_DATA, params);
                 mActivity.startActivity(intent);
             }

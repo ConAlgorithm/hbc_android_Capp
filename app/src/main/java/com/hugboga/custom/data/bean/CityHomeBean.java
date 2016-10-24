@@ -21,6 +21,20 @@ public class CityHomeBean implements Serializable {
     @SerializedName("goodsThemes")
     public  List<GoodsThemes> goodsThemesList;//商品主题
 
+    public int countryId;
+    public String countryName;
+    public String countryNameEn;
+
+    public int lineGroupId;
+    public String lineGroupName;
+
+    public class CountryContent implements Serializable{
+        public int countryId;
+        public String countryName;
+        public String countryNameEn;
+    }
+
+
 
     public  class CityContent implements Serializable{
         public String cityDesc;//城市描述
