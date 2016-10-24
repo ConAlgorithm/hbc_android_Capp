@@ -125,7 +125,7 @@ public class DailyWebInfoActivity extends BaseActivity implements View.OnKeyList
             super.onReceivedTitle(view, title);
             if (headerTitle != null) {
                 if (!view.getTitle().startsWith("http:")) {
-                    headerTitle.setText(view.getTitle());
+                    headerTitle.setText(R.string.select_city_title);
                 } else {
                     headerTitle.setText("");
                 }

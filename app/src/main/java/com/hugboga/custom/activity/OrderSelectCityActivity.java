@@ -275,16 +275,6 @@ public class OrderSelectCityActivity extends BaseActivity {
         headerTitle.setVisibility(View.VISIBLE);
         headerTitle.setText(R.string.select_city_title);
         headerRightTxt.setVisibility(View.GONE);
-//        headerRightTxt.setText("常见问题");
-//        headerRightTxt.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(activity, WebInfoActivity.class);
-//                intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_PROBLEM);
-//                intent.putExtra(WebInfoActivity.CONTACT_SERVICE, true);
-//                activity.startActivity(intent);
-//            }
-//        });
         headerRightImage.setVisibility(View.VISIBLE);
         headerRightImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -518,10 +508,15 @@ public class OrderSelectCityActivity extends BaseActivity {
             addPassCityBean(2, cityBean, currentClickView.getTag().toString());
         } else if (type == 3) {
             cityId = cityBean.cityId + "";
-            if (cityBean.name.length() > 17) {
-                text.setText(cityBean.name.toString().substring(0, 17)+"...");             //一行显示不下，用“...”省略
+            if (other_title.getText().toString().equals("在其它城市结束行程")){
+                other_title.setText("在"+cityBean.name.toString()+"结束行程");
+            }else {
+                other_title.setText("住在"+cityBean.name.toString());
+            }
+            if (other_title.getText().length() > 17) {
+                text.setText(other_title.getText().toString().substring(0, 17)+"...");             //一行显示不下，用“...”省略
             } else{
-                text.setText(cityBean.name);
+                text.setText(other_title.getText());
             }
             add_tips.setVisibility(GONE);
             if (cityBean.cityId == startBean.cityId) {
