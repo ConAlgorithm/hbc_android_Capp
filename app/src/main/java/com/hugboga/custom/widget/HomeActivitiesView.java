@@ -1,9 +1,11 @@
 package com.hugboga.custom.widget;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +14,14 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.action.ActionController;
+import com.hugboga.custom.activity.LoginActivity;
+import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.data.bean.HomeBean;
+import com.hugboga.custom.data.bean.UserEntity;
+import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.statistic.event.EventUtil;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
 import com.viewpagerindicator.CirclePageIndicator;
@@ -78,45 +87,19 @@ public class HomeActivitiesView extends LinearLayout implements HbcViewBehavior{
             return;
         }
 
+        mAdapter = new HomeBannerAdapter(getContext(), activitiesList);
+        mViewPager.setAdapter(mAdapter);
+
         if (activitiesList.size() == 1) {
-//            removeAllViews();
-//            onDestroyHandler();
-//            ImageView itemView = new ImageView(getContext());
-////            Tools.showImage(getContext(), itemView, bannerList.get(0));
-//            this.addView(itemView, RelativeLayout.LayoutParams.MATCH_PARENT, viewHeight);
+            onDestroyHandler();
+            mIndicator.setVisibility(View.GONE);
+            mViewPager.setScanScroll(false);
         } else {
-            mAdapter = new HomeBannerAdapter(getContext(), activitiesList);
-            mViewPager.setAdapter(mAdapter);
-            mViewPager.setScanScroll(true);
             mIndicator.setViewPager(mViewPager);
+            mViewPager.setScanScroll(true);
             mIndicator.setOnPageChangeListener(new BannerCutListener());
             initCutHandler();
         }
-
-//        if (!UserEntity.getUser().isLogin(fragment.getActivity())) {
-//            CommonUtils.showToast(R.string.login_hint);
-//            fragment.getActivity().startActivity(new Intent(fragment.getActivity(), LoginActivity.class));
-//            break;
-//        }
-//        if (activeData == null) {
-//            return;
-//        }
-//        EventUtil.onDefaultEvent(StatisticConstant.CLICK_ACTIVITY, "首页精选活动");
-//        EventUtil.onDefaultEvent(StatisticConstant.LAUNCH_ACTIVITY, "首页精选活动");
-//        if (TextUtils.isEmpty(activeData.getUrlAddress()) && activeData.getActionBean() != null) {
-//            ActionController actionFactory = ActionController.getInstance(getContext());
-//            actionFactory.doAction(activeData.getActionBean());
-//        } else if (!TextUtils.isEmpty(activeData.getUrlAddress())) {
-//            String urlAddress = activeData.getUrlAddress();
-//            if (urlAddress.lastIndexOf("?") != urlAddress.length() - 1) {
-//                urlAddress = urlAddress + "?";
-//            }
-//
-//            urlAddress = urlAddress + "userId="+ UserEntity.getUser().getUserId(fragment.getContext())+"&t=" + new Random().nextInt(100000);
-//            Intent intent = new Intent(v.getContext(), WebInfoActivity.class);
-//            intent.putExtra(WebInfoActivity.WEB_URL, urlAddress);
-//            v.getContext().startActivity(intent);
-//        }
     }
 
     public void initCutHandler(boolean isAutoLoops) {
@@ -222,13 +205,42 @@ public class HomeActivitiesView extends LinearLayout implements HbcViewBehavior{
             if (itemList == null) {
                 return super.instantiateItem(container, position);
             }
-            HomeBean.ActivePage itemData = itemList.get(position);
+            final HomeBean.ActivePage itemData = itemList.get(position);
             ImageView itemView = new ImageView(mContext);
             if (itemData != null) {
                 Tools.showRoundImage(itemView, itemData.picture, UIUtils.dip2px(3));
             }
             itemView.setLayoutParams(itemParams);
             container.addView(itemView, 0);
+
+            itemView.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!UserEntity.getUser().isLogin(mContext)) {
+                            CommonUtils.showToast(R.string.login_hint);
+                            mContext.startActivity(new Intent(mContext, LoginActivity.class));
+                        return;
+                    }
+                    if (itemData == null) {
+                        return;
+                    }
+                    EventUtil.onDefaultEvent(StatisticConstant.CLICK_ACTIVITY, "首页精选活动");
+                    EventUtil.onDefaultEvent(StatisticConstant.LAUNCH_ACTIVITY, "首页精选活动");
+                    if (TextUtils.isEmpty(itemData.urlAddress) && itemData.actionBean != null) {
+                        ActionController actionFactory = ActionController.getInstance(mContext);
+                        actionFactory.doAction(itemData.actionBean);
+                    } else if (!TextUtils.isEmpty(itemData.urlAddress)) {
+                        String urlAddress = itemData.urlAddress;
+                        if (urlAddress.lastIndexOf("?") != urlAddress.length() - 1) {
+                            urlAddress = urlAddress + "?";
+                        }
+                        urlAddress = urlAddress + "userId="+ UserEntity.getUser().getUserId(mContext)+"&t=" + new Random().nextInt(100000);
+                        Intent intent = new Intent(mContext, WebInfoActivity.class);
+                        intent.putExtra(WebInfoActivity.WEB_URL, urlAddress);
+                        mContext.startActivity(intent);
+                    }
+                }
+            });
             return itemView;
         }
 

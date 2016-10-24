@@ -1,6 +1,7 @@
 package com.hugboga.custom.widget;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
@@ -10,6 +11,8 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.ChooseCityNewActivity;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.HomeBean;
 import com.hugboga.custom.utils.UIUtils;
 import com.viewpagerindicator.CirclePageIndicator;
@@ -18,6 +21,7 @@ import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by qingcha on 16/10/20.
@@ -53,6 +57,19 @@ public class HomeHotCityView extends LinearLayout implements HbcViewBehavior{
         mIndicator.setViewPager(mViewPager);
         if (hotCityList.size() <= 0) {
             mIndicator.setVisibility(View.GONE);
+        }
+    }
+
+    @OnClick({R.id.home_hotcity_more_tv})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.home_hotcity_more_tv:
+                Intent intent = new Intent(getContext(), ChooseCityNewActivity.class);
+                intent.putExtra("com.hugboga.custom.home.flush", Constants.BUSINESS_TYPE_HOME);
+                intent.putExtra("isHomeIn", true);
+                intent.putExtra("source", "首页-热门目的地-查看更多");
+                getContext().startActivity(intent);
+                break;
         }
     }
 

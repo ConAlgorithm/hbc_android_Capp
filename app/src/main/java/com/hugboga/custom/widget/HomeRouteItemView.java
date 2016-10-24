@@ -1,6 +1,7 @@
 package com.hugboga.custom.widget;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
@@ -8,8 +9,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.SkuDetailActivity;
+import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.data.bean.HomeBean;
 import com.hugboga.custom.data.bean.SkuItemBean;
+import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
 
@@ -51,7 +56,7 @@ public class HomeRouteItemView extends RelativeLayout implements HbcViewBehavior
 
     @Override
     public void update(Object _data) {
-        HomeBean.TraveLineItem data = (HomeBean.TraveLineItem) _data;
+        final SkuItemBean data = (SkuItemBean) _data;
         if (data == null) {
             return;
         }
@@ -67,17 +72,23 @@ public class HomeRouteItemView extends RelativeLayout implements HbcViewBehavior
         }
         otherTV.setText(String.format(otherStr, data.daysCount));
 
+        this.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intentSkuDetail(data);
+            }
+        });
     }
 
     private void intentSkuDetail(SkuItemBean skuItemBean) {
         if (skuItemBean == null) {
             return;
         }
-//        Intent intent = new Intent(getContext(), SkuDetailActivity.class);
-//        intent.putExtra(WebInfoActivity.WEB_URL, skuItemBean.skuDetailUrl);
-//        intent.putExtra(WebInfoActivity.CONTACT_SERVICE, true);
-//        intent.putExtra(SkuDetailActivity.WEB_SKU, skuItemBean);
-//        getContext().startActivity(intent);
-//        StatisticClickEvent.click(StatisticConstant.CLICK_RG, "首页");
+        Intent intent = new Intent(getContext(), SkuDetailActivity.class);
+        intent.putExtra(WebInfoActivity.WEB_URL, skuItemBean.skuDetailUrl);
+        intent.putExtra(WebInfoActivity.CONTACT_SERVICE, true);
+        intent.putExtra(SkuDetailActivity.WEB_SKU, skuItemBean);
+        getContext().startActivity(intent);
+        StatisticClickEvent.click(StatisticConstant.CLICK_RG, "首页");
     }
 }
