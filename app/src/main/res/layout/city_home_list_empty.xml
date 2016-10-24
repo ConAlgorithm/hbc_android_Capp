@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:textSize="19dp"
+        android:padding="12dp"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableTop="@drawable/air_point"
+        android:layout_marginTop="@dimen/avatar_max_size"
+        android:text="@string/city_home_empty_car_custom"
+        />
+    <TextView
+        android:id="@+id/city_home_list_item_empty_tip"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/city_home_find_guide"
+        android:textSize="16dp"
+        android:visibility="gone"/>
+</LinearLayout>

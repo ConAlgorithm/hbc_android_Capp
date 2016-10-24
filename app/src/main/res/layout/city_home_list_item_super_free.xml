@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+   >
+
+    <RelativeLayout
+        android:id="@+id/city_home_list_super_freedom"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/allbg_white"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="22dp"
+        android:paddingBottom="36dp">
+
+        <View
+            android:id="@+id/city_home_list_item_free_view"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#e5e8ed"
+            android:layout_below="@+id/city_home2_list_item_goods_name"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            />
+
+        <LinearLayout
+            android:id="@+id/city_home_list_item_free_image_lay"
+            android:layout_width="match_parent"
+            android:layout_height="152dp"
+            android:orientation="horizontal"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            android:layout_below="@+id/city_home_item_free_guides_count"
+            >
+
+            <ImageView
+                android:id="@+id/city_home_list_item_free_image_first"
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_height="match_parent" />
+
+            <ImageView
+                android:id="@+id/city_home_list_item_free_image_sec"
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_height="match_parent"  />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/city_home_list_item_route_name_TV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/city_home_list_item_free_image_lay"
+            android:layout_marginTop="20dp"
+            android:textSize="20sp"
+            android:hint="sdsfdsa"
+            android:textColor="#111111"    />
+
+        <TextView
+            android:id="@+id/city_home_item_free_guides_count"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:drawableRight="@mipmap/sidao"
+            android:textColor="#999999"
+            android:padding="6dp"
+            android:layout_marginBottom="10dp"
+            android:layout_below="@+id/city_home_list_item_free_view"
+            android:layout_alignLeft="@+id/city_home_list_item_free_view"
+            android:layout_alignStart="@+id/city_home_list_item_free_view" />
+
+        <TextView
+            android:id="@+id/city_home_item_free_head_lable"
+            android:layout_width="80dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="15dp"
+            android:gravity="center"
+            android:text="@string/city_home_head_lable_free"
+            android:textColor="#ffffff"
+            android:background="@drawable/bg_city_home_lable_blue"
+            android:layout_alignTop="@+id/city_home_list_item_free_image_lay"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:id="@+id/city_home2_list_item_goods_name"
+            android:text="商品名称"
+            android:textSize="20sp"
+            android:textColor="#111111"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:background="@color/my_content_btn_color"
+       />
+</LinearLayout>
