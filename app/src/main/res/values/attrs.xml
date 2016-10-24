@@ -84,4 +84,8 @@
             <enum name="right" value="1"/>
         </attr>
     </declare-styleable>
+
+    <declare-styleable name="HomeChoicenessRouteView">
+        <attr name="type" format="integer"/>
+    </declare-styleable>
 </resources>

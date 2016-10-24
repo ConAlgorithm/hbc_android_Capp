@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <com.hugboga.custom.widget.HomeScrollView
         android:id="@+id/home_scrollview"
         android:layout_width="match_parent"
@@ -12,29 +14,56 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
             <com.hugboga.custom.widget.HomeBannerView
                 android:id="@+id/home_banner_view"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:minHeight="200dp" />
-            <com.hugboga.custom.widget.HomeDynamicView
-                android:id="@+id/home_dynamic_view"
+                android:layout_height="wrap_content" />
+
+            <FrameLayout
+                android:id="@+id/home_search_layout"
                 android:layout_width="match_parent"
-                android:layout_height="40dp" />
+                android:layout_height="@dimen/home_search_layout_height" />
+
+            <com.hugboga.custom.widget.HomeCustomLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
             <com.hugboga.custom.widget.HomeChoicenessRouteView
                 android:id="@+id/home_choiceness_route_view"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-            <com.hugboga.custom.widget.HomeBottomLayout
-                android:id="@+id/home_bottom_layout"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/home_view_vertical_space" />
+
+            <com.hugboga.custom.widget.HomeChoicenessRouteView
+                android:id="@+id/home_choiceness_free_view"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/home_view_vertical_space"
+                app:type="2" />
+
+            <com.hugboga.custom.widget.HomeHotCityView
+                android:id="@+id/home_hotcity_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/home_view_vertical_space" />
+
+            <com.hugboga.custom.widget.HomeTravelStoriesView
+                android:id="@+id/home_travel_stories_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/home_view_vertical_space" />
+
+            <com.hugboga.custom.widget.HomeActivitiesView
+                android:id="@+id/home_activities_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/home_view_vertical_space" />
         </LinearLayout>
     </com.hugboga.custom.widget.HomeScrollView>
-    <com.hugboga.custom.widget.HomeSearchView
-        android:id="@+id/home_search_view"
+
+    <FrameLayout
+        android:id="@+id/home_search_float_layout"
         android:layout_width="match_parent"
-        android:paddingLeft="@dimen/home_view_padding_left"
-        android:paddingRight="@dimen/home_view_padding_left"
         android:layout_height="@dimen/home_search_layout_height" />
 </RelativeLayout>

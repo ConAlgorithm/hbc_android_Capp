@@ -2,25 +2,37 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:clipChildren="false"
-    android:layerType="software"
+    android:background="#ffffff"
     android:orientation="vertical">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_height="44dp"
-        android:gravity="center_vertical"
-        android:layout_marginLeft="@dimen/home_view_padding_left"
-        android:text="@string/home_featured_route"
-        android:textColor="#303030"
-        android:textSize="15sp" />
 
-    <android.support.v4.view.ViewPager
+    <TextView
+        android:id="@+id/home_choiceness_route_title_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="44dp"
+        android:layout_marginLeft="@dimen/home_view_padding_left"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center_vertical"
+        android:text="包车线路游"
+        android:textColor="#111111"
+        android:textSize="18sp" />
+
+    <ImageView
+        android:id="@+id/home_choiceness_route_top_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/home_choiceness_route_viewpager"
-        android:layout_width="300dp"
-        android:layout_height="400dp"
-        android:layout_gravity="center"
-        android:clipChildren="false"
-        android:layout_marginBottom="6dp"
-        />
+        android:layout_marginTop="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <ImageView
+        android:id="@+id/home_choiceness_route_bottom_iv"
+        android:layout_marginLeft="@dimen/home_view_padding_left"
+        android:layout_marginRight="@dimen/home_view_padding_left"
+        android:layout_marginBottom="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="14dp"/>
 </LinearLayout>
