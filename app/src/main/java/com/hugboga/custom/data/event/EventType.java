@@ -81,4 +81,9 @@ public enum EventType {
 
     NIM_LOGIN_SUCCESS,//云信登录成功回调
     CARIDS,//司导车辆id
+
+
+    CITY_FILTER_TYPE,//城市列表按类型过滤
+    CITY_FILTER_DAY,//城市列表按天数过滤
+    CITY_FILTER_THEME,//城市列表按主题过滤
 }

@@ -1,7 +1,9 @@
 package com.hugboga.custom.widget;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
@@ -14,12 +16,15 @@ import android.widget.TextView;
 
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.CityHomeListActivity;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.HomeBean;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+
+import static com.hugboga.custom.constants.Constants.PARAMS_DATA;
 
 /**
  * Created by qingcha on 16/10/20.
@@ -69,9 +74,15 @@ public class HomeHotCityItemView extends LinearLayout implements HbcViewBehavior
         this.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-//                data
+                Bundle bundle=new Bundle();
                 CityHomeListActivity.Params params = new CityHomeListActivity.Params();
                 Intent intent = new Intent(getContext(), CityHomeListActivity.class);
+                bundle.putSerializable(Constants.PARAMS_SOURCE,"首页");
+                params.cityHomeType=CityHomeListActivity.CityHomeType.CITY;
+                params.titleName=data.cityName;
+                params.id=data.cityId;
+                intent.putExtra(Constants.PARAMS_DATA,params);
+                getContext().startActivity(intent);
             }
         });
     }

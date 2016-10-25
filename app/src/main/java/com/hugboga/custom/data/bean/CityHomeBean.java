@@ -12,14 +12,27 @@ import java.util.List;
 
 public class CityHomeBean implements Serializable {
     public int goodsCount;
-
     public CityContent cityContent;     //城市首页头
     public CityGuides cityGuides;     //司导数量，及几个没用的头像
+    public CountryContent countryContent;//
+    public  LineGroupContent lineGroupContent;
     public CityService cityService; //有无三种服务
     @SerializedName("goodses")
     public List<GoodsSec> goodsSecList;    //商品详情
     @SerializedName("goodsThemes")
     public  List<GoodsThemes> goodsThemesList;//商品主题
+
+    public class CountryContent implements Serializable{
+        public int countryId;
+        public String countryName;
+        public String countryNameEn;
+    }
+
+    public class LineGroupContent implements Serializable{
+        public int lineGroupId;
+        public String lineGroupName;
+    }
+
 
 
     public  class CityContent implements Serializable{
@@ -39,9 +52,18 @@ public class CityHomeBean implements Serializable {
 
     }
 
-    public class GoodsThemes implements Serializable{
-        public int themesId ;//主题ID
+   static public class GoodsThemes implements Serializable{
+        public int themeId ;//主题ID
         public String themeName;//主题名称
+        public boolean selected;
+
+        public static GoodsThemes getDefaultTheme(){
+            GoodsThemes goodsThemes = new GoodsThemes();
+            goodsThemes.selected = true;
+            goodsThemes.themeName = "不限";
+            goodsThemes.themeId = 0;
+            return goodsThemes;
+        }
     }
 
 

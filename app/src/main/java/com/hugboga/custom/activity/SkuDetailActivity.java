@@ -32,6 +32,7 @@ import com.huangbaoche.hbcframe.util.WXShareUtils;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityBean;
+import com.hugboga.custom.data.bean.GoodsSec;
 import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.net.WebAgent;

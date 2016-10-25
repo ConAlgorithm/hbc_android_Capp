@@ -244,6 +244,8 @@ public class UrlLibs {
 
     /**========v1.4城市首页接口============**/
     public static final String API_CITY_HOME_LIST            = "goods/v1.4/c/home/cityGoods?";                           // 城市商品列表
+    public static final String API_CITY_HOME_COUNTRY_LIST         = "goods/v1.4/c/home/countryGoods?";                        // 国家列表
+    public static final String API_CITY_HOME_ROUTE_LIST           = "goods/v1.4/c/home/lineGroupGoods?";                      // 线路圈
 
 
 }
