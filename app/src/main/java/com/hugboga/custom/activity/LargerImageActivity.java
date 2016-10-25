@@ -2,18 +2,14 @@ package com.hugboga.custom.activity;
 
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.widget.HackyViewPager;
-import com.netease.nim.uikit.common.ui.imageview.MultiTouchZoomableImageView;
 import com.viewpagerindicator.CirclePageIndicator;
 
 
@@ -104,7 +100,7 @@ public class LargerImageActivity extends BaseActivity{
             photoView.setOnPhotoTapListener(new PhotoViewAttacher.OnPhotoTapListener() {
                 @Override
                 public void onPhotoTap(View view, float x, float y) {
-
+                    LargerImageActivity.this.finish();
                 }
 
                 @Override

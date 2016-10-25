@@ -29,8 +29,8 @@
 
                 <net.grobas.view.PolygonImageView
                     android:id="@+id/guide_detail_avatar_iv"
-                    android:layout_width="76dp"
-                    android:layout_height="76dp"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
                     android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
                     android:scaleType="centerInside"
@@ -101,6 +101,7 @@
                     android:layout_height="15dp"
                     android:layout_marginTop="3.5dp"
                     android:layout_gravity="center_vertical"
+                    android:visibility="gone"
                     android:layout_marginLeft="5dp"
                     android:background="@mipmap/woman_icon" />
             </LinearLayout>
@@ -179,6 +180,7 @@
                     android:layout_marginLeft="10dp"
                     android:paddingTop="1.5dp"
                     android:textColor="#666666"
+                    android:text="0.0"
                     android:textSize="13sp" />
             </LinearLayout>
 

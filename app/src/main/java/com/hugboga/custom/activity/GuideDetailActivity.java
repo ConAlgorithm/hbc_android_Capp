@@ -197,7 +197,7 @@ public class GuideDetailActivity extends BaseActivity{
             collectIV.setSelected(data.isCollected());
 
             //城市背景图
-            Tools.showImage(cityBgIV, data.cityBackGroundPicSrc, R.drawable.guides_detail_city_bg);
+            Tools.showBlurryImage(cityBgIV, data.cityBackGroundPicSrc, R.drawable.guides_detail_city_bg, 8, 3);
 
             //城市-国家
             cityNameTV.setText(data.cityName + "-" + data.countryName);
