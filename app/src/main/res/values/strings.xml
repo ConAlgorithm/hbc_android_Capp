@@ -822,5 +822,5 @@
     <string name="city_home_head_lable_free">超自由</string>
     <string name="city_home_empty_car_custom">包车游线路会尽快补充，敬请期待~</string>
     <string name="city_home_have_no_route">暂无满足条件的线路</string>
-
+    <string name="city_home_find_guide">可以先按天包个车，\n找个中文司导带你玩</string>
 </resources>

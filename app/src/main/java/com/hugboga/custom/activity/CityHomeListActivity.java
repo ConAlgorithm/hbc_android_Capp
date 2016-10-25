@@ -235,8 +235,7 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerBas
                                 intent.putExtra("com.hugboga.custom.home.flush", Constants.BUSINESS_TYPE_RECOMMEND);
                                 intent.putExtra("isHomeIn",false);
                                 intent.putExtra("source","小搜索框");
-                                getBaseContext().startActivity(intent);
-                                ((Activity)(getBaseContext())).overridePendingTransition(R.anim.push_bottom_in,0);
+                                startActivity(intent);
                             }
                         });
                     }
@@ -376,22 +375,11 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerBas
         if (paramsData.cityHomeType == CityHomeType.CITY && cityHomeHeader != null) {
             int firstVisibleItemPosition = ((LinearLayoutManager) layoutManager).findFirstVisibleItemPosition();
             int scrollY = Math.abs(recyclerView.getChildAt(0).getTop());
-            float showRegionHight = cityHomeHeader.getDisplayLayoutHeight()+20;
+            float showRegionHight = cityHomeHeader.getDisplayLayoutHeight()+(recyclerView.getChildAt(0).getHeight()-cityHomeHeader.getDisplayLayoutHeight());
             if (firstVisibleItemPosition == 0 && scrollY <= showRegionHight){
                 cityHomeFilter.setVisibility(View.GONE);
             } else {
                 cityHomeFilter.setVisibility(View.VISIBLE);
-                headerRightIV.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(getBaseContext(), ChooseCityNewActivity.class);
-                        intent.putExtra("com.hugboga.custom.home.flush", Constants.BUSINESS_TYPE_RECOMMEND);
-                        intent.putExtra("isHomeIn",false);
-                        intent.putExtra("source","小搜索框");
-                        getBaseContext().startActivity(intent);
-                        ((Activity)(getBaseContext())).overridePendingTransition(R.anim.push_bottom_in,0);
-                    }
-                });
             }
         }
     }

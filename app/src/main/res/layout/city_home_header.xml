@@ -60,8 +60,8 @@
                 android:layout_alignParentRight="true"
                 android:layout_marginTop="5dp"
                 android:layout_marginRight="5dp"
-                android:layout_width="40dp"
-                android:layout_height="40dp" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
         </RelativeLayout>
 
         <include
@@ -70,12 +70,19 @@
             android:layout_height="wrap_content"
             layout="@layout/city_home_toolbar_rent_layout"
             />
+        <include
+            android:id="@+id/cityHome_route_empty"
+            layout="@layout/city_home_list_empty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"/>
 
         <LinearLayout
             android:id="@+id/cityHome_header_play_count_layout"
             android:layout_width="match_parent"
-            android:layout_height="120px"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:padding="@dimen/input_panel_image_margin_top"
             android:background="@color/default_img_bg"
             android:layout_above="@+id/cityHome_filter_lay"
             android:layout_below="@+id/cityHome_header_choose_layout">
@@ -84,7 +91,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@mipmap/icon_trip"
-                android:paddingLeft="36px"
                 android:layout_gravity="center_vertical"
                 android:id="@+id/imageView2" />
 

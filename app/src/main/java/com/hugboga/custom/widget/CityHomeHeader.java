@@ -34,6 +34,7 @@ import butterknife.Bind;
 import static com.hugboga.custom.R.id.cityHome_toolbar_custom_car;
 import static com.hugboga.custom.R.id.cityHome_toolbar_home_pick_send_airport;
 import static com.hugboga.custom.R.id.cityHome_toolbar_single_send;
+import static com.hugboga.custom.R.id.swipe;
 
 /**
  * Created by wbj on 2016/10/17.
@@ -41,9 +42,11 @@ import static com.hugboga.custom.R.id.cityHome_toolbar_single_send;
 
 public class CityHomeHeader extends LinearLayout implements HbcViewBehavior,View.OnClickListener{
 
+    private static final int AMOUNT=5;
+
     private TextView cityNameTV,guideAmountTV,goodsCount;     //城市名称，司导数量,货物数量
     private LinearLayout customCar,pickSendAir,singleSend,guideAvatarsLay,gooodsCountLay;      //定制包车，接送机，单次接送,司导头像,线路玩法数量
-    private LinearLayout cityHomeFilterLay;
+    private LinearLayout cityHomeFilterLay,cityHomeGoodsEmpty;
     private ImageView bgIV,searchIV;                                     //背景图片
     private FrameLayout unlimitType,unlimitDays,unlimitTheme;
 
@@ -71,6 +74,7 @@ public class CityHomeHeader extends LinearLayout implements HbcViewBehavior,View
         guideAvatarsLay=(LinearLayout)findViewById(R.id.cityHome_header_guides_avatar_layout);
         gooodsCountLay=(LinearLayout)findViewById(R.id.cityHome_header_play_count_layout) ;
         cityHomeFilterLay=(LinearLayout)findViewById(R.id.cityHome_filter_lay);
+        cityHomeGoodsEmpty=(LinearLayout)findViewById(R.id.cityHome_route_empty);
 
         unlimitType=(FrameLayout)findViewById(R.id.cityHome_unlimited_type_lay) ;
         unlimitDays=(FrameLayout)findViewById(R.id.cityHome_unlimited_days_lay);
@@ -112,12 +116,19 @@ public class CityHomeHeader extends LinearLayout implements HbcViewBehavior,View
                     break j;
                 }
                 CircleImageView circleImageView = new CircleImageView(getContext());
-                circleImageView.setBackgroundResource(R.mipmap.journey_head_portrait);
+//                circleImageView.setBackgroundResource(R.mipmap.journey_head_portrait);
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(UIUtils.dip2px(45), UIUtils.dip2px(45));
                 params.rightMargin = UIUtils.dip2px(15);
+                if (size>AMOUNT&&i+1==AMOUNT){
+                    circleImageView.setImageResource(R.mipmap.home_morelist);
+                    guideAvatarsLay.addView(circleImageView, params);
+                    break j;
+                }
                 Tools.showImage(circleImageView, cityHomeBean.cityGuides.guideAvatars.get(i));
                 guideAvatarsLay.addView(circleImageView, params);
             }
+        }else {
+            guideAvatarsLay.setVisibility(View.GONE);
         }
 
         judgeServiceType(cityHomeBean);         //判断有没有三种服务类型，包车游，接送机，单次接送,线路有无
@@ -177,6 +188,13 @@ public class CityHomeHeader extends LinearLayout implements HbcViewBehavior,View
         }
         if (cityHomeBean.goodsCount<=0){
             gooodsCountLay.setVisibility(View.GONE);
+            cityHomeFilterLay.setVisibility(View.GONE);
+            if (!cityHomeBean.cityService.hasDailyservice()){
+                cityHomeGoodsEmpty.setVisibility(View.VISIBLE);
+            }else if (!cityHomeBean.cityService.hasAirporService()&&!cityHomeBean.cityService.hasSingleService()){
+                cityHomeGoodsEmpty.setVisibility(View.VISIBLE);
+                findViewById(R.id.city_home_list_item_empty_tip).setVisibility(View.VISIBLE);
+            }
         }else {
             goodsCount.setText(cityHomeBean.goodsCount+"种包车游线路或玩法");
         }
@@ -205,13 +223,13 @@ public class CityHomeHeader extends LinearLayout implements HbcViewBehavior,View
      * */
     private void goPickSend(){
         Intent intent = new Intent(getContext(), PickSendActivity.class);
-        intent.putExtra("source","城市页");
+        intent.putExtra("source","首页");
         getContext().startActivity(intent);
     }
 
     private void goSingle(){
         Intent intent = new Intent(getContext(),SingleNewActivity.class);
-        intent.putExtra("source","城市页");
+        intent.putExtra("source","首页");
         getContext().startActivity(intent);
     }
 
