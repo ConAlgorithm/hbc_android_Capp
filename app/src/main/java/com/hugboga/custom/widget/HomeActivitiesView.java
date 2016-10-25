@@ -45,7 +45,7 @@ public class HomeActivitiesView extends LinearLayout implements HbcViewBehavior{
     /**
      * banner默认自动切换的时间
      */
-    private static final int BANNER_SWITCH_TIME_DEFAULT = 5000;
+    private static final int BANNER_SWITCH_TIME_DEFAULT = 3000;
 
     @Bind(R.id.home_activities_viewpager)
     LoopViewPager mViewPager;

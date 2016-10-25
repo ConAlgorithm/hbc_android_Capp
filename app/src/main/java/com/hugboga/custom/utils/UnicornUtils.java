@@ -61,7 +61,7 @@ public class UnicornUtils {
         // 设置访客来源，标识访客是从哪个页面发起咨询的，用于客服了解用户是从什么页面进入三个参数分别为来源页面的url，来源页面标题，来源页面额外信息（可自由定义）
         // 设置来源后，在客服会话界面的"用户资料"栏的页面项，可以看到这里设置的值。
         ConsultSource source = new ConsultSource("", "", "");
-//        source.groupId = UnicornUtils.GROUP_ID;
+        source.groupId = UnicornUtils.GROUP_ID;
         Unicorn.openServiceActivity(MyApplication.getAppContext(), "皇包车客服", source);
     }
 
