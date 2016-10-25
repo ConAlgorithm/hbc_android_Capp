@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.CityHomeListActivity;
 import com.hugboga.custom.activity.OrderSelectCityActivity;
 import com.hugboga.custom.activity.SkuListActivity;
 import com.hugboga.custom.constants.Constants;
@@ -73,17 +74,17 @@ public class SkuListEmptyView extends LinearLayout implements View.OnClickListen
         switch (v.getId()) {
             case R.id.sku_list_empty_custom_tv:
                 Intent intent = new Intent(getContext(), OrderSelectCityActivity.class);
-                if(v.getContext() instanceof SkuListActivity) {
-                    intent.putExtra(Constants.PARAMS_SOURCE, ((SkuListActivity)v.getContext()).getEventSource());
-                    intent.putExtra(Constants.PARAMS_SOURCE_DETAIL, ((SkuListActivity)v.getContext()).getIntentSource());
+                if(v.getContext() instanceof CityHomeListActivity) {
+                    intent.putExtra(Constants.PARAMS_SOURCE, ((CityHomeListActivity)v.getContext()).getEventSource());
+                    intent.putExtra(Constants.PARAMS_SOURCE_DETAIL, ((CityHomeListActivity)v.getContext()).getIntentSource());
                 }
                 getContext().startActivity(intent);
                 break;
             case R.id.sku_list_empty_tv:
                 emptyTV.setOnClickListener(null);
                 emptyTV.setText("");
-                if (getContext() instanceof SkuListActivity) {
-                    SkuListActivity activity = (SkuListActivity) getContext();
+                if (getContext() instanceof CityHomeListActivity) {
+                    CityHomeListActivity activity = (CityHomeListActivity) getContext();
                     activity.sendRequest(0, true);
                 }
                 break;

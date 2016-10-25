@@ -26,8 +26,8 @@ import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestCitySkuList;
-import com.hugboga.custom.data.request.RequestCountrySkuList;
-import com.hugboga.custom.data.request.RequestRouteSkuList;
+import com.hugboga.custom.data.request.RequestCountryCityHomeList;
+import com.hugboga.custom.data.request.RequestRouteCityHomeList;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.utils.DBHelper;
@@ -227,10 +227,10 @@ public class SkuListActivity extends BaseActivity implements HbcRecyclerBaseAdap
                 request = new RequestCitySkuList(this, "" + paramsData.id, pageIndex);
                 break;
             case ROUTE:
-                request = new RequestRouteSkuList(this, "" + paramsData.id, pageIndex);
+//                request = new RequestRouteCityHomeList(this, "" + paramsData.id, pageIndex);
                 break;
             case COUNTRY:
-                request = new RequestCountrySkuList(this, "" + paramsData.id, pageIndex);
+//                request = new RequestCountryCityHomeList(this, "" + paramsData.id, pageIndex);
                 break;
         }
         return HttpRequestUtils.request(this, request, this, needShowLoading);
@@ -303,12 +303,12 @@ public class SkuListActivity extends BaseActivity implements HbcRecyclerBaseAdap
             fgTitle.setText(skuCityBean.cityName);
             titlebar.setVisibility(View.VISIBLE);
             showEmptyView(true);
-        } else if (_request instanceof RequestRouteSkuList) {
-            skuCityBean = ((RequestRouteSkuList) _request).getData();
+        } else if (_request instanceof RequestRouteCityHomeList) {
+            skuCityBean = ((RequestRouteCityHomeList) _request).getData();
             fgTitle.setText(skuCityBean.lineGroupName);
             showEmptyView(false);
-        } else if (_request instanceof RequestCountrySkuList) {
-            skuCityBean = ((RequestCountrySkuList) _request).getData();
+        } else if (_request instanceof RequestCountryCityHomeList) {
+            skuCityBean = ((RequestCountryCityHomeList) _request).getData();
             fgTitle.setText(skuCityBean.countryName);
             showEmptyView(false);
         }

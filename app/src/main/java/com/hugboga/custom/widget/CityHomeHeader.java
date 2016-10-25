@@ -116,15 +116,19 @@ public class CityHomeHeader extends LinearLayout implements HbcViewBehavior,View
                     break j;
                 }
                 CircleImageView circleImageView = new CircleImageView(getContext());
-//                circleImageView.setBackgroundResource(R.mipmap.journey_head_portrait);
+                circleImageView.setBackgroundResource(R.mipmap.journey_head_portrait);
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(UIUtils.dip2px(45), UIUtils.dip2px(45));
                 params.rightMargin = UIUtils.dip2px(15);
-                if (size>AMOUNT&&i+1==AMOUNT){
-                    circleImageView.setImageResource(R.mipmap.home_morelist);
-                    guideAvatarsLay.addView(circleImageView, params);
-                    break j;
-                }
+//                if (size>AMOUNT&&i+1==AMOUNT){
+//                    circleImageView.setImageResource(R.mipmap.home_morelist);
+//                    guideAvatarsLay.addView(circleImageView, params);
+//                    break j;
+//                }
                 Tools.showImage(circleImageView, cityHomeBean.cityGuides.guideAvatars.get(i));
+                if (circleImageView==null){
+                    guideAvatarsLay.removeView(circleImageView);
+                    continue ;
+                }
                 guideAvatarsLay.addView(circleImageView, params);
             }
         }else {

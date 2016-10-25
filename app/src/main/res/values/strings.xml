@@ -678,17 +678,8 @@
 
     <string name="no_price_error">暂无报价</string>
 
-    <string name="home_dynamics">今日动态</string>
-    <string name="home_featured_route">热门城市</string>
-    <string name="home_other_service">其它服务</string>
-    <string name="home_featured_active">精选活动</string>
-    <string name="home_more_featured_route">更多包车游线路</string>
-    <string name="home_custom_chartered">自定义包车游</string>
-    <string name="home_custom_chartered_description">定制行程，中文司导全程陪同</string>
-    <string name="home_picksend">中文接送机</string>
-    <string name="home_single">单次接送</string>
     <string name="alert_car_full">特别提示：此车型空间较小，目前已达人数极限，部分成员会很不舒服，且只能携带极少行李，是否继续？</string>
-    <string name="home_search_hint">请输入目的地名称</string>
+    <string name="home_search_hint">搜索境外目的地</string>
 
     <string name="child_age_seat">出行前请与司导联系，需要何种年龄段的的儿童安全座椅</string>
 

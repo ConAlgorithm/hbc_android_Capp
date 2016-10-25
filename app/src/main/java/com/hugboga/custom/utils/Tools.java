@@ -43,6 +43,14 @@ public class Tools {
                 .into(imageView);
     }
 
+    public static void showGif(ImageView imageView, int resId) {
+        Glide.with(MyApplication.getAppContext())
+                .load(resId)
+                .asGif()
+                .centerCrop()
+                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                .into(imageView);
+    }
 
     public static void showRoundImage(ImageView imageView, String url, float radius) {
         Glide.with(MyApplication.getAppContext())

@@ -10,38 +10,30 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.ViewSwitcher;
 
+import com.bumptech.glide.Glide;
 import com.hugboga.custom.R;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
 
 import java.util.ArrayList;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 /**
  * Created by qingcha on 16/6/19.
  */
-public class HomeBannerView extends RelativeLayout implements HbcViewBehavior, ViewSwitcher.ViewFactory{
+public class HomeBannerView extends RelativeLayout implements HbcViewBehavior{
 
     /**
-     * banner默认高宽比  height/width = 639/750
+     * banner默认高宽比  height/width = 460/720
      */
-    public static final float BANNER_RATIO_DEFAULT = 0.85f;
+    public static final float BANNER_RATIO_DEFAULT = 0.639f;
 
-    /**
-     * banner默认自动切换的时间
-     */
-    private static final int BANNER_SWITCH_TIME_DEFAULT = 5000;
+    @Bind(R.id.home_banner_bg_iv)
+    ImageView bannerBgIV;
 
-    private ViewSwitcher mSwitcherView;
-
-    private ArrayList<String> bannerList;
-    private Handler cutHandler;
-    private Runnable cutRunnable;
-    private boolean isAutoLoops = true;
-    private int viewHeight;
-    private int index;
-
-    private boolean isDefaultData = true;
-    private ArrayList<Integer> defaultData;
+    private int bannerHeight;
 
     public HomeBannerView(Context context) {
         this(context, null);
@@ -49,116 +41,22 @@ public class HomeBannerView extends RelativeLayout implements HbcViewBehavior, V
 
     public HomeBannerView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        viewHeight = (int)(UIUtils.getScreenWidth() * BANNER_RATIO_DEFAULT);
+        View view = inflate(context, R.layout.view_home_banner, this);
+        ButterKnife.bind(this, view);
 
-        mSwitcherView = new ViewSwitcher(context);
-        mSwitcherView.setFactory(this);
-        mSwitcherView.setInAnimation(AnimationUtils.loadAnimation(context, R.anim.home_banner_fade_in));
-        mSwitcherView.setOutAnimation(AnimationUtils.loadAnimation(context, R.anim.home_banner_fade_out));
-        addView(mSwitcherView, LayoutParams.MATCH_PARENT, viewHeight);
+        bannerHeight = (int)(UIUtils.getScreenWidth() * BANNER_RATIO_DEFAULT);
+        RelativeLayout.LayoutParams bgParams = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, bannerHeight);
+        bannerBgIV.setLayoutParams(bgParams);
+        Tools.showGif(bannerBgIV, R.drawable.rock);
 
-        defaultData = new ArrayList<Integer>(4);
-        defaultData.add(R.drawable.home_toppic1);
-        defaultData.add(R.drawable.home_toppic2);
-        defaultData.add(R.drawable.home_toppic3);
-        defaultData.add(R.drawable.home_toppic4);
-        isDefaultData = true;
-
-        index = 0;
-        ImageView img = (ImageView) mSwitcherView.getNextView();
-        img.setImageResource(defaultData.get(index));
-        mSwitcherView.showNext();
-        index++;
-        initCutHandler();
     }
 
     @Override
     public void update(Object _data) {
-        this.bannerList = (ArrayList<String>) _data;
-        if (bannerList == null || bannerList.size() <= 0) {
-            isDefaultData = true;
-            return;
-        } else {
-            isDefaultData = false;
-        }
-        index = 0;
-        mSwitcherView.reset();
-        ImageView img = (ImageView) mSwitcherView.getNextView();
-        Tools.showImage(img, bannerList.get(index));
-        mSwitcherView.showNext();
-        if (bannerList.size() > 1) {
-            index++;
-            onStartChange();
-        } else {
-            onDestroyHandler();
-        }
     }
 
-    public void initCutHandler() {
-        if (!isAutoLoops) return;
-        if (cutHandler == null || cutRunnable == null) {
-            cutHandler = new Handler();
-            cutRunnable = new Runnable() {
-
-                @Override
-                public void run() {
-                    ImageView img = (ImageView) mSwitcherView.getNextView();
-                    int size = 0;
-                    if (isDefaultData) {
-                        size = defaultData.size();
-                        img.setImageResource(defaultData.get(index));
-                    } else {
-                        if (bannerList == null || bannerList.size() <= 0) {
-                            return;
-                        }
-                        size = bannerList.size();
-                        Tools.showImage(img, bannerList.get(index));
-                    }
-                    mSwitcherView.showNext();
-                    if (index == size - 1) {
-                        index = 0;
-                    } else {
-                        index++;
-                    }
-                    cutHandler.removeCallbacks(this);
-                    cutHandler.postDelayed(this, getCutTime());
-                }
-            };
-        }
-        cutHandler.removeCallbacks(cutRunnable);
-        cutHandler.postDelayed(cutRunnable, getCutTime());
+    public int getBannerHeight() {
+        return bannerHeight;
     }
 
-    public void onDestroyHandler() {
-        if (isAutoLoops) {
-            isAutoLoops = false;
-            if (cutHandler != null && cutRunnable != null) {
-                cutHandler.removeCallbacks(cutRunnable);
-            }
-        }
-
-    }
-
-    public void onStartChange() {
-        if (!isAutoLoops) {
-            isAutoLoops = true;
-            if (cutHandler != null && cutRunnable != null) {
-                cutHandler.removeCallbacks(cutRunnable);
-                cutHandler.postDelayed(cutRunnable, getCutTime());
-            }
-        }
-    }
-
-    protected int getCutTime() {
-        return BANNER_SWITCH_TIME_DEFAULT;
-    }
-
-    @Override
-    public View makeView() {
-        ImageView imageView  = new ImageView(getContext());
-        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
-        imageView.setLayoutParams(params);
-        return imageView;
-    }
 }

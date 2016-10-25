@@ -168,7 +168,6 @@ public class UrlLibs {
     public static final String SERVER_IP_ORDER_PAY_ID       = "trade/v1.0/c/pay/getmobilepayurl?";                      // 订单支付 支付宝
     public static final String SERVER_IP_IM_ORDER_LIST      = "trade/v1.0/c/order/list/im";                             // IM聊天界面的订单数据
     public static final String SERVER_IP_ORDER_HISTORY      = "trade/v1.0/c/order/list/history?";                       // IM中查询历史订单
-    public static final String API_HOME_DYNAMICS            = "trade/v1.0/c/order/track";                               // 首页今日动态
     public static final String CANCLE_TIPS                  = "trade/v1.0/c/order/cancelTips";                          // 退改规则
     public static final String GUIDE_CONFLIC                = "trade/v1.0/c/order/guides/conflict";                     // 导游是否可服务
     public static final String PAY_SUCCESS                  = "trade/v1.0/c/order/paysuccess";                          // 支付成功页
@@ -218,7 +217,7 @@ public class UrlLibs {
     public static final String SERVER_IP_CHECK_APP_VERSION  = "passport/v1.0/checkAppVersion?";                         // 版本检测
     public static final String API_REPORT                   = "passport/v1.0/report";                                   // App信息采集上报接口
 
-    public static final String API_HOME                     = "basicdata/v1.2/c/home/citys/contents?";                  // 首页城市卡片列表
+    public static final String API_HOME                     = "basicdata/v1.0/c/home/aggregation";                      // 首页城市卡片列表
     public static final String SERVER_IP_UPLOAD_LOGS        = "pt/v1.0/log/stream?";                                    // 发送log日志
     public static final String SERVER_IP_PIC_UPLOAD         = "file/v1.0/upload?";                                      // 更新头像\图片上传
 
@@ -245,6 +244,8 @@ public class UrlLibs {
 
     /**========v1.4城市首页接口============**/
     public static final String API_CITY_HOME_LIST            = "goods/v1.4/c/home/cityGoods?";                           // 城市商品列表
+    public static final String API_CITY_HOME_COUNTRY_LIST         = "goods/v1.4/c/home/countryGoods?";                        // 国家列表
+    public static final String API_CITY_HOME_ROUTE_LIST           = "goods/v1.4/c/home/lineGroupGoods?";                      // 线路圈
 
 
 }

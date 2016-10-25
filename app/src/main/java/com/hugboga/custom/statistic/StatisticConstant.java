@@ -25,7 +25,7 @@ public class StatisticConstant {
     public static final String BIND_SUCCEED = "00_bind_succeed";                    // 0绑定成功
 
     // MARK: 01_搜索和展示
-    public static final String SEARCH_LAUNCH = "01_search_launch";          // 0搜索页展示
+    public static final String SEARCH_LAUNCH = "01_search_launch";           // 0搜索页展示
     public static final String SEARCH = "01_search";                         // 0点击搜索
     public static final String SEARCH_CLOSE = "01_search_close";             // 0放弃搜索
     public static final String LAUNCH_DISCOVERY = "01_launch_discovery";     // 0发现页(首页)展示

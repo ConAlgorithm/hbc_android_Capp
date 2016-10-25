@@ -40,10 +40,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginRight="10dp"
-                android:background="@mipmap/home_transfer"
                 android:gravity="center_vertical"
                 android:paddingLeft="@dimen/home_view_padding_left"
-                android:text="@string/home_picksend"
                 android:textColor="#000000"
                 android:textSize="15sp"
                 android:textStyle="bold" />
@@ -52,10 +50,8 @@
                 android:id="@+id/sku_city_footer_single_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:background="@mipmap/home_chinese_car"
                 android:gravity="center_vertical"
                 android:paddingLeft="@dimen/home_view_padding_left"
-                android:text="@string/home_single"
                 android:textColor="#000000"
                 android:textSize="15sp"
                 android:textStyle="bold" />
