@@ -433,30 +433,30 @@ public class PhoneInfo {
         //取得电话本中开始一项的光标
         Cursor cursor = cr.query(uri, null, null, null, null);
 
-        if(cursor != null){
-            cursor.moveToFirst();
-            //取得联系人名字
-            int nameFieldColumnIndex = cursor.getColumnIndex(ContactsContract.PhoneLookup.DISPLAY_NAME);
-            contact[0] = cursor.getString(nameFieldColumnIndex);
+        try {
+            if(cursor != null){
+                cursor.moveToFirst();
+                //取得联系人名字
+                int nameFieldColumnIndex = cursor.getColumnIndex(ContactsContract.PhoneLookup.DISPLAY_NAME);
+                contact[0] = cursor.getString(nameFieldColumnIndex);
 
-            //取得电话号码
-            String ContactId = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
-            Cursor phone = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "=" + ContactId, null, null);
+                //取得电话号码
+                String ContactId = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
+                Cursor phone = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "=" + ContactId, null, null);
 
-            if(phone != null){
-                phone.moveToFirst();
-                try{
+                if(phone != null){
+                    phone.moveToFirst();
                     contact[1] = phone.getString(phone.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-                }catch (Exception e){
-                    contact[1] = "";
                 }
-            }
 
-            phone.close();
-            cursor.close();
-        }else{
-//            (TAG, "get Contacts is fail");
+                phone.close();
+                cursor.close();
+            }
+        } catch (Exception e) {
+            contact[0] = "";
+            contact[1] = "";
         }
+
 
         return contact;
     }

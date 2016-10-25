@@ -50,11 +50,14 @@
         <ImageView
             android:id="@+id/route_free_item_left_iv"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:scaleType="centerCrop"
+            />
         <ImageView
             android:id="@+id/route_free_item_right_iv"
             android:layout_width="match_parent"
-            android:layout_height="120dp" />
+            android:layout_height="120dp"
+            android:scaleType="centerCrop"/>
     </LinearLayout>
 
     <TextView

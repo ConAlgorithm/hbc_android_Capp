@@ -114,7 +114,7 @@ public class OrderDetailDeliverView extends LinearLayout implements HbcViewBehav
             EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_UPDATE, orderBean.orderNo));
         } else {
             OrderDetailDeliverItemView itemView = new OrderDetailDeliverItemView(getContext());
-            itemView.setOrderNo(orderBean.orderNo);
+            itemView.setOrderNo(orderBean.orderNo, orderBean.orderType);
             itemView.update(_deliverInfoBean);
             groupLayout.addView(itemView);
             itemView.setOnCountdownEndListener(new OrderDetailDeliverCountDownView.OnUpdateListener() {

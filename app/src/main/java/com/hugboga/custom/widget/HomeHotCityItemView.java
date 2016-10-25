@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.util.AttributeSet;
 import android.view.View;
@@ -58,7 +59,11 @@ public class HomeHotCityItemView extends LinearLayout implements HbcViewBehavior
         if (data == null) {
             return;
         }
-        Tools.showImage(cityIV, data.cityHeadPicture);
+        if (TextUtils.isEmpty(data.cityHeadPicture)) {
+            cityIV.setImageResource(R.mipmap.home_default_route_free_item);
+        } else {
+            Tools.showImage(cityIV, data.cityHeadPicture, R.mipmap.home_default_route_free_item);
+        }
         citynameTV.setText(data.cityName);
 
         String guideCountStr = String.format("%1$s位司导", "" + data.cityGuideAmount);

@@ -5,7 +5,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
+import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.HomeBean;
@@ -57,6 +59,8 @@ public class FgHome extends BaseFragment {
     FrameLayout searchFloatLayout;
     private HomeSearchView homeSearchView;
 
+    @Bind(R.id.home_empty_layout)
+    LinearLayout emptyLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -106,13 +110,28 @@ public class FgHome extends BaseFragment {
     public void onDataRequestSucceed(BaseRequest _request) {
         super.onDataRequestSucceed(_request);
         if (_request instanceof RequestHome) {
+
+            emptyLayout.setVisibility(View.GONE);
+            routeView.setVisibility(View.VISIBLE);
+            routeFreeView.setVisibility(View.VISIBLE);
+            hotCityView.setVisibility(View.VISIBLE);
+            travelStoriesView.setVisibility(View.VISIBLE);
+            activitiesView.setVisibility(View.VISIBLE);
+
             RequestHome request = (RequestHome) _request;
             HomeBean data = request.getData();
+            bannerView.update(data.headVideo);
             routeView.update(data.fixGoods);
             routeFreeView.update(data.recommendGoods);
             hotCityView.update(data.getHotCityList());
             travelStoriesView.update(data.travelStories);
             activitiesView.update(data.activities);
         }
+    }
+
+    @Override
+    public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+        super.onDataRequestError(errorInfo, request);
+        emptyLayout.setVisibility(View.VISIBLE);
     }
 }

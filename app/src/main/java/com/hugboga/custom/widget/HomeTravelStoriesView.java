@@ -23,7 +23,7 @@ import butterknife.ButterKnife;
  */
 public class HomeTravelStoriesView extends LinearLayout implements HbcViewBehavior{
 
-    @Bind(R.id.home_choiceness_route_viewpager)
+    @Bind(R.id.home_travel_stories_viewpager)
     ViewPager mViewPager;
 
     public HomeTravelStoriesView(Context context) {
@@ -54,8 +54,6 @@ public class HomeTravelStoriesView extends LinearLayout implements HbcViewBehavi
             return;
         }
         ArrayList<HomeBean.TravelStory> travelStories = (ArrayList<HomeBean.TravelStory>) _data;
-        travelStories.addAll(travelStories);
-        travelStories.addAll(travelStories);
         HomeTravelStoriesAdapter adapter = new HomeTravelStoriesAdapter(getContext(), travelStories);
         mViewPager.setAdapter(adapter);
     }

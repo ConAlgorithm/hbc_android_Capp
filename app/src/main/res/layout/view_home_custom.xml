@@ -81,7 +81,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="3dp"
                         android:gravity="center"
-                        android:text="机场专车服务"
+                        android:text="机场包车接送"
                         android:textColor="#999999"
                         android:textSize="12sp" />
                 </LinearLayout>

@@ -13,8 +13,8 @@ import java.util.ArrayList;
 public class HomeBean implements Serializable {
 
     public HeadVideo headVideo;                         // 头部视频
-    public ArrayList<SkuItemBean> fixGoods;           // 固定线路（超省心）
-    public ArrayList<SkuItemBean> recommendGoods;     // 推荐线路（超自由）
+    public ArrayList<SkuItemBean> fixGoods;             // 固定线路（超省心）
+    public ArrayList<SkuItemBean> recommendGoods;       // 推荐线路（超自由）
     private ArrayList<HotCity> hotCities;               // 热门目的地
     public ArrayList<TravelStory> travelStories;        // 旅行故事
     public ArrayList<ActivePage> activities;            // 推荐线路（超自由）

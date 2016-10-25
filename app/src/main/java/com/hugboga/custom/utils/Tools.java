@@ -2,18 +2,23 @@ package com.hugboga.custom.utils;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.FutureTarget;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.widget.GlideCircleTransform;
 import com.hugboga.custom.widget.GlideRoundTransform;
 
 import java.io.File;
+
+import jp.wasabeef.blurry.Blurry;
 
 /**
  * Created  on 16/4/25.
@@ -37,7 +42,10 @@ public class Tools {
         }
         Glide.with(MyApplication.getAppContext())
                 .load(url)
+                .centerCrop()
                 .placeholder(resId)
+                .centerCrop()
+                .error(resId)
                 .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(imageView);
@@ -58,6 +66,37 @@ public class Tools {
                 .transform(new GlideRoundTransform(MyApplication.getAppContext(), radius))
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(imageView);
+    }
+
+    public static void showBlurryImage(final ImageView imageView, String url, final int resId, final int radius, final int sampling) {
+        if (TextUtils.isEmpty(url)) {
+            return;
+        }
+        Glide.with(MyApplication.getAppContext())
+                .load(url)
+                .asBitmap()
+                .diskCacheStrategy(DiskCacheStrategy.ALL).into(new SimpleTarget<Bitmap>() {
+                    @Override
+                    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                        if (resource == null) {
+                            return;
+                        }
+                        imageView.setImageBitmap(resource);
+                        Blurry.with(imageView.getContext())
+                                .radius(radius)
+                                .sampling(sampling)
+                                .async()
+                                .capture(imageView)
+                                .into(imageView);
+                    }
+
+                    @Override
+                    public void onLoadFailed(Exception e, Drawable errorDrawable) {
+                        if (resId != 0) {
+                            imageView.setImageResource(resId);
+                        }
+                    }
+                });
     }
 
     @Deprecated
