@@ -1,21 +1,18 @@
 package com.hugboga.custom.widget;
 
 import android.content.Context;
-import android.os.Handler;
+import android.content.Intent;
+import android.net.Uri;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
-import android.view.animation.AnimationUtils;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.ViewSwitcher;
 
-import com.bumptech.glide.Glide;
 import com.hugboga.custom.R;
+import com.hugboga.custom.data.bean.HomeBean;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
-
-import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -53,6 +50,18 @@ public class HomeBannerView extends RelativeLayout implements HbcViewBehavior{
 
     @Override
     public void update(Object _data) {
+        final HomeBean.HeadVideo headVideo = (HomeBean.HeadVideo) _data;
+        HomeBannerView.this.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (TextUtils.isEmpty(headVideo.videoUrl)) {
+                    return;
+                }
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setDataAndType(Uri.parse(headVideo.videoUrl), "video/mp4");
+                getContext().startActivity(intent);
+            }
+        });
     }
 
     public int getBannerHeight() {
