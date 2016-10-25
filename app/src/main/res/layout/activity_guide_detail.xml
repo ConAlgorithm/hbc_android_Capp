@@ -57,6 +57,7 @@
                     android:shadowDx="1"
                     android:shadowDy="1"
                     android:shadowRadius="1"
+                    android:textStyle="bold"
                     android:singleLine="true"
                     android:textColor="#ffffff"
                     android:textSize="20sp" />
@@ -90,7 +91,8 @@
                     android:paddingBottom="5dp"
                     android:paddingTop="12dp"
                     android:singleLine="true"
-                    android:textColor="#000000"
+                    android:textStyle="bold"
+                    android:textColor="#111111"
                     android:textSize="18sp" />
 
                 <ImageView
@@ -176,7 +178,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="10dp"
                     android:paddingTop="1.5dp"
-                    android:textColor="#000000"
+                    android:textColor="#666666"
                     android:textSize="13sp" />
             </LinearLayout>
 
@@ -187,22 +189,22 @@
                 android:layout_marginBottom="12dp"
                 android:layout_marginLeft="25dp"
                 android:layout_marginRight="25dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="16dp"
                 app:horizontalSpacing="15dp"
                 app:isCenter="true"
-                app:verticalSpacing="7dp" />
+                app:verticalSpacing="15dp" />
 
             <com.hugboga.custom.widget.EvaluateListItemView
                 android:id="@+id/guide_detail_evaluate_item"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="20dp"
                 android:visibility="gone"/>
             <com.hugboga.custom.widget.GuideDetailCarInfoView
                 android:id="@+id/guide_detail_carinfo_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="32dp"
                 android:visibility="gone"
                 />
             <View
@@ -211,25 +213,24 @@
                 android:layout_height="1px"
                 android:layout_marginLeft="18dp"
                 android:layout_marginRight="18dp"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="32dp"
                 android:background="@color/default_dividing_line" />
 
             <TextView
                 android:id="@+id/guide_detail_subtitle_appointment_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="28dp"
                 android:gravity="center"
                 android:text="预约司导服务"
-                android:textColor="#000000"
+                android:textColor="#111111"
                 android:textSize="18sp" />
-
             <RelativeLayout
-                android:id="@+id/guide_detail_plane_layout"
+                android:id="@+id/guide_detail_car_layout"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginLeft="18dp"
-                android:layout_marginRight="18dp">
+                android:layout_height="80dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="24dp">
 
                 <View
                     android:layout_width="match_parent"
@@ -238,22 +239,22 @@
                     android:background="@color/default_dividing_line" />
 
                 <ImageView
-                    android:id="@+id/guide_detail_plane_iv"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:id="@+id/guide_detail_car_iv"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
                     android:layout_centerVertical="true"
                     android:scaleType="centerInside"
-                    android:src="@mipmap/guide_detail_icon_plane" />
+                    android:src="@mipmap/home_chartered_icon" />
 
                 <TextView
-                    android:id="@+id/guide_detail_plane_tv"
+                    android:id="@+id/guide_detail_car_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="8dp"
-                    android:layout_toRightOf="@id/guide_detail_plane_iv"
-                    android:text="接送机"
-                    android:textColor="#000000"
+                    android:layout_marginLeft="18dp"
+                    android:layout_toRightOf="@id/guide_detail_car_iv"
+                    android:text="定制包车行程"
+                    android:textColor="#111111"
                     android:textSize="16sp" />
 
                 <ImageView
@@ -265,13 +266,12 @@
                     android:scaleType="centerInside"
                     android:src="@mipmap/personalcenter_right" />
             </RelativeLayout>
-
             <RelativeLayout
-                android:id="@+id/guide_detail_car_layout"
+                android:id="@+id/guide_detail_plane_layout"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginLeft="18dp"
-                android:layout_marginRight="18dp">
+                android:layout_height="80dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="24dp">
 
                 <View
                     android:layout_width="match_parent"
@@ -280,22 +280,22 @@
                     android:background="@color/default_dividing_line" />
 
                 <ImageView
-                    android:id="@+id/guide_detail_car_iv"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:id="@+id/guide_detail_plane_iv"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
                     android:layout_centerVertical="true"
                     android:scaleType="centerInside"
-                    android:src="@mipmap/guide_detail_icon_car" />
+                    android:src="@mipmap/home_pickup_icon" />
 
                 <TextView
-                    android:id="@+id/guide_detail_car_tv"
+                    android:id="@+id/guide_detail_plane_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="8dp"
-                    android:layout_toRightOf="@id/guide_detail_car_iv"
-                    android:text="包车游"
-                    android:textColor="#000000"
+                    android:layout_marginLeft="18dp"
+                    android:layout_toRightOf="@id/guide_detail_plane_iv"
+                    android:text="中文接送机"
+                    android:textColor="#111111"
                     android:textSize="16sp" />
 
                 <ImageView
@@ -311,9 +311,9 @@
             <RelativeLayout
                 android:id="@+id/guide_detail_single_layout"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginLeft="18dp"
-                android:layout_marginRight="18dp">
+                android:layout_height="80dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="24dp">
 
                 <View
                     android:layout_width="match_parent"
@@ -323,21 +323,21 @@
 
                 <ImageView
                     android:id="@+id/guide_detail_single_iv"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
                     android:layout_centerVertical="true"
                     android:scaleType="centerInside"
-                    android:src="@mipmap/guide_detail_icon_single" />
+                    android:src="@mipmap/home_single_icon" />
 
                 <TextView
                     android:id="@+id/guide_detail_single_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="8dp"
+                    android:layout_marginLeft="18dp"
                     android:layout_toRightOf="@id/guide_detail_single_iv"
                     android:text="单次接送"
-                    android:textColor="#000000"
+                    android:textColor="#111111"
                     android:textSize="16sp" />
 
                 <ImageView

@@ -77,7 +77,7 @@ public class GuideDetailCarInfoView extends LinearLayout implements HbcViewBehav
         } else {
             itemView2.setVisibility(View.GONE);
         }
-        moreTV.setText(String.format("查看全部%1$s个车辆信息", data.guideCarCount));
+        moreTV.setText(String.format("查看全部%1$s条车辆信息", data.guideCarCount));
     }
 
     public void setGuideCarId(String guideCarId) {

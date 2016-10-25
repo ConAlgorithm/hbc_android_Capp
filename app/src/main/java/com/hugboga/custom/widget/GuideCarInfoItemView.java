@@ -27,7 +27,7 @@ public class GuideCarInfoItemView extends LinearLayout implements HbcViewBehavio
     @Bind(R.id.guide_carinfo_car_iv)
     ImageView carIV;
     @Bind(R.id.guide_carinfo_current_iv)
-    ImageView currentTV;
+    ImageView currentIV;
     @Bind(R.id.guide_carinfo_pic_count_tv)
     TextView picCountTV;
 
@@ -80,7 +80,7 @@ public class GuideCarInfoItemView extends LinearLayout implements HbcViewBehavio
             Tools.showImage(carIV, guideCarBean.carPhoto, R.mipmap.guide_detail_car_default_bg);
         }
 
-        currentTV.setVisibility(guideCarBean.isInOrder == 1 ? View.VISIBLE : View.GONE);
+        currentIV.setVisibility(guideCarBean.isInOrder == 1 ? View.VISIBLE : View.GONE);
 
         final int picCount = guideCarBean.carPhotosL != null ? guideCarBean.carPhotosL.size() : 0;
         if (picCount <= 0) {

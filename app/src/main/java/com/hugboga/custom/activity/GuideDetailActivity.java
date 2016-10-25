@@ -312,7 +312,7 @@ public class GuideDetailActivity extends BaseActivity{
         tagTV.setPadding(UIUtils.dip2px(22), UIUtils.dip2px(4), UIUtils.dip2px(22), UIUtils.dip2px(4));
         tagTV.setTextSize(14);
         tagTV.setBackgroundResource(R.drawable.shape_evaluate_tag);
-        tagTV.setTextColor(0xFF000000);
+        tagTV.setTextColor(0xFF111111);
         tagTV.setEnabled(false);
         tagTV.setText(label);
         return tagTV;
