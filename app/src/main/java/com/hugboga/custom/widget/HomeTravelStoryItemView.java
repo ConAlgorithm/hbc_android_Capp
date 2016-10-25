@@ -14,6 +14,8 @@ import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.data.bean.HomeBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.net.UrlLibs;
+import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
 
@@ -62,6 +64,7 @@ public class HomeTravelStoryItemView extends RelativeLayout implements HbcViewBe
                 Intent intent = new Intent(getContext(), WebInfoActivity.class);
                 intent.putExtra(WebInfoActivity.WEB_URL, data.storyUrl);
                 getContext().startActivity(intent);
+                StatisticClickEvent.click(StatisticConstant.CLICK_STORY, "首页");
             }
         });
     }

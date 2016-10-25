@@ -18,6 +18,8 @@ import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.net.UrlLibs;
+import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.utils.CommonUtils;
 import com.umeng.analytics.MobclickAgent;
 
@@ -50,12 +52,15 @@ public class HomeCustomLayout extends LinearLayout{
         switch (view.getId()) {
             case R.id.home_custom_chartered_layout://包车
                 goDairy();
+                StatisticClickEvent.click(StatisticConstant.LAUNCH_DETAIL_R, "首页");
                 break;
             case R.id.home_custom_pickup_layout://中文接送机
                 goPickSend();
+                StatisticClickEvent.click(StatisticConstant.LAUNCH_J, "首页");
                 break;
             case R.id.home_custom_single_layout://单次接送
                 goSingle();
+                StatisticClickEvent.click(StatisticConstant.LAUNCH_C, "首页");
                 break;
             case R.id.home_custom_travelfund_layout:
                 Intent intent = null;

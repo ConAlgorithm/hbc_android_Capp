@@ -14,6 +14,8 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.activity.ChooseCityNewActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.HomeBean;
+import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.utils.UIUtils;
 import com.viewpagerindicator.CirclePageIndicator;
 
@@ -69,6 +71,7 @@ public class HomeHotCityView extends LinearLayout implements HbcViewBehavior{
                 intent.putExtra("isHomeIn", true);
                 intent.putExtra("source", "首页-热门目的地-查看更多");
                 getContext().startActivity(intent);
+                StatisticClickEvent.click(StatisticConstant.SEARCH_LAUNCH, "首页");
                 break;
         }
     }

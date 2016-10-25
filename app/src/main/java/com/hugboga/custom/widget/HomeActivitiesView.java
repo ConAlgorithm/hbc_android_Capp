@@ -20,6 +20,7 @@ import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.data.bean.HomeBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.statistic.event.EventUtil;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.Tools;
@@ -238,6 +239,7 @@ public class HomeActivitiesView extends LinearLayout implements HbcViewBehavior{
                         Intent intent = new Intent(mContext, WebInfoActivity.class);
                         intent.putExtra(WebInfoActivity.WEB_URL, urlAddress);
                         mContext.startActivity(intent);
+                        StatisticClickEvent.click(StatisticConstant.LAUNCH_TRAVELFOUND, "首页");
                     }
                 }
             });
