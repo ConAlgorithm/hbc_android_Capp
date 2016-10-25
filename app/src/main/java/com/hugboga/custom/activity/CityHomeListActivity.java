@@ -515,7 +515,6 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerBas
             default:
                 break;
         }
-        Toast.makeText(MyApplication.getAppContext(),action.getData().toString(),Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -525,7 +524,8 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerBas
 
     private void setFilterType(int value){
         paramsData.goodsClass = value;
-
+        isFirstRequest = true;
+        sendRequest(0,true);
     }
 
     private void setByFilterDay(int value){
@@ -535,10 +535,14 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerBas
         }else{
             paramsData.daysCountMax = 0;
         }
+        isFirstRequest = true;
+        sendRequest(0,true);
     }
 
     private void setByFilterTheme(int value){
         paramsData.themeId  = value;
+        isFirstRequest = true;
+        sendRequest(0,true);
     }
 
     private void hideFilterView(){

@@ -114,7 +114,6 @@ public class CityFilterLayout extends LinearLayout implements View.OnClickListen
     }
 
     public void onlyShowTab(){
-        //if(!this.isShown())
           this.setVisibility(View.VISIBLE);
 
     }
