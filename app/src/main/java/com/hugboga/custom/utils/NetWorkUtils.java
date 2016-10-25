@@ -101,7 +101,7 @@ public class NetWorkUtils {
                 type = "UNAVAILABLE";
                 break;
             case NETWORK_CLASS_WIFI:
-                type = "WiFi";
+                type = "WIFI";
                 break;
             case NETWORK_CLASS_2_G:
                 type = "2G";

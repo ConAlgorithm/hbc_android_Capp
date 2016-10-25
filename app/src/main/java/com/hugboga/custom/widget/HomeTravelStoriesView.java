@@ -50,10 +50,12 @@ public class HomeTravelStoriesView extends LinearLayout implements HbcViewBehavi
 
     @Override
     public void update(Object _data) {
-        if (_data == null) {
+        ArrayList<HomeBean.TravelStory> travelStories = (ArrayList<HomeBean.TravelStory>) _data;
+        if (travelStories == null || travelStories.size() <= 0) {
+            this.setVisibility(View.GONE);
             return;
         }
-        ArrayList<HomeBean.TravelStory> travelStories = (ArrayList<HomeBean.TravelStory>) _data;
+        this.setVisibility(View.VISIBLE);
         HomeTravelStoriesAdapter adapter = new HomeTravelStoriesAdapter(getContext(), travelStories);
         mViewPager.setAdapter(adapter);
     }

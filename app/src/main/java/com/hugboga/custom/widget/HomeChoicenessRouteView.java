@@ -84,9 +84,11 @@ public class HomeChoicenessRouteView extends LinearLayout implements HbcViewBeha
     @Override
     public void update(Object _data) {
         ArrayList<SkuItemBean> _itemList = (ArrayList<SkuItemBean>) _data;
-        if (_itemList == null) {
+        if (_itemList == null || _itemList.size() <= 0) {
+            this.setVisibility(View.GONE);
             return;
         }
+        this.setVisibility(View.VISIBLE);
         adapter.setData(_itemList);
     }
 }

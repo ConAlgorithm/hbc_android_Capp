@@ -52,11 +52,18 @@ public class HomeHotCityView extends LinearLayout implements HbcViewBehavior{
     @Override
     public void update(Object _data) {
         ArrayList<ArrayList<HomeBean.HotCity>> hotCityList = (ArrayList<ArrayList<HomeBean.HotCity>>)_data;
+        if (hotCityList == null || hotCityList.size() <= 0) {
+            this.setVisibility(View.GONE);
+            return;
+        }
+        this.setVisibility(View.VISIBLE);
         HomeHotCityAdapter adapter = new HomeHotCityAdapter(getContext(), hotCityList);
         mViewPager.setAdapter(adapter);
         mIndicator.setViewPager(mViewPager);
-        if (hotCityList.size() <= 0) {
+        if (hotCityList.size() <= 1) {
             mIndicator.setVisibility(View.GONE);
+        } else {
+            mIndicator.setVisibility(View.VISIBLE);
         }
     }
 

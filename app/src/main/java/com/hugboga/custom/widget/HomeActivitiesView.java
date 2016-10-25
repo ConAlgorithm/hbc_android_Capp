@@ -84,8 +84,10 @@ public class HomeActivitiesView extends LinearLayout implements HbcViewBehavior{
     public void update(Object _data) {
         activitiesList = (ArrayList<HomeBean.ActivePage>) _data;
         if (activitiesList == null || activitiesList.size() <= 0) {
+            this.setVisibility(View.GONE);
             return;
         }
+        this.setVisibility(View.VISIBLE);
 
         mAdapter = new HomeBannerAdapter(getContext(), activitiesList);
         mViewPager.setAdapter(mAdapter);

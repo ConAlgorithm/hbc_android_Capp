@@ -1,6 +1,8 @@
 package com.hugboga.custom.widget;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.text.TextUtils;
@@ -11,6 +13,7 @@ import android.widget.RelativeLayout;
 
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.HomeBean;
+import com.hugboga.custom.utils.NetWorkUtils;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
 
@@ -57,11 +60,26 @@ public class HomeBannerView extends RelativeLayout implements HbcViewBehavior{
                 if (TextUtils.isEmpty(headVideo.videoUrl)) {
                     return;
                 }
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setDataAndType(Uri.parse(headVideo.videoUrl), "video/mp4");
-                getContext().startActivity(intent);
+                if (!NetWorkUtils.getCurrentNetwork().equals("WIFI")) {
+                    DialogUtil mDialogUtil = DialogUtil.getInstance((Activity)getContext());
+                    String tip = "您在使用运营商网络,观看视频会产生一定的流量费用。";
+                    mDialogUtil.showCustomDialog("提示", tip, "继续观看", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            intentPlayer(headVideo.videoUrl);
+                        }
+                    }, "取消观看", null);
+                } else {
+                    intentPlayer(headVideo.videoUrl);
+                }
             }
         });
+    }
+
+    private void intentPlayer(String videoUrl) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setDataAndType(Uri.parse(videoUrl), "video/mp4");
+        getContext().startActivity(intent);
     }
 
     public int getBannerHeight() {
