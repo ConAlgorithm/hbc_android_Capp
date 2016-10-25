@@ -12,7 +12,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.ChooseCityNewActivity;
 import com.hugboga.custom.activity.DailyWebInfoActivity;
@@ -47,11 +49,11 @@ public class CityHomeHeader extends LinearLayout implements HbcViewBehavior,View
     private TextView cityNameTV,guideAmountTV,goodsCount;     //城市名称，司导数量,货物数量
     private LinearLayout customCar,pickSendAir,singleSend,guideAvatarsLay,gooodsCountLay;      //定制包车，接送机，单次接送,司导头像,线路玩法数量
     private LinearLayout cityHomeFilterLay,cityHomeGoodsEmpty;
-    private ImageView bgIV,searchIV;                                     //背景图片
+    private ImageView bgIV/*,searchIV*/;                                     //背景图片
     private FrameLayout unlimitType,unlimitDays,unlimitTheme;
 
-    @Bind(R.id.cityHome_filter_lay)
-    CityHomeFilter cityHomeFilter;
+    @Bind(R.id.city_home_header_filter_tab_layout)
+    LinearLayout cityHomeFilter;
 
     private int displayLayoutHeight;
     private CityHomeBean cityHomeBean;
@@ -81,12 +83,12 @@ public class CityHomeHeader extends LinearLayout implements HbcViewBehavior,View
         unlimitTheme=(FrameLayout)findViewById(R.id.cityHome_unlimited_theme_lay);
 
         bgIV=(ImageView)findViewById(R.id.city_home_header_bg_iv);
-        searchIV=(ImageView)findViewById(R.id.cityHome_header_search_image);
+        //searchIV=(ImageView)findViewById(R.id.cityHome_header_search_image);
 
         customCar.setOnClickListener(this);
         pickSendAir.setOnClickListener(this);
         singleSend.setOnClickListener(this);
-        searchIV.setOnClickListener(this);
+        //searchIV.setOnClickListener(this);
         unlimitType.setOnClickListener(this);
         unlimitDays.setOnClickListener(this);
         unlimitTheme.setOnClickListener(this);
@@ -104,27 +106,28 @@ public class CityHomeHeader extends LinearLayout implements HbcViewBehavior,View
         Tools.showImage(bgIV,cityHomeBean.cityContent.cityPicture);
         cityNameTV.setText(cityHomeBean.cityContent.cityName);
         guideAmountTV.setText(cityHomeBean.cityGuides.guideAmount+"位当地中文司导");
-
         //司导头像,引用
         if (cityHomeBean.cityGuides.guideAvatars != null && cityHomeBean.cityGuides.guideAvatars .size() > 0) {
             guideAvatarsLay.removeAllViews();
             int size = cityHomeBean.cityGuides.guideAvatars.size();
             int viewWidth = UIUtils.dip2px(30);
-            j:for (int i = 0; i < size; i++) {
-                viewWidth +=  UIUtils.dip2px(15) + UIUtils.dip2px(45);
+            j:for (int i = 0; i < size && i<6; i++) {
+                viewWidth +=  UIUtils.dip2px(10) + UIUtils.dip2px(45);
                 if (viewWidth > UIUtils.getScreenWidth()) {
                     break j;
                 }
+
                 CircleImageView circleImageView = new CircleImageView(getContext());
-                circleImageView.setBackgroundResource(R.mipmap.journey_head_portrait);
+                int paddingvalue = UIUtils.dip2px(1);
+                circleImageView.setPadding(paddingvalue,paddingvalue,paddingvalue,paddingvalue);
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(UIUtils.dip2px(45), UIUtils.dip2px(45));
-                params.rightMargin = UIUtils.dip2px(15);
-//                if (size>AMOUNT&&i+1==AMOUNT){
-//                    circleImageView.setImageResource(R.mipmap.home_morelist);
-//                    guideAvatarsLay.addView(circleImageView, params);
-//                    break j;
-//                }
-                Tools.showImage(circleImageView, cityHomeBean.cityGuides.guideAvatars.get(i));
+                params.rightMargin = UIUtils.dip2px(10);
+                if(size>5 && i==5){
+                    circleImageView.setBackgroundResource(R.mipmap.city_filter_more_bg);
+                }else{
+                    circleImageView.setBackgroundResource(R.mipmap.journey_head_portrait);
+                    Tools.showImage(circleImageView, cityHomeBean.cityGuides.guideAvatars.get(i));
+                }
                 if (circleImageView==null){
                     guideAvatarsLay.removeView(circleImageView);
                     continue ;
@@ -150,28 +153,28 @@ public class CityHomeHeader extends LinearLayout implements HbcViewBehavior,View
             case  R.id.cityHome_toolbar_single_send:
                 goSingle();
                 break;
-            case R.id.cityHome_header_search_image:
+           /* case R.id.cityHome_header_search_image:
                 Intent intent = new Intent(this.getContext(), ChooseCityNewActivity.class);
                 intent.putExtra("com.hugboga.custom.home.flush", Constants.BUSINESS_TYPE_RECOMMEND);
                 intent.putExtra("isHomeIn",false);
                 intent.putExtra("source","小搜索框");
                 this.getContext().startActivity(intent);
                 ((Activity)(this.getContext())).overridePendingTransition(R.anim.push_bottom_in,0);
-                break;
+                break;*/
             case R.id.cityHome_unlimited_type_lay:
-                ImageView type=(ImageView)findViewById(R.id.city_home_unlimited_type);
-                type.setImageResource(R.mipmap.share_unfold);
-                findViewById(R.id.city_home_unlimited_type_tips).setVisibility(VISIBLE);
+                if(headerTabClickListener!=null){
+                    headerTabClickListener.headerTabClick(0);
+                }
                 break;
             case R.id.cityHome_unlimited_days_lay:
-                ImageView type1=(ImageView)findViewById(R.id.city_home_unlimited_days);
-                type1.setImageResource(R.mipmap.share_unfold);
-                findViewById(R.id.city_home_unlimited_days_tips).setVisibility(VISIBLE);
+                if(headerTabClickListener!=null){
+                    headerTabClickListener.headerTabClick(1);
+                }
                 break;
             case R.id.cityHome_unlimited_theme_lay:
-                ImageView type2=(ImageView)findViewById(R.id.city_home_unlimited_theme);
-                type2.setImageResource(R.mipmap.share_unfold);
-                findViewById(R.id.city_home_unlimited_theme_tips).setVisibility(VISIBLE);
+                if(headerTabClickListener!=null){
+                    headerTabClickListener.headerTabClick(2);
+                }
                 break;
         }
 
@@ -239,5 +242,16 @@ public class CityHomeHeader extends LinearLayout implements HbcViewBehavior,View
 
     public int getDisplayLayoutHeight() {
         return displayLayoutHeight;
+    }
+
+
+    private HeaderTabClickListener headerTabClickListener;
+
+    public void setHeaderTabClickListener(HeaderTabClickListener headerTabClickListener) {
+        this.headerTabClickListener = headerTabClickListener;
+    }
+
+    public interface HeaderTabClickListener{
+        void headerTabClick(int position);
     }
 }

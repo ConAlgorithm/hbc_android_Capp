@@ -30,6 +30,7 @@ public class ZDefaultDivider extends RecyclerView.ItemDecoration {
         outRect.set(left, top, right, bottom);
     }
 
+
     public void setItemOffsets(int left, int top, int right, int bottom) {
         this.left = left;
         this.top = top;

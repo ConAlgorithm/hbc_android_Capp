@@ -3,10 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/allbg_white"
+    android:visibility="visible"
     android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/city_tab_parent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -18,11 +18,12 @@
             android:layout_weight="1.0">
 
             <TextView
+                android:id="@+id/city_filter_type_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:drawablePadding="3dp"
-                android:drawableRight="@mipmap/share_withdraw"
+                android:drawableRight="@mipmap/share_unfold"
                 android:padding="@dimen/default_margin_large"
                 android:text="不限类型"
                 android:textColor="#111111"
@@ -31,9 +32,9 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
                 android:layout_gravity="center_horizontal|bottom"
-                android:src="@mipmap/share_withdraw" />
+                android:src="@mipmap/share_withdraw"
+                android:visibility="gone" />
         </FrameLayout>
 
         <View
@@ -50,11 +51,12 @@
             android:layout_weight="1.0">
 
             <TextView
+                android:id="@+id/city_filter_day_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:drawablePadding="3dp"
-                android:drawableRight="@mipmap/share_withdraw"
+                android:drawableRight="@mipmap/share_unfold"
                 android:padding="@dimen/default_margin_large"
                 android:text="不限天数"
                 android:textColor="#111111"
@@ -63,9 +65,9 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
                 android:layout_gravity="center_horizontal|bottom"
-                android:src="@mipmap/share_withdraw" />
+                android:src="@mipmap/share_withdraw"
+                android:visibility="gone" />
         </FrameLayout>
 
         <View
@@ -82,11 +84,12 @@
             android:layout_weight="1.0">
 
             <TextView
+                android:id="@+id/city_filter_theme_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:drawablePadding="3dp"
-                android:drawableRight="@mipmap/share_withdraw"
+                android:drawableRight="@mipmap/share_unfold"
                 android:padding="@dimen/default_margin_large"
                 android:text="不限主题"
 
@@ -96,9 +99,9 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
                 android:layout_gravity="center_horizontal|bottom"
-                android:src="@mipmap/share_withdraw" />
+                android:src="@mipmap/share_withdraw"
+                android:visibility="gone" />
         </FrameLayout>
     </LinearLayout>
 

@@ -26,7 +26,7 @@ import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestCitySkuList;
-import com.hugboga.custom.data.request.RequestCountryCityHomeList;
+import com.hugboga.custom.data.request.RequestCountryHomeList;
 import com.hugboga.custom.data.request.RequestRouteCityHomeList;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
@@ -73,7 +73,7 @@ public class SkuListActivity extends BaseActivity implements HbcRecyclerBaseAdap
     private CityBean cityBean = null;
 
     public enum SkuType {
-        CITY, ROUTE, COUNTRY;
+        CITY, ROUTE, COUNTRY
     }
 
     public Params getParamsData() {
@@ -304,11 +304,11 @@ public class SkuListActivity extends BaseActivity implements HbcRecyclerBaseAdap
             titlebar.setVisibility(View.VISIBLE);
             showEmptyView(true);
         } else if (_request instanceof RequestRouteCityHomeList) {
-            skuCityBean = ((RequestRouteCityHomeList) _request).getData();
+            //skuCityBean = ((RequestRouteCityHomeList) _request).getData();
             fgTitle.setText(skuCityBean.lineGroupName);
             showEmptyView(false);
-        } else if (_request instanceof RequestCountryCityHomeList) {
-            skuCityBean = ((RequestCountryCityHomeList) _request).getData();
+        } else if (_request instanceof RequestCountryHomeList) {
+            //skuCityBean = ((RequestCountryCityHomeList) _request).getData();
             fgTitle.setText(skuCityBean.countryName);
             showEmptyView(false);
         }

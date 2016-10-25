@@ -7,15 +7,11 @@ import android.text.TextUtils;
 import com.hugboga.custom.action.ActionPageBase;
 import com.hugboga.custom.action.ActionUtils;
 import com.hugboga.custom.action.data.ActionBean;
-import com.hugboga.custom.action.data.ActionSkuDetailBean;
 import com.hugboga.custom.action.data.ActionSkuListBean;
 import com.hugboga.custom.activity.CityHomeListActivity;
-import com.hugboga.custom.activity.SkuDetailActivity;
-import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.JsonUtils;
-import com.netease.nim.uikit.common.util.C;
 
 /**
  * Created by qingcha on 16/9/27.

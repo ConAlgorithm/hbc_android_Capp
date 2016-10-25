@@ -5,6 +5,7 @@ import android.content.Context;
 import com.google.gson.Gson;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
+import com.hugboga.custom.data.bean.GoodsSec;
 import com.hugboga.custom.data.bean.GuidesDetailData;
 import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.data.net.NewParamsBuilder;
