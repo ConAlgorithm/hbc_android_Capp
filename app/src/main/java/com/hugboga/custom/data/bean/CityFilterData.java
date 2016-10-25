@@ -7,4 +7,5 @@ public class CityFilterData {
 
     public int type;
     public String value;
+    public boolean selected;
 }

@@ -11,20 +11,26 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
+import com.huangbaoche.hbcframe.util.MLog;
 import com.huangbaoche.hbcframe.widget.recycler.ZDefaultDivider;
 import com.huangbaoche.hbcframe.widget.recycler.ZListRecyclerView;
 import com.huangbaoche.hbcframe.widget.recycler.ZSwipeRefreshLayout;
+import com.hugboga.custom.MainActivity;
+import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.CityHomeAdapter;
 import com.hugboga.custom.adapter.HbcRecyclerBaseAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.CityHomeBean;
+import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.request.RequestCityHomeList;
+import com.hugboga.custom.data.request.RequestNIMChatList;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.utils.DBHelper;
 import com.hugboga.custom.utils.UIUtils;
@@ -33,6 +39,8 @@ import com.hugboga.custom.widget.CityHomeFilter;
 import com.hugboga.custom.widget.CityHomeHeader;
 import com.hugboga.custom.widget.SkuListEmptyView;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 import org.xutils.DbManager;
 import org.xutils.common.Callback;
 import org.xutils.ex.DbException;
@@ -112,6 +120,8 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerBas
         initDefaultTitleBar();
         ButterKnife.bind(this);
         initView();
+        if (!EventBus.getDefault().isRegistered(this))
+            EventBus.getDefault().register(this);
     }
 
     @Override
@@ -269,18 +279,24 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerBas
     @Override
     public void onItemClick(View view, int position, Object itemData) {
           //HomeCityFilterHelper.showViewPager(this,findViewById(R.id.city_home_filter));
-        if(position==0){
-            cityFilterLayout.onlyShowTab();
-        }
         if(position==1){
-            cityFilterLayout.hideTab();
-        }
-        if(position==2){
-            cityFilterLayout.hideFilterView();
-        }
-        if(position==3){
             cityFilterLayout.showFilterView(1);
         }
+        if(position==2){
+            cityFilterLayout.onlyShowTab();
+        }
+        if(position==2){
+            cityFilterLayout.hideTab();
+        }
+        if(position==3){
+            cityFilterLayout.hideFilterView();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
     }
 
     @Override
@@ -291,6 +307,8 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerBas
             fgTitle.setText(cityHomeBean.cityContent.cityName);
             titlebar.setVisibility(View.VISIBLE);
             showEmptyView(true);
+            cityHomeBean.goodsThemesList.add(0, CityHomeBean.GoodsThemes.getDefaultTheme());
+            cityFilterLayout.setGoodsThemesList(cityHomeBean.goodsThemesList);
         }
 
             adapter.addDatas(cityHomeBean.goodsSecList, !isFirstRequest);
@@ -383,4 +401,52 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerBas
             }
         }
     }
+
+    @Subscribe
+    public void onEventMainThread(EventAction action) {
+        MLog.e(this + " onEventMainThread " + action.getType());
+        switch (action.getType()) {
+            case CITY_FILTER_TYPE:
+                setFilterType((Integer) action.getData());
+                hideFilterView();
+                break;
+            case CITY_FILTER_DAY:
+                setByFilterDay((Integer) action.getData());
+                hideFilterView();
+                break;
+            case CITY_FILTER_THEME:
+                setByFilterTheme((Integer) action.getData());
+                hideFilterView();
+                break;
+            default:
+                break;
+        }
+        Toast.makeText(MyApplication.getAppContext(),action.getData().toString(),Toast.LENGTH_SHORT).show();
+    }
+
+
+
+    private void setFilterType(int value){
+        paramsData.goodsClass = value;
+
+    }
+
+    private void setByFilterDay(int value){
+        paramsData.daysCountMin = value;
+        if(value==1){
+            paramsData.daysCountMax = 1 ;
+        }else{
+            paramsData.daysCountMax = 0;
+        }
+    }
+
+    private void setByFilterTheme(int value){
+        paramsData.themeId  = value;
+    }
+
+    private void hideFilterView(){
+        cityFilterLayout.hideFilterView();
+    }
+
+
 }

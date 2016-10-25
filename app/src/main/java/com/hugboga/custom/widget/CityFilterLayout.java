@@ -92,15 +92,31 @@ public class CityFilterLayout extends LinearLayout {
 
 
     private void initCityTypeTabView(View view) {
+        view.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showFilterView(0);
+            }
+        });
 
     }
 
     private void initCityDayTabView(View view) {
-
+        view.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showFilterView(1);
+            }
+        });
     }
 
     private void intiCityThemeTabView(View view) {
-
+        view.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showFilterView(2);
+            }
+        });
     }
 
     private void initViewPagerAdapter(){
@@ -134,10 +150,15 @@ public class CityFilterLayout extends LinearLayout {
 
     public void setGoodsThemesList(List<CityHomeBean.GoodsThemes> goodsThemesList) {
         this.goodsThemesList = goodsThemesList;
+        if(pagerAdapter!=null){
+            pagerAdapter.updateThemesValue(goodsThemesList);
+        }
     }
 
 
     class CityFilterPagerAdapter extends FragmentStatePagerAdapter {
+
+        CityFilterThemesFragment cityFilterThemesFragment;
 
         public CityFilterPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -151,10 +172,9 @@ public class CityFilterLayout extends LinearLayout {
                 case 1:
                     return new CityFilterDaysFragment();
                 case 2:
-                    CityFilterThemesFragment fragment = new CityFilterThemesFragment();
-                    Bundle bundle = new Bundle();
-                    fragment.setArguments(bundle);
-                    return fragment;
+                    cityFilterThemesFragment = new CityFilterThemesFragment();
+                    cityFilterThemesFragment.setDatas(goodsThemesList);
+                    return cityFilterThemesFragment;
             }
             return null;
         }
@@ -162,8 +182,14 @@ public class CityFilterLayout extends LinearLayout {
         public int getCount() {
             return 3;
         }
-    }
 
+
+        public void updateThemesValue(List<CityHomeBean.GoodsThemes> goodsThemes){
+            if(cityFilterThemesFragment!=null){
+                cityFilterThemesFragment.setDatas(goodsThemes);
+            }
+        }
+    }
 
 
 }
