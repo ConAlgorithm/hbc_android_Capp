@@ -83,6 +83,8 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
     TextView gotoOrder;
     @Bind(R.id.webview)
     WebView webView;
+    @Bind(R.id.goto_little_helper)
+    TextView gotoLittleHelp;
 
     private SkuItemBean skuItemBean;//sku详情
     private CityBean cityBean;
@@ -197,7 +199,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
         return false;
     }
 
-    @OnClick({R.id.header_right_btn, R.id.goto_order})
+    @OnClick({R.id.header_right_btn, R.id.goto_order,R.id.goto_little_helper})
     public void onClick(View view) {
         HashMap<String, String> map = new HashMap<String, String>();
         switch (view.getId()) {
@@ -244,6 +246,9 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
                     LogUtil.e(e.toString());
                 }
                 MobclickAgent.onEventValue(activity, "chose_route", map, countResult);
+                break;
+            case R.id.goto_little_helper:
+                DialogUtil.getInstance(activity).showLittleHelperDialog();
                 break;
         }
     }

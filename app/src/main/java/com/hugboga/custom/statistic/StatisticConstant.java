@@ -174,4 +174,6 @@ public class StatisticConstant {
     public static final String SHAREKJ_BACK = "06_shareKj_back";                  // 砍价分享后回到应用
 
     public static final String LAUNCH_WAITG = "07_launch_waitG";                  // 展示已表态的司导列表
+    public static final String CLICK_STORY = "01_click_story" ;                     //点击故事
+    public static final String CLICK_WAIT_G="07_click_waitG";                       //点击已表态的司导头像
 }
