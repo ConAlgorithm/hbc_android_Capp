@@ -7,7 +7,9 @@
     <ImageView
         android:id="@+id/home_route_item_bg_iv"
         android:layout_width="match_parent"
-        android:layout_height="120dp" />
+        android:layout_height="120dp"
+        android:scaleType="centerCrop"
+        />
 
     <LinearLayout
         android:layout_width="wrap_content"

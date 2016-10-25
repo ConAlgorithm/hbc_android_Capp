@@ -23,7 +23,7 @@ import butterknife.ButterKnife;
  */
 public class HomeTravelStoriesView extends LinearLayout implements HbcViewBehavior{
 
-    @Bind(R.id.home_choiceness_route_viewpager)
+    @Bind(R.id.home_travel_stories_viewpager)
     ViewPager mViewPager;
 
     public HomeTravelStoriesView(Context context) {

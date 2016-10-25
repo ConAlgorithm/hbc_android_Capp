@@ -2,6 +2,7 @@ package com.hugboga.custom.widget;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
@@ -60,7 +61,11 @@ public class HomeRouteItemView extends RelativeLayout implements HbcViewBehavior
             return;
         }
 
-        Tools.showImage(bgIV, data.goodsPicture);
+        if (TextUtils.isEmpty(data.goodsPicture)) {
+            bgIV.setImageResource(R.mipmap.home_default_route_item);
+        } else {
+            Tools.showImage(bgIV, data.goodsPicture, R.mipmap.home_default_route_item);
+        }
         guideCountTV.setText(String.format("%1$s 位当地中文司导", data.guideAmount));
         titleTV.setText(data.goodsName);
         priceTV.setText("" + data.perPrice);

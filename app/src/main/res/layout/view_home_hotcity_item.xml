@@ -8,6 +8,7 @@
         android:id="@+id/hotcity_item_city_iv"
         android:layout_width="100dp"
         android:layout_height="100dp"
+        android:scaleType="centerCrop"
         />
     <TextView
         android:id="@+id/hotcity_item_cityname_tv"

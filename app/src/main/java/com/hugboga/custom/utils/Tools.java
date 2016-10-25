@@ -37,7 +37,10 @@ public class Tools {
         }
         Glide.with(MyApplication.getAppContext())
                 .load(url)
+                .centerCrop()
                 .placeholder(resId)
+                .centerCrop()
+                .error(resId)
                 .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(imageView);

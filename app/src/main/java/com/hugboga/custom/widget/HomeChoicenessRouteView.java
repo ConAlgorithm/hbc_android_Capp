@@ -27,7 +27,7 @@ public class HomeChoicenessRouteView extends LinearLayout implements HbcViewBeha
 
     @Bind(R.id.home_choiceness_route_title_tv)
     TextView titleTV;
-    @Bind(R.id.home_choiceness_route_viewpager)
+    @Bind(R.id.home_choiceness_route_recyclerview)
     RecyclerView recyclerView;
     @Bind(R.id.home_choiceness_route_top_iv)
     ImageView topIV;

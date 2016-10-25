@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
+import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.HomeBean;
@@ -125,5 +126,11 @@ public class FgHome extends BaseFragment {
             travelStoriesView.update(data.travelStories);
             activitiesView.update(data.activities);
         }
+    }
+
+    @Override
+    public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+        super.onDataRequestError(errorInfo, request);
+        emptyLayout.setVisibility(View.VISIBLE);
     }
 }

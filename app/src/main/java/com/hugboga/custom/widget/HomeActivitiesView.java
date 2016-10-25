@@ -207,8 +207,11 @@ public class HomeActivitiesView extends LinearLayout implements HbcViewBehavior{
             }
             final HomeBean.ActivePage itemData = itemList.get(position);
             ImageView itemView = new ImageView(mContext);
-            if (itemData != null) {
+            itemView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            if (itemData != null && !TextUtils.isEmpty(itemData.picture)) {
                 Tools.showRoundImage(itemView, itemData.picture, UIUtils.dip2px(3));
+            } else {
+                itemView.setImageResource(R.mipmap.home_default_route_item);
             }
             itemView.setLayoutParams(itemParams);
             container.addView(itemView, 0);

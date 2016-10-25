@@ -36,6 +36,7 @@
                 android:layout_marginTop="@dimen/home_view_vertical_space"
                 android:background="#ffffff"
                 android:gravity="center"
+                android:visibility="gone"
                 android:orientation="vertical"
                 android:paddingBottom="50dp"
                 android:paddingTop="40dp">

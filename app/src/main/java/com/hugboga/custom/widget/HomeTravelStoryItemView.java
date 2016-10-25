@@ -51,7 +51,11 @@ public class HomeTravelStoryItemView extends RelativeLayout implements HbcViewBe
         if (data == null) {
             return;
         }
-        Tools.showImage(displayIV, data.storyPicture);
+        if (TextUtils.isEmpty(data.storyPicture)) {
+            displayIV.setImageResource(R.mipmap.home_default_route_item);
+        } else {
+            Tools.showImage(displayIV, data.storyPicture, R.mipmap.home_default_route_item);
+        }
         guideCountTV.setText(data.storyName);
         this.setOnClickListener(new OnClickListener() {
             @Override
