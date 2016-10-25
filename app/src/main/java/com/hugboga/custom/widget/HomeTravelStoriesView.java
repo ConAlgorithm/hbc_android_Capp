@@ -54,8 +54,6 @@ public class HomeTravelStoriesView extends LinearLayout implements HbcViewBehavi
             return;
         }
         ArrayList<HomeBean.TravelStory> travelStories = (ArrayList<HomeBean.TravelStory>) _data;
-        travelStories.addAll(travelStories);
-        travelStories.addAll(travelStories);
         HomeTravelStoriesAdapter adapter = new HomeTravelStoriesAdapter(getContext(), travelStories);
         mViewPager.setAdapter(adapter);
     }
