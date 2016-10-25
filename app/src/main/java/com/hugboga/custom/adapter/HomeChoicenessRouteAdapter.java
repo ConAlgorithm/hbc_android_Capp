@@ -13,6 +13,8 @@ import com.hugboga.custom.activity.ChooseCityNewActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.HomeBean;
 import com.hugboga.custom.data.bean.SkuItemBean;
+import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.HbcViewBehavior;
 import com.hugboga.custom.widget.HomeRouteFreeItemView;
@@ -95,6 +97,7 @@ public class HomeChoicenessRouteAdapter extends RecyclerView.Adapter<HomeChoicen
                     intent.putExtra("isHomeIn", true);
                     intent.putExtra("source", type == 1 ? "首页-线路包车" : "首页-包车畅游");
                     v.getContext().startActivity(intent);
+                    StatisticClickEvent.click(StatisticConstant.SEARCH_LAUNCH, "首页");
                 }
             });
         } else {

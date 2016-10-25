@@ -25,6 +25,8 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityHomeBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.net.UrlLibs;
+import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
 import com.umeng.analytics.MobclickAgent;
@@ -146,12 +148,15 @@ public class CityHomeHeader extends LinearLayout implements HbcViewBehavior,View
         switch (v.getId()){
              case R.id.cityHome_toolbar_custom_car:
                  goDairy();
+                 StatisticClickEvent.click(StatisticConstant.LAUNCH_DETAIL_R, "城市页");
                  break;
             case R.id.cityHome_toolbar_home_pick_send_airport:
                 goPickSend();
+                StatisticClickEvent.click(StatisticConstant.LAUNCH_J, "城市页");
                 break;
             case  R.id.cityHome_toolbar_single_send:
                 goSingle();
+                StatisticClickEvent.click(StatisticConstant.LAUNCH_C, "城市页");
                 break;
            /* case R.id.cityHome_header_search_image:
                 Intent intent = new Intent(this.getContext(), ChooseCityNewActivity.class);
@@ -160,6 +165,8 @@ public class CityHomeHeader extends LinearLayout implements HbcViewBehavior,View
                 intent.putExtra("source","小搜索框");
                 this.getContext().startActivity(intent);
                 ((Activity)(this.getContext())).overridePendingTransition(R.anim.push_bottom_in,0);
+                StatisticClickEvent.click(StatisticConstant.SEARCH_LAUNCH, "城市页");
+                break;
                 break;*/
             case R.id.cityHome_unlimited_type_lay:
                 if(headerTabClickListener!=null){

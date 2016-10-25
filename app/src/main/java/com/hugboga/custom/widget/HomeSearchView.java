@@ -13,6 +13,8 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.activity.ChooseCityNewActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.fragment.FgHome;
+import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.statistic.click.StatisticClickEvent;
 
 /**
  * Created by qingcha on 16/6/21.
@@ -41,5 +43,6 @@ public class HomeSearchView extends RelativeLayout {
         intent.putExtra("isHomeIn", true);
         intent.putExtra("source", "首页搜索框");
         this.getContext().startActivity(intent);
+        StatisticClickEvent.click(StatisticConstant.SEARCH_LAUNCH, "首页");
     }
 }
