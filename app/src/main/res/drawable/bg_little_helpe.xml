@@ -5,6 +5,8 @@
             <stroke
                 android:width="3px"
                 android:color="@color/travel_tab_bottom_color" />
+            <solid
+                android:color="@color/allbg_white"/>
         </shape>
     </item>
 </selector>
