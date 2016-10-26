@@ -282,16 +282,9 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                     vh.travel_item_btn_br_tips.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-
-//                            Bundle bundleUrlAll = new Bundle();
-//                            bundleUrlAll.putString(FgWebInfo.WEB_URL, UrlLibs.H5_INSURANCE);
-//                            fragment.startFragment(new FgActivity(), bundleUrlAll);
-
                             Intent intent = new Intent(v.getContext(), WebInfoActivity.class);
                             intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_INSURANCE);
                             v.getContext().startActivity(intent);
-
-
                         }
                     });
                 } else {
@@ -306,7 +299,6 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                 vh.mStatus.setText(orderBean.orderStatus.name);
                 vh.mPrice.setVisibility(View.GONE);
                 vh.mBtnPay.setVisibility(View.GONE);
-                vh.br_layout.setVisibility(View.GONE);
                 vh.mAssessment.setVisibility(View.GONE);
 
                 if (orderBean.orderGuideInfo != null) {
@@ -328,6 +320,31 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                         showMessageNum(vh.mBtnChatNum, orderBean.imcount);//显示未读小红点个数
                     }else{
                         vh.mBtnChat.setVisibility(View.GONE);
+                    }
+
+                    if (orderBean.insuranceEnable) {
+                        vh.br_layout.setVisibility(View.VISIBLE);
+                        vh.travel_item_btn_br.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Bundle bundle = new Bundle();
+                                bundle.putSerializable("orderBean",orderBean);
+                                bundle.putString("from","orderList");
+                                Intent intent = new Intent(context, InsureActivity.class);
+                                intent.putExtras(bundle);
+                                context.startActivity(intent);
+                            }
+                        });
+                        vh.travel_item_btn_br_tips.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(v.getContext(), WebInfoActivity.class);
+                                intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_INSURANCE);
+                                v.getContext().startActivity(intent);
+                            }
+                        });
+                    } else {
+                        vh.br_layout.setVisibility(View.GONE);
                     }
                 } else {
                     vh.mStatusLayout.setVisibility(View.GONE);
