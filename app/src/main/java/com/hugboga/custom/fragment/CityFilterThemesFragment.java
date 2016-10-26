@@ -64,7 +64,7 @@ public class CityFilterThemesFragment extends BaseFragment implements AbsListVie
     }
 
     private void updateGridViewSize(){
-        if(goodsThemesList!=null && goodsThemesList.size()>10){
+        if(goodsThemesList!=null && goodsThemesList.size()>10 && gridView!=null){
             gridView.getLayoutParams().height = UIUtils.screenFullHeight/2;
         }
     }
@@ -73,7 +73,7 @@ public class CityFilterThemesFragment extends BaseFragment implements AbsListVie
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         adapter.updateSelectedStauts(position);
         EventBus.getDefault().post(new EventAction(EventType.CITY_FILTER_THEME,
-                new Integer(adapter.getItem(position).themeId)));
+                adapter.getItem(position)));
     }
 
 }

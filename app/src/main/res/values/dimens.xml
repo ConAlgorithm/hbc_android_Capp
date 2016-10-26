@@ -18,6 +18,7 @@
     <dimen name="default_margin_small">4dp</dimen>
     <dimen name="default_margin_medium">8dp</dimen>
     <dimen name="default_margin_large">12dp</dimen>
+    <dimen name="default_margin_larges">14dp</dimen>
     <dimen name="default_margin_xlarge">18dp</dimen>
     <dimen name="default_margin_xxlarge">26dp</dimen>
     <dimen name="default_margin_xxxlarge">37dp</dimen>

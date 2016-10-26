@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -44,7 +45,7 @@ public class CityHomeListItemWorry extends RelativeLayout implements HbcViewBeha
 
 
         displayLayoutHeight=(int)((345 / 648.0) * UIUtils.getScreenWidth());
-        goodImagefirst.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, displayLayoutHeight));
+        goodImagefirst.setLayoutParams(new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, displayLayoutHeight));
     }
 
 
@@ -60,19 +61,17 @@ public class CityHomeListItemWorry extends RelativeLayout implements HbcViewBeha
         }else {
             goodImagefirst.setImageResource(R.color.default_img_bg);
         }
+        guideAmount.setText(String.format("%1$s 位当地中文司导", goodsSec.guideAmount));
+        goodsPrice.setText(String.valueOf(goodsSec.perPrice));
 
-        guideAmount.setText("" + goodsSec.guideAmount+"位当地中文司导");
-        guideAmount.setVisibility(View.VISIBLE);
-
-
-        goodsPrice.setText(goodsSec.goodsLable);
-
-        priceHint.setVisibility(View.VISIBLE);
+        String otherStr = "起/人·%1$s日";
+        if (goodsSec.hotelStatus == 1) {// 是否含酒店
+            otherStr += "·含酒店";
+        }
+        priceHint.setText(String.format(otherStr, goodsSec.daysCount));
         headlable.setText(goodsSec.headLable);
-
         if (!TextUtils.isEmpty(goodsSec.goodsName)){
             places.setText(goodsSec.places);
         }
-
     }
 }

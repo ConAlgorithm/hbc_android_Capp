@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/allbg_white"
     android:visibility="visible"
     android:orientation="vertical">
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_gravity="bottom"
+        android:background="#979797" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,8 +28,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:drawablePadding="3dp"
-                android:drawableRight="@mipmap/share_unfold"
-                android:padding="@dimen/default_margin_large"
+                android:drawableRight="@mipmap/city_filter_tab_arraw_down"
+                android:padding="@dimen/default_margin_larges"
                 android:text="不限类型"
                 android:textColor="#111111"
                 android:textSize="@dimen/text_size_mediumx" />
@@ -33,7 +38,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal|bottom"
-                android:src="@mipmap/share_withdraw"
+                android:src="@mipmap/city_filter_selected_icon"
+                android:background="@color/basic_white"
                 android:visibility="gone" />
         </FrameLayout>
 
@@ -56,8 +62,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:drawablePadding="3dp"
-                android:drawableRight="@mipmap/share_unfold"
-                android:padding="@dimen/default_margin_large"
+                android:drawableRight="@mipmap/city_filter_tab_arraw_down"
+                android:padding="@dimen/default_margin_larges"
                 android:text="不限天数"
                 android:textColor="#111111"
                 android:textSize="@dimen/text_size_mediumx" />
@@ -66,7 +72,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal|bottom"
-                android:src="@mipmap/share_withdraw"
+                android:src="@mipmap/city_filter_selected_icon"
+                android:background="@color/basic_white"
                 android:visibility="gone" />
         </FrameLayout>
 
@@ -89,10 +96,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:drawablePadding="3dp"
-                android:drawableRight="@mipmap/share_unfold"
-                android:padding="@dimen/default_margin_large"
+                android:drawableRight="@mipmap/city_filter_tab_arraw_down"
+                android:padding="@dimen/default_margin_larges"
                 android:text="不限主题"
-
                 android:textColor="#111111"
                 android:textSize="@dimen/text_size_mediumx" />
 
@@ -100,15 +106,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal|bottom"
-                android:src="@mipmap/share_withdraw"
+                android:src="@mipmap/city_filter_selected_icon"
+                android:background="@color/basic_white"
                 android:visibility="gone" />
         </FrameLayout>
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="0.5dp"
-        android:background="#e5e8ed" />
-</LinearLayout>
+</FrameLayout>

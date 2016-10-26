@@ -63,9 +63,9 @@ public class CityFilterLayout extends LinearLayout implements View.OnClickListen
 
     private void initRes(){
         Resources resources = MyApplication.getAppContext().getResources();
-        textDownArraw = resources.getDrawable(R.mipmap.share_unfold);
+        textDownArraw = resources.getDrawable(R.mipmap.city_filter_tab_arraw_down);
         textDownArraw.setBounds(0, 0, textDownArraw.getMinimumWidth(), textDownArraw.getMinimumHeight());
-        textUpArraw = resources.getDrawable(R.mipmap.share_withdraw);
+        textUpArraw = resources.getDrawable(R.mipmap.city_filter_tab_arraw_up);
         textUpArraw.setBounds(0, 0, textUpArraw.getMinimumWidth(), textUpArraw.getMinimumHeight());
     }
 
@@ -102,6 +102,8 @@ public class CityFilterLayout extends LinearLayout implements View.OnClickListen
             public void onPageScrollStateChanged(int state) {
             }
         });
+
+        initViewPagerAdapter();
     }
 
 
@@ -120,19 +122,47 @@ public class CityFilterLayout extends LinearLayout implements View.OnClickListen
 
     public void hideTab(){
         this.setVisibility(View.GONE);
+        for(int i=0;i<tabs.size();i++){
+            ViewGroup viewGroup = tabs.get(i);
+            viewGroup.getChildAt(1).setVisibility(View.GONE);
+        }
         if(cityFilterViewPager!=null && cityFilterViewPager.isShown()){
+            cityFilterViewPager.setVisibility(View.VISIBLE);
+        }
+    }
+
+    public void setFilterTabTypeValue(String value){
+        ((TextView)typeTabViewLayout.getChildAt(0)).setText(value);
+    }
+
+    public void setFilterTabDayValue(String value){
+        ((TextView)dayTabViewLayout.getChildAt(0)).setText(value);
+    }
+
+    public void setFilterTabThemeValue(String value){
+        ((TextView)themeTabViewLayout.getChildAt(0)).setText(value);
+    }
+
+
+    public void showFilterView(){
+        onlyShowTab();
+        if(!cityFilterViewPager.isShown()){
             cityFilterViewPager.setVisibility(View.VISIBLE);
         }
     }
 
     public void showFilterView(int index){
         onlyShowTab();
-        initViewPagerAdapter();
+        int curr = cityFilterViewPager.getCurrentItem();
+        if(curr==index){
+            updateSelectStatus(index);
+        }else{
+            cityFilterViewPager.setCurrentItem(index);
+        }
+
         if(!cityFilterViewPager.isShown()){
             cityFilterViewPager.setVisibility(View.VISIBLE);
         }
-        cityFilterViewPager.setCurrentItem(index);
-        updateSelectStatus(index);
     }
 
     /**

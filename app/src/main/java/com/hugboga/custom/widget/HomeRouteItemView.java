@@ -75,7 +75,6 @@ public class HomeRouteItemView extends RelativeLayout implements HbcViewBehavior
             otherStr += "·含酒店";
         }
         otherTV.setText(String.format(otherStr, data.daysCount));
-
         this.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {

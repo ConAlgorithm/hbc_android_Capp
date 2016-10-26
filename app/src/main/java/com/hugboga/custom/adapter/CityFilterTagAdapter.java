@@ -88,14 +88,17 @@ public class CityFilterTagAdapter extends BaseAdapter {
         CityFilterData cityFilterData = new CityFilterData();
         cityFilterData.type = 0;
         cityFilterData.value = "不限";
+        cityFilterData.label = "不限类型";
         cityFilterData.selected = true;
 
         CityFilterData cityFilterData1 = new CityFilterData();
         cityFilterData1.type = 1;
+        cityFilterData1.label = "超省心";
         cityFilterData1.value = "超省心，按照固定线路游玩";
 
         CityFilterData cityFilterData2 = new CityFilterData();
         cityFilterData2.type = 2;
+        cityFilterData2.label = "超自由";
         cityFilterData2.value = "超自由，预订后还可改行程";
 
         datas.add(cityFilterData);
@@ -109,15 +112,18 @@ public class CityFilterTagAdapter extends BaseAdapter {
         CityFilterData cityFilterData = new CityFilterData();
         cityFilterData.type = 0;
         cityFilterData.value = "不限";
+        cityFilterData.label = "不限天数";
         cityFilterData.selected = true;
 
         CityFilterData cityFilterData1 = new CityFilterData();
         cityFilterData1.type = 1;
         cityFilterData1.value = "1日";
+        cityFilterData1.label = "1日";
 
         CityFilterData cityFilterData2 = new CityFilterData();
         cityFilterData2.type = 2;
         cityFilterData2.value = "多日";
+        cityFilterData2.label = "多日";
 
         datas.add(cityFilterData);
         datas.add(cityFilterData1);

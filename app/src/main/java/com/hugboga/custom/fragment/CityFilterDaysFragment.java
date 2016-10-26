@@ -51,7 +51,7 @@ public class CityFilterDaysFragment extends BaseFragment implements AbsListView.
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         adapter.updateSelectedStauts(position);
         EventBus.getDefault().post(new EventAction(EventType.CITY_FILTER_DAY,
-                new Integer(adapter.getItem(position).type)));
+                adapter.getItem(position)));
     }
 
 }

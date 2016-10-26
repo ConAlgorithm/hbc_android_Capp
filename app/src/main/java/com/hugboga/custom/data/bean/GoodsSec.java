@@ -25,7 +25,7 @@ public class GoodsSec implements Serializable {
     public String headLable;//超省心,还是超自由
     public String hotelCostAmount;
     public String hotelCostPrice;
-    public String hotelStatus;
+    public int hotelStatus;
     public int perPrice;
     public String places;//从哪儿到哪儿
     public String salePoints;

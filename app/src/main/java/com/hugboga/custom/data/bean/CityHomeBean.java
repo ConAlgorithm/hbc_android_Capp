@@ -56,21 +56,23 @@ public class CityHomeBean implements Serializable {
         public int themeId ;//主题ID
         public String themeName;//主题名称
         public boolean selected;
+        public String label;
 
         public static GoodsThemes getDefaultTheme(){
             GoodsThemes goodsThemes = new GoodsThemes();
             goodsThemes.selected = true;
             goodsThemes.themeName = "不限";
             goodsThemes.themeId = 0;
+            goodsThemes.label = "不限主题";
             return goodsThemes;
         }
     }
 
 
     public  class  CityService implements Serializable{
-        private int hasAirporService;
-        private int hasDailyservice;
-        private int hasSingleService;
+        public int hasAirporService;
+        public int hasDailyservice;
+        public int hasSingleService;
 
         public boolean hasSingleService() {
             return hasSingleService == 1;
@@ -81,7 +83,7 @@ public class CityHomeBean implements Serializable {
         }
 
         public boolean hasAirporService() {
-            return hasSingleService == 1;
+            return hasAirporService == 1;
         }
     }
 
