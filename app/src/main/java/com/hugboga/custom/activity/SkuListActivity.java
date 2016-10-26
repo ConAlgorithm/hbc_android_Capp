@@ -283,6 +283,7 @@ public class SkuListActivity extends BaseActivity implements HbcRecyclerBaseAdap
                 Intent intent = new Intent(SkuListActivity.this, SkuDetailActivity.class);
                 intent.putExtra(WebInfoActivity.WEB_URL, skuDetailUrl);
                 intent.putExtra(SkuDetailActivity.WEB_SKU, skuItemBean);
+                intent.putExtra("goodtype",skuItemBean.goodsType);
                 startActivity(intent);
                 if(skuItemBean.goodsClass == 1) {
                     StatisticClickEvent.click(StatisticConstant.CLICK_RG, "城市页");

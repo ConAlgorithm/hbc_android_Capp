@@ -19,6 +19,8 @@ import com.hugboga.custom.data.bean.OrderStatus;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestDeliverInfo;
+import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.statistic.click.StatisticClickEvent;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -29,7 +31,7 @@ import cn.iwgang.countdownview.CountdownView;
 /**
  * Created by qingcha on 16/9/7.
  */
-public class OrderDetailDeliverView extends LinearLayout implements HbcViewBehavior, HttpRequestListener {
+    public class OrderDetailDeliverView extends LinearLayout implements HbcViewBehavior, HttpRequestListener {
 
     @Bind(R.id.order_detail_deliver_loading_view)
     OrderDetailDeliverLoadingLayout loadingView;
@@ -115,6 +117,7 @@ public class OrderDetailDeliverView extends LinearLayout implements HbcViewBehav
         } else {
             OrderDetailDeliverItemView itemView = new OrderDetailDeliverItemView(getContext());
             itemView.setOrderNo(orderBean.orderNo, orderBean.orderType);
+            StatisticClickEvent.click(StatisticConstant.CLICK_WAIT_G,orderBean.orderType+"");
             itemView.update(_deliverInfoBean);
             groupLayout.addView(itemView);
             itemView.setOnCountdownEndListener(new OrderDetailDeliverCountDownView.OnUpdateListener() {
