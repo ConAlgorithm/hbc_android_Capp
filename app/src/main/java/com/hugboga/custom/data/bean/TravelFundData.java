@@ -139,9 +139,9 @@ public class TravelFundData implements Serializable {
     }
 
     public static class RewardFields implements Serializable {
-        private String couponAmount;
-        private String rewardAmountPerOrder;
-        private String rewardRatePerOrder;
+        private String couponAmount;         // 600元
+        private String rewardAmountPerOrder; // 30元
+        private String rewardRatePerOrder;   // 5%
 
         public String getRewardRatePerOrder() {
             return rewardRatePerOrder;
