@@ -24,6 +24,7 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.action.ActionController;
 import com.hugboga.custom.action.data.ActionBean;
 import com.hugboga.custom.activity.BaseActivity;
+import com.hugboga.custom.activity.ChooseCityNewActivity;
 import com.hugboga.custom.activity.CityHomeListActivity;
 import com.hugboga.custom.activity.DailyWebInfoActivity;
 import com.hugboga.custom.activity.LoginActivity;
@@ -40,6 +41,8 @@ import com.hugboga.custom.data.bean.CurrentServerInfoData;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.parser.ParserChatInfo;
 import com.hugboga.custom.data.request.RequestWebInfo;
+import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.statistic.event.EventUtil;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.JsonUtils;
@@ -169,6 +172,34 @@ public class WebAgent implements HttpRequestListener {
                     }
                 }
 
+            }
+        });
+
+    }
+
+    /**
+     * areaID:城市ID
+     * areaName：城市名称
+     * areaType：类型：只能取值:city、country、group
+     */
+    @JavascriptInterface
+    public void pushToGoodList(final String areaID,final String areaName, final String areaType) {
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = new Intent(mActivity, CityHomeListActivity.class);
+                CityHomeListActivity.Params params = new CityHomeListActivity.Params();
+                params.id = CommonUtils.getCountInteger(areaID);
+                if (areaType.equals("city")) {
+                    params.cityHomeType = CityHomeListActivity.CityHomeType.CITY;
+                } else if (areaType.equals("country")) {
+                    params.cityHomeType = CityHomeListActivity.CityHomeType.COUNTRY;
+                } else if (areaType.equals("group")) {
+                    params.cityHomeType = CityHomeListActivity.CityHomeType.ROUTE;
+                }
+                intent.putExtra(Constants.PARAMS_DATA, params);
+                intent.putExtra("isHomeIn", false);
+                mActivity.startActivity(intent);
             }
         });
 
