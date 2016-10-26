@@ -97,6 +97,7 @@ public class HomeCustomLayout extends LinearLayout{
         intent.putExtra(Constants.PARAMS_SOURCE, "首页");
         intent.putExtras(bundle);
         intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_DAIRY + params);
+        intent.putExtra("goodtype","包车");
         this.getContext().startActivity(intent);
         map.put("source", "首页");
         MobclickAgent.onEvent(getContext(), "chose_oneday", map);

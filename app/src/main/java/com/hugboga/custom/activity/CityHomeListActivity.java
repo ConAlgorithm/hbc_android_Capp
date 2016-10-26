@@ -366,6 +366,7 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerBas
                     intent.putExtra("cityBean", cityBean);
                     intent.putExtra("source", cityBean.name);
                     intent.putExtra(KEY_CITY_BEAN, cityBean);
+                    intent.putExtra("goodtype",goodsSec.goodsType);
                     startActivity(intent);
 
                 } else {
@@ -389,6 +390,7 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerBas
                 intent.putExtra(WebInfoActivity.WEB_URL, cityHomeDetailUrl);
                 intent.putExtra(Constants.PARAMS_ID, goodsSec.goodsNo);
                 //intent.putExtra(SkuDetailActivity.WEB_SKU, goodsSec);
+                intent.putExtra("goodtype",goodsSec.goodsType);
                 startActivity(intent);
                 if (goodsSec.goodsClass == 1) {
                     StatisticClickEvent.click(StatisticConstant.CLICK_RG, "城市页");

@@ -28,7 +28,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
- * 首页
+ * Created by qingcha on 16/8/2.
  */
 @ContentView(R.layout.fg_home)
 public class FgHome extends BaseFragment {
@@ -74,22 +74,6 @@ public class FgHome extends BaseFragment {
         return StatisticConstant.LAUNCH_DISCOVERY;
     }
 
-
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    protected void initHeader() {
-
-    }
-
     @Override
     protected void initView() {
         homeSearchView = new HomeSearchView(getContext());
@@ -99,11 +83,6 @@ public class FgHome extends BaseFragment {
     @Override
     protected Callback.Cancelable requestData() {
         return requestData(new RequestHome(getActivity()));
-    }
-
-    @Override
-    protected void inflateContent() {
-
     }
 
     @Override
@@ -120,7 +99,7 @@ public class FgHome extends BaseFragment {
 
             RequestHome request = (RequestHome) _request;
             HomeBean data = request.getData();
-            bannerView.update(data.headVideo);
+            bannerView.update(data);
             routeView.update(data.fixGoods);
             routeFreeView.update(data.recommendGoods);
             hotCityView.update(data.getHotCityList());

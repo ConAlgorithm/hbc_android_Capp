@@ -38,6 +38,7 @@ import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.net.WebAgent;
 import com.hugboga.custom.data.request.RequestGoodsById;
 import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.statistic.event.EventUtil;
 import com.hugboga.custom.utils.ChannelUtils;
 import com.hugboga.custom.utils.CommonUtils;
@@ -250,6 +251,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
                 break;
             case R.id.goto_little_helper:
                 DialogUtil.getInstance(activity).showLittleHelperDialog();
+                StatisticClickEvent.click(StatisticConstant.CLICK_CONCULT,getIntent().getStringExtra("goodtype"));
                 break;
         }
     }
@@ -293,7 +295,8 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
                 return;
             }
             if (!view.getTitle().startsWith("http:")) {
-                headerTitle.setText(view.getTitle());
+//                headerTitle.setText(view.getTitle());
+                headerTitle.setText("畅游详情");
             } else {
                 headerTitle.setText("");
             }

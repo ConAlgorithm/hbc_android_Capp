@@ -1,9 +1,8 @@
 package com.hugboga.custom.utils;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Bitmap;
-import android.support.v7.app.AlertDialog;
+import android.os.Environment;
 import android.text.TextUtils;
 import android.widget.Toast;
 
@@ -186,5 +185,27 @@ public final class CommonUtils {
             url = url.replaceAll("(" + key +"=[^&]*)", key + "=" + value);
         }
         return url;
+    }
+
+    public static String getDiskCacheDir() {
+        String cachePath = null;
+        if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())
+                || !Environment.isExternalStorageRemovable()) {
+            cachePath = MyApplication.getAppContext().getExternalCacheDir().getPath();
+        } else {
+            cachePath = MyApplication.getAppContext().getCacheDir().getPath();
+        }
+        return cachePath;
+    }
+
+    public static String getDiskFilesDir(String type) {
+        String cachePath = null;
+        if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())
+                || !Environment.isExternalStorageRemovable()) {
+            cachePath = MyApplication.getAppContext().getExternalFilesDir(type).getPath();
+        } else {
+            cachePath = MyApplication.getAppContext().getFilesDir().getPath();
+        }
+        return cachePath;
     }
 }

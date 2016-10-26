@@ -135,12 +135,15 @@
     <color name="invite_friends_basic">#a78d12</color>
     <color name="travel_fund_basic">#fdd631</color>
 
-    <color name="default_bg">#F9F9F9</color>
+    <color name="default_bg">#eeeeee</color>
     <color name="default_dividing_line">#d7d7d7</color>
     <color name="default_img_bg">#dbdada</color>
-    <color name="default_btn_bg">#ffee31</color>
+    <color name="default_btn_bg">#ffcf03</color>
     <color name="default_btn_selected_bg">#d2c429</color>
     <color name="default_btn_selected_gray_bg">#99E2E2E2</color>
+
+    <color name="default_yellow">#ffcf03</color>
+    <color name="default_black">#111111</color>
 
     <color name="custom_header_text">#85B100</color>
     <color name="custom_selected">#A8D324</color>

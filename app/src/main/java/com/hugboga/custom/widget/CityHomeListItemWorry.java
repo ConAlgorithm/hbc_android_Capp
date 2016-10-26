@@ -71,7 +71,7 @@ public class CityHomeListItemWorry extends RelativeLayout implements HbcViewBeha
         priceHint.setText(String.format(otherStr, goodsSec.daysCount));
         headlable.setText(goodsSec.headLable);
         if (!TextUtils.isEmpty(goodsSec.goodsName)){
-            places.setText(goodsSec.places);
+            places.setText(goodsSec.goodsName);
         }
     }
 }

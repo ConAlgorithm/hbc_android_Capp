@@ -2,6 +2,7 @@ package com.hugboga.custom.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AbsListView;
@@ -30,7 +31,7 @@ import butterknife.ButterKnife;
  * Created on 16/9/9.
  */
 
-public class CanServiceGuideListActivity extends BaseActivity {
+public class CanServiceGuideListActivity extends BaseActivity implements View.OnKeyListener{
 
     @Bind(R.id.zlistview)
     ListView zlistview;
@@ -125,5 +126,27 @@ public class CanServiceGuideListActivity extends BaseActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
+    }
+
+    @Override
+    public boolean onKey(View v, int keyCode, KeyEvent event) {
+        return false;
+    }
+
+    @Override
+    public String getEventId() {
+        String str="";
+        switch (getIntent().getStringExtra("ordertype")){
+            case "3":
+                str="包车游";
+            break;
+            case "5":
+                str="固定线路";
+            break;
+            case "6":
+                str="推荐线路";
+                break;
+        }
+        return str;
     }
 }

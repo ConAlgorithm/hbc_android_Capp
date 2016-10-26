@@ -36,6 +36,7 @@ import com.hugboga.custom.data.net.WebAgent;
 import com.hugboga.custom.data.request.RequestGoodsById;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.statistic.event.EventUtil;
 import com.hugboga.custom.utils.ChannelUtils;
 import com.hugboga.custom.utils.CommonUtils;
@@ -83,6 +84,8 @@ public class DailyWebInfoActivity extends BaseActivity implements View.OnKeyList
     TextView gotoOrder;
     @Bind(R.id.webview)
     WebView webView;
+    @Bind(R.id.goto_little_helper)
+    TextView gotoLittleHelp;
 
     private SkuItemBean skuItemBean;//sku详情
 
@@ -342,7 +345,7 @@ public class DailyWebInfoActivity extends BaseActivity implements View.OnKeyList
         }
     }
 
-    @OnClick({R.id.header_right_btn,R.id.goto_order})
+    @OnClick({R.id.header_right_btn,R.id.goto_order,R.id.goto_little_helper})
     public void onClick(View view){
         HashMap<String,String> map = new HashMap<String,String>();
         switch (view.getId()){
@@ -362,6 +365,10 @@ public class DailyWebInfoActivity extends BaseActivity implements View.OnKeyList
                 intent.putExtra(Constants.PARAMS_SOURCE, getIntentSource());
                 intent.putExtras(bundle);
                 startActivity(intent);
+                break;
+            case R.id.goto_little_helper:
+                DialogUtil.getInstance(activity).showLittleHelperDialog();
+                StatisticClickEvent.click(StatisticConstant.CLICK_CONCULT,getIntent().getStringExtra("goodtype"));
                 break;
         }
     }

@@ -21,9 +21,12 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CanServiceGuideBean;
 import com.hugboga.custom.data.bean.DeliverInfoBean;
 import com.hugboga.custom.data.request.RequestAcceptGuide;
+import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
 
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.Bind;
@@ -89,6 +92,7 @@ public class OrderDetailDeliverItemView extends LinearLayout implements HbcViewB
                 break;
             case DeliverInfoBean.DeliverStatus.COMMITTED:       // 4.有司导表态  司导
                 guideAvatarListLayout(deliverInfoBean);
+                StatisticClickEvent.click(StatisticConstant.LAUNCH_WAITG,orderType+"");
                 break;
         }
     }
@@ -181,7 +185,9 @@ public class OrderDetailDeliverItemView extends LinearLayout implements HbcViewB
                         Intent intent = new Intent(getContext(), CanServiceGuideListActivity.class);
                         intent.putExtra(Constants.PARAMS_SOURCE, getContext().getString(R.string.order_detail_title_default));
                         intent.putExtra("orderNo", orderNo);
+                        intent.putExtra("ordertype",orderType);
                         getContext().startActivity(intent);
+                        StatisticClickEvent.click(StatisticConstant.LAUNCH_WAITG,getContext().getString(R.string.order_detail_title_default));
                 }
             });
         }
