@@ -12,7 +12,8 @@ import java.util.ArrayList;
  */
 public class HomeBean implements Serializable {
 
-    public HeadVideo headVideo;                         // 头部视频
+    public HeadVideo dynamicPic;                        // gif
+    public HeadVideo headVideo;                         // 顶部视频
     public ArrayList<SkuItemBean> fixGoods;             // 固定线路（超省心）
     public ArrayList<SkuItemBean> recommendGoods;       // 推荐线路（超自由）
     private ArrayList<HotCity> hotCities;               // 热门目的地
@@ -48,7 +49,7 @@ public class HomeBean implements Serializable {
     }
 
     /*
-    * 顶部视频
+    * 顶部视频、GIF
     * */
     public static class HeadVideo implements Serializable {
         public String videoName;    // 头部视频名称
