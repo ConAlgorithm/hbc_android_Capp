@@ -34,6 +34,7 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.GoodsSec;
 import com.hugboga.custom.data.bean.SkuItemBean;
+import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.net.WebAgent;
 import com.hugboga.custom.data.request.RequestGoodsById;
@@ -57,6 +58,7 @@ import org.xutils.view.annotation.ContentView;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.Random;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLHandshakeException;
@@ -126,6 +128,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
         mDialogUtil = DialogUtil.getInstance(activity);
         String url = getIntent().getStringExtra(WEB_URL);
         if (!TextUtils.isEmpty(url)) {
+            url = CommonUtils.getBaseUrl(url) + "userId="+ UserEntity.getUser().getUserId(activity)+"&t=" + new Random().nextInt(100000);
             webView.loadUrl(url);
         }
     }

@@ -174,7 +174,7 @@ public final class CommonUtils {
         String result = utl;
         if (utl.indexOf("?") == -1) {
             result += "?";
-        } else if (utl.lastIndexOf("?") != utl.length() - 1) {
+        } else if (utl.lastIndexOf("?") != utl.length() - 1 && utl.charAt(utl.length() - 1) != '&') {
             result += "&";
         }
         return result;
