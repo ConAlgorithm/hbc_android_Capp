@@ -56,6 +56,7 @@ import com.hugboga.custom.statistic.bean.EventPayBean;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.statistic.event.EventPay;
 import com.hugboga.custom.statistic.event.EventUtil;
+import com.hugboga.custom.utils.CityUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.LogUtils;
@@ -704,9 +705,15 @@ public class OrderNewActivity extends BaseActivity {
 
     //线路包车
     private void genSKU() {
-        skuTitle.setText(skuBean.goodsName);
-        skuDay.setText(getString(R.string.sku_days, skuBean.daysCount));
-        skuCityLine.setText(skuBean.places);
+        if (skuBean.goodsClass == -1) {
+            skuTitle.setText(skuBean.goodsName);
+        } else if (skuBean.goodsClass == 1) {//固定
+            skuTitle.setText(CityUtils.addImg(activity, skuBean.goodsName, R.mipmap.chaoshengxin));
+        } else {//推荐
+            skuTitle.setText(CityUtils.addImg(activity, skuBean.goodsName, R.mipmap.chaoziyou));
+        }
+        skuDay.setText(getString(R.string.sku_days, "" + skuBean.daysCount));
+        skuCityLine.setText("起止:" + skuBean.places);
         skuLayout.setVisibility(View.VISIBLE);
 
 

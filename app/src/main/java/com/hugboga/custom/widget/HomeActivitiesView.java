@@ -236,10 +236,7 @@ public class HomeActivitiesView extends LinearLayout implements HbcViewBehavior{
                         ActionController actionFactory = ActionController.getInstance(mContext);
                         actionFactory.doAction(itemData.actionBean);
                     } else if (!TextUtils.isEmpty(itemData.urlAddress)) {
-                        String urlAddress = itemData.urlAddress;
-                        if (urlAddress.lastIndexOf("?") != urlAddress.length() - 1) {
-                            urlAddress = urlAddress + "?";
-                        }
+                        String urlAddress = CommonUtils.getBaseUrl(itemData.urlAddress);
                         urlAddress = urlAddress + "userId="+ UserEntity.getUser().getUserId(mContext)+"&t=" + new Random().nextInt(100000);
                         Intent intent = new Intent(mContext, WebInfoActivity.class);
                         intent.putExtra(WebInfoActivity.WEB_URL, urlAddress);
