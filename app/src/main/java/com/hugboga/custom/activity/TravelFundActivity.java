@@ -127,7 +127,7 @@ public class TravelFundActivity extends BaseActivity {
 
             // 有效日期
             if (travelFundData.getFundAmountInt() <= 0) {
-                validityTV.setVisibility(View.INVISIBLE);
+                validityTV.setVisibility(View.GONE);
             } else {
                 validityTV.setVisibility(View.VISIBLE);
                 validityTV.setText(getString(R.string.travel_fund_validity, travelFundData.getEffectiveDate()));

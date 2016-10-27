@@ -226,6 +226,8 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="12dip"
+        android:layout_height="1dip"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
         android:background="@color/coupon_empty_color" />
 </LinearLayout>
