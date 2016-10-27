@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.SkuDetailActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
@@ -92,6 +93,7 @@ public class HomeRouteItemView extends RelativeLayout implements HbcViewBehavior
         intent.putExtra(WebInfoActivity.CONTACT_SERVICE, true);
         intent.putExtra(SkuDetailActivity.WEB_SKU, skuItemBean);
         intent.putExtra("goodtype",skuItemBean.goodsType);
+        intent.putExtra("type","1");
         getContext().startActivity(intent);
         StatisticClickEvent.click(StatisticConstant.CLICK_RG, "首页");
     }

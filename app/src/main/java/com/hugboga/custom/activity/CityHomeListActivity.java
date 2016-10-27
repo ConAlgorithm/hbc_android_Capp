@@ -391,6 +391,7 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerBas
                 intent.putExtra(Constants.PARAMS_ID, goodsSec.goodsNo);
                 //intent.putExtra(SkuDetailActivity.WEB_SKU, goodsSec);
                 intent.putExtra("goodtype",goodsSec.goodsType);
+                intent.putExtra("type",goodsSec.goodsClass==1?"1":"2");
                 startActivity(intent);
                 if (goodsSec.goodsClass == 1) {
                     StatisticClickEvent.click(StatisticConstant.CLICK_RG, "城市页");
