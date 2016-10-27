@@ -290,13 +290,19 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
 
         @Override
         public void onReceivedTitle(WebView view, String title) {
-            super.onReceivedTitle(view, title);
+//            super.onReceivedTitle(view, title);
             if (headerTitle == null) {
                 return;
             }
             if (!view.getTitle().startsWith("http:")) {
 //                headerTitle.setText(view.getTitle());
-                headerTitle.setText("畅游详情");
+                if (getIntent().getStringExtra("type").equals("1")){
+                    headerTitle.setText(R.string.route_goods_detial_title);
+                }
+                if(getIntent().getStringExtra("type").equals("2")){
+                    headerTitle.setText(R.string.free_route_goods_detial_title);
+                }
+
             } else {
                 headerTitle.setText("");
             }
