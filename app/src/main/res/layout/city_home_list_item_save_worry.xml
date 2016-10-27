@@ -90,5 +90,5 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="12dp"
-        android:background="@color/allbg_gray" />
+        android:background="#f5f5f5" />
 </LinearLayout>

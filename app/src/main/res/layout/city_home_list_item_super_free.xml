@@ -12,15 +12,14 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="20dp"
-        android:textColor="#111111"
+        android:textColor="@color/hbc_common_text_color_black"
         android:textSize="@dimen/text_size_largex" />
 
     <View
         android:id="@+id/city_home_list_item_free_view"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_below="@+id/city_home2_list_item_goods_name"
-        android:layout_margin="20dp"
+        android:layout_margin="18dp"
         android:background="#e5e8ed" />
 
     <TextView
@@ -75,14 +74,15 @@
         android:id="@+id/city_home2_list_item_goods_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
         android:layout_marginBottom="18dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="12dp"
-        android:textColor="#111111"
+        android:textColor="@color/hbc_common_text_color_black"
         android:textSize="@dimen/text_size_largex" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="12dp"
+        android:background="#f5f5f5" />
 
 </LinearLayout>

@@ -69,8 +69,6 @@
             android:id="@+id/cityHome_header_play_count_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/cityHome_filter_lay"
-            android:layout_below="@+id/cityHome_header_choose_layout"
             android:background="#f5f5f5"
             android:orientation="horizontal"
             android:padding="@dimen/input_panel_image_margin_top">

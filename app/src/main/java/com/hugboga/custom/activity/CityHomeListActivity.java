@@ -1,7 +1,6 @@
 package com.hugboga.custom.activity;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
@@ -20,7 +18,6 @@ import com.huangbaoche.hbcframe.util.MLog;
 import com.huangbaoche.hbcframe.widget.recycler.ZDefaultDivider;
 import com.huangbaoche.hbcframe.widget.recycler.ZListRecyclerView;
 import com.huangbaoche.hbcframe.widget.recycler.ZSwipeRefreshLayout;
-import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.CityHomeAdapter;
 import com.hugboga.custom.adapter.HbcRecyclerBaseAdapter;
@@ -42,6 +39,7 @@ import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.CityFilterLayout;
 import com.hugboga.custom.widget.CityHomeFooter;
 import com.hugboga.custom.widget.CityHomeHeader;
+import com.hugboga.custom.widget.CityPlaceHolderView;
 import com.hugboga.custom.widget.SkuListEmptyView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -80,6 +78,7 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerBas
 
     private CityHomeHeader cityHomeHeader;
     private CityHomeFooter cityHomeFooter;
+    private CityPlaceHolderView placeHolderView;
 
     private CityHomeListActivity.Params paramsData;
     private CityHomeAdapter adapter;
@@ -143,6 +142,9 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerBas
     private boolean goBack() {
         if (cityFilterLayout != null && cityFilterLayout.filterViewIsShow()) {
             cityFilterLayout.onlyHideFilterView();
+            if(placeHolderView!=null){
+                placeHolderView.hide();
+            }
             return true;
         }
         return false;
@@ -224,9 +226,15 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerBas
             cityHomeHeader.hideHeaderContent();
         }
         adapter.addHeaderView(cityHomeHeader);
+
+
         cityHomeFooter = new CityHomeFooter(this);
         adapter.addFooterView(cityHomeFooter);
 
+        if(paramsData!=null && paramsData.cityHomeType == CityHomeType.CITY){
+            placeHolderView = new CityPlaceHolderView(this);
+            adapter.addFooterView(placeHolderView);
+        }
         ZDefaultDivider divider = recyclerView.getItemDecoration();
         divider.setItemOffsets(0, 0, 0, 0);
     }
@@ -329,6 +337,9 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerBas
         BaseRequest request = null;
         switch (paramsData.cityHomeType) {
             case CITY:
+                if(placeHolderView!=null){
+                    placeHolderView.hide();
+                }
                 request = new RequestCityHomeList(this, "" + paramsData.id, pageIndex, paramsData.daysCountMin, paramsData.daysCountMax, paramsData.goodsClass, paramsData.themeId);
                 break;
             case ROUTE:
@@ -488,6 +499,7 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerBas
                             cityHomeFooter.showCityEmpty(false);
                         }
                     }
+                    emptyView.setVisibility(View.GONE);
                 } else {
                     emptyView.showEmptyView(false);
                 }
@@ -600,21 +612,26 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerBas
     boolean isClickEvent = false;
 
     private void showFilterView(final int index) {
-        if(cityHomeBean!=null && cityHomeBean.goodsCount<2){
-            cityHomeHeader.hideHeaderContent();
+        if(adapter!=null && adapter.getListCount()<3 &&paramsData.cityHomeType==CityHomeType.CITY){
+            placeHolderView.show();
         }
-        int headerFilterTabPaddingTop = cityHomeHeader.getFilterTabTop();
-        int statusBarHeight = UIUtils.getStatusBarHeight();
-        int titleBarHeight = titlebar.getHeight();
-        int distance = headerFilterTabPaddingTop - statusBarHeight - titleBarHeight;
+        recyclerView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                int headerFilterTabPaddingTop = cityHomeHeader.getFilterTabTop();
+                int statusBarHeight = UIUtils.getStatusBarHeight();
+                int titleBarHeight = titlebar.getHeight();
+                int distance = headerFilterTabPaddingTop - statusBarHeight - titleBarHeight;
 
-        if (distance > 0) {
-            isClickEvent = true;
-            recyclerView.smoothScrollBy(0, distance);
-        }
-        if (cityFilterLayout != null) {
-            cityFilterLayout.showFilterView(index);
-        }
+                if (distance > 0) {
+                    isClickEvent = true;
+                    recyclerView.smoothScrollBy(0, distance);
+                }
+                if (cityFilterLayout != null) {
+                    cityFilterLayout.showFilterView(index);
+                }
+            }
+        },50);
     }
 
 }

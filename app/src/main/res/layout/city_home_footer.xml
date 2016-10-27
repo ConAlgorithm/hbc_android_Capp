@@ -46,8 +46,6 @@
                 android:textColor="#7a7a7a"
                 android:textSize="@dimen/text_size_medium" />
         </LinearLayout>
-
-
         <LinearLayout
             android:id="@+id/city_list_filter_footer"
             android:layout_width="match_parent"

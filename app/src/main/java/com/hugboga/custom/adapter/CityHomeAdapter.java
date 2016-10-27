@@ -15,11 +15,8 @@ import java.util.List;
  */
 
 public class CityHomeAdapter extends  HbcRecyclerBaseAdapter<GoodsSec> {
-    public static final String HEAD_LABLE_FREE="超自由";
-    public static final String HEAD_LABLE_WORRY="超省心";
     public static final int HEAD_LABLE_FREE_TYPE=2;
     public static final int HEAD_LABLE_WORRY_TYPE=1;
-
 
     public CityHomeAdapter(Context context) {
         super(context);

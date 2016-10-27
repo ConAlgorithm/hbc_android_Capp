@@ -69,6 +69,11 @@ public class CityHomeListItemWorry extends RelativeLayout implements HbcViewBeha
             otherStr += "·含酒店";
         }
         priceHint.setText(String.format(otherStr, goodsSec.daysCount));
+        if(goodsSec.goodsClass==1){
+            headlable.setBackgroundResource(R.drawable.bg_city_home_lable_green);
+        }else{
+            headlable.setBackgroundResource(R.drawable.bg_city_home_lable_blue);
+        }
         headlable.setText(goodsSec.headLable);
         if (!TextUtils.isEmpty(goodsSec.goodsName)){
             places.setText(goodsSec.goodsName);

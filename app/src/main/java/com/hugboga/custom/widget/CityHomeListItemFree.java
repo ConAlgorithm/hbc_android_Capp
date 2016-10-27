@@ -20,6 +20,7 @@ public class CityHomeListItemFree extends RelativeLayout implements HbcViewBehav
     private TextView goodsName, guidesAmount, headLable, routeName;
     private ImageView goodsImagefirst, goodsImageSec;
 
+    private int boundWidth = 0;
     public CityHomeListItemFree(Context context) {
         this(context, null);
     }
@@ -35,6 +36,7 @@ public class CityHomeListItemFree extends RelativeLayout implements HbcViewBehav
         goodsImagefirst = (ImageView) findViewById(R.id.city_home_list_item_free_image_first);
         goodsImageSec = (ImageView) findViewById(R.id.city_home_list_item_free_image_sec);
 
+        boundWidth = UIUtils.dip2px(30);
     }
 
     @Override
@@ -43,9 +45,9 @@ public class CityHomeListItemFree extends RelativeLayout implements HbcViewBehav
             return;
         }
         GoodsSec goodsSec = (GoodsSec) _data;
-        double displayImgWidth = UIUtils.getScreenWidth();
+        double displayImgWidth = UIUtils.getScreenWidth()-boundWidth;
         int picWidth = (int)(displayImgWidth/2);
-        int picHeight = (int)((218 / 310.0) *picWidth);
+        int picHeight = (int)((228 / 324.0) *picWidth);
         goodsImagefirst.getLayoutParams().width = picWidth;
         goodsImagefirst.getLayoutParams().height = picHeight;
 
@@ -66,5 +68,10 @@ public class CityHomeListItemFree extends RelativeLayout implements HbcViewBehav
         guidesAmount.setText(goodsSec.guideAmount + "位当地中文司导");
         headLable.setText(goodsSec.headLable);
         routeName.setText(goodsSec.goodsLable);
+        if(goodsSec.goodsClass==1){
+            headLable.setBackgroundResource(R.drawable.bg_city_home_lable_green);
+        }else{
+            headLable.setBackgroundResource(R.drawable.bg_city_home_lable_blue);
+        }
     }
 }

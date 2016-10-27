@@ -49,7 +49,6 @@ public class CityHomeHeader extends LinearLayout implements HbcViewBehavior,View
 
     private TextView cityNameTV,guideAmountTV,goodsCount;     //城市名称，司导数量,货物数量
     private LinearLayout customCar,pickSendAir,singleSend,guideAvatarsLay,gooodsCountLay;      //定制包车，接送机，单次接送,司导头像,线路玩法数量
-    private LinearLayout cityHomeFilterLay;
     private ImageView bgIV;                                     //背景图片
     private FrameLayout unlimitType,unlimitDays,unlimitTheme;
 
@@ -82,7 +81,6 @@ public class CityHomeHeader extends LinearLayout implements HbcViewBehavior,View
         singleSend=(LinearLayout)findViewById(cityHome_toolbar_single_send);
         guideAvatarsLay=(LinearLayout)findViewById(R.id.cityHome_header_guides_avatar_layout);
         gooodsCountLay=(LinearLayout)findViewById(R.id.cityHome_header_play_count_layout) ;
-        cityHomeFilterLay=(LinearLayout)findViewById(R.id.cityHome_filter_lay);
 
         unlimitType=(FrameLayout)findViewById(R.id.cityHome_unlimited_type_lay) ;
         unlimitDays=(FrameLayout)findViewById(R.id.cityHome_unlimited_days_lay);
@@ -98,7 +96,7 @@ public class CityHomeHeader extends LinearLayout implements HbcViewBehavior,View
         unlimitTheme.setOnClickListener(this);
 
         displayLayoutHeight=(int)((385 / 750.0) * UIUtils.getScreenWidth());
-        findViewById(R.id.cityHome_header_cityname_layout).setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, displayLayoutHeight));
+        findViewById(R.id.city_home_header_bg_iv).setLayoutParams(new RelativeLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, displayLayoutHeight));
     }
 
     public void setFilterTypeTabValue(String value){
@@ -192,7 +190,7 @@ public class CityHomeHeader extends LinearLayout implements HbcViewBehavior,View
         }else {
             guideAvatarsLay.setVisibility(View.GONE);
         }
-        judgeServiceType(cityHomeBean);         //判断有没有三种服务类型，包车游，接送机，单次接送,线路有无
+        judgeServiceType(cityHomeBean);
     }
 
     @Override
@@ -235,19 +233,18 @@ public class CityHomeHeader extends LinearLayout implements HbcViewBehavior,View
                 customCar.setVisibility(View.GONE);
             }
             if (!cityHomeBean.cityService.hasAirporService()){
-                customCar.setVisibility(View.GONE);
+                pickSendAir.setVisibility(View.GONE);
             }
             if (!cityHomeBean.cityService.hasSingleService()){
-                customCar.setVisibility(View.GONE);
+                singleSend.setVisibility(View.GONE);
             }
             if (!cityHomeBean.cityService.hasDailyservice()&&!cityHomeBean.cityService.hasAirporService()&&!cityHomeBean.cityService.hasSingleService()){
                 findViewById(R.id.cityHome_header_choose_layout).setVisibility(View.GONE);
             }
         }
-
         if (cityHomeBean.goodsCount<=0){
             gooodsCountLay.setVisibility(View.GONE);
-            cityHomeFilterLay.setVisibility(View.GONE);
+            cityHomeFilterTab.setVisibility(View.GONE);
         }else {
             goodsCount.setText(cityHomeBean.goodsCount+"种包车游线路或玩法");
         }
