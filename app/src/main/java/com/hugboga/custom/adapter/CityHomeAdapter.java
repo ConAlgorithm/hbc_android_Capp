@@ -28,10 +28,10 @@ public class CityHomeAdapter extends  HbcRecyclerBaseAdapter<GoodsSec> {
         switch (datas.get(position).goodsClass){
             case HEAD_LABLE_WORRY_TYPE:
                 view=new CityHomeListItemWorry(getContext());
-                break;
+                return view;
             case HEAD_LABLE_FREE_TYPE:
                 view=new CityHomeListItemFree(getContext());
-                break;
+               return view;
         }
         return view;
     }

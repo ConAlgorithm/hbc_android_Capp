@@ -141,7 +141,12 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerBas
 
     private boolean goBack() {
         if (cityFilterLayout != null && cityFilterLayout.filterViewIsShow()) {
-            cityFilterLayout.onlyHideFilterView();
+            if(adapter!=null && adapter.getListCount()<2){
+                cityFilterLayout.hideTab();
+                titlebar.setBackgroundColor(0x00000000);
+            }else{
+                cityFilterLayout.onlyHideFilterView();
+            }
             if(placeHolderView!=null){
                 placeHolderView.hide();
             }
@@ -307,7 +312,10 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerBas
                     if (cityHomeBean.cityService != null && cityHomeBean.cityService.hasDailyservice() && pageIndex == Constants.DEFAULT_PAGESIZE + 1) {//第一页带包车的需减去包车
                         --pageIndex;
                     }
-                    sendRequest(pageIndex, false);//加载下一页
+                    if(!isClickEvent){
+                        sendRequest(pageIndex, false);//加载下一页
+                    }
+
                 }
                 if (paramsData.cityHomeType == CityHomeType.CITY && cityHomeHeader != null) {
                     int firstVisibleItemPosition = ((LinearLayoutManager) layoutManager).findFirstVisibleItemPosition();
@@ -400,7 +408,6 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerBas
                 Intent intent = new Intent(CityHomeListActivity.this, SkuDetailActivity.class);
                 intent.putExtra(WebInfoActivity.WEB_URL, cityHomeDetailUrl);
                 intent.putExtra(Constants.PARAMS_ID, goodsSec.goodsNo);
-                //intent.putExtra(SkuDetailActivity.WEB_SKU, goodsSec);
                 intent.putExtra("goodtype",goodsSec.goodsType);
                 intent.putExtra("type",goodsSec.goodsClass==1?"1":"2");
                 startActivity(intent);
@@ -493,6 +500,23 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerBas
         } else {
             if (adapter.getListCount() <= 0 && (cityHomeBean.goodsSecList == null || cityHomeBean.goodsSecList.size() <= 0)) {
                 if (isCity) {
+                    if(cityHomeBean==null || cityHomeBean.cityService==null){
+                        titlebar.setVisibility(View.VISIBLE);
+                        titlebar.setBackgroundColor(0xFF2D2B28);
+                        fgTitle.setTextColor(0xFFFFFFFF);
+                        headerRightIV.setVisibility(View.GONE);
+                        emptyView.showEmptyView(true);
+                        return;
+                    }
+                    if(!cityHomeBean.cityService.hasDailyservice() && !cityHomeBean.cityService.hasAirporService()
+                            && !cityHomeBean.cityService.hasSingleService()){
+                        titlebar.setVisibility(View.VISIBLE);
+                        titlebar.setBackgroundColor(0xFF2D2B28);
+                        fgTitle.setTextColor(0xFFFFFFFF);
+                        headerRightIV.setVisibility(View.GONE);
+                        emptyView.showEmptyView(true);
+                        return;
+                    }
                     if (cityHomeBean != null && cityHomeBean.cityService != null) {
                         if (cityHomeBean.cityService.hasDailyservice()) {
                             cityHomeFooter.showCityEmpty(true);
@@ -615,24 +639,31 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerBas
     private void showFilterView(final int index) {
         if(adapter!=null && adapter.getListCount()<3 &&paramsData.cityHomeType==CityHomeType.CITY){
             placeHolderView.show();
+            adapter.notifyDataSetChanged();
         }
-        recyclerView.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                int headerFilterTabPaddingTop = cityHomeHeader.getFilterTabTop();
-                int statusBarHeight = UIUtils.getStatusBarHeight();
-                int titleBarHeight = titlebar.getHeight();
-                int distance = headerFilterTabPaddingTop - statusBarHeight - titleBarHeight;
 
-                if (distance > 0) {
-                    isClickEvent = true;
-                    recyclerView.smoothScrollBy(0, distance);
+        int headerFilterTabPaddingTop = cityHomeHeader.getFilterTabTop();
+        int statusBarHeight = UIUtils.getStatusBarHeight();
+        int titleBarHeight = titlebar.getHeight();
+        int distance = headerFilterTabPaddingTop - statusBarHeight - titleBarHeight;
+
+        if (distance > 0) {
+            isClickEvent = true;
+            recyclerView.smoothScrollBy(0, distance);
+            recyclerView.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (cityFilterLayout != null) {
+                        cityFilterLayout.showFilterView(index);
+                    }
                 }
-                if (cityFilterLayout != null) {
-                    cityFilterLayout.showFilterView(index);
-                }
+            },100);
+        }else{
+            if (cityFilterLayout != null) {
+                cityFilterLayout.showFilterView(index);
             }
-        },50);
+        }
+
     }
 
 }
