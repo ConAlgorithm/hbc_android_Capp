@@ -211,16 +211,19 @@ public class CityHomeHeader extends LinearLayout implements HbcViewBehavior,View
             case R.id.cityHome_unlimited_type_lay:
                 if(headerTabClickListener!=null){
                     headerTabClickListener.headerTabClick(0);
+                    StatisticClickEvent.click(StatisticConstant.GSCREEN_TRIGGER,"类型");
                 }
                 break;
             case R.id.cityHome_unlimited_days_lay:
                 if(headerTabClickListener!=null){
                     headerTabClickListener.headerTabClick(1);
+                    StatisticClickEvent.click(StatisticConstant.GSCREEN_TRIGGER,"天数");
                 }
                 break;
             case R.id.cityHome_unlimited_theme_lay:
                 if(headerTabClickListener!=null){
                     headerTabClickListener.headerTabClick(2);
+                    StatisticClickEvent.click(StatisticConstant.GSCREEN_TRIGGER,"主题");
                 }
                 break;
         }
