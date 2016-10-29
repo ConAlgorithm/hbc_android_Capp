@@ -518,7 +518,7 @@
 
     <string name="travel_fund_title">旅游基金</string>
     <string name="travel_fund_rule">查看规则</string>
-    <string name="travel_fund_residue_price">基金余额:&#160;&#160;¥%1$s</string>
+    <string name="travel_fund_residue_price">基金余额:</string>
     <string name="travel_fund_validity">有效期至%1$s</string>
     <string name="travel_fund_invite_record">查看邀请记录></string>
     <string name="travel_fund_invite_record_title">邀请记录</string>

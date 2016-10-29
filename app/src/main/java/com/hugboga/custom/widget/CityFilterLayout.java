@@ -205,6 +205,9 @@ public class CityFilterLayout extends LinearLayout implements View.OnClickListen
     }
 
     public void setGoodsThemesList(List<CityHomeBean.GoodsThemes> goodsThemesList) {
+        if(this.goodsThemesList!=null && this.goodsThemesList.size()>1){
+            return;
+        }
         this.goodsThemesList = goodsThemesList;
         if(pagerAdapter!=null){
             pagerAdapter.updateThemesValue(goodsThemesList);
