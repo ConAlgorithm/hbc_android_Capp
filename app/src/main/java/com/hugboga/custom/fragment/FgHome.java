@@ -26,6 +26,7 @@ import org.xutils.view.annotation.ContentView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by qingcha on 16/8/2.
@@ -112,5 +113,14 @@ public class FgHome extends BaseFragment {
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
         super.onDataRequestError(errorInfo, request);
         emptyLayout.setVisibility(View.VISIBLE);
+    }
+
+    @OnClick({R.id.home_empty_tv})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.home_empty_tv:
+                requestData();
+                break;
+        }
     }
 }
