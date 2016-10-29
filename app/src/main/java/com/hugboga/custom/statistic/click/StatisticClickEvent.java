@@ -1,8 +1,10 @@
 package com.hugboga.custom.statistic.click;
 
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CollectGuideBean;
 import com.hugboga.custom.data.bean.ManLuggageBean;
 import com.hugboga.custom.statistic.MobClickUtils;
+import com.hugboga.custom.statistic.StatisticConstant;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -136,6 +138,7 @@ public class StatisticClickEvent {
         MobClickUtils.onEvent(eventId,map);
     }
 
+    //城市页商品筛选值
     public static void showGscreenClick(String eventId,String screentype,String Gstyle,String Gdays,String Gtheme){
         Map map=new HashMap();
         map.put("screentype",screentype);
@@ -146,5 +149,24 @@ public class StatisticClickEvent {
         MobClickUtils.onEvent(eventId,map);
     }
 
-
+    //司导头像列表
+    public static void showGuidesClick(String evevtId,String source,int orderType){
+        if (orderType==0){
+            return;
+        }
+        Map<String,String>map=new HashMap<String, String>();
+        switch(orderType){
+            case 3:
+                map.put("ordertype","自定义包车游");
+                break;
+            case 5:
+                map.put("ordertype","固定线路");
+                break;
+            case 6:
+                map.put("ordertype","推荐线路");
+                break;
+        }
+        map.put("source",source);
+        MobClickUtils.onEvent(evevtId,map);
+    }
 }

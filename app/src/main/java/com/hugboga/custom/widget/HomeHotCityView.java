@@ -78,7 +78,7 @@ public class HomeHotCityView extends LinearLayout implements HbcViewBehavior{
                 intent.putExtra("isHomeIn", true);
                 intent.putExtra("source", "首页-热门目的地-查看更多");
                 getContext().startActivity(intent);
-                StatisticClickEvent.click(StatisticConstant.SEARCH_LAUNCH, "首页");
+                StatisticClickEvent.click(StatisticConstant.SEARCH_LAUNCH, "首页热门目的地");
                 break;
         }
     }

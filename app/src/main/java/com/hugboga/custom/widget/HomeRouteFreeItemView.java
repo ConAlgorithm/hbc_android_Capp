@@ -95,7 +95,7 @@ public class HomeRouteFreeItemView extends RelativeLayout implements HbcViewBeha
         if (skuItemBean == null) {
             return;
         }
-        Intent intent = new Intent(getContext(), SkuDetailActivity.class);
+        Intent intent = new Intent(getContext(),SkuDetailActivity.class);
         intent.putExtra(WebInfoActivity.WEB_URL, skuItemBean.skuDetailUrl);
         intent.putExtra(WebInfoActivity.CONTACT_SERVICE, true);
         intent.putExtra(SkuDetailActivity.WEB_SKU, skuItemBean);
@@ -103,5 +103,6 @@ public class HomeRouteFreeItemView extends RelativeLayout implements HbcViewBeha
         intent.putExtra("type","2");
         getContext().startActivity(intent);
         StatisticClickEvent.click(StatisticConstant.CLICK_RT, "首页");
+        StatisticClickEvent.click(StatisticConstant.LAUNCH_DETAIL_RT,"首页线路列表");
     }
 }

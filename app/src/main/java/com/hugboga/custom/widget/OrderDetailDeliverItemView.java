@@ -21,6 +21,7 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CanServiceGuideBean;
 import com.hugboga.custom.data.bean.DeliverInfoBean;
 import com.hugboga.custom.data.request.RequestAcceptGuide;
+import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.utils.Tools;
@@ -28,6 +29,7 @@ import com.hugboga.custom.utils.UIUtils;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -187,7 +189,7 @@ public class OrderDetailDeliverItemView extends LinearLayout implements HbcViewB
                         intent.putExtra("orderNo", orderNo);
                         intent.putExtra("ordertype",orderType);
                         getContext().startActivity(intent);
-                        StatisticClickEvent.click(StatisticConstant.LAUNCH_WAITG,getContext().getString(R.string.order_detail_title_default));
+                        StatisticClickEvent.showGuidesClick(StatisticConstant.LAUNCH_WAITG,getContext().getString(R.string.order_detail_title_default),orderType);
                 }
             });
         }
