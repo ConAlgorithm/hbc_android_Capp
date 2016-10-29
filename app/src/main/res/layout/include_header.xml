@@ -15,8 +15,8 @@
         android:layout_width="?android:attr/actionBarSize"
         android:layout_height="match_parent"
         android:layout_alignParentRight="true"
-        android:padding="@dimen/default_margin_large"
-        android:src="@mipmap/top_btn_share2"
+        android:padding="@dimen/fab_margin"
+        android:src="@mipmap/guide_detail_share"
         android:visibility="gone" />
     <TextView
         android:id="@+id/header_title"
