@@ -40,6 +40,6 @@
             android:lineSpacingExtra="2dp"
             android:text="@string/travel_fund_record_empty_hint"
             android:textColor="#999999"
-            android:textSize="15sp" />
+            android:textSize="16sp" />
     </LinearLayout>
 </RelativeLayout>

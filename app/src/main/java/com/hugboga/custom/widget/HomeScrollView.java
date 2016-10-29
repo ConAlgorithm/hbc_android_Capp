@@ -65,20 +65,5 @@ public class HomeScrollView extends ScrollView {
             searchLayout.addView(searchView, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
             isHide = true;
         }
-
-        if (scrollY >= binnerHeight) {
-            float alpha = 0.0f;
-            if (scrollY <= 0) {
-                alpha = 0.0f;
-            } else {
-                alpha = 1 - Math.min(1, (float) (scrollY - binnerHeight) / searchLayoutHeight);
-            }
-            if (alpha < 0.8) {
-                alpha = 0.8f;
-            }
-            searchView.setBackgroundColor(UIUtils.getColorWithAlpha(alpha, 0xFF000000));
-        } else {
-            searchView.setBackgroundColor(0xFF000000);
-        }
     }
 }
