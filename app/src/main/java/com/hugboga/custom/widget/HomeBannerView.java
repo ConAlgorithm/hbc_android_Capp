@@ -8,10 +8,16 @@ import android.net.Uri;
 import android.os.Environment;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.huangbaoche.hbcframe.data.net.ExceptionErrorCode;
+import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
+import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
+import com.huangbaoche.hbcframe.util.NetWork;
+import com.huangbaoche.hbcframe.widget.DialogUtilInterface;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.HomeBean;
 import com.hugboga.custom.statistic.MobClickUtils;
@@ -33,7 +39,7 @@ import butterknife.ButterKnife;
  */
 public class HomeBannerView extends RelativeLayout implements HbcViewBehavior, SaveImageTask.ImageDownLoadCallBack {
 
-    public static final String GIF_PATH_NAME = "home_header.gif";
+    public static final String GIF_PATH_NAME = "home_header_";
     public static final String KEY_GIF_VERSION = "videoVersion";
 
     /**
@@ -45,8 +51,8 @@ public class HomeBannerView extends RelativeLayout implements HbcViewBehavior, S
     ImageView bannerBgIV;
 
     private int bannerHeight;
-    private File gifFile;
     private HomeBean.HeadVideo dynamicPicBean;
+    private DialogUtilInterface mDialogUtil;
 
     public HomeBannerView(Context context) {
         this(context, null);
@@ -61,8 +67,8 @@ public class HomeBannerView extends RelativeLayout implements HbcViewBehavior, S
         RelativeLayout.LayoutParams bgParams = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, bannerHeight);
         bannerBgIV.setLayoutParams(bgParams);
 
-        gifFile = new File(CommonUtils.getDiskFilesDir(Environment.DIRECTORY_PICTURES) + File.separator + GIF_PATH_NAME);
         final int gifVersion = SharedPre.getInteger(KEY_GIF_VERSION, 0);
+        final File gifFile = new File(CommonUtils.getDiskFilesDir(Environment.DIRECTORY_PICTURES) + File.separator + GIF_PATH_NAME + gifVersion + ".gif");
         if (gifVersion > 0 && !gifFile.isDirectory() && gifFile.exists()) {
             Tools.showGif(bannerBgIV, gifFile);
         } else {
@@ -85,7 +91,12 @@ public class HomeBannerView extends RelativeLayout implements HbcViewBehavior, S
                     if (TextUtils.isEmpty(headVideo.videoUrl)) {
                         return;
                     }
-                    if (!NetWorkUtils.getCurrentNetwork().equals("WIFI")) {
+                    if (!NetWork.isNetworkAvailable(getContext())) {//判断网络
+                        if (mDialogUtil == null) {
+                            mDialogUtil = HttpRequestUtils.getDialogUtil(getContext());
+                        }
+                        mDialogUtil.showSettingDialog();
+                    } else if (!NetWorkUtils.getCurrentNetwork().equals("WIFI")) {
                         DialogUtil mDialogUtil = DialogUtil.getInstance((Activity)getContext());
                         String tip = "您在使用运营商网络,观看视频会产生一定的流量费用。";
                         mDialogUtil.showCustomDialog("提示", tip, "继续观看", new DialogInterface.OnClickListener() {
@@ -106,6 +117,7 @@ public class HomeBannerView extends RelativeLayout implements HbcViewBehavior, S
         if (dynamicPicBean != null) {
             final int gifVersion = SharedPre.getInteger(KEY_GIF_VERSION, 0);
             if (dynamicPicBean.videoVersion != gifVersion) {
+                File gifFile = new File(CommonUtils.getDiskFilesDir(Environment.DIRECTORY_PICTURES) + File.separator + GIF_PATH_NAME + dynamicPicBean.videoVersion + ".gif");
                 SaveImageTask saveImageTask = new SaveImageTask(getContext(), gifFile, this);
                 saveImageTask.execute(dynamicPicBean.videoUrl);
             }
@@ -131,6 +143,5 @@ public class HomeBannerView extends RelativeLayout implements HbcViewBehavior, S
 
     @Override
     public void onDownLoadFailed() {
-
     }
 }

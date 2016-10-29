@@ -135,7 +135,10 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
 
     @Override
     public String getEventId() {
-        if(skuItemBean.goodsClass == 1) {//固定
+        if (skuItemBean == null) {
+            return "";
+        }
+        if (skuItemBean.goodsClass == 1) {//固定
             return StatisticConstant.LAUNCH_DETAIL_RG;
         }else {
             return StatisticConstant.LAUNCH_DETAIL_RT;
@@ -144,6 +147,9 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
 
     @Override
     public String getEventSource() {
+        if (skuItemBean == null) {
+            return "";
+        }
         if(skuItemBean.goodsClass == 1) {//固定
             return "固定线路包车";
         }else {
@@ -211,7 +217,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
             case R.id.header_right_btn:
                 if (skuItemBean != null) {
                     String title = skuItemBean.goodsName;
-                    String content = activity.getString(R.string.wx_share_content);
+                    String content = skuItemBean.salePoints;
                     String shareUrl = skuItemBean.shareURL == null ? skuItemBean.skuDetailUrl : skuItemBean.shareURL;
                     shareUrl = shareUrl == null ? "http://www.huangbaoche.com" : shareUrl;
                     skuShare(skuItemBean.goodsPicture, title, content, shareUrl);
@@ -299,13 +305,16 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
             }
             if (!view.getTitle().startsWith("http:")) {
 //                headerTitle.setText(view.getTitle());
-                if (getIntent().getStringExtra("type").equals("1")){
-                    headerTitle.setText(R.string.route_goods_detial_title);
+                if (!TextUtils.isEmpty(getIntent().getStringExtra("type"))){
+                    if ("1".equals(getIntent().getStringExtra("type"))){
+                        headerTitle.setText(R.string.route_goods_detial_title);
+                    }
+                    if(getIntent().getStringExtra("type").equals("2")){
+                        headerTitle.setText(R.string.free_route_goods_detial_title);
+                    }
+                }else {
+                    headerTitle.setText("商品详情");
                 }
-                if(getIntent().getStringExtra("type").equals("2")){
-                    headerTitle.setText(R.string.free_route_goods_detial_title);
-                }
-
             } else {
                 headerTitle.setText("");
             }
