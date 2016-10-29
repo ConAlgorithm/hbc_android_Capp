@@ -123,7 +123,7 @@ public class TravelFundActivity extends BaseActivity {
                 return;
             }
             // 基金余额
-            residuePriceTV.setText(getString(R.string.travel_fund_residue_price, travelFundData.getFundAmount()));
+            residuePriceTV.setText(getString(R.string.sign_rmb) + travelFundData.getFundAmount());
 
             // 有效日期
             if (travelFundData.getFundAmountInt() <= 0) {
@@ -197,8 +197,11 @@ public class TravelFundActivity extends BaseActivity {
         String activityPriceString = getString(R.string.travel_fund_description_2, rewardAmountPerOrder, rewardRatePerOrder);
         int start = 5;
         int end = rewardAmountPerOrder.length() + 1 + start;
+        int start2 = activityPriceString.length() - rewardRatePerOrder.length() - 2;
+        int end2 = activityPriceString.length() - 2;
         SpannableString sp = new SpannableString(activityPriceString);
         sp.setSpan(new ForegroundColorSpan(0xFFFF6633), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        sp.setSpan(new ForegroundColorSpan(0xFFFF6633), start2, end2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         descriptionTV.setText(sp);
     }
 
