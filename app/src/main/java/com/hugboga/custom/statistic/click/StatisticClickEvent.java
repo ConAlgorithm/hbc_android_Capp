@@ -136,6 +136,15 @@ public class StatisticClickEvent {
         MobClickUtils.onEvent(eventId,map);
     }
 
+    public static void showGscreenClick(String eventId,String screentype,String Gstyle,String Gdays,String Gtheme){
+        Map map=new HashMap();
+        map.put("screentype",screentype);
+        map.put("Gstyle",Gstyle);
+        map.put("Gdays",Gdays);
+        map.put("Gtheme",Gtheme);
+
+        MobClickUtils.onEvent(eventId,map);
+    }
 
 
 }

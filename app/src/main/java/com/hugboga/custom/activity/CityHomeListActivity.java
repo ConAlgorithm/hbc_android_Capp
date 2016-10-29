@@ -33,6 +33,7 @@ import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestCityHomeList;
 import com.hugboga.custom.data.request.RequestCountryHomeList;
 import com.hugboga.custom.data.request.RequestRouteCityHomeList;
+import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.utils.DBHelper;
@@ -86,6 +87,10 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
     private boolean isFirstRequest = true;
     private boolean isLoading = true;
     private CityHomeBean cityHomeBean;
+
+    public String typeValue="不限";
+    public String dayValue="不限";
+    public String themesValues="不限";
 
     public enum CityHomeType {
         CITY, ROUTE, COUNTRY
@@ -570,6 +575,7 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
                 cityFilterLayout.setFilterTabTypeValue(filterData.label);
                 cityHomeHeader.setFilterTypeTabValue(filterData.label);
                 hideFilterView();
+                setEvent(0,filterData.value);
                 break;
             case CITY_FILTER_DAY:
                 CityFilterData dayFilterData = (CityFilterData) action.getData();
@@ -577,6 +583,7 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
                 cityFilterLayout.setFilterTabDayValue(dayFilterData.label);
                 cityHomeHeader.setFilterDayTabValue(dayFilterData.label);
                 hideFilterView();
+                setEvent(1,dayFilterData.value);
                 break;
             case CITY_FILTER_THEME:
                 CityHomeBean.GoodsThemes goodsThemes = (CityHomeBean.GoodsThemes) action.getData();
@@ -589,6 +596,7 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
                     cityHomeHeader.setFilterThemeTabValue(goodsThemes.themeName);
                 }
                 hideFilterView();
+                setEvent(2,goodsThemes.themeName);
                 break;
             case CITY_FILTER_CLOSE:
                 if(cityFilterLayout!=null){
@@ -676,4 +684,19 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
 
     }
 
+    //埋点
+    public void setEvent(int type,String value){
+        switch (type){
+            case 0:
+                typeValue=value;
+                break;
+            case 1:
+                dayValue=value;
+                break;
+            case 2:
+                themesValues=value;
+                break;
+        }
+        StatisticClickEvent.showGscreenClick(StatisticConstant.GSCREEN_CLICK,StatisticConstant.GSCREEN_TRIGGER,themesValues,dayValue,themesValues);
+    }
 }

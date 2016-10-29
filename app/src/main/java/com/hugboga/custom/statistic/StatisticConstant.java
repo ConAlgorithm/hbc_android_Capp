@@ -174,8 +174,11 @@ public class StatisticConstant {
     public static final String SHAREKJ_BACK = "06_shareKj_back";                  // 砍价分享后回到应用
 
     public static final String CLICK_WAIT_G="07_click_waitG";                       //点击已表态的司导头像
-    public static final String LAUNCH_WAITG = "07_launch_waitG";                  // 展示已表态的司导列表
+    public static final String LAUNCH_WAITG = "07_launch_waitG";                    // 展示已表态的司导列表
     public static final String CLICK_STORY = "01_click_story" ;                     //点击故事
-    public static final String CLICK_CONCULT="08_click_concult";                      //商品类型
+    public static final String CLICK_CONCULT="08_click_concult";                    //商品类型
     public static final String CLICK_CONCULT_TYPE="08_click_conculttype";           //咨询方式
+    public static final String GSCREEN_TRIGGER="01_Gscreen_trigger";                //出发商品筛选
+    public static final String GSCREEN_CLICK="01_Gscreen_click";                    //点击商品筛选值
+    public static final String PLAY_VIDEO="01_playvideo";                           //点击播放视频
 }
