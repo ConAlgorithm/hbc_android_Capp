@@ -368,7 +368,7 @@ public class DailyWebInfoActivity extends BaseActivity implements View.OnKeyList
                 break;
             case R.id.goto_little_helper:
                 DialogUtil.getInstance(activity).showLittleHelperDialog();
-                StatisticClickEvent.click(StatisticConstant.CLICK_CONCULT,getIntent().getStringExtra("goodtype"));
+                StatisticClickEvent.click(StatisticConstant.CLICK_CONCULT,"自定义包车游");
                 break;
         }
     }

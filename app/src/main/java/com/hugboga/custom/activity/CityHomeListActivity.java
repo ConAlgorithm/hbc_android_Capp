@@ -52,6 +52,8 @@ import org.xutils.ex.DbException;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -272,6 +274,7 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
                 intent.putExtra("isHomeIn", false);
                 intent.putExtra("source", "小搜索框");
                 startActivity(intent);
+                StatisticClickEvent.click(StatisticConstant.SEARCH_LAUNCH,"城市切换");
             }
         });
     }
@@ -419,8 +422,10 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
                 startActivity(intent);
                 if (goodsSec.goodsClass == 1) {
                     StatisticClickEvent.click(StatisticConstant.CLICK_RG, "城市页");
+                    StatisticClickEvent.click(StatisticConstant.LAUNCH_DETAIL_RG,"城市页");
                 } else {
                     StatisticClickEvent.click(StatisticConstant.CLICK_RT, "城市页");
+                    StatisticClickEvent.click(StatisticConstant.LAUNCH_DETAIL_RT,"城市页");
                 }
             }
         }
@@ -690,15 +695,22 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
 
     //埋点
     public void setEvent(int type,String value){
+        Map<String,String> map=new HashMap<>();
         switch (type){
             case 0:
                 typeValue=value;
+                map.put("screentype",typeValue);
+                MobClickUtils.onEvent(StatisticConstant.GSCREEN_TRIGGER,map);
                 break;
             case 1:
                 dayValue=value;
+                map.put("screentype",typeValue);
+                MobClickUtils.onEvent(StatisticConstant.GSCREEN_TRIGGER,map);
                 break;
             case 2:
                 themesValues=value;
+                map.put("screentype",typeValue);
+                MobClickUtils.onEvent(StatisticConstant.GSCREEN_TRIGGER,map);
                 break;
         }
         StatisticClickEvent.showGscreenClick(StatisticConstant.GSCREEN_CLICK,StatisticConstant.GSCREEN_TRIGGER,themesValues,dayValue,themesValues);

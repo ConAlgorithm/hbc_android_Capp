@@ -231,7 +231,7 @@ public class HomeActivitiesView extends LinearLayout implements HbcViewBehavior{
                         return;
                     }
                     EventUtil.onDefaultEvent(StatisticConstant.CLICK_ACTIVITY, "首页精选活动");
-                    EventUtil.onDefaultEvent(StatisticConstant.LAUNCH_ACTIVITY, "首页精选活动");
+                    StatisticClickEvent.click(StatisticConstant.LAUNCH_ACTIVITY, "首页活动详情展示");
                     if (TextUtils.isEmpty(itemData.urlAddress) && itemData.actionBean != null) {
                         ActionController actionFactory = ActionController.getInstance(mContext);
                         actionFactory.doAction(itemData.actionBean);

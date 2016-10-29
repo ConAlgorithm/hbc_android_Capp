@@ -97,7 +97,7 @@ public class HomeChoicenessRouteAdapter extends RecyclerView.Adapter<HomeChoicen
                     intent.putExtra("isHomeIn", true);
                     intent.putExtra("source", type == 1 ? "首页-线路包车" : "首页-包车畅游");
                     v.getContext().startActivity(intent);
-                    StatisticClickEvent.click(StatisticConstant.SEARCH_LAUNCH, "首页");
+                    StatisticClickEvent.click(StatisticConstant.SEARCH_LAUNCH, type == 1 ? "首页固定线路结尾" : "首页推荐线路结尾");
                 }
             });
         } else {

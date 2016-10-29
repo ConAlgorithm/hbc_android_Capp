@@ -25,6 +25,7 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityHomeBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.net.UrlLibs;
+import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.utils.Tools;
@@ -32,6 +33,7 @@ import com.hugboga.custom.utils.UIUtils;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.Bind;
 
@@ -211,19 +213,25 @@ public class CityHomeHeader extends LinearLayout implements HbcViewBehavior,View
             case R.id.cityHome_unlimited_type_lay:
                 if(headerTabClickListener!=null){
                     headerTabClickListener.headerTabClick(0);
-                    StatisticClickEvent.click(StatisticConstant.GSCREEN_TRIGGER,"类型");
+                    Map<String,String> map=new HashMap<>();
+                    map.put("screentype","类型");
+                    MobClickUtils.onEvent(StatisticConstant.GSCREEN_TRIGGER,map);
                 }
                 break;
             case R.id.cityHome_unlimited_days_lay:
                 if(headerTabClickListener!=null){
                     headerTabClickListener.headerTabClick(1);
-                    StatisticClickEvent.click(StatisticConstant.GSCREEN_TRIGGER,"天数");
+                    Map<String,String> map=new HashMap<>();
+                    map.put("screentype","天数");
+                    MobClickUtils.onEvent(StatisticConstant.GSCREEN_TRIGGER,map);
                 }
                 break;
             case R.id.cityHome_unlimited_theme_lay:
                 if(headerTabClickListener!=null){
                     headerTabClickListener.headerTabClick(2);
-                    StatisticClickEvent.click(StatisticConstant.GSCREEN_TRIGGER,"主题");
+                    Map<String,String> map=new HashMap<>();
+                    map.put("screentype","主题");
+                    MobClickUtils.onEvent(StatisticConstant.GSCREEN_TRIGGER,map);
                 }
                 break;
         }

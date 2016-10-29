@@ -36,6 +36,7 @@ import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestUserInfo;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.utils.ChannelUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.PhoneInfo;
@@ -276,6 +277,7 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
                     }
                     intent = new Intent(getContext(), TravelFundActivity.class);
                     startActivity(intent);
+                    StatisticClickEvent.click(StatisticConstant.LAUNCH_TRAVELFOUND, "个人中心");
                 }
                 break;
         }

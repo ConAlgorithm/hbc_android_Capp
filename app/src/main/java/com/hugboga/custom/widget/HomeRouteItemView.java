@@ -96,5 +96,6 @@ public class HomeRouteItemView extends RelativeLayout implements HbcViewBehavior
         intent.putExtra("type","1");
         getContext().startActivity(intent);
         StatisticClickEvent.click(StatisticConstant.CLICK_RG, "首页");
+        StatisticClickEvent.click(StatisticConstant.LAUNCH_DETAIL_RG,"首页");
     }
 }

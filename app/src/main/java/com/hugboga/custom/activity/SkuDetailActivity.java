@@ -260,7 +260,10 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
                 break;
             case R.id.goto_little_helper:
                 DialogUtil.getInstance(activity).showLittleHelperDialog();
-                StatisticClickEvent.click(StatisticConstant.CLICK_CONCULT,getIntent().getStringExtra("goodtype"));
+                if (TextUtils.isEmpty(getIntent().getStringExtra("type"))){
+                    StatisticClickEvent.click(StatisticConstant.CLICK_CONCULT,"1".equals(getIntent().getStringExtra("type"))?"固定线路":"推荐线路");
+                }
+
                 break;
         }
     }
