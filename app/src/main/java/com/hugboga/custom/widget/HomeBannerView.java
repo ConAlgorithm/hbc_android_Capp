@@ -12,6 +12,11 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.huangbaoche.hbcframe.data.net.ExceptionErrorCode;
+import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
+import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
+import com.huangbaoche.hbcframe.util.NetWork;
+import com.huangbaoche.hbcframe.widget.DialogUtilInterface;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.HomeBean;
 import com.hugboga.custom.utils.CommonUtils;
@@ -45,6 +50,7 @@ public class HomeBannerView extends RelativeLayout implements HbcViewBehavior, S
     private int bannerHeight;
     private File gifFile;
     private HomeBean.HeadVideo dynamicPicBean;
+    private DialogUtilInterface mDialogUtil;
 
     public HomeBannerView(Context context) {
         this(context, null);
@@ -83,7 +89,12 @@ public class HomeBannerView extends RelativeLayout implements HbcViewBehavior, S
                     if (TextUtils.isEmpty(headVideo.videoUrl)) {
                         return;
                     }
-                    if (!NetWorkUtils.getCurrentNetwork().equals("WIFI")) {
+                    if (!NetWork.isNetworkAvailable(getContext())) {//判断网络
+                        if (mDialogUtil == null) {
+                            mDialogUtil = HttpRequestUtils.getDialogUtil(getContext());
+                        }
+                        mDialogUtil.showSettingDialog();
+                    } else if (!NetWorkUtils.getCurrentNetwork().equals("WIFI")) {
                         DialogUtil mDialogUtil = DialogUtil.getInstance((Activity)getContext());
                         String tip = "您在使用运营商网络,观看视频会产生一定的流量费用。";
                         mDialogUtil.showCustomDialog("提示", tip, "继续观看", new DialogInterface.OnClickListener() {

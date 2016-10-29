@@ -70,6 +70,9 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
         initView();
     }
 
+    public void setHeaderTitle(String title) {
+        headerTitle.setText(title);
+    }
 
     WebViewClient webClient = new WebViewClient() {
 
@@ -154,10 +157,8 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
         public void onReceivedTitle(WebView view, String title) {
             super.onReceivedTitle(view, title);
             if (headerTitle != null) {
-                if (!view.getTitle().startsWith("http:")) {
+                if (!view.getTitle().startsWith("http:") && !TextUtils.isEmpty(view.getTitle())) {
                     headerTitle.setText(view.getTitle());
-                } else {
-                    headerTitle.setText("");
                 }
             }
         }
@@ -219,7 +220,6 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
             isLogin = UserEntity.getUser().isLogin(this);
             url = CommonUtils.replaceUrlValue(url, "userId", UserEntity.getUser().getUserId(this));
             webView.loadUrl(url);
-            Log.i("aa", "onResume + url " + url);
         }
     }
 
@@ -269,7 +269,6 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
             webView.loadUrl(url);
         }
         MLog.e("url=" + url);
-        Log.i("aa", "initView + url " + url);
     }
 
 }

@@ -166,7 +166,6 @@ public class WebAgent implements HttpRequestListener {
                 if (!TextUtils.isEmpty(action)) {
                     ActionBean actionBean = (ActionBean) JsonUtils.fromJson(action, ActionBean.class);
                     if (actionBean != null) {
-                        Log.i("aa", "doAction");
                         ActionController actionFactory = ActionController.getInstance(mActivity);
                         actionFactory.doAction(actionBean);
                     }
@@ -180,22 +179,31 @@ public class WebAgent implements HttpRequestListener {
     /**
      * areaID:城市ID
      * areaName：城市名称
-     * areaType：类型：只能取值:city、country、group
+     * areaType：1:city、2:country、3:group
      */
     @JavascriptInterface
     public void pushToGoodList(final String areaID,final String areaName, final String areaType) {
+        if (TextUtils.isEmpty(areaID)) {
+            return;
+        }
         mActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 Intent intent = new Intent(mActivity, CityHomeListActivity.class);
                 CityHomeListActivity.Params params = new CityHomeListActivity.Params();
                 params.id = CommonUtils.getCountInteger(areaID);
-                if (areaType.equals("city")) {
-                    params.cityHomeType = CityHomeListActivity.CityHomeType.CITY;
-                } else if (areaType.equals("country")) {
-                    params.cityHomeType = CityHomeListActivity.CityHomeType.COUNTRY;
-                } else if (areaType.equals("group")) {
-                    params.cityHomeType = CityHomeListActivity.CityHomeType.ROUTE;
+                switch (CommonUtils.getCountInteger(areaType)) {
+                    case 1:
+                        params.cityHomeType = CityHomeListActivity.CityHomeType.CITY;
+                        break;
+                    case 2:
+                        params.cityHomeType = CityHomeListActivity.CityHomeType.COUNTRY;
+                        break;
+                    case 3:
+                        params.cityHomeType = CityHomeListActivity.CityHomeType.ROUTE;
+                        break;
+                    default:
+                        return;
                 }
                 intent.putExtra(Constants.PARAMS_DATA, params);
                 intent.putExtra("isHomeIn", false);
@@ -498,7 +506,8 @@ public class WebAgent implements HttpRequestListener {
             public void run() {
                 if (!TextUtils.isEmpty(title) && mActivity instanceof WebInfoActivity) {
                     WebInfoActivity fgWebInfo = ((WebInfoActivity) mActivity);
-                    fgWebInfo.setTitle(title);
+//                    fgWebInfo.setTitle(title);
+                    fgWebInfo.setHeaderTitle(title);
                 }
             }
         });
