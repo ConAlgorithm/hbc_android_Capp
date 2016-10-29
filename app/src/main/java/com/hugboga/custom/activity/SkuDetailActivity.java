@@ -135,7 +135,10 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
 
     @Override
     public String getEventId() {
-        if(skuItemBean.goodsClass == 1) {//固定
+        if (skuItemBean == null) {
+            return "";
+        }
+        if (skuItemBean.goodsClass == 1) {//固定
             return StatisticConstant.LAUNCH_DETAIL_RG;
         }else {
             return StatisticConstant.LAUNCH_DETAIL_RT;
@@ -144,6 +147,9 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
 
     @Override
     public String getEventSource() {
+        if (skuItemBean == null) {
+            return "";
+        }
         if(skuItemBean.goodsClass == 1) {//固定
             return "固定线路包车";
         }else {
