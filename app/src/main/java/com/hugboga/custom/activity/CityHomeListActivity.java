@@ -469,6 +469,7 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
             cityHomeBean.goodsThemesList = new ArrayList<>();
         }
         cityHomeBean.goodsThemesList.add(0, CityHomeBean.GoodsThemes.getDefaultTheme());
+
         cityFilterLayout.setGoodsThemesList(cityHomeBean.goodsThemesList);
         adapter.addDatas(cityHomeBean.goodsSecList, !isFirstRequest);
         swipeRefreshLayout.setRefreshing(false);
@@ -540,6 +541,9 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
                 }
             } else {
                 emptyView.setVisibility(View.GONE);
+                if(cityHomeFooter!=null){
+                    cityHomeFooter.hideFooter();
+                }
             }
 
         }
@@ -675,7 +679,7 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
                         cityFilterLayout.showFilterView(index);
                     }
                 }
-            },150);
+            },500);
         }else{
             if (cityFilterLayout != null) {
                 cityFilterLayout.showFilterView(index);

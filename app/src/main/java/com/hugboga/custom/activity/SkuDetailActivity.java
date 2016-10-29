@@ -305,13 +305,16 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
             }
             if (!view.getTitle().startsWith("http:")) {
 //                headerTitle.setText(view.getTitle());
-                if (getIntent().getStringExtra("type").equals("1")){
-                    headerTitle.setText(R.string.route_goods_detial_title);
+                if (!TextUtils.isEmpty(getIntent().getStringExtra("type"))){
+                    if ("1".equals(getIntent().getStringExtra("type"))){
+                        headerTitle.setText(R.string.route_goods_detial_title);
+                    }
+                    if(getIntent().getStringExtra("type").equals("2")){
+                        headerTitle.setText(R.string.free_route_goods_detial_title);
+                    }
+                }else {
+                    headerTitle.setText("商品详情");
                 }
-                if(getIntent().getStringExtra("type").equals("2")){
-                    headerTitle.setText(R.string.free_route_goods_detial_title);
-                }
-
             } else {
                 headerTitle.setText("");
             }
