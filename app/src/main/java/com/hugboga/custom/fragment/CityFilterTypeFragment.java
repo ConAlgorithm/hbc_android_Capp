@@ -30,20 +30,35 @@ public class CityFilterTypeFragment extends BaseFragment implements AbsListView.
     @Bind(R.id.city_filter_listview)
     ListView listView;
 
+    @Bind(R.id.filter_content_view)
+    View filterContentView;
+
+
+
     CityFilterTagAdapter adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
         ButterKnife.bind(this, rootView);
+
         return rootView;
     }
+
 
     @Override
     protected void initView() {
         adapter = new CityFilterTagAdapter(CityFilterTagAdapter.getTypeDatas());
         listView.setOnItemClickListener(this);
         listView.setAdapter(adapter);
+
+        filterContentView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EventBus.getDefault().post(new EventAction(EventType.CITY_FILTER_CLOSE,
+                        null));
+            }
+        });
     }
 
     @Override

@@ -21,6 +21,7 @@ import com.huangbaoche.hbcframe.widget.recycler.ZSwipeRefreshLayout;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.CityHomeAdapter;
 import com.hugboga.custom.adapter.HbcRecyclerBaseAdapter;
+import com.hugboga.custom.adapter.HbcRecyclerTypeBaseAdpater;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.CityFilterData;
@@ -58,7 +59,7 @@ import butterknife.ButterKnife;
  * Created by Administrator on 2016/10/18.
  */
 
-public class CityHomeListActivity extends BaseActivity implements HbcRecyclerBaseAdapter.OnItemClickListener, CityHomeHeader.HeaderTabClickListener {
+public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTypeBaseAdpater.OnItemClickListener, CityHomeHeader.HeaderTabClickListener {
     public static final String KEY_CITY_ID = "KEY_CITY_ID";
     public static final String KEY_CITY_BEAN = "KEY_CITY_BEAN";
 
@@ -306,7 +307,7 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerBas
                 RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
                 int lastVisibleItem = ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();
                 int totalItemCount = layoutManager.getItemCount();
-                if (!isLoading && lastVisibleItem >= totalItemCount - 1 && dy > 0 && adapter.getListCount() < cityHomeBean.goodsCount) {
+                if (!isLoading && lastVisibleItem >= totalItemCount -adapter.getHeadersCount()-adapter.getFootersCount() && dy > 0 && adapter.getListCount() < cityHomeBean.goodsCount) {
                     isFirstRequest = false;
                     int pageIndex = adapter == null ? 0 : adapter.getListCount();
                     if (cityHomeBean.cityService != null && cityHomeBean.cityService.hasDailyservice() && pageIndex == Constants.DEFAULT_PAGESIZE + 1) {//第一页带包车的需减去包车
@@ -494,6 +495,10 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerBas
                 paramsData.daysCountMin != 0 || paramsData.themeId != 0 || paramsData.goodsClass != 0) {
             if (adapter != null && adapter.getListCount() == 0 && cityHomeBean != null && (cityHomeBean.goodsSecList == null || cityHomeBean.goodsSecList.size() == 0)) {
                 cityHomeFooter.showOtherEmpty();
+                if(isCity){
+                    titlebar.setBackgroundColor(0x00000000);
+                    fgTitle.setTextColor(0x00000000);
+                }
             } else {
                 cityHomeFooter.hideFooter();
             }
@@ -585,6 +590,11 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerBas
                 }
                 hideFilterView();
                 break;
+            case CITY_FILTER_CLOSE:
+                if(cityFilterLayout!=null){
+                    cityFilterLayout.onlyHideFilterView();
+                }
+                break;
             default:
                 break;
         }
@@ -657,7 +667,7 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerBas
                         cityFilterLayout.showFilterView(index);
                     }
                 }
-            },100);
+            },150);
         }else{
             if (cityFilterLayout != null) {
                 cityFilterLayout.showFilterView(index);

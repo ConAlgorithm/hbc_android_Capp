@@ -25,11 +25,9 @@ public abstract class HbcRecyclerTypeBaseAdpater<T> extends RecyclerView.Adapter
 
     private OnItemClickListener onItemClickListener;
 
-    private int typeCount = 1;
 
-    public HbcRecyclerTypeBaseAdpater(Context context,int typeCount) {
+    public HbcRecyclerTypeBaseAdpater(Context context) {
         this.mContext = context;
-        this.typeCount = typeCount;
         this.mHeaderViewInfos = new ArrayList<View>();
         this.mFooterViewInfos = new ArrayList<View>();
         this.datas = new ArrayList<T>();
@@ -87,7 +85,7 @@ public abstract class HbcRecyclerTypeBaseAdpater<T> extends RecyclerView.Adapter
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int _position) {
-        if (_position >= getHeadersCount() && _position < getListCount() + getHeadersCount() && holder instanceof HbcRecyclerBaseAdapter.ItemHolder) {
+        if (_position >= getHeadersCount() && _position < getListCount() + getHeadersCount() && holder instanceof HbcRecyclerTypeBaseAdpater.BaseItemHolder) {
             final BaseItemHolder itemHolder = (BaseItemHolder) holder;
             if (itemHolder == null) {
                 return;

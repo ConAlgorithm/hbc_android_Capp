@@ -14,7 +14,7 @@ import java.util.List;
  * Created by Administrator on 2016/10/18.
  */
 
-public class CityHomeAdapter extends  HbcRecyclerBaseAdapter<GoodsSec> {
+public class CityHomeAdapter extends  HbcRecyclerTypeBaseAdpater<GoodsSec> {
     public static final int HEAD_LABLE_FREE_TYPE=2;
     public static final int HEAD_LABLE_WORRY_TYPE=1;
 
@@ -37,12 +37,15 @@ public class CityHomeAdapter extends  HbcRecyclerBaseAdapter<GoodsSec> {
     }
 
     @Override
-    public int getItemViewType(int position) {
-        return super.getItemViewType(position);
+    protected int getChildItemViewType(int position) {
+        switch (datas.get(position-getHeadersCount()).goodsClass){
+            case HEAD_LABLE_WORRY_TYPE:
+                return 0x03;
+            case HEAD_LABLE_FREE_TYPE:
+                return 0x04;
+        }
+        return -1;
     }
 
-    @Override
-    public int getItemCount() {
-        return super.getItemCount();
-    }
+
 }
