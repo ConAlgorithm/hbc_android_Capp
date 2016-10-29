@@ -19,6 +19,8 @@ import com.huangbaoche.hbcframe.util.NetWork;
 import com.huangbaoche.hbcframe.widget.DialogUtilInterface;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.HomeBean;
+import com.hugboga.custom.statistic.MobClickUtils;
+import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.NetWorkUtils;
 import com.hugboga.custom.utils.SaveImageTask;
@@ -101,6 +103,7 @@ public class HomeBannerView extends RelativeLayout implements HbcViewBehavior, S
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 intentPlayer(headVideo.videoUrl);
+                                MobClickUtils.onEvent(StatisticConstant.PLAY_VIDEO);
                             }
                         }, "取消观看", null);
                     } else {

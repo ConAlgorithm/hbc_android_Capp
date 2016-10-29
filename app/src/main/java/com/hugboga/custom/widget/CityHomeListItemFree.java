@@ -67,7 +67,12 @@ public class CityHomeListItemFree extends RelativeLayout implements HbcViewBehav
         goodsName.setText(goodsSec.goodsName);
         guidesAmount.setText(goodsSec.guideAmount + "位当地中文司导");
         headLable.setText(goodsSec.headLable);
-        routeName.setText(goodsSec.goodsLable);
+        if(!TextUtils.isEmpty(goodsSec.goodsLable)){
+            routeName.setText(goodsSec.goodsLable);
+        }else{
+            routeName.setText(goodsSec.depCityName+goodsSec.daysCount + "日玩法推荐  ");
+        }
+
         if(goodsSec.goodsClass==1){
             headLable.setBackgroundResource(R.drawable.bg_city_home_lable_green);
         }else{

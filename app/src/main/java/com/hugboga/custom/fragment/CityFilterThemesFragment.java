@@ -39,6 +39,10 @@ public class CityFilterThemesFragment extends BaseFragment implements AbsListVie
 
     CityFilterThemeTagAdapter adapter;
 
+    @Bind(R.id.filter_content_view)
+    View filterContentView;
+
+
 
     public void setDatas(List<CityHomeBean.GoodsThemes> goodsThemes){
         this.goodsThemesList = goodsThemes;
@@ -61,6 +65,13 @@ public class CityFilterThemesFragment extends BaseFragment implements AbsListVie
         updateGridViewSize();
         gridView.setOnItemClickListener(this);
         gridView.setAdapter(adapter);
+        filterContentView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EventBus.getDefault().post(new EventAction(EventType.CITY_FILTER_CLOSE,
+                        null));
+            }
+        });
     }
 
     private void updateGridViewSize(){

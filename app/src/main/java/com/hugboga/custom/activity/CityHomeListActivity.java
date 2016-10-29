@@ -21,6 +21,7 @@ import com.huangbaoche.hbcframe.widget.recycler.ZSwipeRefreshLayout;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.CityHomeAdapter;
 import com.hugboga.custom.adapter.HbcRecyclerBaseAdapter;
+import com.hugboga.custom.adapter.HbcRecyclerTypeBaseAdpater;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.CityFilterData;
@@ -32,6 +33,7 @@ import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestCityHomeList;
 import com.hugboga.custom.data.request.RequestCountryHomeList;
 import com.hugboga.custom.data.request.RequestRouteCityHomeList;
+import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.utils.DBHelper;
@@ -58,7 +60,7 @@ import butterknife.ButterKnife;
  * Created by Administrator on 2016/10/18.
  */
 
-public class CityHomeListActivity extends BaseActivity implements HbcRecyclerBaseAdapter.OnItemClickListener, CityHomeHeader.HeaderTabClickListener {
+public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTypeBaseAdpater.OnItemClickListener, CityHomeHeader.HeaderTabClickListener {
     public static final String KEY_CITY_ID = "KEY_CITY_ID";
     public static final String KEY_CITY_BEAN = "KEY_CITY_BEAN";
 
@@ -85,6 +87,10 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerBas
     private boolean isFirstRequest = true;
     private boolean isLoading = true;
     private CityHomeBean cityHomeBean;
+
+    public String typeValue="不限";
+    public String dayValue="不限";
+    public String themesValues="不限";
 
     public enum CityHomeType {
         CITY, ROUTE, COUNTRY
@@ -141,7 +147,12 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerBas
 
     private boolean goBack() {
         if (cityFilterLayout != null && cityFilterLayout.filterViewIsShow()) {
-            cityFilterLayout.onlyHideFilterView();
+            if(adapter!=null && adapter.getListCount()<2){
+                cityFilterLayout.hideTab();
+                titlebar.setBackgroundColor(0x00000000);
+            }else{
+                cityFilterLayout.onlyHideFilterView();
+            }
             if(placeHolderView!=null){
                 placeHolderView.hide();
             }
@@ -301,13 +312,16 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerBas
                 RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
                 int lastVisibleItem = ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();
                 int totalItemCount = layoutManager.getItemCount();
-                if (!isLoading && lastVisibleItem >= totalItemCount - 1 && dy > 0 && adapter.getListCount() < cityHomeBean.goodsCount) {
+                if (!isLoading && lastVisibleItem >= totalItemCount -adapter.getHeadersCount()-adapter.getFootersCount() && dy > 0 && adapter.getListCount() < cityHomeBean.goodsCount) {
                     isFirstRequest = false;
                     int pageIndex = adapter == null ? 0 : adapter.getListCount();
                     if (cityHomeBean.cityService != null && cityHomeBean.cityService.hasDailyservice() && pageIndex == Constants.DEFAULT_PAGESIZE + 1) {//第一页带包车的需减去包车
                         --pageIndex;
                     }
-                    sendRequest(pageIndex, false);//加载下一页
+                    if(!isClickEvent){
+                        sendRequest(pageIndex, false);//加载下一页
+                    }
+
                 }
                 if (paramsData.cityHomeType == CityHomeType.CITY && cityHomeHeader != null) {
                     int firstVisibleItemPosition = ((LinearLayoutManager) layoutManager).findFirstVisibleItemPosition();
@@ -400,7 +414,6 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerBas
                 Intent intent = new Intent(CityHomeListActivity.this, SkuDetailActivity.class);
                 intent.putExtra(WebInfoActivity.WEB_URL, cityHomeDetailUrl);
                 intent.putExtra(Constants.PARAMS_ID, goodsSec.goodsNo);
-                //intent.putExtra(SkuDetailActivity.WEB_SKU, goodsSec);
                 intent.putExtra("goodtype",goodsSec.goodsType);
                 intent.putExtra("type",goodsSec.goodsClass==1?"1":"2");
                 startActivity(intent);
@@ -487,12 +500,33 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerBas
                 paramsData.daysCountMin != 0 || paramsData.themeId != 0 || paramsData.goodsClass != 0) {
             if (adapter != null && adapter.getListCount() == 0 && cityHomeBean != null && (cityHomeBean.goodsSecList == null || cityHomeBean.goodsSecList.size() == 0)) {
                 cityHomeFooter.showOtherEmpty();
+                if(isCity){
+                    titlebar.setBackgroundColor(0x00000000);
+                    fgTitle.setTextColor(0x00000000);
+                }
             } else {
                 cityHomeFooter.hideFooter();
             }
         } else {
             if (adapter.getListCount() <= 0 && (cityHomeBean.goodsSecList == null || cityHomeBean.goodsSecList.size() <= 0)) {
                 if (isCity) {
+                    if(cityHomeBean==null || cityHomeBean.cityService==null){
+                        titlebar.setVisibility(View.VISIBLE);
+                        titlebar.setBackgroundColor(0xFF2D2B28);
+                        fgTitle.setTextColor(0xFFFFFFFF);
+                        headerRightIV.setVisibility(View.GONE);
+                        emptyView.showEmptyView(true);
+                        return;
+                    }
+                    if(!cityHomeBean.cityService.hasDailyservice() && !cityHomeBean.cityService.hasAirporService()
+                            && !cityHomeBean.cityService.hasSingleService()){
+                        titlebar.setVisibility(View.VISIBLE);
+                        titlebar.setBackgroundColor(0xFF2D2B28);
+                        fgTitle.setTextColor(0xFFFFFFFF);
+                        headerRightIV.setVisibility(View.GONE);
+                        emptyView.showEmptyView(true);
+                        return;
+                    }
                     if (cityHomeBean != null && cityHomeBean.cityService != null) {
                         if (cityHomeBean.cityService.hasDailyservice()) {
                             cityHomeFooter.showCityEmpty(true);
@@ -541,6 +575,7 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerBas
                 cityFilterLayout.setFilterTabTypeValue(filterData.label);
                 cityHomeHeader.setFilterTypeTabValue(filterData.label);
                 hideFilterView();
+                setEvent(0,filterData.value);
                 break;
             case CITY_FILTER_DAY:
                 CityFilterData dayFilterData = (CityFilterData) action.getData();
@@ -548,6 +583,7 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerBas
                 cityFilterLayout.setFilterTabDayValue(dayFilterData.label);
                 cityHomeHeader.setFilterDayTabValue(dayFilterData.label);
                 hideFilterView();
+                setEvent(1,dayFilterData.value);
                 break;
             case CITY_FILTER_THEME:
                 CityHomeBean.GoodsThemes goodsThemes = (CityHomeBean.GoodsThemes) action.getData();
@@ -560,6 +596,12 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerBas
                     cityHomeHeader.setFilterThemeTabValue(goodsThemes.themeName);
                 }
                 hideFilterView();
+                setEvent(2,goodsThemes.themeName);
+                break;
+            case CITY_FILTER_CLOSE:
+                if(cityFilterLayout!=null){
+                    cityFilterLayout.onlyHideFilterView();
+                }
                 break;
             default:
                 break;
@@ -615,24 +657,46 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerBas
     private void showFilterView(final int index) {
         if(adapter!=null && adapter.getListCount()<3 &&paramsData.cityHomeType==CityHomeType.CITY){
             placeHolderView.show();
+            adapter.notifyDataSetChanged();
         }
-        recyclerView.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                int headerFilterTabPaddingTop = cityHomeHeader.getFilterTabTop();
-                int statusBarHeight = UIUtils.getStatusBarHeight();
-                int titleBarHeight = titlebar.getHeight();
-                int distance = headerFilterTabPaddingTop - statusBarHeight - titleBarHeight;
 
-                if (distance > 0) {
-                    isClickEvent = true;
-                    recyclerView.smoothScrollBy(0, distance);
+        int headerFilterTabPaddingTop = cityHomeHeader.getFilterTabTop();
+        int statusBarHeight = UIUtils.getStatusBarHeight();
+        int titleBarHeight = titlebar.getHeight();
+        int distance = headerFilterTabPaddingTop - statusBarHeight - titleBarHeight;
+
+        if (distance > 0) {
+            isClickEvent = true;
+            recyclerView.smoothScrollBy(0, distance);
+            recyclerView.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (cityFilterLayout != null) {
+                        cityFilterLayout.showFilterView(index);
+                    }
                 }
-                if (cityFilterLayout != null) {
-                    cityFilterLayout.showFilterView(index);
-                }
+            },150);
+        }else{
+            if (cityFilterLayout != null) {
+                cityFilterLayout.showFilterView(index);
             }
-        },50);
+        }
+
     }
 
+    //埋点
+    public void setEvent(int type,String value){
+        switch (type){
+            case 0:
+                typeValue=value;
+                break;
+            case 1:
+                dayValue=value;
+                break;
+            case 2:
+                themesValues=value;
+                break;
+        }
+        StatisticClickEvent.showGscreenClick(StatisticConstant.GSCREEN_CLICK,StatisticConstant.GSCREEN_TRIGGER,themesValues,dayValue,themesValues);
+    }
 }

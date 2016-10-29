@@ -25,6 +25,8 @@ import com.hugboga.custom.activity.NIMChatActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.fragment.BaseFragment;
+import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.utils.Common;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.utils.SharedPre;
@@ -674,6 +676,7 @@ public class DialogUtil implements DialogUtilInterface {
                                 MobclickAgent.onEvent(getRootActivity(mContext), source[1], map);
                             }
                             PhoneInfo.CallDial(mContext, Constants.CALL_NUMBER_IN);
+                            StatisticClickEvent.click(StatisticConstant.CLICK_CONCULT_TYPE,"电话");
                         }else if(which==1){
                             if (source != null && source.length == 3) {
                                 HashMap<String, String> map = new HashMap<String, String>();
@@ -681,6 +684,7 @@ public class DialogUtil implements DialogUtilInterface {
                                 MobclickAgent.onEvent(getRootActivity(mContext), source[2], map);
                             }
                             PhoneInfo.CallDial(mContext, Constants.CALL_NUMBER_OUT);
+                            StatisticClickEvent.click(StatisticConstant.CLICK_CONCULT_TYPE,"电话");
                         }else {
                             if (source!=null&&source.length==3){
                                 HashMap<String,String>map=new HashMap<String, String>();
@@ -689,6 +693,7 @@ public class DialogUtil implements DialogUtilInterface {
                             }
                             SharedPre.setInteger(UserEntity.getUser().getUserId(MyApplication.getAppContext()), SharedPre.QY_SERVICE_UNREADCOUNT,0);
                             UnicornUtils.openServiceActivity();
+                            StatisticClickEvent.click(StatisticConstant.CLICK_CONCULT_TYPE,"IM");
                         }
                     }
                 }).create();

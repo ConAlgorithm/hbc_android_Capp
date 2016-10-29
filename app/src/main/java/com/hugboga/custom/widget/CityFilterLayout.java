@@ -122,12 +122,18 @@ public class CityFilterLayout extends LinearLayout implements View.OnClickListen
 
     public void hideTab(){
         this.setVisibility(View.GONE);
+        if(cityFilterViewPager!=null && cityFilterViewPager.isShown()){
+            cityFilterViewPager.setVisibility(View.VISIBLE);
+        }
+        hideSelecteIcon();
+    }
+
+    private void hideSelecteIcon(){
         for(int i=0;i<tabs.size();i++){
             ViewGroup viewGroup = tabs.get(i);
             viewGroup.getChildAt(1).setVisibility(View.GONE);
-        }
-        if(cityFilterViewPager!=null && cityFilterViewPager.isShown()){
-            cityFilterViewPager.setVisibility(View.VISIBLE);
+            TextView textView =  (TextView) viewGroup.getChildAt(0);
+            textView.setCompoundDrawables(null,null,textDownArraw,null);
         }
     }
 
@@ -189,10 +195,12 @@ public class CityFilterLayout extends LinearLayout implements View.OnClickListen
 
     public void onlyHideFilterView(){
         cityFilterViewPager.setVisibility(View.GONE);
+        hideSelecteIcon();
+
     }
 
     public void hideFilterView(){
-        cityFilterViewPager.setVisibility(GONE);
+        onlyHideFilterView();
         this.setVisibility(GONE);
     }
 
