@@ -96,7 +96,7 @@ public class CityHomeHeader extends LinearLayout implements HbcViewBehavior,View
         unlimitTheme.setOnClickListener(this);
 
         displayLayoutHeight=(int)((385 / 750.0) * UIUtils.getScreenWidth());
-        findViewById(R.id.city_home_header_bg_iv).setLayoutParams(new RelativeLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, displayLayoutHeight));
+        findViewById(R.id.city_home_header_bg_iv).setLayoutParams(new FrameLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, displayLayoutHeight));
     }
 
     public void setFilterTypeTabValue(String value){
