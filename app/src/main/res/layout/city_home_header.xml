@@ -7,7 +7,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <RelativeLayout
+        <FrameLayout
             android:id="@+id/cityHome_header_cityname_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -23,43 +23,40 @@
                 android:id="@+id/layout_one"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:gravity="center"
+                android:layout_gravity="center"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/city_home_header_city_name_tv"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:gravity="center"
+                    android:layout_marginTop="30dp"
                     android:textColor="#ffffff"
-                    android:textSize="28sp"
+                    android:textSize="25sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/city_home_header_guides_count_tv"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="-3dp"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center"
                     android:textColor="#ffffff"
-                    android:textSize="16sp"
+                    android:textSize="15sp"
                     android:textStyle="bold" />
-
                 <LinearLayout
                     android:id="@+id/cityHome_header_guides_avatar_layout"
                     android:layout_width="wrap_content"
                     android:layout_height="45dp"
+                    android:layout_gravity="center_horizontal"
                     android:layout_below="@id/layout_one"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="15dp"
                     android:orientation="horizontal">
-
                 </LinearLayout>
-
             </LinearLayout>
-
-
-        </RelativeLayout>
+        </FrameLayout>
 
         <include
             android:id="@+id/cityHome_header_choose_layout"

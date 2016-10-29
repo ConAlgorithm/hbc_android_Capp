@@ -26,26 +26,30 @@
 
         <TextView
             android:id="@+id/city_home_item_head_lable"
-            android:layout_width="80dp"
-            android:layout_height="30dp"
+            android:layout_width="65dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:background="@drawable/bg_city_home_lable_green"
             android:gravity="center"
+            android:padding="6dp"
             android:text="@string/city_home_head_lable_worry"
-            android:textColor="#ffffff" />
+            android:textColor="#ffffff"
+            android:textSize="@dimen/text_size_medium" />
 
         <TextView
             android:id="@+id/city_home_item_guides_count"
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:gravity="center_vertical"
             android:layout_marginBottom="20dp"
             android:background="@drawable/bg_city_home_guides_count"
-            android:drawableRight="@mipmap/sidao"
             android:drawablePadding="8dp"
-            android:padding="5dp"
-            android:textColor="@color/basic_white" />
+            android:drawableRight="@mipmap/sidao"
+            android:gravity="center_vertical"
+            android:padding="3dp"
+            android:text="20们中文司导u"
+            android:textColor="@color/basic_white"
+            android:textSize="@dimen/text_size_mediumx" />
     </FrameLayout>
 
     <TextView
@@ -61,29 +65,33 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:layout_marginTop="12dp"
+        android:layout_marginBottom="25dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginBottom="18dp"
+        android:layout_marginTop="10dp"
         android:gravity="bottom"
         android:orientation="horizontal">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/sign_rmb"
             android:textColor="#ff6633" />
+
         <TextView
             android:id="@+id/city_home_list_item_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="233"
             android:textColor="#ff6633"
             android:textSize="@dimen/text_size_largex" />
+
         <TextView
             android:id="@+id/city_home_list_item_unit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#999999"
             android:layout_marginLeft="8dp"
+            android:textColor="#999999"
             android:textSize="@dimen/text_size_medium" />
     </LinearLayout>
 

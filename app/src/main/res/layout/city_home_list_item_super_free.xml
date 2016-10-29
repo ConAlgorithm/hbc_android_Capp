@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/basic_white"
     android:orientation="vertical">
 
     <TextView
@@ -25,14 +26,15 @@
     <TextView
         android:id="@+id/city_home_item_free_guides_count"
         android:layout_width="wrap_content"
-        android:layout_height="30dp"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:drawableRight="@mipmap/sidao"
+        android:gravity="center_vertical"
+        android:textColor="#999999"
         android:drawablePadding="5dp"
         android:padding="6dp"
-        android:textSize="@dimen/text_size_mediumx"
-        android:textColor="#999999" />
+        android:textSize="@dimen/text_size_mediumx" />
 
     <RelativeLayout
         android:id="@+id/city_home_list_item_free_image_lay"
@@ -43,6 +45,7 @@
         android:layout_marginRight="15dp"
         android:layout_marginTop="15dp"
         android:orientation="horizontal">
+
         <ImageView
             android:id="@+id/city_home_list_item_free_image_first"
             android:layout_width="wrap_content"
@@ -50,6 +53,7 @@
             android:layout_weight="1"
             android:scaleType="centerCrop"
             android:src="@mipmap/city_default_bg" />
+
         <ImageView
             android:id="@+id/city_home_list_item_free_image_sec"
             android:layout_width="wrap_content"
@@ -59,27 +63,31 @@
             android:layout_weight="1"
             android:scaleType="centerCrop"
             android:src="@mipmap/city_default_bg" />
+
         <TextView
             android:id="@+id/city_home_item_free_head_lable"
-            android:layout_width="80dp"
-            android:layout_height="30dp"
+            android:layout_width="65dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:background="@drawable/bg_city_home_lable_blue"
             android:gravity="center"
+            android:padding="6dp"
             android:text="@string/city_home_head_lable_free"
-            android:textColor="#ffffff" />
+            android:textColor="#ffffff"
+            android:textSize="@dimen/text_size_medium" />
     </RelativeLayout>
 
     <TextView
         android:id="@+id/city_home2_list_item_goods_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="18dp"
+        android:layout_marginBottom="25dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="15dp"
         android:textColor="@color/hbc_common_text_color_black"
         android:textSize="@dimen/text_size_largex" />
+
     <View
         android:layout_width="match_parent"
         android:layout_height="12dp"

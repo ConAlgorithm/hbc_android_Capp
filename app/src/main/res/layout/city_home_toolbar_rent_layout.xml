@@ -18,6 +18,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/select_city_title"
+            android:drawablePadding="8dp"
+            android:textColor="@color/hbc_common_text_color_black"
             android:drawableTop="@mipmap/zidingyi"
             android:textSize="@dimen/text_size_mediumx"
             android:layout_margin="@dimen/text_size_12"
@@ -43,6 +45,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="中文接送机"
+            android:drawablePadding="8dp"
+            android:textColor="@color/hbc_common_text_color_black"
             android:drawableTop="@mipmap/jiesongji"
             android:textSize="@dimen/text_size_mediumx"
             android:layout_margin="@dimen/text_size_12"/>
@@ -66,7 +70,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/title_rent"
-            android:drawableTop="@mipmap/danci"
+            android:drawablePadding="8dp"
+            android:textColor="@color/hbc_common_text_color_black"
+            android:drawableTop="@mipmap/dancijiesong"
             android:textSize="@dimen/text_size_mediumx"
             android:layout_margin="@dimen/text_size_12"/>
     </LinearLayout>
