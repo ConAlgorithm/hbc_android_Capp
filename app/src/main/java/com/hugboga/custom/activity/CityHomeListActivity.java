@@ -333,7 +333,6 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
                     if(!isClickEvent){
                         sendRequest(pageIndex, false);//加载下一页
                     }
-
                 }
 
                 if (paramsData.cityHomeType == CityHomeType.CITY && cityHomeHeader != null) {
@@ -355,7 +354,6 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
                     }
                 }
                 isShowCityFilter();
-
                 showAnimLabel();
             }
         });
@@ -404,7 +402,7 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
             }
             labelView.setVisibility(View.VISIBLE);
             if (topPadding > animTopPadding || topPadding < UIUtils.getScreenHeight()-animationIconLabelPaddingDistance) {
-                AnimationUtils.showAnimationtranslationX(labelView, 250, UIUtils.dip2px(70), null);
+                AnimationUtils.showAnimationtranslationX(labelView, 300, UIUtils.dip2px(70), null);
                 labelView.setTag(true);
             }else{
                 labelView.setTag(false);

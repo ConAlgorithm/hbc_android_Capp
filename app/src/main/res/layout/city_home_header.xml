@@ -39,10 +39,6 @@
                     android:gravity="center"
                     android:layout_marginTop="30dp"
                     android:shadowColor="#ff000000"
-                    android:shadowDy="2"
-                    android:shadowDx="2"
-                    android:shadowRadius="1"
-                    android:text="Hello"
                     android:textColor="#ffffff"
                     android:textSize="25sp"
                     android:textStyle="bold" />
@@ -53,10 +49,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:gravity="center"
-                    android:shadowColor="#ff000000"
-                    android:shadowDy="2"
-                    android:shadowDx="2"
-                    android:shadowRadius="1"
                     android:textColor="#ffffff"
                     android:textSize="15sp"
                     android:textStyle="bold" />

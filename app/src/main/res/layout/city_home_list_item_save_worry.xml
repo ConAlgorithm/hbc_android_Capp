@@ -61,6 +61,8 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:textColor="#111111"
+        android:maxLines="2"
+        android:ellipsize="end"
         android:textSize="@dimen/text_size_largex" />
 
     <LinearLayout
@@ -91,7 +93,7 @@
             android:id="@+id/city_home_list_item_unit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
+            android:layout_marginLeft="4dp"
             android:textColor="#999999"
             android:textSize="@dimen/text_size_medium" />
     </LinearLayout>

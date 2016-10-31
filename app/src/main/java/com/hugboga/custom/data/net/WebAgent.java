@@ -32,7 +32,6 @@ import com.hugboga.custom.activity.OrderSelectCityActivity;
 import com.hugboga.custom.activity.PickSendActivity;
 import com.hugboga.custom.activity.SingleNewActivity;
 import com.hugboga.custom.activity.SkuDetailActivity;
-import com.hugboga.custom.activity.SkuListActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.ChatInfo;
