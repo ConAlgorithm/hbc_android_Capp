@@ -34,7 +34,7 @@ import static android.view.View.GONE;
 public class SplashActivity extends BaseActivity {
 
     //引导图片资源
-    private static final int[] pics = {R.mipmap.splash_1, R.mipmap.splash_2, R.mipmap.splash_3};
+    private static final int[] pics = {R.drawable.splash_1, R.drawable.splash_2, R.drawable.splash_3};
 
     @ViewInject(R.id.splash_viewpage)
     ViewPager viewPager;
