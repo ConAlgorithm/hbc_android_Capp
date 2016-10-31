@@ -46,7 +46,7 @@ public class RequestRouteCityHomeList extends BaseRequest<CityHomeBean> {
 
     @Override
     public String getUrlErrorCode() {
-        return "40090";
+        return "40077";
     }
 
     private static class DataParser extends ImplParser {

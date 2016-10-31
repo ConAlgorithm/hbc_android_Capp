@@ -183,10 +183,10 @@ public class UrlLibs {
     public static final String SERVER_IP_PRICE_SKU          = "price/v1.2/c/goodsPrice?";                               // 查询价格 SKU
     public static final String SERVER_IP_AIRPORT            = "price/v1.0/c/airports?";                                 // 机场 暂时不用，使用DB
 
-    public static final String API_SKU_CITY_LIST            = "goods/v1.2/c/home/cityGoods?";                           // 城市商品列表
-    public static final String API_SKU_COUNTRY_LIST         = "goods/v1.2/c/home/countryGoods?";                        // 国家列表
-    public static final String API_SKU_ROUTE_LIST           = "goods/v1.2/c/home/lineGroupGoods?";                      // 线路圈
-    public static final String API_GOODS_BY_ID              = "goods/v1.2/c/home/goodsByNo";                            // 按商品编号查商品详情
+    public static final String API_CITY_HOME_LIST            = "goods/v1.4/c/home/cityGoods?";                           // 城市商品列表
+    public static final String API_CITY_HOME_COUNTRY_LIST    = "goods/v1.4/c/home/countryGoods?";                        // 国家列表
+    public static final String API_CITY_HOME_ROUTE_LIST      = "goods/v1.4/c/home/lineGroupGoods?";                      // 线路圈
+    public static final String API_GOODS_BY_ID              = "goods/v1.2/c/home/goodsByNo";                             // 按商品编号查商品详情
 
     public static final String SERVER_IP_COUPONS            = "marketing/v2.0/c/coupons?";                              // 优惠券
     public static final String SERVER_IP_COUPONS_BIND       = "marketing/v1.0/c/coupons/bind?";                         // 优惠券 绑定
@@ -241,11 +241,5 @@ public class UrlLibs {
     public static final String ADD_BLACK                    = "communication/v2.0/c/im/black/add";                      // 私聊对象加入黑名单
     public static final String REMOVE_BLACK                 = "communication/v2.0/c/im/black/remove";                   // 私聊对象移出黑名单
     public static final String API_IM_SERVER_INFO           = "communication/v2.0/c/im/info/kf";                        // 获取当前环境下的客服信息
-
-    /**========v1.4城市首页接口============**/
-    public static final String API_CITY_HOME_LIST            = "goods/v1.4/c/home/cityGoods?";                           // 城市商品列表
-    public static final String API_CITY_HOME_COUNTRY_LIST         = "goods/v1.4/c/home/countryGoods?";                        // 国家列表
-    public static final String API_CITY_HOME_ROUTE_LIST           = "goods/v1.4/c/home/lineGroupGoods?";                      // 线路圈
-
 
 }
