@@ -75,6 +75,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
 
     public static final String WEB_SKU = "web_sku";
     public static final String WEB_CITY = "web_city";
+
     @Bind(R.id.header_left_btn)
     ImageView headerLeftBtn;
     @Bind(R.id.header_right_btn)
@@ -94,14 +95,12 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
     private CityBean cityBean;
     private String goodsNo;
 
-    public boolean isGoodsOut = false;//商品是否已下架
     private boolean isPerformClick = false;
 
     private DialogUtil mDialogUtil;
 
 
     public void initView() {
-        isGoodsOut = false;
         findViewById(R.id.header_right_btn).setVisibility(WXShareUtils.getInstance(activity).isInstall(false) ? View.VISIBLE : View.VISIBLE);
         headerLeftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,6 +130,14 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
             url = CommonUtils.getBaseUrl(url) + "userId="+ UserEntity.getUser().getUserId(activity)+"&t=" + new Random().nextInt(100000);
             webView.loadUrl(url);
         }
+    }
+
+    public void setGoodsOut() {// 商品已下架
+        headerRightBtn.setVisibility(View.GONE);
+        gotoOrder.setText("该商品已下架");
+        gotoOrder.setTextColor(0xFFFFFFFF);
+        gotoOrder.setBackgroundColor(0xFFD0CDCD);
+        gotoOrder.setOnClickListener(null);
     }
 
     @Override
@@ -269,9 +276,6 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
     }
 
     private void skuShare(String goodsPicture, final String title, final String content, final String shareUrl) {
-        if (isGoodsOut) {
-            return;
-        }
         CommonUtils.shareDialog(activity, skuItemBean.goodsPicture, title, content, shareUrl, getClass().getSimpleName()
                 , new ShareDialog.OnShareListener() {
                     @Override

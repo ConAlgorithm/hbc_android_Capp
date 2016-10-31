@@ -521,7 +521,7 @@ public class WebAgent implements HttpRequestListener {
 
         if (mActivity instanceof SkuDetailActivity) {
             SkuDetailActivity fgSkuDetail = ((SkuDetailActivity) mActivity);
-            fgSkuDetail.isGoodsOut = true;
+            fgSkuDetail.setGoodsOut();
         }
     }
 
