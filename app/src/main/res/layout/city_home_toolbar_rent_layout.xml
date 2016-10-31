@@ -28,10 +28,10 @@
     </LinearLayout>
 
     <View
-        android:layout_width="1dp"
+        android:layout_width="1px"
         android:layout_height="match_parent"
         android:layout_gravity="center_vertical"
-        android:background="#e6e9ee" />
+        android:background="@color/default_dividing_line" />
 
     <LinearLayout
         android:id="@+id/cityHome_toolbar_home_pick_send_airport"
@@ -53,10 +53,10 @@
     </LinearLayout>
 
     <View
-        android:layout_width="1dp"
+        android:layout_width="1px"
         android:layout_height="match_parent"
         android:layout_gravity="center_vertical"
-        android:background="#e6e9ee" />
+        android:background="@color/default_dividing_line" />
 
     <LinearLayout
         android:id="@+id/cityHome_toolbar_single_send"

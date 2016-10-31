@@ -47,5 +47,28 @@ public class CityHomeAdapter extends  HbcRecyclerTypeBaseAdpater<GoodsSec> {
         return -1;
     }
 
+//    public void setCanAnimationFlag(int firstVisibleItemPosition,int lastVisibleItemPosition){
+//        if(firstVisibleItemPosition<0){
+//            return;
+//        }
+//        if(datas!=null && datas.size()>0){
+//            for(int i=0;i<datas.size();i++){
+//                if(i<firstVisibleItemPosition &&  i>lastVisibleItemPosition){
+//                    datas.get(i).canAnimation = false;
+//                }else{
+//                    datas.get(i).canAnimation = true;
+//                }
+//            }
+//        }
+//    }
 
+
+    public static int getViewTopOnScreen(View view){
+        if(view==null){
+            return -1;
+        }
+        int[] location = new int[2];
+        view.getLocationOnScreen(location);
+        return location[1];
+    }
 }
