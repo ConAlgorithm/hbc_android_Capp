@@ -20,6 +20,7 @@ import com.hugboga.custom.data.bean.PushMessage;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestPushReceive;
+import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.JsonUtils;
 import com.hugboga.custom.utils.PushUtils;
 
@@ -92,6 +93,7 @@ public class PushReceiver extends BroadcastReceiver implements HttpRequestListen
 
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
+        ApiReportHelper.getInstance().addReport(request);
         MLog.e("pushReceiver = "+request.getData());
     }
 

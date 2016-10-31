@@ -21,6 +21,7 @@ import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestLogout;
 import com.hugboga.custom.developer.DeveloperOptionsActivity;
+import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.widget.DialogUtil;
@@ -127,6 +128,7 @@ public class SettingActivity extends BaseActivity {
                         HttpRequestUtils.request(activity, requestLogout, new HttpRequestListener() {
                             @Override
                             public void onDataRequestSucceed(BaseRequest request) {
+                                ApiReportHelper.getInstance().addReport(request);
                                 mDialogUtil.dismissLoadingDialog();
                                 UserEntity.getUser().clean(activity);
                                 IMUtil.getInstance().logoutNim();

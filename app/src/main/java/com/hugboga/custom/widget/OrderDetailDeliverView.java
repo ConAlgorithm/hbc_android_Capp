@@ -24,6 +24,7 @@ import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.statistic.event.EventCancelOrder;
+import com.hugboga.custom.utils.ApiReportHelper;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -137,6 +138,7 @@ import cn.iwgang.countdownview.CountdownView;
 
     @Override
     public void onDataRequestSucceed(BaseRequest _request) {
+        ApiReportHelper.getInstance().addReport(_request);
         if (_request instanceof RequestDeliverInfo) {
             RequestDeliverInfo request = (RequestDeliverInfo) _request;
             DeliverInfoBean deliverInfoBean = request.getData();

@@ -41,6 +41,7 @@ import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.utils.AlertDialogUtils;
+import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.CarUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DateUtils;
@@ -450,6 +451,7 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
                 new HttpRequestListener() {
                     @Override
                     public void onDataRequestSucceed(BaseRequest request) {
+                        ApiReportHelper.getInstance().addReport(request);
                         RequestGuideConflict requestGuideConflict = (RequestGuideConflict)request;
                         List<String> list = requestGuideConflict.getData();
                         if(list.size() > 0) {

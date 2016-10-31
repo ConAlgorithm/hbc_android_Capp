@@ -11,6 +11,7 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.data.request.RequestUploadLogs;
+import com.hugboga.custom.utils.ApiReportHelper;
 
 import org.xutils.common.util.LogUtil;
 
@@ -88,6 +89,7 @@ public class LogService extends Service {
     HttpRequestListener httpListener = new HttpRequestListener() {
         @Override
         public void onDataRequestSucceed(BaseRequest request) {
+            ApiReportHelper.getInstance().addReport(request);
             MLog.e(request.getData().toString());
             thread.isRunning = Boolean.valueOf(request.getData().toString());
         }

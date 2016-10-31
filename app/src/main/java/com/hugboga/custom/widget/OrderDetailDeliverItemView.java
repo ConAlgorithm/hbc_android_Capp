@@ -24,6 +24,7 @@ import com.hugboga.custom.data.request.RequestAcceptGuide;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
+import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
 
@@ -149,6 +150,7 @@ public class OrderDetailDeliverItemView extends LinearLayout implements HbcViewB
 
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
+        ApiReportHelper.getInstance().addReport(request);
         CanServiceGuideBean canServiceGuideBean = ((RequestAcceptGuide)request).getData();
         if (canServiceGuideBean == null) {
             return;

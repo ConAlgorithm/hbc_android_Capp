@@ -52,6 +52,7 @@ import com.hugboga.custom.data.request.RequestNIMUnBlackMan;
 import com.hugboga.custom.data.request.RequestUnBlackMan;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.ApiFeedbackUtils;
+import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.PermissionRes;
 import com.hugboga.custom.utils.UIUtils;
@@ -532,6 +533,7 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
                             HttpRequestUtils.request(NIMChatActivity.this, requestBlackMan, new HttpRequestListener() {
                                 @Override
                                 public void onDataRequestSucceed(BaseRequest request) {
+                                    ApiReportHelper.getInstance().addReport(request);
                                     inBlack = 1;
                                 }
 
@@ -558,6 +560,7 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
                     HttpRequestUtils.request(NIMChatActivity.this, requestUnBlackMan, new HttpRequestListener() {
                         @Override
                         public void onDataRequestSucceed(BaseRequest request) {
+                            ApiReportHelper.getInstance().addReport(request);
                             inBlack = 0;
                         }
 
