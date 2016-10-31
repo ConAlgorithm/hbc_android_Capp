@@ -29,6 +29,7 @@ import com.hugboga.custom.data.request.RequestBargin;
 import com.hugboga.custom.data.request.RequestChangeUserInfo;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
+import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
@@ -98,6 +99,7 @@ public class BargainActivity extends BaseActivity {
         HttpRequestUtils.request(activity, requestBargin, new HttpRequestListener() {
             @Override
             public void onDataRequestSucceed(BaseRequest request) {
+                ApiReportHelper.getInstance().addReport(request);
                 BarginBean barginBean = ((RequestBargin) request).getData();
                 genView(barginBean);
             }
@@ -323,6 +325,7 @@ public class BargainActivity extends BaseActivity {
                 HttpRequestUtils.request(activity, request, new HttpRequestListener() {
                     @Override
                     public void onDataRequestSucceed(BaseRequest request) {
+                        ApiReportHelper.getInstance().addReport(request);
                         popupWindow.dismiss();
                     }
 
@@ -405,6 +408,7 @@ public class BargainActivity extends BaseActivity {
         HttpRequestUtils.request(activity, requestBargainShare, new HttpRequestListener() {
             @Override
             public void onDataRequestSucceed(BaseRequest request) {
+                ApiReportHelper.getInstance().addReport(request);
                 String h5Url = ((RequestBargainShare)request).getData();
                 barginShare(R.mipmap.bargain_share,shareTitle,getString(R.string.share_bargin_100),
                         h5Url);

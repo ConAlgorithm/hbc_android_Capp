@@ -454,6 +454,7 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
 
     @Override
     public void onDataRequestSucceed(BaseRequest _request) {
+        super.onDataRequestSucceed(_request);
         if (_request instanceof RequestCityHomeList) {
             cityHomeBean = ((RequestCityHomeList) _request).getData();
             cityHomeHeader.update(cityHomeBean);

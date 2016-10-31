@@ -38,6 +38,7 @@ import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.statistic.event.EventUtil;
 import com.hugboga.custom.utils.AlertDialogUtils;
+import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.CarUtils;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.utils.Tools;
@@ -340,6 +341,7 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
         HttpRequestUtils.request(activity, requestCars, new HttpRequestListener() {
             @Override
             public void onDataRequestSucceed(BaseRequest request) {
+                ApiReportHelper.getInstance().addReport(request);
                 guideCarBeanList = ((RequestCars)request).getData();
                 carIds = CarUtils.getCarIds(guideCarBeanList);
                 getData();

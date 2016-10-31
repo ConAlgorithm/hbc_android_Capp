@@ -40,6 +40,7 @@ import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestCars;
 import com.hugboga.custom.data.request.RequestCollectGuidesFilter;
 import com.hugboga.custom.utils.AlertDialogUtils;
+import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.CarUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.Tools;
@@ -240,6 +241,7 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
         HttpRequestUtils.request(this.getActivity(), requestCars, new HttpRequestListener() {
             @Override
             public void onDataRequestSucceed(BaseRequest request) {
+                ApiReportHelper.getInstance().addReport(request);
                 guideCarBeanList = ((RequestCars)request).getData();
                 carIds = CarUtils.getCarIds(guideCarBeanList);
                 guideCarList = CarUtils.getNewCarBeanList(guideCarBeanList);

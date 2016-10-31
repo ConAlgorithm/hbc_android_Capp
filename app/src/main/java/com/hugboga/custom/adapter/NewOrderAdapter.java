@@ -35,6 +35,7 @@ import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.parser.ParserChatInfo;
 import com.hugboga.custom.data.request.RequestImChatId;
+import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.Tools;
@@ -515,6 +516,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
         HttpRequestUtils.request(context,requestImChatId,new HttpRequestListener(){
             @Override
             public void onDataRequestSucceed(BaseRequest request) {
+                ApiReportHelper.getInstance().addReport(request);
                 Object object = request.getData();
                 if(object instanceof ImChatInfo){
                     ImChatInfo imChatInfo = (ImChatInfo)object;

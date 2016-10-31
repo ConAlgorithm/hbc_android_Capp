@@ -29,6 +29,7 @@ import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestPaySucceed;
 import com.hugboga.custom.statistic.event.EventUtil;
+import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.utils.UIUtils;
 
@@ -192,6 +193,7 @@ public class PayResultView extends RelativeLayout implements HttpRequestListener
 
     @Override
     public void onDataRequestSucceed(BaseRequest _request) {
+        ApiReportHelper.getInstance().addReport(_request);
         if (_request instanceof RequestPaySucceed) {
             RequestPaySucceed request = (RequestPaySucceed) _request;
             paySucceedBean = request.getData();

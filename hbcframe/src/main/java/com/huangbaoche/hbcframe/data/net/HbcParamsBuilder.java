@@ -93,11 +93,7 @@ public class HbcParamsBuilder implements ParamsBuilder {
                 }
             }
             if (!TextUtils.isEmpty(request.bodyEntity)) {
-                try {
-                    params.setBodyContent(URLEncoder.encode(request.bodyEntity, "utf-8"));
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
+                params.setBodyContent(request.bodyEntity);
             }
             MLog.e("URL = " + params.getUri());
             for (int i=0;i<params.getHeaders().size();i++) {
