@@ -506,7 +506,7 @@ public class WebAgent implements HttpRequestListener {
             public void run() {
                 if (!TextUtils.isEmpty(title) && mActivity instanceof WebInfoActivity) {
                     WebInfoActivity fgWebInfo = ((WebInfoActivity) mActivity);
-//                    fgWebInfo.setTitle(title);
+                    fgWebInfo.setTitle(title);
                     fgWebInfo.setHeaderTitle(title);
                 }
             }
@@ -521,7 +521,7 @@ public class WebAgent implements HttpRequestListener {
 
         if (mActivity instanceof SkuDetailActivity) {
             SkuDetailActivity fgSkuDetail = ((SkuDetailActivity) mActivity);
-            fgSkuDetail.isGoodsOut = true;
+            fgSkuDetail.setGoodsOut();
         }
     }
 

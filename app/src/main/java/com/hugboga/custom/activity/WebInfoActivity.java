@@ -79,7 +79,9 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
         @Override
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
-//            fgTitle.setText(view.getTitle());
+            if (headerTitle != null && view != null && !TextUtils.isEmpty(view.getTitle())) {
+                headerTitle.setText(view.getTitle());
+            }
         }
 
         @Override
