@@ -12,7 +12,6 @@ import android.widget.TextView;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.CityHomeListActivity;
 import com.hugboga.custom.activity.OrderSelectCityActivity;
-import com.hugboga.custom.activity.SkuListActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.utils.UIUtils;
 

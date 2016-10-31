@@ -22,7 +22,6 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.activity.BargainActivity;
 import com.hugboga.custom.activity.CityHomeListActivity;
 import com.hugboga.custom.activity.OrderDetailActivity;
-import com.hugboga.custom.activity.SkuListActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.PaySucceedBean;
 import com.hugboga.custom.data.event.EventAction;
