@@ -19,6 +19,7 @@ import com.hugboga.custom.adapter.ChooseGuideAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CanServiceGuideBean;
 import com.hugboga.custom.data.request.RequestAcceptGuide;
+import com.hugboga.custom.utils.ApiReportHelper;
 import com.netease.nim.uikit.common.util.log.LogUtil;
 
 import java.util.ArrayList;
@@ -62,6 +63,7 @@ public class CanServiceGuideListActivity extends BaseActivity implements View.On
         HttpRequestUtils.request(activity, requestAcceptGuide, new HttpRequestListener() {
             @Override
             public void onDataRequestSucceed(BaseRequest request) {
+                ApiReportHelper.getInstance().addReport(request);
                 CanServiceGuideBean canServiceGuideBean = ((RequestAcceptGuide)request).getData();
                 list.addAll(canServiceGuideBean.getGuides());
                 total = canServiceGuideBean.getTotalSize();

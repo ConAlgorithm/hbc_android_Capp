@@ -37,6 +37,8 @@ public class GoodsSec implements Serializable {
     public ArrayList<String>goodsPics;//照片集合
     public ArrayList<PassbyCity>passbyCity;
 
+    public boolean canAnimation;
+
     public static class CharacteristicLables implements Serializable {
         public String lableName;
         public int lableType;

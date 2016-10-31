@@ -43,6 +43,7 @@ import com.hugboga.custom.data.request.RequestWebInfo;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.statistic.event.EventUtil;
+import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.JsonUtils;
 import com.hugboga.custom.utils.PhoneInfo;
@@ -536,6 +537,7 @@ public class WebAgent implements HttpRequestListener {
 
     @Override
     public void onDataRequestSucceed(BaseRequest _request) {
+        ApiReportHelper.getInstance().addReport(_request);
         if (_request instanceof RequestWebInfo) {
             RequestWebInfo webInfoRequest = (RequestWebInfo) _request;
             callBack(webInfoRequest.successCallBack, webInfoRequest.getData());

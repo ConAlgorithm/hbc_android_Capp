@@ -25,7 +25,7 @@ public class ApiReportHelper {
     private static final String PARAMS_NETWORK = "network";
     private static final String PARAMS_LATENCY = "latency";
 
-    private static final int REPORT_VALVE_COUNT = 10; //10条上报一次
+    private static final int REPORT_VALVE_COUNT = 5; // 5条上报一次
 
     private static ApiReportHelper instance;
 
@@ -46,11 +46,11 @@ public class ApiReportHelper {
         if (request == null || request.responseHeaders == null) {
             return;
         }
-        Map<String, List<String>> responseHeaders = request.responseHeaders;
         long spendTime = 0;
         String traceId = "";
         String currentNetwork = "";
         try {
+            final Map<String, List<String>> responseHeaders = request.responseHeaders;
             spendTime = CommonUtils.getCountLong(responseHeaders.get("X-Android-Received-Millis").get(0)) - CommonUtils.getCountLong(responseHeaders.get("X-Android-Sent-Millis").get(0));
             if (responseHeaders.containsKey(PARAMS_TRACEID) && responseHeaders.get(PARAMS_TRACEID) != null) {
                 traceId = responseHeaders.get(PARAMS_TRACEID).get(0);
@@ -72,11 +72,12 @@ public class ApiReportHelper {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+        reportList.put(obj);
+
         if (reportList.length() >= REPORT_VALVE_COUNT) {
             requestReport(reportList.toString());
             reportList = new JSONArray();
-        } else {
-            reportList.put(obj);
         }
     }
 

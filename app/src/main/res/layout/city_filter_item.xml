@@ -5,7 +5,8 @@
 
     <TextView
         android:id="@+id/city_filter_item_value"
-        android:padding="@dimen/default_margin_xlarge"
+        android:paddingTop="@dimen/default_margin_xlarge"
+        android:paddingBottom="@dimen/default_margin_xlarge"
         android:textColor="@color/hbc_common_text_color_black"
         android:textSize="@dimen/text_size_mediumx"
         android:gravity="center"

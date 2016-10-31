@@ -41,6 +41,7 @@ import com.hugboga.custom.data.request.RequestGoodsById;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.statistic.event.EventUtil;
+import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.ChannelUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DBHelper;
@@ -180,6 +181,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
                 }
 
                 public void onDataRequestSucceed(BaseRequest _request) {
+                    ApiReportHelper.getInstance().addReport(_request);
                     if (_request instanceof RequestGoodsById) {
                         RequestGoodsById requestGoodsById = (RequestGoodsById) _request;
                         skuItemBean = requestGoodsById.getData();

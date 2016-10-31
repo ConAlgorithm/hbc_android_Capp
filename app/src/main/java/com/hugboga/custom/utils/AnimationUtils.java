@@ -32,8 +32,8 @@ public class AnimationUtils {
         animator.start();
     }
 
-    public static void showAnimationAlpha(View v, int duration,Animator.AnimatorListener listener) {
-        ObjectAnimator animator = ObjectAnimator.ofFloat(v, "alpha", 0f, 1f);
+    public static void showAnimationtranslationX(View v, int duration,int distance,Animator.AnimatorListener listener) {
+        ObjectAnimator animator = ObjectAnimator.ofFloat(v, "translationX",-distance, 0f);
         animator.setDuration(duration);
         animator.setStartDelay(0);
         if(null != listener) {
@@ -58,6 +58,17 @@ public class AnimationUtils {
         }
         objectAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
         objectAnimator.start();
+    }
+
+    public static void showAnimationAlpha(View v, int duration,Animator.AnimatorListener listener) {
+        ObjectAnimator animator = ObjectAnimator.ofFloat(v, "alpha", 0f, 1f);
+        animator.setDuration(duration);
+        animator.setStartDelay(0);
+        if(null != listener) {
+            animator.addListener(listener);
+        }
+        animator.setInterpolator(new AccelerateDecelerateInterpolator());
+        animator.start();
     }
 
 }
