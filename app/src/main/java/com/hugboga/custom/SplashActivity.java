@@ -103,6 +103,7 @@ public class SplashActivity extends BaseActivity {
                 LinearLayout.LayoutParams.MATCH_PARENT);
         for (int i = 0; i < pics.length; i++) {
             ImageView iv = new ImageView(this);
+            iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
             iv.setLayoutParams(mParams);
             iv.setBackgroundResource(pics[i]);
             views.add(iv);

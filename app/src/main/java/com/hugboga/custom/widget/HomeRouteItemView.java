@@ -71,9 +71,9 @@ public class HomeRouteItemView extends RelativeLayout implements HbcViewBehavior
         titleTV.setText(data.goodsName);
         priceTV.setText("" + data.perPrice);
 
-        String otherStr = "起/人·%1$s日";
+        String otherStr = "起/人 · %1$s日";
         if (data.hotelStatus == 1) {// 是否含酒店
-            otherStr += "·含酒店";
+            otherStr += " · 含酒店";
         }
         otherTV.setText(String.format(otherStr, data.daysCount));
         this.setOnClickListener(new OnClickListener() {

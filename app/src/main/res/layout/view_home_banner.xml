@@ -4,22 +4,32 @@
     <ImageView
         android:id="@+id/home_banner_bg_iv"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
 
-    <ImageView
-        android:id="@+id/home_banner_play_iv"
-        android:layout_width="55dp"
-        android:layout_height="55dp"
-        android:layout_centerInParent="true"
-        android:background="@mipmap/home_banner_play_icon"
-        />
-    <TextView
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        android:paddingBottom="22dp"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="用中文  也能包车游世界!"
-        android:textColor="#ffffff"
-        android:textSize="18sp" />
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingBottom="20dp">
+
+        <ImageView
+            android:id="@+id/home_banner_play_iv"
+            android:layout_width="30dp"
+            android:layout_height="22dp"
+            android:layout_marginBottom="12dp"
+            android:background="@mipmap/home_banner_play_icon" />
+
+        <TextView
+            android:id="@+id/home_banner_play_hint_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="用中文  也能包车游世界!"
+            android:textColor="#ffffff"
+            android:textSize="18sp" />
+
+
+    </LinearLayout>
 </merge>

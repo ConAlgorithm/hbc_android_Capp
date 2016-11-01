@@ -44,9 +44,9 @@ public class HomeBannerView extends RelativeLayout implements HbcViewBehavior, S
     public static final String KEY_GIF_VERSION = "videoVersion";
 
     /**
-     * banner默认高宽比  height/width = 460/720
+     * banner默认高宽比  height/width = 405/720
      */
-    public static final float BANNER_RATIO_DEFAULT = 0.639f;
+    public static final float BANNER_RATIO_DEFAULT = 0.562f;
 
     @Bind(R.id.home_banner_bg_iv)
     ImageView bannerBgIV;
