@@ -136,7 +136,7 @@
     <color name="travel_fund_basic">#ffcf03</color>
 
     <color name="default_bg">#eeeeee</color>
-    <color name="default_dividing_line">#d7d7d7</color>
+    <color name="default_dividing_line">#e5e5e5</color>
     <color name="default_img_bg">#dbdada</color>
     <color name="default_btn_bg">#ffcf03</color>
     <color name="default_btn_selected_bg">#d2c429</color>

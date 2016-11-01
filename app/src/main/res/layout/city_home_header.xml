@@ -18,6 +18,11 @@
                 android:layout_height="wrap_content"
                 android:background="@mipmap/city_default_bg"
                 android:scaleType="centerCrop" />
+            <ImageView
+                android:id="@+id/city_home_header_bg_iv_filter"
+                android:background="#7f000000"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
             <LinearLayout
                 android:id="@+id/layout_one"
@@ -33,6 +38,7 @@
                     android:layout_centerHorizontal="true"
                     android:gravity="center"
                     android:layout_marginTop="30dp"
+                    android:shadowColor="#ff000000"
                     android:textColor="#ffffff"
                     android:textSize="25sp"
                     android:textStyle="bold" />
@@ -79,6 +85,7 @@
                 android:layout_gravity="center_vertical"
                 android:drawableLeft="@mipmap/city_route_icon"
                 android:drawablePadding="12dp"
+
                 android:textColor="#111111"
                 android:textSize="15sp" />
         </LinearLayout>

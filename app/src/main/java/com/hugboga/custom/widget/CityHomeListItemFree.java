@@ -78,5 +78,8 @@ public class CityHomeListItemFree extends RelativeLayout implements HbcViewBehav
         }else{
             headLable.setBackgroundResource(R.drawable.bg_city_home_lable_blue);
         }
+
+
+
     }
 }

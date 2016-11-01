@@ -3,6 +3,7 @@ package com.hugboga.custom.widget;
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -11,7 +12,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.adapter.CityHomeAdapter;
 import com.hugboga.custom.data.bean.GoodsSec;
+import com.hugboga.custom.utils.AnimationUtils;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
 
@@ -78,5 +81,18 @@ public class CityHomeListItemWorry extends RelativeLayout implements HbcViewBeha
         if (!TextUtils.isEmpty(goodsSec.goodsName)){
             places.setText(goodsSec.goodsName);
         }
+
+//        int top = CityHomeAdapter.getViewTopOnScreen(headlable);
+//        Log.e("test","top:" + top);
+//        if(top<=0 || top>=UIUtils.screenFullHeight){
+//            goodsSec.canAnimation = false;
+//        }else{
+//            goodsSec.canAnimation = true;
+//        }
+//
+//        if(goodsSec.canAnimation){
+//            Log.e("test","animationed start");
+//            AnimationUtils.showAnimationtranslationX(headlable,50,UIUtils.dip2px(70),null);
+//        }
     }
 }

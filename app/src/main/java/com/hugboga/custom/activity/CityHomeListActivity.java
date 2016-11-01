@@ -20,7 +20,6 @@ import com.huangbaoche.hbcframe.widget.recycler.ZListRecyclerView;
 import com.huangbaoche.hbcframe.widget.recycler.ZSwipeRefreshLayout;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.CityHomeAdapter;
-import com.hugboga.custom.adapter.HbcRecyclerBaseAdapter;
 import com.hugboga.custom.adapter.HbcRecyclerTypeBaseAdpater;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityBean;
@@ -36,11 +35,14 @@ import com.hugboga.custom.data.request.RequestRouteCityHomeList;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
+import com.hugboga.custom.utils.AnimationUtils;
 import com.hugboga.custom.utils.DBHelper;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.CityFilterLayout;
 import com.hugboga.custom.widget.CityHomeFooter;
 import com.hugboga.custom.widget.CityHomeHeader;
+import com.hugboga.custom.widget.CityHomeListItemFree;
+import com.hugboga.custom.widget.CityHomeListItemWorry;
 import com.hugboga.custom.widget.CityPlaceHolderView;
 import com.hugboga.custom.widget.SkuListEmptyView;
 
@@ -93,6 +95,11 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
     public String typeValue="不限";
     public String dayValue="不限";
     public String themesValues="不限";
+
+    private int statusBarHeight;
+    private int titleBarHeight;
+    private int filterTabBarHeight;
+    private int animationIconLabelPaddingDistance = UIUtils.getScreenHeight()/12;
 
     public enum CityHomeType {
         CITY, ROUTE, COUNTRY
@@ -261,7 +268,7 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
             RelativeLayout.LayoutParams layoutParam = (RelativeLayout.LayoutParams) headerRightIV.getLayoutParams();
             layoutParam.width = ViewGroup.LayoutParams.WRAP_CONTENT;
             layoutParam.height = ViewGroup.LayoutParams.WRAP_CONTENT;
-            layoutParam.setMargins(UIUtils.dip2px(4), UIUtils.dip2px(4), UIUtils.dip2px(4), UIUtils.dip2px(4));
+            layoutParam.setMargins(UIUtils.dip2px(2), UIUtils.dip2px(2), UIUtils.dip2px(2), UIUtils.dip2px(2));
         }
         headerRightIV.setVisibility(View.VISIBLE);
         headerRightIV.setBackgroundResource(R.drawable.black_circle);
@@ -314,6 +321,8 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
                 }
                 RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
                 int lastVisibleItem = ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();
+
+
                 int totalItemCount = layoutManager.getItemCount();
                 if (!isLoading && lastVisibleItem >= totalItemCount -adapter.getHeadersCount()-adapter.getFootersCount() && dy > 0 && adapter.getListCount() < cityHomeBean.goodsCount) {
                     isFirstRequest = false;
@@ -324,8 +333,8 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
                     if(!isClickEvent){
                         sendRequest(pageIndex, false);//加载下一页
                     }
-
                 }
+
                 if (paramsData.cityHomeType == CityHomeType.CITY && cityHomeHeader != null) {
                     int firstVisibleItemPosition = ((LinearLayoutManager) layoutManager).findFirstVisibleItemPosition();
                     int scrollY = Math.abs(recyclerView.getChildAt(0).getTop());
@@ -345,9 +354,63 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
                     }
                 }
                 isShowCityFilter();
+                showAnimLabel();
             }
         });
     }
+
+    private void showAnimLabel(){
+        if(recyclerView==null || recyclerView.getChildCount()==0){
+            return;
+        }
+        int childCount = recyclerView.getChildCount();
+        if(filterTabBarHeight==0){
+            filterTabBarHeight = cityFilterLayout.getTabLayoutHeight();
+        }
+        int animTopPadding = statusBarHeight + titleBarHeight + filterTabBarHeight;
+        for(int i =0;i<childCount;i++){
+            View view = recyclerView.getChildAt(i);
+            if(view instanceof CityHomeListItemWorry) {
+                View labelView = view.findViewById(R.id.city_home_item_head_lable);
+                if(setIconAnimations(labelView,animTopPadding)){
+                    continue;
+                }
+            }
+            if(view instanceof CityHomeListItemFree){
+                View labelView = view.findViewById(R.id.city_home_item_free_head_lable);
+                if(setIconAnimations(labelView,animTopPadding)){
+                    continue;
+                }
+            }
+        }
+    }
+
+    private boolean setIconAnimations(View labelView,int animTopPadding){
+        if (labelView != null) {
+            int topPadding = CityHomeAdapter.getViewTopOnScreen(labelView);
+            Object obj = labelView.getTag();
+            if(obj!=null){
+                if((Boolean)obj){
+                    if (topPadding <= animTopPadding || topPadding >= UIUtils.getScreenHeight()-animationIconLabelPaddingDistance){
+                        labelView.setTag(false);
+                        labelView.setVisibility(View.GONE);
+                    }else{
+                        labelView.setVisibility(View.VISIBLE);
+                    }
+                    return true;
+                }
+            }
+            labelView.setVisibility(View.VISIBLE);
+            if (topPadding > animTopPadding || topPadding < UIUtils.getScreenHeight()-animationIconLabelPaddingDistance) {
+                AnimationUtils.showAnimationtranslationX(labelView, 300, UIUtils.dip2px(70), null);
+                labelView.setTag(true);
+            }else{
+                labelView.setTag(false);
+            }
+        }
+        return  false;
+    }
+
 
     public Callback.Cancelable sendRequest(int pageIndex, boolean needShowLoading) {
         isLoading = true;
@@ -502,6 +565,8 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
         isLoading = false;
     }
 
+
+
     private void showEmptyView(boolean isCity) {
         if (paramsData.daysCountMax != 0 ||
                 paramsData.daysCountMin != 0 || paramsData.themeId != 0 || paramsData.goodsClass != 0) {
@@ -551,7 +616,6 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
                     cityHomeFooter.hideFooter();
                 }
             }
-
         }
 
 
@@ -562,11 +626,17 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
         return "城市列表";
     }
 
+
+
     public void isShowCityFilter() {
         if (cityHomeHeader != null) {
             int scrollY = Math.abs(cityHomeHeader.getFilterTabTop());
-            int statusBarHeight = UIUtils.getStatusBarHeight();
-            int titleBarHeight = titlebar.getHeight();
+            if(statusBarHeight==0){
+                statusBarHeight = UIUtils.getStatusBarHeight();
+            }
+            if(titleBarHeight==0){
+                titleBarHeight = titlebar.getHeight();
+            }
             if (scrollY >= statusBarHeight + titleBarHeight) {
                 cityFilterLayout.hideTab();
             } else {
@@ -574,6 +644,7 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
             }
         }
     }
+
 
     @Subscribe
     public void onEventMainThread(EventAction action) {
@@ -620,7 +691,7 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
 
     @Override
     public void headerTabClick(int position) {
-        showFilterView(position);
+        showFilterView(position,true);
     }
 
     private void setFilterType(int value) {
@@ -664,14 +735,13 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
 
     boolean isClickEvent = false;
 
-    private void showFilterView(final int index) {
+    private void showFilterView(final int index,final boolean showFilterView) {
         if(adapter!=null && adapter.getListCount()<3 &&paramsData.cityHomeType==CityHomeType.CITY){
             placeHolderView.show();
             adapter.notifyDataSetChanged();
         }
 
         int headerFilterTabPaddingTop = cityHomeHeader.getFilterTabTop();
-        int statusBarHeight = UIUtils.getStatusBarHeight();
         int titleBarHeight = titlebar.getHeight();
         int distance = headerFilterTabPaddingTop - statusBarHeight - titleBarHeight;
 
@@ -682,13 +752,23 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
                 @Override
                 public void run() {
                     if (cityFilterLayout != null) {
-                        cityFilterLayout.showFilterView(index);
+                        if(showFilterView){
+                            cityFilterLayout.showFilterView(index);
+                        }else{
+                            cityFilterLayout.onlyShowTab();
+                        }
                     }
                 }
             },500);
         }else{
             if (cityFilterLayout != null) {
-                cityFilterLayout.showFilterView(index);
+                if (cityFilterLayout != null) {
+                    if(showFilterView){
+                        cityFilterLayout.showFilterView(index);
+                    }else{
+                        cityFilterLayout.onlyShowTab();
+                    }
+                }
             }
         }
 

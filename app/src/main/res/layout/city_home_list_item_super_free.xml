@@ -9,7 +9,6 @@
         android:id="@+id/city_home_list_item_route_name_TV"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/city_home_list_item_free_image_lay"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="20dp"
@@ -19,9 +18,9 @@
     <View
         android:id="@+id/city_home_list_item_free_view"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="1px"
         android:layout_margin="18dp"
-        android:background="#e5e8ed" />
+        android:background="#e6e9ee" />
 
     <TextView
         android:id="@+id/city_home_item_free_guides_count"
@@ -66,7 +65,7 @@
 
         <TextView
             android:id="@+id/city_home_item_free_head_lable"
-            android:layout_width="65dp"
+            android:layout_width="70dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:background="@drawable/bg_city_home_lable_blue"

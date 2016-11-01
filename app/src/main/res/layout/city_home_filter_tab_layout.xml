@@ -44,10 +44,10 @@
         </FrameLayout>
 
         <View
-            android:layout_width="1dp"
-            android:layout_height="15dp"
+            android:layout_width="1px"
+            android:layout_height="28dp"
             android:layout_gravity="center_vertical"
-            android:background="#e6e9ee" />
+            android:background="@color/default_dividing_line" />
 
 
         <FrameLayout
@@ -78,10 +78,10 @@
         </FrameLayout>
 
         <View
-            android:layout_width="1dp"
-            android:layout_height="15dp"
+            android:layout_width="1px"
+            android:layout_height="28dp"
             android:layout_gravity="center_vertical"
-            android:background="#e6e9ee" />
+            android:background="@color/default_dividing_line" />
 
 
         <FrameLayout
