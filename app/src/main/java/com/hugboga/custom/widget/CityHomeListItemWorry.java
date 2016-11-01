@@ -67,9 +67,9 @@ public class CityHomeListItemWorry extends RelativeLayout implements HbcViewBeha
         guideAmount.setText(String.format("%1$s 位当地中文司导", goodsSec.guideAmount));
         goodsPrice.setText(String.valueOf(goodsSec.perPrice));
 
-        String otherStr = "起/人·%1$s日";
+        String otherStr = "起/人 · %1$s日";
         if (goodsSec.hotelStatus == 1) {// 是否含酒店
-            otherStr += "·含酒店";
+            otherStr += " · 含酒店";
         }
         priceHint.setText(String.format(otherStr, goodsSec.daysCount));
         if(goodsSec.goodsClass==1){

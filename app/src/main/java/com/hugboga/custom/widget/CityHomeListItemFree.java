@@ -55,14 +55,24 @@ public class CityHomeListItemFree extends RelativeLayout implements HbcViewBehav
         goodsImageSec.getLayoutParams().height = picHeight;
         if (!TextUtils.isEmpty(goodsSec.goodsPicture)) {
             Tools.showImage(goodsImagefirst, goodsSec.goodsPicture);
-            if (goodsSec.goodsPics != null && goodsSec.goodsPics.size() > 0) {
+            if (goodsSec.goodsPics != null && goodsSec.goodsPics.size() > 1) {
+                Tools.showImage(goodsImageSec, goodsSec.goodsPics.get(1));
+            }else if (goodsSec.goodsPics != null && goodsSec.goodsPics.size() > 0){
                 Tools.showImage(goodsImageSec, goodsSec.goodsPics.get(0));
-            }else{
+            }else {
                 goodsImageSec.setImageResource(R.mipmap.city_default_bg);
             }
         }else{
-            goodsImageSec.setImageResource(R.mipmap.city_default_bg);
-            goodsImageSec.setImageResource(R.mipmap.city_default_bg);
+            if (goodsSec.goodsPics != null && goodsSec.goodsPics.size() > 1) {
+                Tools.showImage(goodsImagefirst,goodsSec.goodsPics.get(0));
+                Tools.showImage(goodsImageSec, goodsSec.goodsPics.get(1));
+            }else if (goodsSec.goodsPics != null && goodsSec.goodsPics.size() > 0){
+                Tools.showImage(goodsImagefirst,goodsSec.goodsPics.get(0));
+                Tools.showImage(goodsImageSec, goodsSec.goodsPics.get(0));
+            }else {
+                goodsImagefirst.setImageResource(R.mipmap.city_default_bg);
+                goodsImageSec.setImageResource(R.mipmap.city_default_bg);
+            }
         }
         goodsName.setText(goodsSec.goodsName);
         guidesAmount.setText(goodsSec.guideAmount + "位当地中文司导");

@@ -237,7 +237,7 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
             titlebar.setBackgroundColor(0x00000000);
             fgTitle.setTextColor(0x00000000);
         } else {
-            titlebar.setBackgroundColor(0xFF2D2B28);
+            titlebar.setBackgroundColor(0xFF111111);
             fgTitle.setTextColor(0xFFFFFFFF);
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
             swipeRefreshLayout.setLayoutParams(params);
@@ -346,10 +346,10 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
                         } else {
                             alpha = Math.min(1, scrollY / showRegionHight);
                         }
-                        titlebar.setBackgroundColor(UIUtils.getColorWithAlpha(alpha, 0xFF2D2B28));
+                        titlebar.setBackgroundColor(UIUtils.getColorWithAlpha(alpha, 0xFF111111));
                         fgTitle.setTextColor(UIUtils.getColorWithAlpha(alpha, 0xFFFFFFFF));
                     } else {
-                        titlebar.setBackgroundColor(0xFF2D2B24);
+                        titlebar.setBackgroundColor(0xFF111111);
                         fgTitle.setTextColor(0xFFFFFFFF);
                     }
                 }
@@ -584,7 +584,7 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
                 if (isCity) {
                     if(cityHomeBean==null || cityHomeBean.cityService==null){
                         titlebar.setVisibility(View.VISIBLE);
-                        titlebar.setBackgroundColor(0xFF2D2B28);
+                        titlebar.setBackgroundColor(0xFF111111);
                         fgTitle.setTextColor(0xFFFFFFFF);
                         headerRightIV.setVisibility(View.GONE);
                         emptyView.showEmptyView(true);
@@ -593,7 +593,7 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
                     if(!cityHomeBean.cityService.hasDailyservice() && !cityHomeBean.cityService.hasAirporService()
                             && !cityHomeBean.cityService.hasSingleService()){
                         titlebar.setVisibility(View.VISIBLE);
-                        titlebar.setBackgroundColor(0xFF2D2B28);
+                        titlebar.setBackgroundColor(0xFF111111);
                         fgTitle.setTextColor(0xFFFFFFFF);
                         headerRightIV.setVisibility(View.GONE);
                         emptyView.showEmptyView(true);
