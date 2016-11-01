@@ -99,6 +99,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
     private boolean isPerformClick = false;
 
     private DialogUtil mDialogUtil;
+    private WebAgent webAgent;
 
 
     public void initView() {
@@ -115,7 +116,8 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
         // 启用javaScript
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setDefaultTextEncodingName("UTF-8");
-        webView.addJavascriptInterface(new WebAgent(this, webView, cityBean, headerLeftBtn), "javaObj");
+        webAgent = new WebAgent(this, webView, cityBean, headerLeftBtn);
+        webView.addJavascriptInterface(webAgent, "javaObj");
         webView.setOnKeyListener(this);
         webView.setWebViewClient(webClient);
         webView.setWebChromeClient(webChromeClient);
@@ -193,6 +195,9 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
                         }
                         if (isPerformClick) {
                             gotoOrder.performClick();
+                        }
+                        if (webAgent!= null && cityBean != null) {
+                            webAgent.setCityBean(cityBean);
                         }
                     }
                 }

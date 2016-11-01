@@ -76,6 +76,7 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
     private TextView couponTV, couponUnitTV;
     private TextView travelFundTV, travelFundUnitTV;
     private ImageView travelFundHintIV;
+    private ImageView headerBgIV;
 
     private MenuItemAdapter menuItemAdapter;
 
@@ -134,6 +135,8 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
         View header = inflater.inflate(R.layout.nav_header_main, null);
         RelativeLayout head_view = (RelativeLayout) header.findViewById(R.id.head_view);
         head_view.setOnClickListener(this);
+
+        headerBgIV = (ImageView) header.findViewById(R.id.nav_header_bg_iv);//头像
         my_icon_head = (PolygonImageView) header.findViewById(R.id.my_icon_head);//头像
         my_icon_head.setOnClickListener(this);
         tv_nickname = (TextView) header.findViewById(R.id.tv_nickname);//昵称
@@ -179,6 +182,7 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
     private void refreshContent() {
         if (!UserEntity.getUser().isLogin(getContext())) {
             my_icon_head.setImageResource(R.mipmap.chat_head);
+            headerBgIV.setImageResource(R.mipmap.personal_bg);
             tv_nickname.setText(this.getResources().getString(R.string.person_center_nickname));
             menuItemAdapter.notifyDataSetChanged();
             couponTV.setText("");
@@ -187,9 +191,12 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
             travelFundUnitTV.setText("--");
             tv_nickname.setTextColor(0xFF999999);
         } else {
-            if (!TextUtils.isEmpty(UserEntity.getUser().getAvatar(getContext()))) {
-                Tools.showImage(my_icon_head, UserEntity.getUser().getAvatar(getContext()));
+            String avatar = UserEntity.getUser().getAvatar(getContext());
+            if (!TextUtils.isEmpty(avatar)) {
+                Tools.showImage(my_icon_head, avatar);
+                Tools.showBlurryImage(headerBgIV, avatar, R.mipmap.personal_bg, 8, 3);
             } else {
+                headerBgIV.setImageResource(R.mipmap.personal_bg);
                 my_icon_head.setImageResource(R.mipmap.chat_head);
             }
             tv_nickname.setTextColor(0xFF3c3731);

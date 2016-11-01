@@ -74,6 +74,10 @@ public class WebAgent implements HttpRequestListener {
         this.leftBtn = leftBtn;
     }
 
+    public void setCityBean(CityBean cityBean) {
+        this.cityBean = cityBean;
+    }
+
     @JavascriptInterface
     public void redirect(final String url) {
         MLog.e("ZWebView-Redirect===>" + url);
@@ -304,12 +308,12 @@ public class WebAgent implements HttpRequestListener {
         mActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("cityBean", cityBean);
                     Intent intent = new Intent(mActivity,OrderSelectCityActivity.class);
                     intent.putExtra(Constants.PARAMS_SOURCE, DailyWebInfoActivity.EVENT_SOURCE);
                     intent.putExtra(Constants.PARAMS_SOURCE_DETAIL, EventUtil.getInstance().sourceDetail);
-                    intent.putExtras(bundle);
+                    if (cityBean != null) {
+                        intent.putExtra("cityBean", cityBean);
+                    }
                     mActivity.startActivity(intent);
 //                    mFragment.startFragment(fgOrderSelectCity,bundle);
             }
@@ -456,8 +460,11 @@ public class WebAgent implements HttpRequestListener {
             public void run() {
                 Intent intent = new Intent(mActivity,OrderSelectCityActivity.class);
                 intent.putExtra(Constants.PARAMS_SOURCE, DailyWebInfoActivity.EVENT_SOURCE);
+                intent.putExtra(Constants.PARAMS_SOURCE_DETAIL, EventUtil.getInstance().sourceDetail);
+                if (cityBean != null) {
+                    intent.putExtra("cityBean", cityBean);
+                }
                 mActivity.startActivity(intent);
-//                    mFragment.startFragment(new FgOrderSelectCity());
             }
         });
     }
@@ -472,8 +479,11 @@ public class WebAgent implements HttpRequestListener {
             public void run() {
                 Intent intent = new Intent(mActivity,OrderSelectCityActivity.class);
                 intent.putExtra(Constants.PARAMS_SOURCE, DailyWebInfoActivity.EVENT_SOURCE);
+                intent.putExtra(Constants.PARAMS_SOURCE_DETAIL, EventUtil.getInstance().sourceDetail);
+                if (cityBean != null) {
+                    intent.putExtra("cityBean", cityBean);
+                }
                 mActivity.startActivity(intent);
-//                    mFragment.startFragment(new FgOrderSelectCity());
             }
         });
     }
