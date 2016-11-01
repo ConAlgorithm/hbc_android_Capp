@@ -72,7 +72,7 @@ public class CollectGuideAdapter extends BaseAdapter<CollectGuideBean> {
         if (TextUtils.isEmpty(collectGuideBean.avatar)) {
             holder.avatarIV.setImageResource(R.mipmap.journey_head_portrait);
         } else {
-            Tools.showImage(holder.avatarIV, collectGuideBean.avatar);
+            Tools.showImage(holder.avatarIV, collectGuideBean.avatar, R.mipmap.journey_head_portrait);
         }
         holder.nameTV.setText(collectGuideBean.name);
         holder.ratingView.setRating(collectGuideBean.stars);
