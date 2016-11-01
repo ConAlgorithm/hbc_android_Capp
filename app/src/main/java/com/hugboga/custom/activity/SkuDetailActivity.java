@@ -137,7 +137,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
         headerRightBtn.setVisibility(View.GONE);
         gotoOrder.setText("该商品已下架");
         gotoOrder.setTextColor(0xFFFFFFFF);
-        gotoOrder.setBackgroundColor(0xFFD0CDCD);
+        gotoOrder.setBackgroundResource(R.drawable.bg_sku_detial_grey);
         gotoOrder.setOnClickListener(null);
     }
 

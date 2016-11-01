@@ -11,7 +11,7 @@
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:padding="18dip"
+        android:padding="@dimen/default_margin_larges"
         android:src="@mipmap/top_back" />
 
     <TextView
