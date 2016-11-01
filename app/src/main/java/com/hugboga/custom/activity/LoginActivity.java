@@ -143,6 +143,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
                 if (areaCodeBean == null) {
                     break;
                 }
+                this.areaCode = areaCodeBean.getCode();
                 areaCodeTextView.setText("+" + areaCodeBean.getCode());
                 break;
             default:
