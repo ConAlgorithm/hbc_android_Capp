@@ -61,6 +61,12 @@ public class CityFilterTypeFragment extends BaseFragment implements AbsListView.
         });
     }
 
+    public void resetData(){
+        if(adapter!=null){
+            adapter.updateSelectedStauts(0);
+        }
+    }
+
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         adapter.updateSelectedStauts(position);

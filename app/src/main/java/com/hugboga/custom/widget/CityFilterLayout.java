@@ -107,6 +107,7 @@ public class CityFilterLayout extends LinearLayout implements View.OnClickListen
     }
 
 
+
     private void initViewPagerAdapter(){
         if(pagerAdapter==null){
             FragmentActivity activity = (FragmentActivity)this.getContext();
@@ -244,9 +245,33 @@ public class CityFilterLayout extends LinearLayout implements View.OnClickListen
     }
 
 
+    public void resetDatas(){
+        if(tabs!=null && tabs.size()>0){
+            for(int i=0;i<tabs.size();i++){
+                ((TextView)tabs.get(i).getChildAt(0)).setText("不限");
+            }
+        }
+
+        if(pagerAdapter!=null){
+            if(pagerAdapter.cityFilterThemesFragment!=null){
+                pagerAdapter.cityFilterThemesFragment.resetData();
+            }
+        }
+
+        if(pagerAdapter.cityFilterDaysFragment!=null){
+            pagerAdapter.cityFilterDaysFragment.resetData();
+        }
+
+        if(pagerAdapter.cityFilterTypeFragment!=null){
+            pagerAdapter.cityFilterTypeFragment.resetData();
+        }
+    }
+
     class CityFilterPagerAdapter extends FragmentStatePagerAdapter {
 
         CityFilterThemesFragment cityFilterThemesFragment;
+        CityFilterTypeFragment cityFilterTypeFragment;
+        CityFilterDaysFragment cityFilterDaysFragment;
 
         public CityFilterPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -256,9 +281,11 @@ public class CityFilterLayout extends LinearLayout implements View.OnClickListen
         public Fragment getItem(int position) {
             switch (position){
                 case 0:
-                    return new CityFilterTypeFragment();
+                    cityFilterTypeFragment = new CityFilterTypeFragment();
+                    return cityFilterTypeFragment;
                 case 1:
-                    return new CityFilterDaysFragment();
+                    cityFilterDaysFragment = new CityFilterDaysFragment();
+                    return cityFilterDaysFragment;
                 case 2:
                     cityFilterThemesFragment = new CityFilterThemesFragment();
                     cityFilterThemesFragment.setDatas(goodsThemesList);
