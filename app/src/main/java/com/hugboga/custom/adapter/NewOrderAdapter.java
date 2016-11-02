@@ -315,7 +315,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                     vh.mHeadTitle.setOnClickListener(new TravelOnClickListener(orderBean));
                     vh.mHeadImg.setOnClickListener(new TravelOnClickListener(orderBean));
 
-                    if(orderBean.isIm && (orderBean.imToken!=null && !orderBean.imToken.isEmpty())){
+                    if(orderBean.isIm){
                         vh.mBtnChat.setVisibility(View.VISIBLE);
                         vh.mBtnChat.setOnClickListener(new TravelOnClickListener(orderBean));
                         showMessageNum(vh.mBtnChatNum, orderBean.imcount);//显示未读小红点个数
@@ -375,7 +375,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                     vh.mHeadTitle.setOnClickListener(new TravelOnClickListener(orderBean));
                     vh.mHeadImg.setOnClickListener(new TravelOnClickListener(orderBean));
 
-                    if(orderBean.isIm && (orderBean.imToken!=null && !orderBean.imToken.isEmpty())){
+                    if(orderBean.isIm){
                         vh.mBtnChat.setVisibility(View.VISIBLE);
                         vh.mBtnChat.setOnClickListener(new TravelOnClickListener(orderBean));
                         showMessageNum(vh.mBtnChatNum, orderBean.imcount);//显示未读小红点个数
@@ -402,36 +402,66 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                 vh.mStatus.setText("已取消");
                 vh.mStatusLayout.setVisibility(View.GONE);
                 vh.lineView.setVisibility(View.INVISIBLE);
+                if (orderBean.orderGuideInfo != null) {
+                    vh.mHeadLayout.setVisibility(View.VISIBLE);
+                    vh.mStatusLayout.setVisibility(View.VISIBLE);
+                    vh.lineView.setVisibility(View.VISIBLE);
+
+                    vh.mHeadTitle.setText(orderBean.orderGuideInfo.guideName);
+                    if (TextUtils.isEmpty(orderBean.orderGuideInfo.guideAvatar)) {
+                        vh.mHeadImg.setImageResource(R.mipmap.journey_head_portrait);
+                    } else {
+                        Tools.showImage(vh.mHeadImg, orderBean.orderGuideInfo.guideAvatar, R.mipmap.journey_head_portrait);
+                    }
+                    vh.mHeadTitle.setOnClickListener(new TravelOnClickListener(orderBean));
+                    vh.mHeadImg.setOnClickListener(new TravelOnClickListener(orderBean));
+
+                    if(orderBean.isIm){
+                        vh.mBtnChat.setVisibility(View.VISIBLE);
+                        vh.mBtnChat.setOnClickListener(new TravelOnClickListener(orderBean));
+                        showMessageNum(vh.mBtnChatNum, orderBean.imcount);//显示未读小红点个数
+                    }else{
+                        vh.mBtnChat.setVisibility(View.GONE);
+                    }
+                } else {
+                    vh.mStatusLayout.setVisibility(View.GONE);
+                    vh.lineView.setVisibility(View.INVISIBLE);
+                    vh.mHeadLayout.setVisibility(View.GONE);
+                }
                 break;
             case COMPLAINT://客诉处理中
                 vh.mStatus.setText("客诉处理中");
                 vh.mStatusLayout.setVisibility(View.GONE);
                 vh.lineView.setVisibility(View.INVISIBLE);
+                if (orderBean.orderGuideInfo != null) {
+                    vh.mHeadLayout.setVisibility(View.VISIBLE);
+                    vh.mStatusLayout.setVisibility(View.VISIBLE);
+                    vh.lineView.setVisibility(View.VISIBLE);
+
+                    vh.mHeadTitle.setText(orderBean.orderGuideInfo.guideName);
+                    if (TextUtils.isEmpty(orderBean.orderGuideInfo.guideAvatar)) {
+                        vh.mHeadImg.setImageResource(R.mipmap.journey_head_portrait);
+                    } else {
+                        Tools.showImage(vh.mHeadImg, orderBean.orderGuideInfo.guideAvatar, R.mipmap.journey_head_portrait);
+                    }
+                    vh.mHeadTitle.setOnClickListener(new TravelOnClickListener(orderBean));
+                    vh.mHeadImg.setOnClickListener(new TravelOnClickListener(orderBean));
+
+                    if(orderBean.isIm){
+                        vh.mBtnChat.setVisibility(View.VISIBLE);
+                        vh.mBtnChat.setOnClickListener(new TravelOnClickListener(orderBean));
+                        showMessageNum(vh.mBtnChatNum, orderBean.imcount);//显示未读小红点个数
+                    }else{
+                        vh.mBtnChat.setVisibility(View.GONE);
+                    }
+                } else {
+                    vh.mStatusLayout.setVisibility(View.GONE);
+                    vh.lineView.setVisibility(View.INVISIBLE);
+                    vh.mHeadLayout.setVisibility(View.GONE);
+                }
                 break;
             default:
                 break;
-        }
-        if (orderBean.orderGuideInfo != null) {
-            vh.mHeadLayout.setVisibility(View.VISIBLE);
-            vh.mStatusLayout.setVisibility(View.VISIBLE);
-            vh.lineView.setVisibility(View.VISIBLE);
-
-            vh.mHeadTitle.setText(orderBean.orderGuideInfo.guideName);
-            if (TextUtils.isEmpty(orderBean.orderGuideInfo.guideAvatar)) {
-                vh.mHeadImg.setImageResource(R.mipmap.journey_head_portrait);
-            } else {
-                Tools.showImage(vh.mHeadImg, orderBean.orderGuideInfo.guideAvatar, R.mipmap.journey_head_portrait);
-            }
-            vh.mHeadTitle.setOnClickListener(new TravelOnClickListener(orderBean));
-            vh.mHeadImg.setOnClickListener(new TravelOnClickListener(orderBean));
-
-            if(orderBean.isIm /*&& (orderBean.imToken!=null && !orderBean.imToken.isEmpty())*/){
-                vh.mBtnChat.setVisibility(View.VISIBLE);
-                vh.mBtnChat.setOnClickListener(new TravelOnClickListener(orderBean));
-                showMessageNum(vh.mBtnChatNum, orderBean.imcount);//显示未读小红点个数
-            }else{
-                vh.mBtnChat.setVisibility(View.GONE);
-            }
         }
     }
 

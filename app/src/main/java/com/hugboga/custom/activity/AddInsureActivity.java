@@ -119,6 +119,7 @@ public class AddInsureActivity extends BaseActivity implements HttpRequestListen
     protected void onStop() {
         super.onStop();
         hideInputMethod(name);
+        hideInputMethod(cardid);
     }
 
     @Override

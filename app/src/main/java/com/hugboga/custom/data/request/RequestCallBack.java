@@ -4,12 +4,14 @@ import android.content.Context;
 
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
+import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.net.NewParamsBuilder;
 import com.hugboga.custom.data.net.UrlLibs;
 
 import org.xutils.http.HttpMethod;
 import org.xutils.http.annotation.HttpRequest;
 
+import java.net.URLEncoder;
 import java.util.HashMap;
 
 /**
@@ -21,7 +23,8 @@ public class RequestCallBack extends BaseRequest {
         super(context);
         map = new HashMap<String, Object>();
         try {
-            map.put("content", content);
+            map.put("content", URLEncoder.encode(content, "utf-8"));
+            map.put("userId", UserEntity.getUser().getUserId(context));
         } catch (Exception e) {
             e.printStackTrace();
         }

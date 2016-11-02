@@ -11,6 +11,8 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.utils.PhoneInfo;
+import com.hugboga.custom.utils.UIUtils;
+import com.hugboga.custom.widget.DialogUtil;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -108,6 +110,15 @@ public class ServicerCenterActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+        headerRightBtn.setVisibility(View.VISIBLE);
+        headerRightBtn.setImageResource(R.mipmap.order_deatil_service);
+        headerRightBtn.setPadding(UIUtils.dip2px(12), UIUtils.dip2px(12), UIUtils.dip2px(12), UIUtils.dip2px(12));
+        headerRightBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogUtil.getInstance(activity).showCallDialog();
             }
         });
     }
