@@ -56,19 +56,19 @@ public class CityHomeListItemFree extends RelativeLayout implements HbcViewBehav
         if (!TextUtils.isEmpty(goodsSec.goodsPicture)) {
             Tools.showImage(goodsImagefirst, goodsSec.goodsPicture);
             if (goodsSec.goodsPics != null && goodsSec.goodsPics.size() > 1) {
-                Tools.showImage(goodsImageSec, goodsSec.goodsPics.get(1));
+                Tools.showImage(goodsImageSec, goodsSec.goodsPics.get(1),R.mipmap.city_default_bg);
             }else if (goodsSec.goodsPics != null && goodsSec.goodsPics.size() > 0){
-                Tools.showImage(goodsImageSec, goodsSec.goodsPics.get(0));
+                Tools.showImage(goodsImageSec, goodsSec.goodsPics.get(0),R.mipmap.city_default_bg);
             }else {
                 goodsImageSec.setImageResource(R.mipmap.city_default_bg);
             }
         }else{
             if (goodsSec.goodsPics != null && goodsSec.goodsPics.size() > 1) {
-                Tools.showImage(goodsImagefirst,goodsSec.goodsPics.get(0));
-                Tools.showImage(goodsImageSec, goodsSec.goodsPics.get(1));
+                Tools.showImage(goodsImagefirst,goodsSec.goodsPics.get(0),R.mipmap.city_default_bg);
+                Tools.showImage(goodsImageSec, goodsSec.goodsPics.get(1),R.mipmap.city_default_bg);
             }else if (goodsSec.goodsPics != null && goodsSec.goodsPics.size() > 0){
-                Tools.showImage(goodsImagefirst,goodsSec.goodsPics.get(0));
-                Tools.showImage(goodsImageSec, goodsSec.goodsPics.get(0));
+                Tools.showImage(goodsImagefirst,goodsSec.goodsPics.get(0),R.mipmap.city_default_bg);
+                Tools.showImage(goodsImageSec, goodsSec.goodsPics.get(0),R.mipmap.city_default_bg);
             }else {
                 goodsImagefirst.setImageResource(R.mipmap.city_default_bg);
                 goodsImageSec.setImageResource(R.mipmap.city_default_bg);

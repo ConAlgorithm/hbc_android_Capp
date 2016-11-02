@@ -60,9 +60,9 @@ public class CityHomeListItemWorry extends RelativeLayout implements HbcViewBeha
         GoodsSec goodsSec = (GoodsSec)_data;
 
         if (!TextUtils.isEmpty(goodsSec.goodsPicture)) {
-            Tools.showImage(goodImagefirst,goodsSec.goodsPicture);
+            Tools.showImage(goodImagefirst,goodsSec.goodsPicture,R.mipmap.city_default_bg);
         }else {
-            goodImagefirst.setImageResource(R.color.default_img_bg);
+            goodImagefirst.setImageResource(R.mipmap.city_default_bg);
         }
         guideAmount.setText(String.format("%1$s 位当地中文司导", goodsSec.guideAmount));
         goodsPrice.setText(String.valueOf(goodsSec.perPrice));

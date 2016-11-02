@@ -199,6 +199,9 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
             paramsData = (CityHomeListActivity.Params) bundle.getSerializable(Constants.PARAMS_DATA);
         }
         initView();
+        if(cityFilterLayout!=null){
+            cityFilterLayout.resetDatas();
+        }
     }
 
     private void initView() {
