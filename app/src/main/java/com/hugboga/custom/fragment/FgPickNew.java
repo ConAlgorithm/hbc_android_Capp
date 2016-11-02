@@ -362,7 +362,7 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
                         addressDetail.setVisibility(GONE);
 
                         bottom.setVisibility(GONE);
-//                    show_cars_layout_pick.setVisibility(View.GONE);
+                        show_cars_layout_pick.setVisibility(View.GONE);
 
                     }
                     break;
