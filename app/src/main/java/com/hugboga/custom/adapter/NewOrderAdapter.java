@@ -395,6 +395,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                     vh.mStatusLayout.setVisibility(View.GONE);
                     vh.lineView.setVisibility(View.INVISIBLE);
                     vh.mHeadLayout.setVisibility(View.GONE);
+                    vh.mAssessment.setVisibility(View.GONE);
                 }
                 break;
             case CANCELLED:
@@ -402,6 +403,10 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                 vh.mStatus.setText("已取消");
                 vh.mStatusLayout.setVisibility(View.GONE);
                 vh.lineView.setVisibility(View.INVISIBLE);
+                vh.mPrice.setVisibility(View.GONE);
+                vh.mBtnPay.setVisibility(View.GONE);
+                vh.mAssessment.setVisibility(View.GONE);
+                vh.br_layout.setVisibility(View.GONE);
                 if (orderBean.orderGuideInfo != null) {
                     vh.mHeadLayout.setVisibility(View.VISIBLE);
                     vh.mStatusLayout.setVisibility(View.VISIBLE);
@@ -433,6 +438,10 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                 vh.mStatus.setText("客诉处理中");
                 vh.mStatusLayout.setVisibility(View.GONE);
                 vh.lineView.setVisibility(View.INVISIBLE);
+                vh.mPrice.setVisibility(View.GONE);
+                vh.mBtnPay.setVisibility(View.GONE);
+                vh.mAssessment.setVisibility(View.GONE);
+                vh.br_layout.setVisibility(View.GONE);
                 if (orderBean.orderGuideInfo != null) {
                     vh.mHeadLayout.setVisibility(View.VISIBLE);
                     vh.mStatusLayout.setVisibility(View.VISIBLE);

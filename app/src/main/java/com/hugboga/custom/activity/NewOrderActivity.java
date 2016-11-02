@@ -80,6 +80,7 @@ public class NewOrderActivity extends BaseActivity implements ZBaseAdapter.OnIte
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
             case ORDER_DETAIL_UPDATE_COLLECT:
+            case ORDER_DETAIL_UPDATE_EVALUATION:
                 loadData();
                 break;
         }
