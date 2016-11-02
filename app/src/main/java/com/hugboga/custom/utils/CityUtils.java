@@ -48,7 +48,6 @@ public class CityUtils {
     /**
      * 热门城市
      *
-     * @param orderType
      * @param groupId
      */
     public static List<CityBean> requestHotDate(Activity activity, int groupId,int cityId, String from) {
@@ -922,19 +921,27 @@ public class CityUtils {
             }
 
             for (int i = list.size() - 1; i >= 0; i--) {
-                if (searchGroupBean.flag == 2) {
+                if (searchGroupBean.flag == 2) {//2,国家
                     if (searchGroupBean.sub_place_id == list.get(i).sub_place_id) {
                         list.remove(i);
+                    } else if (searchGroupBean.sub_place_name != null && TextUtils.equals(searchGroupBean.sub_place_name, list.get(i).spot_name)) {
+                        list.remove(i);
                     }
-                } else if (searchGroupBean.flag == 3) {
+                } else if (searchGroupBean.flag == 3) {//3,城市
                     if (searchGroupBean.sub_city_id == list.get(i).sub_city_id) {
                         list.remove(i);
-                    }
-                } else if (searchGroupBean.flag == 4) {
-                    if (searchGroupBean.spot_id == list.get(i).spot_id) {
+                    } else if (searchGroupBean.sub_city_name != null && TextUtils.equals(searchGroupBean.sub_city_name, list.get(i).spot_name)) {
                         list.remove(i);
                     }
-                }else if(searchGroupBean.flag == 1){
+                } else if (searchGroupBean.flag == 4) {//4,热门
+                    if (searchGroupBean.spot_id == list.get(i).spot_id) {
+                        list.remove(i);
+                    } else if (searchGroupBean.sub_place_name != null && TextUtils.equals(searchGroupBean.sub_place_name, list.get(i).spot_name)) {
+                        list.remove(i);
+                    } else if (searchGroupBean.sub_city_name != null && TextUtils.equals(searchGroupBean.sub_city_name, list.get(i).spot_name)) {
+                        list.remove(i);
+                    }
+                }else if(searchGroupBean.flag == 1){//1,线路
                     if (searchGroupBean.group_id == list.get(i).group_id) {
                         list.remove(i);
                     }

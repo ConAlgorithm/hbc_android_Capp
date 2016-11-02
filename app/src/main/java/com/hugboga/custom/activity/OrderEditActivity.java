@@ -231,7 +231,11 @@ public class OrderEditActivity extends BaseActivity {
             String userName = userList.get(0).name;
             String userPhone = userList.get(0).mobile;
             manName.setText(userName);
-            manPhone.setText(userPhone);
+            if (TextUtils.isEmpty(userList.get(0).areaCode)) {
+                manPhone.setText(userPhone);
+            } else {
+                manPhone.setText(userList.get(0).areaCode + " " + userPhone);
+            }
             mark.setText(orderBean.memo);
             for (int i = 0; i < userList.size(); i++) {
                 if (i == 0) {

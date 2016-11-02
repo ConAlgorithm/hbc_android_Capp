@@ -1,6 +1,7 @@
 package com.hugboga.custom.fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,6 +69,24 @@ public class FgHome extends BaseFragment {
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
         ButterKnife.bind(this, rootView);
         return rootView;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.i("aa", "onPause");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.i("aa", "onResume");
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Log.i("aa", "onStop");
     }
 
     @Override

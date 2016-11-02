@@ -8,9 +8,12 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.FutureTarget;
+import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.target.Target;
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.widget.GlideCircleTransform;
@@ -36,17 +39,32 @@ public class Tools {
                 .into(imageView);
     }
 
-    public static void showImage(ImageView imageView, String url, int resId) {
+    //placeholder 显示有问题
+    public static void showImage(final ImageView imageView, String url, final int resId) {
         if (TextUtils.isEmpty(url)) {
             return;
         }
+        imageView.setBackgroundResource(resId);
         Glide.with(MyApplication.getAppContext())
                 .load(url)
                 .centerCrop()
-                .placeholder(resId)
-                .centerCrop()
                 .error(resId)
-                .centerCrop()
+                .listener(new RequestListener<String, GlideDrawable>() {
+                    @Override
+                    public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                        if (imageView != null && resId != 0) {
+                            imageView.setBackgroundResource(0);
+                            imageView.setImageResource(resId);
+                        }
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                        imageView.setBackgroundResource(0);
+                        return false;
+                    }
+                })
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(imageView);
     }
