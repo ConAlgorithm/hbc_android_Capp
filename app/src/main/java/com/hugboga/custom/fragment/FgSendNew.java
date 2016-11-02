@@ -298,6 +298,11 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
                     break;
                 case AIR_PORT_BACK:
                     airPortBean = (AirPort) action.getData();
+                    String airPortName = airPortBean.cityName + " " + airPortBean.airportName;
+                    if (airPortName != null && airPortName.equals(addressTips.getText())) {
+                        return;
+                    }
+                    showCarsLayoutSend.setVisibility(View.GONE);
                     addressTips.setText(airPortBean.cityName + " " + airPortBean.airportName);
                     poiBean = null;
                     airTitle.setText("");

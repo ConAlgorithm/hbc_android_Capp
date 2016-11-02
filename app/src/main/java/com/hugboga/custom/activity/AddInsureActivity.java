@@ -2,6 +2,7 @@ package com.hugboga.custom.activity;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -65,6 +67,7 @@ public class AddInsureActivity extends BaseActivity implements HttpRequestListen
         headerLeftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                hideSoftInput();
                 finish();
             }
         });
@@ -118,8 +121,9 @@ public class AddInsureActivity extends BaseActivity implements HttpRequestListen
     @Override
     protected void onStop() {
         super.onStop();
-        hideInputMethod(name);
-        hideInputMethod(cardid);
+//        hideInputMethod(name);
+//        hideInputMethod(cardid);
+        hideSoftInput();
     }
 
     @Override
@@ -317,6 +321,11 @@ public class AddInsureActivity extends BaseActivity implements HttpRequestListen
                 showDaySelect();
                 break;
         }
+    }
+
+    private void hideSoftInput() {
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(AddInsureActivity.this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
 }
 

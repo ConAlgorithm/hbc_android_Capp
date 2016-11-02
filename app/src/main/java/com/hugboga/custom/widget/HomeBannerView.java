@@ -9,10 +9,11 @@ import android.content.res.AssetManager;
 import android.graphics.SurfaceTexture;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.media.MediaRecorder;
 import android.net.Uri;
-import android.os.Environment;
 import android.os.Handler;
+import android.os.HandlerThread;
+import android.os.Looper;
+import android.os.Message;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -28,11 +29,8 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.HomeBean;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
-import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.NetWorkUtils;
 import com.hugboga.custom.utils.SaveFileTask;
-import com.hugboga.custom.utils.SharedPre;
-import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
 
 import java.io.File;
@@ -60,8 +58,8 @@ public class HomeBannerView extends RelativeLayout implements HbcViewBehavior, S
     private DialogUtilInterface mDialogUtil;
 
     private MediaPlayer mediaPlayer;
-    private Surface surface;
-    private int position;
+    private  Surface surface;
+    private int progress;
 
     public HomeBannerView(Context context) {
         this(context, null);
@@ -130,31 +128,10 @@ public class HomeBannerView extends RelativeLayout implements HbcViewBehavior, S
 //        }
     }
 
-    public void onStop() {
-        if (mediaPlayer.isPlaying()) {
-            mediaPlayer.stop();
-        }
-    }
-
-    public void onPause() {
-        if (mediaPlayer.isPlaying()) {
-            position = mediaPlayer.getCurrentPosition();
-            mediaPlayer.stop();
-        }
-    }
-
-    public void onRePlay() {
-        play(position);
-    }
-
     private void intentPlayer(String videoUrl) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setDataAndType(Uri.parse(videoUrl), "video/mp4");
         getContext().startActivity(intent);
-    }
-
-    public int getBannerHeight() {
-        return bannerHeight;
     }
 
     @Override
@@ -168,10 +145,22 @@ public class HomeBannerView extends RelativeLayout implements HbcViewBehavior, S
     public void onDownLoadFailed() {
     }
 
+    public void onDestroy() {
+        if (mediaPlayer != null) {
+            if (mediaPlayer.isPlaying()) {
+                mediaPlayer.stop();
+            }
+            mediaPlayer.release();
+        }
+    }
+
+
     @Override
     public void onSurfaceTextureAvailable(SurfaceTexture surfaceTexture, int width, int height) {
         surface = new Surface(surfaceTexture);
-        play(0);
+        if (!mediaPlayer.isPlaying()) {
+            play(progress);
+        }
     }
 
     @Override
@@ -181,10 +170,11 @@ public class HomeBannerView extends RelativeLayout implements HbcViewBehavior, S
 
     @Override
     public boolean onSurfaceTextureDestroyed(SurfaceTexture surfaceTexture) {
-        if (mediaPlayer != null) {
-            mediaPlayer.release();
+        if (mediaPlayer.isPlaying()) {
+            progress = mediaPlayer.getCurrentPosition();
+            mediaPlayer.stop();
         }
-        return true;
+        return false;
     }
 
     @Override
@@ -201,10 +191,13 @@ public class HomeBannerView extends RelativeLayout implements HbcViewBehavior, S
             AssetFileDescriptor afd = assetManager.openFd("home_header.mp4");
             mediaPlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
             mediaPlayer.setSurface(surface);
-//            mediaPlayer.seekTo(currentPosition);
             mediaPlayer.prepare();
             mediaPlayer.start();
+            if (currentPosition > 0) {
+                mediaPlayer.seekTo(currentPosition);
+            }
         } catch (Exception e) {
         }
     }
+
 }

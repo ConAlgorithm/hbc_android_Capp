@@ -72,21 +72,11 @@ public class FgHome extends BaseFragment {
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
-        Log.i("aa", "onPause");
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        Log.i("aa", "onResume");
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        Log.i("aa", "onStop");
+    public void onDestroy() {
+        super.onDestroy();
+        if (bannerView != null) {
+            bannerView.onDestroy();
+        }
     }
 
     @Override
