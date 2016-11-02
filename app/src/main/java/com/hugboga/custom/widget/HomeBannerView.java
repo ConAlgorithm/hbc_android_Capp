@@ -9,9 +9,13 @@ import android.content.res.AssetManager;
 import android.graphics.SurfaceTexture;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.media.MediaRecorder;
 import android.net.Uri;
+import android.os.Environment;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
@@ -24,9 +28,11 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.HomeBean;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.NetWorkUtils;
-import com.hugboga.custom.utils.SaveImageTask;
+import com.hugboga.custom.utils.SaveFileTask;
 import com.hugboga.custom.utils.SharedPre;
+import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
 
 import java.io.File;
@@ -37,10 +43,10 @@ import butterknife.ButterKnife;
 /**
  * Created by qingcha on 16/6/19.
  */
-public class HomeBannerView extends RelativeLayout implements HbcViewBehavior, SaveImageTask.ImageDownLoadCallBack, TextureView.SurfaceTextureListener {
+public class HomeBannerView extends RelativeLayout implements HbcViewBehavior, SaveFileTask.FileDownLoadCallBack, TextureView.SurfaceTextureListener {
 
-    public static final String GIF_PATH_NAME = "home_header_";
-    public static final String KEY_GIF_VERSION = "videoVersion";
+    public static final String GIF_PATH_NAME = "home_gif_";
+    public static final String KEY_GIF_VERSION = "gifVersion";
 
     /**
      * banner默认高宽比  height/width = 405/720
@@ -51,12 +57,11 @@ public class HomeBannerView extends RelativeLayout implements HbcViewBehavior, S
     TextureView myTextureView;
 
     private int bannerHeight;
-    private HomeBean.HeadVideo dynamicPicBean;
     private DialogUtilInterface mDialogUtil;
 
     private MediaPlayer mediaPlayer;
     private Surface surface;
-    int position;
+    private int position;
 
     public HomeBannerView(Context context) {
         this(context, null);
@@ -73,15 +78,6 @@ public class HomeBannerView extends RelativeLayout implements HbcViewBehavior, S
 
         mediaPlayer = new MediaPlayer();
         myTextureView.setSurfaceTextureListener(this);
-
-
-        //        final int gifVersion = SharedPre.getInteger(KEY_GIF_VERSION, 0);
-//        final File gifFile = new File(CommonUtils.getDiskFilesDir(Environment.DIRECTORY_PICTURES) + File.separator + GIF_PATH_NAME + gifVersion + ".gif");
-//        if (gifVersion > 0 && !gifFile.isDirectory() && gifFile.exists()) {
-//            Tools.showGif(bannerBgIV, gifFile);
-//        } else {
-//            Tools.showGif(bannerBgIV, R.drawable.rock);
-//        }
     }
 
     @Override
@@ -122,11 +118,13 @@ public class HomeBannerView extends RelativeLayout implements HbcViewBehavior, S
         }
 
 //        dynamicPicBean = homeBean.dynamicPic;
+//        dynamicPicBean.videoVersion = 3;
+//        dynamicPicBean.videoUrl = "http://fr.huangbaoche.com/video/hbc-capphome.mp4";
 //        if (dynamicPicBean != null) {
 //            final int gifVersion = SharedPre.getInteger(KEY_GIF_VERSION, 0);
 //            if (dynamicPicBean.videoVersion != gifVersion) {
-//                File gifFile = new File(CommonUtils.getDiskFilesDir(Environment.DIRECTORY_PICTURES) + File.separator + GIF_PATH_NAME + dynamicPicBean.videoVersion + ".gif");
-//                SaveImageTask saveImageTask = new SaveImageTask(getContext(), gifFile, this);
+//                File gifFile = new File(CommonUtils.getDiskFilesDir(Environment.DIRECTORY_MOVIES) + File.separator + GIF_PATH_NAME + dynamicPicBean.videoVersion + ".mp4");
+//                SaveFileTask saveImageTask = new SaveFileTask(getContext(), gifFile, this);
 //                saveImageTask.execute(dynamicPicBean.videoUrl);
 //            }
 //        }
@@ -145,6 +143,10 @@ public class HomeBannerView extends RelativeLayout implements HbcViewBehavior, S
         }
     }
 
+    public void onRePlay() {
+        play(position);
+    }
+
     private void intentPlayer(String videoUrl) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setDataAndType(Uri.parse(videoUrl), "video/mp4");
@@ -157,9 +159,9 @@ public class HomeBannerView extends RelativeLayout implements HbcViewBehavior, S
 
     @Override
     public void onDownLoadSuccess(File file) {
-        if (dynamicPicBean != null) {
-            SharedPre.setInteger(KEY_GIF_VERSION, dynamicPicBean.videoVersion);
-        }
+//        if (dynamicPicBean != null) {
+//            SharedPre.setInteger(KEY_GIF_VERSION, dynamicPicBean.videoVersion);
+//        }
     }
 
     @Override
@@ -169,7 +171,7 @@ public class HomeBannerView extends RelativeLayout implements HbcViewBehavior, S
     @Override
     public void onSurfaceTextureAvailable(SurfaceTexture surfaceTexture, int width, int height) {
         surface = new Surface(surfaceTexture);
-        new PlayerVideo().start();
+        play(0);
     }
 
     @Override
@@ -179,7 +181,10 @@ public class HomeBannerView extends RelativeLayout implements HbcViewBehavior, S
 
     @Override
     public boolean onSurfaceTextureDestroyed(SurfaceTexture surfaceTexture) {
-        return false;
+        if (mediaPlayer != null) {
+            mediaPlayer.release();
+        }
+        return true;
     }
 
     @Override
@@ -187,21 +192,19 @@ public class HomeBannerView extends RelativeLayout implements HbcViewBehavior, S
 
     }
 
-    private class PlayerVideo extends Thread{
-        @Override
-        public void run(){
-            try {
-                mediaPlayer.reset();
-                mediaPlayer.setLooping(true);
-                mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-                AssetManager assetManager = getContext().getAssets();
-                AssetFileDescriptor afd = assetManager.openFd("gif44.mp4");
-                mediaPlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
-                mediaPlayer.setSurface(surface);
-                mediaPlayer.prepare();
-                mediaPlayer.start();
-            } catch (Exception e) {
-            }
+    private void play(final int currentPosition) {
+        try {
+            mediaPlayer.reset();
+            mediaPlayer.setLooping(true);
+            mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+            AssetManager assetManager = getContext().getAssets();
+            AssetFileDescriptor afd = assetManager.openFd("home_header.mp4");
+            mediaPlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
+            mediaPlayer.setSurface(surface);
+//            mediaPlayer.seekTo(currentPosition);
+            mediaPlayer.prepare();
+            mediaPlayer.start();
+        } catch (Exception e) {
         }
     }
 }
