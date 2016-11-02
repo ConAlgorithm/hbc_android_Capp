@@ -46,7 +46,7 @@ public class CityBean implements IBaseBean ,Cloneable {
     @Column(name = "daily_tip")
     public String dailyTip;//包车注意提示
 
-    @Column(name="neighbourTip")
+    @Column(name="neighbour_tip")
     public String neighbourTip;
 
     @Column(name = "has_airport")

@@ -60,7 +60,7 @@ public class CityUtils {
         } catch (DbException e) {
             e.printStackTrace();
         }
-        selector.where("is_hot", "=", 1);
+        selector.where("is_passcity_hot", "=", 1);
         if (groupId == -1) {
             selector.and("is_daily", "=", 1);
         } else {
