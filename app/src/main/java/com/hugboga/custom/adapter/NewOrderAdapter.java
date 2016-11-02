@@ -178,7 +178,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                     }
                     break;
                 case Constants.BUSINESS_TYPE_DAILY://日租 包车游
-                    vh.mTypeStr.setText("定制包车行程");
+                    vh.mTypeStr.setText("定制包车游");
                     if (orderBean.isHalfDaily == 1) {//半日包
                         vh.timeTV.setText(orderBean.serviceTime);
                         vh.timeLocalTV.setText("(半日)");
