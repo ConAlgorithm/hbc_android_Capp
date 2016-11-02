@@ -41,11 +41,12 @@ public class OrderDetailTitleBar extends LinearLayout implements HbcViewBehavior
 
         serviceIV = (ImageView)findViewById(R.id.header_detail_right_2_btn);
         serviceIV.setImageResource(R.mipmap.order_deatil_service);
-        serviceIV.setPadding(UIUtils.dip2px(11), UIUtils.dip2px(11), UIUtils.dip2px(11), UIUtils.dip2px(11));
+        serviceIV.setPadding(UIUtils.dip2px(14), UIUtils.dip2px(14), UIUtils.dip2px(14), UIUtils.dip2px(14));
         serviceIV.setOnClickListener(this);
 
         otherIV = (ImageView)findViewById(R.id.header_detail_right_1_btn);
         otherIV.setImageResource(R.mipmap.top_more);
+        serviceIV.setPadding(UIUtils.dip2px(14), UIUtils.dip2px(14), UIUtils.dip2px(14), UIUtils.dip2px(14));
         otherIV.setOnClickListener(this);
 
         //title类型：中文接机、中文送机、包车游、单次接送、路线包车游

@@ -8,7 +8,7 @@
         android:id="@+id/header_detail_back_btn"
         android:layout_width="?android:attr/actionBarSize"
         android:layout_height="match_parent"
-        android:padding="@dimen/default_margin_larges"
+        android:padding="@dimen/default_margin_xlarge"
         android:src="@mipmap/top_back_white" />
 
     <ImageView
@@ -16,7 +16,7 @@
         android:layout_width="?android:attr/actionBarSize"
         android:layout_height="match_parent"
         android:layout_alignParentRight="true"
-        android:padding="@dimen/default_margin_larges"
+        android:padding="@dimen/default_margin_mlarges"
         android:src="@drawable/selector_guide_detail_collect" />
     <ImageView
         android:id="@+id/header_detail_right_2_btn"
@@ -24,7 +24,7 @@
         android:layout_height="match_parent"
         android:layout_marginRight="-10dp"
         android:layout_toLeftOf="@id/header_detail_right_1_btn"
-        android:padding="@dimen/default_margin_larges"
+        android:padding="@dimen/default_margin_mlarges"
         android:src="@mipmap/guide_detail_share" />
     <TextView
         android:id="@+id/header_detail_title_tv"
