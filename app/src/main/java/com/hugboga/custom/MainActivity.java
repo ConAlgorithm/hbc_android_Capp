@@ -25,8 +25,10 @@ import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
@@ -724,16 +726,14 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
     private long calculateCacheFileSize() {
         long length = 0L;
-        String DISK_CACHE_DIR_NAME = "xUtils_img"; //1
-        String CACHE_DIR_NAME = "xUtils_cache";    //2
+        try{
+            String cachePath = Glide.getPhotoCacheDir(MyApplication.getAppContext()).getPath();
+            File cacheDir1 = new File(cachePath);
+            if (cacheDir1 != null) {
+                length += FileUtil.getFileOrDirSize(cacheDir1);
+            }
+        }catch (Exception e){
 
-        File cacheDir1 = FileUtil.getCacheDir(DISK_CACHE_DIR_NAME);
-        File cacheDir2 = FileUtil.getCacheDir(CACHE_DIR_NAME);
-        if (cacheDir1 != null) {
-            length += FileUtil.getFileOrDirSize(cacheDir1);
-        }
-        if (cacheDir2 != null) {
-            length += FileUtil.getFileOrDirSize(cacheDir2);
         }
         return length;
     }

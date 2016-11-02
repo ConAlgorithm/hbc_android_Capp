@@ -19,6 +19,8 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.widget.GlideCircleTransform;
 import com.hugboga.custom.widget.GlideRoundTransform;
 
+import org.xutils.common.util.*;
+
 import java.io.File;
 
 import jp.wasabeef.blurry.Blurry;
@@ -37,6 +39,7 @@ public class Tools {
                 .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(imageView);
+
     }
 
     //placeholder 显示有问题
@@ -194,4 +197,30 @@ public class Tools {
                         || ((codePoint >= 0xE000) && (codePoint <= 0xFFFD))
                         || ((codePoint >= 0x10000) && (codePoint <= 0x10FFFF));
      }
+
+    public static void deleteCache(){
+        try{
+            String cachePath = Glide.getPhotoCacheDir(MyApplication.getAppContext()).getPath();
+            File cacheDir1 = new File(cachePath);
+            if(cacheDir1.exists()){
+                delete(cacheDir1);
+            }
+        }catch (Exception e){
+
+        }
+    }
+
+    public static void delete(File file){
+        if(file.isDirectory()){
+            File[] files = file.listFiles();
+            for(int i=0;i<files.length;i++){
+                File tmpFile = files[i];
+                if(tmpFile.isDirectory()){
+                    delete(tmpFile);
+                }else {
+                    tmpFile.delete();
+                }
+            }
+        }
+    }
 }

@@ -85,7 +85,11 @@ public final class DatabaseManager {
         } catch (DbException e) {
             e.printStackTrace();
         }
-        selector.where("is_hot", "=", 1);
+        if( "lastCity".equals(from)){
+            selector.where("is_passcity_hot", "=", 1);
+        }else{
+            selector.where("is_hot", "=", 1);
+        }
         if (orderType == Constants.BUSINESS_TYPE_DAILY) {
             if (groupId == -1) {
                 selector.and("is_daily", "=", 1);
@@ -198,6 +202,8 @@ public final class DatabaseManager {
     public static String getAbroadHotCitySql() {
         return "select * from city where is_city_code=1 and (place_name<>'中国' and place_name<>'中国大陆') and is_hot=1 order by hot_weight desc";
     }
+
+
 
     /**
      * 获取城市列表
