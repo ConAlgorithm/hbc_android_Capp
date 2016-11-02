@@ -28,6 +28,7 @@ import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.net.WebAgent;
 import com.hugboga.custom.utils.ChannelUtils;
 import com.hugboga.custom.utils.CommonUtils;
+import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.DialogUtil;
 
 import java.io.InputStream;
@@ -238,15 +239,16 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
                 }
             }
         });
-        if (this.getIntent().getBooleanExtra(CONTACT_SERVICE, false)) {
-            headerRightTxt.setVisibility(View.VISIBLE);
-            headerRightTxt.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mDialogUtil.showCallDialog();
-                }
-            });
-        }
+
+        headerRightBtn.setVisibility(View.VISIBLE);
+        headerRightBtn.setImageResource(R.mipmap.order_deatil_service);
+        headerRightBtn.setPadding(UIUtils.dip2px(12), UIUtils.dip2px(12), UIUtils.dip2px(12), UIUtils.dip2px(12));
+        headerRightBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogUtil.getInstance(activity).showCallDialog();
+            }
+        });
     }
 
     public void initView() {
