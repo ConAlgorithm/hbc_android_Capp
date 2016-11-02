@@ -31,7 +31,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="15dp"
             android:gravity="center"
             android:layout_alignParentRight="true"
             android:paddingRight="15dp"
@@ -60,9 +59,8 @@
                 android:id="@+id/man_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
                 android:singleLine="true"
                 android:ellipsize="end"
                 android:hint="个人姓名"
@@ -74,16 +72,14 @@
                 android:id="@+id/man_phone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
                 android:singleLine="true"
                 android:ellipsize="end"
                 android:hint="手机号"
                 android:textColorHint="#9a9a9a"
-                android:minEms="4"
                 android:textColor="@color/basic_black"
-                android:textSize="15sp"/>
+                android:textSize="14sp"/>
 
         </LinearLayout>
 

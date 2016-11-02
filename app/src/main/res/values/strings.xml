@@ -333,9 +333,9 @@
     <string name="have_baggages"> %s个行李箱</string>
 
     <string name="mans_use_money">司导服务费</string>
-    <string name="mans_use_money_tips">司导全程陪同,根据需要进行翻译,导游,解说.包含餐费,小费.</string>
+    <string name="mans_use_money_tips">司导全程陪同、根据需要进行翻译、导游、解说。包含餐费、小费等.</string>
     <string name="car_use_money">用车费用</string>
-    <string name="car_use_money_tips">包含:油费,停车费,高速费,过路费</string>
+    <string name="car_use_money_tips">包含:油费、停车费、高速费、过路费.</string>
     <string name="all_money">费用总计</string>
     <string name="per_money">人均费用</string>
     <string name="befer48_hour">行前48小时可全额退款</string>
