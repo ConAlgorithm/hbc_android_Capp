@@ -13,7 +13,11 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.NewOrderAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.OrderBean;
+import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.request.RequestOrder;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -40,6 +44,7 @@ public class NewOrderActivity extends BaseActivity implements ZBaseAdapter.OnIte
     public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         setContentView(R.layout.activity_new_order);
+        EventBus.getDefault().register(this);
         ButterKnife.bind(this);
         initView();
     }
@@ -47,6 +52,7 @@ public class NewOrderActivity extends BaseActivity implements ZBaseAdapter.OnIte
     @Override
     public void onDestroy() {
         super.onDestroy();
+        EventBus.getDefault().unregister(this);
         ButterKnife.unbind(this);
     }
 
@@ -68,6 +74,15 @@ public class NewOrderActivity extends BaseActivity implements ZBaseAdapter.OnIte
         recyclerView.setRequestData(getRequest(searchType));
         recyclerView.setOnItemClickListener(this);
         loadData();
+    }
+
+    @Subscribe
+    public void onEventMainThread(EventAction action) {
+        switch (action.getType()) {
+            case ORDER_DETAIL_UPDATE_COLLECT:
+                loadData();
+                break;
+        }
     }
 
     /**
