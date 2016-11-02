@@ -4,30 +4,29 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.AssetFileDescriptor;
+import android.content.res.AssetManager;
+import android.graphics.SurfaceTexture;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.net.Uri;
-import android.os.Environment;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
+import android.view.Surface;
+import android.view.TextureView;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import com.huangbaoche.hbcframe.data.net.ExceptionErrorCode;
-import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.util.NetWork;
 import com.huangbaoche.hbcframe.widget.DialogUtilInterface;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.HomeBean;
-import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
-import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.NetWorkUtils;
 import com.hugboga.custom.utils.SaveImageTask;
 import com.hugboga.custom.utils.SharedPre;
-import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
 
 import java.io.File;
@@ -38,7 +37,7 @@ import butterknife.ButterKnife;
 /**
  * Created by qingcha on 16/6/19.
  */
-public class HomeBannerView extends RelativeLayout implements HbcViewBehavior, SaveImageTask.ImageDownLoadCallBack {
+public class HomeBannerView extends RelativeLayout implements HbcViewBehavior, SaveImageTask.ImageDownLoadCallBack, TextureView.SurfaceTextureListener {
 
     public static final String GIF_PATH_NAME = "home_header_";
     public static final String KEY_GIF_VERSION = "videoVersion";
@@ -48,12 +47,16 @@ public class HomeBannerView extends RelativeLayout implements HbcViewBehavior, S
      */
     public static final float BANNER_RATIO_DEFAULT = 0.562f;
 
-    @Bind(R.id.home_banner_bg_iv)
-    ImageView bannerBgIV;
+    @Bind(R.id.home_banner_video_textureView)
+    TextureView myTextureView;
 
     private int bannerHeight;
     private HomeBean.HeadVideo dynamicPicBean;
     private DialogUtilInterface mDialogUtil;
+
+    private MediaPlayer mediaPlayer;
+    private Surface surface;
+    int position;
 
     public HomeBannerView(Context context) {
         this(context, null);
@@ -66,15 +69,19 @@ public class HomeBannerView extends RelativeLayout implements HbcViewBehavior, S
 
         bannerHeight = (int)(UIUtils.getScreenWidth() * BANNER_RATIO_DEFAULT);
         RelativeLayout.LayoutParams bgParams = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, bannerHeight);
-        bannerBgIV.setLayoutParams(bgParams);
+        myTextureView.setLayoutParams(bgParams);
 
-        final int gifVersion = SharedPre.getInteger(KEY_GIF_VERSION, 0);
-        final File gifFile = new File(CommonUtils.getDiskFilesDir(Environment.DIRECTORY_PICTURES) + File.separator + GIF_PATH_NAME + gifVersion + ".gif");
-        if (gifVersion > 0 && !gifFile.isDirectory() && gifFile.exists()) {
-            Tools.showGif(bannerBgIV, gifFile);
-        } else {
-            Tools.showGif(bannerBgIV, R.drawable.rock);
-        }
+        mediaPlayer = new MediaPlayer();
+        myTextureView.setSurfaceTextureListener(this);
+
+
+        //        final int gifVersion = SharedPre.getInteger(KEY_GIF_VERSION, 0);
+//        final File gifFile = new File(CommonUtils.getDiskFilesDir(Environment.DIRECTORY_PICTURES) + File.separator + GIF_PATH_NAME + gifVersion + ".gif");
+//        if (gifVersion > 0 && !gifFile.isDirectory() && gifFile.exists()) {
+//            Tools.showGif(bannerBgIV, gifFile);
+//        } else {
+//            Tools.showGif(bannerBgIV, R.drawable.rock);
+//        }
     }
 
     @Override
@@ -114,14 +121,27 @@ public class HomeBannerView extends RelativeLayout implements HbcViewBehavior, S
             });
         }
 
-        dynamicPicBean = homeBean.dynamicPic;
-        if (dynamicPicBean != null) {
-            final int gifVersion = SharedPre.getInteger(KEY_GIF_VERSION, 0);
-            if (dynamicPicBean.videoVersion != gifVersion) {
-                File gifFile = new File(CommonUtils.getDiskFilesDir(Environment.DIRECTORY_PICTURES) + File.separator + GIF_PATH_NAME + dynamicPicBean.videoVersion + ".gif");
-                SaveImageTask saveImageTask = new SaveImageTask(getContext(), gifFile, this);
-                saveImageTask.execute(dynamicPicBean.videoUrl);
-            }
+//        dynamicPicBean = homeBean.dynamicPic;
+//        if (dynamicPicBean != null) {
+//            final int gifVersion = SharedPre.getInteger(KEY_GIF_VERSION, 0);
+//            if (dynamicPicBean.videoVersion != gifVersion) {
+//                File gifFile = new File(CommonUtils.getDiskFilesDir(Environment.DIRECTORY_PICTURES) + File.separator + GIF_PATH_NAME + dynamicPicBean.videoVersion + ".gif");
+//                SaveImageTask saveImageTask = new SaveImageTask(getContext(), gifFile, this);
+//                saveImageTask.execute(dynamicPicBean.videoUrl);
+//            }
+//        }
+    }
+
+    public void onStop() {
+        if (mediaPlayer.isPlaying()) {
+            mediaPlayer.stop();
+        }
+    }
+
+    public void onPause() {
+        if (mediaPlayer.isPlaying()) {
+            position = mediaPlayer.getCurrentPosition();
+            mediaPlayer.stop();
         }
     }
 
@@ -144,5 +164,44 @@ public class HomeBannerView extends RelativeLayout implements HbcViewBehavior, S
 
     @Override
     public void onDownLoadFailed() {
+    }
+
+    @Override
+    public void onSurfaceTextureAvailable(SurfaceTexture surfaceTexture, int width, int height) {
+        surface = new Surface(surfaceTexture);
+        new PlayerVideo().start();
+    }
+
+    @Override
+    public void onSurfaceTextureSizeChanged(SurfaceTexture surfaceTexture, int width, int height) {
+
+    }
+
+    @Override
+    public boolean onSurfaceTextureDestroyed(SurfaceTexture surfaceTexture) {
+        return false;
+    }
+
+    @Override
+    public void onSurfaceTextureUpdated(SurfaceTexture surfaceTexture) {
+
+    }
+
+    private class PlayerVideo extends Thread{
+        @Override
+        public void run(){
+            try {
+                mediaPlayer.reset();
+                mediaPlayer.setLooping(true);
+                mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+                AssetManager assetManager = getContext().getAssets();
+                AssetFileDescriptor afd = assetManager.openFd("gif44.mp4");
+                mediaPlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
+                mediaPlayer.setSurface(surface);
+                mediaPlayer.prepare();
+                mediaPlayer.start();
+            } catch (Exception e) {
+            }
+        }
     }
 }
