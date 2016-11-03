@@ -69,7 +69,7 @@ public class CityUtils {
             selector.and("city_id", "<>", cityId);
         }
         // 修改热门城市排序
-        selector.orderBy("hot_weight", true);
+        selector.orderBy("passcity_hot_weight", true);
 //        selector.orderBy("hot_weight");
         selector.limit(30);
         try {
