@@ -77,6 +77,7 @@ public class FgHome extends BaseFragment {
         if (bannerView != null) {
             bannerView.onDestroy();
         }
+        
     }
 
     @Override
