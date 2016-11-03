@@ -10,13 +10,9 @@ import android.graphics.SurfaceTexture;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
-import android.os.Handler;
-import android.os.HandlerThread;
-import android.os.Looper;
-import android.os.Message;
+import android.os.Environment;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
@@ -30,8 +26,10 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.HomeBean;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.NetWorkUtils;
 import com.hugboga.custom.utils.SaveFileTask;
+import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.UIUtils;
 
 import java.io.File;
@@ -44,8 +42,8 @@ import butterknife.ButterKnife;
  */
 public class HomeBannerView extends RelativeLayout implements HbcViewBehavior, SaveFileTask.FileDownLoadCallBack, TextureView.SurfaceTextureListener {
 
-    public static final String GIF_PATH_NAME = "home_gif_";
-    public static final String KEY_GIF_VERSION = "gifVersion";
+    public static final String VIDEO_PATH_NAME = "home_video_";
+    public static final String KEY_VIDEO_VERSION = "videoVersion";
 
     /**
      * banner默认高宽比  height/width = 405/720
@@ -61,8 +59,10 @@ public class HomeBannerView extends RelativeLayout implements HbcViewBehavior, S
     private DialogUtilInterface mDialogUtil;
 
     private MediaPlayer mediaPlayer;
-    private  Surface surface;
+    private Surface surface;
     private int progress;
+
+    private HomeBean.HeadVideo headVideo;
 
     public HomeBannerView(Context context) {
         this(context, null);
@@ -79,6 +79,39 @@ public class HomeBannerView extends RelativeLayout implements HbcViewBehavior, S
 
         mediaPlayer = new MediaPlayer();
         myTextureView.setSurfaceTextureListener(this);
+
+        HomeBannerView.this.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final int videoVersion = SharedPre.getInteger(KEY_VIDEO_VERSION, 0);
+                File videoFile = new File(CommonUtils.getDiskFilesDir(Environment.DIRECTORY_MOVIES) + File.separator + VIDEO_PATH_NAME + videoVersion + ".mp4");
+                if (videoVersion > 0 && !videoFile.isDirectory() && videoFile.exists()) {
+                    intentPlayer(Uri.fromFile(videoFile));
+                    return;
+                }
+                if (headVideo == null || TextUtils.isEmpty(headVideo.videoUrl)) {
+                    return;
+                }
+                if (!NetWork.isNetworkAvailable(getContext())) {//判断网络
+                    if (mDialogUtil == null) {
+                        mDialogUtil = HttpRequestUtils.getDialogUtil(getContext());
+                    }
+                    mDialogUtil.showSettingDialog();
+                } else if (!NetWorkUtils.isWifi()) {
+                    DialogUtil mDialogUtil = DialogUtil.getInstance((Activity)getContext());
+                    String tip = "您在使用运营商网络,观看视频会产生一定的流量费用。";
+                    mDialogUtil.showCustomDialog("提示", tip, "继续观看", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            intentPlayer(Uri.parse(headVideo.videoUrl));
+                            StatisticClickEvent.click(StatisticConstant.PLAY_VIDEO,"首页视频播放");
+                        }
+                    }, "取消观看", null);
+                } else {
+                    intentPlayer(Uri.parse(headVideo.videoUrl));
+                }
+            }
+        });
     }
 
     @Override
@@ -88,60 +121,29 @@ public class HomeBannerView extends RelativeLayout implements HbcViewBehavior, S
             return;
         }
 
-        final HomeBean.HeadVideo headVideo = homeBean.headVideo;
-        if (headVideo != null) {
-            HomeBannerView.this.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (TextUtils.isEmpty(headVideo.videoUrl)) {
-                        return;
-                    }
-                    if (!NetWork.isNetworkAvailable(getContext())) {//判断网络
-                        if (mDialogUtil == null) {
-                            mDialogUtil = HttpRequestUtils.getDialogUtil(getContext());
-                        }
-                        mDialogUtil.showSettingDialog();
-                    } else if (!NetWorkUtils.getCurrentNetwork().equals("WIFI")) {
-                        DialogUtil mDialogUtil = DialogUtil.getInstance((Activity)getContext());
-                        String tip = "您在使用运营商网络,观看视频会产生一定的流量费用。";
-                        mDialogUtil.showCustomDialog("提示", tip, "继续观看", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                intentPlayer(headVideo.videoUrl);
-                                StatisticClickEvent.click(StatisticConstant.PLAY_VIDEO,"首页视频播放");
-                            }
-                        }, "取消观看", null);
-                    } else {
-                        intentPlayer(headVideo.videoUrl);
-                    }
-                }
-            });
-        }
+        headVideo = homeBean.headVideo;
 
-//        dynamicPicBean = homeBean.dynamicPic;
-//        dynamicPicBean.videoVersion = 3;
-//        dynamicPicBean.videoUrl = "http://fr.huangbaoche.com/video/hbc-capphome.mp4";
-//        if (dynamicPicBean != null) {
-//            final int gifVersion = SharedPre.getInteger(KEY_GIF_VERSION, 0);
-//            if (dynamicPicBean.videoVersion != gifVersion) {
-//                File gifFile = new File(CommonUtils.getDiskFilesDir(Environment.DIRECTORY_MOVIES) + File.separator + GIF_PATH_NAME + dynamicPicBean.videoVersion + ".mp4");
-//                SaveFileTask saveImageTask = new SaveFileTask(getContext(), gifFile, this);
-//                saveImageTask.execute(dynamicPicBean.videoUrl);
-//            }
-//        }
+        if (headVideo != null && NetWorkUtils.isWifi()) {
+            final int videoVersion = SharedPre.getInteger(KEY_VIDEO_VERSION, 0);
+            if (headVideo.videoVersion != videoVersion) {
+                File videoFile = new File(CommonUtils.getDiskFilesDir(Environment.DIRECTORY_MOVIES) + File.separator + VIDEO_PATH_NAME + headVideo.videoVersion + ".mp4");
+                SaveFileTask saveImageTask = new SaveFileTask(getContext(), videoFile, this);
+                saveImageTask.execute(headVideo.videoUrl);
+            }
+        }
     }
 
-    private void intentPlayer(String videoUrl) {
+    private void intentPlayer(Uri url) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setDataAndType(Uri.parse(videoUrl), "video/mp4");
+        intent.setDataAndType(url, "video/mp4");
         getContext().startActivity(intent);
     }
 
     @Override
     public void onDownLoadSuccess(File file) {
-//        if (dynamicPicBean != null) {
-//            SharedPre.setInteger(KEY_GIF_VERSION, dynamicPicBean.videoVersion);
-//        }
+        if (headVideo != null) {
+            SharedPre.setInteger(KEY_VIDEO_VERSION, headVideo.videoVersion);
+        }
     }
 
     @Override

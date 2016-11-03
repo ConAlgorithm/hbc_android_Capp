@@ -69,7 +69,7 @@ public class CityUtils {
             selector.and("city_id", "<>", cityId);
         }
         // 修改热门城市排序
-        selector.orderBy("hot_weight", true);
+        selector.orderBy("passcity_hot_weight", true);
 //        selector.orderBy("hot_weight");
         selector.limit(30);
         try {
@@ -940,9 +940,11 @@ public class CityUtils {
                         list.remove(i);
                     } else if (searchGroupBean.sub_city_name != null && TextUtils.equals(searchGroupBean.sub_city_name, list.get(i).spot_name)) {
                         list.remove(i);
+                    } else if (searchGroupBean.group_name != null && TextUtils.equals(searchGroupBean.group_name, list.get(i).spot_name)) {
+                        list.remove(i);
                     }
                 }else if(searchGroupBean.flag == 1){//1,线路
-                    if (searchGroupBean.group_id == list.get(i).group_id) {
+                    if (searchGroupBean.group_id == list.get(i).group_id && TextUtils.isEmpty(list.get(i).sub_city_name) && TextUtils.isEmpty(list.get(i).sub_place_name)) {
                         list.remove(i);
                     }
                 }

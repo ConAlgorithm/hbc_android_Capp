@@ -54,7 +54,7 @@ public class TravelFundAdapter extends BaseAdapter<TravelFundData.TravelFundBean
             if (TextUtils.isEmpty(bean.getAvatar())) {
                 holder.avatarIV.setImageResource(R.mipmap.collection_icon_pic);
             } else {
-                Tools.showImage(holder.avatarIV, bean.getAvatar());
+                Tools.showImage(holder.avatarIV, bean.getAvatar(), R.mipmap.collection_icon_pic);
             }
             holder.nameTV.setText(bean.getUserName());
             holder.sourceTV.setText("");
