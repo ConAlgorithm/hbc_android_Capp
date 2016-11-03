@@ -12,6 +12,8 @@ import com.hugboga.custom.MyApplication;
  */
 public class NetWorkUtils {
 
+    public static final String WIFI = "WIFI";
+
     private static final int NETWORK_CLASS_WIFI = -101;
     private static final int NETWORK_CLASS_UNAVAILABLE = -1;
     /** Unknown network class. */
@@ -89,6 +91,11 @@ public class NetWorkUtils {
         return networkType;
 
     }
+
+    public static boolean isWifi() {
+        return NetWorkUtils.WIFI.equals(getCurrentNetwork());
+    }
+
     /**
      * 获取网络类型
      *
@@ -101,7 +108,7 @@ public class NetWorkUtils {
                 type = "UNAVAILABLE";
                 break;
             case NETWORK_CLASS_WIFI:
-                type = "WIFI";
+                type = WIFI;
                 break;
             case NETWORK_CLASS_2_G:
                 type = "2G";

@@ -112,12 +112,15 @@ public class Tools {
                             return;
                         }
                         imageView.setImageBitmap(resource);
-                        Blurry.with(imageView.getContext())
-                                .radius(radius)
-                                .sampling(sampling)
-                                .async()
-                                .capture(imageView)
-                                .into(imageView);
+                        try {
+                            Blurry.with(imageView.getContext())
+                                    .radius(radius)
+                                    .sampling(sampling)
+                                    .async()
+                                    .capture(imageView)
+                                    .into(imageView);
+                        }catch (Exception e) {
+                        }
                     }
 
                     @Override

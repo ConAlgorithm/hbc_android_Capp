@@ -194,7 +194,8 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
             String avatar = UserEntity.getUser().getAvatar(getContext());
             if (!TextUtils.isEmpty(avatar)) {
                 Tools.showImage(my_icon_head, avatar, R.mipmap.chat_head);
-                Tools.showBlurryImage(headerBgIV, avatar, R.mipmap.personal_bg, 8, 3);
+//                Tools.showBlurryImage(headerBgIV, avatar, R.mipmap.personal_bg, 8, 3);
+                headerBgIV.setImageResource(R.mipmap.personal_bg);
             } else {
                 headerBgIV.setImageResource(R.mipmap.personal_bg);
                 my_icon_head.setImageResource(R.mipmap.chat_head);

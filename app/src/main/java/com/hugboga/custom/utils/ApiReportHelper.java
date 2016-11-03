@@ -1,6 +1,9 @@
 package com.hugboga.custom.utils;
 
+import android.content.Context;
+import android.telephony.TelephonyManager;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
@@ -24,6 +27,7 @@ public class ApiReportHelper {
     private static final String PARAMS_TRACEID = "traceId";
     private static final String PARAMS_NETWORK = "network";
     private static final String PARAMS_LATENCY = "latency";
+    private static final String PARAMS_CARRIERNAME = "carriername";
 
     private static final int REPORT_VALVE_COUNT = 5; // 5条上报一次
 
@@ -64,11 +68,21 @@ public class ApiReportHelper {
             return;
         }
 
+        TelephonyManager tm = (TelephonyManager) MyApplication.getAppContext().getSystemService(Context.TELEPHONY_SERVICE);
+        String operatorName = "unknown";
+        if (tm != null) {
+            if (NetWorkUtils.WIFI.equals(currentNetwork)) {
+                operatorName = tm.getNetworkOperatorName();
+            } else {
+                operatorName = tm.getSimOperatorName();
+            }
+        }
         JSONObject obj = new JSONObject();
         try {
-            obj.put(PARAMS_TRACEID, traceId);        // 请求ID
-            obj.put(PARAMS_NETWORK, currentNetwork); // 网络类型
-            obj.put(PARAMS_LATENCY, "" + spendTime); // 客户端请求耗时，精确到毫秒
+            obj.put(PARAMS_TRACEID, traceId);           // 请求ID
+            obj.put(PARAMS_NETWORK, currentNetwork);    // 网络类型
+            obj.put(PARAMS_LATENCY, "" + spendTime);    // 客户端请求耗时，精确到毫秒
+            obj.put(PARAMS_CARRIERNAME, operatorName);  // 网络运营商
         } catch (JSONException e) {
             e.printStackTrace();
         }

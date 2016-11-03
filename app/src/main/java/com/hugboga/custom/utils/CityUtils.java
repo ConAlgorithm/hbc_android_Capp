@@ -940,9 +940,11 @@ public class CityUtils {
                         list.remove(i);
                     } else if (searchGroupBean.sub_city_name != null && TextUtils.equals(searchGroupBean.sub_city_name, list.get(i).spot_name)) {
                         list.remove(i);
+                    } else if (searchGroupBean.group_name != null && TextUtils.equals(searchGroupBean.group_name, list.get(i).spot_name)) {
+                        list.remove(i);
                     }
                 }else if(searchGroupBean.flag == 1){//1,线路
-                    if (searchGroupBean.group_id == list.get(i).group_id) {
+                    if (searchGroupBean.group_id == list.get(i).group_id && TextUtils.isEmpty(list.get(i).sub_city_name) && TextUtils.isEmpty(list.get(i).sub_place_name)) {
                         list.remove(i);
                     }
                 }
