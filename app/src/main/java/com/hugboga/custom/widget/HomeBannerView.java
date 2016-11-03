@@ -20,6 +20,7 @@ import android.util.Log;
 import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
@@ -53,6 +54,8 @@ public class HomeBannerView extends RelativeLayout implements HbcViewBehavior, S
 
     @Bind(R.id.home_banner_video_textureView)
     TextureView myTextureView;
+    @Bind(R.id.home_banner_default_bg_iv)
+    ImageView defaultBgIV;
 
     private int bannerHeight;
     private DialogUtilInterface mDialogUtil;
@@ -184,6 +187,7 @@ public class HomeBannerView extends RelativeLayout implements HbcViewBehavior, S
 
     private void play(final int currentPosition) {
         try {
+            defaultBgIV.setImageResource(R.mipmap.home_default_route_item);
             mediaPlayer.reset();
             mediaPlayer.setLooping(true);
             mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
@@ -196,7 +200,9 @@ public class HomeBannerView extends RelativeLayout implements HbcViewBehavior, S
             if (currentPosition > 0) {
                 mediaPlayer.seekTo(currentPosition);
             }
+            defaultBgIV.setImageResource(0);
         } catch (Exception e) {
+            defaultBgIV.setImageResource(R.mipmap.home_default_route_item);
         }
     }
 

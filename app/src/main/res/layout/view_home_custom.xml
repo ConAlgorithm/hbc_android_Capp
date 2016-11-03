@@ -23,7 +23,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="定制包车行程"
+                android:text="定制包车游"
                 android:textColor="#111111"
                 android:textSize="15sp" />
 
@@ -32,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:gravity="center"
-                android:text="按天选游玩范围\n中文司导服务"
+                android:text="按天选游玩范围\n中文司兼导服务"
                 android:textColor="#999999"
                 android:textSize="12sp" />
         </LinearLayout>
@@ -72,7 +72,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="中文接送机"
+                        android:text="接送机"
                         android:textColor="#111111"
                         android:textSize="15sp" />
 
@@ -81,7 +81,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="3dp"
                         android:gravity="center"
-                        android:text="机场包车接送"
+                        android:text="中文包车接送机"
                         android:textColor="#999999"
                         android:textSize="12sp" />
                 </LinearLayout>
@@ -125,7 +125,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="3dp"
                         android:gravity="center"
-                        android:text="点到点预约叫车"
+                        android:text="点到点中文包车"
                         android:textColor="#999999"
                         android:textSize="12sp" />
                 </LinearLayout>
