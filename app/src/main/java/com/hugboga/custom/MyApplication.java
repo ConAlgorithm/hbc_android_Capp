@@ -44,6 +44,7 @@ import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.netease.nimlib.sdk.uinfo.UserInfoProvider;
 import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
+import com.tencent.bugly.crashreport.CrashReport;
 import com.umeng.analytics.MobclickAgent;
 
 import org.xutils.x;
@@ -73,7 +74,7 @@ public class MyApplication extends HbcApplication {
         initConfig();
         Log.e("hbcApplication", "debug " + BuildConfig.DEBUG);
         try {
-//            CrashReport.initCrashReport(this, "900024779", false);
+            CrashReport.initCrashReport(this, "900024779", false);
             Reservoir.init(this, 4096);
         } catch (Exception e) {
             e.printStackTrace();

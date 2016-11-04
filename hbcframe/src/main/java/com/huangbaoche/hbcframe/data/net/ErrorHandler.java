@@ -91,6 +91,9 @@ public  class ErrorHandler implements HttpRequestListener{
                     }
                 }
                 String errorStr = request.getUrlErrorCode();
+                if ("40001".equals(errorStr)) {
+                    return;
+                }
                 if (!TextUtils.isEmpty(errorInfo.errorCode)) {
                     errorStr += " - " + errorInfo.errorCode;
                 }

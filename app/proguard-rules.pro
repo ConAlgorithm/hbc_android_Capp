@@ -242,6 +242,12 @@
 }
 -keep enum org.greenrobot.eventbus.ThreadMode { *; }
 
+-keep class com.hugboga.custom.fragment.** {*;}
+-keep class com.hugboga.custom.widget.** {*;}
+-keep class org.xmlpull.v1.** {*;}
+-keep class * implements java.io.Serializable {*;}
+-keepclassmembers class * implements java.io.Serializable {*;}
+
 # Only required if you use AsyncExecutor
 -keepclassmembers class * extends org.greenrobot.eventbus.util.ThrowableFailureEvent {
     <init>(java.lang.Throwable);
