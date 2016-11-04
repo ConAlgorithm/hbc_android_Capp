@@ -55,7 +55,7 @@ public class EvaluateItemData implements Serializable {
     public String getContent() {
         String result = content;
         if (TextUtils.isEmpty(content)) {
-            int scoreStrId = 0;
+            int scoreStrId = -1;
             switch ((int)totalScore) {
                 case 1:
                     scoreStrId = R.string.evaluate_star_very_unsatisfactory;
@@ -74,7 +74,9 @@ public class EvaluateItemData implements Serializable {
                     break;
 
             }
-            result = MyApplication.getAppContext().getString(scoreStrId);
+            if (scoreStrId != -1) {
+                result = MyApplication.getAppContext().getString(scoreStrId);
+            }
         }
         return result;
     }
