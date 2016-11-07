@@ -75,7 +75,8 @@ public  class ErrorHandler implements HttpRequestListener{
                 break;
             case ExceptionErrorCode.ERROR_CODE_SSL:
                 errState = "联网失败SSL";
-                break;
+                DefaultSSLSocketFactory.resetSSLSocketFactory(mActivity);
+                return;
             case ExceptionErrorCode.ERROR_CODE_OTHER:
                 errState = "系统内部错误";
                 break;
