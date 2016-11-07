@@ -59,6 +59,14 @@ public class OrderCancelActivity extends BaseActivity{
         initView();
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mDialogUtil != null) {
+            mDialogUtil.dismissDialog();
+        }
+    }
+
     private void initView() {
         Bundle bundle = getIntent().getExtras();
         if(bundle != null){

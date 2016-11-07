@@ -132,6 +132,16 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+        if (mDialogUtil != null) {
+            mDialogUtil.dismissDialog();
+        }
+        try {
+            if (popup != null && popup.isShowing()) {
+                popup.dismiss();
+            }
+        } catch (Exception e) {
+
+        }
     }
 
     @Override

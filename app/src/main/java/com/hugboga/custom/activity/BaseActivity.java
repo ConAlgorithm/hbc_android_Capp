@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.activity.BaseFragmentActivity;
+import com.huangbaoche.hbcframe.data.net.DefaultSSLSocketFactory;
 import com.huangbaoche.hbcframe.data.net.ErrorHandler;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
@@ -134,6 +135,7 @@ public class BaseActivity extends BaseFragmentActivity implements HttpRequestLis
     protected void onResume() {
         super.onResume();
         MobclickAgent.onResume(this);
+        DefaultSSLSocketFactory.resetSSLSocketFactory(this);
     }
 
     @Override
@@ -196,6 +198,7 @@ public class BaseActivity extends BaseFragmentActivity implements HttpRequestLis
         }
         errorHandler.onDataRequestError(errorInfo, request);
         errorHandler = null;//TODO 旧代码粘贴，没必要赋空，耗内存，需优化。
+        DefaultSSLSocketFactory.resetSSLSocketFactory(this);
     }
 
     /**

@@ -147,6 +147,30 @@ public class DialogUtil implements DialogUtilInterface {
             mLoadingDialog.dismiss();
     }
 
+    public void dismissDialog() {
+        try {
+            if (!mContext.isFinishing()) {
+                if (settingDialog != null && settingDialog.isShowing()) {
+                    settingDialog.dismiss();
+                }
+                if (overtimeDialog != null && overtimeDialog.isShowing()) {
+                    overtimeDialog.dismiss();
+                }
+                if (noRoomDialog != null && noRoomDialog.isShowing()) {
+                    noRoomDialog.dismiss();
+                }
+                if (customDialog != null && customDialog.isShowing()) {
+                    customDialog.dismiss();
+                }
+                if (mLoadingDialog != null && mLoadingDialog.isShowing()) {
+                    mLoadingDialog.dismiss();
+                }
+            }
+        } catch (Exception e) {
+
+        }
+    }
+
     /**
      * @return Dialog    返回类型
      * @throws
@@ -365,7 +389,11 @@ public class DialogUtil implements DialogUtilInterface {
             return null;
         }
         if (customDialog != null && customDialog.isShowing()) {
-            customDialog.cancel();
+            try {
+                customDialog.dismiss();
+            } catch (Exception e) {
+
+            }
         }
         int iconId = Common.getIdFormDraw(mContext, "alert_dialog_icon");
         Builder builder = new AlertDialog.Builder(mContext);
