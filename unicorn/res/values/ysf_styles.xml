@@ -1,8 +1,8 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <style name="ysf_list_view" parent="@android:style/Widget.ListView">
-        <item name="android:scrollbarThumbVertical">@drawable/nim_scrollbar_handle_holo_dark</item>
-        <item name="android:scrollbarThumbHorizontal">@drawable/nim_scrollbar_handle_holo_dark</item>
+        <item name="android:scrollbarThumbVertical">@drawable/ysf_scrollbar_handle_holo_dark</item>
+        <item name="android:scrollbarThumbHorizontal">@drawable/ysf_scrollbar_handle_holo_dark</item>
     </style>
 
     <style name="ysf_horizontal_light_thin_divider">
@@ -18,7 +18,7 @@
         <item name="android:paddingRight">@dimen/ysf_dialog_text_margin_horizontal</item>
         <item name="android:paddingTop">@dimen/ysf_custom_dialog_padding_vertical</item>
         <item name="android:paddingBottom">@dimen/ysf_custom_dialog_padding_vertical</item>
-        <item name="android:background">@drawable/nim_list_item_selector</item>
+        <item name="android:background">@drawable/ysf_list_item_selector</item>
     </style>
 
     <style name="ysf_dialog_title_text_style">
@@ -54,7 +54,7 @@
     <style name="ysf_dialog_button_text_style">
         <item name="android:textSize">@dimen/ysf_dialog_big_text_size</item>
         <item name="android:textColor">@android:color/black</item>
-        <item name="android:background">@drawable/nim_list_item_selector</item>
+        <item name="android:background">@drawable/ysf_list_item_selector</item>
         <item name="android:paddingTop">@dimen/ysf_custom_dialog_padding_vertical</item>
         <item name="android:paddingBottom">@dimen/ysf_custom_dialog_padding_vertical</item>
     </style>

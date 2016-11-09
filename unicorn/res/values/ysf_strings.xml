@@ -58,6 +58,7 @@
     <string name="ysf_audio_record_touch_to_record">按住 说话</string>
     <string name="ysf_audio_record_up_to_complete">松开  结束</string>
     <string name="ysf_audio_record_move_up_to_cancel">手指上滑，取消发送</string>
+    <string name="ysf_audio_record_alert">说话时间太短</string>
     <string name="ysf_audio_record_time_is_up_tips">说话时间已到%1$d秒</string>
     <string name="ysf_audio_record_sdcard_not_exist_error">请插入SD卡</string>
     <string name="ysf_audio_record_error">录音失败，请重试</string>
@@ -72,6 +73,10 @@
     <string name="ysf_audio_current_mode_is_speaker">当前为扬声器模式</string>
     <string name="ysf_audio_switch_to_speaker">已从听筒切换为扬声器播放</string>
     <string name="ysf_audio_switch_to_earphone">已从扬声器切换为听筒播放</string>
+    <string name="ysf_audio_under_translating">转换中&#8230;</string>
+    <string name="ysf_audio_translate">语音转换文字</string>
+    <string name="ysf_audio_translate_failed">转换失败</string>
+    <string name="ysf_audio_translate_to_text_failed">语音转文字失败</string>
 
     <!-- image picker -->
     <string name="ysf_picker_image_gallery_invalid">您的手机没有图库程序</string>
@@ -104,6 +109,8 @@
     <string name="ysf_no_permission_send_audio">没有权限，无法发送语音！</string>
     <string name="ysf_no_permission_play_audio">没有权限，无法播放语音！</string>
     <string name="ysf_no_permission_send_image">没有权限，无法存储和发送图片！</string>
-    <string name="ysf_no_permission_download_audio">消息未下载完毕或者消息错误！</string>
-
+    <string name="ysf_no_permission_audio_error">消息未下载完毕或者消息错误！</string>
+    <string name="ysf_no_permission_download_audio">没有权限，无法加载语音！</string>
+    <string name="ysf_no_permission_download_image">没有权限，无法加载图片！</string>
+    <string name="ysf_no_permission_download_file">没有权限，无法加载文件！</string>
 </resources>

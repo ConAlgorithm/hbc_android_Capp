@@ -9,7 +9,7 @@
 只需简单 3 步，即可将客服功能加入你的 APP：
 
 1. 添加 SDK 到项目中。 
- - Android Studio: 在工程 build.gradle 文件中添加依赖即可。<a href="https://bintray.com/qiyukf/maven/qiyu-android-sdk/_latestVersion" target="_blank"><img src="https://api.bintray.com/packages/qiyukf/maven/qiyu-android-sdk/images/download.svg" height=20 width=104 alt='Download' /></a>
+ - Android Studio: 在工程 build.gradle 文件中添加依赖即可。<a href="https://bintray.com/qiyukf/maven/qiyu-android-sdk/_latestVersion" target="_blank"><img src="https://api.bintray.com/packages/qiyukf/maven/qiyu-android-sdk/images/download.svg" style="width:auto" height=20 width=104 alt='Download' /></a>
    
 	``` java
 	compile 'com.qiyukf.unicorn:unicorn:2.4.0' // 最新版本可参考 Download 徽章后对应的数值
@@ -204,6 +204,7 @@ private void addUnreadCountChangeListener(boolean add) {
 | buttonBackgroundColorList | int | 发送，选择，预览等按钮的颜色 | ColorStateList，可参考 SDK 的 ysf\_button\_color\_state\_list |
 | buttonTextColor | int | 发送，选择，预览等按钮的文字颜色 | 32 位颜色值 |
 | hideAudio| boolean | 是否隐藏语音输入栏 | 默认为 false，不隐藏 |
+| hideAudioWithRobot | boolean | 在机器人聊天界面是否隐藏输入栏 | 默认为false，不隐藏。给机器人发送语音后，会先转成文字消息，再发送给机器人 |
 | hideEmoji | boolean | 是否隐藏表情输入栏 | 默认为 false，不隐藏 |
 | screenOrientation | int | 屏幕旋转角度 | 0 为仅竖屏显示，1为仅横屏显示，2为根据重力感应切换|
 | hideKeyboardOnEnterConsult | boolean | 在进入聊天界面时是否隐藏输入键盘 | 默认为 false，进入时就自动弹出键盘|
@@ -318,7 +319,7 @@ Unicorn.setUserInfo(userInfo);
 |note|商品备注信息（价格，套餐等）|长度限制为 100 字符，超过自动截断。|
 |picture|缩略图图片的 url。|该 url 需要没有跨域访问限制，否则在客服端会无法显示。<br> 长度限制为 1000 字符， 超长不会自动截断，但会发送失败。|
 |url|商品信息详情页 url。|长度限制为 1000 字符，超长不会自动截断，但会发送失败。|
-|show| 是否在访客端显示商品消息。|默认为false，即客服能看到此消息，但访客看不到，也不知道该消息已发送给客服。|
+|show| 是否在访客端显示商品消息。|默认为0，即客服能看到此消息，但访客看不到，也不知道该消息已发送给客服。|
 
 ## 图片加载
 
