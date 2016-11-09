@@ -54,7 +54,6 @@ import com.hugboga.custom.fragment.FgHome;
 import com.hugboga.custom.fragment.FgImChat;
 import com.hugboga.custom.fragment.FgMySpace;
 import com.hugboga.custom.fragment.FgTravel;
-import com.hugboga.custom.service.LogService;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.utils.AlertDialogUtils;
@@ -166,18 +165,6 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         int resourcesVersion = new SharedPre(this).getIntValue(SharedPre.RESOURCES_H5_VERSION);
         RequestCheckVersion requestCheckVersion = new RequestCheckVersion(this, resourcesVersion);
         HttpRequestUtils.request(this, requestCheckVersion, this, false);
-    }
-
-    /**
-     * 是否开启debug模式
-     */
-    private void checkUploadLog(CheckVersionBean cvBean) {
-        MLog.e("context=" + this + ",resource=" + cvBean + " ,isDebugMod=" + cvBean.debugMod);
-        if (cvBean != null && cvBean.debugMod) {
-            Intent intent = new Intent(this, LogService.class);
-            intent.putExtra(LogService.KEY_IS_RUNNING, true);
-            startService(intent);
-        }
     }
 
     abstract class CheckVersionCallBack implements Callback.ProgressCallback<File> {
@@ -383,7 +370,6 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                     });
                 }
             });
-            checkUploadLog(cvBean);
         }
     }
 

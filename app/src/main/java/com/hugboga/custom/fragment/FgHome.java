@@ -14,6 +14,7 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.HomeBean;
 import com.hugboga.custom.data.request.RequestHome;
 import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.utils.ChannelUtils;
 import com.hugboga.custom.widget.HomeActivitiesView;
 import com.hugboga.custom.widget.HomeBannerView;
 import com.hugboga.custom.widget.HomeChoicenessRouteView;
@@ -68,6 +69,7 @@ public class FgHome extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
         ButterKnife.bind(this, rootView);
+        Log.i("aa","ChannelUtils.getUniquePsuedoID() " + ChannelUtils.getUniquePsuedoID());
         return rootView;
     }
 
