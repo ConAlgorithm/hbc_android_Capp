@@ -198,7 +198,7 @@ dependencies {
     compile 'com.anupcowkur:reservoir:2.1'
     compile 'com.github.mrengineer13:snackbar:1.2.0'
     compile 'com.github.bumptech.glide:glide:3.7.0'
-    compile 'com.tencent.bugly:crashreport:2.1.7'
+    compile 'com.tencent.bugly:crashreport:2.3.1'
     compile 'com.github.orhanobut:logger:1.12'
     compile project(':viewpagerindicator')
     compile project(path: ':datepicker')
